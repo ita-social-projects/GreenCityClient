@@ -33,14 +33,16 @@
     </div>
 
     <div>
-      <!-- <div class="dashed-line">
-        <div class="leaves"></div>
-      </div> -->
-      <div class="steps-wrapper">
+      <div class="steps-wrapper vision-wrapper">
+        <div class="dashed-line"></div>
         <h2>
           {{ 'about-us.steps.title' | translate }}
         </h2>
-        <app-vision-card *ngFor="let card of visionCards" [card]="card"></app-vision-card>
+        <app-vision-card
+          *ngFor="let card of visionCards; let i = index"
+          [card]="card"
+          [class]="generateVisionCardClass(i)"
+        ></app-vision-card>
       </div>
     </div>
   </div>

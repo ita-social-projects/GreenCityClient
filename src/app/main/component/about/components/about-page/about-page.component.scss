@@ -3,15 +3,6 @@ body {
   color: var(--quaternary-dark-grey);
 }
 
-.page-wrapper {
-  background-color: pink;
-  // max-width: 1200px;
-  margin-inline: auto;
-}
-
-// main {
-//   padding-top: 98px;
-// }
 h2 {
   font-weight: 700;
 }
@@ -53,21 +44,15 @@ img {
 
 .container-about {
   padding-top: 98px;
-  .full-text-block {
-    margin-left: 171px;
-  }
 
   button {
     margin-top: 40px;
   }
 
   padding-bottom: 250px;
-  background-image: url('~/assets/img/curly-line.png');
-  background-size: 100% 100%;
 }
 
 .vision {
-  background-image: url('~/assets/img/wave-line.png');
   background-size: 100% 100%;
   margin-bottom: 100px;
 }
@@ -97,24 +82,34 @@ img {
   flex-direction: row;
 }
 
-.dashed-line {
-  position: absolute;
-  background: url('~/assets/img/dashed-line.png');
-  // width: 832px;
-  height: 2926px;
-  margin: auto;
-  z-index: 1;
-  // display: none;
+.vision-wrapper {
+  position: relative;
 }
 
-.leaves {
-  position: relative;
-  top: 12px;
-  left: 107px;
-  background: url('~/assets/img/leaves.png') no-repeat;
-  // width: 641px;
-  height: 2564px;
+.dashed-line {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: url('~/assets/img/dashed-leaves.svg') no-repeat;
+  height: 2926px;
+  margin: auto;
+  z-index: 0;
+  background-position-x: 100px;
+  background-position-y: 220px;
+}
+
+.vision-card {
+  display: flex;
   z-index: 1;
+  &__1 {
+    margin-bottom: 260px;
+  }
+  &__2 {
+    margin-bottom: 200px;
+  }
+  &__3 {
+    margin-bottom: 260px;
+  }
 }
 
 @media only screen and (max-width: 1199px) {

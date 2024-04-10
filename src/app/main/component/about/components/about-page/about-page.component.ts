@@ -36,6 +36,10 @@ export class AboutPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['profile', this.userId]);
   }
 
+  public generateVisionCardClass(idx: number) {
+    return `vision-card vision-card__${idx + 1}`;
+  }
+
   ngOnDestroy(): void {
     this.langChangeSub.unsubscribe();
   }
