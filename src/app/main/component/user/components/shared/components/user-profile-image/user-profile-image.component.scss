@@ -1,3 +1,7 @@
+.profile-avatar-wrapper {
+  position: relative;
+}
+
 .profile-avatar {
   width: 80px;
   height: 80px;
@@ -74,6 +78,17 @@
 .comment-tag-img {
   width: 42px;
   height: 42px;
+}
+
+.status-indicator {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--primary-white);
+  background-color: var(--primary-green);
 }
 
 .center {

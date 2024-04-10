@@ -1,13 +1,14 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EditProfileModel, UserLocationDto } from '@user-models/edit-profile.model';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { ActivatedRoute } from '@angular/router';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { take } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { ProfileService } from '../../profile-service/profile.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { UsersCategOnlineStatus } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-profile-header',
@@ -15,6 +16,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   styleUrls: ['./profile-header.component.scss']
 })
 export class ProfileHeaderComponent implements OnInit, OnDestroy {
+  private destroy$: Subject<boolean> = new Subject();
   public mockedUserInfo = {
     city: '',
     status: 'online',
@@ -24,6 +26,8 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city', 'x'];
   userSocialNetworks: Array<any>;
   public userId: number;
+  public profileUserId: number;
+  private isCurrentUserProfile: boolean;
   public icons: Record<string, string> = {};
   private userId$: Subscription;
 
@@ -35,16 +39,28 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   constructor(
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
-    private userFriendsService: UserFriendsService,
     private profileService: ProfileService,
-    private langService: LanguageService
+    private langService: LanguageService,
+    private userOnlineStatusService: UserOnlineStatusService
   ) {}
 
   ngOnInit() {
-    this.userId$ = this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
+    this.userId$ = this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId) => {
+      this.userId = userId;
+    });
     this.buildSocialNetworksChart();
     this.showEditButton = this.route.snapshot.params.userName === this.userInfo.name;
     this.icons = this.profileService.icons;
+    this.profileUserId = +this.route.snapshot.params.userId;
+    this.isCurrentUserProfile = !this.profileUserId || this.profileUserId === this.userId;
+
+    if (!this.isCurrentUserProfile) {
+      this.userOnlineStatusService.addUsersId(UsersCategOnlineStatus.profile, [+this.route.snapshot.params.userId]);
+    }
+  }
+
+  public checkIsOnline(): boolean {
+    return this.isCurrentUserProfile || this.userOnlineStatusService.checkIsOnline(this.profileUserId);
   }
 
   get checkUserCredo(): number {
@@ -76,13 +92,6 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     }, 'green-city');
   }
 
-  private isOnline(id: number) {
-    this.userFriendsService
-      .isOnline(id)
-      .pipe(take(1))
-      .subscribe((status) => (this.isUserOnline = status));
-  }
-
   private buildSocialNetworksChart() {
     this.userSocialNetworks = this.userInfo.socialNetworks.map((item) => {
       return {
@@ -91,7 +100,10 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
       };
     });
   }
+
   ngOnDestroy() {
-    this.userId$.unsubscribe();
+    this.userOnlineStatusService.removeUsersId(UsersCategOnlineStatus.profile);
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

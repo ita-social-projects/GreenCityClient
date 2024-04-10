@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel, UsersCategOnlineStatus } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 
 @Component({
   selector: 'app-recommended-friends',
   templateUrl: './recommended-friends.component.html',
   styleUrls: ['./recommended-friends.component.scss']
 })
-export class RecommendedFriendsComponent implements OnInit {
+export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   public recommendedFriends: FriendModel[] = [];
   public recommendedFriendsBySearch: FriendModel[] = [];
   public userId: number;
@@ -30,7 +31,8 @@ export class RecommendedFriendsComponent implements OnInit {
   constructor(
     private userFriendsService: UserFriendsService,
     private localStorageService: LocalStorageService,
-    private matSnackBar: MatSnackBarComponent
+    private matSnackBar: MatSnackBarComponent,
+    private userOnlineStatusService: UserOnlineStatusService
   ) {}
 
   ngOnInit() {
@@ -49,6 +51,11 @@ export class RecommendedFriendsComponent implements OnInit {
         (data: FriendArrayModel) => {
           this.emptySearchList = !data.page.length;
           this.recommendedFriendsBySearch = data.page;
+          this.userOnlineStatusService.removeUsersId(UsersCategOnlineStatus.recommendedFriends);
+          this.userOnlineStatusService.addUsersId(
+            UsersCategOnlineStatus.recommendedFriends,
+            data.page.map((el) => el.id)
+          );
           this.amountOfFriends = this.recommendedFriendsBySearch.length;
           this.isFetching = false;
           this.searchMode = false;
@@ -70,6 +77,10 @@ export class RecommendedFriendsComponent implements OnInit {
         (data: FriendArrayModel) => {
           this.totalPages = data.totalPages;
           this.recommendedFriends = this.recommendedFriends.concat(data.page);
+          this.userOnlineStatusService.addUsersId(
+            UsersCategOnlineStatus.recommendedFriends,
+            data.page.map((el) => el.id)
+          );
           this.emptySearchList = false;
           this.isFetching = false;
           this.scroll = false;
@@ -94,5 +105,11 @@ export class RecommendedFriendsComponent implements OnInit {
 
   private initUser(): void {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));
+  }
+
+  ngOnDestroy(): void {
+    this.userOnlineStatusService.removeUsersId(UsersCategOnlineStatus.recommendedFriends);
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

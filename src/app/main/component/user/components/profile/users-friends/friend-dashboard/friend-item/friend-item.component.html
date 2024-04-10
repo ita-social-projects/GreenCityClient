@@ -6,6 +6,7 @@
         [firstName]="friend.name"
         class="friend-img"
         [additionalImgClass]="'friend-item'"
+        [isOnline]="checkIsOnline(friend.id)"
       >
       </app-user-profile-image>
       <button

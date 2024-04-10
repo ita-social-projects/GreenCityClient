@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { WarningPopUpComponent } from '@shared/components';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 
 @Component({
   selector: 'app-friend-item',
@@ -59,7 +60,8 @@ export class FriendItemComponent implements OnInit {
     private langService: LanguageService,
     private store: Store,
     private userFriendsService: UserFriendsService,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private userOnlineStatusService: UserOnlineStatusService
   ) {
     this.userId = +this.route.snapshot.params.userId;
   }
@@ -194,5 +196,9 @@ export class FriendItemComponent implements OnInit {
 
   public isFriendRequest(): boolean {
     return this.friend.friendStatus === 'REQUEST' && this.friend.requesterId === this.friend.id;
+  }
+
+  public checkIsOnline(friendId: number): boolean {
+    return this.userOnlineStatusService.checkIsOnline(friendId);
   }
 }
