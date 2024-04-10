@@ -129,6 +129,7 @@
       "author": "by",
       "create-title": "Create event",
       "delete-title": "Delete event",
+      "search-title": "Search an event",
       "delete-title-admin": "Event will be deleted. Do you want to continue?",
       "delete-yes": "Yes",
       "delete-no": "No",

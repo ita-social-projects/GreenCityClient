@@ -129,6 +129,7 @@
       "author": "автор",
       "create-title": "Створити подію",
       "delete-title": "Видалити подію",
+      "search-title": "Пошук події",
       "delete-title-admin": "Подію буде видалено. Ви хочете продовжити?",
       "delete-yes": "Так",
       "delete-no": "Ні",
