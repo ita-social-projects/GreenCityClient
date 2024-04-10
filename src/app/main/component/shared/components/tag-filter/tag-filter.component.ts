@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FilterModel, TagInterface } from './tag-filter.model';
+import { FilterModel } from './tag-filter.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   templateUrl: './tag-filter.component.html',
   styleUrls: ['./tag-filter.component.scss']
 })
-export class TagFilterComponent implements OnInit, OnChanges {
+export class TagFilterComponent implements OnInit {
   public filters: Array<FilterModel> = [];
   @Input() private storageKey: string;
   @Input() public tagsListData = [];
@@ -19,12 +19,6 @@ export class TagFilterComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.filters = this.getSessionStorageFilters();
     this.emitActiveFilters();
-  }
-
-  ngOnChanges(changes) {
-    if (changes.tagsListData?.currentValue) {
-      this.setTags(changes.tagsListData.currentValue);
-    }
   }
 
   public emitTrueFilterValues(): Array<string> {
@@ -46,18 +40,6 @@ export class TagFilterComponent implements OnInit, OnChanges {
     isAnyFilterSelcted ? this.setSessionStorageFilters() : this.cleanSessionStorageFilters();
   }
 
-  private setTags(tags: Array<TagInterface>): void {
-    const savedFilters = this.getSessionStorageFilters();
-    if (!sessionStorage.getItem(this.storageKey)) {
-      this.filters = tags.map((tag: TagInterface) =>
-        tag.name === savedFilters || tag.nameUa === savedFilters
-          ? { name: tag.name, nameUa: tag.nameUa, isActive: true }
-          : { name: tag.name, nameUa: tag.nameUa, isActive: false }
-      );
-    }
-    this.emitActiveFilters();
-  }
-
   private setSessionStorageFilters(): void {
     sessionStorage.setItem(this.storageKey, JSON.stringify(this.filters));
   }
@@ -68,10 +50,10 @@ export class TagFilterComponent implements OnInit, OnChanges {
 
   private getSessionStorageFilters() {
     const filters = sessionStorage.getItem(this.storageKey);
-    return filters !== null ? JSON.parse(filters) : [];
+    return filters !== null ? JSON.parse(filters) : this.tagsListData;
   }
 
-  getLangValue(valUa: string, valEn: string): string {
+  public getLangValue(valUa: string, valEn: string): string {
     return this.langService.getLangValue(valUa, valEn) as string;
   }
 }

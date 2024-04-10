@@ -16,6 +16,8 @@ import { FilterPlaceCategories } from '../../models/place';
 import { NewsTagInterface } from '@user-models/news.model';
 import { CreatePlaceModel, OpeningHoursDto } from '../../models/create-place.model';
 import { WorkingTime } from '../../models/week-pick-model';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { tagsListPlacesData } from '../../models/places-consts';
 
 describe('AddPlaceComponent', () => {
   let component: AddPlaceComponent;
@@ -32,13 +34,7 @@ describe('AddPlaceComponent', () => {
     { id: 9, name: 'Events', nameUa: 'Події' },
     { id: 10, name: 'Bike rentals', nameUa: 'Оренда мотоциклів' }
   ];
-  const tagsArray: NewsTagInterface[] = [
-    { id: 1, name: 'Shops', nameUa: 'Магазини' },
-    { id: 2, name: 'Restaurants', nameUa: 'Ресторани' },
-    { id: 3, name: 'Recycling Points', nameUa: 'Станції приймання' },
-    { id: 4, name: 'Events', nameUa: 'Події' },
-    { id: 5, name: 'Saved Places', nameUa: 'Збережені події' }
-  ];
+  const tagsArray: Array<FilterModel> = tagsListPlacesData;
   const workingHour: WorkingTime = {
     dayOfWeek: 'Test',
     isSelected: true,

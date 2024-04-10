@@ -71,10 +71,6 @@ export class PlaceService {
     return this.http.get<string[]>(`${placeLink}statuses`);
   }
 
-  public getAllPresentTags(): Observable<Array<TagInterface>> {
-    return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
-  }
-
   public getAllFilterPlaceCategories(): Observable<FilterPlaceCategories[]> {
     return this.http.get<FilterPlaceCategories[]>(`${this.backEnd}place/v2/filteredPlacesCategories`);
   }

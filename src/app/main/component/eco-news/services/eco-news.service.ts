@@ -21,10 +21,6 @@ export class EcoNewsService implements OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((language) => (this.language = language));
   }
 
-  public getAllPresentTags(): Observable<Array<TagInterface>> {
-    return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
-  }
-
   public getEcoNewsListByPage(page: number, quantity: number) {
     return this.http.get(`${this.backEnd}econews?page=${page}&size=${quantity}`);
   }
