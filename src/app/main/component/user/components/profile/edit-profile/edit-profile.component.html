@@ -20,7 +20,8 @@
           <div class="input-block">
             <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
             <app-input-google-autocomplete
-              formControlName="city"
+              id="city"
+              [formControl]="city"
               [autoCompRequest]="cityOptions"
               [isReturnCoordinates]="true"
               [isInitAutoTranslate]="true"
