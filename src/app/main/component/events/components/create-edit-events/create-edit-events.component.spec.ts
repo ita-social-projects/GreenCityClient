@@ -366,7 +366,7 @@ describe('CreateEditEventsComponent', () => {
 
   it('setCoordsOffline expect latitude to be 2', () => {
     component.dates = [DateMock];
-    component.setCoordsOffline({ latitude: 2, longitude: 3 }, 0);
+    component.setCoordsOffline({ lat: 2, lng: 3 }, 0);
     expect(component.dates[0].coordinates.latitude).toBe(2);
   });
 

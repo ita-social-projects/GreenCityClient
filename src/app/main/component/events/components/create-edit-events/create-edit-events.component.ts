@@ -32,6 +32,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { object } from '@angular/fire/database';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -219,7 +220,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       });
 
       if (sameCoordinates) {
-        this.locationForAllDays = this[previewOrEdit].dates[0].coordinates;
+        const temp = this[previewOrEdit].dates[0].coordinates;
+        Object.assign(this.locationForAllDays, { lat: temp.latitude, lng: temp.longitude });
         this.appliedForAllLocations = true;
       }
       this.firstFormIsSucceed = false;
@@ -371,16 +373,18 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public setCoordsOffline(coordinates: OfflineDto, ind: number): void {
-    this.dates[ind].coordinates = coordinates;
+    Object.assign(this.dates[ind].coordinates, { latitude: coordinates.lat, longitude: coordinates.lng });
     this.updateAreAddressFilled(this.dates, false, true, ind);
   }
 
-  public applyCoordToAll(coordinates: OfflineDto): void {
-    if (coordinates.latitude) {
-      this.dates.forEach((date) => (date.coordinates = { ...coordinates }));
+  public applyCoordToAll(coordinates: google.maps.LatLngLiteral): void {
+    if (coordinates.lat) {
+      this.dates.forEach((date) => {
+        return Object.assign(date.coordinates, { latitude: coordinates.lat, longitude: coordinates.lng });
+      });
     }
     this.locationForAllDays = { ...coordinates };
-    this.appliedForAllLocations = !!coordinates.latitude;
+    this.appliedForAllLocations = !!coordinates.lat;
     this.updateAreAddressFilled(this.dates, true);
   }
 
@@ -531,9 +535,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.router.navigate(['events', 'preview']);
   }
 
-  public applyCommonLocation(): void {
-    this.dates.forEach((date) => (date.coordinates = { ...this.locationForAllDays }));
-  }
+  // public applyCommonLocation(): void {
+  //   this.dates.forEach((date) => (date.coordinates = { ...this.locationForAllDays }));
+  // }
 
   private imgToData(): void {
     this.imgArray.forEach((img) => {

@@ -65,3 +65,34 @@ export const EventFilterCriteria = {
   statuses: [],
   tags: []
 };
+
+export const EVENT_LOCALE = {
+  durationDays: [
+    { en: '1 day', ua: '1 день' },
+    { en: '2 days', ua: '2 дні' },
+    { en: '3 days', ua: '3 дні' },
+    { en: '4 days', ua: '4 дні' },
+    { en: '5 days', ua: '5 днів' },
+    { en: '6 days', ua: '6 днів' },
+    { en: '7 days', ua: '7 днів' }
+  ],
+  titleError: {
+    ua: 'Введіть заголовок до 70 символів включно',
+    en: 'Enter a title up to and including 70 characters'
+  },
+  quillError: {
+    ua: 'Недостатньо символів. Залишилось: ',
+    en: 'Not enough characters. Left: '
+  },
+  eventTypeOptions: [
+    { en: 'Closed', ua: 'Закрита' },
+    { en: 'Open', ua: 'Відкрита' }
+  ],
+  initiativeTags: [
+    { en: 'Economic', ua: 'Економічний' },
+    { en: 'Social', ua: 'Соціальний' },
+    { en: 'Environmental', ua: 'Екологічний' }
+  ]
+};
+
+export type EventLocaleKeys = keyof typeof EVENT_LOCALE;

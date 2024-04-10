@@ -1,0 +1,99 @@
+<mat-card class="event-main-block left">
+  <form [formGroup]="eventInfForm">
+    <!--      Bcz Title and Duration in the same
+         block. So they using flexbox when title is smaller than flex basis (300px)
+                  then duration goes under title.yyy
+         -->
+    <div class="header-container">
+      <!--         Title element HTML-->
+      <div class="title-wrapper">
+        <span class="above-title">
+          <p>{{ 'create-event.event-name' | translate }}</p>
+          <p style="font-size: 10px">{{ title.value.length + ' / ' + 70 }}</p>
+        </span>
+        <mat-form-field appearance="outline" class="title-field">
+          <mat-label>{{ 'create-event.placeholder' | translate }}</mat-label>
+          <input #title matInput formControlName="title" maxlength="70" />
+          <mat-error>{{ getLocale('titleError') }}</mat-error>
+        </mat-form-field>
+      </div>
+      <!--          Choose duration HTML-->
+      <div class="duration-wrapper">
+        <p>{{ 'create-event.duration' | translate }}</p>
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="duration" ngDefaultControl>
+            <mat-option *ngFor="let date of EVENT_LOCALE.durationDays; index as i" [value]="i + 1">
+              {{ date[localStorageService.getCurrentLanguage()] }}
+            </mat-option>
+          </mat-select>
+          <mat-hint>{{ 'create-event.min-duration' | translate }}</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="themes-wrapper">
+      <p>{{ 'create-event.event-theme' | translate }}</p>
+
+      <mat-chip-listbox [selectable]="true" [multiple]="true" formControlName="tags">
+        <mat-chip-option *ngFor="let tag of EVENT_LOCALE.initiativeTags">
+          {{ tag[localStorageService.getCurrentLanguage()] }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
+    <div class="event-type-wrapper">
+      <p>{{ 'create-event.event-type' | translate }}</p>
+      <mat-form-field appearance="outline">
+        <mat-select formControlName="open" required>
+          <mat-option *ngFor="let type of EVENT_LOCALE.eventTypeOptions; index as i" value="{{ !!i }}">
+            {{ type[localStorageService.getCurrentLanguage()] }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'create-event.invite' | translate }}</mat-label>
+        <mat-select required>
+          <mat-option value="All"> {{ 'create-event.all' | translate }}</mat-option>
+          <mat-option value="Friends"> {{ 'create-event.friends' | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <span>
+        <p>{{ 'create-event.textarea-title' | translate }}</p>
+        <p style="font-size: 12px">{{ 'create-event.content-tooltip' | translate }}</p>
+      </span>
+      <quill-editor
+        ngDefaultControl
+        [styles]="{ minHeight: '120px', maxHeight: '300px', overflow: 'auto' }"
+        (onContentChanged)="quillContentChanged($event)"
+        [modules]="quillModules"
+        placeholder="{{ 'create-event.content-placeholder' | translate }}"
+        (onBlur)="quillValidate()"
+      >
+      </quill-editor>
+      <p *ngIf="isQuillUnfilled" class="quill-error">
+        {{ getLocale('quillError') + quillLength }}
+      </p>
+      <p>{{ quillLength ? quillLength : '' }}</p>
+    </div>
+    <!--    [imgArray]="imgArray"-->
+    <!--  [imagesEditArr]="imagesForEdit"-->
+    <!--  [isImagesArrayEmpty]="isImagesArrayEmpty"-->
+    <!--  (imgArrayOutput)="getImageTosend($event)"-->
+    <!--  (deleteImagesOutput)="getImagesToDelete($event)"-->
+    <!--  (oldImagesOutput)="getOldImages($event)"-->
+    <app-images-container
+      [imgArray]="[]"
+      [imagesEditArr]="[]"
+      [isImagesArrayEmpty]="true"
+      (imgArrayOutput)="([])"
+      (imgAsUrlOutput)="setImgArray($event)"
+      (deleteImagesOutput)="([])"
+      (oldImagesOutput)="([])"
+    >
+    </app-images-container>
+    <button [disabled]="eventInfForm.invalid" (click)="onPreview()">Test</button>
+  </form>
+</mat-card>

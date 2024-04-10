@@ -39,6 +39,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CommentsModule } from '../comments/comments.module';
 import { CommentsService } from '../comments/services/comments.service';
 import { EventsCommentsService } from './services/events-comments.service';
+import { CreateEventInformationComponent } from './components/create-edit-events/components/create-event-information/create-event-information.component';
+import { CreateEventDatesComponent } from './components/create-edit-events/components/create-event-dates/create-event-dates.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,9 @@ import { EventsCommentsService } from './services/events-comments.service';
     EventDetailsComponent,
     ImagesSliderComponent,
     EventScheduleOverlayComponent,
-    EventScheduleComponent
+    EventScheduleComponent,
+    CreateEventInformationComponent,
+    CreateEventDatesComponent
   ],
   imports: [
     MatDialogModule,
@@ -86,7 +91,8 @@ import { EventsCommentsService } from './services/events-comments.service';
     NgbDropdownModule,
     MatIconModule,
     MatDividerModule,
-    CommentsModule
+    CommentsModule,
+    MatChipsModule
   ],
   providers: [{ provide: CommentsService, useClass: EventsCommentsService }],
   exports: [TranslateModule]

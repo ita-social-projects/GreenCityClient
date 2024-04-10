@@ -1,0 +1,8 @@
+@use '../../../../../../../../../node_modules/@angular/material/index' as mat;
+:host ::ng-deep {
+  @include mat.form-field-density(-2);
+}
+
+mat-card {
+  padding: 16px;
+}

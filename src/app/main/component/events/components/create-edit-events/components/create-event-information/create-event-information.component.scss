@@ -1,0 +1,59 @@
+@use '../../../../../../../../../node_modules/@angular/material/index' as mat;
+:host ::ng-deep {
+  @include mat.form-field-density(-2);
+}
+
+.event-container {
+  display: flex;
+  justify-content: center;
+  margin-right: 18px;
+  margin-left: 18px;
+}
+
+mat-card {
+  padding: 16px 10px;
+}
+p:nth-of-type(1) {
+  margin: initial;
+}
+p {
+  margin: 0;
+}
+
+.header-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+  margin-bottom: 5px;
+
+  mat-form-field {
+    width: 100%;
+  }
+  mat-label,
+  mat-form-field {
+    font-size: 14px;
+  }
+
+  .title-wrapper {
+    flex: 1 0 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  .above-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
+  .duration-wrapper {
+    min-width: 100px;
+    flex: 1 1;
+  }
+}
+
+.quill-error {
+  color: red;
+}

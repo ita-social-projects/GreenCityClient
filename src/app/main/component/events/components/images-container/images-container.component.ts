@@ -28,6 +28,7 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
   public images: EventImage[] = [];
   public editMode: boolean;
   private imagesTodelete: string[] = [];
+  imgAsUrl: string[] = [];
 
   public imageCount = 0;
 
@@ -41,6 +42,7 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
   @Output() imgArrayOutput = new EventEmitter<Array<File>>();
   @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
   @Output() oldImagesOutput = new EventEmitter<Array<string>>();
+  @Output() imgAsUrlOutput = new EventEmitter<string[]>();
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -92,7 +94,11 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
   }
 
   private initImages(): void {
-    this.images = Array.from({ length: this.maxImages }, (_, i) => ({ src: null, label: this.dragAndDropLabel, isLabel: i === 0 }));
+    this.images = Array.from({ length: this.maxImages }, (_, i) => ({
+      src: null,
+      label: this.dragAndDropLabel,
+      isLabel: i === 0
+    }));
   }
 
   public chooseImage(img: string) {
@@ -154,10 +160,18 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
       this.images[labelIndex].isLabel = true;
     }
 
-    reader.readAsDataURL(imageFile);
     reader.onload = () => {
-      this.assignImage(reader.result);
+      const result = reader.result as string;
+      this.imgAsUrl.push(result);
+      this.imgAsUrlOutput.emit(this.imgAsUrl);
+      this.assignImage(result);
     };
+    // TODO Display snack bar error on error load
+    reader.onerror = () => {
+      console.log(reader.error);
+    };
+
+    reader.readAsDataURL(imageFile);
   }
 
   private handleInvalidImageFile(): void {

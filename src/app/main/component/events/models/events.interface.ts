@@ -137,10 +137,9 @@ export interface DateEventResponseDto {
 }
 
 export interface OfflineDto {
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lng: number;
 }
-
 export interface TagObj {
   nameUa: string;
   nameEn: string;
