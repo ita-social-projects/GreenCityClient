@@ -1,32 +1,28 @@
 <div class="container">
   <div class="wrapper">
     <div class="event-header">
-      <p class="main-header">{{ 'homepage.events.title' | translate }}</p>
-      <div class="create-container">
-        <div class="container-input" *ngIf="searchToggle">
-          <input
-            type="text"
-            *ngIf="searchToggle"
-            class="place-input"
-            [formControl]="searchEventControl"
-            [placeholder]="'homepage.events.search-title' | translate"
-          />
-          <img src="../../../../../../assets/img/smallCross.svg" class="cross-position" (click)="cancelSearch()" alt="cancel search" />
+      <div class="top-header">
+        <p class="main-header">{{ 'homepage.events.title' | translate }}</p>
+        <div class="create-container">
+          <div class="container-input" *ngIf="searchToggle">
+            <input type="text" *ngIf="searchToggle" class="place-input" [formControl]="searchEventControl" placeholder="Search" />
+            <img src="../../../../../../assets/img/smallCross.svg" class="cross-position" (click)="cancelSearch()" alt="cancel search" />
+          </div>
+          <div class="container-img" (click)="search()" *ngIf="!searchToggle">
+            <span class="search-img" [ngClass]="{ 'search-img-active': searchToggle }"></span>
+          </div>
+          <div class="container-img" (click)="showSelectedEvents()">
+            <span class="bookmark-img" [ngClass]="{ 'bookmark-img-active': bookmarkSelected }"></span>
+          </div>
+          <div class="container-img">
+            <img class="my-events-img" src="assets/events-icons/my-event.png" alt="my-event" />
+          </div>
         </div>
-        <div class="container-img" (click)="search()">
-          <span class="search-img" [ngClass]="{ 'search-img-active': searchToggle }"></span>
-        </div>
-        <div class="container-img" (click)="showSelectedEvents()">
-          <span class="bookmark-img" [ngClass]="{ 'bookmark-img-active': bookmarkSelected }"></span>
-        </div>
-        <div class="container-img">
-          <img class="my-events-img" src="assets/events-icons/my-event.png" alt="my-event" />
-        </div>
-        <div class="create">
-          <button tabindex="0" class="secondary-global-button m-btn" (click)="isUserLoggedRedirect()">
-            {{ 'homepage.events.create-title' | translate }}
-          </button>
-        </div>
+      </div>
+      <div class="create">
+        <button tabindex="0" class="secondary-global-button m-btn" (click)="isUserLoggedRedirect()">
+          {{ 'homepage.events.create-title' | translate }}
+        </button>
       </div>
     </div>
     <div class="filter-container">
