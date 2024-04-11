@@ -63,6 +63,10 @@
     min-height: 20px;
     background: url('src/assets/events-icons/search.png');
     display: inline-block;
+
+    &:hover {
+      background: url('src/assets/events-icons/search-hover.png');
+    }
   }
 
   .search-img-active {
