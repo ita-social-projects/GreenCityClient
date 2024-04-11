@@ -17,7 +17,7 @@ $bp-largest: 1199px;
 
 .shopping-list-content {
   padding-top: 24px;
-  font-family: var(--primary-font);
+  font-family: var(--tertiary-font);
   font-style: normal;
 
   &:last-child {
@@ -43,6 +43,7 @@ $bp-largest: 1199px;
   font-size: 16px;
   line-height: 24px;
   color: var(--quaternary-dark-grey);
+  letter-spacing: 0.02em;
 }
 
 h2 > span {
@@ -52,7 +53,7 @@ h2 > span {
 .empty-list {
   text-align: left;
   font-size: 12px;
-  font-family: var(--secondary-font);
+  font-family: var(--tertiary-font);
   font-weight: 400;
   font-style: normal;
   line-height: 15px;

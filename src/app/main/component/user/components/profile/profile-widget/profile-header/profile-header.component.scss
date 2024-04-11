@@ -1,8 +1,4 @@
-$bp-smallest: 320px;
-$bp-phone: 576px;
-$bp-tablet: 768px;
-$bp-desktop: 1023px;
-$bp-largest: 1200px;
+@import 'src/typography/_resp.scss';
 
 $grey-light-color: #6a8079;
 $green-light-color: rgba(19, 170, 87, 0.12);
@@ -41,7 +37,7 @@ p {
         background-position: center;
         background-size: 80%;
 
-        @media (max-width: 450px) {
+        @include responsivePCFirst(s) {
           width: 19px;
           height: 19px;
           background-size: 100%;
@@ -50,7 +46,7 @@ p {
     }
 
     .name {
-      font-family: var(--primary-font);
+      font-family: var(--tertiary-font);
       font-style: normal;
       font-weight: 700;
       font-size: 18px;
@@ -64,18 +60,19 @@ p {
       padding: 0 20px;
       width: 100%;
       text-align: center;
+      letter-spacing: 0.02em;
 
-      @media (max-width: $bp-tablet - 1) {
+      @include responsivePCFirst(md) {
         padding: 0;
       }
 
-      @media (max-width: $bp-phone - 1) {
+      @include responsivePCFirst(sm) {
         padding: 0 20px;
       }
     }
 
     .location {
-      font-family: var(--primary-font);
+      font-family: var(--tertiary-font);
       font-style: normal;
       font-weight: 400;
       font-size: 12px;
@@ -96,7 +93,7 @@ p {
       padding: 2px 16px;
       border-radius: 4px;
       background-color: var(--success-light-green);
-      font-family: var(--primary-font);
+      font-family: var(--tertiary-font);
       font-style: normal;
       font-weight: 600;
       font-size: 12px;
@@ -124,7 +121,7 @@ p {
     }
 
     .credo {
-      font-family: var(--primary-font);
+      font-family: var(--tertiary-font);
       font-weight: 400;
       font-size: 12px;
       line-height: 16px;
@@ -144,59 +141,70 @@ p {
   }
 }
 
-@media (min-width: $bp-phone) {
-  .profile {
-    height: 100%;
+@include responsiveMobileFirst(sm) {
+  @include responsivePCFirst(md) {
+    .profile {
+      height: 100%;
 
-    .column {
-      grid-template-columns: 97px 1fr;
-      grid-template-rows: 70px 33px 38px 45px auto 91px;
+      .column {
+        grid-template-columns: 97px 1fr;
+        grid-template-rows: 70px 33px 38px 45px auto 91px;
 
-      .user-image {
-        grid-area: 1 / 1 / 2 / 2;
-      }
+        .container-user-image {
+          margin: 40px auto 0 0;
 
-      .name {
-        grid-area: 1 / 2 / 2 / 3;
-        justify-self: start;
-        align-self: self-end;
-        margin-top: 20px;
-      }
+          .user-image {
+            grid-area: 1 / 1 / 2 / 2;
+            justify-self: start;
+          }
+        }
 
-      .location {
-        grid-area: 2 / 2 / 3 / 3;
-        justify-self: start;
-      }
+        .name {
+          grid-area: 1 / 2 / 2 / 3;
+          justify-self: start;
+          align-self: self-end;
+          margin-top: 20px;
+          padding: 0;
+          text-align: start;
+        }
 
-      .rate {
-        grid-area: 3 / 2 / 4 / 3;
-        justify-self: start;
-        padding: 0 20px;
-      }
+        .location {
+          grid-area: 2 / 2 / 3 / 3;
+          justify-self: start;
+          text-align: start;
+          padding: 0;
+        }
 
-      .social {
-        grid-area: 4 / 2 / 5 / 3;
-        justify-self: start;
-        width: auto;
-        margin: 0;
-      }
+        .rate {
+          grid-area: 3 / 2 / 4 / 3;
+          justify-self: start;
+          padding: 0 20px;
+        }
 
-      .credo {
-        grid-area: 5 / 2 / 6 / 3;
-        justify-self: start;
-        width: auto;
-        margin: 0;
-      }
+        .social {
+          grid-area: 4 / 2 / 5 / 3;
+          justify-self: start;
+          width: auto;
+          margin: 0;
+        }
 
-      .profile-progress {
-        grid-area: 6 / 2 / 7 / 3;
-        justify-self: start;
+        .credo {
+          grid-area: 5 / 2 / 6 / 3;
+          justify-self: start;
+          width: auto;
+          margin: 0;
+        }
+
+        .profile-progress {
+          grid-area: 6 / 2 / 7 / 3;
+          justify-self: start;
+        }
       }
     }
   }
 }
 
-@media (min-width: $bp-tablet) {
+@include responsiveMobileFirst(md) {
   .profile {
     width: 100%;
     height: auto;
@@ -263,7 +271,7 @@ p {
   }
 }
 
-@media (min-width: $bp-largest) {
+@include responsiveMobileFirst(2xl) {
   .profile {
     .column {
       grid-template-rows: 132px 23px 20px 18px 38px 40px auto 202px;
@@ -271,7 +279,7 @@ p {
   }
 }
 
-@media (max-width: $bp-tablet - 1) {
+@include responsivePCFirst(md) {
   .profile {
     max-width: 544px;
     margin: 0 auto;
@@ -286,7 +294,7 @@ p {
   }
 }
 
-@media (max-width: $bp-phone - 1) {
+@include responsivePCFirst(sm) {
   .profile {
     .column {
       grid-template-rows: 137px 32px 30px 39px 43px auto 76px;

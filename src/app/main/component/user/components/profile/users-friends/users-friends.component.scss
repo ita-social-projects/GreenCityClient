@@ -7,7 +7,7 @@ p {
   margin: 0 auto;
   background-color: var(--primary-white);
   justify-content: center;
-  font-family: var(--primary-font);
+  font-family: var(--tertiary-font);
 
   .friends {
     padding: 24px 0;
@@ -31,6 +31,7 @@ p {
       font-size: 16px;
       line-height: 24px;
       color: var(--quaternary-dark-grey);
+      letter-spacing: 0.02em;
     }
 
     .text-more {
@@ -69,7 +70,7 @@ p {
 
   .friend-name {
     font-size: 10px;
-    font-family: var(--secondary-font);
+    font-family: var(--tertiary-font);
     color: var(--primary-dark-grey);
     max-width: 65px;
     text-align: center;
@@ -160,7 +161,7 @@ p {
   }
 }
 
-@media (min-width: 1199px) and (max-width: 1439px) {
+@media (min-width: 1200px) and (max-width: 1439px) {
   .outer {
     .friends {
       .friends-images {

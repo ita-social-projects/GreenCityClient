@@ -6,11 +6,21 @@
   border-radius: 4px;
   margin-top: 26px;
   padding: 16px 12px 12px;
-  font-family: var(--secondary-font);
+  font-family: var(--tertiary-font);
+
+  .week {
+    color: var(--quaternary-dark-grey);
+  }
+
+  .arrow-next,
+  .arrow-previous {
+    width: 18px;
+    height: 18px;
+  }
 
   .title {
-    font-weight: 600;
-    font-size: 14px;
+    font-weight: 400;
+    font-size: 16px;
     line-height: 17px;
     color: var(--primary-dark-grey);
     margin-bottom: 15px;
@@ -35,7 +45,7 @@
 
   .body {
     .day-name-row {
-      font-weight: 600;
+      font-weight: 400;
       font-size: 11px;
       line-height: 14px;
       color: var(--tertiary-light-grey);
@@ -46,6 +56,7 @@
       .day-name {
         width: 52px;
         text-align: center;
+        color: var(--tertiary-light-grey);
       }
 
       .current-name {
@@ -54,10 +65,10 @@
     }
 
     .day-number-row {
-      font-weight: 500;
-      font-size: 14px;
+      font-weight: 400;
+      font-size: 16px;
       line-height: 17px;
-      color: var(--primary-dark-grey);
+      color: var(--quaternary-grey);
       display: flex;
       justify-content: space-between;
 
@@ -76,7 +87,7 @@
       }
 
       .unenrolled-day {
-        background-color: var(--quaternary-light-grey);
+        background-color: var(--whitesmoke-grey);
       }
 
       .enrolled-past-day {
@@ -86,7 +97,7 @@
 
       .unenrolled-past-day {
         background-color: transparent;
-        border: 1px solid var(--quaternary-light-grey);
+        border: 1px solid var(--whitesmoke-grey);
       }
 
       .current-number {

@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signinref') signinref: ElementRef;
   @ViewChild('signupref') signupref: ElementRef;
   @ViewChild('serviceref') serviceref: ElementRef;
-  public elementName;
+  public elementName: string;
   public isUBS: boolean;
   public ubsUrl = 'ubs';
   public imageLogo;
@@ -159,14 +159,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.languageService
         .getUserLangValue()
         .pipe(takeUntil(this.destroySub))
-        .subscribe(
-          (lang) => {
-            this.setCurrentLanguage(lang);
+        .subscribe({
+          next: (lang) => {
+            if (lang) {
+              this.setCurrentLanguage(lang);
+            }
           },
-          (error) => {
+          error: () => {
             this.setCurrentLanguage(this.languageService.getCurrentLanguage());
           }
-        );
+        });
     } else {
       this.setCurrentLanguage(this.languageService.getCurrentLanguage());
     }
@@ -174,6 +176,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private setCurrentLanguage(language: string): void {
     this.currentLanguage = language;
+    this.languageService.changeCurrentLanguage(language as Language);
     this.setLangArr();
   }
 

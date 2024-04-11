@@ -1,11 +1,11 @@
 <div class="calendar-week">
   <div class="title">
     <button (click)="changeWeek(false)">
-      <img [src]="calendarImages.arrowPrevious" alt="arrow previous" />
+      <img class="arrow-previous" [src]="calendarImages.arrowPrevious" alt="arrow previous" />
     </button>
     <div class="week">{{ weekTitle }}</div>
     <button (click)="changeWeek(true)">
-      <img [src]="calendarImages.arrowNext" alt="arrow next" />
+      <img class="arrow-next" [src]="calendarImages.arrowNext" alt="arrow next" />
     </button>
   </div>
   <div class="body">
