@@ -32,13 +32,11 @@
   align-items: center;
   padding-top: 3px;
 
-  .comment-dot {
-    margin: 0 8px;
+  .comment-divider {
+    margin: 0 16px;
     display: inline-block;
-    width: 4px;
-    height: 4px;
+    font-size: 4px;
     background: var(--secondary-grey);
-    border-radius: 100%;
   }
 
   .comment-date-month {
@@ -48,10 +46,6 @@
       display: inline-block;
       margin-left: 4px;
     }
-  }
-
-  .last-dot {
-    display: none;
   }
 }
 
@@ -248,19 +242,8 @@
   }
 
   .comment-date {
-    flex-direction: row;
-
     .comment-date-month {
       margin: 0;
-    }
-
-    .comment-dot {
-      display: none;
-    }
-
-    .last-dot {
-      display: inline-block;
-      margin: 0 8px;
     }
   }
 }
