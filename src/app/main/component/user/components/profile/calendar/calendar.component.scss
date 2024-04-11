@@ -24,9 +24,9 @@ $bp-largest: 1200px;
       }
 
       .monthAndYear {
-        font-family: var(--secondary-font);
-        font-weight: 600;
-        font-size: 13px;
+        font-family: var(--tertiary-font);
+        font-weight: 400;
+        font-size: 14px;
         line-height: 13px;
         color: var(--primary-dark-grey);
         margin-top: 15px;
@@ -51,11 +51,11 @@ $bp-largest: 1200px;
 
       .days-name {
         margin: 0;
-        font-family: var(--secondary-font);
-        font-weight: 600;
+        font-family: var(--tertiary-font);
+        font-weight: 400;
         font-size: 11px;
         line-height: 12px;
-        color: var(--tertiary-light-grey);
+        color: var(--quaternary-grey);
       }
 
       .current-day-name {
@@ -81,7 +81,7 @@ $bp-largest: 1200px;
       justify-content: space-around;
       margin: 8px 0 0;
       padding: 0 3px;
-      font-family: var(--secondary-font);
+      font-family: var(--tertiary-font);
       font-size: 11px;
       line-height: 13px;
       color: var(--primary-dark-grey);
@@ -90,6 +90,7 @@ $bp-largest: 1200px;
       .calendar-grid-day {
         padding: 0;
         cursor: pointer;
+        color: var(--quaternary-grey);
       }
 
       .calendar-grid-day:hover {
@@ -102,7 +103,7 @@ $bp-largest: 1200px;
 
       .current-day {
         background-color: var(--primary-green);
-        border-radius: 50%;
+        border-radius: 4px;
         background-repeat: no-repeat;
         background-position: center;
         color: var(--primary-white);
@@ -149,14 +150,14 @@ $bp-largest: 1200px;
   color: var(--primary-dark-grey);
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 50%;
+  border-radius: 4px;
 }
 
 .unenrolled-day {
   background-color: var(--quaternary-light-grey);
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 50%;
+  border-radius: 4px;
 }
 
 .enrolled-past-day {
@@ -164,7 +165,7 @@ $bp-largest: 1200px;
   border: 1px solid var(--primary-light-green);
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 50%;
+  border-radius: 4px;
 }
 
 .unenrolled-past-day {
@@ -172,7 +173,7 @@ $bp-largest: 1200px;
   border: 1px solid var(--quaternary-light-grey);
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 50%;
+  border-radius: 4px;
 }
 
 @media only screen and (min-width: $bp-largest) {
@@ -188,7 +189,7 @@ $bp-largest: 1200px;
         padding: 0 8px;
 
         .calendar-grid-day {
-          font-size: 13px;
+          font-size: 10px;
         }
       }
     }
@@ -202,4 +203,5 @@ $bp-largest: 1200px;
 button {
   border: none;
   background-color: var(--ubs-primary-white);
+  border-radius: 4px;
 }

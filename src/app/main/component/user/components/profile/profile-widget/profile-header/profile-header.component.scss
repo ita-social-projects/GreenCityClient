@@ -1,3 +1,9 @@
+$bp-smallest: 320px;
+$bp-phone: 576px;
+$bp-tablet: 768px;
+$bp-desktop: 1023px;
+$bp-largest: 1200px;
+
 $grey-light-color: #6a8079;
 $green-light-color: rgba(19, 170, 87, 0.12);
 
@@ -59,11 +65,11 @@ p {
       width: 100%;
       text-align: center;
 
-      @media (max-width: 767px) {
+      @media (max-width: $bp-tablet - 1) {
         padding: 0;
       }
 
-      @media (max-width: 575px) {
+      @media (max-width: $bp-phone - 1) {
         padding: 0 20px;
       }
     }
@@ -138,7 +144,7 @@ p {
   }
 }
 
-@media (min-width: 576px) {
+@media (min-width: $bp-phone) {
   .profile {
     height: 100%;
 
@@ -190,14 +196,14 @@ p {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: $bp-tablet) {
   .profile {
     width: 100%;
     height: auto;
 
     .column {
       grid-template-columns: 1fr;
-      grid-template-rows: 132px 31px 15px 23px 40px 40px auto 235px;
+      grid-template-rows: 132px 23px 20px 18px 38px 40px auto 235px;
 
       .user-image {
         grid-area: 1 / 1 / 2 / 2;
@@ -216,6 +222,7 @@ p {
       .location {
         grid-area: 3 / 1 / 4 / 2;
         justify-self: center;
+        margin-top: 5px;
       }
 
       .online {
@@ -245,7 +252,7 @@ p {
       .credo {
         grid-area: 7 / 1 / 8 / 2;
         width: auto;
-        margin: 0 20px 10px 20px;
+        margin: 0 20px 10px 26px;
       }
 
       .profile-progress {
@@ -256,15 +263,15 @@ p {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: $bp-largest) {
   .profile {
     .column {
-      grid-template-rows: 132px 31px 15px 23px 40px 40px auto 202px;
+      grid-template-rows: 132px 23px 20px 18px 38px 40px auto 202px;
     }
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: $bp-tablet - 1) {
   .profile {
     max-width: 544px;
     margin: 0 auto;
@@ -279,7 +286,7 @@ p {
   }
 }
 
-@media (max-width: 575px) {
+@media (max-width: $bp-phone - 1) {
   .profile {
     .column {
       grid-template-rows: 137px 32px 30px 39px 43px auto 76px;
