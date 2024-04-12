@@ -1,9 +1,10 @@
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { ShoppingList } from '../../../../models/shoppinglist.interface';
 import { HabitInterface } from './habit.interface';
 
 export interface HabitAssignInterface {
   id: number;
-  status: 'SUSPENDED' | 'INPROGRESS' | 'ACQUIRED';
+  status: HabitStatus;
   createDateTime: Date;
   habit: HabitInterface;
   complexity?: number;
@@ -26,7 +27,7 @@ export interface HabitStatusCalendarListInterface {
 
 export interface ResponseInterface {
   id: number;
-  status: 'SUSPENDED' | 'INPROGRESS' | 'ACQUIRED';
+  status: HabitStatus;
   createDateTime: Date;
   habit: number;
   userId: number;
@@ -44,7 +45,7 @@ export interface UpdateHabitDuration {
   habitAssignId: number;
   habitId: number;
   userId: number;
-  status: 'SUSPENDED' | 'INPROGRESS' | 'ACQUIRED';
+  status: HabitStatus;
   workingDays: number;
   duration: number;
 }

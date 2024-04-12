@@ -163,7 +163,6 @@ export class AddNewHabitComponent implements OnInit {
       .pipe(take(1))
       .subscribe((data: HabitInterface) => {
         this.initHabitData(data);
-        this.initialDuration = data.defaultDuration;
         this.isCustomHabit = data.isCustomHabit;
         if (data.isCustomHabit) {
           data.customShoppingListItems?.forEach((item) => (item.custom = true));
@@ -274,7 +273,8 @@ export class AddNewHabitComponent implements OnInit {
     this.localStorageService.setEditMode('canUserEdit', true);
     this.habitResponse.shoppingListItems = this.initialShoppingList;
     this.habitResponse.customShoppingListItems = this.customShopList;
-    this.habitResponse.defaultDuration = this.newDuration || this.initialDuration;
+    this.habitResponse.defaultDuration = this.assignedHabit.habit.defaultDuration;
+    this.habitResponse.duration = this.newDuration || this.assignedHabit.duration;
     this.store.dispatch(SetHabitForEdit({ habitResponse: this.habitResponse }));
     this.router.navigate([`profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
   }
@@ -307,6 +307,7 @@ export class AddNewHabitComponent implements OnInit {
     const customItemsList: CustomShoppingItem[] = this.customShopList.map((item) => ({
       text: item.text
     }));
+
     this.habitAssignService
       .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties, customItemsList)
       .pipe(take(1))

@@ -17,10 +17,9 @@ import { quillConfig } from 'src/app/main/component/events/components/create-edi
 import { ShoppingList } from '../../../models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { Store } from '@ngrx/store';
-import { IAppState } from 'src/app/store/state/app.state';
 import { TodoStatus } from '../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -83,8 +82,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private translate: TranslateService,
     private habitService: HabitService,
     private userFriendsService: UserFriendsService,
-    private store: Store<IAppState>,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private habitAssignService: HabitAssignService
   ) {
     super(router, dialog);
 
@@ -100,16 +99,33 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.userFriendsService.addedFriends.length = 0;
     this.isEditing = this.router.url?.includes('edit-habit');
     this.getHabitTags();
+
     if (this.isEditing) {
-      this.store
-        .select((state) => state.habit)
-        .pipe(take(1))
-        .subscribe((habitState) => {
-          this.habit = habitState;
-          this.setEditHabit();
-        });
-      this.editorText = this.habitForm.get('description').value;
+      this.initEditData();
     }
+  }
+
+  get durationControl() {
+    return this.habitForm.get('duration');
+  }
+
+  initEditData() {
+    const [userId, habitId] = this.router.url.split('/').filter((segment) => /[0-9]/g.test(segment));
+    this.habitAssignService
+      .getHabitByAssignId(+habitId, this.currentLang)
+      .pipe(take(1))
+      .subscribe((habitState) => {
+        this.habit = habitState.habit;
+        this.setEditHabit();
+        this.getHabitTags();
+      });
+    this.editorText = this.habitForm.get('description').value;
+  }
+
+  convertTagNamesToId(tagNames: string[]) {
+    this.habitService.getAllTags().subscribe((tags) => {
+      this.selectedTagsList = tags.filter((tag) => tagNames.includes(tag.name)).map(({ id }) => id);
+    });
   }
 
   private getUserId() {
@@ -121,7 +137,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       title: new FormControl('', [Validators.required, Validators.maxLength(70)]),
       description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
       complexity: new FormControl(1, [Validators.required, Validators.max(3)]),
-      duration: new FormControl(null, [Validators.required, Validators.min(7), Validators.max(56)]),
+      duration: new FormControl(this.initialDuration, [Validators.required, Validators.min(7), Validators.max(56)]),
       tagIds: new FormControl([], Validators.required),
       image: new FormControl(''),
       shopList: new FormControl([])
@@ -131,7 +147,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   private setEditHabit(): void {
     this.habitForm.addControl('id', new FormControl(null));
     this.habitForm.patchValue({
-      title: this.habit.habitTranslation.name,
+      title: this.habit.habitTranslation?.name,
       description: this.habit.habitTranslation.description,
       complexity: this.habit.complexity,
       duration: this.habit.defaultDuration,
@@ -140,9 +156,9 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       shopList: this.habit.customShoppingListItems
     });
     this.habitId = this.habit.id;
-    this.shopList = this.habit.customShoppingListItems.length
-      ? [...this.habit.customShoppingListItems]
-      : [...this.habit.customShoppingListItems, ...this.habit.shoppingListItems];
+    this.shopList = this.habit.customShoppingListItems?.length
+      ? [...(this.habit.customShoppingListItems || [])]
+      : [...(this.habit.customShoppingListItems || []), ...this.habit.shoppingListItems];
     this.shopList = this.shopList.map((el) => ({ ...el, selected: el.status === TodoStatus.inprogress }));
     this.initialDuration = this.habit.defaultDuration;
   }
