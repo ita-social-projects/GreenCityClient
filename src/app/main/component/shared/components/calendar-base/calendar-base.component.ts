@@ -108,7 +108,11 @@ export class CalendarBaseComponent implements OnDestroy {
   }
 
   public bindDefaultTranslate(): void {
-    this.defaultTranslateSub = this.translate.getTranslation(this.translate.getDefaultLang()).subscribe((res) => {
+    let lang = this.translate.getDefaultLang();
+    if (!lang) {
+      lang = 'en';
+    }
+    this.defaultTranslateSub = this.translate.getTranslation(lang).subscribe((res) => {
       const translations = res.profile.calendar;
       this.daysName = translations.days;
       this.months = translations.months;

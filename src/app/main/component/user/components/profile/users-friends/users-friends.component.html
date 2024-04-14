@@ -15,17 +15,21 @@
         >
       </div>
     </div>
-    <div class="friends-images">
-      <div *ngFor="let friend of usersFriends" (click)="showFriendsInfo(friend)">
-        <app-user-profile-image
-          [imgPath]="friend.profilePicturePath"
-          [firstName]="friend.name"
-          class="friend-img"
-          [additionalImgClass]="'friend-user-profile'"
-        >
-        </app-user-profile-image>
-        <p class="friend-name">{{ friend.name | firststringword | maxTextLength: 10 }}</p>
+    <div class="slider-wrapper">
+      <img #nextArrow class="friends-previous" (click)="changeFriends(false)" [src]="arrows.arrowPrevious" alt="arrow previous" />
+      <div #slider class="friends-images">
+        <div *ngFor="let friend of usersFriends" (click)="showFriendsInfo(friend)">
+          <app-user-profile-image
+            [imgPath]="friend.profilePicturePath"
+            [firstName]="friend.name"
+            class="friend-img"
+            [additionalImgClass]="'friend-user-profile'"
+          >
+          </app-user-profile-image>
+          <p class="friend-name">{{ friend.name | firststringword | maxTextLength: 10 }}</p>
+        </div>
       </div>
+      <img #previousArrow class="friends-next" (click)="changeFriends(true)" [src]="arrows.arrowNext" alt="arrow next" />
     </div>
   </div>
   <div class="friends-error" *ngIf="amountOfFriends === 0">

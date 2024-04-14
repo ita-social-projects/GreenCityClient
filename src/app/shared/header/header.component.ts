@@ -176,7 +176,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private setCurrentLanguage(language: string): void {
     this.currentLanguage = language;
-    this.languageService.changeCurrentLanguage(language as Language);
+    this.languageService.changeCurrentLanguage(language.toLowerCase() as Language);
     this.setLangArr();
   }
 

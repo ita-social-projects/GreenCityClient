@@ -10,7 +10,7 @@ p {
   font-family: var(--tertiary-font);
 
   .friends {
-    padding: 24px 0;
+    padding-top: 34px;
     width: 213px;
     border-top: 1px solid var(--light-grey-blue-color);
     margin: 0;
@@ -57,6 +57,8 @@ p {
     box-sizing: border-box;
     padding: 0;
     width: 100%;
+    scroll-behavior: smooth;
+    transition: scroll-left 1s ease-in-out;
 
     .ng-star-inserted {
       width: 60px;
@@ -133,6 +135,37 @@ p {
   }
 }
 
+.friends-next,
+.friends-previous {
+  position: absolute;
+  top: 35%;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  z-index: 10;
+  transform: translateY(-50%);
+}
+
+.slider-wrapper {
+  position: relative;
+}
+
+.friends-previous {
+  left: 0;
+}
+
+.friends-next {
+  right: 0;
+}
+
+@media (min-width: 768px) {
+  .friends-next,
+  .friends-previous {
+    top: 45%;
+    margin: 0 -10px;
+  }
+}
+
 @media (min-width: 768px) and (max-width: 1199px) {
   .outer {
     .friends {
@@ -192,7 +225,6 @@ p {
 @media (max-width: 575px) {
   .outer {
     display: flex;
-    margin-bottom: 26px;
     .friends {
       width: 100%;
       margin: 0 16px;
