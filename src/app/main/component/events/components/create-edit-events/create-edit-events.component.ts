@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { quillConfig } from './quillEditorFunc';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
@@ -6,20 +6,20 @@ import ImageResize from 'quill-image-resize-module';
 import { Place } from '../../../places/models/place';
 import {
   DateEvent,
+  DateEventResponseDto,
   DateFormObj,
   Dates,
   EventDTO,
   EventPageResponseDto,
   OfflineDto,
-  TagObj,
   PagePreviewDTO,
-  DateEventResponseDto
+  TagObj
 } from '../../models/events.interface';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription, Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DateObj, TimeBack, TimeFront, typeFiltersData, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -32,7 +32,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
-import { object } from '@angular/fire/database';
+import { FormBridgeService } from '../../services/form-bridge.service';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -73,20 +73,14 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public isSmallScreen = false;
 
   public fromPreview: boolean;
-  private descriptionMinLenght = 20;
-  private descriptionMaxLenght = 63206;
   public imgArray: Array<File> = [];
   public imgArrayToPreview: string[] = [];
-  private matSnackBar: MatSnackBarComponent;
   public userId: number;
   public isDateDuplicate: boolean;
-  private submitIsFalse = false;
-  private destroy$: Subject<void> = new Subject<void>();
   public locationForAllDays: OfflineDto;
   public linkForAllDays: string;
   public appliedForAllLocations: boolean;
   public appliedForAllLink: boolean;
-
   public previousPath: string;
   public isImagesArrayEmpty: boolean;
   public popupConfig = {
@@ -106,9 +100,14 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public routedFromProfile: boolean;
   public duplindx = -1;
   editDates = false;
-  private subscription: Subscription;
   @Input() cancelChanges: boolean;
   @Output() defaultImage = new EventEmitter<string>();
+  private descriptionMinLenght = 20;
+  private descriptionMaxLenght = 63206;
+  private matSnackBar: MatSnackBarComponent;
+  private submitIsFalse = false;
+  private destroy$: Subject<void> = new Subject<void>();
+  private subscription: Subscription;
 
   constructor(
     private injector: Injector,
@@ -120,13 +119,26 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     private snackBar: MatSnackBarComponent,
     public dialogRef: MatDialogRef<DialogPopUpComponent>,
     private languageService: LanguageService,
-    private eventsService: EventsService
+    private eventsService: EventsService,
+    private bridge: FormBridgeService
   ) {
     super(router, dialog);
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
 
     this.matSnackBar = injector.get(MatSnackBarComponent);
+  }
+
+  get titleForm() {
+    return this.eventFormGroup.get('titleForm');
+  }
+
+  get description() {
+    return this.eventFormGroup.get('description');
+  }
+
+  get editorText() {
+    return this.eventFormGroup.get('editorText');
   }
 
   ngOnInit(): void {
@@ -182,18 +194,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     };
   }
 
-  get titleForm() {
-    return this.eventFormGroup.get('titleForm');
-  }
-
-  get description() {
-    return this.eventFormGroup.get('description');
-  }
-
-  get editorText() {
-    return this.eventFormGroup.get('editorText');
-  }
-
   public setEditValue(): void {
     this.eventFormGroup.patchValue({
       titleForm: this.editEvent.title,
@@ -209,37 +209,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.isOpen = this.editEvent.open;
     this.oldImages = this.imagesForEdit;
     this.nameBtn = 'create-event.save-event';
-  }
-
-  private isLocationForAllDays(): void {
-    const previewOrEdit = this.fromPreview ? 'previewDates' : 'editEvent';
-    if (this[previewOrEdit].dates?.length > 1) {
-      const { latitude, longitude } = this[previewOrEdit].dates[0].coordinates;
-      const sameCoordinates = (this[previewOrEdit].dates as DateEvent[]).every((el) => {
-        return latitude === el.coordinates.latitude && longitude === el.coordinates.longitude;
-      });
-
-      if (sameCoordinates) {
-        const temp = this[previewOrEdit].dates[0].coordinates;
-        Object.assign(this.locationForAllDays, { lat: temp.latitude, lng: temp.longitude });
-        this.appliedForAllLocations = true;
-      }
-      this.firstFormIsSucceed = false;
-    }
-  }
-
-  private isLinkForAllDays(): void {
-    const previewOrEdit = this.fromPreview ? 'previewDates' : 'editEvent';
-    if (this[previewOrEdit].dates?.length > 1) {
-      const link = this[previewOrEdit].dates[0].onlineLink;
-      const sameLink = (this[previewOrEdit].dates as DateEvent[]).every((el) => {
-        return link === el.onlineLink;
-      });
-      if (sameLink) {
-        this.linkForAllDays = this[previewOrEdit].dates[0].onlineLink;
-        this.appliedForAllLink = true;
-      }
-    }
   }
 
   public setDates(init: boolean, dates?: DateEvent[] | DateEventResponseDto[]): void {
@@ -265,27 +234,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       newDates.push(date);
       return newDates;
     }, []);
-  }
-
-  private backFromPreview(): void {
-    this.previewDates = this.eventsService.getForm();
-    const { title, description, open, dates, tags, imgArray, editorText } = this.previewDates;
-    this.setDates(false, dates);
-    if (this.editMode) {
-      this.imgArrayToPreview = imgArray;
-      this.oldImages = imgArray;
-    } else {
-      this.imgArray = imgArray;
-    }
-    this.imagesForEdit = imgArray;
-    this.isOpen = open;
-    this.tags.forEach((item) => (item.isActive = tags.some((name: any) => name.nameEn === item.nameEn)));
-    this.eventFormGroup.patchValue({
-      titleForm: title,
-      description,
-      editorText,
-      eventDuration: this.dateArrCount[dates.length - 1]
-    });
   }
 
   public toEventsList(): void {
@@ -404,38 +352,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.eventsService.setArePlacesFilled(newValue, submit, check, ind);
   }
 
-  private checkDates(): void {
-    this.dates.forEach((item) => {
-      item.check = !item.valid;
-    });
-    this.checkdates = !this.dates.some((element) => !element.valid);
-  }
-
-  private createDates(): Array<Dates> {
-    return this.dates.reduce((ac, cur) => {
-      if (!cur.startDate) {
-        cur.startDate = TimeBack.START;
-      }
-      if (!cur.finishDate || cur.finishDate === TimeFront.END) {
-        cur.finishDate = TimeBack.END;
-      }
-
-      const date: Dates = {
-        startDate: this.eventsService.transformDate(cur, 'startDate'),
-        finishDate: this.eventsService.transformDate(cur, 'finishDate')
-      };
-
-      if (cur.onlineLink) {
-        date.onlineLink = cur.onlineLink;
-      }
-      if (cur.coordinates?.latitude) {
-        date.coordinates = { latitude: cur.coordinates.latitude, longitude: cur.coordinates.longitude };
-      }
-      ac.push(date);
-      return ac;
-    }, []);
-  }
-
   public onSubmit(): void {
     this.submitSelected = true;
     this.eventsService.setSubmitFromPreview(false);
@@ -483,20 +399,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     }
   }
 
-  private prepareFormData(sendEventDto: EventDTO): FormData {
-    const formData: FormData = new FormData();
-    const stringifiedDataToSend = JSON.stringify(sendEventDto);
-    const dtoName = this.editMode ? 'eventDto' : 'addEventDtoRequest';
-
-    formData.append(dtoName, stringifiedDataToSend);
-
-    this.imgArray.forEach((item) => {
-      formData.append('images', item);
-    });
-
-    return formData;
-  }
-
   public backToEditing() {
     this.router.navigate(['/events', 'create-event']);
   }
@@ -504,15 +406,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public escapeFromCreateEvent(): void {
     this.router.navigate(['/events']);
     this.eventSuccessfullyAdded();
-  }
-
-  private eventSuccessfullyAdded(): void {
-    if (this.editMode && this.eventFormGroup.valid) {
-      this.snackBar.openSnackBar('updatedEvent');
-    }
-    if (!this.editMode && this.eventFormGroup.valid) {
-      this.snackBar.openSnackBar('addedEvent');
-    }
   }
 
   public onPreview() {
@@ -535,9 +428,120 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.router.navigate(['events', 'preview']);
   }
 
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+
+  private isLocationForAllDays(): void {
+    const previewOrEdit = this.fromPreview ? 'previewDates' : 'editEvent';
+    if (this[previewOrEdit].dates?.length > 1) {
+      const { latitude, longitude } = this[previewOrEdit].dates[0].coordinates;
+      const sameCoordinates = (this[previewOrEdit].dates as DateEvent[]).every((el) => {
+        return latitude === el.coordinates.latitude && longitude === el.coordinates.longitude;
+      });
+
+      if (sameCoordinates) {
+        const temp = this[previewOrEdit].dates[0].coordinates;
+        Object.assign(this.locationForAllDays, { lat: temp.latitude, lng: temp.longitude });
+        this.appliedForAllLocations = true;
+      }
+      this.firstFormIsSucceed = false;
+    }
+  }
+
+  private isLinkForAllDays(): void {
+    const previewOrEdit = this.fromPreview ? 'previewDates' : 'editEvent';
+    if (this[previewOrEdit].dates?.length > 1) {
+      const link = this[previewOrEdit].dates[0].onlineLink;
+      const sameLink = (this[previewOrEdit].dates as DateEvent[]).every((el) => {
+        return link === el.onlineLink;
+      });
+      if (sameLink) {
+        this.linkForAllDays = this[previewOrEdit].dates[0].onlineLink;
+        this.appliedForAllLink = true;
+      }
+    }
+  }
+
+  private backFromPreview(): void {
+    this.previewDates = this.eventsService.getForm();
+    const { title, description, open, dates, tags, imgArray, editorText } = this.previewDates;
+    this.setDates(false, dates);
+    if (this.editMode) {
+      this.imgArrayToPreview = imgArray;
+      this.oldImages = imgArray;
+    } else {
+      this.imgArray = imgArray;
+    }
+    this.imagesForEdit = imgArray;
+    this.isOpen = open;
+    this.tags.forEach((item) => (item.isActive = tags.some((name: any) => name.nameEn === item.nameEn)));
+    this.eventFormGroup.patchValue({
+      titleForm: title,
+      description,
+      editorText,
+      eventDuration: this.dateArrCount[dates.length - 1]
+    });
+  }
+
+  private checkDates(): void {
+    this.dates.forEach((item) => {
+      item.check = !item.valid;
+    });
+    this.checkdates = !this.dates.some((element) => !element.valid);
+  }
+
+  private createDates(): Array<Dates> {
+    return this.dates.reduce((ac, cur) => {
+      if (!cur.startDate) {
+        cur.startDate = TimeBack.START;
+      }
+      if (!cur.finishDate || cur.finishDate === TimeFront.END) {
+        cur.finishDate = TimeBack.END;
+      }
+
+      const date: Dates = {
+        startDate: this.eventsService.transformDate(cur, 'startDate'),
+        finishDate: this.eventsService.transformDate(cur, 'finishDate')
+      };
+
+      if (cur.onlineLink) {
+        date.onlineLink = cur.onlineLink;
+      }
+      if (cur.coordinates?.latitude) {
+        date.coordinates = { latitude: cur.coordinates.latitude, longitude: cur.coordinates.longitude };
+      }
+      ac.push(date);
+      return ac;
+    }, []);
+  }
+
+  private prepareFormData(sendEventDto: EventDTO): FormData {
+    const formData: FormData = new FormData();
+    const stringifiedDataToSend = JSON.stringify(sendEventDto);
+    const dtoName = this.editMode ? 'eventDto' : 'addEventDtoRequest';
+
+    formData.append(dtoName, stringifiedDataToSend);
+
+    this.imgArray.forEach((item) => {
+      formData.append('images', item);
+    });
+
+    return formData;
+  }
+
   // public applyCommonLocation(): void {
   //   this.dates.forEach((date) => (date.coordinates = { ...this.locationForAllDays }));
   // }
+
+  private eventSuccessfullyAdded(): void {
+    if (this.editMode && this.eventFormGroup.valid) {
+      this.snackBar.openSnackBar('updatedEvent');
+    }
+    if (!this.editMode && this.eventFormGroup.valid) {
+      this.snackBar.openSnackBar('addedEvent');
+    }
+  }
 
   private imgToData(): void {
     this.imgArray.forEach((img) => {
@@ -573,9 +577,5 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   private getUserId() {
     this.userId = this.localStorageService.getUserId();
-  }
-
-  public getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 }

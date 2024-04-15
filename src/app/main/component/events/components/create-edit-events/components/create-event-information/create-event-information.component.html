@@ -13,7 +13,7 @@
         </span>
         <mat-form-field appearance="outline" class="title-field">
           <mat-label>{{ 'create-event.placeholder' | translate }}</mat-label>
-          <input #title matInput formControlName="title" maxlength="70" />
+          <input #title formControlName="title" matInput maxlength="70" />
           <mat-error>{{ getLocale('titleError') }}</mat-error>
         </mat-form-field>
       </div>
@@ -33,8 +33,7 @@
 
     <div class="themes-wrapper">
       <p>{{ 'create-event.event-theme' | translate }}</p>
-
-      <mat-chip-listbox [selectable]="true" [multiple]="true" formControlName="tags">
+      <mat-chip-listbox #tags [multiple]="true" [selectable]="true" formControlName="tags">
         <mat-chip-option *ngFor="let tag of EVENT_LOCALE.initiativeTags">
           {{ tag[localStorageService.getCurrentLanguage()] }}
         </mat-chip-option>
@@ -65,18 +64,17 @@
         <p style="font-size: 12px">{{ 'create-event.content-tooltip' | translate }}</p>
       </span>
       <quill-editor
-        ngDefaultControl
-        [styles]="{ minHeight: '120px', maxHeight: '300px', overflow: 'auto' }"
+        (onBlur)="quillValidate()"
         (onContentChanged)="quillContentChanged($event)"
         [modules]="quillModules"
+        [styles]="{ minHeight: '120px', maxHeight: '300px', overflow: 'auto' }"
+        ngDefaultControl
         placeholder="{{ 'create-event.content-placeholder' | translate }}"
-        (onBlur)="quillValidate()"
       >
       </quill-editor>
       <p *ngIf="isQuillUnfilled" class="quill-error">
-        {{ getLocale('quillError') + quillLength }}
+        {{ getLocale('quillError') + (20 - quillLength) }}
       </p>
-      <p>{{ quillLength ? quillLength : '' }}</p>
     </div>
     <!--    [imgArray]="imgArray"-->
     <!--  [imagesEditArr]="imagesForEdit"-->
@@ -85,15 +83,14 @@
     <!--  (deleteImagesOutput)="getImagesToDelete($event)"-->
     <!--  (oldImagesOutput)="getOldImages($event)"-->
     <app-images-container
-      [imgArray]="[]"
-      [imagesEditArr]="[]"
-      [isImagesArrayEmpty]="true"
+      (deleteImagesOutput)="([])"
       (imgArrayOutput)="([])"
       (imgAsUrlOutput)="setImgArray($event)"
-      (deleteImagesOutput)="([])"
       (oldImagesOutput)="([])"
+      [imagesEditArr]="[]"
+      [imgArray]="[]"
+      [isImagesArrayEmpty]="true"
     >
     </app-images-container>
-    <button [disabled]="eventInfForm.invalid" (click)="onPreview()">Test</button>
   </form>
 </mat-card>

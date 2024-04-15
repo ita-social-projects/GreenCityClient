@@ -1,4 +1,5 @@
 @use '../../../../../../../../../node_modules/@angular/material/index' as mat;
+
 :host ::ng-deep {
   @include mat.form-field-density(-2);
 }
@@ -13,9 +14,11 @@
 mat-card {
   padding: 16px 10px;
 }
+
 p:nth-of-type(1) {
   margin: initial;
 }
+
 p {
   margin: 0;
 }
@@ -31,6 +34,7 @@ p {
   mat-form-field {
     width: 100%;
   }
+
   mat-label,
   mat-form-field {
     font-size: 14px;
@@ -41,6 +45,7 @@ p {
     display: flex;
     flex-direction: column;
   }
+
   .above-title {
     display: flex;
     align-items: center;

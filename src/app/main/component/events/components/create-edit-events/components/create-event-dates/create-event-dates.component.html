@@ -1,3 +1,5 @@
 <mat-card>
-  <app-event-date-time-picker [dayNumber]="0"> </app-event-date-time-picker>
+  <ng-container *ngFor="let _ of $days | async; index as i">
+    <app-event-date-time-picker [dayNumber]="i"></app-event-date-time-picker>
+  </ng-container>
 </mat-card>

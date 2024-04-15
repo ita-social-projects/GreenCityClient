@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ContentChange } from 'ngx-quill';
 
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, ɵGetProperty } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 import { quillConfig } from '../../quillEditorFunc';
 
@@ -11,6 +11,7 @@ import { PagePreviewDTO } from '../../../../models/events.interface';
 import { EventsService } from '../../../../services/events.service';
 import { Router } from '@angular/router';
 import { quillEditorValidator } from '../../validators/quillEditorValidator';
+import { FormBridgeService } from '../../../../services/form-bridge.service';
 
 @Component({
   selector: 'app-create-event-information',
@@ -18,12 +19,11 @@ import { quillEditorValidator } from '../../validators/quillEditorValidator';
   styleUrls: ['./create-event-information.component.scss']
 })
 export class CreateEventInformationComponent implements OnInit {
-  protected readonly EVENT_LOCALE = EVENT_LOCALE;
-
   isQuillUnfilled = false;
   quillLength = 0;
   quillModules = null;
   imgArray: string[] = [];
+
   // TODO CHANGE VALUE TO INITIAL
   eventInfForm = this.fb.group({
     title: ['TitleTest', [Validators.required, Validators.maxLength(70)]],
@@ -33,11 +33,14 @@ export class CreateEventInformationComponent implements OnInit {
     tags: [[], [Validators.required, Validators.minLength(1)]]
   });
 
+  protected readonly EVENT_LOCALE = EVENT_LOCALE;
+
   constructor(
     protected localStorageService: LocalStorageService,
     protected fb: FormBuilder,
     protected eventsService: EventsService,
-    protected router: Router
+    protected router: Router,
+    private bridge: FormBridgeService
   ) {}
 
   ngOnInit() {
@@ -45,6 +48,10 @@ export class CreateEventInformationComponent implements OnInit {
     this.eventInfForm.valueChanges.subscribe((value) => {
       console.log(value);
       console.log(this.eventInfForm.invalid);
+    });
+
+    this.eventInfForm.get('duration').valueChanges.subscribe((value) => {
+      this.bridge.days = Array(this.eventInfForm.controls.duration.value);
     });
   }
 
@@ -63,10 +70,6 @@ export class CreateEventInformationComponent implements OnInit {
 
   setImgArray(value: string[]) {
     this.imgArray = value;
-  }
-
-  test() {
-    console.log(this.eventInfForm.getRawValue());
   }
 
   // TODO tags must be in en name

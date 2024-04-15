@@ -5,7 +5,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EventDateTimePickerComponent } from './event-date-time-picker.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from '../../services/events.service';
@@ -152,12 +151,12 @@ describe('EventDateTimePickerComponent', () => {
   });
 
   it('toggleForAllLocations should emit coordinates or null based on appliedForAllLocations', () => {
-    spyOn(component.applyCoordToAll, 'emit');
+    spyOn(component.applyCoordsToAll, 'emit');
     component.toggleForAllLocations();
     if (!component.appliedForAllLocations) {
-      expect(component.applyCoordToAll.emit).toHaveBeenCalledWith(component.coordinates);
+      expect(component.applyCoordsToAll.emit).toHaveBeenCalledWith(component.coordinates);
     } else {
-      expect(component.applyCoordToAll.emit).toHaveBeenCalledWith({ longitude: null, latitude: null });
+      expect(component.applyCoordsToAll.emit).toHaveBeenCalledWith({ longitude: null, latitude: null });
     }
   });
 
@@ -179,13 +178,13 @@ describe('EventDateTimePickerComponent', () => {
 
   it('checkIfAllDay expect startTime.disabled to be true', () => {
     component.checkedAllDay = false;
-    component.checkIfAllDay();
+    component.toggleAllDay();
     expect(component.dateForm.get('startTime').disabled).toBeTruthy();
   });
 
   it('checkIfAllDay expect startTime.disabled to be false', () => {
     component.checkedAllDay = true;
-    component.checkIfAllDay();
+    component.toggleAllDay();
     expect(component.dateForm.get('startTime').disabled).toBeFalsy();
   });
 
