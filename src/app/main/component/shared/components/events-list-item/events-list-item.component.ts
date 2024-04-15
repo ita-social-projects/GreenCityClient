@@ -38,6 +38,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponseDto;
   @Input() userId: number;
   @Input() isUserAssignList: boolean;
+  @Input() isGalleryView: boolean;
 
   profileIcons = userAssignedCardsIcons;
 

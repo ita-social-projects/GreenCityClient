@@ -362,7 +362,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public changeViewMode(type: string): void {
     this.isGalleryView = type === 'gallery' ? true : false;
-    console.log(this.isGalleryView);
   }
 
   ngOnDestroy(): void {

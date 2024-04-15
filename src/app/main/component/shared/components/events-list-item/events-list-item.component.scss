@@ -1,12 +1,15 @@
+@import 'src/typography/_resp.scss';
+
 .card-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  max-width: 348px;
+  max-width: 359px;
   height: 100%;
   flex: 1 0 auto;
   font-family: var(--primary-font);
   font-style: normal;
+  position: relative;
 
   h3 {
     overflow: hidden;
@@ -48,11 +51,120 @@
   }
 }
 
+.event-participants {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  position: absolute;
+  height: 40px;
+  width: 77px;
+  left: 8px;
+  top: 8px;
+  border-radius: 4px;
+  padding: 10px 8px 10px 8px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 2px 0 var(--primary-grey);
+
+  .event-participants-avatar {
+    width: 19px;
+    height: 19px;
+    float: left;
+    border-radius: 100%;
+    overflow: hidden;
+    border: 1px solid var(--pre-secondary-light-grey);
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .event-participants-avatar:not(:first-child) {
+    margin-left: -12px;
+  }
+
+  .event-participants-count-container {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--primary-green);
+
+    .event-participants-count {
+      font-weight: 500;
+    }
+  }
+}
+
+.event-stars {
+  width: auto;
+  height: 40px;
+  background-color: var(--primary-white);
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+  box-shadow: 0 0 1px 0 var(--primary-grey);
+
+  .star {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    transition: all 0.3s;
+  }
+
+  .fill {
+    background: url('src/assets/events-icons/star-filled.png') no-repeat center;
+  }
+
+  .empty {
+    background: url('src/assets/events-icons/Vector.png') no-repeat center;
+  }
+}
+
+.event-flags {
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary-white);
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 1px 0 var(--primary-grey);
+  cursor: pointer;
+
+  span {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    transition: all 0.3s;
+  }
+
+  .flag {
+    background: url('src/assets/events-icons/bookmark-set.png') no-repeat center;
+  }
+
+  .flag-active {
+    background: url('src/assets/events-icons/bookmark-active.png') no-repeat center;
+  }
+}
+
 .image-container {
-  width: 348px;
+  //width: 359px;
   height: 200px;
   overflow: hidden;
-  position: relative;
 
   .event-image {
     width: 100%;
@@ -60,116 +172,6 @@
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     object-fit: fill;
-  }
-
-  .event-participants {
-    align-items: center;
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    position: absolute;
-    height: 40px;
-    width: 77px;
-    left: 8px;
-    top: 8px;
-    border-radius: 4px;
-    padding: 10px 8px 10px 8px;
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 2px 0 var(--primary-grey);
-
-    .event-participants-avatar {
-      width: 19px;
-      height: 19px;
-      float: left;
-      border-radius: 100%;
-      overflow: hidden;
-      border: 1px solid var(--pre-secondary-light-grey);
-
-      img {
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    .event-participants-avatar:not(:first-child) {
-      margin-left: -12px;
-    }
-
-    .event-participants-count-container {
-      font-style: normal;
-      font-weight: 600;
-      font-size: 12px;
-      line-height: 16px;
-      color: var(--primary-green);
-
-      .event-participants-count {
-        font-weight: 500;
-      }
-    }
-  }
-
-  .event-stars {
-    width: auto;
-    height: 40px;
-    background-color: var(--primary-white);
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 5px;
-    box-shadow: 0 0 1px 0 var(--primary-grey);
-
-    .star {
-      display: inline-block;
-      width: 25px;
-      height: 25px;
-      transition: all 0.3s;
-    }
-
-    .fill {
-      background: url('src/assets/events-icons/star-filled.png') no-repeat center;
-    }
-
-    .empty {
-      background: url('src/assets/events-icons/Vector.png') no-repeat center;
-    }
-  }
-
-  .event-flags {
-    width: 40px;
-    height: 40px;
-    background-color: var(--primary-white);
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 0 1px 0 var(--primary-grey);
-    cursor: pointer;
-
-    span {
-      display: inline-block;
-      width: 25px;
-      height: 25px;
-      transition: all 0.3s;
-    }
-
-    .flag {
-      background: url('src/assets/events-icons/bookmark-set.png') no-repeat center;
-    }
-
-    .flag-active {
-      background: url('src/assets/events-icons/bookmark-active.png') no-repeat center;
-    }
   }
 
   .event-title {
@@ -335,4 +337,91 @@
 
 .event-button-hiden {
   display: none;
+}
+
+.list-view {
+  max-width: unset;
+  width: 100%;
+  height: 204px;
+  display: grid;
+  grid-template-columns: 359px 1fr;
+
+  @include responsivePCFirst(lg) {
+    grid-template-columns: 204px 1fr;
+  }
+
+  @include responsivePCFirst(md) {
+    grid-template-columns: 1fr;
+  }
+
+  @include responsivePCFirst(sm) {
+    display: flex;
+    max-width: 359px;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .image-container {
+    @include responsivePCFirst(md) {
+      display: none;
+    }
+
+    @include responsivePCFirst(sm) {
+      display: block;
+    }
+
+    img {
+      height: 200px;
+      display: block;
+    }
+  }
+
+  .content {
+    width: 100%;
+  }
+
+  .main-container {
+    flex-direction: column;
+    padding-bottom: 5px;
+
+    @include responsivePCFirst(sm) {
+      padding-bottom: 16px;
+    }
+  }
+
+  .description {
+    display: none;
+
+    @include responsivePCFirst(sm) {
+      display: block;
+    }
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: row-reverse;
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    padding-right: 0;
+
+    @include responsivePCFirst(sm) {
+      flex-direction: column;
+      position: unset;
+      padding-right: 16px;
+    }
+  }
+
+  .additional-info {
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    padding-top: 5px;
+
+    @include responsivePCFirst(sm) {
+      justify-content: space-between;
+      padding: 16px;
+      gap: unset;
+    }
+  }
 }

@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 .wrapper {
   @media screen and (max-width: 800px) {
     padding: 20px 0;
@@ -97,13 +99,14 @@
 
 .filter-container {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-start;
   font-family: var(--primary-font);
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
+  margin-bottom: 8px;
 }
 
 .filter-list {
@@ -147,8 +150,7 @@ p {
 .filter-by {
   display: flex;
   align-items: center;
-  margin-right: 20px;
-  margin-top: 16px;
+  margin: 16px 20px 0 0;
   height: 28px;
   font-family: var(--primary-font);
   font-size: 20px;
@@ -163,6 +165,11 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 10px 0 32px 0;
+
+  p {
+    margin: 0;
+  }
 }
 
 .active-filter {
@@ -240,15 +247,60 @@ p {
   grid-gap: 32px;
   margin-bottom: 30px;
 
+  @include responsivePCFirst(2xl) {
+    grid-template-columns: repeat(3, 299px);
+  }
+
+  @include responsivePCFirst(lg) {
+    grid-template-columns: repeat(2, 344px);
+  }
+
+  @include responsivePCFirst(md) {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
   .mat-card {
     padding: 0;
   }
 
   .event-list-item {
     overflow: hidden;
-    max-width: 348px;
+    max-width: 359px;
     background-color: var(--primary-white);
     box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+
+    @include responsivePCFirst(2xl) {
+      max-width: 299px;
+    }
+
+    @include responsivePCFirst(lg) {
+      max-width: 344px;
+    }
+
+    @include responsivePCFirst(sm) {
+      width: 100%;
+      max-width: 359px;
+    }
+  }
+}
+
+.list-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  .list-item-view {
+    width: 100%;
+    height: 204px;
+    max-width: unset;
+
+    @include responsivePCFirst(sm) {
+      width: 359px;
+      height: 100%;
+    }
   }
 }
 

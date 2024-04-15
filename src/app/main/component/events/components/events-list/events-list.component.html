@@ -132,9 +132,14 @@
         </div>
       </div>
     </div>
-    <div class="event-list" *ngIf="eventsList.length">
-      <mat-card class="event-list-item" *ngFor="let eventItem of eventsList">
-        <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="false"></app-events-list-item>
+    <div class="event-list" *ngIf="eventsList.length" [ngClass]="{ 'list-view': !isGalleryView }">
+      <mat-card class="event-list-item" [ngClass]="{ 'list-item-view': !isGalleryView }" *ngFor="let eventItem of eventsList">
+        <app-events-list-item
+          [isGalleryView]="isGalleryView"
+          [event]="eventItem"
+          [userId]="userId"
+          [isUserAssignList]="false"
+        ></app-events-list-item>
       </mat-card>
     </div>
     <app-spinner
