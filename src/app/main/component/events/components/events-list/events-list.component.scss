@@ -172,6 +172,11 @@ p {
   }
 }
 
+.active-filter-list {
+  display: flex;
+  gap: 10px;
+}
+
 .active-filter {
   display: flex;
   height: 24px;
