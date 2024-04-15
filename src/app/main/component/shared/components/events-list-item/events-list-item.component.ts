@@ -82,6 +82,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     style: 'green'
   };
   private subsOnAttendEvent = new Subscription();
+  private subsOnUnAttendEvent = new Subscription();
   private dialogRef;
 
   @Output() public isLoggedIn: boolean;
@@ -121,6 +122,14 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       .subscribe((action: { id: number; type: string }) => {
         if (action.id === this.event.id) {
           this.nameBtn = this.btnName.cancel;
+        }
+      });
+
+    this.subsOnUnAttendEvent = this.actionsSubj
+      .pipe(ofType(EventsActions.RemoveAttenderEcoEventsById), takeUntil(this.destroyed$))
+      .subscribe((action: { id: number; type: string }) => {
+        if (action.id === this.event.id) {
+          this.nameBtn = this.btnName.join;
         }
       });
   }
@@ -192,7 +201,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     switch (buttonName) {
       case this.btnName.cancel:
         this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
-        this.nameBtn = this.btnName.join;
         break;
       case this.btnName.join:
         if (this.addAttenderError) {
