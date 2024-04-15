@@ -15,7 +15,7 @@
   align-items: center;
 
   p {
-    font-family: var(--primary-font);
+    font-family: var(--tertiary-font);
     color: var(--quaternary-dark-grey);
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -84,7 +84,7 @@
 }
 
 .add-button {
-  font-family: var(--primary-font);
+  font-family: var(--tertiary-font);
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -93,6 +93,7 @@
   border: transparent;
   background-color: transparent;
   padding: 0;
+  letter-spacing: 0.02em;
 
   &:focus {
     outline: none;

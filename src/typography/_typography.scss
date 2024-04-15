@@ -117,13 +117,14 @@
   line-height: 28px;
   font-size: 18px;
   padding: 8px 24px;
-  font-family: var(--primary-font);
+  font-family: var(--tertiary-font);
   border-radius: 4px;
   font-style: normal;
   font-weight: 700;
   border: none;
   background: none;
   cursor: pointer;
+  letter-spacing: 0.2px;
 }
 
 .primary-global-button {

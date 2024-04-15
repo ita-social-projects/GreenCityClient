@@ -754,9 +754,23 @@ header {
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
-  .header_navigation-menu-right-list li {
-    padding: 10px 0;
-    margin-right: 5px;
+  .header_navigation-menu {
+    .header_navigation-menu-right {
+      .header_navigation-menu-right-list {
+        .lang-option {
+          padding: 10px 0;
+        }
+
+        .chat-icon,
+        .search-icon {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+  .header_burger-btn {
+    margin-left: 8px;
   }
 
   .header_navigation-menu-ubs .header_navigation-menu-right {
