@@ -1,4 +1,4 @@
-<main id="main-content" role="main">
+<!-- <main id="main-content" role="main">
   <div>
     <div class="section-container about-section">
       <div class="full-text-block grey-text">
@@ -44,6 +44,50 @@
           [class]="generateVisionCardClass(i)"
         ></app-vision-card>
       </div>
+    </div>
+  </div>
+</main> -->
+
+<main id="main-content" role="main">
+  <div class="about-section section">
+    <div class="grey-text section__content">
+      <h2 class="section__header">
+        {{ 'about-us.intro.block-1.header' | translate }}
+      </h2>
+      <p class="section__description">
+        {{ 'about-us.intro.block-1.text' | translate }}
+      </p>
+      <button class="primary-global-button section__button" (click)="navigateToHabit()">
+        {{ 'about-us.intro.block-1.button' | translate }}
+      </button>
+    </div>
+    <img src="assets/img/Illustrationman.png" alt="Illustration man" class="hero-bcg" />
+  </div>
+
+  <div class="vision-section">
+    <div class="container section">
+      <div class="grey-text section__content">
+        <h2 class="section__header">
+          {{ 'about-us.intro.block-2.header' | translate }}
+        </h2>
+        <p class="section__description">
+          {{ 'about-us.intro.block-2.text' | translate }}
+        </p>
+        <button class="primary-global-button section__button" (click)="navigateToHabit()">
+          {{ 'about-us.intro.block-2.button' | translate }}
+        </button>
+      </div>
+      <img src="assets/img/Vision.png" alt="vision" />
+    </div>
+  </div>
+
+  <div class="vision-gallery">
+    <div class="container">
+      <div class="vision-gallery__decorative-bcg"></div>
+      <h2 class="grey-text vision-gallery__header">
+        {{ 'about-us.steps.title' | translate }}
+      </h2>
+      <app-vision-card *ngFor="let card of visionCards; let i = index" [card]="card" [class]="generateVisionCardClass(i)"></app-vision-card>
     </div>
   </div>
 </main>
