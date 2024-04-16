@@ -17,9 +17,6 @@ h3 {
   justify-content: center;
   align-self: center;
   padding: 40px 100px 40px 84px;
-  line-height: 36px;
-  font-size: 24px;
-  font-family: var(--primary-font);
 
   .card-link {
     width: fit-content;
@@ -94,15 +91,17 @@ h3 {
   letter-spacing: 0.002em;
 }
 
+@media (max-width: 767px) {
+  .main-card-text {
+    font-size: 16px;
+  }
+
+  .card-title-text {
+    font-size: 24px;
+  }
+}
+
 @media only screen and (max-width: 1199px) {
-  .container-vision {
-    margin: auto 30px;
-  }
-
-  .steps-main-block {
-    margin: auto 30px;
-  }
-
   .card-title {
     width: auto;
   }
@@ -118,25 +117,6 @@ h3 {
 }
 
 @media only screen and (max-width: 1024px) {
-  .container-about,
-  .container-vision {
-    flex-direction: column;
-
-    .full-text-block {
-      margin-left: 0;
-    }
-  }
-
-  .container-about {
-    margin: auto 30px;
-  }
-
-  .container-vision {
-    img {
-      order: 2;
-    }
-  }
-
   .card-content {
     flex-direction: column;
     margin: 0;

@@ -1,7 +1,7 @@
 <main id="main-content" role="main">
-  <div class="container">
-    <div class="container-about">
-      <div class="full-text-block">
+  <div>
+    <div class="section-container about-section">
+      <div class="full-text-block grey-text">
         <h2>
           {{ 'about-us.intro.block-1.header' | translate }}
         </h2>
@@ -12,17 +12,17 @@
           {{ 'about-us.intro.block-1.button' | translate }}
         </button>
       </div>
-      <img src="assets/img/Illustrationman.png" alt="Illustration man" />
+      <img src="assets/img/Illustrationman.png" alt="Illustration man" class="hero-bcg" />
     </div>
 
-    <div class="vision">
-      <div class="container-vision">
+    <div class="container vision">
+      <div class="section-container vision-section">
         <img src="assets/img/Vision.png" alt="vision" />
-        <div class="full-text-block">
+        <div class="full-text-block grey-text">
           <h2>
             {{ 'about-us.intro.block-2.header' | translate }}
           </h2>
-          <p>
+          <p class="card-text">
             {{ 'about-us.intro.block-2.text' | translate }}
           </p>
           <button class="primary-global-button" (click)="navigateToHabit()">
@@ -32,10 +32,10 @@
       </div>
     </div>
 
-    <div>
-      <div class="steps-wrapper vision-wrapper">
+    <div class="container">
+      <div class="vision-wrapper">
         <div class="dashed-line"></div>
-        <h2>
+        <h2 class="grey-text">
           {{ 'about-us.steps.title' | translate }}
         </h2>
         <app-vision-card
