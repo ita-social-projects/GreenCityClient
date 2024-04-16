@@ -83,7 +83,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
     this.showUsersFriends();
   }
 
-  private calculateFriendsToShow(): void {
+  calculateFriendsToShow(): void {
     const newFriendsToShow = this.getFriendsToShow();
     if (newFriendsToShow !== this.friendsToShow) {
       this.friendsToShow = newFriendsToShow;
@@ -94,7 +94,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getFriendsToShow() {
+  getFriendsToShow() {
     let newFriendsToShow = 0;
     for (const threshold of Object.keys(this.itemsMap)
       .map(Number)
@@ -107,7 +107,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
     return newFriendsToShow;
   }
 
-  private updateArrowsVisibility(): void {
+  updateArrowsVisibility(): void {
     const show = this.friendsToShow < this.amountOfFriends ? 'visible' : 'hidden';
     this.renderer.setStyle(this.nextArrow.nativeElement, 'visibility', show);
     this.renderer.setStyle(this.previousArrow.nativeElement, 'visibility', show);
