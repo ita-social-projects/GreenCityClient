@@ -93,11 +93,7 @@ describe('UsersFriendsComponent', () => {
   });
 
   it('should change friends to previous', () => {
-    component.usersFriends = [
-      { id: 1, name: 'John', email: 'john@example.com', rating: 5, friendStatus: 'FRIEND', requesterId: 2 },
-      { id: 2, name: 'Jane', email: 'jane@example.com', rating: 4, friendStatus: 'FRIEND', requesterId: 1 },
-      { id: 3, name: 'Doe', email: 'doe@example.com', rating: 3, friendStatus: 'FRIEND', requesterId: 2 }
-    ];
+    component.usersFriends = userData;
     component.slideIndex = 1;
     component.changeFriends(false);
     expect(component.slideIndex).toBe(0);
