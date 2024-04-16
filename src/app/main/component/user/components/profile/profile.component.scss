@@ -43,6 +43,11 @@
       min-height: 323px;
     }
 
+    .app-users-friends {
+      width: 100%;
+      margin-top: 15px;
+    }
+
     .habits-dashboard {
       margin: 0 14px;
       order: 3;
@@ -138,5 +143,29 @@
 @media (max-width: 575px) {
   .left-column {
     height: 430px;
+
+    .app-users-friends {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-wrapper {
+    .left-column {
+      .app-users-friends {
+        display: flex;
+      }
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .profile-wrapper {
+    .left-column {
+      .app-users-friends {
+        width: 100%;
+      }
+    }
   }
 }

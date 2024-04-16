@@ -180,3 +180,30 @@ p {
     }
   }
 }
+
+@media (max-width: 1439px) {
+  .outer {
+    width: 100%;
+    display: flex;
+  }
+}
+
+@media (max-width: 575px) {
+  .outer {
+    display: flex;
+    margin-bottom: 26px;
+    .friends {
+      width: 100%;
+      margin: 0 16px;
+    }
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .outer {
+    .friends {
+      width: 100%;
+      margin: 0 16px;
+    }
+  }
+}
