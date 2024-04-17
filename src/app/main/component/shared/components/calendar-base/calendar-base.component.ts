@@ -321,7 +321,7 @@ export class CalendarBaseComponent implements OnDestroy {
       habitLineHeight: 44,
       width: 320
     };
-    const dialogHeight = dayHabits.habitAssigns.length * dialogBoxSize.habitLineHeight + dialogBoxSize.headerHeight;
+    const dialogHeight = this.allAssignedHabits.length * dialogBoxSize.habitLineHeight + dialogBoxSize.headerHeight;
     let space;
     this.breakpointObserver.observe([`(max-width: ${Breakpoints.pcLow}px)`]).subscribe((result: BreakpointState) => {
       space = result.matches ? 20 : 40;
@@ -337,18 +337,23 @@ export class CalendarBaseComponent implements OnDestroy {
       top: verticalPosition + 'px',
       left: horisontalPositioning + 'px'
     };
-    const dayHabitsSortedByDate = dayHabits.habitAssigns.sort((a, b) => {
-      const createDateTime = (habit) => {
-        const dataString = this.allAssignedHabits?.filter((el) => el.id === habit.habitAssignId)[0].createDateTime;
-        return new Date(dataString).getTime();
-      };
-      return createDateTime(b) - createDateTime(a);
-    });
+
+    const dayHabitsSortedByDate = dayHabits.habitAssigns
+      .filter((habit) => this.allAssignedHabits.some((item) => item.id === habit.habitAssignId))
+      .sort((a, b) => {
+        const createDateTime = (habit) => {
+          const dataString = this.allAssignedHabits?.filter((el) => el.id === habit.habitAssignId)[0].createDateTime;
+          return new Date(dataString).getTime();
+        };
+        return createDateTime(b) - createDateTime(a);
+      });
+
     dialogConfig.data = {
       habitsCalendarSelectedDate: this.formatDate(isMonthCalendar, dayItem),
       isHabitListEditable: this.isHabitListEditable,
       habits: dayHabitsSortedByDate
     };
+
     const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
     dialogRef
       .afterClosed()
@@ -372,7 +377,9 @@ export class CalendarBaseComponent implements OnDestroy {
   }
 
   sendEnrollRequest(changedList, date) {
-    const habitsForSelectedDay = this.getHabitsForDay(this.userHabitsListByPeriod, date).habitAssigns;
+    const habitsForSelectedDay = this.getHabitsForDay(this.userHabitsListByPeriod, date).habitAssigns.filter((el) => {
+      return changedList.some((item) => item.habitAssignId === el.habitAssignId);
+    });
     habitsForSelectedDay.forEach((habit: any) => {
       const baseHabit: any = changedList.find((list: any) => list.habitAssignId === habit.habitAssignId);
       if (habit.enrolled !== baseHabit.enrolled) {
