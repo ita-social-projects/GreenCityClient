@@ -103,12 +103,6 @@ img {
     padding: 64px 0;
   }
 
-  .about-section .section {
-    &__content {
-      padding-left: 200px;
-    }
-  }
-
   .section {
     display: flex;
     flex-direction: row;
@@ -123,6 +117,13 @@ img {
       font-size: 24px;
     }
   }
+
+  .about-section .section {
+    &__content {
+      padding-left: 200px;
+    }
+  }
+
   .vision-card {
     &__1 {
       margin-bottom: 260px;
