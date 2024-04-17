@@ -32,7 +32,7 @@ export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy {
   public days = 'd';
   private destroyRef = new Subject();
 
-  constructor(private elm: ElementRef, private langService: LanguageService, public translate: TranslateService) {}
+  constructor(private elem: ElementRef, private langService: LanguageService, public translate: TranslateService) {}
 
   ngOnInit() {
     this.subscribeToLangChange();
@@ -47,6 +47,7 @@ export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy {
       this.initializeThumbTextEl();
     }
     this.newDuration = durationChange.currentValue;
+
     this.updateDuration();
     this.updateLabel();
   }
@@ -60,10 +61,8 @@ export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy {
     this.changeDuration.emit(this.newDuration);
   }
 
-  public updateInput(event) {
-    const sliderChangeEvent = event as MatSliderChange;
-    const newSliderValue = sliderChangeEvent.value;
-    this.thumbTextEl.textContent = newSliderValue + this.days;
+  public updateInput(event: MatSliderChange) {
+    this.newDuration = event.value;
     this.updateLabel();
   }
 
@@ -76,7 +75,7 @@ export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private initializeThumbTextEl() {
-    this.thumbTextEl = this.elm.nativeElement.getElementsByClassName('mat-slider-thumb-label-text')[0];
+    this.thumbTextEl = this.elem.nativeElement.getElementsByClassName('mat-slider-thumb-label-text')[0];
   }
 
   private updateLabel() {
