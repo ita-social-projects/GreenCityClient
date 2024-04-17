@@ -59,9 +59,6 @@ img {
     /* Headline-7 */
     font-family: var(--tertiary-font);
     font-style: normal;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 28px;
   }
 
   &__description {
@@ -115,7 +112,6 @@ img {
       flex-direction: column;
       justify-content: center;
       align-self: center;
-      // padding: 40px 100px 40px 84px;
     }
 
     &__description {
