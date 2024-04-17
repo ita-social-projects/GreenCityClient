@@ -38,7 +38,7 @@
 
     .days {
       display: grid;
-      grid-template-columns: repeat(7, 30px);
+      grid-template-columns: repeat(7, 36px);
       justify-content: center;
       text-align: center;
       font-size: 11px;
@@ -168,6 +168,16 @@
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 4px;
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .calendar {
+    .top {
+      .days {
+        grid-template-columns: repeat(7, 30px);
+      }
+    }
+  }
 }
 
 @media (max-width: 1023px) {
