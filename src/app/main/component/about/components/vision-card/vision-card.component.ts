@@ -16,8 +16,4 @@ export class VisionCardComponent implements OnInit {
   get isEven(): boolean {
     return this.card.id % 2 === 0;
   }
-
-  get numberSrc() {
-    return `../../../../assets/img/${this.card.id}.png`;
-  }
 }
