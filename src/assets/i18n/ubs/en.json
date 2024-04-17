@@ -348,7 +348,8 @@
         }
       },
       "price": {
-        "caption": "The cost of PICK UP service",
+        "caption": "The cost of PICK UP service for tariff ",
+        "choose-location": "Choose the tariff",
         "price-title": {
           "li_1": "280 UAH",
           "li_2": "220 UAH",
