@@ -14,15 +14,15 @@ img {
   height: 22px;
 }
 
-.vision-card__title,
-.vision-card__info {
-  position: relative;
-  z-index: 2;
-  background: var(--pre-secondary-light-grey);
-}
-
 .vision-card {
   color: var(--quaternary-dark-grey);
+
+  &__title,
+  &__info {
+    position: relative;
+    z-index: 2;
+    background: var(--pre-secondary-light-grey);
+  }
 
   &__title {
     margin-bottom: 24px;
@@ -63,13 +63,6 @@ img {
     line-height: 1.3;
     letter-spacing: 0.002em;
   }
-}
-
-.vision-card__title,
-.vision-card__info {
-  position: relative;
-  z-index: 2;
-  background: var(--pre-secondary-light-grey);
 }
 
 @media (min-width: 992px) {
