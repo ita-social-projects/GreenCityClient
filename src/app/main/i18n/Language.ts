@@ -5,7 +5,7 @@ export enum Language {
   UK = 'uk'
 }
 
-export enum Locate {
+export enum Locale {
   UA = 'uk-UA',
   EN = 'en-GB'
 }
