@@ -1,13 +1,10 @@
 <div class="card-wrapper" *ngIf="!isUserAssignList">
   <div class="image-container">
     <img class="event-image" src="{{ event.titleImage }}" alt="event" />
-    <div class="event-stars" *ngIf="!event.open">
-      <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="false"> </rating>
-      <ng-template #star let-index="index" let-value="value">
-        <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
-      </ng-template>
+    <div class="event-stars" *ngIf="!event.isRelevant">
+      <app-rating-display [rate]="event.organizer.organizerRating" [maxRating]="max"></app-rating-display>
     </div>
-    <div class="event-flags favourite-button" *ngIf="event.open" (click)="changeFavouriteStatus($event)">
+    <div class="event-flags favourite-button" *ngIf="event.isRelevant" (click)="changeFavouriteStatus($event)">
       <span [ngClass]="isEventFavorite ? 'flag-active' : 'flag'"></span>
     </div>
     <div class="event-participants" *ngIf="attendees.length">
