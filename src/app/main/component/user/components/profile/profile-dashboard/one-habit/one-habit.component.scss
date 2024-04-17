@@ -46,7 +46,7 @@ img {
     }
 
     p {
-      font-family: var(--secondary-font);
+      font-family: var(--tertiary-font);
       font-style: normal;
       font-weight: normal;
       font-size: 14px;
@@ -85,7 +85,7 @@ img {
     font-weight: 700;
     font-size: 20px;
     line-height: 28px;
-    padding-right: 12px 24px;
+    padding-right: 12px;
     color: var(--quaternary-dark-grey);
     letter-spacing: 0.02em;
     width: 320px;
@@ -137,11 +137,11 @@ img {
   }
 
   .done {
-    background: url('/assets/img/icon/chek-circle.png') no-repeat center;
+    background: url('/assets/icons/habits/filled-check-rectangle.svg') no-repeat center;
   }
 
   .undone {
-    background: url('/assets/img/icon/plus-circle.png') no-repeat center;
+    background: url('/assets/icons/habits/rectangle-grey.svg') no-repeat center;
   }
 
   .acquired {

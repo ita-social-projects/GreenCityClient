@@ -40,6 +40,14 @@ $breakpointsPC: (
     @warn "No breakpoint defined for #{$breakpoint}.";
   }
 }
+
+@mixin responsiveRange($min-width, $max-width) {
+  @include responsiveMobileFirst($min-width) {
+    @include responsivePCFirst($max-width) {
+      @content;
+    }
+  }
+}
 /* stylelint-enable */
 
 :root {

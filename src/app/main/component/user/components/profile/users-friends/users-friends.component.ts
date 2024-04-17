@@ -85,6 +85,9 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
 
   calculateFriendsToShow(): void {
     const newFriendsToShow = this.getFriendsToShow();
+    if (newFriendsToShow === this.friendsToShow) {
+      return;
+    }
     if (newFriendsToShow !== this.friendsToShow) {
       this.friendsToShow = newFriendsToShow;
       if (newFriendsToShow > this.amountOfFriends) {
@@ -95,16 +98,11 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
   }
 
   getFriendsToShow() {
-    let newFriendsToShow = 0;
-    for (const threshold of Object.keys(this.itemsMap)
+    const resolution = Object.keys(this.itemsMap)
       .map(Number)
-      .sort((a, b) => b - a)) {
-      if (window.innerWidth >= threshold) {
-        newFriendsToShow = this.itemsMap[threshold];
-        break;
-      }
-    }
-    return newFriendsToShow;
+      .sort((a, b) => b - a)
+      .find((resolution) => window.innerWidth >= resolution);
+    return resolution !== undefined ? this.itemsMap[resolution] : 0;
   }
 
   updateArrowsVisibility(): void {

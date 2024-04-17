@@ -1132,6 +1132,13 @@ header {
   }
 }
 
+@media (orientation: landscape) {
+  .header_navigation-menu-left-col {
+    padding-top: 50px;
+    align-items: self-start;
+  }
+}
+
 @media (min-width: 320px) and (max-width: 575px) {
   header .warning {
     height: 76px;
