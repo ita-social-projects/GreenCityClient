@@ -30,10 +30,12 @@ export class HabitDurationComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.thumbTextEl = this.elm.nativeElement.getElementsByClassName('mat-slider-thumb-label-text')[0];
 
-    if (this.currentLang === 'ua') {
-      this.thumbTextEl.textContent = this.newDuration + 'дн';
-    } else {
-      this.thumbTextEl.textContent = this.newDuration + 'd';
+    if (this.thumbTextEl) {
+      if (this.currentLang === 'ua') {
+        this.thumbTextEl.textContent = this.newDuration + 'дн';
+      } else {
+        this.thumbTextEl.textContent = this.newDuration + 'd';
+      }
     }
   }
 

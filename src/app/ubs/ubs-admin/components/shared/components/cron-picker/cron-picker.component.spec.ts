@@ -6,7 +6,6 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
 import { MatRadioGroupHarness } from '@angular/material/radio/testing';
-
 import { CronPickerComponent } from './cron-picker.component';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +16,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonToggleGroupHarness } from '@angular/material/button-toggle/testing';
 import { CronService } from 'src/app/shared/cron/cron.service';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
 
 describe('CronPickerComponent', () => {
   let component: CronPickerComponent;
@@ -56,6 +57,8 @@ describe('CronPickerComponent', () => {
         MatFormFieldModule,
         ReactiveFormsModule,
         MatButtonModule,
+        MatDividerModule,
+        MatExpansionModule,
         NoopAnimationsModule
       ],
       providers: [FormBuilder, { provide: CronService, useValue: cronServiceMock }]
@@ -134,7 +137,7 @@ describe('CronPickerComponent', () => {
 
   it('`scheduleSelected` event with `0 0 * * *` should be fired when user clicks `select` button without making changes', async () => {
     const { selectButton } = await getAllElements();
-    let emitted;
+    let emitted: string;
     component.scheduleSelected.subscribe((val) => {
       emitted = val;
     });

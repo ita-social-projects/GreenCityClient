@@ -9,6 +9,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { DEFAULTFULLINFOHABIT, DEFAULTFULLINFOHABIT_2 } from '../../mocks/habit-assigned-mock';
+import { HabitCalendarComponent } from '@global-user/components/habit/add-new-habit/habit-calendar/habit-calendar.component';
+import { CalendarWeekComponent } from '@global-user/components/profile/calendar/calendar-week/calendar-week.component';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
@@ -22,10 +24,12 @@ describe('HabitProgressComponent', () => {
   let fixture: ComponentFixture<HabitProgressComponent>;
   const habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', [
     'getAssignHabitsByPeriod',
+    'getAssignedHabits',
     'enrollByHabit',
     'unenrollByHabit',
     'habitChangesFromCalendarSubj'
   ]);
+  habitAssignServiceMock.getAssignedHabits.and.returnValue(of([]));
   habitAssignServiceMock.habitsFromDashBoard = JSON.parse(
     JSON.stringify([
       {
@@ -44,7 +48,7 @@ describe('HabitProgressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HabitProgressComponent],
+      declarations: [HabitProgressComponent, HabitCalendarComponent, CalendarWeekComponent],
       imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot(), MatDialogModule],
       providers: [
         { provide: HabitAssignService, useValue: habitAssignServiceMock },

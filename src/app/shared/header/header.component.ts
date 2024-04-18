@@ -18,7 +18,7 @@ import { Subject } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
+import { UbsPickUpServicePopUpComponent } from '../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
@@ -175,6 +175,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private setCurrentLanguage(language: string): void {
+    if (!language) {
+      language = 'en';
+    }
     this.currentLanguage = language;
     this.languageService.changeCurrentLanguage(language.toLowerCase() as Language);
     this.setLangArr();
