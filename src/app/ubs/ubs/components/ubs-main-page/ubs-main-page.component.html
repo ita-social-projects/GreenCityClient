@@ -73,14 +73,47 @@
 
   <section>
     <div class="price-section">
-      <h2>{{ 'ubs-homepage.ubs-courier.price.caption' | translate }}</h2>
+      <h2>
+        {{ 'ubs-homepage.ubs-courier.price.caption' | translate }}
+
+        <div class="location-to-show-bags-wrapper">
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              [ngModel]="this.getLangValue(locationToShow?.nameUk, locationToShow?.nameEn)"
+              class="location-to-show"
+              [matAutocomplete]="auto"
+              #autocompleteTrigger="matAutocompleteTrigger"
+              (click)="openAuto($event, autocompleteTrigger)"
+              readonly
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let location of locationsToShowBags"
+                [value]="getLangValue(location?.nameUk, location?.nameEn)"
+                (click)="getBags(location.locationId, location.locationId)"
+              >
+                {{ getLangValue(location.nameUk, location.nameEn) }}
+              </mat-option>
+            </mat-autocomplete>
+            <img
+              alt="arrowDown"
+              class="arrowDownImg"
+              src="./assets/img/ubs-tariff/arrow-down.svg"
+              (click)="openAuto($event, autocompleteTrigger)"
+            />
+            <mat-label> {{ 'ubs-homepage.ubs-courier.price.choose-location' | translate }}</mat-label>
+          </mat-form-field>
+        </div>
+      </h2>
       <div class="box-card">
-        <div id="price-frame" *ngFor="let elemPrice of priceCard">
+        <div id="price-frame" *ngFor="let elemPrice of bags">
           <div class="content-price">
-            <div>{{ elemPrice.content | translate }}</div>
+            <div>{{ getElementDescription(elemPrice.name, elemPrice.nameEng, elemPrice.capacity) }}</div>
           </div>
           <div class="header-price">
-            <div class="price">{{ elemPrice.header | translate }}</div>
+            <div class="price">{{ getLangValue(elemPrice.price.toString() + ' грн', elemPrice.price.toString() + ' UAH') }}</div>
             <div>{{ perPackageTitle | translate }}</div>
           </div>
         </div>

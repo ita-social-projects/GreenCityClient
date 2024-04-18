@@ -14,6 +14,7 @@ import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -25,8 +26,11 @@ describe('UbsMainPageComponent', () => {
   const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', [
     'setUbsRegistration',
     'getUserId',
-    'removeUbsFondyOrderId'
+    'removeUbsFondyOrderId',
+    'getLocationId',
+    'getTariffId'
   ]);
+  localeStorageServiceMock.getCurrentLanguage = () => of('ua');
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const checkTokenServiceMock = jasmine.createSpyObj('CheckTokenService', ['onCheckToken']);
@@ -35,7 +39,60 @@ describe('UbsMainPageComponent', () => {
       return of({ data: true });
     }
   };
-  const orderServiceMock = jasmine.createSpyObj('orderService', ['getLocations', 'getAllActiveCouriers', 'cleanPrevOrderState']);
+  const orderServiceMock = jasmine.createSpyObj('orderService', [
+    'getLocations',
+    'getAllActiveCouriers',
+    'cleanPrevOrderState',
+    'getOrders'
+  ]);
+  const orderData = [
+    {
+      id: 2,
+      name: 'Текстильні відходи',
+      capacity: 20,
+      price: 110,
+      nameEng: 'Textile waste',
+      limitedIncluded: false,
+      quantity: null
+    },
+    {
+      id: 3,
+      name: 'Текстильні відходи',
+      capacity: 60,
+      price: 220,
+      nameEng: 'Textile waste',
+      limitedIncluded: false,
+      quantity: null
+    },
+    {
+      id: 1,
+      name: 'Мікс відходів',
+      capacity: 120,
+      price: 285,
+      nameEng: 'Mix waste',
+      limitedIncluded: true,
+      quantity: null
+    },
+    {
+      id: 7,
+      name: 'Текстильні відходи',
+      capacity: 30,
+      price: 260,
+      nameEng: 'Textile waste',
+      limitedIncluded: false,
+      quantity: null
+    },
+    {
+      id: 8,
+      name: 'Мікс відходів',
+      capacity: 3,
+      price: 473,
+      nameEng: 'Mix Waste',
+      limitedIncluded: false,
+      quantity: null
+    }
+  ];
+  orderServiceMock.getOrders.and.returnValue(of(orderData));
 
   const activecouriersMock = activeCouriersMock;
   orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));
@@ -52,7 +109,7 @@ describe('UbsMainPageComponent', () => {
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule, MatAutocompleteModule],
       declarations: [UbsMainPageComponent],
       providers: [
         { provide: Store, useValue: storeMock },
@@ -78,6 +135,8 @@ describe('UbsMainPageComponent', () => {
   });
 
   it('checkIsAdmin()', () => {
+    spyOn(component, 'findCourierByName').and.returnValue(activecouriersMock[0]);
+    spyOn(component as any, 'getActiveLocationsToShow').and.returnValue(of());
     const spy = spyOn(component, 'checkIsAdmin');
     component.ngOnInit();
     expect(spy).toBeTruthy();
