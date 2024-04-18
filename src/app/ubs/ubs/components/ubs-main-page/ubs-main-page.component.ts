@@ -42,22 +42,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   locationsToShowBags: ActiveLocations[];
   locationToShow: ActiveLocations;
 
-  priceCard = [
-    {
-      header: 'ubs-homepage.ubs-courier.price.price-title.li_1',
-      content: 'ubs-homepage.ubs-courier.price.price-description.li_1'
-    },
-    {
-      header: 'ubs-homepage.ubs-courier.price.price-title.li_2',
-      content: 'ubs-homepage.ubs-courier.price.price-description.li_2'
-    },
-    {
-      header: 'ubs-homepage.ubs-courier.price.price-title.li_3',
-      content: 'ubs-homepage.ubs-courier.price.price-description.li_3'
-    }
-  ];
-
-  perPackageTitle = 'ubs-homepage.ubs-courier.price.price-title.li_4';
+  perPackageTitle = 'ubs-homepage.ubs-courier.price.price-title';
 
   stepsOrderTitle = 'ubs-homepage.ubs-courier.price.caption-steps';
   stepsOrder = [
@@ -155,11 +140,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.subs.unsubscribe();
   }
 
-  getBags(locationId?, tariffId?) {
-    if (!tariffId) {
-      locationId = locationId || 1;
-      tariffId = tariffId || 1;
-    }
+  getBags(locationId = 1, tariffId = 1): void {
     this.locationToShow = this.locationsToShowBags.find((el) => el.locationId === locationId);
 
     this.orderService
