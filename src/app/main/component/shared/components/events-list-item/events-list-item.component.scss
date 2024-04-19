@@ -3,7 +3,6 @@
 .card-wrapper {
   display: flex;
   flex-direction: column;
-  // justify-content: space-between;
   max-width: 359px;
   height: 500px;
   flex: 1 0 auto;
@@ -207,6 +206,8 @@
   .date-container {
     display: flex;
     align-items: center;
+    font-size: 14px;
+    line-height: 20px;
 
     p {
       padding: 0;
