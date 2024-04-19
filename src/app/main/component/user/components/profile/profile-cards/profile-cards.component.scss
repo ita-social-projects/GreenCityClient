@@ -10,12 +10,13 @@
     box-shadow: 1px 4px 8px var(--quintynary-dark-grey);
 
     .cart-title {
-      font-family: var(--secondary-font);
+      font-family: var(--tertiary-font);
       font-style: normal;
       font-weight: 600;
-      font-size: 13px;
-      line-height: 16px;
+      font-size: 14px;
+      line-height: 20px;
       margin-bottom: 8px;
+      letter-spacing: 0.02em;
     }
 
     .card-description {
