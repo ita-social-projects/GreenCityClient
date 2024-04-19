@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed, fakeAsync, flush } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush, waitForAsync } from '@angular/core/testing';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CustomTooltipDirective } from './custom-tooltip.directive';
 
 @Component({
-  template: `<div appCustomTooltip [tooltipContent]="tooltipContent" [tooltip]="tooltip" [font]="font"></div>`
+  template: `<div appCustomTooltip [appCustomTooltip]="tooltipContent" [tooltip]="tooltip" [font]="font"></div>`
 })
 class TestComponent {
   tooltipContent = 'Test Tooltip';
@@ -20,19 +20,25 @@ describe('CustomTooltipDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   let directiveElement: DebugElement;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CustomTooltipDirective, TestComponent]
     }).compileComponents();
+  }));
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
-    directiveElement = fixture.debugElement.query(By.directive(CustomTooltipDirective));
     fixture.detectChanges();
+    directiveElement = fixture.debugElement.query(By.directive(CustomTooltipDirective));
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should bind tooltipContent property', () => {
+    expect(directiveElement.injector.get(CustomTooltipDirective).tooltipContent).toEqual(component.tooltipContent);
   });
 
   it('should apply to elements with appCustomTooltip selector', () => {
@@ -44,10 +50,21 @@ describe('CustomTooltipDirective', () => {
   });
 
   it('should hide tooltip on mouse enter if text width does not exceed container width', fakeAsync(() => {
-    const eventMock = { target: { offsetWidth: 200, innerText: 'Some text' } };
+    component.tooltip = {
+      hide: jasmine.createSpy('hide'),
+      showTooltip: jasmine.createSpy('showTooltip')
+    };
+
+    const eventMock = {
+      target: { offsetWidth: 200, innerText: 'Some text' },
+      stopImmediatePropagation: () => {},
+      type: 'mouseenter'
+    };
+
     directiveElement.triggerEventHandler('mouseenter', eventMock);
     flush();
     fixture.detectChanges();
+
     expect(component.tooltip.hide).toHaveBeenCalled();
   }));
 
