@@ -32,17 +32,13 @@ describe('ModalTextComponent', () => {
   const FAKE_SERVICE_ID = 12345;
   const FAKE_DATE = 'Трав. 05, 2023';
   const tariffsServiceMock = {
-    deleteTariffForService: () => {
-      return {
-        pipe: () => of('fakeResult')
-      };
-    },
+    deleteTariffForService: () => ({
+      pipe: () => of('fakeResult')
+    }),
     getServiceId: () => FAKE_SERVICE_ID,
-    deleteService: () => {
-      return {
-        pipe: () => of('fakeRes')
-      };
-    },
+    deleteService: () => ({
+      pipe: () => of('fakeRes')
+    }),
     setDate: () => FAKE_DATE
   };
 

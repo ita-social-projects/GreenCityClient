@@ -23,10 +23,10 @@ export class HabitStatisticService implements OnLogout {
     availableHabits: AvailableHabitDto[];
     newHabits: NewHabitDto[];
   } = {
-    habitStatistics: [],
-    availableHabits: [],
-    newHabits: []
-  };
+      habitStatistics: [],
+      availableHabits: [],
+      newHabits: []
+    };
   readonly habitStatistics = this.$habitStatistics.asObservable();
   readonly availableHabits = this.$availableHabits.asObservable();
 

@@ -24,14 +24,10 @@ describe('ProfileHeaderComponent', () => {
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.getUserId = () => mockId;
-  localStorageServiceMock.getCurrentLanguage = () => {
-    return 'ua' as Language;
-  };
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

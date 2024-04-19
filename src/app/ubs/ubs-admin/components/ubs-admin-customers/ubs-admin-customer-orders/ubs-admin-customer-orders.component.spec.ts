@@ -114,11 +114,7 @@ describe('UbsAdminCustomerOrdersComponent', () => {
   });
 
   it('openOrder should call', () => {
-    RouteFake.navigate.and.returnValue(
-      new Promise((res) => {
-        return true;
-      })
-    );
+    RouteFake.navigate.and.returnValue(new Promise((res) => true));
     component.openOrder(2);
     expect((component as any).router.navigate).toHaveBeenCalledWith([]);
   });

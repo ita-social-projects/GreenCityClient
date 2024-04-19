@@ -84,12 +84,10 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   }
 
   private buildSocialNetworksChart() {
-    this.userSocialNetworks = this.userInfo.socialNetworks.map((item) => {
-      return {
-        link: item.url,
-        name: this.findNetwork(item.url)
-      };
-    });
+    this.userSocialNetworks = this.userInfo.socialNetworks.map((item) => ({
+      link: item.url,
+      name: this.findNetwork(item.url)
+    }));
   }
   ngOnDestroy() {
     this.userId$.unsubscribe();

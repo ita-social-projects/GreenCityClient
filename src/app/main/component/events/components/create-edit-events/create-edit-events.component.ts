@@ -214,9 +214,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const previewOrEdit = this.fromPreview ? 'previewDates' : 'editEvent';
     if (this[previewOrEdit].dates?.length > 1) {
       const { latitude, longitude } = this[previewOrEdit].dates[0].coordinates;
-      const sameCoordinates = (this[previewOrEdit].dates as DateEvent[]).every((el) => {
-        return latitude === el.coordinates.latitude && longitude === el.coordinates.longitude;
-      });
+      const sameCoordinates = (this[previewOrEdit].dates as DateEvent[]).every(
+        (el) => latitude === el.coordinates.latitude && longitude === el.coordinates.longitude
+      );
 
       if (sameCoordinates) {
         this.locationForAllDays = this[previewOrEdit].dates[0].coordinates;
@@ -230,9 +230,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const previewOrEdit = this.fromPreview ? 'previewDates' : 'editEvent';
     if (this[previewOrEdit].dates?.length > 1) {
       const link = this[previewOrEdit].dates[0].onlineLink;
-      const sameLink = (this[previewOrEdit].dates as DateEvent[]).every((el) => {
-        return link === el.onlineLink;
-      });
+      const sameLink = (this[previewOrEdit].dates as DateEvent[]).every((el) => link === el.onlineLink);
       if (sameLink) {
         this.linkForAllDays = this[previewOrEdit].dates[0].onlineLink;
         this.appliedForAllLink = true;

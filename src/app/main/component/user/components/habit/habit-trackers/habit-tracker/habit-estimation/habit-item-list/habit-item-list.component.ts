@@ -9,14 +9,14 @@ import { HabitItem } from '../habit-item/HabitItem';
 @Component({
   selector: 'app-habit-item-list',
   templateUrl: './habit-item-list.component.html',
-  styleUrls: ['./habit-item-list.component.scss'],
+  styleUrls: ['./habit-item-list.component.scss']
 })
 export class HabitItemListComponent implements OnInit {
   habitItems: HabitItem[] = [];
   @Input()
-  habitDto: HabitDto;
+    habitDto: HabitDto;
   @Input()
-  habitStatistic: HabitStatisticsDto;
+    habitStatistic: HabitStatisticsDto;
   currentNumber = 0;
   isExpanded: boolean;
 

@@ -7,7 +7,7 @@ import { SocketClientState } from './socket-state.enum';
 import { filter, first, switchMap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class SocketService implements OnDestroy {
   private state: BehaviorSubject<SocketClientState>;
@@ -32,14 +32,15 @@ export class SocketService implements OnDestroy {
   public onMessage(topic: string): Observable<any> {
     return this.connect().pipe(
       first(),
-      switchMap((client) => {
-        return new Observable<any>((observer) => {
-          const subscription: StompSubscription = client.subscribe(topic, (message) => {
-            observer.next(JSON.parse(message.body));
-          });
-          return () => client.unsubscribe(subscription.id);
-        });
-      })
+      switchMap(
+        (client) =>
+          new Observable<any>((observer) => {
+            const subscription: StompSubscription = client.subscribe(topic, (message) => {
+              observer.next(JSON.parse(message.body));
+            });
+            return () => client.unsubscribe(subscription.id);
+          })
+      )
     );
   }
 

@@ -41,33 +41,29 @@ export const EcoNewsReducer = createReducer(
     };
   }),
 
-  on(EditEcoNewsSuccessAction, (state, action) => {
-    return {
-      ...state,
-      pages: state.pages.map((val) => {
-        if (val && val.id === +action.editedNews.id) {
-          return action.editedNews;
-        }
-        return val;
-      }),
-      autorNews: state.autorNews.map((value) => {
-        if (value && value.id === +action.editedNews.id) {
-          return action.editedNews;
-        }
-        return value;
-      }),
-      countOfEcoNews: action.editedNews.countOfEcoNews
-    };
-  }),
+  on(EditEcoNewsSuccessAction, (state, action) => ({
+    ...state,
+    pages: state.pages.map((val) => {
+      if (val && val.id === +action.editedNews.id) {
+        return action.editedNews;
+      }
+      return val;
+    }),
+    autorNews: state.autorNews.map((value) => {
+      if (value && value.id === +action.editedNews.id) {
+        return action.editedNews;
+      }
+      return value;
+    }),
+    countOfEcoNews: action.editedNews.countOfEcoNews
+  })),
 
-  on(CreateEcoNewsSuccessAction, (state, action) => {
-    return {
-      ...state,
-      pages: [action.newEcoNews, ...state.pages],
-      autorNews: [action.newEcoNews, ...state.autorNews],
-      countOfEcoNews: action.newEcoNews.countOfEcoNews
-    };
-  }),
+  on(CreateEcoNewsSuccessAction, (state, action) => ({
+    ...state,
+    pages: [action.newEcoNews, ...state.pages],
+    autorNews: [action.newEcoNews, ...state.autorNews],
+    countOfEcoNews: action.newEcoNews.countOfEcoNews
+  })),
 
   on(DeleteEcoNewsSuccessAction, (state, action) => {
     const updatedPages = state.pages?.filter((newsPage) => newsPage.id !== +action.id);

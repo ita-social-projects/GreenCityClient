@@ -42,9 +42,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => valUa;
 
   const fakeLocationServiceMock = jasmine.createSpyObj('locationService', [
     'getDistrictAuto',

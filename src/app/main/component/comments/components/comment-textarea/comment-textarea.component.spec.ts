@@ -144,13 +144,9 @@ describe('CommentTextareaComponent', () => {
   describe('onDropdownKeyDown', () => {
     const div = document.createElement('div');
     const option1 = new MatOption(null, null, null, null);
-    option1._getHostElement = () => {
-      return div;
-    };
+    option1._getHostElement = () => div;
     const option2 = new MatOption(null, null, null, null);
-    option2._getHostElement = () => {
-      return null;
-    };
+    option2._getHostElement = () => null;
     const options = Object.assign(new QueryList(), {
       _results: [option1, option2],
       length: 2

@@ -363,9 +363,7 @@ export class CalendarBaseComponent implements OnDestroy {
       .getAssignedHabits()
       .pipe(takeUntil(this.destroySub), take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
-        this.allAssignedHabits = response.map((el) => {
-          return { id: el.id, createDateTime: el.createDateTime };
-        });
+        this.allAssignedHabits = response.map((el) => ({ id: el.id, createDateTime: el.createDateTime }));
       });
   }
 

@@ -12,12 +12,15 @@ import { IUserOrderInfo, PaymentStatusEn } from '../ubs-user-orders-list/models/
 })
 export class UbsUserOrderDetailsComponent implements OnDestroy, OnInit {
   @Input()
-  order: IUserOrderInfo;
+    order: IUserOrderInfo;
   public currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public certificatesAmount: number;
 
-  constructor(private localStorageService: LocalStorageService, private langService: LanguageService) {
+  constructor(
+    private localStorageService: LocalStorageService,
+    private langService: LanguageService
+  ) {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy$)).subscribe((lang: string) => {
       this.currentLanguage = lang;

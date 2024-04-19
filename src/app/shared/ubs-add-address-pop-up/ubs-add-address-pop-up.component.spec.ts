@@ -83,9 +83,7 @@ xdescribe('UBSAddAddressPopUpComponent', () => {
   fakeLocalStorageService.getRequest = () => ADDRESSESMOCK.GOOGLEREQUEST;
 
   const fakeLanguageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  fakeLanguageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  fakeLanguageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));

@@ -31,15 +31,56 @@
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-unused-vars": "off",
+        "indent": ["error", 2, { "SwitchCase": 1 }],
+        "@typescript-eslint/array-type": "off",
         "arrow-parens": "off",
+        "arrow-body-style": ["error", "as-needed"],
+        "no-shadow": ["off", { "hoist": "var" }],
         "@angular-eslint/component-class-suffix": "error",
+        "curly": "error",
+        "@angular-eslint/contextual-lifecycle": "error",
+        "@angular-eslint/directive-class-suffix": "error",
+        "eol-last": ["error", "always"],
+        "no-restricted-imports": ["error", "rxjs/Rx"],
+        "@typescript-eslint/naming-convention": ["off", { "selector": "interface" }],
+        "max-classes-per-file": "off",
         "max-len": [
           "error",
           {
             "code": 140,
-            "ignorePattern": "^import"
+            "ignorePattern": "^import|^\\s*\\/{2,}"
           }
-        ]
+        ],
+        "@typescript-eslint/member-ordering": [
+          "error",
+          { "default": ["static-field", "instance-field", "static-method", "instance-method"] }
+        ],
+        "no-multiple-empty-lines": "off",
+        "no-console": ["error", { "allow": ["log", "error"] }],
+        "@typescript-eslint/no-inferrable-types": ["error", { "ignoreParameters": true }],
+        "@typescript-eslint/no-non-null-assertion": "error",
+        "no-fallthrough": "error",
+        "quote-props": ["error", "as-needed"],
+        "sort-keys": "off",
+        "sort-imports": "off",
+        "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+        "comma-dangle": ["error", "never"],
+        "@angular-eslint/no-conflicting-lifecycle": "error",
+        "@angular-eslint/no-host-metadata-property": "error",
+        "@angular-eslint/no-input-rename": "error",
+        "@angular-eslint/no-inputs-metadata-property": "error",
+        "@angular-eslint/no-output-native": "error",
+        "@angular-eslint/no-output-on-prefix": "error",
+        "@angular-eslint/no-output-rename": "error",
+        "semi-style": ["error", "last"],
+        "space-before-function-paren": "off",
+        "@angular-eslint/no-outputs-metadata-property": "error",
+        "@angular-eslint/use-lifecycle-interface": "error",
+        "@angular-eslint/use-pipe-transform-interface": "error",
+        "no-irregular-whitespace": ["error", { "skipComments": true }],
+        "object-curly-spacing": ["error", "always"],
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "no-whitespace-before-property": "error"
       }
     },
     {
@@ -51,7 +92,8 @@
         "@angular-eslint/template/mouse-events-have-key-events": "off",
         "@angular-eslint/template/role-has-required-aria": "off",
         "@angular-eslint/template/label-has-associated-control": "off",
-        "@angular-eslint/template/elements-content": "off"
+        "@angular-eslint/template/elements-content": "off",
+        "@angular-eslint/template/no-negated-async": "error"
       }
     }
   ]

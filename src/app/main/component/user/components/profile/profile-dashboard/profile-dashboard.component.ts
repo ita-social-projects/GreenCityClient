@@ -232,9 +232,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   private sortHabitsData(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
-    return habitsArray.sort((firstHabit, secondHabit) => {
-      return firstHabit.createDateTime > secondHabit.createDateTime ? -1 : 1;
-    });
+    return habitsArray.sort((firstHabit, secondHabit) => (firstHabit.createDateTime > secondHabit.createDateTime ? -1 : 1));
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {

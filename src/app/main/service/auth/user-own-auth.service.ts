@@ -3,7 +3,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserOwnAuthService {
   public credentialDataSubject = new Subject<any>();

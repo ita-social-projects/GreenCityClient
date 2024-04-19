@@ -20,29 +20,29 @@ export class FriendsEffects {
     )
   );
 
-  AcceptFriend = createEffect(() => {
-    return this.actions$.pipe(
+  AcceptFriend = createEffect(() =>
+    this.actions$.pipe(
       ofType(friendActions.AcceptRequest),
-      mergeMap((actions: { id: number }) => {
-        return this.userFriendService.acceptRequest(actions.id).pipe(
+      mergeMap((actions: { id: number }) =>
+        this.userFriendService.acceptRequest(actions.id).pipe(
           map(() => friendActions.AcceptRequestSuccess({ id: actions.id })),
           catchError((error) => of(friendActions.ReceivedFailureAction(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  DeclineFriend = createEffect(() => {
-    return this.actions$.pipe(
+  DeclineFriend = createEffect(() =>
+    this.actions$.pipe(
       ofType(friendActions.DeclineRequest),
-      mergeMap((actions: { id: number }) => {
-        return this.userFriendService.declineRequest(actions.id).pipe(
+      mergeMap((actions: { id: number }) =>
+        this.userFriendService.declineRequest(actions.id).pipe(
           map(() => friendActions.DeclineRequestSuccess({ id: actions.id })),
           catchError((error) => of(friendActions.ReceivedFailureAction(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
   DeleteFriend = createEffect(() =>
     this.actions$.pipe(
