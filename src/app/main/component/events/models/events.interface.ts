@@ -76,7 +76,6 @@ export interface EventResponseDto {
 export interface Organizer {
   id: number;
   name: string;
-  organizerRating: number;
 }
 
 export interface EventPageResponseDto {
@@ -84,6 +83,7 @@ export interface EventPageResponseDto {
   dates: Array<DateEventResponseDto>;
   creationDate: string;
   description: any;
+  eventRate: number;
   id: number;
   open: boolean;
   location?: DateFormObj;

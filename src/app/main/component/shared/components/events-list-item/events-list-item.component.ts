@@ -46,7 +46,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
 
-  public rate: number;
   public author: string;
 
   public isRated: boolean;
@@ -137,7 +136,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.itemTags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
-    this.rate = Math.round(this.event.organizer.organizerRating);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.subscribeToLangChange();
     this.getAllAttendees();
