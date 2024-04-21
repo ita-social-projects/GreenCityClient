@@ -62,7 +62,8 @@ export const DEFAULTFULLINFOHABIT: HabitAssignInterface = {
     {
       id: 6,
       status: TodoStatus.active,
-      text: 'TEST'
+      text: 'TEST',
+      custom: true
     }
   ],
   progressNotificationHasDisplayed: false

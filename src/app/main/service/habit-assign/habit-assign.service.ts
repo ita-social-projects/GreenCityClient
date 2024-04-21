@@ -21,7 +21,7 @@ export class HabitAssignService implements OnDestroy {
   userId: number;
   language: string;
   destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  habitsFromDashBoard: any;
+  habitsFromDashBoard: Array<any> = [];
   habitsInProgressToView: Array<HabitAssignInterface> = [];
   habitsInProgress: Array<HabitAssignInterface> = [];
   habitForEdit: HabitAssignInterface;
