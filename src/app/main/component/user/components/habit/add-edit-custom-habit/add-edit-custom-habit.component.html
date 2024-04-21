@@ -111,9 +111,10 @@
           </div>
         </div>
         <div class="add-habit-container">
-          <button class="tertiary-global-button" (click)="cancel(true)">
+          <!-- <button class="tertiary-global-button" (click)="cancel(true)">
             {{ 'user.habit.btn.cancel' | translate }}
-          </button>
+          </button> -->
+          <button class="tertiary-global-button" (click)="deleteHabit()">delete</button>
           <button *ngIf="!isEditing" class="primary-global-button" [disabled]="habitForm.invalid" type="submit" (click)="addHabit()">
             {{ 'user.habit.btn.add' | translate }}
           </button>

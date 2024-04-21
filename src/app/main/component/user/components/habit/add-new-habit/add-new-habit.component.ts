@@ -121,15 +121,17 @@ export class AddNewHabitComponent implements OnInit {
   private checkIfAssigned(): void {
     this.getUserId();
     if (this.isEditing && this.userId) {
+      console.log('editin...');
       this.habitAssignService
         .getHabitByAssignId(this.habitAssignId, this.currentLang)
         .pipe(take(1))
         .subscribe((res: HabitAssignInterface) => {
+          console.log('response', res);
           this.assignedHabit = res;
           this.habitId = this.assignedHabit.habit.id;
           this.isAcquired = this.assignedHabit.status === HabitStatus.ACQUIRED;
           this.initialDuration = res.duration || res.habit.defaultDuration;
-          this.initHabitData(res.habit);
+          this.initHabitData(res.habit, res.duration || res.habit.defaultDuration);
           this.getCustomShopList();
         });
     } else {
@@ -162,6 +164,7 @@ export class AddNewHabitComponent implements OnInit {
       .getHabitById(this.habitId)
       .pipe(take(1))
       .subscribe((data: HabitInterface) => {
+        console.log('received habit', data);
         this.initHabitData(data);
         this.isCustomHabit = data.isCustomHabit;
         if (data.isCustomHabit) {
@@ -173,8 +176,9 @@ export class AddNewHabitComponent implements OnInit {
       });
   }
 
-  private initHabitData(habit: HabitInterface): void {
+  private initHabitData(habit: HabitInterface, customDuration = this.initialDuration): void {
     this.habitResponse = habit;
+    this.initialDuration = customDuration || habit.defaultDuration;
     this.wasCustomHabitCreatedByUser = habit.usersIdWhoCreatedCustomHabit === this.userId;
     this.habitImage = this.habitResponse.image ? this.habitResponse.image : this.defaultImage;
     this.isCustom = habit.isCustomHabit;
@@ -271,11 +275,11 @@ export class AddNewHabitComponent implements OnInit {
 
   editUsersCustomHabit(url: string, id: number): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    this.habitResponse.shoppingListItems = this.initialShoppingList;
-    this.habitResponse.customShoppingListItems = this.customShopList;
-    this.habitResponse.defaultDuration = this.assignedHabit.habit.defaultDuration;
-    this.habitResponse.duration = this.newDuration || this.assignedHabit.duration;
-    this.store.dispatch(SetHabitForEdit({ habitResponse: this.habitResponse }));
+    // this.habitResponse.shoppingListItems = this.initialShoppingList;
+    // this.habitResponse.customShoppingListItems = this.customShopList;
+    // this.habitResponse.defaultDuration = this.assignedHabit.habit.defaultDuration;
+    // this.habitResponse.duration = this.newDuration || this.assignedHabit.duration;
+    // this.store.dispatch(SetHabitForEdit({ habitResponse: this.habitResponse }));
     this.router.navigate([`profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
   }
 

@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -30,6 +30,12 @@ export class HabitAssignService implements OnDestroy {
   countOfResult: number;
   habitDate: any;
   mapOfArrayOfAllDate = new Map();
+
+  private httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: 'my-auth-token'
+    })
+  };
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
     localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((userId) => (this.userId = userId));

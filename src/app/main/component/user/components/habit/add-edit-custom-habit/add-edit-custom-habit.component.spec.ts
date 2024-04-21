@@ -16,8 +16,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TodoStatus } from '../models/todo-status.enum';
 import { provideMockStore } from '@ngrx/store/testing';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 
-describe('AddEditCustomHabitComponent', () => {
+fdescribe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
   let fixture: ComponentFixture<AddEditCustomHabitComponent>;
 
@@ -32,9 +33,12 @@ describe('AddEditCustomHabitComponent', () => {
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
-  const habitServiceMock = jasmine.createSpyObj('fakeHabitAssignService', ['getAllTags', 'addCustomHabit']);
+  const habitServiceMock = jasmine.createSpyObj('fakeHabitService', ['getAllTags', 'addCustomHabit']);
   habitServiceMock.getAllTags = () => of(tagsMock);
   habitServiceMock.addCustomHabit = () => of(null);
+
+  const habitAssignServiceMock = jasmine.createSpyObj('fakeHabitAssignService', ['getHabitByAssignId']);
+  habitAssignServiceMock.getHabitByAssignId = () => of(initialState);
 
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
@@ -54,6 +58,7 @@ describe('AddEditCustomHabitComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: HabitService, useValue: habitServiceMock },
+        { provide: HabitAssignService, useValue: habitAssignServiceMock },
         { provide: Router, useValue: routerMock },
         provideMockStore({ initialState })
       ]

@@ -111,11 +111,12 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   initEditData() {
     const [userId, habitId] = this.router.url.split('/').filter((segment) => /[0-9]/g.test(segment));
-    this.habitAssignService
-      .getHabitByAssignId(+habitId, this.currentLang)
+    this.habitService
+      .getHabitById(+habitId)
       .pipe(take(1))
       .subscribe((habitState) => {
-        this.habit = habitState.habit;
+        this.habit = habitState;
+        this.initialDuration = habitState.defaultDuration;
         this.setEditHabit();
         this.getHabitTags();
       });
@@ -160,7 +161,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       ? [...(this.habit.customShoppingListItems || [])]
       : [...(this.habit.customShoppingListItems || []), ...this.habit.shoppingListItems];
     this.shopList = this.shopList.map((el) => ({ ...el, selected: el.status === TodoStatus.inprogress }));
-    this.initialDuration = this.habit.defaultDuration;
   }
 
   public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
@@ -262,6 +262,15 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       .pipe(take(1))
       .subscribe(() => {
         this.goToAllHabits();
+      });
+  }
+
+  deleteHabit() {
+    this.habitService
+      .deleteCustomHabit(this.habitId)
+      .pipe(take(1))
+      .subscribe(() => {
+        // this.goToAllHabits();
       });
   }
 }
