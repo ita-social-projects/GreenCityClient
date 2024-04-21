@@ -34,8 +34,7 @@ describe('EventsService', () => {
     open: true,
     organizer: {
       id: 0,
-      name: 'string',
-      organizerRating: 0
+      name: 'string'
     },
     tags: [
       {

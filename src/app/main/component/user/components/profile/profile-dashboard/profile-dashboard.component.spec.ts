@@ -97,8 +97,7 @@ describe('ProfileDashboardComponent', () => {
         open: true,
         organizer: {
           id: 12,
-          name: 'username',
-          organizerRating: 2
+          name: 'username'
         },
         tags: [
           {
@@ -115,7 +114,8 @@ describe('ProfileDashboardComponent', () => {
         likes: 8,
         countComments: 9,
         isRelevant: true,
-        isOrganizedByFriend: false
+        isOrganizedByFriend: false,
+        eventRate: 0
       }
     ],
     totalElements: 12,
@@ -158,8 +158,7 @@ describe('ProfileDashboardComponent', () => {
       open: true,
       organizer: {
         id: 12,
-        name: 'username',
-        organizerRating: 2
+        name: 'username'
       },
       tags: [
         {
@@ -176,7 +175,8 @@ describe('ProfileDashboardComponent', () => {
       likes: 8,
       countComments: 9,
       isRelevant: true,
-      isOrganizedByFriend: false
+      isOrganizedByFriend: false,
+      eventRate: 0
     },
     {
       additionalImages: [],
@@ -213,8 +213,7 @@ describe('ProfileDashboardComponent', () => {
       open: true,
       organizer: {
         id: 12,
-        name: 'username',
-        organizerRating: 2
+        name: 'username'
       },
       tags: [
         {
@@ -231,7 +230,8 @@ describe('ProfileDashboardComponent', () => {
       likes: 8,
       countComments: 9,
       isRelevant: true,
-      isOrganizedByFriend: false
+      isOrganizedByFriend: false,
+      eventRate: 0
     }
   ];
 
