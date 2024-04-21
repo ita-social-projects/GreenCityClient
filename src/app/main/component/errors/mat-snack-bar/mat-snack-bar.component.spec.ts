@@ -42,5 +42,11 @@ describe('MatSnackBarComponent', () => {
       component.getSnackBarMessage('error');
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should return undefined if type is not found', () => {
+      const type = 'nonExistingType';
+      const result = component.openSnackBar(type);
+      expect(result).toBeUndefined();
+    });
   });
 });

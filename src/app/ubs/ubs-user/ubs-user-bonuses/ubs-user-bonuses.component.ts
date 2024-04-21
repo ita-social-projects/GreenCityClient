@@ -45,7 +45,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
         },
         (error) => {
           this.isLoading = false;
-          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
+          this.snackBar.openSnackBar('error');
           return throwError(error);
         }
       );
