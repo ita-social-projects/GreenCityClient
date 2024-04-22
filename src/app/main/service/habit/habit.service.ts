@@ -106,11 +106,4 @@ export class HabitService {
   getFriendsTrakingSameHabitByHabitId(id: number): Observable<FriendProfilePicturesArrayModel[]> {
     return this.http.get<FriendProfilePicturesArrayModel[]>(`${habitLink}/${id}/friends/profile-pictures`);
   }
-
-  deleteCustomHabit(id: number) {
-    const accessToken = localStorage.getItem('accessToken');
-    this.httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
-
-    return this.http.delete(`${habitLink}/delete/${id}`, this.httpOptions);
-  }
 }

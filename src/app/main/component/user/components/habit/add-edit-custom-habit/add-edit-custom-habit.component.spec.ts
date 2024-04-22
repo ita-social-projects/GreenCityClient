@@ -18,7 +18,7 @@ import { TodoStatus } from '../models/todo-status.enum';
 import { provideMockStore } from '@ngrx/store/testing';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 
-fdescribe('AddEditCustomHabitComponent', () => {
+describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
   let fixture: ComponentFixture<AddEditCustomHabitComponent>;
 

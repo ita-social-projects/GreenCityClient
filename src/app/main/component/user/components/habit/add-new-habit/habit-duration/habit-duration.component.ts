@@ -49,7 +49,9 @@ export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy {
     this.newDuration = durationChange.currentValue;
 
     this.updateDuration();
-    this.updateLabel();
+    if (this.thumbTextEl) {
+      this.updateLabel();
+    }
   }
 
   ngOnDestroy() {

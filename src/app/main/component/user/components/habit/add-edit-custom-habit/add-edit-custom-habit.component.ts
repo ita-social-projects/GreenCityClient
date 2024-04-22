@@ -264,13 +264,4 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
         this.goToAllHabits();
       });
   }
-
-  deleteHabit() {
-    this.habitService
-      .deleteCustomHabit(this.habitId)
-      .pipe(take(1))
-      .subscribe(() => {
-        // this.goToAllHabits();
-      });
-  }
 }

@@ -24,7 +24,6 @@ import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { Store } from '@ngrx/store';
-import { SetHabitForEdit } from 'src/app/store/actions/habit.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 
@@ -121,12 +120,10 @@ export class AddNewHabitComponent implements OnInit {
   private checkIfAssigned(): void {
     this.getUserId();
     if (this.isEditing && this.userId) {
-      console.log('editin...');
       this.habitAssignService
         .getHabitByAssignId(this.habitAssignId, this.currentLang)
         .pipe(take(1))
         .subscribe((res: HabitAssignInterface) => {
-          console.log('response', res);
           this.assignedHabit = res;
           this.habitId = this.assignedHabit.habit.id;
           this.isAcquired = this.assignedHabit.status === HabitStatus.ACQUIRED;
@@ -164,7 +161,6 @@ export class AddNewHabitComponent implements OnInit {
       .getHabitById(this.habitId)
       .pipe(take(1))
       .subscribe((data: HabitInterface) => {
-        console.log('received habit', data);
         this.initHabitData(data);
         this.isCustomHabit = data.isCustomHabit;
         if (data.isCustomHabit) {
