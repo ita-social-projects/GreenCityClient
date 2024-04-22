@@ -8,6 +8,7 @@ export const environment = {
   backendUbsLink: 'https://greencity-ubs.pick-up.city',
   frontendLink: 'https://www.pick-up.city/',
   socket: 'https://greencity.pick-up.city/socket',
+  userSocket: 'https://greencity.pick-up.city/socket',
   chatSocket: 'https://greencity-chat.pick-up.city/socket',
   ubsAdmin: {
     backendUbsAdminLink: 'https://greencity-ubs.pick-up.city/ubs'

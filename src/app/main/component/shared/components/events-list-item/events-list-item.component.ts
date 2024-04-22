@@ -46,7 +46,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
 
-  public rate: number;
   public author: string;
 
   public isRated: boolean;
@@ -82,6 +81,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     style: 'green'
   };
   private subsOnAttendEvent = new Subscription();
+  private subsOnUnAttendEvent = new Subscription();
   private dialogRef;
 
   @Output() public isLoggedIn: boolean;
@@ -123,12 +123,19 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
           this.nameBtn = this.btnName.cancel;
         }
       });
+
+    this.subsOnUnAttendEvent = this.actionsSubj
+      .pipe(ofType(EventsActions.RemoveAttenderEcoEventsById), takeUntil(this.destroyed$))
+      .subscribe((action: { id: number; type: string }) => {
+        if (action.id === this.event.id) {
+          this.nameBtn = this.btnName.join;
+        }
+      });
   }
 
   ngOnInit(): void {
     this.itemTags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
-    this.rate = Math.round(this.event.organizer.organizerRating);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.subscribeToLangChange();
     this.getAllAttendees();

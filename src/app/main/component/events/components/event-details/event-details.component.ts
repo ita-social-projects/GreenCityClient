@@ -84,7 +84,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public currentDate = new Date();
 
   public max = 5;
-  public rate: number;
 
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title-admin',
@@ -136,7 +135,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
         this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
         this.images = [res.titleImage, ...res.additionalImages];
-        this.rate = Math.round(this.event.organizer.organizerRating);
         this.mapDialogData = {
           lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
           lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude

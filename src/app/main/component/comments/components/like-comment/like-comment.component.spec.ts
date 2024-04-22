@@ -18,6 +18,11 @@ describe('LikeCommentComponent', () => {
   const socketServiceMock: SocketService = jasmine.createSpyObj('SocketService', ['onMessage', 'send']);
   socketServiceMock.onMessage = () => new Observable();
   socketServiceMock.send = () => {};
+  socketServiceMock.connection = {
+    greenCity: { url: '', socket: null, state: null },
+    greenCityUser: { url: '', socket: null, state: null }
+  };
+  socketServiceMock.initiateConnection = () => {};
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
@@ -109,7 +114,7 @@ describe('LikeCommentComponent', () => {
       liked: true,
       userId: 1111
     };
-
+    (component as any).userId = 1111;
     spyOn((component as any).socketService, 'onMessage').and.returnValue(of(msg));
     const spy = spyOn(component, 'changeLkeBtn');
     component.onConnectedtoSocket();

@@ -17,12 +17,11 @@
     </span>
     <div class="comment-date-likes">
       <div class="comment-date">
-        <span class="comment-dot"></span>
+        <span class="comment-divider">|</span>
         <span class="comment-date-month"
           ><span *ngIf="isCommentEdited(comment)" class="edited"> {{ 'homepage.eco-news.comment.btn.edited' | translate }} </span>
           {{ comment.modifiedDate | dateLocalisation }}
         </span>
-        <span class="comment-dot last-dot"></span>
       </div>
       <div class="comment-likes">
         <img [src]="likeImg" alt="like" aria-hidden="true" />

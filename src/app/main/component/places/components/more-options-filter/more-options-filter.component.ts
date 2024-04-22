@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DistanceFilter, MoreOptionsFormValue } from '../../models/more-options-filter.model';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { baseFiltersForPlaces, servicesFiltersForPlaces } from '../../models/places-consts';
 
 @Component({
   selector: 'app-more-options-filter',
@@ -10,25 +13,14 @@ import { DistanceFilter, MoreOptionsFormValue } from '../../models/more-options-
 export class MoreOptionsFilterComponent implements OnInit, OnChanges {
   @Input() public value: MoreOptionsFormValue;
   @Output() public filtersChange: EventEmitter<MoreOptionsFormValue> = new EventEmitter<MoreOptionsFormValue>();
-  public baseFilters: string[] = ['Open now', 'Saved places', 'Special offers'];
+  public baseFilters: FilterModel[] = baseFiltersForPlaces;
   public distanceFilter: DistanceFilter = { isActive: false, value: null };
-  public servicesFilters: string[] = [
-    'Shops',
-    'Restaurants',
-    'Events',
-    'Recycling points',
-    'Vegan products',
-    'Bike rentals',
-    'Bike parking',
-    'Hotels',
-    'Charging station',
-    'Cycling routes'
-  ];
+  public servicesFilters: FilterModel[] = servicesFiltersForPlaces;
 
   public filtersForm: FormGroup = new FormGroup({
     baseFilters: new FormGroup(
-      this.baseFilters.reduce((filters: any, filterName: string) => {
-        filters[filterName] = new FormControl(false);
+      this.baseFilters.reduce((filters: any, filterName: FilterModel) => {
+        filters[filterName.name] = new FormControl(false);
         return filters;
       }, {})
     ),
@@ -37,8 +29,8 @@ export class MoreOptionsFilterComponent implements OnInit, OnChanges {
       value: new FormControl(5)
     }),
     servicesFilters: new FormGroup(
-      this.servicesFilters.reduce((filters: any, filterName: string) => {
-        filters[filterName] = new FormControl(false);
+      this.servicesFilters.reduce((filters: any, filterName: FilterModel) => {
+        filters[filterName.name] = new FormControl(false);
         return filters;
       }, {})
     )
@@ -47,6 +39,8 @@ export class MoreOptionsFilterComponent implements OnInit, OnChanges {
   public isActiveFilter = false;
 
   private suppressNextEmit = false;
+
+  constructor(private langService: LanguageService) {}
 
   ngOnInit(): void {
     this.filtersForm.valueChanges.subscribe((formValue: MoreOptionsFormValue) => {
@@ -73,5 +67,9 @@ export class MoreOptionsFilterComponent implements OnInit, OnChanges {
     const isBaseFilter: boolean = Object.values(formValue.baseFilters).includes(true);
     const isServicesFilter: boolean = Object.values(formValue.servicesFilters).includes(true);
     this.isActiveFilter = isBaseFilter || isServicesFilter || formValue.distance.isActive;
+  }
+
+  getLangValue(valUa: string, valEn: string): string {
+    return this.langService.getLangValue(valUa, valEn) as string;
   }
 }

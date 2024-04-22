@@ -12,9 +12,12 @@ import { MoreOptionsFormValue } from './models/more-options-filter.model';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant';
-import { NewsTagInterface } from '@user-models/news.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service.js';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component.js';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model.js';
+import { tagsListPlacesData } from './models/places-consts.js';
 
 @Component({
   selector: 'app-places',
@@ -24,7 +27,7 @@ import { AddPlaceComponent } from './components/add-place/add-place.component';
 export class PlacesComponent implements OnInit, OnDestroy {
   public position: any = {};
   public zoom = 13;
-  public tagList: NewsTagInterface[];
+  public tagList: FilterModel[] = tagsListPlacesData;
   public searchName = '';
   public moreOptionsFilters: MoreOptionsFormValue;
   public searchIcon = searchIcon;
@@ -51,6 +54,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   private page = 0;
   private totalPages: number;
   private size = 6;
+  public userId: number;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -58,15 +62,17 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private placeService: PlaceService,
     private filterPlaceService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private userOwnAuthService: UserOwnAuthService
   ) {}
 
   ngOnInit() {
+    this.checkUserSingIn();
+    this.userOwnAuthService.getDataFromLocalStorage();
     this.getPlaceList();
-    this.placeService
-      .getAllPresentTags()
-      .pipe(take(1))
-      .subscribe((tagsArray: Array<NewsTagInterface>) => (this.tagList = tagsArray));
+    if (!this.userId) {
+      this.tagList = this.tagList.filter((item) => item.name !== 'Saved places');
+    }
     this.filterPlaceService.filtersDto$.pipe(debounceTime(300)).subscribe((filtersDto: any) => {
       this.placeService.updatePlaces(filtersDto);
     });
@@ -90,7 +96,10 @@ export class PlacesComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.favoritePlaceService.updateFavoritePlaces();
+    // eslint-disable-next-line no-extra-boolean-cast
+    if (!!this.userId) {
+      this.favoritePlaceService.updateFavoritePlaces(false);
+    }
 
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.subscribeToLangChange();
@@ -104,6 +113,12 @@ export class PlacesComponent implements OnInit, OnDestroy {
     this.map = map;
     this.setUserLocation();
     this.googlePlacesService = new google.maps.places.PlacesService(this.map);
+  }
+
+  private checkUserSingIn(): void {
+    this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
+      this.userId = data.userId;
+    });
   }
 
   public mapCenterChange(newValue: google.maps.LatLngLiteral): void {
@@ -125,13 +140,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
   public moreOptionsChange(newValue: MoreOptionsFormValue): void {
     this.moreOptionsFilters = newValue;
     this.setMoreOptionsValueToSessionStorage(this.moreOptionsFilters);
-    this.updateTagFiltersOnMoreOptionsChange();
     this.updateFilters();
   }
 
   public basicFiltersChange(newValue: string[]) {
     this.basicFilters = newValue;
-    this.updateMoreOptionsOnTagFiltersChange(this.basicFilters);
     this.updateFilters();
   }
 
@@ -151,12 +164,32 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   public toggleFavoriteFromSideBar(place) {
-    if (place.isFavorite) {
-      this.favoritePlaceService.deleteFavoritePlace(place.id, true);
+    if (!this.userId) {
+      this.dialog
+        .open(AuthModalComponent, {
+          hasBackdrop: true,
+          closeOnNavigation: true,
+          panelClass: ['custom-dialog-container'],
+          data: {
+            popUpName: 'sign-in'
+          }
+        })
+        .afterClosed()
+        .subscribe((data) => {
+          this.userId = data;
+          // eslint-disable-next-line no-extra-boolean-cast
+          if (!!data) {
+            this.toggleFavoriteFromSideBar(place);
+          }
+        });
     } else {
-      this.favoritePlaceService.addFavoritePlace({ placeId: place.id, name: place.name }, true);
+      if (place.isFavorite) {
+        this.favoritePlaceService.deleteFavoritePlace(place.id, true);
+      } else {
+        this.favoritePlaceService.addFavoritePlace({ placeId: place.id, name: place.name }, true);
+      }
+      place.isFavorite = !place.isFavorite;
     }
-    place.isFavorite = !place.isFavorite;
   }
 
   public updatePlaceList(isAfterClose: boolean): void {
@@ -231,53 +264,6 @@ export class PlacesComponent implements OnInit, OnDestroy {
         this.drawer.toggle(true);
       });
     });
-  }
-
-  private updateTagFiltersOnMoreOptionsChange(): void {
-    const allFilters: [string, boolean][] = Object.entries(this.moreOptionsFilters.baseFilters).concat(
-      Object.entries(this.moreOptionsFilters.servicesFilters)
-    );
-    const currentTagFilter: string[] = this.tagList.reduce((acc, tagName) => {
-      const tagFilter: [string, boolean] = allFilters.find((filter: [string, boolean]) => filter[0] === tagName.name);
-      if (tagFilter?.[1]) {
-        acc.push(tagFilter[0]);
-      }
-      return acc;
-    }, []);
-
-    this.setTagFilterToSessionStorage(currentTagFilter);
-  }
-
-  private setTagFilterToSessionStorage(filterValues: string[]): void {
-    const previousTagFilters = sessionStorage.getItem(this.tagFilterStorageKey);
-    const currentTagFilters = JSON.stringify(filterValues);
-
-    if (previousTagFilters !== currentTagFilters) {
-      sessionStorage.setItem(this.tagFilterStorageKey, currentTagFilters);
-      this.tagList = [...this.tagList];
-    }
-  }
-
-  private updateMoreOptionsOnTagFiltersChange(tagFilters: string[]): void {
-    if (!this.moreOptionsFilters) {
-      return;
-    }
-    this.moreOptionsFilters = {
-      ...this.moreOptionsFilters,
-      baseFilters: {
-        ...this.moreOptionsFilters.baseFilters,
-        ['Saved places']: tagFilters.includes('Saved places')
-      },
-      servicesFilters: {
-        ...this.moreOptionsFilters.servicesFilters,
-        ['Shops']: tagFilters.includes('Shops'),
-        ['Restaurants']: tagFilters.includes('Restaurants'),
-        ['Recycling points']: tagFilters.includes('Recycling points'),
-        ['Events']: tagFilters.includes('Events')
-      }
-    };
-
-    this.setMoreOptionsValueToSessionStorage(this.moreOptionsFilters);
   }
 
   private setMoreOptionsValueToSessionStorage(formValue: MoreOptionsFormValue): void {

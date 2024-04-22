@@ -25,6 +25,7 @@ import { CreateEcoNewsAction, EditEcoNewsAction, NewsActions } from 'src/app/sto
 import { ofType } from '@ngrx/effects';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -65,7 +66,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   };
   public author: string = localStorage.getItem('name');
   public attributes: ActionInterface;
-  public filters: FilterModel[] = [];
+  public filters: FilterModel[] = tagsListEcoNewsData;
   public tagMaxLength = 3;
   public newsId: number;
   public formData: FormGroup;
@@ -112,7 +113,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang: string) => {
       this.currentLang = lang;
     });
-    this.getAllTags();
   }
 
   public setInitialValues(): void {
@@ -139,19 +139,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.formChangeSub = this.form.valueChanges.subscribe(() => {
       this.isFormInvalid = !this.form.valid || !this.tags().length || !this.isLinkOrEmpty || this.isImageValid();
     });
-  }
-
-  private getAllTags() {
-    this.ecoNewsService
-      .getAllPresentTags()
-      .pipe(take(1))
-      .subscribe((tagsArray: Array<TagInterface>) => {
-        this.filters = tagsArray.map((tag) => ({
-          name: tag.name,
-          nameUa: tag.nameUa,
-          isActive: false
-        }));
-      });
   }
 
   public initPageForCreateOrEdit(): void {
@@ -223,7 +210,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         ofType(NewsActions.CreateEcoNewsSuccess),
         takeUntil(this.destroyed$),
         catchError((err) => {
-          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
+          this.snackBar.openSnackBar('error');
           return throwError(err);
         })
       )

@@ -58,8 +58,7 @@ describe('EventDetailsComponent', () => {
     open: true,
     organizer: {
       id: 1111,
-      name: 'John',
-      organizerRating: 2
+      name: 'John'
     },
     tags: [{ nameEn: 'Environmental', nameUa: 'Екологічний', id: 1 }],
     title: 'title',

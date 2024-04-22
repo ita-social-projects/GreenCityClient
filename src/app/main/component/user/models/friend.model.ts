@@ -12,6 +12,7 @@ export interface FriendModel {
   friendStatus: 'FRIEND' | 'REQUEST' | 'REJECTED' | null;
   requesterId: number | null;
   chatId?: number;
+  isOnline?: boolean;
 }
 
 export interface FriendArrayModel {
@@ -33,4 +34,20 @@ export enum UserDashboardTab {
   myHabits = 'My habits',
   allFriends = 'All friends',
   mutualFriends = 'Mutual friends'
+}
+
+export enum UsersCategOnlineStatus {
+  profile = 'profile',
+  allFriends = 'allFriends',
+  recommendedFriends = 'recommendedFriends',
+  friendsRequests = 'friendsRequests',
+  usersFriends = 'usersFriends',
+  mutualFriends = 'mutualFriends'
+}
+
+export type UserCateg = keyof typeof UsersCategOnlineStatus;
+
+export interface UserOnlineStatus {
+  id: number;
+  onlineStatus: boolean;
 }

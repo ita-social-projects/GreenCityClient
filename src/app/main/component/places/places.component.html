@@ -42,9 +42,9 @@
           <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed>
             <div *ngIf="!activePlaceDetails">
               <p class="title-sidebar">Popular eco places</p>
-              <div class="sidebar-content-all" *ngFor="let place of placesList" (click)="selectPlaceFromSideBar(place)">
+              <div class="sidebar-content-all" *ngFor="let place of placesList">
                 <div class="head">
-                  <p class="content-title">{{ place.name }}</p>
+                  <p class="content-title" (click)="selectPlaceFromSideBar(place)">{{ place.name }}</p>
                   <button (click)="toggleFavoriteFromSideBar(place)" class="btn-bookmark">
                     <span class="material-icons">{{ place.isFavorite ? 'bookmark' : 'bookmark_border' }}</span>
                   </button>

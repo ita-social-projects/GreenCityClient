@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { EventPageResponseDto } from 'src/app/main/component/events/models/events.interface';
 
 describe('CreateEditEventsComponent', () => {
   let component: CreateEditEventsComponent;
@@ -69,7 +70,7 @@ describe('CreateEditEventsComponent', () => {
     startDate: '2022-06-29T04:00:00Z'
   };
 
-  const EditEventMock = {
+  const EditEventMock: EventPageResponseDto = {
     additionalImages: [],
     imgArray: [],
     imgArrayToPreview: [],
@@ -81,8 +82,7 @@ describe('CreateEditEventsComponent', () => {
     open: true,
     organizer: {
       id: 1,
-      name: 'John',
-      organizerRating: 1
+      name: 'John'
     },
     location: {
       date: new Date(),
@@ -115,7 +115,8 @@ describe('CreateEditEventsComponent', () => {
     likes: 8,
     countComments: 9,
     isRelevant: true,
-    isOrganizedByFriend: false
+    isOrganizedByFriend: false,
+    eventRate: 0
   };
 
   const formDataMock: FormGroup = new FormGroup({

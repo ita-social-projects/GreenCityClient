@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 export class UserProfileImageComponent {
   @Input() firstName: string;
   @Input() imgPath;
+  @Input() isOnline;
   @Input() additionalImgClass = '';
 
   public getDefaultProfileImg(): string {

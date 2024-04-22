@@ -18,6 +18,17 @@
     }
   }
 
+  .gree-dot {
+    width: 15px;
+    height: 15px;
+    border: 1px solid grey;
+    border-radius: 50%;
+    top: 50px;
+    position: relative;
+    left: 140px;
+    z-index: 30;
+  }
+
   hr {
     width: 60%;
     justify-content: center;

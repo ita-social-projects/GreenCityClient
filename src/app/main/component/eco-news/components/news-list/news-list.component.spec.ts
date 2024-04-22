@@ -28,14 +28,6 @@ describe('NewsListComponent', () => {
     'getNewsListByTags',
     'getEcoNewsListByPage'
   ]);
-  ecoNewsServiceMock.getAllPresentTags = () =>
-    of([
-      { id: 1, name: 'News', nameUa: 'Новини' },
-      { id: 2, name: 'Ads', nameUa: 'Реклама' },
-      { id: 3, name: 'Events', nameUa: 'Події' },
-      { id: 4, name: 'Initiatives', nameUa: 'Ініціативи' },
-      { id: 5, name: 'Education', nameUa: 'Освіта' }
-    ]);
   ecoNewsServiceMock.getNewsListByTags = () => new Observable();
   ecoNewsServiceMock.getEcoNewsListByPage = () => new Observable();
 
@@ -92,13 +84,6 @@ describe('NewsListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should set localized tags', () => {
-    const spy = spyOn(component as any, 'getAllTags');
-
-    (component as any).setLocalizedTags();
-    expect(spy).toHaveBeenCalled();
   });
 
   it('should add elements to current list if scroll', () => {

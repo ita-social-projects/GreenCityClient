@@ -41,7 +41,7 @@ describe('FavoritePlaceService', () => {
       favoritePlaces = places;
     });
 
-    service.updateFavoritePlaces();
+    service.updateFavoritePlaces(false);
 
     const request = httpMock.expectOne(favoritePlaceLink);
 

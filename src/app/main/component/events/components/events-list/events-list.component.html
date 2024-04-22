@@ -4,7 +4,13 @@
       <p class="main-header">{{ 'homepage.events.title' | translate }}</p>
       <div class="create-container">
         <div class="container-input" *ngIf="searchToggle">
-          <input type="text" *ngIf="searchToggle" class="place-input" [formControl]="searchEventControl" placeholder="Search an event" />
+          <input
+            type="text"
+            *ngIf="searchToggle"
+            class="place-input"
+            [formControl]="searchEventControl"
+            [placeholder]="'homepage.events.search-title' | translate"
+          />
           <img src="../../../../../../assets/img/smallCross.svg" class="cross-position" (click)="cancelSearch()" alt="cancel search" />
         </div>
         <div class="container-img" (click)="search()">

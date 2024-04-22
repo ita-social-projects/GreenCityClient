@@ -12,19 +12,19 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreatePlaceModel, OpeningHoursDto } from './models/create-place.model';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { tagsListPlacesData } from './models/places-consts';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
   let fixture: ComponentFixture<PlacesComponent>;
 
-  const tagsArray = [
-    { id: 1, name: 'Events', nameUa: 'Події' },
-    { id: 2, name: 'Education', nameUa: 'Освіта' }
-  ];
+  let tagsArray: Array<FilterModel> = tagsListPlacesData;
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
-    'languageSubject'
+    'languageSubject',
+    'getUserId'
   ]);
 
   localStorageServiceMock.languageSubject = new Subject();
@@ -44,7 +44,6 @@ describe('PlacesComponent', () => {
   ]);
 
   placeServiceMock.places$ = new Subject<Place[]>();
-  placeServiceMock.getAllPresentTags = () => of(tagsArray);
   placeServiceMock.createPlace = () => of(locationAddressAndGeoDtoMock);
   placeServiceMock.getAllPlaces = () => of();
   const filterPlaceServiceMock: FilterPlaceService = jasmine.createSpyObj('FilterPlaceService', ['updateFiltersDto']);
@@ -174,7 +173,9 @@ describe('PlacesComponent', () => {
 
   it('should initialize with correct parameters', () => {
     component.ngOnInit();
-
+    if (!component.userId) {
+      tagsArray = tagsArray.filter((item) => item.name !== 'Saved places');
+    }
     expect(component.tagList).toEqual(tagsArray);
   });
 

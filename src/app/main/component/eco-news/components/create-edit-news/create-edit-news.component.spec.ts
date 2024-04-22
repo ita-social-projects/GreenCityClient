@@ -92,9 +92,10 @@ describe('CreateEditNewsComponent', () => {
   createEcoNewsServiceMock.sendImagesData = () => of(['image']);
   createEcoNewsServiceMock.getTags = () => [];
 
-  const ecoNewsServiceMock: EcoNewsService = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
-  ecoNewsServiceMock.getEcoNewsById = (id) => of(FIRSTECONEWS);
-  ecoNewsServiceMock.getAllPresentTags = () => of(tagsArray);
+  const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
+  ecoNewsServiceMock.getEcoNewsById = (id) => {
+    of(FIRSTECONEWS);
+  };
 
   const createEditNewsFormBuilderMock: CreateEditNewsFormBuilder = jasmine.createSpyObj('CreateEditNewsFormBuilder', [
     'getSetupForm',

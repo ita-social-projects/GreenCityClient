@@ -251,6 +251,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
       hasBackdrop: true,
       disableClose: false,
+      closeOnNavigation: true,
       data: locationsData
     });
 

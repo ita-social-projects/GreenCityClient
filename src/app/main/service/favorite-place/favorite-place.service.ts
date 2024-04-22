@@ -14,13 +14,15 @@ export class FavoritePlaceService {
 
   constructor(private http: HttpClient) {}
 
-  public updateFavoritePlaces(): void {
-    this.http
-      .get<Place[]>(favoritePlaceLink)
-      .pipe(take(1))
-      .subscribe((places: Place[]) => {
-        this.favoritePlaces$.next(places);
-      });
+  public updateFavoritePlaces(isFromSideBar: boolean): void {
+    if (!isFromSideBar) {
+      this.http
+        .get<Place[]>(favoritePlaceLink)
+        .pipe(take(1))
+        .subscribe((places: Place[]) => {
+          this.favoritePlaces$.next(places);
+        });
+    }
   }
 
   public addFavoritePlace(favoritePlaceSave: FavoritePlace, isFromSideBar?: boolean): void {
@@ -28,9 +30,7 @@ export class FavoritePlaceService {
       .post<FavoritePlace>(placeLink + 'save/favorite/', favoritePlaceSave)
       .pipe(take(1))
       .subscribe(() => {
-        if (!isFromSideBar) {
-          this.updateFavoritePlaces();
-        }
+        this.updateFavoritePlaces(isFromSideBar);
       });
   }
 
@@ -39,9 +39,7 @@ export class FavoritePlaceService {
       .delete<any>(`${favoritePlaceLink}${placeId}`)
       .pipe(take(1))
       .subscribe(() => {
-        if (!isFromSideBar) {
-          this.updateFavoritePlaces();
-        }
+        this.updateFavoritePlaces(isFromSideBar);
       });
   }
 }

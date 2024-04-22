@@ -6,7 +6,9 @@
   <mat-menu #menu="matMenu" class="option-menu">
     <div [formGroup]="filtersForm" class="content" (click)="$event.stopPropagation()">
       <div formGroupName="baseFilters">
-        <mat-checkbox class="checkbox" *ngFor="let name of baseFilters" [formControlName]="name">{{ name }}</mat-checkbox>
+        <mat-checkbox class="checkbox" *ngFor="let name of baseFilters" [formControlName]="name.name">{{
+          getLangValue(name.nameUa, name.name)
+        }}</mat-checkbox>
       </div>
       <div formGroupName="distance">
         <mat-checkbox class="checkbox" formControlName="isActive">Distance</mat-checkbox>
@@ -17,7 +19,9 @@
       </div>
       <div formGroupName="servicesFilters" class="services-group">
         <h6>Services</h6>
-        <mat-checkbox class="checkbox" *ngFor="let name of servicesFilters" [formControlName]="name">{{ name }}</mat-checkbox>
+        <mat-checkbox class="checkbox" *ngFor="let name of servicesFilters" [formControlName]="name.name">{{
+          getLangValue(name.nameUa, name.name)
+        }}</mat-checkbox>
       </div>
     </div>
   </mat-menu>
