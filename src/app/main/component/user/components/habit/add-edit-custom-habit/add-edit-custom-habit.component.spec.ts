@@ -28,19 +28,19 @@ import { QuillModule } from 'ngx-quill';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarWeekComponent } from '@global-user/components/profile/calendar/calendar-week/calendar-week.component';
 import { HabitCalendarComponent } from '@global-user/components/habit/add-new-habit/habit-calendar/habit-calendar.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
   let fixture: ComponentFixture<AddEditCustomHabitComponent>;
-
   const initialState = { habit: { defaultDuration: 1 } };
 
   const tagsMock: TagInterface[] = [{ id: 1, name: 'Tag', nameUa: 'Тег', isActive: true }];
-
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getUserId', 'getCurrentLanguage', 'pipe']);
 
   localStorageServiceMock.getUserId = () => 2;
   localStorageServiceMock.languageSubject = new Subject<string>();
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject<number>(2);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
@@ -48,7 +48,6 @@ describe('AddEditCustomHabitComponent', () => {
   const habitServiceMock = jasmine.createSpyObj('fakeHabitAssignService', ['getAllTags', 'addCustomHabit']);
   habitServiceMock.getAllTags = () => of(tagsMock);
   habitServiceMock.addCustomHabit = () => of(null);
-
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(waitForAsync(() => {
@@ -76,7 +75,8 @@ describe('AddEditCustomHabitComponent', () => {
         ReactiveFormsModule,
         HttpClientTestingModule,
         MatDialogModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatSliderModule
       ],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },

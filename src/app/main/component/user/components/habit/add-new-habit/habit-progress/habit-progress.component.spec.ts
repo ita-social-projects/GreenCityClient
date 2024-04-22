@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { HabitProgressComponent } from './habit-progress.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -48,7 +48,7 @@ describe('HabitProgressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HabitProgressComponent, HabitCalendarComponent, CalendarWeekComponent],
+      declarations: [HabitProgressComponent, HabitCalendarComponent, CalendarWeekComponent, DatePipeMock],
       imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot(), MatDialogModule],
       providers: [
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
@@ -61,7 +61,11 @@ describe('HabitProgressComponent', () => {
     fixture = TestBed.createComponent(HabitProgressComponent);
     component = fixture.componentInstance;
     component.habit = fakeHabitAcquired as any;
-    habitAssignServiceMock.getAssignHabitsByPeriod.and.returnValue(of());
+    habitAssignServiceMock.habitsFromDashBoard = [];
+    habitAssignServiceMock.getUserHabits = jasmine.createSpy().and.returnValue(of([]));
+    habitAssignServiceMock.getAssignHabitsByPeriod = jasmine.createSpy().and.returnValue(of({}));
+    habitAssignServiceMock.getAllAssignedHabbits = jasmine.createSpy().and.returnValue(of({}));
+    habitAssignServiceMock.getAssignedHabits = jasmine.createSpy().and.returnValue(of([]));
     habitAssignServiceMock.habitChangesFromCalendarSubj = of({});
     fixture.detectChanges();
   });
@@ -127,15 +131,16 @@ describe('HabitProgressComponent', () => {
       expect(component.habitMark).toBe('acquired');
     });
 
-    it('makes expected on enroll call updateHabit if status is not acquired', () => {
+    it('makes expected on enroll call updateHabit if status is not acquired', fakeAsync(() => {
       habitAssignServiceMock.enrollByHabit.and.returnValue(of(DEFAULTFULLINFOHABIT));
       const spy = spyOn(component as any, 'updateHabit');
       component.enroll();
+      tick();
       expect(spy).toHaveBeenCalled();
-    });
+    }));
   });
 
-  it('shoud call updateHabit on unenroll', () => {
+  it('should call updateHabit on unenroll', () => {
     habitAssignServiceMock.unenrollByHabit.and.returnValue(of(DEFAULTFULLINFOHABIT));
     const spy = spyOn(component as any, 'updateHabit');
     component.unenroll();
