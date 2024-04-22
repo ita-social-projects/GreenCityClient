@@ -16,6 +16,7 @@ import { Subject, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from 'src/app/main/i18n/Language';
 import { takeUntil } from 'rxjs/operators';
+
 @Component({
   selector: 'app-habit-duration',
   templateUrl: './habit-duration.component.html',
@@ -40,7 +41,7 @@ export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const durationChange = changes['habitDurationInitial'];
+    const durationChange = changes.habitDurationInitial;
 
     if (durationChange.firstChange) {
       this.currentLang = this.langService.getCurrentLanguage();
