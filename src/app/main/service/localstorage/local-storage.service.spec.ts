@@ -56,8 +56,7 @@ describe('LocalStorageService', () => {
     open: true,
     organizer: {
       id: 456,
-      name: 'Test organizer',
-      organizerRating: 4.5
+      name: 'Test organizer'
     },
     tags: [{ id: 789, nameUa: 'Test tag UA', nameEn: 'Test tag EN' }],
     title: 'Test event title',
@@ -68,7 +67,8 @@ describe('LocalStorageService', () => {
     countComments: 5,
     likes: 8,
     isRelevant: true,
-    isOrganizedByFriend: false
+    isOrganizedByFriend: false,
+    eventRate: 0
   };
 
   const fakeLanguageSubject: Subject<string> = new Subject<string>();

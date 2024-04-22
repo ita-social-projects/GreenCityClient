@@ -1,9 +1,6 @@
 <div class="card-wrapper" *ngIf="!isUserAssignList" [ngClass]="{ 'list-view': !isGalleryView }">
-  <div class="event-stars" *ngIf="!event.open">
-    <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="false"> </rating>
-    <ng-template #star let-index="index" let-value="value">
-      <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
-    </ng-template>
+  <div class="event-stars" *ngIf="!event.isRelevant">
+    <app-rating-display [rate]="event.eventRate" [maxRating]="max"></app-rating-display>
   </div>
   <div class="event-flags favourite-button" *ngIf="event.open" (click)="changeFavouriteStatus($event)">
     <span [ngClass]="isEventFavorite ? 'flag-active' : 'flag'"></span>
