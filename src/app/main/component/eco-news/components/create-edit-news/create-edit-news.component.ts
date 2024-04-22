@@ -210,7 +210,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         ofType(NewsActions.CreateEcoNewsSuccess),
         takeUntil(this.destroyed$),
         catchError((err) => {
-          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
+          this.snackBar.openSnackBar('error');
           return throwError(err);
         })
       )
