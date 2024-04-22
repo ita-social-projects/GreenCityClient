@@ -6,10 +6,13 @@ import { Observable } from 'rxjs';
 import { latestNewsLink } from 'src/app/main/links';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class NewsService {
-  constructor(private http: HttpClient, private languageService: LanguageService) {}
+  constructor(
+    private http: HttpClient,
+    private languageService: LanguageService
+  ) {}
 
   public loadLatestNews(): Observable<NewsDto[]> {
     const currentLanguage = this.languageService.getCurrentLanguage();

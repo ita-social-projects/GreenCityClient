@@ -18,7 +18,7 @@ describe('NewsService', () => {
       providers: [NewsService, { provide: LanguageService, useValue: languageServiceMock }],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()]
     }),
-      (httpTestingController = TestBed.inject(HttpTestingController));
+    (httpTestingController = TestBed.inject(HttpTestingController));
     service = TestBed.inject(NewsService);
   });
 

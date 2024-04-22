@@ -139,9 +139,7 @@ describe('NewsListComponent', () => {
 
   it('should get value from sessionStorage', () => {
     const store = { viewGallery: 'true' };
-    const spy = spyOn(sessionStorage, 'getItem').and.callFake((key) => {
-      return store[key];
-    });
+    const spy = spyOn(sessionStorage, 'getItem').and.callFake((key) => store[key]);
 
     (component as any).getSessionStorageView();
     expect(spy('viewGallery')).toBe('true');

@@ -636,12 +636,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   private editAll(e: IEditCell): void {
     this.editCellProgressBar = true;
-    const newTableData = this.tableData.map((item) => {
-      return {
-        ...item,
-        [e.nameOfColumn]: e.newValue
-      };
-    });
+    const newTableData = this.tableData.map((item) => ({
+      ...item,
+      [e.nameOfColumn]: e.newValue
+    }));
     this.tableData = newTableData;
     this.dataSource = new MatTableDataSource(newTableData);
     this.allChecked = false;

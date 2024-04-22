@@ -82,9 +82,9 @@ export class PlacesComponent implements OnInit, OnDestroy {
       this.updateIsActivePlaceFavorite();
 
       if (isFavoriteFilter) {
-        this.places = places.filter((place: Place) => {
-          return this.favoritePlaces.some((favoritePlace: Place) => favoritePlace.location.id === place.location.id);
-        });
+        this.places = places.filter((place: Place) =>
+          this.favoritePlaces.some((favoritePlace: Place) => favoritePlace.location.id === place.location.id)
+        );
       } else {
         this.places = places;
       }
@@ -238,9 +238,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
       Object.entries(this.moreOptionsFilters.servicesFilters)
     );
     const currentTagFilter: string[] = this.tagList.reduce((acc, tagName) => {
-      const tagFilter: [string, boolean] = allFilters.find((filter: [string, boolean]) => {
-        return filter[0] === tagName.name;
-      });
+      const tagFilter: [string, boolean] = allFilters.find((filter: [string, boolean]) => filter[0] === tagName.name);
       if (tagFilter?.[1]) {
         acc.push(tagFilter[0]);
       }
@@ -292,9 +290,9 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   private updateIsActivePlaceFavorite(): void {
-    this.isActivePlaceFavorite = this.favoritePlaces.some((favoritePlace: Place) => {
-      return favoritePlace.location.id === this.activePlace?.location.id;
-    });
+    this.isActivePlaceFavorite = this.favoritePlaces.some(
+      (favoritePlace: Place) => favoritePlace.location.id === this.activePlace?.location.id
+    );
   }
 
   public getStars(rating: number): Array<string> {

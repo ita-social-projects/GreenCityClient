@@ -39,9 +39,7 @@ export class OrderService {
   constructor(private http: HttpClient) {}
 
   filterStatuses(allStatuses: Array<any>, availableStatusesNames: string[]) {
-    return availableStatusesNames.map((status) => {
-      return allStatuses.find((el) => el.key === status);
-    });
+    return availableStatusesNames.map((status) => allStatuses.find((el) => el.key === status));
   }
 
   getAvailableOrderStatuses(currentOrderStatus: string, statuses: Array<any>) {

@@ -85,9 +85,7 @@ describe('AddNewHabitComponent', () => {
   fakeShoppingListService.getHabitShopList = () => of();
   fakeShoppingListService.updateHabitShopList = () => of();
 
-  matSnackBarMock.openSnackBar = (type: string) => {
-    return type;
-  };
+  matSnackBarMock.openSnackBar = (type: string) => type;
 
   const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsListByPage']);
   ecoNewsServiceMock.getEcoNewsListByPage = () => of(ECONEWSMOCK);

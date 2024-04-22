@@ -134,9 +134,9 @@ export class TimePickerPopupComponent implements OnInit {
 
   save(): void {
     this.timeOfWork.emit(
-      this.selectTheWorkDay.map((day): WorkingTime => {
-        return { dayOfWeek: day.dayToSend, timeTo: day.timeTo, timeFrom: day.timeFrom, isSelected: day.isSelected };
-      })
+      this.selectTheWorkDay.map(
+        (day): WorkingTime => ({ dayOfWeek: day.dayToSend, timeTo: day.timeTo, timeFrom: day.timeFrom, isSelected: day.isSelected })
+      )
     );
   }
 

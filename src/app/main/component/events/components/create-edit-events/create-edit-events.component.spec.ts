@@ -167,9 +167,7 @@ describe('CreateEditEventsComponent', () => {
   EventsServiceMock.getForm = () => of(EditDateEventMock);
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = () => {
-    return true;
-  };
+  MatSnackBarMock.openSnackBar = () => true;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

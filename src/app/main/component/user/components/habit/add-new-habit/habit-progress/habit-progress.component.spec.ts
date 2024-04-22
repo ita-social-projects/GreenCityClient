@@ -29,6 +29,7 @@ describe('HabitProgressComponent', () => {
     'unenrollByHabit',
     'habitChangesFromCalendarSubj'
   ]);
+  habitAssignServiceMock.getAssignedHabits.and.returnValue(of([]));
   habitAssignServiceMock.habitsFromDashBoard = JSON.parse(
     JSON.stringify([
       {

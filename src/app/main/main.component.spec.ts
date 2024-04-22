@@ -15,8 +15,7 @@ import { UiActionsService } from '@global-service/ui-actions/ui-actions.service'
 import { UserService } from '@global-service/user/user.service';
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IAppState } from '../store/state/app.state';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('MainComponent', () => {
   const navigateToStartingPositionOnPage = 'navigateToStartingPositionOnPage';
@@ -34,7 +33,11 @@ describe('MainComponent', () => {
   jwtServiceMock.getUserRole = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
-  const languageServiceMock = jasmine.createSpyObj('LanguageService', ['setDefaultLanguage', 'getCurrentLanguage']);
+  const languageServiceMock = jasmine.createSpyObj('LanguageService', [
+    'setDefaultLanguage',
+    'getCurrentLanguage',
+    'changeCurrentLanguage'
+  ]);
   const titleAndMetaTagsServiceMock = jasmine.createSpyObj('TitleAndMetaTagsService', ['useTitleMetasData']);
   const userServiceMock = jasmine.createSpyObj('UserService', ['updateLastTimeActivity']);
   const uiActionsServiceMock = jasmine.createSpyObj('UiActionsService', ['']);
@@ -42,6 +45,11 @@ describe('MainComponent', () => {
 
   const focusMock = {
     nativeElement: jasmine.createSpyObj('nativeElement', ['focus'])
+  };
+
+  const routerMock = {
+    events: new BehaviorSubject<any>(null),
+    navigate: jasmine.createSpy('navigate').and.returnValue(true)
   };
 
   beforeEach(waitForAsync(() => {
@@ -105,7 +113,7 @@ describe('MainComponent', () => {
 
   it('should navigate to starting position on page', () => {
     const event = new NavigationEnd(42, '/', '/');
-    (router as any).events = new BehaviorSubject<any>(event);
+    routerMock.events.next(event);
     app[navigateToStartingPositionOnPage]();
 
     expect(document.documentElement.scrollTop).toBe(0);

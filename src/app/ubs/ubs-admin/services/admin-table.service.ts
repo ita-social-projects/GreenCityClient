@@ -225,9 +225,7 @@ export class AdminTableService {
   }
 
   getDateChecked(dateColumn): boolean {
-    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
-      return column.key === dateColumn;
-    });
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => column.key === dateColumn);
     return currentColumnDateFilter.values[0]?.filtered;
   }
 
@@ -236,17 +234,13 @@ export class AdminTableService {
   }
 
   setDateCheckedFromStorage(dateColumn): void {
-    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
-      return column.key === dateColumn;
-    });
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => column.key === dateColumn);
     currentColumnDateFilter.values[0].filtered = true;
   }
 
   getDateValue(suffix: 'From' | 'To', dateColumn): boolean {
     let date;
-    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
-      return column.key === dateColumn;
-    });
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => column.key === dateColumn);
     for (const key in currentColumnDateFilter?.values[0]) {
       if (key.includes(suffix)) {
         date = currentColumnDateFilter?.values[0]?.[key];

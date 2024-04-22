@@ -113,12 +113,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   public certificateSubmit(index: number, certificate: FormControl): void {
     this.isCertBeenUsed = false;
-    if (
-      !this.usedCertificates ||
-      !this.usedCertificates.some((item, ind) => {
-        return item === certificate.value.certificateCode && ind !== index;
-      })
-    ) {
+    if (!this.usedCertificates || !this.usedCertificates.some((item, ind) => item === certificate.value.certificateCode && ind !== index)) {
       this.userCertificate.certificates.push(certificate.value);
 
       this.calculateCertificate(certificate);

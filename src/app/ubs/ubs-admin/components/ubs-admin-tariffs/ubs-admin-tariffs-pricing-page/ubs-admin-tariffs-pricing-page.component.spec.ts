@@ -234,9 +234,7 @@ describe('UbsAdminPricingPageComponent', () => {
   localStorageServiceMock.languageBehaviourSubject = of();
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const orderServiceMock = jasmine.createSpyObj('orderServiceMock', ['completedLocation']);
 

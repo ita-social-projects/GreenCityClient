@@ -47,9 +47,7 @@ describe('NewsPreviewPageComponent', () => {
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valEn;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valEn;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

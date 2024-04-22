@@ -1,12 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'alphabetical',
+  name: 'alphabetical'
 })
 export class AlphabeticalPipePipe implements PipeTransform {
   transform(values: any): any {
-    return values.sort((a, b) => {
-      return a.text > b.text ? -1 : 1;
-    });
+    return values.sort((a, b) => (a.text > b.text ? -1 : 1));
   }
 }

@@ -15,49 +15,46 @@ import { EMPTY, of } from 'rxjs';
 
 @Injectable()
 export class LocationsEffects {
-  constructor(private actions: Actions, private tariffsService: TariffsService) {}
+  constructor(
+    private actions: Actions,
+    private tariffsService: TariffsService
+  ) {}
 
-  getLocations = createEffect(() => {
-    return this.actions.pipe(
+  getLocations = createEffect(() =>
+    this.actions.pipe(
       ofType(GetLocations),
-      mergeMap((actions: { reset: boolean }) => {
-        return this.tariffsService.getLocations().pipe(
+      mergeMap((actions: { reset: boolean }) =>
+        this.tariffsService.getLocations().pipe(
           map((locations: Locations[]) => GetLocationsSuccess({ locations, reset: actions.reset })),
           catchError(() => EMPTY)
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  addLocations = createEffect(() => {
-    return this.actions.pipe(
+  addLocations = createEffect(() =>
+    this.actions.pipe(
       ofType(AddLocations),
-      mergeMap((action: { locations: CreateLocation[] }) => {
-        return this.tariffsService.addLocation(action.locations).pipe(
-          switchMap((data: CreateLocation) => {
-            return this.tariffsService.getLocations().pipe(
-              map((locations: Locations[]) => {
-                return UpdateLocationsSuccess({ locations });
-              })
-            );
-          }),
+      mergeMap((action: { locations: CreateLocation[] }) =>
+        this.tariffsService.addLocation(action.locations).pipe(
+          switchMap((data: CreateLocation) =>
+            this.tariffsService.getLocations().pipe(map((locations: Locations[]) => UpdateLocationsSuccess({ locations })))
+          ),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  updateLocations = createEffect(() => {
-    return this.actions.pipe(
+  updateLocations = createEffect(() =>
+    this.actions.pipe(
       ofType(UpdateLocations),
-      mergeMap(() => {
-        return this.tariffsService.getLocations().pipe(
-          map((locations: Locations[]) => {
-            return UpdateLocationsSuccess({ locations });
-          }),
+      mergeMap(() =>
+        this.tariffsService.getLocations().pipe(
+          map((locations: Locations[]) => UpdateLocationsSuccess({ locations })),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 }

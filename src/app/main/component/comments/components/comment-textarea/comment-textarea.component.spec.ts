@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommentTextareaComponent } from './comment-textarea.component';
 import { Router } from '@angular/router';
 import { SocketService } from '@global-service/socket/socket.service';
@@ -9,6 +9,8 @@ import { By } from '@angular/platform-browser';
 import { QueryList } from '@angular/core';
 import { MatOption } from '@angular/material/core';
 import { PlaceholderForDivDirective } from 'src/app/main/component/comments/directives/placeholder-for-div.directive';
+import { MatSelectModule } from '@angular/material/select';
+import { UserProfileImageComponent } from '@global-user/components/shared/components/user-profile-image/user-profile-image.component';
 
 describe('CommentTextareaComponent', () => {
   let component: CommentTextareaComponent;
@@ -34,15 +36,15 @@ describe('CommentTextareaComponent', () => {
     }
   ];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CommentTextareaComponent, PlaceholderForDivDirective],
+      declarations: [CommentTextareaComponent, PlaceholderForDivDirective, UserProfileImageComponent],
       providers: [
         { provide: Router, useValue: {} },
         { provide: SocketService, useValue: socketServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],
-      imports: [TranslateModule.forRoot()]
+      imports: [MatSelectModule, TranslateModule.forRoot()]
     }).compileComponents();
   }));
 
@@ -114,8 +116,7 @@ describe('CommentTextareaComponent', () => {
 
   describe('ngOnChanges', () => {
     it('should clear innerHTML if commentHtml is an empty string', () => {
-      const innerHTML = '<p>Existing HTML content.</p>';
-      component.commentTextarea.nativeElement.innerHTML = innerHTML;
+      component.commentTextarea.nativeElement.innerHTML = '<p>Existing HTML content.</p>';
       fixture.detectChanges();
       component.ngOnChanges({ commentHtml: { currentValue: '' } as any });
       const textareaElement = component.commentTextarea.nativeElement;
@@ -144,13 +145,9 @@ describe('CommentTextareaComponent', () => {
   describe('onDropdownKeyDown', () => {
     const div = document.createElement('div');
     const option1 = new MatOption(null, null, null, null);
-    option1._getHostElement = () => {
-      return div;
-    };
+    option1._getHostElement = () => div;
     const option2 = new MatOption(null, null, null, null);
-    option2._getHostElement = () => {
-      return null;
-    };
+    option2._getHostElement = () => null;
     const options = Object.assign(new QueryList(), {
       _results: [option1, option2],
       length: 2

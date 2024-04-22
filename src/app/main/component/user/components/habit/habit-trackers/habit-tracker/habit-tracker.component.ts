@@ -9,22 +9,25 @@ import { LanguageService } from '../../../../../../i18n/language.service';
 @Component({
   selector: 'app-habit-tracker',
   templateUrl: './habit-tracker.component.html',
-  styleUrls: ['./habit-tracker.component.scss'],
+  styleUrls: ['./habit-tracker.component.scss']
 })
 export class HabitTrackerComponent implements OnInit {
   @Input()
-  habit: HabitDto;
+    habit: HabitDto;
   @Input()
-  chartId: string;
+    chartId: string;
   @Input()
-  usersHabitId: number;
+    usersHabitId: number;
   $habit: Observable<HabitDto> = of<HabitDto>();
   currentStatistic: HabitStatisticsDto;
   habitStatistic: HabitStatisticsDto[];
   chartRedrawTrigger: boolean;
   curDayNumber: number;
 
-  constructor(private service: HabitStatisticService, public translation: LanguageService) {}
+  constructor(
+    private service: HabitStatisticService,
+    public translation: LanguageService
+  ) {}
 
   ngOnInit() {
     this.initCurrentStatistic();

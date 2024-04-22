@@ -53,15 +53,14 @@ describe('CreateEditNewsComponent', () => {
     source: '',
     image: ''
   };
-  const emptyForm = () => {
-    return new FormGroup({
+  const emptyForm = () =>
+    new FormGroup({
       title: new FormControl(''),
       content: new FormControl(''),
       tags: new FormArray([]),
       image: new FormControl(''),
       source: new FormControl('')
     });
-  };
 
   const tagsArray = [
     { id: 1, name: 'Events', nameUa: 'Події' },
@@ -94,34 +93,30 @@ describe('CreateEditNewsComponent', () => {
   createEcoNewsServiceMock.getTags = () => [];
 
   const ecoNewsServiceMock: EcoNewsService = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
-  ecoNewsServiceMock.getEcoNewsById = (id) => {
-    return of(FIRSTECONEWS);
-  };
+  ecoNewsServiceMock.getEcoNewsById = (id) => of(FIRSTECONEWS);
   ecoNewsServiceMock.getAllPresentTags = () => of(tagsArray);
 
   const createEditNewsFormBuilderMock: CreateEditNewsFormBuilder = jasmine.createSpyObj('CreateEditNewsFormBuilder', [
     'getSetupForm',
     'getEditForm'
   ]);
-  createEditNewsFormBuilderMock.getSetupForm = () => {
-    return new FormGroup({
+  createEditNewsFormBuilderMock.getSetupForm = () =>
+    new FormGroup({
       title: new FormControl('', [Validators.required, Validators.maxLength(170)]),
       content: new FormControl('', [Validators.required, Validators.minLength(20)]),
       tags: new FormArray([]),
       image: new FormControl(''),
       source: new FormControl('')
     });
-  };
 
-  createEditNewsFormBuilderMock.getEditForm = (data) => {
-    return new FormGroup({
+  createEditNewsFormBuilderMock.getEditForm = (data) =>
+    new FormGroup({
       title: new FormControl(data.title, [Validators.required, Validators.maxLength(170)]),
       content: new FormControl(data.content, [Validators.required, Validators.minLength(20)]),
       tags: new FormArray([new FormControl(data.tags)]),
       image: new FormControl(data.imagePath),
       source: new FormControl(data.source)
     });
-  };
 
   const actionSub: ActionsSubject = new ActionsSubject();
 
@@ -139,9 +134,7 @@ describe('CreateEditNewsComponent', () => {
   localStorageServiceMock.languageSubject = of('en');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

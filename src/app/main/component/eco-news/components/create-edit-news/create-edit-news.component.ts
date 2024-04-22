@@ -146,13 +146,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       .getAllPresentTags()
       .pipe(take(1))
       .subscribe((tagsArray: Array<TagInterface>) => {
-        this.filters = tagsArray.map((tag) => {
-          return {
-            name: tag.name,
-            nameUa: tag.nameUa,
-            isActive: false
-          };
-        });
+        this.filters = tagsArray.map((tag) => ({
+          name: tag.name,
+          nameUa: tag.nameUa,
+          isActive: false
+        }));
       });
   }
 

@@ -45,7 +45,7 @@ describe('UbsAdminExportDetailsComponent', () => {
       timeDeliveryTo: null,
       receivingStationId: 1
     }),
-      fixture.detectChanges();
+    fixture.detectChanges();
   });
 
   afterEach(() => {

@@ -501,9 +501,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         this.locations = item;
         const regions = [];
         this.locations
-          .map((element) => {
-            return element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLang).map((it) => it.regionName);
-          })
+          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLang).map((it) => it.regionName))
           .flat(2)
           .forEach((region) => {
             if (!regions.includes(region)) {
@@ -635,9 +633,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       !this._filter(this.region.value, [TariffRegionAll.en, TariffRegionAll.ua]).length
     ) {
       const firstSuitableRegion = this.locations
-        .filter((element) => {
-          return element.regionTranslationDtos.find((it) => it.regionName.toLowerCase().includes(this.region.value.toLowerCase()));
-        })[0]
+        .filter((element) =>
+          element.regionTranslationDtos.find((it) => it.regionName.toLowerCase().includes(this.region.value.toLowerCase()))
+        )[0]
         ?.regionTranslationDtos.filter((el) => el.languageCode === this.currentLang)[0].regionName;
       this.region.setValue(firstSuitableRegion);
       this.regionSelected({ option: { value: firstSuitableRegion } });

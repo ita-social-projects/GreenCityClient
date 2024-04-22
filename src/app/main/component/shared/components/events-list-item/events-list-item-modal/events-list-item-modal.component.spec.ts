@@ -1,4 +1,4 @@
-import { Language } from './../../../../../i18n/Language';
+import { Language } from '../../../../../i18n/Language';
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { EventsListItemModalComponent } from './events-list-item-modal.component';
@@ -10,6 +10,7 @@ import { of, Subject } from 'rxjs';
 import { EventEmitter, Injectable } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { FormsModule } from '@angular/forms';
 
 @Injectable()
 class TranslationServiceStub {
@@ -70,7 +71,7 @@ describe('EventsListItemModalComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ],
-      imports: [RatingModule.forRoot(), ModalModule.forRoot(), MatDialogModule, TranslateModule.forRoot()]
+      imports: [RatingModule.forRoot(), ModalModule.forRoot(), MatDialogModule, TranslateModule.forRoot(), FormsModule]
     }).compileComponents();
   }));
 

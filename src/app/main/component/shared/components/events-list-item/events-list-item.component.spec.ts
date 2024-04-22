@@ -1,4 +1,4 @@
-import { Language } from './../../../../i18n/Language';
+import { Language } from '../../../../i18n/Language';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -27,19 +27,7 @@ class TranslationServiceStub {
   public onLangChange = new EventEmitter<any>();
   public onTranslationChange = new EventEmitter<any>();
   public onDefaultLangChange = new EventEmitter<any>();
-  public addLangs(langs: string[]) {}
-  public getLangs() {
-    return 'en-us';
-  }
-  public getBrowserLang() {
-    return '';
-  }
-  public getBrowserCultureLang() {
-    return '';
-  }
-  public use(lang: string) {
-    return '';
-  }
+
   public get(key: any): any {
     return of(key);
   }
@@ -191,9 +179,7 @@ describe('EventsListItemComponent', () => {
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const MockData = {
     eventState: {},
