@@ -11,6 +11,7 @@ import { FavoritePlaceService } from '@global-service/favorite-place/favorite-pl
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreatePlaceModel, OpeningHoursDto } from './models/create-place.model';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
@@ -122,7 +123,7 @@ describe('PlacesComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PlacesComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, InfiniteScrollModule],
       providers: [
         {
           provide: LocalStorageService,

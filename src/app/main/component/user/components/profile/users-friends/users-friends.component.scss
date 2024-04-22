@@ -146,6 +146,7 @@ p {
   cursor: pointer;
   z-index: 4;
   transform: translateY(-50%);
+  visibility: hidden;
 }
 
 .slider-wrapper {

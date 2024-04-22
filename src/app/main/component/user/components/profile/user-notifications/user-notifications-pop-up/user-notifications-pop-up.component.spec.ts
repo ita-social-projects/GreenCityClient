@@ -3,6 +3,7 @@ import { UserNotificationsPopUpComponent } from './user-notifications-pop-up.com
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { MatDividerModule } from '@angular/material/divider';
 
 describe('UserNotificationsPopUpComponent', () => {
   let component: UserNotificationsPopUpComponent;
@@ -21,7 +22,7 @@ describe('UserNotificationsPopUpComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UserNotificationsPopUpComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, MatDividerModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogRefStub },
         { provide: MAT_DIALOG_DATA, useValue: [] }

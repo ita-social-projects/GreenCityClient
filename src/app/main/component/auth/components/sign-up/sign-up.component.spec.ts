@@ -1,6 +1,6 @@
-import { Language } from './../../../../i18n/Language';
-import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
-import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
+import { Language } from '../../../../i18n/Language';
+import { UserOwnSignUp } from '@global-models/user-own-sign-up';
+import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { ComponentFixture, TestBed, fakeAsync, flush, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,8 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule, By } from '@angular/platform-browser';
-// import { AgmCoreModule } from '@agm/core';
+import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
 import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
@@ -36,9 +35,8 @@ class UserOwnSignUpServiceMock {
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
-  let localStorageServiceMock: LocalStorageService;
   let router: Router;
-  // localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
@@ -68,7 +66,6 @@ describe('SignUpComponent', () => {
         MatDialogModule,
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
-        // AgmCoreModule,
         TranslateModule.forRoot(),
         BrowserAnimationsModule,
         MatSnackBarModule
@@ -172,8 +169,8 @@ describe('SignUpComponent', () => {
 
   describe('Testing controls for the signUpForm:', () => {
     const controlsName = ['email', 'firstName', 'password', 'repeatPassword'];
-    const invalidName = ['.Jhon', 'Nick&', 'Mi$ke', '@Andrian'];
-    const validName = ['JhonSmith', 'Nick12', 'Angela', 'Andrian'];
+    const invalidName = ['.John', 'Nick&', 'Mi$ke', '@Andrian'];
+    const validName = ['JohnSmith', 'Nick12', 'Angela', 'Andrian'];
     const invalidPassword = ['12345aS', '12345aaS', '123456S@', '123456a@'];
     const validPassword = ['12345aS@', 'Aqwert1%', 'Pi$98765', '!1234567kT'];
 
