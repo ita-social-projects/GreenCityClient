@@ -2,7 +2,7 @@
   <div class="event-stars" *ngIf="!event.isRelevant">
     <app-rating-display [rate]="event.eventRate" [maxRating]="max"></app-rating-display>
   </div>
-  <div class="event-flags favourite-button" *ngIf="event.open" (click)="changeFavouriteStatus($event)">
+  <div class="event-flags favourite-button" *ngIf="event.isRelevant" (click)="changeFavouriteStatus($event)">
     <span [ngClass]="isEventFavorite ? 'flag-active' : 'flag'"></span>
   </div>
   <div class="event-participants" *ngIf="attendees.length">
