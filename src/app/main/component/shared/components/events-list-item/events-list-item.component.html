@@ -2,7 +2,7 @@
   <div class="image-container">
     <img class="event-image" src="{{ event.titleImage }}" alt="event" />
     <div class="event-stars" *ngIf="!event.isRelevant">
-      <app-rating-display [rate]="event.organizer.organizerRating" [maxRating]="max"></app-rating-display>
+      <app-rating-display [rate]="event.eventRate" [maxRating]="max"></app-rating-display>
     </div>
     <div class="event-flags favourite-button" *ngIf="event.isRelevant" (click)="changeFavouriteStatus($event)">
       <span [ngClass]="isEventFavorite ? 'flag-active' : 'flag'"></span>

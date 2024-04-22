@@ -14,7 +14,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { TagObj } from '../../../events/models/events.interface';
+import { EventPageResponseDto, TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AddAttenderEcoEventsByIdAction, EventsActions, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -78,7 +78,7 @@ describe('EventsListItemComponent', () => {
     join: 'event.btn-join'
   };
 
-  const eventMock = {
+  const eventMock: EventPageResponseDto = {
     description: 'tralalalal',
     editorText: 'tralalalal',
     additionalImages: [],
@@ -115,7 +115,7 @@ describe('EventsListItemComponent', () => {
     ],
     imgArrayToPreview: [],
     id: 307,
-    organizer: { id: 5, name: 'Mykola Kovalushun', organizerRating: 3 },
+    organizer: { id: 5, name: 'Mykola Kovalushun' },
     title: 'dddddddd',
     titleImage: 'https://-fc27f19b10e0apl',
     isSubscribed: true,
@@ -125,8 +125,8 @@ describe('EventsListItemComponent', () => {
     open: true,
     likes: 5,
     countComments: 7,
-    isAdmin: false,
-    isOrganizedByFriend: false
+    isOrganizedByFriend: false,
+    eventRate: 0
   };
 
   const fakeItemTags: TagObj[] = [
@@ -259,7 +259,6 @@ describe('EventsListItemComponent', () => {
     component.event = eventMock as any;
     component.btnStyle = '';
     component.nameBtn = '';
-    component.rate = 3;
     component.isRegistered = false;
     component.isReadonly = false;
     component.isPosting = false;
@@ -335,12 +334,6 @@ describe('EventsListItemComponent', () => {
       component.itemTags = fakeItemTags;
       component.filterTags(component.event.tags);
       expect(component.activeTags).toEqual(fakeActiveTags);
-    });
-
-    it(`rate should be called in ngOnInit`, () => {
-      component.ngOnInit();
-      component.rate = Math.round(component.event.organizer.organizerRating);
-      expect(component.rate).toBe(3);
     });
 
     it(`subscribeToLangChange should be called in ngOnInit`, () => {
