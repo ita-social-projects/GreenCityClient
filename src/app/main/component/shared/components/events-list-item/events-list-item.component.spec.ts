@@ -12,7 +12,7 @@ import { of } from 'rxjs/internal/observable/of';
 import { EventsService } from '../../../events/services/events.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { RatingModule } from 'ngx-bootstrap/rating';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { EventPageResponseDto, TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -270,7 +270,7 @@ describe('EventsListItemComponent', () => {
     expect(value).toBe('value');
   });
 
-  it('shoud update button name after succsess attention for event', () => {
+  it('should update button name after success attention for event', () => {
     const action = { id: 307, type: EventsActions.AddAttenderEcoEventsByIdSuccess };
     actionsSubj.next(action);
     expect(component.nameBtn).toEqual(btnNameMock.cancel);
@@ -283,7 +283,7 @@ describe('EventsListItemComponent', () => {
       expect(spyOnInit).toHaveBeenCalled();
     });
 
-    it('tags.length shoud be 3 in ngOnInit', () => {
+    it('tags.length should be 3 in ngOnInit', () => {
       component.itemTags = [];
       component.ngOnInit();
       expect(component.itemTags.length).toBe(3);
@@ -501,10 +501,14 @@ describe('EventsListItemComponent', () => {
   });
 
   describe('ngOnDestroy', () => {
-    it('should unsubscribe of language change', () => {
-      component.langChangeSub = of(true).subscribe();
+    it('should unsubscribe all subscriptions during ngOnDestroy', () => {
       component.ngOnDestroy();
-      expect(component.langChangeSub.closed).toBeTruthy();
+      const subscriptionProperties = ['langChangeSub', 'subsOnAttendEvent', 'subsOnUnAttendEvent'];
+      for (const property of subscriptionProperties) {
+        if (component[property] instanceof Subscription) {
+          expect(component[property].closed).toBe(true);
+        }
+      }
     });
   });
 

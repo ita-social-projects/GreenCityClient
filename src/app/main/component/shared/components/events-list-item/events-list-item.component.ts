@@ -12,7 +12,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { typeFiltersData } from '../../../events/models/event-consts';
-import { EventPageResponseDto, TagDto, TagObj } from '../../../events/models/events.interface';
+import { Coordinates, EventPageResponseDto, TagDto, TagObj } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -63,9 +63,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public langChangeSub: Subscription;
   public currentLang: string;
-  public datePipe;
-  public newDate;
-  public address;
+  public datePipe: DatePipe;
+  public newDate: string | null;
+  public address: Coordinates;
   public addAttenderError: string;
   public isOnline: string;
   public isOwner: boolean;
@@ -80,8 +80,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
   };
-  private subsOnAttendEvent = new Subscription();
-  private subsOnUnAttendEvent = new Subscription();
+  private readonly subsOnAttendEvent = new Subscription();
+  private readonly subsOnUnAttendEvent = new Subscription();
   private dialogRef;
 
   @Output() public isLoggedIn: boolean;
@@ -359,7 +359,17 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
-    this.destroyed$.unsubscribe();
-    this.langChangeSub.unsubscribe();
+    if (this.destroyed$ && !this.destroyed$.closed) {
+      this.destroyed$.unsubscribe();
+    }
+    if (this.langChangeSub && !this.langChangeSub.closed) {
+      this.langChangeSub.unsubscribe();
+    }
+    if (this.subsOnAttendEvent && !this.subsOnAttendEvent.closed) {
+      this.subsOnAttendEvent.unsubscribe();
+    }
+    if (this.subsOnUnAttendEvent && !this.subsOnUnAttendEvent.closed) {
+      this.subsOnUnAttendEvent.unsubscribe();
+    }
   }
 }

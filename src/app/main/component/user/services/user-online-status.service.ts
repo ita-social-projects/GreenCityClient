@@ -74,7 +74,7 @@ export class UserOnlineStatusService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

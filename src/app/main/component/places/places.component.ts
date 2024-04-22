@@ -14,10 +14,10 @@ import { combineLatest, Subscription } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service.js';
-import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component.js';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model.js';
-import { tagsListPlacesData } from './models/places-consts.js';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { tagsListPlacesData } from './models/places-consts';
 
 @Component({
   selector: 'app-places',

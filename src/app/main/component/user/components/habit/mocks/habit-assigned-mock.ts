@@ -62,8 +62,7 @@ export const DEFAULTFULLINFOHABIT: HabitAssignInterface = {
     {
       id: 6,
       status: TodoStatus.active,
-      text: 'TEST',
-      custom: true
+      text: 'TEST'
     }
   ],
   progressNotificationHasDisplayed: false
@@ -88,7 +87,8 @@ export const CUSTOMFULLINFOHABIT: HabitAssignInterface = {
     {
       id: 6,
       status: TodoStatus.active,
-      text: 'TEST'
+      text: 'TEST',
+      custom: true
     }
   ],
   progressNotificationHasDisplayed: false

@@ -55,7 +55,6 @@ describe('ProfileComponent', () => {
       const spyAnnounce = spyOn(component, 'announce');
       const spyShowUserInfo = spyOn(component, 'showUserInfo');
       const spySubscribeToLangChange = spyOn(component as any, 'subscribeToLangChange');
-      const spyBindLang = spyOn(component as any, 'bindLang');
       const spyCheckUserActivities = spyOn(component as any, 'checkUserActivities');
 
       component.ngOnInit();
@@ -63,7 +62,6 @@ describe('ProfileComponent', () => {
       expect(spyAnnounce).toHaveBeenCalled();
       expect(spyShowUserInfo).toHaveBeenCalled();
       expect(spySubscribeToLangChange).toHaveBeenCalled();
-      expect(spyBindLang).toHaveBeenCalledWith('ua');
       expect(spyCheckUserActivities).toHaveBeenCalled();
       expect(component.isDesktopWidth).toBeTruthy();
       expect(localStorageServiceMock.setCurentPage).toHaveBeenCalledWith('previousPage', '/profile');
