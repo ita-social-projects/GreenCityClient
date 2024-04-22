@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { quillConfig } from './quillEditorFunc';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
@@ -10,12 +10,12 @@ import {
   DateFormObj,
   Dates,
   EventDTO,
+  EventInformation,
   EventPageResponseDto,
   OfflineDto,
   PagePreviewDTO,
   TagObj
 } from '../../models/events.interface';
-import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -39,7 +39,7 @@ import { FormBridgeService } from '../../services/form-bridge.service';
   templateUrl: './create-edit-events.component.html',
   styleUrls: ['./create-edit-events.component.scss']
 })
-export class CreateEditEventsComponent extends FormBaseComponent implements OnInit {
+export class CreateEditEventsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   public title = '';
   public dates: DateEvent[] = [];
   public quillModules = {};
@@ -71,7 +71,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public submitSelected: boolean;
   public nameBtn = 'create-event.publish';
   public isSmallScreen = false;
-
+  public subscription: Subscription;
   public fromPreview: boolean;
   public imgArray: Array<File> = [];
   public imgArrayToPreview: string[] = [];
@@ -102,12 +102,17 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   editDates = false;
   @Input() cancelChanges: boolean;
   @Output() defaultImage = new EventEmitter<string>();
+  public formsIsValid = false;
+  informationForm: EventInformation;
+  public informationFormStatus;
+  dateFormsStatus: boolean;
   private descriptionMinLenght = 20;
   private descriptionMaxLenght = 63206;
   private matSnackBar: MatSnackBarComponent;
   private submitIsFalse = false;
   private destroy$: Subject<void> = new Subject<void>();
-  private subscription: Subscription;
+  private subscriptions: Subscription[] = [];
+  private datesForm: any[];
 
   constructor(
     private injector: Injector,
@@ -141,7 +146,24 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     return this.eventFormGroup.get('editorText');
   }
 
+  setDatesForm(forms: any) {
+    this.datesForm = forms;
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((value) => value.unsubscribe());
+  }
+
+  subToFormsStatus() {
+    const sub = this.bridge.$formsIsValid.subscribe((value) => {
+      this.dateFormsStatus = value;
+      this.checkFormsValid();
+    });
+    this.subscriptions.push(sub);
+  }
+
   ngOnInit(): void {
+    this.subToFormsStatus();
     this.editMode = this.localStorageService.getEditMode();
     this.isSmallScreen = window.innerWidth <= 576;
     this.fromPreview = this.eventsService.getBackFromPreview();
@@ -275,16 +297,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     }
   }
 
-  public checkStatus(event: boolean, ind: number): void {
-    this.dates[ind].valid = event;
-  }
-
-  public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
-    if (event.event !== 'selection-change') {
-      this.editorText.setValue(event.text.trim());
-    }
-  }
-
   public changeEventType(event: KeyboardEvent | MouseEvent): void {
     if (event.type === 'click' || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       this.isOpen = !this.isOpen;
@@ -323,24 +335,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public setCoordsOffline(coordinates: OfflineDto, ind: number): void {
     Object.assign(this.dates[ind].coordinates, { latitude: coordinates.lat, longitude: coordinates.lng });
     this.updateAreAddressFilled(this.dates, false, true, ind);
-  }
-
-  public applyCoordToAll(coordinates: google.maps.LatLngLiteral): void {
-    if (coordinates.lat) {
-      this.dates.forEach((date) => {
-        return Object.assign(date.coordinates, { latitude: coordinates.lat, longitude: coordinates.lng });
-      });
-    }
-    this.locationForAllDays = { ...coordinates };
-    this.appliedForAllLocations = !!coordinates.lat;
-    this.updateAreAddressFilled(this.dates, true);
-  }
-
-  public applyLinkToAll(link: string): void {
-    this.dates.forEach((date) => (date.onlineLink = link));
-    this.linkForAllDays = link;
-    this.appliedForAllLink = !!link;
-    this.eventsService.setArePlacesFilled(this.dates);
   }
 
   public setOnlineLink(link: string, ind: number): void {
@@ -399,10 +393,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     }
   }
 
-  public backToEditing() {
-    this.router.navigate(['/events', 'create-event']);
-  }
-
   public escapeFromCreateEvent(): void {
     this.router.navigate(['/events']);
     this.eventSuccessfullyAdded();
@@ -412,20 +402,46 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.eventsService.setSubmitFromPreview(false);
     this.imgToData();
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
+    const informationForm = this.informationForm;
+    const datesForm = this.datesForm;
+    datesForm.forEach((value) => {
+      let [hours, minutes] = value.startTime.split(':');
+      const date = new Date(value.date);
+      date.setHours(parseInt(hours, 10));
+      date.setMinutes(parseInt(minutes, 10));
+      value.startDate = date.toUTCString();
+
+      [hours, minutes] = value.endTime.split(':');
+      date.setHours(parseInt(hours, 10));
+      date.setMinutes(parseInt(minutes, 10));
+      value.finishDate = date.toUTCString();
+    });
     const sendEventDto: PagePreviewDTO = {
-      title: this.eventFormGroup.get('titleForm').value.trim(),
-      description: this.eventFormGroup.get('description').value,
-      eventDuration: this.eventFormGroup.get('eventDuration').value,
-      editorText: this.editorText.value,
-      open: this.isOpen,
-      dates: this.dates,
-      tags: tagsArr,
+      title: informationForm.title,
+      description: informationForm.description,
+      eventDuration: informationForm.duration,
+      editorText: informationForm.description,
+      open: informationForm.open,
+      dates: datesForm,
+      tags: informationForm.tags,
       imgArray: this.editMode ? this.imgArrayToPreview : this.imgArray,
       imgArrayToPreview: this.imgArrayToPreview,
-      location: this.addressForPreview
+      location: this.datesForm[0]
     };
     this.eventsService.setForm(sendEventDto);
+    history.pushState(null, null, location.href);
+    console.log(history.state);
     this.router.navigate(['events', 'preview']);
+  }
+
+  checkFormsValid() {
+    this.formsIsValid = this.informationFormStatus && this.dateFormsStatus;
+  }
+
+  handleInformationStatus({ status, form }: { status: boolean; form: EventInformation }) {
+    this.informationFormStatus = status;
+    this.informationForm = form;
+    this.checkFormsValid();
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
@@ -529,10 +545,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     return formData;
   }
-
-  // public applyCommonLocation(): void {
-  //   this.dates.forEach((date) => (date.coordinates = { ...this.locationForAllDays }));
-  // }
 
   private eventSuccessfullyAdded(): void {
     if (this.editMode && this.eventFormGroup.valid) {

@@ -1,15 +1,15 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
 import {
-  EventResponseDto,
+  Addresses,
   Coordinates,
-  PagePreviewDTO,
   DateEvent,
   EventFilterCriteriaInterface,
   EventPageResponseDto,
-  Addresses
+  EventResponseDto,
+  PagePreviewDTO
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { DatePipe } from '@angular/common';
@@ -27,11 +27,20 @@ export class EventsService implements OnDestroy {
   private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
   private divider = `, `;
   private pipe = new DatePipe('en-US');
+  private datesForm: any[] = [];
 
   constructor(
     private http: HttpClient,
     private langService: LanguageService
   ) {}
+
+  public setDatesForm(value: any[]) {
+    this.datesForm = value;
+  }
+
+  public getDatesForm() {
+    return this.datesForm;
+  }
 
   public setArePlacesFilled(dates: DateEvent[], submit?: boolean, check?: boolean, ind?: number): void {
     const currentValues = this.arePlacesFilledSubject.getValue();

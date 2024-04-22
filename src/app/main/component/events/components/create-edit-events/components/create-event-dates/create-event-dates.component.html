@@ -1,5 +1,5 @@
 <mat-card>
   <ng-container *ngFor="let _ of $days | async; index as i">
-    <app-event-date-time-picker [dayNumber]="i"></app-event-date-time-picker>
+    <app-event-date-time-picker [dayNumber]="i" [form]="formsValue[i]"></app-event-date-time-picker>
   </ng-container>
 </mat-card>

@@ -42,6 +42,8 @@ import { EventsCommentsService } from './services/events-comments.service';
 import { CreateEventInformationComponent } from './components/create-edit-events/components/create-event-information/create-event-information.component';
 import { CreateEventDatesComponent } from './components/create-edit-events/components/create-event-dates/create-event-dates.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { EventPreviewComponent } from './components/event-preview/event-preview.component';
+import { TestPipe } from './models/test.pipe';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,9 @@ import { MatChipsModule } from '@angular/material/chips';
     EventScheduleOverlayComponent,
     EventScheduleComponent,
     CreateEventInformationComponent,
-    CreateEventDatesComponent
+    CreateEventDatesComponent,
+    EventPreviewComponent,
+    TestPipe
   ],
   imports: [
     MatDialogModule,
@@ -98,6 +102,7 @@ import { MatChipsModule } from '@angular/material/chips';
   exports: [TranslateModule]
 })
 export class EventsModule {}
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

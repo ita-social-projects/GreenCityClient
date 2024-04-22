@@ -1,11 +1,11 @@
 <app-spinner *ngIf="isPosting"></app-spinner>
-<div *ngIf="!isPosting" class="event-container" [formGroup]="eventFormGroup">
+<div *ngIf="!isPosting" [formGroup]="eventFormGroup" class="event-container">
   <div class="content-container">
     <div class="event-header">
       <div class="event-header-items">
         <div>
-          <a class="back" [routerLink]="routedFromProfile ? [previousPath, { tabId: 2 }] : [previousPath]" (click)="toEventsList()">
-            <img class="arrow" [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
+          <a (click)="toEventsList()" [routerLink]="routedFromProfile ? [previousPath, { tabId: 2 }] : [previousPath]" class="back">
+            <img [src]="images.arrowLeft" alt="arrow" aria-hidden="true" class="arrow" />
             <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
           </a>
         </div>
@@ -15,15 +15,19 @@
       </div>
     </div>
     <div class="event-main">
-      <app-create-event-information></app-create-event-information>
-      <app-create-event-dates></app-create-event-dates>
+      <app-create-event-information (formStatus)="handleInformationStatus($event)"></app-create-event-information>
+      <app-create-event-dates (formsEmit)="setDatesForm($event)"></app-create-event-dates>
     </div>
 
     <div class="submit-container">
-      <button class="tertiary-global-button" (click)="cancel(true)">{{ 'create-event.cancel' | translate }}</button>
+      <button (click)="cancel(true)" class="tertiary-global-button">{{ 'create-event.cancel' | translate }}</button>
       <div class="buttons-group">
-        <button class="secondary-global-button submit-buttons" (click)="onPreview()">{{ 'create-event.preview' | translate }}</button>
-        <button class="primary-global-button submit-buttons" (click)="onSubmit()">{{ nameBtn | translate }}</button>
+        <button (click)="onPreview()" [disabled]="!formsIsValid" class="secondary-global-button submit-buttons">
+          {{ 'create-event.preview' | translate }}
+        </button>
+        <button (click)="onSubmit()" [disabled]="!formsIsValid" class="primary-global-button submit-buttons">
+          {{ nameBtn | translate }}
+        </button>
       </div>
     </div>
   </div>

@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ContentChange } from 'ngx-quill';
 
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { quillConfig } from '../../quillEditorFunc';
 
 import { EVENT_LOCALE, EventLocaleKeys } from '../../../../models/event-consts';
-import { PagePreviewDTO } from '../../../../models/events.interface';
+import { EventInformationForm } from '../../../../models/events.interface';
 import { EventsService } from '../../../../services/events.service';
 import { Router } from '@angular/router';
 import { quillEditorValidator } from '../../validators/quillEditorValidator';
@@ -23,16 +23,15 @@ export class CreateEventInformationComponent implements OnInit {
   quillLength = 0;
   quillModules = null;
   imgArray: string[] = [];
-
   // TODO CHANGE VALUE TO INITIAL
-  eventInfForm = this.fb.group({
+  eventInfForm: FormGroup<EventInformationForm> = this.fb.nonNullable.group({
     title: ['TitleTest', [Validators.required, Validators.maxLength(70)]],
     duration: [1, Validators.required],
     description: ['', [quillEditorValidator(), Validators.required]],
-    open: [null, Validators.required],
-    tags: [[], [Validators.required, Validators.minLength(1)]]
+    open: [true, Validators.required],
+    tags: [['Social'], [Validators.required, Validators.minLength(1)]]
   });
-
+  @Output() formStatus = new EventEmitter<{ status: boolean; form: typeof this.eventInfForm | undefined }>();
   protected readonly EVENT_LOCALE = EVENT_LOCALE;
 
   constructor(
@@ -45,13 +44,16 @@ export class CreateEventInformationComponent implements OnInit {
 
   ngOnInit() {
     this.quillModules = quillConfig;
-    this.eventInfForm.valueChanges.subscribe((value) => {
-      console.log(value);
-      console.log(this.eventInfForm.invalid);
-    });
-
     this.eventInfForm.get('duration').valueChanges.subscribe((value) => {
       this.bridge.days = Array(this.eventInfForm.controls.duration.value);
+    });
+
+    this.eventInfForm.statusChanges.subscribe((value) => {
+      if (value === 'VALID') {
+        this.formStatus.emit({ status: true, form: this.eventInfForm.getRawValue() });
+      } else {
+        this.formStatus.emit({ status: false, form: undefined });
+      }
     });
   }
 
@@ -70,42 +72,5 @@ export class CreateEventInformationComponent implements OnInit {
 
   setImgArray(value: string[]) {
     this.imgArray = value;
-  }
-
-  // TODO tags must be in en name
-  onPreview() {
-    const formVal = this.eventInfForm.value;
-    this.eventsService.setSubmitFromPreview(false);
-    const tagsArr: Array<string> = this.eventInfForm.value.tags;
-    const sendEventDto: PagePreviewDTO = {
-      title: formVal.title,
-      description: formVal.description,
-      eventDuration: formVal.duration,
-      editorText: formVal.description,
-      open: formVal.open,
-      dates: [
-        {
-          date: new Date(),
-          finishDate: new Date().toDateString(),
-          startDate: new Date().toDateString(),
-          check: true,
-          valid: true,
-          onlineLink: undefined,
-          coordinates: {
-            latitude: 50,
-            longitude: 50
-          }
-        }
-      ],
-      tags: tagsArr,
-      imgArray: this.imgArray,
-      imgArrayToPreview: this.imgArray,
-      location: {
-        place: 'ff',
-        date: new Date()
-      }
-    };
-    this.eventsService.setForm(sendEventDto);
-    this.router.navigate(['events', 'preview']);
   }
 }

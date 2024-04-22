@@ -92,7 +92,11 @@ export const EVENT_LOCALE = {
     { en: 'Economic', ua: 'Економічний' },
     { en: 'Social', ua: 'Соціальний' },
     { en: 'Environmental', ua: 'Екологічний' }
-  ]
+  ],
+  dateError: {
+    en: 'Past date',
+    ua: 'Минула дата'
+  }
 };
 
 export type EventLocaleKeys = keyof typeof EVENT_LOCALE;

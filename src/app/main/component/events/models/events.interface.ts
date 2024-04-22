@@ -1,3 +1,5 @@
+import { FormControl } from '@angular/forms';
+
 export interface EventDTO {
   title: string;
   description: string;
@@ -13,6 +15,34 @@ export interface EventDTO {
   };
   titleImage?: string;
 }
+
+export interface EventInformation {
+  title: string;
+  duration: number;
+  description: string;
+  open: boolean;
+  tags: string[];
+}
+
+export interface DateFormInformation {
+  date: Date;
+  startTime: string;
+  endTime: string;
+  coordinates: {
+    lat: number | null;
+    lng: number | null; // Use lng instead of lnt for convention
+  };
+  onlineLink: string; // Optional string for onlineLink
+  place: string; // Optional string for place
+  allDay: boolean;
+}
+
+type FormData<T> = {
+  [K in keyof T]: FormControl<T[K]>;
+};
+export type EventInformationForm = FormData<EventInformation>;
+// [K in keyof EventInformation]: FormControl<EventInformation[K]>;
+export type DateForm = FormData<DateFormInformation>;
 
 export interface Dates {
   startDate: string;
@@ -140,6 +170,7 @@ export interface OfflineDto {
   lat: number;
   lng: number;
 }
+
 export interface TagObj {
   nameUa: string;
   nameEn: string;
@@ -178,6 +209,7 @@ export interface InitialStartDate {
   initialDate: Date;
   initialStartTime: string;
 }
+
 export interface EventFilterCriteriaInterface {
   eventTime: Array<string>;
   cities: Array<string>;

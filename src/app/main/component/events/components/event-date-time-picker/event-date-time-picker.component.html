@@ -7,61 +7,58 @@
         <mat-label>{{ 'create-event.choose-date' | translate }}</mat-label>
         <input
           (dateChange)="checkDay()"
-          [matDatepickerFilter]="binded"
+          [matDatepickerFilter]="dateFilterBind"
           [matDatepicker]="picker"
           [min]="today"
+          autocomplete="false"
           formControlName="date"
           matInput
           ngDefaultControl
         />
         <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <mat-error>{{ 'create-event.date-error' | translate }}</mat-error>
+        <mat-hint>MMDDYYYY</mat-hint>
       </mat-form-field>
 
       <div class="time">
         <mat-form-field appearance="outline" class="time-item">
           <mat-label>{{ 'create-event.set-start-time' | translate }}</mat-label>
-          <mat-select formControlName="startTime" ngDefaultControl>
-            <mat-option *ngFor="let time of timeArrStart" [value]="time">
+          <input [matAutocomplete]="startOptions" formControlName="startTime" matInput />
+          <mat-autocomplete #startOptions="matAutocomplete">
+            <mat-option *ngFor="let time of $startOptions" [value]="time">
               {{ time }}
             </mat-option>
-          </mat-select>
+          </mat-autocomplete>
         </mat-form-field>
+
         <h5 class="dash">—</h5>
+
         <mat-form-field appearance="outline" class="time-item">
           <mat-label>{{ 'create-event.set-end-time' | translate }}</mat-label>
-          <mat-select formControlName="endTime" ngDefaultControl>
-            <mat-option *ngFor="let time of timeArrEnd" [value]="time">
+          <input [matAutocomplete]="endOptions" formControlName="endTime" matInput />
+          <mat-autocomplete #endOptions="matAutocomplete">
+            <mat-option *ngFor="let time of $endOptions" [value]="time">
               {{ time }}
             </mat-option>
-          </mat-select>
+          </mat-autocomplete>
         </mat-form-field>
       </div>
-      <mat-checkbox (change)="toggleAllDay()" [checked]="checkedAllDay" [disabled]="isAllDayDisabled" class="all-day"
+      <mat-checkbox (change)="toggleAllDay()" [disabled]="isAllDayDisabled" class="all-day" formControlName="allDay"
         >{{ 'create-event.all-day' | translate }}
       </mat-checkbox>
     </div>
   </div>
-  <div *ngIf="dateForm?.invalid && submitSelected" class="date-error">
-    <app-input-error
-      [date]="endTime.invalid"
-      [formElement]="endTime"
-      [isEvent]="true"
-      [isStartEventError]="startTime.invalid"
-      [numberDate]="date.invalid"
-    ></app-input-error>
-  </div>
-  <div *ngIf="dayNumber === this.duplindex" class="duplix-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
   <div class="checkbox">
-    <mat-checkbox (change)="toggleLocation()" [checked]="checkOfflinePlace" [disabled]="isPlaceDisabled" class="example-margin">
+    <mat-checkbox (change)="toggleLocation()" [checked]="isPlace" [disabled]="isPlaceDisabled" class="example-margin">
       {{ 'create-event.event-place' | translate }}
     </mat-checkbox>
-    <mat-checkbox (change)="checkIfOnline()" [checked]="checkOnlinePlace" [disabled]="isLinkDisabled" class="example-margin">
+    <mat-checkbox (change)="toggleOnline()" [checked]="isOnline" [disabled]="isLinkDisabled" class="example-margin">
       {{ 'create-event.event-online' | translate }}
     </mat-checkbox>
   </div>
 
-  <div *ngIf="checkOfflinePlace" class="active">
+  <div *ngIf="isPlace" class="active">
     <mat-label>{{ 'create-event.event-location' | translate }}</mat-label>
     <div class="location-title">
       <mat-form-field appearance="outline" class="location-title-input">
@@ -70,7 +67,7 @@
       </mat-form-field>
       <mat-checkbox
         (change)="toggleForAllLocations()"
-        *ngIf="isLocationSelected && dayNumber === 0 && !firstFormIsSucceed"
+        *ngIf="isLocationSelected && dayNumber === 0"
         [checked]="appliedForAllLocations"
         [color]="'primary'"
         [disabled]="!readyToApplyLocation"
@@ -90,18 +87,13 @@
     </div>
   </div>
 
-  <div *ngIf="checkOnlinePlace" class="active">
+  <div *ngIf="isOnline" class="active">
     <mat-label>{{ 'create-event.event-link' | translate }}</mat-label>
     <mat-form-field appearance="outline" class="link-title">
       <mat-label class="link-title">{{ 'create-event.event-online-link' | translate }}</mat-label>
       <input formControlName="onlineLink" matInput placeholder="{{ 'create-event.enter-link' | translate }}" />
     </mat-form-field>
-    <mat-checkbox
-      (change)="toggleForAllLinks()"
-      *ngIf="dayNumber === 0 && !firstFormIsSucceed"
-      [checked]="appliedForAllLink"
-      class="apply-location-checkbox"
-    >
+    <mat-checkbox class="apply-location-checkbox">
       {{ 'create-event.apply-location' | translate }}
     </mat-checkbox>
   </div>

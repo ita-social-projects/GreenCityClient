@@ -5,12 +5,19 @@ import { BehaviorSubject, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class FormBridgeService {
-  private locationSubject: Subject<{ address: string; coords: google.maps.LatLngLiteral }> = new Subject();
+  // TODO change any to form type
+  public dayMap = new Map<number, Date | undefined>();
+  private locationSubject: BehaviorSubject<{
+    address: string;
+    coords: google.maps.LatLngLiteral;
+  }> = new BehaviorSubject({ address: '', coords: { lng: 0, lat: 0 } });
   private daysSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(Array(1));
-  private informationSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private datesFormSubjects: Subject<any> = new Subject<any>();
+  private datesFormSubjects: Subject<{ value: boolean; key: number; form?: any }> = new Subject<{
+    value: boolean;
+    key: any;
+    form?: any;
+  }>();
   private formsValidnessSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private dayMap = new Map<number, Date | undefined>();
 
   constructor() {}
 
@@ -28,6 +35,10 @@ export class FormBridgeService {
 
   set days(value: any[]) {
     this.daysSubject.next(value);
+  }
+
+  updateFormsValidStatus(value: boolean) {
+    this.formsValidnessSubject.next(value);
   }
 
   setLocationForAll(location: { address: string; coords: google.maps.LatLngLiteral }) {
@@ -56,7 +67,8 @@ export class FormBridgeService {
   }
 
   // end
-  updateFormStatus(value: boolean, key: any) {
-    this.datesFormSubjects.next({ value, key });
+
+  updateDatesFormStatus(value: boolean, key: number, form?: any) {
+    this.datesFormSubjects.next({ value, key, form });
   }
 }

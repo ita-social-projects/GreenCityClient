@@ -143,7 +143,7 @@ describe('EventDateTimePickerComponent', () => {
     component.editDate = editDateMock;
     (component as any).setDataEditing();
 
-    expect(component.checkOnlinePlace).toBeTruthy();
+    expect(component.isOnline).toBeTruthy();
     expect(component.dateForm.get('onlineLink').value).toBe('http://event');
     expect(spy).toHaveBeenCalledTimes(3);
 
@@ -195,14 +195,14 @@ describe('EventDateTimePickerComponent', () => {
   });
 
   it('checkIfOnline expect dateForm onlineLink toBeTruthy', () => {
-    component.checkOnlinePlace = false;
-    component.checkIfOnline();
+    component.isOnline = false;
+    component.toggleOnline();
     expect(component.dateForm.get('onlineLink')).toBeTruthy();
   });
 
   it('checkIfOnline expect dateForm onlineLink toBeFalsy', () => {
-    component.checkOnlinePlace = true;
-    component.checkIfOnline();
+    component.isOnline = true;
+    component.toggleOnline();
     expect(component.dateForm.get('onlineLink')).toBeFalsy();
   });
 
@@ -214,11 +214,11 @@ describe('EventDateTimePickerComponent', () => {
 
   it('checkEndTime expect timeArrStart to be 21', () => {
     (component as any).checkEndTime('21:00');
-    expect(component.timeArrStart.length).toBe(21);
+    expect(component.indexStartTime.length).toBe(21);
   });
 
   it('checkStartTime expect timeArrEnd length to be 3', () => {
     (component as any).checkStartTime('21:00');
-    expect(component.timeArrEnd.length).toBe(3);
+    expect(component.indexEndTime.length).toBe(3);
   });
 });

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -50,25 +50,19 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     ellipsis: 'assets/img/events/ellipsis.svg',
     arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
   };
-
-  private userId: number;
   public eventId: number;
-
   public roles = {
     UNAUTHENTICATED: 'UNAUTHENTICATED',
     USER: 'USER',
     ORGANIZER: 'ORGANIZER',
     ADMIN: 'ADMIN'
   };
-
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   public bsModalRef: BsModalRef;
   public role = this.roles.UNAUTHENTICATED;
   public isEventFavorite: boolean;
-
   attendees = [];
   attendeesAvatars = [];
-
   public organizerName: string;
   public event: EventPageResponseDto | PagePreviewDTO;
   public locationLink: string;
@@ -76,30 +70,22 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public place: string;
   public addressUa: string;
   public addressEn: string;
-
   public images: string[] = [];
   public sliderIndex = 0;
   public isPosting: boolean;
   public isActive: boolean;
   public currentDate = new Date();
-
   public max = 5;
   public rate: number;
-
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title-admin',
     popupConfirm: 'homepage.events.delete-yes',
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
   };
-
   mapDialogData: any;
-
   public address = 'Should be adress';
-
   public maxRating = 5;
-  private destroy: Subject<boolean> = new Subject<boolean>();
-
   public backRoute: string;
   public routedFromProfile: boolean;
   public isUserCanJoin = false;
@@ -108,6 +94,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public addAttenderError: string;
   public isRegistered: boolean;
   public isReadonly = false;
+  private userId: number;
+  private destroy: Subject<boolean> = new Subject<boolean>();
   private userNameSub: Subscription;
   private isOwner: boolean;
 
@@ -168,6 +156,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.backRoute = this.localStorageService.getPreviousPage();
     } else {
       this.event = this.eventService.getForm();
+      console.log(this.event);
       this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
       this.place = this.event.location.place;
       this.images = this.event.imgArrayToPreview;
@@ -177,17 +166,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       };
       this.formatDates();
     }
-  }
-
-  private formatDates(): void {
-    this.event.dates.forEach((date) => {
-      if (date.startDate) {
-        date.startDate = this.eventService.transformDate(date, 'startDate');
-      }
-      if (date.finishDate) {
-        date.finishDate = this.eventService.transformDate(date, 'finishDate');
-      }
-    });
   }
 
   public backToEdit(): void {
@@ -207,14 +185,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public getAddress(): string {
     return this.eventService.getFormattedAddress(this.locationCoordinates);
-  }
-
-  private verifyRole(): string {
-    let role = this.roles.UNAUTHENTICATED;
-    role = this.jwtService.getUserRole() === 'ROLE_USER' ? this.roles.USER : role;
-    role = this.userId === this.event.organizer.id ? this.roles.ORGANIZER : role;
-    role = this.jwtService.getUserRole() === 'ROLE_ADMIN' ? this.roles.ADMIN : role;
-    return role;
   }
 
   public navigateToEditEvent(): void {
@@ -326,12 +296,34 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       isReadonly: this.isReadonly
     };
 
-    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, { class: 'modal-dialog-centered', initialState });
+    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, {
+      class: 'modal-dialog-centered',
+      initialState
+    });
     this.bsModalRef.content.closeBtnName = 'event.btn-close';
   }
 
   ngOnDestroy() {
     this.destroy.next(true);
     this.destroy.unsubscribe();
+  }
+
+  private formatDates(): void {
+    this.event.dates.forEach((date) => {
+      if (date.startDate) {
+        date.startDate = this.eventService.transformDate(date, 'startDate');
+      }
+      if (date.finishDate) {
+        date.finishDate = this.eventService.transformDate(date, 'finishDate');
+      }
+    });
+  }
+
+  private verifyRole(): string {
+    let role = this.roles.UNAUTHENTICATED;
+    role = this.jwtService.getUserRole() === 'ROLE_USER' ? this.roles.USER : role;
+    role = this.userId === this.event.organizer.id ? this.roles.ORGANIZER : role;
+    role = this.jwtService.getUserRole() === 'ROLE_ADMIN' ? this.roles.ADMIN : role;
+    return role;
   }
 }
