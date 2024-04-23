@@ -72,7 +72,7 @@ body {
   opacity: 0;
 }
 
-.extra-packages .mat-dialog-container {
+.extra-packages mat-dialog-container {
   background-color: var(--ubs-main-page-secondary-light-grey);
 }
 
@@ -101,7 +101,7 @@ body {
 
 // [END] View swither btns
 .transparent {
-  .mat-dialog-container {
+  mat-dialog-container {
     background: transparent;
     box-shadow: none;
   }
@@ -111,8 +111,12 @@ body {
   background-color: var(--ubs-primary-light-green);
 }
 
+.mat-mdc-dialog-surface {
+  padding: 30px;
+}
+
 .popup-dialog-container {
-  .mat-dialog-container {
+  mat-dialog-container {
     padding: 0;
     box-shadow: none;
   }
@@ -121,20 +125,20 @@ body {
 .add-place-wrapper-class {
   overflow-y: auto;
 
-  .mat-dialog-container {
+  mat-dialog-container {
     padding: 0;
     box-shadow: none;
   }
 }
 
 .delete-dialog-container {
-  .mat-dialog-container {
+  mat-dialog-container {
     box-shadow: none;
   }
 }
 
 .admin-cabinet-dialog-container {
-  .mat-dialog-container {
+  mat-dialog-container {
     padding: 0;
     display: block;
     box-shadow: none;
@@ -175,7 +179,7 @@ body {
 }
 
 .custom-dialog-container {
-  .mat-dialog-container {
+  mat-dialog-container {
     padding: 0;
     display: block;
     box-shadow: none;

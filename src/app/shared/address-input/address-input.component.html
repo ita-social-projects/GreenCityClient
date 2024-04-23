@@ -1,0 +1,114 @@
+<form [formGroup]="addressForm" class="row adress">
+  <div class="col-md-6 col-sm-6 form-group">
+    <label for="region">{{ 'personal-info.pop-up-region' | translate }}</label>
+    <app-input-google-autocomplete
+      formControlName="region"
+      [autoCompRequest]="autocompleteRegionRequest"
+      (predictionSelected)="onRegionSelected($event)"
+      [isInvalid]="region.invalid"
+    ></app-input-google-autocomplete>
+    <div *ngIf="isErrorMessageShown(region)">
+      <app-ubs-input-error [formElement]="region"></app-ubs-input-error>
+    </div>
+  </div>
+  <div class="col-md-6 col-sm-6 form-group">
+    <label for="city">{{ 'personal-info.pop-up-city' | translate }}</label>
+    <app-input-google-autocomplete
+      formControlName="city"
+      [requestPrefix]="region.value + ', ' + getLangValue('місто, ', 'city, ')"
+      [autoCompRequest]="autocompleteCityRequest"
+      (predictionSelected)="onCitySelected($event)"
+      [isInvalid]="city.invalid"
+    ></app-input-google-autocomplete>
+    <div *ngIf="isErrorMessageShown(city)">
+      <app-ubs-input-error [formElement]="city"></app-ubs-input-error>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-12 col-sm-12 form-group">
+    <label for="street">{{ 'personal-info.pop-up-street' | translate }}</label>
+    <app-input-google-autocomplete
+      [formControlName]="'street'"
+      [requestPrefix]="city.value + ', '"
+      [autoCompRequest]="autocompleteStreetRequest"
+      (predictionSelected)="onStreetSelected($event)"
+      [isInvalid]="street.invalid"
+    ></app-input-google-autocomplete>
+    <div *ngIf="isErrorMessageShown(street)">
+      <app-ubs-input-error [formElement]="street"></app-ubs-input-error>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between flex-wrap form-group house-details-wrapper">
+    <div class="item col-sm-4">
+      <label for="houseNumber">{{ 'personal-info.pop-up-house' | translate }}</label>
+      <input
+        id="houseNumber"
+        formControlName="houseNumber"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.pop-up-house' | translate }}"
+        (change)="onHouseNumberChange()"
+      />
+      <div class="validation" *ngIf="houseNumber.invalid && houseNumber.touched">
+        <app-ubs-input-error [formElement]="houseNumber" [inputName]="'requiredHouseNumber'"></app-ubs-input-error>
+      </div>
+    </div>
+    <div class="item col-sm-4">
+      <label for="houseCorpus">{{ 'personal-info.pop-up-corps' | translate }}</label>
+      <input
+        id="houseCorpus"
+        formControlName="houseCorpus"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.pop-up-corps' | translate }}"
+        (change)="onHouseCorpusChange()"
+      />
+      <div class="validation" *ngIf="houseCorpus.invalid && houseCorpus.touched">
+        <app-ubs-input-error [formElement]="houseCorpus"></app-ubs-input-error>
+      </div>
+    </div>
+    <div class="item col-sm-4">
+      <label for="entranceNumber">{{ 'personal-info.pop-up-entrance' | translate }}</label>
+      <input
+        id="entranceNumber"
+        formControlName="entranceNumber"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.pop-up-entrance' | translate }}"
+        (change)="onEntranceNumberChange()"
+      />
+      <div class="validation" *ngIf="entranceNumber.invalid && entranceNumber.touched">
+        <app-ubs-input-error [formElement]="entranceNumber"></app-ubs-input-error>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-sm-6 form-group">
+    <label for="district">{{ 'personal-info.pop-up-district' | translate }}</label>
+    <select class="shadow-none form-control" formControlName="district" [compareWith]="districtComparator" (change)="onDistrictSelected()">
+      <option
+        *ngFor="let districtElem of districtList"
+        [ngValue]="districtElem"
+        [label]="getLangValue(districtElem.nameUa, districtElem.nameEn)"
+      ></option>
+    </select>
+    <div class="validation" *ngIf="district.invalid && district.touched">
+      <app-ubs-input-error [formElement]="district"></app-ubs-input-error>
+    </div>
+  </div>
+  <div *ngIf="isShowCommentInput" class="form-group comment-section">
+    <label for="addressComment">{{ 'personal-info.info-address-coment' | translate }}</label>
+    <textarea
+      id="addressComment"
+      class="form-control"
+      formControlName="addressComment"
+      placeholder="{{ 'personal-info.pop-up-comment-placeholder' | translate }}"
+      (change)="onCommentChange()"
+    ></textarea>
+    <div class="validation" *ngIf="addressComment.invalid && addressComment.touched">
+      <app-ubs-input-error [formElement]="addressComment"></app-ubs-input-error>
+    </div>
+  </div>
+</form>
+<div class="address-exists" *ngIf="addressForm?.errors?.addressAlreadyExists && addressForm?.touched">
+  {{ 'personal-info.address-already-exist' | translate }}
+</div>
