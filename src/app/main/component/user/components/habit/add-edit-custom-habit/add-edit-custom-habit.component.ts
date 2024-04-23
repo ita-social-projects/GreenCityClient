@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntil, take } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -74,7 +74,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   };
 
   constructor(
-    private injector: Injector,
     public dialog: MatDialog,
     public router: Router,
     private fb: FormBuilder,
@@ -83,7 +82,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private habitService: HabitService,
     private userFriendsService: UserFriendsService,
     private snackBar: MatSnackBarComponent,
-    private habitAssignService: HabitAssignService
+    private activatedRoute: ActivatedRoute
   ) {
     super(router, dialog);
 
@@ -110,9 +109,9 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   initEditData() {
-    const [userId, habitId] = this.router.url.split('/').filter((segment) => /[0-9]/g.test(segment));
+    const habitId = +this.activatedRoute.snapshot.params.habitAssignId || +this.activatedRoute.snapshot.params.habitId;
     this.habitService
-      .getHabitById(+habitId)
+      .getHabitById(habitId)
       .pipe(take(1))
       .subscribe((habitState) => {
         this.habit = habitState;

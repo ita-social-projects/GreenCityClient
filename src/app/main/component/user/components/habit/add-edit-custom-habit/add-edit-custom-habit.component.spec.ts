@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { of, Subject, BehaviorSubject } from 'rxjs';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Language } from 'src/app/main/i18n/Language';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -60,6 +60,12 @@ describe('AddEditCustomHabitComponent', () => {
         { provide: HabitService, useValue: habitServiceMock },
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
         { provide: Router, useValue: routerMock },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({ id: 123 })
+          }
+        },
         provideMockStore({ initialState })
       ]
     }).compileComponents();

@@ -50,7 +50,7 @@ export class AddNewHabitComponent implements OnInit {
   isEditing = false;
   isCustom = false;
   canAcquire = false;
-  setStatus = 'ACQUIRED';
+  setStatus = HabitStatus.ACQUIRED;
 
   whiteStar = 'assets/img/icon/star-2.png';
   greenStar = 'assets/img/icon/star-1.png';
@@ -271,11 +271,6 @@ export class AddNewHabitComponent implements OnInit {
 
   editUsersCustomHabit(url: string, id: number): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    // this.habitResponse.shoppingListItems = this.initialShoppingList;
-    // this.habitResponse.customShoppingListItems = this.customShopList;
-    // this.habitResponse.defaultDuration = this.assignedHabit.habit.defaultDuration;
-    // this.habitResponse.duration = this.newDuration || this.assignedHabit.duration;
-    // this.store.dispatch(SetHabitForEdit({ habitResponse: this.habitResponse }));
     this.router.navigate([`profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
   }
 
