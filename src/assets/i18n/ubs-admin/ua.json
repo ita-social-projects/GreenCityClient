@@ -632,7 +632,8 @@
       "region": "Область",
       "city": "Місто",
       "station": "Станція",
-      "courier": "Кур'єр"
+      "courier": "Кур'єр",
+      "chat": "Чат"
     },
     "tariffs-selector": {
       "title": "Додати тарифи",

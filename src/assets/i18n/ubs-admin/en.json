@@ -635,7 +635,8 @@
       "region": "Region",
       "city": "City",
       "station": "Station",
-      "courier": "Courier"
+      "courier": "Courier",
+      "chat": "Chat"
     },
     "tariffs-selector": {
       "title": "Add tariffs",

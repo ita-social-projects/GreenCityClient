@@ -1,12 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 
 import { PreventNavigationBackGuard } from './prevent-navigation-back.guard';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('PreventNavigationBack2Guard', () => {
   let guard: PreventNavigationBackGuard;
+  class MatDialogMock {
+    closeAll() {}
+  }
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [{ provide: MatDialog, useClass: MatDialogMock }]
+    });
     guard = TestBed.inject(PreventNavigationBackGuard);
   });
 

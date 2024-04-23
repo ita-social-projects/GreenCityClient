@@ -8,7 +8,8 @@ import {
   EmployeePositions,
   InitialData,
   TariffForEmployee,
-  EmployeeDataToSend
+  EmployeeDataToSend,
+  Tariff
 } from '../../../models/ubs-admin.interface';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -65,7 +66,8 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         courier: { en: tariff.courierDto.nameEn, ua: tariff.courierDto.nameUk },
         region: { en: tariff.regionDto.nameEn, ua: tariff.regionDto.nameUk },
         locations: tariff.locationInfoDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk })),
-        selected: false
+        selected: false,
+        hasChat: false
       }))
   };
 
@@ -76,7 +78,8 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         courier: { en: tariff.courier.nameEn, ua: tariff.courier.nameUk },
         region: { en: tariff.region.nameEn, ua: tariff.region.nameUk },
         locations: tariff.locationsDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk })),
-        selected: true
+        selected: true,
+        hasChat: !!tariff.hasChat
       }))
   };
 
@@ -146,7 +149,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       .select((state: IAppState): string | null => state.employees.error)
       .pipe(skip(1))
       .subscribe((err: any) => {
-        this.email.setErrors({ emailExist: /email already exists/.test(err.message) });
+        if (err.message) {
+          this.email.setErrors({ emailExist: /email already exists/.test(err.message) });
+        }
         this.isUploading = false;
       });
 
@@ -154,11 +159,14 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       const tariffs = this.addMappers.tariffs(data);
       this.tariffs = tariffs;
       if (this.editMode) {
-        this.tariffsFromEditForm = this.tariffsFromEditForm.map((editItem) => editItem.id);
+        this.tariffsFromEditForm = this.tariffsFromEditForm.map((editItem) => {
+          return { id: editItem.id, hasChat: !!editItem?.hasChat };
+        });
         this.filteredTariffs = this.tariffs.map((tariffItem) => {
           return {
             ...tariffItem,
-            selected: this.tariffsFromEditForm.includes(tariffItem.id)
+            selected: this.tariffsFromEditForm.some((el) => el.id === tariffItem.id),
+            hasChat: !!this.tariffsFromEditForm.find((el) => el.id === tariffItem.id)?.hasChat
           };
         });
       } else {
@@ -207,7 +215,8 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  isTariffListChange(): void {
+  isTariffListChange(tariff: Tariff): void {
+    tariff.hasChat = tariff.hasChat && tariff.selected;
     if (!this.isInitialTariffsChanged) {
       this.isInitialTariffsChanged = true;
     }
@@ -226,13 +235,15 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
 
   prepareEmployeeDataToSend(dto: string, image?: string | ArrayBuffer): FormData {
     this.isUploading = true;
-    const selectedTarifs = this.filteredTariffs.filter((it) => it.selected);
+    const selectedTariffs = this.filteredTariffs.filter((it) => it.selected);
     this.employeeDataToSend = {
       employeeDto: {
         ...this.employeeForm.value,
         employeePositions: this.employeePositions
       },
-      tariffId: selectedTarifs.map((it) => it.id)
+      tariffs: selectedTariffs.map((tariff) => {
+        return { tariffId: tariff.id, hasChat: tariff.hasChat };
+      })
     };
     if (this.isUpdatingEmployee) {
       this.employeeDataToSend.employeeDto.id = this.data.id;
@@ -264,13 +275,13 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
 
   updateEmployee(): void {
     const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
-    const dataToSend = this.prepareEmployeeDataToSend('employeeWithTariffsIdDto', image);
+    const dataToSend = this.prepareEmployeeDataToSend('employee', image);
     this.store.dispatch(UpdateEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
   createEmployee(): void {
     const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
-    const dataToSend = this.prepareEmployeeDataToSend('employeeWithTariffsIdDto', image);
+    const dataToSend = this.prepareEmployeeDataToSend('employee', image);
     this.store.dispatch(AddEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 

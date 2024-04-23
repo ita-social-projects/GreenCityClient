@@ -15,10 +15,15 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UbsAdminEmployeeTableComponent } from './ubs-admin-employee-table.component';
 import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog-pop-up.component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Actions } from '@ngrx/effects';
 
 describe('UbsAdminEmployeeTableComponent', () => {
   let component: UbsAdminEmployeeTableComponent;
   let fixture: ComponentFixture<UbsAdminEmployeeTableComponent>;
+  let store: MockStore;
+  let actions: Actions;
 
   const dialogRefStub = {
     afterClosed() {
@@ -70,7 +75,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
             id: 1,
             nameEn: 'UBS',
             nameUk: 'УБС'
-          }
+          },
+          hasChat: true
         },
         {
           id: 2,
@@ -90,7 +96,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
             id: 1,
             nameEn: 'UBS',
             nameUk: 'УБС'
-          }
+          },
+          hasChat: false
         }
       ]
     },
@@ -121,7 +128,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
             id: 1,
             nameEn: 'UBS',
             nameUk: 'УБС'
-          }
+          },
+          hasChat: true
         }
       ]
     }
@@ -151,6 +159,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
         TranslateModule.forRoot()
       ],
       providers: [
+        provideMockStore({}),
+        provideMockActions(() => actions),
         { provide: MatDialogRef, useValue: dialogRefStub },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: Store, useValue: storeMock },
@@ -164,6 +174,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminEmployeeTableComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(MockStore);
+    actions = TestBed.inject(Actions);
     spyOn(component.searchValue, 'pipe').and.returnValue(of(''));
     fixture.detectChanges();
   });

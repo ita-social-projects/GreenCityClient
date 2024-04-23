@@ -99,6 +99,7 @@
                     <th class="col-region">{{ 'ubs-employee.tariffs-columns.region' | translate }}</th>
                     <th class="col-city">{{ 'ubs-employee.tariffs-columns.city' | translate }}</th>
                     <th class="col-courier">{{ 'ubs-employee.tariffs-columns.courier' | translate }}</th>
+                    <th class="col-actions">{{ 'ubs-employee.tariffs-columns.chat' | translate }}</th>
                     <th class="col-actions"></th>
                   </tr>
                 </thead>
@@ -115,10 +116,18 @@
                     </td>
                     <td>
                       <mat-checkbox
+                        [(ngModel)]="tariff.hasChat"
+                        [ngModelOptions]="{ standalone: true }"
+                        [disabled]="!tariff.selected"
+                        (change)="isTariffListChange(tariff)"
+                      ></mat-checkbox>
+                    </td>
+                    <td>
+                      <mat-checkbox
                         class="tariff-checkbox"
                         [(ngModel)]="tariff.selected"
                         [ngModelOptions]="{ standalone: true }"
-                        (change)="isTariffListChange()"
+                        (change)="isTariffListChange(tariff)"
                       ></mat-checkbox>
                     </td>
                   </tr>

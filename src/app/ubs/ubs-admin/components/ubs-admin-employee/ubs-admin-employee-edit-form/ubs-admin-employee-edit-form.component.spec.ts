@@ -20,10 +20,12 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close', 'afterClosed']);
   matDialogRefMock.afterClosed.and.returnValue(of(true));
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
-  const dialogRefStub = {
-    afterClosed() {
-      return of(true);
-    }
+  matDialogMock.open = () => {
+    return {
+      afterClosed() {
+        return of(true);
+      }
+    };
   };
   const mockedEmployeePositions = [
     {
@@ -294,8 +296,10 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
   describe('openImg', () => {
     it(`dialog has been opened`, () => {
+      let spy = spyOn((component as any).dialog, 'open');
       component.openImg();
-      expect(matDialogMock.open).toHaveBeenCalledWith(ShowImgsPopUpComponent, {
+
+      expect(spy).toHaveBeenCalledWith(ShowImgsPopUpComponent, {
         hasBackdrop: true,
         panelClass: 'custom-img-pop-up',
         data: {
