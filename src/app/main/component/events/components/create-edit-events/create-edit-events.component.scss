@@ -22,7 +22,7 @@
 
 .content {
   z-index: 2;
-  border: 2px solid rgb(161, 156, 156);
+  border: 2px solid rgb(161 156 156);
 }
 
 .content-error {
@@ -494,8 +494,7 @@
 
 @media (max-width: 524px) {
   .submit-container {
-    flex-wrap: wrap;
-    flex-direction: column-reverse;
+    flex-flow: column-reverse wrap;
     align-items: flex-end;
   }
 

@@ -1,6 +1,6 @@
 .event-assign {
   height: 192px;
-  box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
+  box-shadow: 1px 1px 12px rgb(27 51 38 / 15%);
   background: var(--primary-white);
   border-radius: 4px;
   display: grid;
@@ -42,8 +42,8 @@
       left: 8px;
       top: 8px;
       border-radius: 4px;
-      padding: 10px 8px 10px 8px;
-      background: rgba(255, 255, 255, 0.8);
+      padding: 10px 8px;
+      background: rgb(255 255 255 / 80%);
       box-shadow: 0 0 2px 0 var(--primary-grey);
 
       &__avatars__avatar {

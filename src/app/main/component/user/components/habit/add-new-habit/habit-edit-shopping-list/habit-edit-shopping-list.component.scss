@@ -26,8 +26,7 @@
     margin: 0;
     gap: 16px;
     list-style-type: none;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden scroll;
 
     .list-item {
       display: flex;

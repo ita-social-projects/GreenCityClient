@@ -1,7 +1,7 @@
 @import 'src/typography/_resp.scss';
 
 $grey-light-color: #6a8079;
-$green-light-color: rgba(19, 170, 87, 0.12);
+$green-light-color: rgb(19 170 87 / 12%);
 
 p {
   margin: 0;
@@ -19,7 +19,7 @@ p {
     position: relative;
 
     .container-user-image {
-      margin: 40px auto 0 auto;
+      margin: 40px auto 0;
 
       .user-image {
         justify-self: center;
@@ -161,8 +161,7 @@ p {
 
         .name {
           grid-area: 1 / 2 / 2 / 3;
-          justify-self: start;
-          align-self: self-end;
+          place-self: self-end start;
           margin-top: 20px;
           padding: 0;
           text-align: start;
@@ -300,7 +299,7 @@ p {
       grid-template-rows: 137px 32px 30px 39px 43px auto 76px;
 
       .container-user-image {
-        margin: 48px auto 0 auto;
+        margin: 48px auto 0;
 
         .edit-icon {
           right: 18px;

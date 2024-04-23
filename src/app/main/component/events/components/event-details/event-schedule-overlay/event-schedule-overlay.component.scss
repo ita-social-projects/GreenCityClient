@@ -6,7 +6,7 @@
 }
 
 ::ng-deep .event-schedule-overlay-backdrop {
-  background: rgba(68, 78, 85, 0.3);
+  background: rgb(68 78 85 / 30%);
 
   @media (min-width: 1024px) {
     background: transparent;
@@ -17,7 +17,7 @@
   background-color: var(--pre-secondary-light-grey);
   border-radius: 8px 8px 0 0;
   overflow: hidden;
-  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+  box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   width: 100%;
   padding-left: 16px;
   padding-right: 16px;

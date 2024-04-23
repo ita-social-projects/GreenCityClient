@@ -23,8 +23,7 @@ p {
 
 .search_not-found-item-wrp {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   margin-top: 10px;
 }
 
@@ -54,7 +53,7 @@ p {
   max-width: 360px;
   min-height: 352px;
   background: var(--primary-white);
-  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+  box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   cursor: pointer;
 }
 

@@ -82,7 +82,7 @@
   font-weight: 200;
   margin-right: 5px;
   scale: 0.8;
-  opacity: 50% !important;
+  opacity: 0.5 !important;
 }
 
 .example-margin {
@@ -154,7 +154,7 @@
   }
 
   .date-error {
-    margin: -18px 0 30px 0;
+    margin: -18px 0 30px;
   }
 
   .duplix-error {
@@ -210,7 +210,7 @@
 
   .duplix-error,
   .date-error {
-    margin: -18px 0 30px 0;
+    margin: -18px 0 30px;
   }
 }
 
@@ -229,8 +229,7 @@
 
   .date-time {
     white-space: wrap;
-    flex-wrap: wrap;
-    flex-direction: column;
+    flex-flow: column wrap;
     align-items: flex-start;
   }
 

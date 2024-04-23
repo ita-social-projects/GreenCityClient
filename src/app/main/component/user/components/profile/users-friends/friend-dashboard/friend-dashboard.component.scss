@@ -19,24 +19,23 @@
 
   .friends {
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
     justify-content: space-between;
-    flex-wrap: wrap;
     column-gap: 63px;
     align-items: center;
     font-family: var(--primary-font);
-    padding: 12px 0 44px 0;
+    padding: 12px 0 44px;
 
     @media screen and (max-width: 1024px) {
-      padding: 12px 0 41px 0;
+      padding: 12px 0 41px;
     }
 
     @media screen and (max-width: 576px) {
-      padding: 12px 0 13px 0;
+      padding: 12px 0 13px;
     }
 
     @media screen and (max-width: 576px) {
-      padding: 12px 0 21px 0;
+      padding: 12px 0 21px;
     }
 
     h1 {

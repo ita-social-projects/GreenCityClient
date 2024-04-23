@@ -31,12 +31,12 @@ input:checked ~ .checkmark::after {
 }
 
 .edit_prof-wrap {
-  margin: 60px 0 0 0;
+  margin: 60px 0 0;
   max-width: 554px;
   box-sizing: content-box;
 
   form {
-    margin: 70px 0 0 0;
+    margin: 70px 0 0;
   }
 
   .wrapper {
@@ -194,7 +194,7 @@ h2 {
 
 @media screen and (max-width: 320px) {
   .edit_prof-wrap {
-    margin: 40px 0 0 0;
+    margin: 40px 0 0;
 
     h2 {
       height: 28px;
@@ -221,7 +221,7 @@ h2 {
       }
 
       button:last-child {
-        margin: 16px 0 0 0;
+        margin: 16px 0 0;
       }
     }
 
@@ -231,7 +231,7 @@ h2 {
       }
 
       p {
-        margin: 45px 0 26px 0;
+        margin: 45px 0 26px;
       }
 
       ul {

@@ -13,7 +13,7 @@ div {
 .list-gallery {
   width: 359px;
   height: 478px;
-  box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
+  box-shadow: 1px 1px 12px rgb(27 51 38 / 15%);
   background: #fff;
   border-radius: 4px;
   display: flex;
@@ -29,13 +29,12 @@ div {
 
   .list-gallery-content {
     position: relative;
-    margin: 8px 24px 16px 24px;
+    margin: 8px 24px 16px;
     flex-grow: 1;
 
     .filter-tag {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+      flex-flow: row wrap;
       height: 28px;
       margin-bottom: 4px;
       align-items: center;

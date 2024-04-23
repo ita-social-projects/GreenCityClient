@@ -125,7 +125,7 @@ input {
   text-align: left;
   border-left: none;
   border-radius: 0 4px 4px 0;
-  background: right url(../../../../../assets/img/ubs/clock.png) no-repeat;
+  background: right url('../../../../../assets/img/ubs/clock.png') no-repeat;
   background-size: 16px;
   background-position-x: 80%;
 }
@@ -206,7 +206,7 @@ select {
 }
 
 .box {
-  box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
+  box-shadow: 0 0 8px rgb(70 70 70 / 25%);
   padding: 30px;
   margin-bottom: 30px;
 }

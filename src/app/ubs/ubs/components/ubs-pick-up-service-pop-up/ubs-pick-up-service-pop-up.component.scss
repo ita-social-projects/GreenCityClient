@@ -14,7 +14,7 @@
   .about-service__section {
     width: 100%;
     display: flex;
-    padding: 60px 0 26px 0;
+    padding: 60px 0 26px;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
@@ -144,8 +144,7 @@
 
   &__item {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    flex-flow: row nowrap;
     align-items: center;
     justify-content: space-around;
 
@@ -205,7 +204,7 @@
 
 .numbered--list {
   padding: 0;
-  margin: 24px 0 0 0;
+  margin: 24px 0 0;
   list-style: none;
   min-height: 76px;
   display: flex;
@@ -253,7 +252,7 @@
 
   .minimal-volume {
     min-height: 232px;
-    padding: 54px 35px 40px 35px !important;
+    padding: 54px 35px 40px !important;
 
     .arrow--list {
       margin-top: 24px;
@@ -270,7 +269,7 @@
     padding: 0 80px;
 
     .about-service__section {
-      padding: 30px 0 20px 0;
+      padding: 30px 0 20px;
 
       .about-service__close img {
         height: 20px;
@@ -323,7 +322,7 @@
     padding: 0 16px;
 
     .about-service__section {
-      padding: 24px 0 24px 0;
+      padding: 24px 0;
 
       .about-service__close img {
         height: 17px;
