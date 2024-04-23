@@ -13,6 +13,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Breakpoints } from 'src/app/main/config/breakpoints.constants';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { BaseCalendar } from '@global-user/components/profile/calendar/calendar-week/calendar-week-interface';
 
 @Component({
   selector: 'app-calendar-base',
@@ -303,7 +304,7 @@ export class CalendarBaseComponent implements OnDestroy {
       new Date(this.selectedDay).setHours(0, 0, 0, 0);
   }
 
-  checkCanOpenPopup(dayItem: CalendarInterface) {
+  checkCanOpenPopup(dayItem: BaseCalendar) {
     return !!dayItem.hasHabitsInProgress;
   }
 
