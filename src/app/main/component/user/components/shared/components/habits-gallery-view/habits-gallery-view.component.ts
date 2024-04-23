@@ -44,24 +44,6 @@ export class HabitsGalleryViewComponent implements OnInit {
     this.habit.assignId
       ? this.router.navigate([`${link}edithabit`, this.habit.assignId], { relativeTo: this.route })
       : this.router.navigate([`${link}addhabit`, this.habit.id], { relativeTo: this.route });
-
-    const isUserCustomHabit = this.habit.usersIdWhoCreatedCustomHabit === this.userId;
-
-    // if (isUserCustomHabit) {
-    //   if (this.habit.habitAssignStatus) {
-    //     // this.router.navigate([`${link}addhabit`, this.habit.assignId], { relativeTo: this.route });
-    //     console.log('custom habit', { habit: this.habit, assignId: this.habit.assignId });
-    //   } else {
-    //     this.router.navigate([`${link}addhabit/${this.habit.id}/edit-habit`], { relativeTo: this.route });
-    //   }
-    // } else {
-    //   console.log('habit assign id', this.habit.assignId);
-    //   if (this.habit.isAssigned) {
-    //     this.router.navigate([`${link}addhabit`, this.habit.assignId], { relativeTo: this.route });
-    //   } else {
-    //     this.router.navigate([`${link}addhabit`, this.habit.id], { relativeTo: this.route });
-    //   }
-    // }
   }
 
   public addHabit() {

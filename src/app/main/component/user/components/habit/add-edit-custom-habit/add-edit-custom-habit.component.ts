@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -19,7 +19,6 @@ import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TodoStatus } from '../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
