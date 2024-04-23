@@ -73,8 +73,8 @@
     left: 8px;
     top: 8px;
     border-radius: 4px;
-    padding: 10px 8px 10px 8px;
-    background: rgba(255, 255, 255, 0.8);
+    padding: 10px 8px;
+    background: rgb(255 255 255 / 80%);
     box-shadow: 0 0 2px 0 var(--primary-grey);
 
     .event-participants-avatar {
@@ -159,7 +159,7 @@
 
   .event-title {
     width: 100%;
-    background-color: rgba(26, 27, 27, 0.247);
+    background-color: rgb(26 27 27 / 24.7%);
     color: beige;
     text-align: center;
     position: absolute;

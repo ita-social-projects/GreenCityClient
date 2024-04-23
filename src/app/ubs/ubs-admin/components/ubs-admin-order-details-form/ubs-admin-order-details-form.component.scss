@@ -166,7 +166,7 @@
   }
 }
 
-.ng-invalid:not(form):not([formarrayname]) {
+.ng-invalid:not(form, [formarrayname]) {
   border: 1px solid var(--error-ligh-red);
 }
 

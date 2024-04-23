@@ -71,7 +71,7 @@ select {
 }
 
 .comment-section {
-  margin: 0 15px 20px 15px;
+  margin: 0 15px 20px;
   width: 100%;
 
   textarea {
@@ -118,8 +118,7 @@ select {
   }
 
   .buttons {
-    flex-direction: row;
+    flex-flow: row nowrap;
     align-items: stretch;
-    flex-wrap: nowrap;
   }
 }

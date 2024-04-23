@@ -250,19 +250,22 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         cancellationReason: '' // TODO
       }),
       userInfoDto: this.fb.group({
-        recipientName: [
-          this.userInfo.recipientName,
-          [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
-        ],
-        recipientSurName: [
-          this.userInfo.recipientSurName,
-          [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
-        ],
-        recipientPhoneNumber: [
-          this.userInfo.recipientPhoneNumber,
-          [Validators.required, Validators.pattern(Patterns.adminPhone), PhoneNumberValidator('UA')]
-        ],
-        recipientEmail: [this.userInfo.recipientEmail, [Validators.pattern(Patterns.ubsMailPattern)]]
+        recipientName: new FormControl(this.userInfo.recipientName, [
+          Validators.required,
+          Validators.maxLength(30),
+          Validators.pattern(Patterns.NamePattern)
+        ]),
+        recipientSurName: new FormControl(this.userInfo.recipientSurName, [
+          Validators.required,
+          Validators.maxLength(30),
+          Validators.pattern(Patterns.NamePattern)
+        ]),
+        recipientPhoneNumber: new FormControl(this.userInfo.recipientPhoneNumber, [
+          Validators.required,
+          Validators.pattern(Patterns.adminPhone),
+          PhoneNumberValidator('UA')
+        ]),
+        recipientEmail: new FormControl(this.userInfo.recipientEmail, [Validators.pattern(Patterns.ubsMailPattern)])
       }),
       addressExportDetailsDto: this.fb.group({
         addressRegion: [{ value: this.addressInfo.addressRegion, disabled: this.isStatus }, Validators.required],

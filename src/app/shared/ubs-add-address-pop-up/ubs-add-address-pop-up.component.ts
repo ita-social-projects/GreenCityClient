@@ -31,16 +31,19 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   private $destroy: Subject<void> = new Subject();
 
   autocompleteRegionRequest = {
+    input: '',
     types: ['administrative_area_level_1'],
     componentRestrictions: { country: 'ua' }
   };
 
   autocompleteCityRequest = {
+    input: '',
     types: ['(cities)'],
     componentRestrictions: { country: 'ua' }
   };
 
   autocompleteStreetRequest = {
+    input: '',
     types: ['address'],
     componentRestrictions: { country: 'ua' }
   };

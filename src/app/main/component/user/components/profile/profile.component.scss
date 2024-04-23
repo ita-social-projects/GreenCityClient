@@ -143,19 +143,19 @@
 }
 
 @include responsivePCFirst(sm) {
-  .profile-wrapper {
-    .left-column {
-      .app-users-friends {
-        width: 100%;
-      }
-    }
-  }
-
   .left-column {
     height: 430px;
 
     .app-users-friends {
       width: 100%;
+    }
+  }
+
+  .profile-wrapper {
+    .left-column {
+      .app-users-friends {
+        width: 100%;
+      }
     }
   }
 }

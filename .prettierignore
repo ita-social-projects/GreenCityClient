@@ -5,6 +5,7 @@
 *.jpg
 *.svg
 *.conf
+*.json_
 .prettierignore
 .browserslistrc
 greencity-client-chart

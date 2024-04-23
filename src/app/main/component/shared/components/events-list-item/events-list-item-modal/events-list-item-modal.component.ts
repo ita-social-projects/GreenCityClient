@@ -77,7 +77,8 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
     });
   }
 
-  public hoveringOver(event: number, rated = false): void {
+  public hoveringOver(event: any, rated = false): void {
+    //$Event number
     this.textByRate = rated ? this.text : this.textByRate;
     this.text = [1, 2, 3].includes(event) ? `event.text-${event}` : '';
     this.hover = [1, 2, 3].includes(event);

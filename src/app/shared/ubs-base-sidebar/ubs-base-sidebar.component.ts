@@ -16,6 +16,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Router } from '@angular/router';
+import { listElements } from '../interface/ubs-base-sidebar-interface';
 
 @Component({
   selector: 'app-ubs-base-sidebar',
@@ -30,8 +31,8 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   private sidebarChangeBreakpoint: number;
   public isAdmin = false;
   destroy: Subject<boolean> = new Subject<boolean>();
-  @Input() public listElements: object[] = [];
-  @Input() public listElementsMobile: object[] = [];
+  @Input() public listElements: listElements[] = [];
+  @Input() public listElementsMobile: listElements[] = [];
   @ViewChild('drawer') drawer: MatDrawer;
   @ViewChild('sideBarIcons') sideBarIcons: ElementRef;
   @ViewChild('sidebarContainer') sidebarContainer: ElementRef;

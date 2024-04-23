@@ -61,8 +61,7 @@ p {
     height: 189px;
     grid-template-rows: repeat(2, 1fr);
     grid-template-columns: repeat(2, 1fr);
-    column-gap: 16px;
-    row-gap: 16px;
+    gap: 16px 16px;
     border-top: 1px solid $additional-color;
 
     .chain {
@@ -86,8 +85,7 @@ p {
 @media (min-width: 1200px) {
   .stat {
     width: 213px;
-    column-gap: 16px;
-    row-gap: 16px;
+    gap: 16px 16px;
   }
 }
 
@@ -95,6 +93,7 @@ p {
   .stat {
     .chain {
       padding: 0 16px;
+
       p:first-child {
         font-size: 24px;
         line-height: 32px;

@@ -152,9 +152,9 @@
             class="events-pagination"
             (pageChange)="onEventsPageChange($event, eventType)"
             (pageBoundsCorrection)="onEventsPageChange($event, eventType)"
-            maxSize="7"
-            autoHide="true"
-            responsive="true"
+            [maxSize]="7"
+            [autoHide]="true"
+            [responsive]="true"
             *ngIf="this.totalEvents"
           ></pagination-controls>
           <div class="no-data" *ngIf="!this.totalEvents">

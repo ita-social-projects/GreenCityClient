@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { FileHandle } from '../../../models/file-handle.model';
 
 describe('UbsAdminEmployeeEditFormComponent', () => {
   let component: UbsAdminEmployeeEditFormComponent;
@@ -121,6 +122,12 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
     email: new FormControl('fake')
   });
   const dataFileMock = new File([''], 'test-file.jpeg');
+  const datasFileMock: FileHandle[] = [
+    {
+      file: new File([''], 'test-file.jpeg'),
+      url: ''
+    }
+  ];
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(true, true);
 
@@ -242,8 +249,8 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
   it('filesDropped should be called', () => {
     const filesDroppedMock = spyOn(component, 'filesDropped');
-    component.filesDropped(dataFileMock);
-    expect(filesDroppedMock).toHaveBeenCalledWith(dataFileMock);
+    component.filesDropped(datasFileMock);
+    expect(filesDroppedMock).toHaveBeenCalledWith(datasFileMock);
   });
 
   it('File should be transfered', () => {

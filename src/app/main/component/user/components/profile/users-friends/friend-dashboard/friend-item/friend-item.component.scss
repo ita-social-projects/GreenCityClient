@@ -7,9 +7,9 @@
   height: 194px;
   background: var(--primary-white);
   font-family: var(--primary-font);
-  padding: 24px 24px 10px 24px;
+  padding: 24px 24px 10px;
   border-radius: 8px;
-  box-shadow: 0 5px 10px rgba(202, 207, 211, 0.7);
+  box-shadow: 0 5px 10px rgb(202 207 211 / 70%);
   cursor: pointer;
 
   ::ng-deep .profile-avatar {
@@ -40,7 +40,7 @@
 }
 
 .rate-with-photo {
-  background: rgba(19, 170, 87, 0.12);
+  background: rgb(19 170 87 / 12%);
 }
 
 .friend-name {

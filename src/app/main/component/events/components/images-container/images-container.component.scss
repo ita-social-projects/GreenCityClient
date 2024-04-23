@@ -16,7 +16,7 @@
   border-radius: 4px;
   border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
-  margin: 1px 1px 1px 1px;
+  margin: 1px;
 }
 
 .images-container-wrapper::-webkit-scrollbar-track {
@@ -107,10 +107,8 @@
 @media (max-width: 1199px) {
   .images-container-wrapper {
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    flex-direction: row;
+    flex-flow: row nowrap;
+    overflow: scroll hidden;
     height: 75px;
     width: 428px;
   }
@@ -186,7 +184,7 @@
   }
 
   .example-card {
-    margin: 32px 0 0 0;
+    margin: 32px 0 0;
     position: relative;
     left: 16px;
   }

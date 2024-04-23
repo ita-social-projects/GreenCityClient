@@ -11,11 +11,14 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
   styleUrls: ['./eco-news-widget.component.scss']
 })
 export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
-  public recommendedNews: EcoNewsModel;
+  public recommendedNews: EcoNewsModel[];
   public selectedId: number;
   public recommendedNewsSubscription: Subscription;
 
-  constructor(private ecoNewsService: EcoNewsService, private route: ActivatedRoute) {}
+  constructor(
+    private ecoNewsService: EcoNewsService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.newsIdSubscription();
@@ -29,7 +32,7 @@ export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
           return this.ecoNewsService.getRecommendedNews(id);
         })
       )
-      .subscribe((element: EcoNewsModel) => (this.recommendedNews = element));
+      .subscribe((element: EcoNewsModel[]) => (this.recommendedNews = element));
   }
 
   ngOnDestroy() {

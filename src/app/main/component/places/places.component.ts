@@ -121,14 +121,14 @@ export class PlacesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public mapCenterChange(newValue: google.maps.LatLngLiteral): void {
+  public mapCenterChange(newValue: any): void {
     this.position = {
       latitude: newValue.lat,
       longitude: newValue.lng
     };
   }
 
-  public mapBoundsChange(newValue: google.maps.LatLngBounds): void {
+  public mapBoundsChange(newValue: any): void {
     this.mapBoundsDto = {
       northEastLat: newValue.getNorthEast().lat(),
       northEastLng: newValue.getNorthEast().lng(),
@@ -314,7 +314,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
     );
   }
 
-  onLocationSelected(event: Location) {
+  onLocationSelected(event: Event | Location) {
     return;
   }
 

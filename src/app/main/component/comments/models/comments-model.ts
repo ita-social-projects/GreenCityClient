@@ -22,6 +22,7 @@ export interface CommentsDTO {
   isEdit?: boolean;
   showRelyButton?: boolean;
   showAllRelies?: boolean;
+  numberOfLikes?: number;
 }
 
 export interface AddedCommentDTO {

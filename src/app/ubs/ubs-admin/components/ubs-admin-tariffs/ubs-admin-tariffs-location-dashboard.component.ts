@@ -35,7 +35,7 @@ import { abilityAddAuthorities, abilityDelAuthorities, abilityEditAuthorities } 
 export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() showAllTariff = true;
   @Input() isLoading: boolean;
-  @Input() locationCard: Locations;
+  @Input() locationCard: Locations[];
   @Input() textBack: TemplateRef<any>;
   @Input() selectedCard;
 
@@ -291,7 +291,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
-  addItem(event: MatChipInputEvent): void {
+  addItem(event: any): void {
+    //$Event MatChipInputEvent
     const value = event.value;
 
     if ((value || '').trim()) {
@@ -311,7 +312,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  public onOpenDropdown(event: Event): void {
+  public onOpenDropdown(): void {
     const panel = document.querySelector('.mat-autocomplete-panel');
     panel.scrollTop = this.scrollPosition;
   }
