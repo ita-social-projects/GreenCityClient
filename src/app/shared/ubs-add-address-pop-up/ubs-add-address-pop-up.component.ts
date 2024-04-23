@@ -70,8 +70,6 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   }
 
   addAdress(): void {
-    console.log(this.address.value);
-
     this.data.edit
       ? this.store.dispatch(UpdateAddress({ address: { ...this.data.address, ...this.address.value } }))
       : this.store.dispatch(CreateAddress({ address: this.address.value }));
