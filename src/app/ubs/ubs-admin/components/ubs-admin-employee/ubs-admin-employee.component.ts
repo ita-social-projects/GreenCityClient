@@ -652,7 +652,8 @@ export class UbsAdminEmployeeComponent implements OnInit {
     return this.getLangValue(selectedRegionName, selectedRegionEnglishName);
   }
 
-  addItem(event: MatChipInputEvent, option: string): void {
+  addItem(event: any, option: string): void {
+    //$Event MatChipInputEvent
     const value = event.value;
 
     if ((value || '').trim()) {

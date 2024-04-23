@@ -323,7 +323,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  public onPressEnterAboutService(event: KeyboardEvent): void {
+  public onPressEnterAboutService(event: Event): void {
+    //$Event KeyboardEvent
     event.preventDefault();
     this.openAboutServicePopUp(event);
   }
@@ -402,7 +403,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.store.dispatch(ResetFriends());
   }
 
-  public toggleLangDropdown(event: KeyboardEvent): void {
+  public toggleLangDropdown(event: Event): void {
+    //$Event KeyboardEvent
     event.preventDefault();
     this.langDropdownVisible = !this.langDropdownVisible;
   }

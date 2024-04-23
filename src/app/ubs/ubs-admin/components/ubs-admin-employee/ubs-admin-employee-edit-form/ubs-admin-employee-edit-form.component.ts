@@ -278,7 +278,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.transferFile(imageFile);
   }
 
-  public filesDropped(files: File): void {
+  public filesDropped(files: FileHandle[]): void {
     const imageFile = files[0].file;
     this.transferFile(imageFile);
   }

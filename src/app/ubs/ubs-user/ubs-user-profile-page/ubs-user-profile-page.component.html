@@ -103,7 +103,7 @@
                 type="tel"
                 class="form-control recipientPhone"
                 id="recipientPhone"
-                [formControl]="userForm.controls['recipientPhone']"
+                [formControl]="getControl('recipientPhone')"
                 placeholder="+380__ ___ __ __"
                 [unmask]="true"
                 [imask]="{ mask: phoneMask }"
