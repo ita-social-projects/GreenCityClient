@@ -6,7 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil, finalize, tap, concatMap } from 'rxjs/operators';
 import { ubsMainPageImages } from '../../../../main/image-pathes/ubs-main-page-images';
-import { AllLocationsDtos, CourierLocations, Bag, OrderDetails, ActiveLocations } from '../../models/ubs.interface';
+import { AllLocationsDtos, CourierLocations, Bag, OrderDetails, ActiveLocations, ActiveCourierDto } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -15,6 +15,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-ubs-main-page',
@@ -140,11 +141,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.subs.unsubscribe();
   }
 
-  getBags(locationId?, tariffId?) {
-    if (!tariffId) {
-      locationId = locationId || 1;
-      tariffId = tariffId || 1;
-    }
+  getBags(locationId = 1, tariffId = 1): void {
     this.locationToShow = this.locationsToShowBags.find((el) => el.locationId === locationId);
 
     this.orderService
@@ -180,7 +177,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.subs.add(this.checkTokenservice.onCheckToken());
   }
 
-  redirectToOrder() {
+  redirectToOrder(): void {
     if (this.userId) {
       this.localStorageService.setUbsRegistration(true);
       this.getLocations(this.ubsCourierName);
@@ -216,7 +213,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     return this.activeCouriers?.find((courier) => courier.nameEn.includes(name));
   }
 
-  getActiveCouriers() {
+  getActiveCouriers(): Observable<ActiveCourierDto[]> {
     return this.orderService.getAllActiveCouriers().pipe(
       takeUntil(this.destroy),
       tap((res) => (this.activeCouriers = res))
@@ -249,7 +246,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       );
   }
 
-  private getActiveLocationsToShow() {
+  private getActiveLocationsToShow(): Observable<AllLocationsDtos> {
     const courier = this.findCourierByName(this.ubsCourierName);
     return this.orderService.getLocations(courier.courierId, true).pipe(
       takeUntil(this.destroy),
@@ -281,7 +278,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.orderService.setLocationData(this.currentLocation);
   }
 
-  openLocationDialog(locationsData: AllLocationsDtos) {
+  openLocationDialog(locationsData: AllLocationsDtos): void {
     const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
       hasBackdrop: true,
       disableClose: false,
@@ -304,7 +301,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       );
   }
 
-  public getElementDescription(nameUk: string, nameEng: string, capacity: number) {
+  public getElementDescription(nameUk: string, nameEng: string, capacity: number): string {
     let nameUk1 = nameUk.toLowerCase();
     nameUk1 = nameUk1.charAt(0).toUpperCase() + nameUk1.slice(1);
 
