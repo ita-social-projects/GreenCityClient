@@ -100,7 +100,6 @@ export class CommentsListComponent {
 
     if (key === 'showRelyButton') {
       this.isAddingReply = !this.isAddingReply;
-      console.log(this.isAddingReply);
     }
 
     this.elementsList = this.elementsList.map((item) => {
