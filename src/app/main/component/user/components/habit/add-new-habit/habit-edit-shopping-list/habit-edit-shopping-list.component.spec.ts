@@ -10,6 +10,7 @@ import { TodoStatus } from '../../models/todo-status.enum';
 
 import { HabitEditShoppingListComponent } from './habit-edit-shopping-list.component';
 import { ShoppingListService } from './shopping-list.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('HabitEditShoppingListComponent', () => {
   let component: HabitEditShoppingListComponent;
@@ -46,7 +47,7 @@ describe('HabitEditShoppingListComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HabitEditShoppingListComponent],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatSnackBarModule],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatSnackBarModule, ReactiveFormsModule],
       providers: [ShoppingListService, HabitService, { provide: ActivatedRoute, useValue: mockActivatedRoute }, MatSnackBar]
     }).compileComponents();
   }));

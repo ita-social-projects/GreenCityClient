@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { errorType } from '@global-user/models/error-type.model';
 
 @Component({
@@ -8,7 +8,7 @@ import { errorType } from '@global-user/models/error-type.model';
   styleUrls: ['./input-error.component.scss']
 })
 export class InputErrorComponent implements OnInit {
-  @Input() public formElement: FormControl;
+  @Input() public formElement: AbstractControl;
   @Input() public isEvent: boolean;
   @Input() public date: boolean;
   @Input() public numberDate: boolean;

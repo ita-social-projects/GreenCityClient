@@ -35,7 +35,7 @@ import { abilityAddAuthorities, abilityDelAuthorities, abilityEditAuthorities } 
 export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() showAllTariff = true;
   @Input() isLoading: boolean;
-  @Input() locationCard: Locations;
+  @Input() locationCard: Locations[];
   @Input() textBack: TemplateRef<any>;
   @Input() selectedCard;
 
@@ -291,7 +291,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
-  addItem(event: MatChipInputEvent): void {
+  addItem(event: any): void {
+    //$Event MatChipInputEvent
     const value = event.value;
 
     if ((value || '').trim()) {
@@ -311,7 +312,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  public onOpenDropdown(event: Event): void {
+  public onOpenDropdown(): void {
     const panel = document.querySelector('.mat-autocomplete-panel');
     panel.scrollTop = this.scrollPosition;
   }
@@ -501,9 +502,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         this.locations = item;
         const regions = [];
         this.locations
-          .map((element) => {
-            return element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLang).map((it) => it.regionName);
-          })
+          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLang).map((it) => it.regionName))
           .flat(2)
           .forEach((region) => {
             if (!regions.includes(region)) {
@@ -635,9 +634,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       !this._filter(this.region.value, [TariffRegionAll.en, TariffRegionAll.ua]).length
     ) {
       const firstSuitableRegion = this.locations
-        .filter((element) => {
-          return element.regionTranslationDtos.find((it) => it.regionName.toLowerCase().includes(this.region.value.toLowerCase()));
-        })[0]
+        .filter((element) =>
+          element.regionTranslationDtos.find((it) => it.regionName.toLowerCase().includes(this.region.value.toLowerCase()))
+        )[0]
         ?.regionTranslationDtos.filter((el) => el.languageCode === this.currentLang)[0].regionName;
       this.region.setValue(firstSuitableRegion);
       this.regionSelected({ option: { value: firstSuitableRegion } });

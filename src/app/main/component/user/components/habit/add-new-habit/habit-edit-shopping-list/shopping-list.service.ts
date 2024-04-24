@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { mainLink } from '../../../../../../links';
-import { AllShoppingLists, HabitUpdateShopList, ShoppingList } from '../../../../models/shoppinglist.interface';
+import { AllShoppingLists, HabitUpdateShopList, ShoppingList } from '@user-models/shoppinglist.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,7 @@ export class ShoppingListService {
     const assignId = habitShopList.habitAssignId;
     const body = {
       customShoppingListItemDto: habitShopList.customShopList,
-      userShoppingListItemDto: habitShopList.standartShopList
+      userShoppingListItemDto: habitShopList.standardShopList
     };
     return this.http.put(`${mainLink}habit/assign/${assignId}/allUserAndCustomList?lang=${habitShopList.lang}`, body);
   }

@@ -2,8 +2,9 @@ import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FriendModel, UserDashboardTab } from '@global-user/models/friend.model';
+import { FriendModel, UserDashboardTab, UsersCategOnlineStatus } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -33,7 +34,8 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
     private userFriendsService: UserFriendsService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private userOnlineStatusService: UserOnlineStatusService
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +57,10 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.numberAllFriends = data.totalElements;
         this.friendsList = this.friendsList.concat(data.page);
+        this.userOnlineStatusService.addUsersId(
+          UsersCategOnlineStatus.usersFriends,
+          data.page.map((el) => el.id)
+        );
         this.scroll = false;
         this.isFetching = false;
       });
@@ -68,6 +74,10 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.numberAllMutualFriends = data.totalElements;
         this.mutualFriendsList = this.mutualFriendsList.concat(data.page);
+        this.userOnlineStatusService.addUsersId(
+          UsersCategOnlineStatus.mutualFriends,
+          data.page.map((el) => el.id)
+        );
         this.scroll = false;
         this.isFetching = false;
       });
@@ -94,6 +104,8 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.userOnlineStatusService.removeUsersId(UsersCategOnlineStatus.mutualFriends);
+    this.userOnlineStatusService.removeUsersId(UsersCategOnlineStatus.usersFriends);
     this.destroy$.next(true);
     this.destroy$.complete();
   }

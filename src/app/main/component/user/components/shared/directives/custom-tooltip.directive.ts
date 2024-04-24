@@ -8,7 +8,7 @@ export class CustomTooltipDirective {
   @Input() tooltip: any;
   @Input() font = '';
 
-  @HostListener('mouseenter', ['$event']) onMouseOver() {
+  @HostListener('mouseenter', ['$event']) onMouseOver(event: any) {
     this.showTooltip(event, this.tooltip, this.font);
   }
 

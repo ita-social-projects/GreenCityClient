@@ -125,13 +125,9 @@ describe('UsbAdminTableComponent', () => {
   }));
 
   beforeEach(() => {
-    localStorageServiceMock.getUbsAdminOrdersTableTitleColumnFilter = () => {
-      return [{ orderStatus: OrderStatus.FORMED }];
-    };
+    localStorageServiceMock.getUbsAdminOrdersTableTitleColumnFilter = () => [{ orderStatus: OrderStatus.FORMED }];
 
-    localStorageServiceMock.getAdminOrdersDateFilter = () => {
-      return dateMock;
-    };
+    localStorageServiceMock.getAdminOrdersDateFilter = () => dateMock;
 
     storeMock.select = () => of(false);
     fixture = TestBed.createComponent(UbsAdminTableComponent);
@@ -267,9 +263,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('should not call dateForm setValue method on initDateForm if getLocalForm is false', () => {
-    (component as any).getLocalDateForm = () => {
-      return false;
-    };
+    (component as any).getLocalDateForm = () => false;
     const val = (component as any).getLocalDateForm();
     expect(val).toBe(false);
   });
@@ -277,17 +271,13 @@ describe('UsbAdminTableComponent', () => {
   it('should not call dateForm setValue method on initDateForm if getLocalForm is false', () => {
     const dateForm = component.dateForm;
     spyOn(dateForm, 'setValue');
-    (component as any).getLocalDateForm = () => {
-      return false;
-    };
+    (component as any).getLocalDateForm = () => false;
     component.initDateForm();
     expect(dateForm.setValue).not.toHaveBeenCalled();
   });
 
   it('should set default value for dateForm on initDateForm if getLocalForm is false', () => {
-    (component as any).getLocalDateForm = () => {
-      return false;
-    };
+    (component as any).getLocalDateForm = () => false;
     component.initDateForm();
     expect(component.dateForm.value).toEqual(initDateMock);
   });
@@ -797,9 +787,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('should call initDateForm on clearFilters', () => {
-    localStorageServiceMock.getAdminOrdersDateFilter = () => {
-      return initDateMock;
-    };
+    localStorageServiceMock.getAdminOrdersDateFilter = () => initDateMock;
     component.clearFilters();
     expect(component.dateForm.value).toEqual(initDateMock);
   });

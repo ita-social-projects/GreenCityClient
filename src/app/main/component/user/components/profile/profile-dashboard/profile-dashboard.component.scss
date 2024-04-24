@@ -10,11 +10,12 @@ a {
   margin-bottom: 3rem;
 
   .header {
-    font-family: var(--primary-font);
+    font-family: var(--tertiary-font);
     font-style: normal;
-    font-weight: bold;
+    font-weight: 700;
     font-size: 16px;
     line-height: 24px;
+    letter-spacing: 0.01em;
 
     p {
       color: var(--primary-dark-grey);
@@ -253,11 +254,11 @@ a {
     color: #fff;
   }
 
-  li:not(.current):not(.disabled) .ng-star-inserted {
+  li:not(.current, .disabled) .ng-star-inserted {
     color: var(--primary-green);
   }
 
-  li:not(:first-child):not(:last-child) {
+  li:not(:first-child, :last-child) {
     border: 2px var(--primary-green) solid;
     border-radius: 10%;
   }

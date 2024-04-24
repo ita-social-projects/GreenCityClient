@@ -1,7 +1,7 @@
 <div class="search_total_wr">
   <div class="research">
     <div class="search-input">
-      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target.value)" />
+      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target['value'])" />
     </div>
     <div class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>

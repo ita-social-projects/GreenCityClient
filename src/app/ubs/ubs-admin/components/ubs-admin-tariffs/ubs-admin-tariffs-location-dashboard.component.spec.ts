@@ -213,9 +213,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getCurrentLangObs', 'getLangValue']);
   languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());

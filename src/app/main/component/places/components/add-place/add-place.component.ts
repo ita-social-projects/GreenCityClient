@@ -10,6 +10,8 @@ import { WorkingTime } from '../../models/week-pick-model';
 import { CreatePlaceModel, OpeningHoursDto } from '../../models/create-place.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { tagsListPlacesData } from '../../models/places-consts';
 
 @Component({
   selector: 'app-add-place',
@@ -19,7 +21,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 export class AddPlaceComponent implements OnInit {
   public addPlaceForm: FormGroup;
   public workingHours = '';
-  public tagList: NewsTagInterface[];
+  public tagList: Array<FilterModel> = tagsListPlacesData;
   public filterCategories: FilterPlaceCategories[];
   public timeArrStart = [];
   public timeArrEnd = [];
@@ -53,10 +55,6 @@ export class AddPlaceComponent implements OnInit {
       .getAllFilterPlaceCategories()
       .pipe(take(1))
       .subscribe((categories) => (this.filterCategories = categories));
-    this.placeService
-      .getAllPresentTags()
-      .pipe(take(1))
-      .subscribe((tagsArray: Array<NewsTagInterface>) => (this.tagList = tagsArray));
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.initForm();
   }
@@ -86,9 +84,9 @@ export class AddPlaceComponent implements OnInit {
       categoryName: this.type.value,
       placeName: this.name.value,
       locationName: this.address.value,
-      openingHoursList: this.workingTime.map((time): OpeningHoursDto => {
-        return { openTime: time.timeFrom, closeTime: time.timeTo, weekDay: time.dayOfWeek };
-      })
+      openingHoursList: this.workingTime.map(
+        (time): OpeningHoursDto => ({ openTime: time.timeFrom, closeTime: time.timeTo, weekDay: time.dayOfWeek })
+      )
     };
     this.matDialogRef.close(sendPlace);
   }

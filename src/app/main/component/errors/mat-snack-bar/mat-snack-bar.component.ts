@@ -55,7 +55,11 @@ export class MatSnackBarComponent {
     tooLongInput: { classname: SnackbarClassName.error, key: 'user.habit.too-long-input' },
     ratedEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.rating-send' },
     addFriend: { classname: SnackbarClassName.success, key: 'snack-bar.success.add-friend' },
-    jointEventRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.joint-event-request' }
+    jointEventRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.joint-event-request' },
+    errorImageTypeSize: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-type-and-size' },
+    errorImageType: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-type' },
+    errorImageSize: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-size' },
+    errorMaxPhotos: { classname: SnackbarClassName.error, key: 'user.photo-upload.you-can-upload-max-photos-event' }
   };
 
   constructor(

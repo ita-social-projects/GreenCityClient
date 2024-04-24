@@ -120,7 +120,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       },
       (err: Error) => {
         this.isFetching = false;
-        this.snackBar.openSnackBar('ubs-client-profile.error-message');
+        this.snackBar.openSnackBar('error');
       }
     );
   }
@@ -579,7 +579,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           },
           (err: Error) => {
             this.isFetching = false;
-            this.snackBar.openSnackBar('ubs-client-profile.error-message');
+            this.snackBar.openSnackBar('error');
           }
         );
       this.alternativeEmailDisplay = false;
@@ -657,7 +657,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   getControl(control: string) {
-    return this.userForm.get(control);
+    return this.userForm.get(control) as FormControl;
   }
 
   toggleAlternativeEmail() {

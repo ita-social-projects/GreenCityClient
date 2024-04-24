@@ -18,7 +18,7 @@ import { Subject } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
+import { UbsPickUpServicePopUpComponent } from '../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signinref') signinref: ElementRef;
   @ViewChild('signupref') signupref: ElementRef;
   @ViewChild('serviceref') serviceref: ElementRef;
-  public elementName;
+  public elementName: string;
   public isUBS: boolean;
   public ubsUrl = 'ubs';
   public imageLogo;
@@ -159,21 +159,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.languageService
         .getUserLangValue()
         .pipe(takeUntil(this.destroySub))
-        .subscribe(
-          (lang) => {
-            this.setCurrentLanguage(lang);
+        .subscribe({
+          next: (lang) => {
+            if (lang) {
+              this.setCurrentLanguage(lang);
+            }
           },
-          (error) => {
+          error: () => {
             this.setCurrentLanguage(this.languageService.getCurrentLanguage());
           }
-        );
+        });
     } else {
       this.setCurrentLanguage(this.languageService.getCurrentLanguage());
     }
   }
 
   private setCurrentLanguage(language: string): void {
+    if (!language) {
+      language = 'en';
+    }
     this.currentLanguage = language;
+    this.languageService.changeCurrentLanguage(language.toLowerCase() as Language);
     this.setLangArr();
   }
 
@@ -317,7 +323,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  public onPressEnterAboutService(event: KeyboardEvent): void {
+  public onPressEnterAboutService(event: Event): void {
+    //$Event KeyboardEvent
     event.preventDefault();
     this.openAboutServicePopUp(event);
   }
@@ -396,7 +403,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.store.dispatch(ResetFriends());
   }
 
-  public toggleLangDropdown(event: KeyboardEvent): void {
+  public toggleLangDropdown(event: Event): void {
+    //$Event KeyboardEvent
     event.preventDefault();
     this.langDropdownVisible = !this.langDropdownVisible;
   }

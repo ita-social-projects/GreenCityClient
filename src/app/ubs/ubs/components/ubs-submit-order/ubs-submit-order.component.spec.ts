@@ -65,9 +65,7 @@ xdescribe('UBSSubmitOrderComponent', () => {
   }
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));

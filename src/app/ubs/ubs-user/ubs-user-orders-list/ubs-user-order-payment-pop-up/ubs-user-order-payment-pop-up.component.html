@@ -35,7 +35,7 @@
             [disabled]="
               formArrayCertificates['controls'][i].invalid ||
               formArrayCertificates['controls'][i].pristine ||
-              !certificate.controls.certificateCode.value.length ||
+              !certificate.get('certificateCode').value.length ||
               0 >= userOrder.sum
             "
             (click)="certificateSubmit(i, certificate)"

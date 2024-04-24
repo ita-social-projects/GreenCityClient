@@ -37,7 +37,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   private snackBar: MatSnackBarComponent;
   private localStorageService: LocalStorageService;
   private translate: TranslateService;
-  public cityOptions = {
+  public cityOptions: google.maps.places.AutocompletionRequest = {
+    input: '',
     types: ['(cities)']
   };
   public userInfo = {
@@ -125,9 +126,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: data.showLocation,
       showEcoPlace: data.showEcoPlace,
       showShoppingList: data.showShoppingList,
-      socialNetworks: data.socialNetworks.map((network) => {
-        return network.url;
-      })
+      socialNetworks: data.socialNetworks.map((network) => network.url)
     };
     this.editProfileForm.markAllAsTouched();
   }

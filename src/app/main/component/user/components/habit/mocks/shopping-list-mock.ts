@@ -22,7 +22,7 @@ export const ALLUSERSHOPLISTS: AllShoppingLists = {
 
 export const UPDATEHABITSHOPLIST: HabitUpdateShopList = {
   habitAssignId: 2,
-  standartShopList: [SHOPLISTITEMONE],
+  standardShopList: [SHOPLISTITEMONE],
   customShopList: [SHOPLISTITEMTWO],
   lang: 'ua'
 };

@@ -56,9 +56,7 @@ describe('SignIn component', () => {
   userSuccessSignIn.refreshToken = '1';
 
   const signInServiceMock: UserOwnSignInService = jasmine.createSpyObj('UserOwnSignInService', ['signIn']);
-  signInServiceMock.signIn = () => {
-    return of(userSuccessSignIn);
-  };
+  signInServiceMock.signIn = () => of(userSuccessSignIn);
   signInServiceMock.saveUserToLocalStorage = () => true;
 
   const googleServiceMock: GoogleSignInService = jasmine.createSpyObj('GoogleSignInService', ['signIn']);

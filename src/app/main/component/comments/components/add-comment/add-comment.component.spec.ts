@@ -9,6 +9,7 @@ import { UserProfileImageComponent } from '@global-user/components/shared/compon
 import { TranslateModule } from '@ngx-translate/core';
 import { CommentsService } from '../../services/comments.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
+import { CommentTextareaComponent } from '../comment-textarea/comment-textarea.component';
 
 const COMMENT_MOCK = {
   author: {
@@ -51,7 +52,7 @@ describe('AddCommentComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AddCommentComponent, UserProfileImageComponent],
+      declarations: [AddCommentComponent, UserProfileImageComponent, CommentTextareaComponent],
       imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },

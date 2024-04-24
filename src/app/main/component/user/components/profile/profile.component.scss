@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 .profile-container {
   background-color: var(--after-primary-light-grey);
 }
@@ -31,7 +33,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@include responsivePCFirst(md) {
   .profile-wrapper {
     display: flex;
     flex-direction: column;
@@ -65,7 +67,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@include responsiveMobileFirst(md) {
   .profile-wrapper {
     display: grid;
     grid-template-columns: 219px 469px;
@@ -101,13 +103,13 @@
   }
 }
 
-@media (min-width: 992px) {
+@include responsiveMobileFirst(lg) {
   .profile-wrapper {
     grid-template-columns: 216px 710px;
   }
 }
 
-@media (min-width: 1024px) {
+@include responsiveMobileFirst(xl) {
   .profile-wrapper {
     grid-template-columns: 216px 464px 216px;
     grid-template-rows: 1fr;
@@ -134,13 +136,13 @@
   }
 }
 
-@media (min-width: 1200px) {
+@include responsiveMobileFirst(2xl) {
   .profile-wrapper {
     grid-template-columns: 261px 554px 261px;
   }
 }
 
-@media (max-width: 575px) {
+@include responsivePCFirst(sm) {
   .left-column {
     height: 430px;
 
@@ -148,23 +150,21 @@
       width: 100%;
     }
   }
-}
 
-@media (max-width: 767px) {
   .profile-wrapper {
     .left-column {
       .app-users-friends {
-        display: flex;
+        width: 100%;
       }
     }
   }
 }
 
-@media (max-width: 575px) {
+@include responsivePCFirst(md) {
   .profile-wrapper {
     .left-column {
       .app-users-friends {
-        width: 100%;
+        display: flex;
       }
     }
   }

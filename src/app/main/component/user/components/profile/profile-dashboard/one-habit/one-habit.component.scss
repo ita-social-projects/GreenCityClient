@@ -46,7 +46,7 @@ img {
     }
 
     p {
-      font-family: var(--secondary-font);
+      font-family: var(--tertiary-font);
       font-style: normal;
       font-weight: normal;
       font-size: 14px;
@@ -80,14 +80,14 @@ img {
   }
 
   .second-row {
-    font-family: var(--primary-font);
+    font-family: var(--tertiary-font);
     font-style: normal;
-    font-weight: bold;
+    font-weight: 700;
     font-size: 20px;
     line-height: 28px;
-    padding-right: 12px 24px;
+    padding-right: 12px;
     color: var(--quaternary-dark-grey);
-    letter-spacing: 0.002em;
+    letter-spacing: 0.02em;
     width: 320px;
     word-wrap: break-word;
     height: 90px;
@@ -106,7 +106,7 @@ img {
 }
 
 .third-row {
-  margin: 0 20px 20px 20px;
+  margin: 0 20px 20px;
   grid-area: 2 / 2 / 3 / 3;
   display: flex;
   align-items: center;
@@ -121,7 +121,7 @@ img {
 
   .grey,
   .green {
-    font-family: var(--primary-font);
+    font-family: var(--tertiary-font);
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -137,11 +137,11 @@ img {
   }
 
   .done {
-    background: url('/assets/img/icon/chek-circle.png') no-repeat center;
+    background: url('/assets/icons/habits/filled-check-rectangle.svg') no-repeat center;
   }
 
   .undone {
-    background: url('/assets/img/icon/plus-circle.png') no-repeat center;
+    background: url('/assets/icons/habits/rectangle-grey.svg') no-repeat center;
   }
 
   .acquired {

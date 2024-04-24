@@ -636,12 +636,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   private editAll(e: IEditCell): void {
     this.editCellProgressBar = true;
-    const newTableData = this.tableData.map((item) => {
-      return {
-        ...item,
-        [e.nameOfColumn]: e.newValue
-      };
-    });
+    const newTableData = this.tableData.map((item) => ({
+      ...item,
+      [e.nameOfColumn]: e.newValue
+    }));
     this.tableData = newTableData;
     this.dataSource = new MatTableDataSource(newTableData);
     this.allChecked = false;
@@ -665,7 +663,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.cancellationComment = null;
   }
 
-  toggleAccordion(e: PointerEvent): void {
+  toggleAccordion(e: MouseEvent): void {
     (e.target as HTMLElement).parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
     const matIcon = (e.target as HTMLElement).closest('div').querySelector('mat-icon');
     matIcon.textContent = matIcon.textContent === 'keyboard_arrow_down' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
@@ -760,7 +758,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', true);
   }
 
-  openColumnFilterPopup(event: PointerEvent, column) {
+  openColumnFilterPopup(event: MouseEvent, column) {
     const popupWidth = 350;
     const popupHeight = 400;
     const isDateFilter = column.title.key.toLowerCase().includes('date');

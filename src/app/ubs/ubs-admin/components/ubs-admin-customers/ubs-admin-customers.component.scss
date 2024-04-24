@@ -146,9 +146,9 @@
     position: sticky;
     bottom: 0;
     width: 100%;
-    padding: 12px 0 12px 0;
+    padding: 12px 0;
     background-color: var(--ubs-secondary-white);
-    box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
+    box-shadow: 0 0 8px rgb(73 74 73 / 20%);
 
     .filter-btn {
       text-align: center;
@@ -358,7 +358,7 @@
   align-items: center;
   border: 0;
   width: 100%;
-  margin: 20px 0 32px 0;
+  margin: 20px 0 32px;
 }
 
 .tooltip_style {

@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -67,6 +67,23 @@ describe('EventDateTimePickerComponent', () => {
     endTime: new FormControl('18-00')
   });
 
+  const mockGoogleMaps = {
+    places: {
+      Autocomplete: jasmine.createSpyObj('Autocomplete', {
+        addListener: () => {},
+        getPlace: jasmine.createSpy('getPlace').and.returnValue({
+          formatted_address: '123 Main St',
+          geometry: {
+            location: {
+              lat: () => 123,
+              lng: () => 456
+            }
+          }
+        })
+      })
+    }
+  };
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EventDateTimePickerComponent],
@@ -96,6 +113,9 @@ describe('EventDateTimePickerComponent', () => {
     fixture = TestBed.createComponent(EventDateTimePickerComponent);
     component = fixture.componentInstance;
     component.dateForm = formDataMock;
+    (window as any).google = mockGoogleMaps;
+    const inputElement = document.createElement('input');
+    component.placesRef = new ElementRef<HTMLInputElement>(inputElement);
     fixture.detectChanges();
   });
 

@@ -113,9 +113,7 @@ export class FilterPlaceService {
   }
 
   private removeNonCategoryFilters(filters: string[]): string[] {
-    return filters.filter((filterItem: string) => {
-      return filterItem !== 'Saved places';
-    });
+    return filters.filter((filterItem: string) => filterItem !== 'Saved places');
   }
 
   clearFilter() {

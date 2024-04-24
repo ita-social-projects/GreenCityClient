@@ -1,16 +1,15 @@
 import { SharedMainModule } from '@shared/shared-main.module';
-import { HabitAssignService } from './../../../../../service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HabitsListViewComponent } from './components/habits-list-view/habits-list-view.component';
-import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
-
 import { AllHabitsComponent } from './all-habits.component';
-import { HabitService } from '../../../../../service/habit/habit.service';
+import { HabitService } from '@global-service/habit/habit.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventEmitter, Injectable } from '@angular/core';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
@@ -19,6 +18,8 @@ import { HABITLIST } from '../mocks/habit-mock';
 import { CUSTOMHABIT, DEFAULTHABIT, HABITSASSIGNEDLIST } from '../mocks/habit-assigned-mock';
 import { FIRSTTAGITEM, SECONDTAGITEM, TAGLIST } from '../mocks/tags-list-mock';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
+import { HabitsFiltersList } from '@global-user/components/habit/models/habits-filters-list';
+import { FilterOptions, FilterSelect } from '../../../../../interface/filter-select.interface';
 
 @Injectable()
 class TranslationServiceStub {
@@ -195,7 +196,7 @@ describe('AllHabitsComponent', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should set isFatching false and dont call methods onScroll if isAllPages is true', () => {
+  it('should set isFetching false and dont call methods onScroll if isAllPages is true', () => {
     (component as any).isAllPages = true;
     const spy1 = spyOn(component as any, 'getAllHabits');
     const spy2 = spyOn(component as any, 'getHabitsByFilters');
@@ -224,5 +225,144 @@ describe('AllHabitsComponent', () => {
     component.onScroll();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).not.toHaveBeenCalled();
+  });
+
+  it('should navigate to create habit page', () => {
+    const routerSpy = spyOn((component as any).router, 'navigate');
+    spyOn(localStorage, 'getItem').and.callFake((key) => {
+      if (key === 'userId') {
+        return '1';
+      }
+    });
+    component.goToCreateHabit();
+    expect(routerSpy).toHaveBeenCalledWith(['profile/1/create-habit']);
+  });
+
+  it('should return value from langService', () => {
+    const uaValue = 'uaValue';
+    const enValue = 'enValue';
+    spyOn((component as any).langService, 'getLangValue').and.returnValue('result');
+    const result = component.getLangValue(uaValue, enValue);
+    expect(result).toEqual('result');
+  });
+
+  it('should navigate to create habit', () => {
+    const navigateSpy = spyOn(component.router, 'navigate');
+    localStorage.setItem('userId', '123');
+    component.goToCreateHabit();
+    expect(navigateSpy).toHaveBeenCalledWith(['profile/123/create-habit']);
+  });
+
+  it('should reset filters', () => {
+    component.filtersList = HabitsFiltersList;
+    spyOn(component.cleanFilters, 'next');
+    component.resetFilters();
+    expect(component.filtersList.every((filter) => !filter.isAllSelected)).toBeTrue();
+    expect(component.cleanFilters.next).toHaveBeenCalled();
+  });
+
+  it('should get language value', () => {
+    const getLangValueSpy = spyOn<any>(component, 'getLangValue').and.returnValue('en');
+    const result = component.getLangValue('ua', 'en');
+    expect(getLangValueSpy).toHaveBeenCalledWith('ua', 'en');
+    expect(result).toEqual('en');
+  });
+
+  it('should reset filters', () => {
+    const cleanFiltersSpy = spyOn(component.cleanFilters, 'next');
+    component.resetFilters();
+    component.filtersList.forEach((filter: FilterSelect) => {
+      expect(filter.isAllSelected).toBeFalse();
+      filter.options.forEach((option: FilterOptions) => expect(option.isActive).toBeFalse());
+    });
+    expect(cleanFiltersSpy).toHaveBeenCalled();
+  });
+
+  it('should set filters', () => {
+    const getHabitsByFiltersSpy = spyOn(component as any, 'getHabitsByFilters');
+    const getAllHabitsSpy = spyOn(component as any, 'getAllHabits');
+    const filterChange: FilterSelect = {
+      name: 'test',
+      title: 'Test Title',
+      selectAllOption: 'All',
+      isAllSelected: false,
+      options: [
+        { value: '1', isActive: true },
+        { value: '2', isActive: false }
+      ]
+    };
+    (component as any).filtersList = [filterChange];
+    component.setFilters(filterChange);
+    expect(component.activeFilters).toContain('test=1');
+    expect(getHabitsByFiltersSpy).toHaveBeenCalledWith(0, (component as any).pageSize, component.activeFilters);
+    expect(getAllHabitsSpy).not.toHaveBeenCalled();
+  });
+
+  it('should reset filters', () => {
+    const getAllHabitsSpy = spyOn(component as any, 'getAllHabits');
+    const cleanFiltersSpy = spyOn(component.cleanFilters, 'next');
+    component.resetFilters();
+    component.filtersList.forEach((filter: FilterSelect) => {
+      expect(filter.isAllSelected).toBeFalse();
+      filter.options.forEach((option: FilterOptions) => expect(option.isActive).toBeFalse());
+    });
+    expect(getAllHabitsSpy).toHaveBeenCalledWith(0, (component as any).pageSize);
+    expect(cleanFiltersSpy).toHaveBeenCalled();
+  });
+
+  describe('TranslationServiceStub', () => {
+    let service: TranslationServiceStub;
+
+    beforeEach(() => {
+      service = new TranslationServiceStub();
+    });
+
+    it('should emit onLangChange event', () => {
+      let result = null;
+      service.onLangChange.subscribe((value) => (result = value));
+      service.onLangChange.emit('test');
+      expect(result).toEqual('test');
+    });
+
+    it('should emit onTranslationChange event', () => {
+      let result = null;
+      service.onTranslationChange.subscribe((value) => (result = value));
+      service.onTranslationChange.emit('test');
+      expect(result).toEqual('test');
+    });
+
+    it('should emit onDefaultLangChange event', () => {
+      let result = null;
+      service.onDefaultLangChange.subscribe((value) => (result = value));
+      service.onDefaultLangChange.emit('test');
+      expect(result).toEqual('test');
+    });
+
+    it('should return language', () => {
+      expect(service.getLangs()).toEqual('en-us');
+    });
+
+    it('should return empty string for browser language', () => {
+      expect(service.getBrowserLang()).toEqual('');
+    });
+
+    it('should return empty string for browser culture language', () => {
+      expect(service.getBrowserCultureLang()).toEqual('');
+    });
+
+    it('should return empty string when use is called', () => {
+      expect(service.use('en')).toEqual('');
+    });
+
+    it('should return key when get is called', (done) => {
+      service.get('test').subscribe((value: any) => {
+        expect(value).toEqual('test');
+        done();
+      });
+    });
+
+    it('should return true when setDefaultLang is called', () => {
+      expect(service.setDefaultLang()).toEqual(true);
+    });
   });
 });

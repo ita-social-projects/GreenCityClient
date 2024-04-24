@@ -174,9 +174,7 @@ describe('AdminTableService', () => {
       }
     ];
 
-    const currentColumnDateFilter = service.columnsForFiltering.find((col) => {
-      return col.key === column;
-    });
+    const currentColumnDateFilter = service.columnsForFiltering.find((col) => col.key === column);
     service.setDateCheckedFromStorage(column);
     expect(currentColumnDateFilter.values[0].filtered).toBeTruthy();
   });

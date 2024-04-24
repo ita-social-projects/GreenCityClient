@@ -28,7 +28,7 @@
                 min="0"
                 max="999"
                 formControlName="plannedQuantity{{ bag.id }}"
-                disabled
+                [disabled]
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count">
@@ -41,7 +41,7 @@
                 formControlName="confirmedQuantity{{ bag.id }}"
                 [attr.disabled]="isDisabledConfirmQuantity() ? true : null"
                 (change)="onQuantityChange('confirmed', bag.id)"
-                disabled
+                [disabled]
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
@@ -208,7 +208,7 @@
             formControlName="customerComment"
             placeholder="{{ 'order-details.client-comment.placeholder' | translate }}"
             id="customer-comment"
-            disabled
+            [disabled]
           >
           </textarea>
         </div>

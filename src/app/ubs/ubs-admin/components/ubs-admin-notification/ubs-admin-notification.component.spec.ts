@@ -47,9 +47,7 @@ describe('UbsAdminNotificationComponent', () => {
 
   const locationMock = { back: () => {} };
   const notificationsServiceMock = {
-    getNotificationTemplate: () => {
-      return of(NotificationMock);
-    },
+    getNotificationTemplate: () => of(NotificationMock),
     updateNotificationTemplate: () => {},
     changeStatusOfNotificationTemplate: jasmine.createSpy('changeStatusOfNotificationTemplate')
   };
@@ -71,11 +69,9 @@ describe('UbsAdminNotificationComponent', () => {
 
   const routerMock = { navigate: () => {} };
   const dialogMock = {
-    open: () => {
-      return {
-        afterClosed: () => {}
-      };
-    }
+    open: () => ({
+      afterClosed: () => {}
+    })
   };
 
   beforeEach(waitForAsync(() => {

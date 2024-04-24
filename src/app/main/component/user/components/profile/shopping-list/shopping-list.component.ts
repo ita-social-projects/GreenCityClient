@@ -54,9 +54,7 @@ export class ShoppingListComponent implements OnInit {
   }
 
   public convertShopList(list: AllShoppingLists[], type: string): ShoppingList[] {
-    return list.reduce((acc, obj) => {
-      return acc.concat(type === 'custom' ? obj.customShoppingListItemDto : obj.userShoppingListItemDto);
-    }, []);
+    return list.reduce((acc, obj) => acc.concat(type === 'custom' ? obj.customShoppingListItemDto : obj.userShoppingListItemDto), []);
   }
 
   public isValidURL(url: string): boolean {

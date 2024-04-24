@@ -5,7 +5,7 @@ import { LocalStorageService } from '../../service/localstorage/local-storage.se
 
 @Pipe({
   name: 'dateLocalisation',
-  pure: false,
+  pure: false
 })
 export class DateLocalisationPipe implements PipeTransform {
   private langChangeSubscription: Subscription;

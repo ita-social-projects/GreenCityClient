@@ -1,4 +1,4 @@
-import { Language } from './../../../../i18n/Language';
+import { Language } from '../../../../i18n/Language';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -14,7 +14,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { TagObj } from '../../../events/models/events.interface';
+import { EventPageResponseDto, TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AddAttenderEcoEventsByIdAction, EventsActions, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,19 +27,7 @@ class TranslationServiceStub {
   public onLangChange = new EventEmitter<any>();
   public onTranslationChange = new EventEmitter<any>();
   public onDefaultLangChange = new EventEmitter<any>();
-  public addLangs(langs: string[]) {}
-  public getLangs() {
-    return 'en-us';
-  }
-  public getBrowserLang() {
-    return '';
-  }
-  public getBrowserCultureLang() {
-    return '';
-  }
-  public use(lang: string) {
-    return '';
-  }
+
   public get(key: any): any {
     return of(key);
   }
@@ -78,7 +66,7 @@ describe('EventsListItemComponent', () => {
     join: 'event.btn-join'
   };
 
-  const eventMock = {
+  const eventMock: EventPageResponseDto = {
     description: 'tralalalal',
     editorText: 'tralalalal',
     additionalImages: [],
@@ -115,7 +103,7 @@ describe('EventsListItemComponent', () => {
     ],
     imgArrayToPreview: [],
     id: 307,
-    organizer: { id: 5, name: 'Mykola Kovalushun', organizerRating: 3 },
+    organizer: { id: 5, name: 'Mykola Kovalushun' },
     title: 'dddddddd',
     titleImage: 'https://-fc27f19b10e0apl',
     isSubscribed: true,
@@ -125,8 +113,8 @@ describe('EventsListItemComponent', () => {
     open: true,
     likes: 5,
     countComments: 7,
-    isAdmin: false,
-    isOrganizedByFriend: false
+    isOrganizedByFriend: false,
+    eventRate: 0
   };
 
   const fakeItemTags: TagObj[] = [
@@ -191,9 +179,7 @@ describe('EventsListItemComponent', () => {
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const MockData = {
     eventState: {},
@@ -256,7 +242,6 @@ describe('EventsListItemComponent', () => {
     component.event = eventMock as any;
     component.btnStyle = '';
     component.nameBtn = '';
-    component.rate = 3;
     component.isRegistered = false;
     component.isReadonly = false;
     component.isPosting = false;
@@ -332,12 +317,6 @@ describe('EventsListItemComponent', () => {
       component.itemTags = fakeItemTags;
       component.filterTags(component.event.tags);
       expect(component.activeTags).toEqual(fakeActiveTags);
-    });
-
-    it(`rate should be called in ngOnInit`, () => {
-      component.ngOnInit();
-      component.rate = Math.round(component.event.organizer.organizerRating);
-      expect(component.rate).toBe(3);
     });
 
     it(`subscribeToLangChange should be called in ngOnInit`, () => {

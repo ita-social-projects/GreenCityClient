@@ -53,9 +53,7 @@ describe('UbsUserOrderDetailsComponent', () => {
   };
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

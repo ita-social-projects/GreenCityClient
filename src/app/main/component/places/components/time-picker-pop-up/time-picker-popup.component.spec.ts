@@ -4,6 +4,8 @@ import { TimePickerPopupComponent } from './time-picker-popup.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { WorkingTime } from '../../models/week-pick-model';
 import { WeekDays } from '@global-models/weekDays.model';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
 
 describe('TimePickerPopUpComponent', () => {
   let component: TimePickerPopupComponent;
@@ -42,7 +44,7 @@ describe('TimePickerPopUpComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), MatCheckboxModule, FormsModule],
       declarations: [TimePickerPopupComponent]
     }).compileComponents();
   }));

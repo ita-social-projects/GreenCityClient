@@ -176,13 +176,13 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
 
   private handleInvalidImageFile(): void {
     if (this.isImageTypeError && this.isImageSizeError) {
-      this.snackBar.openSnackBar('user.photo-upload.error-img-type-and-size');
+      this.snackBar.openSnackBar('errorImageTypeSize');
     } else if (this.isImageTypeError) {
-      this.snackBar.openSnackBar('user.photo-upload.error-img-type');
+      this.snackBar.openSnackBar('errorImageType');
     } else if (this.isImageSizeError) {
-      this.snackBar.openSnackBar('user.photo-upload.error-img-size');
+      this.snackBar.openSnackBar('errorImageSize');
     } else {
-      this.snackBar.openSnackBar('user.photo-upload.you-can-upload-max-photos-event');
+      this.snackBar.openSnackBar('errorMaxPhotos');
     }
   }
 

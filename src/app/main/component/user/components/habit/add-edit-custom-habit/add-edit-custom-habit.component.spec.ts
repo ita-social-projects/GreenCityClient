@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HabitService } from '@global-service/habit/habit.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of, Subject, BehaviorSubject } from 'rxjs';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -16,32 +16,58 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TodoStatus } from '../models/todo-status.enum';
 import { provideMockStore } from '@ngrx/store/testing';
+import { TagsSelectComponent } from '@shared/components/tags-select/tags-select.component';
+import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-drop.component';
+import { SelectImagesComponent } from '@shared/components/select-images/select-images.component';
+import { HabitProgressComponent } from '@global-user/components/habit/add-new-habit/habit-progress/habit-progress.component';
+import { HabitDurationComponent } from '@global-user/components/habit/add-new-habit/habit-duration/habit-duration.component';
+import { HabitEditShoppingListComponent } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
+import { HabitInviteFriendsComponent } from '@global-user/components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
+import { DatePipe } from '@angular/common';
+import { QuillModule } from 'ngx-quill';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarWeekComponent } from '@global-user/components/profile/calendar/calendar-week/calendar-week.component';
+import { HabitCalendarComponent } from '@global-user/components/habit/add-new-habit/habit-calendar/habit-calendar.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
   let fixture: ComponentFixture<AddEditCustomHabitComponent>;
-
   const initialState = { habit: { defaultDuration: 1 } };
 
   const tagsMock: TagInterface[] = [{ id: 1, name: 'Tag', nameUa: 'Тег', isActive: true }];
-
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getUserId', 'getCurrentLanguage']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getUserId', 'getCurrentLanguage', 'pipe']);
 
   localStorageServiceMock.getUserId = () => 2;
   localStorageServiceMock.languageSubject = new Subject<string>();
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject<number>(2);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   const habitServiceMock = jasmine.createSpyObj('fakeHabitAssignService', ['getAllTags', 'addCustomHabit']);
   habitServiceMock.getAllTags = () => of(tagsMock);
   habitServiceMock.addCustomHabit = () => of(null);
-
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AddEditCustomHabitComponent],
+      declarations: [
+        AddEditCustomHabitComponent,
+        TagsSelectComponent,
+        DragAndDropComponent,
+        HabitDurationComponent,
+        CalendarWeekComponent,
+        HabitCalendarComponent,
+        HabitEditShoppingListComponent,
+        HabitInviteFriendsComponent,
+        HabitProgressComponent,
+        SelectImagesComponent
+      ],
       imports: [
+        NgbModule,
+        FormsModule,
+        QuillModule.forRoot(),
         TranslateModule.forRoot(),
         RouterTestingModule,
         BrowserAnimationsModule,
@@ -49,13 +75,15 @@ describe('AddEditCustomHabitComponent', () => {
         ReactiveFormsModule,
         HttpClientTestingModule,
         MatDialogModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatSliderModule
       ],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: HabitService, useValue: habitServiceMock },
         { provide: Router, useValue: routerMock },
-        provideMockStore({ initialState })
+        provideMockStore({ initialState }),
+        DatePipe
       ]
     }).compileComponents();
   }));

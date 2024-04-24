@@ -157,9 +157,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string | any[], valEn: string | any[]) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string | any[], valEn: string | any[]) => valUa;
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));

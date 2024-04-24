@@ -536,9 +536,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getLangValue']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }

@@ -1,5 +1,5 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { ResponceOrderFondyModel } from '../models/ResponceOrderFondyModel';
@@ -111,14 +111,9 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return this.orderDetailsForm.get('paymentSystem') as FormControl;
   }
 
-  public certificateSubmit(index: number, certificate: FormControl): void {
+  public certificateSubmit(index: number, certificate: FormControl | AbstractControl): void {
     this.isCertBeenUsed = false;
-    if (
-      !this.usedCertificates ||
-      !this.usedCertificates.some((item, ind) => {
-        return item === certificate.value.certificateCode && ind !== index;
-      })
-    ) {
+    if (!this.usedCertificates || !this.usedCertificates.some((item, ind) => item === certificate.value.certificateCode && ind !== index)) {
       this.userCertificate.certificates.push(certificate.value);
 
       this.calculateCertificate(certificate);
@@ -133,7 +128,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return this.isCertBeenUsed;
   }
 
-  public calculateCertificate(certificate: FormControl): void {
+  public calculateCertificate(certificate: FormControl | AbstractControl): void {
     this.userCertificate.certificateSum = 0;
     this.userCertificate.certificateStatusActive = false;
     this.orderService.processCertificate(certificate.value.certificateCode).subscribe(
@@ -184,7 +179,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return date?.split('-').reverse().join('.');
   }
 
-  public deleteCertificate(index: number, certificate: FormControl): void {
+  public deleteCertificate(index: number, certificate: FormControl | AbstractControl): void {
     const certSum = this.formArrayCertificates.value.reduce(
       (certificatesSum: number, certificateItem: ICertificatePayment) => certificatesSum + certificateItem.certificateSum,
       0

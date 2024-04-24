@@ -87,7 +87,7 @@ input {
   font-size: 1rem;
   text-align: left;
   list-style: none;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgb(0 0 0 / 15%);
   border-radius: 0.25rem;
 }
 
@@ -171,7 +171,9 @@ input {
   word-wrap: break-word !important;
   white-space: nowrap !important;
   align-items: unset !important;
-  cursor: url(../../../../../assets/img/ubs-admin-orders/Move-White.svg) 4 4, auto;
+  cursor:
+    url('../../../../../assets/img/ubs-admin-orders/Move-White.svg') 4 4,
+    auto;
 }
 
 .mat-column-select {
@@ -340,7 +342,7 @@ input {
   align-items: center;
   border: 0;
   width: 100%;
-  margin: 20px 0 17px 0;
+  margin: 20px 0 17px;
 }
 
 .search {
@@ -382,15 +384,15 @@ input {
   padding-top: 10px;
   display: flex;
   justify-content: center;
-  box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
+  box-shadow: 0 0 8px rgb(73 74 73 / 20%);
   height: 50px;
   width: 100%;
 }
 
 .blocked_mess {
-  background-color: rgb(255, 243, 205);
-  color: rgb(133, 100, 4);
-  border: 1px solid rgb(185, 141, 8);
+  background-color: rgb(255 243 205);
+  color: rgb(133 100 4);
+  border: 1px solid rgb(185 141 8);
   padding: 10px;
   border-radius: 5px;
   position: relative;
@@ -514,7 +516,7 @@ input {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px 5px 22px 5px;
+  padding: 22px 5px;
   margin-left: 16;
   margin-right: 16;
 }
@@ -560,7 +562,7 @@ input {
 }
 
 ::ng-deep .mat-progress-bar-fill::after {
-  background-color: rgb(122, 180, 6);
+  background-color: rgb(122 180 6);
 }
 
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background,

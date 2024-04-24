@@ -181,13 +181,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   getShopList(list: ShoppingList[]): void {
-    this.newList = list.map((item) => {
-      return {
-        id: item.id,
-        status: item.status,
-        text: item.text
-      };
-    });
+    this.newList = list.map((item) => ({
+      id: item.id,
+      status: item.status,
+      text: item.text
+    }));
     this.habitForm.get('shopList').setValue(this.newList);
   }
 
@@ -223,9 +221,9 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
         this.tagsList = tags;
         this.tagsList.forEach((tag) => (tag.isActive = this.habitForm.value.tagIds.some((el) => el === tag.name || el === tag.nameUa)));
         if (this.isEditing) {
-          const newList = this.tagsList.filter((el) => {
-            return this.habitForm.value.tagIds.includes(el.name) || this.habitForm.value.tagIds.includes(el.nameUa);
-          });
+          const newList = this.tagsList.filter(
+            (el) => this.habitForm.value.tagIds.includes(el.name) || this.habitForm.value.tagIds.includes(el.nameUa)
+          );
           this.getTagsList(newList);
         }
       });

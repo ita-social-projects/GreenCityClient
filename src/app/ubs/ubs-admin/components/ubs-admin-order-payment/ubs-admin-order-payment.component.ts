@@ -200,9 +200,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   public preconditionChangePaymentData(extraPayment: IPaymentInfoDto): void {
-    const checkPaymentId = (): number => {
-      return this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === extraPayment.id).length;
-    };
+    const checkPaymentId = (): number => this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === extraPayment.id).length;
 
     this.recountUnpaidAmount(extraPayment.amount);
     extraPayment.settlementdate = this.formatDate(extraPayment.settlementdate);

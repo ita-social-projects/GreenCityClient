@@ -8,4 +8,7 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
       declarations: [UbsAdminSeveralOrdersPopUpComponent]
     }).compileComponents();
   }));
+  it('should create', () => {
+    expect(UbsAdminSeveralOrdersPopUpComponent).toBeTruthy();
+  });
 });

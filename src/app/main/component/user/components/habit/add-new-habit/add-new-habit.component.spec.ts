@@ -14,14 +14,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { DEFAULTFULLINFOHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
+import { CUSTOMFULLINFOHABIT, DEFAULTFULLINFOHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
 import { ECONEWSMOCK } from 'src/app/main/component/eco-news/mocks/eco-news-mock';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { DEFAULTHABIT } from '../mocks/habit-assigned-mock';
 import { HABITLIST } from '../mocks/habit-mock';
 import { take } from 'rxjs/operators';
 import { HabitAcquireConfirm } from '../models/habit-warnings';
-import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TodoStatus } from '../models/todo-status.enum';
@@ -39,7 +38,7 @@ describe('AddNewHabitComponent', () => {
   const locationMock = { back: () => {} };
 
   class MatDialogMock {
-    open() {
+    open(): any {
       return {
         afterClosed: () => of(true)
       };
@@ -67,9 +66,10 @@ describe('AddNewHabitComponent', () => {
   fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
   fakeHabitService.getHabitsByTagAndLang = () => of(HABITLIST);
 
-  const fakeLocalStorageService: LocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', {
-    getCurrentLanguage: () => 'ua'
-  });
+  const fakeLocalStorageService: LocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', { getCurrentLanguage: () => 'ua' });
+  fakeLocalStorageService.setEditMode = (key: string, permission: boolean) => {
+    localStorage.setItem(key, `${permission}`);
+  };
   fakeLocalStorageService.getUserId = () => 2;
   fakeLocalStorageService.languageSubject = new Subject<string>();
   fakeLocalStorageService.languageSubject.next('ua');
@@ -85,9 +85,7 @@ describe('AddNewHabitComponent', () => {
   fakeShoppingListService.getHabitShopList = () => of();
   fakeShoppingListService.updateHabitShopList = () => of();
 
-  matSnackBarMock.openSnackBar = (type: string) => {
-    return type;
-  };
+  matSnackBarMock.openSnackBar = (type: string) => type;
 
   const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsListByPage']);
   ecoNewsServiceMock.getEcoNewsListByPage = () => of(ECONEWSMOCK);
@@ -117,7 +115,7 @@ describe('AddNewHabitComponent', () => {
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Location, useValue: locationMock },
-        { provide: MatDialog, useClass: MatDialogMock },
+        { provide: MatDialog, useValue: new MatDialogMock() },
         { provide: Router, useValue: routerMock },
         provideMockStore({ initialState })
       ],
@@ -186,7 +184,7 @@ describe('AddNewHabitComponent', () => {
   it('should navigate back on onGoBack without call dialog', () => {
     component.initialDuration = 1;
     component.newDuration = 1;
-    component.standartShopList = null;
+    component.standardShopList = null;
     component.customShopList = null;
     const spy = spyOn(locationMock, 'back');
     component.onGoBack();
@@ -273,17 +271,17 @@ describe('AddNewHabitComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('addHabit method should call assignStandartHabit methods', () => {
+  it('addHabit method should call assignStandardHabit methods', () => {
     (component as any).isCustomHabit = false;
-    const spy = spyOn(component as any, 'assignStandartHabit');
+    const spy = spyOn(component as any, 'assignStandardHabit');
     component.addHabit();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('call of assignStandartHabit method should invoke afterHabitWasChanged method', () => {
+  it('call of assignStandardHabit method should invoke afterHabitWasChanged method', () => {
     const spy = spyOn(component as any, 'afterHabitWasChanged');
     (component as any).habitId = 2;
-    (component as any).assignStandartHabit();
+    (component as any).assignStandardHabit();
     fakeHabitAssignService
       .assignHabit((component as any).habitId)
       .pipe(take(1))
@@ -293,18 +291,10 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('call of updateHabit method should invoke afterHabitWasChanged method', () => {
-    const customShopListMock = {
-      id: 7,
-      status: TodoStatus.inprogress,
-      text: 'fake custom text',
-      selected: false,
-      custom: true
-    };
-
     const spy = spyOn(component as any, 'afterHabitWasChanged');
     const spy2 = spyOn(component as any, 'convertShopLists');
     const spy3 = spyOn(component as any, 'setHabitListForUpdate');
-    component.customShopList = [customShopListMock];
+    component.customShopList = DEFAULTFULLINFOHABIT.shoppingListItems;
     (component as any).updateHabit();
     fakeHabitAssignService
       .updateHabit(5, 21)
@@ -337,94 +327,38 @@ describe('AddNewHabitComponent', () => {
     expect(spyRef).toHaveBeenCalled();
   });
 
-  it('setHabitListForUpdate should return shopListUpdate ', () => {
-    const standartShoppingListMock = [
-      {
-        id: 3,
-        status: 'fake string',
-        text: 'fake stundart text',
-        selected: false,
-        custom: false
-      }
-    ];
-
-    const customShoppingListMock = [
-      {
-        id: 7,
-        status: 'fake string',
-        text: 'fake custom text',
-        selected: false,
-        custom: true
-      }
-    ];
-
+  it('setHabitListForUpdate should return shopListUpdate', () => {
     (component as any).habitAssignId = 3;
     (component as any).currentLang = 'en';
-    (component as any).customShopList = customShoppingListMock;
-    (component as any).standartShopList = standartShoppingListMock;
+    (component as any).customShopList = CUSTOMFULLINFOHABIT;
+    (component as any).standardShopList = DEFAULTFULLINFOHABIT;
 
     const habitUpdateShopListMock = {
       habitAssignId: 3,
-      customShopList: customShoppingListMock,
-      standartShopList: standartShoppingListMock,
+      customShopList: CUSTOMFULLINFOHABIT,
+      standardShopList: DEFAULTFULLINFOHABIT,
       lang: 'en'
     };
 
     const result = (component as any).setHabitListForUpdate();
-    (component as any).setHabitListForUpdate();
     expect(result).toEqual(habitUpdateShopListMock);
   });
 
-  it('convertShopLists should change customShopList and standartShopList', () => {
-    (component as any).customShopList = [
-      {
-        id: 7,
-        status: 'fake string',
-        text: 'fake custom text',
-        selected: false,
-        custom: true
-      }
-    ];
-
-    (component as any).standartShopList = [
-      {
-        id: 3,
-        status: 'fake string',
-        text: 'fake standart text',
-        selected: false,
-        custom: false
-      }
-    ];
-
-    const customShopListMock = [
-      {
-        id: 7,
-        status: 'fake string',
-        text: 'fake custom text'
-      }
-    ];
-
-    const standartShopListMock = [
-      {
-        id: 3,
-        status: 'fake string',
-        text: 'fake standart text'
-      }
-    ];
-
-    (component as any).convertShopLists();
-    expect((component as any).customShopList).toEqual(customShopListMock);
-    expect((component as any).standartShopList).toEqual(standartShopListMock);
-  });
-
-  it('call of getStandartShopList method should change initialShoppingList', () => {
+  it('call of getStandardShopList method should change initialShoppingList', () => {
     (component as any).habitId = 2;
-    (component as any).getStandartShopList();
+    (component as any).getStandardShopList();
     fakeShoppingListService
       .getHabitShopList((component as any).habitId)
       .pipe(take(1))
       .subscribe((res) => {
         expect(component.initialShoppingList).toBe(res);
       });
+  });
+
+  it('should set standardShopList and customShopList', () => {
+    component.getList(DEFAULTFULLINFOHABIT.shoppingListItems);
+    expect(component.standardShopList).toEqual([{ id: 2, status: TodoStatus.active, text: 'TEST', selected: false, custom: false }]);
+    console.log(component.customShopList);
+    expect(component.customShopList).toEqual([{ id: 6, status: TodoStatus.active, text: 'TEST', selected: false, custom: false }]);
   });
 });

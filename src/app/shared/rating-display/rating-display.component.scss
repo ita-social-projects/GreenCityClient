@@ -1,0 +1,18 @@
+.rating {
+  position: relative;
+}
+
+.stars-empthy {
+  display: flex;
+}
+
+.stars-filled {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  display: flex;
+}
+
+.star {
+  margin: 0 3px;
+}

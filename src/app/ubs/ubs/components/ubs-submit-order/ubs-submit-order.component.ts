@@ -143,9 +143,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       locationId: this.locationId,
       addressId: this.addressId,
       shouldBePaid,
-      bags: this.bags.map((bag) => {
-        return { id: bag.id, amount: bag.quantity };
-      })
+      bags: this.bags.map((bag) => ({ id: bag.id, amount: bag.quantity }))
     };
 
     return order;

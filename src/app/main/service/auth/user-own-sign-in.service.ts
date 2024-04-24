@@ -6,15 +6,18 @@ import { UserSuccessSignIn } from '../../model/user-success-sign-in';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserOwnSignInService {
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {}
 
   public signIn(model: UserOwnSignIn) {
     const body = {
       email: model.email,
-      password: model.password,
+      password: model.password
     };
     return this.http.post(userOwnSignInLink, body);
   }

@@ -84,9 +84,7 @@ describe('UbsUserBonusesComponent', () => {
   it('should call openSnackBar in case error', async () => {
     await buildComponent();
     bonusesServiceMock.getUserBonusesWithPaymentHistory = () => throwError('error');
-    const spy = spyOn(matSnackBarMock, 'openSnackBar').and.callFake(() => {
-      return EMPTY;
-    });
+    const spy = spyOn(matSnackBarMock, 'openSnackBar').and.callFake(() => EMPTY);
     component.getBonusesData();
     expect(spy).toHaveBeenCalled();
   });

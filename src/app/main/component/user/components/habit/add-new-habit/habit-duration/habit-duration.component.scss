@@ -95,12 +95,12 @@ input[type='range'].form-control-range::-moz-range-thumb {
   cursor: pointer;
 }
 
-.form-control-range::-webkit-fill-lower {
+.form-control-range::-webkit-slider-runnable-track {
   background-color: var(--primary-green);
   border-radius: 52px;
 }
 
-.form-control-range::-webkit-fill-upper {
+.form-control-range::-webkit-slider-thumb {
   background-color: #bbbebd;
   border-radius: 52px;
 }
@@ -129,4 +129,8 @@ input[type='range'].form-control-range::-moz-range-thumb {
   text-align: center !important;
   opacity: 1 !important;
   color: black !important;
+}
+
+.habit-slider {
+  width: 100%;
 }

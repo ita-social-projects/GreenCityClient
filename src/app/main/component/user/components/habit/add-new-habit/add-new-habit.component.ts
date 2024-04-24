@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { take, takeUntil } from 'rxjs/operators';
+import { concatMap, take, takeUntil } from 'rxjs/operators';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
@@ -20,7 +20,7 @@ import { HabitAcquireConfirm, HabitCongratulation, HabitGiveUp, HabitLeavePage }
 import { WarningDialog } from '@global-user/models/warning-dialog.inteface';
 import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
-import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
+import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '@user-models/shoppinglist.interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { Store } from '@ngrx/store';
@@ -40,10 +40,10 @@ export class AddNewHabitComponent implements OnInit {
   recommendedHabits: HabitInterface[];
   recommendedNews: EcoNewsModel[];
 
-  newDuration: number;
+  newDuration = 7;
   initialDuration: number;
   initialShoppingList: ShoppingList[] = [];
-  standartShopList: ShoppingList[] = [];
+  standardShopList: ShoppingList[] = [];
   customShopList: ShoppingList[] = [];
   friendsIdsList: number[] = [];
 
@@ -80,7 +80,7 @@ export class AddNewHabitComponent implements OnInit {
     private habitService: HabitService,
     private snackBar: MatSnackBarComponent,
     private habitAssignService: HabitAssignService,
-    private newsSevice: EcoNewsService,
+    private newsService: EcoNewsService,
     private shopListService: ShoppingListService,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
@@ -128,7 +128,7 @@ export class AddNewHabitComponent implements OnInit {
           this.assignedHabit = res;
           this.habitId = this.assignedHabit.habit.id;
           this.isAcquired = this.assignedHabit.status === HabitStatus.ACQUIRED;
-          this.initialDuration = res.habit.defaultDuration;
+          this.initialDuration = res.duration || res.habit.defaultDuration;
           this.initHabitData(res.habit);
           this.getCustomShopList();
         });
@@ -149,7 +149,7 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private getRecommendedNews(page: number, size: number): void {
-    this.newsSevice
+    this.newsService
       .getEcoNewsListByPage(page, size)
       .pipe(take(1))
       .subscribe((res: EcoNewsDto) => {
@@ -169,7 +169,7 @@ export class AddNewHabitComponent implements OnInit {
           data.customShoppingListItems?.forEach((item) => (item.custom = true));
           this.initialShoppingList = data.customShoppingListItems;
         } else {
-          this.getStandartShopList();
+          this.getStandardShopList();
         }
       });
   }
@@ -192,7 +192,7 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   onGoBack(): void {
-    const isHabitWasEdited = this.initialDuration !== this.newDuration || this.standartShopList || this.customShopList;
+    const isHabitWasEdited = this.initialDuration !== this.newDuration || this.standardShopList || this.customShopList;
     if (isHabitWasEdited) {
       const dialogRef = this.getOpenDialog(HabitLeavePage, false);
       dialogRef
@@ -228,11 +228,11 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   getList(list: ShoppingList[]): void {
-    this.standartShopList = list.filter((item) => !item.custom);
+    this.standardShopList = list.filter((item) => !item.custom);
     this.customShopList = list.filter((item) => item.custom);
   }
 
-  private getStandartShopList(): void {
+  private getStandardShopList(): void {
     this.shopListService
       .getHabitShopList(this.habitId)
       .pipe(take(1))
@@ -253,6 +253,9 @@ export class AddNewHabitComponent implements OnInit {
 
   giveUpHabit(): void {
     const dialogRef = this.getOpenDialog(HabitGiveUp, true);
+    if (!dialogRef) {
+      return;
+    }
     dialogRef
       .afterClosed()
       .pipe(take(1))
@@ -284,13 +287,17 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   addHabit(): void {
-    this.isCustomHabit ? this.assignCustomHabit() : this.assignStandartHabit();
+    this.isCustomHabit ? this.assignCustomHabit() : this.assignStandardHabit();
   }
 
-  private assignStandartHabit() {
+  private assignStandardHabit() {
+    const conditionForDurationUpdate = this.newDuration && this.newDuration !== this.initialDuration;
     this.habitAssignService
       .assignHabit(this.habitId)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        concatMap((res) => (conditionForDurationUpdate ? this.habitAssignService.updateHabitDuration(res.id, this.newDuration) : of([])))
+      )
       .subscribe(() => {
         this.afterHabitWasChanged('habitAdded');
       });
@@ -298,8 +305,8 @@ export class AddNewHabitComponent implements OnInit {
 
   private assignCustomHabit() {
     this.friendsIdsList = this.userFriendsService.addedFriends?.map((friend) => friend.id);
-    const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
-    const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defailtItemsIds, duration: this.newDuration };
+    const defaultItemsIds = this.standardShopList.filter((item) => item.selected === true).map((item) => item.id);
+    const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defaultItemsIds, duration: this.newDuration };
     const customItemsList: CustomShoppingItem[] = this.customShopList.map((item) => ({
       text: item.text
     }));
@@ -316,7 +323,7 @@ export class AddNewHabitComponent implements OnInit {
       .updateHabit(this.habitAssignId, this.newDuration)
       .pipe(take(1))
       .subscribe(() => {
-        if (this.customShopList || this.standartShopList) {
+        if (this.customShopList || this.standardShopList) {
           this.convertShopLists();
           const habitShopListUpdate = this.setHabitListForUpdate();
           this.shopListService
@@ -335,7 +342,7 @@ export class AddNewHabitComponent implements OnInit {
       delete el.custom;
       delete el.selected;
     });
-    this.standartShopList?.forEach((el) => {
+    this.standardShopList?.forEach((el) => {
       delete el.custom;
       delete el.selected;
     });
@@ -347,13 +354,12 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private setHabitListForUpdate(): HabitUpdateShopList {
-    const shopListUpdate: HabitUpdateShopList = {
+    return {
       habitAssignId: this.habitAssignId,
       customShopList: this.customShopList,
-      standartShopList: this.standartShopList,
+      standardShopList: this.standardShopList,
       lang: this.currentLang
     };
-    return shopListUpdate;
   }
 
   openAcquireConfirm(): void {

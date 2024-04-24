@@ -53,14 +53,17 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   @Input() placeholder: string;
 
   constructor(
-    private SocketService: SocketService,
+    public socketService: SocketService,
     private localStorageService: LocalStorageService,
     public elementRef: ElementRef
-  ) {}
+  ) {
+    this.socketService.initiateConnection(this.socketService.connection.greenCity);
+  }
 
   ngOnInit(): void {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((id) => (this.userId = id));
-    this.SocketService.onMessage(`/topic/${this.userId}/searchUsers`)
+    this.socketService
+      .onMessage(this.socketService.connection.greenCity, `/topic/${this.userId}/searchUsers`)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: TaggedUser[]) => {
         if (data.length) {
@@ -228,7 +231,10 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   }
 
   sendSocketMessage(query: string): void {
-    this.SocketService.send('/app/getUsersToTagInComment', { currentUserId: this.userId, searchQuery: query });
+    this.socketService.send(this.socketService.connection.greenCity, '/app/getUsersToTagInComment', {
+      currentUserId: this.userId,
+      searchQuery: query
+    });
   }
 
   setFocusCommentTextarea(): void {
