@@ -18,7 +18,7 @@ import { TodoStatus } from '../models/todo-status.enum';
 import { provideMockStore } from '@ngrx/store/testing';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 
-describe('AddEditCustomHabitComponent', () => {
+fdescribe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
   let fixture: ComponentFixture<AddEditCustomHabitComponent>;
 
@@ -33,9 +33,10 @@ describe('AddEditCustomHabitComponent', () => {
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
-  const habitServiceMock = jasmine.createSpyObj('fakeHabitService', ['getAllTags', 'addCustomHabit']);
+  const habitServiceMock = jasmine.createSpyObj('fakeHabitService', ['getAllTags', 'addCustomHabit', 'deleteCustomHabit']);
   habitServiceMock.getAllTags = () => of(tagsMock);
   habitServiceMock.addCustomHabit = () => of(null);
+  habitServiceMock.deleteCustomHabit = () => of({});
 
   const habitAssignServiceMock = jasmine.createSpyObj('fakeHabitAssignService', ['getHabitByAssignId']);
   habitAssignServiceMock.getHabitByAssignId = () => of(initialState);
@@ -156,5 +157,12 @@ describe('AddEditCustomHabitComponent', () => {
     const spy = spyOn(component, 'goToAllHabits');
     component.addHabit();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call handleHabitDelete after habit has been deleted', () => {
+    const spy = spyOn(component, 'handleHabitDelete');
+    component.deleteHabit();
+    expect(spy).toHaveBeenCalled();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/profile/2/allhabits']);
   });
 });

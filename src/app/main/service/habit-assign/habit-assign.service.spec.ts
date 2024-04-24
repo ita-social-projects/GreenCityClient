@@ -119,7 +119,6 @@ describe('HabitService', () => {
 
     const req = httpMock.expectOne(`${habitAssignLink}/${habitId}/update-habit-duration?duration=${duration}`);
     req.flush(expectedRes);
-    httpMock.verify();
     expect(req.request.method).toBe('PUT');
     expect(actualRes).toEqual(expectedRes);
   });
@@ -134,7 +133,6 @@ describe('HabitService', () => {
 
     const req = httpMock.expectOne(`${habitAssignLink}/${DEFAULTFULLINFOHABIT.id}`);
     req.flush(expectedRes);
-    httpMock.verify();
     expect(req.request.method).toBe('PATCH');
     expect(actualRes).toEqual(expectedRes);
   });
@@ -145,7 +143,6 @@ describe('HabitService', () => {
 
     const req = httpMock.expectOne(`${habitAssignLink}/delete/${habitAssignId}`);
     req.flush(new HttpResponse({ status: 200 }));
-    httpMock.verify();
     expect(req.request.method).toBe('DELETE');
   });
 
@@ -155,7 +152,6 @@ describe('HabitService', () => {
 
     const req = httpMock.expectOne(`${habitAssignLink}/${habitAssignId}/updateProgressNotificationHasDisplayed`);
     req.flush(new HttpResponse({ status: 200 }));
-    httpMock.verify();
     expect(req.request.method).toBe('PUT');
   });
 

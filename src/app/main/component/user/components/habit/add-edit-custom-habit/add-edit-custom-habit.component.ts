@@ -220,6 +220,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.habitSuccessfullyAdded();
   }
 
+  handleHabitDelete() {
+    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.habitSuccessfullyDeleted();
+  }
+
   private habitSuccessfullyAdded(): void {
     if (this.isEditing) {
       this.snackBar.openSnackBar('habitUpdated');
@@ -227,6 +232,10 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     if (this.habitForm.valid && this.isValidDescription) {
       this.snackBar.openSnackBar('habitAdded');
     }
+  }
+
+  private habitSuccessfullyDeleted() {
+    this.snackBar.openSnackBar('habitDeleted');
   }
 
   private getHabitTags(): void {
@@ -261,5 +270,12 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       .subscribe(() => {
         this.goToAllHabits();
       });
+  }
+
+  deleteHabit() {
+    this.habitService
+      .deleteCustomHabit(this.habitId)
+      .pipe(take(1))
+      .subscribe(() => this.handleHabitDelete());
   }
 }

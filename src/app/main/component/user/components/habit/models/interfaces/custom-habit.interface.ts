@@ -19,3 +19,8 @@ export interface CustomHabit {
   image: string;
   shopList: ShoppingList[];
 }
+
+export interface CustomHabitDeleteResponse extends CustomHabitDtoRequest {
+  id: number;
+  userId: number;
+}

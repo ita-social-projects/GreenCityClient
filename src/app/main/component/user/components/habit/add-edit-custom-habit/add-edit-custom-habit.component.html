@@ -111,15 +111,23 @@
           </div>
         </div>
         <div class="add-habit-container">
-          <button class="tertiary-global-button" (click)="cancel(true)">
-            {{ 'user.habit.btn.cancel' | translate }}
-          </button>
-          <button *ngIf="!isEditing" class="primary-global-button" [disabled]="habitForm.invalid" type="submit" (click)="addHabit()">
-            {{ 'user.habit.btn.add' | translate }}
-          </button>
-          <button *ngIf="isEditing" class="primary-global-button" [disabled]="habitForm.invalid" type="submit" (click)="saveHabit()">
-            {{ 'user.habit.btn.save' | translate }}
-          </button>
+          <ng-container *ngIf="isEditing; else createHabitButtons">
+            <button class="tertiary-global-button" (click)="deleteHabit()">
+              {{ 'user.habit.btn.delete' | translate }}
+            </button>
+            <button class="primary-global-button" [disabled]="habitForm.invalid" type="submit" (click)="saveHabit()">
+              {{ 'user.habit.btn.save' | translate }}
+            </button>
+          </ng-container>
+          <ng-template #createHabitButtons>
+            <button class="tertiary-global-button" (click)="cancel(true)">
+              {{ 'user.habit.btn.cancel' | translate }}
+            </button>
+
+            <button class="primary-global-button" [disabled]="habitForm.invalid" type="submit" (click)="addHabit()">
+              {{ 'user.habit.btn.add' | translate }}
+            </button></ng-template
+          >
         </div>
       </div>
     </form>

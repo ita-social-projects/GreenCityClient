@@ -8,6 +8,8 @@ import { CUSTOMHABIT } from '@global-user/components/habit/mocks/habit-assigned-
 import { HABITLIST } from '@global-user/components/habit/mocks/habit-mock';
 import { SHOPLIST } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { TAGLIST } from '@global-user/components/habit/mocks/tags-list-mock';
+import { CustomHabitDeleteResponse } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
+import { HttpResponse } from '@angular/common/http';
 
 describe('HabitService', () => {
   const habitLink = `${environment.backendLink}habit`;
@@ -100,5 +102,17 @@ describe('HabitService', () => {
     const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en&page=1&size=1&sort=asc&tags=test`);
     expect(req.request.method).toBe('GET');
     req.flush(HABITLIST);
+  });
+
+  it('should delete custom habit', () => {
+    const id = CUSTOMHABIT.id;
+
+    habitService.deleteCustomHabit(id).subscribe();
+
+    const req = httpMock.expectOne(`${habitLink}/delete/${id}`);
+
+    req.flush(new HttpResponse({ status: 200 }));
+    expect(req.request.method).toBe('DELETE');
+    httpMock.verify();
   });
 });

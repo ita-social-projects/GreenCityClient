@@ -740,7 +740,8 @@
         "add": "Додати звичку",
         "cancel": "Відмінити",
         "see-all": "Показати всі",
-        "see-less": "Згорнути"
+        "see-less": "Згорнути",
+        "delete": "Видалити"
       },
       "button-component": {
         "add-new-habit": "Додати нову звичку!"
@@ -836,6 +837,7 @@
         "habit-did-not-give-up": "Ми раді, що ви передумали",
         "habit-acquired": "Ви успішно набули звичку",
         "habit-was-deleted": "Ви успішно видалили звичку зі списку",
+        "custom-habit-was-deleted": "Ви успішно видалили звичку",
         "reset-filters": "Очистити",
         "habits-popup": {
           "title": "Внесені зміни будуть втрачені.",
