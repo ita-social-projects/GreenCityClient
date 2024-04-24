@@ -6,7 +6,6 @@
       <mat-form-field appearance="outline" class="date">
         <mat-label>{{ 'create-event.choose-date' | translate }}</mat-label>
         <input
-          (dateChange)="checkDay()"
           [matDatepickerFilter]="dateFilterBind"
           [matDatepicker]="picker"
           [min]="today"
@@ -21,30 +20,33 @@
         <mat-hint>MMDDYYYY</mat-hint>
       </mat-form-field>
 
-      <div class="time">
-        <mat-form-field appearance="outline" class="time-item">
-          <mat-label>{{ 'create-event.set-start-time' | translate }}</mat-label>
-          <input [matAutocomplete]="startOptions" formControlName="startTime" matInput />
-          <mat-autocomplete #startOptions="matAutocomplete">
-            <mat-option *ngFor="let time of $startOptions" [value]="time">
-              {{ time }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+      <ng-container formGroupName="timeRange">
+        <div class="time">
+          <mat-form-field appearance="outline" class="time-item">
+            <mat-label>{{ 'create-event.set-start-time' | translate }}</mat-label>
+            <input [matAutocomplete]="startOptions" formControlName="startTime" matInput maxlength="5" />
+            <mat-autocomplete #startOptions="matAutocomplete">
+              <mat-option *ngFor="let time of $startOptions" [value]="time">
+                {{ time }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
 
-        <h5 class="dash">—</h5>
+          <h5 class="dash">—</h5>
 
-        <mat-form-field appearance="outline" class="time-item">
-          <mat-label>{{ 'create-event.set-end-time' | translate }}</mat-label>
-          <input [matAutocomplete]="endOptions" formControlName="endTime" matInput />
-          <mat-autocomplete #endOptions="matAutocomplete">
-            <mat-option *ngFor="let time of $endOptions" [value]="time">
-              {{ time }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-      <mat-checkbox (change)="toggleAllDay()" [disabled]="isAllDayDisabled" class="all-day" formControlName="allDay"
+          <mat-form-field appearance="outline" class="time-item">
+            <mat-label>{{ 'create-event.set-end-time' | translate }}</mat-label>
+            <input [matAutocomplete]="endOptions" formControlName="endTime" matInput maxlength="5" />
+            <mat-autocomplete #endOptions="matAutocomplete">
+              <mat-option *ngFor="let time of $endOptions" [value]="time">
+                {{ time }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </ng-container>
+
+      <mat-checkbox (change)="toggleAllDay()" class="all-day" formControlName="allDay"
         >{{ 'create-event.all-day' | translate }}
       </mat-checkbox>
     </div>

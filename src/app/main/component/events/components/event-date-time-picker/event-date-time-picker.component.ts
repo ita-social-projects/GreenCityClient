@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DateForm, DateFormInformation } from '../../models/events.interface';
+import { DateForm, DateFormInformation, TimeRange } from '../../models/events.interface';
 import { combineLatest, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -11,7 +11,8 @@ import { GoogleMap } from '@angular/google-maps';
 import { GeocoderService } from '@global-service/geocoder/geocoder.service';
 import { FormBridgeService } from '../../services/form-bridge.service';
 import { dateFormValidator } from './validators/dateFormValidator';
-import { map, startWith } from 'rxjs/operators';
+import { startWith, tap } from 'rxjs/operators';
+import { timeValidator } from './validators/timeValidator';
 
 @Component({
   selector: 'app-event-date-time-picker',
@@ -30,7 +31,7 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
     lat: DefaultCoordinates.LATITUDE,
     lng: DefaultCoordinates.LONGITUDE
   };
-  public isCurrentDay: boolean;
+  public isCurrentDay = true;
   public onlineLink = '';
   public address: string;
   public autocomplete: google.maps.places.Autocomplete;
@@ -47,22 +48,8 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
   public appliedForAllLocations = false;
   public today: Date = new Date();
 
-  @Input() form: DateFormInformation;
+  @Input() form: DateFormInformation & TimeRange;
   @Input() dayNumber: number;
-
-  public dateForm: FormGroup<DateForm> = this.fb.nonNullable.group(
-    {
-      date: [this.today, [Validators.required]],
-      startTime: new FormControl('', [Validators.required]),
-      endTime: new FormControl('', [Validators.required]),
-      coordinates: new FormControl({ lat: 50, lng: 50 }),
-      onlineLink: new FormControl('', [Validators.pattern(Patterns.linkPattern)]),
-      place: new FormControl(''),
-      allDay: [false]
-    },
-    { validators: dateFormValidator() }
-  );
-
   public isLocationSelected = false;
   public arePlacesFilled: boolean[] = [];
   public mapMarkerCoords: google.maps.LatLngLiteral = { lng: null, lat: null };
@@ -79,13 +66,33 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
   public $startOptions: string[];
   public $endOptions: string[];
   upperTimeLimit = 0;
-  lowerTimeLimit: number;
+  lowerTimeLimit: number = this.timeArr.length - 1;
+  // FORM
+  public dateForm: FormGroup<DateForm> = this.fb.nonNullable.group(
+    {
+      date: [this.today, [Validators.required]],
+      timeRange: this.fb.nonNullable.group(
+        {
+          startTime: new FormControl('', [Validators.required]),
+          endTime: new FormControl('', [Validators.required])
+        },
+        { validators: timeValidator(this.timeArr[this.upperTimeLimit]) }
+      ),
+      coordinates: new FormControl({ lat: 50, lng: 50 }),
+      onlineLink: new FormControl('', [Validators.pattern(Patterns.linkPattern)]),
+      place: new FormControl(''),
+      allDay: new FormControl({ value: false, disabled: this.isAllDayDisabled })
+    },
+    { validators: dateFormValidator() }
+  );
+  private timeRegexp = /^([01]?[0-9]|2[0-3]):([0-5][0-9])$/;
   private componentKey = Symbol('key');
   private regionOptions = {
     types: ['address'],
     componentRestrictions: { country: 'UA' }
   };
   private subscriptions: Subscription[] = [];
+  private lastTimeValues: string[] = [];
 
   constructor(
     private langService: LanguageService,
@@ -97,11 +104,11 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
   ) {}
 
   get startTime() {
-    return this.dateForm.get('startTime');
+    return this.dateForm.get('timeRange.startTime');
   }
 
   get endTime() {
-    return this.dateForm.get('endTime');
+    return this.dateForm.get('timeRange.endTime');
   }
 
   get date() {
@@ -118,16 +125,20 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
     } else {
       const initialStartTime = this.initialStartTime();
       this.upperTimeLimit = this.timeArr.indexOf(initialStartTime);
-      console.log(initialStartTime);
-      console.log(this.upperTimeLimit);
       this.lowerTimeLimit = this.timeArr.length;
-      this.dateForm.patchValue({
-        startTime: initialStartTime,
-        date: this.today
-      });
+      this.dateForm.patchValue(
+        {
+          date: this.today,
+          timeRange: {
+            startTime: initialStartTime
+          }
+        },
+        { emitEvent: true }
+      );
+      console.log(this.startTime.value);
       this.today.setHours(0, 0, 0, 0);
       this.bridge.changeDay(this.dayNumber, this.today);
-      this.updateTimeIndex(initialStartTime, this.dateForm.get('endTime').value); // Use initialStartTime
+      this.updateTimeIndex(initialStartTime, this.endTime.value); // Use initialStartTime
     }
   }
 
@@ -147,27 +158,78 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
   }
 
   subscribeToFormChanges() {
-    const sub = this.dateForm.valueChanges.subscribe((value) => {
-      this.updateTimeIndex(value.startTime, value.endTime);
+    const startTime$ = this.startTime.valueChanges.pipe(
+      startWith(''),
+      tap(() => this.checkForColumn('startTime')),
+      tap(() => {
+        console.log(this.timeArr[this.upperTimeLimit]);
+        this.dateForm.controls.timeRange.setValidators(timeValidator(this.timeArr[this.upperTimeLimit]));
+      })
+    );
+
+    const endTime$ = this.endTime.valueChanges.pipe(
+      startWith(''),
+      tap(() => this.checkForColumn('endTime'))
+    );
+
+    const date$ = this.dateForm.controls.date.valueChanges.pipe(
+      startWith(new Date()),
+      tap((value) => {
+        this.bridge.changeDay(this.dayNumber, value);
+        this.isCurrentDay = this.checkIsCurrentDate(value);
+        if (this.isCurrentDay) {
+          this.upperTimeLimit = this.timeArr.indexOf(this.initialStartTime());
+        } else {
+          this.upperTimeLimit = 0;
+        }
+      })
+    );
+
+    const allDay$ = this.dateForm.controls.allDay.valueChanges.pipe(startWith(false));
+    const formChanges$ = combineLatest([startTime$, endTime$, date$, allDay$]);
+    const subscription = formChanges$.subscribe(([startTime, endTime, date, allDay]) => {
+      if (allDay) {
+        return;
+      }
+      this.updateTimeIndex(startTime, endTime);
+      this.$startOptions = this.filterAutoOptions(startTime, this.upperTimeLimit, this.indexEndTime);
+      this.$endOptions = this.filterAutoOptions(endTime, this.indexStartTime, this.lowerTimeLimit);
     });
-    const b = combineLatest([this.dateForm.controls.startTime.valueChanges, this.dateForm.controls.endTime.valueChanges])
-      .pipe(
-        startWith(''),
-        map(([startTime, endTime]) => {
-          this.updateTimeIndex(startTime, endTime);
-          this.$startOptions = this.filterAutoOptions(startTime, this.upperTimeLimit, this.indexEndTime);
-          this.$endOptions = this.filterAutoOptions(endTime, this.indexStartTime, this.lowerTimeLimit);
-        })
-      )
-      .subscribe();
-    this.subscriptions.push(sub);
-    this.subscriptions.push(b);
+
+    this.subscriptions.push(subscription);
   }
 
-  setDay(date: Date, n: number) {
-    const newDate = new Date(date.getTime()); // Create a copy to avoid modifying the original
-    newDate.setDate(newDate.getDate() + n);
-    return newDate;
+  updateTimeIndex(startTime: string, endTime: string): void {
+    if (this.timeArr.indexOf(endTime) < 0) {
+      this.indexEndTime = this.lowerTimeLimit - 1;
+    } else {
+      this.indexEndTime = this.timeArr.indexOf(endTime);
+    }
+
+    if (this.timeArr.slice(this.upperTimeLimit).indexOf(startTime) < 0) {
+      this.indexStartTime = this.upperTimeLimit + 1;
+    } else {
+      this.indexStartTime = this.timeArr.indexOf(startTime) + 1;
+    }
+  }
+
+  public filterAutoOptions(value: string, startPosition: number, endPosition: number) {
+    const filtered = this.timeArr.slice(startPosition, endPosition).filter((time) => {
+      return time.includes(value);
+    });
+    return filtered.length >= 2 ? filtered : this.timeArr.slice(startPosition, endPosition);
+  }
+
+  setDay(n: number) {
+    const day = this.bridge.getDayFromMap(n - 1);
+    if (day) {
+      const currentDay = day.getDate();
+      const newDate = new Date(day.getTime());
+      // Create a copy to avoid modifying the original
+      newDate.setDate(currentDay + 1);
+      return newDate;
+    }
+    return new Date();
   }
 
   subscribeToLocationChanges() {
@@ -182,15 +244,17 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.today = this.setDay(new Date(), this.dayNumber);
+    this.today = this.setDay(this.dayNumber);
     this.fillTimeArray();
     this.initializeGeocoder();
+    // FORM BLOCK START
     this.subscribeToFormChanges();
     this.subscribeToFormStatus();
     if (this.dayNumber > 0) {
       this.subscribeToLocationChanges();
     }
-
+    this.initializeForm();
+    // FORM BLOCK END
     this.langService.getCurrentLangObs().subscribe((lang) => {
       const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
       this.adapter.setLocale(locale);
@@ -200,8 +264,6 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
       this.arePlacesFilled = values;
     });
     this.subscriptions.push(isAddressFilledSubscription);
-
-    this.initializeForm();
   }
 
   subscribeToFormStatus() {
@@ -223,10 +285,26 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
 
   public toggleAllDay(): void {
     this.checkedAllDay = !this.checkedAllDay;
-    const startTime = this.dateForm.get('startTime');
-    const endTime = this.dateForm.get('endTime');
+    const startTime = this.startTime;
+    const endTime = this.endTime;
     [startTime, endTime].forEach((control) => control[this.checkedAllDay ? 'disable' : 'enable']());
-    this.dateForm.patchValue({ startTime: this.timeArr[1], endTime: this.timeArr[this.lowerTimeLimit] });
+    // IF toggle true disable forms and memorize last values
+    if (this.checkedAllDay) {
+      this.lastTimeValues = [startTime.value, endTime.value];
+      this.dateForm.patchValue({
+        timeRange: {
+          startTime: this.timeArr[0],
+          endTime: this.timeArr[this.lowerTimeLimit - 1]
+        }
+      });
+    } else {
+      this.dateForm.patchValue({
+        timeRange: {
+          startTime: this.lastTimeValues[0],
+          endTime: this.lastTimeValues[1]
+        }
+      });
+    }
   }
 
   public toggleForAllLocations(): void {
@@ -321,21 +399,18 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public checkDay(): void {
-    if (this.dateFilter(this.date.value)) {
-      this.bridge.changeDay(this.dayNumber, this.date.value);
-      const curDay = new Date().toDateString();
-      const selectDay = new Date(this.dateForm.get('date').value).toDateString();
-      this.isCurrentDay = curDay === selectDay;
-    }
+  public checkIsCurrentDate(value: Date): boolean {
+    const curDay = new Date().toDateString();
+    const selectDay = new Date(value).toDateString();
+    return (this.isCurrentDay = curDay === selectDay);
   }
 
-  private filterAutoOptions(value: string, startPosition: number, endPosition: number) {
-    console.log('filter', value, startPosition, endPosition);
-    const filtered = this.timeArr.slice(startPosition, endPosition).filter((time) => {
-      return time.includes(value);
-    });
-    return filtered.length > 2 ? filtered : this.timeArr.slice(startPosition, endPosition);
+  private checkForColumn(controller: 'startTime' | 'endTime') {
+    let value = this.dateForm.controls.timeRange.controls[controller].value;
+    if (value.length === 3 && value.indexOf(':') === -1) {
+      value = value.slice(0, 2) + ':' + value.slice(2);
+      this.dateForm.patchValue({ [controller]: value }, { emitEvent: false });
+    }
   }
 
   private initialStartTime(): string {
@@ -394,18 +469,5 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
     }
     timeArr.push('23:59');
     this.timeArr = timeArr;
-  }
-
-  private updateTimeIndex(startTime: string, endTime: string): void {
-    console.log('update');
-    if (this.timeArr.indexOf(endTime) < 0) {
-      this.indexEndTime = this.lowerTimeLimit;
-    }
-    this.indexEndTime = this.timeArr.indexOf(endTime);
-
-    if (this.timeArr.indexOf(startTime) < 0) {
-      this.indexStartTime = this.upperTimeLimit + 1;
-    }
-    this.indexStartTime = this.timeArr.indexOf(startTime) + 1;
   }
 }

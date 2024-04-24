@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 export interface EventDTO {
   title: string;
@@ -26,8 +26,6 @@ export interface EventInformation {
 
 export interface DateFormInformation {
   date: Date;
-  startTime: string;
-  endTime: string;
   coordinates: {
     lat: number | null;
     lng: number | null; // Use lng instead of lnt for convention
@@ -37,12 +35,21 @@ export interface DateFormInformation {
   allDay: boolean;
 }
 
-type FormData<T> = {
+export interface TimeRange {
+  timeRange: {
+    startTime: string;
+    endTime: string;
+  };
+}
+
+type FormControllers<T> = {
   [K in keyof T]: FormControl<T[K]>;
 };
-export type EventInformationForm = FormData<EventInformation>;
-// [K in keyof EventInformation]: FormControl<EventInformation[K]>;
-export type DateForm = FormData<DateFormInformation>;
+
+export type DateFormControls = FormControllers<DateFormInformation>;
+export type TimeRangeControls = FormControllers<TimeRange['timeRange']>;
+export type DateForm = DateFormControls & { timeRange: FormGroup<TimeRangeControls> };
+export type EventInformationForm = FormControllers<EventInformation>;
 
 export interface Dates {
   startDate: string;
