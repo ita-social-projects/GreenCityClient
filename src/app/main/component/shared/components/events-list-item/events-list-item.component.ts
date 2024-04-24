@@ -28,6 +28,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { ofType } from '@ngrx/effects';
+import { WarningPopUpComponent } from '../warning-pop-up/warning-pop-up.component';
 
 @Component({
   selector: 'app-events-list-item',
@@ -198,7 +199,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.eventService.setForm(null);
     switch (buttonName) {
       case this.btnName.cancel:
-        this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+        this.openPopUp();
         break;
       case this.btnName.join:
         if (this.addAttenderError) {
@@ -241,6 +242,33 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   private joinEvent() {
     this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
     this.snackBar.openSnackBar('joinedEvent');
+  }
+
+  public submitEventCancelling() {
+    this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+  }
+
+  public openPopUp(): void {
+    if (this.dialogRef) {
+      return;
+    }
+    this.dialogRef = this.dialog.open(WarningPopUpComponent, {
+      data: {
+        popupTitle: this.translate.instant('homepage.events.pop-up-cancelling-event'),
+        popupConfirm: this.translate.instant('homepage.events.events-popup.cancelling-event-request-btn'),
+        popupCancel: this.translate.instant('homepage.events.events-popup.reject-cancelling-event-btn'),
+        isUBS: false,
+        isUbsOrderSubmit: false,
+        isHabit: false
+      }
+    });
+
+    this.dialogRef.afterClosed().subscribe((result) => {
+      this.dialogRef = null;
+      if (result) {
+        this.submitEventCancelling();
+      }
+    });
   }
 
   public openModal(): void {

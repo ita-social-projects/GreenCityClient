@@ -168,10 +168,13 @@
         "title": "All created content will be lost.",
         "subtitle": "Do you still want to cancel event creating?",
         "cancel": "Continue editing",
-        "confirm": "Yes, cancel"
+        "confirm": "Yes, cancel",
+        "cancelling-event-request-btn": "Yes",
+        "reject-cancelling-event-btn": "No"
       },
       "modal-rating-title-can-evaluate": "Evaluate the event and the organizer",
-      "modal-rating-title-can`t-evaluate": "You cannot add this event. First register on the site"
+      "modal-rating-title-can`t-evaluate": "You cannot add this event. First register on the site",
+      "pop-up-cancelling-event": "Are you sure that you don't want to join this event?"
     },
     "subscription": {
       "caption": "Receive interesting news",

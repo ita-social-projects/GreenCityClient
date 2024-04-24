@@ -169,10 +169,13 @@
         "title": "Внесені зміни будуть втрачені.",
         "subtitle": "Скасувати редагування події?",
         "cancel": "Продовжити",
-        "confirm": "Скасувати"
+        "confirm": "Скасувати",
+        "cancelling-event-request-btn": "Так",
+        "reject-cancelling-event-btn": "Ні"
       },
       "modal-rating-title-can-evaluate": "Оцініть подію та організатора",
-      "modal-rating-title-can`t-evaluate": "Ви не можете додати цю подію. Спочатку зареєструйтесь на сайті"
+      "modal-rating-title-can`t-evaluate": "Ви не можете додати цю подію. Спочатку зареєструйтесь на сайті",
+      "pop-up-cancelling-event": "Чи впевнені ви, що не хочете приєднюватись до цієї події?"
     },
     "eco-advices": {
       "caption": "Еко поради"
