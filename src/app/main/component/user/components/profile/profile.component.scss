@@ -16,8 +16,7 @@
 
     .app-users-achievements,
     .app-users-friends,
-    .app-eco-places,
-    .app-shopping-list {
+    .app-eco-places {
       display: none;
     }
   }
@@ -81,8 +80,7 @@
 
       .app-users-achievements,
       .app-users-friends,
-      .app-eco-places,
-      .app-shopping-list {
+      .app-eco-places {
         display: block;
       }
     }
@@ -152,6 +150,12 @@
   }
 
   .profile-wrapper {
+    .right-column {
+      app-shopping-list {
+        display: none;
+      }
+    }
+
     .left-column {
       .app-users-friends {
         width: 100%;
@@ -165,6 +169,48 @@
     .left-column {
       .app-users-friends {
         display: flex;
+      }
+
+      .app-shopping-list {
+        display: none;
+      }
+    }
+
+    .right-column {
+      app-shopping-list {
+        margin-top: 50px;
+      }
+    }
+  }
+}
+
+@include responsiveRange(md, xl) {
+  .profile-wrapper {
+    .left-column {
+      .app-shopping-list {
+        display: block;
+      }
+    }
+
+    .right-column {
+      .app-shopping-list {
+        display: none;
+      }
+    }
+  }
+}
+
+@include responsiveMobileFirst(xl) {
+  .profile-wrapper {
+    .left-column {
+      .app-shopping-list {
+        display: none;
+      }
+    }
+
+    .right-column {
+      .app-shopping-list {
+        display: block;
       }
     }
   }
