@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <div role="form" tabindex="0" id="form" class="input-group input-group-sm">
+      <div role="form" id="form" class="input-group input-group-sm">
         <form *ngIf="!isFetching; else spinner" [formGroup]="userForm">
           <h5 class="h5-margin-bottom">{{ 'ubs-client-profile.personal' | translate }}</h5>
           <div class="personal inline">
@@ -103,7 +103,7 @@
                 type="tel"
                 class="form-control recipientPhone"
                 id="recipientPhone"
-                [formControl]="recipientPhone"
+                formControlName="recipientPhone"
                 placeholder="+380__ ___ __ __"
                 [imask]="{ mask: phoneMask }"
               />
@@ -197,8 +197,8 @@
                   <app-address-input
                     [formControlName]="i"
                     [address]="address"
-                    edit="true"
-                    addFromProfile="true"
+                    [edit]="true"
+                    [addFromProfile]="true"
                     [isShowCommentInput]="false"
                   ></app-address-input>
                   <div class="delete-address" (click)="openDeleteAddressDialog(address)" role="button" tabindex="0">

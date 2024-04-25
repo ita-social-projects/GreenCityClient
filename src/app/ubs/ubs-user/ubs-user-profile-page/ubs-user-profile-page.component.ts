@@ -10,7 +10,7 @@ import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-pas
 import { ConfirmationDialogComponent } from '../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { NotificationPlatform } from '../../ubs/notification-platform.enum';

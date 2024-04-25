@@ -57,16 +57,19 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   private $destroy: Subject<void> = new Subject();
 
   autocompleteRegionRequest = {
+    input: '',
     types: ['administrative_area_level_1'],
     componentRestrictions: { country: 'ua' }
   };
 
   autocompleteCityRequest = {
+    input: '',
     types: ['(cities)'],
     componentRestrictions: { country: 'ua' }
   };
 
   autocompleteStreetRequest = {
+    input: '',
     types: ['address'],
     componentRestrictions: { country: 'ua' }
   };
@@ -151,12 +154,12 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.initForm();
 
     if (this.edit) {
-      if (this.address.addressRegionDistrictList.length > 1) {
+      if (this.address.addressRegionDistrictList?.length > 1) {
         this.districtList = this.address.addressRegionDistrictList.map((item) => ({
           nameUa: item.nameUa + DistrictEnum.UA,
           nameEn: item.nameEn + DistrictEnum.EN
         }));
-      } else {
+      } else if (this.address.addressRegionDistrictList) {
         this.districtList = this.address.addressRegionDistrictList.map((item) => ({
           nameUa: item.nameUa,
           nameEn: item.nameEn
@@ -230,8 +233,10 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   initFormValidators(): void {
     this.store.pipe(select(addressesSelector), takeUntil(this.$destroy)).subscribe((addresses) => {
-      this.addressForm.setValidators(addressAlreadyExistsValidator(addresses, this.localStorageService.getCurrentLanguage()));
-      this.addressForm.updateValueAndValidity();
+      if (addresses?.length >= 0) {
+        this.addressForm.setValidators(addressAlreadyExistsValidator(addresses, this.localStorageService.getCurrentLanguage()));
+        this.addressForm.updateValueAndValidity();
+      }
     });
   }
 
