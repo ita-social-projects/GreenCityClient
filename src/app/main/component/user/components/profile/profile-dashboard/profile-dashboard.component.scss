@@ -254,11 +254,11 @@ a {
     color: #fff;
   }
 
-  li:not(.current):not(.disabled) .ng-star-inserted {
+  li:not(.current, .disabled) .ng-star-inserted {
     color: var(--primary-green);
   }
 
-  li:not(:first-child):not(:last-child) {
+  li:not(:first-child, :last-child) {
     border: 2px var(--primary-green) solid;
     border-radius: 10%;
   }

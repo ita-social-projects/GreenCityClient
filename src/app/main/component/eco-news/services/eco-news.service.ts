@@ -53,8 +53,8 @@ export class EcoNewsService implements OnDestroy {
     return this.http.get<EcoNewsModel>(`${this.backEnd}econews/${id}?lang=${this.language}`);
   }
 
-  public getRecommendedNews(id: number): Observable<EcoNewsModel> {
-    return this.http.get<EcoNewsModel>(`${this.backEnd}econews/recommended?openedEcoNewsId=${id}`);
+  public getRecommendedNews(id: number): Observable<EcoNewsModel[]> {
+    return this.http.get<EcoNewsModel[]>(`${this.backEnd}econews/recommended?openedEcoNewsId=${id}`);
   }
 
   public getIsLikedByUser(econewsId) {

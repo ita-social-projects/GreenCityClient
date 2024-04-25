@@ -39,7 +39,7 @@ export interface DateEvent {
   };
   onlineLink?: string;
   valid: boolean;
-  check: boolean;
+  check?: boolean;
 }
 
 export interface Coords {
@@ -56,6 +56,7 @@ export interface MapMarker {
 }
 
 export interface EventImage {
+  name?: string;
   src: string;
   label: string;
   isLabel: boolean;
@@ -169,7 +170,7 @@ export interface PagePreviewDTO {
   editorText: string;
   organizer?: Organizer;
   dates: DateEvent[];
-  tags: Array<string>;
+  tags: Array<TagDto>;
   imgArray: any[];
   imgArrayToPreview: any[];
   location: DateFormObj;

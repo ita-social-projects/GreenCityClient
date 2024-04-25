@@ -72,7 +72,7 @@ $grey: var(--tertiary-light-grey);
 
 .mat-spinner circle,
 ::ng-deep.mat-progress-spinner circle {
-  stroke: rgb(226, 226, 226) !important;
+  stroke: rgb(226 226 226) !important;
 }
 
 @media (min-width: $bp-tablet) and (max-width: $bp-largest) {

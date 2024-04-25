@@ -37,7 +37,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   private snackBar: MatSnackBarComponent;
   private localStorageService: LocalStorageService;
   private translate: TranslateService;
-  public cityOptions = {
+  public cityOptions: google.maps.places.AutocompletionRequest = {
+    input: '',
     types: ['(cities)']
   };
   public userInfo = {

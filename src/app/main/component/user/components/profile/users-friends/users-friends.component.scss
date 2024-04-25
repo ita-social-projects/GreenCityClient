@@ -228,6 +228,7 @@ p {
 @include responsivePCFirst(sm) {
   .outer {
     display: flex;
+
     .friends {
       width: 100%;
       margin: 0 16px;

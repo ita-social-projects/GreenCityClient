@@ -98,7 +98,7 @@ h2 > span {
 
 .shopping-list {
   width: 100%;
-  padding: 5px 0 0 0;
+  padding: 5px 0 0;
   overflow-y: hidden;
 
   li {
@@ -130,7 +130,7 @@ h2 > span {
 
 .mat-spinner circle,
 ::ng-deep.mat-progress-spinner circle {
-  stroke: rgb(226, 226, 226) !important;
+  stroke: rgb(226 226 226) !important;
 }
 
 .loading {

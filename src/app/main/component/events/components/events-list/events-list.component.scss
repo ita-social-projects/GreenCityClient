@@ -131,7 +131,7 @@
 hr {
   margin: 1rem 0 0;
   border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgb(0 0 0 / 10%);
 }
 
 .reset {
@@ -231,7 +231,7 @@ p {
     overflow: hidden;
     max-width: 348px;
     background-color: var(--primary-white);
-    box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+    box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   }
 }
 

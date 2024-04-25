@@ -86,7 +86,7 @@
         [zoom]="zoom"
         (mapClick)="onChangePickerOnMap($event)"
       >
-        <map-marker [options]="{ lat: coordinates.latitude, lng: coordinates.longitude }" />
+        <map-marker [position]="{ lat: coordinates.latitude, lng: coordinates.longitude }" />
       </google-map>
     </div>
   </div>

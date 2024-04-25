@@ -156,6 +156,7 @@ export interface IBags {
   capacity: number;
   id: number;
   name: string;
+  nameEng: string;
   price: number;
   planned?: number;
   confirmed?: number;

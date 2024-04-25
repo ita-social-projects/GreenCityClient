@@ -13,7 +13,8 @@ import {
   OfflineDto,
   TagObj,
   PagePreviewDTO,
-  DateEventResponseDto
+  DateEventResponseDto,
+  TagDto
 } from '../../models/events.interface';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Router } from '@angular/router';
@@ -512,7 +513,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public onPreview() {
     this.eventsService.setSubmitFromPreview(false);
     this.imgToData();
-    const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
+    const tagsArr: Array<TagDto> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
     const sendEventDto: PagePreviewDTO = {
       title: this.eventFormGroup.get('titleForm').value.trim(),
       description: this.eventFormGroup.get('description').value,

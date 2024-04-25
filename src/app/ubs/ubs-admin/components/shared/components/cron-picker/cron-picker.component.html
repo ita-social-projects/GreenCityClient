@@ -76,7 +76,8 @@
           <mat-radio-button value="every-month">{{ 'cron-picker.labels.every-month' | translate }}</mat-radio-button>
           <mat-radio-button value="months">
             <div class="select-months">
-              <mat-button-toggle-group appearance="outline" formControlName="months" aria-label="Months" multiple>
+              <!-- Error appearance="outline" -->
+              <mat-button-toggle-group appearance="standard" formControlName="months" aria-label="Months" multiple>
                 <mat-button-toggle disableRipple *ngFor="let month of months" [value]="month">
                   {{ 'cron-picker.months.' + monthsAliases[month - 1] | translate }}
                 </mat-button-toggle>

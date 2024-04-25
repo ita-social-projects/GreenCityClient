@@ -27,7 +27,7 @@
           [matDatepicker]="picker1"
           id="dateFrom{{ data.columnName }}"
           [value]="getDateValue('From')"
-          (change)="changeInputDateFilters($event.target.value, 'From')"
+          (change)="changeInputDateFilters($event.target['value'], 'From')"
         />
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
@@ -39,7 +39,7 @@
           [matDatepicker]="picker2"
           id="dateTo{{ data.columnName }}"
           [value]="getDateValue('To')"
-          (change)="changeInputDateFilters($event.target.value, 'To')"
+          (change)="changeInputDateFilters($event.target['value'], 'To')"
         />
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>

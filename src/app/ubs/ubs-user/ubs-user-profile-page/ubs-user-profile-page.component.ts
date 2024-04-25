@@ -657,7 +657,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   getControl(control: string) {
-    return this.userForm.get(control);
+    return this.userForm.get(control) as FormControl;
   }
 
   toggleAlternativeEmail() {

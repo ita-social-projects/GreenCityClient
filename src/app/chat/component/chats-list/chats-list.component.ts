@@ -31,7 +31,7 @@ export class ChatsListComponent implements OnInit {
     });
   }
 
-  public messageDateTreat(date: Date): string {
+  public messageDateTreat(date: string): string {
     const messageDate = new Date(date);
     const today = new Date();
     if (messageDate.getFullYear() !== today.getFullYear()) {

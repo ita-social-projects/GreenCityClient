@@ -10,6 +10,7 @@ import { listElementsAdmin } from 'src/app/ubs/ubs/models/ubs-sidebar-links';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IAppState } from 'src/app/store/state/app.state';
+import { listElements } from 'src/app/shared/interface/ubs-base-sidebar-interface';
 
 describe('UbsAdminSidebarComponent', () => {
   let component: UbsAdminSidebarComponent;
@@ -34,7 +35,7 @@ describe('UbsAdminSidebarComponent', () => {
     positionId: [3, 4, 5]
   };
 
-  const listElementsAdminMock: object[] = [
+  const listElementsAdminMock: listElements[] = [
     {
       link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
       name: 'ubs-sidebar.orders',

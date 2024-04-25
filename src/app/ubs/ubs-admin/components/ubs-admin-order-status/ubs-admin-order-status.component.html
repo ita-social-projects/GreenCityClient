@@ -21,7 +21,7 @@
                   *ngIf="isOrderStatusSelected"
                   [ngClass]="isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
                   formControlName="orderStatus"
-                  (change)="onChangedOrderStatus($event.target.value)"
+                  (change)="onChangedOrderStatus($event.target['value'])"
                 >
                   <option
                     *ngFor="let status of availableOrderStatuses"
@@ -44,7 +44,7 @@
                   id="payment"
                   class="form-control payment"
                   formControlName="paymentStatus"
-                  disabled
+                  [disabled]
                   *ngIf="availablePaymentOrderStatuses?.length"
                 >
                   <option

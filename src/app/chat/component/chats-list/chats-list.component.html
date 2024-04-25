@@ -17,7 +17,7 @@
         <span class="chat-name">{{ chat.name }}</span>
         <div *ngIf="chat.lastMessage" class="chat-last-message">
           <span class="chat-lm-text">{{ chat.lastMessage }}</span>
-          <span class="chat-lm-date">{{ chat.lastMessageDateTime | date: messageDateTreat(chat.lastMessageDateTime) }}</span>
+          <span class="chat-lm-date">{{ chat.lastMessageDate | date: messageDateTreat(chat.lastMessageDate) }}</span>
         </div>
       </div>
     </div>
