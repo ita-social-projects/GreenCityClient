@@ -1,5 +1,5 @@
 import { HabitInterface } from '../models/interfaces/habit.interface';
-import { HabitAssignInterface, ResponseInterface } from '../models/interfaces/habit-assign.interface';
+import { ChangesFromCalendarToProgress, HabitAssignInterface, ResponseInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { TodoStatus } from '../models/todo-status.enum';
 
@@ -168,4 +168,9 @@ export const DEFAULTFULLINFOHABIT_2: HabitAssignInterface = {
     }
   ],
   progressNotificationHasDisplayed: false
+};
+
+export const CHANGES_FROM_CALENDAR: ChangesFromCalendarToProgress = {
+  isEnrolled: true,
+  date: '2024-04-25'
 };
