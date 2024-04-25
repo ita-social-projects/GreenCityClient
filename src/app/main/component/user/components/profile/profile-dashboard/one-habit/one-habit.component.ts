@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
+import { habitImages } from 'src/app/main/image-pathes/habits-images';
 
 @Component({
   selector: 'app-one-habit',
@@ -69,6 +70,14 @@ export class OneHabitComponent implements OnInit, OnDestroy {
       } else {
         this.descriptionType.undone();
       }
+    }
+  }
+
+  public getHabitImage(): string {
+    if (this.habit.habit.image && this.habit.habit.image !== ' ') {
+      return this.habit.habit.image;
+    } else {
+      return habitImages.defaultImage;
     }
   }
 

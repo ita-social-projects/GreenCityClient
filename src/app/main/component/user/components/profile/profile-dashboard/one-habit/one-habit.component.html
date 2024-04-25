@@ -1,5 +1,5 @@
 <div class="main" *ngIf="habit">
-  <div class="image"></div>
+  <div class="image" [ngStyle]="{ 'background-image': 'url(' + getHabitImage() + ')' }"></div>
   <div class="description">
     <div class="first-row">
       <img class="calendar" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
