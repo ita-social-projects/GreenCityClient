@@ -69,8 +69,11 @@
     </button>
     <button
       *ngIf="isActive || !isOwner || isAdmin"
-      class="{{ btnStyle }} event-button m-btn primary-global-button"
-      [ngClass]="{ 'secondary-global-button': btnName.cancel === nameBtn }"
+      class="{{ btnStyle }} event-button m-btn"
+      [ngClass]="{
+        'secondary-global-button': btnName.cancel === nameBtn || btnName.requestSent === nameBtn,
+        'primary-global-button': btnName.join === nameBtn
+      }"
       (click)="buttonAction(nameBtn)"
       [disabled]="nameBtn === btnName.requestSent"
     >
