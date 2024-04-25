@@ -70,7 +70,7 @@ export class UserFriendsService {
   }
 
   public declineRequest(idFriend: number): Observable<object> {
-    return this.http.delete<object>(`${this.urlFriend}friends/${idFriend}/declineFriend`, {});
+    return this.http.patch<object>(`${this.urlFriend}friends/${idFriend}/declineFriend`, {});
   }
 
   public deleteFriend(idFriend: number): Observable<object> {
