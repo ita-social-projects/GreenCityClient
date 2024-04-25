@@ -23,6 +23,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
+import { WarningPopUpComponent } from '@shared/components';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-details',
@@ -53,6 +55,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   private userId: number;
   public eventId: number;
+  private dialogRef;
 
   public roles = {
     UNAUTHENTICATED: 'UNAUTHENTICATED',
@@ -120,7 +123,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private actionsSubj: ActionsSubject,
     private jwtService: JwtService,
     private snackBar: MatSnackBarComponent,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -238,6 +242,34 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  public submitEventCancelling() {
+    this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+    this.isSubscribed = !this.isSubscribed;
+  }
+
+  public openPopUp() {
+    if (this.dialogRef) {
+      return;
+    }
+    this.dialogRef = this.dialog.open(WarningPopUpComponent, {
+      data: {
+        popupTitle: this.translate.instant('homepage.events.pop-up-cancelling-event'),
+        popupConfirm: this.translate.instant('homepage.events.events-popup.cancelling-event-request-btn'),
+        popupCancel: this.translate.instant('homepage.events.events-popup.reject-cancelling-event-btn'),
+        isUBS: false,
+        isUbsOrderSubmit: false,
+        isHabit: false
+      }
+    });
+
+    this.dialogRef.afterClosed().subscribe((result) => {
+      this.dialogRef = null;
+      if (result) {
+        this.submitEventCancelling();
+      }
+    });
+  }
+
   public deleteEvent(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.deleteDialogData,
@@ -295,8 +327,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
       this.isSubscribed = !this.isSubscribed;
     } else {
-      this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
-      this.isSubscribed = !this.isSubscribed;
+      this.openPopUp();
     }
   }
 
