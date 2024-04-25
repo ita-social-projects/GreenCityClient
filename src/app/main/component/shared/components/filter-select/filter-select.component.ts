@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, Subject } from 'rxjs';
@@ -9,9 +9,10 @@ import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-selec
 @Component({
   selector: 'app-filter-select',
   templateUrl: './filter-select.component.html',
-  styleUrls: ['./filter-select.component.scss']
+  styleUrls: ['./filter-select.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class FilterSelectComponent implements OnInit {
+export class FilterSelectComponent implements OnInit, OnDestroy {
   @Input() filter: FilterSelect;
   @Input() resetAllEvent!: Observable<void>;
   @ViewChild('selectFilter') selectFilter: MatSelect;
@@ -44,5 +45,10 @@ export class FilterSelectComponent implements OnInit {
 
   getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
