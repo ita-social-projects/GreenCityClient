@@ -1,5 +1,5 @@
-@import './././src/app/ubs/ubs-admin/components/ubs-admin-employee/dialogs';
-@import './././src/app/ubs/ubs-admin/ubs-admin.component';
+@import '../dialogs';
+@import '../../../ubs-admin.component';
 
 .add-edit {
   width: 620px;

@@ -5,9 +5,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import { FirestoreModule } from '@angular/fire/firestore';
-import { StorageModule } from '@angular/fire/storage';
-import { AngularFireModule } from '@angular/fire/compat';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,9 +36,6 @@ import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/ed
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFireModule,
-    FirestoreModule,
-    StorageModule,
     DragDropModule,
     NgxPaginationModule,
     MaterialModule,

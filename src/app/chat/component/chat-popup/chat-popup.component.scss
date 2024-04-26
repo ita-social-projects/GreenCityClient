@@ -1,4 +1,4 @@
-@import 'src/app/chat/chat-styles-reset';
+@import '../../../chat/chat-styles-reset';
 
 .chat-popup {
   @include flex(column, flex-start, center);

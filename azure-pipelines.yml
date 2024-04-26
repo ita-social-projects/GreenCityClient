@@ -24,7 +24,7 @@ stages:
           - task: NodeTool@0
             displayName: Set up Node js
             inputs:
-              versionSpec: '14.x'
+              versionSpec: '18.x'
 
           - task: Npm@1
             displayName: Npm install
