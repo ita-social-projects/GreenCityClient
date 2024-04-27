@@ -32,7 +32,8 @@ describe('OneHabitComponent', () => {
       id: 123,
       habitTranslation: {
         name: 'fakeName'
-      }
+      },
+      image: 'blob/13231313.png'
     },
     duration: 44,
     workingDays: 4,
@@ -210,6 +211,19 @@ describe('OneHabitComponent', () => {
       component.habit.habitStreak = 2;
       const value = component.getDayName();
       expect(value).toBe('user.habit.one-habit.good-days');
+    });
+  });
+
+  describe('getHabitImage', () => {
+    it('should get habit image if present', () => {
+      const image = component.getHabitImage();
+      expect(image).toBe('blob/13231313.png');
+    });
+
+    it('should get default habit image if dont present', () => {
+      component.habit = fakeHabit as any;
+      const image = component.getHabitImage();
+      expect(image).toBe('assets/img/habits/default-habit-image.png');
     });
   });
 });

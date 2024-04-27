@@ -74,7 +74,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   }
 
   public getHabitImage(): string {
-    if (this.habit.habit.image && this.habit.habit.image !== ' ') {
+    if ((this.habit.habit.image || '').trim().length) {
       return this.habit.habit.image;
     } else {
       return habitImages.defaultImage;
