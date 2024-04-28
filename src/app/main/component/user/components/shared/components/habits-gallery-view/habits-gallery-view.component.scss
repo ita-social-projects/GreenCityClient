@@ -27,14 +27,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 
   img {
     object-fit: cover;
     padding-top: 25px;
-    height: 99%;
-    width: auto;
+    height: 100%;
     mix-blend-mode: multiply;
+    max-width: 100%;
   }
 }
 

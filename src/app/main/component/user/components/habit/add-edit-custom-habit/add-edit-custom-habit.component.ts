@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -27,7 +27,8 @@ import { starIcons } from 'src/app/main/image-pathes/star-icons';
   selector: 'app-add-edit-custom-habit',
   templateUrl: './add-edit-custom-habit.component.html',
   styleUrls: ['./add-edit-custom-habit.component.scss'],
-  providers: [MatSnackBarComponent]
+  providers: [MatSnackBarComponent],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddEditCustomHabitComponent extends FormBaseComponent implements OnInit {
   habitForm: FormGroup;
@@ -39,7 +40,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   ];
   habitImages = [
     { src: 'assets/img/habits/habit-1.png', alt: 'Man with papers around on green background' },
-    { src: 'assets/img/habits/habit-2.png', alt: 'Man with cup of cofee on green background' },
+    { src: 'assets/img/habits/habit-2.png', alt: 'Man with cup of coffee on green background' },
     { src: 'assets/img/habits/habit-3.png', alt: 'Woman on green background' }
   ];
   lineStar = starIcons.whiteStar;

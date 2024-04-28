@@ -28,7 +28,6 @@ export class FilterSelectComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() resetAllEvent!: Observable<void>;
   @ViewChild('selectFilter') selectFilter: MatSelect;
   @ViewChild('filtersDropdown') filtersDropdown: ElementRef;
-
   @Output() selectedList = new EventEmitter<any>();
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -40,10 +39,9 @@ export class FilterSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     const offsetWidth = this.filtersDropdown.nativeElement.offsetWidth;
     this.selectFilter._positions[0].offsetX = -offsetWidth + 15;
-    console.log(this.selectFilter._positions[0].panelClass);
   }
 
   toggleAllSelection(): void {

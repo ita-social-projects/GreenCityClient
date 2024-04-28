@@ -387,3 +387,17 @@ input[type='radio'] + img {
     margin-bottom: 0;
   }
 }
+
+.mat-mdc-slider.mat-primary {
+  width: 100%;
+  --mdc-slider-handle-color: var(--primary-green);
+  --mdc-slider-focus-handle-color: var(--primary-green);
+  --mdc-slider-hover-handle-color: var(--primary-green);
+  --mdc-slider-active-track-color: var(--primary-green);
+  --mdc-slider-inactive-track-color: var(--primary-green);
+  --mdc-slider-with-tick-marks-active-container-color: var(--primary-white);
+  --mat-mdc-slider-ripple-color: var(--primary-light-green);
+  --mdc-slider-with-tick-marks-inactive-container-color: rgba(19, 170, 87, 0.05);
+  --mat-mdc-slider-hover-ripple-color: rgba(19, 170, 87, 0.05);
+  --mat-mdc-slider-focus-ripple-color: rgba(19, 170, 87, 0.2);
+}

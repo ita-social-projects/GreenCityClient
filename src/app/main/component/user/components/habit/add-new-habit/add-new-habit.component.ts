@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
@@ -6,7 +6,7 @@ import { concatMap, take, takeUntil } from 'rxjs/operators';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
@@ -32,7 +32,8 @@ import { starIcons } from 'src/app/main/image-pathes/star-icons';
 @Component({
   selector: 'app-add-new-habit',
   templateUrl: './add-new-habit.component.html',
-  styleUrls: ['./add-new-habit.component.scss']
+  styleUrls: ['./add-new-habit.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddNewHabitComponent implements OnInit {
   assignedHabit: HabitAssignInterface;

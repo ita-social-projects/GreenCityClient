@@ -426,3 +426,12 @@
     }
   }
 }
+
+.mat-mdc-slider.mat-primary {
+  width: 100%;
+  --mdc-slider-handle-color: var(--primary-green);
+  --mdc-slider-focus-handle-color: var(--primary-green);
+  --mdc-slider-hover-handle-color: var(--primary-green);
+  --mdc-slider-active-track-color: var(--primary-green);
+  --mdc-slider-inactive-track-color: var(--primary-green);
+}
