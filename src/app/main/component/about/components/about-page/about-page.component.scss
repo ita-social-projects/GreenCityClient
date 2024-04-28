@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 body {
   overflow-x: hidden;
   color: var(--quaternary-dark-grey);
@@ -80,7 +82,7 @@ img {
   }
 }
 
-@media (min-width: 768px) {
+@include responsiveMobileFirst(md) {
   .vision-section .section {
     gap: 118px;
 
@@ -98,7 +100,7 @@ img {
   }
 }
 
-@media only screen and (min-width: 1024px) {
+@include responsiveMobileFirst(xl) {
   #main-content {
     padding: 64px 0;
   }
