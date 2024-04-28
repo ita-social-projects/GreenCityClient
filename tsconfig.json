@@ -31,7 +31,8 @@
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
       "@footer-images/*": ["src/assets/img/icon/footer/*"],
       "@environment/*": ["src/environments/*"],
-      "@pipe/*": ["src/app/main/pipe/*"]
+      "@pipe/*": ["src/app/main/pipe/*"],
+      "path": ["./node_modules/path-browserify"]
     },
     "useDefineForClassFields": false
   },

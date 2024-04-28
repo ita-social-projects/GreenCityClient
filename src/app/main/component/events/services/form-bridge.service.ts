@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,46 +7,55 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export class FormBridgeService {
   // TODO change any to form type
   public dayMap = new Map<number, Date | undefined>();
-  private locationSubject: BehaviorSubject<{
+  private _locationSubject: BehaviorSubject<{
     address: string;
     coords: google.maps.LatLngLiteral;
   }> = new BehaviorSubject({ address: '', coords: { lng: 0, lat: 0 } });
-  private daysSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(Array(1));
-  private datesFormSubjects: Subject<{ value: boolean; key: number; form?: any }> = new Subject<{
+  private _daysSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(Array(1));
+  private _datesFormSubjects: Subject<{ value: boolean; key: number; form?: any }> = new Subject<{
     value: boolean;
     key: any;
     form?: any;
   }>();
-  private formsValidnessSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _formsValidnessSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _linkSubject = new BehaviorSubject<string>(null);
 
   constructor() {}
 
   get $datesFormStatus() {
-    return this.datesFormSubjects.asObservable();
+    return this._datesFormSubjects.asObservable();
   }
 
   get $formsIsValid() {
-    return this.formsValidnessSubject.asObservable();
+    return this._formsValidnessSubject.asObservable();
   }
 
   get $days() {
-    return this.daysSubject.asObservable();
+    return this._daysSubject.asObservable();
   }
 
   set days(value: any[]) {
-    this.daysSubject.next(value);
+    this._daysSubject.next(value);
   }
 
   updateFormsValidStatus(value: boolean) {
-    this.formsValidnessSubject.next(value);
+    this._formsValidnessSubject.next(value);
+  }
+
+  setLinkForAll(link: string) {
+    this._linkSubject.next(link);
+  }
+
+  $linkUpdate(): Observable<string> {
+    return this._linkSubject.asObservable();
   }
 
   setLocationForAll(location: { address: string; coords: google.maps.LatLngLiteral }) {
-    this.locationSubject.next(location);
+    this._locationSubject.next(location);
   }
 
   $locationUpdate() {
-    return this.locationSubject.asObservable();
+    return this._locationSubject.asObservable();
   }
 
   // start day filter
@@ -69,6 +78,6 @@ export class FormBridgeService {
   // end
 
   updateDatesFormStatus(value: boolean, key: number, form?: any) {
-    this.datesFormSubjects.next({ value, key, form });
+    this._datesFormSubjects.next({ value, key, form });
   }
 }

@@ -12,6 +12,32 @@ export enum TimeFront {
   MINUTES = '00'
 }
 
+export const ICONS = {
+  socials: {
+    plus: 'assets/img/events/plus.svg',
+    twitter: 'assets/img/events/twitter.svg',
+    linkedin: 'assets/img/events/linkedin.svg',
+    facebook: 'assets/img/events/facebook.svg'
+  },
+  clock: 'assets/img/events/clock.svg',
+  location: 'assets/img/events/location.svg',
+  link: 'assets/img/events/link.svg',
+  lock: {
+    open: 'assets/img/events/lock.svg',
+    closed: 'assets/img/events/lock-closed.svg'
+  },
+  user: 'assets/img/events/user.svg',
+  ellipsis: 'assets/img/events/ellipsis.svg',
+  arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
+};
+
+export const ROLES = {
+  UNAUTHENTICATED: 'UNAUTHENTICATED',
+  USER: 'USER',
+  ORGANIZER: 'ORGANIZER',
+  ADMIN: 'ADMIN'
+};
+
 export const timeStatusFiltersData: FilterItem[] = [
   { type: 'eventTimeStatus', nameEn: 'Future', nameUa: 'Майбутні' },
   { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершені' }

@@ -22,6 +22,8 @@ export interface EventInformation {
   description: string;
   open: boolean;
   tags: string[];
+  editorText: string;
+  img: string[];
 }
 
 export interface DateFormInformation {
@@ -112,6 +114,7 @@ export interface EventResponseDto {
 }
 
 export interface Organizer {
+  organizerRating: number;
   id: number;
   name: string;
 }
@@ -207,7 +210,7 @@ export interface PagePreviewDTO {
   editorText: string;
   organizer?: Organizer;
   dates: DateEvent[];
-  tags: Array<TagDto>;
+  tags: any;
   imgArray: any[];
   imgArrayToPreview: any[];
   location: DateFormObj;

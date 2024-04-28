@@ -26,7 +26,7 @@
             <mat-label>{{ 'create-event.set-start-time' | translate }}</mat-label>
             <input [matAutocomplete]="startOptions" formControlName="startTime" matInput maxlength="5" />
             <mat-autocomplete #startOptions="matAutocomplete">
-              <mat-option *ngFor="let time of $startOptions" [value]="time">
+              <mat-option *ngFor="let time of startOptionsArr" [value]="time">
                 {{ time }}
               </mat-option>
             </mat-autocomplete>
@@ -38,7 +38,7 @@
             <mat-label>{{ 'create-event.set-end-time' | translate }}</mat-label>
             <input [matAutocomplete]="endOptions" formControlName="endTime" matInput maxlength="5" />
             <mat-autocomplete #endOptions="matAutocomplete">
-              <mat-option *ngFor="let time of $endOptions" [value]="time">
+              <mat-option *ngFor="let time of endOptionsArr" [value]="time">
                 {{ time }}
               </mat-option>
             </mat-autocomplete>
@@ -52,7 +52,7 @@
     </div>
   </div>
   <div class="checkbox">
-    <mat-checkbox (change)="toggleLocation()" [checked]="isPlace" [disabled]="isPlaceDisabled" class="example-margin">
+    <mat-checkbox (change)="toggleLocation()" [checked]="placeSelected" [disabled]="isPlaceDisabled" class="example-margin">
       {{ 'create-event.event-place' | translate }}
     </mat-checkbox>
     <mat-checkbox (change)="toggleOnline()" [checked]="isOnline" [disabled]="isLinkDisabled" class="example-margin">
@@ -60,7 +60,7 @@
     </mat-checkbox>
   </div>
 
-  <div *ngIf="isPlace" class="active">
+  <div *ngIf="placeSelected" class="active">
     <mat-label>{{ 'create-event.event-location' | translate }}</mat-label>
     <div class="location-title">
       <mat-form-field appearance="outline" class="location-title-input">
@@ -72,7 +72,6 @@
         *ngIf="isLocationSelected && dayNumber === 0"
         [checked]="appliedForAllLocations"
         [color]="'primary'"
-        [disabled]="!readyToApplyLocation"
         class="apply-location-checkbox"
       >
         {{ 'create-event.apply-location' | translate }}
@@ -82,7 +81,7 @@
       {{ 'create-event.location-required' | translate }}
     </div>
 
-    <div *ngIf="!isLocationDisabled || isFirstDay" class="map-container">
+    <div *ngIf="!isLocationDisabled" class="map-container">
       <google-map (mapClick)="mapClick($event)" [options]="mapOptions" [width]="'100%'" height="410px">
         <map-marker [position]="mapMarkerCoords" />
       </google-map>
@@ -95,7 +94,12 @@
       <mat-label class="link-title">{{ 'create-event.event-online-link' | translate }}</mat-label>
       <input formControlName="onlineLink" matInput placeholder="{{ 'create-event.enter-link' | translate }}" />
     </mat-form-field>
-    <mat-checkbox class="apply-location-checkbox">
+    <mat-checkbox
+      (change)="toggleForAllLink()"
+      *ngIf="this.dayNumber === 0"
+      [checked]="this.appliedForAllLink"
+      class="apply-location-checkbox"
+    >
       {{ 'create-event.apply-location' | translate }}
     </mat-checkbox>
   </div>

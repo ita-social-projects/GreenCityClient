@@ -26,9 +26,11 @@ export class CreateEventDatesComponent implements OnInit, OnDestroy {
       if (value) {
         this.invalidMap.delete(key);
         this.formsValue[key] = form;
+        console.log(this.formsValue);
         if (this.invalidMap.size === 0) {
           this.formsEmit.emit(this.formsValue);
           this.event.setDatesForm(this.formsValue);
+
           this.bridge.updateFormsValidStatus(true);
         }
       } else {

@@ -27,10 +27,13 @@ export class CreateEventInformationComponent implements OnInit {
   eventInfForm: FormGroup<EventInformationForm> = this.fb.nonNullable.group({
     title: ['TitleTest', [Validators.required, Validators.maxLength(70)]],
     duration: [1, Validators.required],
-    description: ['', [quillEditorValidator(), Validators.required]],
+    description: ['helloworld12345678901011', [quillEditorValidator(), Validators.required]],
+    editorText: ['<p>helloworld12345678901011</p>'],
     open: [true, Validators.required],
-    tags: [['Social'], [Validators.required, Validators.minLength(1)]]
+    tags: [['Social'], [Validators.required, Validators.minLength(1)]],
+    img: [['']]
   });
+
   @Output() formStatus = new EventEmitter<{ status: boolean; form: typeof this.eventInfForm | undefined }>();
   protected readonly EVENT_LOCALE = EVENT_LOCALE;
 
@@ -51,14 +54,21 @@ export class CreateEventInformationComponent implements OnInit {
     this.eventInfForm.statusChanges.subscribe((value) => {
       if (value === 'VALID') {
         this.formStatus.emit({ status: true, form: this.eventInfForm.getRawValue() });
+        console.log(this.eventInfForm.getRawValue());
+        this.eventsService.setInformationForm(this.eventInfForm.getRawValue());
       } else {
         this.formStatus.emit({ status: false, form: undefined });
       }
     });
+    const form = this.eventsService.getInformationForm();
+    if (form) {
+      this.eventInfForm.setValue(form);
+    }
   }
 
   quillContentChanged(content: ContentChange) {
     this.quillLength = content.text.length - 1;
+    console.log(this.eventInfForm.controls.description.value);
     this.eventInfForm.get('description').setValue(content.text.trimEnd());
   }
 
@@ -71,6 +81,6 @@ export class CreateEventInformationComponent implements OnInit {
   }
 
   setImgArray(value: string[]) {
-    this.imgArray = value;
+    this.eventInfForm.controls.img.setValue(value);
   }
 }

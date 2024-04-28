@@ -400,18 +400,21 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public onPreview() {
     this.eventsService.setSubmitFromPreview(false);
-    this.imgToData();
-    const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
+    // this.imgToData();
+    //const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
     const informationForm = this.informationForm;
-    const datesForm = this.datesForm;
+    const datesForm = structuredClone(this.datesForm);
+    console.log(informationForm);
+    console.log(datesForm);
     datesForm.forEach((value) => {
-      let [hours, minutes] = value.startTime.split(':');
+      console.log(value);
+      let [hours, minutes] = value.timeRange.startTime.split(':');
       const date = new Date(value.date);
       date.setHours(parseInt(hours, 10));
       date.setMinutes(parseInt(minutes, 10));
       value.startDate = date.toUTCString();
 
-      [hours, minutes] = value.endTime.split(':');
+      [hours, minutes] = value.timeRange.endTime.split(':');
       date.setHours(parseInt(hours, 10));
       date.setMinutes(parseInt(minutes, 10));
       value.finishDate = date.toUTCString();
@@ -429,8 +432,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       location: this.datesForm[0]
     };
     this.eventsService.setForm(sendEventDto);
-    history.pushState(null, null, location.href);
-    console.log(history.state);
     this.router.navigate(['events', 'preview']);
   }
 
@@ -452,9 +453,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const previewOrEdit = this.fromPreview ? 'previewDates' : 'editEvent';
     if (this[previewOrEdit].dates?.length > 1) {
       const { latitude, longitude } = this[previewOrEdit].dates[0].coordinates;
-      const sameCoordinates = (this[previewOrEdit].dates as DateEvent[]).every((el) => {
-        return latitude === el.coordinates.latitude && longitude === el.coordinates.longitude;
-      });
+      const sameCoordinates = (this[previewOrEdit].dates as DateEvent[]).every(
+        (el) => latitude === el.coordinates.latitude && longitude === el.coordinates.longitude
+      );
 
       if (sameCoordinates) {
         const temp = this[previewOrEdit].dates[0].coordinates;
@@ -469,9 +470,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const previewOrEdit = this.fromPreview ? 'previewDates' : 'editEvent';
     if (this[previewOrEdit].dates?.length > 1) {
       const link = this[previewOrEdit].dates[0].onlineLink;
-      const sameLink = (this[previewOrEdit].dates as DateEvent[]).every((el) => {
-        return link === el.onlineLink;
-      });
+      const sameLink = (this[previewOrEdit].dates as DateEvent[]).every((el) => link === el.onlineLink);
       if (sameLink) {
         this.linkForAllDays = this[previewOrEdit].dates[0].onlineLink;
         this.appliedForAllLink = true;

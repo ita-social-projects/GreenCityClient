@@ -65,8 +65,11 @@
       <quill-editor
         (onBlur)="quillValidate()"
         (onContentChanged)="quillContentChanged($event)"
+        [maxLength]="63206"
+        [minLength]="20"
         [modules]="quillModules"
         [styles]="{ minHeight: '120px', maxHeight: '300px', overflow: 'auto' }"
+        formControlName="editorText"
         ngDefaultControl
         placeholder="{{ 'create-event.content-placeholder' | translate }}"
       >

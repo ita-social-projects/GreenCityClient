@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -10,7 +9,6 @@ import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up
 import {
   AddAttenderEcoEventsByIdAction,
   DeleteEcoEventAction,
-  EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { Coordinates, EventPageResponseDto, PagePreviewDTO } from '../../models/events.interface';
@@ -23,6 +21,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
+import { ICONS, ROLES } from '../../models/event-consts';
 
 @Component({
   selector: 'app-event-details',
@@ -32,31 +31,9 @@ import { EventsListItemModalComponent } from '@shared/components/events-list-ite
 export class EventDetailsComponent implements OnInit, OnDestroy {
   bsOpen = false;
 
-  public icons = {
-    socials: {
-      plus: 'assets/img/events/plus.svg',
-      twitter: 'assets/img/events/twitter.svg',
-      linkedin: 'assets/img/events/linkedin.svg',
-      facebook: 'assets/img/events/facebook.svg'
-    },
-    clock: 'assets/img/events/clock.svg',
-    location: 'assets/img/events/location.svg',
-    link: 'assets/img/events/link.svg',
-    lock: {
-      open: 'assets/img/events/lock.svg',
-      closed: 'assets/img/events/lock-closed.svg'
-    },
-    user: 'assets/img/events/user.svg',
-    ellipsis: 'assets/img/events/ellipsis.svg',
-    arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
-  };
+  public icons = ICONS;
   public eventId: number;
-  public roles = {
-    UNAUTHENTICATED: 'UNAUTHENTICATED',
-    USER: 'USER',
-    ORGANIZER: 'ORGANIZER',
-    ADMIN: 'ADMIN'
-  };
+  public roles = ROLES;
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   public bsModalRef: BsModalRef;
   public role = this.roles.UNAUTHENTICATED;
@@ -84,7 +61,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     style: 'green'
   };
   mapDialogData: any;
-  public address = 'Should be adress';
+  public address = 'Should be address';
   public maxRating = 5;
   public backRoute: string;
   public routedFromProfile: boolean;
@@ -113,59 +90,59 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if (this.route.snapshot.params.id) {
-      this.eventId = this.route.snapshot.params.id;
-      this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
-        this.userId = Number(id);
-      });
-      this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponseDto) => {
-        this.event = res;
-        this.organizerName = this.event.organizer.name;
-        this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-        this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
-        this.images = [res.titleImage, ...res.additionalImages];
-        this.rate = Math.round(this.event.organizer.organizerRating);
-        this.mapDialogData = {
-          lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
-          lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude
-        };
-        this.isEventFavorite = this.event.isFavorite;
-        this.isRegistered = !!this.userId;
-        this.isSubscribed = this.event.isSubscribed;
-        const isOwner = Number(this.userId) === this.event.organizer.id;
-        this.isActive = this.event.isRelevant;
-        this.isUserCanRate = this.isSubscribed && !this.isActive && !isOwner;
-        this.isUserCanJoin = this.isActive && !isOwner;
-        this.role = this.verifyRole();
-        this.ecoEvents$.subscribe((result: IEcoEventsState) => {
-          this.addAttenderError = result.error;
-        });
-      });
-
-      this.localStorageService.setEditMode('canUserEdit', true);
-      this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
-        this.attendees = attendees;
-        this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
-      });
-
-      this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => {
-        this.router.navigate(['/events']);
-      });
-
-      this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
-      this.backRoute = this.localStorageService.getPreviousPage();
-    } else {
-      this.event = this.eventService.getForm();
-      console.log(this.event);
-      this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-      this.place = this.event.location.place;
-      this.images = this.event.imgArrayToPreview;
-      this.bindUserName();
-      window.onpopstate = () => {
-        this.backToEdit();
-      };
-      this.formatDates();
-    }
+    // if (this.route.snapshot.params.id) {
+    //   this.eventId = this.route.snapshot.params.id;
+    //   this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
+    //     this.userId = Number(id);
+    //   });
+    //   this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponseDto) => {
+    //     this.event = res;
+    //     this.organizerName = this.event.organizer.name;
+    //     this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
+    //     this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
+    //     this.images = [res.titleImage, ...res.additionalImages];
+    //     this.rate = Math.round(this.event.organizer.organizerRating);
+    //     this.mapDialogData = {
+    //       lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
+    //       lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude
+    //     };
+    //     this.isEventFavorite = this.event.isFavorite;
+    //     this.isRegistered = !!this.userId;
+    //     this.isSubscribed = this.event.isSubscribed;
+    //     const isOwner = Number(this.userId) === this.event.organizer.id;
+    //     this.isActive = this.event.isRelevant;
+    //     this.isUserCanRate = this.isSubscribed && !this.isActive && !isOwner;
+    //     this.isUserCanJoin = this.isActive && !isOwner;
+    //     this.role = this.verifyRole();
+    //     this.ecoEvents$.subscribe((result: IEcoEventsState) => {
+    //       this.addAttenderError = result.error;
+    //     });
+    //   });
+    //
+    //   this.localStorageService.setEditMode('canUserEdit', true);
+    //   this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
+    //     this.attendees = attendees;
+    //     this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
+    //   });
+    //
+    //   this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => {
+    //     this.router.navigate(['/events']);
+    //   });
+    //
+    //   this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
+    //   this.backRoute = this.localStorageService.getPreviousPage();
+    // } else {
+    this.event = this.eventService.getForm();
+    console.log(this.event);
+    this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
+    this.place = this.event.location.place;
+    this.images = this.event.imgArrayToPreview;
+    this.bindUserName();
+    window.onpopstate = () => {
+      this.backToEdit();
+    };
+    this.formatDates();
+    // }
   }
 
   public backToEdit(): void {

@@ -22,6 +22,7 @@ export class EventsService implements OnDestroy {
   public currentForm: PagePreviewDTO | EventPageResponseDto;
   public backFromPreview: boolean;
   public submitFromPreview: boolean;
+  informationForm: any;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
@@ -40,6 +41,14 @@ export class EventsService implements OnDestroy {
 
   public getDatesForm() {
     return this.datesForm;
+  }
+
+  public setInformationForm(value: any) {
+    this.informationForm = value;
+  }
+
+  public getInformationForm() {
+    return this.informationForm;
   }
 
   public setArePlacesFilled(dates: DateEvent[], submit?: boolean, check?: boolean, ind?: number): void {
