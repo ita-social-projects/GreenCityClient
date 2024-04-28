@@ -27,6 +27,7 @@ import { Store } from '@ngrx/store';
 import { SetHabitForEdit } from 'src/app/store/actions/habit.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
+import { starIcons } from 'src/app/main/image-pathes/star-icons';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -53,8 +54,8 @@ export class AddNewHabitComponent implements OnInit {
   canAcquire = false;
   setStatus = 'ACQUIRED';
 
-  whiteStar = 'assets/img/icon/star-2.png';
-  greenStar = 'assets/img/icon/star-1.png';
+  whiteStar = starIcons.whiteStar;
+  greenStar = starIcons.greenStar;
   stars = [this.whiteStar, this.whiteStar, this.whiteStar];
 
   habitImage: string;

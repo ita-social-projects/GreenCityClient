@@ -3,14 +3,14 @@
     <div class="habit-header">
       <div class="calendar">
         <img class="calendar-icon" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
-        <span class="days">{{ habit.defaultDuration }} days</span>
+        <span class="days">{{ habit.defaultDuration }}{{ this.habit.habitTranslation.languageCode === 'ua' ? ' ДНІВ' : ' DAYS' }}</span>
       </div>
       <div class="stars">
         <img *ngFor="let star of stars" [src]="star" alt="star" />
       </div>
     </div>
     <div class="habit-picture">
-      <img [src]="habit.image" onerror="this.src='assets/img/habits/man.svg'" alt="habit picture" />
+      <img [src]="habit.image" (error)="updateUrl($event)" alt="habit" />
     </div>
     <div class="habit-info">
       <div class="tags">

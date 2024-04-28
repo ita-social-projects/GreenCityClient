@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -21,7 +21,8 @@ import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 @Component({
   selector: 'app-profile-dashboard',
   templateUrl: './profile-dashboard.component.html',
-  styleUrls: ['./profile-dashboard.component.scss']
+  styleUrls: ['./profile-dashboard.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProfileDashboardComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);

@@ -14,13 +14,14 @@ import ImageResize from 'quill-image-resize-module';
 import { HabitService } from '@global-service/habit/habit.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { quillConfig } from 'src/app/main/component/events/components/create-edit-events/quillEditorFunc';
-import { ShoppingList } from '../../../models/shoppinglist.interface';
+import { ShoppingList } from '@user-models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { TodoStatus } from '../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { starIcons } from 'src/app/main/image-pathes/star-icons';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -41,8 +42,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     { src: 'assets/img/habits/habit-2.png', alt: 'Man with cup of cofee on green background' },
     { src: 'assets/img/habits/habit-3.png', alt: 'Woman on green background' }
   ];
-  lineStar = 'assets/img/icon/star-2.png';
-  greenStar = 'assets/img/icon/star-1.png';
+  lineStar = starIcons.whiteStar;
+  greenStar = starIcons.greenStar;
   initialDuration = 7;
   shopList: ShoppingList[] = [];
   newList: ShoppingList[] = [];

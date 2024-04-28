@@ -50,7 +50,7 @@
 }
 
 .cdk-overlay-pane {
-  width: auto !important;
+  width: 200px !important;
 }
 
 .mat-mdc-select-value {
@@ -58,9 +58,18 @@
 }
 
 .mat-mdc-option.mat-mdc-option-active.mdc-list-item--selected {
-  background-color: var(--primary-light-green) !important;
+  background-color: var(--ubs-primary-liberty-green) !important;
 }
 
 .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
   color: var(--quaternary-dark-grey) !important;
+}
+
+.mat-mdc-option .mdc-list-item__primary-text {
+  line-height: 1.2 !important;
+}
+
+.mat-mdc-select-panel {
+  position: relative !important;
+  max-height: 300px !important;
 }

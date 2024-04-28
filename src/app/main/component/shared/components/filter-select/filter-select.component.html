@@ -1,4 +1,4 @@
-<div *ngIf="filter" class="filters-dropdown">
+<div *ngIf="filter" class="filters-dropdown" #filtersDropdown>
   <mat-label class="filter-label" (click)="selectFilter.open()">{{ filter.title | translate }}</mat-label>
   <mat-select class="custom-mat-select" #selectFilter panelClass="green-city-select" [multiple]="true">
     <mat-option [value]="0" (click)="toggleAllSelection()">{{ filter.selectAllOption | translate }}</mat-option>

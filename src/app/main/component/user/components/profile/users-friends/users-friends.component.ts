@@ -106,7 +106,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
   }
 
   updateArrowsVisibility(): void {
-    const show = this.friendsToShow < this.amountOfFriends ? 'visible' : 'hidden';
+    const show = this.friendsToShow < this.amountOfFriends && window.innerWidth < 768 ? 'visible' : 'hidden';
     this.renderer.setStyle(this.nextArrow.nativeElement, 'visibility', show);
     this.renderer.setStyle(this.previousArrow.nativeElement, 'visibility', show);
   }
