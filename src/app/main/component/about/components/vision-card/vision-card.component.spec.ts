@@ -29,7 +29,6 @@ describe('VisionCardComponent', () => {
 
   it('should call isEven getter', () => {
     const spy = spyOnProperty(component, 'isEven').and.returnValue(true);
-    component.ngOnInit();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalled();
     expect(component.isEven).toBeTruthy();
