@@ -6,9 +6,14 @@ import { HabitService } from './habit.service';
 import { environment } from '@environment/environment';
 import { CUSTOMHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
 import { HABITLIST } from '@global-user/components/habit/mocks/habit-mock';
-import { SHOPLIST } from '@global-user/components/habit/mocks/shopping-list-mock';
+import {
+  MOCK_CUSTOM_HABIT,
+  MOCK_CUSTOM_HABIT_RESPONSE,
+  MOCK_FRIEND_PROFILE_PICTURES,
+  MOCK_HABITS,
+  SHOPLIST
+} from '@global-user/components/habit/mocks/shopping-list-mock';
 import { TAGLIST } from '@global-user/components/habit/mocks/tags-list-mock';
-import { HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 
 describe('HabitService', () => {
   const habitLink = `${environment.backendLink}habit`;
@@ -103,47 +108,54 @@ describe('HabitService', () => {
     req.flush(HABITLIST);
   });
 
-  it('should return an Observable<HabitListInterface>', () => {
-    const mockHabits: HabitListInterface = {
-      currentPage: 1,
-      page: [
-        {
-          defaultDuration: 30,
-          habitTranslation: {
-            name: 'mockName',
-            description: 'mockDescription',
-            habitItem: 'mockHabitItem',
-            languageCode: 'mockLanguageCode'
-          },
-          id: 1,
-          image: 'mockImage',
-          isAssigned: true,
-          assignId: 1,
-          complexity: 1,
-          amountAcquiredUsers: 1,
-          habitAssignStatus: 'mockStatus',
-          isCustomHabit: true,
-          usersIdWhoCreatedCustomHabit: 1,
-          customShoppingListItems: [],
-          shoppingListItems: [],
-          tags: ['tag1', 'tag2']
-        }
-      ],
-      totalElements: 1,
-      totalPages: 1
-    };
-
+  it('should return an Observable HabitListInterface', () => {
     const filters = ['filter1', 'filter2'];
     const page = 1;
     const size = 10;
     const language = 'en';
-
     habitService.getHabitsByFilters(page, size, language, filters).subscribe((habits) => {
-      expect(habits).toEqual(mockHabits);
+      expect(habits).toEqual(MOCK_HABITS);
     });
-
     const req = httpMock.expectOne(`${habitLink}/search?lang=${language}&page=${page}&size=${size}&sort=asc&${filters.join('&')}`);
     expect(req.request.method).toBe('GET');
-    req.flush(mockHabits);
+    req.flush(MOCK_HABITS);
+  });
+
+  it('should add a custom habit', () => {
+    const habit = MOCK_CUSTOM_HABIT;
+    const lang = 'en';
+    const mockResponse = MOCK_CUSTOM_HABIT_RESPONSE;
+
+    habitService.addCustomHabit(habit, lang).subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${habitLink}/custom`);
+    expect(req.request.method).toBe('POST');
+    req.flush(mockResponse);
+  });
+
+  it('should change a custom habit', () => {
+    const habit = MOCK_CUSTOM_HABIT;
+    const lang = 'en';
+    const id = 1;
+    const mockResponse = MOCK_CUSTOM_HABIT_RESPONSE;
+    habitService.changeCustomHabit(habit, lang, id).subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+    const req = httpMock.expectOne(`${habitLink}/update/${id}`);
+    expect(req.request.method).toBe('PUT');
+    req.flush(mockResponse);
+  });
+
+  it('should get friends tracking the same habit by habit id', () => {
+    const id = 1;
+    const mockResponse = MOCK_FRIEND_PROFILE_PICTURES;
+    habitService.getFriendsTrakingSameHabitByHabitId(id).subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+    const req = httpMock.expectOne(`${habitLink}/${id}/friends/profile-pictures`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockResponse);
   });
 });

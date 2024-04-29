@@ -77,7 +77,7 @@ export class HabitAssignService implements OnDestroy {
     return this.http.post<HabitAssignInterface>(`${habitAssignLink}/${habitAssignId}/unenroll/${date}`, null);
   }
 
-  getAssignHabitsByPeriod(startDate: string, endDate: string) {
+  getAssignHabitsByPeriod(startDate: string, endDate: string): Observable<HabitsForDateInterface[]> {
     const query = `${habitAssignLink}/activity/${startDate}/to/${endDate}?lang=${this.language}`;
     return this.http.get<Array<HabitsForDateInterface>>(query);
   }
@@ -95,7 +95,7 @@ export class HabitAssignService implements OnDestroy {
     return this.http.put<object>(`${habitAssignLink}/${habitAssignId}/updateProgressNotificationHasDisplayed`, {});
   }
 
-  setCircleFromPopUpToProgress(changesFromCalendar: ChangesFromCalendarToProgress) {
+  setCircleFromPopUpToProgress(changesFromCalendar: ChangesFromCalendarToProgress): void {
     this.habitChangesFromCalendarSubj.next(changesFromCalendar);
   }
 

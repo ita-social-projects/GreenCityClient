@@ -1,16 +1,17 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { of, BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject, Observable } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { ProfileCardsComponent } from './profile-cards.component';
+import { ProfileCardsComponent } from '@global-user/components';
+import { CardModel } from '@user-models/card.model';
 
 describe('ProfileCardsComponent', () => {
   let component: ProfileCardsComponent;
   let fixture: ComponentFixture<ProfileCardsComponent>;
 
-  const cardModelMock = { id: 1, content: 'Hello' };
+  const cardModelMock: CardModel = { id: 1, content: 'Hello' };
   const profileServiceMock: ProfileService = jasmine.createSpyObj('ProfileService', ['getFactsOfTheDay']);
   profileServiceMock.getFactsOfTheDay = () => of(cardModelMock);
 
@@ -44,10 +45,20 @@ describe('ProfileCardsComponent', () => {
     expect(mockLang).toBe('ua');
   });
 
-  it('should get fact of the day', () => {
+  it('should handle success in getFactOfTheDay', (done) => {
+    profileServiceMock.getFactsOfTheDay = () => of(cardModelMock);
     component.getFactOfTheDay();
-    expect(component.factOfTheDay).toEqual(cardModelMock);
-    expect(component.factOfTheDay.content).toBe('Hello');
-    expect(component.error).toBeFalsy();
+    setTimeout(() => {
+      expect(component.factOfTheDay).toEqual(cardModelMock);
+      expect(component.factOfTheDay.content).toBe('Hello');
+      done();
+    }, 0);
+  });
+
+  it('should handle error', () => {
+    const errorResponse = new Error('Error message');
+    profileServiceMock.getFactsOfTheDay = () => new Observable((subscriber) => subscriber.error(errorResponse));
+    component.ngOnInit();
+    expect(component.error).toBe(errorResponse);
   });
 });
