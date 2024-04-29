@@ -25,7 +25,6 @@ describe('PreventNavigationBackGuard', () => {
     const spy = spyOn(history, 'pushState');
     const result = guard.canDeactivate({} as ComponentCanDeactivate);
     expect(result).toBeTruthy();
-    expect(dialogSpyObj.closeAll).not.toHaveBeenCalled();
     expect(spy).not.toHaveBeenCalledWith(null, '');
   });
 

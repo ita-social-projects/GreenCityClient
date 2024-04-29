@@ -850,7 +850,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       event.preventDefault();
 
       let newColumnWidth = originalColumnWidth;
+      // eslint-disable-next-line prefer-const
       let cleanupMouseMoveFn;
+      // eslint-disable-next-line prefer-const
       let cleanupMouseUpFn;
 
       const onMouseMove = (moveEvent) => {

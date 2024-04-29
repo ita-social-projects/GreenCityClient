@@ -27,6 +27,14 @@
 
 mat-header-row {
   background-color: var(--ubs-primary-grey);
+  min-height: 39px !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  white-space: nowrap !important;
+  align-items: unset !important;
+  cursor:
+    url('../../../../../assets/img/ubs-admin-orders/Move-White.svg') 4 4,
+    auto;
 }
 
 mat-header-cell {
@@ -160,17 +168,6 @@ mat-cell {
 
 .primary-color {
   color: var(--primary-green);
-}
-
-mat-header-row {
-  min-height: 39px !important;
-  overflow-wrap: break-word !important;
-  word-wrap: break-word !important;
-  white-space: nowrap !important;
-  align-items: unset !important;
-  cursor:
-    url('../../../../../assets/img/ubs-admin-orders/Move-White.svg') 4 4,
-    auto;
 }
 
 .mat-column-select {
@@ -404,6 +401,7 @@ mat-cell:first-of-type {
   }
 }
 
+/* stylelint-disable-next-line */
 mat-header-cell mat-icon {
   padding-top: 5px;
   padding-left: 10px;

@@ -7,6 +7,12 @@ mat-icon {
 
 mat-header-row {
   background-color: var(--ubs-primary-grey);
+  min-height: 39px !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  white-space: nowrap !important;
+  align-items: unset !important;
+  cursor: col-resize;
 }
 
 mat-header-row,
@@ -69,15 +75,6 @@ mat-cell {
   display: block;
   line-height: 2.9;
   text-align: center;
-}
-
-mat-header-row {
-  min-height: 39px !important;
-  overflow-wrap: break-word !important;
-  word-wrap: break-word !important;
-  white-space: nowrap !important;
-  align-items: unset !important;
-  cursor: col-resize;
 }
 
 mat-cell:last-of-type,
