@@ -170,15 +170,17 @@ export class HabitEditShoppingListComponent implements OnInit, OnChanges, OnDest
     this.isEditMode = !this.isEditMode;
   }
 
-  public cancelChanges(): void {
+  private isListItemsChanged(): boolean {
     const isItemsChanged = !this.shopList.every((el) => {
       const itemBeforeEditing = this.shopListBeforeEditing.find((item) => item.id === el.id);
       return itemBeforeEditing && Object.keys(el).every((key) => el[key] === itemBeforeEditing[key]);
     });
     const isLengthChanged = this.shopList.length !== this.shopListBeforeEditing.length;
-    const isListChanged = isItemsChanged || isLengthChanged;
+    return isItemsChanged || isLengthChanged;
+  }
 
-    if (isListChanged) {
+  public cancelChanges(): void {
+    if (this.isListItemsChanged()) {
       this.confirmDialogConfig.data.popupTitle = this.cancelEditingTitle;
       this.dialog
         .open(WarningPopUpComponent, this.confirmDialogConfig)
