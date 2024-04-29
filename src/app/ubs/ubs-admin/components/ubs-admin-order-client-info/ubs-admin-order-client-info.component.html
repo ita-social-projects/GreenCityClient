@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="form" [formGroup]="userInfoDto">
+  <form class="form" [formGroup]="userInfoDto">
     <div class="empty_card" (click)="openDetails()">
       <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
       <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
@@ -151,6 +151,6 @@
         </button>
       </div>
     </div>
-  </div>
+  </form>
   <hr />
 </div>

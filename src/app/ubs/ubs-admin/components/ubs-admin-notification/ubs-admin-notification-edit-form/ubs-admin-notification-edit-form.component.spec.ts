@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form.component';
-import { ElementRef, ChangeDetectorRef } from '@angular/core';
+import { ElementRef, ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 
 describe('UbsAdminNotificationEditFormComponent', () => {
@@ -43,7 +43,8 @@ describe('UbsAdminNotificationEditFormComponent', () => {
         { provide: MatSelect, useValue: { selectEn: selectEnMock, selectUa: selectUaMock } },
         { provide: ChangeDetectorRef, useValue: changeDetectorRefMock },
         { provide: MatDialogRef, useValue: matDialogRefMock }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 

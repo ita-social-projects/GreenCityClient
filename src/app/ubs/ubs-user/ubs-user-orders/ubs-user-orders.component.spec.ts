@@ -78,7 +78,7 @@ describe('UbsUserOrdersComponent', () => {
   const localStorageServiceMock = new LocalStorageService();
 
   const selectMatTabByIdx = async (idx) => {
-    const label = fixture.debugElement.queryAll(By.css('.mat-tab-label'))[idx];
+    const label = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[idx];
     label.triggerEventHandler('click', null);
     fixture.detectChanges();
     await fixture.whenRenderingDone();

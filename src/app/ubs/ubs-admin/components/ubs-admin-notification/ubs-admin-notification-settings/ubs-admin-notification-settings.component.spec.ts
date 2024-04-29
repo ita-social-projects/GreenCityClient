@@ -1,12 +1,11 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Pipe, PipeTransform } from '@angular/core';
+import { NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSelectHarness } from '@angular/material/select/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings.component';
@@ -42,7 +41,8 @@ describe('UbsAdminNotificationSettingsComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         { provide: LanguageService, useValue: langServiceSpy },
         { provide: MatDialogRef, useValue: matDialogRefMock }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
