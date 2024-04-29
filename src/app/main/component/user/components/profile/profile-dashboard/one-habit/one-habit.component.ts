@@ -77,7 +77,10 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     const lastDayInMonth = this.datePipe.transform(lastDay, 'yyy-MM-dd');
     const dataFromDashBoard = this.habitAssignService.habitsFromDashBoard.find((item) => item.enrollDate === this.currentDate);
     if (dataFromDashBoard) {
-      dataFromDashBoard.habitAssigns.find((item) => item.habitAssignId === this.habit.id).enrolled = isSetCircle;
+      const habitAssign = dataFromDashBoard.habitAssigns.find((item) => item.habitAssignId === this.habit.id);
+      if (habitAssign) {
+        habitAssign.enrolled = isSetCircle;
+      }
     } else {
       this.habitAssignService
         .getAssignHabitsByPeriod(this.currentDate, lastDayInMonth)

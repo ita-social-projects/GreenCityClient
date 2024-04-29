@@ -1,8 +1,4 @@
-$bp-smallest: 320px;
-$bp-phone: 576px;
-$bp-tablet: 768px;
-$bp-desktop: 1080px;
-$bp-largest: 1199px;
+@import 'src/typography/_resp.scss';
 
 .outer {
   background-color: var(--primary-white);
@@ -74,8 +70,9 @@ h2 > span {
   width: 100%;
   font-weight: normal;
   font-size: 12px;
-  padding: 6px 0;
+  padding: 0;
   text-decoration: none;
+  align-items: center;
 }
 
 .item-striked {
@@ -89,7 +86,7 @@ h2 > span {
 }
 
 .shopping-list-min {
-  height: 100px;
+  height: 82px;
 }
 
 .shopping-list-max {
@@ -99,10 +96,12 @@ h2 > span {
 .shopping-list {
   width: 100%;
   padding: 5px 0 0;
-  overflow-y: hidden;
+  overflow-x: hidden;
 
   li {
     display: flex;
+    align-items: center;
+    padding: 0;
 
     span {
       margin-right: 5px;
@@ -137,8 +136,23 @@ h2 > span {
   margin: 0 auto;
 }
 
-@media (min-width: $bp-tablet) and (max-width: $bp-largest) {
+@include responsiveRange(md, 2xl) {
   .shopping-list-block {
     width: 184px;
+  }
+}
+
+@include responsiveRange(xs, md) {
+  .outer {
+    margin-top: 20px;
+  }
+
+  .shopping-list-block {
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  .calendar-week {
+    margin-top: 0;
   }
 }
