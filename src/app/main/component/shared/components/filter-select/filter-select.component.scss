@@ -43,3 +43,29 @@
     }
   }
 }
+
+.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+  background: var(--primary-green);
+}
+
+.mat-mdc-select-value {
+  display: none;
+}
+
+.mat-mdc-option.mat-mdc-option-active.mdc-list-item--selected {
+  background-color: var(--ubs-primary-liberty-green);
+}
+
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+  color: var(--quaternary-dark-grey);
+}
+
+.mat-mdc-option .mdc-list-item__primary-text {
+  line-height: 1.2;
+}
+
+.mat-mdc-select-panel {
+  position: relative;
+  max-height: 300px;
+}
