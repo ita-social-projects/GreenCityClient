@@ -761,10 +761,18 @@
         "text": "This duration of habit formation is recommended. You can change it at will",
         "day": "d"
       },
-      "to-do-list": "To-do list",
-      "no-shopping-items": "No items to recommend",
-      "too-long-input": "The input field should contain no more than 2048 characters",
-      "add-custom-item": "Add custom item",
+      "to-do": {
+        "to-do-list": "To-do list",
+        "no-shopping-items": "No items to recommend",
+        "too-long-input": "The input field should contain no more than 2048 characters",
+        "add-custom-item": "Add custom item",
+        "save": "Save",
+        "cancel-editing": "Cancel",
+        "item-delete-pop-up-title": "Are you sure you want to delete this item?",
+        "cancel-pop-up-title": "Are you sure you want to discard changes?",
+        "confirm": "Yes",
+        "cancel": "No"
+      },
       "user-log": {
         "day": "Day",
         "calendar-habit": "Calendar of eco habits",
