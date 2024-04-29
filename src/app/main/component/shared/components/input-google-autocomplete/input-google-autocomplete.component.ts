@@ -105,9 +105,9 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
       if (input) {
         const regex = new RegExp(Patterns.countriesRestriction);
         const request = {
+          ...this.autoCompRequest,
           input: `${this.requestPrefix ?? ''}${input}${this.requestSuffix ?? ''}`,
-          language: this.languageService.getLangValue('uk', 'en') as string,
-          ...this.autoCompRequest
+          language: this.languageService.getLangValue('uk', 'en') as string
         };
 
         this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {

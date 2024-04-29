@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
@@ -9,36 +9,37 @@ import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { ConfirmationDialogComponent } from '../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { GoogleScript } from 'src/assets/google-script/google-script';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { LocationService } from '@global-service/location/location.service';
-import { SearchAddress } from '../../ubs/models/ubs.interface';
-import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from '../../mocks/google-types';
-import { Language } from 'src/app/main/i18n/Language';
-import { RequiredFromDropdownValidator } from '../requiredFromDropDown.validator';
 import { NotificationPlatform } from '../../ubs/notification-platform.enum';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { select, Store } from '@ngrx/store';
+import { GetAddresses } from 'src/app/store/actions/order.actions';
+import { addressesSelector } from 'src/app/store/selectors/order.selectors';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
   templateUrl: './ubs-user-profile-page.component.html',
   styleUrls: ['./ubs-user-profile-page.component.scss']
 })
-export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDestroy {
-  autocompleteService: GoogleAutoService;
-  placeService: GooglePlaceService;
-  streetPredictionList: GooglePrediction[];
-  cityPredictionList: GooglePrediction[];
-  housePredictionList: GooglePrediction[];
-
-  private destroy: Subject<boolean> = new Subject<boolean>();
+export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   userForm: FormGroup;
   userProfile: UserProfile;
-  public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
+  telegramBotURL: string;
+  viberBotURL: string;
+  errorMessages = [];
+  maxAddressLength = 4;
+  isEditing = false;
+  isFetching = false;
+  alternativeEmailDisplay = false;
+  googleIcon = SignInIcons.picGoogle;
+  phoneMask = Masks.phoneMask;
+  resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
+
+  private destroy: Subject<boolean> = new Subject<boolean>();
+
   dataDeleteAddress = {
     title: 'ubs-client-profile.delete-address',
     confirm: 'ubs-client-profile.payment.yes',
@@ -50,89 +51,61 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     confirm: 'ubs-client-profile.btn.delete-profile-save',
     cancel: 'ubs-client-profile.btn.delete-profile-cancel'
   };
-  googleIcon = SignInIcons.picGoogle;
-  isEditing = false;
-  isFetching = false;
-  telegramBotURL: string;
-  viberBotURL: string;
-  alternativeEmailDisplay = false;
-  phoneMask = Masks.phoneMask;
-  maxAddressLength = 4;
-  currentLanguage: string;
-  regionBounds;
-  errorMessages = [];
-  errorValueObj = {
-    region: false,
-    city: false,
-    street: false
-  };
-  regionOptions = {
-    types: ['administrative_area_level_1'],
-    componentRestrictions: { country: 'UA' }
-  };
 
   @ViewChild('#regionInput', { static: true }) regionInputRef: ElementRef<HTMLInputElement>;
 
+  get recipientName() {
+    return this.userForm.get('recipientName');
+  }
+
+  get recipientSurname() {
+    return this.userForm.get('recipientSurname');
+  }
+
+  get alternateEmail() {
+    return this.userForm.get('alternateEmail');
+  }
+
+  get recipientPhone() {
+    return this.userForm.get('recipientPhone');
+  }
+
   constructor(
-    public dialog: MatDialog,
+    private dialog: MatDialog,
     private clientProfileService: ClientProfileService,
     private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService,
-    private langService: LanguageService,
-    private googleScript: GoogleScript,
-    public orderService: OrderService,
-    public dialogRef: MatDialogRef<UbsUserProfilePageComponent>,
-    private locationService: LocationService
+    private orderService: OrderService,
+    private languageService: LanguageService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.getUserData();
-    this.setupAutocomplete();
-  }
 
-  ngAfterViewInit(): void {
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
-      this.currentLanguage = lang;
-      this.googleScript.load(lang);
+    this.store.dispatch(GetAddresses());
+
+    this.store.pipe(select(addressesSelector)).subscribe((addresses) => {
+      this.getUserData();
     });
-  }
-
-  composeFormData(data: UserProfile): UserProfile {
-    return {
-      ...data,
-      recipientPhone: data.recipientPhone?.slice(-9)
-    };
-  }
-
-  private setupAutocomplete() {
-    const autocomplete = new google.maps.places.Autocomplete(this.regionInputRef.nativeElement, this.regionOptions);
   }
 
   getUserData(): void {
     this.isFetching = true;
-    this.clientProfileService.getDataClientProfile().subscribe(
-      (res: UserProfile) => {
-        this.userProfile = this.composeFormData(res);
-        this.userInit();
-        this.setUrlToBot();
-        this.isFetching = false;
-      },
-      (err: Error) => {
-        this.isFetching = false;
-        this.snackBar.openSnackBar('error');
-      }
-    );
-  }
-
-  setValidationInputError(addressControl: AbstractControl, nameUa: string, nameEn: string) {
-    const formControl = addressControl.get(this.getLangValue(nameUa, nameEn));
-    return formControl.errors?.required || formControl.errors?.requiredFromDropdown;
-  }
-
-  setRegionValue(i: number) {
-    this.errorMessages[i].region = true;
-    this.updateValidInputs('region', 'regionEn', i);
+    this.clientProfileService
+      .getDataClientProfile()
+      .pipe(take(1))
+      .subscribe({
+        next: (res: UserProfile) => {
+          this.userProfile = res;
+          this.userInit();
+          this.setUrlToBot();
+          this.isFetching = false;
+        },
+        error: () => {
+          this.isFetching = false;
+          this.snackBar.openSnackBar('error');
+        }
+      });
   }
 
   setUrlToBot(): void {
@@ -140,122 +113,15 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.viberBotURL = this.userProfile.botList[1]?.link;
   }
 
-  onRegionSelected(event: any, index: number): void {
-    this.errorMessages[index].region = false;
-
-    const currentFormGroup = this.userForm.controls.address.get(index.toString());
-    const region = currentFormGroup.get('region');
-    const regionEn = currentFormGroup.get('regionEn');
-
-    this.updateValidInputs('region', 'regionEn', index);
-
-    currentFormGroup.get(this.getLangValue('region', 'regionEn')).valueChanges.subscribe(() => {
-      currentFormGroup.get('cityEn').setValue('');
-      currentFormGroup.get('city').setValue('');
-      currentFormGroup.get('districtEn').setValue('');
-      currentFormGroup.get('district').setValue('');
-      currentFormGroup.get('street').setValue('');
-      currentFormGroup.get('streetEn').setValue('');
-      currentFormGroup.get('houseNumber').reset('');
-      currentFormGroup.get('entranceNumber').reset('');
-      currentFormGroup.get('houseCorpus').reset('');
-      currentFormGroup.get('addressRegionDistrictList').reset([]);
-      this.streetPredictionList = null;
-      this.cityPredictionList = null;
-      this.housePredictionList = null;
-    });
-    this.setTranslatedValueOfRegion(event, region, regionEn);
-  }
-
-  setTranslatedValueOfRegion(event: any, region: AbstractControl, regionEn: AbstractControl): void {
-    this.setTranslation(event.place_id, region, Language.UK);
-    this.setTranslation(event.place_id, regionEn, Language.EN);
-  }
-
-  setTranslation(id: string, abstractControl: AbstractControl, lang: string): void {
-    this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
-    const request = {
-      placeId: id,
-      language: lang
-    };
-    this.placeService.getDetails(request, (placeDetails) => {
-      abstractControl.setValue(placeDetails.name);
-      this.regionBounds = this.locationService.getPlaceBounds(placeDetails);
-    });
-  }
-
   userInit(): void {
-    const addres = new FormArray([]);
+    const addressArray = new FormArray([]);
 
-    this.userProfile.addressDto.forEach((adres) => {
-      const separateAddress = new FormGroup({
-        city: new FormControl(adres?.city, [
-          Validators.required,
-          Validators.pattern(Patterns.ubsWithDigitPattern),
-          Validators.minLength(1),
-          Validators.maxLength(30)
-        ]),
-        cityEn: new FormControl(adres?.cityEn, [
-          Validators.required,
-          Validators.pattern(Patterns.ubsWithDigitPattern),
-          Validators.minLength(1),
-          Validators.maxLength(30)
-        ]),
-        street: new FormControl(adres?.street, [
-          Validators.required,
-          Validators.pattern(Patterns.ubsWithDigitPattern),
-          Validators.minLength(1),
-          Validators.maxLength(120)
-        ]),
-        streetEn: new FormControl(adres?.streetEn, [
-          Validators.required,
-          Validators.pattern(Patterns.ubsWithDigitPattern),
-          Validators.minLength(1),
-          Validators.maxLength(120)
-        ]),
-        houseNumber: new FormControl(adres?.houseNumber, [
-          Validators.required,
-          Validators.pattern(Patterns.numericAndAlphabetic),
-          Validators.maxLength(10)
-        ]),
-        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.numericAndAlphabetic), Validators.maxLength(4)]),
-        entranceNumber: new FormControl(adres?.entranceNumber, [
-          Validators.pattern(Patterns.numericAndAlphabetic),
-          Validators.maxLength(2)
-        ]),
-        region: new FormControl(adres?.region, [
-          Validators.required,
-          Validators.pattern(Patterns.ubsWithDigitPattern),
-          Validators.maxLength(30)
-        ]),
-        regionEn: new FormControl(adres?.regionEn, [
-          Validators.required,
-          Validators.pattern(Patterns.ubsWithDigitPattern),
-          Validators.maxLength(30)
-        ]),
-        district: new FormControl(this.convertDistrictName(adres?.district), [
-          Validators.required,
-          Validators.pattern(Patterns.ubsWithDigitPattern),
-          Validators.maxLength(30)
-        ]),
-        districtEn: new FormControl(this.convertDistrictName(adres?.districtEn.split(`'`).join('')), [
-          Validators.required,
-          Validators.pattern(Patterns.ubsWithDigitPattern),
-          Validators.maxLength(30)
-        ]),
-        searchAddress: new FormControl(null),
-        isHouseSelected: new FormControl(!!adres?.houseNumber),
-        addressRegionDistrictList: new FormControl(this.locationService.appendDistrictLabel(adres?.addressRegionDistrictList)),
-        placeId: new FormControl(null),
-        id: new FormControl(adres?.id),
-        actual: new FormControl(adres?.actual)
-      });
-
-      addres.push(separateAddress);
+    this.userProfile.addressDto.forEach((addressDTO) => {
+      addressArray.push(new FormControl(addressDTO, []));
     });
 
     this.userForm = new FormGroup({
-      address: addres,
+      address: addressArray,
       recipientName: new FormControl(this.userProfile?.recipientName, [
         Validators.required,
         Validators.pattern(Patterns.NamePattern),
@@ -268,7 +134,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
       alternativeEmail: new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(Patterns.ubsMailPattern)]),
-      recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [
+      recipientPhone: new FormControl(`${this.userProfile?.recipientPhone}`, [
         Validators.required,
         Validators.minLength(12),
         PhoneNumberValidator('UA')
@@ -278,247 +144,34 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     });
 
     this.isFetching = false;
-    this.errorMessages = new Array(this.userForm.get('address').value.length).fill(this.errorValueObj);
   }
 
-  private initGoogleAutocompleteServices(): void {
-    this.autocompleteService = new google.maps.places.AutocompleteService();
-    this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
-  }
-
-  public deleteAddress(address) {
+  deleteAddress(address) {
     this.orderService
-      .deleteAddress(address.value)
-      .pipe(takeUntil(this.destroy))
+      .deleteAddress(address)
+      .pipe(take(1))
       .subscribe((list: { addressList: Address[] }) => {
         this.userProfile.addressDto = list.addressList;
         this.getUserData();
       });
   }
 
-  public resetValue(): void {
+  resetValue(): void {
     this.userForm.get('alternateEmail').setValue(null);
   }
 
-  emptyPredictLists(): void {
-    this.cityPredictionList = null;
-    this.streetPredictionList = null;
-  }
-
-  setPredictCities(formGroupName: number): void {
-    this.errorMessages[formGroupName].city = true;
-    this.updateValidInputs('city', 'cityEn', formGroupName);
-
-    this.cityPredictionList = null;
-    const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
-    const regionEn = currentFormGroup.get('regionEn');
-    const cityEn = currentFormGroup.get('cityEn');
-    const region = currentFormGroup.get('region');
-    const city = currentFormGroup.get('city');
-
-    if (this.currentLanguage === Language.UA && city.value) {
-      this.inputCity(`${region.value}, ${city.value}`, regionEn.value);
-    }
-    if (this.currentLanguage === Language.EN && cityEn.value) {
-      this.inputCity(`${regionEn.value},${cityEn.value}`, regionEn.value);
-    }
-  }
-
-  inputCity(searchAddress: string, regionEnName: string): void {
-    const request = {
-      input: searchAddress,
-      bounds: this.regionBounds,
-      types: ['(cities)'],
-      componentRestrictions: { country: 'ua' }
-    };
-    this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
-      if (regionEnName === 'Kyiv') {
-        this.cityPredictionList = cityPredictionList?.filter((el) => el.place_id === 'ChIJBUVa4U7P1EAR_kYBF9IxSXY');
-      } else {
-        this.cityPredictionList = cityPredictionList;
-      }
-    });
-  }
-
   isSubmitBtnDisabled() {
-    const isFormError = this.errorMessages.some((obj) => Object.values(obj).some((value) => value === true));
-    return !this.userForm.valid || this.userForm.pristine || isFormError;
-  }
-
-  onCitySelected(formGroupName: number, selectedCity: GooglePrediction): void {
-    this.errorMessages[formGroupName].city = false;
-    this.updateValidInputs('city', 'cityEn', formGroupName);
-
-    const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
-
-    this.setValueOfCity(selectedCity, currentFormGroup, 'city');
-    this.setValueOfCity(selectedCity, currentFormGroup, 'cityEn');
-
-    currentFormGroup.get(this.getLangValue('city', 'cityEn')).valueChanges.subscribe(() => {
-      currentFormGroup.get('districtEn').setValue('');
-      currentFormGroup.get('district').setValue('');
-      currentFormGroup.get('street').setValue('');
-      currentFormGroup.get('streetEn').setValue('');
-      currentFormGroup.get('houseNumber').reset('');
-      currentFormGroup.get('entranceNumber').reset('');
-      currentFormGroup.get('houseCorpus').reset('');
-      this.streetPredictionList = null;
-    });
-  }
-
-  setValueOfCity(selectedCity: GooglePrediction, item: AbstractControl, abstractControlName: string): void {
-    const abstractControl = item.get(abstractControlName);
-
-    const request = {
-      placeId: selectedCity.place_id,
-      language: abstractControlName === 'city' ? Language.UK : Language.EN
-    };
-    this.placeService.getDetails(request, (placeDetails) => {
-      abstractControl.setValue(placeDetails.name);
-      abstractControl.markAsDirty();
-
-      if (abstractControlName === 'city') {
-        this.getDistrictsForCity(item);
-      }
-    });
-  }
-
-  getDistrictsForCity(formGroup: AbstractControl): void {
-    const region = formGroup.get('region').value;
-    const city = formGroup.get('city').value;
-
-    this.orderService
-      .findAllDistricts(region, city)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((districts) => {
-        formGroup.get('addressRegionDistrictList').setValue(districts);
-      });
-  }
-
-  setPredictStreets(formGroupName: number): void {
-    this.errorMessages[formGroupName].street = true;
-    this.updateValidInputs('street', 'streetEn', formGroupName);
-
-    this.streetPredictionList = null;
-    const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
-    const { city, cityEn, street, streetEn } = currentFormGroup.value;
-
-    if (this.currentLanguage === Language.UA && street) {
-      this.inputAddress(`${city}, ${street}`, currentFormGroup, Language.UK);
-    }
-    if (this.currentLanguage === Language.EN && streetEn) {
-      this.inputAddress(`${cityEn}, ${streetEn}`, currentFormGroup, Language.EN);
-    }
-  }
-
-  inputAddress(searchAddress: string, item: AbstractControl, lang: string): void {
-    const { city, cityEn } = item.value;
-
-    const request = this.locationService.getRequest(searchAddress, lang, 'address');
-    this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
-      this.streetPredictionList = streetPredictions?.filter(
-        (el) => el.structured_formatting.secondary_text.includes(city) || el.structured_formatting.secondary_text.includes(cityEn)
-      );
-    });
-  }
-
-  onStreetSelected(formGroupName: number, selectedStreet: GooglePrediction): void {
-    this.errorMessages[formGroupName].street = false;
-    this.updateValidInputs('street', 'streetEn', formGroupName);
-
-    const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
-    currentFormGroup.get('houseNumber').setValue('');
-
-    this.setValueOfStreet(selectedStreet, currentFormGroup, 'street');
-    this.setValueOfStreet(selectedStreet, currentFormGroup, 'streetEn');
-  }
-
-  setValueOfStreet(selectedStreet: GooglePrediction, item: AbstractControl, abstractControlName: string): void {
-    const abstractControl = item.get(abstractControlName);
-
-    const request = {
-      placeId: selectedStreet.place_id,
-      language: abstractControlName === 'street' ? Language.UK : Language.EN
-    };
-    this.placeService.getDetails(request, (placeDetails) => {
-      abstractControl.setValue(placeDetails.name);
-      if (request.language === Language.EN) {
-        this.setDistrictAuto(placeDetails, request.language, item);
-      }
-      if (request.language === Language.UK) {
-        this.setDistrictAuto(placeDetails, request.language, item);
-      }
-    });
-  }
-
-  setDistrictAuto(placeDetails: GooglePlaceResult, language: string, item: AbstractControl): void {
-    const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
-    const districtEn = item.get('districtEn');
-    const district = item.get('district');
-
-    const abstractControl = language === Language.UK ? district : districtEn;
-    abstractControl.setValue(currentDistrict);
-    abstractControl.markAsDirty();
-  }
-
-  onDistrictSelected(formGroupName: number): void {
-    const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
-    const district = currentFormGroup.get('district');
-    const districtEn = currentFormGroup.get('districtEn');
-    const districtList = currentFormGroup.get('addressRegionDistrictList').value;
-
-    this.locationService.setDistrictValues(district, districtEn, districtList);
-  }
-
-  private convertDistrictName(district: string): string {
-    return this.locationService.convFirstLetterToCapital(district);
+    return this.userForm.invalid || this.userForm.pristine;
   }
 
   onEdit(): void {
     this.isEditing = true;
     this.isFetching = false;
-    this.initGoogleAutocompleteServices();
     setTimeout(() => this.focusOnFirst());
   }
 
-  setPredictHouseNumbers(item: AbstractControl): void {
-    this.housePredictionList = null;
-    item.get('isHouseSelected').setValue(false);
-    const cityName = item.get('cityEn').value;
-    const streetName = item.get('streetEn').value;
-    const houseNumber = item.get('houseNumber').value;
-    const houseValue = houseNumber.toLowerCase();
-    if (cityName && streetName && houseValue) {
-      item.get('houseNumber').setValue(houseValue);
-      const searchAddress = this.locationService.getSearchAddress(cityName, streetName, houseValue);
-      this.setHousesList(searchAddress, this.getLangValue(Language.UK, Language.EN));
-    }
-  }
-
-  setHousesList(searchAddress: SearchAddress, lang: string): void {
-    this.locationService
-      .getFullAddressList(searchAddress, this.autocompleteService, lang)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((list: GooglePrediction[]) => {
-        this.housePredictionList = list;
-      });
-  }
-
-  onHouseSelected(item: AbstractControl, address: GooglePrediction): void {
-    item.get('searchAddress').setValue(address.description);
-    item.get('placeId').setValue(address.place_id);
-    item.get('isHouseSelected').setValue(true);
-    this.housePredictionList = null;
-  }
-
-  checkHouseInput(item: AbstractControl): void {
-    if (!item.get('isHouseSelected').value) {
-      item.get('houseNumber').setValue('');
-    }
-  }
-
-  public setActualAddress(addressId): void {
-    this.orderService.setActualAddress(addressId).pipe(takeUntil(this.destroy)).subscribe();
+  setActualAddress(addressId): void {
+    this.orderService.setActualAddress(addressId).pipe(take(1)).subscribe();
   }
 
   focusOnFirst(): void {
@@ -570,18 +223,18 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       this.clientProfileService
         .postDataClientProfile(submitData)
         .pipe(take(1))
-        .subscribe(
-          (res: UserProfile) => {
+        .subscribe({
+          next: (res: UserProfile) => {
             this.isFetching = false;
-            this.userProfile = this.composeFormData(res);
+            this.userProfile = res;
             this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
             this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
           },
-          (err: Error) => {
+          error: (err: Error) => {
             this.isFetching = false;
             this.snackBar.openSnackBar('error');
           }
-        );
+        });
       this.alternativeEmailDisplay = false;
     } else {
       this.isEditing = true;
@@ -604,7 +257,11 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
-  public openDeleteAddressDialog(address): void {
+  getLangValue(valueUA: string, valueEN: string): string {
+    return this.languageService.getLangValue(valueUA, valueEN) as string;
+  }
+
+  openDeleteAddressDialog(address): void {
     const matDialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: this.dataDeleteAddress,
       hasBackdrop: true
@@ -637,16 +294,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       addFromProfile: true,
       address: {}
     };
-    const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
 
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
-        if (res) {
-          this.getUserData();
-        }
-      });
+    this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
   }
 
   formatedPhoneNumber(num: string): string | void {
@@ -654,10 +303,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     if (match) {
       return ` +380 (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
     }
-  }
-
-  getControl(control: string) {
-    return this.userForm.get(control) as FormControl;
   }
 
   toggleAlternativeEmail() {
@@ -670,26 +315,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.alternativeEmailDisplay = !this.alternativeEmailDisplay;
 
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
-  }
-
-  public getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
-  }
-
-  public getLangControl(uaControl: AbstractControl, enControl: AbstractControl): AbstractControl {
-    return this.langService.getLangValue(uaControl, enControl) as AbstractControl;
-  }
-
-  updateValidInputs(control: string, controlEn: string, index: number): void {
-    const currentControlName = this.langService.getLangValue(control, controlEn);
-    const currentControl = this.userForm.controls.address.get(index.toString()).get(currentControlName as string);
-
-    currentControl.setValidators([
-      Validators.required,
-      RequiredFromDropdownValidator.requiredFromDropdown(this.errorMessages[index][control])
-    ]);
-    currentControl.updateValueAndValidity();
-    this.userForm.updateValueAndValidity();
   }
 
   onSwitchChanged(id: string): void {
@@ -712,6 +337,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   ngOnDestroy(): void {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
 }

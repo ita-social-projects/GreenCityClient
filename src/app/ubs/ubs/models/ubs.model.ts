@@ -3,6 +3,7 @@ import { Address, AddressData, DistrictsDtos, ICertificateResponse } from './ubs
 import { GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Subject } from 'rxjs';
 
 export class CCertificate {
   get code(): string {
@@ -86,6 +87,7 @@ export class CAddressData {
   private houseCorpus: string;
   private placeId: string;
   private addressComment = '';
+  private placeIdChange: Subject<string> = new Subject();
 
   constructor(private languageService: LanguageService) {}
 
@@ -103,7 +105,6 @@ export class CAddressData {
     this.houseCorpus = address.houseCorpus;
     this.placeId = address.placeId;
     this.addressComment = address.addressComment;
-    this.fetchPlaceId();
   }
 
   public getRegion(language: Language): string {
@@ -194,6 +195,11 @@ export class CAddressData {
 
   private resetPlaceId() {
     this.placeId = '';
+    this.placeIdChange.next(this.placeId);
+  }
+
+  public getPlaceIdChange(): Subject<string> {
+    return this.placeIdChange;
   }
 
   public getValues(): AddressData {
@@ -237,6 +243,7 @@ export class CAddressData {
     new google.maps.places.AutocompleteService().getPlacePredictions(request, (predictions) => {
       if (predictions?.length && predictions[0]?.place_id) {
         this.placeId = predictions[0]?.place_id;
+        this.placeIdChange.next(this.placeId);
       } else if (isUseHouseNumber) {
         this.fetchPlaceId(false);
       }

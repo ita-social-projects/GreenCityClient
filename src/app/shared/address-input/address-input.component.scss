@@ -86,22 +86,8 @@ select {
   }
 }
 
-.delete-btn {
-  color: var(--ubs-quaternary-dark-grey);
-  text-align: center;
-  font-size: 16px;
-  text-decoration-line: underline;
-}
-
 .form-control.ng-invalid.ng-touched {
   border: 1px solid var(--ubs-error-ligh-red);
-}
-
-.buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 16px;
-  margin-bottom: 6px;
 }
 
 .address-exists {
@@ -115,10 +101,5 @@ select {
   .btn {
     width: 100px;
     font-size: 0.8rem;
-  }
-
-  .buttons {
-    flex-flow: row nowrap;
-    align-items: stretch;
   }
 }
