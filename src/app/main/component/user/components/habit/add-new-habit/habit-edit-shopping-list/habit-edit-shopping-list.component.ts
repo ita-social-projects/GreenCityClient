@@ -179,7 +179,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnChanges, OnDest
     return isItemsChanged || isLengthChanged;
   }
 
-  public cancelChanges(): void {
+  public cancelEditing(): void {
     if (this.isListItemsChanged()) {
       this.confirmDialogConfig.data.popupTitle = this.cancelEditingTitle;
       this.dialog

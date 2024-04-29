@@ -161,7 +161,7 @@ describe('HabitEditShoppingListComponent', () => {
   it('should open dialog o close editing ', () => {
     (component as any).isEditMode = true;
     spyOn(component as any, 'isListItemsChanged').and.returnValue(true);
-    component.cancelChanges();
+    component.cancelEditing();
     expect((component as any).dialog.open).toHaveBeenCalled();
     expect(component.isEditMode).toBeFalsy();
   });

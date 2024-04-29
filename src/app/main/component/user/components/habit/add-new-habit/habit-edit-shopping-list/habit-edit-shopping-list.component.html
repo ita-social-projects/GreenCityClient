@@ -1,6 +1,6 @@
 <div class="shop-list-container">
   <a *ngIf="!isAcquired && !isEditMode" class="edit-icon" (click)="changeEditMode()" aria-label="Edit Todo List"></a>
-  <a *ngIf="isEditMode" class="close-edit-mode" (click)="cancelChanges()" aria-label="Close Editing Todo List"></a>
+  <a *ngIf="isEditMode" class="close-edit-mode" (click)="cancelEditing()" aria-label="Close Editing Todo List"></a>
   <div class="title">{{ 'user.habit.to-do.to-do-list' | translate }}</div>
   <div *ngIf="shopList" class="list-container">
     <ul *ngIf="shopList.length" [ngClass]="isEditMode ? 'shop-list shop-list-edit-mode' : 'shop-list'">
@@ -42,7 +42,7 @@
         <button [disabled]="!itemForm.valid" class="add-btn" type="submit" (click)="addItem(itemForm.get('item').value)">+</button>
       </form>
       <div class="save-cancel-wrapper">
-        <button class="save-cancel-btn" (click)="cancelChanges()">
+        <button class="save-cancel-btn" (click)="cancelEditing()">
           {{ 'user.habit.to-do.cancel-editing' | translate }}
         </button>
         <button class="save-cancel-btn" (click)="changeEditMode()" [disabled]="!isListChanged">
