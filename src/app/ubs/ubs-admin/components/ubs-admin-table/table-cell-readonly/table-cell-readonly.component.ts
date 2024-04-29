@@ -12,7 +12,7 @@ import { PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
   styleUrls: ['./table-cell-readonly.component.scss']
 })
 export class TableCellReadonlyComponent implements OnInit, OnChanges {
-  @Input() title: string | number | { ua: string; en: string } | null;
+  @Input() title: string | number | null;
   @Input() optional: IColumnBelonging[];
   @Input() lang: string;
   @Input() date: string;
@@ -32,27 +32,29 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.key === TableKeys.generalDiscount) {
-      this.title = !/^0\.00 (UAH|грн)$/.test(String(this.title)) ? `-${this.title}` : this.title;
+    if (this.title) {
+      if (this.key === TableKeys.generalDiscount) {
+        this.title = !/^0\.00 (UAH|грн)$/.test(String(this.title)) ? `-${this.title}` : this.title;
+      }
+
+      if (this.key === TableKeys.clientPhone || this.key === TableKeys.senderPhone) {
+        this.title = `+${this.title?.toString().replace(Patterns.isTherePlus, '')}`;
+      }
+
+      const replaceRules = {
+        [Language.EN]: { regex: /л|шт/gi, match: { л: 'L', шт: 'p' } },
+        [Language.UA]: { regex: /[lp]/gi, match: { l: 'л', p: 'шт' } }
+      };
+
+      if (this.key === TableKeys.bagsAmount && replaceRules[this.lang]) {
+        const { regex, match } = replaceRules[this.lang];
+        this.title = (this.title as string).toLowerCase().replace(regex, (el) => match[el]);
+      }
+
+      this.data = this.title;
+
+      this.isStatus();
     }
-
-    if (this.key === TableKeys.clientPhone || this.key === TableKeys.senderPhone) {
-      this.title = `+${this.title?.toString().replace(Patterns.isTherePlus, '')}`;
-    }
-
-    const replaceRules = {
-      [Language.EN]: { regex: /л|шт/gi, match: { л: 'L', шт: 'p' } },
-      [Language.UA]: { regex: /[lp]/gi, match: { l: 'л', p: 'шт' } }
-    };
-
-    if (this.key === TableKeys.bagsAmount && replaceRules[this.lang]) {
-      const { regex, match } = replaceRules[this.lang];
-      this.title = (this.title as string).toLowerCase().replace(regex, (el) => match[el]);
-    }
-
-    this.data = this.title;
-
-    this.isStatus();
   }
 
   public isStatus() {
