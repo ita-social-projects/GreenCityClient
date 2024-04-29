@@ -48,7 +48,8 @@ describe('OneHabitComponent', () => {
       id: 321,
       habitTranslation: {
         name: 'fakeName'
-      }
+      },
+      image: ''
     },
     duration: 33,
     workingDays: 4,
