@@ -30,6 +30,7 @@ export class FilterSelectComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('selectLabel') selectLabel: ElementRef;
   @Output() selectedList = new EventEmitter<any>();
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  alignFilter = { offset: 15, width: 200 };
 
   constructor(private langService: LanguageService) {}
 
@@ -41,8 +42,8 @@ export class FilterSelectComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     const offsetWidth = this.selectLabel.nativeElement.offsetWidth;
-    this.selectFilter.panelWidth = 200;
-    this.selectFilter._positions[0].offsetX = -offsetWidth + 15;
+    this.selectFilter.panelWidth = this.alignFilter.width;
+    this.selectFilter._positions[0].offsetX = -offsetWidth + this.alignFilter.offset;
   }
 
   toggleAllSelection(): void {
