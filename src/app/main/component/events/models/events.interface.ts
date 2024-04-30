@@ -23,7 +23,8 @@ export interface EventInformation {
   open: boolean;
   tags: string[];
   editorText: string;
-  img: string[];
+  imagesUrl: string[];
+  imagesFile: File[];
 }
 
 export interface DateFormInformation {

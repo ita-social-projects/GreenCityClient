@@ -488,7 +488,7 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
     let value = this.dateForm.controls.timeRange.controls[controller].value;
     if (value.length === 3 && value.indexOf(':') === -1) {
       value = value.slice(0, 2) + ':' + value.slice(2);
-      this.dateForm.patchValue({ [controller]: value }, { emitEvent: false });
+      this.dateForm.patchValue({ timeRange: { [controller]: value } }, { emitEvent: false });
     }
   }
 

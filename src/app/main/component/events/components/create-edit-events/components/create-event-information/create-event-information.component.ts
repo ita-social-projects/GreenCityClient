@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { quillConfig } from '../../quillEditorFunc';
 
 import { EVENT_LOCALE, EventLocaleKeys } from '../../../../models/event-consts';
-import { EventInformationForm } from '../../../../models/events.interface';
+import { EventInformation, EventInformationForm } from '../../../../models/events.interface';
 import { EventsService } from '../../../../services/events.service';
 import { Router } from '@angular/router';
 import { quillEditorValidator } from '../../validators/quillEditorValidator';
@@ -31,10 +31,11 @@ export class CreateEventInformationComponent implements OnInit {
     editorText: ['<p>helloworld12345678901011</p>'],
     open: [true, Validators.required],
     tags: [['Social'], [Validators.required, Validators.minLength(1)]],
-    img: [['']]
+    imagesUrl: [[] as Array<string>],
+    imagesFile: [[] as Array<File>]
   });
 
-  @Output() formStatus = new EventEmitter<{ status: boolean; form: typeof this.eventInfForm | undefined }>();
+  @Output() formStatus = new EventEmitter<{ status: boolean; form: EventInformation | undefined }>();
   protected readonly EVENT_LOCALE = EVENT_LOCALE;
 
   constructor(
@@ -44,6 +45,10 @@ export class CreateEventInformationComponent implements OnInit {
     protected router: Router,
     private bridge: FormBridgeService
   ) {}
+
+  get imagesUrl() {
+    return this.eventInfForm.controls.imagesUrl;
+  }
 
   ngOnInit() {
     this.quillModules = quillConfig;
@@ -63,6 +68,7 @@ export class CreateEventInformationComponent implements OnInit {
     const form = this.eventsService.getInformationForm();
     if (form) {
       this.eventInfForm.setValue(form);
+      console.log(form);
     }
   }
 
@@ -80,7 +86,7 @@ export class CreateEventInformationComponent implements OnInit {
     return EVENT_LOCALE[localeKey][this.localStorageService.getCurrentLanguage()];
   }
 
-  setImgArray(value: string[]) {
-    this.eventInfForm.controls.img.setValue(value);
+  setImagesUrlArray(value: string[]) {
+    this.eventInfForm.controls.imagesUrl.setValue(value);
   }
 }

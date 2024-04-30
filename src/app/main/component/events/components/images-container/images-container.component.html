@@ -6,35 +6,33 @@
         <mat-label class="counter-wrapper">{{ imageCount }}/5</mat-label>
       </div>
       <mat-label class="image-title">{{ 'create-event.picture-title' | translate }}</mat-label>
-      <div class="images-container-wrapper" cdkDropListOrientation="horizontal" cdkDropList (cdkDropListDropped)="dropImages($event)">
-        <div class="image-container" (files)="filesDropped($event)" appDrag cdkDrag *ngFor="let img of images; index as i">
-          <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-event" />
+      <div (cdkDropListDropped)="dropImages($event)" cdkDropList cdkDropListOrientation="horizontal" class="images-container-wrapper">
+        <div (files)="filesDropped($event)" *ngFor="let img of imgAsUrl; index as i" appDrag cdkDrag class="image-container">
+          <img *ngIf="img" [src]="img" alt="image-of-event" class="image-preview" />
           <div class="delete-block">
-            <div>{{ img.name }}</div>
+            <!--            <div>{{ img.name }}</div>-->
             <div (click)="deleteImage(i)">X</div>
           </div>
-          <div *ngIf="img.isLabel" class="drag-inscription">
-            <label for="file-upload">
-              {{ img.label }}
-            </label>
-            <input
-              #takeInput
-              id="file-upload"
-              class="d-none"
-              [disabled]="false"
-              type="file"
-              accept="image/png,image/jpeg"
-              (change)="loadFile($event)"
-            />
-          </div>
+        </div>
+        <div class="input-wrapper">
+          <label class="file-input" for="file-upload">+</label>
+          <input
+            #takeInput
+            (change)="loadFile($event)"
+            (click)="test()"
+            accept="image/png,image/jpeg"
+            id="file-upload"
+            style="display: none"
+            type="file"
+          />
         </div>
       </div>
     </div>
     <p class="use-pics">{{ 'create-event.use-greencity-pics' | translate }}</p>
     <div class="row">
       <div class="images-container-wrapper">
-        <div class="image-container" *ngFor="let img of defImgs; index as i">
-          <img class="image-preview" [src]="img" alt="image-of-event" (click)="chooseImage(img)" />
+        <div *ngFor="let img of defImgs; index as i" class="image-container">
+          <img (click)="chooseImage(img)" [src]="img" alt="image-of-event" class="image-preview" />
         </div>
       </div>
     </div>

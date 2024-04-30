@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
@@ -11,12 +11,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   templateUrl: './images-container.component.html',
   styleUrls: ['./images-container.component.scss']
 })
-export class ImagesContainerComponent implements OnInit, OnChanges {
-  private isImageTypeError = false;
-  private dragAndDropLabel = '+';
-  private maxImages = 5;
-  private setDefaultImg = false;
-
+export class ImagesContainerComponent implements OnInit {
   public defImgs = [
     '/assets/img/events/illustration-earth.png',
     '/assets/img/events/illustration-money.png',
@@ -24,18 +19,12 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
     '/assets/img/events/illustration-recycle.png',
     '/assets/img/events/illustration-store.png'
   ];
-  private defaultImage = '/assets/img/events/default-image.png';
   public images: EventImage[] = [];
   public editMode: boolean;
-  private imagesTodelete: string[] = [];
   imgAsUrl: string[] = [];
-
   public imageCount = 0;
-
   isImageSizeError: boolean;
-
   @ViewChild('takeInput') InputVar: ElementRef;
-
   @Input() imgArray: File[] = [];
   @Input() imagesEditArr: string[];
   @Input() isImagesArrayEmpty = false;
@@ -43,12 +32,26 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
   @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
   @Output() oldImagesOutput = new EventEmitter<Array<string>>();
   @Output() imgAsUrlOutput = new EventEmitter<string[]>();
+  private isImageTypeError = false;
+  private dragAndDropLabel = '+';
+  private maxImages = 5;
+  private setDefaultImg = false;
+  private defaultImage = '/assets/img/events/default-image.png';
+  private imagesTodelete: string[] = [];
 
   constructor(
     private localStorageService: LocalStorageService,
     private snackBar: MatSnackBarComponent,
     private eventService: EventsService
   ) {}
+
+  @Input() set imgUrlArray(value: string[]) {
+    this.imgAsUrl = value;
+  }
+
+  test() {
+    console.log('fffff');
+  }
 
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
@@ -61,10 +64,56 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(): void {
-    if (this.isImagesArrayEmpty && !this.setDefaultImg) {
-      this.setDefaultImg = true;
-      this.chooseImage(this.defaultImage);
+  public chooseImage(img: string) {
+    const imageName = img.substring(img.lastIndexOf('/') + 1);
+    this.eventService.getImageAsFile(img).subscribe((blob: Blob) => {
+      const imageFile = new File([blob], imageName, { type: 'image/png' });
+      this.checkFileExtension(imageFile);
+      this.transferFile(imageFile);
+    });
+  }
+
+  public dropImages(event: CdkDragDrop<string[]>): void {
+    const prevIndex = event.previousIndex;
+    const newIndex = event.currentIndex;
+
+    moveItemInArray(this.images, prevIndex, newIndex);
+    moveItemInArray(this.imgAsUrl, prevIndex, newIndex);
+    //  moveItemInArray(this.imagesEditArr, prevIndex, newIndex);
+  }
+
+  public filesDropped(files: FileHandle[]): void {
+    const imageFile = files[0].file;
+    this.checkFileExtension(imageFile);
+    this.transferFile(imageFile);
+  }
+
+  public loadFile(event: Event): void {
+    const imageFile: File = (event.target as HTMLInputElement).files[0];
+    this.InputVar.nativeElement.value = '';
+    this.checkFileExtension(imageFile);
+    this.transferFile(imageFile);
+  }
+
+  public deleteImage(i: number): void {
+    this.images.splice(i, 1);
+    this.imgArray.splice(i, 1);
+    if (this.editMode) {
+      this.imgArray.splice(i - this.imagesEditArr.length, 1);
+    }
+    this.imgArrayOutput.emit(this.imgArray);
+
+    const allowLabel = this.imageCount === 5;
+    this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: allowLabel });
+    this.imageCount--;
+
+    if (this.editMode && this.imagesEditArr[i]) {
+      this.imagesTodelete.push(this.imagesEditArr[i]);
+      this.imagesEditArr.splice(i, 1);
+    }
+    if (this.editMode) {
+      this.deleteImagesOutput.emit(this.imagesTodelete);
+      this.oldImagesOutput.emit(this.imagesEditArr);
     }
   }
 
@@ -99,36 +148,6 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
       label: this.dragAndDropLabel,
       isLabel: i === 0
     }));
-  }
-
-  public chooseImage(img: string) {
-    const imageName = img.substring(img.lastIndexOf('/') + 1);
-    this.eventService.getImageAsFile(img).subscribe((blob: Blob) => {
-      const imageFile = new File([blob], imageName, { type: 'image/png' });
-      this.checkFileExtension(imageFile);
-      this.transferFile(imageFile);
-    });
-  }
-
-  public dropImages(event: CdkDragDrop<string[]>): void {
-    const prevIndex = event.previousIndex;
-    const newIndex = event.currentIndex;
-
-    moveItemInArray(this.images, prevIndex, newIndex);
-    moveItemInArray(this.imagesEditArr, prevIndex, newIndex);
-  }
-
-  public filesDropped(files: FileHandle[]): void {
-    const imageFile = files[0].file;
-    this.checkFileExtension(imageFile);
-    this.transferFile(imageFile);
-  }
-
-  public loadFile(event: Event): void {
-    const imageFile: File = (event.target as HTMLInputElement).files[0];
-    this.InputVar.nativeElement.value = '';
-    this.checkFileExtension(imageFile);
-    this.transferFile(imageFile);
   }
 
   private checkFileExtension(file: any): void {
@@ -192,28 +211,6 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
       imageToAssign.src = result;
       imageToAssign.isLabel = false;
       this.imageCount += 1;
-    }
-  }
-
-  public deleteImage(i: number): void {
-    this.images.splice(i, 1);
-    this.imgArray.splice(i, 1);
-    if (this.editMode) {
-      this.imgArray.splice(i - this.imagesEditArr.length, 1);
-    }
-    this.imgArrayOutput.emit(this.imgArray);
-
-    const allowLabel = this.imageCount === 5;
-    this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: allowLabel });
-    this.imageCount--;
-
-    if (this.editMode && this.imagesEditArr[i]) {
-      this.imagesTodelete.push(this.imagesEditArr[i]);
-      this.imagesEditArr.splice(i, 1);
-    }
-    if (this.editMode) {
-      this.deleteImagesOutput.emit(this.imagesTodelete);
-      this.oldImagesOutput.emit(this.imagesEditArr);
     }
   }
 }

@@ -428,7 +428,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       dates: datesForm,
       tags: informationForm.tags,
       imgArray: this.editMode ? this.imgArrayToPreview : this.imgArray,
-      imgArrayToPreview: this.imgArrayToPreview,
+      imgArrayToPreview: informationForm.imagesUrl,
       location: this.datesForm[0]
     };
     this.eventsService.setForm(sendEventDto);

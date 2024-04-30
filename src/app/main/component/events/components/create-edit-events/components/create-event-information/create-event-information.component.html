@@ -84,15 +84,18 @@
     <!--  (imgArrayOutput)="getImageTosend($event)"-->
     <!--  (deleteImagesOutput)="getImagesToDelete($event)"-->
     <!--  (oldImagesOutput)="getOldImages($event)"-->
-    <app-images-container
-      (deleteImagesOutput)="([])"
-      (imgArrayOutput)="([])"
-      (imgAsUrlOutput)="setImgArray($event)"
-      (oldImagesOutput)="([])"
-      [imagesEditArr]="[]"
-      [imgArray]="[]"
-      [isImagesArrayEmpty]="true"
-    >
-    </app-images-container>
+    <div class="images" style="width: 100%">
+      <app-images-container
+        (deleteImagesOutput)="([])"
+        (imgArrayOutput)="([])"
+        (imgAsUrlOutput)="setImagesUrlArray($event)"
+        (oldImagesOutput)="([])"
+        [imagesEditArr]="[]"
+        [imgArray]="[]"
+        [imgUrlArray]="imagesUrl.value"
+        [isImagesArrayEmpty]="true"
+      >
+      </app-images-container>
+    </div>
   </form>
 </mat-card>
