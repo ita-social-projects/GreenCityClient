@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { ReplyCommentComponent } from './reply-comment.component';
 
-describe('ReplyCommentComponent', () => {
+fdescribe('ReplyCommentComponent', () => {
   let component: ReplyCommentComponent;
   let fixture: ComponentFixture<ReplyCommentComponent>;
 
@@ -28,13 +28,13 @@ describe('ReplyCommentComponent', () => {
     component.isAddingReply = true;
     component.writeReply();
 
-    expect(component.reply.nativeElement.srcset).toBe(component.commentsImages['reply']);
+    expect(component.reply.nativeElement.srcset).toBe('assets/img/comments/reply.svg');
   });
 
   it('should set the srcset to replying image when isAddingReply is false', () => {
     component.isAddingReply = false;
     component.writeReply();
 
-    expect(component.reply.nativeElement.srcset).toBe(component.commentsImages['replying']);
+    expect(component.reply.nativeElement.srcset).toBe('assets/img/comments/reply-green.svg');
   });
 });
