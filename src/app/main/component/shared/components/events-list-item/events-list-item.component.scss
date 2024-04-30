@@ -119,11 +119,11 @@
   }
 
   .fill {
-    background: url('/src/assets/events-icons/star-filled.png') no-repeat center;
+    background: url('/assets/events-icons/star-filled.svg') no-repeat center;
   }
 
   .empty {
-    background: url('/src/assets/events-icons/Vector.png') no-repeat center;
+    background: url('/assets/events-icons/star-empthy.svg') no-repeat center;
   }
 }
 
@@ -152,11 +152,11 @@
   }
 
   .flag {
-    background: url('/src/assets/events-icons/bookmark-set.png') no-repeat center;
+    background: url('/assets/img/places/bookmark-default.svg') no-repeat center;
   }
 
   .flag-active {
-    background: url('/src/assets/events-icons/bookmark-active.png') no-repeat center;
+    background: url('/assets/img/places/bookmark-set.svg') no-repeat center;
   }
 }
 
