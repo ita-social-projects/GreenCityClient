@@ -14,7 +14,6 @@
 }
 
 .btn-img {
-  fill: #878787;
   min-width: 16px;
   max-height: 16px;
 }
@@ -29,10 +28,6 @@
 }
 
 .reply-active {
-  .btn-img {
-    fill: var(--primary-green);
-  }
-
   .btn-text {
     color: var(--primary-green);
   }
