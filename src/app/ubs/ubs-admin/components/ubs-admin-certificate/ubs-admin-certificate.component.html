@@ -45,7 +45,7 @@
             </mat-icon>
           </span>
         </th>
-        <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
+        <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ padding: '0px' }">
           <mat-checkbox
             (change)="$event ? masterToggle() : null"
             [checked]="selection.hasValue() && isAllSelected()"

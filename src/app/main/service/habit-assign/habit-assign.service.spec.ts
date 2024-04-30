@@ -6,8 +6,9 @@ import {
   ASSIGNRESPONSE,
   HABITSFORDATE,
   DEFAULTFULLINFOHABIT,
-  HABITSASSIGNEDLIST
-} from '../../component/user/components/habit/mocks/habit-assigned-mock';
+  HABITSASSIGNEDLIST,
+  CHANGES_FROM_CALENDAR
+} from '@global-user/components/habit/mocks/habit-assigned-mock';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
 import { UpdateHabitDuration } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
@@ -120,6 +121,51 @@ describe('HabitService', () => {
     httpMock.verify();
     expect(req.request.method).toBe('PUT');
     expect(actualRes).toEqual(expectedRes);
+  });
+
+  it('should set circle from pop up to progress', () => {
+    const changesFromCalendar = CHANGES_FROM_CALENDAR;
+    service.habitChangesFromCalendarSubj.subscribe((value) => {
+      expect(value).toEqual(changesFromCalendar);
+    });
+    service.setCircleFromPopUpToProgress(changesFromCalendar);
+  });
+
+  it('should set habit status', () => {
+    const habitId = HABITSASSIGNEDLIST[0].id;
+    const status = 'mockStatus';
+    const mockResponse = HABITSASSIGNEDLIST[0];
+
+    service.setHabitStatus(habitId, status).subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${habitAssignLink}/${habitId}`);
+    expect(req.request.method).toBe('PATCH');
+    req.flush(mockResponse);
+  });
+
+  it('should delete habit by id', () => {
+    const habitAssignId = HABITSASSIGNEDLIST[0].id;
+    const mockResponse = service;
+    service.deleteHabitById(habitAssignId).subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+    const req = httpMock.expectOne(`${habitAssignLink}/delete/${habitAssignId}`);
+    expect(req.request.method).toBe('DELETE');
+    req.flush(mockResponse);
+  });
+
+  it('should update habit', () => {
+    const habitAssignId = HABITSASSIGNEDLIST[0].id;
+    const duration = 30;
+    const mockResponse = HABITSASSIGNEDLIST[0];
+    service.updateHabit(habitAssignId, duration).subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+    const req = httpMock.expectOne(`${habitAssignLink}/${habitAssignId}/update-habit-duration?duration=${duration}`);
+    expect(req.request.method).toBe('PUT');
+    req.flush(mockResponse);
   });
 
   afterEach(() => {

@@ -1,12 +1,12 @@
 @import '../../../../../typography/colorsUbs';
 
-.mat-cell,
-.mat-header-cell,
-.mat-footer-cell {
+mat-cell,
+mat-header-cell,
+mat-footer-cell {
   flex: none;
 }
 
-.mat-header-cell {
+mat-header-cell {
   width: 200px;
   background-color: var(--ubs-primary-grey);
   color: var(--ubs-primary-white);
@@ -22,14 +22,14 @@
   flex: none;
 }
 
-.mat-row {
+mat-row {
   min-height: 39px;
   max-height: 39px;
   align-items: unset;
   border-bottom-width: 0;
 }
 
-.mat-cell {
+mat-cell {
   border: thin solid var(--ubs-primary-light-grey);
   border-top: none;
   color: var(--ubs-primary-grey);
@@ -37,22 +37,23 @@
   font-family: var(--primary-font);
 }
 
-.mat-header-row {
+mat-header-row {
   border-bottom-width: 0 !important;
   min-height: 39px !important;
   align-items: unset !important;
   cursor: col-resize;
   overflow-wrap: break-word !important;
   word-wrap: break-word !important;
+  background-color: var(--ubs-primary-grey);
 }
 
-.mat-header-cell:first-of-type,
-.mat-cell:first-of-type {
+mat-header-cell:first-of-type,
+mat-cell:first-of-type {
   padding-left: 0;
 }
 
-.mat-header-cell:last-of-type,
-.mat-cell:last-of-type {
+mat-header-cell:last-of-type,
+mat-cell:last-of-type {
   padding-right: 0;
 }
 
@@ -263,7 +264,7 @@
     text-decoration: none;
   }
 
-  .mat-icon {
+  mat-icon {
     color: var(--ubs-error-ligh-red);
     font-size: 17px;
     display: flex;
@@ -308,7 +309,8 @@
   margin: 8px;
 }
 
-.mat-header-cell .mat-icon {
+/* stylelint-disable-next-line */
+mat-header-cell mat-icon {
   padding-top: 5px;
   padding-left: 10px;
   font-size: 12px;
@@ -318,7 +320,7 @@
   }
 }
 
-.mat-spinner {
+mat-spinner {
   margin: 3rem auto;
   padding-top: 40px;
 

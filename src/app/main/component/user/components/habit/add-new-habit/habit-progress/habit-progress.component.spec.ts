@@ -8,9 +8,10 @@ import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { DEFAULTFULLINFOHABIT, DEFAULTFULLINFOHABIT_2 } from '../../mocks/habit-assigned-mock';
+import { CUSTOMFULLINFOHABIT, DEFAULTFULLINFOHABIT, DEFAULTFULLINFOHABIT_2 } from '../../mocks/habit-assigned-mock';
 import { HabitCalendarComponent } from '@global-user/components/habit/add-new-habit/habit-calendar/habit-calendar.component';
 import { CalendarWeekComponent } from '@global-user/components/profile/calendar/calendar-week/calendar-week.component';
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
@@ -132,20 +133,29 @@ describe('HabitProgressComponent', () => {
     });
 
     it('makes expected on enroll call updateHabit if status is not acquired', fakeAsync(() => {
-      habitAssignServiceMock.enrollByHabit.and.returnValue(of(DEFAULTFULLINFOHABIT));
-      const spy = spyOn(component as any, 'updateHabit');
+      const response = DEFAULTFULLINFOHABIT;
+      response.status = HabitStatus.INPROGRESS;
+      habitAssignServiceMock.enrollByHabit.and.returnValue(of(response));
+      const updateHabitSpy = spyOn(component as any, 'updateHabit');
+      const setGreenCircleInCalendarSpy = spyOn(component as any, 'setGreenCircleInCalendar');
       component.enroll();
       tick();
-      expect(spy).toHaveBeenCalled();
+      expect(updateHabitSpy).toHaveBeenCalledWith(response);
+      expect(setGreenCircleInCalendarSpy).toHaveBeenCalledWith(true);
     }));
   });
 
-  it('should call updateHabit on unenroll', () => {
-    habitAssignServiceMock.unenrollByHabit.and.returnValue(of(DEFAULTFULLINFOHABIT));
-    const spy = spyOn(component as any, 'updateHabit');
+  it('should call updateHabit on un enroll', fakeAsync(() => {
+    const response = DEFAULTFULLINFOHABIT;
+    response.status = HabitStatus.INPROGRESS;
+    habitAssignServiceMock.unenrollByHabit.and.returnValue(of(response));
+    const updateHabitSpy = spyOn(component as any, 'updateHabit');
+    const setGreenCircleInCalendarSpy = spyOn(component as any, 'setGreenCircleInCalendar');
     component.unenroll();
-    expect(spy).toHaveBeenCalled();
-  });
+    tick();
+    expect(setGreenCircleInCalendarSpy).toHaveBeenCalledWith(false);
+    expect(updateHabitSpy).toHaveBeenCalledWith(response);
+  }));
 
   it('should set values on updateHabit', () => {
     const countProgressSpy = spyOn(component, 'buildHabitDescription');
@@ -157,15 +167,26 @@ describe('HabitProgressComponent', () => {
     expect(component.isRequest).toBeFalsy();
   });
 
-  it('should get right description for one day in row on getDayName', () => {
-    component.habit.habitStreak = 1;
-    const value = component.getDayName();
-    expect(value).toBe('user.habit.one-habit.good-day');
+  it('should calculate the difference in days between two dates', () => {
+    const date1 = '2024-02-29';
+    const date2 = '2024-02-01';
+    const difference = component.countDifferenceInDays(date1, date2);
+    expect(difference).toBe(28);
   });
 
-  it('should get right description for days in row on getDayName', () => {
-    component.habit.habitStreak = 2;
-    const value = component.getDayName();
-    expect(value).toBe('user.habit.one-habit.good-days');
+  it('should update isDesktopWidth on window resize', () => {
+    const isDeskWidthSpy = spyOn(component, 'isDeskWidth').and.returnValue(true);
+    window.dispatchEvent(new Event('resize'));
+    expect(isDeskWidthSpy).toHaveBeenCalled();
+    expect(component.isDesktopWidth).toBe(true);
+  });
+
+  it('should return correct day name', () => {
+    component.habit = DEFAULTFULLINFOHABIT_2;
+    let dayName = component.getDayName();
+    expect(dayName).toBe('user.habit.one-habit.good-day');
+    component.habit = CUSTOMFULLINFOHABIT;
+    dayName = component.getDayName();
+    expect(dayName).toBe('user.habit.one-habit.good-days');
   });
 });

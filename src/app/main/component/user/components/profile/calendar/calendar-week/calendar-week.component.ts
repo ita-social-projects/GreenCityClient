@@ -113,9 +113,22 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     this.destroyed$.complete();
   }
 
-  public showHabits(event, dayItem: CalendarInterface) {
+  public showHabits(event, dayItem: CalendarWeekInterface) {
     if (this.checkCanOpenPopup(dayItem)) {
-      this.openDialogDayHabits(event, false, dayItem);
+      this.openDialogDayHabits(event, false, this.toCalendarMonth(dayItem));
     }
+  }
+
+  toCalendarMonth(weekItem: CalendarWeekInterface): CalendarInterface {
+    const date = weekItem.date;
+    return {
+      ...weekItem,
+      numberOfDate: date.getDate(),
+      year: date.getFullYear(),
+      month: date.getMonth(),
+      firstDay: new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
+      totalDaysInMonth: new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
+      isCurrentDayActive: weekItem.isCurrent
+    };
   }
 }

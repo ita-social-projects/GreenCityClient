@@ -14,7 +14,7 @@ describe('HabitCalendarComponent', () => {
   let fixture: ComponentFixture<HabitCalendarComponent>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [HabitCalendarComponent, CalendarBaseComponent],
       imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [{ provide: LanguageService, useValue: {} }],
@@ -43,7 +43,7 @@ describe('HabitCalendarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create HabitCalendarComponent', () => {
     expect(component).toBeTruthy();
   });
 

@@ -14,7 +14,7 @@ describe('HabitCalendarComponent', () => {
   let day: CalendarWeekInterface;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [CalendarWeekComponent, CalendarBaseComponent],
       imports: [HttpClientTestingModule, MatDialogModule],
       providers: [
@@ -44,11 +44,11 @@ describe('HabitCalendarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should find first week date', () => {
+  it('should find first week date', () => {
     expect((component as any).getFirstWeekDate()).toEqual(new Date('Mon Jun 26 2023 00:00:00 GMT+0300'));
   });
 
-  xit('should find first week date', () => {
+  it('should find first week date', () => {
     component.currentDate = new Date('Mon Jul 03 2023 00:00:00 GMT+0300');
     fixture.detectChanges();
     expect((component as any).getFirstWeekDate()).toEqual(new Date('Mon Jul 03 2023 00:00:00 GMT+0300'));
@@ -64,5 +64,36 @@ describe('HabitCalendarComponent', () => {
     (component as any).getLanguage();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should go to next week when isNext is true', () => {
+    component.weekDates = [day];
+    const initialWeekDates = [...component.weekDates];
+    component.changeWeek(true);
+    expect(component.weekDates).not.toEqual(initialWeekDates);
+  });
+
+  it('should go to previous week when isNext is false', () => {
+    component.weekDates = [day];
+    const initialWeekDates = [...component.weekDates];
+    component.changeWeek(false);
+    expect(component.weekDates).not.toEqual(initialWeekDates);
+  });
+
+  it('should call openDialogDayHabits if checkCanOpenPopup returns true', () => {
+    spyOn(component, 'checkCanOpenPopup').and.returnValue(true);
+    const openDialogDayHabitsSpy = spyOn(component, 'openDialogDayHabits');
+    const dayAsCalendarInterface = component.toCalendarMonth(day);
+    const mockEvent = new MouseEvent('click');
+    component.showHabits(mockEvent, day);
+    expect(openDialogDayHabitsSpy).toHaveBeenCalledWith(mockEvent, false, dayAsCalendarInterface);
+  });
+
+  it('should not call openDialogDayHabits if checkCanOpenPopup returns false', () => {
+    spyOn(component, 'checkCanOpenPopup').and.returnValue(false);
+    const openDialogDayHabitsSpy = spyOn(component, 'openDialogDayHabits');
+    const mockEvent = new MouseEvent('click');
+    component.showHabits(mockEvent, day);
+    expect(openDialogDayHabitsSpy).not.toHaveBeenCalled();
   });
 });

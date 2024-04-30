@@ -107,18 +107,47 @@
         {{ 'homepage.events.item-found-text' | translate }} {{ countOfEvents }}
         {{ 'homepage.events.items-event-text' | translate }}
       </p>
-      <div class="chips">
-        <div class="active-filter" *ngFor="let selectedFilter of selectedFilters; let i = index">
-          {{ getLangValue(selectedFilter.nameUa, selectedFilter.nameEn) }}
-          <div class="cross-container" (click)="removeItemFromSelectedFiltersList(selectedFilter, i)">
-            <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
+      <div class="active-filter-list">
+        <div class="chips">
+          <div class="active-filter" *ngFor="let selectedFilter of selectedFilters; let i = index">
+            {{ getLangValue(selectedFilter.nameUa, selectedFilter.nameEn) }}
+            <div class="cross-container" (click)="removeItemFromSelectedFiltersList(selectedFilter, i)">
+              <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
+            </div>
+          </div>
+        </div>
+        <div class="change-view">
+          <div
+            class="gallery"
+            tabindex="0"
+            [attr.aria-pressed]="isGalleryView"
+            role="button"
+            aria-label="table view"
+            (click)="changeViewMode('gallery')"
+          >
+            <em class="fa fa-th-large"></em>
+          </div>
+          <div
+            class="list"
+            tabindex="0"
+            [attr.aria-pressed]="!isGalleryView"
+            role="button"
+            aria-label="list view"
+            (click)="changeViewMode('list')"
+          >
+            <em class="fa fa-bars"></em>
           </div>
         </div>
       </div>
     </div>
-    <div class="event-list" *ngIf="eventsList.length">
-      <mat-card class="event-list-item" *ngFor="let eventItem of eventsList">
-        <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="false"></app-events-list-item>
+    <div class="event-list" *ngIf="eventsList.length" [ngClass]="{ 'list-view': !isGalleryView }">
+      <mat-card class="event-list-item" [ngClass]="{ 'list-item-view': !isGalleryView }" *ngFor="let eventItem of eventsList">
+        <app-events-list-item
+          [isGalleryView]="isGalleryView"
+          [event]="eventItem"
+          [userId]="userId"
+          [isUserAssignList]="false"
+        ></app-events-list-item>
       </mat-card>
     </div>
     <app-spinner

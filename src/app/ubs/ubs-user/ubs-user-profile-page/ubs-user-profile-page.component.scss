@@ -125,8 +125,9 @@ $inputwidth: 260px;
 
   .inline {
     display: flex;
-    flex-flow: row wrap;
+    flex-direction: row;
     justify-content: flex-start;
+    gap: 50px;
 
     .notificationEdit {
       margin-top: 20px;
@@ -216,6 +217,7 @@ $inputwidth: 260px;
 
 .delete-address {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   margin-left: auto;
   order: 2;

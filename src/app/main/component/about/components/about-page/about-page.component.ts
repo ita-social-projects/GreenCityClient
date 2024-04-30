@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { VisionCard } from '../../models/vision-card.interface';
+import { visionCards } from '../constants/vision-cards.const';
 
 @Component({
   selector: 'app-about-page',
@@ -12,6 +14,7 @@ import { Subscription } from 'rxjs';
 export class AboutPageComponent implements OnInit, OnDestroy {
   public langChangeSub: Subscription;
   private userId: number;
+  public visionCards: VisionCard[] = visionCards;
 
   constructor(
     private router: Router,
@@ -35,6 +38,10 @@ export class AboutPageComponent implements OnInit, OnDestroy {
 
   public navigateToHabit(): void {
     this.router.navigate(['profile', this.userId]);
+  }
+
+  public generateVisionCardClass(idx: number) {
+    return `vision-card vision-card__${idx + 1}`;
   }
 
   ngOnDestroy(): void {

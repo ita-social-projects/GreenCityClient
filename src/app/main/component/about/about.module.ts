@@ -7,9 +7,10 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { VisionCardComponent } from './components/vision-card/vision-card.component';
 
 @NgModule({
-  declarations: [AboutPageComponent],
+  declarations: [AboutPageComponent, VisionCardComponent],
   imports: [
     AboutRoutingModule,
     SharedMainModule,

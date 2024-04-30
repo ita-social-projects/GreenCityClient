@@ -113,7 +113,7 @@ describe('UserFriendsService', () => {
       });
 
       const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/2/declineFriend`);
-      expect(req.request.method).toBe('DELETE');
+      expect(req.request.method).toBe('PATCH');
     });
   });
 

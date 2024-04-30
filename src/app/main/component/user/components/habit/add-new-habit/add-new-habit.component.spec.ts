@@ -355,10 +355,22 @@ describe('AddNewHabitComponent', () => {
       });
   });
 
-  it('should set standardShopList and customShopList', () => {
+  it('should set standardShopList', () => {
     component.getList(DEFAULTFULLINFOHABIT.shoppingListItems);
-    expect(component.standardShopList).toEqual([{ id: 2, status: TodoStatus.active, text: 'TEST', selected: false, custom: false }]);
-    console.log(component.customShopList);
-    expect(component.customShopList).toEqual([{ id: 6, status: TodoStatus.active, text: 'TEST', selected: false, custom: false }]);
+    expect(component.standardShopList).toEqual([{ id: 6, status: TodoStatus.active, text: 'TEST' }]);
+    expect(component.customShopList).toEqual([]);
+  });
+
+  it('should set and customShopList', () => {
+    component.getList(CUSTOMFULLINFOHABIT.shoppingListItems);
+    expect(component.customShopList).toEqual([{ id: 6, status: TodoStatus.active, text: 'TEST', custom: true }]);
+    expect(component.standardShopList).toEqual([]);
+  });
+
+  it('should set standardShopList and customShopList', () => {
+    const shoppingListItems = DEFAULTFULLINFOHABIT.shoppingListItems.concat(CUSTOMFULLINFOHABIT.shoppingListItems);
+    component.getList(shoppingListItems);
+    expect(component.customShopList).toEqual(shoppingListItems.filter((item) => item.custom));
+    expect(component.standardShopList).toEqual(shoppingListItems.filter((item) => !item.custom));
   });
 });
