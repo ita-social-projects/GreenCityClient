@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { ReplyCommentComponent } from './reply-comment.component';
 
-fdescribe('ReplyCommentComponent', () => {
+describe('ReplyCommentComponent', () => {
   let component: ReplyCommentComponent;
   let fixture: ComponentFixture<ReplyCommentComponent>;
 
