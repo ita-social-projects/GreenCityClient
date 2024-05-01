@@ -110,6 +110,7 @@ input[type='range'].form-control-range::-moz-range-thumb {
     .mat-slider-thumb {
       background-color: var(--primary-green) !important;
     }
+
     .mat-slider-thumb-label {
       width: 58px !important;
       height: 28px !important;
@@ -119,6 +120,7 @@ input[type='range'].form-control-range::-moz-range-thumb {
       border-radius: 3px !important;
       background: #fff !important;
     }
+
     .mat-slider-thumb-label-text {
       transform: none !important;
       font-family: var(--secondary-font) !important;
@@ -130,6 +132,7 @@ input[type='range'].form-control-range::-moz-range-thumb {
       opacity: 1 !important;
       color: black !important;
     }
+
     .mat-slider:not(.mat-slider-disabled).cdk-focused.mat-slider-thumb-label-showing .mat-slider-thumb {
       transform: none !important;
     }
