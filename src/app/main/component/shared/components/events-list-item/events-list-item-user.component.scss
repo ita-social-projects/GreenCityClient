@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 .event-assign {
   height: 192px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
@@ -7,7 +9,7 @@
   grid-template-columns: 192px calc(100% - 192px);
   margin-bottom: 24px;
 
-  @media (max-width: 575px) {
+  @include responsivePCFirst(sm) {
     grid-template-columns: 0 auto;
   }
 
@@ -16,6 +18,7 @@
     align-items: center;
     justify-content: center;
     height: 192px;
+    position: relative;
 
     &-image {
       display: block;
@@ -25,7 +28,7 @@
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
 
-      @media (max-width: 575px) {
+      @include responsivePCFirst(sm) {
         display: none;
       }
     }
@@ -79,7 +82,7 @@
   }
 
   &__content {
-    padding: 20px 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -103,7 +106,7 @@
         margin: 0;
       }
 
-      @media (max-width: 575px) {
+      @include responsivePCFirst(sm) {
         align-self: flex-end;
       }
     }
@@ -115,7 +118,7 @@
         text-overflow: ellipsis;
       }
 
-      @media (max-width: 1200px) {
+      @include responsivePCFirst(2xl) {
         max-height: 45px;
 
         p {
@@ -153,11 +156,13 @@
       &-data {
         max-width: 70%;
 
-        @media (max-width: 1200px) and (min-width: 768px) {
-          max-width: 50%;
+        @include responsivePCFirst(2xl) {
+          @include responsiveMobileFirst(md) {
+            max-width: 50%;
+          }
         }
 
-        @media (max-width: 400px) {
+        @include responsivePCFirst(sm) {
           max-width: 50%;
         }
 
