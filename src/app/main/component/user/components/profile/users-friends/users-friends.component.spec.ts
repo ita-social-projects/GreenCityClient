@@ -105,7 +105,6 @@ describe('UsersFriendsComponent', () => {
 
   it('should calculate 3 friends to show', () => {
     component.usersFriends = userData;
-    component.itemsMap = { 768: 6, 576: 5, 320: 3, 220: 1 };
     Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 500 });
     component.calculateFriendsToShow();
     expect(component.friendsToShow).toBe(3);
