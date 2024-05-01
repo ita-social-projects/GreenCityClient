@@ -64,8 +64,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
         this.elements = [...value.pages];
         const data = value.ecoNews;
         this.hasNext = data.hasNext;
-        this.remaining =
-          Math.abs(data.totalElements - value.countOfEcoNews) > 0 && value.countOfEcoNews !== 0 ? value.countOfEcoNews : data.totalElements;
+        this.remaining = Math.abs(data.totalElements - value.countOfEcoNews) > 0 && value.countOfEcoNews !== 0 
+          ? value.countOfEcoNews : data.totalElements;
         this.elementsArePresent = this.elements.length < data.totalElements;
       }
     });
@@ -111,10 +111,10 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public dispatchStore(res: boolean): void {
     if (this.hasNext && this.currentPage !== undefined) {
       this.tagsList.length
-        ? this.store.dispatch(
-            GetEcoNewsByTagsAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, tagsList: this.tagsList, reset: res })
-          )
-        : this.store.dispatch(GetEcoNewsByPageAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, reset: res }));
+        ? this.store.dispatch(GetEcoNewsByTagsAction({ 
+          currentPage: this.currentPage, numberOfNews: this.numberOfNews, tagsList: this.tagsList, reset: res }))
+        : this.store.dispatch(GetEcoNewsByPageAction({ 
+          currentPage: this.currentPage, numberOfNews: this.numberOfNews, reset: res }));
     }
   }
 
