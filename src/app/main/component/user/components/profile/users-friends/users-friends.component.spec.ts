@@ -13,6 +13,7 @@ import { FirstStringWordPipe } from '@pipe/first-string-word/first-string-word.p
 import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
 import { Language } from 'src/app/main/i18n/Language';
 import { FriendModel } from '@user-models/friend.model';
+import { Router } from '@angular/router';
 
 describe('UsersFriendsComponent', () => {
   let renderer: Renderer2;
@@ -28,11 +29,12 @@ describe('UsersFriendsComponent', () => {
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
 
-  const userData = [
+  const userData: FriendModel[] = [
     { id: 1, name: 'John', email: 'john@example.com', rating: 5, friendStatus: 'FRIEND', requesterId: 2 },
     { id: 2, name: 'Jane', email: 'jane@example.com', rating: 4, friendStatus: 'FRIEND', requesterId: 1 },
-    { id: 3, name: 'Doe', email: 'doe@example.com', rating: 3, friendStatus: 'FRIEND', requesterId: 2 }
-  ] as FriendModel[];
+    { id: 3, name: 'Doe', email: 'doe@example.com', rating: 3, friendStatus: 'FRIEND', requesterId: 2 },
+    { id: 4, name: 'Jack', email: 'Jack@example.com', rating: 3, friendStatus: 'FRIEND', requesterId: 2 }
+  ];
 
   const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', ['getAllFriends']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
@@ -74,20 +76,22 @@ describe('UsersFriendsComponent', () => {
   });
 
   it('should get users friends', () => {
-    const showUsersFriendsSpy = spyOn(component as any, 'showUsersFriends');
+    const showUsersFriendsSpy = spyOn(component as any, 'calculateFriendsToShow');
     component.ngOnInit();
     expect(showUsersFriendsSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should set message to error message', () => {
-    const error = 'Error message';
-    spyOn(userFriendsServiceMock, 'getAllFriends').and.returnValue(throwError(error));
+    const error = new Error('Error message');
+    spyOn(userFriendsServiceMock, 'getAllFriends').and.returnValue(throwError(() => error.message));
     component.showUsersFriends();
     expect(component.noFriends).toBe('Error message');
   });
 
   it('should change friends to next', () => {
     component.usersFriends = userData;
+    component.amountOfFriends = userData.length;
+    component.friendsToShow = 3;
     component.changeFriends(true);
     expect(component.slideIndex).toBe(1);
   });
@@ -175,5 +179,20 @@ describe('UsersFriendsComponent', () => {
     expect(component.friendsToShow).toEqual(newFriendsToShow);
     expect(component.changeFriends).toHaveBeenCalledWith(false);
     expect(component.showUsersFriends).toHaveBeenCalled();
+  });
+
+  it('should navigate to friend profile when showFriendsInfo is called', () => {
+    const friend = userData[0];
+    const router = TestBed.inject(Router);
+    const navigateSpy = spyOn(router, 'navigate');
+    component.showFriendsInfo(friend);
+    expect(navigateSpy).toHaveBeenCalledWith([`profile/${component.userId}/friends`, friend.name, friend.id]);
+  });
+
+  it('should recalculate friends to show on window resize', () => {
+    const calculateFriendsToShowSpy = spyOn(component, 'calculateFriendsToShow');
+    window.dispatchEvent(new Event('resize'));
+    fixture.detectChanges();
+    expect(calculateFriendsToShowSpy).toHaveBeenCalled();
   });
 });
