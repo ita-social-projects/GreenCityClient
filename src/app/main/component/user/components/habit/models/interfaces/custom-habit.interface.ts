@@ -8,6 +8,8 @@ export interface CustomHabitDtoRequest {
   image: string;
   tagIds: number[];
   customShoppingListItemDto: ShoppingList[];
+  id?: number;
+  userId?: number;
 }
 
 export interface CustomHabit {
@@ -18,9 +20,4 @@ export interface CustomHabit {
   tagIds: number[];
   image: string;
   shopList: ShoppingList[];
-}
-
-export interface CustomHabitDeleteResponse extends CustomHabitDtoRequest {
-  id: number;
-  userId: number;
 }

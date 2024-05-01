@@ -10,11 +10,7 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
-import {
-  CustomHabitDtoRequest,
-  CustomHabit,
-  CustomHabitDeleteResponse
-} from '@global-user/components/habit/models/interfaces/custom-habit.interface';
+import { CustomHabitDtoRequest, CustomHabit } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
 
 @Injectable({
@@ -111,7 +107,7 @@ export class HabitService {
     return this.http.get<FriendProfilePicturesArrayModel[]>(`${habitLink}/${id}/friends/profile-pictures`);
   }
 
-  deleteCustomHabit(id: number): Observable<CustomHabitDeleteResponse> {
-    return this.http.delete<CustomHabitDeleteResponse>(`${habitLink}/delete/${id}`);
+  deleteCustomHabit(id: number): Observable<CustomHabitDtoRequest> {
+    return this.http.delete<CustomHabitDtoRequest>(`${habitLink}/delete/${id}`);
   }
 }

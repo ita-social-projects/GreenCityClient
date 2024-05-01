@@ -19,6 +19,7 @@ import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TodoStatus } from '../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { HABIT_COMPLEXITY_LIST, HABIT_DEFAULT_DURATION, HABIT_IMAGES, HABIT_TAGS_MAXLENGTH, STAR_IMAGES } from '../const/data.const';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -29,23 +30,14 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 export class AddEditCustomHabitComponent extends FormBaseComponent implements OnInit {
   habitForm: FormGroup;
   habit: any;
-  complexityList = [
-    { value: 1, name: 'user.habit.add-new-habit.difficulty.easy', alt: 'Easy difficulty' },
-    { value: 2, name: 'user.habit.add-new-habit.difficulty.medium', alt: 'Medium difficulty' },
-    { value: 3, name: 'user.habit.add-new-habit.difficulty.hard', alt: 'Hard difficulty' }
-  ];
-  habitImages = [
-    { src: 'assets/img/habits/habit-1.png', alt: 'Man with papers around on green background' },
-    { src: 'assets/img/habits/habit-2.png', alt: 'Man with cup of cofee on green background' },
-    { src: 'assets/img/habits/habit-3.png', alt: 'Woman on green background' }
-  ];
-  lineStar = 'assets/img/icon/star-2.png';
-  greenStar = 'assets/img/icon/star-1.png';
-  initialDuration = 7;
+  complexityList = HABIT_COMPLEXITY_LIST;
+  habitImages = HABIT_IMAGES;
+  stars = STAR_IMAGES;
+  initialDuration = HABIT_DEFAULT_DURATION;
   shopList: ShoppingList[] = [];
   newList: ShoppingList[] = [];
   tagsList: TagInterface[];
-  tagMaxLength = 3;
+  tagMaxLength = HABIT_TAGS_MAXLENGTH;
   selectedTagsList: number[];
 
   quillModules = {};
@@ -191,7 +183,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   getStars(value: number, complexity: number): string {
-    return value <= complexity ? this.greenStar : this.lineStar;
+    return value <= complexity ? this.stars.GREEN : this.stars.WHITE;
   }
 
   getShopList(list: ShoppingList[]): void {
@@ -222,7 +214,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   handleHabitDelete() {
     this.router.navigate([`/profile/${this.userId}/allhabits`]);
-    this.habitSuccessfullyDeleted();
+    this.snackBar.openSnackBar('habitDeleted');
   }
 
   private habitSuccessfullyAdded(): void {
@@ -232,10 +224,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     if (this.habitForm.valid && this.isValidDescription) {
       this.snackBar.openSnackBar('habitAdded');
     }
-  }
-
-  private habitSuccessfullyDeleted() {
-    this.snackBar.openSnackBar('habitDeleted');
   }
 
   private getHabitTags(): void {

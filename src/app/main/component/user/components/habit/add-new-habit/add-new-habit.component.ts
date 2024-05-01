@@ -26,6 +26,7 @@ import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomP
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
+import { STAR_IMAGES } from '../const/data.const';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -52,9 +53,7 @@ export class AddNewHabitComponent implements OnInit {
   canAcquire = false;
   setStatus = HabitStatus.ACQUIRED;
 
-  whiteStar = 'assets/img/icon/star-2.png';
-  greenStar = 'assets/img/icon/star-1.png';
-  stars = [this.whiteStar, this.whiteStar, this.whiteStar];
+  stars = STAR_IMAGES;
 
   habitImage: string;
   defaultImage = habitImages.defaultImage;
@@ -186,7 +185,7 @@ export class AddNewHabitComponent implements OnInit {
 
   private getStars(complexity: number): void {
     for (this.star = 0; this.star < complexity; this.star++) {
-      this.stars[this.star] = this.greenStar;
+      this.stars[this.star] = this.stars.GREEN;
     }
   }
 

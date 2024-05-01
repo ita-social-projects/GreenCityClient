@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ShoppingList } from '../../../../models/shoppinglist.interface';
 import { TodoStatus } from '../../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { FIELD_SYMBOLS_LIMIT, HABIT_SHOPPING_LIST_CHECK, SHOPPING_ITEM_NAME_LIMIT } from '../../const/data.const';
 
 @Component({
   selector: 'app-habit-edit-shopping-list',
@@ -18,7 +19,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   @Input() isAcquired = false;
   @Input() isEditing = false;
 
-  private fieldSymbolsLimit = 2048;
+  private fieldSymbolsLimit = FIELD_SYMBOLS_LIMIT;
   public itemForm = new FormGroup({
     item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(this.fieldSymbolsLimit)])
   });
@@ -26,15 +27,9 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   public userId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
-  public shoppingItemNameLimit = 20;
+  public shoppingItemNameLimit = SHOPPING_ITEM_NAME_LIMIT;
 
-  public img = {
-    doneCheck: 'assets/icons/habits/filled-check-circle.svg',
-    inprogressCheck: 'assets/icons/habits/lined-green-circle.svg',
-    plusCheck: 'assets/icons/habits/doted-plus-green-circle.svg',
-    minusCheck: 'assets/icons/habits/doted-minus-green-circle.svg',
-    disableCheck: 'assets/icons/habits/circle-grey.svg'
-  };
+  public img = HABIT_SHOPPING_LIST_CHECK;
 
   @Output() newList = new EventEmitter<ShoppingList[]>();
 

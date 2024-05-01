@@ -16,6 +16,7 @@ import { Subject, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from 'src/app/main/i18n/Language';
 import { takeUntil } from 'rxjs/operators';
+import { HABIT_DEFAULT_DURATION } from '../../const/data.const';
 
 @Component({
   selector: 'app-habit-duration',
@@ -24,7 +25,7 @@ import { takeUntil } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() habitDurationInitial = 7;
+  @Input() habitDurationInitial = HABIT_DEFAULT_DURATION;
   @Output() changeDuration = new EventEmitter<number>();
   public newDuration: number;
   public currentLang = '';
