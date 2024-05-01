@@ -12,10 +12,11 @@ p {
   font-family: var(--tertiary-font);
 
   .friends {
-    padding-top: 34px;
+    padding: 24px 0 14px 0;
     width: 213px;
     border-top: 1px solid var(--light-grey-blue-color);
     margin: 0;
+    max-width: 520px;
   }
 
   .friends-text {

@@ -72,13 +72,14 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
     this.calculateFriendsToShow();
   }
 
-  public changeFriends(isNext: boolean) {
+  changeFriends(isNext: boolean): void {
+    const totalPages: number = Math.ceil(this.amountOfFriends / this.friendsToShow);
     if (isNext) {
-      this.slideIndex = (this.slideIndex + 1) % this.usersFriends.length;
+      this.slideIndex = (this.slideIndex + 1) % totalPages;
     } else if (this.slideIndex > 0) {
-      this.slideIndex = (this.slideIndex - 1 + this.usersFriends.length) % this.usersFriends.length;
+      this.slideIndex = (this.slideIndex - 1) % totalPages;
     } else {
-      this.slideIndex = (this.amountOfFriends - 1) / this.friendsToShow;
+      this.slideIndex = totalPages - 1;
     }
     this.showUsersFriends();
   }
