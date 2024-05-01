@@ -52,7 +52,7 @@ export const employeesReducer = createReducer(
     ...state,
     employees: {
       ...state.employees,
-      page: state.employees.page.map((employee) => (employee.id === action.employee.id ? action.employee : employee))
+      page: state.employees.page.map((employee) => (employee.id === action.employee.id ? { ...employee, ...action.employee } : employee))
     }
   })),
 
