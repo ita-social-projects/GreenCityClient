@@ -8,7 +8,6 @@ import { CUSTOMHABIT } from '@global-user/components/habit/mocks/habit-assigned-
 import { HABITLIST } from '@global-user/components/habit/mocks/habit-mock';
 import { SHOPLIST } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { TAGLIST } from '@global-user/components/habit/mocks/tags-list-mock';
-import { CustomHabitDeleteResponse } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 import { HttpResponse } from '@angular/common/http';
 
 describe('HabitService', () => {

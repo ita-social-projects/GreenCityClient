@@ -15,7 +15,6 @@ import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TodoStatus } from '../models/todo-status.enum';
-import { provideMockStore } from '@ngrx/store/testing';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 
 describe('AddEditCustomHabitComponent', () => {
@@ -66,8 +65,7 @@ describe('AddEditCustomHabitComponent', () => {
           useValue: {
             params: of({ id: 123 })
           }
-        },
-        provideMockStore({ initialState })
+        }
       ]
     }).compileComponents();
   }));
@@ -161,8 +159,13 @@ describe('AddEditCustomHabitComponent', () => {
 
   it('should call handleHabitDelete after habit has been deleted', () => {
     const spy = spyOn(component, 'handleHabitDelete');
-    component.deleteHabit();
+    component.handleHabitDelete();
+
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should navigate to all habits after habit has been deleted', () => {
+    component.handleHabitDelete();
     expect(routerMock.navigate).toHaveBeenCalledWith(['/profile/2/allhabits']);
   });
 });

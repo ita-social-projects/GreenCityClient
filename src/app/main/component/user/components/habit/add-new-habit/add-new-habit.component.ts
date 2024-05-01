@@ -23,8 +23,6 @@ import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.i
 import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
-import { Store } from '@ngrx/store';
-import { IAppState } from 'src/app/store/state/app.state';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { STAR_IMAGES } from '../const/data.const';
 
@@ -53,7 +51,7 @@ export class AddNewHabitComponent implements OnInit {
   canAcquire = false;
   setStatus = HabitStatus.ACQUIRED;
 
-  stars = STAR_IMAGES;
+  stars = [STAR_IMAGES.WHITE, STAR_IMAGES.WHITE, STAR_IMAGES.WHITE];
 
   habitImage: string;
   defaultImage = habitImages.defaultImage;
@@ -83,8 +81,7 @@ export class AddNewHabitComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private location: Location,
-    public userFriendsService: UserFriendsService,
-    private store: Store<IAppState>
+    public userFriendsService: UserFriendsService
   ) {}
 
   ngOnInit() {
@@ -185,7 +182,7 @@ export class AddNewHabitComponent implements OnInit {
 
   private getStars(complexity: number): void {
     for (this.star = 0; this.star < complexity; this.star++) {
-      this.stars[this.star] = this.stars.GREEN;
+      this.stars[this.star] = STAR_IMAGES.GREEN;
     }
   }
 
