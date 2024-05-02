@@ -99,7 +99,7 @@
         class="primary-global-button habit-btn"
         type="button"
         *ngIf="wasCustomHabitCreatedByUser"
-        (click)="editUsersCustomHabit('edithabit', habitAssignId ? habitAssignId : habitResponse.id)"
+        (click)="editUsersCustomHabit('edithabit', habitResponse.id)"
       >
         {{ 'user.habit.btn.edit' | translate }}
       </button>

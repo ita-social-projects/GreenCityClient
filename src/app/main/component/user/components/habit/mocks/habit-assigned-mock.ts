@@ -2,6 +2,7 @@ import { HabitInterface } from '../models/interfaces/habit.interface';
 import { HabitAssignInterface, ResponseInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { TodoStatus } from '../models/todo-status.enum';
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 
 export const DEFAULTHABIT: HabitInterface = {
   complexity: 2,
@@ -45,7 +46,7 @@ export const CUSTOMHABIT: HabitInterface = {
 
 export const DEFAULTFULLINFOHABIT: HabitAssignInterface = {
   id: 1,
-  status: 'INPROGRESS',
+  status: HabitStatus.INPROGRESS,
   createDateTime: new Date('2023-04-14'),
   habit: DEFAULTHABIT,
   enrolled: true,
@@ -70,7 +71,7 @@ export const DEFAULTFULLINFOHABIT: HabitAssignInterface = {
 
 export const CUSTOMFULLINFOHABIT: HabitAssignInterface = {
   id: 2,
-  status: 'INPROGRESS',
+  status: HabitStatus.INPROGRESS,
   createDateTime: new Date('2021-05-08'),
   habit: CUSTOMHABIT,
   enrolled: true,
@@ -97,7 +98,7 @@ export const HABITSASSIGNEDLIST: HabitAssignInterface[] = [DEFAULTFULLINFOHABIT,
 
 export const ASSIGNRESPONSE: ResponseInterface = {
   id: 1,
-  status: 'SUSPENDED',
+  status: HabitStatus.SUSPENDED,
   createDateTime: new Date('2021-05-17'),
   habit: 2,
   userId: 13,
@@ -146,7 +147,7 @@ export const HABITSFORDATE: HabitsForDateInterface[] = [
 
 export const DEFAULTFULLINFOHABIT_2: HabitAssignInterface = {
   id: 1,
-  status: 'INPROGRESS',
+  status: HabitStatus.INPROGRESS,
   createDateTime: new Date('2023-04-14'),
   habit: DEFAULTHABIT,
   enrolled: true,

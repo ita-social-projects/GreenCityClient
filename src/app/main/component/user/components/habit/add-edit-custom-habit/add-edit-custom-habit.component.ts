@@ -1,9 +1,9 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntil, take } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -17,10 +17,9 @@ import { quillConfig } from 'src/app/main/component/events/components/create-edi
 import { ShoppingList } from '../../../models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { Store } from '@ngrx/store';
-import { IAppState } from 'src/app/store/state/app.state';
 import { TodoStatus } from '../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { HABIT_COMPLEXITY_LIST, HABIT_DEFAULT_DURATION, HABIT_IMAGES, HABIT_TAGS_MAXLENGTH, STAR_IMAGES } from '../const/data.const';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -31,23 +30,14 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 export class AddEditCustomHabitComponent extends FormBaseComponent implements OnInit {
   habitForm: FormGroup;
   habit: any;
-  complexityList = [
-    { value: 1, name: 'user.habit.add-new-habit.difficulty.easy', alt: 'Easy difficulty' },
-    { value: 2, name: 'user.habit.add-new-habit.difficulty.medium', alt: 'Medium difficulty' },
-    { value: 3, name: 'user.habit.add-new-habit.difficulty.hard', alt: 'Hard difficulty' }
-  ];
-  habitImages = [
-    { src: 'assets/img/habits/habit-1.png', alt: 'Man with papers around on green background' },
-    { src: 'assets/img/habits/habit-2.png', alt: 'Man with cup of cofee on green background' },
-    { src: 'assets/img/habits/habit-3.png', alt: 'Woman on green background' }
-  ];
-  lineStar = 'assets/img/icon/star-2.png';
-  greenStar = 'assets/img/icon/star-1.png';
-  initialDuration = 7;
+  complexityList = HABIT_COMPLEXITY_LIST;
+  habitImages = HABIT_IMAGES;
+  stars = STAR_IMAGES;
+  initialDuration = HABIT_DEFAULT_DURATION;
   shopList: ShoppingList[] = [];
   newList: ShoppingList[] = [];
   tagsList: TagInterface[];
-  tagMaxLength = 3;
+  tagMaxLength = HABIT_TAGS_MAXLENGTH;
   selectedTagsList: number[];
 
   quillModules = {};
@@ -75,7 +65,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   };
 
   constructor(
-    private injector: Injector,
     public dialog: MatDialog,
     public router: Router,
     private fb: FormBuilder,
@@ -83,8 +72,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private translate: TranslateService,
     private habitService: HabitService,
     private userFriendsService: UserFriendsService,
-    private store: Store<IAppState>,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private activatedRoute: ActivatedRoute
   ) {
     super(router, dialog);
 
@@ -100,16 +89,34 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.userFriendsService.addedFriends.length = 0;
     this.isEditing = this.router.url?.includes('edit-habit');
     this.getHabitTags();
+
     if (this.isEditing) {
-      this.store
-        .select((state) => state.habit)
-        .pipe(take(1))
-        .subscribe((habitState) => {
-          this.habit = habitState;
-          this.setEditHabit();
-        });
-      this.editorText = this.habitForm.get('description').value;
+      this.initEditData();
     }
+  }
+
+  get durationControl() {
+    return this.habitForm.get('duration');
+  }
+
+  initEditData() {
+    const habitId = +this.activatedRoute.snapshot.params.habitAssignId || +this.activatedRoute.snapshot.params.habitId;
+    this.habitService
+      .getHabitById(habitId)
+      .pipe(take(1))
+      .subscribe((habitState) => {
+        this.habit = habitState;
+        this.initialDuration = habitState.defaultDuration;
+        this.setEditHabit();
+        this.getHabitTags();
+      });
+    this.editorText = this.habitForm.get('description').value;
+  }
+
+  convertTagNamesToId(tagNames: string[]) {
+    this.habitService.getAllTags().subscribe((tags) => {
+      this.selectedTagsList = tags.filter((tag) => tagNames.includes(tag.name)).map(({ id }) => id);
+    });
   }
 
   private getUserId() {
@@ -121,7 +128,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       title: new FormControl('', [Validators.required, Validators.maxLength(70)]),
       description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
       complexity: new FormControl(1, [Validators.required, Validators.max(3)]),
-      duration: new FormControl(null, [Validators.required, Validators.min(7), Validators.max(56)]),
+      duration: new FormControl(this.initialDuration, [Validators.required, Validators.min(7), Validators.max(56)]),
       tagIds: new FormControl([], Validators.required),
       image: new FormControl(''),
       shopList: new FormControl([])
@@ -131,7 +138,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   private setEditHabit(): void {
     this.habitForm.addControl('id', new FormControl(null));
     this.habitForm.patchValue({
-      title: this.habit.habitTranslation.name,
+      title: this.habit.habitTranslation?.name,
       description: this.habit.habitTranslation.description,
       complexity: this.habit.complexity,
       duration: this.habit.defaultDuration,
@@ -140,11 +147,10 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       shopList: this.habit.customShoppingListItems
     });
     this.habitId = this.habit.id;
-    this.shopList = this.habit.customShoppingListItems.length
-      ? [...this.habit.customShoppingListItems]
-      : [...this.habit.customShoppingListItems, ...this.habit.shoppingListItems];
+    this.shopList = this.habit.customShoppingListItems?.length
+      ? [...(this.habit.customShoppingListItems || [])]
+      : [...(this.habit.customShoppingListItems || []), ...this.habit.shoppingListItems];
     this.shopList = this.shopList.map((el) => ({ ...el, selected: el.status === TodoStatus.inprogress }));
-    this.initialDuration = this.habit.defaultDuration;
   }
 
   public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
@@ -177,7 +183,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   getStars(value: number, complexity: number): string {
-    return value <= complexity ? this.greenStar : this.lineStar;
+    return value <= complexity ? this.stars.GREEN : this.stars.WHITE;
   }
 
   getShopList(list: ShoppingList[]): void {
@@ -204,6 +210,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.userFriendsService.addedFriends.length = 0;
     this.router.navigate([`/profile/${this.userId}/allhabits`]);
     this.habitSuccessfullyAdded();
+  }
+
+  handleHabitDelete() {
+    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.snackBar.openSnackBar('habitDeleted');
   }
 
   private habitSuccessfullyAdded(): void {
@@ -247,5 +258,12 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       .subscribe(() => {
         this.goToAllHabits();
       });
+  }
+
+  deleteHabit() {
+    this.habitService
+      .deleteCustomHabit(this.habitId)
+      .pipe(take(1))
+      .subscribe(() => this.handleHabitDelete());
   }
 }

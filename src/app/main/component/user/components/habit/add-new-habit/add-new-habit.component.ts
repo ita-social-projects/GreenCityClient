@@ -23,10 +23,8 @@ import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.i
 import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
-import { Store } from '@ngrx/store';
-import { SetHabitForEdit } from 'src/app/store/actions/habit.actions';
-import { IAppState } from 'src/app/store/state/app.state';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
+import { STAR_IMAGES } from '../const/data.const';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -51,11 +49,9 @@ export class AddNewHabitComponent implements OnInit {
   isEditing = false;
   isCustom = false;
   canAcquire = false;
-  setStatus = 'ACQUIRED';
+  setStatus = HabitStatus.ACQUIRED;
 
-  whiteStar = 'assets/img/icon/star-2.png';
-  greenStar = 'assets/img/icon/star-1.png';
-  stars = [this.whiteStar, this.whiteStar, this.whiteStar];
+  stars = [STAR_IMAGES.WHITE, STAR_IMAGES.WHITE, STAR_IMAGES.WHITE];
 
   habitImage: string;
   defaultImage = habitImages.defaultImage;
@@ -85,8 +81,7 @@ export class AddNewHabitComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private location: Location,
-    public userFriendsService: UserFriendsService,
-    private store: Store<IAppState>
+    public userFriendsService: UserFriendsService
   ) {}
 
   ngOnInit() {
@@ -129,7 +124,7 @@ export class AddNewHabitComponent implements OnInit {
           this.habitId = this.assignedHabit.habit.id;
           this.isAcquired = this.assignedHabit.status === HabitStatus.ACQUIRED;
           this.initialDuration = res.duration || res.habit.defaultDuration;
-          this.initHabitData(res.habit);
+          this.initHabitData(res.habit, res.duration || res.habit.defaultDuration);
           this.getCustomShopList();
         });
     } else {
@@ -163,7 +158,6 @@ export class AddNewHabitComponent implements OnInit {
       .pipe(take(1))
       .subscribe((data: HabitInterface) => {
         this.initHabitData(data);
-        this.initialDuration = data.defaultDuration;
         this.isCustomHabit = data.isCustomHabit;
         if (data.isCustomHabit) {
           data.customShoppingListItems?.forEach((item) => (item.custom = true));
@@ -174,8 +168,9 @@ export class AddNewHabitComponent implements OnInit {
       });
   }
 
-  private initHabitData(habit: HabitInterface): void {
+  private initHabitData(habit: HabitInterface, customDuration = this.initialDuration): void {
     this.habitResponse = habit;
+    this.initialDuration = customDuration || habit.defaultDuration;
     this.wasCustomHabitCreatedByUser = habit.usersIdWhoCreatedCustomHabit === this.userId;
     this.habitImage = this.habitResponse.image ? this.habitResponse.image : this.defaultImage;
     this.isCustom = habit.isCustomHabit;
@@ -187,7 +182,7 @@ export class AddNewHabitComponent implements OnInit {
 
   private getStars(complexity: number): void {
     for (this.star = 0; this.star < complexity; this.star++) {
-      this.stars[this.star] = this.greenStar;
+      this.stars[this.star] = STAR_IMAGES.GREEN;
     }
   }
 
@@ -272,10 +267,6 @@ export class AddNewHabitComponent implements OnInit {
 
   editUsersCustomHabit(url: string, id: number): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    this.habitResponse.shoppingListItems = this.initialShoppingList;
-    this.habitResponse.customShoppingListItems = this.customShopList;
-    this.habitResponse.defaultDuration = this.newDuration || this.initialDuration;
-    this.store.dispatch(SetHabitForEdit({ habitResponse: this.habitResponse }));
     this.router.navigate([`profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
   }
 
@@ -307,6 +298,7 @@ export class AddNewHabitComponent implements OnInit {
     const customItemsList: CustomShoppingItem[] = this.customShopList.map((item) => ({
       text: item.text
     }));
+
     this.habitAssignService
       .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties, customItemsList)
       .pipe(take(1))

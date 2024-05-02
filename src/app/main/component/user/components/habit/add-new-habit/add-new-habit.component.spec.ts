@@ -21,11 +21,9 @@ import { DEFAULTHABIT } from '../mocks/habit-assigned-mock';
 import { HABITLIST } from '../mocks/habit-mock';
 import { take } from 'rxjs/operators';
 import { HabitAcquireConfirm } from '../models/habit-warnings';
-import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TodoStatus } from '../models/todo-status.enum';
-import { provideMockStore } from '@ngrx/store/testing';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -35,8 +33,6 @@ describe('AddNewHabitComponent', () => {
   let fakeShoppingListService: ShoppingListService;
   let fakeHabitService: HabitService;
   let fakeLocalStorageService: LocalStorageService;
-
-  const initialState = { habit: { defaultDuration: 1 } };
 
   const mockActivatedRoute = {
     params: of({ habitId: 2 })
@@ -121,8 +117,7 @@ describe('AddNewHabitComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Location, useValue: locationMock },
         { provide: MatDialog, useClass: MatDialogMock },
-        { provide: Router, useValue: routerMock },
-        provideMockStore({ initialState })
+        { provide: Router, useValue: routerMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
