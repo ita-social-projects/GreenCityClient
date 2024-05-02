@@ -8,6 +8,7 @@ import { HabitService } from '@global-service/habit/habit.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { OneHabitComponent } from './one-habit.component';
 import { DatePipe } from '@angular/common';
+import { By } from '@angular/platform-browser';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
@@ -33,7 +34,7 @@ describe('OneHabitComponent', () => {
       habitTranslation: {
         name: 'fakeName'
       },
-      image: 'blob/13231313.png'
+      image: 'https://www.testgreencity.ga/blob/13231313.png'
     },
     duration: 44,
     workingDays: 4,
@@ -215,16 +216,10 @@ describe('OneHabitComponent', () => {
     });
   });
 
-  describe('getHabitImage', () => {
-    it('should get habit image if present', () => {
-      const image = component.getHabitImage();
-      expect(image).toBe('blob/13231313.png');
-    });
-
-    it('should get default habit image if dont present', () => {
-      component.habit = fakeHabit as any;
-      const image = component.getHabitImage();
-      expect(image).toBe('assets/img/habits/default-habit-image.png');
+  describe('habit image', () => {
+    it('should be displayed', () => {
+      const image = fixture.debugElement.query(By.css('.image')).nativeElement;
+      expect(image.src).toBe('https://www.testgreencity.ga/blob/13231313.png');
     });
   });
 });

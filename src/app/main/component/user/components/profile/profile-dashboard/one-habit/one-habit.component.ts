@@ -73,14 +73,6 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getHabitImage(): string {
-    if (this.habit.habit?.image.trim().length) {
-      return this.habit.habit.image;
-    } else {
-      return habitImages.defaultImage;
-    }
-  }
-
   setGreenCircleInCalendar(isSetCircle: boolean) {
     const lastDay = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
     const lastDayInMonth = this.datePipe.transform(lastDay, 'yyy-MM-dd');
