@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -9,12 +9,15 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   templateUrl: './eco-places.component.html',
   styleUrls: ['./eco-places.component.scss']
 })
-export class EcoPlacesComponent implements OnInit {
+export class EcoPlacesComponent implements OnInit, OnDestroy {
   public ecoPlaces: EcoPlaces[] = [];
   public subscription: Subscription;
   public currentLang: string;
 
-  constructor(private profileService: ProfileService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private profileService: ProfileService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
     this.getEcoPlaces();
@@ -23,5 +26,11 @@ export class EcoPlacesComponent implements OnInit {
 
   public getEcoPlaces(): void {
     this.subscription = this.profileService.getEcoPlaces().subscribe((success: EcoPlaces[]) => (this.ecoPlaces = success));
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

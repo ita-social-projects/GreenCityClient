@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { ProfileDashboardComponent } from './profile-dashboard.component';
+import { ProfileDashboardComponent } from '@global-user/components';
 
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -235,8 +235,8 @@ describe('ProfileDashboardComponent', () => {
     }
   ];
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getAllUserEvents']);
-  EventsServiceMock.getAllUserEvents = () => of(MockResult);
+  const eventsServiceMock = jasmine.createSpyObj('EventsService', ['getAllUserEvents', 'getUserFavoriteEvents']);
+  eventsServiceMock.getAllUserEvents = () => of(MockResult);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -253,7 +253,7 @@ describe('ProfileDashboardComponent', () => {
         { provide: HabitAssignService, useValue: HabitAssignServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: LocalStorageService, useValue: LocalStorageServiceMock },
-        { provide: EventsService, useValue: EventsServiceMock },
+        { provide: EventsService, useValue: eventsServiceMock },
         { provide: HttpClient, useValue: HttpClient }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -324,8 +324,8 @@ describe('ProfileDashboardComponent', () => {
 
   it('Should call getAllUserEvents method before subscribe', waitForAsync(() => {
     component.userId = 12;
-    const spy1 = spyOn(EventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
-    const spy2 = spyOn(EventsServiceMock.getAllUserEvents(), 'subscribe');
+    const spy1 = spyOn(eventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
+    const spy2 = spyOn(eventsServiceMock.getAllUserEvents(), 'subscribe');
     component.initGetUserEvents();
     expect(spy1).toHaveBeenCalledBefore(spy2);
     expect(spy2).toHaveBeenCalled();
@@ -421,5 +421,43 @@ describe('ProfileDashboardComponent', () => {
     component.favouriteEvents = mockFavouriteEvents;
     component.removeUnFavouriteEvent(14);
     expect(component.favouriteEvents.length).toEqual(1);
+  });
+
+  it('should toggle isFavoriteBtnClicked property on escapeFromFavorites method', () => {
+    expect(component.isFavoriteBtnClicked).toBeFalse();
+    component.escapeFromFavorites();
+    expect(component.isFavoriteBtnClicked).toBeTrue();
+    component.escapeFromFavorites();
+    expect(component.isFavoriteBtnClicked).toBeFalse();
+  });
+
+  it('should set isFavoriteBtnClicked to true and call getUserFavouriteEvents when goToFavorites is called', () => {
+    spyOn(component, 'getUserFavouriteEvents');
+    component.goToFavorites();
+    expect(component.isFavoriteBtnClicked).toBeTrue();
+    expect(component.getUserFavouriteEvents).toHaveBeenCalled();
+  });
+
+  it('should call getUserFavoriteEvents and set favouriteEvents when getUserFavouriteEvents is called', () => {
+    eventsServiceMock.getUserFavoriteEvents.and.returnValue(of(MockResult));
+    component.getUserFavouriteEvents();
+    expect(eventsServiceMock.getUserFavoriteEvents).toHaveBeenCalledWith(0, component.eventsPerPage);
+    expect(component.favouriteEvents).toEqual(MockResult.page);
+  });
+
+  it('should call eventService.getAllUserEvents and set eventsList when onEventsPageChange is called', () => {
+    const page = 2;
+    const eventType = 'someType';
+    const eventsPerPage = 6;
+    const userLatitude = 123;
+    const userLongitude = 456;
+
+    component.eventsPage = page;
+    component.userLatitude = userLatitude;
+    component.userLongitude = userLongitude;
+    spyOn(eventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
+    component.onEventsPageChange(page, eventType);
+    expect(eventsServiceMock.getAllUserEvents).toHaveBeenCalledWith(page - 1, eventsPerPage, userLatitude, userLongitude, eventType);
+    expect(component.eventsList).toEqual(MockResult.page);
   });
 });
