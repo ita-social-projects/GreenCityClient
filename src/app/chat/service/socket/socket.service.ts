@@ -8,6 +8,7 @@ import { User } from '../../model/User.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { FriendChatInfo } from '../../model/Chat.model';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,7 @@ export class SocketService {
 
   public updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
 
-  constructor(private chatsService: ChatsService, private localStorageService: LocalStorageService) {}
-
+  constructor(private chatsService: ChatsService, private localStorageService: LocalStorageService, private jwt: JwtService) {}
   public connect() {
     this.userId = this.localStorageService.getUserId();
     this.socket = new SockJS(this.backendSocketLink);
@@ -66,6 +66,10 @@ export class SocketService {
       if (this.isOpenNewChatInWindow) {
         this.chatsService.setCurrentChat(newUserChat);
       }
+    });
+    this.stompClient.subscribe(`/user/${this.jwt.getEmailFromAccessToken()}/rooms/support}`, (el) => {
+      console.log('message for admin!!!', el);
+      alert('message for admin!!!');
     });
   }
 
