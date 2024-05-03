@@ -122,6 +122,7 @@
           "options": {
             "polyfills": ["src/polyfills.ts", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
+            
             "sourceMap": false,
             "assets": ["src/favicon.ico", "src/assets", "src/manifest.webmanifest"],
             "styles": [
