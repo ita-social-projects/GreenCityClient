@@ -1,7 +1,7 @@
 <div class="chat-popup" [class.opened]="isOpen">
   <div class="popup-top-panel">
     <div class="panel-account" (click)="isOpen = !isOpen">
-      <span class="panel-account-title">{{ isSupportChat ? 'Support chat' : 'Messages' }}</span>
+      <span class="panel-account-title">{{ (isSupportChat ? 'chat.support-chat' : 'chat.messages') | translate }}</span>
     </div>
 
     <div class="panel-buttons">

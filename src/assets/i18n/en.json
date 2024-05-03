@@ -998,5 +998,9 @@
     "text-2": "Nice and sound",
     "text-3": "Good job!",
     "text-finish": "Thank you !!!"
+  },
+  "chat": {
+    "messages": "Messages",
+    "support-chat": "Support-chat"
   }
 }
