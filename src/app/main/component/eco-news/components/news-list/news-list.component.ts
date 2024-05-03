@@ -107,14 +107,14 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.currentPage = 0;
     this.dispatchStore(true);
   }
-
+  // prettier-ignore
   public dispatchStore(res: boolean): void {
     if (this.hasNext && this.currentPage !== undefined) {
       this.tagsList.length
-        ? this.store.dispatch(
-            // eslint-disable-next-line indent
+        ? this.store.dispatch(   
+          // eslint-disable-next-line indent
             GetEcoNewsByTagsAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, tagsList: this.tagsList, reset: res })
-            // eslint-disable-next-line indent
+          // eslint-disable-next-line indent
           )
         : this.store.dispatch(GetEcoNewsByPageAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, reset: res }));
     }
