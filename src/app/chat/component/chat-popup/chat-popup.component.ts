@@ -1,5 +1,5 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, ComponentFactoryResolver, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CHAT_ICONS } from '../../chat-icons';
 import { ChatsService } from '../../service/chats/chats.service';
 import { NewMessageWindowComponent } from '../new-message-window/new-message-window.component';
@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SocketService } from '../../service/socket/socket.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-chat-popup',
@@ -22,6 +23,8 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
 
   private onDestroy$ = new Subject();
   private userId: number;
+
+  @Input() isSupportChat: boolean;
 
   @ViewChild(ReferenceDirective) elementRef: ReferenceDirective;
   private dialogConfig = {
@@ -42,6 +45,8 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log('chat popup');
+    this.chatsService.isSupportChat$.next(this.isSupportChat);
     this.userId = this.localeStorageService.getUserId();
     this.socketService.connect();
     this.chatsService.getAllUserChats(this.userId);

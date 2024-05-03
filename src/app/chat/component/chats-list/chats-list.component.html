@@ -1,4 +1,4 @@
-<div class="searching-panel" [ngClass]="{ 'searching-panel-in-popup': isPopup }">
+<div *ngIf="isSupportChat" class="searching-panel" [ngClass]="{ 'searching-panel-in-popup': isPopup }">
   <div class="search">
     <input type="text" [formControl]="searchFieldControl" />
   </div>
@@ -8,6 +8,12 @@
     <div class="chat" *ngFor="let friend of chatService.searchedFriendsStream$ | async" (click)="checkChat(friend)">
       <img [src]="chatIcons.userLogo" alt="user-logo" />
       <span class="chat-name">{{ friend.name }}</span>
+    </div>
+  </div>
+  <div class="search-container">
+    <div class="chat" *ngFor="let location of chatService.locationChats$ | async" (click)="checkChat(location)">
+      <img [src]="chatIcons.userLogo" alt="user-logo" />
+      <span class="chat-name">{{ location.nameEn }}</span>
     </div>
   </div>
   <ng-template #chats>

@@ -6,6 +6,8 @@ import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { Chat } from '../../model/Chat.model';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-chats-list',
@@ -16,15 +18,32 @@ export class ChatsListComponent implements OnInit {
   public chatIcons = CHAT_ICONS;
   public searchField = '';
   public searchFieldControl = new FormControl();
+  public isSupportChat: boolean;
+  public userId: number;
+  public isAdmin: boolean;
   @Input() isPopup: boolean;
   @Output() createNewMessageWindow: EventEmitter<Chat> = new EventEmitter<Chat>();
 
-  constructor(public chatService: ChatsService, private socketService: SocketService) {}
+  constructor(
+    public chatService: ChatsService,
+    private socketService: SocketService,
+    private localeStorageService: LocalStorageService,
+    private jwtService: JwtService
+  ) {}
 
   ngOnInit(): void {
     this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {
       this.searchField = newValue;
       this.chatService.searchFriends(newValue);
+    });
+    this.isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwtService.getUserRole() === 'ROLE_ADMIN';
+    this.userId = this.localeStorageService.getUserId();
+
+    this.chatService.isSupportChat$.subscribe((value) => {
+      this.isSupportChat = value;
+      if (this.isSupportChat && !this.isAdmin) {
+        this.chatService.getLocationsChats(this.userId);
+      }
     });
   }
 
@@ -38,13 +57,16 @@ export class ChatsListComponent implements OnInit {
     return isToday ? 'HH:mm' : 'dd/MM';
   }
 
-  public checkChat(friend: any) {
-    if (friend.friendsChatDto.chatExists) {
-      const userChat = this.chatService.userChats.find((chat) => chat.id === friend.friendsChatDto.chatId);
+  public checkChat(chatTarget: any) {
+    if (this.isAdmin) {
+      return;
+    }
+    if (!this.isSupportChat && chatTarget.friendsChatDto.chatExists) {
+      const userChat = this.chatService.userChats.find((chat) => chat.id === chatTarget.friendsChatDto.chatId);
       this.chatService.setCurrentChat(userChat);
       this.createNewMessageWindow.emit();
     } else {
-      this.socketService.createNewChat(friend.id, false, true);
+      this.socketService.createNewChat(chatTarget.id, false, true);
       this.createNewMessageWindow.emit();
     }
   }

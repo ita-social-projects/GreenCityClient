@@ -15,9 +15,11 @@ export class ChatsService {
   public currentChatsStream$: BehaviorSubject<Chat> = new BehaviorSubject<Chat>(null);
   public currentChatMessagesStream$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   public searchedFriendsStream$: BehaviorSubject<FriendModel[]> = new BehaviorSubject<FriendModel[]>([]);
+  public locationChats$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   public isChatUpdateStream$: Subject<boolean> = new Subject<boolean>();
   public chatsMessages: object = {};
   private messagesIsLoading = false;
+  public isSupportChat$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private httpClient: HttpClient) {}
 
@@ -93,5 +95,11 @@ export class ChatsService {
       .subscribe((data: FriendArrayModel) => {
         this.searchedFriendsStream$.next(data.page);
       });
+  }
+
+  public getLocationsChats(userId: number) {
+    this.httpClient.get(`${environment.backendChatLink}chat/locations/${userId}`).subscribe((el) => {
+      this.locationChats$.next(el);
+    });
   }
 }
