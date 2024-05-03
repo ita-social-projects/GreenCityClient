@@ -61,7 +61,7 @@ export class ChatsListComponent implements OnInit {
     if (this.isAdmin) {
       return;
     }
-    if (!this.isSupportChat && chatTarget.friendsChatDto.chatExists) {
+    if (!this.isSupportChat && chatTarget.friendsChatDto?.chatExists) {
       const userChat = this.chatService.userChats.find((chat) => chat.id === chatTarget.friendsChatDto.chatId);
       this.chatService.setCurrentChat(userChat);
       this.createNewMessageWindow.emit();
