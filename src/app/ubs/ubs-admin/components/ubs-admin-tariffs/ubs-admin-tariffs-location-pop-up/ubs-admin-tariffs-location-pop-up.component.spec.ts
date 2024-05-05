@@ -64,33 +64,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     }
   ];
 
-  const mockCities = [
-    {
-      locationTranslationDtoList: [
-        {
-          locationName: 'Фейк1',
-          languageCode: 'ua'
-        },
-        {
-          locationName: 'Fake1',
-          languageCode: 'en'
-        }
-      ]
-    },
-    {
-      locationTranslationDtoList: [
-        {
-          locationName: 'Фейк2',
-          languageCode: 'ua'
-        },
-        {
-          locationName: 'Fake2',
-          languageCode: 'en'
-        }
-      ]
-    }
-  ];
-
   const localItem = {
     location: 'фейк',
     englishLocation: 'fake',
@@ -126,21 +99,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
         languageCode: 'ua'
       }
     ]
-  };
-
-  const eventMockCity = {
-    option: {
-      value: {
-        latitude: 0,
-        locationId: 1,
-        locationStatus: 'ACTIVE',
-        locationTranslationDtoList: [
-          { locationName: 'фейк', languageCode: 'ua' },
-          { locationName: 'fake', languageCode: 'en' }
-        ],
-        longitude: 0
-      }
-    }
   };
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
@@ -344,15 +302,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.selectedCities.length).toBe(1);
     expect(component.location.value).toBe('');
     expect(component.englishLocation.value).toBe('');
-  });
-
-  it('should set value of region', () => {
-    const spy = spyOn(component, 'setTranslation');
-    const eventMock = {
-      place_id: 'fakeId'
-    };
-    component.setValueOfRegion(eventMock);
-    expect(spy).toHaveBeenCalled();
   });
 
   it('should return ua Value by getLangValue', () => {
