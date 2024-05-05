@@ -34,13 +34,7 @@
 }
 
 .first-row {
-  .form-group {
-    margin-bottom: 28px;
-  }
-}
-
-.form-group:first-child {
-  margin-right: 36px;
+  margin-bottom: 28px;
 }
 
 .btn {
@@ -52,6 +46,12 @@
 input,
 select {
   border: 1px solid var(--ubs-quintynary-light-grey);
+}
+
+.inputs-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 38px;
 }
 
 .form-control {
@@ -152,6 +152,13 @@ input.ng-touched.ng-invalid {
 .delete-button-img {
   margin: 0 15px;
   cursor: pointer;
+}
+
+.wrapper {
+  flex-grow: 1;
+}
+.add-city[disabled] {
+  color: var(--ubs-quintynary-light-grey);
 }
 
 ::ng-deep .mat-expansion-panel {
