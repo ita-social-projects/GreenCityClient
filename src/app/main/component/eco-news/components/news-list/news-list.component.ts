@@ -109,15 +109,15 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public dispatchStore(res: boolean): void {
-    if (this.hasNext && this.currentPage !== undefined) {
-      this.tagsList.length
-        ? this.store.dispatch(
-            // eslint-disable-next-line indent
-            GetEcoNewsByTagsAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, tagsList: this.tagsList, reset: res })
-            // eslint-disable-next-line indent
-          )
-        : this.store.dispatch(GetEcoNewsByPageAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, reset: res }));
+    if (!this.hasNext || this.currentPage === undefined) {
+      return;
     }
+
+    const action = this.tagsList.length
+      ? GetEcoNewsByTagsAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, tagsList: this.tagsList, reset: res })
+      : GetEcoNewsByPageAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, reset: res });
+
+    this.store.dispatch(action);
   }
 
   private checkUserSingIn(): void {
