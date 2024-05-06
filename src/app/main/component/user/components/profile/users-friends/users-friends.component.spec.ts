@@ -92,6 +92,7 @@ describe('UsersFriendsComponent', () => {
     component.usersFriends = userData;
     component.amountOfFriends = userData.length;
     component.friendsToShow = 3;
+    component.totalPages = 2;
     component.changeFriends(true);
     expect(component.slideIndex).toBe(1);
   });
@@ -168,7 +169,7 @@ describe('UsersFriendsComponent', () => {
 
   it('should calculate friends to show and change friends', () => {
     const newFriendsToShow = 5;
-    component.amountOfFriends = 4;
+    component.amountOfFriends = 3;
     spyOn(component, 'getFriendsToShow').and.returnValue(newFriendsToShow);
     spyOn(component, 'changeFriends');
     spyOn(component, 'showUsersFriends');
