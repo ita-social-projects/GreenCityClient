@@ -15,3 +15,27 @@ export interface FriendChatInfo {
   chatExists: boolean;
   chatId: number;
 }
+
+// export interface ChatLocation {
+//   amountUnreadMessages: number;
+//   chatStatus: string;
+//   chatType: string;
+//   id: number;
+//   lastMessage: string;
+//   lastMessageDateTime: string;
+//   logo: string;
+//   name: string;
+//   ownerId: number;
+//   participants: [];
+//   tariffId: number;
+// }
+
+// export interface Participant {
+//   email: string;
+//   id: number;
+//   name: string;
+//   profilePicture: string;
+//   role: string;
+//   rooms: any[];
+//   userStatus: string;
+// }

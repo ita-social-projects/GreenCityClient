@@ -15,7 +15,7 @@ import { FriendModel } from '@global-user/models/friend.model';
   templateUrl: './new-message-window.component.html',
   styleUrls: ['./new-message-window.component.scss']
 })
-export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class NewMessageWindowComponent implements OnInit, OnDestroy {
   public chatIcons = CHAT_ICONS;
   public userSearchField = '';
   private onDestroy$ = new Subject();
@@ -43,10 +43,10 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
     });
   }
 
-  ngAfterViewChecked(): void {
-    const element: HTMLElement = this.chat.nativeElement;
-    element.scrollTop = element.scrollHeight;
-  }
+  // ngAfterViewChecked(): void {
+  //   const element: HTMLElement = this.chat.nativeElement;
+  //   element.scrollTop = element.scrollHeight;
+  // }
 
   public close() {
     this.commonService.newMessageWindowRequireCloseStream$.next(true);

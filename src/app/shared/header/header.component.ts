@@ -1,8 +1,8 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from '../../main/i18n/Language';
 import { headerIcons, ubsHeaderIcons } from '../../main/image-pathes/header-icons';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector, ChangeDetectorRef } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -76,7 +76,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private orderService: OrderService;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
-  constructor(private injector: Injector, private store: Store) {
+  constructor(private injector: Injector, private store: Store, private cdr: ChangeDetectorRef) {
     this.dialog = injector.get(MatDialog);
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
@@ -93,10 +93,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isUBS = this.router.url.includes(this.ubsUrl);
-    this.isUBSUserPage = this.router.url.includes(this.ubsUserUrl);
-    this.imgAlt = this.isUBS ? 'Image ubs logo' : 'Image green city logo';
-    this.localeStorageService.setUbsRegistration(this.isUBS);
     this.toggleHeader();
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .pipe(takeUntil(this.destroySub))
+      .subscribe((event: NavigationEnd) => {
+        console.log('header', 'event', this.isUBS !== event.url.includes(this.ubsUrl));
+        if (this.isUBS !== event.url.includes(this.ubsUrl)) {
+          this.isUBS = event.url.includes(this.ubsUrl);
+          this.isUBSUserPage = event.url.includes(this.ubsUserUrl);
+          this.imgAlt = this.isUBS ? 'Image ubs logo' : 'Image green city logo';
+          this.localeStorageService.setUbsRegistration(this.isUBS);
+          this.toggleHeader();
+        }
+      });
     this.dialog.afterAllClosed.pipe(takeUntil(this.destroySub)).subscribe(() => {
       this.focusDone();
     });
@@ -369,7 +379,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public signOut(): void {
     this.dropdownVisible = false;
-    this.router.navigateByUrl(!this.isUBS ? '/greenCity' : '/').then((isRedirected: boolean) => {
+    this.router.navigateByUrl(!this.isUBS ? '/greenCity' : '/ubs').then((isRedirected: boolean) => {
       if (isRedirected) {
         this.userOwnAuthService.isLoginUserSubject.next(false);
         this.localeStorageService.clear();
