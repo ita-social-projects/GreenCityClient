@@ -1,7 +1,9 @@
+@import 'src/typography/_resp.scss';
+
 .main-container {
   position: relative;
-  width: 615px;
-  height: 376px;
+  width: 600px;
+  height: 350px;
   font-family: var(--tertiary-font);
   display: flex;
   justify-content: center;
@@ -10,8 +12,8 @@
 
   .cancel {
     position: absolute;
-    top: 26px;
-    right: 26px;
+    top: 16px;
+    right: 16px;
     border: none;
     background-color: transparent;
 
@@ -33,7 +35,7 @@
     }
 
     p {
-      margin: 32px 0;
+      margin: 40px 0;
       font-weight: 700;
       width: 519px;
       height: 28px;
@@ -142,17 +144,17 @@
   }
 }
 
-@media screen and (max-width: 620px) {
+@include responsiveRange(sm, md) {
   .main-container {
-    width: 548px;
+    width: 518px;
     height: 376px;
   }
 }
 
-@media screen and (max-width: 575px) {
+@include responsivePCFirst(sm) {
   .main-container {
-    width: 100vw;
-    height: 100vh;
+    width: 90vw;
+    height: 90vh;
     overflow: auto;
 
     .wrapper {
