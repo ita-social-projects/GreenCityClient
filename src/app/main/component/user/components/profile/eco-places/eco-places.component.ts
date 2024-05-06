@@ -1,8 +1,9 @@
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-eco-places',
@@ -11,7 +12,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 })
 export class EcoPlacesComponent implements OnInit, OnDestroy {
   public ecoPlaces: EcoPlaces[] = [];
-  public subscription: Subscription;
+  public destroy$: Subject<void> = new Subject<void>();
   public currentLang: string;
 
   constructor(
@@ -25,12 +26,14 @@ export class EcoPlacesComponent implements OnInit, OnDestroy {
   }
 
   public getEcoPlaces(): void {
-    this.subscription = this.profileService.getEcoPlaces().subscribe((success: EcoPlaces[]) => (this.ecoPlaces = success));
+    this.profileService
+      .getEcoPlaces()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((success: EcoPlaces[]) => (this.ecoPlaces = success));
   }
 
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

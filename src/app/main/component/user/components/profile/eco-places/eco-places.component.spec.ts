@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EcoPlacesComponent } from './eco-places.component';
-import { BehaviorSubject, of, Subscription } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -52,17 +52,16 @@ describe('EcoPlacesComponent', () => {
   });
 
   it('should unsubscribe on destroy', () => {
-    component.subscription = new Subscription();
-    const unsubscribeSpy = spyOn(component.subscription, 'unsubscribe');
+    const unsubscribeSpy = spyOn(component['destroy$'], 'next');
     component.ngOnDestroy();
     expect(unsubscribeSpy).toHaveBeenCalled();
   });
 
-  it('should unsubscribe from subscriptions on component destruction', () => {
-    const mockSubscription = new Subscription();
-    spyOn(mockSubscription, 'unsubscribe');
-    component.subscription = mockSubscription;
-    fixture.destroy();
-    expect(mockSubscription.unsubscribe).toHaveBeenCalled();
+  it('should complete the destroy$ subject on destroy', () => {
+    spyOn(component.destroy$, 'next');
+    spyOn(component.destroy$, 'complete');
+    component.ngOnDestroy();
+    expect(component.destroy$.next).toHaveBeenCalled();
+    expect(component.destroy$.complete).toHaveBeenCalled();
   });
 });
