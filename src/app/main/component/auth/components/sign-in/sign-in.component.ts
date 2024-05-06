@@ -15,15 +15,16 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
 import { environment } from '@environment/environment';
-// import { accounts } from 'google-one-tap';
+import { accounts } from 'google-one-tap';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 
+import { HttpClient } from '@angular/common/http';
 import { googleProvider } from './GoogleOAuthProvider/GoogleOAuthProvider';
 
-declare var google: any;
+declare let google: any;
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -64,7 +65,8 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     private profileService: ProfileService,
     private ubsAdminEmployeeService: UbsAdminEmployeeService,
     private zone: NgZone,
-    private store: Store<IAppState>
+    private store: Store<IAppState>,
+    private http: HttpClient
   ) {}
 
   ngOnDestroy(): void {
@@ -77,11 +79,13 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.configDefaultErrorMessage();
     this.checkIfUserId();
 
+    // Initialization of reactive form
     this.signInForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
       password: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
     });
 
+    // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
     this.passwordField = this.signInForm.get('password');
   }
@@ -129,33 +133,19 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public signInWithGoogle(): void {
-    // const gAccounts = google.accounts;
-    // gAccounts.id.initialize({
-    //   client_id: environment.googleClientId,
-    //   callback: this.handleGgOneTap.bind(this)
-    // });
-    // gAccounts.id.prompt();
-
     const login = googleProvider.useGoogleLogin({
       flow: 'implicit',
-      onSuccess: (res) => this.handleGgOneTap(res.access_token),
+      onSuccess: (res) => {
+        this.handleGgOneTap(res.access_token);
+      },
       onError: (err) => console.error('Failed to login with google', err)
     });
-
     login();
-
-    // const oneTap = googleProvider.useGoogleOneTapLogin({
-    //   cancel_on_tap_outside: true,
-    //   onSuccess: (res) => this.handleGgOneTap(res.credential)
-    // });
-
-    // oneTap();
   }
 
   public handleGgOneTap(resp): void {
-    console.log('handleGgOneTap is fired');
     this.googleService
-      .signIn(resp)
+      .signIn(resp.credential)
       .pipe(takeUntil(this.destroy))
       .subscribe((signInData: UserSuccessSignIn) => {
         this.onSignInWithGoogleSuccess(signInData);
@@ -167,8 +157,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
-    console.log('onSignInWithGoogleSuccess fired');
-
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());

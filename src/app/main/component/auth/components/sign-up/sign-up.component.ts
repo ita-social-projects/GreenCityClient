@@ -107,26 +107,17 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public signUpWithGoogle(): void {
-    // const gAccounts: accounts = google.accounts;
-    // gAccounts.id.initialize({
-    //   client_id: environment.googleClientId,
-    //   ux_mode: 'popup',
-    //   cancel_on_tap_outside: true,
-    //   callback: this.handleGgOneTap.bind(this)
-    // });
-    // gAccounts.id.prompt();
-
     const login = googleProvider.useGoogleLogin({
       flow: 'implicit',
-      onSuccess: (res) => this.handleGgOneTap(res.access_token),
+      onSuccess: (res) => {
+        this.handleGgOneTap(res.access_token);
+      },
       onError: (err) => console.error('Failed to login with google', err)
     });
-
     login();
   }
 
   public handleGgOneTap(resp): void {
-    console.log('resp from login fn', resp);
     try {
       this.googleService
         .signIn(resp, this.currentLanguage)

@@ -13,6 +13,6 @@ export const environment = {
   ubsAdmin: {
     backendUbsAdminLink: 'https://greencity-ubs.greencity.social/ubs'
   },
-  googleClientId: '509138864931-6emuq5cv1rvqf33ivppod9jp8n24pjst.apps.googleusercontent.com',
+  googleClientId: '129513550972-pg3ueh62gbde1jukmr49vem2rclde123.apps.googleusercontent.com',
   agmCoreModuleApiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI'
 };
