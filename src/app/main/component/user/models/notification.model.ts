@@ -36,6 +36,6 @@ export interface NotificationFilter {
   name: string;
   nameEn?: string;
   nameUa?: string;
-  isSelected;
+  isSelected: boolean;
   filterArr?: string[];
 }

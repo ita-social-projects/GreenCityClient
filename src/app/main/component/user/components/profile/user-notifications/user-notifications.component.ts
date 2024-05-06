@@ -3,7 +3,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserNotificationService } from '@global-user/services/user-notification.service';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs';
 import { NotificationFilter, NotificationModel } from '@global-user/models/notification.model';
 import { Notific } from './notific';
@@ -66,8 +66,8 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   public currentPage = 0;
   public itemsPerPage = 10;
   public hasNextPage: boolean;
-  private getNotificationSubs: Subscription;
-  private filterChangeSubs$ = new Subject();
+  private filterChangeSubs$: Subject<{ type: NotificationFilter; approach: string }> = new Subject();
+  public isFilterDisabled: boolean;
 
   public isLoading = true;
   public isSmallSpinnerVisible = false;
@@ -98,26 +98,33 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     this.getNotification();
   }
 
-  public changefilterApproach(approach: string): void {
-    this.filterApproaches.forEach((el) => (el.isSelected = el.name === approach));
-    if (approach === this.filterAll) {
-      this.notificationTypes.forEach((el) => (el.isSelected = true));
-      this.projects.forEach((el) => (el.isSelected = true));
+  public changefilterApproach(approach: string, event: Event): void {
+    if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
+      this.filterApproaches.forEach((el) => (el.isSelected = el.name === approach));
+      if (approach === this.filterAll) {
+        this.notificationTypes.forEach((el) => (el.isSelected = true));
+        this.projects.forEach((el) => (el.isSelected = true));
+      }
     }
   }
 
-  public changeFilter(type: NotificationFilter, approach: string): void {
-    this.filterChangeSubs$.next({ type, approach });
-    const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypes : this.projects;
+  public changeFilter(type: NotificationFilter, approach: string, event: Event): void {
+    if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
+      this.filterChangeSubs$.next({ type, approach });
+      const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypes : this.projects;
 
-    const notificationType = filterArr.filter((el) => el.name === type.name)[0];
-    const notificationTypeAll = filterArr.filter((el) => el.name === this.filterAll)[0];
-    notificationType.isSelected = !notificationType.isSelected;
+      const notificationType = filterArr.filter((el) => el.name === type.name)[0];
+      const notificationTypeAll = filterArr.filter((el) => el.name === this.filterAll)[0];
+      notificationType.isSelected = !notificationType.isSelected;
 
-    if (notificationType.name === this.filterAll) {
-      filterArr.forEach((el) => (el.isSelected = notificationType.isSelected));
-    } else {
-      notificationTypeAll.isSelected = filterArr.filter((el) => el.name !== this.filterAll).every((el) => el.isSelected);
+      if (notificationType.name === this.filterAll) {
+        filterArr.forEach((el) => (el.isSelected = notificationType.isSelected));
+      } else {
+        notificationTypeAll.isSelected = filterArr.filter((el) => el.name !== this.filterAll).every((el) => el.isSelected);
+      }
+      const isTypeFiltered = this.getAllSelectedFilters(this.filterApproach.TYPE).length !== this.notificationTypes.length;
+      const isProjectFiltered = this.getAllSelectedFilters(this.filterApproach.TYPE).length !== this.projects.length;
+      this.isFilterDisabled = this.isLoading || (!this.notifications.length && !isTypeFiltered && isProjectFiltered);
     }
   }
 
@@ -144,12 +151,9 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN),
       notificationType: this.getAllSelectedFilters(this.filterApproach.TYPE)
     };
-    if (this.getNotificationSubs) {
-      this.getNotificationSubs.unsubscribe();
-    }
-    this.getNotificationSubs = this.userNotificationService
+    this.userNotificationService
       .getAllNotification(page, this.itemsPerPage, filtersSelected)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(take(1))
       .subscribe(
         (data) => {
           this.notifications = [...this.notifications, ...data.page];
@@ -171,43 +175,54 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
-  public changeViewedStatus(event: Event, notification: NotificationModel): void {
-    event.stopPropagation();
-    if (notification.viewed) {
-      this.userNotificationService
-        .unReadNotification(notification.notificationId)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => {
-          this.notifications.filter((el) => el.notificationId === notification.notificationId)[0].viewed = false;
-        });
-    } else {
-      this.userNotificationService
-        .readNotification(notification.notificationId)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => {
-          this.notifications.filter((el) => el.notificationId === notification.notificationId)[0].viewed = true;
-        });
+  public readNotification(event: Event, notification: NotificationModel) {
+    if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
+      event.stopPropagation();
+      if (!notification.viewed) {
+        this.userNotificationService
+          .readNotification(notification.notificationId)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(() => {
+            this.notifications.filter((el) => el.notificationId === notification.notificationId)[0].viewed = true;
+          });
+      }
+    }
+  }
+
+  public unReadNotification(event: Event, notification: NotificationModel) {
+    if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
+      event.stopPropagation();
+      if (notification.viewed) {
+        this.userNotificationService
+          .unReadNotification(notification.notificationId)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(() => {
+            this.notifications.filter((el) => el.notificationId === notification.notificationId)[0].viewed = false;
+          });
+      }
     }
   }
 
   public deleteNotification(event: Event, notification: NotificationModel): void {
-    event.stopPropagation();
-    this.userNotificationService
-      .deleteNotification(notification.notificationId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        () => {
-          this.notifications = this.notifications.filter((el) => {
-            return el.notificationId !== notification.notificationId;
-          });
-          if (this.notifications.length < this.itemsPerPage && this.hasNextPage) {
-            this.getNotification(this.currentPage + 1);
+    if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
+      event.stopPropagation();
+      this.userNotificationService
+        .deleteNotification(notification.notificationId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          () => {
+            this.notifications = this.notifications.filter((el) => {
+              return el.notificationId !== notification.notificationId;
+            });
+            if (this.notifications.length < this.itemsPerPage && this.hasNextPage) {
+              this.getNotification(this.currentPage + 1);
+            }
+          },
+          () => {
+            this.matSnackBar.openSnackBar('error');
           }
-        },
-        () => {
-          this.matSnackBar.openSnackBar('error');
-        }
-      );
+        );
+    }
   }
 
   public onScroll(): void {
