@@ -86,6 +86,7 @@ import { AddEditCustomHabitComponent } from './components/habit/add-edit-custom-
 import { QuillModule } from 'ngx-quill';
 import { UserNotificationsComponent } from './components/profile/user-notifications/user-notifications.component';
 import { UserNotificationsPopUpComponent } from './components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
+import { NotificContentReplaceDirective } from './directives/notific-content-replace.directive';
 
 @NgModule({
   declarations: [
@@ -152,7 +153,8 @@ import { UserNotificationsPopUpComponent } from './components/profile/user-notif
     HabitsWidgetComponent,
     AddEditCustomHabitComponent,
     UserNotificationsComponent,
-    UserNotificationsPopUpComponent
+    UserNotificationsPopUpComponent,
+    NotificContentReplaceDirective
   ],
   imports: [
     NgbModule,
