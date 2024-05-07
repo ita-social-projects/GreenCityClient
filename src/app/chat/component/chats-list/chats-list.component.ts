@@ -19,34 +19,22 @@ export class ChatsListComponent implements OnInit {
   public searchField = '';
   public searchFieldControl = new FormControl();
   public isSupportChat: boolean;
-  public userId: number;
   public isAdmin: boolean;
   @Input() isPopup: boolean;
   @Output() createNewMessageWindow: EventEmitter<Chat> = new EventEmitter<Chat>();
 
-  constructor(
-    public chatService: ChatsService,
-    private socketService: SocketService,
-    private localeStorageService: LocalStorageService,
-    private jwtService: JwtService
-  ) {}
+  constructor(public chatService: ChatsService, private socketService: SocketService, private jwt: JwtService) {}
 
   ngOnInit(): void {
-    console.log('isAdmin', this.isAdmin);
     this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {
       this.searchField = newValue;
       this.chatService.searchFriends(newValue);
     });
-    this.isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwtService.getUserRole() === 'ROLE_ADMIN';
-    console.log('isAdmin', this.isAdmin);
-    this.userId = this.localeStorageService.getUserId();
-
     this.chatService.isSupportChat$.subscribe((value) => {
       this.isSupportChat = value;
-      if (this.isSupportChat && !this.isAdmin) {
-        this.chatService.getLocationsChats(this.userId);
-      }
     });
+
+    this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
   }
 
   public messageDateTreat(date: Date): string {

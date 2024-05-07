@@ -7,8 +7,9 @@ import { ChatsService } from '../chats/chats.service';
 import { User } from '../../model/User.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
-import { FriendChatInfo } from '../../model/Chat.model';
+import { FriendChatInfo, Participant } from '../../model/Chat.model';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { Title } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -23,14 +24,21 @@ export class SocketService {
 
   public updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
 
-  constructor(private chatsService: ChatsService, private localStorageService: LocalStorageService, private jwt: JwtService) {}
+  constructor(
+    private chatsService: ChatsService,
+    private localStorageService: LocalStorageService,
+    private jwt: JwtService,
+    private titleService: Title
+  ) {}
   public connect() {
     this.userId = this.localStorageService.getUserId();
     this.socket = new SockJS(this.backendSocketLink);
     this.stompClient = Stomp.over(() => this.socket);
     this.stompClient.connect(
       {},
-      () => this.onConnected(),
+      () => {
+        this.onConnected();
+      },
       (error) => this.onError(error)
     );
   }
@@ -48,13 +56,12 @@ export class SocketService {
     });
 
     this.stompClient.subscribe('/message/new-participant', (participant) => {
-      const newChatParticipant: User = JSON.parse(participant.body);
+      const newChatParticipant: Participant = JSON.parse(participant.body);
       this.chatsService.currentChat.participants.push(newChatParticipant);
     });
 
     this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
       const newUserChat = JSON.parse(newChat.body);
-      console.log('newUserChat', newUserChat);
       const usersChats = [...this.chatsService.userChats, newUserChat];
       this.chatsService.userChatsStream$.next(usersChats);
       if (!isSupportChat) {
@@ -78,9 +85,10 @@ export class SocketService {
     if (isAdmin) {
       this.stompClient.subscribe(`/user/${this.jwt.getEmailFromAccessToken()}/rooms/support`, (newChat) => {
         const newUserChat = JSON.parse(newChat.body);
-        const usersChats = [...this.chatsService.userChats, newUserChat];
-        this.chatsService.userChatsStream$.next(usersChats);
+        // const usersChats = [...this.chatsService.userChats, newUserChat];
+        // this.chatsService.userChatsStream$.next(usersChats);
         console.log('message for admin!!!', newUserChat);
+        this.titleService.setTitle(`new message`);
       });
     }
   }

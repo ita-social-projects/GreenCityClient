@@ -20,6 +20,7 @@ export class ChatsService {
   public chatsMessages: object = {};
   private messagesIsLoading = false;
   public isSupportChat$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isAdminParticipant: boolean;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -106,6 +107,25 @@ export class ChatsService {
   public getLocationsChats(userId: number) {
     this.httpClient.get(`${environment.backendChatLink}chat/locations/${userId}`).subscribe((el) => {
       this.locationChats$.next(el);
+    });
+  }
+
+  public addAdminToChat(adminId: number) {
+    this.httpClient.get(`${environment.backendChatLink}chat/admin/${adminId}/${this.currentChat.id}`).subscribe(() => {
+      this.isAdminParticipant;
+      const newParticipant = {
+        id: adminId,
+        name: '',
+        email: '',
+        profilePicture: null,
+        userStatus: '',
+        rooms: null,
+        role: ''
+      };
+      this.currentChat.participants.push(newParticipant);
+      const chats = this.userChats.filter((chat) => chat.id !== this.currentChat.id);
+      this.userChatsStream$.next([...chats, this.currentChat]);
+      this.isAdminParticipant = true;
     });
   }
 }

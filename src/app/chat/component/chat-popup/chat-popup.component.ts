@@ -26,7 +26,6 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   private userId: number;
   public isAdmin: boolean;
-  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   @Input() isSupportChat: boolean;
 
@@ -46,24 +45,27 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     private socketService: SocketService,
     private dialog: MatDialog,
     private localeStorageService: LocalStorageService,
-    private jwt: JwtService,
-    private store: Store
+    private jwt: JwtService
   ) {}
 
   ngOnInit(): void {
-    console.log('chat popup');
     this.chatsService.isSupportChat$.next(this.isSupportChat);
     this.userId = this.localeStorageService.getUserId();
     this.socketService.connect();
-    this.permissions$.subscribe((employeeAuthorities) => {
-      this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
-      if (this.isSupportChat && this.isAdmin) {
-        this.chatsService.getAllSupportChats();
-      }
-      if (!this.isSupportChat) {
-        this.chatsService.getAllUserChats(this.userId);
-      }
-    });
+
+    this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
+
+    if (this.isSupportChat && this.isAdmin) {
+      this.chatsService.getAllSupportChats();
+    }
+
+    if (this.isSupportChat && !this.isAdmin) {
+      this.chatsService.getLocationsChats(this.userId);
+    }
+
+    if (!this.isSupportChat) {
+      this.chatsService.getAllUserChats(this.userId);
+    }
 
     this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());
   }

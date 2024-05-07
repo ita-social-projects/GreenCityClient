@@ -5,6 +5,7 @@ import { Message } from '../../model/Message.model';
 import { FormControl } from '@angular/forms';
 import { SocketService } from '../../service/socket/socket.service';
 import { UserService } from '@global-service/user/user.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-chat',
@@ -18,12 +19,18 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   public messageControl: FormControl = new FormControl();
   public isHaveMessages = true;
   public showEmojiPicker = false;
+  public isAdmin: boolean;
 
   private page = 0;
   private oldScrollHeight: number;
   private isChatUpdate = false;
 
-  constructor(public chatsService: ChatsService, private socketService: SocketService, public userService: UserService) {}
+  constructor(
+    public chatsService: ChatsService,
+    private socketService: SocketService,
+    public userService: UserService,
+    public jwt: JwtService
+  ) {}
 
   ngOnInit(): void {
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
@@ -33,6 +40,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.chatsService.isChatUpdateStream$.subscribe((isUpdate) => {
       this.isChatUpdate = isUpdate;
     });
+
+    this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
   }
 
   ngAfterViewChecked(): void {

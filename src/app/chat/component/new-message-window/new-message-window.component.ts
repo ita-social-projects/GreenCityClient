@@ -9,6 +9,7 @@ import { SocketService } from '../../service/socket/socket.service';
 import { Message } from '../../model/Message.model';
 import { UserService } from '@global-service/user/user.service';
 import { FriendModel } from '@global-user/models/friend.model';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-new-message-window',
@@ -23,13 +24,15 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
   public messageControl: FormControl = new FormControl('', [Validators.max(250)]);
   public showEmojiPicker = false;
   public isHaveMessages = true;
+  public isAdmin: boolean;
   @ViewChild('chat') chat: ElementRef;
 
   constructor(
     public chatsService: ChatsService,
     private commonService: CommonService,
     private socketService: SocketService,
-    public userService: UserService
+    public userService: UserService,
+    private jwt: JwtService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +43,10 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
 
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
       this.isHaveMessages = messages.length !== 0;
+    });
+    this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
+    this.chatsService.isAdminParticipant = this.chatsService.currentChat?.participants.some((el) => {
+      el.id === this.userService.userId;
     });
   }
 
