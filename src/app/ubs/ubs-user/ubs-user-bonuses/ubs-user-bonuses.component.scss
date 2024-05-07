@@ -3,11 +3,13 @@
   flex-direction: column;
   font-family: var(--primary-font);
   height: 100vh;
+  padding-inline: 16px;
+  padding-top: 75px;
 }
 
-.no-bonuses-wrapper {
-  padding-top: 30px;
-}
+// .no-bonuses-wrapper {
+//   padding-top: 30px;
+// }
 
 .no-bonuses-text {
   padding-right: 8px;
@@ -24,8 +26,15 @@
 .link-center {
   display: inline-block;
   width: 100%;
-  text-align: center;
-  padding: 24px 0 64px 0;
+  // text-align: center;
+  padding: 48px 0 12px 0;
+
+  @media (min-width: 768px) {
+    & {
+      text-align: center;
+      padding: 24px 0 64px 0;
+    }
+  }
 }
 
 .bonuses-exist-wrapper {
@@ -82,8 +91,14 @@
   letter-spacing: 0.1px;
 }
 
-@media (max-width: 420px) {
-  .bonuses-exist-wrapper {
-    width: 100vw;
+// @media (max-width: 420px) {
+//   .bonuses-exist-wrapper {
+//     width: 100vw;
+//   }
+// }
+
+@media (min-width: 768px) {
+  .bonuses-container {
+    padding-top: 40px;
   }
 }

@@ -27,13 +27,14 @@
   margin: 0 0 51px 0;
   font-style: normal;
   font-weight: 700;
-  font-size: 32px;
+  // font-size: 32px;
+  font-size: 24px;
   line-height: 40px;
 }
 
 .header-list {
   display: flex;
-  margin: -32px 0 5px 0;
+  // margin: -32px 0 5px 0;
   padding-left: 35px;
 
   div {
@@ -110,13 +111,20 @@
 .description {
   color: var(--ubs-secondary-grey);
   text-align: justify;
-  max-width: 40%;
-  margin-left: 20.5%;
+  // max-width: 40%;
+  // margin-left: 20.5%;
   font-family: var(--primary-font);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
+
+  @media (min-width: 768px) {
+    & {
+      max-width: 40%;
+      margin-left: 20.5%;
+    }
+  }
 }
 
 .img {
@@ -248,6 +256,14 @@
   .time {
     margin-left: -8px;
   }
+
+  .ng-star-inserted {
+    width: 100%;
+  }
+
+  .content {
+    padding: 0 0 100px 0;
+  }
 }
 
 @media (max-width: 575px) {
@@ -266,12 +282,16 @@
   .theme {
     margin-left: 10px;
   }
+
+  .main_header {
+    margin: 0;
+  }
 }
 
 @media (max-width: 480px) {
-  .content {
-    padding: 0 0 100px 10px;
-  }
+  // .content {
+  //   padding: 0 0 100px 10px;
+  // }
 
   .date {
     padding-right: 0;
@@ -279,7 +299,7 @@
 
   .header-list {
     display: flex;
-    margin-top: -32px;
+    // margin-top: -32px;
 
     div {
       color: var(--ubs-primary-grey);

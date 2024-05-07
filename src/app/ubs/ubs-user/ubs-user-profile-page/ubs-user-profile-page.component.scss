@@ -11,7 +11,7 @@ $inputwidth: 260px;
   display: flex;
   justify-content: center;
   margin-bottom: 100px;
-  margin-top: 19px;
+  // margin-top: 19px;
 
   .ubs_profile-header {
     width: 100%;
@@ -25,6 +25,13 @@ $inputwidth: 260px;
       .header-buttons {
         display: flex;
         margin: 0 0 30px 30px;
+      }
+    }
+
+    .header-title {
+      h2 {
+        font-size: 24px;
+        font-weight: 600;
       }
     }
   }
@@ -101,7 +108,7 @@ $inputwidth: 260px;
     font-weight: bold;
     color: var(--ubs-quaternary-dark-grey);
     margin-bottom: 30px;
-    margin-left: 30px;
+    // margin-left: 30px;
     width: 250px;
   }
 
@@ -148,8 +155,15 @@ $inputwidth: 260px;
     }
 
     .recipientEmail {
-      width: $inputwidth + 65px;
+      // width: $inputwidth + 65px;
+      width: $inputwidth;
       background-color: var(--ubs-ligth-grey);
+
+      @media (min-width: 768px) {
+        & {
+          width: $inputwidth + 65px;
+        }
+      }
     }
 
     .recipientPhone {
@@ -296,12 +310,25 @@ $inputwidth: 260px;
   }
 }
 
-@media (max-width: 600px) {
-  .ubs_profile-header {
-    margin-left: 20px;
+@media (max-width: 768px) {
+  .header-buttons {
+    margin: 0 0 12px !important;
+    width: 100%;
   }
 
   .ubs_profile-container .input-group {
+    padding: 16px;
+    background-color: transparent !important;
+    box-shadow: none;
+  }
+
+  h3 {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .ubs_profile-header {
     padding: 16px;
   }
 }

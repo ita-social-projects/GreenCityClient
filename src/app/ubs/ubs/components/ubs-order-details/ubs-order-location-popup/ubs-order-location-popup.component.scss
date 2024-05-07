@@ -117,6 +117,7 @@
     width: 100%;
     height: 100vh;
     justify-content: center;
+    border-radius: 0;
 
     .form-spinner-wrapper {
       margin: 0;
@@ -145,16 +146,21 @@
       align-content: space-between;
       justify-content: center;
       align-items: center;
-      padding-bottom: 10em;
+      // padding-bottom: 10em;
     }
   }
 
   .dialog-container .form {
     display: flex;
     justify-content: center;
+    width: 100%;
 
-    .mat-form-field {
+    .city-container {
       width: 100%;
+    }
+
+    .mat-input-element {
+      width: inherit;
     }
   }
 }

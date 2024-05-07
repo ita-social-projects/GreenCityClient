@@ -7,7 +7,7 @@
   }
 
   .sidebar {
-    background-color: var(--after-primary-light-grey);
+    // background-color: var(--after-primary-light-grey);
 
     .sidebar-container {
       margin: 0 25px;
@@ -42,7 +42,8 @@
   }
 
   .sidebar-list {
-    margin: 20px 0 0 0;
+    // margin: 20px 0 0 0;
+    margin: 0;
     padding: 0;
     list-style-type: none;
     text-align: center;
