@@ -64,6 +64,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     ADMIN: 'ADMIN'
   };
 
+  public cancelationPopupData = {
+    popupTitle: 'homepage.events.pop-up-cancelling-event',
+    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
+    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
+    isUBS: false,
+    isUbsOrderSubmit: false,
+    isHabit: false
+  };
+
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   public bsModalRef: BsModalRef;
   public role = this.roles.UNAUTHENTICATED;
@@ -252,14 +261,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       return;
     }
     this.dialogRef = this.dialog.open(WarningPopUpComponent, {
-      data: {
-        popupTitle: this.translate.instant('homepage.events.pop-up-cancelling-event'),
-        popupConfirm: this.translate.instant('homepage.events.events-popup.cancelling-event-request-btn'),
-        popupCancel: this.translate.instant('homepage.events.events-popup.reject-cancelling-event-btn'),
-        isUBS: false,
-        isUbsOrderSubmit: false,
-        isHabit: false
-      }
+      data: this.cancelationPopupData
     });
 
     this.dialogRef.afterClosed().subscribe((result) => {

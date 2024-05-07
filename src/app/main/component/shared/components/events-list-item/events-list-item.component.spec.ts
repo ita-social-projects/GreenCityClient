@@ -1,7 +1,7 @@
 import { Language } from './../../../../i18n/Language';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -21,6 +21,7 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { WarningPopUpComponent } from '../warning-pop-up/warning-pop-up.component';
 
 @Injectable()
 class TranslationServiceStub {
@@ -46,6 +47,9 @@ class TranslationServiceStub {
   public setDefaultLang() {
     return true;
   }
+  instant(key: string) {
+    return 'Translated ' + key;
+  }
 }
 
 @Pipe({ name: 'dateLocalisation' })
@@ -58,6 +62,7 @@ class DatePipeMock implements PipeTransform {
 describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
   let translate: TranslateService;
   const jwtServiceMock = jasmine.createSpyObj('jwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'true';
@@ -210,9 +215,10 @@ describe('EventsListItemComponent', () => {
   storeMock.select = () => of(MockData);
 
   let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang', 'get', 'instant']);
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
+  translateServiceMock.instant = (key: string) => {};
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
   let userOwnAuthServiceMock: UserOwnAuthService;
@@ -224,6 +230,8 @@ describe('EventsListItemComponent', () => {
   const actionsSubj: ActionsSubject = new ActionsSubject();
 
   beforeEach(async(() => {
+    const dialogSpyObj = jasmine.createSpyObj('MatDialog', ['open']);
+
     TestBed.configureTestingModule({
       declarations: [EventsListItemComponent, DatePipeMock, MaxTextLengthPipe],
       providers: [
@@ -237,7 +245,8 @@ describe('EventsListItemComponent', () => {
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: JwtService, useValue: jwtServiceMock },
-        { provide: ActionsSubject, useValue: actionsSubj }
+        { provide: ActionsSubject, useValue: actionsSubj },
+        { provide: MatDialog, useValue: dialogSpyObj }
       ],
       imports: [
         RouterTestingModule,
@@ -250,6 +259,7 @@ describe('EventsListItemComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
+    dialogSpy = TestBed.inject(MatDialog) as jasmine.SpyObj<MatDialog>;
   }));
 
   beforeEach(() => {
@@ -438,14 +448,32 @@ describe('EventsListItemComponent', () => {
     });
 
     it('should call EventsServiceMock setForm method', () => {
+      const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+      dialogRefSpy.afterClosed.and.returnValue(of(true));
+      dialogSpy.open.and.returnValue(dialogRefSpy);
+
       const spy = spyOn(EventsServiceMock, 'setForm');
       component.buttonAction(component.btnName.cancel);
       expect(spy).toHaveBeenCalledWith(null);
     });
 
-    it('should dispatch RemoveAttenderEcoEventsByIdAction when cancel button is clicked', () => {
+    it('should open a popup when cancel button is clicked', () => {
+      spyOn(component, 'openPopUp');
       component.buttonAction(component.btnName.cancel);
-      expect(storeMock.dispatch).toHaveBeenCalledWith(RemoveAttenderEcoEventsByIdAction({ id: component.event.id }));
+      expect(component.openPopUp).toHaveBeenCalled();
+    });
+
+    it('should call submitEventCancelling if result is true after dialog closed', () => {
+      const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+      dialogRefSpy.afterClosed.and.returnValue(of(true));
+      dialogSpy.open.and.returnValue(dialogRefSpy);
+
+      spyOn(component, 'submitEventCancelling');
+
+      component.openPopUp();
+      dialogRefSpy.afterClosed().subscribe(() => {
+        expect(component.submitEventCancelling).toHaveBeenCalled();
+      });
     });
 
     it('should dispatch AddAttenderEcoEventsByIdAction when join button is clicked', () => {

@@ -15,7 +15,7 @@ import { typeFiltersData } from '../../../events/models/event-consts';
 import { EventPageResponseDto, TagDto, TagObj } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
@@ -80,6 +80,14 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupConfirm: 'homepage.events.delete-yes',
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
+  };
+  cancelationPopupData = {
+    popupTitle: 'homepage.events.pop-up-cancelling-event',
+    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
+    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
+    isUBS: false,
+    isUbsOrderSubmit: false,
+    isHabit: false
   };
   private subsOnAttendEvent = new Subscription();
   private subsOnUnAttendEvent = new Subscription();
@@ -253,14 +261,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       return;
     }
     this.dialogRef = this.dialog.open(WarningPopUpComponent, {
-      data: {
-        popupTitle: this.translate.instant('homepage.events.pop-up-cancelling-event'),
-        popupConfirm: this.translate.instant('homepage.events.events-popup.cancelling-event-request-btn'),
-        popupCancel: this.translate.instant('homepage.events.events-popup.reject-cancelling-event-btn'),
-        isUBS: false,
-        isUbsOrderSubmit: false,
-        isHabit: false
-      }
+      data: this.cancelationPopupData
     });
 
     this.dialogRef.afterClosed().subscribe((result) => {
