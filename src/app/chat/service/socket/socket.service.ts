@@ -36,6 +36,8 @@ export class SocketService {
   }
 
   private onConnected() {
+    const isSupportChat = !this.chatsService.isSupportChat$.getValue();
+    const isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
     this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
       const newMessage: Message = JSON.parse(data.body);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
@@ -44,21 +46,26 @@ export class SocketService {
         this.chatsService.currentChatMessagesStream$.next(messages.page);
       }
     });
+
     this.stompClient.subscribe('/message/new-participant', (participant) => {
-      console.log(participant);
       const newChatParticipant: User = JSON.parse(participant.body);
       this.chatsService.currentChat.participants.push(newChatParticipant);
     });
+
     this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
       const newUserChat = JSON.parse(newChat.body);
+      console.log('newUserChat', newUserChat);
       const usersChats = [...this.chatsService.userChats, newUserChat];
       this.chatsService.userChatsStream$.next(usersChats);
-      const idFriend = newUserChat.participants.find((user) => user.id !== this.userId).id;
-      this.updateFriendsChatsStream$.next({
-        friendId: idFriend,
-        chatExists: true,
-        chatId: newUserChat.id
-      });
+      if (!isSupportChat) {
+        const idFriend = newUserChat.participants.find((user) => user.id !== this.userId).id;
+        this.updateFriendsChatsStream$.next({
+          friendId: idFriend,
+          chatExists: true,
+          chatId: newUserChat.id
+        });
+      }
+
       if (this.isOpenNewChat) {
         this.chatsService.openCurrentChat(newUserChat.id);
         this.isOpenNewChat = false;
@@ -67,10 +74,15 @@ export class SocketService {
         this.chatsService.setCurrentChat(newUserChat);
       }
     });
-    this.stompClient.subscribe(`/user/${this.jwt.getEmailFromAccessToken()}/rooms/support}`, (el) => {
-      console.log('message for admin!!!', el);
-      alert('message for admin!!!');
-    });
+
+    if (isAdmin) {
+      this.stompClient.subscribe(`/user/${this.jwt.getEmailFromAccessToken()}/rooms/support`, (newChat) => {
+        const newUserChat = JSON.parse(newChat.body);
+        const usersChats = [...this.chatsService.userChats, newUserChat];
+        this.chatsService.userChatsStream$.next(usersChats);
+        console.log('message for admin!!!', newUserChat);
+      });
+    }
   }
 
   private onError(error) {
@@ -88,10 +100,11 @@ export class SocketService {
     currentChat.lastMessageDate = message.createDate;
   }
 
-  createNewChat(participantsId, isOpen, isOpenInWindow?) {
+  createNewChat(ids, isOpen, isOpenInWindow?) {
+    const key = !this.chatsService.isSupportChat$.getValue() ? 'participantsIds' : 'locationsIds';
     const newChatInfo = {
       currentUserId: this.userId,
-      participantsIds: participantsId
+      [key]: ids
     };
     this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
     this.isOpenNewChat = isOpen;

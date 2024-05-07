@@ -11,6 +11,8 @@ import { SocketService } from '../../service/socket/socket.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-chat-popup',
@@ -23,6 +25,8 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
 
   private onDestroy$ = new Subject();
   private userId: number;
+  public isAdmin: boolean;
+  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   @Input() isSupportChat: boolean;
 
@@ -41,7 +45,9 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     private factory: ComponentFactoryResolver,
     private socketService: SocketService,
     private dialog: MatDialog,
-    private localeStorageService: LocalStorageService
+    private localeStorageService: LocalStorageService,
+    private jwt: JwtService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -49,7 +55,16 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     this.chatsService.isSupportChat$.next(this.isSupportChat);
     this.userId = this.localeStorageService.getUserId();
     this.socketService.connect();
-    this.chatsService.getAllUserChats(this.userId);
+    this.permissions$.subscribe((employeeAuthorities) => {
+      this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
+      if (this.isSupportChat && this.isAdmin) {
+        this.chatsService.getAllSupportChats();
+      }
+      if (!this.isSupportChat) {
+        this.chatsService.getAllUserChats(this.userId);
+      }
+    });
+
     this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());
   }
 

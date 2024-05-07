@@ -41,6 +41,12 @@ export class ChatsService {
     });
   }
 
+  public getAllSupportChats(): void {
+    this.httpClient.get<any>(`${environment.backendChatLink}chat/chats/active`).subscribe((chats) => {
+      this.userChatsStream$.next(chats.page);
+    });
+  }
+
   public updateChat(chat: Chat): void {
     this.httpClient.put<Chat>(`${environment.backendChatLink}chat/`, chat).subscribe();
   }

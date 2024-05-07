@@ -32,11 +32,13 @@ export class ChatsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('isAdmin', this.isAdmin);
     this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {
       this.searchField = newValue;
       this.chatService.searchFriends(newValue);
     });
     this.isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwtService.getUserRole() === 'ROLE_ADMIN';
+    console.log('isAdmin', this.isAdmin);
     this.userId = this.localeStorageService.getUserId();
 
     this.chatService.isSupportChat$.subscribe((value) => {
