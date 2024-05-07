@@ -8,6 +8,7 @@
             type="text"
             *ngIf="searchToggle"
             class="place-input"
+            maxlength="70"
             [formControl]="searchEventControl"
             [placeholder]="'homepage.events.search-title' | translate"
           />
