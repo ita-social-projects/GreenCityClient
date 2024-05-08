@@ -3,7 +3,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { calendarImage } from '@shared/components/calendar-base/calendar-image';
 
@@ -21,6 +21,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
   public currentLang: string;
   public friendsToShow: number;
   public slideIndex = 0;
+  public totalPages = 0;
   public arrows = calendarImage;
   public itemsMap = { 768: 6, 576: 5, 320: 3, 220: 1 };
   @ViewChild('slider', { static: true }) slider: ElementRef;
@@ -31,7 +32,6 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
     private userFriendsService: UserFriendsService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private route: ActivatedRoute,
     private renderer: Renderer2
   ) {}
 
@@ -50,6 +50,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (item: FriendArrayModel) => {
+          this.totalPages = item.totalPages;
           this.usersFriends = item.page;
           this.amountOfFriends = item.totalElements;
           this.updateArrowsVisibility();
@@ -72,13 +73,13 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
     this.calculateFriendsToShow();
   }
 
-  public changeFriends(isNext: boolean) {
+  changeFriends(isNext: boolean): void {
     if (isNext) {
-      this.slideIndex = (this.slideIndex + 1) % this.usersFriends.length;
+      this.slideIndex = (this.slideIndex + 1) % this.totalPages;
     } else if (this.slideIndex > 0) {
-      this.slideIndex = (this.slideIndex - 1 + this.usersFriends.length) % this.usersFriends.length;
+      this.slideIndex = (this.slideIndex - 1) % this.totalPages;
     } else {
-      this.slideIndex = (this.amountOfFriends - 1) / this.friendsToShow;
+      this.slideIndex = this.totalPages - 1;
     }
     this.showUsersFriends();
   }
