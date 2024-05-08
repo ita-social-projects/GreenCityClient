@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, flush, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -179,5 +179,39 @@ describe('CommentsListComponent', () => {
 
     component.onCommentClick(event);
     expect(routerMock.navigate).toHaveBeenCalled();
+  });
+
+  it('should not change the isAddingReply property', () => {
+    component.isAddingReply = false;
+    component.showElements(1, 'showAllRelies');
+    expect(component.isAddingReply).toBe(false);
+  });
+
+  it('should change the isAddingReply property', () => {
+    component.isAddingReply = false;
+    const spyMap = spyOn(component.elementsList, 'map').and.returnValue([commentData]);
+    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
+    const spyUpdateControl = spyOn(component, 'updateContentControl');
+    component.showElements(1, 'showRelyButton');
+    expect(component.isAddingReply).toBe(true);
+  });
+
+  it('should toggle the isAddingReply property', () => {
+    component.isAddingReply = false;
+    const spyMap = spyOn(component.elementsList, 'map').and.returnValue([commentData]);
+    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
+    const spyUpdateControl = spyOn(component, 'updateContentControl');
+    component.showElements(2, 'showRelyButton');
+    expect(component.isAddingReply).toBe(true);
+    component.showElements(2, 'showRelyButton');
+    expect(component.isAddingReply).toBe(false);
+  });
+
+  it('should call updateContentControl method ', () => {
+    const spyMap = spyOn(component.elementsList, 'map').and.returnValue([commentData]);
+    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
+    const spyUpdateControl = spyOn(component, 'updateContentControl');
+    component.showElements(2, 'showRelyButton');
+    expect(spyUpdateControl).toHaveBeenCalled();
   });
 });

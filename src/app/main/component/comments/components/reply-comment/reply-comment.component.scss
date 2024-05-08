@@ -27,6 +27,10 @@
   mix-blend-mode: normal;
 }
 
+.reply-active .btn-text {
+  color: var(--primary-green);
+}
+
 @media screen and (max-width: 992px) {
   .btn-text {
     font-size: 12px;
