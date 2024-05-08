@@ -44,7 +44,7 @@ export class HabitDurationComponent implements OnInit, OnDestroy {
     this.updateDuration(this.newDuration);
   }
 
-  public formatLabel(days: string): any {
+  public formatLabel(days: string): (value: number) => string {
     return (value: number) => `${value}${days}`;
   }
 

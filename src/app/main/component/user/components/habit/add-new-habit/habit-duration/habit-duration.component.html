@@ -1,5 +1,5 @@
 <div class="title">{{ 'user.habit.duration.title' | translate }}</div>
-<mat-slider class="form-control-range habit-slider mat-primary" [displayWith]="formatLabel(days)" discrete min="7" max="56" step="1" #range>
+<mat-slider class="form-control-range habit-slider" [displayWith]="formatLabel(days)" discrete min="7" max="56" step="1" #range>
   <input matSliderThumb [(ngModel)]="newDuration" (ngModelChange)="updateInput($event)" />
 </mat-slider>
 
