@@ -6,8 +6,9 @@ import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { Chat } from '../../model/Chat.model';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { Title } from '@angular/platform-browser';
+import { Role } from '@global-models/user/roles.model';
 
 @Component({
   selector: 'app-chats-list',
@@ -23,7 +24,12 @@ export class ChatsListComponent implements OnInit {
   @Input() isPopup: boolean;
   @Output() createNewMessageWindow: EventEmitter<Chat> = new EventEmitter<Chat>();
 
-  constructor(public chatService: ChatsService, private socketService: SocketService, private jwt: JwtService) {}
+  constructor(
+    public chatService: ChatsService,
+    private socketService: SocketService,
+    private jwt: JwtService,
+    private titleService: Title
+  ) {}
 
   ngOnInit(): void {
     this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {
@@ -34,7 +40,7 @@ export class ChatsListComponent implements OnInit {
       this.isSupportChat = value;
     });
 
-    this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
+    this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
   }
 
   public messageDateTreat(date: Date): string {
@@ -62,6 +68,8 @@ export class ChatsListComponent implements OnInit {
   }
 
   openNewMessageWindow(chat: Chat) {
+    chat.amountUnreadMessages = null;
+    this.titleService.setTitle('Pick Up City');
     this.chatService.setCurrentChat(chat);
     this.createNewMessageWindow.emit(chat);
   }

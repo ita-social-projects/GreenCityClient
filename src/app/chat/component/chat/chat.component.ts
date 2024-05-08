@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { SocketService } from '../../service/socket/socket.service';
 import { UserService } from '@global-service/user/user.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { Role } from '@global-models/user/roles.model';
 
 @Component({
   selector: 'app-chat',
@@ -20,6 +21,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   public isHaveMessages = true;
   public showEmojiPicker = false;
   public isAdmin: boolean;
+  public isAdminParticipant: boolean;
 
   private page = 0;
   private oldScrollHeight: number;
@@ -41,7 +43,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.isChatUpdate = isUpdate;
     });
 
-    this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
+    this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
+    this.isAdminParticipant = this.chatsService.currentChat?.participants.some((el) => {
+      el.id === this.userService.userId;
+    });
   }
 
   ngAfterViewChecked(): void {

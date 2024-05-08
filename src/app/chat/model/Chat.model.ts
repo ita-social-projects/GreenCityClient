@@ -3,13 +3,15 @@ import { User } from './User.model';
 export interface Chat {
   id?: number;
   name: string;
-  owner: User;
+  chatType: string;
+  ownerId: User;
+  amountUnreadMessages: number | null;
   lastMessage: string;
-  lastMessageDate: string;
+  lastMessageDateTime: string;
   participants: Participant[];
   logo?: string;
+  tariffId: number;
 }
-
 export interface FriendChatInfo {
   friendId: number;
   chatExists: boolean;

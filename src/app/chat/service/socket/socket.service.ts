@@ -85,12 +85,17 @@ export class SocketService {
     if (isAdmin) {
       this.stompClient.subscribe(`/user/${this.jwt.getEmailFromAccessToken()}/rooms/support`, (сhat) => {
         const userChat = JSON.parse(сhat.body);
+        userChat.amountUnreadMessages = 1;
         const isNewChat = !this.chatsService.userChats.find((el) => {
           el.id === userChat.id;
         });
         if (isNewChat) {
           const usersChats = [...this.chatsService.userChats, userChat];
           this.chatsService.userChatsStream$.next(usersChats);
+        } else {
+          this.chatsService.userChats.find((el) => {
+            el.id === userChat.id;
+          }).amountUnreadMessages = 1;
         }
         console.log('message for admin!!!', userChat);
         this.titleService.setTitle(`new message`);
@@ -110,7 +115,7 @@ export class SocketService {
     this.stompClient.send('/app/chat', {}, JSON.stringify(message));
     const currentChat = this.chatsService.currentChat;
     currentChat.lastMessage = message.content;
-    currentChat.lastMessageDate = message.createDate;
+    currentChat.lastMessageDateTime = message.createDate;
   }
 
   createNewChat(ids, isOpen, isOpenInWindow?) {
