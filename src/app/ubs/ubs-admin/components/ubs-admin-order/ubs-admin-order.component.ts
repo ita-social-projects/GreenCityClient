@@ -214,16 +214,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
   }
 
-  private setPreviousBagsIfEmpty(status) {
+  private setPreviousBagsIfEmpty(status): void {
     const actualStage = this.getOrderStatusInfo(status).ableActualChange;
-    if (actualStage) {
-      if (!Object.keys(this.orderInfo.amountOfBagsExported).length) {
-        this.orderInfo.amountOfBagsExported = { ...this.orderInfo.amountOfBagsConfirmed };
-      }
-    } else {
-      if (!Object.keys(this.orderInfo.amountOfBagsConfirmed).length) {
-        this.orderInfo.amountOfBagsConfirmed = { ...this.orderInfo.amountOfBagsOrdered };
-      }
+
+    if (actualStage && !Object.keys(this.orderInfo.amountOfBagsExported).length) {
+      this.orderInfo.amountOfBagsExported = { ...this.orderInfo.amountOfBagsConfirmed };
+    } else if (!Object.keys(this.orderInfo.amountOfBagsConfirmed).length) {
+      this.orderInfo.amountOfBagsConfirmed = { ...this.orderInfo.amountOfBagsOrdered };
     }
   }
 

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ChangingOrderPaymentStatus } from 'src/app/store/actions/bigOrderTable.actions';
@@ -66,13 +66,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     іsPermissionConfirm: true
   };
 
-  constructor(
-    private orderService: OrderService,
-    private dialog: MatDialog,
-    private store: Store<IAppState>,
-    private dialogRef: MatDialogRef<UbsAdminOrderPaymentComponent>,
-    @Inject(MAT_DIALOG_DATA) public data
-  ) {}
+  constructor(private orderService: OrderService, private dialog: MatDialog, private store: Store<IAppState>) {}
 
   ngOnInit() {
     this.currentOrderStatus = this.orderStatus;
