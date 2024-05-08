@@ -1,7 +1,7 @@
 import { Language } from './../../../../i18n/Language';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -46,9 +46,6 @@ class TranslationServiceStub {
   }
   public setDefaultLang() {
     return true;
-  }
-  instant(key: string) {
-    return 'Translated ' + key;
   }
 }
 
@@ -215,10 +212,9 @@ describe('EventsListItemComponent', () => {
   storeMock.select = () => of(MockData);
 
   let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang', 'get', 'instant']);
+  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
-  translateServiceMock.instant = (key: string) => {};
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
   let userOwnAuthServiceMock: UserOwnAuthService;

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ofType } from '@ngrx/effects';
@@ -64,7 +64,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     ADMIN: 'ADMIN'
   };
 
-  public cancelationPopupData = {
+  private cancelationPopupData = {
     popupTitle: 'homepage.events.pop-up-cancelling-event',
     popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
     popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
@@ -256,7 +256,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.isSubscribed = !this.isSubscribed;
   }
 
-  public openPopUp() {
+  openPopUp(): void {
     if (this.dialogRef) {
       return;
     }
@@ -264,12 +264,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       data: this.cancelationPopupData
     });
 
-    this.dialogRef.afterClosed().subscribe((result) => {
-      this.dialogRef = null;
-      if (result) {
-        this.submitEventCancelling();
-      }
-    });
+    this.dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.dialogRef = null;
+        if (result) {
+          this.submitEventCancelling();
+        }
+      });
   }
 
   public deleteEvent(): void {

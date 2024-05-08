@@ -81,7 +81,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
   };
-  cancelationPopupData = {
+  private cancelationPopupData = {
     popupTitle: 'homepage.events.pop-up-cancelling-event',
     popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
     popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
@@ -256,7 +256,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
   }
 
-  public openPopUp(): void {
+  openPopUp(): void {
     if (this.dialogRef) {
       return;
     }
@@ -264,12 +264,15 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       data: this.cancelationPopupData
     });
 
-    this.dialogRef.afterClosed().subscribe((result) => {
-      this.dialogRef = null;
-      if (result) {
-        this.submitEventCancelling();
-      }
-    });
+    this.dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.dialogRef = null;
+        if (result) {
+          this.submitEventCancelling();
+        }
+      });
   }
 
   public openModal(): void {
