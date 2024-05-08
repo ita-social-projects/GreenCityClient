@@ -21,6 +21,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 })
 export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() isInvalid = false;
+  @Input() placeholder = '';
   @Input() requestPrefix = '';
   @Input() requestSuffix = '';
   @Input() autoCompRequest?: google.maps.places.AutocompletionRequest;
