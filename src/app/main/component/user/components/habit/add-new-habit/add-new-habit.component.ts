@@ -12,7 +12,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { Location } from '@angular/common';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { habitImages } from 'src/app/main/image-pathes/habits-images';
+import { habitImages, starIcons } from 'src/app/main/image-pathes/habits-images';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
@@ -53,8 +53,8 @@ export class AddNewHabitComponent implements OnInit {
   canAcquire = false;
   setStatus = 'ACQUIRED';
 
-  whiteStar = 'assets/img/icon/star-2.png';
-  greenStar = 'assets/img/icon/star-1.png';
+  whiteStar = starIcons.whiteStar;
+  greenStar = starIcons.greenStar;
   stars = [this.whiteStar, this.whiteStar, this.whiteStar];
 
   habitImage: string;
