@@ -223,6 +223,11 @@ h2 {
       button:last-child {
         margin: 16px 0 0;
       }
+
+      button.primary-global-button {
+        width: 288px;
+        margin: 16px 0 0;
+      }
     }
 
     .privacy-wrapper {
