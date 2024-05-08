@@ -65,7 +65,7 @@
   }
 
   .middle {
-    padding-bottom: 5px;
+    padding-bottom: 15px;
 
     .calendar-grid {
       display: grid;
@@ -163,7 +163,6 @@
 
 .unenrolled-past-day {
   background-color: transparent;
-  border: 1px solid var(--quaternary-light-grey);
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 4px;
