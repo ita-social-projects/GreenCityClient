@@ -98,11 +98,7 @@
                 ></app-habit-duration>
               </div>
               <div class="shopping">
-                <app-habit-edit-shopping-list
-                  (newList)="getShopList($event)"
-                  [shopList]="shopList"
-                  [isEditing]="isEditing"
-                ></app-habit-edit-shopping-list>
+                <app-habit-edit-shopping-list (newList)="getShopList($event)" [shopList]="shopList"></app-habit-edit-shopping-list>
               </div>
             </div>
             <div class="invite-friends">

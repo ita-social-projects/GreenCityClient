@@ -53,7 +53,7 @@ export class MatSnackBarComponent {
     updatedNotification: { classname: SnackbarClassName.success, key: 'snack-bar.success.update-notification' },
     joinedEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.joined-event' },
     errorJoinEvent: { classname: SnackbarClassName.error, key: 'snack-bar.success.error-joined-event' },
-    tooLongInput: { classname: SnackbarClassName.error, key: 'user.habit.too-long-input' },
+    tooLongInput: { classname: SnackbarClassName.error, key: 'user.habit.to-do.too-long-input' },
     ratedEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.rating-send' },
     addFriend: { classname: SnackbarClassName.success, key: 'snack-bar.success.add-friend' },
     jointEventRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.joint-event-request' },
