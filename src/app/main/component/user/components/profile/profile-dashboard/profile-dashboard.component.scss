@@ -276,3 +276,19 @@ a {
     color: var(--primary-green);
   }
 }
+
+.mdc-tab__text-label {
+  font-size: 16px !important;
+}
+
+.mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: var(--primary-green) !important;
+}
+
+.mat-mdc-tab .mdc-tab-indicator__content--underline {
+  border: 0.5px solid var(--primary-green) !important;
+}
+
+hr.ng-star-inserted {
+  margin: 0 0 12px 0;
+}
