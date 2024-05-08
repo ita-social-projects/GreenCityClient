@@ -8,9 +8,14 @@ import { BehaviorSubject, of } from 'rxjs';
 import { employeePositionsName, SideMenuElementsNames } from '../../models/ubs-admin.interface';
 import { listElementsAdmin } from 'src/app/ubs/ubs/models/ubs-sidebar-links';
 import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IAppState } from 'src/app/store/state/app.state';
+import { provideMockStore } from '@ngrx/store/testing';
 import { listElements } from 'src/app/shared/interface/ubs-base-sidebar-interface';
+import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
+import { RouterModule } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('UbsAdminSidebarComponent', () => {
   let component: UbsAdminSidebarComponent;
@@ -72,8 +77,16 @@ describe('UbsAdminSidebarComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminSidebarComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      declarations: [UbsAdminSidebarComponent, UbsBaseSidebarComponent],
+      imports: [
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        RouterModule.forRoot([]),
+        MatSidenavModule,
+        NoopAnimationsModule,
+        MatIconModule,
+        MatTooltipModule
+      ],
       providers: [
         provideMockStore({ initialState }),
         { provide: Store, useValue: storeMock },

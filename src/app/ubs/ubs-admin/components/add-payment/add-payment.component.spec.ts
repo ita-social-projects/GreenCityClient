@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
@@ -64,7 +64,7 @@ describe('AddPaymentComponent', () => {
         { provide: DateAdapter, useValue: dateAdapterMock },
         FormBuilder
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 

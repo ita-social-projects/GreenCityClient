@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UbsPickUpServicePopUpComponent } from 'src/app/ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 @Injectable()
 class TranslationServiceStub {
@@ -50,7 +51,7 @@ describe('UbsFooterComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsFooterComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, RouterTestingModule],
       providers: [
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: MatDialog, useClass: MatDialogMock }

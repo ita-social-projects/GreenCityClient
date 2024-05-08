@@ -289,10 +289,10 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     };
     component.editForm();
 
-    expect(component.addTariffServiceForm.get('name').value).toEqual({ value: expectedName });
-    expect(component.addTariffServiceForm.get('nameEng').value).toEqual({ value: expectedNameEng });
-    expect(component.addTariffServiceForm.get('description').value).toEqual({ value: expectedDescription });
-    expect(component.addTariffServiceForm.get('descriptionEng').value).toEqual({ value: expectedDescriptionEng });
+    expect(component.addTariffServiceForm.get('name').value).toEqual(expectedName);
+    expect(component.addTariffServiceForm.get('nameEng').value).toEqual(expectedNameEng);
+    expect(component.addTariffServiceForm.get('description').value).toEqual(expectedDescription);
+    expect(component.addTariffServiceForm.get('descriptionEng').value).toEqual(expectedDescriptionEng);
     expect(component.addTariffServiceForm.get('capacity').value).toEqual({ value: expectedCapacity });
   });
 });
