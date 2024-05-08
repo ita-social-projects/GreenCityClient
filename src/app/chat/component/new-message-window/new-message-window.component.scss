@@ -169,6 +169,17 @@
   }
 }
 
+.join-chat {
+  @include flex(row, center, center);
+  width: 100%;
+  height: 40px;
+  background: var(--quaternary-dark-grey);
+
+  button {
+    background: var(--primary-white);
+  }
+}
+
 .msg-block {
   @include flex(row, flex-start, center);
 

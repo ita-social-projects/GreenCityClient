@@ -68,7 +68,7 @@
     background: #f7f9fa;
   }
 
-  img {
+  .user-logo {
     height: 40px;
   }
 }
@@ -76,9 +76,16 @@
 .chat-info {
   position: absolute;
   top: 3px;
-  right: 0;
+  right: 2px;
   font-size: 12px;
   font-style: italic;
+}
+
+.message-notification {
+  position: absolute;
+  height: 25px;
+  top: 16px;
+  right: 2px;
 }
 
 .chat-text {

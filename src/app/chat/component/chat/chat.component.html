@@ -23,7 +23,7 @@
   </div>
 </div>
 <div *ngIf="!isHaveMessages">Chat hasn't messages yet</div>
-<form *ngIf="!isAdmin || chatsService.isAdminParticipant" class="sender" (ngSubmit)="sendMessage()">
+<form *ngIf="!isAdmin || isAdminParticipant" class="sender" (ngSubmit)="sendMessage()">
   <div class="sender-additional-buttons">
     <button type="button">
       <img [src]="chatIcons.paperClip" alt="clip" title="Add file" />
@@ -47,6 +47,6 @@
     <img [src]="chatIcons.send" alt="send" title="Send mail" />
   </button>
 </form>
-<div *ngIf="isAdmin && !chatsService.isAdminParticipant" class="join-chat">
+<div *ngIf="isAdmin && !isAdminParticipant" class="join-chat">
   <button (click)="chatsService.addAdminToChat(userService.userId)">Join chat</button>
 </div>

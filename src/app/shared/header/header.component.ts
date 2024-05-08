@@ -23,6 +23,7 @@ import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions'
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { IAppState } from 'src/app/store/state/app.state';
+import { Role } from '@global-models/user/roles.model';
 
 @Component({
   selector: 'app-header',
@@ -42,8 +43,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public arrayLang: Array<LanguageModel>;
   public ariaStatus = 'profile options collapsed';
   public isSearchClicked = false;
-  private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
-  private adminRoleGreenCityValue = 'ROLE_ADMIN';
+  private adminRoleValue = Role.UBS_EMPLOYEE;
+  private adminRoleGreenCityValue = Role.ADMIN;
   private userRole: string;
   private userId: number;
   private backEndLink = environment.backendLink;
@@ -98,9 +99,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .pipe(takeUntil(this.destroySub))
       .subscribe((event: NavigationEnd) => {
-        console.log('header', 'event', this.isUBS !== event.url.includes(this.ubsUrl));
-        if (this.isUBS !== event.url.includes(this.ubsUrl)) {
-          this.isUBS = event.url.includes(this.ubsUrl);
+        const isUBSnewValue = event.url.includes(this.ubsUrl);
+        if (this.isUBS !== isUBSnewValue) {
+          this.isUBS = isUBSnewValue;
           this.isUBSUserPage = event.url.includes(this.ubsUserUrl);
           this.imgAlt = this.isUBS ? 'Image ubs logo' : 'Image green city logo';
           this.localeStorageService.setUbsRegistration(this.isUBS);

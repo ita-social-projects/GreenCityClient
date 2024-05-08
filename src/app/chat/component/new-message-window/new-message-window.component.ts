@@ -10,6 +10,7 @@ import { Message } from '../../model/Message.model';
 import { UserService } from '@global-service/user/user.service';
 import { FriendModel } from '@global-user/models/friend.model';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { Role } from '@global-models/user/roles.model';
 
 @Component({
   selector: 'app-new-message-window',
@@ -25,6 +26,7 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
   public showEmojiPicker = false;
   public isHaveMessages = true;
   public isAdmin: boolean;
+  public isAdminParticipant: boolean;
   @ViewChild('chat') chat: ElementRef;
 
   constructor(
@@ -44,8 +46,8 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
       this.isHaveMessages = messages.length !== 0;
     });
-    this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
-    this.chatsService.isAdminParticipant = this.chatsService.currentChat?.participants.some((el) => {
+    this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
+    this.isAdminParticipant = this.chatsService.currentChat?.participants.some((el) => {
       el.id === this.userService.userId;
     });
   }
