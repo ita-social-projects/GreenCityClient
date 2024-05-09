@@ -18,16 +18,6 @@ export const routes: Routes = [
         loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
       },
       {
-        path: 'ubs-admin',
-        loadChildren: () => import('./ubs/ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule),
-        canLoad: [UbsAdminGuardGuard]
-      },
-      {
-        path: 'ubs-user',
-        loadChildren: () => import('./ubs/ubs-user/ubs-user.module').then((mod) => mod.UbsUserModule),
-        canLoad: [UbsUserGuardGuard]
-      },
-      {
         path: '',
         pathMatch: 'full',
         redirectTo: 'ubs'
@@ -66,6 +56,16 @@ export const routes: Routes = [
         component: HomepageComponent
       }
     ]
+  },
+  {
+    path: 'ubs-admin',
+    loadChildren: () => import('./ubs/ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule),
+    canLoad: [UbsAdminGuardGuard]
+  },
+  {
+    path: 'ubs-user',
+    loadChildren: () => import('./ubs/ubs-user/ubs-user.module').then((mod) => mod.UbsUserModule),
+    canLoad: [UbsUserGuardGuard]
   },
   {
     path: '**',

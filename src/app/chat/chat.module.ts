@@ -17,6 +17,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -31,11 +32,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     MessageFromDayPipe
   ],
   imports: [
-    BrowserModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     MatDialogModule,
     InfiniteScrollModule,
     PickerModule,
@@ -46,7 +44,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    CommonModule
   ],
   exports: [ChatPopupComponent],
   providers: []

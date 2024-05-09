@@ -506,5 +506,9 @@
     "help-the-project": "Як допомогти проєкту",
     "how-to-get-there": "Як доїхати?",
     "ukraine-without-garbage": "Україна без сміття"
+  },
+  "chat": {
+    "messages": "Повідомлення",
+    "support-chat": "Чат підтримки"
   }
 }

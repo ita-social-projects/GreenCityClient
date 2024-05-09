@@ -6,7 +6,6 @@ import { UiActionsService } from '@global-service/ui-actions/ui-actions.service'
 import { UserService } from '@global-service/user/user.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-main',
@@ -34,10 +33,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.isUBS = this.router.url.includes(this.ubsUrl);
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
-      this.isUBS = event.url.includes(this.ubsUrl);
-      this.localStorageService.setUbsRegistration(this.isUBS);
-    });
+    this.localStorageService.setUbsRegistration(this.isUBS);
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();
@@ -63,6 +59,8 @@ export class MainComponent implements OnInit {
       if (navigationEvent instanceof NavigationEnd) {
         window.scroll(0, 0);
       }
+
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     });
   }
 

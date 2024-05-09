@@ -18,7 +18,7 @@ export class HeaderService {
     { name: 'user.lower-nav-bar.map', route: '/places', url: false },
     { name: 'user.lower-nav-bar.about-us', route: '/about', url: false },
     { name: 'user.lower-nav-bar.my-habits', route: '/profile', url: false },
-    { name: 'user.lower-nav-bar.ubs', route: '/ubs', url: false }
+    { name: 'user.lower-nav-bar.ubs', route: '/', url: false }
   ];
 
   public ubsArrLang = [

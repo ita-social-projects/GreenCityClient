@@ -36,5 +36,9 @@
     "error": {
       "exist-address": "Ця адреса вже додана"
     }
+  },
+  "chat": {
+    "messages": "Повідомлення",
+    "support-chat": "Чат підтримки"
   }
 }

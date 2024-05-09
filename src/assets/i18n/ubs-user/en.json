@@ -36,5 +36,9 @@
     "error": {
       "exist-address": "This address has already been added"
     }
+  },
+  "chat": {
+    "messages": "Messages",
+    "support-chat": "Support-chat"
   }
 }
