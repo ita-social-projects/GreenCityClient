@@ -6,7 +6,6 @@ import { UserNotificationService } from '@global-user/services/user-notification
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { NotificationFilter, NotificationModel, NotificationType } from '@global-user/models/notification.model';
-import { Notific } from './notific';
 import { FilterApproach } from '@global-user/models/notification.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
@@ -162,21 +161,13 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     this.userNotificationService
       .getAllNotification(page, this.itemsPerPage, filtersSelected)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
-          this.notifications = [...this.notifications, ...data.page];
-          this.currentPage = data.currentPage;
-          this.hasNextPage = data.hasNext;
+      .subscribe((data) => {
+        this.notifications = [...this.notifications, ...data.page];
+        this.currentPage = data.currentPage;
+        this.hasNextPage = data.hasNext;
 
-          this.isLoading = false;
-        },
-        () => {
-          this.notifications = [...this.notifications, ...Notific];
-          this.currentPage += 1;
-          this.hasNextPage = true;
-          this.isLoading = false;
-        }
-      );
+        this.isLoading = false;
+      });
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
