@@ -3,7 +3,6 @@ import { Component, Input, OnInit, Output, EventEmitter, DoCheck } from '@angula
 import { CommentsService } from '../../services/comments.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { take } from 'rxjs/operators';
-import { SocketService } from '@global-service/socket/socket.service';
 
 @Component({
   selector: 'app-comments-container',
@@ -29,11 +28,7 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
   public userReplies: CommentsDTO[] = [];
   public showAllReplies: boolean;
 
-  constructor(
-    private commentsService: CommentsService,
-    private userOwnAuthService: UserOwnAuthService,
-    private socketService: SocketService
-  ) {}
+  constructor(private commentsService: CommentsService, private userOwnAuthService: UserOwnAuthService) {}
 
   ngDoCheck(): void {
     if (this.dataType === 'reply') {
@@ -76,7 +71,6 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
 
     this.userReplies = [reply, ...this.userReplies];
     this.initCommentsList();
-    this.socketService.sendSocketCheckAchievement();
   }
 
   private getComments(): void {

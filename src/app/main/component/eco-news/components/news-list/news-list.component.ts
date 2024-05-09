@@ -12,7 +12,6 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsByTagsAction, GetEcoNewsByPageAction } from 'src/app/store/actions/ecoNews.actions';
-import { SocketService } from '@global-service/socket/socket.service';
 import { Router } from '@angular/router';
 import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
 
@@ -46,8 +45,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private store: Store,
-    private router: Router,
-    private socketService: SocketService
+    private router: Router
   ) {}
 
   ngOnInit() {

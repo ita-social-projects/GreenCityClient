@@ -76,9 +76,6 @@ export class LikeCommentComponent implements OnInit {
         amountLikes: this.likeState ? 0 : 1,
         userId: this.userId
       });
-      this.socketService.send('/app/achieve', {
-        userId: this.userId
-      });
     });
   }
 
