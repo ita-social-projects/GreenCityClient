@@ -1,32 +1,34 @@
-<div [ngClass]="notifications.length ? 'pop-up-container' : 'pop-up-container-empty'" aria-label="user-notification">
-  <h5 class="heading body-2">{{ 'homepage.notifications.title' | translate }}</h5>
-  <mat-divider></mat-divider>
-  <div *ngIf="!notifications.length" class="no-notifications d-flex justify-content-center">
-    <p class="body-2 text-center">{{ 'homepage.notifications.no-new-notifications' | translate }}</p>
-  </div>
+<div class="notification-popup-wrapper">
+  <div [ngClass]="notifications.length ? 'pop-up-container' : 'pop-up-container-empty'" aria-label="user-notification">
+    <h5 class="heading body-2">{{ 'homepage.notifications.title' | translate }}</h5>
 
-  <div *ngIf="notifications.length">
-    <mat-accordion class="list-wrapper" multi="false" [togglePosition]="'before'">
-      <mat-expansion-panel
-        class="notification"
-        *ngFor="let notification of notifications; let i = index"
-        [ngClass]="notification.viewed ? 'notification-read' : 'notification-unread'"
-        hideToggle
-      >
-        <mat-expansion-panel-header class="notification-header">
-          <div class="notification-header-project">
-            {{ notification.projectName }}
-          </div>
-          <div class="notification-header-title body-1">
-            {{ notification.titleText }}
-          </div>
-          <div class="notification-header-content body-2">
-            {{ notification.bodyText }}
-          </div>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
-    </mat-accordion>
+    <div *ngIf="!notifications.length && !isLoading" class="no-notifications d-flex justify-content-center">
+      <p class="body-2 text-center">{{ 'homepage.notifications.no-new-notifications' | translate }}</p>
+    </div>
+    <app-spinner *ngIf="isLoading"></app-spinner>
+
+    <div *ngIf="notifications.length">
+      <mat-accordion class="list-wrapper" multi="false" [togglePosition]="'before'">
+        <mat-expansion-panel
+          class="notification"
+          *ngFor="let notification of notifications"
+          [ngClass]="notification.viewed ? 'notification-read' : 'notification-unread'"
+          hideToggle
+        >
+          <mat-expansion-panel-header class="notification-header">
+            <div class="d-flex flex-column">
+              <div class="notification-header-project">
+                {{ notification.projectName }}
+              </div>
+              <div class="notification-header-title body-1">
+                {{ notification.titleText }}
+              </div>
+            </div>
+          </mat-expansion-panel-header>
+          <p appNotificContentReplace [replacements]="notification"></p>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <span class="to-notifications body-2" (click)="openAll()">{{ 'homepage.notifications.all-notifications' | translate }}</span>
   </div>
-  <mat-divider></mat-divider>
-  <span class="to-notifications body-2" (click)="openAll()">{{ 'homepage.notifications.all-notifications' | translate }}</span>
 </div>
