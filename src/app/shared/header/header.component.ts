@@ -55,6 +55,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signinref') signinref: ElementRef;
   @ViewChild('signupref') signupref: ElementRef;
   @ViewChild('serviceref') serviceref: ElementRef;
+  @ViewChild('notificationIconRef') notificationIconRef: ElementRef;
   public elementName;
   public isUBS: boolean;
   public ubsUrl = 'ubs';
@@ -123,19 +124,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
     this.onConnectedtoSocket();
     interval(4000).subscribe(() => {
-      // this.socketService.sendSocketCheckAchievement();
+      this.socketService.send(this.socketService.connection.greenCity, '/app/notifications', {
+        userId: this.userId
+      });
     });
   }
 
   public onConnectedtoSocket(): void {
-    // this.socketService.onMessage(`/topic/${this.userId}/notification`).subscribe((msg) => {
-    //   if (msg && !this.isUBS) {
-    //     this.notificationIconRef.nativeElement.srcset = this.headerImageList.notificationHasNew;
-    //   }
-    //   if (!msg && !this.isUBS) {
-    //     this.notificationIconRef.nativeElement.srcset = this.headerImageList.notification;
-    //   }
-    // });
+    this.socketService.initiateConnection();
+    this.socketService.onMessage(this.socketService.connection.greenCity, `/topic/${this.userId}/notification`).subscribe((msg) => {
+      if (msg && !this.isUBS) {
+        this.notificationIconRef.nativeElement.srcset = this.headerImageList.notificationHasNew;
+      }
+      if (!msg && !this.isUBS) {
+        this.notificationIconRef.nativeElement.srcset = this.headerImageList.notification;
+      }
+    });
   }
 
   public defineAuthorities() {
