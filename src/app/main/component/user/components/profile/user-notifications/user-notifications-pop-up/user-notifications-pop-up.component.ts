@@ -13,6 +13,7 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   limitNotifications = 3;
   notifications = [];
+  isLoading = true;
 
   constructor(public dialogRef: MatDialogRef<UserNotificationsPopUpComponent>, private notificatioService: UserNotificationService) {}
 
@@ -25,16 +26,13 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
           this.closeDialog({ openAll: false });
         }
       });
-    this.dialogRef
-      .backdropClick()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => this.closeDialog({ openAll: false }));
 
     this.notificatioService
       .getThreeNewNotification()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data) => {
         this.notifications = data;
+        this.isLoading = false;
       });
   }
 
