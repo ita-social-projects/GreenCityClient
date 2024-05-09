@@ -1,9 +1,9 @@
 <app-spinner *ngIf="isPosting"></app-spinner>
-<div *ngIf="!isPosting" [formGroup]="eventFormGroup" class="event-container">
-  <div class="content-container">
+<div *ngIf="!isPosting" [formGroup]="eventFormGroup">
+  <div class="container pl-3 pr-3">
     <div class="event-header">
       <div class="event-header-items">
-        <div>
+        <div class="mb-4">
           <a (click)="toEventsList()" [routerLink]="routedFromProfile ? [previousPath, { tabId: 2 }] : [previousPath]" class="back">
             <img [src]="images.arrowLeft" alt="arrow" aria-hidden="true" class="arrow" />
             <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
@@ -14,9 +14,13 @@
         <p>{{ 'create-event.description' | translate }}</p>
       </div>
     </div>
-    <div class="event-main">
-      <app-create-event-information (formStatus)="handleInformationStatus($event)"></app-create-event-information>
-      <app-create-event-dates (formsEmit)="setDatesForm($event)"></app-create-event-dates>
+    <div class="mat-wrapper flex-lg-row">
+      <mat-card class="">
+        <app-create-event-information (formStatus)="handleInformationStatus($event)"></app-create-event-information>
+      </mat-card>
+      <mat-card class="tw-basis-1/2">
+        <app-create-event-dates (formsEmit)="setDatesForm($event)"></app-create-event-dates>
+      </mat-card>
     </div>
 
     <div class="submit-container">

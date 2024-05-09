@@ -2,9 +2,8 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
-import { EventImage } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ImagesContainer } from '../../models/events.interface';
 
 @Component({
   selector: 'app-images-container',
@@ -19,25 +18,17 @@ export class ImagesContainerComponent implements OnInit {
     '/assets/img/events/illustration-recycle.png',
     '/assets/img/events/illustration-store.png'
   ];
-  public images: EventImage[] = [];
   public editMode: boolean;
-  imgAsUrl: string[] = [];
+  @Input() images: ImagesContainer[] = [];
   public imageCount = 0;
-  isImageSizeError: boolean;
+  public isImageSizeError: boolean;
+  public selected = '';
+
   @ViewChild('takeInput') InputVar: ElementRef;
-  @Input() imgArray: File[] = [];
-  @Input() imagesEditArr: string[];
-  @Input() isImagesArrayEmpty = false;
-  @Output() imgArrayOutput = new EventEmitter<Array<File>>();
-  @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
-  @Output() oldImagesOutput = new EventEmitter<Array<string>>();
-  @Output() imgAsUrlOutput = new EventEmitter<string[]>();
+
+  @Output() imagesOutput = new EventEmitter<ImagesContainer[]>();
+
   private isImageTypeError = false;
-  private dragAndDropLabel = '+';
-  private maxImages = 5;
-  private setDefaultImg = false;
-  private defaultImage = '/assets/img/events/default-image.png';
-  private imagesTodelete: string[] = [];
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -45,151 +36,84 @@ export class ImagesContainerComponent implements OnInit {
     private eventService: EventsService
   ) {}
 
-  @Input() set imgUrlArray(value: string[]) {
-    this.imgAsUrl = value;
-  }
-
-  test() {
-    console.log('fffff');
+  public selectImg(img: number) {
+    this.images.forEach((value) => (value.main = false));
+    this.images[img].main = true;
   }
 
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
-    this.initImages();
-    if (this.editMode) {
-      this.updateImagesAndLabels(this.imagesEditArr);
-    }
-    if (this.eventService.getBackFromPreview()) {
-      this.updateImagesAndLabels(this.imagesEditArr, this.defImgs);
-    }
   }
 
   public chooseImage(img: string) {
+    if (this.imageCount === 5) {
+      this.snackBar.openSnackBar('errorMaxPhotos');
+      return;
+    }
     const imageName = img.substring(img.lastIndexOf('/') + 1);
     this.eventService.getImageAsFile(img).subscribe((blob: Blob) => {
       const imageFile = new File([blob], imageName, { type: 'image/png' });
-      this.checkFileExtension(imageFile);
-      this.transferFile(imageFile);
+      this.validateImage(imageFile);
     });
-  }
-
-  public dropImages(event: CdkDragDrop<string[]>): void {
-    const prevIndex = event.previousIndex;
-    const newIndex = event.currentIndex;
-
-    moveItemInArray(this.images, prevIndex, newIndex);
-    moveItemInArray(this.imgAsUrl, prevIndex, newIndex);
-    //  moveItemInArray(this.imagesEditArr, prevIndex, newIndex);
   }
 
   public filesDropped(files: FileHandle[]): void {
     const imageFile = files[0].file;
-    this.checkFileExtension(imageFile);
-    this.transferFile(imageFile);
+    this.validateImage(imageFile);
   }
 
   public loadFile(event: Event): void {
     const imageFile: File = (event.target as HTMLInputElement).files[0];
     this.InputVar.nativeElement.value = '';
-    this.checkFileExtension(imageFile);
-    this.transferFile(imageFile);
+    this.validateImage(imageFile);
   }
 
-  public deleteImage(i: number): void {
+  public deleteImage(img: ImagesContainer, i: number): void {
     this.images.splice(i, 1);
-    this.imgArray.splice(i, 1);
-    if (this.editMode) {
-      this.imgArray.splice(i - this.imagesEditArr.length, 1);
+
+    if (this.images.length && img.main) {
+      this.images[0].main = true;
     }
-    this.imgArrayOutput.emit(this.imgArray);
 
-    const allowLabel = this.imageCount === 5;
-    this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: allowLabel });
-    this.imageCount--;
-
-    if (this.editMode && this.imagesEditArr[i]) {
-      this.imagesTodelete.push(this.imagesEditArr[i]);
-      this.imagesEditArr.splice(i, 1);
-    }
-    if (this.editMode) {
-      this.deleteImagesOutput.emit(this.imagesTodelete);
-      this.oldImagesOutput.emit(this.imagesEditArr);
-    }
+    this.imageCount -= 1;
+    this.imagesOutput.emit(this.images);
   }
 
-  private updateImagesAndLabels(imagesEditArr: string[], defImgs?: string[]) {
-    this.imageCount = imagesEditArr.length;
-    this.images.forEach((el, ind) => {
-      if (imagesEditArr[ind]) {
-        el.src = this.editMode ? this.imagesEditArr[ind] : this.findMatchingImage(imagesEditArr[ind], defImgs);
-      }
-      if (el.src) {
-        el.isLabel = false;
-      }
-      if (!el.src && ind > 0 && this.images[ind - 1].src) {
-        el.isLabel = true;
-      }
-    });
-  }
-
-  private findMatchingImage(file, imageArray: string[]) {
-    const matchingImage = imageArray.find((imageUrl) => {
-      const parts = imageUrl.split('/');
-      const lastPart = parts[parts.length - 1];
-      return lastPart === file.name;
-    });
-
-    return matchingImage || null;
-  }
-
-  private initImages(): void {
-    this.images = Array.from({ length: this.maxImages }, (_, i) => ({
-      src: null,
-      label: this.dragAndDropLabel,
-      isLabel: i === 0
-    }));
-  }
-
-  private checkFileExtension(file: any): void {
-    this.isImageSizeError = file.size >= 10000000;
-    this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
-  }
-
-  private transferFile(imageFile: File): void {
-    const isImageValid = !this.isImageTypeError && !this.isImageSizeError && !this.images[4].src;
-    if (isImageValid) {
-      this.processValidImage(imageFile);
+  private validateImage(file: File) {
+    const result = this.isFileCorrect(file);
+    if (result && this.imageCount < 5) {
+      this.processValidImage(file);
     } else {
       this.handleInvalidImageFile();
     }
   }
 
+  //TODO should be rewritten. Mutate and return is controversial
+  private isFileCorrect(file: File): boolean {
+    this.isImageSizeError = file.size >= 10000000;
+    this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
+    return !this.isImageSizeError && !this.isImageTypeError;
+  }
+
   private processValidImage(imageFile: File): void {
     const reader: FileReader = new FileReader();
-    this.imgArray.push(imageFile);
-    this.imgArrayOutput.emit(this.imgArray);
-
-    if (this.editMode) {
-      this.deleteImagesOutput.emit(this.imagesTodelete);
-      this.oldImagesOutput.emit(this.imagesEditArr);
-    }
-
-    const labelIndex = this.editMode ? this.imagesEditArr.length + this.imgArray.length : this.imgArray.length;
-    if (labelIndex !== 5) {
-      this.images[labelIndex].isLabel = true;
-    }
 
     reader.onload = () => {
       const result = reader.result as string;
-      this.imgAsUrl.push(result);
-      this.imgAsUrlOutput.emit(this.imgAsUrl);
-      this.assignImage(result);
+      this.imageCount += 1;
+
+      const image = { file: imageFile, main: false, url: result };
+
+      if (this.imageCount === 1) {
+        image.main = true;
+      }
+
+      this.images.push(image);
     };
     // TODO Display snack bar error on error load
     reader.onerror = () => {
       console.log(reader.error);
     };
-
     reader.readAsDataURL(imageFile);
   }
 
@@ -202,15 +126,6 @@ export class ImagesContainerComponent implements OnInit {
       this.snackBar.openSnackBar('errorImageSize');
     } else {
       this.snackBar.openSnackBar('errorMaxPhotos');
-    }
-  }
-
-  private assignImage(result: any): void {
-    const imageToAssign = this.images.find((img) => !img.src);
-    if (imageToAssign) {
-      imageToAssign.src = result;
-      imageToAssign.isLabel = false;
-      this.imageCount += 1;
     }
   }
 }

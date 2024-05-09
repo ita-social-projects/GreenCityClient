@@ -18,7 +18,7 @@ $main-palette: (
   400: #159e36,
   500: var(--primary-green),
   600: #004a00,
-  700: #002e00,
+  700: #52e452,
   800: #9e9d24,
   900: #827717,
   A100: #f4ff81,
@@ -26,7 +26,7 @@ $main-palette: (
   A400: #c6ff00,
   A700: #aeea00,
   contrast: (
-    50: $dark-primary-text,
+    50: #ffffff,
     100: var(--primary-white),
     200: var(--primary-white),
     300: var(--primary-white),
@@ -43,7 +43,7 @@ $main-palette: (
   )
 );
 
-$my-primary: mat.define-palette($main-palette);
+$my-primary: mat.define-palette($main-palette, 400);
 $my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The "warn" palette is optional and defaults to red if not specified.
@@ -57,12 +57,42 @@ $my-theme: mat.define-light-theme(
       warn: $my-warn
     ),
     typography: mat.define-typography-config(),
-    density: 0,
+    density: -3,
     text: var(--primary-white)
   )
 );
 
 @include angular-material-theme($my-theme);
+@include mat.chips-density(0);
+@include mat.checkbox-density(-1);
+
+label {
+  margin-bottom: 0 !important;
+}
+
+%font-base {
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+  color: #64727d;
+}
+
+.xs-text {
+  @extend %font-base;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.sm-text {
+  @extend %font-base;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.regular-text {
+  @extend %font-base;
+  font-size: 16px;
+  line-height: 24px;
+}
 
 .hide {
   display: none;
@@ -431,6 +461,10 @@ body {
   @media (max-width: 1199px) {
     max-width: 100%;
   }
+}
+
+.ql-toolbar {
+  background-color: #eff0f1 !important;
 }
 
 // [END] Quill editor

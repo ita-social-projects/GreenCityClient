@@ -419,6 +419,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       date.setMinutes(parseInt(minutes, 10));
       value.finishDate = date.toUTCString();
     });
+    const imagesUrl = this.informationForm.images.map((value) => value.url);
     const sendEventDto: PagePreviewDTO = {
       title: informationForm.title,
       description: informationForm.description,
@@ -428,7 +429,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       dates: datesForm,
       tags: informationForm.tags,
       imgArray: this.editMode ? this.imgArrayToPreview : this.imgArray,
-      imgArrayToPreview: informationForm.imagesUrl,
+      imgArrayToPreview: imagesUrl,
       location: this.datesForm[0]
     };
     this.eventsService.setForm(sendEventDto);

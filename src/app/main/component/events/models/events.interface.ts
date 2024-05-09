@@ -16,6 +16,12 @@ export interface EventDTO {
   titleImage?: string;
 }
 
+export interface ImagesContainer {
+  file: File;
+  url: string;
+  main: boolean;
+}
+
 export interface EventInformation {
   title: string;
   duration: number;
@@ -23,8 +29,7 @@ export interface EventInformation {
   open: boolean;
   tags: string[];
   editorText: string;
-  imagesUrl: string[];
-  imagesFile: File[];
+  images: ImagesContainer[];
 }
 
 export interface DateFormInformation {

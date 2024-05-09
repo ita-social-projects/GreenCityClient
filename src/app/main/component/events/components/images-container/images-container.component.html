@@ -1,39 +1,33 @@
-<div class="example-card">
-  <div clas="image-container">
-    <div class="row images-row">
-      <div class="title-wrapper">
-        <mat-label>{{ 'create-event.picture' | translate }}</mat-label>
-        <mat-label class="counter-wrapper">{{ imageCount }}/5</mat-label>
+<div class="d-flex flex-column">
+  <div class="d-flex flex-column">
+    <div class="d-flex flex-column mb-2">
+      <div class="d-flex flex-row justify-content-between">
+        <mat-label class="regular-text">{{ 'create-event.picture' | translate }}</mat-label>
+        <mat-label class="xs-text">{{ imageCount }}/5</mat-label>
       </div>
-      <mat-label class="image-title">{{ 'create-event.picture-title' | translate }}</mat-label>
-      <div (cdkDropListDropped)="dropImages($event)" cdkDropList cdkDropListOrientation="horizontal" class="images-container-wrapper">
-        <div (files)="filesDropped($event)" *ngFor="let img of imgAsUrl; index as i" appDrag cdkDrag class="image-container">
-          <img *ngIf="img" [src]="img" alt="image-of-event" class="image-preview" />
-          <div class="delete-block">
-            <!--            <div>{{ img.name }}</div>-->
-            <div (click)="deleteImage(i)">X</div>
-          </div>
-        </div>
-        <div class="input-wrapper">
-          <label class="file-input" for="file-upload">+</label>
-          <input
-            #takeInput
-            (change)="loadFile($event)"
-            (click)="test()"
-            accept="image/png,image/jpeg"
-            id="file-upload"
-            style="display: none"
-            type="file"
-          />
-        </div>
+      <mat-label class="xs-text">{{ 'create-event.picture-title' | translate }}</mat-label>
+    </div>
+
+    <div class="input-grid">
+      <div *ngIf="imageCount !== 5" class="file-input-wrapper">
+        <label class="file-input" for="file-upload">+</label>
+        <input #takeInput (change)="loadFile($event)" accept="image/png,image/jpeg" id="file-upload" style="display: none" type="file" />
+      </div>
+
+      <div (click)="selectImg(i)" *ngFor="let img of images; index as i" [class.selected]="img.main" class="input-image-wrapper">
+        <img *ngIf="img.url" [src]="img.url" alt="image-of-event" />
+
+        <div *ngIf="img.main" class="selected-text">Main</div>
+        <span (click)="deleteImage(img, i)" class="selected-delete xs-text"><mat-icon>close</mat-icon></span>
       </div>
     </div>
-    <p class="use-pics">{{ 'create-event.use-greencity-pics' | translate }}</p>
-    <div class="row">
-      <div class="images-container-wrapper">
-        <div *ngFor="let img of defImgs; index as i" class="image-container">
-          <img (click)="chooseImage(img)" [src]="img" alt="image-of-event" class="image-preview" />
-        </div>
+  </div>
+
+  <div class="d-flex flex-column">
+    <p class="sm-text mb-2">{{ 'create-event.use-greencity-pics' | translate }}</p>
+    <div class="images-def-wrapper">
+      <div *ngFor="let img of defImgs; index as i" class="img-container">
+        <img (click)="chooseImage(img)" [src]="img" alt="image-of-event" />
       </div>
     </div>
   </div>
