@@ -14,7 +14,7 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../../main/component/layout/components/models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
-import { Subject } from 'rxjs';
+import { Subject, interval } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
@@ -122,13 +122,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
     });
     this.onConnectedtoSocket();
+    interval(4000).subscribe(() => {
+      // this.socketService.sendSocketCheckAchievement();
+    });
   }
 
   public onConnectedtoSocket(): void {
-    // this.socketService.onMessage("greenCity", `/topic/${this.userId}/notification`).subscribe((msg) => {
-    //   console.log(msg);
+    // this.socketService.onMessage(`/topic/${this.userId}/notification`).subscribe((msg) => {
     //   if (msg && !this.isUBS) {
     //     this.notificationIconRef.nativeElement.srcset = this.headerImageList.notificationHasNew;
+    //   }
+    //   if (!msg && !this.isUBS) {
+    //     this.notificationIconRef.nativeElement.srcset = this.headerImageList.notification;
     //   }
     // });
   }
@@ -352,22 +357,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/profile', this.userId, 'notifications']);
   }
 
-  openNotificationPopUp(event) {
-    const pos = event.target.getBoundingClientRect();
+  openNotificationPopUp() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.closeOnNavigation = true;
     dialogConfig.panelClass = 'dialog-notification';
     dialogConfig.position = {
-      top: pos.top + 'px',
-      left: pos.left + 'px'
+      top: 35 + 'px',
+      right: 20 + 'px'
     };
     const matDialogRef = this.dialog.open(UserNotificationsPopUpComponent, dialogConfig);
     matDialogRef
       .afterClosed()
       .pipe(takeUntil(this.destroySub))
       .subscribe((data) => {
-        if (data.openAll) {
+        if (data?.openAll) {
           this.router.navigate(['/profile', this.userId, 'notifications']);
         }
       });
