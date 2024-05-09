@@ -4,8 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import * as SockJS from 'sockjs-client';
 import { Stomp, StompSubscription } from '@stomp/stompjs';
 import { SocketClientState, SocketConnection } from './socket-state.enum';
-import { filter, first, switchMap, takeUntil } from 'rxjs/operators';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { filter, first, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
