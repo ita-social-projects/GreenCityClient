@@ -13,7 +13,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Breakpoints } from 'src/app/main/config/breakpoints.constants';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
-import { SocketService } from '@global-service/socket/socket.service';
 
 @Component({
   selector: 'app-calendar-base',
@@ -70,8 +69,7 @@ export class CalendarBaseComponent implements OnDestroy {
     public languageService: LanguageService,
     public habitAssignService: HabitAssignService,
     public dialog: MatDialog,
-    public breakpointObserver: BreakpointObserver,
-    public socketService: SocketService
+    public breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnDestroy() {
@@ -394,7 +392,6 @@ export class CalendarBaseComponent implements OnDestroy {
       .subscribe(() => {
         habit.enrolled = !habit.enrolled;
         this.currentDayItem.areHabitsDone = this.isCheckedHabits;
-        this.socketService.sendSocketCheckAchievement();
       });
   }
 
@@ -409,7 +406,6 @@ export class CalendarBaseComponent implements OnDestroy {
       .subscribe(() => {
         habit.enrolled = !habit.enrolled;
         this.currentDayItem.areHabitsDone = this.isCheckedHabits;
-        this.socketService.sendSocketCheckAchievement();
       });
   }
 }
