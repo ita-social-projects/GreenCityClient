@@ -189,6 +189,24 @@
     background-color: transparent;
   }
 
+  .friend-action-button {
+    display: flex;
+
+    button {
+      border: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .material-icons {
+      font-size: 12px;
+    }
+
+    span {
+      color: var(--quaternary-grey);
+    }
+  }
+
   @media screen and (min-width: 576px) {
     ::ng-deep .popover {
       display: none;

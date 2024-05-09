@@ -4,11 +4,12 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { UserNotificationService } from '@global-user/services/user-notification.service';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
-import { Subject, Subscription } from 'rxjs';
-import { NotificationFilter, NotificationModel } from '@global-user/models/notification.model';
+import { Subject } from 'rxjs';
+import { NotificationFilter, NotificationModel, NotificationType } from '@global-user/models/notification.model';
 import { Notific } from './notific';
 import { FilterApproach } from '@global-user/models/notification.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 @Component({
   selector: 'app-user-notifications',
@@ -19,12 +20,13 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public currentLang: string;
   public filterApproach = FilterApproach;
+  public notificationFriendRequest = NotificationType.FRIEND_REQUEST_RECEIVED;
   public filterApproaches = [
     { name: FilterApproach.ALL, isSelected: true, nameUa: 'Усі', nameEn: 'All' },
     { name: FilterApproach.TYPE, isSelected: false, nameUa: 'Типом', nameEn: 'Type' },
     { name: FilterApproach.ORIGIN, isSelected: false, nameUa: 'Джерелом', nameEn: 'Origin' }
   ];
-  public notificationTypes: NotificationFilter[] = [
+  public notificationTypesFilter: NotificationFilter[] = [
     {
       name: 'All',
       nameEn: 'All',
@@ -32,29 +34,34 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       isSelected: true
     },
     {
-      name: 'COMMENT_LIKE',
+      name: NotificationType.COMMENT_LIKE,
       nameEn: 'Comment like',
       nameUa: 'Вподобання коментаря',
       filterArr: ['ECONEWS_COMMENT_LIKE', 'EVENT_COMMENT_LIKE'],
       isSelected: true
     },
     {
-      name: 'COMMENT_REPLY',
+      name: NotificationType.COMMENT_REPLY,
       nameEn: 'Comment reply',
       nameUa: 'Відповідь на коментар',
       filterArr: ['ECONEWS_COMMENT_REPLY', 'EVENT_COMMENT_REPLY'],
       isSelected: true
     },
-    { name: 'ECONEWS_LIKE', nameEn: ' News Like', nameUa: 'Вподобання новини', isSelected: true },
-    { name: 'ECONEWS_CREATED', nameEn: ' News Created', nameUa: 'Створення новини', isSelected: true },
-    { name: 'ECONEWS_COMMENT', nameEn: ' News Commented', nameUa: 'Коментарі новин', isSelected: true },
-    { name: 'EVENT_CREATED', nameEn: 'Event created', nameUa: 'Створення події', isSelected: true },
-    { name: 'EVENT_CANCELED', nameEn: 'Event canceled', nameUa: 'Скасування події', isSelected: true },
-    { name: 'EVENT_UPDATED', nameEn: 'Event updated', nameUa: 'Зміни у подіях', isSelected: true },
-    { name: 'EVENT_JOINED', nameEn: 'Event joined', nameUa: 'приєднання до події', isSelected: true },
-    { name: 'EVENT_COMMENT', nameEn: 'Event commented', nameUa: 'Коментарі подій', isSelected: true },
-    { name: 'FRIEND_REQUEST_RECEIVED', nameEn: 'Friend request received', nameUa: 'Нові запити дружити', isSelected: true },
-    { name: 'FRIEND_REQUEST_ACCEPTED', nameEn: 'Friend request accepted', nameUa: 'Підтверджені запити дружити', isSelected: true }
+    { name: NotificationType.ECONEWS_LIKE, nameEn: ' News Like', nameUa: 'Вподобання новини', isSelected: true },
+    { name: NotificationType.ECONEWS_CREATED, nameEn: ' News Created', nameUa: 'Створення новини', isSelected: true },
+    { name: NotificationType.ECONEWS_COMMENT, nameEn: ' News Commented', nameUa: 'Коментарі новин', isSelected: true },
+    { name: NotificationType.EVENT_CREATED, nameEn: 'Event created', nameUa: 'Створення події', isSelected: true },
+    { name: NotificationType.EVENT_CANCELED, nameEn: 'Event canceled', nameUa: 'Скасування події', isSelected: true },
+    { name: NotificationType.EVENT_UPDATED, nameEn: 'Event updated', nameUa: 'Зміни у подіях', isSelected: true },
+    { name: NotificationType.EVENT_JOINED, nameEn: 'Event joined', nameUa: 'приєднання до події', isSelected: true },
+    { name: NotificationType.EVENT_COMMENT, nameEn: 'Event commented', nameUa: 'Коментарі подій', isSelected: true },
+    { name: NotificationType.FRIEND_REQUEST_RECEIVED, nameEn: 'Friend request received', nameUa: 'Нові запити дружити', isSelected: true },
+    {
+      name: NotificationType.FRIEND_REQUEST_ACCEPTED,
+      nameEn: 'Friend request accepted',
+      nameUa: 'Підтверджені запити дружити',
+      isSelected: true
+    }
   ];
   public projects: NotificationFilter[] = [
     { name: 'All', nameEn: 'All', nameUa: 'Усі', isSelected: true },
@@ -80,7 +87,8 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     public translate: TranslateService,
     private userNotificationService: UserNotificationService,
-    private matSnackBar: MatSnackBarComponent
+    private matSnackBar: MatSnackBarComponent,
+    private userFriendsService: UserFriendsService
   ) {}
 
   ngOnInit() {
@@ -102,7 +110,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       this.filterApproaches.forEach((el) => (el.isSelected = el.name === approach));
       if (approach === this.filterAll) {
-        this.notificationTypes.forEach((el) => (el.isSelected = true));
+        this.notificationTypesFilter.forEach((el) => (el.isSelected = true));
         this.projects.forEach((el) => (el.isSelected = true));
       }
     }
@@ -111,7 +119,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   public changeFilter(type: NotificationFilter, approach: string, event: Event): void {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       this.filterChangeSubs$.next({ type, approach });
-      const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypes : this.projects;
+      const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypesFilter : this.projects;
 
       const notificationType = filterArr.filter((el) => el.name === type.name)[0];
       const notificationTypeAll = filterArr.filter((el) => el.name === this.filterAll)[0];
@@ -122,7 +130,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       } else {
         notificationTypeAll.isSelected = filterArr.filter((el) => el.name !== this.filterAll).every((el) => el.isSelected);
       }
-      const isTypeFiltered = this.getAllSelectedFilters(this.filterApproach.TYPE).length !== this.notificationTypes.length;
+      const isTypeFiltered = this.getAllSelectedFilters(this.filterApproach.TYPE).length !== this.notificationTypesFilter.length;
       const isProjectFiltered = this.getAllSelectedFilters(this.filterApproach.TYPE).length !== this.projects.length;
       this.isFilterDisabled = this.isLoading || (!this.notifications.length && !isTypeFiltered && isProjectFiltered);
     }
@@ -135,7 +143,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   private getAllSelectedFilters(approach: string): NotificationFilter[] {
-    const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypes : this.projects;
+    const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypesFilter : this.projects;
     const allOption = filterArr.filter((el) => el.name === this.filterAll)[0];
     return allOption.isSelected
       ? []
@@ -230,6 +238,14 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     if (this.hasNextPage) {
       this.getNotification(this.currentPage + 1);
     }
+  }
+
+  acceptRequest(userId: number): void {
+    this.userFriendsService.acceptRequest(userId).subscribe();
+  }
+
+  declineRequest(userId: number): void {
+    this.userFriendsService.declineRequest(userId).subscribe();
   }
 
   ngOnDestroy() {
