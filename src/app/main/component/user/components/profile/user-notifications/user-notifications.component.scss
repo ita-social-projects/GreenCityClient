@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 .notification-wrapper {
   font-family: var(--primary-font);
 
@@ -5,7 +7,7 @@
     margin-top: 35px;
     margin-bottom: 68px;
 
-    @media screen and (max-width: 1024px) {
+    @include responsivePCFirst(xl) {
       margin-top: 20px;
     }
 
@@ -28,19 +30,20 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 46px;
-    @media screen and (max-width: 560px) {
+    margin-bottom: 57px;
+
+    @include responsivePCFirst(sm) {
       flex-direction: column;
       align-items: start;
       margin-bottom: 38px;
     }
 
-    @media screen and (min-width: 1024px) {
-      margin-bottom: 42px;
+    @include responsivePCFirst(xl) {
+      margin-bottom: 46px;
     }
 
-    @media screen and (min-width: 1440px) {
-      margin-bottom: 57px;
+    @include responsivePCFirst(3xl) {
+      margin-bottom: 42px;
     }
   }
 
@@ -50,7 +53,7 @@
     align-items: center;
     gap: 24px;
 
-    @media screen and (max-width: 560px) {
+    @include responsivePCFirst(sm) {
       gap: 8px;
       flex-direction: column;
       align-items: start;
@@ -92,11 +95,11 @@
       color: var(--primary-light-grey);
     }
 
-    @media screen and (min-width: 561px) and (max-width: 768px) {
+    @include responsivePCFirst(md) {
       max-width: 159px;
     }
 
-    @media screen and (max-width: 560px) {
+    @include responsivePCFirst(sm) {
       min-width: 100%;
       max-width: 100%;
       margin-top: 8px;
@@ -187,6 +190,14 @@
     gap: 5px;
     border: none;
     background-color: transparent;
+
+    span {
+      color: var(--quaternary-grey);
+    }
+
+    .material-icons {
+      font-size: 18px;
+    }
   }
 
   .friend-action-button {
@@ -207,7 +218,7 @@
     }
   }
 
-  @media screen and (min-width: 576px) {
+  @include responsiveMobileFirst(sm) {
     ::ng-deep .popover {
       display: none;
     }

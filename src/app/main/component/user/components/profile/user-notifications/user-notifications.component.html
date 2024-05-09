@@ -78,42 +78,27 @@
                   (click)="deleteNotification($event, notification)"
                   (keydown)="deleteNotification($event, notification)"
                 >
-                  <img [src]="deleteIcon" class="btn-img" aria-hidden="true" alt="delete icon" />
-                  <span class="d-none d-sm-block btn-text">{{ 'homepage.notifications.delete' | translate }}</span>
+                  <span class="material-icons" ngbPopover="{{ 'homepage.notifications.delete' | translate }}">delete</span>
+                  <span class="d-none d-sm-block">{{ 'homepage.notifications.delete' | translate }}</span>
                 </button>
 
                 <button
-                  *ngIf="notification.viewed"
                   class="notific-action-btn"
-                  (click)="unReadNotification($event, notification)"
-                  (keydown)="unReadNotification($event, notification)"
+                  (click)="notification.viewed ? unReadNotification($event, notification) : readNotification($event, notification)"
+                  (keydown)="notification.viewed ? unReadNotification($event, notification) : readNotification($event, notification)"
                 >
                   <span
                     class="material-icons"
-                    style="color: rgb(128, 128, 128)"
-                    ngbPopover="{{ 'homepage.notifications.mark-as-unread' | translate }}"
+                    ngbPopover="{{
+                      (notification.viewed ? 'homepage.notifications.mark-as-unread' : 'homepage.notifications.mark-as-read') | translate
+                    }}"
                     triggers="mouseenter:mouseleave"
                     placement="left"
-                    >{{ 'mark_as_unread' }}</span
+                    >{{ notification.viewed ? 'mark_as_unread' : 'mark_email_read' }}</span
                   >
-                  <span class="d-none d-sm-block">{{ 'homepage.notifications.mark-as-unread' | translate }}</span>
-                </button>
-
-                <button
-                  *ngIf="!notification.viewed"
-                  class="notific-action-btn"
-                  (click)="readNotification($event, notification)"
-                  (keydown)="readNotification($event, notification)"
-                >
-                  <span
-                    class="material-icons"
-                    style="color: rgb(128, 128, 128)"
-                    ngbPopover="{{ 'homepage.notifications.mark-as-read' | translate }}"
-                    triggers="mouseenter:mouseleave"
-                    placement="left"
-                    >{{ 'mark_email_read' }}</span
-                  >
-                  <span class="d-none d-sm-block">{{ 'homepage.notifications.mark-as-read' | translate }}</span>
+                  <span class="d-none d-sm-block">{{
+                    (notification.viewed ? 'homepage.notifications.mark-as-unread' : 'homepage.notifications.mark-as-read') | translate
+                  }}</span>
                 </button>
               </div>
             </div>
