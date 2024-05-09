@@ -21,7 +21,7 @@
 
     <div *ngIf="checkSelectedFilter(filterApproach.TYPE)" class="filter-buttons">
       <button
-        *ngFor="let type of notificationTypes"
+        *ngFor="let type of notificationTypesFilter"
         class="global-tag custom-chip"
         [ngClass]="{ 'global-tag-clicked': type.isSelected }"
         (click)="changeFilter(type, filterApproach.TYPE, $event)"
@@ -67,7 +67,6 @@
               <div class="notification-header-title body-1">
                 {{ notification.titleText }}
               </div>
-              <div></div>
             </div>
             <div class="notific-right-column">
               <div class="notification-header-time body-2">
@@ -84,8 +83,8 @@
                 </button>
 
                 <button
-                  class="notific-action-btn"
                   *ngIf="notification.viewed"
+                  class="notific-action-btn"
                   (click)="unReadNotification($event, notification)"
                   (keydown)="unReadNotification($event, notification)"
                 >
@@ -101,8 +100,8 @@
                 </button>
 
                 <button
-                  class="notific-action-btn"
                   *ngIf="!notification.viewed"
+                  class="notific-action-btn"
                   (click)="readNotification($event, notification)"
                   (keydown)="readNotification($event, notification)"
                 >
@@ -120,13 +119,15 @@
             </div>
           </div>
         </mat-expansion-panel-header>
-        <p [appNotificContentReplace]="notification"></p>
-        <!-- <div class="load-spinner small" *ngIf="isSmallSpinnerVisible && !notification.isOpen">
-          <mat-spinner class="custom-spinner" diameter="60"></mat-spinner>
+        <p appNotificContentReplace [replacements]="notification"></p>
+        <div class="friend-action-button" *ngIf="notification.notificationType === notificationFriendRequest">
+          <button (click)="declineRequest(notification.actionUserId)">
+            <span class="material-icons">close</span><span>{{ 'profile.friends.request-decline' | translate }}</span>
+          </button>
+          <button (click)="acceptRequest(notification.actionUserId)">
+            <span class="material-icons">done</span><span>{{ 'profile.friends.request-accept' | translate }}</span>
+          </button>
         </div>
-        <div class="notification-header-content body-2" *ngIf="!isSmallSpinnerVisible">
-          {{ notification.bodyText }}
-        </div> -->
       </mat-expansion-panel>
     </mat-accordion>
     <div
