@@ -74,10 +74,9 @@
 }
 
 .chat-info {
-  position: absolute;
   top: 3px;
   right: 2px;
-  font-size: 12px;
+  font-size: 10px;
   font-style: italic;
 }
 
@@ -90,11 +89,14 @@
 
 .chat-text {
   @include flex(column, center, flex-start);
-
-  row-gap: 5px;
 }
 
 .chat-name {
+  display: block;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-family: var(--primary-font);
   font-size: 16px;
   font-weight: 700;
