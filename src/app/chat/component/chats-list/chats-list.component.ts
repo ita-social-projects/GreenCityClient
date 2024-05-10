@@ -9,6 +9,7 @@ import { Chat } from '../../model/Chat.model';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Title } from '@angular/platform-browser';
 import { Role } from '@global-models/user/roles.model';
+import { UserService } from '@global-service/user/user.service';
 
 @Component({
   selector: 'app-chats-list',
@@ -28,7 +29,8 @@ export class ChatsListComponent implements OnInit {
     public chatService: ChatsService,
     private socketService: SocketService,
     private jwt: JwtService,
-    private titleService: Title
+    private titleService: Title,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +43,12 @@ export class ChatsListComponent implements OnInit {
     });
 
     this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
+    if (this.isAdmin) {
+      this.chatService.currentChatsStream$.subscribe((chat) => {
+        const isAdminParticipant = chat?.participants?.some((el) => el.id === this.userService.userId);
+        this.chatService.isAdminParticipant$.next(isAdminParticipant);
+      });
+    }
   }
 
   public messageDateTreat(date: Date): string {

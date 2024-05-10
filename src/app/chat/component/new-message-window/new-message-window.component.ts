@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl, Validators } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { Role } from '@global-models/user/roles.model';
   templateUrl: './new-message-window.component.html',
   styleUrls: ['./new-message-window.component.scss']
 })
-export class NewMessageWindowComponent implements OnInit, OnDestroy {
+export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestroy {
   public chatIcons = CHAT_ICONS;
   public userSearchField = '';
   private onDestroy$ = new Subject();
@@ -47,15 +47,12 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
       this.isHaveMessages = messages.length !== 0;
     });
     this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
-    this.isAdminParticipant = this.chatsService.currentChat?.participants.some((el) => {
-      el.id === this.userService.userId;
-    });
   }
 
-  // ngAfterViewChecked(): void {
-  //   const element: HTMLElement = this.chat.nativeElement;
-  //   element.scrollTop = element.scrollHeight;
-  // }
+  ngAfterViewInit(): void {
+    const element: HTMLElement = this.chat.nativeElement;
+    element.scrollTop = element.scrollHeight;
+  }
 
   public close() {
     this.commonService.newMessageWindowRequireCloseStream$.next(true);

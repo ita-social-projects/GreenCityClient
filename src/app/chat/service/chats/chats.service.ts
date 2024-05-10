@@ -20,6 +20,7 @@ export class ChatsService {
   public chatsMessages: object = {};
   private messagesIsLoading = false;
   public isSupportChat$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isAdminParticipant$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor(private httpClient: HttpClient) {}
 
@@ -125,8 +126,9 @@ export class ChatsService {
         role: ''
       };
       this.currentChat.participants.push(newParticipant);
-      const chats = this.userChats.filter((chat) => chat.id !== this.currentChat.id);
-      this.userChatsStream$.next([...chats, this.currentChat]);
+      this.isAdminParticipant$.next(true);
+      const chat = this.userChats.find((chat) => chat.id === this.currentChat.id);
+      chat.participants.push(newParticipant);
     });
   }
 }
