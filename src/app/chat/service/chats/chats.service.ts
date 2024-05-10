@@ -27,6 +27,10 @@ export class ChatsService {
     return this.userChatsStream$.getValue();
   }
 
+  public get locationChats() {
+    return this.locationChats$.getValue();
+  }
+
   public get currentChat() {
     return this.currentChatsStream$.getValue();
   }

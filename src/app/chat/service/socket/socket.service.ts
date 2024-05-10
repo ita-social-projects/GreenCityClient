@@ -44,7 +44,6 @@ export class SocketService {
   }
 
   private onConnected() {
-    const isSupportChat = !this.chatsService.isSupportChat$.getValue();
     const isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
     this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
       const newMessage: Message = JSON.parse(data.body);
@@ -62,10 +61,11 @@ export class SocketService {
 
     this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
       const newUserChat = JSON.parse(newChat.body);
-      const usersChats = [...this.chatsService.userChats, newUserChat];
-      this.chatsService.userChatsStream$.next(usersChats);
-      if (!isSupportChat) {
-        const idFriend = newUserChat.participants.find((user) => user.id !== this.userId).id;
+
+      if (!this.chatsService.isSupportChat$.getValue()) {
+        const usersChats = [...this.chatsService.userChats, newUserChat];
+        this.chatsService.userChatsStream$.next(usersChats);
+        const idFriend = newUserChat.participants.find((user) => user.id !== this.userId)?.id;
         this.updateFriendsChatsStream$.next({
           friendId: idFriend,
           chatExists: true,

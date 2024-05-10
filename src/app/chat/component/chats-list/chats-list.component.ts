@@ -57,14 +57,14 @@ export class ChatsListComponent implements OnInit {
     if (this.isAdmin) {
       return;
     }
-    if (!this.isSupportChat && chatTarget.friendsChatDto?.chatExists) {
-      const userChat = this.chatService.userChats.find((chat) => chat.id === chatTarget.friendsChatDto.chatId);
-      this.chatService.setCurrentChat(userChat);
-      this.createNewMessageWindow.emit();
+    if (!this.isSupportChat) {
+      const userChat = this.chatService.userChats.find((chat) => chat?.id === chatTarget.friendsChatDto?.chatId);
+      userChat ? this.chatService.setCurrentChat(userChat) : this.socketService.createNewChat(chatTarget.id, false, true);
     } else {
-      this.socketService.createNewChat(chatTarget.id, false, true);
-      this.createNewMessageWindow.emit();
+      const userChat = this.chatService.locationChats.find((chat) => chat?.id === chatTarget.chatId);
+      chatTarget.chatId ? this.chatService.setCurrentChat(userChat) : this.socketService.createNewChat(chatTarget.id, false, true);
     }
+    this.createNewMessageWindow.emit();
   }
 
   openNewMessageWindow(chat: Chat) {
