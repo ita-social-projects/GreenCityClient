@@ -3,12 +3,13 @@
 .outer {
   background-color: var(--primary-white);
   display: flex;
+  border-radius: 4px;
+  box-shadow: 1px 4px 8px var(--quintynary-dark-grey);
 }
 
 .shopping-list-block {
   width: 213px;
   margin: 0 auto;
-  border-top: 1px solid var(--quaternary-light-grey);
 }
 
 .shopping-list-content {

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { UbsAdminOrderComponent } from './ubs-admin-order.component';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -20,6 +20,8 @@ import { GeneralInfoMock } from '../../services/orderInfoMock';
 import { Language } from 'src/app/main/i18n/Language';
 import { employeePositionsName } from '../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
+import { HeaderComponent } from 'src/app/shared/header/header.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UbsAdminOrderComponent', () => {
   let component: UbsAdminOrderComponent;
@@ -83,7 +85,8 @@ describe('UbsAdminOrderComponent', () => {
         provideMockStore({}),
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 

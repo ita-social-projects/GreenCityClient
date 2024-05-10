@@ -6,6 +6,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { starIcons } from 'src/app/main/image-pathes/habits-images';
 
 @Component({
   selector: 'app-habits-gallery-view',
@@ -15,8 +16,8 @@ import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomP
 export class HabitsGalleryViewComponent implements OnInit {
   @Input() habit: HabitInterface;
   private userId: number;
-  public whiteStar = 'assets/img/icon/star-2.png';
-  public greenStar = 'assets/img/icon/star-1.png';
+  public whiteStar = starIcons.whiteStar;
+  public greenStar = starIcons.greenStar;
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
   public star: number;
 

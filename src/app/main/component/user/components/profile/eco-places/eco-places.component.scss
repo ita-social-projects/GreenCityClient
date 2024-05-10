@@ -1,10 +1,4 @@
-$title-font: var(--secondary-font);
-$bp-smallest: 320px;
-$bp-phone: 576px;
-$bp-tablet: 768px;
-$bp-desktop: 1024px;
-$bp-largest: 1199px;
-$grey: var(--tertiary-light-grey);
+@import 'src/typography/_resp.scss';
 
 .eco-places-content {
   width: 213px;
@@ -62,7 +56,18 @@ $grey: var(--tertiary-light-grey);
   padding: 0;
 
   .item {
-    text-decoration: underline;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .flag-default {
+    background: url('/assets/img/places/bookmark-default.svg') no-repeat center;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
   }
 }
 
@@ -75,7 +80,7 @@ $grey: var(--tertiary-light-grey);
   stroke: rgb(226 226 226) !important;
 }
 
-@media (min-width: $bp-tablet) and (max-width: $bp-largest) {
+@include responsiveRange(md, 2xl) {
   .eco-places-content {
     width: 184px;
   }

@@ -124,7 +124,7 @@
 
     .right-column {
       grid-area: 1 / 3 / 2 / 4;
-      margin-top: 54px;
+      margin-top: 30px;
 
       .app-profile-cards {
         display: block;
@@ -211,6 +211,7 @@
     .right-column {
       .app-shopping-list {
         display: block;
+        margin-top: 16px;
       }
     }
   }

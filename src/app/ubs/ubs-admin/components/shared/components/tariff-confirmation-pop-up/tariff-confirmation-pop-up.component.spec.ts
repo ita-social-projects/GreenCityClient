@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { TariffConfirmationPopUpComponent } from './tariff-confirmation-pop-up.component';
 import { TariffConfirmationPopUpInterface } from 'src/app/ubs/ubs-admin/models/ubs-pop-up.interface';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('TariffConfirmationPopUpComponent', () => {
   let component: TariffConfirmationPopUpComponent;
@@ -22,7 +23,8 @@ describe('TariffConfirmationPopUpComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MatDialogRef, useValue: fakeMatDialogRef }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 

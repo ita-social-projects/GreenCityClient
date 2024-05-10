@@ -15,6 +15,7 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -119,7 +120,8 @@ describe('UbsMainPageComponent', () => {
         { provide: CheckTokenService, useValue: checkTokenServiceMock },
         { provide: OrderService, useValue: orderServiceMock },
         { provide: JwtService, useValue: jwtServiceMock }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 

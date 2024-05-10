@@ -4,10 +4,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { TariffDeactivateConfirmationPopUpComponent } from './tariff-deactivate-confirmation-pop-up.component';
 import { ModalTextComponent } from '../modal-text/modal-text.component';
-import { TariffsService } from '../../../../services/tariffs.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { DialogTariffComponent } from 'src/app/ubs/ubs-admin/components/shared/components/dialog-tariff/dialog-tariff.component';
 
 describe('TariffDeactivateConfirmationPopUpComponent', () => {
   let component: TariffDeactivateConfirmationPopUpComponent;
@@ -17,12 +17,13 @@ describe('TariffDeactivateConfirmationPopUpComponent', () => {
   matDialogMock.open.and.returnValue({ afterClosed: () => of(true) });
   const fakeMatDialog = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialog.afterClosed.and.returnValue(of(true));
-  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getLangValue']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getLangValue.and.returnValue('val1');
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TariffDeactivateConfirmationPopUpComponent],
+      declarations: [TariffDeactivateConfirmationPopUpComponent, DialogTariffComponent],
       imports: [MatDialogModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },

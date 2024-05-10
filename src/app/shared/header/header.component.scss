@@ -58,7 +58,6 @@ header {
   top: 0;
   background: $white-color;
   z-index: 5;
-  text-transform: uppercase;
   font-size: 14px;
   box-shadow: 1px 4px 8px 0 var(--shadow-dark-grey);
 
@@ -407,12 +406,12 @@ header {
     font-size: 14px;
     line-height: 16px;
     margin: 0;
-    color: var(--primary-dark-grey);
+    color: var(--tertiary-font);
 
     &.user-name,
     &.ubs-user-name {
       padding: 0;
-      font-family: var(--primary-font);
+      font-family: var(--tertiary-font);
       font-weight: 400;
       text-transform: capitalize;
       max-width: 160px;
@@ -583,7 +582,7 @@ header {
       .ubs-user-cabinet {
         display: none;
         align-items: center;
-        font-family: var(--ubs-secondary-font);
+        font-family: var(--ubs-tertiary-font);
       }
     }
   }
@@ -604,7 +603,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: var(--ubs-secondary-font);
+  font-family: var(--ubs-tertiary-font);
 }
 
 .add-shadow {
