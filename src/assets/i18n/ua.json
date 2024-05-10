@@ -1236,6 +1236,7 @@
     "event-link": "Онлайн посилання",
     "event-offline-place": "Місце проведення події",
     "event-online-link": "Посилання на онлайн подію (повинно починатись з http:// або https://).",
+    "event-online-link-error": "Неправильне посилання",
     "enter-location": "Введіть місцезнаходження",
     "enter-link": "Введіть посилання",
     "picture": "Зображення",

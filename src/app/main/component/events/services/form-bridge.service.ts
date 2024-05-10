@@ -17,7 +17,7 @@ export class FormBridgeService {
     key: any;
     form?: any;
   }>();
-  private _formsValidnessSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _datesFormsValidnessSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _linkSubject = new BehaviorSubject<string>(null);
 
   constructor() {}
@@ -26,8 +26,8 @@ export class FormBridgeService {
     return this._datesFormSubjects.asObservable();
   }
 
-  get $formsIsValid() {
-    return this._formsValidnessSubject.asObservable();
+  get $datesFormsIsValid() {
+    return this._datesFormsValidnessSubject.asObservable();
   }
 
   get $days() {
@@ -39,7 +39,7 @@ export class FormBridgeService {
   }
 
   updateFormsValidStatus(value: boolean) {
-    this._formsValidnessSubject.next(value);
+    this._datesFormsValidnessSubject.next(value);
   }
 
   setLinkForAll(link: string) {

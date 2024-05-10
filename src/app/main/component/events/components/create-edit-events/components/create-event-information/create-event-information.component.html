@@ -40,7 +40,7 @@
 
   <div class="event-type-wrapper">
     <p>{{ 'create-event.event-type' | translate }}</p>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="mr-2">
       <mat-select formControlName="open" required>
         <mat-option *ngFor="let type of EVENT_LOCALE.eventTypeOptions; index as i" [value]="!!i">
           {{ type[localStorageService.getCurrentLanguage()] }}
@@ -76,6 +76,6 @@
     </p>
   </div>
   <div class="images" style="width: 100%">
-    <app-images-container (imagesOutput)="setImagesUrlArray($event)" [images]="images"> </app-images-container>
+    <app-images-container (imagesOutput)="setImagesUrlArray($event)" [images]="images"></app-images-container>
   </div>
 </form>

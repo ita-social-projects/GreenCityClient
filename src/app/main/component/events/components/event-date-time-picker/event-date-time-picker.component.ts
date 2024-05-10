@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DateForm, DateFormInformation, TimeRange } from '../../models/events.interface';
+import { DateFormGroup, DateFormInformation, TimeRange } from '../../models/events.interface';
 import { combineLatest, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -43,7 +43,7 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
   private _indexEndTime: number;
   private _timeArr: Array<string> = [];
   // FORM
-  public dateForm: FormGroup<DateForm> = this.fb.nonNullable.group(
+  public dateForm: FormGroup<DateFormGroup> = this.fb.nonNullable.group(
     {
       date: [this.today, [Validators.required]],
       timeRange: this.fb.nonNullable.group(
@@ -123,19 +123,22 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
             .$locationUpdate()
             .pipe(take(1))
             .subscribe((value) => {
+              console.log(1);
               if (value.address) {
                 this.appliedForAllLocations = true;
               }
             });
+          this.toggleLocation();
         }
-        this.isLocationSelected = true;
-        this.placeSelected = true;
+        if (!this.appliedForAllLink && this.dayNumber > 0) {
+          console.log(2);
+          this.toggleLocation();
+        }
         setTimeout(() => {
           this.updateMap(coordinates);
         }, 0);
       }
       if (onlineLink) {
-        this.isOnline = true;
         if (this.dayNumber === 0) {
           this.bridge
             .$linkUpdate()
@@ -146,6 +149,7 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
               }
             });
         }
+        this.toggleOnline();
       }
     } else {
       const initialStartTime = this.initialStartTime();
@@ -188,20 +192,23 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
       this.bridge.setLinkForAll('');
       return;
     }
-    console.log('YM HERE');
     const link = this.dateForm.controls.onlineLink.value;
     this.bridge.setLinkForAll(link);
   }
 
   subscribeToLocationChanges() {
+    console.log('hi', this._componentKey);
     const sub = this.bridge.$locationUpdate().subscribe((update) => {
+      console.log(update);
       if (update.address) {
+        this.appliedForAllLocations = true;
         this.isLocationDisabled = true;
         this.placeSelected = true;
         this.isPlaceDisabled = true;
         this.dateForm.get('place').disable();
         this.dateForm.patchValue({ coordinates: update.coords, place: update.address });
       } else {
+        this.appliedForAllLocations = false;
         this.isLocationDisabled = false;
         this.placeSelected = false;
         this.isPlaceDisabled = false;
@@ -387,13 +394,17 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
     this.isOnline = !this.isOnline;
     if (this.isOnline) {
       this.dateForm.controls.onlineLink.setValidators([Validators.required, Validators.pattern(Patterns.linkPattern)]);
+      this.dateForm.controls.onlineLink.updateValueAndValidity();
     } else {
       this.dateForm.controls.onlineLink.clearValidators();
+      this.dateForm.patchValue({ onlineLink: '' });
     }
-    this.dateForm.patchValue({ onlineLink: null });
   }
 
   public toggleLocation(): void {
+    if (!this.place.value) {
+      this.setCurrentLocation();
+    }
     this.placeSelected = !this.placeSelected;
     if (this.placeSelected) {
       this.dateForm.controls.place.setValidators(Validators.required);
@@ -411,16 +422,18 @@ export class EventDateTimePickerComponent implements OnInit, OnDestroy {
       this._coordinates.lat = null;
       this._coordinates.lng = null;
       this._autocomplete.unbindAll();
-      this.dateForm.patchValue({
-        coordinates: null,
-        place: null
-      });
+      this.dateForm.patchValue(
+        {
+          coordinates: null,
+          place: ''
+        },
+        { emitEvent: true }
+      );
       this.isLocationSelected = false;
     }
   }
 
   public setPlaceAutocomplete(): void {
-    this.setCurrentLocation();
     this._autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this._regionOptions);
     this._autocomplete.addListener('place_changed', () => {
       const locationName = this._autocomplete.getPlace();

@@ -25,7 +25,7 @@ quill-editor {
   align-items: center;
   width: 100%;
   margin-bottom: 5px;
-  @include responsiveMobileFirst(md) {
+  @include responsiveMobileFirst(sm) {
     gap: 24px;
   }
 
@@ -51,8 +51,11 @@ quill-editor {
   }
 
   .duration-wrapper {
-    min-width: 100px;
-    flex: 1 1;
+    flex: 1 1 96px;
+    @include responsiveMobileFirst(sm) {
+      flex: 0;
+      width: 96px;
+    }
   }
 }
 

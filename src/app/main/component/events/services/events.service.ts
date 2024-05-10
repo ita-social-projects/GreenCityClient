@@ -5,15 +5,12 @@ import { environment } from '@environment/environment';
 import {
   Addresses,
   Coordinates,
-  DateEvent,
   EventFilterCriteriaInterface,
   EventPageResponseDto,
   EventResponseDto,
   PagePreviewDTO
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { DatePipe } from '@angular/common';
-import { TimeFront } from '../models/event-consts';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +24,6 @@ export class EventsService implements OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
   private divider = `, `;
-  private pipe = new DatePipe('en-US');
   private datesForm: any[] = [];
 
   constructor(
@@ -49,29 +45,6 @@ export class EventsService implements OnDestroy {
 
   public getInformationForm() {
     return this.informationForm;
-  }
-
-  public setArePlacesFilled(dates: DateEvent[], submit?: boolean, check?: boolean, ind?: number): void {
-    const currentValues = this.arePlacesFilledSubject.getValue();
-    let newArray;
-
-    switch (true) {
-      case submit:
-        newArray = dates.map((nextValue) => !(nextValue.coordinates?.latitude || nextValue.onlineLink));
-        break;
-      case check:
-        currentValues[ind] = currentValues[ind] === null ? false : !(dates[ind].coordinates?.latitude || dates[ind].onlineLink);
-        this.arePlacesFilledSubject.next(currentValues);
-        return;
-      case currentValues.some((el) => el === true):
-        newArray = currentValues.slice(0, dates.length);
-        newArray = newArray.concat(Array(dates.length - newArray.length).fill(null));
-        break;
-      default:
-        newArray = dates.length && !submit ? Array(dates.length).fill(false) : currentValues;
-    }
-
-    this.arePlacesFilledSubject.next(newArray);
   }
 
   public getAddresses(): Observable<Addresses[]> {
@@ -104,19 +77,6 @@ export class EventsService implements OnDestroy {
 
   public getImageAsFile(img: string): Observable<Blob> {
     return this.http.get(img, { responseType: 'blob' });
-  }
-
-  public formatDate(dateString: Date, hour: string, min: string): string {
-    const date = new Date(dateString);
-    date.setHours(Number(hour), Number(min));
-    return date.toString();
-  }
-
-  public transformDate(date: DateEvent, typeDate: string): string {
-    return this.pipe.transform(
-      this.formatDate(date.date, date[typeDate].split(TimeFront.DIVIDER)[0], date[typeDate].split(TimeFront.DIVIDER)[1]),
-      'yyyy-MM-ddTHH:mm:ssZZZZZ'
-    );
   }
 
   public setForm(form: PagePreviewDTO | EventPageResponseDto): void {

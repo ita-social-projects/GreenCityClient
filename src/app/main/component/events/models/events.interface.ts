@@ -36,10 +36,10 @@ export interface DateFormInformation {
   date: Date;
   coordinates: {
     lat: number | null;
-    lng: number | null; // Use lng instead of lnt for convention
+    lng: number | null;
   };
-  onlineLink: string; // Optional string for onlineLink
-  place: string; // Optional string for place
+  onlineLink: string;
+  place: string;
   allDay: boolean;
 }
 
@@ -53,10 +53,10 @@ export interface TimeRange {
 type FormControllers<T> = {
   [K in keyof T]: FormControl<T[K]>;
 };
-
+export type DateForm = DateFormInformation & TimeRange;
 export type DateFormControls = FormControllers<DateFormInformation>;
 export type TimeRangeControls = FormControllers<TimeRange['timeRange']>;
-export type DateForm = DateFormControls & { timeRange: FormGroup<TimeRangeControls> };
+export type DateFormGroup = DateFormControls & { timeRange: FormGroup<TimeRangeControls> };
 export type EventInformationForm = FormControllers<EventInformation>;
 
 export interface Dates {
@@ -74,19 +74,6 @@ export interface Dates {
   id?: number;
 }
 
-export interface DateEvent {
-  date?: Date;
-  startDate: string;
-  finishDate: string;
-  coordinates?: {
-    latitude: number;
-    longitude: number;
-  };
-  onlineLink?: string;
-  valid: boolean;
-  check?: boolean;
-}
-
 export interface Coords {
   coords: { lat: number; lng: number };
   placeId: number;
@@ -98,13 +85,6 @@ export interface MapMarker {
     lng: number;
   };
   animation: string;
-}
-
-export interface EventImage {
-  name?: string;
-  src: string;
-  label: string;
-  isLabel: boolean;
 }
 
 export interface EventResponseDto {
@@ -183,11 +163,6 @@ export interface DateEventResponseDto {
   valid: boolean;
 }
 
-export interface OfflineDto {
-  lat: number;
-  lng: number;
-}
-
 export interface TagObj {
   nameUa: string;
   nameEn: string;
@@ -215,16 +190,11 @@ export interface PagePreviewDTO {
   id?: number;
   editorText: string;
   organizer?: Organizer;
-  dates: DateEvent[];
+  dates: Dates[];
   tags: any;
   imgArray: any[];
   imgArrayToPreview: any[];
-  location: DateFormObj;
-}
-
-export interface InitialStartDate {
-  initialDate: Date;
-  initialStartTime: string;
+  location: string;
 }
 
 export interface EventFilterCriteriaInterface {

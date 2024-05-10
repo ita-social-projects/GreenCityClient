@@ -1,10 +1,11 @@
 <app-spinner *ngIf="isPosting"></app-spinner>
-<div *ngIf="!isPosting" [formGroup]="eventFormGroup">
-  <div class="container pl-3 pr-3">
+<div *ngIf="!isPosting">
+  <div class="container">
     <div class="event-header">
       <div class="event-header-items">
         <div class="mb-4">
-          <a (click)="toEventsList()" [routerLink]="routedFromProfile ? [previousPath, { tabId: 2 }] : [previousPath]" class="back">
+          <!--            (click)="toEventsList()"-->
+          <a [routerLink]="routedFromProfile ? [previousPath, { tabId: 2 }] : [previousPath]" class="back">
             <img [src]="images.arrowLeft" alt="arrow" aria-hidden="true" class="arrow" />
             <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
           </a>
@@ -15,24 +16,24 @@
       </div>
     </div>
     <div class="mat-wrapper flex-lg-row">
-      <mat-card class="">
+      <mat-card class="information-card">
         <app-create-event-information (formStatus)="handleInformationStatus($event)"></app-create-event-information>
       </mat-card>
-      <mat-card class="tw-basis-1/2">
+      <mat-card>
         <app-create-event-dates (formsEmit)="setDatesForm($event)"></app-create-event-dates>
       </mat-card>
     </div>
 
     <div class="submit-container">
+      <button (click)="onPreview()" [disabled]="!formsIsValid" class="secondary-global-button submit-buttons">
+        {{ 'create-event.preview' | translate }}
+      </button>
+
+      <button (click)="onSubmit()" [disabled]="!formsIsValid" class="primary-global-button submit-buttons">
+        {{ nameBtn | translate }}
+      </button>
+
       <button (click)="cancel(true)" class="tertiary-global-button">{{ 'create-event.cancel' | translate }}</button>
-      <div class="buttons-group">
-        <button (click)="onPreview()" [disabled]="!formsIsValid" class="secondary-global-button submit-buttons">
-          {{ 'create-event.preview' | translate }}
-        </button>
-        <button (click)="onSubmit()" [disabled]="!formsIsValid" class="primary-global-button submit-buttons">
-          {{ nameBtn | translate }}
-        </button>
-      </div>
     </div>
   </div>
 </div>

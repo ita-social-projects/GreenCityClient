@@ -1198,6 +1198,7 @@
     "event-link": "Online Link",
     "event-offline-place": "Event Offline place",
     "event-online-link": "EventOnline link (should start with http:// or https://)",
+    "event-online-link-error": "Incorrect link",
     "enter-location": "Enter a location",
     "enter-link": "Enter link",
     "textarea-title": "Events Description",

@@ -45,30 +45,30 @@
         </div>
       </ng-container>
 
-      <mat-checkbox (change)="toggleAllDay()" class="checkbox-wrapper" color="primary" formControlName="allDay"
+      <mat-checkbox (change)="toggleAllDay()" class="mr-2" color="primary" formControlName="allDay"
         >{{ 'create-event.all-day' | translate }}
       </mat-checkbox>
+      <div class="checkbox">
+        <mat-checkbox
+          (change)="toggleLocation()"
+          [checked]="placeSelected"
+          [disabled]="isPlaceDisabled"
+          class="checkbox-wrapper"
+          color="primary"
+        >
+          {{ 'create-event.event-place' | translate }}
+        </mat-checkbox>
+        <mat-checkbox (change)="toggleOnline()" [checked]="isOnline" [disabled]="isLinkDisabled" class="checkbox-wrapper" color="primary">
+          {{ 'create-event.event-online' | translate }}
+        </mat-checkbox>
+      </div>
     </div>
-  </div>
-  <div class="checkbox">
-    <mat-checkbox
-      (change)="toggleLocation()"
-      [checked]="placeSelected"
-      [disabled]="isPlaceDisabled"
-      class="checkbox-wrapper"
-      color="primary"
-    >
-      {{ 'create-event.event-place' | translate }}
-    </mat-checkbox>
-    <mat-checkbox (change)="toggleOnline()" [checked]="isOnline" [disabled]="isLinkDisabled" class="checkbox-wrapper" color="primary">
-      {{ 'create-event.event-online' | translate }}
-    </mat-checkbox>
   </div>
 
   <div *ngIf="placeSelected" class="active">
     <p class="regular-text mb-2">{{ 'create-event.event-location' | translate }}</p>
     <div class="location-title">
-      <mat-form-field appearance="outline" class="location-title-input">
+      <mat-form-field appearance="outline" class="location-title-input" subscriptSizing="dynamic">
         <mat-label>{{ 'create-event.event-offline-place' | translate }}</mat-label>
         <input #placesRef formControlName="place" matInput placeholder="{{ 'create-event.enter-location' | translate }}" />
         <mat-error> {{ 'create-event.location-required' | translate }}</mat-error>
@@ -93,15 +93,17 @@
 
   <div *ngIf="isOnline" class="d-flex flex-column w-100">
     <p class="regular-text mb-2">{{ 'create-event.event-link' | translate }}</p>
-    <mat-form-field appearance="outline" class="link-title">
+    <mat-form-field appearance="outline" class="link-title" subscriptSizing="dynamic">
       <mat-label class="link-title">{{ 'create-event.event-online-link' | translate }}</mat-label>
       <input formControlName="onlineLink" matInput placeholder="{{ 'create-event.enter-link' | translate }}" />
+      <mat-error> {{ 'create-event.event-online-link-error' | translate }}</mat-error>
     </mat-form-field>
     <mat-checkbox
       (change)="toggleForAllLink()"
       *ngIf="this.dayNumber === 0"
       [checked]="this.appliedForAllLink"
       class="apply-location-checkbox"
+      color="primary"
     >
       {{ 'create-event.apply-location' | translate }}
     </mat-checkbox>

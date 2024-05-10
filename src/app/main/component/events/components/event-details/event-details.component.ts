@@ -135,7 +135,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.event = this.eventService.getForm();
     console.log(this.event);
     this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-    this.place = this.event.location.place;
+    this.place = this.event.location as string;
     this.images = this.event.imgArrayToPreview;
     this.bindUserName();
     window.onpopstate = () => {
@@ -286,14 +286,14 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   private formatDates(): void {
-    this.event.dates.forEach((date) => {
-      if (date.startDate) {
-        date.startDate = this.eventService.transformDate(date, 'startDate');
-      }
-      if (date.finishDate) {
-        date.finishDate = this.eventService.transformDate(date, 'finishDate');
-      }
-    });
+    // this.event.dates.forEach((date) => {
+    //   if (date.startDate) {
+    //     date.startDate = this.eventService.transformDate(date, 'startDate');
+    //   }
+    //   if (date.finishDate) {
+    //     date.finishDate = this.eventService.transformDate(date, 'finishDate');
+    //   }
+    // });
   }
 
   private verifyRole(): string {
