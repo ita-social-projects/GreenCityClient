@@ -208,6 +208,11 @@ input {
   color: var(--ubs-secondary-grey);
 }
 
+.accordion-list {
+  list-style: none;
+  padding: 0;
+}
+
 .export-excel-btn {
   display: flex;
   justify-content: center;
