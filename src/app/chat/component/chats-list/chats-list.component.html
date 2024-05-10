@@ -36,14 +36,14 @@
 <div *ngIf="isSupportChat && isAdmin" class="chats">
   <div class="search-container">
     <div class="chat" *ngFor="let chat of chatService.userChatsStream$ | async" (click)="openNewMessageWindow(chat)">
-      <div class="chat-info">
-        <span class="user-id">user id {{ chat.ownerId }} ,</span>
-        <span class="tarrif-id"> tarrif id {{ chat.tariffId }}</span>
-      </div>
       <img [src]="chatIcons.userLogo" class="user-logo" alt="user logo" />
       <div class="chat-text">
         <span class="chat-name">{{ chat.name }}</span>
-        <div *ngIf="chat.lastMessage" class="chat-last-message">
+        <div *ngIf="chat.lastMessage" class="chat-info">
+          <span class="user-id">user-id {{ chat.ownerId }} ,</span>
+          <span class="tarrif-id"> tarrif-id {{ chat.tariffId }}</span>
+        </div>
+        <div class="chat-last-message">
           <span class="chat-lm-text">{{ chat.lastMessage }}</span>
           <span class="chat-lm-date">{{ chat.lastMessageDateTime | date: messageDateTreat(chat.lastMessageDateTime) }}</span>
         </div>

@@ -48,6 +48,12 @@ export class SocketService {
     this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
       const newMessage: Message = JSON.parse(data.body);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
+      const chat = this.chatsService.userChats?.find((el) => el.id === newMessage.roomId);
+      if (chat) {
+        chat.amountUnreadMessages = 1;
+        this.titleService.setTitle(`New message`);
+      }
+
       if (messages) {
         messages.page.push(newMessage);
         this.chatsService.currentChatMessagesStream$.next(messages.page);

@@ -11,8 +11,8 @@ import { SocketService } from '../../service/socket/socket.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { Store } from '@ngrx/store';
-import { IAppState } from 'src/app/store/state/app.state';
+
+import { Role } from '@global-models/user/roles.model';
 
 @Component({
   selector: 'app-chat-popup',
@@ -53,8 +53,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     this.userId = this.localeStorageService.getUserId();
     this.socketService.connect();
 
-    this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
-
+    this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
     if (this.isSupportChat && this.isAdmin) {
       this.chatsService.getAllSupportChats();
     }
@@ -84,6 +83,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   }
 
   public openChatModal() {
+    this.commonService.newMessageWindowRequireCloseStream$.next(true);
     this.dialog.closeAll();
     this.dialog.open(ChatModalComponent, this.dialogConfig);
   }

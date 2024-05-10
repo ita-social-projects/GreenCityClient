@@ -43,8 +43,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public arrayLang: Array<LanguageModel>;
   public ariaStatus = 'profile options collapsed';
   public isSearchClicked = false;
-  private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
-  private adminRoleGreenCityValue = 'ROLE_ADMIN';
+  private adminRoleValue = Role.UBS_EMPLOYEE;
+  private adminRoleGreenCityValue = Role.ADMIN;
   private userRole: string;
   private userId: number;
   private backEndLink = environment.backendLink;
