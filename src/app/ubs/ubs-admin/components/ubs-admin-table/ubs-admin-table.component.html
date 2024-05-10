@@ -95,11 +95,13 @@
                       </div>
                     </div>
                     <ng-template #nonDate>
-                      <li *ngFor="let option of column.values">
-                        <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
-                          {{ option | serverTranslate: currentLang }}
-                        </mat-checkbox>
-                      </li>
+                      <ul class="accordion-list">
+                        <li *ngFor="let option of column.values">
+                          <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
+                            {{ option | serverTranslate: currentLang }}
+                          </mat-checkbox>
+                        </li>
+                      </ul>
                     </ng-template>
                   </div>
                 </div>
@@ -197,7 +199,6 @@
   class="scrolling"
   [style.display]="showTable()"
   infiniteScroll
-  [infiniteScrollDistance]="0"
   [infiniteScrollThrottle]="100"
   (scrolled)="onScroll()"
   [scrollWindow]="false"
