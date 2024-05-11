@@ -95,7 +95,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       this.currentLang = lang;
       this.translate.use(lang);
     });
-    this.filterChangeSubs$.pipe(debounceTime(300), takeUntil(this.destroy$)).subscribe((value) => {
+    this.filterChangeSubs$.pipe(debounceTime(300), takeUntil(this.destroy$)).subscribe(() => {
       this.notifications = [];
       this.currentPage = 0;
       this.hasNextPage = false;
@@ -105,7 +105,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     this.getNotification();
   }
 
-  public changefilterApproach(approach: string, event: Event): void {
+  changefilterApproach(approach: string, event: Event): void {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       this.filterApproaches.forEach((el) => (el.isSelected = el.name === approach));
       if (approach === this.filterAll) {
@@ -115,13 +115,13 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public changeFilter(type: NotificationFilter, approach: string, event: Event): void {
+  changeFilter(type: NotificationFilter, approach: string, event: Event): void {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       this.filterChangeSubs$.next({ type, approach });
       const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypesFilter : this.projects;
 
-      const notificationType = filterArr.filter((el) => el.name === type.name)[0];
-      const notificationTypeAll = filterArr.filter((el) => el.name === this.filterAll)[0];
+      const notificationType = filterArr.find((el) => el.name === type.name);
+      const notificationTypeAll = filterArr.find((el) => el.name === this.filterAll);
       notificationType.isSelected = !notificationType.isSelected;
 
       if (notificationType.name === this.filterAll) {
@@ -136,9 +136,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   checkSelectedFilter(approachType: string): boolean {
-    return this.filterApproaches.filter((el) => {
-      return el.name === approachType;
-    })[0].isSelected;
+    return this.filterApproaches.find((el) => el.name === approachType).isSelected;
   }
 
   private getAllSelectedFilters(approach: string): NotificationFilter[] {
@@ -153,7 +151,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         ];
   }
 
-  public getNotification(page?: number): void {
+  getNotification(page?: number): void {
     const filtersSelected = {
       projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN),
       notificationType: this.getAllSelectedFilters(this.filterApproach.TYPE)
@@ -170,11 +168,11 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
-  public readNotification(event: Event, notification: NotificationModel) {
+  readNotification(event: Event, notification: NotificationModel) {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       event.stopPropagation();
       if (!notification.viewed) {
@@ -188,7 +186,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public unReadNotification(event: Event, notification: NotificationModel) {
+  unReadNotification(event: Event, notification: NotificationModel) {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       event.stopPropagation();
       if (notification.viewed) {
@@ -202,7 +200,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public deleteNotification(event: Event, notification: NotificationModel): void {
+  deleteNotification(event: Event, notification: NotificationModel): void {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       event.stopPropagation();
       this.userNotificationService
@@ -224,7 +222,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onScroll(): void {
+  onScroll(): void {
     this.isLoading = true;
     if (this.hasNextPage) {
       this.getNotification(this.currentPage + 1);

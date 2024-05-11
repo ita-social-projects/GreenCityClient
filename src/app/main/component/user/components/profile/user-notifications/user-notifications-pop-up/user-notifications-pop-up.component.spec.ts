@@ -3,6 +3,10 @@ import { UserNotificationsPopUpComponent } from './user-notifications-pop-up.com
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { NotificationsService } from 'src/app/ubs/ubs-admin/services/notifications.service';
+import { UserNotificationService } from '@global-user/services/user-notification.service';
 
 describe('UserNotificationsPopUpComponent', () => {
   let component: UserNotificationsPopUpComponent;
@@ -12,19 +16,21 @@ describe('UserNotificationsPopUpComponent', () => {
     keydownEvents() {
       return of();
     },
-    backdropClick() {
-      return of();
-    },
     close() {}
   };
+  let notificationServiceMock: UserNotificationService;
+  notificationServiceMock = jasmine.createSpyObj('UserNotificationService', ['getThreeNewNotification']);
+  notificationServiceMock.getThreeNewNotification = () => of();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UserNotificationsPopUpComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, HttpClientModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogRefStub },
-        { provide: MAT_DIALOG_DATA, useValue: [] }
+        { provide: MAT_DIALOG_DATA, useValue: [] },
+        { provide: MatSnackBarComponent, useValue: {} },
+        { provide: NotificationsService, useValue: notificationServiceMock }
       ]
     }).compileComponents();
   }));
@@ -39,22 +45,12 @@ describe('UserNotificationsPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should keydownEvents be called in ngOnInit', () => {
-    const spy = spyOn(component[dialog], 'keydownEvents').and.returnValue(of());
+  it('it should call get three New Notifications when onInit is inviked', () => {
+    const notifications = [];
+    const spy = spyOn((component as any).userNotificationService, 'getThreeNewNotification').and.returnValue(of(notifications));
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
-  });
-
-  it('should backdropClick be called in ngOnInit', () => {
-    const spy = spyOn(component[dialog], 'backdropClick').and.returnValue(of());
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should call close on matDialogRef', () => {
-    const spy = spyOn(component[dialog], 'close');
-    component.closeDialog({ openAll: false });
-    expect(spy).toHaveBeenCalledWith({ openAll: false });
+    expect(component.notifications).toEqual(notifications);
   });
 
   it('should call close after openAll notifications', () => {
