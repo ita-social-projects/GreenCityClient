@@ -1,19 +1,19 @@
-import { Directive, ElementRef, Input } from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[appNotificContentReplace]'
 })
-export class NotificContentReplaceDirective {
-  @Input('replacements') replacements: { [key: string]: string };
+export class NotificContentReplaceDirective implements OnChanges {
+  @Input() replacements: { [key: string]: string };
   value = [
     { contentProp: 'user', objectProp: 'actionUserText' },
     { contentProp: 'message', objectProp: 'message' },
     { contentProp: 'secondMessage', objectProp: 'secondMessage' }
   ];
-
+  newValue;
   constructor(private el: ElementRef) {}
 
-  ngOnInit() {
+  ngOnChanges() {
     if (this.replacements) {
       const content = this.el.nativeElement.textContent;
       const replacedContent = this.replaceContent(this.replacements.bodyText, this.replacements);
