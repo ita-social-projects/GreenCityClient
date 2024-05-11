@@ -15,7 +15,7 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
   notifications = [];
   isLoading = true;
 
-  constructor(public dialogRef: MatDialogRef<UserNotificationsPopUpComponent>, private notificatioService: UserNotificationService) {}
+  constructor(public dialogRef: MatDialogRef<UserNotificationsPopUpComponent>, private userNotificationService: UserNotificationService) {}
 
   ngOnInit(): void {
     this.dialogRef
@@ -27,7 +27,7 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.notificatioService
+    this.userNotificationService
       .getThreeNewNotification()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data) => {
