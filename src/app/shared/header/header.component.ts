@@ -123,7 +123,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
     });
     this.onConnectedtoSocket();
-    interval(4000).subscribe(() => {
+    interval(10000).subscribe(() => {
       this.socketService.send(this.socketService.connection.greenCity, '/app/notifications', {
         userId: this.userId
       });
