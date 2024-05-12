@@ -7,10 +7,7 @@
   }
 
   .sidebar {
-    // background-color: var(--after-primary-light-grey);
-
     .sidebar-container {
-      margin: 0 25px;
       width: calc(100% - 50px);
     }
 
@@ -148,7 +145,7 @@
     .sidebar {
       .sidebar-container {
         width: 100% !important;
-        margin: 0 0 125px 0 !important;
+        // margin: 0 0 125px 0 !important;
       }
 
       .sidebar-slider {

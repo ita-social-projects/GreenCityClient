@@ -1,42 +1,4 @@
-.wrapper {
-  min-height: 100vh;
-  width: 80vw;
-  margin-top: 20px;
-  margin-left: -25px;
-  padding: 0 25px;
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--ubs-primary-black);
-  font-family: var(--primary-font);
-  background-color: var(--after-primary-light-grey);
-}
-
-.main-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 24px;
-
-  margin-bottom: 10px;
-  @media (min-width: 768px) {
-    margin-bottom: 40px;
-    align-items: center;
-  }
-}
-
-.main-header-title {
-  margin: 0 0 12px 0;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 32px;
-  line-height: 40px;
-}
-
 .if-empty {
-  // margin: 16px 0 0 44px;
-
-  // @media (min-width: 768px) {
-  // }
-
   a {
     margin-left: 13px;
     color: var(--ubs-button-light-green);
@@ -72,32 +34,6 @@
   text-align: center;
 }
 
-@media (max-width: 1540px) {
-  .wrapper {
-    width: unset;
-  }
-}
-
-@media (max-width: 960px) {
-  .wrapper {
-    font-size: 16px;
-    line-height: 24px;
-    color: var(--ubs-primary-black);
-    font-family: var(--primary-font);
-    background-color: var(--after-primary-light-grey);
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-
-  .main-header {
-    // padding-right: 45px;
-  }
-
-  .main-header-title {
-    margin: 0;
-  }
-}
-
 @media (max-width: 768px) {
   .mobile-title {
     display: flex;
@@ -107,44 +43,15 @@
     font-size: 12px;
     line-height: 16px;
 
-    > div {
+    div {
       width: 90%;
       margin-left: 13px;
     }
-  }
-
-  .wrapper {
-    padding-top: 32px;
-  }
-
-  .main-header {
-    display: flex;
-    flex-direction: column;
-    padding-right: 0;
   }
 
   .ubs-primary-global-button {
     width: 100%;
     min-width: unset;
     margin-right: 0;
-  }
-
-  .main-header-title {
-    margin: 0;
-    font-size: 24px;
-    line-height: 32px;
-  }
-}
-
-@media (max-width: 480px) {
-  .wrapper {
-    width: 100vw;
-    padding-top: 32px;
-    margin: 0 auto;
-    font-size: 16px;
-    line-height: 24px;
-    color: var(--ubs-primary-black);
-    font-family: var(--primary-font);
-    background-color: var(--after-primary-light-grey);
   }
 }

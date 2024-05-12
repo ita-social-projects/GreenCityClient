@@ -18,7 +18,7 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-ubs-user-orders',
   templateUrl: './ubs-user-orders.component.html',
-  styleUrls: ['./ubs-user-orders.component.scss']
+  styleUrls: ['./ubs-user-orders.component.scss', '../styles/ubs-user-common.scss']
 })
 export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
@@ -36,6 +36,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   selected = new FormControl(0);
   public infoIcon = './assets/img/icon/info-icon.svg';
   activeCouriers;
+  s;
   courierUBSName = 'UBS';
 
   constructor(

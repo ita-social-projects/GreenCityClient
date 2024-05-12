@@ -7,11 +7,12 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { MatDialog } from '@angular/material/dialog';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-ubs-user-messages',
   templateUrl: './ubs-user-messages.component.html',
-  styleUrls: ['./ubs-user-messages.component.scss']
+  styleUrls: ['./ubs-user-messages.component.scss', '../styles/ubs-user-common.scss']
 })
 export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   isAnyMessages = true;
@@ -106,7 +107,8 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private bpObserver: BreakpointObserver
   ) {}
 
   ngOnInit() {
@@ -114,6 +116,11 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
       this.page = +this.route.snapshot.paramMap.get('pageId');
       this.subscribeToLangChange();
     });
+  }
+
+  mobileTableHeader(th: string) {
+    const isMobile = this.bpObserver.isMatched('(max-width: 700px)');
+    return isMobile ? th.split(' ')[0] : th;
   }
 
   private subscribeToLangChange() {

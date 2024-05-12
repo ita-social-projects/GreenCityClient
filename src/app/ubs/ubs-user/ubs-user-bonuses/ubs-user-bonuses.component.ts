@@ -12,12 +12,13 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 @Component({
   selector: 'app-ubs-user-bonuses',
   templateUrl: './ubs-user-bonuses.component.html',
-  styleUrls: ['./ubs-user-bonuses.component.scss']
+  styleUrls: ['./ubs-user-bonuses.component.scss', '../styles/ubs-user-common.scss']
 })
 export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['dateOfEnrollment', 'amount', 'reason'];
   dataSource = new MatTableDataSource<BonusModel>();
-  totalBonuses: number;
+  // totalBonuses: number;
+  totalBonuses = 0;
   // isLoading = true;
   isLoading = false;
   // bonusesList: BonusModel[] = [];

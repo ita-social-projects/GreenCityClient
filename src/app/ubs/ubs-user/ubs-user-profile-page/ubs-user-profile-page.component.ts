@@ -26,7 +26,7 @@ import { NotificationPlatform } from '../../ubs/notification-platform.enum';
 @Component({
   selector: 'app-ubs-user-profile-page',
   templateUrl: './ubs-user-profile-page.component.html',
-  styleUrls: ['./ubs-user-profile-page.component.scss']
+  styleUrls: ['./ubs-user-profile-page.component.scss', '../styles/ubs-user-common.scss']
 })
 export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDestroy {
   autocompleteService: GoogleAutoService;

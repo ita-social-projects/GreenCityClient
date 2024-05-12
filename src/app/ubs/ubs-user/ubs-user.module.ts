@@ -32,6 +32,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UbsSwitcherComponent } from './ubs-user-profile-page/ubs-switcher/ubs-switcher.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     MatFormFieldModule,
     MatRadioModule,
     MatAutocompleteModule,
-    MatDialogModule
+    MatDialogModule,
+    LayoutModule
   ],
   providers: [
     {

@@ -118,6 +118,7 @@
     height: 100vh;
     justify-content: center;
     border-radius: 0;
+    padding-bottom: 48px;
 
     .form-spinner-wrapper {
       margin: 0;
@@ -146,7 +147,12 @@
       align-content: space-between;
       justify-content: center;
       align-items: center;
-      // padding-bottom: 10em;
+
+      margin-inline: 0;
+
+      button {
+        width: 100%;
+      }
     }
   }
 

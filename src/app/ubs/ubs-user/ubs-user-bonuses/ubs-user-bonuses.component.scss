@@ -1,23 +1,3 @@
-.bonuses-container {
-  display: flex;
-  flex-direction: column;
-  font-family: var(--primary-font);
-  height: 100vh;
-  padding-inline: 16px;
-  padding-top: 75px;
-}
-
-// .no-bonuses-wrapper {
-//   padding-top: 30px;
-// }
-
-.no-bonuses-text {
-  padding-right: 8px;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-}
-
 .more-about-bonuses-link {
   color: var(--ubs-electric-violet);
   font-weight: 600;
@@ -26,50 +6,26 @@
 .link-center {
   display: inline-block;
   width: 100%;
-  // text-align: center;
-  padding: 48px 0 12px 0;
+  margin-bottom: 40px;
 
-  @media (min-width: 768px) {
-    & {
-      text-align: center;
-      padding: 24px 0 64px 0;
-    }
+  &::before {
+    content: '*';
+    color: red;
+    left: -6px;
+    font-weight: 900;
   }
 }
 
-.bonuses-exist-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.total-bonuses {
+  &-number__amount {
+    font-weight: 900;
 
-.total-bonuses-number {
-  width: 228px;
-  height: 140px;
-  background-color: var(--primary-white);
-  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
-  text-align: center;
-  padding-top: 24px;
-  margin: 0 auto;
-}
-
-.total-bonuses-number__header {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  line-height: 28px;
-}
-
-.total-bonuses-number__amount {
-  font-weight: 700;
-  font-size: 32px;
-  letter-spacing: 0.2px;
-  line-height: 40px;
-}
-
-.bonuses-table-wrapper {
-  width: 100%;
-  margin: 0 auto;
+    background: linear-gradient(180deg, #8fe02e 0%, #26b351 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+  }
 }
 
 .mat-header-cell,
@@ -91,14 +47,25 @@
   letter-spacing: 0.1px;
 }
 
-// @media (max-width: 420px) {
-//   .bonuses-exist-wrapper {
-//     width: 100vw;
-//   }
-// }
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
+  padding-left: 8px;
+}
 
-@media (min-width: 768px) {
-  .bonuses-container {
-    padding-top: 40px;
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+  padding-right: 8px;
+}
+
+.mat-cell {
+  padding: 8px;
+  vertical-align: middle;
+}
+
+@media (max-width: 600px) {
+  .link-center {
+    margin-bottom: 16px;
   }
 }
