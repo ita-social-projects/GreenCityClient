@@ -276,6 +276,7 @@ describe('EventDetailsComponent', () => {
     component.addAttenderError = 'some error';
     const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
     dialogRefSpy.afterClosed.and.returnValue(of(true));
+    dialogSpy.open.and.returnValue(dialogRefSpy);
     component.buttonAction({} as MouseEvent);
     expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('errorJoinEvent');
     expect(component.addAttenderError).toBe('');
