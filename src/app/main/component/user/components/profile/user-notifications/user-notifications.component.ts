@@ -9,6 +9,8 @@ import { NotificationFilter, NotificationModel, NotificationType } from '@global
 import { FilterApproach } from '@global-user/models/notification.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { Router } from '@angular/router';
+import { UserService } from '@global-service/user/user.service';
 
 @Component({
   selector: 'app-user-notifications',
@@ -87,7 +89,9 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     public translate: TranslateService,
     private userNotificationService: UserNotificationService,
     private matSnackBar: MatSnackBarComponent,
-    private userFriendsService: UserFriendsService
+    private userFriendsService: UserFriendsService,
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -141,7 +145,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
 
   private getAllSelectedFilters(approach: string): NotificationFilter[] {
     const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypesFilter : this.projects;
-    const allOption = filterArr.filter((el) => el.name === this.filterAll)[0];
+    const allOption = filterArr.find((el) => el.name === this.filterAll);
     return allOption.isSelected
       ? []
       : [
@@ -235,6 +239,14 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
 
   declineRequest(userId: number): void {
     this.userFriendsService.declineRequest(userId).subscribe();
+  }
+
+  navigate(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+
+    if (target.hasAttribute('data-userid')) {
+      this.router.navigate(['profile', this.userService.userId, 'users', target.textContent, target.getAttribute('data-userid')]);
+    }
   }
 
   ngOnDestroy() {
