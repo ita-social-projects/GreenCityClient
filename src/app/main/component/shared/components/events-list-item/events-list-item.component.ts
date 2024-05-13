@@ -15,7 +15,7 @@ import { typeFiltersData } from '../../../events/models/event-consts';
 import { EventPageResponseDto, TagDto, TagObj } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
@@ -28,6 +28,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { ofType } from '@ngrx/effects';
+import { WarningPopUpComponent } from '../warning-pop-up/warning-pop-up.component';
 
 @Component({
   selector: 'app-events-list-item',
@@ -80,6 +81,14 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupConfirm: 'homepage.events.delete-yes',
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
+  };
+  private cancelationPopupData = {
+    popupTitle: 'homepage.events.pop-up-cancelling-event',
+    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
+    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
+    isUBS: false,
+    isUbsOrderSubmit: false,
+    isHabit: false
   };
   private subsOnAttendEvent = new Subscription();
   private subsOnUnAttendEvent = new Subscription();
@@ -199,7 +208,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.eventService.setForm(null);
     switch (buttonName) {
       case this.btnName.cancel:
-        this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+        this.openPopUp();
         break;
       case this.btnName.join:
         if (this.addAttenderError) {
@@ -242,6 +251,29 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   private joinEvent() {
     this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
     this.snackBar.openSnackBar('joinedEvent');
+  }
+
+  public submitEventCancelling() {
+    this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+  }
+
+  openPopUp(): void {
+    if (this.dialogRef) {
+      return;
+    }
+    this.dialogRef = this.dialog.open(WarningPopUpComponent, {
+      data: this.cancelationPopupData
+    });
+
+    this.dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.dialogRef = null;
+        if (result) {
+          this.submitEventCancelling();
+        }
+      });
   }
 
   public openModal(): void {
