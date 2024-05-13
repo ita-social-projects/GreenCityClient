@@ -87,7 +87,7 @@ h2 > span {
 }
 
 .shopping-list-min {
-  height: 82px;
+  height: 90px;
 }
 
 .shopping-list-max {
@@ -139,6 +139,7 @@ h2 > span {
 
 @include responsiveRange(md, 2xl) {
   .shopping-list-block {
+    border-top: 1px solid var(--quaternary-light-grey);
     width: 184px;
   }
 }
