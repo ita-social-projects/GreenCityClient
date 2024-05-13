@@ -226,7 +226,10 @@ p {
   align-items: center;
   gap: 12px;
 
-  > div {
+  > button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
     font-size: 16px;
     color: var(--secondary-grey);
     cursor: pointer;
