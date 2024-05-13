@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,7 +17,6 @@ export class HabitDurationComponent implements OnInit, OnDestroy {
   public days = 'd';
 
   constructor(
-    private elm: ElementRef,
     private langService: LanguageService,
     public translate: TranslateService
   ) {}
@@ -25,21 +24,14 @@ export class HabitDurationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.newDuration = this.habitDurationInitial;
     this.currentLang = this.langService.getCurrentLanguage();
+    this.days = this.currentLang === 'ua' ? 'дн' : 'd';
     this.subscribeToLangChange();
-    this.thumbTextEl = this.elm.nativeElement.querySelector('.mat-slider-thumb-label-text');
-    if (this.thumbTextEl) {
-      this.updateThumbText();
-      this.thumbTextEl.addEventListener('eventName', this.updateInput.bind(this));
-    }
     this.updateDuration(this.newDuration);
   }
 
   ngOnDestroy() {
     if (this.langChangeSub) {
       this.langChangeSub.unsubscribe();
-    }
-    if (this.thumbTextEl) {
-      this.thumbTextEl.removeEventListener('eventName', this.updateInput.bind(this));
     }
   }
 
@@ -52,21 +44,14 @@ export class HabitDurationComponent implements OnInit, OnDestroy {
     this.updateDuration(this.newDuration);
   }
 
-  public formatLabel(value: number): string {
-    return value + this.days;
-  }
-
-  public updateThumbText() {
-    if (this.thumbTextEl) {
-      this.thumbTextEl.textContent = this.currentLang === 'ua' ? this.newDuration + 'дн' : this.newDuration + 'd';
-    }
+  public formatLabel(days: string): (value: number) => string {
+    return (value: number) => `${value}${days}`;
   }
 
   public subscribeToLangChange(): void {
     this.langChangeSub = this.translate.onDefaultLangChange.subscribe((res) => {
       const translations = res.translations;
       this.days = translations.user.habit.duration.day;
-      this.updateThumbText();
     });
   }
 }
