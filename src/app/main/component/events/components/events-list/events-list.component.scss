@@ -15,7 +15,7 @@
   letter-spacing: 0.2px;
   text-align: left;
 
-  @media screen and (max-width: 576px) {
+  @include responsivePCFirst(sm) {
     font-size: 24px;
   }
 }
@@ -39,7 +39,7 @@
   flex: 1;
   justify-content: flex-end;
 
-  @media screen and (max-width: 576px) {
+  @include responsivePCFirst(sm) {
     flex-direction: row;
     gap: 18px;
   }
@@ -107,7 +107,6 @@
     border-radius: 4px;
     width: 100%;
     box-shadow: 0 0 1px 0 var(--primary-grey);
-    // width: 400px;
     height: 40px;
     padding-right: 25px;
   }
@@ -128,7 +127,7 @@
   font-size: 14px;
   line-height: 20px;
 
-  @media screen and (max-width: 600px) {
+  @include responsivePCFirst(sm) {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -145,7 +144,7 @@
     display: none;
   }
 
-  @media screen and (max-width: 600px) {
+  @include responsivePCFirst(sm) {
     overflow-x: auto;
     width: 100%;
   }
@@ -204,7 +203,7 @@ p {
   max-width: 100%;
   white-space: nowrap;
 
-  @media screen and (max-width: 400px) {
+  @include responsivePCFirst(sm) {
     flex-direction: column-reverse;
     gap: 0;
 
@@ -260,7 +259,7 @@ p {
     display: none;
   }
 
-  @media screen and (max-width: 400px) {
+  @include responsivePCFirst(sm) {
     width: 100%;
     margin-top: 10px;
     align-items: left;
@@ -295,7 +294,7 @@ p {
   justify-content: space-between;
   align-items: center;
 
-  @media screen and (max-width: 576px) {
+  @include responsivePCFirst(sm) {
     flex-direction: column;
     align-items: center;
   }
@@ -313,9 +312,10 @@ p {
   max-width: none;
   margin-left: 30px;
   min-width: 139px;
+  padding: 0;
 }
 
-@media screen and (max-width: 576px) {
+@include responsivePCFirst(sm) {
   .create,
   .m-btn {
     width: 100%;
