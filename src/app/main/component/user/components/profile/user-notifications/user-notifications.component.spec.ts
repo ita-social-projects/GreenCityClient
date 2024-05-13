@@ -7,7 +7,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Language } from 'src/app/main/i18n/Language';
 import { PipeTransform, Pipe } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { FilterApproach } from '@global-user/models/notification.model';
+import { FilterApproach, NotificationType } from '@global-user/models/notification.model';
 import { Router } from '@angular/router';
 import { UserNotificationService } from '@global-user/services/user-notification.service';
 import { By } from '@angular/platform-browser';
@@ -58,6 +58,12 @@ describe('UserNotificationsComponent', () => {
     }
   ];
 
+  const notificationTypesFilter = [
+    { name: 'All', nameEn: 'All', nameUa: 'Усі', isSelected: false },
+    { name: NotificationType.ECONEWS_LIKE, nameEn: ' News Like', nameUa: 'Вподобання новини', isSelected: false },
+    { name: NotificationType.ECONEWS_CREATED, nameEn: ' News Created', nameUa: 'Створення новини', isSelected: true }
+  ];
+
   const translateMock = {
     use() {
       return of();
@@ -84,7 +90,8 @@ describe('UserNotificationsComponent', () => {
     'unReadNotification',
     'deleteNotification'
   ]);
-  userNotificationServiceMock.getAllNotification = () => of(notifications);
+  userNotificationServiceMock.getAllNotification = () => of({ page: notifications });
+
   userNotificationServiceMock.readNotification = () => of();
   userNotificationServiceMock.unReadNotification = () => of();
   userNotificationServiceMock.deleteNotification = () => of();
@@ -133,6 +140,40 @@ describe('UserNotificationsComponent', () => {
   it('should return checkSelectedFilter', () => {
     component.filterApproaches = filterApproaches;
     expect(component.checkSelectedFilter(FilterApproach.TYPE)).toBeFalsy();
+  });
+
+  it('should get  getAllSelectedFilters', () => {
+    component.notificationTypesFilter = [
+      {
+        name: 'All',
+        nameEn: 'All',
+        nameUa: 'Усі',
+        isSelected: true
+      }
+    ];
+    const result1 = (component as any).getAllSelectedFilters(component.filterApproach.TYPE);
+    expect(result1).toEqual([]);
+    component.notificationTypesFilter = notificationTypesFilter;
+    const result = (component as any).getAllSelectedFilters(component.filterApproach.TYPE);
+    expect(result).toEqual([
+      { name: NotificationType.ECONEWS_CREATED, nameEn: ' News Created', nameUa: 'Створення новини', isSelected: true }
+    ]);
+  });
+
+  it('should get notifications and change component property', () => {
+    component.notifications = [];
+    spyOn(component as any, 'getAllSelectedFilters').and.returnValue([
+      { name: NotificationType.ECONEWS_CREATED, nameEn: ' News Created', nameUa: 'Створення новини', isSelected: true }
+    ]);
+    const spy = spyOn((component as any).userNotificationService, 'getAllNotification').and.returnValue(
+      of({ page: notifications, currentPage: 1, hasNext: true })
+    );
+    component.getNotification();
+    expect(spy).toHaveBeenCalled();
+    expect(component.notifications).toEqual(notifications);
+    expect(component.currentPage).toBe(1);
+    expect(component.hasNextPage).toBeTruthy();
+    expect(component.isLoading).toBeFalsy();
   });
 
   it(' should change notification status after call unreadNotification method', () => {
