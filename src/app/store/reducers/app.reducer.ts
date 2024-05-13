@@ -9,6 +9,7 @@ import { EcoEventsReducer } from './ecoEvents.reducer';
 import { orderReducer } from './order.reducer';
 import { friendsReducers } from './friends.reducer';
 import { habitReducer } from './habit.reducer';
+import { ubsUserReducer } from 'src/app/store/reducers/ubs-user.reducer';
 
 export const appReducers: ActionReducerMap<IAppState> = {
   friend: friendsReducers,
@@ -19,5 +20,6 @@ export const appReducers: ActionReducerMap<IAppState> = {
   bigOrderTable: bigOrderTableReducer,
   ecoNewsState: EcoNewsReducer,
   ecoEventsState: EcoEventsReducer,
-  habit: habitReducer
+  habit: habitReducer,
+  ubsUser: ubsUserReducer
 };
