@@ -179,28 +179,24 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   readNotification(event: Event, notification: NotificationModel) {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       event.stopPropagation();
-      if (!notification.viewed) {
-        this.userNotificationService
-          .readNotification(notification.notificationId)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(() => {
-            this.notifications.filter((el) => el.notificationId === notification.notificationId)[0].viewed = true;
-          });
-      }
+      this.userNotificationService
+        .readNotification(notification.notificationId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          this.notifications.find((el) => el.notificationId === notification.notificationId).viewed = true;
+        });
     }
   }
 
-  unReadNotification(event: Event, notification: NotificationModel) {
+  unReadNotification(event: Event, notification: NotificationModel): void {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       event.stopPropagation();
-      if (notification.viewed) {
-        this.userNotificationService
-          .unReadNotification(notification.notificationId)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(() => {
-            this.notifications.filter((el) => el.notificationId === notification.notificationId)[0].viewed = false;
-          });
-      }
+      this.userNotificationService
+        .unReadNotification(notification.notificationId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          this.notifications.filter((el) => el.notificationId === notification.notificationId)[0].viewed = false;
+        });
     }
   }
 
@@ -212,9 +208,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           () => {
-            this.notifications = this.notifications.filter((el) => {
-              return el.notificationId !== notification.notificationId;
-            });
+            this.notifications = this.notifications.filter((el) => el.notificationId !== notification.notificationId);
             if (this.notifications.length < this.itemsPerPage && this.hasNextPage) {
               this.getNotification(this.currentPage + 1);
             }

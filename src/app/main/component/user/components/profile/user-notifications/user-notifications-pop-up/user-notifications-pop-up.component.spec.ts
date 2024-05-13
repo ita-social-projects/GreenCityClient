@@ -11,13 +11,11 @@ import { UserNotificationService } from '@global-user/services/user-notification
 describe('UserNotificationsPopUpComponent', () => {
   let component: UserNotificationsPopUpComponent;
   let fixture: ComponentFixture<UserNotificationsPopUpComponent>;
-  const dialog = 'dialogRef';
-  const dialogRefStub = {
-    keydownEvents() {
-      return of();
-    },
-    close() {}
-  };
+
+  const dialogRefStub = jasmine.createSpyObj('MatDialogRef', ['close', 'keydownEvents']);
+  dialogRefStub.close = () => {};
+  dialogRefStub.keydownEvents = () => of(1);
+
   let notificationServiceMock: UserNotificationService;
   notificationServiceMock = jasmine.createSpyObj('UserNotificationService', ['getThreeNewNotification']);
   notificationServiceMock.getThreeNewNotification = () => of();
@@ -45,7 +43,7 @@ describe('UserNotificationsPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('it should call get three New Notifications when onInit is inviked', () => {
+  it('it should call get three New Notifications when onInit is invoken', () => {
     const notifications = [];
     const spy = spyOn((component as any).userNotificationService, 'getThreeNewNotification').and.returnValue(of(notifications));
     component.ngOnInit();
@@ -54,7 +52,7 @@ describe('UserNotificationsPopUpComponent', () => {
   });
 
   it('should call close after openAll notifications', () => {
-    const spy = spyOn(component[dialog], 'close');
+    const spy = spyOn((component as any).dialogRef, 'close');
     component.openAll();
     expect(spy).toHaveBeenCalledWith({ openAll: true });
   });
