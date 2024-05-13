@@ -167,7 +167,6 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         this.notifications = [...this.notifications, ...data.page];
         this.currentPage = data.currentPage;
         this.hasNextPage = data.hasNext;
-
         this.isLoading = false;
       });
   }
@@ -237,7 +236,6 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
 
   navigate(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-
     if (target.hasAttribute('data-userid')) {
       this.router.navigate(['profile', this.userService.userId, 'users', target.textContent, target.getAttribute('data-userid')]);
     }

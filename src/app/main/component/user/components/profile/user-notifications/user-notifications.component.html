@@ -115,19 +115,7 @@
         </div>
       </mat-expansion-panel>
     </mat-accordion>
-    <div
-      infinite-scroll
-      [infiniteScrollDistance]="0"
-      [infiniteScrollThrottle]="100"
-      (scrolled)="onScroll()"
-      [infiniteScrollDisabled]="!hasNextPage"
-    ></div>
+    <div infinite-scroll [infiniteScrollThrottle]="100" (scrolled)="onScroll()" [infiniteScrollDisabled]="!hasNextPage"></div>
   </div>
-  <app-spinner
-    *ngIf="isLoading"
-    infiniteScroll
-    [infiniteScrollDistance]="0"
-    [infiniteScrollThrottle]="500"
-    (scrolled)="onScroll()"
-  ></app-spinner>
+  <app-spinner *ngIf="isLoading" infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></app-spinner>
 </div>
