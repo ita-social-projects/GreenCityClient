@@ -22,15 +22,7 @@
     </button>
   </div>
 </div>
-<div
-  id="table-container"
-  class="scrolling"
-  infiniteScroll
-  [infiniteScrollDistance]="0"
-  [infiniteScrollThrottle]="100"
-  (scrolled)="onScroll()"
-  [scrollWindow]="false"
->
+<div id="table-container" class="scrolling" infiniteScroll [infiniteScrollThrottle]="100" (scrolled)="onScroll()" [scrollWindow]="false">
   <mat-table id="table" cdkDropListGroup [dataSource]="dataSource" *ngIf="!isLoading; else spinner">
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
       <mat-header-cell *matHeaderCellDef (mousedown)="onResizeColumn($event, i)">

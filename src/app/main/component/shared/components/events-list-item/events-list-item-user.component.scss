@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 .event-assign {
   height: 192px;
   box-shadow: 1px 1px 12px rgb(27 51 38 / 15%);
@@ -7,7 +9,7 @@
   grid-template-columns: 192px calc(100% - 192px);
   margin-bottom: 24px;
 
-  @media (max-width: 575px) {
+  @include responsivePCFirst(sm) {
     grid-template-columns: 0 auto;
   }
 
@@ -26,7 +28,7 @@
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
 
-      @media (max-width: 575px) {
+      @include responsivePCFirst(sm) {
         display: none;
       }
     }
@@ -80,18 +82,21 @@
   }
 
   &__content {
-    margin: 20px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 
     &__date-container {
       display: flex;
       font-size: 14px;
       padding-bottom: 2px;
+      width: 100%;
+      box-sizing: border-box;
 
       .clock {
-        width: 12px;
-        height: 12px;
+        width: 16px;
+        height: 16px;
         margin-right: 5px;
         align-self: center;
         background: url('/assets/events-icons/clock.png') no-repeat center;
@@ -101,8 +106,27 @@
         margin: 0;
       }
 
-      @media (max-width: 575px) {
+      @include responsivePCFirst(sm) {
         align-self: flex-end;
+      }
+    }
+
+    &__address-container {
+      p {
+        margin-bottom: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      @include responsivePCFirst(2xl) {
+        max-height: 45px;
+
+        p {
+          font-size: 14px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
     }
 
@@ -111,12 +135,12 @@
     }
 
     .title {
-      overflow: hidden;
-      word-wrap: break-word;
-      height: 90px;
-      text-overflow: ellipsis;
+      max-height: 60px;
 
       h3 {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         font-family: var(--primary-font);
         font-weight: bold;
         font-size: 20px;
@@ -129,41 +153,54 @@
       display: flex;
       justify-content: space-between;
 
-      &-date {
-        display: flex;
-        align-items: center;
+      &-data {
+        max-width: 70%;
 
-        img {
-          width: 12px;
-          margin-right: 5px;
+        @include responsivePCFirst(2xl) {
+          @include responsiveMobileFirst(md) {
+            max-width: 50%;
+          }
         }
 
-        p {
-          font-size: 14px;
-          margin: 0;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          width: 100%;
-        }
-      }
-
-      &-icon {
-        display: flex;
-        align-items: center;
-
-        img {
-          width: 12px;
-          margin-right: 5px;
+        @include responsivePCFirst(sm) {
+          max-width: 50%;
         }
 
-        p {
-          font-size: 14px;
-          margin: 0;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          width: 100%;
+        &-date {
+          display: flex;
+          align-items: center;
+          flex-direction: row;
+
+          img {
+            width: 12px;
+            margin-right: 5px;
+          }
+
+          p {
+            font-size: 14px;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
+        &-icon {
+          display: flex;
+          align-items: center;
+
+          img {
+            width: 12px;
+            margin: 0 5px 5px 0;
+          }
+
+          p {
+            font-size: 14px;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
     }

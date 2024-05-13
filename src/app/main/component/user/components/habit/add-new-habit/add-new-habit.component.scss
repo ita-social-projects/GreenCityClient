@@ -206,10 +206,10 @@
 
           .duration,
           .shopping {
-            width: 50%;
+            width: calc(50% - 16px);
             background: var(--secondary-light-grey);
             border-radius: 8px;
-            padding: 24px;
+            padding: 20px;
             font-family: var(--secondary-font);
           }
         }

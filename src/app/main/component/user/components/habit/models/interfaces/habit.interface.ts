@@ -15,6 +15,7 @@ export interface HabitInterface {
   customShoppingListItems?: ShoppingList[];
   shoppingListItems?: ShoppingList[];
   tags: Array<string>;
+  duration?: number;
 }
 
 export interface HabitTranslationInterface {

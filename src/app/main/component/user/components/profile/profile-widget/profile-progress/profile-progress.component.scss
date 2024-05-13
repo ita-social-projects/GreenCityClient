@@ -7,6 +7,7 @@ p {
   grid-template-rows: 58px;
   grid-template-columns: repeat(4, auto);
   column-gap: 16px;
+  padding: 16px;
 
   .chain {
     font-family: var(--tertiary-font);

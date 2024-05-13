@@ -381,7 +381,8 @@
     "table-view": "Table view",
     "filters": "Filters",
     "placeholder": "Search by name or contacts",
-    "no-orders-found": "According to these criteria, no orders were found"
+    "no-orders-found": "According to these criteria, no orders were found",
+    "orders-number": "Number of orders"
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",

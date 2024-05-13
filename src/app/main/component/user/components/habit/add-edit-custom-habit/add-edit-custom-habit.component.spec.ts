@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { of, Subject, BehaviorSubject } from 'rxjs';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Language } from 'src/app/main/i18n/Language';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -31,6 +31,7 @@ import { HabitCalendarComponent } from '@global-user/components/habit/add-new-ha
 import { MatSliderModule } from '@angular/material/slider';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
@@ -56,9 +57,14 @@ describe('AddEditCustomHabitComponent', () => {
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
-  const habitServiceMock = jasmine.createSpyObj('fakeHabitAssignService', ['getAllTags', 'addCustomHabit']);
+  const habitServiceMock = jasmine.createSpyObj('fakeHabitService', ['getAllTags', 'addCustomHabit', 'deleteCustomHabit']);
   habitServiceMock.getAllTags = () => of(tagsMock);
   habitServiceMock.addCustomHabit = () => of(null);
+  habitServiceMock.deleteCustomHabit = () => of({});
+
+  const habitAssignServiceMock = jasmine.createSpyObj('fakeHabitAssignService', ['getHabitByAssignId']);
+  habitAssignServiceMock.getHabitByAssignId = () => of(initialState);
+
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(waitForAsync(() => {
@@ -92,9 +98,16 @@ describe('AddEditCustomHabitComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: HabitService, useValue: habitServiceMock },
+        { provide: HabitAssignService, useValue: habitAssignServiceMock },
         { provide: Router, useValue: routerMock },
         provideMockStore({ initialState }),
-        DatePipe
+        DatePipe,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({ id: 123 })
+          }
+        }
       ]
     }).compileComponents();
   }));
@@ -223,5 +236,17 @@ describe('AddEditCustomHabitComponent', () => {
     component.habitForm = mockForm;
     component.handleErrorClass('warning');
     expect(mockForm.get('description').errors).toEqual({ invalidDescription: false });
+  });
+
+  it('should call handleHabitDelete after habit has been deleted', () => {
+    const spy = spyOn(component, 'handleHabitDelete');
+    component.handleHabitDelete();
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should navigate to all habits after habit has been deleted', () => {
+    component.handleHabitDelete();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/profile/2/allhabits']);
   });
 });

@@ -8,6 +8,7 @@
             type="text"
             *ngIf="searchToggle"
             class="place-input"
+            maxlength="70"
             [formControl]="searchEventControl"
             [placeholder]="'homepage.events.search-title' | translate"
           />
@@ -117,26 +118,18 @@
           </div>
         </div>
         <div class="change-view">
-          <div
+          <button
             class="gallery"
             tabindex="0"
             [attr.aria-pressed]="isGalleryView"
-            role="button"
             aria-label="table view"
             (click)="changeViewMode('gallery')"
           >
             <em class="fa fa-th-large"></em>
-          </div>
-          <div
-            class="list"
-            tabindex="0"
-            [attr.aria-pressed]="!isGalleryView"
-            role="button"
-            aria-label="list view"
-            (click)="changeViewMode('list')"
-          >
+          </button>
+          <button class="list" tabindex="0" [attr.aria-pressed]="!isGalleryView" aria-label="list view" (click)="changeViewMode('list')">
             <em class="fa fa-bars"></em>
-          </div>
+          </button>
         </div>
       </div>
     </div>
@@ -153,16 +146,10 @@
     <app-spinner
       *ngIf="hasNextPage && !noEventsMatch && !isLoading"
       infiniteScroll
-      [infiniteScrollDistance]="0"
       [infiniteScrollThrottle]="500"
       (scrolled)="getEvents()"
     ></app-spinner>
-    <app-spinner
-      *ngIf="isLoading && !eventsList.length"
-      infiniteScroll
-      [infiniteScrollDistance]="0"
-      [infiniteScrollThrottle]="500"
-    ></app-spinner>
+    <app-spinner *ngIf="isLoading && !eventsList.length" infiniteScroll [infiniteScrollThrottle]="500"></app-spinner>
     <p class="end-page-txt" *ngIf="!hasNextPage && !noEventsMatch && !isLoading">{{ 'homepage.events.no-event-left' | translate }}</p>
     <p class="end-page-txt" *ngIf="noEventsMatch">{{ 'homepage.events.no-matching-left' | translate }}</p>
   </div>

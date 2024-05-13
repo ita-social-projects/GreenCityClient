@@ -107,11 +107,13 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.permissions$.subscribe((authorities) => {
       if (authorities.length) {
         this.definedIsEmployeeCanEditNotifications(authorities);
+        if (this.isEmployeeCanEditPricingCard) {
+          this.limitsForm.enable();
+        }
+      } else {
+        this.limitsForm.disable();
       }
     });
-    if (!this.isEmployeeCanEditPricingCard) {
-      this.limitsForm.disable();
-    }
   }
 
   definedIsEmployeeCanEditNotifications(employeeRights) {
@@ -243,8 +245,13 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   onChecked(id, event): void {
     const currentBag = this.bags.find((bag) => bag.id === id);
-
     currentBag.limitIncluded = event.checked;
+    this.unClickSaveBTN(event);
+    this.limitsForm.markAsDirty();
+  }
+
+  areAllCheckboxesUnchecked(): boolean {
+    return this.bags.every((bag) => !bag.limitIncluded);
   }
 
   getCheckBoxInfo(): Array<BagLimitDto> {
@@ -370,7 +377,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Service) => {
         this.service = res;
-        this.servicePrice = this.service?.price * 100;
+        this.servicePrice = this.service?.price;
         this.isLoadBar1 = false;
       });
   }
@@ -530,11 +537,16 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     return !isNaN(Number(event.key)) && control.value !== 0;
   }
 
+  checkAtLeastOneChecked(): boolean {
+    return this.bags.some((bag) => bag.limitIncluded);
+  }
+
   disableSaveButton(): boolean {
     const minPriceOfOrder = this.limitsForm.get('minPriceOfOrder');
     const maxPriceOfOrder = this.limitsForm.get('maxPriceOfOrder');
     const minAmountOfBigBags = this.limitsForm.get('minAmountOfBigBags');
     const maxAmountOfBigBags = this.limitsForm.get('maxAmountOfBigBags');
+    const atLeastOneSelectedCheck = this.checkAtLeastOneChecked();
 
     const byPrice =
       this.limitStatus === limitStatus.limitByPriceOfOrder &&
@@ -547,7 +559,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     const inValidNumber =
       (maxPriceOfOrder.invalid && maxPriceOfOrder.touched) || (maxAmountOfBigBags.invalid && maxAmountOfBigBags.touched);
 
-    if (this.limitsForm.pristine || this.saveBTNClicked || byPrice || byBags || inValidNumber) {
+    if (this.limitsForm.pristine || this.saveBTNClicked || byPrice || byBags || inValidNumber || !atLeastOneSelectedCheck) {
       return true;
     }
 

@@ -10,7 +10,9 @@ import { TodoStatus } from '../../models/todo-status.enum';
 
 import { HabitEditShoppingListComponent } from './habit-edit-shopping-list.component';
 import { ShoppingListService } from './shopping-list.service';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { SimpleChange, SimpleChanges } from '@angular/core';
 
 describe('HabitEditShoppingListComponent', () => {
   let component: HabitEditShoppingListComponent;
@@ -46,10 +48,18 @@ describe('HabitEditShoppingListComponent', () => {
   const mockText3 = 'This text contains https://softserveinc.com/ link';
 
   beforeEach(waitForAsync(() => {
+    const matDialogRefMock = jasmine.createSpyObj(['open', 'afterClosed']);
+    matDialogRefMock.open.and.returnValue({ afterClosed: () => of(true) });
     TestBed.configureTestingModule({
       declarations: [HabitEditShoppingListComponent],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatSnackBarModule, ReactiveFormsModule],
-      providers: [ShoppingListService, HabitService, { provide: ActivatedRoute, useValue: mockActivatedRoute }, MatSnackBar]
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatSnackBarModule],
+      providers: [
+        ShoppingListService,
+        HabitService,
+        MatSnackBar,
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: MatDialog, useValue: matDialogRefMock }
+      ]
     }).compileComponents();
   }));
 
@@ -71,31 +81,26 @@ describe('HabitEditShoppingListComponent', () => {
     expect((component as any).translate.setDefaultLang).toHaveBeenCalledWith('en');
   });
 
-  it('truncateShoppingItemName should return shortened string', () => {
-    const name = component.truncateShoppingItemName('Very long name of shopping list item');
-    expect(name).toBe('Very long name of sh...');
-  });
-
-  it('truncateShoppingItemName should not shorten small string', () => {
-    const name = component.truncateShoppingItemName('String');
-    expect(name).toBe('String');
-  });
-
-  it('truncateShoppingItemName should check small string', () => {
-    const name = 'String';
-    const result = component.truncateShoppingItemName(name);
-    expect(result).toBe(name);
-  });
-
-  it('truncateShoppingItemName should change long string', () => {
-    const name = 'Very loooooooong string';
-    const result = component.truncateShoppingItemName(name);
-    expect(result).not.toBe(name);
-  });
-
   it('should call placeItemInOrder on additem', () => {
+    component.isListChanged = false;
     const spy = spyOn(component as any, 'placeItemInOrder');
     component.addItem('test');
+    expect(spy).toHaveBeenCalled();
+    expect(component.isListChanged).toBeTruthy();
+  });
+
+  it('should set selected property on ngOnchange', () => {
+    component.shopList = [];
+    const spy = spyOn(component as any, 'placeItemInOrder');
+    mockList.forEach((el) => {
+      const { selected, ...newEl } = el;
+      component.shopList.push(newEl);
+    });
+    const changes: SimpleChanges = {
+      shopList: new SimpleChange(undefined, [], true)
+    };
+    component.ngOnChanges(changes);
+    expect(component.shopList).toEqual(mockList);
     expect(spy).toHaveBeenCalled();
   });
 
@@ -103,7 +108,7 @@ describe('HabitEditShoppingListComponent', () => {
     const newList = [
       {
         id: null,
-        status: TodoStatus.active,
+        status: TodoStatus.inprogress,
         text: 'test',
         custom: true,
         selected: true
@@ -121,15 +126,46 @@ describe('HabitEditShoppingListComponent', () => {
   });
 
   it('should call placeItemInOrder on selectItem', () => {
+    component.isListChanged = false;
     const spy = spyOn(component as any, 'placeItemInOrder');
     component.selectItem(mockItem);
+    expect(component.isListChanged).toBeTruthy();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should delete item from shopList on deleteItem', () => {
+  it('should open confirmation dialog on deleteItem', () => {
+    component.isListChanged = false;
     component.shopList = mockList;
     component.deleteItem('Item 1');
+    expect((component as any).dialog.open).toHaveBeenCalled();
     expect(component.shopList).toEqual([mockList[1]]);
+    expect(component.isListChanged).toBeTruthy();
+  });
+
+  it('should switch edit mode', () => {
+    mockList.forEach((el) => (component as any).shopListBeforeEditing.push({ ...el }));
+    component.shopList = [{ ...mockItem }];
+    component.isEditMode = false;
+    component.isListChanged = true;
+    component.changeEditMode();
+    expect((component as any).shopListBeforeEditing).toEqual(component.shopList);
+    expect(component.isListChanged).toBeFalsy();
+    expect(component.isEditMode).toBeTruthy();
+  });
+
+  it('should check isListItemsChanged', () => {
+    (component as any).shopListBeforeEditing = mockList;
+    component.shopList = [...mockList, mockItem];
+    const result = (component as any).isListItemsChanged();
+    expect(result).toBeTruthy();
+  });
+
+  it('should open dialog o close editing ', () => {
+    (component as any).isEditMode = true;
+    spyOn(component as any, 'isListItemsChanged').and.returnValue(true);
+    component.cancelEditing();
+    expect((component as any).dialog.open).toHaveBeenCalled();
+    expect(component.isEditMode).toBeFalsy();
   });
 
   it('should return disableCheck if isAcquired is true', () => {

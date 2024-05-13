@@ -14,6 +14,7 @@ import {
 } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -82,13 +83,13 @@ export class HabitAssignService implements OnDestroy {
     return this.http.get<Array<HabitsForDateInterface>>(query);
   }
 
-  setHabitStatus(habitId: number, status: string): Observable<HabitAssignInterface> {
+  setHabitStatus(habitId: number, status: HabitStatus): Observable<HabitAssignInterface> {
     const body = { status };
     return this.http.patch<HabitAssignInterface>(`${habitAssignLink}/${habitId}`, body);
   }
 
-  deleteHabitById(habitAssignId: number): Observable<HabitAssignService> {
-    return this.http.delete<HabitAssignService>(`${habitAssignLink}/delete/${habitAssignId}`);
+  deleteHabitById(habitAssignId: number): Observable<void> {
+    return this.http.delete<void>(`${habitAssignLink}/delete/${habitAssignId}`);
   }
 
   progressNotificationHasDisplayed(habitAssignId: number): Observable<object> {

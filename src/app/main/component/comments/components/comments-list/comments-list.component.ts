@@ -40,6 +40,7 @@ export class CommentsListComponent {
       popupCancel: `homepage.eco-news.comment.comment-popup-cancel-edit.cancel`
     }
   };
+  public isAddingReply = false;
 
   constructor(
     private commentsService: CommentsService,
@@ -101,6 +102,11 @@ export class CommentsListComponent {
     if (key !== 'showAllRelies') {
       this.updateContentControl(id);
     }
+
+    if (key === 'showRelyButton') {
+      this.isAddingReply = !this.isAddingReply;
+    }
+
     this.elementsList = this.elementsList.map((item) => {
       item[key] = item.id === id && !item[key];
       return item;
