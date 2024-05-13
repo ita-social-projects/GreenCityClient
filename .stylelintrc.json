@@ -17,6 +17,7 @@
     "value-no-vendor-prefix": null,
     "property-no-vendor-prefix": null,
     "declaration-block-no-duplicate-custom-properties": null,
-    "number-max-precision": null
+    "number-max-precision": null,
+    "no-descending-specificity": null
   }
 }

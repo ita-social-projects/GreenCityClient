@@ -11,7 +11,6 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { MatSliderChange } from '@angular/material/slider';
 import { Subject, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from 'src/app/main/i18n/Language';
@@ -69,7 +68,8 @@ export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy {
     this.changeDuration.emit(this.newDuration);
   }
 
-  public updateInput(event: MatSliderChange) {
+  public updateInput(event: any) {
+    //Event error MatSliderChange
     this.newDuration = event.value;
     this.updateLabel();
   }

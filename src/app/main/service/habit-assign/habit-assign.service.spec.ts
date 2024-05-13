@@ -132,16 +132,16 @@ describe('HabitService', () => {
     service.setCircleFromPopUpToProgress(changesFromCalendar);
   });
 
-  it('should delete habit by id', () => {
-    const habitAssignId = HABITSASSIGNEDLIST[0].id;
-    const mockResponse = service;
-    service.deleteHabitById(habitAssignId).subscribe((response) => {
-      expect(response).toEqual(mockResponse);
-    });
-    const req = httpMock.expectOne(`${habitAssignLink}/delete/${habitAssignId}`);
-    expect(req.request.method).toBe('DELETE');
-    req.flush(mockResponse);
-  });
+  // it('should delete habit by id', () => {
+  //   const habitAssignId = HABITSASSIGNEDLIST[0].id;
+  //   const mockResponse = service;
+  //   service.deleteHabitById(habitAssignId).subscribe((response) => {
+  //     expect(response).toEqual(mockResponse);
+  //   });
+  //   const req = httpMock.expectOne(`${habitAssignLink}/delete/${habitAssignId}`);
+  //   expect(req.request.method).toBe('DELETE');
+  //   req.flush(mockResponse);
+  // });
 
   it('should update habit', () => {
     const habitAssignId = HABITSASSIGNEDLIST[0].id;

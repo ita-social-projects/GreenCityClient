@@ -102,7 +102,7 @@ a {
 
   .events-types {
     * {
-      margin: 0 5px 0 5px;
+      margin: 0 5px;
       color: var(--primary-green);
     }
   }
@@ -194,8 +194,7 @@ a {
 
     #my-events {
       height: auto;
-      flex-wrap: nowrap;
-      flex-direction: column;
+      flex-flow: column nowrap;
       gap: 15px;
 
       .buttons-wrapper {
@@ -316,5 +315,5 @@ a {
 }
 
 hr.ng-star-inserted {
-  margin: 0 0 12px 0;
+  margin: 0 0 12px;
 }

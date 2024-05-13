@@ -36,20 +36,17 @@ $second-color: #6a8079;
 
 .habit-slider {
   width: 100%;
+
   --mdc-slider-handle-color: var(--primary-green);
   --mdc-slider-focus-handle-color: var(--primary-green);
   --mdc-slider-active-track-color: var(--primary-green);
-
   --mdc-slider-label-container-color: var(--primary-white);
-
   --mdc-slider-label-label-text-color: black;
   --mdc-slider-label-label-text-weight: bold;
   --mdc-slider-label-label-text-font: var(--secondary-font);
   --mdc-slider-label-label-text-size: 16px;
   --mat-mdc-slider-value-indicator-opacity: 1;
-
-  --mdc-slider-inactive-track-color: rgba(0, 0, 0, 0.7);
-
-  --mat-mdc-slider-hover-ripple-color: rgba(19, 170, 87, 0.2);
-  --mat-mdc-slider-focus-ripple-color: rgba(19, 170, 87, 0.2);
+  --mdc-slider-inactive-track-color: rgb(0 0 0 / 70%);
+  --mat-mdc-slider-hover-ripple-color: rgb(19 170 87 / 20%);
+  --mat-mdc-slider-focus-ripple-color: rgb(19 170 87 / 20%);
 }
