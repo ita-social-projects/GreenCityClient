@@ -90,7 +90,7 @@ export class OrderEffects {
     return this.actions.pipe(
       ofType(GetCourierLocations),
       mergeMap((action: { courierId?: number; locationId?: number; forceFetch?: boolean }) => {
-        return this.orderService.getInfoAboutTariff(action.courierId, action.locationId).pipe(
+        return this.orderService.getInfoAboutTariff(action.courierId || 1, action.locationId).pipe(
           map((allLocations) => allLocations.tariffsForLocationDto),
           tap((locations) => this.localStorageService.setLocations(locations)),
           map((locations) => GetCourierLocationsSuccess({ locations })),

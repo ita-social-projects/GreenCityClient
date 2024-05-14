@@ -107,7 +107,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   saveLocation(): void {
-    this.store.dispatch(GetCourierLocations({ courierId: this.courierUBS.courierId, locationId: this.selectedLocationId }));
+    this.store.dispatch(GetCourierLocations({ courierId: this.courierUBS.courierId || 1, locationId: this.selectedLocationId }));
     this.orderService
       .getInfoAboutTariff(this.courierUBS.courierId, this.selectedLocationId)
       .pipe(takeUntil(this.destroy$))
