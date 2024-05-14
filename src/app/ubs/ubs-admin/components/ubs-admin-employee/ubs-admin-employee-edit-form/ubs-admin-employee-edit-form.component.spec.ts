@@ -296,7 +296,7 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
   describe('openImg', () => {
     it(`dialog has been opened`, () => {
-      let spy = spyOn((component as any).dialog, 'open');
+      const spy = spyOn((component as any).dialog, 'open');
       component.openImg();
 
       expect(spy).toHaveBeenCalledWith(ShowImgsPopUpComponent, {

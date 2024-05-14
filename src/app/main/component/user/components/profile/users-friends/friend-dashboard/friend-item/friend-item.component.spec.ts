@@ -24,13 +24,15 @@ describe('FriendItemComponent', () => {
     'languageBehaviourSubject',
     'getCurrentLanguage',
     'getUserId',
-    'userIdBehaviourSubject'
+    'userIdBehaviourSubject',
+    'getAccessToken'
   ]);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
   localStorageServiceMock.getUserId = () => 1;
   localStorageServiceMock.userIdBehaviourSubject = of(1);
+  localStorageServiceMock.getAccessToken = () => {};
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

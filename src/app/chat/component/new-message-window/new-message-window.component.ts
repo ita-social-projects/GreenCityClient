@@ -26,7 +26,6 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   public showEmojiPicker = false;
   public isHaveMessages = true;
   public isAdmin: boolean;
-  public isAdminParticipant: boolean;
   @ViewChild('chat') chat: ElementRef;
 
   constructor(

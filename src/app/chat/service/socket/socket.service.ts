@@ -36,9 +36,7 @@ export class SocketService {
     this.stompClient = Stomp.over(() => this.socket);
     this.stompClient.connect(
       {},
-      () => {
-        this.onConnected();
-      },
+      () => this.onConnected(),
       (error) => this.onError(error)
     );
   }
@@ -68,7 +66,7 @@ export class SocketService {
     this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
       const newUserChat = JSON.parse(newChat.body);
 
-      if (!this.chatsService.isSupportChat$.getValue()) {
+      if (!this.chatsService.isSupportChat) {
         const usersChats = [...this.chatsService.userChats, newUserChat];
         this.chatsService.userChatsStream$.next(usersChats);
         const idFriend = newUserChat.participants.find((user) => user.id !== this.userId)?.id;
@@ -92,18 +90,13 @@ export class SocketService {
       this.stompClient.subscribe(`/user/${this.jwt.getEmailFromAccessToken()}/rooms/support`, (сhat) => {
         const userChat = JSON.parse(сhat.body);
         userChat.amountUnreadMessages = 1;
-        const isNewChat = !this.chatsService.userChats.find((el) => {
-          el.id === userChat.id;
-        });
+        const isNewChat = !this.chatsService.userChats.find((el) => el.id === userChat.id);
         if (isNewChat) {
           const usersChats = [...this.chatsService.userChats, userChat];
           this.chatsService.userChatsStream$.next(usersChats);
         } else {
-          this.chatsService.userChats.find((el) => {
-            el.id === userChat.id;
-          }).amountUnreadMessages = 1;
+          this.chatsService.userChats.find((el) => el.id === userChat.id).amountUnreadMessages = 1;
         }
-        console.log('message for admin!!!', userChat);
         this.titleService.setTitle(`new message`);
       });
     }
@@ -125,7 +118,7 @@ export class SocketService {
   }
 
   createNewChat(ids, isOpen, isOpenInWindow?) {
-    const key = !this.chatsService.isSupportChat$.getValue() ? 'participantsIds' : 'locationsIds';
+    const key = this.chatsService.isSupportChat ? 'locationsIds' : 'participantsIds';
     const newChatInfo = {
       currentUserId: this.userId,
       [key]: ids

@@ -47,6 +47,6 @@
     <img [src]="chatIcons.send" alt="send" title="Send mail" />
   </button>
 </form>
-<div *ngIf="isAdmin && !(chatsService.isAdminParticipant$ | async)" class="join-chat">
+<div *ngIf="isAdmin && (chatsService.isAdminParticipant$ | async) === false" class="join-chat">
   <button (click)="chatsService.addAdminToChat(userService.userId)">Join chat</button>
 </div>

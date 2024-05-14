@@ -21,7 +21,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   public isHaveMessages = true;
   public showEmojiPicker = false;
   public isAdmin: boolean;
-  public isAdminParticipant: boolean;
 
   private page = 0;
   private oldScrollHeight: number;
@@ -44,9 +43,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     });
 
     this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
-    this.isAdminParticipant = this.chatsService.currentChat?.participants.some((el) => {
-      el.id === this.userService.userId;
-    });
   }
 
   ngAfterViewChecked(): void {

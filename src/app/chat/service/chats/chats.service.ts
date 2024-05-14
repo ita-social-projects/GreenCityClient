@@ -40,6 +40,10 @@ export class ChatsService {
     return this.currentChatMessagesStream$.getValue();
   }
 
+  public get isSupportChat() {
+    return this.isSupportChat$.getValue();
+  }
+
   public getAllUserChats(userId: number): void {
     this.httpClient.get<Chat[]>(`${environment.backendChatLink}chat/`).subscribe((chats: Chat[]) => {
       this.userChatsStream$.next(chats);
@@ -127,7 +131,7 @@ export class ChatsService {
       };
       this.currentChat.participants.push(newParticipant);
       this.isAdminParticipant$.next(true);
-      const chat = this.userChats.find((chat) => chat.id === this.currentChat.id);
+      const chat = this.userChats.find((el) => el.id === this.currentChat.id);
       chat.participants.push(newParticipant);
     });
   }

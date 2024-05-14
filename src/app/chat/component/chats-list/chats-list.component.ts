@@ -38,9 +38,7 @@ export class ChatsListComponent implements OnInit {
       this.searchField = newValue;
       this.chatService.searchFriends(newValue);
     });
-    this.chatService.isSupportChat$.subscribe((value) => {
-      this.isSupportChat = value;
-    });
+    this.isSupportChat = this.chatService.isSupportChat;
 
     this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
     if (this.isAdmin) {
