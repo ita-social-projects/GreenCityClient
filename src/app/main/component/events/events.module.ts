@@ -21,9 +21,9 @@ import { EventsListComponent } from './components/events-list/events-list.compon
 import { HttpClient } from '@angular/common/http';
 import { CreateEditEventsComponent } from './components/create-edit-events/create-edit-events.component';
 import { MatNativeDateModule } from '@angular/material/core';
-import { EventDateTimePickerComponent } from './components/event-date-time-picker/event-date-time-picker.component';
+import { PlaceOnlineComponent } from './components/create-edit-events/components/create-event-dates/components/place-online/place-online.component';
 import { MapEventComponent } from './components/map-event/map-event.component';
-import { ImagesContainerComponent } from './components/images-container/images-container.component';
+import { ImagesContainerComponent } from './components/create-edit-events/components/create-event-information/components/images-container/images-container.component';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ImagesSliderComponent } from './components/event-details/images-slider/images-slider.component';
@@ -42,13 +42,14 @@ import { EventsCommentsService } from './services/events-comments.service';
 import { CreateEventInformationComponent } from './components/create-edit-events/components/create-event-information/create-event-information.component';
 import { CreateEventDatesComponent } from './components/create-edit-events/components/create-event-dates/create-event-dates.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { DateTimeComponent } from './components/create-edit-events/components/create-event-dates/components/date-time/date-time.component';
 
 @NgModule({
   declarations: [
     EventsComponent,
     EventsListComponent,
     CreateEditEventsComponent,
-    EventDateTimePickerComponent,
+    PlaceOnlineComponent,
     MapEventComponent,
     ImagesContainerComponent,
     EventDetailsComponent,
@@ -56,7 +57,8 @@ import { MatChipsModule } from '@angular/material/chips';
     EventScheduleOverlayComponent,
     EventScheduleComponent,
     CreateEventInformationComponent,
-    CreateEventDatesComponent
+    CreateEventDatesComponent,
+    DateTimeComponent
   ],
   imports: [
     MatDialogModule,

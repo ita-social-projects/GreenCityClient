@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { ImagesContainerComponent } from './images-container.component';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
-import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
+import { FileHandle } from '../../../../../../../../../ubs/ubs-admin/models/file-handle.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 

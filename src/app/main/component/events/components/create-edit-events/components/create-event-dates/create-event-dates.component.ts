@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBridgeService } from '../../../../services/form-bridge.service';
 import { Observable, Subscription } from 'rxjs';
-import { EventsService } from '../../../../services/events.service';
+import { DateInformation, FormCollectionEmitter, FormEmitter } from '../../../../models/events.interface';
 
 @Component({
   selector: 'app-create-event-dates',
@@ -9,44 +9,53 @@ import { EventsService } from '../../../../services/events.service';
   styleUrls: ['./create-event-dates.component.scss']
 })
 export class CreateEventDatesComponent implements OnInit, OnDestroy {
+  @Input({
+    transform: (value: DateInformation[] | undefined) =>
+      value
+        ? value
+        : [
+            {
+              dateTime: undefined,
+              placeOnline: undefined
+            }
+          ]
+  })
+  formInput: DateInformation[];
   $days: Observable<any[]>;
-  invalidMap: Map<any, boolean> = new Map();
   formsValue: any[] = [];
   subs: Subscription[] = [];
-  @Output() formsEmit: EventEmitter<any> = new EventEmitter();
+  @Output() formsEmit: EventEmitter<FormCollectionEmitter<DateInformation[]>> = new EventEmitter();
+  private _key = Symbol('key');
+  private _invalidMap: Map<any, any> = new Map();
 
-  constructor(
-    private bridge: FormBridgeService,
-    private event: EventsService
-  ) {}
+  constructor(private bridge: FormBridgeService) {}
 
-  subToDatesFormStatus() {
-    const sub = this.bridge.$datesFormStatus.subscribe((update) => {
-      const { value, key, form } = update;
-      if (value) {
-        this.invalidMap.delete(key);
-        this.formsValue[key] = form;
-        console.log(this.formsValue);
-        if (this.invalidMap.size === 0) {
-          this.formsEmit.emit(this.formsValue);
-          this.event.setDatesForm(this.formsValue);
-
-          this.bridge.updateFormsValidStatus(true);
-        }
-      } else {
-        if (this.invalidMap.size === 0) {
-          this.bridge.updateFormsValidStatus(false);
-        }
-        this.invalidMap.set(key, false);
+  public checkForm({ key, valid, form, sharedKey, formKey }: FormEmitter<unknown>) {
+    if (valid) {
+      this._invalidMap.delete(key);
+      if (!this.formsValue[sharedKey]) {
+        this.formsValue[sharedKey] = {};
       }
-    });
-    this.subs.push(sub);
+      this.formsValue[sharedKey][formKey] = form;
+      if (!this._invalidMap.size) {
+        this.formsEmit.emit({ key: this._key, form: this.formsValue, valid: true });
+      }
+    } else {
+      this._invalidMap.set(key, undefined);
+      this.formsEmit.emit({ key: this._key, form: undefined, valid: false });
+    }
   }
 
   ngOnInit() {
+    this.formsEmit.emit({ key: this._key, form: undefined, valid: false });
     this.$days = this.bridge.$days;
-    this.subToDatesFormStatus();
-    this.formsValue = this.event.getDatesForm();
+    this.$days.subscribe((value) => {
+      this.formsValue = this.formsValue.slice(0, value.length);
+    });
+    console.log(this.formInput);
+    if (this.formInput) {
+      this.formsEmit.emit({ key: this._key, form: this.formInput, valid: false });
+    }
   }
 
   ngOnDestroy() {

@@ -1220,7 +1220,8 @@
     "preview-attendees": "people are going",
     "use-greencity-pics": "Use Greencity pictures",
     "created-event": "You have successfully added a new event",
-    "updated-event": "You have successfully updated an event"
+    "updated-event": "You have successfully updated an event",
+    "min-photo-error": "1 image minimum"
   },
   "input-error": {
     "required": "This field is required",

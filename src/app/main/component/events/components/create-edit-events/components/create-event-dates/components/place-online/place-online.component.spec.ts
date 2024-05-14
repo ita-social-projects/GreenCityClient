@@ -5,16 +5,16 @@
 // import { MatDatepickerModule } from '@angular/material/datepicker';
 // import { TranslateModule } from '@ngx-translate/core';
 // import { HttpClientTestingModule } from '@angular/common/http/testing';
-// import { EventDateTimePickerComponent } from './event-date-time-picker.component';
+// import { PlaceOnlineComponent } from './place-online.component';
 // import { LanguageService } from 'src/app/main/i18n/language.service';
 // import { EventsService } from '../../services/events.service';
 // import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 // import { Language } from 'src/app/main/i18n/Language';
 // import { BehaviorSubject, of } from 'rxjs';
 //
-// describe('EventDateTimePickerComponent', () => {
-//   let component: EventDateTimePickerComponent;
-//   let fixture: ComponentFixture<EventDateTimePickerComponent>;
+// describe('PlaceOnlineComponent', () => {
+//   let component: PlaceOnlineComponent;
+//   let fixture: ComponentFixture<PlaceOnlineComponent>;
 //
 //   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
 //   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
@@ -87,7 +87,7 @@
 //
 //   beforeEach(waitForAsync(() => {
 //     TestBed.configureTestingModule({
-//       declarations: [EventDateTimePickerComponent],
+//       declarations: [PlaceOnlineComponent],
 //       imports: [
 //         TranslateModule.forRoot(),
 //         FormsModule,
@@ -111,7 +111,7 @@
 //   }));
 //
 //   beforeEach(() => {
-//     fixture = TestBed.createComponent(EventDateTimePickerComponent);
+//     fixture = TestBed.createComponent(PlaceOnlineComponent);
 //     component = fixture.componentInstance;
 //     component.dateForm = formDataMock;
 //     (window as any).google = mockGoogleMaps;

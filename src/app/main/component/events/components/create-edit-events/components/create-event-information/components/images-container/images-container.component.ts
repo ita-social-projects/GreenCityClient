@@ -1,9 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
-import { EventsService } from '../../services/events.service';
-import { ImagesContainer } from '../../models/events.interface';
+import { FileHandle } from '../../../../../../../../../ubs/ubs-admin/models/file-handle.model';
+import { EventsService } from '../../../../../../services/events.service';
+import { ImagesContainer } from '../../../../../../models/events.interface';
 
 @Component({
   selector: 'app-images-container',
@@ -43,6 +43,9 @@ export class ImagesContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
+    if (!this.images.length) {
+      this.chooseImage(this.defImgs[0]);
+    }
   }
 
   public chooseImage(img: string) {
@@ -69,8 +72,11 @@ export class ImagesContainerComponent implements OnInit {
   }
 
   public deleteImage(img: ImagesContainer, i: number): void {
+    if (this.images.length === 1) {
+      this.snackBar.openSnackBar('errorMinPhoto');
+      return;
+    }
     this.images.splice(i, 1);
-
     if (this.images.length && img.main) {
       this.images[0].main = true;
     }

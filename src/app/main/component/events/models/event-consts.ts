@@ -1,17 +1,5 @@
 import { FilterItem } from './events.interface';
 
-export enum TimeBack {
-  START = '00:00',
-  END = '23:59'
-}
-
-export enum TimeFront {
-  START = '0:00',
-  END = '23:59',
-  DIVIDER = ':',
-  MINUTES = '00'
-}
-
 export const ICONS = {
   socials: {
     plus: 'assets/img/events/plus.svg',

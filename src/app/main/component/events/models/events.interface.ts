@@ -1,20 +1,39 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
-export interface EventDTO {
-  title: string;
-  description: string;
-  open: boolean;
-  datesLocations: Array<Dates>;
-  tags: Array<string>;
-  imagesToDelete?: Array<string>;
-  additionalImages?: Array<string>;
-  id?: number;
-  organizer?: {
-    id: number;
-    name: string;
-  };
-  titleImage?: string;
+type FormControllers<T> = {
+  [K in keyof T]: FormControl<T[K]>;
+};
+
+export interface FormEmitter<T> {
+  key: any;
+  form: T | undefined;
+  valid: boolean;
+  sharedKey: number;
+  formKey: string;
 }
+
+export type FormCollectionEmitter<T> = Omit<FormEmitter<T>, 'sharedKey' | 'formKey'>;
+
+export interface DateTime {
+  date: Date;
+  startTime: string;
+  endTime: string;
+  allDay: boolean;
+}
+
+export type DateTimeGroup = FormControllers<DateTime>;
+
+export interface PlaceOnline {
+  coordinates: {
+    lat: number | null;
+    lng: number | null;
+  };
+  onlineLink: string;
+  place: string;
+}
+
+export type PlaceOnlineGroup = FormControllers<PlaceOnline>;
+export type DateInformation = { dateTime: DateTime; placeOnline: PlaceOnline };
 
 export interface ImagesContainer {
   file: File;
@@ -32,32 +51,31 @@ export interface EventInformation {
   images: ImagesContainer[];
 }
 
+export type EventInformationGroup = FormControllers<EventInformation>;
+
+export type EventForm = { dateInformation: DateInformation[]; eventInformation: EventInformation };
+
+export interface EventDTO {
+  title: string;
+  description: string;
+  open: boolean;
+  datesLocations: Array<Dates>;
+  tags: Array<string>;
+  imagesToDelete?: Array<string>;
+  additionalImages?: Array<string>;
+  id?: number;
+  organizer?: {
+    id: number;
+    name: string;
+  };
+  titleImage?: string;
+}
+
 export interface DateFormInformation {
   date: Date;
-  coordinates: {
-    lat: number | null;
-    lng: number | null;
-  };
-  onlineLink: string;
-  place: string;
+
   allDay: boolean;
 }
-
-export interface TimeRange {
-  timeRange: {
-    startTime: string;
-    endTime: string;
-  };
-}
-
-type FormControllers<T> = {
-  [K in keyof T]: FormControl<T[K]>;
-};
-export type DateForm = DateFormInformation & TimeRange;
-export type DateFormControls = FormControllers<DateFormInformation>;
-export type TimeRangeControls = FormControllers<TimeRange['timeRange']>;
-export type DateFormGroup = DateFormControls & { timeRange: FormGroup<TimeRangeControls> };
-export type EventInformationForm = FormControllers<EventInformation>;
 
 export interface Dates {
   startDate: string;

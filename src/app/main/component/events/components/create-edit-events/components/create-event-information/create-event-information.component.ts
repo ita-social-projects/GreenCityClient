@@ -1,13 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ContentChange } from 'ngx-quill';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { quillConfig } from '../../quillEditorFunc';
 
 import { EVENT_LOCALE, EventLocaleKeys } from '../../../../models/event-consts';
-import { EventInformation, EventInformationForm, ImagesContainer } from '../../../../models/events.interface';
+import { EventInformation, EventInformationGroup, FormCollectionEmitter, ImagesContainer } from '../../../../models/events.interface';
 import { EventsService } from '../../../../services/events.service';
 import { Router } from '@angular/router';
 import { quillEditorValidator } from '../../validators/quillEditorValidator';
@@ -19,12 +18,13 @@ import { FormBridgeService } from '../../../../services/form-bridge.service';
   styleUrls: ['./create-event-information.component.scss']
 })
 export class CreateEventInformationComponent implements OnInit {
+  @Input() formInput: EventInformation;
   isQuillUnfilled = false;
   quillLength = 0;
   quillModules = null;
   imgArray: string[] = [];
   // TODO CHANGE VALUE TO INITIAL
-  eventInfForm: FormGroup<EventInformationForm> = this.fb.nonNullable.group({
+  eventInfForm: FormGroup<EventInformationGroup> = this.fb.nonNullable.group({
     title: ['TitleTest', [Validators.required, Validators.maxLength(70)]],
     duration: [1, Validators.required],
     description: ['helloworld12345678901011', [quillEditorValidator(), Validators.required]],
@@ -34,8 +34,9 @@ export class CreateEventInformationComponent implements OnInit {
     images: [[] as Array<ImagesContainer>]
   });
 
-  @Output() formStatus = new EventEmitter<{ status: boolean; form: EventInformation | undefined }>();
+  @Output() formStatus: EventEmitter<FormCollectionEmitter<EventInformation>> = new EventEmitter();
   protected readonly EVENT_LOCALE = EVENT_LOCALE;
+  private _key = Symbol();
 
   constructor(
     protected localStorageService: LocalStorageService,
@@ -57,17 +58,15 @@ export class CreateEventInformationComponent implements OnInit {
 
     this.eventInfForm.statusChanges.subscribe((value) => {
       if (value === 'VALID') {
-        this.formStatus.emit({ status: true, form: this.eventInfForm.getRawValue() });
+        this.formStatus.emit({ key: this._key, form: this.eventInfForm.getRawValue(), valid: true });
         console.log(this.eventInfForm.getRawValue());
         this.eventsService.setInformationForm(this.eventInfForm.getRawValue());
       } else {
-        this.formStatus.emit({ status: false, form: undefined });
+        this.formStatus.emit({ key: this._key, form: undefined, valid: false });
       }
     });
-    const form = this.eventsService.getInformationForm();
-    if (form) {
-      this.eventInfForm.setValue(form);
-      console.log(form);
+    if (this.formInput) {
+      this.eventInfForm.setValue(this.formInput, { emitEvent: false });
     }
   }
 

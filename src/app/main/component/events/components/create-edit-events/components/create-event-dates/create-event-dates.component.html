@@ -1,3 +1,11 @@
-<ng-container *ngFor="let _ of $days | async; index as i">
-  <app-event-date-time-picker [dayNumber]="i" [form]="formsValue[i]"></app-event-date-time-picker>
-</ng-container>
+<div class="w-100">
+  <ng-container *ngFor="let _ of $days | async; index as i">
+    <app-date-time (formEmitter)="checkForm($event)" [dayNumber]="i" [formInput]="formInput[i].dateTime" [sharedKey]="i"></app-date-time>
+    <app-place-online
+      (formEmitter)="checkForm($event)"
+      [dayNumber]="i"
+      [formInput]="formInput[i].placeOnline"
+      [sharedKey]="i"
+    ></app-place-online>
+  </ng-container>
+</div>

@@ -6,6 +6,7 @@ import {
   Addresses,
   Coordinates,
   EventFilterCriteriaInterface,
+  EventForm,
   EventPageResponseDto,
   EventResponseDto,
   PagePreviewDTO
@@ -31,8 +32,17 @@ export class EventsService implements OnDestroy {
     private langService: LanguageService
   ) {}
 
-  public setDatesForm(value: any[]) {
-    this.datesForm = value;
+  private _editorFormValues: EventForm = {
+    dateInformation: undefined,
+    eventInformation: undefined
+  };
+
+  get editorFormValues(): EventForm {
+    return this._editorFormValues;
+  }
+
+  set editorFormValues(value: EventForm) {
+    this._editorFormValues = value;
   }
 
   public getDatesForm() {

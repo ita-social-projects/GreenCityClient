@@ -15,7 +15,7 @@
       padding: 24px;
     }
     @include responsiveMobileFirst(lg) {
-      max-width: 50%;
+      max-width: calc(50% - 16px);
     }
   }
 

@@ -17,10 +17,16 @@
     </div>
     <div class="mat-wrapper flex-lg-row">
       <mat-card class="information-card">
-        <app-create-event-information (formStatus)="handleInformationStatus($event)"></app-create-event-information>
+        <app-create-event-information
+          (formStatus)="checkFormInformation($event, 'event')"
+          [formInput]="formValues.eventInformation"
+        ></app-create-event-information>
       </mat-card>
       <mat-card>
-        <app-create-event-dates (formsEmit)="setDatesForm($event)"></app-create-event-dates>
+        <app-create-event-dates
+          (formsEmit)="checkFormInformation($event, 'date')"
+          [formInput]="formValues.dateInformation"
+        ></app-create-event-dates>
       </mat-card>
     </div>
 

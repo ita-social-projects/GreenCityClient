@@ -4,7 +4,17 @@ import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { Place } from '../../../places/models/place';
-import { DateForm, Dates, EventDTO, EventInformation, EventPageResponseDto, PagePreviewDTO, TagObj } from '../../models/events.interface';
+import {
+  DateInformation,
+  Dates,
+  EventDTO,
+  EventForm,
+  EventInformation,
+  EventPageResponseDto,
+  FormCollectionEmitter,
+  PagePreviewDTO,
+  TagObj
+} from '../../models/events.interface';
 import { Router } from '@angular/router';
 import { EventsService } from '../../services/events.service';
 import { Subscription } from 'rxjs';
@@ -19,7 +29,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
-import { FormBridgeService } from '../../services/form-bridge.service';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -65,12 +74,13 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   @Input() cancelChanges: boolean;
   @Output() defaultImage = new EventEmitter<string>();
   public formsIsValid = false;
-  informationForm: EventInformation;
-  public informationFormStatus;
-  dateFormsStatus: boolean;
   private subscriptions: Subscription[] = [];
-  private datesForm: DateForm[];
   private matSnackBar: MatSnackBarComponent;
+  private _invalidFormsMap = new Map();
+  private _formsValues: EventForm = {
+    eventInformation: undefined,
+    dateInformation: undefined
+  };
 
   constructor(
     public dialog: MatDialog,
@@ -82,7 +92,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     public dialogRef: MatDialogRef<DialogPopUpComponent>,
     private languageService: LanguageService,
     private eventsService: EventsService,
-    private bridge: FormBridgeService,
     private injector: Injector
   ) {
     super(router, dialog);
@@ -92,27 +101,33 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.matSnackBar = injector.get(MatSnackBarComponent);
   }
 
-  setDatesForm(forms: DateForm[]) {
-    this.datesForm = forms;
+  get formValues(): EventForm {
+    return this._formsValues;
+  }
+
+  checkFormInformation({ form, valid, key }: FormCollectionEmitter<unknown>, type: string) {
+    console.log(key);
+    switch (type) {
+      case 'date':
+        this._formsValues.dateInformation = form as DateInformation[];
+        break;
+      case 'event':
+        this._formsValues.eventInformation = form as EventInformation;
+        break;
+      // Add more cases for other types if needed
+      default:
+        break;
+    }
+    this._checkValidness(key, valid);
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((value) => value.unsubscribe());
   }
 
-  subToDatesFormsStatus() {
-    const sub = this.bridge.$datesFormsIsValid.subscribe((value) => {
-      this.dateFormsStatus = value;
-      this.checkFormsValid();
-    });
-    this.subscriptions.push(sub);
-  }
-
   ngOnInit(): void {
-    this.subToDatesFormsStatus();
-
     this.editMode = this.localStorageService.getEditMode();
-
+    this._formsValues = this.eventsService.editorFormValues;
     if (!this.checkUserSigned()) {
       this.snackBar.openSnackBar('userUnauthorised');
     }
@@ -123,63 +138,36 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public onPreview() {
     this.eventsService.setSubmitFromPreview(false);
+    this.eventsService.editorFormValues = this._formsValues;
     // this.imgToData();
     //const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
-    const informationForm = this.informationForm;
-    console.log(informationForm);
-    const dates: Dates[] = this.transformDatesFormToDates(this.datesForm);
-    const imagesUrl = this.informationForm.images.map((value) => value.url);
+    const { dateInformation, eventInformation } = this._formsValues;
+    const { images, duration, editorText, title, description, open, tags } = eventInformation;
+    const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
+    const imagesUrl = images.map((value) => value.url);
     const sendEventDto: PagePreviewDTO = {
-      title: informationForm.title,
-      description: informationForm.description,
-      eventDuration: informationForm.duration,
-      editorText: informationForm.description,
-      open: informationForm.open,
-      dates: dates,
-      tags: informationForm.tags,
-      imgArray: this.editMode ? this.imgArrayToPreview : this.imgArray,
+      title,
+      description,
+      eventDuration: duration,
+      editorText: description,
+      open,
+      dates,
+      tags: tags,
+      imgArray: imagesUrl,
       imgArrayToPreview: imagesUrl,
-      location: this.datesForm[0].place
+      location: dateInformation[0].placeOnline.place
     };
     this.eventsService.setForm(sendEventDto);
     this.router.navigate(['events', 'preview']);
   }
 
-  transformDatesFormToDates(form: DateForm[]): Dates[] {
-    return form.map((value) => {
-      let [hours, minutes] = value.timeRange.startTime.split(':');
-      const date = new Date(value.date);
-      date.setHours(parseInt(hours, 10));
-      date.setMinutes(parseInt(minutes, 10));
-      const startDate = date.toISOString();
-
-      [hours, minutes] = value.timeRange.endTime.split(':');
-      date.setHours(parseInt(hours, 10));
-      date.setMinutes(parseInt(minutes, 10));
-      const finishDate = date.toISOString();
-      const dates: Dates = {
-        startDate,
-        finishDate,
-        coordinates: {
-          latitude: value.coordinates.lat,
-          longitude: value.coordinates.lng
-        },
-        id: undefined
-      };
-      if (value.onlineLink) {
-        dates.onlineLink = value.onlineLink;
-      }
-      return dates;
-    });
-  }
-
   public onSubmit(): void {
-    const { open, tags, description, editorText, title, images, duration } = this.informationForm;
-    const imagesFiles = images.map((value) => value.file);
-    // const datesDto: Dates[] = this.checkdates ? this.createDates() : [];
-    // const tagsArr: string[] = this.tags.filter((tag) => tag.isActive).map((tag) => tag.nameEn);
-    const dates: Dates[] = this.transformDatesFormToDates(this.datesForm);
-    const sendEventDto: EventDTO = {
+    const { eventInformation, dateInformation } = this._formsValues;
+    const { open, tags, description, editorText, title, images, duration } = eventInformation;
+    console.log(this._formsValues);
+    const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
+    // console.log(dates);
+    let sendEventDto: EventDTO = {
       title,
       description: editorText,
       open,
@@ -197,15 +185,44 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       formData.append('images', item.file);
     });
     this.createEvent(formData);
-    // if (this.editMode) {
-    //   sendEventDto = {
-    //     ...sendEventDto,
-    //     imagesToDelete: this.imagesToDelete,
-    //     additionalImages: this.oldImages.length > 1 ? this.oldImages.slice(1) : null,
-    //     id: this.editEvent.id,
-    //     titleImage: this.oldImages[0]
-    //   };
-    // }
+    if (this.editMode) {
+      sendEventDto = {
+        ...sendEventDto,
+        imagesToDelete: [],
+        additionalImages: this.oldImages.length > 1 ? this.oldImages.slice(1) : null,
+        id: this.editEvent.id,
+        titleImage: this.oldImages[0]
+      };
+    }
+  }
+
+  transformDatesFormToDates(form: DateInformation[]): Dates[] {
+    return form.map((value) => {
+      const { date, endTime, startTime, allDay } = value.dateTime;
+      const { onlineLink, place, coordinates } = value.placeOnline;
+      let [hours, minutes] = startTime.split(':');
+      date.setHours(parseInt(hours, 10));
+      date.setMinutes(parseInt(minutes, 10));
+      const startDate = date.toISOString();
+
+      [hours, minutes] = endTime.split(':');
+      date.setHours(parseInt(hours, 10));
+      date.setMinutes(parseInt(minutes, 10));
+      const finishDate = date.toISOString();
+      const dates: Dates = {
+        startDate,
+        finishDate,
+        coordinates: {
+          latitude: coordinates.lat,
+          longitude: coordinates.lng
+        },
+        id: undefined
+      };
+      if (onlineLink) {
+        dates.onlineLink = onlineLink;
+      }
+      return dates;
+    });
   }
 
   public escapeFromCreateEvent(): void {
@@ -213,18 +230,20 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.eventSuccessfullyAdded();
   }
 
-  checkFormsValid() {
-    this.formsIsValid = this.informationFormStatus && this.dateFormsStatus;
-  }
-
-  handleInformationStatus({ status, form }: { status: boolean; form: EventInformation }) {
-    this.informationFormStatus = status;
-    this.informationForm = form;
-    this.checkFormsValid();
-  }
-
   public getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+
+  private _checkValidness(key: any, valid: boolean) {
+    if (valid) {
+      this._invalidFormsMap.delete(key);
+      if (this._invalidFormsMap.size === 0) {
+        this.formsIsValid = true;
+      }
+    } else {
+      this._invalidFormsMap.set(key, 0);
+      this.formsIsValid = false;
+    }
   }
 
   //TODO WHAT?

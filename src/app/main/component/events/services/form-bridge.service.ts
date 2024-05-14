@@ -7,10 +7,11 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 export class FormBridgeService {
   // TODO change any to form type
   public dayMap = new Map<number, Date | undefined>();
+
   private _locationSubject: BehaviorSubject<{
-    address: string;
+    place: string;
     coords: google.maps.LatLngLiteral;
-  }> = new BehaviorSubject({ address: '', coords: { lng: 0, lat: 0 } });
+  }> = new BehaviorSubject({ place: '', coords: { lng: 0, lat: 0 } });
   private _daysSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(Array(1));
   private _datesFormSubjects: Subject<{ value: boolean; key: number; form?: any }> = new Subject<{
     value: boolean;
@@ -50,7 +51,7 @@ export class FormBridgeService {
     return this._linkSubject.asObservable();
   }
 
-  setLocationForAll(location: { address: string; coords: google.maps.LatLngLiteral }) {
+  setLocationForAll(location: { place: string; coords: google.maps.LatLngLiteral }) {
     this._locationSubject.next(location);
   }
 
