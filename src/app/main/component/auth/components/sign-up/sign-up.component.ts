@@ -18,6 +18,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
 
+import { googleProvider } from '@global-auth/sign-in/GoogleOAuthProvider/GoogleOAuthProvider';
+
 declare let google: any;
 @Component({
   selector: 'app-sign-up',
@@ -105,20 +107,20 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public signUpWithGoogle(): void {
-    const gAccounts: accounts = google.accounts;
-    gAccounts.id.initialize({
-      client_id: environment.googleClientId,
-      ux_mode: 'popup',
-      cancel_on_tap_outside: true,
-      callback: this.handleGgOneTap.bind(this)
+    const login = googleProvider.useGoogleLogin({
+      flow: 'implicit',
+      onSuccess: (res) => {
+        this.handleGoogleAuth(res.access_token);
+      },
+      onError: (err) => console.error('Failed to login with google', err)
     });
-    gAccounts.id.prompt();
+    login();
   }
 
-  public handleGgOneTap(resp): void {
+  public handleGoogleAuth(resp): void {
     try {
       this.googleService
-        .signIn(resp.credential, this.currentLanguage)
+        .signIn(resp, this.currentLanguage)
         .pipe(takeUntil(this.destroy))
         .subscribe((successData) => this.signUpWithGoogleSuccess(successData));
     } catch (errorData) {

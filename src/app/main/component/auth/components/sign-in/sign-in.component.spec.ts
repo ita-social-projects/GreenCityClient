@@ -171,7 +171,7 @@ describe('SignIn component', () => {
       const resp = {};
       const spy1 = spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
       const spy2 = spyOn(component, 'onSignInWithGoogleSuccess');
-      component.handleGgOneTap(resp as any);
+      component.handleGoogleAuth(resp as any);
       fixture.detectChanges();
       expect(spy1).toHaveBeenCalled();
       expect(spy2).toHaveBeenCalledWith(userSuccessSignIn);
