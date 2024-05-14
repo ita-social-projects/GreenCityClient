@@ -47,7 +47,7 @@ export class SocketService {
       const newMessage: Message = JSON.parse(data.body);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
       const chat = this.chatsService.userChats?.find((el) => el.id === newMessage.roomId);
-      if (chat) {
+      if (chat && newMessage.senderId !== this.userId) {
         chat.amountUnreadMessages = 1;
         this.titleService.setTitle(`New message`);
       }
@@ -97,7 +97,7 @@ export class SocketService {
         } else {
           this.chatsService.userChats.find((el) => el.id === userChat.id).amountUnreadMessages = 1;
         }
-        this.titleService.setTitle(`new message`);
+        this.titleService.setTitle(`new chat`);
       });
     }
   }

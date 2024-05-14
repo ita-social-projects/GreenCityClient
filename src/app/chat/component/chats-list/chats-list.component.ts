@@ -34,14 +34,16 @@ export class ChatsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {
-      this.searchField = newValue;
-      this.chatService.searchFriends(newValue);
-    });
     this.isSupportChat = this.chatService.isSupportChat;
-
     this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
-    if (this.isAdmin) {
+    if (!this.isSupportChat) {
+      this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {
+        this.searchField = newValue;
+        this.chatService.searchFriends(newValue);
+      });
+    }
+
+    if (this.isSupportChat && this.isAdmin) {
       this.chatService.currentChatsStream$.subscribe((chat) => {
         const isAdminParticipant = chat?.participants?.some((el) => el.id === this.userService.userId);
         this.chatService.isAdminParticipant$.next(isAdminParticipant);

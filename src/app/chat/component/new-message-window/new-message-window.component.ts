@@ -44,6 +44,12 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
 
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
       this.isHaveMessages = messages.length !== 0;
+      setTimeout(() => {
+        if (this.chat?.nativeElement) {
+          const chatElem = this.chat.nativeElement;
+          chatElem.scrollTop = chatElem.scrollHeight - chatElem.clientHeight;
+        }
+      });
     });
     this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
   }
