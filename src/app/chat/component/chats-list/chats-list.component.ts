@@ -76,7 +76,7 @@ export class ChatsListComponent implements OnInit {
 
   onScroll(): void {
     const pageData = this.chatService.currentChatPageData$.getValue();
-    if (pageData.totalPages < pageData.currentPage) {
+    if (pageData.totalPages > pageData.currentPage + 1) {
       this.chatService.getAllSupportChats(pageData.currentPage + 1);
     }
   }
