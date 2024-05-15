@@ -944,7 +944,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.columnsWidthPreference = new Map();
     }
     this.columnsWidthPreference.set(column.title.key, newWidth);
-    this.displayedColumnsView = this.displayedColumnsView.map((column) => (column === column ? column : column));
     this.adminTableService
       .setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference)
       .pipe(takeUntil(this.destroy))

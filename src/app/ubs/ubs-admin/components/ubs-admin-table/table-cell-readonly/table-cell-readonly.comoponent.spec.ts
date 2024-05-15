@@ -136,4 +136,25 @@ describe('TableCellReadonlyComponent', () => {
     expect(tooltip.toggle).not.toHaveBeenCalled();
     expect(tooltip.hide).toHaveBeenCalled();
   });
+
+  it('should update title and data on changes', () => {
+    component.key = TableKeys.generalDiscount;
+    component.title = '0.00 UAH';
+    component.ngOnChanges();
+    expect(component.title).toEqual('0.00 UAH');
+    expect(component.data).toEqual('0.00 UAH');
+
+    component.key = TableKeys.clientPhone;
+    component.title = '1234567890';
+    component.ngOnChanges();
+    expect(component.title).toEqual('+1234567890');
+    expect(component.data).toEqual('+1234567890');
+
+    component.key = TableKeys.bagsAmount;
+    component.title = '20л - 0шт; 120л - 3шт';
+    component.lang = Language.EN;
+    component.ngOnChanges();
+    expect(component.title).toEqual('20L - 0p; 120L - 3p');
+    expect(component.data).toEqual('20L - 0p; 120L - 3p');
+  });
 });
