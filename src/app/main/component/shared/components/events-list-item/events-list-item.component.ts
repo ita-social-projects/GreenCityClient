@@ -154,7 +154,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.checkButtonStatus();
     this.address = this.event.dates[this.event.dates.length - 1].coordinates;
     this.isOnline = this.event.dates[this.event.dates.length - 1].onlineLink;
-    this.ecoEvents$.subscribe((res: IEcoEventsState) => {
+    this.ecoEvents$.pipe(takeUntil(this.destroyed$)).subscribe((res: IEcoEventsState) => {
       this.addAttenderError = res.error;
     });
     this.getAddress();
@@ -315,8 +315,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
-    this.localStorageService.languageBehaviourSubject.subscribe((lang: string) => {
+    this.langChangeSub = this.localStorageService.languageSubject.pipe(takeUntil(this.destroyed$)).subscribe(this.bindLang.bind(this));
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.datePipe = new DatePipe(this.currentLang);
       this.newDate = this.datePipe.transform(this.event.creationDate, 'MMM dd, yyyy');
@@ -324,10 +324,13 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   getAllAttendees(): void {
-    this.eventService.getAllAttendees(this.event.id).subscribe((attendees) => {
-      this.attendees = attendees;
-      this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
-    });
+    this.eventService
+      .getAllAttendees(this.event.id)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((attendees) => {
+        this.attendees = attendees;
+        this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
+      });
   }
 
   public getAddress(): string {
@@ -356,24 +359,30 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     } else {
       this.isEventFavorite = !this.isEventFavorite;
       if (this.isEventFavorite) {
-        this.eventService.addEventToFavourites(this.event.id).subscribe({
-          error: () => {
-            this.snackBar.openSnackBar('error');
-            this.isEventFavorite = false;
-          }
-        });
-      } else {
-        this.eventService.removeEventFromFavourites(this.event.id).subscribe(
-          () => {
-            if (this.isUserAssignList) {
-              this.idOfUnFavouriteEvent.emit(this.event.id);
+        this.eventService
+          .addEventToFavourites(this.event.id)
+          .pipe(takeUntil(this.destroyed$))
+          .subscribe({
+            error: () => {
+              this.snackBar.openSnackBar('error');
+              this.isEventFavorite = false;
             }
-          },
-          () => {
-            this.snackBar.openSnackBar('error');
-            this.isEventFavorite = true;
-          }
-        );
+          });
+      } else {
+        this.eventService
+          .removeEventFromFavourites(this.event.id)
+          .pipe(takeUntil(this.destroyed$))
+          .subscribe(
+            () => {
+              if (this.isUserAssignList) {
+                this.idOfUnFavouriteEvent.emit(this.event.id);
+              }
+            },
+            () => {
+              this.snackBar.openSnackBar('error');
+              this.isEventFavorite = true;
+            }
+          );
       }
     }
   }
@@ -392,7 +401,5 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
-    this.destroyed$.unsubscribe();
-    this.langChangeSub.unsubscribe();
   }
 }
