@@ -14,12 +14,8 @@ export class UserNotificationService {
   constructor(private http: HttpClient) {}
 
   public getAllNotification(page = 0, size = this.size, filters?): Observable<NotificationArrayModel> {
-    const projectsString = [...filters.projectName.map((el) => 'projectName=' + el.name)];
-    const typesString = [
-      ...filters.notificationType.map((el) =>
-        el.filterArr ? [...el.filterArr.map((el) => 'notificationType=' + el)].join('&') : 'notificationType=' + el.name
-      )
-    ];
+    const projectsString = filters.projectName.map((el) => 'projectName=' + el);
+    const typesString = filters.notificationType.map((el) => 'notificationType=' + el);
     const filtersStringsArr = [...projectsString, ...typesString];
     const filtersString = filtersStringsArr.join('&') + (filtersStringsArr.length ? '&' : '');
     return this.http.get<NotificationArrayModel>(`${this.url}notification/all?${filtersString}page=${page}&size=${size}`);
