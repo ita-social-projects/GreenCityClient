@@ -17,6 +17,8 @@ import { Store } from '@ngrx/store';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { WarningPopUpComponent } from '@shared/components';
 import { AcceptRequest, DeclineRequest, DeleteFriend } from 'src/app/store/actions/friends.actions';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 describe('FriendItemComponent', () => {
   let component: FriendItemComponent;
@@ -35,7 +37,7 @@ describe('FriendItemComponent', () => {
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
   localStorageServiceMock.getUserId = () => 1;
-  localStorageServiceMock.userIdBehaviourSubject = of(1);
+  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1);
 
   const storeMock = jasmine.createSpyObj('Store', ['dispatch']);
   storeMock.dispatch = () => {};
@@ -44,6 +46,12 @@ describe('FriendItemComponent', () => {
   matSnackBarMock.openSnackBar = () => {};
   matSnackBarMock.openSnackBar = () => {};
 
+  const onlineStatusMock = jasmine.createSpyObj('UserOnlineStatusService', ['checkIsOnline']);
+  onlineStatusMock.checkIsOnline = () => true;
+
+  const userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['addFriend']);
+  userFriendsServiceMock.addFriend = () => of(true);
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FriendItemComponent, MaxTextLengthPipe, CorrectUnitPipe],
@@ -51,7 +59,9 @@ describe('FriendItemComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: MatSnackBarComponent, useValue: matSnackBarMock }
+        { provide: MatSnackBarComponent, useValue: matSnackBarMock },
+        { provide: UserOnlineStatusService, useValue: onlineStatusMock },
+        { provide: UserFriendsService, useValue: userFriendsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -149,16 +159,14 @@ describe('FriendItemComponent', () => {
   });
 
   it('should add a friend successfully', () => {
-    spyOn((component as any).userFriendsService, 'addFriend').and.returnValue(of());
+    spyOn((component as any).userFriendsService, 'addFriend').and.returnValue(of(true));
     spyOn((component as any).snackBar, 'openSnackBar');
     component.currentUserId = 1;
-
+    component.friend = { name: 'name', id: 123 } as FriendModel;
     component.addFriend(123);
-    fixture.whenStable().then(() => {
-      expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('addFriend');
-      expect(component.friend.friendStatus).toBe('REQUEST');
-      expect(component.friend.requesterId).toBe(1);
-    });
+    expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('addFriend');
+    expect(component.friend.friendStatus).toBe('REQUEST');
+    expect(component.friend.requesterId).toBe(1);
   });
 
   it('should return true if friendStatus is null and id is not currentUserId', () => {
