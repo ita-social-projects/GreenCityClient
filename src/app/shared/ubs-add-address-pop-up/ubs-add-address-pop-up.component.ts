@@ -136,7 +136,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       city: [this.addressData.getCity(this.langService.getCurrentLanguage()) ?? '', Validators.required],
       street: [this.addressData.getStreet() ?? '', Validators.required],
       district: [this.addressData.getDistrict() ?? '', Validators.required],
-      houseNumber: [this.data.address.houseNumber ?? '', [Validators.required, Validators.pattern(this.buildingPattern)]],
+      houseNumber: [
+        this.data.address.houseNumber ?? '',
+        [Validators.required, Validators.maxLength(4), Validators.pattern(this.buildingPattern)]
+      ],
       houseCorpus: [this.data.address.houseCorpus ?? '', [Validators.maxLength(4), Validators.pattern(this.buildingPattern)]],
       entranceNumber: [this.data.address.entranceNumber ?? '', [Validators.maxLength(2), Validators.pattern(this.buildingPattern)]],
       addressComment: [this.data.address.addressComment ?? '', Validators.maxLength(255)]
