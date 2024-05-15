@@ -19,12 +19,10 @@
 .total-bonuses {
   &-number__amount {
     font-weight: 900;
-
     background: linear-gradient(180deg, #8fe02e 0%, #26b351 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    -webkit-text-fill-color: transparent;
   }
 }
 
