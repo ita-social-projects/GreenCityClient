@@ -1,4 +1,3 @@
-import { FriendModel } from '@global-user/models/friend.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChatsService } from '../../service/chats/chats.service';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
@@ -51,7 +50,7 @@ export class ChatsListComponent implements OnInit {
     }
   }
 
-  public messageDateTreat(date: Date): string {
+  messageDateTreat(date: Date): string {
     const messageDate = new Date(date);
     const today = new Date();
     if (messageDate.getFullYear() !== today.getFullYear()) {
@@ -61,7 +60,7 @@ export class ChatsListComponent implements OnInit {
     return isToday ? 'HH:mm' : 'dd/MM';
   }
 
-  public checkChat(chatTarget: any) {
+  checkChat(chatTarget: any) {
     if (this.isAdmin) {
       return;
     }
@@ -73,6 +72,13 @@ export class ChatsListComponent implements OnInit {
       chatTarget.chatId ? this.chatService.setCurrentChat(userChat) : this.socketService.createNewChat(chatTarget.id, false, true);
     }
     this.createNewMessageWindow.emit();
+  }
+
+  onScroll(): void {
+    const pageData = this.chatService.currentChatPageData$.getValue();
+    if (pageData.totalPages < pageData.currentPage) {
+      this.chatService.getAllSupportChats(pageData.currentPage + 1);
+    }
   }
 
   openNewMessageWindow(chat: Chat) {
