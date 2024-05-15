@@ -379,7 +379,8 @@
     "table-view": "Вид таблиці",
     "filters": "Фільтри",
     "placeholder": "Пошук по імені або контактах",
-    "no-orders-found": "За даними критеріями замовлень не знайдено"
+    "no-orders-found": "За даними критеріями замовлень не знайдено",
+    "default-reset": "Дефолтнa ширина"
   },
   "ubs-customer-filters": {
     "total-customers": "Кількість користувачів:",
