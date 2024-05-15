@@ -90,8 +90,6 @@
 .description {
   color: var(--ubs-secondary-grey);
   text-align: justify;
-  // max-width: 40%;
-  // margin-left: 20.5%;
   font-family: var(--primary-font);
   font-size: 16px;
   font-style: normal;
@@ -253,17 +251,12 @@
 }
 
 @media (max-width: 480px) {
-  // .content {
-  //   padding: 0 0 100px 10px;
-  // }
-
   .date {
     padding-right: 0;
   }
 
   .header-list {
     display: flex;
-    // margin-top: -32px;
 
     div {
       color: var(--ubs-primary-grey);

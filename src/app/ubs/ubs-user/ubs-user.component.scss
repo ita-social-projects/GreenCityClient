@@ -4,6 +4,11 @@
 
 .footer {
   display: flex;
+
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
 }
 
 @media (max-width: 480px) {
