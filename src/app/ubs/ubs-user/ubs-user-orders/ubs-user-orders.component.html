@@ -10,7 +10,6 @@
       *ngIf="currentOrders.length || closedOrders.length; else noOrders"
       class="cards"
       infiniteScroll
-      [infiniteScrollDistance]="0"
       [infiniteScrollThrottle]="100"
       (scrolled)="onScroll()"
     >

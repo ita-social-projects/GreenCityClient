@@ -14,7 +14,7 @@
       <div *ngFor="let request of requests" class="user-card">
         <app-friend-item [friend]="request"></app-friend-item>
       </div>
-      <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+      <div infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
     </div>
   </div>
 </div>

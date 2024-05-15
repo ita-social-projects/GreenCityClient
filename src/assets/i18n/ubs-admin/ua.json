@@ -380,7 +380,8 @@
     "filters": "Фільтри",
     "placeholder": "Пошук по імені або контактах",
     "no-orders-found": "За даними критеріями замовлень не знайдено",
-    "default-reset": "Дефолтнa ширина"
+    "default-reset": "Дефолтнa ширина",
+    "orders-number": "Кількість замовлень"
   },
   "ubs-customer-filters": {
     "total-customers": "Кількість користувачів:",

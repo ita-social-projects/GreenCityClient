@@ -144,11 +144,13 @@
 .secondary-global-button {
   color: var(--primary-green);
   border: 1px solid var(--primary-green);
+  background: var(--primary-white);
 
   &:hover,
   &:active {
     color: var(--secondary-dark-green);
     border: 1px solid var(--secondary-dark-green);
+    background: var(--primary-white);
   }
 
   &:disabled {

@@ -5,6 +5,7 @@
     </div>
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
+  <div>{{ 'ubs-tables.orders-number' | translate }} : {{ totalElements }}</div>
   <div class="btn-group">
     <div class="filters-dropdown-wrappe">
       <button type="button" [matMenuTriggerFor]="clickMenu" #clickMenuTrigger="matMenuTrigger" class="btn btn-default filter-table-btn">
@@ -95,11 +96,13 @@
                       </div>
                     </div>
                     <ng-template #nonDate>
-                      <li *ngFor="let option of column.values">
-                        <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
-                          {{ option | serverTranslate: currentLang }}
-                        </mat-checkbox>
-                      </li>
+                      <ul class="accordion-list">
+                        <li *ngFor="let option of column.values">
+                          <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
+                            {{ option | serverTranslate: currentLang }}
+                          </mat-checkbox>
+                        </li>
+                      </ul>
                     </ng-template>
                   </div>
                 </div>
@@ -202,7 +205,6 @@
   class="scrolling"
   [style.display]="showTable()"
   infiniteScroll
-  [infiniteScrollDistance]="0"
   [infiniteScrollThrottle]="100"
   (scrolled)="onScroll()"
   [scrollWindow]="false"

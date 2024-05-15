@@ -382,7 +382,8 @@
     "filters": "Filters",
     "placeholder": "Search by name or contacts",
     "no-orders-found": "According to these criteria, no orders were found",
-    "default-reset": "Default width"
+    "default-reset": "Default width",
+    "orders-number": "Number of orders"
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",
