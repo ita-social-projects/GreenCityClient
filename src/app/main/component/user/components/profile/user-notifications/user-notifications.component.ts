@@ -157,8 +157,10 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
 
   getNotification(page?: number): void {
     const filtersSelected = {
-      projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN),
+      projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN).map((el) => el.name),
       notificationType: this.getAllSelectedFilters(this.filterApproach.TYPE)
+        .map((el) => (el.filterArr?.length ? el.filterArr : el.name))
+        .flat()
     };
     this.userNotificationService
       .getAllNotification(page, this.itemsPerPage, filtersSelected)
