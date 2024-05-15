@@ -9,7 +9,7 @@ import { UbsAdminTableComponent } from './ubs-admin-table.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA, Renderer2, ChangeDetectorRef } from '@angular/core';
@@ -825,6 +825,23 @@ describe('UsbAdminTableComponent', () => {
     expect(component.dateForm.value).toEqual(initDateMock);
   });
 
+  it('should initialize dateForm with default values', () => {
+    component.initDateForm();
+    expect(component.dateForm.value).toEqual(dateMock);
+  });
+
+  it('should initialize dateForm with default values', () => {
+    spyOn(localStorageServiceMock, 'getAdminOrdersDateFilter').and.returnValue(null);
+    component.initDateForm();
+    expect(component.dateForm.value).toEqual(initDateMock);
+  });
+
+  it('should set dateForm values from local storage if available', () => {
+    spyOn(localStorageServiceMock, 'getAdminOrdersDateFilter').and.returnValue(initDateMock);
+    component.initDateForm();
+    expect(component.dateForm.value).toEqual(initDateMock);
+  });
+
   it('applyFilters', () => {
     component.currentPage = 1;
     component.firstPageLoad = false;
@@ -995,5 +1012,22 @@ describe('UsbAdminTableComponent', () => {
     expect(component.applyColumnsWidthPreference).toHaveBeenCalled();
     expect(component.checkAllColumnsDisplayed).toHaveBeenCalled();
     expect(component.stickColumns).toHaveBeenCalled();
+  }));
+
+  it('should process blockedInfo and reset it after 7 seconds', fakeAsync(() => {
+    const info: IAlertInfo[] = [
+      { userName: 'user1', orderId: 1 },
+      { userName: 'user1', orderId: 2 },
+      { userName: 'user2', orderId: 3 }
+    ];
+
+    component.dataSource = new MatTableDataSource([{ id: 1 }, { id: 2 }, { id: 3 }]);
+    component.selection = jasmine.createSpyObj('selection', ['deselect']);
+    component.idsToChange = [1, 2, 3];
+
+    component.showBlockedMessage(info);
+
+    tick(7000);
+    expect(component.blockedInfo).toEqual([]);
   }));
 });

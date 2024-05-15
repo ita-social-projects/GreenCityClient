@@ -5,6 +5,7 @@ import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pip
 import { TableCellReadonlyComponent } from './table-cell-readonly.component';
 import { Language } from 'src/app/main/i18n/Language';
 import { TableKeys } from '../../../services/table-keys.enum';
+import { PaymnetStatus } from '../../../../ubs/order-status.enum';
 
 describe('TableCellReadonlyComponent', () => {
   let component: TableCellReadonlyComponent;
@@ -156,5 +157,31 @@ describe('TableCellReadonlyComponent', () => {
     component.ngOnChanges();
     expect(component.title).toEqual('20L - 0p; 120L - 3p');
     expect(component.data).toEqual('20L - 0p; 120L - 3p');
+  });
+
+  it('should call ngOnChanges and update title and data with replaceRules', () => {
+    component.key = TableKeys.bagsAmount;
+    component.lang = Language.EN;
+    component.title = '20л - 0шт';
+    component.ngOnChanges();
+    expect(component.title).toBe('20L - 0p');
+    expect(component.data).toBe('20L - 0p');
+    component.lang = Language.UA;
+    component.title = '20L - 0p';
+    component.ngOnChanges();
+    expect(component.title).toBe('20л - 0шт');
+    expect(component.data).toBe('20л - 0шт');
+  });
+
+  it('should call isStatus and update payment status', () => {
+    component.data = PaymnetStatus.PAID;
+    component.isStatus();
+    expect(component.paid).toBeTruthy();
+    component.data = PaymnetStatus.HALF_PAID;
+    component.isStatus();
+    expect(component.halfpaid).toBeTruthy();
+    component.data = PaymnetStatus.UNPAID;
+    component.isStatus();
+    expect(component.unpaid).toBeTruthy();
   });
 });
