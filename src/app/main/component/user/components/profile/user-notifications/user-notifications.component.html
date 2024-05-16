@@ -104,7 +104,13 @@
             </div>
           </div>
         </mat-expansion-panel-header>
-        <p appNotificContentReplace [replacements]="notification" class="message-text" (click)="navigate($event)"></p>
+        <p
+          appNotificContentReplace
+          [replacements]="notification"
+          class="message-text"
+          (click)="navigate($event)"
+          (keydown)="navigate($event)"
+        ></p>
         <div class="friend-action-button" *ngIf="notification.notificationType === notificationFriendRequest">
           <button (click)="declineRequest(notification.actionUserId)" class="decline-request">
             <span class="material-icons">close</span><span>{{ 'profile.friends.request-decline' | translate }}</span>
