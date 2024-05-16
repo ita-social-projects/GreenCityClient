@@ -28,14 +28,18 @@ export class AdminTableService {
         const objKeys = Object.keys(elem);
         if (objKeys.length === 1) {
           const key = objKeys[0];
-          filtersQuery += `&${key}=${elem[key]}`;
+          if (!isNaN(Date.parse(elem[key]))) {
+            filtersQuery += `&${key}=${elem[key]}`;
+          }
         }
         if (objKeys.length === 2) {
           const keyFrom = objKeys[0].replace('From', '.from');
           const keyTo = objKeys[1].replace('To', '.to');
           const key1 = objKeys[0];
           const key2 = objKeys[1];
-          filtersQuery += `&${keyFrom}=${elem[key1]}&${keyTo}=${elem[key2]}`;
+          if (!isNaN(Date.parse(elem[key1])) && !isNaN(Date.parse(elem[key2]))) {
+            filtersQuery += `&${keyFrom}=${elem[key1]}&${keyTo}=${elem[key2]}`;
+          }
         }
       });
     }

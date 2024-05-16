@@ -32,7 +32,7 @@ import {
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
 import { MouseEvents } from 'src/app/shared/mouse-events';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
@@ -665,7 +665,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.cancellationComment = null;
   }
 
-  toggleAccordion(e: PointerEvent): void {
+  toggleAccordion(e: MouseEvent): void {
     (e.target as HTMLElement).parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
     const matIcon = (e.target as HTMLElement).closest('div').querySelector('mat-icon');
     matIcon.textContent = matIcon.textContent === 'keyboard_arrow_down' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
@@ -760,7 +760,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', true);
   }
 
-  openColumnFilterPopup(event: PointerEvent, column) {
+  openColumnFilterPopup(event: MouseEvent, column) {
     const popupWidth = 350;
     const popupHeight = 400;
     const isDateFilter = column.title.key.toLowerCase().includes('date');

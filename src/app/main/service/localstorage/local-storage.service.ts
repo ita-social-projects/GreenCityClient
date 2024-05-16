@@ -296,8 +296,7 @@ export class LocalStorageService {
   }
 
   public getUbsAdminOrdersTableTitleColumnFilter() {
-    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
-    return parsed;
+    return JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
   }
 
   public removeAdminOrderFilters(): void {
@@ -312,8 +311,7 @@ export class LocalStorageService {
   }
 
   public getAdminOrdersDateFilter() {
-    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters'));
-    return parsed;
+    return JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters'));
   }
 
   public removeAdminOrderDateFilters(): void {

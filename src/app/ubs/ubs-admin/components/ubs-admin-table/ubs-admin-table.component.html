@@ -1,7 +1,7 @@
 <div class="research">
   <div class="search">
     <div class="search-input">
-      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target.value)" />
+      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target['value'])" />
     </div>
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
@@ -58,13 +58,11 @@
                               <input
                                 matInput
                                 class="date-input"
-                                type="text"
                                 [matDatepicker]="picker1"
                                 [placeholder]="'ubs-tables.date-placeholder' | translate"
                                 formControlName="{{ column.key }}From"
                                 [max]="currentDate"
-                                (keydown)="(false)"
-                                (dateChange)="changeInputDate($event.checked, column.key, 'From')"
+                                (dateChange)="changeInputDate($event['checked'], column.key, 'From')"
                               />
                               <button matSuffix class="calendar-btn">
                                 <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker1.open()" />
@@ -83,8 +81,7 @@
                                 [max]="currentDate"
                                 [placeholder]="'ubs-tables.date-placeholder' | translate"
                                 formControlName="{{ column.key }}To"
-                                (keydown)="(false)"
-                                (dateChange)="changeInputDate($event.checked, column.key, 'To')"
+                                (dateChange)="changeInputDate($event['checked'], column.key, 'To')"
                               />
                               <button matSuffix class="calendar-btn">
                                 <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker2.open()" />
