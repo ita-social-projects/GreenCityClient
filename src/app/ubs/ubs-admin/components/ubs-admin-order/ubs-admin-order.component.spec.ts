@@ -198,7 +198,7 @@ describe('UbsAdminOrderComponent', () => {
   });
 
   it('should return the order status info for the given status name', () => {
-    const GeneralInfoFake = GeneralInfoMock;
+    const GeneralInfoFake = { ...GeneralInfoMock };
     component.generalInfo = GeneralInfoFake as any;
     const result = (component as any).getOrderStatusInfo('DONE');
 
