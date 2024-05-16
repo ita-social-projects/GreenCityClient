@@ -178,7 +178,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   readNotification(event: Event, notification: NotificationModel) {
-    if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
+    if ((event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) && !notification.viewed) {
       event.stopPropagation();
       this.userNotificationService
         .readNotification(notification.notificationId)
@@ -190,7 +190,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   unReadNotification(event: Event, notification: NotificationModel): void {
-    if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
+    if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter' && notification.viewed)) {
       event.stopPropagation();
       this.userNotificationService
         .unReadNotification(notification.notificationId)
@@ -236,9 +236,9 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     this.userFriendsService.declineRequest(userId).subscribe();
   }
 
-  navigate(event: MouseEvent): void {
+  navigate(event: Event): void {
     const target = event.target as HTMLElement;
-    if (target.hasAttribute('data-userid')) {
+    if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter' && target.hasAttribute('data-userid'))) {
       this.router.navigate(['profile', this.userService.userId, 'users', target.textContent, target.getAttribute('data-userid')]);
     }
   }
