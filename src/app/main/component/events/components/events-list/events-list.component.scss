@@ -250,15 +250,16 @@ p {
   white-space: nowrap;
   overflow-x: auto;
   -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  padding-bottom: 10px;
 
   @include responsivePCFirst(sm) {
     width: 100%;
     margin-top: 10px;
-    align-items: left;
+    align-items: flex-start;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
