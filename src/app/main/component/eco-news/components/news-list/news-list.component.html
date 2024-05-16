@@ -28,7 +28,6 @@
     <div class="list-wrapper">
       <ul class="list" *ngIf="remaining" [ngClass]="{ 'gallery-view-active': view }" aria-label="news list">
         <li
-          role="listitem"
           [ngClass]="{
             'gallery-view-li-active': view,
             'list-view-li-active': !view
@@ -49,6 +48,6 @@
       [title]="'homepage.eco-news.empty-state.no-news'"
     >
     </app-no-data>
-    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+    <div infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
   </div>
 </main>

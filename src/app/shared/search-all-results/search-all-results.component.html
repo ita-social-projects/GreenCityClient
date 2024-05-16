@@ -62,7 +62,7 @@
     <app-search-not-found *ngIf="itemsFound === 0 && !isLoading" [inputValue]="inputValue"></app-search-not-found>
   </div>
   <ng-container *ngIf="isSearchFound">
-    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+    <div infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
   </ng-container>
   <app-spinner *ngIf="isLoading"></app-spinner>
 </div>
