@@ -79,7 +79,7 @@
             <div
               class="scrolling"
               infinite-scroll
-              [infiniteScrollDistance]="0"
+              [infiniteScrollDistance]="1"
               [infiniteScrollThrottle]="100"
               (scrolled)="onScroll()"
               [infiniteScrollDisabled]="!isActiveNewsScroll"
@@ -127,7 +127,7 @@
           <div
             class="scrolling"
             infinite-scroll
-            [infiniteScrollDistance]="0"
+            [infiniteScrollDistance]="1"
             [infiniteScrollThrottle]="100"
             (scrolled)="getUserEvents()"
             [infiniteScrollDisabled]="!isActiveEventsScroll"
@@ -142,7 +142,7 @@
             *ngIf="isFavoriteBtnClicked"
             class="scrolling"
             infinite-scroll
-            [infiniteScrollDistance]="0"
+            [infiniteScrollDistance]="1"
             [infiniteScrollThrottle]="100"
             (scrolled)="getUserFavouriteEvents()"
             [infiniteScrollDisabled]="!isActiveFavoriteEventsScroll"
