@@ -5,7 +5,7 @@
         <app-friend-item [friend]="friend" (friendDelete)="onScroll()"></app-friend-item>
       </div>
     </div>
-    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+    <div infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
   </div>
   <app-spinner *ngIf="isFetching"></app-spinner>
 

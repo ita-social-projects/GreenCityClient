@@ -190,8 +190,8 @@ export class LocalStorageService {
     localStorage.removeItem('UbsOrderId');
   }
 
-  public setUbsFondyOrderId(orderId: string | number) {
-    localStorage.setItem('UbsFondyOrderId', String(orderId));
+  public setUbsPaymentOrderId(orderId: string | number) {
+    localStorage.setItem('UbsPaymentOrderId', String(orderId));
   }
 
   public setUbsBonusesOrderId(orderId: string | number) {
@@ -202,12 +202,12 @@ export class LocalStorageService {
     return localStorage.getItem('UbsBonusesOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsBonusesOrderId'));
   }
 
-  public getUbsFondyOrderId(): any {
-    return localStorage.getItem('UbsFondyOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsFondyOrderId'));
+  public getUbsPaymentOrderId(): any {
+    return localStorage.getItem('UbsPaymentOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsPaymentOrderId'));
   }
 
-  public removeUbsFondyOrderId() {
-    localStorage.removeItem('UbsFondyOrderId');
+  public removeUbsPaymentOrderId() {
+    localStorage.removeItem('UbsPaymentOrderId');
   }
 
   public removeOrderWithoutPayment(): void {
@@ -231,7 +231,7 @@ export class LocalStorageService {
   }
 
   public clearPaymentInfo(): void {
-    this.removeUbsFondyOrderId();
+    this.removeUbsPaymentOrderId();
     this.removeUserPagePayment();
   }
 
