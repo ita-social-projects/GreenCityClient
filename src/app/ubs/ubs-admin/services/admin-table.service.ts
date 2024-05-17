@@ -28,9 +28,7 @@ export class AdminTableService {
         const objKeys = Object.keys(elem);
         if (objKeys.length === 1) {
           const key = objKeys[0];
-          if (!isNaN(Date.parse(elem[key]))) {
-            filtersQuery += `&${key}=${elem[key]}`;
-          }
+          filtersQuery += `&${key}=${elem[key]}`;
         }
         if (objKeys.length === 2) {
           const keyFrom = objKeys[0].replace('From', '.from');
