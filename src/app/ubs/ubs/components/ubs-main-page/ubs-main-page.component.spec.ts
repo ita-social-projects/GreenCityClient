@@ -14,6 +14,7 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/OrderInfoMock';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -29,6 +30,7 @@ describe('UbsMainPageComponent', () => {
     'getLocationId',
     'getTariffId'
   ]);
+  localeStorageServiceMock.getCurrentLanguage = () => of('ua');
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const checkTokenServiceMock = jasmine.createSpyObj('CheckTokenService', ['onCheckToken']);
@@ -107,7 +109,7 @@ describe('UbsMainPageComponent', () => {
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule, MatAutocompleteModule],
       declarations: [UbsMainPageComponent],
       providers: [
         { provide: Store, useValue: storeMock },
@@ -133,6 +135,9 @@ describe('UbsMainPageComponent', () => {
   });
 
   it('checkIsAdmin()', () => {
+    spyOn(component, 'findCourierByName').and.returnValue(activecouriersMock[0]);
+    spyOn(component as any, 'getActiveLocationsToShow').and.returnValue(of());
+
     const spy = spyOn(component, 'checkIsAdmin');
     component.ngOnInit();
     expect(spy).toBeTruthy();

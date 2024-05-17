@@ -348,18 +348,9 @@
         }
       },
       "price": {
-        "caption": "The cost of PICK UP service",
-        "price-title": {
-          "li_1": "280 UAH",
-          "li_2": "220 UAH",
-          "li_3": "110 UAH",
-          "li_4": "per 1 package"
-        },
-        "price-description": {
-          "li_1": "With recyclable materials and illiquid plastics with a volume of 120l.",
-          "li_2": "With textile waste of 60l size.",
-          "li_3": "With textile waste of 20l size."
-        },
+        "caption": "The cost of PICK UP service for tariff ",
+        "choose-location": "Choose the tariff",
+        "price-title": "per 1 package",
         "caption-steps": "To order PICK UP service:",
         "steps-title": {
           "li_1": "Register",
