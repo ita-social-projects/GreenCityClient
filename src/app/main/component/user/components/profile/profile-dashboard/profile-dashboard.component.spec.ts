@@ -45,7 +45,7 @@ describe('ProfileDashboardComponent', () => {
   const MockResult: EventResponseDto = {
     currentPage: 0,
     first: true,
-    hasNext: false,
+    hasNext: true,
     hasPrevious: false,
     last: false,
     number: 0,
