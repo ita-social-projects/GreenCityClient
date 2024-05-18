@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CommentsService } from '../../services/comments.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { CommentTextareaComponent } from '../comment-textarea/comment-textarea.component';
+import { PlaceholderForDivDirective } from '../../directives/placeholder-for-div.directive';
 
 const COMMENT_MOCK = {
   author: {
@@ -52,7 +53,7 @@ describe('AddCommentComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AddCommentComponent, UserProfileImageComponent, CommentTextareaComponent],
+      declarations: [AddCommentComponent, UserProfileImageComponent, CommentTextareaComponent, PlaceholderForDivDirective],
       imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },
