@@ -4,7 +4,7 @@ import { HabitAssignService } from '@global-service/habit-assign/habit-assign.se
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -27,8 +27,7 @@ describe('HabitProgressComponent', () => {
     'getAssignHabitsByPeriod',
     'getAssignedHabits',
     'enrollByHabit',
-    'unenrollByHabit',
-    'habitChangesFromCalendarSubj'
+    'unenrollByHabit'
   ]);
   habitAssignServiceMock.getAssignedHabits.and.returnValue(of([]));
   habitAssignServiceMock.habitsFromDashBoard = JSON.parse(
@@ -67,7 +66,7 @@ describe('HabitProgressComponent', () => {
     habitAssignServiceMock.getAssignHabitsByPeriod = jasmine.createSpy().and.returnValue(of({}));
     habitAssignServiceMock.getAllAssignedHabbits = jasmine.createSpy().and.returnValue(of({}));
     habitAssignServiceMock.getAssignedHabits = jasmine.createSpy().and.returnValue(of([]));
-    habitAssignServiceMock.habitChangesFromCalendarSubj = of({});
+    habitAssignServiceMock.habitChangesFromCalendarSubj = new Subject();
     fixture.detectChanges();
   });
 
