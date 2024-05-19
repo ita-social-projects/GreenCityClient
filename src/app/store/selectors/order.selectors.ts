@@ -27,8 +27,6 @@ export const certificateUsedSelector = createSelector(orderSelectors, (order) =>
 
 export const pointsUsedSelector = createSelector(orderSelectors, (order) => order.pointsUsed);
 
-export const pointsSelector = createSelector(orderSelectors, (order) => order.orderDetails?.points);
-
 export const isFirstFormValidSelector = createSelector(orderSelectors, (order) => order.firstFormValid);
 
 export const isOrderDetailsLoadingSelector = createSelector(orderSelectors, (order) => order.isOrderDetailsLoading);
