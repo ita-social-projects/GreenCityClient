@@ -37,14 +37,18 @@ export class ImagesContainerComponent implements OnInit {
   ) {}
 
   public selectImg(img: number) {
+    //  const index = this.images.findIndex(value => value.main);
     this.images.forEach((value) => (value.main = false));
     this.images[img].main = true;
+    [this.images[0], this.images[img]] = [this.images[img], this.images[0]];
+    this.images[0].main = true;
   }
 
   ngOnInit(): void {
-    this.editMode = this.localStorageService.getEditMode();
     if (!this.images.length) {
       this.chooseImage(this.defImgs[0]);
+    } else {
+      this.imageCount = this.images.length;
     }
   }
 

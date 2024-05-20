@@ -8,11 +8,11 @@
     <div class="title-wrapper">
       <span class="above-title">
         <p>{{ 'create-event.event-name' | translate }}</p>
-        <p class="xs-text">{{ title.value.length + ' / ' + 70 }}</p>
+        <p class="xs-text">{{ titleLength }}</p>
       </span>
       <mat-form-field appearance="outline" class="title-field">
         <mat-label>{{ 'create-event.placeholder' | translate }}</mat-label>
-        <input #title formControlName="title" matInput maxlength="70" />
+        <input formControlName="title" matInput maxlength="70" />
         <mat-error>{{ getLocale('titleError') }}</mat-error>
       </mat-form-field>
     </div>

@@ -28,7 +28,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     endTime: ['', Validators.required],
     allDay: [false]
   });
-
+  @Output() destroy = new EventEmitter<any>();
   @Output() formEmitter: EventEmitter<FormEmitter<DateTime>> = new EventEmitter<FormEmitter<DateTime>>();
   private _timeArr: string[] = [];
   private _upperTimeLimit = 0;
@@ -38,7 +38,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   private _indexEndTime: number;
   private _checkedAllDay = false;
   private _lastTimeValues: string[] = [];
-  private _key = Symbol('key');
+  private _key = Symbol('dateKey');
 
   constructor(
     private fb: FormBuilder,
@@ -82,7 +82,10 @@ export class DateTimeComponent implements OnInit, OnDestroy {
 
     //this._emitForm(undefined, false);
     if (this.formInput) {
-      this.form.setValue(this.formInput, { emitEvent: false });
+      this.form.setValue(this.formInput);
+      if (this.formInput.allDay) {
+        this.toggleAllDay();
+      }
     }
     this.ls.getCurrentLangObs().subscribe((lang) => {
       const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
@@ -93,6 +96,10 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._subscriptions.forEach((subscription) => subscription.unsubscribe());
     this.bridge.deleteRecordFromDayMap(this.dayNumber);
+    this.destroy.emit(this._key);
+    if (this.dayNumber === 0) {
+      this.bridge.resetSubjects();
+    }
   }
 
   public toggleAllDay(): void {

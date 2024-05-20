@@ -7,7 +7,6 @@ import { quillConfig } from '../../quillEditorFunc';
 
 import { EVENT_LOCALE, EventLocaleKeys } from '../../../../models/event-consts';
 import { EventInformation, EventInformationGroup, FormCollectionEmitter, ImagesContainer } from '../../../../models/events.interface';
-import { EventsService } from '../../../../services/events.service';
 import { Router } from '@angular/router';
 import { quillEditorValidator } from '../../validators/quillEditorValidator';
 import { FormBridgeService } from '../../../../services/form-bridge.service';
@@ -35,13 +34,13 @@ export class CreateEventInformationComponent implements OnInit {
   });
 
   @Output() formStatus: EventEmitter<FormCollectionEmitter<EventInformation>> = new EventEmitter();
+  titleLength: string;
   protected readonly EVENT_LOCALE = EVENT_LOCALE;
   private _key = Symbol();
 
   constructor(
     protected localStorageService: LocalStorageService,
     protected fb: FormBuilder,
-    protected eventsService: EventsService,
     protected router: Router,
     private bridge: FormBridgeService
   ) {}
@@ -53,27 +52,27 @@ export class CreateEventInformationComponent implements OnInit {
   ngOnInit() {
     this.quillModules = quillConfig;
     this.eventInfForm.get('duration').valueChanges.subscribe((value) => {
-      this.bridge.days = Array(this.eventInfForm.controls.duration.value);
+      this.bridge.days = Array(value);
     });
-
+    this.eventInfForm.get('title').valueChanges.subscribe((value) => {
+      this.titleLength = value.length + ' / ' + 70;
+    });
     this.eventInfForm.statusChanges.subscribe((value) => {
       if (value === 'VALID') {
         this.formStatus.emit({ key: this._key, form: this.eventInfForm.getRawValue(), valid: true });
-        console.log(this.eventInfForm.getRawValue());
-        this.eventsService.setInformationForm(this.eventInfForm.getRawValue());
       } else {
         this.formStatus.emit({ key: this._key, form: undefined, valid: false });
       }
     });
+
     if (this.formInput) {
-      this.eventInfForm.setValue(this.formInput, { emitEvent: false });
+      this.eventInfForm.setValue(this.formInput);
     }
   }
 
   quillContentChanged(content: ContentChange) {
     this.quillLength = content.text.length - 1;
     this.isQuillUnfilled = this.quillLength < 20;
-    console.log(this.eventInfForm.controls.description.value);
     this.eventInfForm.get('description').setValue(content.text.trimEnd());
   }
 

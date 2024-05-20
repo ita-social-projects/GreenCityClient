@@ -5,6 +5,7 @@ import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { Place } from '../../../places/models/place';
 import {
+  DateEventResponseDto,
   DateInformation,
   Dates,
   EventDTO,
@@ -12,10 +13,11 @@ import {
   EventInformation,
   EventPageResponseDto,
   FormCollectionEmitter,
+  ImagesContainer,
   PagePreviewDTO,
   TagObj
 } from '../../models/events.interface';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { EventsService } from '../../services/events.service';
 import { Subscription } from 'rxjs';
 import { WeekArray } from '../../models/event-consts';
@@ -29,6 +31,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -36,9 +39,7 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
   styleUrls: ['./create-edit-events.component.scss']
 })
 export class CreateEditEventsComponent extends FormBaseComponent implements OnInit, OnDestroy {
-  public title = '';
   public quillModules = {};
-  public isOpen = true;
   public places: Place[] = [];
   public checkdates: boolean;
   public isPosting = false;
@@ -81,6 +82,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     eventInformation: undefined,
     dateInformation: undefined
   };
+  private _savedFormValues: EventForm;
+  private initialForm: EventForm;
+  private eventId: number;
 
   constructor(
     public dialog: MatDialog,
@@ -102,11 +106,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   get formValues(): EventForm {
-    return this._formsValues;
+    return this._savedFormValues;
   }
 
   checkFormInformation({ form, valid, key }: FormCollectionEmitter<unknown>, type: string) {
-    console.log(key);
     switch (type) {
       case 'date':
         this._formsValues.dateInformation = form as DateInformation[];
@@ -126,8 +129,30 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   ngOnInit(): void {
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationStart),
+        take(1)
+      )
+      .subscribe((value: NavigationStart) => {
+        console.log(value);
+        if (!value.url.includes('preview')) {
+          this.eventsService.editorFormValues = {
+            dateInformation: undefined,
+            eventInformation: undefined
+          };
+        }
+      });
+
     this.editMode = this.localStorageService.getEditMode();
-    this._formsValues = this.eventsService.editorFormValues;
+    console.log(this.eventsService.editorFormValues);
+    if (this.editMode) {
+      this.eventId = this.eventsService.getEventResponse().id;
+      this.initialForm = this._transformResponseToForm(this.eventsService.getEventResponse());
+      this._savedFormValues = this.initialForm;
+    } else {
+      this._savedFormValues = this.eventsService.editorFormValues;
+    }
     if (!this.checkUserSigned()) {
       this.snackBar.openSnackBar('userUnauthorised');
     }
@@ -136,11 +161,11 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.previousPath = this.localStorageService.getPreviousPage() || '/events';
   }
 
+  // TODO MAIN IMAGE DONT PASS
   public onPreview() {
-    this.eventsService.setSubmitFromPreview(false);
-    this.eventsService.editorFormValues = this._formsValues;
-    // this.imgToData();
-    //const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
+    console.log('1');
+    this.eventsService.editorFormValues = structuredClone(this._formsValues);
+    console.log('3');
     const { dateInformation, eventInformation } = this._formsValues;
     const { images, duration, editorText, title, description, open, tags } = eventInformation;
     const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
@@ -161,7 +186,17 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.router.navigate(['events', 'preview']);
   }
 
-  public onSubmit(): void {
+  public clear() {
+    const clearedForm = {
+      eventInformation: undefined,
+      dateInformation: undefined
+    };
+    this._formsValues = clearedForm;
+    this.eventsService.editorFormValues = clearedForm;
+    this.cancel(true);
+  }
+
+  public submitEvent(): void {
     const { eventInformation, dateInformation } = this._formsValues;
     const { open, tags, description, editorText, title, images, duration } = eventInformation;
     console.log(this._formsValues);
@@ -175,6 +210,19 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       datesLocations: dates
     };
 
+    //TODO CAN WE CHANGE TITLE IMAGE?
+    if (this.editMode) {
+      const responseImages = this.initialForm.eventInformation.images.map((value) => value.url);
+      const currentImages = this._savedFormValues.eventInformation.images.filter((value) => !value.file).map((value) => value.url);
+      const removedImages = responseImages.filter((value) => !currentImages.includes(value));
+      sendEventDto = {
+        ...sendEventDto,
+        imagesToDelete: removedImages,
+        additionalImages: currentImages.slice(1),
+        id: this.eventId,
+        titleImage: responseImages[0]
+      };
+    }
     const formData: FormData = new FormData();
     const stringifyDataToSend = JSON.stringify(sendEventDto);
     const dtoName = this.editMode ? 'eventDto' : 'addEventDtoRequest';
@@ -182,18 +230,12 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     formData.append(dtoName, stringifyDataToSend);
 
     images.forEach((item) => {
-      formData.append('images', item.file);
+      if (item.file) {
+        formData.append('images', item.file);
+      }
     });
+
     this.createEvent(formData);
-    if (this.editMode) {
-      sendEventDto = {
-        ...sendEventDto,
-        imagesToDelete: [],
-        additionalImages: this.oldImages.length > 1 ? this.oldImages.slice(1) : null,
-        id: this.editEvent.id,
-        titleImage: this.oldImages[0]
-      };
-    }
   }
 
   transformDatesFormToDates(form: DateInformation[]): Dates[] {
@@ -208,18 +250,21 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       [hours, minutes] = endTime.split(':');
       date.setHours(parseInt(hours, 10));
       date.setMinutes(parseInt(minutes, 10));
+      console.log(date);
       const finishDate = date.toISOString();
       const dates: Dates = {
         startDate,
         finishDate,
-        coordinates: {
-          latitude: coordinates.lat,
-          longitude: coordinates.lng
-        },
         id: undefined
       };
       if (onlineLink) {
         dates.onlineLink = onlineLink;
+      }
+      if (place) {
+        dates.coordinates = {
+          latitude: coordinates.lat,
+          longitude: coordinates.lng
+        };
       }
       return dates;
     });
@@ -232,6 +277,69 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+
+  private _transformResponseToForm(form: EventPageResponseDto): EventForm {
+    const { title, description, open, dates, creationDate, id, titleImage, tags, additionalImages } = form;
+    const tagsForm = tags.map((value) => value.nameEn);
+    additionalImages.unshift(titleImage);
+    const correctImages: ImagesContainer[] = additionalImages.map((value, index) => ({
+      file: undefined,
+      url: value,
+      main: index === 0
+    }));
+    console.log(correctImages);
+    //TODO
+    const eventInformation: EventInformation = {
+      title,
+      description,
+      open,
+      duration: dates.length,
+      editorText: description,
+      tags: tagsForm,
+      images: correctImages
+    };
+    const dateInformation: DateInformation[] = this._transformDatesToForm(form.dates);
+    return {
+      dateInformation,
+      eventInformation
+    };
+  }
+
+  private _transformDatesToForm(form: DateEventResponseDto[]): DateInformation[] {
+    const place = form[0].coordinates.formattedAddressUa;
+    const allPlace = form.every((value) => place === value.coordinates.formattedAddressUa);
+
+    const link = form[0].onlineLink;
+    const allLink = form.every((value) => link === value.onlineLink);
+
+    return form.map((value, index) => {
+      const { finishDate, startDate, onlineLink, coordinates } = value;
+      const _startDate = new Date(startDate);
+      const startHours = _startDate.getHours().toString().padStart(2, '0'); // Get hours and pad with leading zero if needed
+      const startMinutes = _startDate.getMinutes().toString().padStart(2, '0');
+      const formattedStartTime = `${startHours}:${startMinutes}`;
+      _startDate.setHours(0, 0, 0, 0);
+
+      const _endDate = new Date(finishDate);
+      const endHours = _endDate.getHours().toString().padStart(2, '0'); // Get hours and pad with leading zero if needed
+      const endMinutes = _endDate.getMinutes().toString().padStart(2, '0');
+      const formattedEndTime = `${endHours}:${endMinutes}`;
+      _startDate.setHours(0, 0, 0, 0);
+
+      const place = this.languageService.getCurrentLanguage() === 'ua' ? coordinates.formattedAddressUa : coordinates.formattedAddressEn;
+
+      return {
+        dateTime: { startTime: formattedStartTime, date: _startDate, endTime: formattedEndTime, allDay: false },
+        placeOnline: {
+          appliedPlaceForAll: allPlace,
+          appliedLinkForAll: allLink,
+          place,
+          onlineLink,
+          coordinates: { lat: coordinates.latitude, lng: coordinates.longitude }
+        }
+      };
+    });
   }
 
   private _checkValidness(key: any, valid: boolean) {

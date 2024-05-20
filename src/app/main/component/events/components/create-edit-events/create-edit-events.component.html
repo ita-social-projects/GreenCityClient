@@ -35,11 +35,15 @@
         {{ 'create-event.preview' | translate }}
       </button>
 
-      <button (click)="onSubmit()" [disabled]="!formsIsValid" class="primary-global-button submit-buttons">
+      <button (click)="submitEvent()" [disabled]="!formsIsValid" class="primary-global-button submit-buttons">
         {{ nameBtn | translate }}
       </button>
 
-      <button (click)="cancel(true)" class="tertiary-global-button">{{ 'create-event.cancel' | translate }}</button>
+      <button (click)="submitEvent()" *ngIf="editMode">
+        {{ 'create-event.save-event' | translate }}
+      </button>
+
+      <button (click)="clear()" class="tertiary-global-button">{{ 'create-event.cancel' | translate }}</button>
     </div>
   </div>
 </div>

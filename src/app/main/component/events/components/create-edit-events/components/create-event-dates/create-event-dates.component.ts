@@ -9,22 +9,12 @@ import { DateInformation, FormCollectionEmitter, FormEmitter } from '../../../..
   styleUrls: ['./create-event-dates.component.scss']
 })
 export class CreateEventDatesComponent implements OnInit, OnDestroy {
-  @Input({
-    transform: (value: DateInformation[] | undefined) =>
-      value
-        ? value
-        : [
-            {
-              dateTime: undefined,
-              placeOnline: undefined
-            }
-          ]
-  })
-  formInput: DateInformation[];
+  @Input() formInput: DateInformation[];
   $days: Observable<any[]>;
   formsValue: any[] = [];
   subs: Subscription[] = [];
   @Output() formsEmit: EventEmitter<FormCollectionEmitter<DateInformation[]>> = new EventEmitter();
+  protected readonly encodeURI = encodeURI;
   private _key = Symbol('key');
   private _invalidMap: Map<any, any> = new Map();
 
@@ -46,13 +36,22 @@ export class CreateEventDatesComponent implements OnInit, OnDestroy {
     }
   }
 
+  public childrenDestroy(key: any) {
+    this._invalidMap.delete(key);
+    if (this._invalidMap.size) {
+      this.formsEmit.emit({ key: this._key, form: this.formsValue, valid: true });
+    } else {
+      this.formsEmit.emit({ key: this._key, form: undefined, valid: true });
+    }
+  }
+
   ngOnInit() {
     this.formsEmit.emit({ key: this._key, form: undefined, valid: false });
     this.$days = this.bridge.$days;
-    this.$days.subscribe((value) => {
+    const sub = this.$days.subscribe((value) => {
       this.formsValue = this.formsValue.slice(0, value.length);
     });
-    console.log(this.formInput);
+    this.subs.push(sub);
     if (this.formInput) {
       this.formsEmit.emit({ key: this._key, form: this.formInput, valid: false });
     }

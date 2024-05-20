@@ -43,25 +43,18 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   profileIcons = userAssignedCardsIcons;
 
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
-
   public author: string;
-
   public isRated: boolean;
-
   public isRegistered: boolean;
   public isReadonly = false;
   public isPosting: boolean;
   public isEventFavorite: boolean;
   public btnStyle: string;
   public nameBtn: string;
-
   public max = 3;
-
   public bsModalRef: BsModalRef;
-
   public langChangeSub: Subscription;
   public currentLang: string;
   public datePipe: DatePipe;
@@ -72,7 +65,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public isOwner: boolean;
   public isAdmin: boolean;
   public isActive: boolean;
-
   attendees = [];
   attendeesAvatars = [];
   deleteDialogData = {
@@ -81,19 +73,13 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
   };
-  private readonly subsOnAttendEvent = new Subscription();
-  private readonly subsOnUnAttendEvent = new Subscription();
-  private dialogRef;
-
   @Output() public isLoggedIn: boolean;
   @Output() idOfUnFavouriteEvent = new EventEmitter<number>();
-
   public styleBtn = {
     secondary: 'secondary-global-button',
     primary: 'primary-global-button',
     hiden: 'event-button-hiden'
   };
-
   public btnName = {
     edit: 'event.btn-edit',
     delete: 'event.btn-delete',
@@ -102,6 +88,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     join: 'event.btn-join',
     requestSent: 'event.btn-request-sent'
   };
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private readonly subsOnAttendEvent = new Subscription();
+  private readonly subsOnUnAttendEvent = new Subscription();
+  private dialogRef;
 
   constructor(
     public router: Router,
@@ -195,7 +185,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public buttonAction(buttonName: string): void {
-    this.eventService.setBackFromPreview(false);
     this.eventService.setForm(null);
     switch (buttonName) {
       case this.btnName.cancel:
@@ -231,17 +220,14 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         break;
       case this.btnName.edit:
         this.localStorageService.setEditMode('canUserEdit', true);
-        this.localStorageService.setEventForEdit('editEvent', this.event);
+        //TODO
+        // this.localStorageService.setEventForEdit('editEvent', this.event);
+        this.eventService.setEventResponse(this.event);
         this.router.navigate(['/events', 'create-event']);
         break;
       default:
         break;
     }
-  }
-
-  private joinEvent() {
-    this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
-    this.snackBar.openSnackBar('joinedEvent');
   }
 
   public openModal(): void {
@@ -252,7 +238,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       isReadonly: this.isReadonly
     };
 
-    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, { class: 'modal-dialog-centered', initialState });
+    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, {
+      class: 'modal-dialog-centered',
+      initialState
+    });
     this.bsModalRef.content.closeBtnName = 'event.btn-close';
   }
 
@@ -372,5 +361,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     if (this.subsOnUnAttendEvent && !this.subsOnUnAttendEvent.closed) {
       this.subsOnUnAttendEvent.unsubscribe();
     }
+  }
+
+  private joinEvent() {
+    this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
+    this.snackBar.openSnackBar('joinedEvent');
   }
 }

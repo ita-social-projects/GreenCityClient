@@ -15,7 +15,7 @@
   </div>
   <div *ngIf="isPlaceSelected" class="mb-1">
     <p class="regular-text mb-2">{{ 'create-event.event-location' | translate }}</p>
-    <div class="location-title">
+    <div class="location-title mb-1">
       <mat-form-field appearance="outline" class="location-title-input" subscriptSizing="dynamic">
         <mat-label>{{ 'create-event.event-offline-place' | translate }}</mat-label>
         <input #placesRef formControlName="place" matInput placeholder="{{ 'create-event.enter-location' | translate }}" />

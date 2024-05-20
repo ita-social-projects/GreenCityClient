@@ -34,7 +34,9 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     {
       coordinates: new FormControl({ lat: DefaultCoordinates.LATITUDE, lng: DefaultCoordinates.LONGITUDE }),
       onlineLink: new FormControl(''),
-      place: new FormControl('')
+      place: new FormControl(''),
+      appliedLinkForAll: [false],
+      appliedPlaceForAll: [false]
     },
     { validators: dateFormValidator() }
   );
@@ -45,10 +47,12 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     minZoom: 4,
     maxZoom: 20
   };
+  @Output() destroy = new EventEmitter<any>();
   @Output() formEmitter: EventEmitter<FormEmitter<PlaceOnline>> = new EventEmitter<FormEmitter<PlaceOnline>>();
   @Input() sharedKey: number;
+
   private _autocomplete: google.maps.places.Autocomplete;
-  private _regionOptions = {
+  private _regionOptions: google.maps.places.AutocompleteOptions = {
     types: ['address'],
     componentRestrictions: { country: 'UA' }
   };
@@ -84,15 +88,20 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
       return;
     }
     this.bridge.setLinkForAll(this.link.value);
+    this.formGroup.patchValue({ appliedLinkForAll: this.appliedForAllLink });
+    this.formGroup.updateValueAndValidity();
   }
 
   toggleForAllLocations(): void {
     this.appliedForAllLocations = !this.appliedForAllLocations;
+    console.log(this.appliedForAllLocations);
     if (!this.appliedForAllLocations) {
       this.bridge.setLocationForAll({ place: '', coords: null });
       return;
     }
     this.bridge.setLocationForAll({ place: this.place.value, coords: this.coordinates.value });
+    this.formGroup.patchValue({ appliedPlaceForAll: this.appliedForAllLocations });
+    this.formGroup.updateValueAndValidity();
   }
 
   ngOnInit(): void {
@@ -103,7 +112,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
       this._subscribeToLinkChanges();
     }
     if (this.formInput) {
-      this.formGroup.setValue(this.formInput, { emitEvent: false });
+      this._initializeForm(this.formInput);
     } else {
       this._emitForm(undefined, false);
     }
@@ -113,7 +122,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._subscriptions.forEach((subscription) => subscription.unsubscribe());
-    this.bridge.deleteRecordFromDayMap(this.dayNumber);
+    this.destroy.emit(this._key);
   }
 
   public toggleOnline(): void {
@@ -165,14 +174,47 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     this.updateMapAndLocation(coords);
   }
 
+  private _initializeForm(form: PlaceOnline) {
+    this.formGroup.setValue(form);
+    const { place, onlineLink, coordinates } = form;
+    if (place) {
+      this._lastLocation = { coordinates, place };
+      if (this.dayNumber === 0) {
+        this.toggleLocation();
+        if (form.appliedPlaceForAll) {
+          this.toggleForAllLocations();
+        }
+      } else {
+        if (!this.appliedForAllLocations) {
+          this.toggleLocation();
+        }
+      }
+    }
+    console.log(form);
+    if (onlineLink) {
+      if (this.dayNumber === 0) {
+        this.toggleOnline();
+        if (form.appliedLinkForAll) {
+          this.toggleForAllLink();
+        }
+      } else {
+        if (!this.appliedForAllLink) {
+          this.toggleOnline();
+        }
+      }
+    }
+  }
+
   private _subscribeToLinkChanges() {
     const s = this.bridge.$linkUpdate().subscribe((value) => {
       if (value) {
+        this.appliedForAllLink = true;
         this.isLinkDisabled = true;
         this.isOnline = true;
         this.link.disable();
         this.formGroup.patchValue({ onlineLink: value });
       } else {
+        this.appliedForAllLink = false;
         this.isLinkDisabled = false;
         this.isOnline = false;
         this.link.enable();
@@ -185,18 +227,21 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   private _subscribeToLocationChanges() {
     const sub = this.bridge.$locationUpdate().subscribe((update) => {
       if (update.place) {
+        this.appliedForAllLocations = true;
         this.isMapDisabled = true;
         this.isPlaceSelected = true;
         this.isPlaceDisabled = true;
         this.place.disable();
         this.formGroup.patchValue({ coordinates: update.coords, place: update.place });
       } else {
+        this.appliedForAllLocations = false;
         this.isMapDisabled = false;
-        this.isPlaceSelected = false;
         this.isPlaceDisabled = false;
+        this.isPlaceSelected = false;
         this.place.enable();
         this.formGroup.patchValue({ coordinates: update.coords, place: update.place });
       }
+      console.log(update);
     });
     this._subscriptions.push(sub);
   }
@@ -207,7 +252,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
 
   private _subscribeToFormStatus() {
     const sub = this.formGroup.statusChanges.subscribe((status) => {
-      console.log(status);
       if (status === 'VALID') {
         this._emitForm(this.formGroup.getRawValue(), true);
       } else {

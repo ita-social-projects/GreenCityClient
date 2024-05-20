@@ -30,6 +30,8 @@ export interface PlaceOnline {
   };
   onlineLink: string;
   place: string;
+  appliedLinkForAll: boolean;
+  appliedPlaceForAll: boolean;
 }
 
 export type PlaceOnlineGroup = FormControllers<PlaceOnline>;
@@ -132,9 +134,6 @@ export interface EventPageResponseDto {
   id: number;
   open: boolean;
   location?: DateFormObj;
-  imgArray?: any[];
-  editorText: string;
-  imgArrayToPreview: string[];
   organizer: Organizer;
   tags: Array<TagDto>;
   title: string;

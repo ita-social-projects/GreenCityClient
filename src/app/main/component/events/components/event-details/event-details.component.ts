@@ -136,22 +136,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     console.log(this.event);
     this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
     this.place = this.event.location as string;
-    this.images = this.event.imgArrayToPreview;
+    //TODO
+    this.images = [];
     this.bindUserName();
-    window.onpopstate = () => {
-      this.backToEdit();
-    };
     this.formatDates();
     // }
-  }
-
-  public backToEdit(): void {
-    this.eventService.setBackFromPreview(true);
-  }
-
-  public backToSubmit(): void {
-    this.eventService.setBackFromPreview(true);
-    this.eventService.setSubmitFromPreview(true);
   }
 
   public bindUserName(): void {

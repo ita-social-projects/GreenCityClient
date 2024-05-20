@@ -1,10 +1,17 @@
 <div class="w-100">
   <ng-container *ngFor="let _ of $days | async; index as i">
-    <app-date-time (formEmitter)="checkForm($event)" [dayNumber]="i" [formInput]="formInput[i].dateTime" [sharedKey]="i"></app-date-time>
-    <app-place-online
+    <app-date-time
+      (destroy)="childrenDestroy($event)"
       (formEmitter)="checkForm($event)"
       [dayNumber]="i"
-      [formInput]="formInput[i].placeOnline"
+      [formInput]="formInput && formInput[i]?.dateTime"
+      [sharedKey]="i"
+    ></app-date-time>
+    <app-place-online
+      (destroy)="childrenDestroy($event)"
+      (formEmitter)="checkForm($event)"
+      [dayNumber]="i"
+      [formInput]="formInput && formInput[i]?.placeOnline"
       [sharedKey]="i"
     ></app-place-online>
   </ng-container>

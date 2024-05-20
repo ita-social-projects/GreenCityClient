@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,23 +13,9 @@ export class FormBridgeService {
     coords: google.maps.LatLngLiteral;
   }> = new BehaviorSubject({ place: '', coords: { lng: 0, lat: 0 } });
   private _daysSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(Array(1));
-  private _datesFormSubjects: Subject<{ value: boolean; key: number; form?: any }> = new Subject<{
-    value: boolean;
-    key: any;
-    form?: any;
-  }>();
-  private _datesFormsValidnessSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _linkSubject = new BehaviorSubject<string>(null);
 
   constructor() {}
-
-  get $datesFormStatus() {
-    return this._datesFormSubjects.asObservable();
-  }
-
-  get $datesFormsIsValid() {
-    return this._datesFormsValidnessSubject.asObservable();
-  }
 
   get $days() {
     return this._daysSubject.asObservable();
@@ -39,8 +25,10 @@ export class FormBridgeService {
     this._daysSubject.next(value);
   }
 
-  updateFormsValidStatus(value: boolean) {
-    this._datesFormsValidnessSubject.next(value);
+  resetSubjects() {
+    this._linkSubject.next(null);
+    this._locationSubject.next({ coords: null, place: null });
+    this._daysSubject.next(Array(1));
   }
 
   setLinkForAll(link: string) {
@@ -77,8 +65,4 @@ export class FormBridgeService {
   }
 
   // end
-
-  updateDatesFormStatus(value: boolean, key: number, form?: any) {
-    this._datesFormSubjects.next({ value, key, form });
-  }
 }

@@ -18,9 +18,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 })
 export class EventsService implements OnDestroy {
   public currentForm: PagePreviewDTO | EventPageResponseDto;
-  public backFromPreview: boolean;
-  public submitFromPreview: boolean;
-  informationForm: any;
+  private _formResponse: EventPageResponseDto;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
@@ -45,40 +43,16 @@ export class EventsService implements OnDestroy {
     this._editorFormValues = value;
   }
 
-  public getDatesForm() {
-    return this.datesForm;
+  public setEventResponse(form: EventPageResponseDto) {
+    this._formResponse = form;
   }
 
-  public setInformationForm(value: any) {
-    this.informationForm = value;
-  }
-
-  public getInformationForm() {
-    return this.informationForm;
+  public getEventResponse() {
+    return this._formResponse;
   }
 
   public getAddresses(): Observable<Addresses[]> {
     return this.http.get<Addresses[]>(`${this.backEnd}events/addresses`);
-  }
-
-  public setBackFromPreview(val: boolean): void {
-    this.backFromPreview = val;
-  }
-
-  public getBackFromPreview(): boolean {
-    return this.backFromPreview;
-  }
-
-  public setSubmitFromPreview(val: boolean): void {
-    this.submitFromPreview = val;
-  }
-
-  public getSubmitFromPreview(): boolean {
-    return this.submitFromPreview;
-  }
-
-  public setInitialValueForPlaces(): void {
-    this.arePlacesFilledSubject.next([]);
   }
 
   public getCheckedPlacesObservable(): Observable<boolean[]> {
@@ -112,12 +86,12 @@ export class EventsService implements OnDestroy {
     searchTitle?: string
   ): Observable<EventResponseDto> {
     let requestParams = new HttpParams();
-    requestParams = requestParams.append('page', page.toString());
-    requestParams = requestParams.append('size', quantity.toString());
-    requestParams = requestParams.append('cities', filter.cities.toString());
-    requestParams = requestParams.append('tags', filter.tags.toString());
-    requestParams = requestParams.append('eventTime', filter.eventTime.toString());
-    requestParams = requestParams.append('statuses', filter.statuses.toString());
+    requestParams = requestParams.append('page', page.toString().toUpperCase());
+    requestParams = requestParams.append('size', quantity.toString().toUpperCase());
+    requestParams = requestParams.append('cities', filter.cities.toString().toUpperCase());
+    requestParams = requestParams.append('tags', filter.tags.toString().toUpperCase());
+    requestParams = requestParams.append('eventTime', filter.eventTime.toString().toUpperCase());
+    requestParams = requestParams.append('statuses', filter.statuses.toString().toUpperCase());
     if (searchTitle) {
       requestParams = requestParams.append('title', searchTitle);
     }

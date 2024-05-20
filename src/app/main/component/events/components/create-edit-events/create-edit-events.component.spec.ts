@@ -13,7 +13,6 @@ import { CreateEditEventsComponent } from './create-edit-events.component';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EventPageResponseDto } from 'src/app/main/component/events/models/events.interface';
 
 describe('CreateEditEventsComponent', () => {
@@ -393,7 +392,7 @@ describe('CreateEditEventsComponent', () => {
       eventDuration: '1 day',
       description: 'descriptiondescriptiondescriptiondescription'
     });
-    component.onSubmit();
+    component.submitEvent();
     (component as any).checkDates();
     expect(component.checkdates).toBeFalsy();
     expect(spy).toHaveBeenCalledTimes(2);
