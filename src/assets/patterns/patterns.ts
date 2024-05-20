@@ -38,7 +38,11 @@ export const Patterns = {
   isTherePlus: /^[+]/,
 
   isValidURL: /^(ftp|http|https):\/\/[^ "]+$/,
-  countriesRestriction: 'Russia|Росія|Россия'
+  countriesRestriction: 'Russia|Росія|Россия',
+
+  urlLinkifyPattern: /(\bhttps?:\/\/[^<>\s]+\b)/gi,
+  emailLinkifyPattern: /\b[^<>@\s]+@[^<>\s]+\b/gi,
+  phoneLinkifyPattern: /\+\d{10,}/g
 };
 
 export const Masks = {
