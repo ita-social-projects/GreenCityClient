@@ -15,7 +15,7 @@ import { typeFiltersData } from '../../../events/models/event-consts';
 import { Coordinates, EventPageResponseDto, TagDto, TagObj } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
@@ -28,6 +28,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { ofType } from '@ngrx/effects';
+import { WarningPopUpComponent } from '@shared/components';
 
 @Component({
   selector: 'app-events-list-item',
@@ -43,18 +44,25 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   profileIcons = userAssignedCardsIcons;
 
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
+
   public author: string;
+
   public isRated: boolean;
+
   public isRegistered: boolean;
   public isReadonly = false;
   public isPosting: boolean;
   public isEventFavorite: boolean;
   public btnStyle: string;
   public nameBtn: string;
+
   public max = 3;
+
   public bsModalRef: BsModalRef;
+
   public langChangeSub: Subscription;
   public currentLang: string;
   public datePipe: DatePipe;
@@ -65,6 +73,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public isOwner: boolean;
   public isAdmin: boolean;
   public isActive: boolean;
+
   attendees = [];
   attendeesAvatars = [];
   deleteDialogData = {
@@ -73,13 +82,27 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
   };
+  private cancelationPopupData = {
+    popupTitle: 'homepage.events.pop-up-cancelling-event',
+    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
+    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
+    isUBS: false,
+    isUbsOrderSubmit: false,
+    isHabit: false
+  };
+  private subsOnAttendEvent = new Subscription();
+  private subsOnUnAttendEvent = new Subscription();
+  private dialogRef;
+
   @Output() public isLoggedIn: boolean;
   @Output() idOfUnFavouriteEvent = new EventEmitter<number>();
+
   public styleBtn = {
     secondary: 'secondary-global-button',
     primary: 'primary-global-button',
     hiden: 'event-button-hiden'
   };
+
   public btnName = {
     edit: 'event.btn-edit',
     delete: 'event.btn-delete',
@@ -88,10 +111,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     join: 'event.btn-join',
     requestSent: 'event.btn-request-sent'
   };
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  private readonly subsOnAttendEvent = new Subscription();
-  private readonly subsOnUnAttendEvent = new Subscription();
-  private dialogRef;
 
   constructor(
     public router: Router,
@@ -188,7 +207,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.eventService.setForm(null);
     switch (buttonName) {
       case this.btnName.cancel:
-        this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+        this.openPopUp();
         break;
       case this.btnName.join:
         if (this.addAttenderError) {
@@ -220,15 +239,40 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         break;
       case this.btnName.edit:
         this.localStorageService.setEditMode('canUserEdit', true);
-        //TODO
-        // this.localStorageService.setEventForEdit('editEvent', this.event);
-        this.eventService.setEventResponse(this.event);
-        console.log(this.event);
+        this.localStorageService.setEventForEdit('editEvent', this.event);
         this.router.navigate(['/events', 'create-event']);
         break;
       default:
         break;
     }
+  }
+
+  private joinEvent() {
+    this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
+    this.snackBar.openSnackBar('joinedEvent');
+  }
+
+  public submitEventCancelling() {
+    this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+  }
+
+  openPopUp(): void {
+    if (this.dialogRef) {
+      return;
+    }
+    this.dialogRef = this.dialog.open(WarningPopUpComponent, {
+      data: this.cancelationPopupData
+    });
+
+    this.dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.dialogRef = null;
+        if (result) {
+          this.submitEventCancelling();
+        }
+      });
   }
 
   public openModal(): void {
@@ -239,10 +283,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       isReadonly: this.isReadonly
     };
 
-    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, {
-      class: 'modal-dialog-centered',
-      initialState
-    });
+    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, { class: 'modal-dialog-centered', initialState });
     this.bsModalRef.content.closeBtnName = 'event.btn-close';
   }
 
@@ -362,10 +403,5 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     if (this.subsOnUnAttendEvent && !this.subsOnUnAttendEvent.closed) {
       this.subsOnUnAttendEvent.unsubscribe();
     }
-  }
-
-  private joinEvent() {
-    this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
-    this.snackBar.openSnackBar('joinedEvent');
   }
 }

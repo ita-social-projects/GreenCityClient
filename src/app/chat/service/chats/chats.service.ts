@@ -38,13 +38,13 @@ export class ChatsService {
   }
 
   public getAllUserChats(userId: number): void {
-    this.httpClient.get<Chat[]>(`${environment.backendChatLink}chat/`).subscribe((chats: Chat[]) => {
+    this.httpClient.get<Chat[]>(`${environment.backendChatLink}chat`).subscribe((chats: Chat[]) => {
       this.userChatsStream$.next(chats);
     });
   }
 
   public updateChat(chat: Chat): void {
-    this.httpClient.put<Chat>(`${environment.backendChatLink}chat/`, chat).subscribe();
+    this.httpClient.put<Chat>(`${environment.backendChatLink}chat`, chat).subscribe();
   }
 
   public getAllChatMessages(chatId: number, page: number): Observable<Messages> {

@@ -97,8 +97,8 @@ a {
 
 .events-filter {
   display: flex;
+  justify-content: center;
   justify-content: space-between;
-  margin-bottom: 10px;
 
   .events-types {
     * {
@@ -189,6 +189,31 @@ a {
       a {
         width: 100%;
         margin-bottom: 32px;
+      }
+    }
+
+    #my-events {
+      height: auto;
+      flex-flow: column nowrap;
+      gap: 15px;
+
+      .buttons-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .events-filter {
+        align-items: flex-start;
+        width: 100%;
+        margin: 0;
+      }
+
+      a {
+        width: 100%;
+        height: auto;
+        margin: 0;
       }
     }
   }
@@ -290,5 +315,5 @@ a {
 }
 
 hr.ng-star-inserted {
-  margin: 0 0 12px 0;
+  margin: 0 0 12px;
 }

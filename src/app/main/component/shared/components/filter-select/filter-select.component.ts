@@ -41,9 +41,11 @@ export class FilterSelectComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const offsetWidth = this.selectLabel.nativeElement.offsetWidth;
+    const offsetWidth = this.selectLabel?.nativeElement.offsetWidth;
     this.selectFilter.panelWidth = this.alignFilter.width;
-    this.selectFilter._positions[0].offsetX = -offsetWidth + this.alignFilter.offset;
+    if (this.selectFilter?._positions?.[0]) {
+      this.selectFilter._positions[0].offsetX = -offsetWidth + this.alignFilter.offset;
+    }
   }
 
   toggleAllSelection(): void {

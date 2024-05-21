@@ -23,4 +23,18 @@ describe('ReplyCommentComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should set the srcset to reply image when isAddingReply is true', () => {
+    component.isAddingReply = true;
+    component.writeReply();
+
+    expect(component.reply.nativeElement.srcset).toBe('assets/img/comments/reply.svg');
+  });
+
+  it('should set the srcset to replying image when isAddingReply is false', () => {
+    component.isAddingReply = false;
+    component.writeReply();
+
+    expect(component.reply.nativeElement.srcset).toBe('assets/img/comments/reply-green.svg');
+  });
 });

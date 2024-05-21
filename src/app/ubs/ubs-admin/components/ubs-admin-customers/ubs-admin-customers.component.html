@@ -26,11 +26,12 @@
             <span class="title">{{ 'ubs-customer-filters.registration-date' | translate }}</span>
             <div class="input-range-box">
               <div>
-                <label for="customer-filters" class="input-label">{{ 'ubs-customer-filters.from' | translate }}</label>
-                <div id="customer-filters" class="data-field">
+                <label class="input-label" for="registrationDateFrom">{{ 'ubs-customer-filters.from' | translate }}</label>
+                <div class="data-field">
                   <input
                     matInput
                     class="date-input"
+                    id="registrationDateFrom"
                     formControlName="registrationDateFrom"
                     [matDatepicker]="picker1"
                     [placeholder]="'ubs-tables.date-placeholder' | translate"
@@ -42,11 +43,12 @@
                 </div>
               </div>
               <div>
-                <label for="filters-to" class="input-label">{{ 'ubs-customer-filters.to' | translate }}</label>
-                <div id="filters-to" class="data-field">
+                <label class="input-label" for="registrationDateTo">{{ 'ubs-customer-filters.to' | translate }}</label>
+                <div class="data-field">
                   <input
                     matInput
                     class="date-input"
+                    id="registrationDateTo"
                     formControlName="registrationDateTo"
                     [matDatepicker]="picker2"
                     [placeholder]="'ubs-tables.date-placeholder' | translate"
@@ -63,11 +65,12 @@
             <span class="title">{{ 'ubs-customer-filters.last-order-date' | translate }}</span>
             <div class="input-range-box">
               <div>
-                <label for="filters-from" class="input-label">{{ 'ubs-customer-filters.from' | translate }}</label>
-                <div id="filters-from" class="data-field">
+                <label class="input-label" for="lastOrderDateFrom">{{ 'ubs-customer-filters.from' | translate }}</label>
+                <div class="data-field">
                   <input
                     matInput
                     class="date-input"
+                    id="lastOrderDateFrom"
                     formControlName="lastOrderDateFrom"
                     [matDatepicker]="picker3"
                     [placeholder]="'ubs-tables.date-placeholder' | translate"
@@ -79,11 +82,12 @@
                 </div>
               </div>
               <div>
-                <label for="last-order-date-to" class="input-label">{{ 'ubs-customer-filters.to' | translate }}</label>
-                <div id="last-order-date-to" class="data-field">
+                <label class="input-label" for="lastOrderDateTo">{{ 'ubs-customer-filters.to' | translate }}</label>
+                <div class="data-field">
                   <input
                     matInput
                     class="date-input"
+                    id="lastOrderDateTo"
                     formControlName="lastOrderDateTo"
                     [matDatepicker]="picker4"
                     [placeholder]="'ubs-tables.date-placeholder' | translate"
@@ -100,8 +104,8 @@
             <span class="title">{{ 'ubs-customer-filters.orders-amount' | translate }}</span>
             <div class="input-range-box">
               <div>
-                <label for="input-range-box" class="input-label">{{ 'ubs-customer-filters.from' | translate }}</label>
-                <div id="input-range-box" class="data-field">
+                <label class="input-label" for="ordersCountFrom">{{ 'ubs-customer-filters.from' | translate }}</label>
+                <div class="data-field">
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('ordersCountFrom').value"
@@ -112,6 +116,7 @@
                   <input
                     formControlName="ordersCountFrom"
                     class="date-input shadow-none form-control input"
+                    id="ordersCountFrom"
                     type="number"
                     min="0"
                     max="999"
@@ -125,8 +130,8 @@
               </div>
 
               <div>
-                <label for="number-button" class="input-label">{{ 'ubs-customer-filters.to' | translate }}</label>
-                <div id="number-button" class="data-field">
+                <label class="input-label" for="ordersCountTo">{{ 'ubs-customer-filters.to' | translate }}</label>
+                <div class="data-field">
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('ordersCountTo').value"
@@ -137,6 +142,7 @@
                   <input
                     formControlName="ordersCountTo"
                     class="date-input shadow-none form-control input"
+                    id="ordersCountTo"
                     type="number"
                     min="0"
                     max="999"
@@ -154,8 +160,8 @@
             <span class="title">{{ 'ubs-customer-filters.violations' | translate }}</span>
             <div class="input-range-box">
               <div>
-                <label for="violations" class="input-label">{{ 'ubs-customer-filters.from' | translate }}</label>
-                <div id="violations" class="data-field">
+                <label class="input-label" for="violationsFrom">{{ 'ubs-customer-filters.from' | translate }}</label>
+                <div class="data-field">
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('violationsFrom').value"
@@ -166,6 +172,7 @@
                   <input
                     formControlName="violationsFrom"
                     class="date-input shadow-none form-control input"
+                    id="violationsFrom"
                     type="number"
                     min="0"
                     max="999"
@@ -178,8 +185,8 @@
                 </div>
               </div>
               <div>
-                <label for="violations-to" class="input-label">{{ 'ubs-customer-filters.to' | translate }}</label>
-                <div id="violations-to" class="data-field">
+                <label class="input-label" for="violationsTo">{{ 'ubs-customer-filters.to' | translate }}</label>
+                <div class="data-field">
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('violationsTo').value"
@@ -190,6 +197,7 @@
                   <input
                     formControlName="violationsTo"
                     class="date-input shadow-none form-control input"
+                    id="violationsTo"
                     type="number"
                     min="0"
                     max="999"
@@ -207,8 +215,8 @@
             <span class="title">{{ 'ubs-customer-filters.bonuses' | translate }}</span>
             <div class="input-range-box">
               <div>
-                <label for="bonuses-from" class="input-label">{{ 'ubs-customer-filters.from' | translate }}</label>
-                <div id="bonuses-from" class="data-field">
+                <label class="input-label" for="bonusesFrom">{{ 'ubs-customer-filters.from' | translate }}</label>
+                <div class="data-field">
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('bonusesFrom').value"
@@ -219,6 +227,7 @@
                   <input
                     formControlName="bonusesFrom"
                     class="date-input shadow-none form-control input"
+                    id="bonusesFrom"
                     type="number"
                     min="0"
                     max="999"
@@ -231,8 +240,8 @@
                 </div>
               </div>
               <div>
-                <label for="bonuses-to" class="input-label">{{ 'ubs-customer-filters.to' | translate }}</label>
-                <div id="bonuses-to" class="data-field">
+                <label class="input-label" for="bonusesTo">{{ 'ubs-customer-filters.to' | translate }}</label>
+                <div class="data-field">
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('bonusesTo').value"
@@ -243,6 +252,7 @@
                   <input
                     formControlName="bonusesTo"
                     class="date-input shadow-none form-control input"
+                    id="bonusesTo"
                     type="number"
                     min="0"
                     max="999"
@@ -316,15 +326,7 @@
   </ul>
 </div>
 
-<div
-  id="table-container"
-  class="scrolling"
-  infiniteScroll
-  [infiniteScrollDistance]="0"
-  [infiniteScrollThrottle]="100"
-  (scrolled)="onScroll()"
-  [scrollWindow]="false"
->
+<div id="table-container" class="scrolling" infiniteScroll [infiniteScrollThrottle]="100" (scrolled)="onScroll()" [scrollWindow]="false">
   <mat-table [dataSource]="dataSource" id="table" class="customers_table" *ngIf="!isLoading" cdkDropListGroup>
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
       <mat-header-cell *matHeaderCellDef (mousedown)="onResizeColumn($event, i)">

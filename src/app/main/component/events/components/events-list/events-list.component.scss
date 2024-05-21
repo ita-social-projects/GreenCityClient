@@ -55,6 +55,10 @@
     min-height: 20px;
     background: url('/assets/events-icons/search.png');
     display: inline-block;
+
+    &:hover {
+      background: url('/src/assets/events-icons/search-hover.png');
+    }
   }
 
   .search-img-active {
@@ -89,6 +93,7 @@
   .place-input {
     width: 400px;
     height: 40px;
+    padding-right: 25px;
   }
 }
 
@@ -222,7 +227,10 @@ p {
   align-items: center;
   gap: 12px;
 
-  > div {
+  > button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
     font-size: 16px;
     color: var(--secondary-grey);
     cursor: pointer;

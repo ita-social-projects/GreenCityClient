@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -21,8 +21,11 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
-import { ICONS, ROLES } from '../../models/event-consts';
 import { ofType } from '@ngrx/effects';
+import { MapEventComponent } from '../map-event/map-event.component';
+import { ICONS } from '../../models/event-consts';
+import { WarningPopUpComponent } from '@shared/components';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-details',
@@ -34,6 +37,24 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public icons = ICONS;
   public eventId: number;
+  private dialogRef;
+
+  public roles = {
+    UNAUTHENTICATED: 'UNAUTHENTICATED',
+    USER: 'USER',
+    ORGANIZER: 'ORGANIZER',
+    ADMIN: 'ADMIN'
+  };
+
+  private cancelationPopupData = {
+    popupTitle: 'homepage.events.pop-up-cancelling-event',
+    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
+    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
+    isUBS: false,
+    isUbsOrderSubmit: false,
+    isHabit: false
+  };
+
   public roles = ROLES;
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   public bsModalRef: BsModalRef;
@@ -88,7 +109,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private actionsSubj: ActionsSubject,
     private jwtService: JwtService,
     private snackBar: MatSnackBarComponent,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -163,6 +185,47 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/events', 'create-event']);
   }
 
+  public openMap(event): void {
+    const dataToMap = {
+      address: event.coordinates.addressEn,
+      lat: event.coordinates.latitude,
+      lng: event.coordinates.longitude
+    };
+    this.dialog.open(MapEventComponent, {
+      data: dataToMap,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: '',
+      width: '900px',
+      height: '400px'
+    });
+  }
+
+  public submitEventCancelling() {
+    this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+    this.isSubscribed = !this.isSubscribed;
+  }
+
+  openPopUp(): void {
+    if (this.dialogRef) {
+      return;
+    }
+    this.dialogRef = this.dialog.open(WarningPopUpComponent, {
+      data: this.cancelationPopupData
+    });
+
+    this.dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.dialogRef = null;
+        if (result) {
+          this.submitEventCancelling();
+        }
+      });
+  }
+
   public deleteEvent(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.deleteDialogData,
@@ -220,8 +283,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
       this.isSubscribed = !this.isSubscribed;
     } else {
-      this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
-      this.isSubscribed = !this.isSubscribed;
+      this.openPopUp();
     }
   }
 

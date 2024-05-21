@@ -31,7 +31,7 @@ describe('UbsAdminExportDetailsComponent', () => {
       timeDeliveryTo: new FormControl('10-00'),
       receivingStationId: new FormControl('')
     });
-    (component.exportInfo = {
+    component.exportInfo = {
       allReceivingStations: [
         {
           createDate: '2022-04-14',
@@ -44,8 +44,8 @@ describe('UbsAdminExportDetailsComponent', () => {
       timeDeliveryFrom: null,
       timeDeliveryTo: null,
       receivingStationId: 1
-    }),
-      fixture.detectChanges();
+    };
+    fixture.detectChanges();
   });
 
   afterEach(() => {

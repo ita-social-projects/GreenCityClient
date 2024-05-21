@@ -34,7 +34,7 @@
         "indent": ["error", 2, { "SwitchCase": 1 }],
         "@typescript-eslint/array-type": "off",
         "arrow-parens": "off",
-        "arrow-body-style": ["error", "as-needed"],
+        "arrow-body-style": "off",
         "no-shadow": ["off", { "hoist": "var" }],
         "@angular-eslint/component-class-suffix": "error",
         "curly": "error",

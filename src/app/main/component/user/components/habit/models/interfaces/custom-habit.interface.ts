@@ -8,6 +8,8 @@ export interface CustomHabitDtoRequest {
   image: string;
   tagIds: number[];
   customShoppingListItemDto: ShoppingList[];
+  id?: number;
+  userId?: number;
 }
 
 export interface CustomHabit {

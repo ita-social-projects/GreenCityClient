@@ -14,6 +14,7 @@ import {
   SHOPLIST
 } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { TAGLIST } from '@global-user/components/habit/mocks/tags-list-mock';
+import { HttpResponse } from '@angular/common/http';
 
 describe('HabitService', () => {
   const habitLink = `${environment.backendLink}habit`;
@@ -157,5 +158,17 @@ describe('HabitService', () => {
     const req = httpMock.expectOne(`${habitLink}/${id}/friends/profile-pictures`);
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
+  });
+
+  it('should delete custom habit', () => {
+    const id = CUSTOMHABIT.id;
+
+    habitService.deleteCustomHabit(id).subscribe();
+
+    const req = httpMock.expectOne(`${habitLink}/delete/${id}`);
+
+    req.flush(new HttpResponse({ status: 200 }));
+    expect(req.request.method).toBe('DELETE');
+    httpMock.verify();
   });
 });

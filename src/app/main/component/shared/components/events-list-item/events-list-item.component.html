@@ -68,6 +68,10 @@
       <button
         *ngIf="isActive || !isOwner || isAdmin"
         class="{{ btnStyle }} event-button m-btn"
+        [ngClass]="{
+          'secondary-global-button': btnName.join !== nameBtn,
+          'primary-global-button': btnName.join === nameBtn
+        }"
         (click)="buttonAction(nameBtn)"
         [disabled]="nameBtn === btnName.requestSent"
       >
@@ -148,12 +152,12 @@
       </div>
 
       <div class="event-assign__content__user-info">
-        <div>
-          <div class="event-assign__content__user-info-date">
+        <div class="event-assign__content__user-info-data">
+          <div class="event-assign__content__user-info-data-date">
             <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
             <p>{{ newDate | translate }}</p>
           </div>
-          <div class="event-assign__content__user-info-icon">
+          <div class="event-assign__content__user-info-data-icon">
             <img [src]="profileIcons.userIcon" class="author-image" alt="author" />
             <p>{{ event.organizer.name }}</p>
           </div>

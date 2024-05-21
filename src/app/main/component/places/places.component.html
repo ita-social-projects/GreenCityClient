@@ -51,7 +51,7 @@
                 </div>
                 <p class="content-address">{{ place.location.address }}</p>
               </div>
-              <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="updatePlaceList(false)"></div>
+              <div infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="updatePlaceList(false)"></div>
             </div>
             <div class="sidebar-content" *ngIf="activePlaceDetails">
               <span class="close-mark" (click)="updatePlaceList(true)"></span>

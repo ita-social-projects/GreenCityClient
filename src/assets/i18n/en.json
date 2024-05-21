@@ -168,10 +168,13 @@
         "title": "All created content will be lost.",
         "subtitle": "Do you still want to cancel event creating?",
         "cancel": "Continue editing",
-        "confirm": "Yes, cancel"
+        "confirm": "Yes, cancel",
+        "cancelling-event-request-btn": "Yes",
+        "reject-cancelling-event-btn": "No"
       },
       "modal-rating-title-can-evaluate": "Evaluate the event and the organizer",
-      "modal-rating-title-can`t-evaluate": "You cannot add this event. First register on the site"
+      "modal-rating-title-can`t-evaluate": "You cannot add this event. First register on the site",
+      "pop-up-cancelling-event": "Are you sure that you don't want to join this event?"
     },
     "subscription": {
       "caption": "Receive interesting news",
@@ -733,7 +736,8 @@
         "add": "Add Habit",
         "cancel": "Cancel",
         "see-all": "See all",
-        "see-less": "See less"
+        "see-less": "See less",
+        "delete": "Delete"
       },
       "button-component": {
         "add-new-habit": "Add new habit!"
@@ -759,10 +763,18 @@
         "text": "This duration of habit formation is recommended. You can change it at will",
         "day": "d"
       },
-      "to-do-list": "To-do list",
-      "no-shopping-items": "No items to recommend",
-      "too-long-input": "The input field should contain no more than 2048 characters",
-      "add-custom-item": "Add custom item",
+      "to-do": {
+        "to-do-list": "To-do list",
+        "no-shopping-items": "No items to recommend",
+        "too-long-input": "The input field should contain no more than 2048 characters",
+        "add-custom-item": "Add custom item",
+        "save": "Save",
+        "cancel-editing": "Cancel",
+        "item-delete-pop-up-title": "Are you sure you want to delete this item?",
+        "cancel-pop-up-title": "Are you sure you want to discard changes?",
+        "confirm": "Yes",
+        "cancel": "No"
+      },
       "user-log": {
         "day": "Day",
         "calendar-habit": "Calendar of eco habits",
@@ -829,6 +841,7 @@
         "habit-did-not-give-up": "We glad that you change your mind",
         "habit-acquired": "You have successfully acquire habit",
         "habit-was-deleted": "You have successfully deleted habit from your list",
+        "custom-habit-was-deleted": "You have successfully deleted habit",
         "reset-filters": "Reset all",
         "habits-popup": {
           "title": "All created content will be lost.",

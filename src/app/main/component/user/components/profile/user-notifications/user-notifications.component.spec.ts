@@ -7,6 +7,7 @@ import { of, BehaviorSubject, Subject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { PipeTransform, Pipe } from '@angular/core';
+import { NoDataComponent } from '@shared/components/no-data/no-data.component';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -38,7 +39,7 @@ describe('UserNotificationsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UserNotificationsComponent, TranslatePipeMock],
+      declarations: [UserNotificationsComponent, TranslatePipeMock, NoDataComponent],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },

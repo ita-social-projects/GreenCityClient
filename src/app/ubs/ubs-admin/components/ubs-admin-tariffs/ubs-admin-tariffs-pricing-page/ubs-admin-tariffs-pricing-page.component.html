@@ -136,6 +136,7 @@
                 id="from"
                 formControlName="minPriceOfOrder"
                 placeholder="{{ 'ubs-tariffs.placeholder_order_amount' | translate }}"
+                (change)="unClickSaveBTN($event)"
               />
               <span class="line">-</span>
               <input
@@ -146,6 +147,7 @@
                 id="to"
                 formControlName="maxPriceOfOrder"
                 placeholder="{{ 'ubs-tariffs.placeholder_order_amount' | translate }}"
+                (change)="unClickSaveBTN($event)"
               />
               <label id="label-limit" for="to"></label>
             </fieldset>
@@ -170,6 +172,7 @@
                 id="from-packages"
                 formControlName="minAmountOfBigBags"
                 placeholder="20"
+                (change)="unClickSaveBTN($event)"
               />
               <span class="line">-</span>
               <input
@@ -180,12 +183,13 @@
                 id="to-packages"
                 formControlName="maxAmountOfBigBags"
                 placeholder="20"
+                (change)="unClickSaveBTN($event)"
               />
               <label id="label-limit" for="to-packages"></label>
             </fieldset>
           </div>
         </mat-radio-group>
-        <div class="min-bags-number">
+        <div class="min-bags-number" [ngClass]="{ 'red-border': areAllCheckboxesUnchecked() }">
           <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
           <div *ngFor="let bag of bags; let i = index">
             <div>
@@ -194,8 +198,8 @@
                 class="example-margin"
                 [checked]="bag.limitIncluded"
                 (change)="onChecked(bag.id, $event)"
-                >{{ getLangValue(bag.name, bag.nameEng) }} {{ bag.capacity | volume }}</mat-checkbox
-              >
+                >{{ getLangValue(bag.name, bag.nameEng) }} {{ bag.capacity | volume }}
+              </mat-checkbox>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -6,6 +6,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { ShoppingList } from '../../../../models/shoppinglist.interface';
 import { TodoStatus } from '../../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { FIELD_SYMBOLS_LIMIT, HABIT_SHOPPING_LIST_CHECK, SHOPPING_ITEM_NAME_LIMIT } from '../../const/data.const';
+import { MatDialog } from '@angular/material/dialog';
+import { WarningPopUpComponent } from '@shared/components';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-habit-edit-shopping-list',
@@ -13,12 +17,11 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   styleUrls: ['./habit-edit-shopping-list.component.scss'],
   providers: [MatSnackBarComponent]
 })
-export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class HabitEditShoppingListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() shopList: ShoppingList[] = [];
   @Input() isAcquired = false;
-  @Input() isEditing = false;
 
-  private fieldSymbolsLimit = 2048;
+  private fieldSymbolsLimit = FIELD_SYMBOLS_LIMIT;
   public itemForm = new FormGroup({
     item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(this.fieldSymbolsLimit)])
   });
@@ -26,15 +29,26 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   public userId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
-  public shoppingItemNameLimit = 20;
-
-  public img = {
-    doneCheck: 'assets/icons/habits/filled-check-circle.svg',
-    inprogressCheck: 'assets/icons/habits/lined-green-circle.svg',
-    plusCheck: 'assets/icons/habits/doted-plus-green-circle.svg',
-    minusCheck: 'assets/icons/habits/doted-minus-green-circle.svg',
-    disableCheck: 'assets/icons/habits/circle-grey.svg'
+  public shoppingItemNameLimit = SHOPPING_ITEM_NAME_LIMIT;
+  public todoStatus = TodoStatus;
+  public isEditMode = false;
+  private shopListBeforeEditing: ShoppingList[] = [];
+  public isListChanged: boolean;
+  private confirmDialogConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: ``,
+      popupConfirm: `user.habit.to-do.confirm`,
+      popupCancel: `user.habit.to-do.cancel`
+    }
   };
+  private deleteItemTitle = `user.habit.to-do.item-delete-pop-up-title`;
+  private cancelEditingTitle = `user.habit.to-do.cancel-pop-up-title`;
+
+  public img = HABIT_SHOPPING_LIST_CHECK;
 
   @Output() newList = new EventEmitter<ShoppingList[]>();
 
@@ -42,7 +56,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
-    private cdr: ChangeDetectorRef
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -51,25 +65,15 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     this.newList.emit(this.shopList);
   }
 
-  ngAfterViewChecked(): void {
-    if (this.shopList) {
-      this.shopList.forEach((el) => (el.selected = el.status === TodoStatus.inprogress));
-      this.newList.emit(this.shopList);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.shopList) {
+      this.shopList.forEach((el) => (el.selected = el.status === TodoStatus.inprogress || el.status === TodoStatus.done));
+      this.placeItemInOrder();
     }
-    this.placeItemInOrder();
-    this.cdr.detectChanges();
   }
 
   get item(): AbstractControl {
     return this.itemForm.get('item');
-  }
-
-  public truncateShoppingItemName(name: string): string {
-    if (name.length >= this.shoppingItemNameLimit) {
-      return name.slice(0, this.shoppingItemNameLimit) + '...';
-    }
-
-    return name;
   }
 
   private bindLang(lang: string): void {
@@ -93,9 +97,10 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   }
 
   public addItem(value: string): void {
+    this.isListChanged = true;
     const newItem = {
       id: null,
-      status: TodoStatus.active,
+      status: TodoStatus.inprogress,
       text: value.trim(),
       custom: true,
       selected: true
@@ -109,7 +114,8 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   }
 
   public selectItem(item: ShoppingList): void {
-    this.shopList = this.shopList.map((element) => {
+    this.isListChanged = true;
+    this.shopList.map((element) => {
       if (element.text === item.text) {
         element.selected = !item.selected;
         element.status = item.selected ? TodoStatus.inprogress : TodoStatus.active;
@@ -135,13 +141,63 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   }
 
   public deleteItem(text: string): void {
-    this.shopList = this.shopList.filter((elem) => elem.text !== text);
-    this.newList.emit(this.shopList);
+    this.isListChanged = true;
+    this.confirmDialogConfig.data.popupTitle = this.deleteItemTitle;
+    this.dialog
+      .open(WarningPopUpComponent, this.confirmDialogConfig)
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((confirm) => {
+        if (confirm) {
+          this.shopList = this.shopList.filter((elem) => elem.text !== text);
+          this.newList.emit(this.shopList);
+        }
+      });
   }
 
   checkItemValidity(): void {
     if (!this.itemForm.valid && this.itemForm.get('item').value.length > this.fieldSymbolsLimit) {
       this.snackBar.openSnackBar('tooLongInput');
+    }
+  }
+
+  public changeEditMode(): void {
+    if (!this.isEditMode) {
+      this.isListChanged = false;
+      this.shopListBeforeEditing = [];
+      this.shopList.forEach((el) => this.shopListBeforeEditing.push({ ...el }));
+    }
+    this.isEditMode = !this.isEditMode;
+  }
+
+  private isListItemsChanged(): boolean {
+    const isItemsChanged = !this.shopList.every((el) => {
+      const itemBeforeEditing = this.shopListBeforeEditing.find((item) => item.id === el.id);
+      return itemBeforeEditing && Object.keys(el).every((key) => el[key] === itemBeforeEditing[key]);
+    });
+    const isLengthChanged = this.shopList.length !== this.shopListBeforeEditing.length;
+    return isItemsChanged || isLengthChanged;
+  }
+
+  public cancelEditing(): void {
+    if (this.isListItemsChanged()) {
+      this.confirmDialogConfig.data.popupTitle = this.cancelEditingTitle;
+      this.dialog
+        .open(WarningPopUpComponent, this.confirmDialogConfig)
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((confirm) => {
+          if (confirm) {
+            this.shopList = [];
+            this.shopListBeforeEditing.forEach((el) => {
+              this.shopList.push(el);
+            });
+            this.newList.emit(this.shopList);
+            this.isEditMode = false;
+          }
+        });
+    } else {
+      this.isEditMode = false;
     }
   }
 

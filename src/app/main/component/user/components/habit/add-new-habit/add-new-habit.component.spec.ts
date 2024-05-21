@@ -24,13 +24,10 @@ import { HabitAcquireConfirm } from '../models/habit-warnings';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TodoStatus } from '../models/todo-status.enum';
-import { provideMockStore } from '@ngrx/store/testing';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
   let fixture: ComponentFixture<AddNewHabitComponent>;
-
-  const initialState = { habit: { defaultDuration: 1 } };
 
   const mockActivatedRoute = {
     params: of({ habitId: 2 })
@@ -115,9 +112,8 @@ describe('AddNewHabitComponent', () => {
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Location, useValue: locationMock },
-        { provide: MatDialog, useValue: new MatDialogMock() },
-        { provide: Router, useValue: routerMock },
-        provideMockStore({ initialState })
+        { provide: MatDialog, useClass: MatDialogMock },
+        { provide: Router, useValue: routerMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

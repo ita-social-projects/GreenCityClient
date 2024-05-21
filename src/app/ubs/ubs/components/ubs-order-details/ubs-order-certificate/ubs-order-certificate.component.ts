@@ -1,14 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { take, takeUntil } from 'rxjs/operators';
-import { OrderService } from '../../../services/order.service';
-import { Subject, combineLatest } from 'rxjs';
-import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { Store, select } from '@ngrx/store';
-import { certificatesSelector, isFirstFormValidSelector, orderSumSelector, pointsSelector } from 'src/app/store/selectors/order.selectors';
-import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
+import { Subject, combineLatest } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { AddCertificate, RemoveCertificate, SetCertificateUsed, SetCertificates, SetPointsUsed } from 'src/app/store/actions/order.actions';
+import { GetUserBonuses } from 'src/app/store/actions/ubs-user.actions';
+import { certificatesSelector, isFirstFormValidSelector, orderSumSelector } from 'src/app/store/selectors/order.selectors';
+import { userBonusesSelector } from 'src/app/store/selectors/ubs-user.selectors';
 import { ICertificateResponse } from 'src/app/ubs/ubs/models/ubs.interface';
+import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { OrderService } from '../../../services/order.service';
 
 @Component({
   selector: 'app-ubs-order-certificate',
@@ -50,6 +52,8 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(GetUserBonuses());
+
     this.initForm();
     this.initListeners();
   }
@@ -68,7 +72,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     combineLatest([
       this.store.pipe(select(orderSumSelector)),
       this.store.pipe(select(certificatesSelector)),
-      this.store.pipe(select(pointsSelector))
+      this.store.pipe(select(userBonusesSelector))
     ])
       .pipe(takeUntil(this.$destroy))
       .subscribe(([orderSum, certificates, points]) => {

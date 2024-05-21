@@ -6,6 +6,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TranslateModule } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { OverlayRef } from '@angular/cdk/overlay';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('ChatComponent', () => {
   let component: ChatComponent;
@@ -14,8 +16,8 @@ describe('ChatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ChatComponent],
-      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
+      declarations: [ChatComponent, InfiniteScrollDirective],
+      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         ChatsService,
         SocketService,

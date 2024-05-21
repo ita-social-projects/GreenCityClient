@@ -1,4 +1,5 @@
 .shop-list-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -11,6 +12,27 @@
     height: 20px;
     margin-bottom: 26px;
   }
+
+  .edit-icon,
+  .close-edit-mode {
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .edit-icon {
+    background-image: url('/assets/img/profile/icons/edit-line.svg');
+    background-size: 100%;
+  }
+
+  .close-edit-mode {
+    background-image: url('/src/assets/img/icon/cross.svg');
+    background-size: 80%;
+  }
 }
 
 .list-container {
@@ -21,7 +43,7 @@
   .shop-list {
     display: flex;
     flex-direction: column;
-    height: 112px;
+    height: 190px;
     padding: 0;
     margin: 0;
     gap: 16px;
@@ -36,9 +58,8 @@
       .item-box {
         display: flex;
         align-items: center;
-        width: 168px;
         height: 25px;
-        max-width: calc(100% - 24px);
+        max-width: calc(100% - 20px);
 
         .check-btn {
           border: 0;
@@ -48,7 +69,7 @@
 
         .item-text {
           height: 17px;
-          margin-left: 12px;
+          margin-left: 8px;
           font-style: normal;
           font-weight: normal;
           font-size: 14px;
@@ -62,9 +83,19 @@
     }
   }
 
+  .shop-list-edit-mode {
+    height: 112px;
+  }
+
   .no-item {
     height: 112px;
   }
+}
+
+.save-cancel-wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
 }
 
 .del-btn {
@@ -74,8 +105,27 @@
   background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
+  background-color: var(--secondary-light-grey);
   border: none;
   margin-right: 6px;
+}
+
+.save-cancel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  outline: none;
+  background-color: var(--secondary-light-grey);
+  color: var(--primary-green);
+  font-family: var(--primary-font);
+  font-size: 16px;
+  line-height: 24px;
+
+  &:disabled {
+    color: var(--secondary-grey);
+  }
 }
 
 form {
@@ -121,10 +171,15 @@ form {
 .add-item-form {
   display: flex;
   width: 100%;
+  margin-top: 15px;
 }
 
 .unselected {
   color: var(--quintynary-light-grey);
+}
+
+.crossed {
+  text-decoration: line-through;
 }
 
 @media (max-width: 560px) {

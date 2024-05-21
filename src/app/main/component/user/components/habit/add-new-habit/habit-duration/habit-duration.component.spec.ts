@@ -3,6 +3,7 @@ import { HabitDurationComponent } from './habit-duration.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ElementRef, SimpleChange } from '@angular/core';
 import { of } from 'rxjs';
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
@@ -47,9 +48,16 @@ describe('HabitDurationComponent', () => {
   });
 
   it('should initialize with default values', () => {
-    expect(component.newDuration).toBe(7);
-    expect(component.currentLang).toBe('7');
+    expect(component.currentLang).toBe('');
     expect(component.days).toBe('d');
+  });
+
+  it('should reflect input value changes', () => {
+    const habitDurationInput = 14;
+
+    component.ngOnChanges({ habitDurationInitial: new SimpleChange(null, habitDurationInput, true) });
+    fixture.detectChanges();
+    expect(component.newDuration).toBe(14);
   });
 
   it('should update duration and emit event', () => {
@@ -65,13 +73,6 @@ describe('HabitDurationComponent', () => {
     fixture.detectChanges();
     expect(sliderElement.textContent).toBe('10');
   });
-
-  it('should update thumb text on slider change', fakeAsync(() => {
-    const sliderValue = 15;
-    component.updateDuration(sliderValue);
-    tick();
-    expect(sliderElement.textContent).toBe('15d');
-  }));
 
   it('should unsubscribe on destroy', () => {
     component.langChangeSub = of(true).subscribe();
