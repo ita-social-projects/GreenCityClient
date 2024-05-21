@@ -138,7 +138,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       console.log(this.event);
       this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
       this.place = this.event.location as string;
-      //TODO
       this.images = this.event.imgArrayToPreview;
 
       this.bindUserName();
