@@ -14,8 +14,8 @@ export class UbsUserOrderDetailsComponent implements OnDestroy, OnInit {
   @Input()
   order: IUserOrderInfo;
   public currentLanguage: string;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
   public certificatesAmount: number;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private localStorageService: LocalStorageService,
