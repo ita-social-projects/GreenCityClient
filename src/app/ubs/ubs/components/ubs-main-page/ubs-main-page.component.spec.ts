@@ -43,7 +43,8 @@ describe('UbsMainPageComponent', () => {
     'getLocations',
     'getAllActiveCouriers',
     'cleanPrevOrderState',
-    'getOrders'
+    'getOrders',
+    'getOrderDetails'
   ]);
   const orderData = [
     {
@@ -92,7 +93,7 @@ describe('UbsMainPageComponent', () => {
       quantity: null
     }
   ];
-  orderServiceMock.getOrders.and.returnValue(of(orderData));
+  orderServiceMock.getOrderDetails.and.returnValue(of(orderData));
 
   const activecouriersMock = activeCouriersMock;
   orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));

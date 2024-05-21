@@ -9,12 +9,15 @@ import { ChatModalComponent } from './component/chat-modal/chat-modal.component'
 import { CurrentChatComponent } from './component/current-chat/current-chat.component';
 import { ChatComponent } from './component/chat/chat.component';
 import { MessageFromDayPipe } from './pipe/message-from-day/message-from-day.pipe';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -29,16 +32,26 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     MessageFromDayPipe
   ],
   imports: [
-    BrowserModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     MatDialogModule,
     InfiniteScrollModule,
-    PickerModule
+    PickerModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient]
+      },
+      isolate: true
+    }),
+    CommonModule
   ],
   exports: [ChatPopupComponent],
   providers: []
 })
 export class ChatModule {}
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}

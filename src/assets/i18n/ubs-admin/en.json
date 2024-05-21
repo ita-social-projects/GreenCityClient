@@ -636,7 +636,8 @@
       "region": "Region",
       "city": "City",
       "station": "Station",
-      "courier": "Courier"
+      "courier": "Courier",
+      "chat": "Chat"
     },
     "tariffs-selector": {
       "title": "Add tariffs",
@@ -1227,5 +1228,9 @@
     "сertificate-field-format": "The field can contain only numbers in format хххх-хххх",
     "duration-field-format": "The field can contain only numbers from 1 to 12",
     "discount-field-format": "The field can contain only numbers in format from 1 to 999"
+  },
+  "chat": {
+    "messages": "Messages",
+    "support-chat": "Support-chat"
   }
 }

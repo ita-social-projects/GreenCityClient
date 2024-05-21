@@ -9,6 +9,9 @@ class MatDialogMock {
 
 describe('PreventNavigationBackGuard', () => {
   let guard: PreventNavigationBackGuard;
+  class MatDialogMock {
+    closeAll() {}
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({

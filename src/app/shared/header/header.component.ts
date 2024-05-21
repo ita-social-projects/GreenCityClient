@@ -23,6 +23,7 @@ import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions'
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { IAppState } from 'src/app/store/state/app.state';
+import { Role } from '@global-models/user/roles.model';
 
 @Component({
   selector: 'app-header',
@@ -42,8 +43,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public arrayLang: Array<LanguageModel>;
   public ariaStatus = 'profile options collapsed';
   public isSearchClicked = false;
-  private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
-  private adminRoleGreenCityValue = 'ROLE_ADMIN';
+  private adminRoleValue = Role.UBS_EMPLOYEE;
+  private adminRoleGreenCityValue = Role.ADMIN;
   private userRole: string;
   private userId: number;
   private backEndLink = environment.backendLink;

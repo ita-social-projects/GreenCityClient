@@ -1,4 +1,3 @@
-import { FriendModel } from '@global-user/models/friend.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChatsService } from '../../service/chats/chats.service';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
@@ -6,6 +5,10 @@ import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { Chat } from '../../model/Chat.model';
+import { JwtService } from '@global-service/jwt/jwt.service';
+import { Title } from '@angular/platform-browser';
+import { Role } from '@global-models/user/roles.model';
+import { UserService } from '@global-service/user/user.service';
 
 @Component({
   selector: 'app-chats-list',
@@ -16,19 +19,38 @@ export class ChatsListComponent implements OnInit {
   public chatIcons = CHAT_ICONS;
   public searchField = '';
   public searchFieldControl = new FormControl();
+  public isSupportChat: boolean;
+  public isAdmin: boolean;
   @Input() isPopup: boolean;
   @Output() createNewMessageWindow: EventEmitter<Chat> = new EventEmitter<Chat>();
 
-  constructor(public chatService: ChatsService, private socketService: SocketService) {}
+  constructor(
+    public chatService: ChatsService,
+    private socketService: SocketService,
+    private jwt: JwtService,
+    private titleService: Title,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {
-      this.searchField = newValue;
-      this.chatService.searchFriends(newValue);
-    });
+    this.isSupportChat = this.chatService.isSupportChat;
+    this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
+    if (!this.isSupportChat) {
+      this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {
+        this.searchField = newValue;
+        this.chatService.searchFriends(newValue);
+      });
+    }
+
+    if (this.isSupportChat && this.isAdmin) {
+      this.chatService.currentChatsStream$.subscribe((chat) => {
+        const isAdminParticipant = chat?.participants?.some((el) => el.id === this.userService.userId);
+        this.chatService.isAdminParticipant$.next(isAdminParticipant);
+      });
+    }
   }
 
-  public messageDateTreat(date: Date): string {
+  messageDateTreat(date: Date): string {
     const messageDate = new Date(date);
     const today = new Date();
     if (messageDate.getFullYear() !== today.getFullYear()) {
@@ -38,18 +60,30 @@ export class ChatsListComponent implements OnInit {
     return isToday ? 'HH:mm' : 'dd/MM';
   }
 
-  public checkChat(friend: any) {
-    if (friend.friendsChatDto.chatExists) {
-      const userChat = this.chatService.userChats.find((chat) => chat.id === friend.friendsChatDto.chatId);
-      this.chatService.setCurrentChat(userChat);
-      this.createNewMessageWindow.emit();
+  checkChat(chatTarget: any) {
+    if (this.isAdmin) {
+      return;
+    }
+    if (!this.isSupportChat) {
+      const userChat = this.chatService.userChats.find((chat) => chat?.id === chatTarget.friendsChatDto?.chatId);
+      userChat ? this.chatService.setCurrentChat(userChat) : this.socketService.createNewChat(chatTarget.id, false, true);
     } else {
-      this.socketService.createNewChat(friend.id, false, true);
-      this.createNewMessageWindow.emit();
+      const userChat = this.chatService.locationChats.find((chat) => chat?.id === chatTarget.chatId);
+      chatTarget.chatId ? this.chatService.setCurrentChat(userChat) : this.socketService.createNewChat(chatTarget.id, false, true);
+    }
+    this.createNewMessageWindow.emit();
+  }
+
+  onScroll(): void {
+    const pageData = this.chatService.currentChatPageData$.getValue();
+    if (pageData.totalPages > pageData.currentPage + 1) {
+      this.chatService.getAllSupportChats(pageData.currentPage + 1);
     }
   }
 
   openNewMessageWindow(chat: Chat) {
+    chat.amountUnreadMessages = null;
+    this.titleService.setTitle('Pick Up City');
     this.chatService.setCurrentChat(chat);
     this.createNewMessageWindow.emit(chat);
   }

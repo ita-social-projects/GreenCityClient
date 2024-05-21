@@ -19,6 +19,10 @@
       "about-us": "About-us",
       "sorting-rules": "Sorting rules",
       "eco-shop": "Eco-Shop"
+    },
+    "warning": {
+      "massage": "Attention! Our website is in testing mode. Have you noticed a bug? Please leave your feedback and we will improve our service as soon as possible.",
+      "button": "Feedback"
     }
   },
   "nav-bar": {
@@ -32,5 +36,9 @@
     "error": {
       "exist-address": "This address has already been added"
     }
+  },
+  "chat": {
+    "messages": "Messages",
+    "support-chat": "Support-chat"
   }
 }

@@ -26,6 +26,10 @@
 }
 
 .current-chat-name {
+  display: block;
+  overflow: hidden;
+  max-width: 220px;
+  text-overflow: ellipsis;
   font-size: 16px;
   color: var(--primary-white);
 }

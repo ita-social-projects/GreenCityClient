@@ -5,6 +5,7 @@ export const CHAT_ICONS = {
   settings: 'assets/img/chat/settings.svg',
   threeDots: 'assets/img/chat/three-dots.svg',
   userLogo: 'assets/img/chat/user.svg',
+  supportChatLogo: 'assets/img/chat/support-chat.svg',
   close: 'assets/img/chat/close.svg',
   greenPeople: 'assets/img/illustration-people.png',
   smile: 'assets/img/chat/smile.svg',
