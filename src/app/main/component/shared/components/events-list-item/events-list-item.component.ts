@@ -223,6 +223,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         //TODO
         // this.localStorageService.setEventForEdit('editEvent', this.event);
         this.eventService.setEventResponse(this.event);
+        console.log(this.event);
         this.router.navigate(['/events', 'create-event']);
         break;
       default:

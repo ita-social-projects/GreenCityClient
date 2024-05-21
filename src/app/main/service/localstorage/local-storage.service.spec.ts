@@ -48,15 +48,13 @@ describe('LocalStorageService', () => {
         longitude: 1
       }
     },
-    imgArray: [],
-    imgArrayToPreview: [],
     description: 'Test event description',
-    editorText: 'Test event description',
     id: 123,
     open: true,
     organizer: {
       id: 456,
-      name: 'Test organizer'
+      name: 'Test organizer',
+      organizerRating: 3
     },
     tags: [{ id: 789, nameUa: 'Test tag UA', nameEn: 'Test tag EN' }],
     title: 'Test event title',
@@ -544,7 +542,15 @@ describe('LocalStorageService', () => {
     });
 
     it('should remove UbsAdminOrdersTableTitleColumnFilters from local storage', () => {
-      localStorage.setItem('UbsAdminOrdersTableTitleColumnFilters', JSON.stringify([{ column: 'column1', value: 'value1' }]));
+      localStorage.setItem(
+        'UbsAdminOrdersTableTitleColumnFilters',
+        JSON.stringify([
+          {
+            column: 'column1',
+            value: 'value1'
+          }
+        ])
+      );
       service.removeAdminOrderFilters();
       expect(localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')).toBeNull();
     });

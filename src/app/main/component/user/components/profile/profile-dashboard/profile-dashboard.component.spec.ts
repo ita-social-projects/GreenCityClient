@@ -28,7 +28,14 @@ describe('ProfileDashboardComponent', () => {
   LocalStorageServiceMock.setCurentPage = () => of('previousPage', '/profile');
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of({ ecoNews: {}, autorNews: [{ newsId: 1 }], pageNumber: 1, error: 'error', ecoNewsByAuthor: true });
+  storeMock.select = () =>
+    of({
+      ecoNews: {},
+      autorNews: [{ newsId: 1 }],
+      pageNumber: 1,
+      error: 'error',
+      ecoNewsByAuthor: true
+    });
 
   const MockHabits = {
     id: 1,
@@ -89,15 +96,13 @@ describe('ProfileDashboardComponent', () => {
             longitude: 1
           }
         },
-        imgArray: [],
-        imgArrayToPreview: [],
         description: 'description',
-        editorText: 'description',
         id: 95,
         open: true,
         organizer: {
           id: 12,
-          name: 'username'
+          name: 'username',
+          organizerRating: 4
         },
         tags: [
           {
@@ -125,7 +130,6 @@ describe('ProfileDashboardComponent', () => {
   const mockFavouriteEvents: EventPageResponseDto[] = [
     {
       additionalImages: [],
-      imgArrayToPreview: [],
       creationDate: '2022-05-31',
       dates: [
         {
@@ -153,12 +157,12 @@ describe('ProfileDashboardComponent', () => {
         }
       ],
       description: 'description',
-      editorText: 'description',
       id: 96,
       open: true,
       organizer: {
         id: 12,
-        name: 'username'
+        name: 'username',
+        organizerRating: 3
       },
       tags: [
         {
@@ -180,7 +184,6 @@ describe('ProfileDashboardComponent', () => {
     },
     {
       additionalImages: [],
-      imgArrayToPreview: [],
       creationDate: '2022-05-31',
       dates: [
         {
@@ -208,12 +211,12 @@ describe('ProfileDashboardComponent', () => {
         }
       ],
       description: 'description',
-      editorText: 'description',
       id: 14,
       open: true,
       organizer: {
         id: 12,
-        name: 'username'
+        name: 'username',
+        organizerRating: 3
       },
       tags: [
         {

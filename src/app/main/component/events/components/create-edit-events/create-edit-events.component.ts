@@ -145,7 +145,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       });
 
     this.editMode = this.localStorageService.getEditMode();
-    console.log(this.eventsService.editorFormValues);
     if (this.editMode) {
       this.eventId = this.eventsService.getEventResponse().id;
       this.initialForm = this._transformResponseToForm(this.eventsService.getEventResponse());
@@ -163,9 +162,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   // TODO MAIN IMAGE DONT PASS
   public onPreview() {
-    console.log('1');
     this.eventsService.editorFormValues = structuredClone(this._formsValues);
-    console.log('3');
     const { dateInformation, eventInformation } = this._formsValues;
     const { images, duration, editorText, title, description, open, tags } = eventInformation;
     const dates: Dates[] = this.transformDatesFormToDates(dateInformation);

@@ -50,6 +50,7 @@ export class CreateEventInformationComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.formInput);
     this.quillModules = quillConfig;
     this.eventInfForm.get('duration').valueChanges.subscribe((value) => {
       this.bridge.days = Array(value);

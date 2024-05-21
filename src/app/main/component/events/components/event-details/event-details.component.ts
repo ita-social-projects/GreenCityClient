@@ -9,11 +9,11 @@ import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up
 import {
   AddAttenderEcoEventsByIdAction,
   DeleteEcoEventAction,
+  EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { Coordinates, EventPageResponseDto, PagePreviewDTO } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
-import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject, Subscription } from 'rxjs';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
@@ -22,6 +22,7 @@ import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 import { ICONS, ROLES } from '../../models/event-consts';
+import { ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-event-details',
@@ -71,6 +72,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public addAttenderError: string;
   public isRegistered: boolean;
   public isReadonly = false;
+  googleMapLink: string;
   private userId: number;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private userNameSub: Subscription;
@@ -90,57 +92,60 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // if (this.route.snapshot.params.id) {
-    //   this.eventId = this.route.snapshot.params.id;
-    //   this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
-    //     this.userId = Number(id);
-    //   });
-    //   this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponseDto) => {
-    //     this.event = res;
-    //     this.organizerName = this.event.organizer.name;
-    //     this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-    //     this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
-    //     this.images = [res.titleImage, ...res.additionalImages];
-    //     this.rate = Math.round(this.event.organizer.organizerRating);
-    //     this.mapDialogData = {
-    //       lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
-    //       lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude
-    //     };
-    //     this.isEventFavorite = this.event.isFavorite;
-    //     this.isRegistered = !!this.userId;
-    //     this.isSubscribed = this.event.isSubscribed;
-    //     const isOwner = Number(this.userId) === this.event.organizer.id;
-    //     this.isActive = this.event.isRelevant;
-    //     this.isUserCanRate = this.isSubscribed && !this.isActive && !isOwner;
-    //     this.isUserCanJoin = this.isActive && !isOwner;
-    //     this.role = this.verifyRole();
-    //     this.ecoEvents$.subscribe((result: IEcoEventsState) => {
-    //       this.addAttenderError = result.error;
-    //     });
-    //   });
-    //
-    //   this.localStorageService.setEditMode('canUserEdit', true);
-    //   this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
-    //     this.attendees = attendees;
-    //     this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
-    //   });
-    //
-    //   this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => {
-    //     this.router.navigate(['/events']);
-    //   });
-    //
-    //   this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
-    //   this.backRoute = this.localStorageService.getPreviousPage();
-    // } else {
-    this.event = this.eventService.getForm();
-    console.log(this.event);
-    this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-    this.place = this.event.location as string;
-    //TODO
-    this.images = [];
-    this.bindUserName();
-    this.formatDates();
-    // }
+    if (this.route.snapshot.params.id) {
+      this.eventId = this.route.snapshot.params.id;
+      this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
+        this.userId = Number(id);
+      });
+      this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponseDto) => {
+        this.event = res;
+        this.organizerName = this.event.organizer.name;
+        this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
+        this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
+        this.images = [res.titleImage, ...res.additionalImages];
+        this.rate = Math.round(this.event.organizer.organizerRating);
+        this.mapDialogData = {
+          lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
+          lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude
+        };
+        this.isEventFavorite = this.event.isFavorite;
+        this.isRegistered = !!this.userId;
+        this.isSubscribed = this.event.isSubscribed;
+        const isOwner = Number(this.userId) === this.event.organizer.id;
+        this.isActive = this.event.isRelevant;
+        this.isUserCanRate = this.isSubscribed && !this.isActive && !isOwner;
+        this.isUserCanJoin = this.isActive && !isOwner;
+        this.role = this.verifyRole();
+        this.ecoEvents$.subscribe((result: IEcoEventsState) => {
+          this.addAttenderError = result.error;
+        });
+      });
+
+      this.localStorageService.setEditMode('canUserEdit', true);
+      this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
+        this.attendees = attendees;
+        this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
+      });
+
+      this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => {
+        this.router.navigate(['/events']);
+      });
+
+      this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
+      this.backRoute = this.localStorageService.getPreviousPage();
+    } else {
+      this.event = this.eventService.getForm() as PagePreviewDTO;
+      console.log(this.event);
+      this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
+      this.place = this.event.location as string;
+      //TODO
+      this.images = this.event.imgArrayToPreview;
+
+      this.bindUserName();
+      this.formatDates();
+    }
+    const coords = this.event.dates[0].coordinates;
+    this.googleMapLink = `https://www.google.com.ua/maps/@${coords.longitude},${coords.latitude}`;
   }
 
   public bindUserName(): void {
@@ -155,25 +160,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public navigateToEditEvent(): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    this.localStorageService.setEventForEdit('editEvent', this.event);
+    // this.localStorageService.setEventForEdit('editEvent', this.event);
+    this.eventService.setEventResponse(this.event as EventPageResponseDto);
     this.router.navigate(['/events', 'create-event']);
-  }
-
-  public openMap(event): void {
-    const dataToMap = {
-      address: event.coordinates.addressEn,
-      lat: event.coordinates.latitude,
-      lng: event.coordinates.longitude
-    };
-    this.dialog.open(MapEventComponent, {
-      data: dataToMap,
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: '',
-      width: '900px',
-      height: '400px'
-    });
   }
 
   public deleteEvent(): void {

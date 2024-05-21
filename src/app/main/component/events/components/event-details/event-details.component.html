@@ -1,6 +1,7 @@
 <div class="event-wrapper">
   <div class="container">
     <app-spinner *ngIf="isPosting"></app-spinner>
+
     <div *ngIf="event && !isPosting" class="event">
       <div class="event-nav">
         <div *ngIf="!eventService.getForm()" class="back-button">
@@ -98,7 +99,7 @@
                     <div class="event-duration">
                       {{ event.dates[0].startDate | dateLocalisation }}
                       &nbsp;-&nbsp;
-                      {{ event.dates[event.dates.length - 1].finishDate | date: 'MMM d, y' }}
+                      {{ event.dates[event.dates.length - 1].finishDate | dateLocalisation }}
                     </div>
                     <div>|</div>
                     <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
@@ -112,9 +113,7 @@
                 <div class="event-location-icon">
                   <img [src]="icons.location" alt="" />
                 </div>
-                <a href="{{ 'https://www.google.com.ua/maps/@50.4851493,30.4721233' }}" target="_blank">{{
-                  eventService.getForm() ? place : getAddress()
-                }}</a>
+                <a href="{{ googleMapLink }}" target="_blank">{{ eventService.getForm() ? place : getAddress() }}</a>
               </div>
               <div *ngIf="locationLink" class="event-link">
                 <div class="event-link-icon">

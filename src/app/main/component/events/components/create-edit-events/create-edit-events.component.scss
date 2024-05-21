@@ -73,7 +73,8 @@
 
   @include responsiveMobileFirst(sm) {
     button {
-      width: 104px;
+      min-width: 104px;
+      width: fit-content;
     }
     flex-direction: row-reverse;
     justify-content: flex-start;
