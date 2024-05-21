@@ -135,7 +135,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.backRoute = this.localStorageService.getPreviousPage();
     } else {
       this.event = this.eventService.getForm() as PagePreviewDTO;
-      console.log(this.event);
       this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
       this.place = this.event.location as string;
       this.images = this.event.imgArrayToPreview;
