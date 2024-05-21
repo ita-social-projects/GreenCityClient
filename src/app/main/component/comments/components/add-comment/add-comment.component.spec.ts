@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { of } from 'rxjs';
@@ -57,7 +57,8 @@ describe('AddCommentComponent', () => {
       imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },
-        { provide: CommentsService, useValue: commentsServiceMock }
+        { provide: CommentsService, useValue: commentsServiceMock },
+        FormBuilder
       ]
     }).compileComponents();
   }));

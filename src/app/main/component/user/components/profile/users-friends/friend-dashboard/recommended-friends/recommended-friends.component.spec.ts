@@ -11,6 +11,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
 import { RecommendedFriendsComponent } from './recommended-friends.component';
 import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 
 describe('RecommendedFriendsComponent', () => {
   let component: RecommendedFriendsComponent;
@@ -18,16 +19,22 @@ describe('RecommendedFriendsComponent', () => {
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
 
-  const userFriendsService = 'userFriendsService';
+  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = () => {};
 
   const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', [
     'getPossibleFriends',
     'findNewFriendsByName',
-    'addFriend'
+    'addFriend',
+    'getNewFriends'
   ]);
   userFriendsServiceMock.getNewFriends = () => of(FRIENDS);
-  userFriendsServiceMock.getNewFriends = () => of(FRIENDS);
   userFriendsServiceMock.addFriend = (idFriend) => of(FIRSTFRIEND);
+
+  const userOnlineStatusServiceMock: UserOnlineStatusService = jasmine.createSpyObj('UserOnlineStatusService', [
+    'addUsersId',
+    'removeUsersId'
+  ]);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -35,7 +42,8 @@ describe('RecommendedFriendsComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarComponent }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: UserOnlineStatusService, useValue: userOnlineStatusServiceMock }
       ],
       imports: [
         TranslateModule.forRoot(),

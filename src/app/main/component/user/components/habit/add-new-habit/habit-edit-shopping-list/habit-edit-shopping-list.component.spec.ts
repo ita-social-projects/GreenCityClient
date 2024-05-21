@@ -209,8 +209,10 @@ describe('HabitEditShoppingListComponent', () => {
   });
 
   it('should move selected item to the top of the list', () => {
-    component.shopList = mockList;
+    component.shopList = [...mockList];
+    console.log(mockList);
     component.selectItem(mockList[1]);
+    console.log(component.shopList, mockList);
     expect(component.shopList[0]).toBe(mockList[1]);
     expect(component.shopList[1]).toBe(mockList[0]);
   });

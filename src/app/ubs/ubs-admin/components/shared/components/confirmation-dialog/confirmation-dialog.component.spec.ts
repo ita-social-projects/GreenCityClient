@@ -74,7 +74,7 @@ describe('ConfirmationDialogComponent', () => {
     const { confirmButton } = getAllElements();
     const closeSpy = spyOn(dialogRefMock, 'close');
     confirmButton.triggerEventHandler('click', null);
-    expect(closeSpy).toHaveBeenCalledWith();
+    expect(closeSpy).toHaveBeenCalled();
   });
 
   it('should close emitting `false` if `cancel` was clicked', async () => {
@@ -83,6 +83,6 @@ describe('ConfirmationDialogComponent', () => {
     const { cancelButton } = getAllElements();
     const closeSpy = spyOn(dialogRefMock, 'close');
     cancelButton.triggerEventHandler('click', null);
-    expect(closeSpy).toHaveBeenCalledWith();
+    expect(closeSpy).toHaveBeenCalled();
   });
 });

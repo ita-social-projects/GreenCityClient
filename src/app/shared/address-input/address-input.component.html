@@ -6,6 +6,7 @@
       [autoCompRequest]="autocompleteRegionRequest"
       (predictionSelected)="onRegionSelected($event)"
       [isInvalid]="region.invalid"
+      ngDefaultControl
     ></app-input-google-autocomplete>
     <div *ngIf="isErrorMessageShown(region)">
       <app-ubs-input-error [formElement]="region"></app-ubs-input-error>
@@ -19,6 +20,7 @@
       [autoCompRequest]="autocompleteCityRequest"
       (predictionSelected)="onCitySelected($event)"
       [isInvalid]="city.invalid"
+      ngDefaultControl
     ></app-input-google-autocomplete>
     <div *ngIf="isErrorMessageShown(city)">
       <app-ubs-input-error [formElement]="city"></app-ubs-input-error>
@@ -32,6 +34,7 @@
       [autoCompRequest]="autocompleteStreetRequest"
       (predictionSelected)="onStreetSelected($event)"
       [isInvalid]="street.invalid"
+      ngDefaultControl
     ></app-input-google-autocomplete>
     <div *ngIf="isErrorMessageShown(street)">
       <app-ubs-input-error [formElement]="street"></app-ubs-input-error>
@@ -103,6 +106,7 @@
       formControlName="addressComment"
       placeholder="{{ 'personal-info.pop-up-comment-placeholder' | translate }}"
       (change)="onCommentChange()"
+      ngDefaultControl
     ></textarea>
     <div class="validation" *ngIf="addressComment.invalid && addressComment.touched">
       <app-ubs-input-error [formElement]="addressComment"></app-ubs-input-error>

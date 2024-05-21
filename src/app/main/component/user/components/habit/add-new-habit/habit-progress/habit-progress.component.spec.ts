@@ -12,6 +12,7 @@ import { CUSTOMFULLINFOHABIT, DEFAULTFULLINFOHABIT, DEFAULTFULLINFOHABIT_2 } fro
 import { HabitCalendarComponent } from '@global-user/components/habit/add-new-habit/habit-calendar/habit-calendar.component';
 import { CalendarWeekComponent } from '@global-user/components/profile/calendar/calendar-week/calendar-week.component';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { ChangesFromCalendarToProgress } from '../../models/interfaces/habit-assign.interface';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
@@ -66,7 +67,7 @@ describe('HabitProgressComponent', () => {
     habitAssignServiceMock.getAssignHabitsByPeriod = jasmine.createSpy().and.returnValue(of({}));
     habitAssignServiceMock.getAllAssignedHabbits = jasmine.createSpy().and.returnValue(of({}));
     habitAssignServiceMock.getAssignedHabits = jasmine.createSpy().and.returnValue(of([]));
-    habitAssignServiceMock.habitChangesFromCalendarSubj = new Subject();
+    habitAssignServiceMock.habitChangesFromCalendarSubj = new Subject<ChangesFromCalendarToProgress>();
     fixture.detectChanges();
   });
 
@@ -84,7 +85,9 @@ describe('HabitProgressComponent', () => {
   it('ngOnInit should call updateHabitSteak and countProgressBar', () => {
     const spy1 = spyOn(component, 'updateHabitSteak');
     const spy2 = spyOn(component, 'countProgressBar');
+    const changes = { date: component.currentDate, isEnrolled: true };
     component.ngOnInit();
+    habitAssignServiceMock.habitChangesFromCalendarSubj.next(changes);
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
   });
