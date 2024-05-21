@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -33,29 +33,14 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./event-details.component.scss']
 })
 export class EventDetailsComponent implements OnInit, OnDestroy {
-  bsOpen = false;
-
   public icons = ICONS;
   public eventId: number;
-  private dialogRef;
-
   public roles = {
     UNAUTHENTICATED: 'UNAUTHENTICATED',
     USER: 'USER',
     ORGANIZER: 'ORGANIZER',
     ADMIN: 'ADMIN'
   };
-
-  private cancelationPopupData = {
-    popupTitle: 'homepage.events.pop-up-cancelling-event',
-    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
-    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
-    isUBS: false,
-    isUbsOrderSubmit: false,
-    isHabit: false
-  };
-
-  public roles = ROLES;
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   public bsModalRef: BsModalRef;
   public role = this.roles.UNAUTHENTICATED;
@@ -67,7 +52,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public locationLink: string;
   public locationCoordinates: Coordinates;
   public place: string;
-  public addressUa: string;
   public addressEn: string;
   public images: string[] = [];
   public sliderIndex = 0;
@@ -94,6 +78,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public isRegistered: boolean;
   public isReadonly = false;
   googleMapLink: string;
+  private dialogRef;
+  private cancelationPopupData = {
+    popupTitle: 'homepage.events.pop-up-cancelling-event',
+    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
+    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
+    isUBS: false,
+    isUbsOrderSubmit: false,
+    isHabit: false
+  };
   private userId: number;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private userNameSub: Subscription;
