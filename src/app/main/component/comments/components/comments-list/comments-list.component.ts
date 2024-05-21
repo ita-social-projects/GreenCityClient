@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, Renderer2 } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, dataTypes, PaginationConfig } from '../../models/comments-model';
@@ -6,6 +6,7 @@ import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-comments-list',
@@ -41,8 +42,14 @@ export class CommentsListComponent {
     }
   };
   public isAddingReply = false;
+  private isAdmin = this.jwtService.getUserRole() === 'ROLE_ADMIN';
 
-  constructor(private commentsService: CommentsService, private renderer: Renderer2, private router: Router, private dialog: MatDialog) {}
+  constructor(
+    private commentsService: CommentsService,
+    private jwtService: JwtService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
   public deleteComment($event): void {
     this.changedList.emit($event);
@@ -124,7 +131,7 @@ export class CommentsListComponent {
   }
 
   public checkCommentAuthor(commentAuthorId: number) {
-    return commentAuthorId === Number(this.userId);
+    return this.isAdmin || commentAuthorId === Number(this.userId);
   }
 
   setCommentText(data: { text: string; innerHTML: string }): void {
