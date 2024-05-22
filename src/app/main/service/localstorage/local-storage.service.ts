@@ -15,7 +15,6 @@ export class LocalStorageService {
   private readonly PREVIOUS_PAGE = 'previousPage';
   private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
   private readonly EDIT_EVENT = 'editEvent';
-  private EDIT_HABIT = '';
   private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
   private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
 
@@ -296,8 +295,7 @@ export class LocalStorageService {
   }
 
   public getUbsAdminOrdersTableTitleColumnFilter() {
-    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
-    return parsed;
+    return JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
   }
 
   public removeAdminOrderFilters(): void {
@@ -312,8 +310,7 @@ export class LocalStorageService {
   }
 
   public getAdminOrdersDateFilter() {
-    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters'));
-    return parsed;
+    return JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters'));
   }
 
   public removeAdminOrderDateFilters(): void {
