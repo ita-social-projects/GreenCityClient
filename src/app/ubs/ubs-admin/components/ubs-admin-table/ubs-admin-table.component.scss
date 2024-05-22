@@ -63,7 +63,7 @@ input {
 .dropdown-menu,
 .dropdown-menu-container {
   position: absolute;
-  height: 500px;
+  max-height: 500px;
   width: 356px;
   overflow: scroll;
   padding: 0;
@@ -511,6 +511,7 @@ input {
 
 .check-all {
   padding-left: 27px;
+  padding-top: 10px;
 }
 
 .dropdown-top-panel {
@@ -520,8 +521,6 @@ input {
   align-items: center;
   justify-content: space-between;
   padding: 22px 5px 22px 5px;
-  margin-left: 16;
-  margin-right: 16;
 }
 
 .font-weight-bold {
@@ -619,7 +618,7 @@ input {
   float: right;
   border: none;
   border-radius: 100px;
-  background-color: none;
+  background-color: transparent;
 }
 
 #table-container {

@@ -46,7 +46,9 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
 
     if (this.key === TableKeys.bagsAmount && replaceRules[this.lang]) {
       const { regex, match } = replaceRules[this.lang];
-      this.title = (this.title as string).toLowerCase().replace(regex, (el) => match[el]);
+      if (this.title) {
+        this.title = (this.title as string).toLowerCase().replace(regex, (el) => match[el]);
+      }
     }
 
     this.data = this.title;
