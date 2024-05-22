@@ -1,15 +1,15 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
 import {
-  EventResponseDto,
+  Addresses,
   Coordinates,
-  PagePreviewDTO,
   DateEvent,
   EventFilterCriteriaInterface,
   EventPageResponseDto,
-  Addresses
+  EventResponseDto,
+  PagePreviewDTO
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { DatePipe } from '@angular/common';
@@ -28,7 +28,10 @@ export class EventsService implements OnDestroy {
   private divider = `, `;
   private pipe = new DatePipe('en-US');
 
-  constructor(private http: HttpClient, private langService: LanguageService) {}
+  constructor(
+    private http: HttpClient,
+    private langService: LanguageService
+  ) {}
 
   public setArePlacesFilled(dates: DateEvent[], submit?: boolean, check?: boolean, ind?: number): void {
     const currentValues = this.arePlacesFilledSubject.getValue();
@@ -121,12 +124,12 @@ export class EventsService implements OnDestroy {
     searchTitle?: string
   ): Observable<EventResponseDto> {
     let requestParams = new HttpParams();
-    requestParams = requestParams.append('page', page.toString());
-    requestParams = requestParams.append('size', quantity.toString());
-    requestParams = requestParams.append('cities', filter.cities.toString());
-    requestParams = requestParams.append('tags', filter.tags.toString());
-    requestParams = requestParams.append('eventTime', filter.eventTime.toString());
-    requestParams = requestParams.append('statuses', filter.statuses.toString());
+    requestParams = requestParams.append('page', page.toString().toUpperCase());
+    requestParams = requestParams.append('size', quantity.toString().toUpperCase());
+    requestParams = requestParams.append('cities', filter.cities.toString().toUpperCase());
+    requestParams = requestParams.append('tags', filter.tags.toString().toUpperCase());
+    requestParams = requestParams.append('eventTime', filter.eventTime.toString().toUpperCase());
+    requestParams = requestParams.append('statuses', filter.statuses.toString().toUpperCase());
     if (searchTitle) {
       requestParams = requestParams.append('title', searchTitle);
     }
