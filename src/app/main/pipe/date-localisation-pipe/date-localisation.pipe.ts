@@ -1,21 +1,33 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { OnDestroy, Pipe, PipeTransform } from '@angular/core';
 import { formatDate } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { LocalStorageService } from '../../service/localstorage/local-storage.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Pipe({
   name: 'dateLocalisation',
-  pure: false,
+  pure: false
 })
-export class DateLocalisationPipe implements PipeTransform {
-  private langChangeSubscription: Subscription;
+export class DateLocalisationPipe implements PipeTransform, OnDestroy {
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   private locale: string = this.localStorageService.getCurrentLanguage();
 
   constructor(private localStorageService: LocalStorageService) {
-    this.langChangeSubscription = this.localStorageService.languageSubject.subscribe((lang) => (this.locale = lang));
+    this.locale = this.localStorageService.getCurrentLanguage();
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => (this.locale = lang));
   }
 
   transform(date: string | Date): string {
-    return formatDate(date, 'mediumDate', `${this.locale}`, null);
+    if (date) {
+      try {
+        return formatDate(date, 'mediumDate', this.locale);
+      } catch (error) {}
+    }
+    return '';
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

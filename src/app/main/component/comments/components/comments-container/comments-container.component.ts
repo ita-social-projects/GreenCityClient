@@ -19,7 +19,7 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
     currentPage: 1,
     totalItems: 0
   };
-  @Output() public repliesCounter = new EventEmitter();
+  @Output() public repliesCounter = new EventEmitter<number>();
   public elementsList: CommentsDTO[] = [];
   public isLoggedIn: boolean;
   public userId: number;
