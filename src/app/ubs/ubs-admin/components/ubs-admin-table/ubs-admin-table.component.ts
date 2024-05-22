@@ -6,6 +6,7 @@ import {
   IDateFilters,
   IFilteredColumn,
   IFilteredColumnValue,
+  IFilters,
   IOrdersViewParameters
 } from '../../models/ubs-admin.interface';
 import { TableHeightService } from '../../services/table-height.service';
@@ -14,7 +15,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { debounceTime, take, takeUntil } from 'rxjs/operators';
+import { debounceTime, filter, take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -23,13 +24,17 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import {
+  AddFilterMultiAction,
+  AddFiltersAction,
   ChangingOrderData,
+  ClearFilters,
   GetColumns,
   GetColumnToDisplay,
   GetTable,
+  RemoveFilter,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
 import { MouseEvents } from 'src/app/shared/mouse-events';
@@ -37,6 +42,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
+import { filtersSelector, isFiltersAppliedSelector, isNoFiltersAppliedSelector } from 'src/app/store/selectors/big-order-table.selectors';
 import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
 
 @Component({
@@ -105,10 +111,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isRestoredFilters = false;
   public dateForm: FormGroup;
   public filters: IDateFilters[] = [];
+  allFilters: IFilters;
   defaultColumnsWidth: Map<string, number> = new Map(Object.entries(defaultColumnsWidthPreference));
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
   ordersViewParameters$ = this.store.select((state: IAppState): IOrdersViewParameters => state.bigOrderTable.ordersViewParameters);
+  isFiltersApplied$ = this.store.select(isFiltersAppliedSelector);
 
   constructor(
     private store: Store<IAppState>,
@@ -283,18 +291,20 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       paymentDateTo: new FormControl(''),
       paymentDateCheck: new FormControl(false)
     });
-    if (this.getLocalDateForm()) {
-      this.dateForm.setValue(this.getLocalDateForm());
-    }
+    this.initFiltersListener();
     this.filters = this.dateForm.value;
+  }
+
+  initFiltersListener(): void {
+    this.store.pipe(takeUntil(this.destroy), select(filtersSelector), filter(Boolean)).subscribe((filters: IFilters) => {
+      this.dateForm.patchValue(filters);
+      this.filters = this.dateForm.value;
+      this.allFilters = filters;
+    });
   }
 
   public getControlValue(column: string, suffix: string): string | boolean {
     return this.dateForm.get(`${column}${suffix}`).value;
-  }
-
-  private getLocalDateForm(): IDateFilters[] {
-    return this.localStorageService.getAdminOrdersDateFilter();
   }
 
   checkAllColumnsDisplayed(): void {
@@ -709,35 +719,42 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
-    this.adminTableService.changeFilters(checked, currentColumn, option);
-    this.noFiltersApplied = !this.adminTableService.filters.length;
-    this.applyFilters();
+    this.tableData = [];
+    this.isLoading = true;
+
+    checked
+      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value: option.key }, fetchTable: true }))
+      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value: option.key }, fetchTable: true }));
   }
 
-  changeInputDate(checked: boolean, currentColumn: string, suffix: string): void {
-    this.noFiltersApplied = false;
-    const checkControl = this.dateForm.get(`${currentColumn}Check`).value;
+  changeInputDate(): void {
+    let filters = {};
 
-    if (suffix === 'From' || suffix === 'To') {
-      const date = this.getControlValue(currentColumn, suffix);
-      const value = this.adminTableService.setDateFormat(date);
-      this.dateForm.get(`${currentColumn}${suffix}`).setValue(value);
-      const biggerFrom = this.getControlValue(currentColumn, 'From') >= this.getControlValue(currentColumn, 'To');
-      if (suffix === 'From' && biggerFrom) {
-        this.dateForm.get(`${currentColumn}To`).setValue(value);
+    Object.keys(this.dateForm.value).forEach((key) => {
+      const value = this.dateForm.get(key)?.value;
+
+      if (value !== null || value !== undefined) {
+        filters[key] = value instanceof Date ? this.adminTableService.convertDate(value) : value;
       }
-      if (suffix === 'To' && biggerFrom) {
-        this.dateForm.get(`${currentColumn}From`).setValue(value);
-      }
-      this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
-      this.applyFilters();
-    } else if (suffix === 'Check') {
-      this.dateForm.get(`${currentColumn}Check`).setValue(checked);
+    });
+
+    if (!filters) {
+      return;
     }
-    this.localStorageService.setAdminOrdersDateFilter(this.dateForm.value);
+
+    this.addFilters(filters);
+  }
+
+  private addFilters(filters: IFilters, fetchTable = true): void {
+    this.tableData = [];
+    this.isLoading = true;
+    this.store.dispatch(AddFiltersAction({ filters, fetchTable }));
   }
 
   public clearFilters(): void {
+    this.store.dispatch(ClearFilters({ fetchTable: true }));
+    this.tableData = [];
+    this.isLoading = true;
     const columnsForFiltering = this.adminTableService.columnsForFiltering;
     columnsForFiltering.forEach((column) => {
       column.values.forEach((value) => {
@@ -745,11 +762,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       });
     });
     this.setColumnsForFiltering(columnsForFiltering);
-    this.adminTableService.setFilters([]);
-    this.applyFilters();
-    this.noFiltersApplied = true;
-    this.localStorageService.removeAdminOrderFilters();
-    this.localStorageService.removeAdminOrderDateFilters();
     this.dateForm.reset();
     this.initDateForm();
   }
@@ -783,7 +795,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       }
       if (buttonName === 'clear') {
         const columnName = data[1];
-        this.adminTableService.clearColumnFilters(columnName);
+        this.store.dispatch(ClearFilters({ fetchTable: true, columnName }));
       }
       if (buttonName) {
         this.applyFilters();
@@ -972,8 +984,22 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.adminTableService.setColumnsForFiltering(columns);
   }
 
-  checkForCheckedBoxes(column): boolean {
-    return column.values.some((item) => item.filtered);
+  checkForCheckedBoxes(columnName: string): boolean {
+    if (!this.allFilters) {
+      return false;
+    }
+
+    const isFiltered = Object.keys(this.allFilters)?.some((key) => key.startsWith(columnName));
+
+    if (!isFiltered) {
+      return false;
+    }
+
+    return !!this.allFilters[columnName.toLowerCase().includes('date') ? `${columnName}From` : columnName];
+  }
+
+  isFilterChecked(columnName: string, value: string): boolean {
+    return (this.allFilters?.[columnName] as string[])?.includes(value);
   }
 
   checkIfFilteredBy(columnKey: string): boolean {
