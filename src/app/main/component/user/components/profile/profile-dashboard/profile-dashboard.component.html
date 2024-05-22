@@ -79,9 +79,10 @@
             <div
               class="scrolling"
               infinite-scroll
+              [infiniteScrollDistance]="1"
               [infiniteScrollThrottle]="100"
               (scrolled)="onScroll()"
-              [infiniteScrollDisabled]="!isActiveInfinityScroll"
+              [infiniteScrollDisabled]="!isActiveNewsScroll"
             >
               <ul class="news-list">
                 <li *ngFor="let data of news" [routerLink]="['/news', data.id]">
@@ -123,39 +124,41 @@
               <div class="edit-events">{{ 'create-event.back' | translate }}</div>
             </div>
           </div>
-          <ul class="news-list" *ngIf="totalEvents && !isFavoriteBtnClicked">
-            <li
-              *ngFor="
-                let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
-              "
-            >
-              <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="true"></app-events-list-item>
-            </li>
-          </ul>
-          <ul class="news-list" *ngIf="isFavoriteBtnClicked">
-            <li
-              *ngFor="
-                let eventItem of favouriteEvents
-                  | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
-              "
-            >
-              <app-events-list-item
-                [event]="eventItem"
-                [userId]="userId"
-                [isUserAssignList]="true"
-                (idOfUnFavouriteEvent)="removeUnFavouriteEvent($event)"
-              ></app-events-list-item>
-            </li>
-          </ul>
-          <pagination-controls
-            class="events-pagination"
-            (pageChange)="onEventsPageChange($event, eventType)"
-            (pageBoundsCorrection)="onEventsPageChange($event, eventType)"
-            maxSize="7"
-            autoHide="true"
-            responsive="true"
-            *ngIf="this.totalEvents"
-          ></pagination-controls>
+          <div
+            class="scrolling"
+            infinite-scroll
+            [infiniteScrollDistance]="1"
+            [infiniteScrollThrottle]="100"
+            (scrolled)="getUserEvents()"
+            [infiniteScrollDisabled]="!isActiveEventsScroll"
+          >
+            <ul class="news-list" *ngIf="totalEvents && !isFavoriteBtnClicked">
+              <li *ngFor="let eventItem of eventsList">
+                <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="true"></app-events-list-item>
+              </li>
+            </ul>
+          </div>
+          <div
+            *ngIf="isFavoriteBtnClicked"
+            class="scrolling"
+            infinite-scroll
+            [infiniteScrollDistance]="1"
+            [infiniteScrollThrottle]="100"
+            (scrolled)="getUserFavouriteEvents()"
+            [infiniteScrollDisabled]="!isActiveFavoriteEventsScroll"
+          >
+            <ul class="news-list">
+              <li *ngFor="let eventItem of favouriteEvents">
+                <app-events-list-item
+                  [event]="eventItem"
+                  [userId]="userId"
+                  [isUserAssignList]="true"
+                  (idOfUnFavouriteEvent)="removeUnFavouriteEvent($event)"
+                ></app-events-list-item>
+              </li>
+            </ul>
+          </div>
+
           <div class="no-data" *ngIf="!this.totalEvents">
             <app-no-data [title]="'profile.dashboard.no-events'" [text]="'profile.dashboard.no-events-advice'"> </app-no-data>
             <a [routerLink]="['/events']">
