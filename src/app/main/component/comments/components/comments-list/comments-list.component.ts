@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
-import { CommentsDTO, dataTypes, PaginationConfig } from '../../models/comments-model';
+import { AddedCommentDTO, CommentsDTO, dataTypes, PaginationConfig } from '../../models/comments-model';
 import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,7 +21,7 @@ export class CommentsListComponent {
   @Input() public config: PaginationConfig;
   @Input() public isLoggedIn: boolean;
   @Input() public userId: number;
-  @Output() public changedList = new EventEmitter<number>();
+  @Output() public changedList = new EventEmitter<AddedCommentDTO>();
   public types = dataTypes;
   public commentMaxLength = 8000;
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(this.commentMaxLength)]);
