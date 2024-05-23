@@ -52,7 +52,7 @@
         [config]="config"
         [isLoggedIn]="isLoggedIn"
         [userId]="userId"
-        (changedList)="updateRepliesList($event)"
+        (changedList)="updateRepliesList($event.id)"
         class="list"
       >
       </app-comments-list>
