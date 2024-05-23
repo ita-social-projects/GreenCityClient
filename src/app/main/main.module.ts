@@ -47,7 +47,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     DragDropModule,
     NgxPaginationModule,
     MaterialModule,
-    SharedModule
+    SharedModule,
+    ChatModule
   ],
   entryComponents: [MainComponent, ProposeCafeComponent, RestoreComponent, EditPhotoPopUpComponent, ErrorComponent],
   providers: [
