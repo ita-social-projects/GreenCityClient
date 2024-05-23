@@ -18,12 +18,8 @@ export class DateLocalisationPipe implements PipeTransform, OnDestroy {
   }
 
   transform(date: string | Date): string {
-    if (date) {
-      try {
-        return formatDate(date, 'mediumDate', this.locale);
-      } catch (error) {}
-    }
-    return '';
+    date = !date ? Date.now().toString() : date;
+    return formatDate(date, 'mediumDate', this.locale);
   }
 
   ngOnDestroy() {
