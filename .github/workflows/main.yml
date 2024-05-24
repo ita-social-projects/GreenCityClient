@@ -76,7 +76,10 @@ jobs:
         run: |
           npm install
           npm install -g webdriver-manager
-          webdriver-manager update
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+')
+          CHROME_MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d '.' -f 1)
+          webdriver-manager update --versions.chrome $CHROME_MAJOR_VERSION
+          webdriver-manager start &
           npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
 
       - name: Build
