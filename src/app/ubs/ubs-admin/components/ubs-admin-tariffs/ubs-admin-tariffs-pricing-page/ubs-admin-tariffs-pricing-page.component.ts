@@ -103,11 +103,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.permissions$.subscribe((authorities) => {
       if (authorities.length) {
         this.definedIsEmployeeCanEditNotifications(authorities);
+        if (!this.isEmployeeCanEditPricingCard) {
+          this.limitsForm.disable();
+        }
       }
     });
-    if (!this.isEmployeeCanEditPricingCard) {
-      this.limitsForm.disable();
-    }
   }
 
   definedIsEmployeeCanEditNotifications(employeeRights) {
@@ -128,10 +128,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.limitsForm = this.fb.group({
       limitDescription: new FormControl(''),
       courierLimitsBy: new FormControl({ value: this.limitStatus }),
-      minPriceOfOrder: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
-      maxPriceOfOrder: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
-      minAmountOfBigBags: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
-      maxAmountOfBigBags: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty])
+      minPriceOfOrder: new FormControl(null, [Validators.required, Validators.min(1), LimitsValidator.cannotBeEmpty]),
+      maxPriceOfOrder: new FormControl(null),
+      minAmountOfBigBags: new FormControl(null, [Validators.required, Validators.min(1), LimitsValidator.cannotBeEmpty]),
+      maxAmountOfBigBags: new FormControl(null)
     });
   }
 
@@ -163,6 +163,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   sumLimitStatus() {
+    this.limitsForm.markAsDirty();
     this.limitStatus = limitStatus.limitByPriceOfOrder;
 
     this.limitsForm.patchValue({
@@ -170,8 +171,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       maxAmountOfBigBags: null
     });
 
-    this.minBigBags.clearValidators();
-    this.minBigBags.updateValueAndValidity();
     this.setMinValueValidation(this.minPriceOfOrder, this.maxPriceOfOrder);
   }
 
@@ -183,8 +182,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       maxPriceOfOrder: null
     });
 
-    this.minPriceOfOrder.clearValidators();
-    this.minPriceOfOrder.updateValueAndValidity();
     this.setMinValueValidation(this.minBigBags, this.maxBigBags);
   }
 
@@ -238,6 +235,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   onChecked(id, event): void {
+    this.limitsForm.markAsDirty();
     const currentBag = this.bags.find((bag) => bag.id === id);
 
     currentBag.limitIncluded = event.checked;
@@ -529,23 +527,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   disableSaveButton(): boolean {
-    const minPriceOfOrder = this.limitsForm.get('minPriceOfOrder');
-    const maxPriceOfOrder = this.limitsForm.get('maxPriceOfOrder');
-    const minAmountOfBigBags = this.limitsForm.get('minAmountOfBigBags');
-    const maxAmountOfBigBags = this.limitsForm.get('maxAmountOfBigBags');
+    const byPrice = this.limitStatus === limitStatus.limitByPriceOfOrder && (this.minPriceOfOrder?.errors || this.maxPriceOfOrder?.errors);
+    const byBags = this.limitStatus === limitStatus.limitByAmountOfBag && (this.minBigBags?.errors || this.maxBigBags?.errors);
+    const isBagsChosen = this.bags.some((el) => el.limitIncluded);
 
-    const byPrice =
-      this.limitStatus === limitStatus.limitByPriceOfOrder &&
-      (minPriceOfOrder.errors?.cannotBeEmpty || maxPriceOfOrder.errors?.cannotBeEmpty);
-
-    const byBags =
-      this.limitStatus === limitStatus.limitByAmountOfBag &&
-      (minAmountOfBigBags.errors?.cannotBeEmpty || maxAmountOfBigBags.errors?.cannotBeEmpty);
-
-    const inValidNumber =
-      (maxPriceOfOrder.invalid && maxPriceOfOrder.touched) || (maxAmountOfBigBags.invalid && maxAmountOfBigBags.touched);
-
-    if (this.limitsForm.pristine || this.saveBTNClicked || byPrice || byBags || inValidNumber) {
+    if (this.limitsForm.pristine || this.saveBTNClicked || byPrice || byBags || !isBagsChosen) {
       return true;
     }
 
