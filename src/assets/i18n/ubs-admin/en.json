@@ -637,7 +637,8 @@
       "city": "City",
       "station": "Station",
       "courier": "Courier",
-      "chat": "Chat"
+      "chat": "Chat",
+      "tariff": "Tariff"
     },
     "tariffs-selector": {
       "title": "Add tariffs",

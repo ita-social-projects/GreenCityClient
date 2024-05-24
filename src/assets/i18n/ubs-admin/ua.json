@@ -634,7 +634,8 @@
       "city": "Місто",
       "station": "Станція",
       "courier": "Кур'єр",
-      "chat": "Чат"
+      "chat": "Чат",
+      "tariff": "Тариф"
     },
     "tariffs-selector": {
       "title": "Додати тарифи",
