@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Chat, ChatDto } from '../../model/Chat.model';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Message } from '../../model/Message.model';
+import { Message, MessagesToSave } from '../../model/Message.model';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { Messages } from './../../model/Message.model';
 
@@ -18,11 +18,12 @@ export class ChatsService {
   searchedFriendsStream$: BehaviorSubject<FriendModel[]> = new BehaviorSubject<FriendModel[]>([]);
   locationChats$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   isChatUpdateStream$: Subject<boolean> = new Subject<boolean>();
-  chatsMessages: object = {};
+  chatsMessages: { [key: string]: MessagesToSave } = {};
   private messagesIsLoading = false;
   isSupportChat$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isAdminParticipant$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  pageSize = 10;
+  supportChatPageSize = 10;
+  messagesPageSize = 20;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -52,7 +53,7 @@ export class ChatsService {
     });
   }
 
-  getAllSupportChats(page = 0, pageSize = this.pageSize): void {
+  getAllSupportChats(page = 0, pageSize = this.supportChatPageSize): void {
     this.httpClient
       .get<ChatDto>(`${environment.backendChatLink}chat/chats/active?page=${page}&size=${pageSize}`)
       .subscribe((chats: ChatDto) => {
@@ -68,8 +69,8 @@ export class ChatsService {
     this.httpClient.put<Chat>(`${environment.backendChatLink}chat/`, chat).subscribe();
   }
 
-  public getAllChatMessages(chatId: number, page: number): Observable<Messages> {
-    return this.httpClient.get<Messages>(`${environment.backendChatLink}chat/messages/${chatId}?size=20&&page=${page}`);
+  public getAllChatMessages(chatId: number, page: number, size = this.messagesPageSize): Observable<Messages> {
+    return this.httpClient.get<Messages>(`${environment.backendChatLink}chat/messages/${chatId}?size=${size}&page=${page}`);
   }
 
   public setCurrentChat(chat: Chat | null): void {
@@ -94,14 +95,22 @@ export class ChatsService {
       this.currentChatsStream$.next(chat);
       this.currentChatMessagesStream$.next(messages.page);
       this.chatsMessages[chat.id] = messages;
+      this.chatsMessages[chat.id].newMessagesAmount = 0;
       this.messagesIsLoading = false;
     });
   }
 
   public updateChatMessages(id: number, page: number) {
     this.messagesIsLoading = true;
-    this.getAllChatMessages(id, page).subscribe((messages: Messages) => {
-      this.chatsMessages[id].page.unshift(...messages.page);
+    const numberOfVisibleMessages = this.chatsMessages[id].page.length;
+    const pageToLoad = Math.floor(numberOfVisibleMessages / this.messagesPageSize);
+
+    this.getAllChatMessages(id, pageToLoad).subscribe((messages: Messages) => {
+      const filtredMessages = messages.page.filter((message) => {
+        const isMessageAlreadyVisible = this.chatsMessages[id].page.some((el) => el.id === message.id);
+        return !isMessageAlreadyVisible;
+      });
+      this.chatsMessages[id].page.unshift(...filtredMessages);
       this.isChatUpdateStream$.next(true);
       this.messagesIsLoading = false;
     });
