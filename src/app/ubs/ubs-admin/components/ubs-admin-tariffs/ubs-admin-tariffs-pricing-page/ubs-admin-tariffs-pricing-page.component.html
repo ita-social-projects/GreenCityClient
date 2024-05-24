@@ -116,13 +116,7 @@
         <mat-radio-group class="custom-radio-btn" formControlName="courierLimitsBy">
           <h6>{{ 'ubs-tariffs.order_limits' | translate }}</h6>
           <div class="sum-input">
-            <mat-radio-button
-              id="min-order-amount"
-              name="courierLimit"
-              value="LIMIT_BY_SUM_OF_ORDER"
-              (click)="sumLimitStatus()"
-              [checked]="limitStatus === limitEnum.limitByPriceOfOrder"
-            >
+            <mat-radio-button id="min-order-amount" name="courierLimit" value="LIMIT_BY_SUM_OF_ORDER" (click)="sumLimitStatus()">
             </mat-radio-button>
             <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
             ><br />
@@ -131,21 +125,23 @@
               <input
                 class="input"
                 type="number"
-                min="0"
+                min="1"
                 (keypress)="checkOnNumber($event, minPriceOfOrder)"
                 id="from"
                 formControlName="minPriceOfOrder"
                 placeholder="{{ 'ubs-tariffs.placeholder_order_amount' | translate }}"
+                [ngClass]="{ invalid: !!minPriceOfOrder?.errors && limitStatus === limitEnum.limitByPriceOfOrder }"
               />
               <span class="line">-</span>
               <input
                 class="input"
                 type="number"
-                min="0"
+                min="2"
                 (keypress)="checkOnNumber($event, maxPriceOfOrder)"
                 id="to"
                 formControlName="maxPriceOfOrder"
                 placeholder="{{ 'ubs-tariffs.placeholder_order_amount' | translate }}"
+                [ngClass]="{ invalid: !!maxPriceOfOrder?.errors && limitStatus === limitEnum.limitByPriceOfOrder }"
               />
               <label id="label-limit" for="to"></label>
             </fieldset>
@@ -156,7 +152,6 @@
               name="courierLimit"
               value="LIMIT_BY_AMOUNT_OF_BAG"
               (click)="bagLimitStatus()"
-              [checked]="limitStatus === limitEnum.limitByAmountOfBag"
             ></mat-radio-button>
             <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
             ><br />
@@ -165,21 +160,23 @@
               <input
                 class="input"
                 type="number"
-                min="0"
+                min="1"
                 (keypress)="checkOnNumber($event, minBigBags)"
                 id="from-packages"
                 formControlName="minAmountOfBigBags"
                 placeholder="20"
+                [ngClass]="{ invalid: !!minBigBags?.errors && limitStatus === limitEnum.limitByAmountOfBag }"
               />
               <span class="line">-</span>
               <input
                 class="input"
                 type="number"
-                min="0"
+                min="2"
                 (keypress)="checkOnNumber($event, maxBigBags)"
                 id="to-packages"
                 formControlName="maxAmountOfBigBags"
                 placeholder="20"
+                [ngClass]="{ invalid: !!maxBigBags?.errors && limitStatus === limitEnum.limitByAmountOfBag }"
               />
               <label id="label-limit" for="to-packages"></label>
             </fieldset>
