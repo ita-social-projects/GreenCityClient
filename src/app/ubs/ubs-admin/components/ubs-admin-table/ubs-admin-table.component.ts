@@ -728,7 +728,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   changeInputDate(): void {
-    let filters = {};
+    const filters = {};
 
     Object.keys(this.dateForm.value).forEach((key) => {
       const value = this.dateForm.get(key)?.value;
