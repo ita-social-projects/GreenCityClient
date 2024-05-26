@@ -7,7 +7,7 @@ function traverseDirectory(directory: string, fileCallback: (filePath: string) =
     const stat = statSync(filePath);
     if (stat.isDirectory()) {
       traverseDirectory(filePath, fileCallback);
-    } else if (file.endsWith('.component.ts')) {
+    } else if (file.endsWith('.component.ts') || file.endsWith('.service.ts')) {
       fileCallback(filePath);
     }
   }
