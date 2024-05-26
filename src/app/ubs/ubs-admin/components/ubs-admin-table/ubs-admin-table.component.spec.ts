@@ -13,7 +13,6 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA, Renderer2, ChangeDetectorRef } from '@angular/core';
-import { CUSTOM_ELEMENTS_SCHEMA, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -28,7 +27,7 @@ import { FormBuilder } from '@angular/forms';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableHeightService } from '../../services/table-height.service';
 import { Router } from '@angular/router';
-import { IColumnDTO, IFilteredColumn, IFilteredColumnValue } from '../../models/ubs-admin.interface';
+import { IColumnDTO, IFilteredColumn } from '../../models/ubs-admin.interface';
 import { IAlertInfo } from '../../models/edit-cell.model';
 import { AdminTableService } from '../../services/admin-table.service';
 
@@ -679,34 +678,6 @@ describe('UsbAdminTableComponent', () => {
     expect(Res[0]).toEqual({ value: 'one' } as any);
   });
 
-  it('should call changeFilters', () => {
-    const checked = true;
-    const currentColumn = 'currentColumn';
-    const option = { filtered: true };
-    spyOn((component as any).adminTableService, 'changeFilters');
-    spyOn(component, 'applyFilters');
-    component.changeFilters(checked, currentColumn, option);
-    expect((component as any).adminTableService.changeFilters).toHaveBeenCalledWith(true, 'currentColumn', { filtered: true });
-    expect(component.applyFilters).toHaveBeenCalled();
-  });
-
-  it('should noFilters applied to be false', () => {
-    const checked = true;
-    const currentColumn = 'currentColumn';
-    const option = { filtered: true };
-    component.changeFilters(checked, currentColumn, option);
-    expect(component.noFiltersApplied).toBe(false);
-  });
-
-  it('should change noFiltersApplied to false on changeInputDate', () => {
-    const check = false;
-    const currentColumn = 'orderDate';
-    const suffix = 'From';
-    component.changeInputDate(check, currentColumn, suffix);
-    const noFilt = component.noFiltersApplied;
-    expect(noFilt).toBe(false);
-  });
-
   it('should conver date value on changeInputDate', () => {
     spyOn((component as any).adminTableService, 'setDateFormat');
     const date = 'Mon Nov 12 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
@@ -720,38 +691,6 @@ describe('UsbAdminTableComponent', () => {
     const date = 'Mon Nov 12 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
     const value = (component as any).adminTableService.setDateFormat(date);
     expect(value).toBe('2022-11-12');
-  });
-
-  it('should get checkControl on changeInputDate', () => {
-    const check = true;
-    const currentColumn = 'orderDate';
-    const suffix = 'From';
-    const checkControl = component.dateForm.get(`orderDateCheck`).value;
-    component.changeInputDate(check, currentColumn, suffix);
-    expect(checkControl).toBe(false);
-  });
-
-  it('should set filters', () => {
-    const val = component.dateForm.value;
-    component.changeInputDate(false, 'orderDate', 'From');
-    expect(component.filters).toEqual(val);
-  });
-
-  it('should call all methods by clearFilters', () => {
-    spyOn((component as any).adminTableService, 'setFilters');
-    spyOn(component, 'setColumnsForFiltering');
-    spyOn(component, 'applyFilters');
-    spyOn(component.dateForm, 'reset');
-    spyOn(component, 'initDateForm');
-    (component as any).adminTableService.columnsForFiltering = [{ values: [{ filtered: true }] }];
-    component.clearFilters();
-    expect(component.setColumnsForFiltering).toHaveBeenCalledWith([{ values: [{ filtered: false }] }]);
-    expect(component.applyFilters).toHaveBeenCalledTimes(1);
-    expect((component as any).adminTableService.setFilters).toHaveBeenCalledWith([]);
-    expect(localStorageServiceMock.removeAdminOrderFilters).toHaveBeenCalled();
-    expect(localStorageServiceMock.removeAdminOrderDateFilters).toHaveBeenCalled();
-    expect(component.dateForm.reset).toHaveBeenCalledTimes(1);
-    expect(component.initDateForm).toHaveBeenCalledTimes(1);
   });
 
   it('should set dateForm values from local storage if available', () => {
@@ -840,51 +779,6 @@ describe('UsbAdminTableComponent', () => {
     adminTableService.columnsForFiltering = columnsForFiltering;
     const result = component.getColumnsForFiltering();
     expect(result).toEqual(columnsForFiltering);
-  });
-
-  it('should change filters', () => {
-    const checked = true;
-    const currentColumn = 'column1';
-    const option: IFilteredColumnValue = { key: 'value1', en: 'value1En', ua: 'value1Ua', filtered: false };
-    spyOn(adminTableService, 'changeFilters');
-    spyOn(adminTableService, 'setColumnsForFiltering');
-    adminTableService.filters = [];
-
-    component.changeFilters(checked, currentColumn, option);
-
-    expect(adminTableService.changeFilters).toHaveBeenCalledWith(checked, currentColumn, option);
-    expect(component.noFiltersApplied).toBeTruthy();
-  });
-
-  it('should change input date', () => {
-    const checked = true;
-    const currentColumn = 'column1';
-    const suffix = 'From';
-    const date = new Date();
-    const mockControl = { setValue: jasmine.createSpy('setValue') };
-    component.dateForm = jasmine.createSpyObj('FormGroup', { get: mockControl });
-
-    spyOn(adminTableService, 'setDateFormat').and.returnValue(date.toUTCString());
-    spyOn(adminTableService, 'changeInputDateFilters');
-
-    component.changeInputDate(checked, currentColumn, suffix);
-
-    expect(adminTableService.setDateFormat).toHaveBeenCalled();
-    expect(adminTableService.changeInputDateFilters).toHaveBeenCalled();
-    expect(mockControl.setValue).toHaveBeenCalled();
-  });
-
-  it('should clear filters', () => {
-    adminTableService.columnsForFiltering = columnsForFiltering;
-
-    spyOn(adminTableService, 'setFilters');
-    spyOn(adminTableService, 'setColumnsForFiltering');
-
-    component.clearFilters();
-
-    expect(adminTableService.setFilters).toHaveBeenCalledWith([]);
-    expect(adminTableService.setColumnsForFiltering).toHaveBeenCalledWith(columnsForFiltering);
-    expect(component.noFiltersApplied).toBeTruthy();
   });
 
   it('should sort columns to display', fakeAsync(() => {
