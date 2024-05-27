@@ -31,7 +31,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     activate: './assets/img/ubs-admin-notifications/counterclockwise.svg'
   };
   currentLanguage: string;
-  notification = null;
+  notification: NotificationTemplate;
   notificationTriggerTime = notificationTriggerTimeMock;
   notificationTriggers = notificationTriggersMock;
   notificationId: number;
