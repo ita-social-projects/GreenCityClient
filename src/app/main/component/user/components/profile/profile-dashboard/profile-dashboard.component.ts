@@ -10,7 +10,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { EventPageResponseDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { EventResponse, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { ActivatedRoute } from '@angular/router';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
@@ -24,7 +24,6 @@ import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
   encapsulation: ViewEncapsulation.None
 })
 export class ProfileDashboardComponent implements OnInit, OnDestroy {
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   loading = false;
   numberOfHabitsOnView = 3;
   habitsAcquired: Array<HabitAssignInterface> = [];
@@ -38,31 +37,24 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   isActiveInfinityScroll = false;
   userId: number;
   news: EcoNewsModel[];
-
   public isOnlineChecked = false;
   public isOfflineChecked = false;
-
-  public eventsList: EventPageResponseDto[] = [];
-  public favouriteEvents: EventPageResponseDto[] = [];
+  public eventsList: EventResponse[] = [];
+  public favouriteEvents: EventResponse[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
   public totalEvents = 0;
-
+  public totalNews = 0;
+  public eventType = '';
+  public isFavoriteBtnClicked = false;
+  public userLatitude = 0;
+  public userLongitude = 0;
+  public images = singleNewsImages;
+  authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private hasNext = true;
   private currentPage: number;
   private newsCount = 3;
-
-  public totalNews = 0;
-
-  public eventType = '';
-  public isFavoriteBtnClicked = false;
-
-  public userLatitude = 0;
-  public userLongitude = 0;
-
-  public images = singleNewsImages;
-
-  authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -186,14 +178,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.habitsAcquired = [...this.habitsAcquired, habit];
   }
 
-  private getUserId() {
-    this.userId = this.localStorageService.getUserId();
-  }
-
-  private subscribeToLangChange() {
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.executeRequests());
-  }
-
   public executeRequests() {
     this.loading = true;
     this.habitAssignService
@@ -229,10 +213,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     return [...habitsOnView, ...allHabits.slice(currentNumberOfHabitsOnView, currentNumberOfHabitsOnView + this.numberOfHabitsOnView)];
   }
 
-  private sortHabitsData(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
-    return habitsArray.sort((firstHabit, secondHabit) => (firstHabit.createDateTime > secondHabit.createDateTime ? -1 : 1));
-  }
-
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.isActiveInfinityScroll = tabChangeEvent.index === 1;
   }
@@ -244,5 +224,17 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+  }
+
+  private getUserId() {
+    this.userId = this.localStorageService.getUserId();
+  }
+
+  private subscribeToLangChange() {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.executeRequests());
+  }
+
+  private sortHabitsData(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
+    return habitsArray.sort((firstHabit, secondHabit) => (firstHabit.createDateTime > secondHabit.createDateTime ? -1 : 1));
   }
 }

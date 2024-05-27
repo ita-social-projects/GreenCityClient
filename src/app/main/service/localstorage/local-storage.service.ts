@@ -1,16 +1,23 @@
 import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { EventPageResponseDto, PagePreviewDTO } from '../../component/events/models/events.interface';
-import { CourierLocations, Address, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
+import { EventResponse, PagePreviewDTO } from '../../component/events/models/events.interface';
+import { Address, CourierLocations, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageService {
+  languageSubject: Subject<string> = new Subject<string>();
+  firstNameBehaviourSubject: BehaviorSubject<string>;
+  languageBehaviourSubject: BehaviorSubject<string>;
+  accessTokenBehaviourSubject: BehaviorSubject<string>;
+  ubsRegBehaviourSubject: BehaviorSubject<boolean>;
+  ubsRedirectionBehaviourSubject: BehaviorSubject<number>;
+  userIdBehaviourSubject: BehaviorSubject<number>;
+  private readonly USER_ID = 'userId';
   private readonly ACCESS_TOKEN = 'accessToken';
   private readonly REFRESH_TOKEN = 'refreshToken';
-  private readonly USER_ID = 'userId';
   private readonly NAME = 'name';
   private readonly PREVIOUS_PAGE = 'previousPage';
   private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
@@ -19,13 +26,14 @@ export class LocalStorageService {
   private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
   private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
 
-  languageSubject: Subject<string> = new Subject<string>();
-  firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
-  userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
-  languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
-  accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
-  ubsRegBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getUbsRegistration());
-  ubsRedirectionBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getOrderIdToRedirect());
+  constructor() {
+    this.firstNameBehaviourSubject = new BehaviorSubject<string>(this.getName());
+    this.languageBehaviourSubject = new BehaviorSubject<string>(this.getCurrentLanguage());
+    this.accessTokenBehaviourSubject = new BehaviorSubject<string>(this.getAccessToken());
+    this.ubsRegBehaviourSubject = new BehaviorSubject<boolean>(this.getUbsRegistration());
+    this.ubsRedirectionBehaviourSubject = new BehaviorSubject<number>(this.getOrderIdToRedirect());
+    this.userIdBehaviourSubject = new BehaviorSubject<number>(this.getUserId());
+  }
 
   public setHabitsGalleryView(value: boolean): void {
     localStorage.setItem(this.HABITS_GALLERY_VIEW, JSON.stringify(value));
@@ -47,7 +55,7 @@ export class LocalStorageService {
     return localStorage.getItem(this.CAN_USER_EDIT_EVENT) === 'true';
   }
 
-  public setEventForEdit(key: string, event: EventPageResponseDto | PagePreviewDTO) {
+  public setEventForEdit(key: string, event: EventResponse | PagePreviewDTO) {
     localStorage.setItem(key, JSON.stringify(event));
   }
 
@@ -61,10 +69,6 @@ export class LocalStorageService {
 
   public getUserId(): number {
     return Number.parseInt(localStorage.getItem(this.USER_ID), 10);
-  }
-
-  private getName(): string {
-    return localStorage.getItem(this.NAME);
   }
 
   public getPreviousPage(): string {
@@ -366,5 +370,9 @@ export class LocalStorageService {
 
   public removeIsAnotherClient(): void {
     localStorage.removeItem('anotherClient');
+  }
+
+  private getName(): string {
+    return localStorage.getItem(this.NAME);
   }
 }

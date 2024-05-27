@@ -13,8 +13,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MapEventComponent } from '../map-event/map-event.component';
-import { EventPageResponseDto } from '../../models/events.interface';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -122,6 +120,7 @@ describe('EventDetailsComponent', () => {
   LocalStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   LocalStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   LocalStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+
   class MatDialogMock {
     open() {
       return {
@@ -129,6 +128,7 @@ describe('EventDetailsComponent', () => {
       };
     }
   }
+
   LocalStorageServiceMock.getPreviousPage = () => '/profile';
 
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);

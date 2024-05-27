@@ -37,7 +37,7 @@
 
       <button
         (click)="submitEvent()"
-        *ngIf="!editMode; else saveEvent"
+        *ngIf="!isUpdating; else saveEvent"
         [disabled]="!formsIsValid"
         class="primary-global-button submit-buttons"
       >

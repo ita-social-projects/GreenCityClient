@@ -1,7 +1,7 @@
 import { Language } from '../../../../i18n/Language';
-import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -14,7 +14,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { EventPageResponseDto, TagObj } from '../../../events/models/events.interface';
+import { EventResponse, TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AddAttenderEcoEventsByIdAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,6 +31,7 @@ class TranslationServiceStub {
   public get(key: any): any {
     return of(key);
   }
+
   public setDefaultLang() {
     return true;
   }
@@ -67,7 +68,7 @@ describe('EventsListItemComponent', () => {
     join: 'event.btn-join'
   };
 
-  const eventMock: EventPageResponseDto = {
+  const eventMock: EventResponse = {
     description: 'tralalalal',
     editorText: 'tralalalal',
     additionalImages: [],

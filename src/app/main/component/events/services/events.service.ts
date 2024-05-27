@@ -1,14 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
 import {
   Addresses,
-  Coordinates,
   EventFilterCriteriaInterface,
-  EventForm,
-  EventPageResponseDto,
+  EventResponse,
   EventResponseDto,
+  LocationResponse,
   PagePreviewDTO
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -17,57 +16,29 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   providedIn: 'root'
 })
 export class EventsService implements OnDestroy {
-  public currentForm: PagePreviewDTO | EventPageResponseDto;
-  private _formResponse: EventPageResponseDto;
+  public currentForm: PagePreviewDTO | EventResponse;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
   private divider = `, `;
-  private datesForm: any[] = [];
 
   constructor(
     private http: HttpClient,
     private langService: LanguageService
   ) {}
 
-  private _editorFormValues: EventForm = {
-    dateInformation: undefined,
-    eventInformation: undefined
-  };
-
-  get editorFormValues(): EventForm {
-    return this._editorFormValues;
-  }
-
-  set editorFormValues(value: EventForm) {
-    this._editorFormValues = value;
-  }
-
-  public setEventResponse(form: EventPageResponseDto) {
-    this._formResponse = form;
-  }
-
-  public getEventResponse() {
-    return this._formResponse;
-  }
-
   public getAddresses(): Observable<Addresses[]> {
     return this.http.get<Addresses[]>(`${this.backEnd}events/addresses`);
-  }
-
-  public getCheckedPlacesObservable(): Observable<boolean[]> {
-    return this.arePlacesFilledSubject.asObservable();
   }
 
   public getImageAsFile(img: string): Observable<Blob> {
     return this.http.get(img, { responseType: 'blob' });
   }
 
-  public setForm(form: PagePreviewDTO | EventPageResponseDto): void {
+  public setForm(form: PagePreviewDTO | EventResponse): void {
     this.currentForm = form;
   }
 
-  public getForm(): PagePreviewDTO | EventPageResponseDto {
+  public getForm(): PagePreviewDTO | EventResponse {
     return this.currentForm;
   }
 
@@ -131,8 +102,8 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventResponseDto>(`${this.backEnd}events/getAllFavoriteEvents?page=${page}&size=${quantity}`);
   }
 
-  public getEventById(id: number): Observable<any> {
-    return this.http.get(`${this.backEnd}events/event/${id}`);
+  public getEventById(id: number): Observable<EventResponse> {
+    return this.http.get<EventResponse>(`${this.backEnd}events/event/${id}`);
   }
 
   public deleteEvent(id: number): Observable<any> {
@@ -155,14 +126,14 @@ export class EventsService implements OnDestroy {
     return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
   }
 
-  public getFormattedAddress(coordinates: Coordinates): string {
+  public getFormattedAddress(coordinates: LocationResponse): string {
     return this.getLangValue(
       coordinates?.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUa,
       coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
     );
   }
 
-  public getFormattedAddressEventsList(coordinates: Coordinates): string {
+  public getFormattedAddressEventsList(coordinates: LocationResponse): string {
     return this.getLangValue(
       coordinates.streetUa
         ? this.createEventsListAddresses(coordinates, 'Ua')
@@ -177,7 +148,7 @@ export class EventsService implements OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public createAddresses(coord: Coordinates | null, lang: string): string {
+  public createAddresses(coord: LocationResponse | null, lang: string): string {
     if (!coord) {
       return '';
     }
@@ -185,7 +156,7 @@ export class EventsService implements OnDestroy {
     return parts.join(this.divider);
   }
 
-  public createEventsListAddresses(coord: Coordinates | null, lang: string): string {
+  public createEventsListAddresses(coord: LocationResponse | null, lang: string): string {
     if (!coord) {
       return '';
     }

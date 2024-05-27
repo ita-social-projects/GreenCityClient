@@ -18,12 +18,14 @@ import { FormEmitter, PlaceOnline, PlaceOnlineGroup } from '../../../../../../mo
 export class PlaceOnlineComponent implements OnInit, OnDestroy {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
   @ViewChild('placesRef') placesRef: ElementRef;
+
   public isPlaceSelected = false;
   public isOnline = false;
   public isPlaceDisabled = false;
   public isLinkDisabled: boolean;
   public isMapDisabled: boolean;
   public appliedForAllLocations = false;
+  @Input() formDisabled: boolean;
   @Input() formInput: PlaceOnline;
   @Input() dayNumber: number;
   public mapMarkerCoords: google.maps.LatLngLiteral = { lng: null, lat: null };
@@ -190,7 +192,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
         }
       }
     }
-    console.log(form);
     if (onlineLink) {
       if (this.dayNumber === 0) {
         this.toggleOnline();
@@ -202,6 +203,9 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
           this.toggleOnline();
         }
       }
+    }
+    if (this.formDisabled) {
+      this.formGroup.disable();
     }
   }
 

@@ -4,6 +4,7 @@
       (destroy)="childrenDestroy($event)"
       (formEmitter)="checkForm($event)"
       [dayNumber]="i"
+      [formDisabled]="formInput && formInput[i]?.pastDate"
       [formInput]="formInput && formInput[i]?.dateTime"
       [sharedKey]="i"
     ></app-date-time>
@@ -11,6 +12,7 @@
       (destroy)="childrenDestroy($event)"
       (formEmitter)="checkForm($event)"
       [dayNumber]="i"
+      [formDisabled]="formInput && formInput[i]?.pastDate"
       [formInput]="formInput && formInput[i]?.placeOnline"
       [sharedKey]="i"
     ></app-place-online>

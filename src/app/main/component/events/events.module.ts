@@ -17,13 +17,13 @@ import { QuillModule } from 'ngx-quill';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { EventsRoutingModule } from './events-routing.module';
 import { EventsComponent } from './events.component';
-import { EventsListComponent } from './components/events-list/events-list.component';
+import { EventsListComponent } from './components';
 import { HttpClient } from '@angular/common/http';
-import { CreateEditEventsComponent } from './components/create-edit-events/create-edit-events.component';
+import { EventEditorComponent } from './components/event-editor/event-editor.component';
 import { MatNativeDateModule } from '@angular/material/core';
-import { PlaceOnlineComponent } from './components/create-edit-events/components/create-event-dates/components/place-online/place-online.component';
+import { PlaceOnlineComponent } from './components/event-editor/components/create-event-dates/components/place-online/place-online.component';
 import { MapEventComponent } from './components/map-event/map-event.component';
-import { ImagesContainerComponent } from './components/create-edit-events/components/create-event-information/components/images-container/images-container.component';
+import { ImagesContainerComponent } from './components/event-editor/components/create-event-information/components/images-container/images-container.component';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ImagesSliderComponent } from './components/event-details/images-slider/images-slider.component';
@@ -39,16 +39,18 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CommentsModule } from '../comments/comments.module';
 import { CommentsService } from '../comments/services/comments.service';
 import { EventsCommentsService } from './services/events-comments.service';
-import { CreateEventInformationComponent } from './components/create-edit-events/components/create-event-information/create-event-information.component';
-import { CreateEventDatesComponent } from './components/create-edit-events/components/create-event-dates/create-event-dates.component';
+import { CreateEventInformationComponent } from './components/event-editor/components/create-event-information/create-event-information.component';
+import { CreateEventDatesComponent } from './components/event-editor/components/create-event-dates/create-event-dates.component';
 import { MatChipsModule } from '@angular/material/chips';
-import { DateTimeComponent } from './components/create-edit-events/components/create-event-dates/components/date-time/date-time.component';
+import { DateTimeComponent } from './components/event-editor/components/create-event-dates/components/date-time/date-time.component';
+import { UpdateEventComponent } from './components/update-event/update-event.component';
+import { EventStoreService } from './services/event-store.service';
 
 @NgModule({
   declarations: [
     EventsComponent,
     EventsListComponent,
-    CreateEditEventsComponent,
+    EventEditorComponent,
     PlaceOnlineComponent,
     MapEventComponent,
     ImagesContainerComponent,
@@ -58,7 +60,8 @@ import { DateTimeComponent } from './components/create-edit-events/components/cr
     EventScheduleComponent,
     CreateEventInformationComponent,
     CreateEventDatesComponent,
-    DateTimeComponent
+    DateTimeComponent,
+    UpdateEventComponent
   ],
   imports: [
     MatDialogModule,
@@ -96,7 +99,7 @@ import { DateTimeComponent } from './components/create-edit-events/components/cr
     CommentsModule,
     MatChipsModule
   ],
-  providers: [{ provide: CommentsService, useClass: EventsCommentsService }],
+  providers: [{ provide: CommentsService, useClass: EventsCommentsService }, EventStoreService],
   exports: [TranslateModule]
 })
 export class EventsModule {}

@@ -3,13 +3,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import {
-  EventFilterCriteriaInterface,
-  EventPageResponseDto,
-  EventResponseDto
-} from 'src/app/main/component/events/models/events.interface';
+import { EventResponse } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import {
+  AddAttenderEcoEventsByIdAction,
+  AddAttenderEventsByIdSuccessAction,
   CreateEcoEventAction,
   CreateEcoEventSuccessAction,
   DeleteEcoEventAction,
@@ -20,57 +18,46 @@ import {
   GetEcoEventsByIdSuccessAction,
   RateEcoEventsByIdAction,
   RateEcoEventsByIdSuccessAction,
-  AddAttenderEcoEventsByIdAction,
-  AddAttenderEventsByIdSuccessAction,
+  ReceivedFailureAction,
   RemoveAttenderEcoEventsByIdAction,
-  RemoveAttenderEventsByIdSuccessAction,
-  ReceivedFailureAction
+  RemoveAttenderEventsByIdSuccessAction
 } from '../actions/ecoEvents.actions';
 
 @Injectable()
 export class EventsEffects {
-  constructor(
-    private actions: Actions,
-    private eventsService: EventsService,
-    private store: Store
-  ) {}
-
   getEcoEventsById = createEffect(() =>
     this.actions.pipe(
       ofType(GetEcoEventsByIdAction),
       mergeMap((actions: { eventId: number; reset: boolean }) =>
         this.eventsService.getEventById(actions.eventId).pipe(
-          map((ecoEvents: EventResponseDto) => GetEcoEventsByIdSuccessAction({ ecoEvents, reset: actions.reset })),
+          map((ecoEvents: EventResponse) => GetEcoEventsByIdSuccessAction({ ecoEvents, reset: actions.reset })),
           catchError((error) => of(ReceivedFailureAction(error)))
         )
       )
     )
   );
-
   createEvent = createEffect(() =>
     this.actions.pipe(
       ofType(CreateEcoEventAction),
       mergeMap((actions: { data: FormData }) =>
         this.eventsService.createEvent(actions.data).pipe(
-          map((event: EventPageResponseDto) => CreateEcoEventSuccessAction({ event })),
+          map((event: EventResponse) => CreateEcoEventSuccessAction({ event })),
           catchError((error) => of(ReceivedFailureAction(error)))
         )
       )
     )
   );
-
   editEvent = createEffect(() =>
     this.actions.pipe(
       ofType(EditEcoEventAction),
       mergeMap((actions: { data: FormData }) =>
         this.eventsService.editEvent(actions.data).pipe(
-          map((event: EventPageResponseDto) => EditEcoEventSuccessAction({ event })),
+          map((event: EventResponse) => EditEcoEventSuccessAction({ event })),
           catchError((error) => of(ReceivedFailureAction(error)))
         )
       )
     )
   );
-
   deleteEvent = createEffect(() =>
     this.actions.pipe(
       ofType(DeleteEcoEventAction),
@@ -82,7 +69,6 @@ export class EventsEffects {
       )
     )
   );
-
   rateEvent = createEffect(() =>
     this.actions.pipe(
       ofType(RateEcoEventsByIdAction),
@@ -105,7 +91,6 @@ export class EventsEffects {
       )
     )
   );
-
   RemoveAttender = createEffect(() =>
     this.actions.pipe(
       ofType(RemoveAttenderEcoEventsByIdAction),
@@ -117,4 +102,10 @@ export class EventsEffects {
       )
     )
   );
+
+  constructor(
+    private actions: Actions,
+    private eventsService: EventsService,
+    private store: Store
+  ) {}
 }

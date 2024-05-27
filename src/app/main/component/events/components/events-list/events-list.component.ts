@@ -1,5 +1,5 @@
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Addresses, EventFilterCriteriaInterface, EventPageResponseDto, FilterItem } from '../../models/events.interface';
+import { Addresses, EventFilterCriteriaInterface, EventListResponse, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -34,7 +34,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public typeFilterControl = new FormControl();
   public searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
-  public eventsList: EventPageResponseDto[] = [];
+  public eventsList: EventListResponse[] = [];
 
   public isLoggedIn: string;
   public selectedEventTimeStatusFiltersList: string[] = [];
@@ -362,6 +362,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   private checkUserSingIn(): void {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
+      console.log(data);
       this.isLoggedIn = data?.userId;
       this.userId = data.userId;
       this.statusFiltersList = this.userId ? statusFiltersData : statusFiltersData.slice(0, 2);

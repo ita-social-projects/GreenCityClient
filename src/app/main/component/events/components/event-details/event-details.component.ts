@@ -12,7 +12,7 @@ import {
   EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
-import { Coordinates, EventPageResponseDto, PagePreviewDTO } from '../../models/events.interface';
+import { EventResponse, LocationResponse, PagePreviewDTO } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject, Subscription } from 'rxjs';
@@ -22,10 +22,10 @@ import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 import { ofType } from '@ngrx/effects';
-import { MapEventComponent } from '../map-event/map-event.component';
 import { ICONS } from '../../models/event-consts';
 import { WarningPopUpComponent } from '@shared/components';
 import { TranslateService } from '@ngx-translate/core';
+import { EventStoreService } from '../../services/event-store.service';
 
 @Component({
   selector: 'app-event-details',
@@ -48,9 +48,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   attendees = [];
   attendeesAvatars = [];
   public organizerName: string;
-  public event: EventPageResponseDto | PagePreviewDTO;
+  public event: EventResponse | PagePreviewDTO;
   public locationLink: string;
-  public locationCoordinates: Coordinates;
+  public locationCoordinates: LocationResponse;
   public place: string;
   public addressEn: string;
   public images: string[] = [];
@@ -103,6 +103,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private jwtService: JwtService,
     private snackBar: MatSnackBarComponent,
     private modalService: BsModalService,
+    private eventStore: EventStoreService,
     private translate: TranslateService
   ) {}
 
@@ -112,7 +113,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
         this.userId = Number(id);
       });
-      this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponseDto) => {
+      this.eventService.getEventById(this.eventId).subscribe((res: EventResponse) => {
         this.event = res;
         this.organizerName = this.event.organizer.name;
         this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
@@ -174,25 +175,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public navigateToEditEvent(): void {
     this.localStorageService.setEditMode('canUserEdit', true);
     // this.localStorageService.setEventForEdit('editEvent', this.event);
-    this.eventService.setEventResponse(this.event as EventPageResponseDto);
-    this.router.navigate(['/events', 'create-event']);
-  }
-
-  public openMap(event): void {
-    const dataToMap = {
-      address: event.coordinates.addressEn,
-      lat: event.coordinates.latitude,
-      lng: event.coordinates.longitude
-    };
-    this.dialog.open(MapEventComponent, {
-      data: dataToMap,
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: '',
-      width: '900px',
-      height: '400px'
-    });
+    this.eventStore.setEventAuthorId(this.eventId);
+    this.router.navigate(['/events', 'update-event', this.eventId]);
   }
 
   public submitEventCancelling() {

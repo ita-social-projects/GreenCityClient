@@ -53,6 +53,12 @@ export class CreateEventDatesComponent implements OnInit, OnDestroy {
     });
     this.subs.push(sub);
     if (this.formInput) {
+      const date = new Date();
+      this.formInput.forEach((value) => {
+        if (value.dateTime.date.getTime() <= date.getTime()) {
+          value.pastDate = true;
+        }
+      });
       this.formsEmit.emit({ key: this._key, form: this.formInput, valid: false });
     }
   }

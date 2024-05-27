@@ -31,7 +31,6 @@
     "@angular/router": "^16.2.12",
     "@angular/service-worker": "^16.2.12",
     "@ctrl/ngx-emoji-mart": "^9.2.0",
-    "@googlemaps/js-api-loader": "^1.16.6",
     "@ng-bootstrap/ng-bootstrap": "^15.0.0",
     "@ng-select/ng-select": "^11.2.0",
     "@ngrx/effects": "16.3.0",

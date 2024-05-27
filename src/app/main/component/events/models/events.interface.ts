@@ -35,7 +35,7 @@ export interface PlaceOnline {
 }
 
 export type PlaceOnlineGroup = FormControllers<PlaceOnline>;
-export type DateInformation = { dateTime: DateTime; placeOnline: PlaceOnline };
+export type DateInformation = { dateTime: DateTime; placeOnline: PlaceOnline; pastDate?: boolean };
 
 export interface ImagesContainer {
   file: File;
@@ -73,12 +73,6 @@ export interface EventDTO {
   titleImage?: string;
 }
 
-export interface DateFormInformation {
-  date: Date;
-
-  allDay: boolean;
-}
-
 export interface Dates {
   startDate: string;
   finishDate: string;
@@ -114,38 +108,63 @@ export interface EventResponseDto {
   hasPrevious: boolean;
   last: boolean;
   number: number;
-  page: Array<EventPageResponseDto>;
+  page: Array<EventResponse>;
   totalElements: number;
   totalPages: number;
 }
 
-export interface Organizer {
+export interface OrganizerInfo {
   organizerRating: number;
   id: number;
   name: string;
 }
 
-export interface EventPageResponseDto {
-  additionalImages: Array<string>;
-  dates: Array<DateEventResponseDto>;
-  creationDate: string;
-  description: any;
-  eventRate: number;
+export interface LocationResponse {
+  countryEn: string;
+  countryUa: string;
+  latitude: number;
+  longitude: number;
+  regionEn: string;
+  regionUa: string;
+  houseNumber: string | null;
+  streetEn: string | null;
+  streetUa: string | null;
+  formattedAddressEn: string;
+  formattedAddressUa: string;
+  cityEn: string;
+  cityUa: string;
+}
+
+export interface EventDatesResponse {
+  onlineLink: null | string;
+  coordinates: LocationResponse | null;
+  startDate: string;
+  finishDate: string;
+  id: null;
+  event: null;
+}
+
+export interface EventResponse {
   id: number;
-  open: boolean;
-  location?: DateFormObj;
-  organizer: Organizer;
-  tags: Array<TagDto>;
   title: string;
+  organizer: OrganizerInfo;
+  creationDate: string;
+  description: string;
+  dates: EventDatesResponse[];
+  tags: { nameUa: string; id: number; nameEn: string }[];
   titleImage: string;
+  additionalImages: string[];
+  isRelevant: boolean;
+  likes: number;
+  countComments: number;
+  eventRate: number;
+  open: boolean;
   isSubscribed: boolean;
   isFavorite: boolean;
-  isActive: boolean;
-  isRelevant: boolean;
-  countComments: number;
-  likes: number;
   isOrganizedByFriend: boolean;
 }
+
+export type EventListResponse = Omit<EventResponse, 'additionalImages' | 'description'>;
 
 export interface TagDto {
   id: number;
@@ -206,7 +225,7 @@ export interface PagePreviewDTO {
   isRelevant?: boolean;
   id?: number;
   editorText: string;
-  organizer?: Organizer;
+  organizer?: OrganizerInfo;
   dates: Dates[];
   tags: any;
   imgArray: any[];

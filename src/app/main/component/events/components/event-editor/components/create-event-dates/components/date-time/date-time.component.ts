@@ -16,6 +16,7 @@ import { DateTime, DateTimeGroup, FormEmitter } from '../../../../../../models/e
 export class DateTimeComponent implements OnInit, OnDestroy {
   @Input({ required: true }) dayNumber: number;
   @Input({ required: true }) sharedKey: number;
+  @Input() formDisabled: boolean;
   @Input() formInput: DateTime;
   public today: Date = new Date();
   public dateFilterBind = this._dateFilter.bind(this);
@@ -80,11 +81,13 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     this.bridge.changeDay(this.dayNumber, this.today);
     this._updateTimeIndex(initialStartTime, this.endTime.value);
 
-    //this._emitForm(undefined, false);
     if (this.formInput) {
       this.form.setValue(this.formInput);
       if (this.formInput.allDay) {
         this.toggleAllDay();
+      }
+      if (this.formDisabled) {
+        this.form.disable();
       }
     }
     this.ls.getCurrentLangObs().subscribe((lang) => {
