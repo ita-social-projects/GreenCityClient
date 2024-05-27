@@ -38,6 +38,7 @@ import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enu
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { AdminTableService } from '../../services/admin-table.service';
 import { TableKeys } from '../../services/table-keys.enum';
+import { TriggerTableFetchService } from '../../services/trigger-table-fetch.service';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -102,7 +103,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     private injector: Injector,
     private store: Store<IAppState>,
     private googleScript: GoogleScript,
-    public ubsAdminEmployeeService: UbsAdminEmployeeService
+    public ubsAdminEmployeeService: UbsAdminEmployeeService,
+    private triggerTableFetchService: TriggerTableFetchService
   ) {
     this.matSnackBar = injector.get<MatSnackBarComponent>(MatSnackBarComponent);
     this.orderService = injector.get<OrderService>(OrderService);
@@ -536,6 +538,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         }
       });
     this.statusCanceledOrDone();
+    this.triggerTableFetchService.triggerRefetch();
   }
 
   private updateExportDataInState(changedValues: IOrderInfo) {

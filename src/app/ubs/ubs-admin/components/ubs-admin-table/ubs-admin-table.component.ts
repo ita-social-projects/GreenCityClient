@@ -15,7 +15,7 @@ import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
-import { Subject, timer } from 'rxjs';
+import { Subject, timer, Subscription } from 'rxjs';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -38,6 +38,8 @@ import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
 import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
+
+import { TriggerTableFetchService } from '../../services/trigger-table-fetch.service';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -120,12 +122,21 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
     private fb: FormBuilder,
-    private dateAdapter: DateAdapter<Date>
+    private dateAdapter: DateAdapter<Date>,
+    private triggerTableFetchService: TriggerTableFetchService
   ) {
     this.dateAdapter.setLocale('en-GB');
   }
 
   ngOnInit() {
+    this.triggerTableFetchService.action$.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.getTable(this.filterValue, this.sortingColumn, this.sortType, true);
+      this.bigOrderTable$.subscribe((item) => {
+        this.tableData = item.content;
+        this.dataSource = new MatTableDataSource(this.tableData);
+      });
+    });
+
     this.firstPageLoad = true;
     this.initDateForm();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
