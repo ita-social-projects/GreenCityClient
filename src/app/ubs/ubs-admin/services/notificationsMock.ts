@@ -1,10 +1,12 @@
+import { NotificationTemplate } from '../models/notifications.model';
+
 export const PlatformsMock = [
   { name: 'email', status: 'ACTIVE', body: { en: 'Successful payment, text for Email', ua: 'Успішна оплата, текст для Email' } },
   { name: 'telegram', status: 'INACTIVE', body: { en: 'Successful payment, text for Tg', ua: 'Успішна оплата, текст для Tg' } },
   { name: 'viber', status: 'INACTIVE', body: { en: 'Successful payment, text for Viber', ua: 'Успішна оплата, текст для Viber' } }
 ];
 
-export const NotificationMock = {
+export const NotificationMock: NotificationTemplate = {
   notificationTemplateMainInfoDto: {
     type: 'UNPAID_ORDER',
     trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
@@ -19,9 +21,30 @@ export const NotificationMock = {
     notificationStatus: 'ACTIVE'
   },
   platforms: [
-    { name: 'email', status: 'ACTIVE', body: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' } },
-    { name: 'mobile', status: 'ACTIVE', body: { en: 'Unpaid order, text for Tg', ua: 'Неоплачене замовлення, текст для Tg' } },
-    { name: 'site', status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
+    {
+      receiverType: '',
+      nameEng: 'email',
+      name: 'email',
+      status: 'ACTIVE',
+      bodyEng: 'Unpaid order, text for Email',
+      body: 'Неоплачене замовлення, текст для Email'
+    },
+    {
+      receiverType: '',
+      nameEng: 'mobile',
+      name: 'mobile',
+      status: 'ACTIVE',
+      bodyEng: 'Unpaid order, text for Tg',
+      body: 'Неоплачене замовлення, текст для Tg'
+    },
+    {
+      receiverType: '',
+      nameEng: 'site',
+      name: 'site',
+      status: 'INACTIVE',
+      bodyEng: 'Unpaid order, text for Viber',
+      body: 'Неоплачене замовлення, текст для Viber'
+    }
   ]
 };
 

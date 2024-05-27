@@ -1,10 +1,10 @@
 export interface Platform {
   name: string;
+  nameEng: string;
   status: string;
-  body: {
-    en: string;
-    ua: string;
-  };
+  body: string;
+  bodyEng: string;
+  receiverType: string;
 }
 
 export interface NotificationTemplateMainInfoDto {
