@@ -36,13 +36,20 @@ export class AdminTableService {
         if (objKeys.length === 2) {
           const keyFrom = objKeys[0].replace('From', '.from');
           const keyTo = objKeys[1].replace('To', '.to');
-          const key1 = objKeys[0];
-          const key2 = objKeys[1];
-          filtersQuery += `&${keyFrom}=${elem[key1]}&${keyTo}=${elem[key2]}`;
+          const elementFrom = elem[objKeys[0]];
+          const elementTo = elem[objKeys[1]];
+          if (!isNaN(Date.parse(elementFrom)) && !isNaN(Date.parse(elementTo))) {
+            filtersQuery += `&${keyFrom}=${this.formateDate(elementFrom)}&${keyTo}=${this.formateDate(elementTo)}`;
+          }
         }
       });
     }
     return this.http.get<IBigOrderTable>(`${BASE_QUERY}${filtersQuery}`);
+  }
+
+  private formateDate(date) {
+    const dateFrom = new Date(date).toISOString();
+    return dateFrom.slice(0, dateFrom.indexOf('T'));
   }
 
   getColumns() {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileDashboardComponent } from '@global-user/components';
 
@@ -45,7 +45,7 @@ describe('ProfileDashboardComponent', () => {
   const MockResult: EventResponseDto = {
     currentPage: 0,
     first: true,
-    hasNext: false,
+    hasNext: true,
     hasPrevious: false,
     last: false,
     number: 0,
@@ -291,35 +291,35 @@ describe('ProfileDashboardComponent', () => {
     });
   });
 
-  it('should update eventType and call initGetUserEvents when online event is checked', () => {
+  it('should update eventType and call getUserEvents when online event is checked', () => {
     const eventType = EventType.ONLINE;
     component.isOnlineChecked = true;
-    const spy = spyOn(component, 'initGetUserEvents');
+    const spy = spyOn(component, 'getUserEvents');
     component.onCheckboxChange(eventType);
     expect(component.isOnlineChecked).toBe(true);
     expect(component.isOfflineChecked).toBe(false);
     expect(component.eventType).toBe(eventType);
-    expect(spy).toHaveBeenCalledWith(eventType);
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('should update eventType and call initGetUserEvents when offline event is checked', () => {
+  it('should update eventType and call getUserEvents when offline event is checked', () => {
     const eventType = EventType.OFFLINE;
     component.isOfflineChecked = true;
-    const spy = spyOn(component, 'initGetUserEvents');
+    const spy = spyOn(component, 'getUserEvents');
     component.onCheckboxChange(eventType);
     expect(component.isOnlineChecked).toBe(false);
     expect(component.isOfflineChecked).toBe(true);
     expect(component.eventType).toBe(eventType);
-    expect(spy).toHaveBeenCalledWith(eventType);
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('should update eventType and call initGetUserEvents when both checkboxes are unchecked', () => {
-    const spy = spyOn(component, 'initGetUserEvents');
+  it('should update eventType and call getUserEvents when both checkboxes are unchecked', () => {
+    const spy = spyOn(component, 'getUserEvents');
     component.onCheckboxChange();
     expect(component.isOnlineChecked).toBe(false);
     expect(component.isOfflineChecked).toBe(false);
     expect(component.eventType).toBe('');
-    expect(spy).toHaveBeenCalledWith('');
+    expect(spy).toHaveBeenCalled();
   });
 
   it('Should call getAllUserEvents method before subscribe', waitForAsync(() => {
@@ -406,10 +406,19 @@ describe('ProfileDashboardComponent', () => {
   });
 
   it('tabChanged', () => {
-    component.isActiveInfinityScroll = false;
+    component.isActiveNewsScroll = false;
     component.tabChanged({ index: 1, tab: {} as any });
-    expect(component.isActiveInfinityScroll).toBe(true);
+    expect(component.isActiveNewsScroll).toBe(true);
   });
+
+  it('getUserEvents should call service', async(() => {
+    const spy = spyOn(eventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
+    component.eventsPage = 0;
+    component.getUserEvents();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.eventsPage).toBe(1);
+    expect(component.eventsList).toEqual(MockResult.page);
+  }));
 
   it('onScroll', () => {
     const spy = spyOn(component, 'dispatchNews');
@@ -443,21 +452,5 @@ describe('ProfileDashboardComponent', () => {
     component.getUserFavouriteEvents();
     expect(eventsServiceMock.getUserFavoriteEvents).toHaveBeenCalledWith(0, component.eventsPerPage);
     expect(component.favouriteEvents).toEqual(MockResult.page);
-  });
-
-  it('should call eventService.getAllUserEvents and set eventsList when onEventsPageChange is called', () => {
-    const page = 2;
-    const eventType = 'someType';
-    const eventsPerPage = 6;
-    const userLatitude = 123;
-    const userLongitude = 456;
-
-    component.eventsPage = page;
-    component.userLatitude = userLatitude;
-    component.userLongitude = userLongitude;
-    spyOn(eventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
-    component.onEventsPageChange(page, eventType);
-    expect(eventsServiceMock.getAllUserEvents).toHaveBeenCalledWith(page - 1, eventsPerPage, userLatitude, userLongitude, eventType);
-    expect(component.eventsList).toEqual(MockResult.page);
   });
 });

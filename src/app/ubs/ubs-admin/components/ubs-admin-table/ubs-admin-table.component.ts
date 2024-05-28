@@ -1,12 +1,13 @@
-import { ColumnFiltersPopUpComponent } from './../shared/components/column-filters-pop-up/column-filters-pop-up.component';
+import { ColumnFiltersPopUpComponent } from '../shared/components/column-filters-pop-up/column-filters-pop-up.component';
 import {
   IBigOrderTable,
   IBigOrderTableParams,
+  IColumnDTO,
   IDateFilters,
   IFilteredColumn,
   IFilteredColumnValue,
   IOrdersViewParameters
-} from './../../models/ubs-admin.interface';
+} from '../../models/ubs-admin.interface';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -36,6 +37,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
+import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -47,7 +49,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   nonSortableColumns = nonSortableColumns;
   sortingColumn: string;
   sortType: string;
-  columns: any[] = [];
+  columns: IColumnDTO[] = [];
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<any>;
   selection = new SelectionModel<any>(true, []);
@@ -79,7 +81,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   model: string;
   modelChanged: Subject<string> = new Subject<string>();
   previousSettings: string[];
-  displayedColumnsView: any[] = [];
+  displayedColumnsView: IColumnDTO[] = [];
   displayedColumnsViewTitles: string[] = [];
   firstPageLoad: boolean;
   isStoreEmpty: boolean;
@@ -103,7 +105,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isRestoredFilters = false;
   public dateForm: FormGroup;
   public filters: IDateFilters[] = [];
-
+  defaultColumnsWidth: Map<string, number> = new Map(Object.entries(defaultColumnsWidthPreference));
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
   ordersViewParameters$ = this.store.select((state: IAppState): IOrdersViewParameters => state.bigOrderTable.ordersViewParameters);
@@ -513,7 +515,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
   editDetails(): void {
-    const keys = [
+    const keys: TableKeys[] = [
       TableKeys.receivingStation,
       TableKeys.responsibleDriver,
       TableKeys.responsibleCaller,
@@ -521,7 +523,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       TableKeys.responsibleNavigator
     ];
     this.displayedColumnsView
-      .filter((el) => keys.includes(el.title.key))
+      .filter((el) => keys.includes(TableKeys[el.title.key as keyof typeof TableKeys]))
       .forEach((field) => this.dataForPopUp.push({ arrayData: field.checked, title: field.titleForSorting }));
   }
   // checks if all required fields is filled in
@@ -793,7 +795,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const displayedColumnsCopy = JSON.parse(JSON.stringify(this.displayedColumns));
     const prop = this.nestedSortProperty.split('.');
     const len = prop.length;
-
+    setTimeout(() => this.applyColumnsWidthPreference(), 0);
     this.columns.sort((a, b) => {
       let i = 0;
       while (i < len) {
@@ -809,7 +811,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       const undisplayedColumns = [];
       for (const column of this.columns) {
         if (!this.displayedColumns.includes(column.title.key)) {
-          undisplayedColumns.push(this.columns[column]);
+          undisplayedColumns.push(column);
         }
       }
       undisplayedColumns.length =
@@ -896,7 +898,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return event.clientX > columnMidpoint;
   }
 
-  private getTableOffsetX(): number | undefined {
+  private getTableOffsetX(): number {
     return this.getColumnHeaderBoundaries(0)?.left;
   }
 
@@ -934,9 +936,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   applyColumnsWidthPreference(): void {
+    if (!this.columnsWidthPreference) {
+      this.columnsWidthPreference = new Map();
+    }
     for (const [idx, col] of this.columns.entries()) {
-      const key = col.title.key;
-      const width = this.columnsWidthPreference.get(key) ?? this.defaultColumnWidth;
+      const width = this.columnsWidthPreference.get(col.title.key) ?? this.defaultColumnWidth;
       this.setColumnWidth(idx, width);
     }
     const tableOffsetX = this.getTableOffsetX();
@@ -944,14 +948,20 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       return;
     }
     for (let idx = 1; idx < this.stickyColumnsAmount; idx++) {
-      this.setStickyColumnOffsetX(idx, this.getColumnHeaderBoundaries(idx - 1).right - tableOffsetX);
+      const columnHeaderBoundaries = this.getColumnHeaderBoundaries(idx - 1);
+      if (columnHeaderBoundaries) {
+        this.setStickyColumnOffsetX(idx, columnHeaderBoundaries.right - tableOffsetX);
+      }
     }
   }
 
   updateColumnsWidthPreference(columnIndex: number, newWidth: number) {
-    const col = this.columns[columnIndex];
-    this.columnsWidthPreference.set(col.title.key, newWidth);
-
+    const column: IColumnDTO = this.columns[columnIndex];
+    column.weight = newWidth;
+    if (!this.columnsWidthPreference) {
+      this.columnsWidthPreference = new Map();
+    }
+    this.columnsWidthPreference.set(column.title.key, newWidth);
     this.adminTableService
       .setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference)
       .pipe(takeUntil(this.destroy))
@@ -994,6 +1004,21 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   showTable(): string {
     return this.displayedColumns.length > 1 ? 'block' : 'none';
   }
+
+  resetDefaultWidth(): void {
+    this.showAllColumns(false);
+    this.columnsWidthPreference = this.defaultColumnsWidth;
+    for (let i = 1; i < this.columns.length - 1; i++) {
+      const cols = document.querySelectorAll('.column_cell.ng-star-inserted');
+      const col = cols[i - 1] as HTMLElement;
+      const width = this.defaultColumnsWidth.get(this.columns[i].title.key);
+      col.style.width = width + 'px';
+    }
+    this.applyColumnsWidthPreference();
+
+    this.adminTableService.setUbsAdminOrdersTableColumnsWidthPreference(this.defaultColumnsWidth).pipe(takeUntil(this.destroy)).subscribe();
+  }
+
   ngOnDestroy() {
     this.destroy.next(true);
     this.destroy.unsubscribe();
