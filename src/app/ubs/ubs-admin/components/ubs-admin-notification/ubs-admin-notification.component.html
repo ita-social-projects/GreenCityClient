@@ -19,25 +19,16 @@
     </thead>
     <tbody>
       <tr>
-        <td>
-          {{ getLangValue(notification.notificationTemplateMainInfoDto.title, notification.notificationTemplateMainInfoDto.titleEng) }}
-        </td>
-        <td>
-          {{
-            getLangValue(
-              notification.notificationTemplateMainInfoDto.triggerDescription,
-              notification.notificationTemplateMainInfoDto.triggerDescriptionEng
-            )
-          }}
-        </td>
-        <td>
-          {{
-            getLangValue(
-              notification.notificationTemplateMainInfoDto.timeDescription,
-              notification.notificationTemplateMainInfoDto.timeDescriptionEng
-            )
-          }}
-        </td>
+        <ng-container *ngIf="isLangUa; else englishContainer">
+          <td>{{ notification.notificationTemplateMainInfoDto.title }}</td>
+          <td>{{ notification.notificationTemplateMainInfoDto.triggerDescription }}</td>
+          <td>{{ notification.notificationTemplateMainInfoDto.timeDescription }}</td>
+        </ng-container>
+        <ng-template #englishContainer>
+          <td>{{ notification.notificationTemplateMainInfoDto.titleEng }}</td>
+          <td>{{ notification.notificationTemplateMainInfoDto.triggerDescriptionEng }}</td>
+          <td>{{ notification.notificationTemplateMainInfoDto.timeDescriptionEng }}</td>
+        </ng-template>
         <td>
           {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}
         </td>
@@ -80,9 +71,14 @@
     <tbody>
       <tr *ngFor="let platform of notification.platforms" [ngClass]="{ 'platform-inactive': platform.status !== 'ACTIVE' }">
         <td>{{ platform.nameEng | titlecase }}</td>
-        <td>
-          {{ getLangValue(platform.body, platform.bodyEng) }}
-        </td>
+
+        <ng-container *ngIf="isLangUa; else englishBody"
+          ><td>{{ platform.body }}</td></ng-container
+        >
+        <ng-template #englishBody
+          ><td>{{ platform.bodyEng }}</td></ng-template
+        >
+
         <td *ngIf="isThisEmployeeHasRights" class="col-action">
           <div *ngIf="platform.status === 'ACTIVE'; else inactivePlatformActions">
             <button
