@@ -62,9 +62,9 @@ describe('AddViolationsComponent', () => {
 
   const orderServiceStub = {
     getViolationOfCurrentOrder: (id) => of(initialDataMock),
-    updateViolationOfCurrentOrder: jasmine.createSpy('updateViolationOfCurrentOrder'),
-    addViolationToCurrentOrder: jasmine.createSpy('addViolationToCurrentOrder'),
-    deleteViolationOfCurrentOrder: jasmine.createSpy('deleteViolationOfCurrentOrder')
+    updateViolationOfCurrentOrder: jasmine.createSpy('updateViolationOfCurrentOrder').and.returnValue(of()),
+    addViolationToCurrentOrder: jasmine.createSpy('addViolationToCurrentOrder').and.returnValue(of()),
+    deleteViolationOfCurrentOrder: jasmine.createSpy('deleteViolationOfCurrentOrder').and.returnValue(of())
   };
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }

@@ -18,14 +18,11 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
-  const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close', 'afterClosed']);
+  const matDialogRefMock = jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']);
   matDialogRefMock.afterClosed.and.returnValue(of(true));
-  const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
-  const dialogRefStub = {
-    afterClosed() {
-      return of(true);
-    }
-  };
+  const matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
+  matDialogMock.open.and.returnValue(matDialogRefMock);
+
   const mockedEmployeePositions = [
     {
       id: 2,
