@@ -23,6 +23,7 @@ export class UpdateEventComponent implements OnInit {
   eventForm: EventForm;
   isAuthor = true;
   authorId = this.eventStore.getEventAuthorId();
+  eventId: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,10 +41,10 @@ export class UpdateEventComponent implements OnInit {
     const userId = this.localStorageService.getUserId();
     this.route.params.subscribe((params) => {
       const isAuthor = this.authorId === userId;
-      const id = params['id'];
+      this.eventId = params['id'];
       if (isAuthor || !this.authorId) {
         this.isFetching = true;
-        this.eventService.getEventById(id).subscribe({
+        this.eventService.getEventById(this.eventId).subscribe({
           next: (response) => {
             this.eventForm = this._transformResponseToForm(response);
             this.eventStore.setEditorValues(this.eventForm);

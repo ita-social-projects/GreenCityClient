@@ -37,8 +37,10 @@ import { EventStoreService } from '../../services/event-store.service';
   styleUrls: ['./event-editor.component.scss']
 })
 export class EventEditorComponent extends FormBaseComponent implements OnInit {
-  public quillModules = {};
   @Input() isUpdating: boolean;
+  @Input() cancelChanges: boolean;
+  @Input({ required: true }) eventId: number;
+  public quillModules = {};
   public places: Place[] = [];
   public isPosting = false;
   public editEvent: EventResponse;
@@ -65,7 +67,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     }
   };
   public routedFromProfile: boolean;
-  @Input() cancelChanges: boolean;
   public formsIsValid = false;
   private matSnackBar: MatSnackBarComponent;
   private _invalidFormsMap = new Map();
@@ -75,7 +76,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   };
   private _savedFormValues: EventForm;
   private initialForm: EventForm;
-  private eventId: number;
 
   constructor(
     public dialog: MatDialog,
@@ -184,7 +184,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   public submitEvent(): void {
-    console.log(this._formsValues);
     const { eventInformation, dateInformation } = this._formsValues;
     const { open, tags, editorText, title, images } = eventInformation;
     const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
@@ -220,7 +219,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
         formData.append('images', item.file);
       }
     });
-    console.log('update work');
     this.createEvent(formData);
   }
 

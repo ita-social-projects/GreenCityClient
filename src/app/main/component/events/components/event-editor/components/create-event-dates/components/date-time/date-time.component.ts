@@ -131,7 +131,6 @@ export class DateTimeComponent implements OnInit, OnDestroy {
 
   private _subscribeToFormStatus() {
     this.form.statusChanges.subscribe((status) => {
-      console.log(status, this.dayNumber, 'time');
       if (status === 'VALID') {
         this._emitForm(this.form.getRawValue(), true);
       } else {

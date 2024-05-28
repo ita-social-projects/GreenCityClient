@@ -6,7 +6,7 @@ import { DefaultCoordinates } from '../../../../../../models/event-consts';
 import { Subscription } from 'rxjs';
 import { GeocoderService } from '@global-service/geocoder/geocoder.service';
 import { FormBridgeService } from '../../../../../../services/form-bridge.service';
-import { Patterns } from '../../../../../../../../../../assets/patterns/patterns';
+import { Patterns } from '@assets/patterns/patterns';
 import { FormEmitter, PlaceOnline, PlaceOnlineGroup } from '../../../../../../models/events.interface';
 
 @Component({
@@ -96,7 +96,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
 
   toggleForAllLocations(): void {
     this.appliedForAllLocations = !this.appliedForAllLocations;
-    console.log(this.appliedForAllLocations);
     if (!this.appliedForAllLocations) {
       this.bridge.setLocationForAll({ place: '', coords: null });
       return;
@@ -204,10 +203,8 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
         }
       }
     }
-    console.log(this.formDisabled || this.isMapDisabled);
     if (this.formDisabled) {
       this.formGroup.disable();
-      console.log(this.formDisabled);
     }
   }
 
@@ -247,7 +244,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
         this.place.enable();
         this.formGroup.patchValue({ coordinates: update.coords, place: update.place });
       }
-      console.log(update);
     });
     this._subscriptions.push(sub);
   }
@@ -258,7 +254,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
 
   private _subscribeToFormStatus() {
     const sub = this.formGroup.statusChanges.subscribe((status) => {
-      console.log(status, this.dayNumber, 'place');
       if (status !== 'INVALID') {
         this._emitForm(this.formGroup.getRawValue(), true);
       } else {

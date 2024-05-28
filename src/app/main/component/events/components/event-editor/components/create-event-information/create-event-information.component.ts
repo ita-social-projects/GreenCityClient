@@ -22,12 +22,11 @@ export class CreateEventInformationComponent implements OnInit {
   quillLength = 0;
   quillModules = null;
   imgArray: string[] = [];
-  // TODO CHANGE VALUE TO INITIAL
   eventInfForm: FormGroup<EventInformationGroup> = this.fb.nonNullable.group({
-    title: ['TitleTest', [Validators.required, Validators.maxLength(70)]],
+    title: ['', [Validators.required, Validators.maxLength(70)]],
     duration: [1, Validators.required],
-    description: ['helloworld12345678901011', [quillEditorValidator(), Validators.required]],
-    editorText: ['<p>helloworld12345678901011</p>'],
+    description: ['', [quillEditorValidator(), Validators.required]],
+    editorText: [''],
     open: [true, Validators.required],
     tags: [['Social'], [Validators.required, Validators.minLength(1)]],
     images: [[] as Array<ImagesContainer>]
@@ -50,7 +49,6 @@ export class CreateEventInformationComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.formInput);
     this.quillModules = quillConfig;
     this.eventInfForm.get('duration').valueChanges.subscribe((value) => {
       this.bridge.days = Array(value);

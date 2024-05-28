@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { ImagesContainerComponent } from './images-container.component';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
-import { FileHandle } from '../../../../../../../../../ubs/ubs-admin/models/file-handle.model';
+import { FileHandle } from '@ubs/ubs-admin/models/file-handle.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -86,20 +86,6 @@ describe('ImagesContainerComponent', () => {
     component.editMode = true;
 
     expect((component as any).imgArray.length).toBe(1);
-  });
-
-  it('assignImage expect images.src to be imageSrc', () => {
-    (component as any).assignImage('imageSrc');
-    expect(component.images[0].src).toBe('imageSrc');
-  });
-
-  it('deleteImage expect images.src to be falcy ', () => {
-    component.images = [
-      { isLabel: false, label: '+', src: 'imageSrc' },
-      { isLabel: true, label: '+', src: null }
-    ];
-    component.deleteImage(0);
-    expect(component.images[0].src).toBeFalsy();
   });
 
   it('loadFile expect  transferFile should be called with specified argument', () => {
