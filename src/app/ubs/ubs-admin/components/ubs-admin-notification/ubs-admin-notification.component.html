@@ -19,16 +19,20 @@
     </thead>
     <tbody>
       <tr>
-        <ng-container *ngIf="isLangUa; else englishContainer">
-          <td>{{ notification.notificationTemplateMainInfoDto.title }}</td>
-          <td>{{ notification.notificationTemplateMainInfoDto.triggerDescription }}</td>
-          <td>{{ notification.notificationTemplateMainInfoDto.timeDescription }}</td>
-        </ng-container>
-        <ng-template #englishContainer>
-          <td>{{ notification.notificationTemplateMainInfoDto.titleEng }}</td>
-          <td>{{ notification.notificationTemplateMainInfoDto.triggerDescriptionEng }}</td>
-          <td>{{ notification.notificationTemplateMainInfoDto.timeDescriptionEng }}</td>
-        </ng-template>
+        <td>
+          <ng-container *ngIf="isLangUa; else englishTitle">{{ notification.notificationTemplateMainInfoDto.title }}</ng-container>
+          <ng-template #englishTitle>{{ notification.notificationTemplateMainInfoDto.titleEng }}</ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="isLangUa; else engTriggerDesc">{{
+            notification.notificationTemplateMainInfoDto.triggerDescription
+          }}</ng-container>
+          <ng-template #engTriggerDesc>{{ notification.notificationTemplateMainInfoDto.triggerDescriptionEng }}</ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="isLangUa; else engTimeDesc">{{ notification.notificationTemplateMainInfoDto.timeDescription }}</ng-container>
+          <ng-template #engTimeDesc>{{ notification.notificationTemplateMainInfoDto.timeDescriptionEng }}</ng-template>
+        </td>
         <td>
           {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}
         </td>
