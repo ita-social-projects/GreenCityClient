@@ -22,7 +22,6 @@ export class LocalStorageService {
   private readonly PREVIOUS_PAGE = 'previousPage';
   private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
   private readonly EDIT_EVENT = 'editEvent';
-  private EDIT_HABIT = '';
   private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
   private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
 
@@ -194,8 +193,8 @@ export class LocalStorageService {
     localStorage.removeItem('UbsOrderId');
   }
 
-  public setUbsFondyOrderId(orderId: string | number) {
-    localStorage.setItem('UbsFondyOrderId', String(orderId));
+  public setUbsPaymentOrderId(orderId: string | number) {
+    localStorage.setItem('UbsPaymentOrderId', String(orderId));
   }
 
   public setUbsBonusesOrderId(orderId: string | number) {
@@ -206,12 +205,12 @@ export class LocalStorageService {
     return localStorage.getItem('UbsBonusesOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsBonusesOrderId'));
   }
 
-  public getUbsFondyOrderId(): any {
-    return localStorage.getItem('UbsFondyOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsFondyOrderId'));
+  public getUbsPaymentOrderId(): any {
+    return localStorage.getItem('UbsPaymentOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsPaymentOrderId'));
   }
 
-  public removeUbsFondyOrderId() {
-    localStorage.removeItem('UbsFondyOrderId');
+  public removeUbsPaymentOrderId() {
+    localStorage.removeItem('UbsPaymentOrderId');
   }
 
   public removeOrderWithoutPayment(): void {
@@ -235,7 +234,7 @@ export class LocalStorageService {
   }
 
   public clearPaymentInfo(): void {
-    this.removeUbsFondyOrderId();
+    this.removeUbsPaymentOrderId();
     this.removeUserPagePayment();
   }
 
@@ -300,8 +299,7 @@ export class LocalStorageService {
   }
 
   public getUbsAdminOrdersTableTitleColumnFilter() {
-    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
-    return parsed;
+    return JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
   }
 
   public removeAdminOrderFilters(): void {
@@ -316,8 +314,7 @@ export class LocalStorageService {
   }
 
   public getAdminOrdersDateFilter() {
-    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters'));
-    return parsed;
+    return JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters'));
   }
 
   public removeAdminOrderDateFilters(): void {

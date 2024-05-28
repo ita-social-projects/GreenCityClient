@@ -90,9 +90,8 @@ xdescribe('WarningPopUpComponent', () => {
       component.isUbsOrderSubmit = true;
       const matDialogRef = 'matDialogRef';
       const spy = spyOn(component[matDialogRef], 'close');
-      const sringifyValue = JSON.stringify({ orderId: 123 });
       const localStorageService = 'localStorageService';
-      const removeUbsFondyOrderIdMock = spyOn(component[localStorageService], 'removeUbsFondyOrderId');
+      const removeUbsFondyOrderIdMock = spyOn(component[localStorageService], 'removeUbsPaymentOrderId');
       component.userReply(true);
       expect(removeUbsFondyOrderIdMock).toHaveBeenCalled();
       expect(spy).toHaveBeenCalled();

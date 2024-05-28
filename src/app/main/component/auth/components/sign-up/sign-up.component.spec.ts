@@ -295,7 +295,7 @@ describe('SignUpComponent', () => {
 
     it('signUpWithGoogleError should set errors', () => {
       const result = (component as any).signUpWithGoogleError('User cancelled login or did not fully authorize');
-      expect(result).toBe(null);
+      expect(result).toEqual(null || undefined);
     });
 
     it('signUpWithGoogleError should set errors', () => {

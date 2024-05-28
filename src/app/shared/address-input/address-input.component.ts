@@ -206,11 +206,11 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       city: [this.addressData.getCity(this.langService.getCurrentLanguage()) ?? '', Validators.required],
       street: [this.addressData.getStreet() ?? '', Validators.required],
       district: [this.addressData.getDistrict() ?? '', Validators.required],
-      houseNumber: [this.address.houseNumber ?? '', [Validators.required, Validators.pattern(this.buildingPattern)]],
-      houseCorpus: [this.address.houseCorpus ?? '', [Validators.maxLength(4), Validators.pattern(this.buildingPattern)]],
-      entranceNumber: [this.address.entranceNumber ?? '', [Validators.maxLength(2), Validators.pattern(this.buildingPattern)]],
-      addressComment: [this.address.addressComment ?? '', Validators.maxLength(255)],
-      placeId: [this.address.placeId ?? '', Validators.required]
+      houseNumber: [this.address?.houseNumber ?? '', [Validators.required, Validators.pattern(this.buildingPattern)]],
+      houseCorpus: [this.address?.houseCorpus ?? '', [Validators.maxLength(4), Validators.pattern(this.buildingPattern)]],
+      entranceNumber: [this.address?.entranceNumber ?? '', [Validators.maxLength(2), Validators.pattern(this.buildingPattern)]],
+      placeId: [this.address?.placeId ?? '', Validators.required],
+      addressComment: [this.address?.addressComment ?? '', []]
     });
 
     if (!this.edit) {

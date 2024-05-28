@@ -87,6 +87,7 @@ import { QuillModule } from 'ngx-quill';
 import { UserNotificationsComponent } from './components/profile/user-notifications/user-notifications.component';
 import { UserNotificationsPopUpComponent } from './components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -182,7 +183,8 @@ import { MatIconModule } from '@angular/material/icon';
     UserSharedModule,
     MatTabsModule,
     NgxPaginationModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    FormsModule
   ],
   exports: [MatAutocompleteModule],
   providers: [EditProfileFormBuilder]

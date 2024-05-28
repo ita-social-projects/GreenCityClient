@@ -11,6 +11,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AllFriendsComponent } from './all-friends.component';
 import { FIRSTFRIEND, FRIENDS, SECONDFRIEND } from '@global-user/mocks/friends-mock';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 
 describe('AllFriendsComponent', () => {
   let component: AllFriendsComponent;
@@ -31,6 +32,8 @@ describe('AllFriendsComponent', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ friendsList: FRIENDS }));
 
+  const userOnlineStatusServiceMock = jasmine.createSpyObj('UserOnlineStatusService', ['addUsersId', 'removeUsersId']);
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AllFriendsComponent],
@@ -39,7 +42,8 @@ describe('AllFriendsComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarComponent },
-        { provide: Store, useValue: storeMock }
+        { provide: Store, useValue: storeMock },
+        { provide: UserOnlineStatusService, useValue: userOnlineStatusServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();

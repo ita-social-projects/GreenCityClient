@@ -42,7 +42,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     cancellationComment: new FormControl('')
   });
 
-  const GeneralInfoFake = GeneralInfoMock;
+  const GeneralInfoFake = { ...GeneralInfoMock };
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue.and.returnValue('value');

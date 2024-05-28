@@ -5,6 +5,10 @@ import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.se
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
 
 describe('TableCellDateComponent', () => {
   let component: TableCellDateComponent;
@@ -22,7 +26,7 @@ describe('TableCellDateComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TableCellDateComponent],
-      imports: [HttpClientModule, NoopAnimationsModule],
+      imports: [HttpClientModule, NoopAnimationsModule, MatFormFieldModule, MatDatepickerModule, MatNativeDateModule, MatInputModule],
       providers: [AdminTableService]
     }).compileComponents();
   });
@@ -55,8 +59,7 @@ describe('TableCellDateComponent', () => {
       component.isEditable = true;
       fixture.detectChanges();
       const inputElem = fixture.debugElement.nativeElement.querySelector('#date-input');
-
-      expect(inputElem.min).toEqual(new Date().toString());
+      expect(inputElem.min).toEqual(new Date().toISOString().split('T')[0]);
     });
 
     it('Test if edit() calls blockOrders() from AdminTableService with []', () => {

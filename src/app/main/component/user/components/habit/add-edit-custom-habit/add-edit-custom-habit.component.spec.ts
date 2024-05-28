@@ -62,8 +62,14 @@ describe('AddEditCustomHabitComponent', () => {
   habitServiceMock.addCustomHabit = () => of(null);
   habitServiceMock.deleteCustomHabit = () => of({});
 
-  const habitAssignServiceMock = jasmine.createSpyObj('fakeHabitAssignService', ['getHabitByAssignId']);
+  const habitAssignServiceMock = jasmine.createSpyObj('fakeHabitAssignService', [
+    'getHabitByAssignId',
+    'getAssignHabitsByPeriod',
+    'getAssignedHabits'
+  ]);
   habitAssignServiceMock.getHabitByAssignId = () => of(initialState);
+  habitAssignServiceMock.getAssignHabitsByPeriod = () => of([]);
+  habitAssignServiceMock.getAssignedHabits = () => of([]);
 
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
@@ -115,6 +121,7 @@ describe('AddEditCustomHabitComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddEditCustomHabitComponent);
     component = fixture.componentInstance;
+    habitAssignServiceMock.habitChangesFromCalendarSubj = new Subject();
     fixture.detectChanges();
   });
 
@@ -146,9 +153,9 @@ describe('AddEditCustomHabitComponent', () => {
 
   it('getStars should return right star image', () => {
     let starImage = component.getStars(1, 3);
-    expect(starImage).toBe('assets/events-icons/star-filled.svg');
+    expect(starImage).toBe('assets/img/icon/star-1.png');
     starImage = component.getStars(3, 2);
-    expect(starImage).toBe('assets/events-icons/star-empthy.svg');
+    expect(starImage).toBe('assets/img/icon/star-2.png');
   });
 
   it('should set shopList after get it from child component', () => {

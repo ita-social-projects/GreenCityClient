@@ -283,6 +283,10 @@ body {
     min-height: inherit;
     max-height: 100vh;
     background: var(--primary-white);
+
+    .mat-mdc-dialog-surface {
+      padding: 0;
+    }
   }
 }
 
@@ -442,10 +446,6 @@ body {
     &.extra-packages {
       max-width: 100% !important;
       height: 100%;
-    }
-
-    &.custom-dialog-container {
-      width: 100%;
     }
   }
 }

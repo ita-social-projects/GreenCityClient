@@ -9,14 +9,19 @@ import { BehaviorSubject, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { FriendRequestsComponent } from './friend-requests.component';
 import { FRIENDS } from '@global-user/mocks/friends-mock';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status.service'; // Import the missing service
 
 describe('FriendRequestsComponent', () => {
   let component: FriendRequestsComponent;
   let fixture: ComponentFixture<FriendRequestsComponent>;
+
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ friendsList: FRIENDS }));
+
+  const userOnlineStatusServiceMock = jasmine.createSpyObj('UserOnlineStatusService', ['addUsersId', 'removeUsersId']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -24,7 +29,8 @@ describe('FriendRequestsComponent', () => {
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([]), InfiniteScrollModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: Store, useValue: storeMock }
+        { provide: Store, useValue: storeMock },
+        { provide: UserOnlineStatusService, useValue: userOnlineStatusServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();

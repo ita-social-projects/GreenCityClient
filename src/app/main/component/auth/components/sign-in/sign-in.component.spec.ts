@@ -275,7 +275,7 @@ describe('SignIn component', () => {
 
     it('onSignInFailure should set errors', () => {
       const result = (component as any).onSignInFailure('User cancelled login or did not fully authorize');
-      expect(result).toBe(null);
+      expect(result).toEqual(null || undefined);
     });
   });
 

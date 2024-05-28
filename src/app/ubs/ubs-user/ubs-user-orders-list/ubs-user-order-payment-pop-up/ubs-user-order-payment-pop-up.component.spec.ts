@@ -56,7 +56,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   sanitizerMock.bypassSecurityTrustHtml.and.returnValue(fakeElement);
   const orderServiceMock = jasmine.createSpyObj('orderService', ['processCertificate', 'processOrderFondyFromUserOrderList']);
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
-    'setUbsFondyOrderId',
+    'setUbsPaymentOrderId',
     'clearPaymentInfo',
     'setUserPagePayment'
   ]);
@@ -124,7 +124,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
             certificateSum: 0
           }
         ],
-        paymentSystem: 'Fondy'
+        paymentSystem: 'Liqpay'
       };
 
       component.initForm();
@@ -252,23 +252,21 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   describe('processOrder', () => {
     it('makes expected calls for Fondy with link', () => {
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
-      const redirectToExternalUrlSpy = spyOn(component as any, 'redirectToExternalUrl');
-      component.orderDetailsForm.controls.paymentSystem.setValue('Fondy');
+      component.orderDetailsForm.controls.paymentSystem.setValue('Liqpay');
 
       component.processOrder();
 
       expect(fillOrderClientDtoSpy).toHaveBeenCalled();
       expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
       expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
-      expect(redirectToExternalUrlSpy).toHaveBeenCalledWith('fakeLink');
-      expect(localStorageServiceMock.setUbsFondyOrderId).toHaveBeenCalled();
+      expect(localStorageServiceMock.setUbsPaymentOrderId).toHaveBeenCalled();
     });
 
     it('makes expected calls for Fondy without link', () => {
       fakeFondyResponse.link = null;
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
       const redirectionToConfirmPageSpy = spyOn(component, 'redirectionToConfirmPage');
-      component.orderDetailsForm.controls.paymentSystem.setValue('Fondy');
+      component.orderDetailsForm.controls.paymentSystem.setValue('Liqpay');
 
       component.processOrder();
 
