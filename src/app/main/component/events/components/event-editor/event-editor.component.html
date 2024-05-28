@@ -4,14 +4,13 @@
     <div class="event-header">
       <div class="event-header-items">
         <div class="mb-4">
-          <!--            (click)="toEventsList()"-->
           <a [routerLink]="routedFromProfile ? [previousPath, { tabId: 2 }] : [previousPath]" class="back">
             <img [src]="images.arrowLeft" alt="arrow" aria-hidden="true" class="arrow" />
             <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
           </a>
         </div>
-        <h3 *ngIf="!editMode">{{ 'create-event.title' | translate }}</h3>
-        <h3 *ngIf="editMode">{{ 'create-event.edit' | translate }}</h3>
+        <h3 *ngIf="!isUpdating">{{ 'create-event.title' | translate }}</h3>
+        <h3 *ngIf="isUpdating">{{ 'create-event.edit' | translate }}</h3>
         <p>{{ 'create-event.description' | translate }}</p>
       </div>
     </div>

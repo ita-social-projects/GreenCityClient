@@ -13,7 +13,6 @@ export class UserOwnAuthService {
 
   public getDataFromLocalStorage(): void {
     const keys = { ...localStorage };
-    console.log(keys);
     this.credentialDataSubject.next(keys);
   }
 }

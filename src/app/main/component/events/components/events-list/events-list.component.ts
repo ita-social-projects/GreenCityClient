@@ -362,7 +362,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   private checkUserSingIn(): void {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
-      console.log(data);
       this.isLoggedIn = data?.userId;
       this.userId = data.userId;
       this.statusFiltersList = this.userId ? statusFiltersData : statusFiltersData.slice(0, 2);

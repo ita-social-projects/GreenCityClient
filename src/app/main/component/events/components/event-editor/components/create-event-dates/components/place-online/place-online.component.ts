@@ -204,8 +204,10 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
         }
       }
     }
+    console.log(this.formDisabled || this.isMapDisabled);
     if (this.formDisabled) {
       this.formGroup.disable();
+      console.log(this.formDisabled);
     }
   }
 

@@ -3,13 +3,19 @@
     <mat-checkbox
       (change)="toggleLocation()"
       [checked]="isPlaceSelected"
-      [disabled]="isPlaceDisabled"
+      [disabled]="isPlaceDisabled || formDisabled"
       class="checkbox-wrapper"
       color="primary"
     >
       {{ 'create-event.event-place' | translate }}
     </mat-checkbox>
-    <mat-checkbox (change)="toggleOnline()" [checked]="isOnline" [disabled]="isLinkDisabled" class="checkbox-wrapper" color="primary">
+    <mat-checkbox
+      (change)="toggleOnline()"
+      [checked]="isOnline"
+      [disabled]="isLinkDisabled || formDisabled"
+      class="checkbox-wrapper"
+      color="primary"
+    >
       {{ 'create-event.event-online' | translate }}
     </mat-checkbox>
   </div>
@@ -23,7 +29,7 @@
       </mat-form-field>
       <mat-checkbox
         (change)="toggleForAllLocations()"
-        *ngIf="dayNumber === 0"
+        *ngIf="dayNumber === 0 && !formDisabled"
         [checked]="appliedForAllLocations"
         [color]="'primary'"
         class="apply-location-checkbox"
@@ -32,7 +38,7 @@
       </mat-checkbox>
     </div>
 
-    <div *ngIf="!isMapDisabled" class="map-container">
+    <div *ngIf="!isMapDisabled && !formDisabled" class="map-container">
       <google-map (mapClick)="mapClick($event)" [options]="mapOptions" [width]="'100%'" height="410px">
         <map-marker [position]="mapMarkerCoords" />
       </google-map>

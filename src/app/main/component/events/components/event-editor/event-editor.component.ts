@@ -1,4 +1,4 @@
-import { Component, Injector, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit } from '@angular/core';
 import { quillConfig } from './quillEditorFunc';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
@@ -15,7 +15,7 @@ import {
   PagePreviewDTO,
   TagObj
 } from '../../models/events.interface';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { EventsService } from '../../services/events.service';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -36,12 +36,11 @@ import { EventStoreService } from '../../services/event-store.service';
   templateUrl: './event-editor.component.html',
   styleUrls: ['./event-editor.component.scss']
 })
-export class EventEditorComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class EventEditorComponent extends FormBaseComponent implements OnInit {
   public quillModules = {};
   @Input() isUpdating: boolean;
   public places: Place[] = [];
   public isPosting = false;
-  public editMode: boolean;
   public editEvent: EventResponse;
   public tags: Array<TagObj>;
   public isImageSizeError: boolean;
@@ -68,7 +67,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
   public routedFromProfile: boolean;
   @Input() cancelChanges: boolean;
   public formsIsValid = false;
-  private subscriptions: Subscription[] = [];
   private matSnackBar: MatSnackBarComponent;
   private _invalidFormsMap = new Map();
   private _formsValues: EventForm = {
@@ -82,7 +80,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
   constructor(
     public dialog: MatDialog,
     public router: Router,
-    private route: ActivatedRoute,
     public localStorageService: LocalStorageService,
     private actionsSubj: ActionsSubject,
     private store: Store,
@@ -125,10 +122,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
         break;
     }
     this._checkValidness(key, valid);
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((value) => value.unsubscribe());
   }
 
   ngOnInit(): void {
@@ -189,7 +182,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
 
   public submitEvent(): void {
     const { eventInformation, dateInformation } = this._formsValues;
-    const { open, tags, description, editorText, title, images, duration } = eventInformation;
+    const { open, tags, editorText, title, images } = eventInformation;
     const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
     let sendEventDto: EventDTO = {
       title,
@@ -200,7 +193,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
     };
 
     //TODO CAN WE CHANGE TITLE IMAGE?
-    if (this.editMode) {
+    if (this.isUpdating) {
       const responseImages = this.initialForm.eventInformation.images.map((value) => value.url);
       const currentImages = this._savedFormValues.eventInformation.images.filter((value) => !value.file).map((value) => value.url);
       const removedImages = responseImages.filter((value) => !currentImages.includes(value));
@@ -214,7 +207,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
     }
     const formData: FormData = new FormData();
     const stringifyDataToSend = JSON.stringify(sendEventDto);
-    const dtoName = this.editMode ? 'eventDto' : 'addEventDtoRequest';
+    const dtoName = this.isUpdating ? 'eventDto' : 'addEventDtoRequest';
 
     formData.append(dtoName, stringifyDataToSend);
 
@@ -229,7 +222,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
 
   transformDatesFormToDates(form: DateInformation[]): Dates[] {
     return form.map((value) => {
-      const { date, endTime, startTime, allDay } = value.dateTime;
+      const { date, endTime, startTime } = value.dateTime;
       const { onlineLink, place, coordinates } = value.placeOnline;
       let [hours, minutes] = startTime.split(':');
       date.setHours(parseInt(hours, 10));
@@ -239,7 +232,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
       [hours, minutes] = endTime.split(':');
       date.setHours(parseInt(hours, 10));
       date.setMinutes(parseInt(minutes, 10));
-      console.log(date);
       const finishDate = date.toISOString();
       const dates: Dates = {
         startDate,
@@ -282,21 +274,21 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
 
   //TODO
   private eventSuccessfullyAdded(): void {
-    if (this.editMode) {
+    if (this.isUpdating) {
       this.snackBar.openSnackBar('updatedEvent');
     }
-    if (!this.editMode) {
+    if (!this.isUpdating) {
       this.snackBar.openSnackBar('addedEvent');
     }
   }
 
   private createEvent(sendData: FormData) {
     this.isPosting = true;
-    this.editMode
+    this.isUpdating
       ? this.store.dispatch(EditEcoEventAction({ data: sendData }))
       : this.store.dispatch(CreateEcoEventAction({ data: sendData }));
 
-    this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess)).subscribe(() => {
+    this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess), take(1)).subscribe(() => {
       this.isPosting = false;
       this.eventsService.setForm(null);
       this.escapeFromCreateEvent();

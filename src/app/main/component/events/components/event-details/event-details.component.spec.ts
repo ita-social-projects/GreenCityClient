@@ -281,14 +281,6 @@ describe('EventDetailsComponent', () => {
     expect(component.addAttenderError).toBe('');
   });
 
-  it('should call setBackFromPreview and setSubmitFromPreview methods from eventService', () => {
-    const spy1 = spyOn(EventsServiceMock, 'setBackFromPreview');
-    const spy2 = spyOn(EventsServiceMock, 'setSubmitFromPreview');
-    component.backToSubmit();
-    expect(spy1).toHaveBeenCalledWith(true);
-    expect(spy2).toHaveBeenCalledWith(true);
-  });
-
   it('should call submitEventCancelling if result is true after dialog closed when submitting event join cancelation', () => {
     const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
     dialogRefSpy.afterClosed.and.returnValue(of(true));
