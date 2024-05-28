@@ -258,7 +258,8 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
 
   private _subscribeToFormStatus() {
     const sub = this.formGroup.statusChanges.subscribe((status) => {
-      if (status === 'VALID') {
+      console.log(status, this.dayNumber, 'place');
+      if (status !== 'INVALID') {
         this._emitForm(this.formGroup.getRawValue(), true);
       } else {
         this._emitForm(undefined, false);

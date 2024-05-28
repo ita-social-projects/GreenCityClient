@@ -34,20 +34,9 @@
         {{ 'create-event.preview' | translate }}
       </button>
 
-      <button
-        (click)="submitEvent()"
-        *ngIf="!isUpdating; else saveEvent"
-        [disabled]="!formsIsValid"
-        class="primary-global-button submit-buttons"
-      >
-        {{ nameBtn | translate }}
+      <button (click)="submitEvent()" [disabled]="!formsIsValid" class="primary-global-button submit-buttons">
+        {{ submitButtonName | translate }}
       </button>
-
-      <ng-template #saveEvent>
-        <button (click)="submitEvent()" class="primary-global-button submit-buttons">
-          {{ 'create-event.save-event' | translate }}
-        </button>
-      </ng-template>
 
       <button (click)="clear()" class="tertiary-global-button">{{ 'create-event.cancel' | translate }}</button>
     </div>

@@ -47,7 +47,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   public isImageTypeError = false;
   public images = singleNewsImages;
   public currentLang: string;
-  public nameBtn = 'create-event.publish';
+  public submitButtonName = 'create-event.publish';
   public subscription: Subscription;
   public imgArray: Array<File> = [];
   public userId: number;
@@ -143,7 +143,10 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     if (!this.checkUserSigned()) {
       this.snackBar.openSnackBar('userUnauthorised');
     }
-
+    if (this.isUpdating) {
+      this.submitButtonName = 'create-event.save-event';
+      this.initialForm = structuredClone(this._savedFormValues);
+    }
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.previousPath = this.localStorageService.getPreviousPage() || '/events';
   }
@@ -181,6 +184,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   public submitEvent(): void {
+    console.log(this._formsValues);
     const { eventInformation, dateInformation } = this._formsValues;
     const { open, tags, editorText, title, images } = eventInformation;
     const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
@@ -216,7 +220,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
         formData.append('images', item.file);
       }
     });
-
+    console.log('update work');
     this.createEvent(formData);
   }
 

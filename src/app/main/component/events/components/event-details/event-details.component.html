@@ -13,7 +13,7 @@
           </a>
         </div>
         <div *ngIf="eventService.getForm()" class="back-button">
-          <a [routerLink]="['/events', 'create-event']" class="button-link">
+          <a [routerLink]="['/events', 'update-event', eventId]" class="button-link">
             <div class="button-content">
               <img [src]="icons.arrowLeft" alt="arrow" aria-hidden="true" class="button-arrow-img arrow" />
               <div class="button-text">{{ 'create-event.back-edit' | translate }}</div>

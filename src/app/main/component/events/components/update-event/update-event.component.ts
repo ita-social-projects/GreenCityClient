@@ -33,6 +33,10 @@ export class UpdateEventComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.eventForm = this.eventStore.getEditorValues();
+    if (this.eventForm.eventInformation) {
+      return;
+    }
     const userId = this.localStorageService.getUserId();
     this.route.params.subscribe((params) => {
       const isAuthor = this.authorId === userId;
@@ -47,11 +51,15 @@ export class UpdateEventComponent implements OnInit {
             this.isAuthor = this.authorId === userId;
             this.isFetching = false;
           },
-          error: (_) => {
+          error: (error) => {
             this.isFetching = false;
             this.isAuthor = false;
           }
         });
+        if (this.isFetching) {
+          this.isFetching = false;
+          this.isAuthor = false;
+        }
       } else {
         this.isAuthor = false;
       }
