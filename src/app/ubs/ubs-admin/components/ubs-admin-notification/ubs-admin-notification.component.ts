@@ -39,6 +39,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   isThisEmployeeCanActivateNotification: boolean;
   isThisEmployeeHasRights: boolean;
   permissions$ = this.store.select((state): Array<string> => state.employees.employeesPermissions);
+  isLangUa = this.currentLanguage === 'ua';
   private employeeAuthorities: string[];
 
   constructor(
