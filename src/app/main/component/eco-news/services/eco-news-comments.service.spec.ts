@@ -183,8 +183,9 @@ describe('EcoNewsCommentsService', () => {
       expect(commentData).toEqual({});
     });
 
-    const req = httpTestingController.expectOne(`${url}econews/comments?id=1&text=${commentText}`);
+    const req = httpTestingController.expectOne(`${url}econews/comments?id=1`);
     expect(req.request.method).toEqual('PATCH');
+    expect(req.request.body).toEqual(commentText);
     req.flush({});
   });
 });
