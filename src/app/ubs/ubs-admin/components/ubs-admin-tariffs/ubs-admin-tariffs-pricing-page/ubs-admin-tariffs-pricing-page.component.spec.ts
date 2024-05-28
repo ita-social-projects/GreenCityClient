@@ -6,7 +6,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -24,7 +24,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Bag, BagLimitDto, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
-import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -52,10 +51,10 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeValue = '1';
   const fakeCourierForm = new FormGroup({
     courierLimitsBy: new FormControl('fake'),
-    minPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    maxPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    minAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    maxAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
+    minPriceOfOrder: new FormControl('fake', [Validators.required, Validators.min(1)]),
+    maxPriceOfOrder: new FormControl('fake'),
+    minAmountOfBigBags: new FormControl('fake', [Validators.required, Validators.min(1)]),
+    maxAmountOfBigBags: new FormControl('fake'),
     limitDescription: new FormControl('fake')
   });
   const fakeLocations: Locations = {
@@ -287,7 +286,6 @@ describe('UbsAdminPricingPageComponent', () => {
     fixture = TestBed.createComponent(UbsAdminTariffsPricingPageComponent);
     fixture.detectChanges();
     component = fixture.componentInstance;
-    // component.limitEnum = component;
     httpMock = TestBed.inject(HttpTestingController);
     route = TestBed.inject(ActivatedRoute);
     location = TestBed.inject(Location);
