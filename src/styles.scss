@@ -43,8 +43,29 @@ $main-palette: (
   )
 );
 
+$accent-palette: (
+  400: #000000,
+  500: var(--primary-green),
+  contrast: (
+    50: #ffffff,
+    100: var(--primary-white),
+    200: var(--primary-white),
+    300: var(--primary-white),
+    400: var(--primary-white),
+    500: var(--primary-white),
+    600: var(--primary-white),
+    700: var(--primary-white),
+    800: var(--primary-white),
+    900: var(--primary-white),
+    A100: var(--primary-white),
+    A200: var(--primary-white),
+    A400: var(--primary-white),
+    A700: var(--primary-white)
+  )
+);
+
 $my-primary: mat.define-palette($main-palette, 400);
-$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$my-accent: mat.define-palette($accent-palette, 400);
 
 $my-warn: mat.define-palette(mat.$red-palette);
 
