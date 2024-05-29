@@ -80,7 +80,8 @@
         "no-irregular-whitespace": ["error", { "skipComments": true }],
         "object-curly-spacing": ["error", "always"],
         "@typescript-eslint/no-unsafe-member-access": "off",
-        "no-whitespace-before-property": "error"
+        "no-whitespace-before-property": "error",
+        "no-prototype-builtins": "off"
       }
     },
     {

@@ -21,7 +21,7 @@ describe('LocalStorageService', () => {
           cityUa: 'cityEn',
           countryEn: 'Ukraine',
           countryUa: 'Україна',
-          houseNumber: 55,
+          houseNumber: '55',
           regionEn: 'Lvivska oblast',
           regionUa: 'Львівська область',
           streetEn: 'Svobody Ave',
@@ -29,25 +29,13 @@ describe('LocalStorageService', () => {
           formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
           formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
         },
-        valid: true,
-        event: 'event',
+        event: null,
         finishDate: 'finishDate',
-        id: 3,
+        id: null,
         onlineLink: 'link',
         startDate: '2022-02-01T00:00:00Z'
       }
     ],
-    location: {
-      date: new Date(),
-      finishDate: 'string',
-      onlineLink: 'string',
-      place: 'string',
-      startDate: 'string',
-      coordinates: {
-        latitude: 1,
-        longitude: 1
-      }
-    },
     description: 'Test event description',
     id: 123,
     open: true,
@@ -61,7 +49,6 @@ describe('LocalStorageService', () => {
     titleImage: 'testImage.jpg',
     isSubscribed: true,
     isFavorite: false,
-    isActive: true,
     countComments: 5,
     likes: 8,
     isRelevant: true,

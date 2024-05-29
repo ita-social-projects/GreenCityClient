@@ -9,8 +9,7 @@
 .input-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(0, 108px));
-  column-gap: 1.5rem; /* Assuming Tailwind's default value of 1.5rem for x-gap */
-  row-gap: 0.5rem; /* Assuming Tailwind's default value of 0.5rem for y-gap */
+  gap: 0.5rem 1.5rem; /* Assuming Tailwind's default value of 1.5rem for x-gap */ /* Assuming Tailwind's default value of 0.5rem for y-gap */
   width: 100%;
   margin-bottom: 16px;
 }
@@ -62,8 +61,7 @@ img {
 .images-flex {
   display: flex;
   flex-direction: row;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   gap: 20px;
 }
 
@@ -86,10 +84,8 @@ img {
 
 .images-def-wrapper {
   display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-  overflow-y: hidden;
-  flex-wrap: nowrap;
+  flex-flow: row nowrap;
+  overflow: auto hidden;
   gap: 20px;
   width: 100%;
 }
@@ -108,6 +104,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+
   @extend %image-base;
 }
 

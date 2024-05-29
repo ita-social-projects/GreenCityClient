@@ -36,10 +36,10 @@ export class AdminTableService {
         if (objKeys.length === 2) {
           const keyFrom = objKeys[0].replace('From', '.from');
           const keyTo = objKeys[1].replace('To', '.to');
-          const elementFrom = elem[objKeys[0]];
-          const elementTo = elem[objKeys[1]];
-          if (!isNaN(Date.parse(elementFrom)) && !isNaN(Date.parse(elementTo))) {
-            filtersQuery += `&${keyFrom}=${this.formateDate(elementFrom)}&${keyTo}=${this.formateDate(elementTo)}`;
+          const elementFrom = this.setDateFormat(elem[objKeys[0]]);
+          const elementTo = this.setDateFormat(elem[objKeys[1]]);
+          if (this.isValidDate(elementFrom) && this.isValidDate(elementTo)) {
+            filtersQuery += `&${keyFrom}=${elementFrom}&${keyTo}=${elementTo}`;
           }
         }
       });
@@ -47,9 +47,16 @@ export class AdminTableService {
     return this.http.get<IBigOrderTable>(`${BASE_QUERY}${filtersQuery}`);
   }
 
-  private formateDate(date) {
-    const dateFrom = new Date(date).toISOString();
-    return dateFrom.slice(0, dateFrom.indexOf('T'));
+  isValidDate(dateString: string): boolean {
+    const regEx = /^\d{4}-\d{2}-\d{2}$/;
+    const date = new Date(dateString);
+    if (!regEx.test(dateString) || Number.isNaN(date.getTime())) {
+      return false;
+    }
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return dateString === `${year}-${month}-${day}`;
   }
 
   getColumns() {

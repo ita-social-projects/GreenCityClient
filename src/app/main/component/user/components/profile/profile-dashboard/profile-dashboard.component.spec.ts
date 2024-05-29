@@ -69,7 +69,7 @@ describe('ProfileDashboardComponent', () => {
               cityUa: 'Львів',
               countryEn: 'Ukraine',
               countryUa: 'Україна',
-              houseNumber: 55,
+              houseNumber: '55',
               regionEn: 'Lvivska oblast',
               regionUa: 'Львівська область',
               streetEn: 'Svobody Ave',
@@ -77,25 +77,13 @@ describe('ProfileDashboardComponent', () => {
               formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
               formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
             },
-            valid: true,
-            event: 'event',
+            event: null,
             finishDate: '2022-06-29T04:00:00Z',
-            id: 1,
+            id: null,
             onlineLink: 'http',
             startDate: '2022-06-29T04:00:00Z'
           }
         ],
-        location: {
-          date: new Date(),
-          finishDate: 'string',
-          onlineLink: 'string',
-          place: 'string',
-          startDate: 'string',
-          coordinates: {
-            latitude: 1,
-            longitude: 1
-          }
-        },
         description: 'description',
         id: 95,
         open: true,
@@ -115,7 +103,6 @@ describe('ProfileDashboardComponent', () => {
         titleImage: 'image title',
         isSubscribed: true,
         isFavorite: false,
-        isActive: true,
         likes: 8,
         countComments: 9,
         isRelevant: true,
@@ -140,7 +127,7 @@ describe('ProfileDashboardComponent', () => {
             cityUa: 'Львів',
             countryEn: 'Ukraine',
             countryUa: 'Україна',
-            houseNumber: 55,
+            houseNumber: '55',
             regionEn: 'Lvivska oblast',
             regionUa: 'Львівська область',
             streetEn: 'Svobody Ave',
@@ -148,12 +135,11 @@ describe('ProfileDashboardComponent', () => {
             formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
             formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
           },
-          event: 'event',
+          event: null,
           finishDate: '2022-06-29T04:00:00Z',
-          id: 1,
+          id: null,
           onlineLink: 'http',
-          startDate: '2022-06-29T04:00:00Z',
-          valid: true
+          startDate: '2022-06-29T04:00:00Z'
         }
       ],
       description: 'description',
@@ -175,7 +161,6 @@ describe('ProfileDashboardComponent', () => {
       titleImage: 'image title',
       isSubscribed: true,
       isFavorite: true,
-      isActive: true,
       likes: 8,
       countComments: 9,
       isRelevant: true,
@@ -194,7 +179,7 @@ describe('ProfileDashboardComponent', () => {
             cityUa: 'Львів',
             countryEn: 'Ukraine',
             countryUa: 'Україна',
-            houseNumber: 55,
+            houseNumber: '55',
             regionEn: 'Lvivska oblast',
             regionUa: 'Львівська область',
             streetEn: 'Svobody Ave',
@@ -202,12 +187,11 @@ describe('ProfileDashboardComponent', () => {
             formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
             formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
           },
-          event: 'event',
+          event: null,
           finishDate: '2022-06-29T04:00:00Z',
-          id: 1,
+          id: null,
           onlineLink: 'http',
-          startDate: '2022-06-29T04:00:00Z',
-          valid: true
+          startDate: '2022-06-29T04:00:00Z'
         }
       ],
       description: 'description',
@@ -229,7 +213,6 @@ describe('ProfileDashboardComponent', () => {
       titleImage: 'image title',
       isSubscribed: true,
       isFavorite: true,
-      isActive: true,
       likes: 8,
       countComments: 9,
       isRelevant: true,

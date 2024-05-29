@@ -8,7 +8,7 @@
 }
 
 p {
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   color: var(--quaternary-grey);
 }
 
@@ -25,6 +25,7 @@ quill-editor {
   align-items: center;
   width: 100%;
   margin-bottom: 5px;
+
   @include responsiveMobileFirst(sm) {
     gap: 24px;
   }
@@ -52,6 +53,7 @@ quill-editor {
 
   .duration-wrapper {
     flex: 1 1 96px;
+
     @include responsiveMobileFirst(sm) {
       flex: 0;
       width: 96px;

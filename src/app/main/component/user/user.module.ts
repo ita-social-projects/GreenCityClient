@@ -88,6 +88,7 @@ import { UserNotificationsComponent } from './components/profile/user-notificati
 import { UserNotificationsPopUpComponent } from './components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { NotificContentReplaceDirective } from './directives/notific-content-replace.directive';
 
 @NgModule({
   declarations: [
@@ -154,7 +155,8 @@ import { FormsModule } from '@angular/forms';
     HabitsWidgetComponent,
     AddEditCustomHabitComponent,
     UserNotificationsComponent,
-    UserNotificationsPopUpComponent
+    UserNotificationsPopUpComponent,
+    NotificContentReplaceDirective
   ],
   imports: [
     NgbModule,

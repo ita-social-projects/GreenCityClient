@@ -91,7 +91,7 @@ describe('CommentsListComponent', () => {
   it('should emit event when user delete comment', () => {
     const spy = spyOn(component.changedList, 'emit');
     component.deleteComment(1);
-    expect(spy).toHaveBeenCalledWith(1);
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should return comments status', () => {

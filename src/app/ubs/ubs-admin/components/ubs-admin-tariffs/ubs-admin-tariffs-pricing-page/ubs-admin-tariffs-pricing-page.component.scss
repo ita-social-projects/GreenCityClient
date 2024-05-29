@@ -156,7 +156,7 @@ h4 {
   flex-flow: row wrap;
   align-items: center;
 
-  .ng-invalid.ng-touched {
+  .invalid {
     border: 1px solid red !important;
   }
 

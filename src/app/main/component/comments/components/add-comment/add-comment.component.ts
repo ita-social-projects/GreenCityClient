@@ -14,14 +14,12 @@ export class AddCommentComponent implements OnInit {
   @Input() public entityId: number;
   @Input() public commentId: number;
   @Output() public updateList = new EventEmitter<AddedCommentDTO>();
-  public userInfo;
   public avatarImage: string;
   public firstName: string;
   public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000), this.noSpaceValidator]]
   });
   public commentHtml: string;
-  public replyMaxLength = 8000;
 
   constructor(
     private commentsService: CommentsService,
@@ -53,8 +51,8 @@ export class AddCommentComponent implements OnInit {
     this.commentsService
       .addComment(this.entityId, this.commentHtml, this.commentId)
       .pipe(take(1))
-      .subscribe((coment: AddedCommentDTO) => {
-        this.updateList.emit(coment);
+      .subscribe((comment: AddedCommentDTO) => {
+        this.updateList.emit(comment);
         this.addCommentForm.reset();
         this.addCommentForm.controls.content.setValue('');
         this.commentHtml = '';

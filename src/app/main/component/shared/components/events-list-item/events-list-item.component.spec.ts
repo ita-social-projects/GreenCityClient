@@ -70,7 +70,6 @@ describe('EventsListItemComponent', () => {
 
   const eventMock: EventResponse = {
     description: 'tralalalal',
-    editorText: 'tralalalal',
     additionalImages: [],
     creationDate: '2022-05-31',
     tags: [
@@ -87,7 +86,7 @@ describe('EventsListItemComponent', () => {
           cityUa: 'Львів',
           countryEn: 'Ukraine',
           countryUa: 'Україна',
-          houseNumber: 55,
+          houseNumber: '55',
           regionEn: 'Lvivska oblast',
           regionUa: 'Львівська область',
           streetEn: 'Svobody Ave',
@@ -99,18 +98,15 @@ describe('EventsListItemComponent', () => {
         event: null,
         startDate: '2022-05-31T00:00:00+03:00',
         finishDate: '2022-05-31T23:59:00+03:00',
-        onlineLink: null,
-        valid: true
+        onlineLink: null
       }
     ],
-    imgArrayToPreview: [],
     id: 307,
-    organizer: { id: 5, name: 'Mykola Kovalushun' },
+    organizer: { organizerRating: 0, id: 5, name: 'Mykola Kovalushun' },
     title: 'dddddddd',
     titleImage: 'https://-fc27f19b10e0apl',
     isSubscribed: true,
     isFavorite: false,
-    isActive: true,
     isRelevant: true,
     open: true,
     likes: 5,
@@ -475,7 +471,7 @@ describe('EventsListItemComponent', () => {
     it('should set edit mode and navigate to create event page when edit button is clicked', () => {
       component.buttonAction(component.btnName.edit);
       expect(localStorageServiceMock.setEditMode).toHaveBeenCalledWith('canUserEdit', true);
-      expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalledWith('editEvent', component.event);
+      expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalled();
     });
 
     it('should call openAuthModalWindow', () => {

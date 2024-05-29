@@ -26,7 +26,7 @@ $main-palette: (
   A400: #c6ff00,
   A700: #aeea00,
   contrast: (
-    50: #ffffff,
+    50: #fff,
     100: var(--primary-white),
     200: var(--primary-white),
     300: var(--primary-white),
@@ -46,7 +46,6 @@ $main-palette: (
 $my-primary: mat.define-palette($main-palette, 400);
 $my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
-// The "warn" palette is optional and defaults to red if not specified.
 $my-warn: mat.define-palette(mat.$red-palette);
 
 $my-theme: mat.define-light-theme(
@@ -72,24 +71,27 @@ label {
 
 %font-base {
   font-weight: 400;
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
   color: #64727d;
 }
 
 .xs-text {
   @extend %font-base;
+
   font-size: 10px;
   line-height: 12px;
 }
 
 .sm-text {
   @extend %font-base;
+
   font-size: 12px;
   line-height: 16px;
 }
 
 .regular-text {
   @extend %font-base;
+
   font-size: 16px;
   line-height: 24px;
 }

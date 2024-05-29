@@ -1,47 +1,127 @@
-<div class="container" aria-label="user-notification">
+<div class="container notification-wrapper" aria-label="user-notification">
   <h1 class="heading h5">{{ 'homepage.notifications.title' | translate }}</h1>
-  <div *ngIf="notifications.length" class="filter-search-wrapper d-flex">
-    <div class="filter-wrapper d-flex">
-      <span class="filter-header h6">{{ 'homepage.notifications.filter' | translate }}</span>
-      <div class="filter-button">
-        <button class="global-tag global-tag-clicked">{{ 'homepage.notifications.filterAll' | translate }}</button>
-        <button *ngFor="let project of projects" class="tag-button">
-          <a class="custom-chip global-tag">
-            <span class="text">{{ getLangValue(project.ua, project.en) }}</span>
-          </a>
-        </button>
+  <div class="filter-wrapper">
+    <div class="filter-search-wrapper">
+      <div class="filter-approach-wrapper">
+        <span class="filter-header h6">{{ 'homepage.notifications.filter' | translate }}</span>
+        <div class="filter-buttons filter-approach-buttons">
+          <button
+            *ngFor="let approach of filterApproaches"
+            class="global-tag custom-chip"
+            [ngClass]="{ 'global-tag-clicked': approach.isSelected }"
+            (click)="changefilterApproach(approach.name, $event)"
+            (keydown)="changefilterApproach(approach.name, $event)"
+          >
+            {{ getLangValue(approach.nameUa, approach.nameEn) }}
+          </button>
+        </div>
       </div>
+      <input class="notification-search" type="text" placeholder="{{ 'search.search-all-results.placeholder' | translate }}" />
     </div>
-    <input class="notification-search" type="text" placeholder="{{ 'search.search-all-results.placeholder' | translate }}" />
+
+    <div *ngIf="checkSelectedFilter(filterApproach.TYPE)" class="filter-buttons">
+      <button
+        *ngFor="let type of notificationTypesFilter"
+        class="global-tag custom-chip"
+        [ngClass]="{ 'global-tag-clicked': type.isSelected }"
+        (click)="changeFilter(type, filterApproach.TYPE, $event)"
+        (keydown)="changeFilter(type, filterApproach.TYPE, $event)"
+        [disabled]="isFilterDisabled"
+      >
+        {{ getLangValue(type.nameUa, type.nameEn) }}
+      </button>
+    </div>
+
+    <div *ngIf="checkSelectedFilter(filterApproach.ORIGIN)" class="filter-buttons">
+      <button
+        *ngFor="let project of projects"
+        class="global-tag custom-chip"
+        [ngClass]="{ 'global-tag-clicked': project.isSelected }"
+        (click)="changeFilter(project, filterApproach.ORIGIN, $event)"
+        (keydown)="changeFilter(project, filterApproach.ORIGIN, $event)"
+        [disabled]="isFilterDisabled"
+      >
+        {{ project.nameEn }}
+      </button>
+    </div>
   </div>
-  <div *ngIf="!notifications.length" class="no-notifications">
+  <div *ngIf="!isLoading && !notifications.length" class="no-notifications">
     <app-no-data [title]="'homepage.notifications.no-notifications'"></app-no-data>
   </div>
   <div *ngIf="notifications.length">
     <mat-accordion class="list-wrapper" multi="false" [togglePosition]="'before'">
       <mat-expansion-panel
         class="notification"
-        [ngClass]="notification.read ? 'notification-read' : 'notification-unread'"
         *ngFor="let notification of notifications"
+        [ngClass]="notification.viewed ? 'notification-read' : 'notification-unread'"
+        (click)="readNotification($event, notification)"
+        (keydown)="readNotification($event, notification)"
         hideToggle
       >
-        <mat-expansion-panel-header class="notification-header"
-          ><div class="d-flex justify-content-between align-items-center">
-            <div class="notification-header-project">
-              {{ notification.project }}
+        <mat-expansion-panel-header class="notification-header">
+          <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column">
+              <div class="notification-header-project">
+                {{ notification.projectName }}
+              </div>
+              <div class="notification-header-title body-1">
+                {{ notification.titleText }}
+              </div>
             </div>
-            <div class="notification-header-time body-2">
-              {{ notification.time }}
+            <div class="notific-right-column">
+              <div class="notification-header-time body-2">
+                {{ notification.time | localizedDate | date: 'MMM dd, yyyy hh:mm a' }}
+              </div>
+              <div class="d-flex justify-content-around">
+                <button
+                  class="notific-action-btn"
+                  (click)="deleteNotification($event, notification)"
+                  (keydown)="deleteNotification($event, notification)"
+                >
+                  <span class="material-icons" ngbPopover="{{ 'homepage.notifications.delete' | translate }}">delete</span>
+                  <span class="d-none d-sm-block">{{ 'homepage.notifications.delete' | translate }}</span>
+                </button>
+
+                <button
+                  class="notific-action-btn"
+                  (click)="notification.viewed ? unReadNotification($event, notification) : readNotification($event, notification)"
+                  (keydown)="notification.viewed ? unReadNotification($event, notification) : readNotification($event, notification)"
+                >
+                  <span
+                    class="material-icons"
+                    ngbPopover="{{
+                      (notification.viewed ? 'homepage.notifications.mark-as-unread' : 'homepage.notifications.mark-as-read') | translate
+                    }}"
+                    triggers="mouseenter:mouseleave"
+                    placement="left"
+                    >{{ notification.viewed ? 'mark_as_unread' : 'mark_email_read' }}</span
+                  >
+                  <span class="d-none d-sm-block">{{
+                    (notification.viewed ? 'homepage.notifications.mark-as-unread' : 'homepage.notifications.mark-as-read') | translate
+                  }}</span>
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="notification-header-title body-1">
-            {{ notification.title }}
-          </div>
-          <div class="notification-header-content body-2">
-            {{ notification.content }}
           </div>
         </mat-expansion-panel-header>
+        <p
+          appNotificContentReplace
+          [replacements]="notification"
+          class="message-text"
+          (click)="navigate($event)"
+          (keydown)="navigate($event)"
+        ></p>
+        <div class="friend-action-button" *ngIf="notification.notificationType === notificationFriendRequest">
+          <button (click)="declineRequest(notification.actionUserId)" class="decline-request">
+            <span class="material-icons">close</span><span>{{ 'profile.friends.request-decline' | translate }}</span>
+          </button>
+          <button (click)="acceptRequest(notification.actionUserId)" class="accept-request">
+            <span class="material-icons">done</span><span>{{ 'profile.friends.request-accept' | translate }}</span>
+          </button>
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
+    <div infinite-scroll [infiniteScrollThrottle]="100" (scrolled)="onScroll()" [infiniteScrollDisabled]="!hasNextPage"></div>
   </div>
+  <app-spinner *ngIf="isLoading" infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></app-spinner>
 </div>

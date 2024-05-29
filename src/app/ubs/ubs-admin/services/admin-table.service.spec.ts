@@ -365,4 +365,25 @@ describe('AdminTableService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(preference);
   });
+
+  it('should validate dates correctly', () => {
+    expect(service.isValidDate('2024-05-21')).toBeTruthy();
+    expect(service.isValidDate('2022-01-01')).toBeTruthy();
+    expect(service.isValidDate('2024-13-21')).toBeFalsy();
+    expect(service.isValidDate('2024-05-32')).toBeFalsy();
+    expect(service.isValidDate('2024/05/21')).toBeFalsy();
+    expect(service.isValidDate('2024-5-21')).toBeFalsy();
+    expect(service.isValidDate('2024-05-2')).toBeFalsy();
+    expect(service.isValidDate('202-05-21')).toBeFalsy();
+    expect(service.isValidDate('20-05-21')).toBeFalsy();
+    expect(service.isValidDate('12345')).toBeFalsy();
+    expect(service.isValidDate('123')).toBeFalsy();
+    expect(service.isValidDate('1')).toBeFalsy();
+    expect(service.isValidDate('')).toBeFalsy();
+  });
+
+  it('should format dates correctly', () => {
+    expect(service.setDateFormat('2024-05-21T14:30:00Z')).toEqual('2024-05-21');
+    expect(service.setDateFormat('2024-01-01T00:00:00Z')).toEqual('2024-01-01');
+  });
 });

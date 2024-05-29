@@ -122,7 +122,10 @@
       "no-new-notifications": "Нових сповіщень не знайдено.",
       "no-notifications": "На жаль, сповіщень не знайдено.",
       "filter": "Фільтрувати за",
-      "filterAll": "Усі"
+      "filterAll": "Усі",
+      "delete": "Видалити",
+      "mark-as-read": "Позначити прочитаним",
+      "mark-as-unread": "Позначити непрочитаним"
     },
     "events": {
       "title": "Події",
