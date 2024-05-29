@@ -9,15 +9,18 @@ import { take } from 'rxjs/operators';
   pure: false
 })
 export class RelativeDatePipe implements PipeTransform {
-  constructor(public datePipe: DatePipe, public translateService: TranslateService) {}
+  constructor(public translateService: TranslateService) {}
   millisecondsInDay = 86400000;
 
-  transform(value: any): any {
-    if (!value) return value;
+  transform(value: any): string | null {
+    const datePipe = new DatePipe(this.translateService.currentLang);
+    if (!value) {
+      return value;
+    }
     const date = new Date(value);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const isToday = this.datePipe.transform(date, 'shortDate') === this.datePipe.transform(today, 'shortDate');
+    const isToday = datePipe.transform(date, 'shortDate') === datePipe.transform(today, 'shortDate');
     const isYesterday = today.getTime() - date.getTime() < this.millisecondsInDay;
 
     if (isToday) {
@@ -43,6 +46,6 @@ export class RelativeDatePipe implements PipeTransform {
     }
 
     const format = this.translateService.currentLang === Language.UA ? 'MMM dd, yyyy hh:mm' : 'MMM dd, yyyy hh:mm a';
-    return this.datePipe.transform(value, format, '', this.translateService.currentLang);
+    return datePipe.transform(value, format, '', this.translateService.currentLang);
   }
 }

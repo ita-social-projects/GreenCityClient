@@ -22,12 +22,12 @@ describe('RelativeDatePipe', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DatePipe, { provide: TranslateService, useClass: MockTranslateService }, RelativeDatePipe]
+      providers: [DatePipe, { provide: TranslateService, useClass: MockTranslateService }]
     });
 
     datePipe = TestBed.inject(DatePipe);
     translateService = TestBed.inject(TranslateService);
-    pipe = TestBed.inject(RelativeDatePipe);
+    pipe = new RelativeDatePipe(translateService);
   });
 
   it('should translate today', () => {
@@ -46,7 +46,7 @@ describe('RelativeDatePipe', () => {
   it('should format other dates', () => {
     const date = new Date('2023-05-20T10:00:00');
     const expectedFormat = datePipe.transform(date, 'MMM dd, yyyy hh:mm a', '', 'en');
-    const result = pipe.transform(date);
+    const result = pipe.transform(date.toString());
     expect(result).toBe(expectedFormat);
   });
 
@@ -54,7 +54,7 @@ describe('RelativeDatePipe', () => {
     translateService.currentLang = 'ua';
     const date = new Date('2023-05-20T10:00:00');
     const expectedFormat = datePipe.transform(date, 'MMM dd, yyyy hh:mm', '', 'ua');
-    const result = pipe.transform(date);
+    const result = pipe.transform(date.toString());
     expect(result).toBe(expectedFormat);
   });
 });
