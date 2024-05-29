@@ -13,6 +13,7 @@ import { UserNotificationService } from '@global-user/services/user-notification
 import { By } from '@angular/platform-browser';
 import { UserService } from '@global-service/user/user.service';
 import { LocalizedDatePipe } from 'src/app/shared/localized-date-pipe/localized-date.pipe';
+import { RelativeDatePipe } from 'src/app/shared/relative-date.pipe';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -104,7 +105,7 @@ describe('UserNotificationsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UserNotificationsComponent, TranslatePipeMock, LocalizedDatePipe],
+      declarations: [UserNotificationsComponent, TranslatePipeMock, LocalizedDatePipe, RelativeDatePipe],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },

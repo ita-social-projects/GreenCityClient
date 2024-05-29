@@ -46,6 +46,7 @@ import { LinkifyDirective } from 'src/app/shared/directives/linkify.directive';
 import { InputGoogleAutocompleteComponent } from '@shared/components/input-google-autocomplete/input-google-autocomplete.component';
 import { RemoveLeadingZeroDirective } from 'src/app/shared/directives/remove-leading-zero/remove-leading-zero.directive';
 import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-display.component';
+import { RelativeDatePipe } from './relative-date.pipe';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-dis
     LinkifyDirective,
     InputGoogleAutocompleteComponent,
     RemoveLeadingZeroDirective,
-    RatingDisplayComponent
+    RatingDisplayComponent,
+    RelativeDatePipe
   ],
   imports: [
     CommonModule,
@@ -134,7 +136,8 @@ import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-dis
     LinkifyDirective,
     InputGoogleAutocompleteComponent,
     RemoveLeadingZeroDirective,
-    RatingDisplayComponent
+    RatingDisplayComponent,
+    RelativeDatePipe
   ]
 })
 export class SharedModule {}
