@@ -1,9 +1,98 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
 @import '@ng-select/ng-select/themes/default.theme.css';
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import 'typography/typography';
 @import 'typography/typographyUbs';
 @import 'typography/resp';
+@import '@angular/material/theming';
+
+@include mat.core();
+
+$main-palette: (
+  50: #b0ffc2,
+  100: #73dc8f,
+  200: #56c572,
+  300: #24b847,
+  400: #159e36,
+  500: var(--primary-green),
+  600: #004a00,
+  700: #52e452,
+  800: #9e9d24,
+  900: #827717,
+  A100: #f4ff81,
+  A200: #eeff41,
+  A400: #c6ff00,
+  A700: #aeea00,
+  contrast: (
+    50: #ffffff,
+    100: var(--primary-white),
+    200: var(--primary-white),
+    300: var(--primary-white),
+    400: var(--primary-white),
+    500: var(--primary-white),
+    600: var(--primary-white),
+    700: var(--primary-white),
+    800: var(--primary-white),
+    900: var(--primary-white),
+    A100: var(--primary-white),
+    A200: var(--primary-white),
+    A400: var(--primary-white),
+    A700: var(--primary-white)
+  )
+);
+
+$my-primary: mat.define-palette($main-palette, 400);
+$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The "warn" palette is optional and defaults to red if not specified.
+$my-warn: mat.define-palette(mat.$red-palette);
+
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+      warn: $my-warn
+    ),
+    typography: mat.define-typography-config(),
+    density: -3,
+    text: var(--primary-white)
+  )
+);
+
+@include angular-material-theme($my-theme);
+@include mat.chips-density(0);
+@include mat.checkbox-density(-1);
+
+label {
+  margin-bottom: 0 !important;
+}
+
+%font-base {
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+  color: #64727d;
+}
+
+.xs-text {
+  @extend %font-base;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.sm-text {
+  @extend %font-base;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.regular-text {
+  @extend %font-base;
+  font-size: 16px;
+  line-height: 24px;
+}
 
 .hide {
   display: none;
@@ -372,6 +461,10 @@ body {
   @media (max-width: 1199px) {
     max-width: 100%;
   }
+}
+
+.ql-toolbar {
+  background-color: #eff0f1 !important;
 }
 
 // [END] Quill editor

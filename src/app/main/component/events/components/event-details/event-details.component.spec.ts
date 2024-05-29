@@ -13,8 +13,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MapEventComponent } from '../map-event/map-event.component';
-import { EventPageResponseDto } from '../../models/events.interface';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -122,6 +120,7 @@ describe('EventDetailsComponent', () => {
   LocalStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   LocalStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   LocalStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+
   class MatDialogMock {
     open() {
       return {
@@ -129,6 +128,7 @@ describe('EventDetailsComponent', () => {
       };
     }
   }
+
   LocalStorageServiceMock.getPreviousPage = () => '/profile';
 
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
@@ -279,14 +279,6 @@ describe('EventDetailsComponent', () => {
     component.buttonAction({} as MouseEvent);
     expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('errorJoinEvent');
     expect(component.addAttenderError).toBe('');
-  });
-
-  it('should call setBackFromPreview and setSubmitFromPreview methods from eventService', () => {
-    const spy1 = spyOn(EventsServiceMock, 'setBackFromPreview');
-    const spy2 = spyOn(EventsServiceMock, 'setSubmitFromPreview');
-    component.backToSubmit();
-    expect(spy1).toHaveBeenCalledWith(true);
-    expect(spy2).toHaveBeenCalledWith(true);
   });
 
   it('should call submitEventCancelling if result is true after dialog closed when submitting event join cancelation', () => {

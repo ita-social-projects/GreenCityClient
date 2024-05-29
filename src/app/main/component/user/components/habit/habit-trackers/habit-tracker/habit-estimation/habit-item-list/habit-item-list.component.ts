@@ -14,9 +14,9 @@ import { HabitItem } from '../habit-item/HabitItem';
 export class HabitItemListComponent implements OnInit {
   habitItems: HabitItem[] = [];
   @Input()
-    habitDto: HabitDto;
+  habitDto: HabitDto;
   @Input()
-    habitStatistic: HabitStatisticsDto;
+  habitStatistic: HabitStatisticsDto;
   currentNumber = 0;
   isExpanded: boolean;
 

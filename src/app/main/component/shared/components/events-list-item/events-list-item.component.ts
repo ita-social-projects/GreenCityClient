@@ -12,10 +12,10 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { typeFiltersData } from '../../../events/models/event-consts';
-import { Coordinates, EventPageResponseDto, TagDto, TagObj } from '../../../events/models/events.interface';
+import { EventListResponse, LocationResponse, TagDto, TagObj } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
@@ -28,7 +28,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { ofType } from '@ngrx/effects';
-import { WarningPopUpComponent } from '../warning-pop-up/warning-pop-up.component';
+import { WarningPopUpComponent } from '@shared/components';
+import { EventStoreService } from '../../../events/services/event-store.service';
 
 @Component({
   selector: 'app-events-list-item',
@@ -36,7 +37,7 @@ import { WarningPopUpComponent } from '../warning-pop-up/warning-pop-up.componen
   styleUrls: ['./events-list-item.component.scss', './events-list-item-user.component.scss']
 })
 export class EventsListItemComponent implements OnInit, OnDestroy {
-  @Input() event: EventPageResponseDto;
+  @Input() event: EventListResponse;
   @Input() userId: number;
   @Input() isUserAssignList: boolean;
   @Input() isGalleryView: boolean;
@@ -44,36 +45,28 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   profileIcons = userAssignedCardsIcons;
 
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
-
   public author: string;
-
   public isRated: boolean;
-
   public isRegistered: boolean;
   public isReadonly = false;
   public isPosting: boolean;
   public isEventFavorite: boolean;
   public btnStyle: string;
   public nameBtn: string;
-
   public max = 3;
-
   public bsModalRef: BsModalRef;
-
   public langChangeSub: Subscription;
   public currentLang: string;
   public datePipe: DatePipe;
   public newDate: string | null;
-  public address: Coordinates;
+  public address: LocationResponse;
   public addAttenderError: string;
   public isOnline: string;
   public isOwner: boolean;
   public isAdmin: boolean;
   public isActive: boolean;
-
   attendees = [];
   attendeesAvatars = [];
   deleteDialogData = {
@@ -82,27 +75,13 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
   };
-  private cancelationPopupData = {
-    popupTitle: 'homepage.events.pop-up-cancelling-event',
-    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
-    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
-    isUBS: false,
-    isUbsOrderSubmit: false,
-    isHabit: false
-  };
-  private subsOnAttendEvent = new Subscription();
-  private subsOnUnAttendEvent = new Subscription();
-  private dialogRef;
-
   @Output() public isLoggedIn: boolean;
   @Output() idOfUnFavouriteEvent = new EventEmitter<number>();
-
   public styleBtn = {
     secondary: 'secondary-global-button',
     primary: 'primary-global-button',
     hiden: 'event-button-hiden'
   };
-
   public btnName = {
     edit: 'event.btn-edit',
     delete: 'event.btn-delete',
@@ -111,6 +90,18 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     join: 'event.btn-join',
     requestSent: 'event.btn-request-sent'
   };
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private cancelationPopupData = {
+    popupTitle: 'homepage.events.pop-up-cancelling-event',
+    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
+    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
+    isUBS: false,
+    isUbsOrderSubmit: false,
+    isHabit: false
+  };
+  private readonly subsOnAttendEvent = new Subscription();
+  private readonly subsOnUnAttendEvent = new Subscription();
+  private dialogRef;
 
   constructor(
     public router: Router,
@@ -121,6 +112,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store,
     private eventService: EventsService,
+    private eventStoreService: EventStoreService,
     private translate: TranslateService,
     private snackBar: MatSnackBarComponent,
     private jwtService: JwtService,
@@ -204,7 +196,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public buttonAction(buttonName: string): void {
-    this.eventService.setBackFromPreview(false);
     this.eventService.setForm(null);
     switch (buttonName) {
       case this.btnName.cancel:
@@ -240,17 +231,12 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         break;
       case this.btnName.edit:
         this.localStorageService.setEditMode('canUserEdit', true);
-        this.localStorageService.setEventForEdit('editEvent', this.event);
-        this.router.navigate(['/events', 'create-event']);
+        this.eventStoreService.setEventListResponse(this.event);
+        this.router.navigate(['/events', 'update-event', this.event.id]);
         break;
       default:
         break;
     }
-  }
-
-  private joinEvent() {
-    this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
-    this.snackBar.openSnackBar('joinedEvent');
   }
 
   public submitEventCancelling() {
@@ -284,7 +270,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       isReadonly: this.isReadonly
     };
 
-    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, { class: 'modal-dialog-centered', initialState });
+    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, {
+      class: 'modal-dialog-centered',
+      initialState
+    });
     this.bsModalRef.content.closeBtnName = 'event.btn-close';
   }
 
@@ -401,5 +390,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+  }
+
+  private joinEvent() {
+    this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
+    this.snackBar.openSnackBar('joinedEvent');
   }
 }

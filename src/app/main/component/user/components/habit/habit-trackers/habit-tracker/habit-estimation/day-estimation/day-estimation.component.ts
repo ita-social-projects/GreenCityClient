@@ -12,9 +12,9 @@ import { DayEstimation } from '@global-models/habit/DayEstimation';
 })
 export class DayEstimationComponent implements OnInit {
   @Input()
-    habitDto: HabitDto;
+  habitDto: HabitDto;
   @Input()
-    habitStatisticsDto: HabitStatisticsDto;
+  habitStatisticsDto: HabitStatisticsDto;
   dayEstimation: DayEstimation;
 
   constructor(private habitStatisticService: HabitStatisticService) {}

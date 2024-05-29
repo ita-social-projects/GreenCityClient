@@ -1,0 +1,24 @@
+.date-location-container {
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.date-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.checkbox {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.location-title {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}

@@ -5,7 +5,7 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { takeUntil, take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import Quill from 'quill';
@@ -13,7 +13,7 @@ import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { HabitService } from '@global-service/habit/habit.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
-import { quillConfig } from 'src/app/main/component/events/components/create-edit-events/quillEditorFunc';
+import { quillConfig } from '../../../../events/components/event-editor/quillEditorFunc';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
@@ -42,14 +42,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   quillModules = {};
   isEditing = false;
-
-  private habitId: number;
-  private userId: number;
-  private currentLang: string;
-  private destroyed$: Subject<boolean> = new Subject<boolean>();
-  private editorText = '';
   public isValidDescription: boolean;
-
   public previousPath: string;
   public popupConfig = {
     hasBackdrop: true,
@@ -63,6 +56,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       popupCancel: 'user.habit.all-habits.habits-popup.cancel'
     }
   };
+  private habitId: number;
+  private userId: number;
+  private currentLang: string;
+  private destroyed$: Subject<boolean> = new Subject<boolean>();
+  private editorText = '';
 
   constructor(
     public dialog: MatDialog,
@@ -81,6 +79,10 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     Quill.register('modules/imageResize', ImageResize);
   }
 
+  get durationControl() {
+    return this.habitForm.get('duration');
+  }
+
   ngOnInit(): void {
     this.getUserId();
     this.initForm();
@@ -93,10 +95,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     if (this.isEditing) {
       this.initEditData();
     }
-  }
-
-  get durationControl() {
-    return this.habitForm.get('duration');
   }
 
   initEditData() {
@@ -117,6 +115,86 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.habitService.getAllTags().subscribe((tags) => {
       this.selectedTagsList = tags.filter((tag) => tagNames.includes(tag.name)).map(({ id }) => id);
     });
+  }
+
+  public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
+    if (event.event !== 'selection-change') {
+      this.editorText = event.text;
+    }
+    this.handleErrorClass('warning');
+  }
+
+  public handleErrorClass(errorClassName: string): string {
+    const descrControl = this.habitForm.get('description');
+    this.isValidDescription = this.editorText.length > 20;
+    this.isValidDescription ? descrControl.setErrors(null) : descrControl.setErrors({ invalidDescription: this.isValidDescription });
+    return !this.isValidDescription ? errorClassName : '';
+  }
+
+  public trimValue(control: AbstractControl): void {
+    control.setValue(control.value.trim());
+  }
+
+  public setComplexity(i: number): void {
+    this.habitForm.patchValue({ complexity: i + 1 });
+  }
+
+  getStars(value: number, complexity: number): string {
+    return value <= complexity ? this.stars.GREEN : this.stars.WHITE;
+  }
+
+  getShopList(list: ShoppingList[]): void {
+    this.newList = list.map((item) => ({
+      id: item.id,
+      status: item.status,
+      text: item.text
+    }));
+    this.habitForm.get('shopList').setValue(this.newList);
+  }
+
+  getTagsList(list: TagInterface[]): void {
+    this.selectedTagsList = list.map((el) => el.id);
+    this.habitForm.get('tagIds').setValue(this.selectedTagsList);
+  }
+
+  getFile(image: FileHandle[]): void {
+    this.habitForm.get('image').setValue(image[0].file);
+  }
+
+  goToAllHabits(): void {
+    this.userFriendsService.addedFriends.length = 0;
+    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.habitSuccessfullyAdded();
+  }
+
+  handleHabitDelete() {
+    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.snackBar.openSnackBar('habitDeleted');
+  }
+
+  addHabit(): void {
+    this.habitService
+      .addCustomHabit(this.habitForm.value, this.currentLang)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.goToAllHabits();
+      });
+  }
+
+  saveHabit(): void {
+    this.habitService
+      .changeCustomHabit(this.habitForm.value, this.currentLang, this.habitId)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.goToAllHabits();
+      });
+  }
+
+  deleteHabit() {
+    this.habitService
+      .deleteCustomHabit(this.habitId)
+      .pipe(take(1))
+      .subscribe(() => this.handleHabitDelete());
   }
 
   private getUserId() {
@@ -153,66 +231,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.shopList = this.shopList.map((el) => ({ ...el, selected: el.status === TodoStatus.inprogress }));
   }
 
-  public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
-    if (event.event !== 'selection-change') {
-      this.editorText = event.text;
-    }
-    this.handleErrorClass('warning');
-  }
-
-  public handleErrorClass(errorClassName: string): string {
-    const descrControl = this.habitForm.get('description');
-    this.isValidDescription = this.editorText.length > 20;
-    this.isValidDescription ? descrControl.setErrors(null) : descrControl.setErrors({ invalidDescription: this.isValidDescription });
-    return !this.isValidDescription ? errorClassName : '';
-  }
-
-  public trimValue(control: AbstractControl): void {
-    control.setValue(control.value.trim());
-  }
-
-  public setComplexity(i: number): void {
-    this.habitForm.patchValue({ complexity: i + 1 });
-  }
-
   private subscribeToLangChange(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang) => {
       this.translate.setDefaultLang(lang);
       this.currentLang = lang;
     });
-  }
-
-  getStars(value: number, complexity: number): string {
-    return value <= complexity ? this.stars.GREEN : this.stars.WHITE;
-  }
-
-  getShopList(list: ShoppingList[]): void {
-    this.newList = list.map((item) => ({
-      id: item.id,
-      status: item.status,
-      text: item.text
-    }));
-    this.habitForm.get('shopList').setValue(this.newList);
-  }
-
-  getTagsList(list: TagInterface[]): void {
-    this.selectedTagsList = list.map((el) => el.id);
-    this.habitForm.get('tagIds').setValue(this.selectedTagsList);
-  }
-
-  getFile(image: FileHandle[]): void {
-    this.habitForm.get('image').setValue(image[0].file);
-  }
-
-  goToAllHabits(): void {
-    this.userFriendsService.addedFriends.length = 0;
-    this.router.navigate([`/profile/${this.userId}/allhabits`]);
-    this.habitSuccessfullyAdded();
-  }
-
-  handleHabitDelete() {
-    this.router.navigate([`/profile/${this.userId}/allhabits`]);
-    this.snackBar.openSnackBar('habitDeleted');
   }
 
   private habitSuccessfullyAdded(): void {
@@ -238,30 +261,5 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
           this.getTagsList(newList);
         }
       });
-  }
-
-  addHabit(): void {
-    this.habitService
-      .addCustomHabit(this.habitForm.value, this.currentLang)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.goToAllHabits();
-      });
-  }
-
-  saveHabit(): void {
-    this.habitService
-      .changeCustomHabit(this.habitForm.value, this.currentLang, this.habitId)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.goToAllHabits();
-      });
-  }
-
-  deleteHabit() {
-    this.habitService
-      .deleteCustomHabit(this.habitId)
-      .pipe(take(1))
-      .subscribe(() => this.handleHabitDelete());
   }
 }

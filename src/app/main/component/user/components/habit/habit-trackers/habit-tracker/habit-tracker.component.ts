@@ -13,11 +13,11 @@ import { LanguageService } from '../../../../../../i18n/language.service';
 })
 export class HabitTrackerComponent implements OnInit {
   @Input()
-    habit: HabitDto;
+  habit: HabitDto;
   @Input()
-    chartId: string;
+  chartId: string;
   @Input()
-    usersHabitId: number;
+  usersHabitId: number;
   $habit: Observable<HabitDto> = of<HabitDto>();
   currentStatistic: HabitStatisticsDto;
   habitStatistic: HabitStatisticsDto[];

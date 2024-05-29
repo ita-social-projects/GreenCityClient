@@ -7,8 +7,8 @@ import { Component, Input } from '@angular/core';
 })
 export class HabitTitleComponent {
   @Input()
-    habitId: number;
+  habitId: number;
 
   @Input()
-    habitTitle: string;
+  habitTitle: string;
 }

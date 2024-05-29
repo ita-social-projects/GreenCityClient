@@ -13,7 +13,7 @@ import { LanguageService } from '../../../../../../../i18n/language.service';
 export class HabitFactComponent implements OnInit {
   $fact: Observable<HabitFactDto>;
   @Input()
-    habitDictionary: HabitDictionaryDto;
+  habitDictionary: HabitDictionaryDto;
 
   constructor(
     private service: HabitFactService,

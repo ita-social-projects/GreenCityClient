@@ -14,13 +14,7 @@ export const quillConfig: QuillModules = {
   'emoji-textarea': false,
   'emoji-toolbar': true,
   toolbar: {
-    container: [
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ font: [] }],
-      [{ color: [] }, { background: [] }],
-      [{ align: [] }],
-      [{ size: ['small', false, 'large', 'huge'] }]
-    ]
+    container: [['bold', 'italic', 'underline']]
   },
   keyboard: {
     bindings: {

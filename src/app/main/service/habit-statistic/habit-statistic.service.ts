@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HabitDto } from '../../model/habit/HabitDto';
 import { NewHabitDto } from '../../model/habit/NewHabitDto';
-import { habitStatisticLink, userLink, habitLink } from '../../links';
+import { habitLink, habitStatisticLink, userLink } from '../../links';
 
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { HabitStatisticsDto } from '../../model/habit/HabitStatisticsDto';
@@ -17,18 +17,18 @@ import { OnLogout } from '../OnLogout';
 export class HabitStatisticService implements OnLogout {
   private userId: number;
   private $habitStatistics = new BehaviorSubject<HabitDto[]>([]);
+  readonly habitStatistics = this.$habitStatistics.asObservable();
   private $availableHabits = new BehaviorSubject<AvailableHabitDto[]>([]);
+  readonly availableHabits = this.$availableHabits.asObservable();
   private dataStore: {
     habitStatistics: HabitDto[];
     availableHabits: AvailableHabitDto[];
     newHabits: NewHabitDto[];
   } = {
-      habitStatistics: [],
-      availableHabits: [],
-      newHabits: []
-    };
-  readonly habitStatistics = this.$habitStatistics.asObservable();
-  readonly availableHabits = this.$availableHabits.asObservable();
+    habitStatistics: [],
+    availableHabits: [],
+    newHabits: []
+  };
 
   constructor(
     private http: HttpClient,

@@ -9,7 +9,7 @@ import { HabitStatisticsDto } from '../../../../../../../model/habit/HabitStatis
 })
 export class HabitEstimationComponent {
   @Input()
-    habit: HabitDto;
+  habit: HabitDto;
   @Input()
-    statistic: HabitStatisticsDto;
+  statistic: HabitStatisticsDto;
 }

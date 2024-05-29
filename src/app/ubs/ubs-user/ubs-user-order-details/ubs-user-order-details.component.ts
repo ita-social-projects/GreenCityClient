@@ -12,10 +12,10 @@ import { IUserOrderInfo, PaymentStatusEn } from '../ubs-user-orders-list/models/
 })
 export class UbsUserOrderDetailsComponent implements OnDestroy, OnInit {
   @Input()
-    order: IUserOrderInfo;
+  order: IUserOrderInfo;
   public currentLanguage: string;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
   public certificatesAmount: number;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private localStorageService: LocalStorageService,

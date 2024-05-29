@@ -8,9 +8,9 @@ import { LanguageService } from '../../../../../../../i18n/language.service';
 })
 export class HabitTrackerDateComponent implements OnInit {
   @Input()
-    habitCreationDate: Date;
+  habitCreationDate: Date;
   @Input()
-    dayNumber: number;
+  dayNumber: number;
   creationMonth: string;
 
   constructor(private languageService: LanguageService) {}
