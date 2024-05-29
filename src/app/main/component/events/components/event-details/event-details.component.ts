@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ofType } from '@ngrx/effects';
@@ -23,6 +23,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
+import { WarningPopUpComponent } from '@shared/components';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-details',
@@ -53,12 +55,22 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   private userId: number;
   public eventId: number;
+  private dialogRef;
 
   public roles = {
     UNAUTHENTICATED: 'UNAUTHENTICATED',
     USER: 'USER',
     ORGANIZER: 'ORGANIZER',
     ADMIN: 'ADMIN'
+  };
+
+  private cancelationPopupData = {
+    popupTitle: 'homepage.events.pop-up-cancelling-event',
+    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
+    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
+    isUBS: false,
+    isUbsOrderSubmit: false,
+    isHabit: false
   };
 
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
@@ -84,7 +96,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public currentDate = new Date();
 
   public max = 5;
-  public rate: number;
 
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title-admin',
@@ -121,7 +132,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private actionsSubj: ActionsSubject,
     private jwtService: JwtService,
     private snackBar: MatSnackBarComponent,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -136,7 +148,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
         this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
         this.images = [res.titleImage, ...res.additionalImages];
-        this.rate = Math.round(this.event.organizer.organizerRating);
         this.mapDialogData = {
           lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
           lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude
@@ -240,6 +251,30 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  public submitEventCancelling() {
+    this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+    this.isSubscribed = !this.isSubscribed;
+  }
+
+  openPopUp(): void {
+    if (this.dialogRef) {
+      return;
+    }
+    this.dialogRef = this.dialog.open(WarningPopUpComponent, {
+      data: this.cancelationPopupData
+    });
+
+    this.dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.dialogRef = null;
+        if (result) {
+          this.submitEventCancelling();
+        }
+      });
+  }
+
   public deleteEvent(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.deleteDialogData,
@@ -297,8 +332,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
       this.isSubscribed = !this.isSubscribed;
     } else {
-      this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
-      this.isSubscribed = !this.isSubscribed;
+      this.openPopUp();
     }
   }
 

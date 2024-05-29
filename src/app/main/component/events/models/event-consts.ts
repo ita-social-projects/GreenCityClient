@@ -14,7 +14,7 @@ export enum TimeFront {
 
 export const timeStatusFiltersData: FilterItem[] = [
   { type: 'eventTimeStatus', nameEn: 'Future', nameUa: 'Майбутні' },
-  { type: 'eventTimeStatus', nameEn: 'Pasted', nameUa: 'Завершені' }
+  { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершені' }
 ];
 
 export enum DefaultCoordinates {

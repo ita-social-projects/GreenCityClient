@@ -35,6 +35,7 @@ describe('EventDetailsComponent', () => {
   let fixture: ComponentFixture<EventDetailsComponent>;
   let route: ActivatedRoute;
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
 
   const eventMock = {
     additionalImages: [],
@@ -58,8 +59,7 @@ describe('EventDetailsComponent', () => {
     open: true,
     organizer: {
       id: 1111,
-      name: 'John',
-      organizerRating: 2
+      name: 'John'
     },
     tags: [{ nameEn: 'Environmental', nameUa: 'Екологічний', id: 1 }],
     title: 'title',
@@ -143,6 +143,7 @@ describe('EventDetailsComponent', () => {
   const actionSub: ActionsSubject = new ActionsSubject();
 
   beforeEach(async(() => {
+    const dialogSpyObj = jasmine.createSpyObj('MatDialog', ['open']);
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
       declarations: [
@@ -162,11 +163,12 @@ describe('EventDetailsComponent', () => {
         { provide: ActionsSubject, useValue: actionSub },
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: BsModalService, useValue: bsModalBsModalServiceMock }
+        { provide: BsModalService, useValue: bsModalBsModalServiceMock },
+        { provide: MatDialog, useValue: dialogSpyObj }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
-
+    dialogSpy = TestBed.inject(MatDialog) as jasmine.SpyObj<MatDialog>;
     route = TestBed.inject(ActivatedRoute);
   }));
 
@@ -272,6 +274,9 @@ describe('EventDetailsComponent', () => {
     component.role = 'USER';
     component.isUserCanJoin = true;
     component.addAttenderError = 'some error';
+    const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+    dialogRefSpy.afterClosed.and.returnValue(of(true));
+    dialogSpy.open.and.returnValue(dialogRefSpy);
     component.buttonAction({} as MouseEvent);
     expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('errorJoinEvent');
     expect(component.addAttenderError).toBe('');
@@ -283,5 +288,18 @@ describe('EventDetailsComponent', () => {
     component.backToSubmit();
     expect(spy1).toHaveBeenCalledWith(true);
     expect(spy2).toHaveBeenCalledWith(true);
+  });
+
+  it('should call submitEventCancelling if result is true after dialog closed when submitting event join cancelation', () => {
+    const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+    dialogRefSpy.afterClosed.and.returnValue(of(true));
+    dialogSpy.open.and.returnValue(dialogRefSpy);
+
+    spyOn(component, 'submitEventCancelling');
+
+    component.openPopUp();
+    dialogRefSpy.afterClosed().subscribe(() => {
+      expect(component.submitEventCancelling).toHaveBeenCalled();
+    });
   });
 });

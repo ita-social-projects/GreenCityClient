@@ -18,25 +18,16 @@
       "
       (click)="navigateToNotification(notification.id)"
     >
-      <td>
-        {{ getLangValue(notification.notificationTemplateMainInfoDto.title, notification.notificationTemplateMainInfoDto.titleEng) }}
-      </td>
-      <td>
-        {{
-          getLangValue(
-            notification.notificationTemplateMainInfoDto.triggerDescription,
-            notification.notificationTemplateMainInfoDto.triggerDescriptionEng
-          )
-        }}
-      </td>
-      <td>
-        {{
-          getLangValue(
-            notification.notificationTemplateMainInfoDto.timeDescription,
-            notification.notificationTemplateMainInfoDto.timeDescriptionEng
-          )
-        }}
-      </td>
+      <ng-container *ngIf="isLangUa; else englishContainer">
+        <td>{{ notification.notificationTemplateMainInfoDto.title }}</td>
+        <td>{{ notification.notificationTemplateMainInfoDto.triggerDescription }}</td>
+        <td>{{ notification.notificationTemplateMainInfoDto.timeDescription }}</td>
+      </ng-container>
+      <ng-template #englishContainer>
+        <td>{{ notification.notificationTemplateMainInfoDto.titleEng }}</td>
+        <td>{{ notification.notificationTemplateMainInfoDto.triggerDescriptionEng }}</td>
+        <td>{{ notification.notificationTemplateMainInfoDto.timeDescriptionEng }}</td>
+      </ng-template>
       <td>
         {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}
       </td>
@@ -47,4 +38,4 @@
   </tbody>
 </table>
 <app-spinner *ngIf="spinner"></app-spinner>
-<div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="loadPage(currentPage)"></div>
+<div infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="loadPage(currentPage)"></div>

@@ -33,13 +33,27 @@ export class AdminTableService {
         if (objKeys.length === 2) {
           const keyFrom = objKeys[0].replace('From', '.from');
           const keyTo = objKeys[1].replace('To', '.to');
-          const key1 = objKeys[0];
-          const key2 = objKeys[1];
-          filtersQuery += `&${keyFrom}=${elem[key1]}&${keyTo}=${elem[key2]}`;
+          const elementFrom = this.setDateFormat(elem[objKeys[0]]);
+          const elementTo = this.setDateFormat(elem[objKeys[1]]);
+          if (this.isValidDate(elementFrom) && this.isValidDate(elementTo)) {
+            filtersQuery += `&${keyFrom}=${elementFrom}&${keyTo}=${elementTo}`;
+          }
         }
       });
     }
     return this.http.get<IBigOrderTable>(`${BASE_QUERY}${filtersQuery}`);
+  }
+
+  isValidDate(dateString: string): boolean {
+    const regEx = /^\d{4}-\d{2}-\d{2}$/;
+    const date = new Date(dateString);
+    if (!regEx.test(dateString) || Number.isNaN(date.getTime())) {
+      return false;
+    }
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return dateString === `${year}-${month}-${day}`;
   }
 
   getColumns() {

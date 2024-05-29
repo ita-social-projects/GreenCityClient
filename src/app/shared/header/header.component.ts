@@ -14,7 +14,7 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../../main/component/layout/components/models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
-import { Subject } from 'rxjs';
+import { Subject, interval } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
@@ -25,6 +25,7 @@ import { UserNotificationsPopUpComponent } from '@global-user/components/profile
 import { IAppState } from 'src/app/store/state/app.state';
 import { ChatPopupComponent } from 'src/app/chat/component/chat-popup/chat-popup.component';
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
+import { SocketService } from '@global-service/socket/socket.service';
 
 @Component({
   selector: 'app-header',
@@ -54,6 +55,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signinref') signinref: ElementRef;
   @ViewChild('signupref') signupref: ElementRef;
   @ViewChild('serviceref') serviceref: ElementRef;
+  @ViewChild('notificationIconRef') notificationIconRef: ElementRef;
   public elementName;
   public isUBS: boolean;
   public ubsUrl = 'ubs';
@@ -74,7 +76,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private headerService: HeaderService;
   private orderService: OrderService;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
-  constructor(private dialog: MatDialog, injector: Injector, private store: Store) {
+  constructor(private dialog: MatDialog, injector: Injector, private store: Store, private socketService: SocketService) {
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
     this.router = injector.get(Router);
@@ -119,6 +121,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.localeStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
+    });
+    this.onConnectedtoSocket();
+    interval(10000).subscribe(() => {
+      this.socketService.send(this.socketService.connection.greenCity, '/app/notifications', {
+        userId: this.userId
+      });
+    });
+  }
+
+  public onConnectedtoSocket(): void {
+    this.socketService.initiateConnection();
+    this.socketService.onMessage(this.socketService.connection.greenCity, `/topic/${this.userId}/notification`).subscribe((msg) => {
+      if (msg && !this.isUBS) {
+        this.notificationIconRef.nativeElement.srcset = this.headerImageList.notificationHasNew;
+      }
+      if (!msg && !this.isUBS) {
+        this.notificationIconRef.nativeElement.srcset = this.headerImageList.notification;
+      }
     });
   }
 
@@ -341,22 +361,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/profile', this.userId, 'notifications']);
   }
 
-  openNotificationPopUp(event) {
-    const pos = event.target.getBoundingClientRect();
+  openNotificationPopUp() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.closeOnNavigation = true;
     dialogConfig.panelClass = 'dialog-notification';
     dialogConfig.position = {
-      top: pos.top + 'px',
-      left: pos.left + 'px'
+      top: 35 + 'px',
+      right: 20 + 'px'
     };
     const matDialogRef = this.dialog.open(UserNotificationsPopUpComponent, dialogConfig);
     matDialogRef
       .afterClosed()
       .pipe(takeUntil(this.destroySub))
       .subscribe((data) => {
-        if (data.openAll) {
+        if (data?.openAll) {
           this.router.navigate(['/profile', this.userId, 'notifications']);
         }
       });

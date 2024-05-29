@@ -106,4 +106,8 @@ export class HabitService {
   getFriendsTrakingSameHabitByHabitId(id: number): Observable<FriendProfilePicturesArrayModel[]> {
     return this.http.get<FriendProfilePicturesArrayModel[]>(`${habitLink}/${id}/friends/profile-pictures`);
   }
+
+  deleteCustomHabit(id: number): Observable<CustomHabitDtoRequest> {
+    return this.http.delete<CustomHabitDtoRequest>(`${habitLink}/delete/${id}`);
+  }
 }

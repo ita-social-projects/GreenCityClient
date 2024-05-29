@@ -141,7 +141,7 @@ export class OrderService {
   }
 
   getUbsOrderStatus(): Observable<any> {
-    const fondyOrderId = this.localStorageService.getUbsFondyOrderId();
+    const fondyOrderId = this.localStorageService.getUbsPaymentOrderId();
     if (fondyOrderId) {
       return this.getFondyStatus(fondyOrderId);
     }
@@ -182,7 +182,7 @@ export class OrderService {
     this.shareFormService.isDataSaved = true;
     this.shareFormService.orderDetails = null;
     this.shareFormService.personalData = null;
-    this.localStorageService.removeUbsFondyOrderId();
+    this.localStorageService.removeUbsPaymentOrderId();
     this.cleanOrderState();
   }
 
@@ -194,6 +194,6 @@ export class OrderService {
   cleanPrevOrderState(): void {
     this.cleanOrderState();
     localStorage.removeItem('UBSExistingOrderId');
-    this.localStorageService.removeUbsFondyOrderId();
+    this.localStorageService.removeUbsPaymentOrderId();
   }
 }

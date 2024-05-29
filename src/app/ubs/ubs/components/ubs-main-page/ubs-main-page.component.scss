@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 @mixin height-and-width($height, $width) {
   height: $height;
   width: $width;
@@ -70,6 +72,56 @@
           }
         }
       }
+    }
+
+    .location-to-show-bags-wrapper {
+      margin-top: 10px;
+    }
+
+    ::ng-deep {
+      .mat-form-field-label {
+        font-size: 14px;
+        margin-top: 30px;
+
+        @include responsivePCFirst(md) {
+          font-size: 10px;
+          margin-top: 20px;
+        }
+      }
+
+      .mat-form-field-infix {
+        display: flex;
+        min-width: 500px;
+        width: fit-content;
+        border-top: 0;
+        padding: 10px 0;
+
+        @include responsivePCFirst(sm) {
+          min-width: 250px;
+          font-size: 20px;
+        }
+      }
+    }
+
+    .location-to-show {
+      display: block;
+      border: none;
+      font-size: 28px;
+      font-family: var(--ubs-secondary-font);
+      text-overflow: ellipsis;
+      background-color: transparent;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      @include responsivePCFirst(md) {
+        font-size: 20px;
+      }
+    }
+
+    .arrowDownImg {
+      cursor: pointer;
     }
   }
 
@@ -260,7 +312,6 @@
   }
 
   section {
-    max-height: 1140px;
     margin-top: 0;
   }
 
@@ -600,7 +651,7 @@ section .main-container {
   }
 }
 
-@media (min-width: 1440px) {
+@include responsiveMobileFirst(3xl) {
   .ubsHomepage {
     margin: 0 auto;
     padding: 64px 0 0 0;
@@ -905,454 +956,299 @@ section .main-container {
   }
 }
 
-@media (min-width: 1023px) and (max-width: 1439px) {
-  .ubsHomepage {
-    padding: 64px 0 0 0;
-    font-size: 16px;
-
-    h2 {
-      margin: 0 auto 0 auto;
-      padding: 0;
-      font-weight: 800;
-      font-size: 48px;
-      line-height: 59px;
-    }
-
-    header {
-      margin: 85px 33px 97px 33px;
-      padding: 0;
-
-      .header-left {
-        padding: 0;
-        width: 53%;
-        min-width: 578px;
-        max-width: 699px;
-        height: 10%;
-        min-height: 109px;
-        max-height: 121px;
-
-        img {
-          padding: 0;
-          margin: 0;
-        }
-      }
-
-      .spinner {
-        width: 26%;
-        max-width: 280px;
-        min-width: 291px;
-        height: 27%;
-        max-height: 343px;
-        min-height: 330px;
-        top: 166px;
-        right: 75px;
-      }
-
-      .main-content {
-        margin-top: 50px;
-        margin-left: 0;
-        max-width: 50%;
-
-        button {
-          margin: 0;
-          width: 281px;
-          height: 48px;
-          font-size: 17px;
-          line-height: 21px;
-        }
-
-        .main-caption {
-          width: 300px;
-          margin-top: 32px;
-          font-size: 16px;
-          line-height: 20px;
-
-          p {
-            margin-bottom: 9px;
-          }
-        }
-      }
-    }
-
-    section {
-      margin: 0;
-      padding: 0;
-
-      .price-section,
-      .pick-up-service .main-container {
-        margin: 0;
-        padding: 110px 33px;
-      }
-    }
-
-    section.pick-up-service {
-      padding-top: 117px;
-
-      .main-container {
-        height: 100%;
-        margin: 0;
-        padding: 0 33px 117px 33px;
-
-        .box {
-          margin-top: 92px;
-          padding: 0;
-          overflow: hidden;
-
-          .step-order {
-            .content-box {
-              width: 210px;
-              padding: 16px 4px;
-
-              h1 {
-                font-size: 20px;
-              }
-
-              p {
-                height: 100%;
-                font-size: 14px;
-                line-height: 17px;
-              }
-            }
-
-            .base-line {
-              hr {
-                width: 65px;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    #first-section {
-      padding: 110px 33px;
+@include responsiveMobileFirst(xl) {
+  @include responsivePCFirst(3xl) {
+    .ubsHomepage {
+      padding: 64px 0 0 0;
+      font-size: 16px;
 
       h2 {
-        margin-bottom: 73px;
-      }
-
-      .how-to-prepare {
-        margin: 0;
+        margin: 0 auto 0 auto;
         padding: 0;
-        height: 100%;
-
-        .main-content-left,
-        .main-content-right {
-          width: 45%;
-          max-width: 555px;
-          min-width: 464px;
-        }
-
-        .main-content-left {
-          .box-item {
-            margin-bottom: 16px;
-            padding: 18px 32px;
-            height: 100%;
-
-            .box-number {
-              font-size: 50px;
-              line-height: 61px;
-              padding-right: 30px;
-            }
-
-            .box-text {
-              margin: 0;
-              padding: 0;
-              font-size: 16px;
-              line-height: 20px;
-            }
-          }
-
-          .box-item:last-child {
-            margin-bottom: 0;
-          }
-        }
-
-        .main-content-right {
-          .conditions {
-            margin-bottom: 24px;
-          }
-
-          .conditions,
-          .bonuses {
-            padding: 21px 30px;
-
-            .caption {
-              padding-right: 16px;
-
-              .col {
-                padding: 0;
-              }
-
-              h2 {
-                margin-bottom: 0;
-                font-size: 36px;
-                line-height: 44px;
-              }
-            }
-
-            .rules {
-              justify-content: space-around;
-
-              .rule {
-                margin-bottom: 24px;
-                font-size: 16px;
-                line-height: 20px;
-
-                .lifehack {
-                  margin-top: 5px;
-                  font-size: 16px;
-                  line-height: 20px;
-                }
-              }
-
-              .rule:last-child {
-                margin-bottom: 0;
-              }
-            }
-          }
-        }
+        font-weight: 800;
+        font-size: 48px;
+        line-height: 59px;
       }
-    }
 
-    section .price-section {
-      height: 100%;
+      header {
+        margin: 85px 33px 97px 33px;
+        padding: 0;
 
-      .box-card {
-        margin-top: 71px;
-        height: 100%;
+        .header-left {
+          padding: 0;
+          width: 53%;
+          min-width: 578px;
+          max-width: 699px;
+          height: 10%;
+          min-height: 109px;
+          max-height: 121px;
 
-        #price-frame {
-          width: 298px;
-          height: 229px;
-          font-size: 16px;
-
-          .content-price {
+          img {
+            padding: 0;
             margin: 0;
-            padding: 33px 30px 0 24px;
-            width: 100%;
-            line-height: 20px !important;
-          }
-
-          .header-price {
-            flex-direction: column-reverse;
-            height: 100px;
-
-            .price {
-              font-size: 28px;
-              line-height: 34px;
-            }
-          }
-        }
-      }
-    }
-
-    section#how-works {
-      padding: 110px 32px 95px 32px;
-      height: 100%;
-
-      .box-how-works {
-        margin: 0;
-        padding: 0;
-
-        #main-content {
-          margin: 0;
-
-          .time-frame {
-            justify-content: space-between;
-            padding: 32px 38px;
-            min-width: 464px;
-            max-width: 552px;
-            height: 139px;
-
-            h2 {
-              margin: 0 0 20px 0;
-              padding: 0;
-              font-size: 30px;
-              line-height: 37px;
-              text-align: left;
-            }
-
-            p {
-              margin: 0;
-              padding: 0;
-              font-size: 18px;
-              line-height: 22px;
-            }
           }
         }
 
-        #how-works-content {
-          margin-top: 45px;
-          height: 100%;
+        .spinner {
+          width: 26%;
+          max-width: 280px;
+          min-width: 291px;
+          height: 27%;
+          max-height: 343px;
+          min-height: 330px;
+          top: 166px;
+          right: 75px;
+        }
+
+        .main-content {
+          margin-top: 50px;
+          margin-left: 0;
+          max-width: 50%;
 
           button {
             margin: 0;
-            width: 325px;
-            height: 59px;
-            font-size: 22px;
-            line-height: 27px;
+            width: 281px;
+            height: 48px;
+            font-size: 17px;
+            line-height: 21px;
           }
 
-          .link-to-shop {
-            margin-left: 4%;
-            width: 451px;
-            font-size: 24px;
-            line-height: 29px;
+          .main-caption {
+            width: 300px;
+            margin-top: 32px;
+            font-size: 16px;
+            line-height: 20px;
+
+            p {
+              margin-bottom: 9px;
+            }
           }
         }
       }
-    }
-  }
-}
 
-@media (min-width: 767px) and (max-width: 1023px) {
-  .ubsHomepage {
-    padding: 66px 0 0 0;
-    font-size: 16px;
-
-    h2 {
-      margin: 0 auto 0 auto;
-      padding: 0;
-      font-weight: 800;
-      font-size: 40px;
-      line-height: 49px;
-    }
-
-    header {
-      margin: 60px 80px 71px 27px;
-      padding: 0;
-
-      .header-left {
+      section {
+        margin: 0;
         padding: 0;
-        width: 58%;
-        min-width: 450px;
-        max-width: 629px;
-        height: 10%;
-        min-height: 78px;
-        max-height: 108px;
 
-        img {
-          padding: 0;
+        .price-section,
+        .pick-up-service .main-container {
           margin: 0;
+          padding: 110px 33px;
         }
       }
 
-      .spinner {
-        width: 25%;
-        max-width: 273px;
-        min-width: 196px;
-        height: 26%;
-        max-height: 283px;
-        min-height: 202px;
-        top: 148px;
-        right: 80px;
-      }
+      section.pick-up-service {
+        padding-top: 117px;
 
-      .main-content {
-        margin-top: 40px;
-        margin-left: 0;
-        max-width: 50%;
-
-        button {
+        .main-container {
+          height: 100%;
           margin: 0;
-          width: 247px;
-          height: 46px;
-          font-size: 16px;
-          line-height: 20px;
-        }
+          padding: 0 33px 117px 33px;
 
-        .main-caption {
-          width: 300px;
-          margin-top: 25px;
-          font-size: 14px;
-          line-height: 17px;
+          .box {
+            margin-top: 92px;
+            padding: 0;
+            overflow: hidden;
 
-          p {
-            margin-bottom: 9px;
+            .step-order {
+              .content-box {
+                width: 210px;
+                padding: 16px 4px;
+
+                h1 {
+                  font-size: 20px;
+                }
+
+                p {
+                  height: 100%;
+                  font-size: 14px;
+                  line-height: 17px;
+                }
+              }
+
+              .base-line {
+                hr {
+                  width: 65px;
+                }
+              }
+            }
           }
         }
       }
-    }
 
-    section {
-      margin: 0;
-      padding: 0;
+      #first-section {
+        padding: 110px 33px;
 
-      .price-section,
-      .pick-up-service .main-container {
-        margin: 0;
-        padding: 90px 24px;
-      }
-    }
+        h2 {
+          margin-bottom: 73px;
+        }
 
-    section.pick-up-service {
-      padding-top: 90px;
-
-      .main-container {
-        height: 100%;
-        margin: 0;
-        padding: 0 24px 90px 24px;
-
-        .box {
-          margin-top: 50px;
+        .how-to-prepare {
+          margin: 0;
           padding: 0;
-          overflow: hidden;
+          height: 100%;
 
-          .step-order {
-            .content-box {
-              width: 160px;
-              padding: 16px 4px;
+          .main-content-left,
+          .main-content-right {
+            width: 45%;
+            max-width: 555px;
+            min-width: 464px;
+          }
 
-              h1 {
-                font-size: 18px;
+          .main-content-left {
+            .box-item {
+              margin-bottom: 16px;
+              padding: 18px 32px;
+              height: 100%;
+
+              .box-number {
+                font-size: 50px;
+                line-height: 61px;
+                padding-right: 30px;
+              }
+
+              .box-text {
+                margin: 0;
+                padding: 0;
+                font-size: 16px;
+                line-height: 20px;
+              }
+            }
+
+            .box-item:last-child {
+              margin-bottom: 0;
+            }
+          }
+
+          .main-content-right {
+            .conditions {
+              margin-bottom: 24px;
+            }
+
+            .conditions,
+            .bonuses {
+              padding: 21px 30px;
+
+              .caption {
+                padding-right: 16px;
+
+                .col {
+                  padding: 0;
+                }
+
+                h2 {
+                  margin-bottom: 0;
+                  font-size: 36px;
+                  line-height: 44px;
+                }
+              }
+
+              .rules {
+                justify-content: space-around;
+
+                .rule {
+                  margin-bottom: 24px;
+                  font-size: 16px;
+                  line-height: 20px;
+
+                  .lifehack {
+                    margin-top: 5px;
+                    font-size: 16px;
+                    line-height: 20px;
+                  }
+                }
+
+                .rule:last-child {
+                  margin-bottom: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      section .price-section {
+        height: 100%;
+
+        .box-card {
+          margin-top: 71px;
+          height: 100%;
+
+          #price-frame {
+            width: 298px;
+            height: 229px;
+            font-size: 16px;
+
+            .content-price {
+              margin: 0;
+              padding: 33px 30px 0 24px;
+              width: 100%;
+              line-height: 20px !important;
+            }
+
+            .header-price {
+              flex-direction: column-reverse;
+              height: 100px;
+
+              .price {
+                font-size: 28px;
+                line-height: 34px;
+              }
+            }
+          }
+        }
+      }
+
+      section#how-works {
+        padding: 110px 32px 95px 32px;
+        height: 100%;
+
+        .box-how-works {
+          margin: 0;
+          padding: 0;
+
+          #main-content {
+            margin: 0;
+
+            .time-frame {
+              justify-content: space-between;
+              padding: 32px 38px;
+              min-width: 464px;
+              max-width: 552px;
+              height: 139px;
+
+              h2 {
+                margin: 0 0 20px 0;
+                padding: 0;
+                font-size: 30px;
+                line-height: 37px;
+                text-align: left;
               }
 
               p {
-                height: 100%;
-                font-size: 12px;
-                line-height: 15px;
-              }
-            }
-
-            .base-line {
-              hr {
-                width: 65px;
+                margin: 0;
+                padding: 0;
+                font-size: 18px;
+                line-height: 22px;
               }
             }
           }
-        }
-      }
-    }
 
-    section .price-section {
-      height: 100%;
+          #how-works-content {
+            margin-top: 45px;
+            height: 100%;
 
-      h2 {
-        padding-bottom: 0;
-      }
+            button {
+              margin: 0;
+              width: 325px;
+              height: 59px;
+              font-size: 22px;
+              line-height: 27px;
+            }
 
-      .box-card {
-        margin-top: 50px;
-        height: 100%;
-
-        #price-frame {
-          width: 218px;
-          height: 229px;
-          font-size: 16px;
-
-          .content-price {
-            margin: 0;
-            padding: 33px 16px 0 16px;
-            width: 100%;
-            line-height: 20px !important;
-          }
-
-          .header-price {
-            flex-direction: column-reverse;
-            height: 100px;
-
-            .price {
+            .link-to-shop {
+              margin-left: 4%;
+              width: 451px;
               font-size: 24px;
               line-height: 29px;
             }
@@ -1360,155 +1256,314 @@ section .main-container {
         }
       }
     }
+  }
+}
 
-    #first-section {
-      padding: 90px 24px;
+@include responsiveMobileFirst(md) {
+  @include responsivePCFirst(xl) {
+    .ubsHomepage {
+      padding: 66px 0 0 0;
+      font-size: 16px;
 
       h2 {
-        margin-bottom: 50px;
+        margin: 0 auto 0 auto;
+        padding: 0;
+        font-weight: 800;
+        font-size: 40px;
+        line-height: 49px;
       }
 
-      .how-to-prepare {
+      header {
+        margin: 60px 80px 71px 27px;
+        padding: 0;
+
+        .header-left {
+          padding: 0;
+          width: 58%;
+          min-width: 450px;
+          max-width: 629px;
+          height: 10%;
+          min-height: 78px;
+          max-height: 108px;
+
+          img {
+            padding: 0;
+            margin: 0;
+          }
+        }
+
+        .spinner {
+          width: 25%;
+          max-width: 273px;
+          min-width: 196px;
+          height: 26%;
+          max-height: 283px;
+          min-height: 202px;
+          top: 148px;
+          right: 80px;
+        }
+
+        .main-content {
+          margin-top: 40px;
+          margin-left: 0;
+          max-width: 50%;
+
+          button {
+            margin: 0;
+            width: 247px;
+            height: 46px;
+            font-size: 16px;
+            line-height: 20px;
+          }
+
+          .main-caption {
+            width: 300px;
+            margin-top: 25px;
+            font-size: 14px;
+            line-height: 17px;
+
+            p {
+              margin-bottom: 9px;
+            }
+          }
+        }
+      }
+
+      section {
         margin: 0;
         padding: 0;
-        height: 100%;
 
-        .main-content-left,
-        .main-content-right {
-          width: 47%;
-          max-width: 464px;
-          min-width: 344px;
-
-          h2 {
-            font-size: 36px;
-            line-height: 44px;
-          }
+        .price-section,
+        .pick-up-service .main-container {
+          margin: 0;
+          padding: 90px 24px;
         }
+      }
 
-        .main-content-left {
-          .box-item {
-            margin-bottom: 12px;
-            padding: 12px;
-            height: 100%;
+      section.pick-up-service {
+        padding-top: 90px;
 
-            .box-number {
-              font-size: 32px !important;
-              line-height: 39px;
-              padding-right: 16px;
-            }
+        .main-container {
+          height: 100%;
+          margin: 0;
+          padding: 0 24px 90px 24px;
 
-            .box-text {
-              margin: 0;
-              padding: 0;
-              font-size: 12px;
-              line-height: 15px;
-            }
-          }
+          .box {
+            margin-top: 50px;
+            padding: 0;
+            overflow: hidden;
 
-          .box-item:last-child {
-            margin-bottom: 0;
-          }
-        }
+            .step-order {
+              .content-box {
+                width: 160px;
+                padding: 16px 4px;
 
-        .main-content-right {
-          .conditions {
-            margin-bottom: 16px;
-          }
+                h1 {
+                  font-size: 18px;
+                }
 
-          .conditions,
-          .bonuses {
-            padding: 24px 16px;
-
-            .caption {
-              padding-right: 16px;
-
-              .col {
-                padding: 0;
-              }
-
-              h2 {
-                margin-bottom: 0;
-                font-size: 22px;
-                line-height: 117.9%;
-              }
-            }
-
-            .rules {
-              justify-content: space-around;
-
-              .rule {
-                margin-bottom: 17px;
-                font-size: 12px;
-                line-height: 15px;
-
-                .lifehack {
-                  margin-top: 5px;
+                p {
+                  height: 100%;
                   font-size: 12px;
                   line-height: 15px;
                 }
               }
 
-              .rule:last-child {
-                margin-bottom: 0;
+              .base-line {
+                hr {
+                  width: 65px;
+                }
               }
             }
           }
         }
       }
-    }
 
-    section#how-works {
-      padding: 90px 24px 75px 24px;
-      height: 100%;
+      section .price-section {
+        height: 100%;
 
-      .box-how-works {
-        margin: 0;
-        padding: 0;
+        h2 {
+          padding-bottom: 0;
+        }
 
-        #main-content {
-          margin: 0;
+        .box-card {
+          margin-top: 50px;
+          height: 100%;
 
-          .time-frame {
-            padding: 24px 8px 8px 24px;
-            width: 48%;
-            min-width: 344px;
-            max-width: 464px;
-            height: 105px;
+          #price-frame {
+            width: 218px;
+            height: 229px;
+            font-size: 16px;
 
-            h2 {
+            .content-price {
               margin: 0;
-              padding: 0;
-              font-size: 20px;
-              line-height: 24px;
-              text-align: left;
+              padding: 33px 16px 0 16px;
+              width: 100%;
+              line-height: 20px !important;
             }
 
-            p {
-              margin: 0;
-              padding: 0;
-              font-size: 14px;
-              line-height: 17px;
+            .header-price {
+              flex-direction: column-reverse;
+              height: 100px;
+
+              .price {
+                font-size: 24px;
+                line-height: 29px;
+              }
             }
           }
         }
+      }
 
-        #how-works-content {
-          margin-top: 40px 0 0 0;
+      #first-section {
+        padding: 90px 24px;
+
+        h2 {
+          margin-bottom: 50px;
+        }
+
+        .how-to-prepare {
+          margin: 0;
+          padding: 0;
           height: 100%;
 
-          button {
-            margin: 0;
-            width: 281px;
-            height: 53px;
-            font-size: 20px;
-            line-height: 24px;
+          .main-content-left,
+          .main-content-right {
+            width: 47%;
+            max-width: 464px;
+            min-width: 344px;
+
+            h2 {
+              font-size: 36px;
+              line-height: 44px;
+            }
           }
 
-          .link-to-shop {
-            margin-left: 5%;
-            width: 351px;
-            font-size: 18px;
-            line-height: 22px;
+          .main-content-left {
+            .box-item {
+              margin-bottom: 12px;
+              padding: 12px;
+              height: 100%;
+
+              .box-number {
+                font-size: 32px !important;
+                line-height: 39px;
+                padding-right: 16px;
+              }
+
+              .box-text {
+                margin: 0;
+                padding: 0;
+                font-size: 12px;
+                line-height: 15px;
+              }
+            }
+
+            .box-item:last-child {
+              margin-bottom: 0;
+            }
+          }
+
+          .main-content-right {
+            .conditions {
+              margin-bottom: 16px;
+            }
+
+            .conditions,
+            .bonuses {
+              padding: 24px 16px;
+
+              .caption {
+                padding-right: 16px;
+
+                .col {
+                  padding: 0;
+                }
+
+                h2 {
+                  margin-bottom: 0;
+                  font-size: 22px;
+                  line-height: 117.9%;
+                }
+              }
+
+              .rules {
+                justify-content: space-around;
+
+                .rule {
+                  margin-bottom: 17px;
+                  font-size: 12px;
+                  line-height: 15px;
+
+                  .lifehack {
+                    margin-top: 5px;
+                    font-size: 12px;
+                    line-height: 15px;
+                  }
+                }
+
+                .rule:last-child {
+                  margin-bottom: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      section#how-works {
+        padding: 90px 24px 75px 24px;
+        height: 100%;
+
+        .box-how-works {
+          margin: 0;
+          padding: 0;
+
+          #main-content {
+            margin: 0;
+
+            .time-frame {
+              padding: 24px 8px 8px 24px;
+              width: 48%;
+              min-width: 344px;
+              max-width: 464px;
+              height: 105px;
+
+              h2 {
+                margin: 0;
+                padding: 0;
+                font-size: 20px;
+                line-height: 24px;
+                text-align: left;
+              }
+
+              p {
+                margin: 0;
+                padding: 0;
+                font-size: 14px;
+                line-height: 17px;
+              }
+            }
+          }
+
+          #how-works-content {
+            margin-top: 40px 0 0 0;
+            height: 100%;
+
+            button {
+              margin: 0;
+              width: 281px;
+              height: 53px;
+              font-size: 20px;
+              line-height: 24px;
+            }
+
+            .link-to-shop {
+              margin-left: 5%;
+              width: 351px;
+              font-size: 18px;
+              line-height: 22px;
+            }
           }
         }
       }
@@ -1516,258 +1571,260 @@ section .main-container {
   }
 }
 
-@media (min-width: 575px) and (max-width: 767px) {
-  .ubsHomepage {
-    font-size: 18px;
-    padding: 60px 0 0 0;
+@include responsiveMobileFirst(sm) {
+  @include responsivePCFirst(md) {
+    .ubsHomepage {
+      font-size: 18px;
+      padding: 60px 0 0 0;
 
-    header {
-      margin: 62px 16px 42px 16px;
-      height: 100%;
+      header {
+        margin: 62px 16px 42px 16px;
+        height: 100%;
 
-      .header-left {
-        width: 65%;
-        min-width: 358px;
+        .header-left {
+          width: 65%;
+          min-width: 358px;
 
-        .ubs-image {
-          margin-top: 0;
-          margin-bottom: 0;
-          padding-top: 0;
-        }
-      }
-
-      .spinner {
-        width: 137px;
-        height: 142px;
-        top: 125px;
-        right: 40px;
-      }
-
-      .main-content {
-        margin-top: 45px;
-        width: 245px;
-        justify-content: left;
-
-        .button {
-          margin: 0;
-          width: 38%;
-          min-width: 205px;
-          height: 37px;
-          font-size: 14px;
+          .ubs-image {
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-top: 0;
+          }
         }
 
-        .main-caption {
-          margin-top: 16px;
-          width: 100%;
-          font-size: 13px;
-          line-height: 16px;
+        .spinner {
+          width: 137px;
+          height: 142px;
+          top: 125px;
+          right: 40px;
+        }
 
-          p {
-            margin-bottom: 9px;
+        .main-content {
+          margin-top: 45px;
+          width: 245px;
+          justify-content: left;
+
+          .button {
+            margin: 0;
+            width: 38%;
+            min-width: 205px;
+            height: 37px;
+            font-size: 14px;
+          }
+
+          .main-caption {
+            margin-top: 16px;
+            width: 100%;
+            font-size: 13px;
+            line-height: 16px;
+
+            p {
+              margin-bottom: 9px;
+            }
           }
         }
       }
-    }
 
-    section {
-      height: 100%;
-      padding-top: 0;
-
-      h2 {
-        font-size: 26px;
-        line-height: 32px;
-        margin-bottom: 0;
-      }
-
-      .price-section {
+      section {
         height: 100%;
-        padding-bottom: 60px;
+        padding-top: 0;
 
         h2 {
-          padding-top: 60px;
-          padding-bottom: 40px;
+          font-size: 26px;
+          line-height: 32px;
+          margin-bottom: 0;
         }
 
-        .box-card {
-          flex-direction: column;
+        .price-section {
           height: 100%;
-          justify-content: normal;
-          gap: 19px;
+          padding-bottom: 60px;
 
-          #price-frame {
-            margin: 0 auto;
-            width: 287px;
-            border-radius: 6px;
+          h2 {
+            padding-top: 60px;
+            padding-bottom: 40px;
+          }
 
-            .content-price {
-              font-size: 12px;
-              line-height: 15px;
-              padding: 0;
-              width: 190px;
-              height: 69px;
+          .box-card {
+            flex-direction: column;
+            height: 100%;
+            justify-content: normal;
+            gap: 19px;
 
-              div {
-                width: 100%;
-                align-items: center;
+            #price-frame {
+              margin: 0 auto;
+              width: 287px;
+              border-radius: 6px;
+
+              .content-price {
+                font-size: 12px;
+                line-height: 15px;
+                padding: 0;
+                width: 190px;
+                height: 69px;
+
+                div {
+                  width: 100%;
+                  align-items: center;
+                }
+              }
+
+              .header-price {
+                border-radius: 6px;
+                height: 57px;
+                font-size: 11px;
+              }
+
+              .header-price .price {
+                font-size: 16px;
+                line-height: 20px;
               }
             }
-
-            .header-price {
-              border-radius: 6px;
-              height: 57px;
-              font-size: 11px;
-            }
-
-            .header-price .price {
-              font-size: 16px;
-              line-height: 20px;
-            }
-          }
-        }
-      }
-
-      .how-to-prepare {
-        margin-top: 40px;
-        flex-direction: column;
-        justify-content: normal;
-        gap: 24px;
-
-        .main-content-left {
-          margin-right: auto;
-          margin-left: auto;
-
-          .box-item {
-            margin-bottom: 16px;
-            width: 349px;
-            height: 62px;
-            border-radius: 6px;
-
-            .box-number {
-              font-size: 22px;
-              line-height: 27px;
-              padding: 0 16px 0 24px;
-            }
-
-            .box-text {
-              font-size: 12px;
-              line-height: 15px;
-            }
           }
         }
 
-        .main-content-right {
-          width: 100%;
+        .how-to-prepare {
+          margin-top: 40px;
+          flex-direction: column;
           justify-content: normal;
-          gap: 30px;
+          gap: 24px;
 
-          .conditions,
-          .bonuses {
+          .main-content-left {
             margin-right: auto;
             margin-left: auto;
-            padding-right: 0;
-            border-radius: 6px;
-            width: 350px;
 
-            .caption {
-              width: 72px;
-            }
+            .box-item {
+              margin-bottom: 16px;
+              width: 349px;
+              height: 62px;
+              border-radius: 6px;
 
-            .caption h2 {
-              margin: 0 16px 0 24px;
-              width: 32px;
-              font-size: 22px;
-              line-height: 117.9%;
-            }
-          }
+              .box-number {
+                font-size: 22px;
+                line-height: 27px;
+                padding: 0 16px 0 24px;
+              }
 
-          .conditions .rules {
-            margin: 24px 24px 7px 0;
-
-            .rule {
-              margin-bottom: 17px;
-              font-size: 12px;
-              line-height: 15px;
+              .box-text {
+                font-size: 12px;
+                line-height: 15px;
+              }
             }
           }
 
-          .bonuses .rules {
-            margin: 24px 24px 7px 0;
+          .main-content-right {
+            width: 100%;
+            justify-content: normal;
+            gap: 30px;
 
-            .rule {
-              margin-bottom: 12px;
-              font-size: 12px;
-              line-height: 15px;
-            }
-          }
-        }
-      }
+            .conditions,
+            .bonuses {
+              margin-right: auto;
+              margin-left: auto;
+              padding-right: 0;
+              border-radius: 6px;
+              width: 350px;
 
-      .how-to-prepare .rules .rule .lifehack {
-        font-size: 12px !important;
-      }
-    }
+              .caption {
+                width: 72px;
+              }
 
-    #main-content .time-frame .header-how-works h2 {
-      align-items: flex-start;
-    }
-
-    #how-works {
-      height: 100%;
-
-      .box-how-works {
-        padding: 60px 16px 60px 16px;
-
-        #main-content {
-          flex-direction: row;
-          justify-content: space-between;
-          margin: 0;
-
-          .time-frame {
-            padding: 16px;
-            width: 44%;
-            min-width: 254px;
-            height: 73px;
-            border-radius: 10px;
-            text-align: left;
-
-            .header-how-works {
-              margin: 0;
-              font-size: 16px;
-              line-height: 20px;
-
-              h2 {
-                text-align: left;
+              .caption h2 {
+                margin: 0 16px 0 24px;
+                width: 32px;
+                font-size: 22px;
+                line-height: 117.9%;
               }
             }
 
-            .content-time {
-              margin: 0;
-              font-weight: 600;
-              font-size: 11px;
-              line-height: 13px;
+            .conditions .rules {
+              margin: 24px 24px 7px 0;
+
+              .rule {
+                margin-bottom: 17px;
+                font-size: 12px;
+                line-height: 15px;
+              }
+            }
+
+            .bonuses .rules {
+              margin: 24px 24px 7px 0;
+
+              .rule {
+                margin-bottom: 12px;
+                font-size: 12px;
+                line-height: 15px;
+              }
             }
           }
         }
 
-        #how-works-content {
-          margin: 0 0 0 0;
-          flex-direction: row;
+        .how-to-prepare .rules .rule .lifehack {
+          font-size: 12px !important;
+        }
+      }
 
-          .primary-global-button {
-            width: 206px;
-            height: 31px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            line-height: 17px;
+      #main-content .time-frame .header-how-works h2 {
+        align-items: flex-start;
+      }
+
+      #how-works {
+        height: 100%;
+
+        .box-how-works {
+          padding: 60px 16px 60px 16px;
+
+          #main-content {
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 0;
+
+            .time-frame {
+              padding: 16px;
+              width: 44%;
+              min-width: 254px;
+              height: 73px;
+              border-radius: 10px;
+              text-align: left;
+
+              .header-how-works {
+                margin: 0;
+                font-size: 16px;
+                line-height: 20px;
+
+                h2 {
+                  text-align: left;
+                }
+              }
+
+              .content-time {
+                margin: 0;
+                font-weight: 600;
+                font-size: 11px;
+                line-height: 13px;
+              }
+            }
           }
 
-          .link-to-shop {
-            margin: 0 0 0 32px;
-            width: 234px;
-            font-weight: 800;
-            font-size: 12px;
-            line-height: 15px;
+          #how-works-content {
+            margin: 0 0 0 0;
+            flex-direction: row;
+
+            .primary-global-button {
+              width: 206px;
+              height: 31px;
+              border-radius: 10px;
+              font-weight: 700;
+              font-size: 14px;
+              line-height: 17px;
+            }
+
+            .link-to-shop {
+              margin: 0 0 0 32px;
+              width: 234px;
+              font-weight: 800;
+              font-size: 12px;
+              line-height: 15px;
+            }
           }
         }
       }
@@ -1822,7 +1879,7 @@ section .main-container {
   }
 }
 
-@media (max-width: 575px) {
+@include responsivePCFirst(sm) {
   .pick-up-service .main-container {
     height: 100%;
   }

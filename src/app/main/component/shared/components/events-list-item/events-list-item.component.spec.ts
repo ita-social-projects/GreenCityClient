@@ -1,7 +1,7 @@
 import { Language } from './../../../../i18n/Language';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -14,13 +14,14 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { TagObj } from '../../../events/models/events.interface';
+import { EventPageResponseDto, TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AddAttenderEcoEventsByIdAction, EventsActions, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { WarningPopUpComponent } from '../warning-pop-up/warning-pop-up.component';
 
 @Injectable()
 class TranslationServiceStub {
@@ -58,6 +59,7 @@ class DatePipeMock implements PipeTransform {
 describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
   let translate: TranslateService;
   const jwtServiceMock = jasmine.createSpyObj('jwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'true';
@@ -78,7 +80,7 @@ describe('EventsListItemComponent', () => {
     join: 'event.btn-join'
   };
 
-  const eventMock = {
+  const eventMock: EventPageResponseDto = {
     description: 'tralalalal',
     editorText: 'tralalalal',
     additionalImages: [],
@@ -115,7 +117,7 @@ describe('EventsListItemComponent', () => {
     ],
     imgArrayToPreview: [],
     id: 307,
-    organizer: { id: 5, name: 'Mykola Kovalushun', organizerRating: 3 },
+    organizer: { id: 5, name: 'Mykola Kovalushun' },
     title: 'dddddddd',
     titleImage: 'https://-fc27f19b10e0apl',
     isSubscribed: true,
@@ -125,8 +127,8 @@ describe('EventsListItemComponent', () => {
     open: true,
     likes: 5,
     countComments: 7,
-    isAdmin: false,
-    isOrganizedByFriend: false
+    isOrganizedByFriend: false,
+    eventRate: 0
   };
 
   const fakeItemTags: TagObj[] = [
@@ -224,6 +226,8 @@ describe('EventsListItemComponent', () => {
   const actionsSubj: ActionsSubject = new ActionsSubject();
 
   beforeEach(async(() => {
+    const dialogSpyObj = jasmine.createSpyObj('MatDialog', ['open']);
+
     TestBed.configureTestingModule({
       declarations: [EventsListItemComponent, DatePipeMock, MaxTextLengthPipe],
       providers: [
@@ -237,7 +241,8 @@ describe('EventsListItemComponent', () => {
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: JwtService, useValue: jwtServiceMock },
-        { provide: ActionsSubject, useValue: actionsSubj }
+        { provide: ActionsSubject, useValue: actionsSubj },
+        { provide: MatDialog, useValue: dialogSpyObj }
       ],
       imports: [
         RouterTestingModule,
@@ -250,6 +255,7 @@ describe('EventsListItemComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
+    dialogSpy = TestBed.inject(MatDialog) as jasmine.SpyObj<MatDialog>;
   }));
 
   beforeEach(() => {
@@ -259,7 +265,6 @@ describe('EventsListItemComponent', () => {
     component.event = eventMock as any;
     component.btnStyle = '';
     component.nameBtn = '';
-    component.rate = 3;
     component.isRegistered = false;
     component.isReadonly = false;
     component.isPosting = false;
@@ -335,12 +340,6 @@ describe('EventsListItemComponent', () => {
       component.itemTags = fakeItemTags;
       component.filterTags(component.event.tags);
       expect(component.activeTags).toEqual(fakeActiveTags);
-    });
-
-    it(`rate should be called in ngOnInit`, () => {
-      component.ngOnInit();
-      component.rate = Math.round(component.event.organizer.organizerRating);
-      expect(component.rate).toBe(3);
     });
 
     it(`subscribeToLangChange should be called in ngOnInit`, () => {
@@ -445,14 +444,32 @@ describe('EventsListItemComponent', () => {
     });
 
     it('should call EventsServiceMock setForm method', () => {
+      const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+      dialogRefSpy.afterClosed.and.returnValue(of(true));
+      dialogSpy.open.and.returnValue(dialogRefSpy);
+
       const spy = spyOn(EventsServiceMock, 'setForm');
       component.buttonAction(component.btnName.cancel);
       expect(spy).toHaveBeenCalledWith(null);
     });
 
-    it('should dispatch RemoveAttenderEcoEventsByIdAction when cancel button is clicked', () => {
+    it('should open a popup when cancel button is clicked', () => {
+      spyOn(component, 'openPopUp');
       component.buttonAction(component.btnName.cancel);
-      expect(storeMock.dispatch).toHaveBeenCalledWith(RemoveAttenderEcoEventsByIdAction({ id: component.event.id }));
+      expect(component.openPopUp).toHaveBeenCalled();
+    });
+
+    it('should call submitEventCancelling if result is true after dialog closed', () => {
+      const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+      dialogRefSpy.afterClosed.and.returnValue(of(true));
+      dialogSpy.open.and.returnValue(dialogRefSpy);
+
+      spyOn(component, 'submitEventCancelling');
+
+      component.openPopUp();
+      dialogRefSpy.afterClosed().subscribe(() => {
+        expect(component.submitEventCancelling).toHaveBeenCalled();
+      });
     });
 
     it('should dispatch AddAttenderEcoEventsByIdAction when join button is clicked', () => {
@@ -544,6 +561,7 @@ describe('EventsListItemComponent', () => {
   describe('changeFavouriteStatus()', () => {
     it(`should be clicked and called changeFavouriteStatus method`, fakeAsync(() => {
       spyOn(component, 'changeFavouriteStatus');
+      component.event.isRelevant = true;
       const button = fixture.debugElement.nativeElement.querySelector('.favourite-button');
       button.click();
       tick();

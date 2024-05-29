@@ -32,6 +32,7 @@ export class MatSnackBarComponent {
     cafeNotificationsBreakTime: { classname: SnackbarClassName.error, key: 'update-cafe.notifications.breakTime' },
     cafeNotificationsPhotoUpload: { classname: SnackbarClassName.error, key: 'update-cafe.notifications.photoUpload' },
     habitDeleted: { classname: SnackbarClassName.error, key: 'user.habit.all-habits.habit-was-deleted' },
+    customHabitDeleted: { classname: SnackbarClassName.error, key: 'user.habit.all-habits.custom-habit-was-deleted' },
     habitAdded: { classname: SnackbarClassName.success, key: 'user.habit.all-habits.new-habit-added' },
     habitDidNotGiveUp: { classname: SnackbarClassName.success, key: 'user.habit.all-habits.habit-did-not-give-up' },
     habitUpdated: { classname: SnackbarClassName.success, key: 'user.habit.all-habits.new-habit-updated' },
@@ -52,10 +53,14 @@ export class MatSnackBarComponent {
     updatedNotification: { classname: SnackbarClassName.success, key: 'snack-bar.success.update-notification' },
     joinedEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.joined-event' },
     errorJoinEvent: { classname: SnackbarClassName.error, key: 'snack-bar.success.error-joined-event' },
-    tooLongInput: { classname: SnackbarClassName.error, key: 'user.habit.too-long-input' },
+    tooLongInput: { classname: SnackbarClassName.error, key: 'user.habit.to-do.too-long-input' },
     ratedEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.rating-send' },
     addFriend: { classname: SnackbarClassName.success, key: 'snack-bar.success.add-friend' },
-    jointEventRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.joint-event-request' }
+    jointEventRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.joint-event-request' },
+    errorImageTypeSize: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-type-and-size' },
+    errorImageType: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-type' },
+    errorImageSize: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-size' },
+    errorMaxPhotos: { classname: SnackbarClassName.error, key: 'user.photo-upload.you-can-upload-max-photos-event' }
   };
 
   constructor(public snackBar: MatSnackBar, private translate: TranslateService) {}

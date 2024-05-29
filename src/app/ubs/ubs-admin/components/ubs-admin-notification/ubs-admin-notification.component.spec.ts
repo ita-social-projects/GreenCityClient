@@ -8,17 +8,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
-import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
-import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { UbsAdminNotificationComponent } from './ubs-admin-notification.component';
 import { NotificationMock } from '../../services/notificationsMock';
-import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IAppState } from 'src/app/store/state/app.state';
+import { provideMockStore } from '@ngrx/store/testing';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -172,25 +168,19 @@ describe('UbsAdminNotificationComponent', () => {
 
   it('should set platform status to ACTIVE when onActivatePlatform() is called', () => {
     const platform = 'mobile';
-    const platformObj = { nameEng: platform, status: 'INACTIVE' };
-    component.notification = {
-      platforms: [platformObj]
-    };
+    component.notification = NotificationMock;
 
     component.onActivatePlatform(platform);
 
-    expect(platformObj.status).toBe('ACTIVE');
+    expect(NotificationMock.platforms[1].status).toBe('ACTIVE');
   });
 
   it('should set platform status to INACTIVE when onDeactivatePlatform() is called', () => {
     const platform = 'mobile';
-    const platformObj = { nameEng: platform, status: 'ACTIVE' };
-    component.notification = {
-      platforms: [platformObj]
-    };
+    component.notification = NotificationMock;
 
     component.onDeactivatePlatform(platform);
 
-    expect(platformObj.status).toBe('INACTIVE');
+    expect(NotificationMock.platforms[2].status).toBe('INACTIVE');
   });
 });

@@ -8,6 +8,7 @@ import { IOrderState, initialOrderState } from './order.state';
 import { IFriendState, initialFriendState } from './friends.state';
 import { initialHabitState } from './habit.state';
 import { HabitInterface as IHabitState } from '@global-user/components/habit/models/interfaces/habit.interface';
+import { initialUbsUserState, IUbsUserState } from 'src/app/store/state/ubs-user.state';
 
 export interface IAppState {
   friend: IFriendState;
@@ -19,6 +20,7 @@ export interface IAppState {
   ecoNewsState: IEcoNewsState;
   ecoEventsState: IEcoEventsState;
   habit: IHabitState;
+  ubsUser: IUbsUserState;
 }
 
 export const initialAppState: IAppState = {
@@ -29,7 +31,8 @@ export const initialAppState: IAppState = {
   bigOrderTable: initialBigOrderTableState,
   ecoNewsState: initialNewsState,
   ecoEventsState: initialEventsState,
-  habit: initialHabitState
+  habit: initialHabitState,
+  ubsUser: initialUbsUserState
 };
 
 export function getInitialState(): IAppState {

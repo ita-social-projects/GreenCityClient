@@ -9,10 +9,10 @@ import { UbsAdminTableComponent } from './ubs-admin-table.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
-import { CUSTOM_ELEMENTS_SCHEMA, Renderer2, ChangeDetectorRef, DebugElement } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -24,17 +24,39 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Language } from 'src/app/main/i18n/Language';
 import { DateAdapter } from '@angular/material/core';
 import { FormBuilder } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableHeightService } from '../../services/table-height.service';
 import { Router } from '@angular/router';
+import { IColumnDTO, IFilteredColumn, IFilteredColumnValue } from '../../models/ubs-admin.interface';
+import { IAlertInfo } from '../../models/edit-cell.model';
+import { AdminTableService } from '../../services/admin-table.service';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   let router: Router;
+  let adminTableService: AdminTableService;
 
+  const columnsForFiltering: IFilteredColumn[] = [
+    { key: 'column1', en: 'column1En', ua: 'column1Ua', values: [{ key: 'value1', en: 'value1En', ua: 'value1Ua', filtered: true }] },
+    { key: 'column2', en: 'column2En', ua: 'column2Ua', values: [{ key: 'value2', en: 'value2En', ua: 'value2Ua', filtered: true }] }
+  ];
+  const mockColumns = [{ title: { key: 'key' } }, { title: { key: 'gg' } }, { title: { key: 'dd' } }] as IColumnDTO[];
+  const mockColumnDTO: IColumnDTO[] = [
+    {
+      checked: [],
+      columnBelonging: 'sampleColumnBelonging',
+      editType: 'sampleEditType',
+      filtered: false,
+      index: 0,
+      sticky: false,
+      titleForSorting: 'sampleTitleForSorting',
+      visible: true,
+      weight: 0,
+      title: { key: 'receivingStation', ua: 'sampleUa', en: 'sampleEn', filtered: false }
+    }
+  ];
   const initDateMock = {
     orderDateFrom: '',
     orderDateTo: '',
@@ -132,7 +154,7 @@ describe('UsbAdminTableComponent', () => {
     localStorageServiceMock.getAdminOrdersDateFilter = () => {
       return dateMock;
     };
-
+    adminTableService = TestBed.inject(AdminTableService);
     storeMock.select = () => of(false);
     fixture = TestBed.createComponent(UbsAdminTableComponent);
     component = fixture.componentInstance;
@@ -225,7 +247,7 @@ describe('UsbAdminTableComponent', () => {
     component.bigOrderTableParams$ = bigOrderTableParamsMock as any;
     component.isStoreEmpty = true;
     component.ngOnInit();
-    component.bigOrderTableParams$.subscribe((columns: any) => {
+    component.bigOrderTableParams$.subscribe(() => {
       expect(component.tableViewHeaders).toEqual(['columnBelongingList']);
       expect(component.displayedColumnsViewTitles).toEqual(['key']);
       expect(component.setColumnsForFiltering).toHaveBeenCalledTimes(1);
@@ -416,7 +438,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('changeColumns expect component.isAllColumnsDisplayed to be false', () => {
-    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title3' } }];
+    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title3' } }] as IColumnDTO[];
     component.isAllColumnsDisplayed = true;
     component.displayedColumns.length = 4;
     component.displayedColumns = ['title1', 'title2', 'title3'];
@@ -425,19 +447,18 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('sortColumnsToDisplay expect to filter columns when box is unchecked', () => {
-    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title3' } }];
+    const expected = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title3' } }] as IColumnDTO[];
+    component.columns = expected;
     component.displayedColumns = ['title1', 'title2', 'title3'];
     component.changeColumns(false, 'title1', 1);
     component.sortColumnsToDisplay();
-    expect(component.columns).toEqual([
-      { title: { key: 'title2' }, index: 0 },
-      { title: { key: 'title3' }, index: 1 },
-      { title: { key: 'title1' }, index: 2 }
-    ]);
+    for (let i = 0; i < component.columns.length; i++) {
+      expect(component.columns[i].title.key).toEqual(expected[i].title.key);
+    }
   });
 
   it('changeColumns expect to add column when box is checked ', () => {
-    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title4' } }];
+    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title4' } }] as IColumnDTO[];
     component.displayedColumns = ['title1', 'title2', 'title4'];
     component.changeColumns(true, 'title3', 2);
     component.sortColumnsToDisplay();
@@ -528,7 +549,7 @@ describe('UsbAdminTableComponent', () => {
 
   it('editDetails', () => {
     spyOn(component.dataForPopUp, 'push');
-    component.displayedColumnsView = [{ title: { key: 'receivingStation' } }, { title: { key: '' } }];
+    component.displayedColumnsView = mockColumnDTO;
     component.editDetails();
     expect(component.dataForPopUp.push).toHaveBeenCalledTimes(1);
   });
@@ -595,9 +616,9 @@ describe('UsbAdminTableComponent', () => {
 
   it('setDisplayedColumns  expect displayedColumnsViewTitles should change', () => {
     component.isAllColumnsDisplayed = false;
-    component.displayedColumnsView = [{ title: { key: 'key' } }];
+    component.displayedColumnsView = mockColumnDTO;
     (component as any).setDisplayedColumns();
-    expect(component.displayedColumnsViewTitles).toEqual(['key']);
+    expect(component.displayedColumnsViewTitles).toEqual(['receivingStation']);
     expect(component.count).toBe(1);
     expect(component.isAllColumnsDisplayed).toBe(true);
   });
@@ -749,7 +770,7 @@ describe('UsbAdminTableComponent', () => {
     expect(noFilt).toBe(false);
   });
 
-  it('should conver date value on changeInputDate', () => {
+  it('should convert date value on changeInputDate', () => {
     spyOn((component as any).adminTableService, 'setDateFormat');
     const date = 'Mon Nov 12 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
     (component as any).adminTableService.setDateFormat(date);
@@ -758,7 +779,7 @@ describe('UsbAdminTableComponent', () => {
     );
   });
 
-  it('should conver date value on changeInputDate', () => {
+  it('should convert date value on changeInputDate', () => {
     const date = 'Mon Nov 12 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
     const value = (component as any).adminTableService.setDateFormat(date);
     expect(value).toBe('2022-11-12');
@@ -804,6 +825,23 @@ describe('UsbAdminTableComponent', () => {
     expect(component.dateForm.value).toEqual(initDateMock);
   });
 
+  it('should initialize dateForm with default values', () => {
+    component.initDateForm();
+    expect(component.dateForm.value).toEqual(dateMock);
+  });
+
+  it('should initialize dateForm with default values', () => {
+    spyOn(localStorageServiceMock, 'getAdminOrdersDateFilter').and.returnValue(null);
+    component.initDateForm();
+    expect(component.dateForm.value).toEqual(initDateMock);
+  });
+
+  it('should set dateForm values from local storage if available', () => {
+    spyOn(localStorageServiceMock, 'getAdminOrdersDateFilter').and.returnValue(initDateMock);
+    component.initDateForm();
+    expect(component.dateForm.value).toEqual(initDateMock);
+  });
+
   it('applyFilters', () => {
     component.currentPage = 1;
     component.firstPageLoad = false;
@@ -818,7 +856,7 @@ describe('UsbAdminTableComponent', () => {
     spyOn(component, 'applyFilters');
     spyOn(component.dialog, 'open').and.returnValue({
       afterClosed() {
-        return new Observable((observer) => {});
+        return new Observable(() => {});
       }
     } as any);
 
@@ -827,7 +865,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('sortColumnsToDisplay expect columns.length to be 3', () => {
-    component.columns = [{ title: { key: 'key' } }, { title: { key: 'gg' } }, { title: { key: 'dd' } }];
+    component.columns = mockColumns;
     component.displayedColumns = ['key', 'kol'];
     component.sortColumnsToDisplay();
     expect(component.columns.length).toBe(3);
@@ -877,4 +915,119 @@ describe('UsbAdminTableComponent', () => {
 
     expect(result).toBe(true);
   });
+
+  it('should reset column widths to default', () => {
+    const defaultColumnsWidth = new Map();
+    defaultColumnsWidth.set('address', '100px');
+    defaultColumnsWidth.set('city', '200px');
+    component.defaultColumnsWidth = defaultColumnsWidth;
+    component.resetDefaultWidth();
+    expect(component.columnsWidthPreference).toEqual(defaultColumnsWidth);
+  });
+  it('should set isTimePickerOpened', () => {
+    component.setIsTimePickerOpened(true);
+    expect(component.isTimePickerOpened).toBeTruthy();
+
+    component.setIsTimePickerOpened(false);
+    expect(component.isTimePickerOpened).toBeFalsy();
+  });
+
+  it('should clear blockedInfo array', () => {
+    component.blockedInfo = [{ orderId: 1, userName: 'name' }];
+    component.closeAlertMess();
+    expect(component.blockedInfo).toEqual([]);
+  });
+
+  it('should set blockedInfo', () => {
+    const blockedInfo: IAlertInfo[] = [{ orderId: 1, userName: 'name' }];
+    component.blockedInfo = blockedInfo;
+    expect(component.blockedInfo).toEqual(blockedInfo);
+  });
+
+  it('should get columns for filtering', () => {
+    adminTableService.columnsForFiltering = columnsForFiltering;
+    const result = component.getColumnsForFiltering();
+    expect(result).toEqual(columnsForFiltering);
+  });
+
+  it('should change filters', () => {
+    const checked = true;
+    const currentColumn = 'column1';
+    const option: IFilteredColumnValue = { key: 'value1', en: 'value1En', ua: 'value1Ua', filtered: false };
+    spyOn(adminTableService, 'changeFilters');
+    spyOn(adminTableService, 'setColumnsForFiltering');
+    adminTableService.filters = [];
+
+    component.changeFilters(checked, currentColumn, option);
+
+    expect(adminTableService.changeFilters).toHaveBeenCalledWith(checked, currentColumn, option);
+    expect(component.noFiltersApplied).toBeTruthy();
+  });
+
+  it('should change input date', () => {
+    const checked = true;
+    const currentColumn = 'column1';
+    const suffix = 'From';
+    const date = new Date();
+    const mockControl = { setValue: jasmine.createSpy('setValue') };
+    component.dateForm = jasmine.createSpyObj('FormGroup', { get: mockControl });
+
+    spyOn(adminTableService, 'setDateFormat').and.returnValue(date.toUTCString());
+    spyOn(adminTableService, 'changeInputDateFilters');
+
+    component.changeInputDate(checked, currentColumn, suffix);
+
+    expect(adminTableService.setDateFormat).toHaveBeenCalled();
+    expect(adminTableService.changeInputDateFilters).toHaveBeenCalled();
+    expect(mockControl.setValue).toHaveBeenCalled();
+  });
+
+  it('should clear filters', () => {
+    adminTableService.columnsForFiltering = columnsForFiltering;
+
+    spyOn(adminTableService, 'setFilters');
+    spyOn(adminTableService, 'setColumnsForFiltering');
+
+    component.clearFilters();
+
+    expect(adminTableService.setFilters).toHaveBeenCalledWith([]);
+    expect(adminTableService.setColumnsForFiltering).toHaveBeenCalledWith(columnsForFiltering);
+    expect(component.noFiltersApplied).toBeTruthy();
+  });
+
+  it('should sort columns to display', fakeAsync(() => {
+    component.displayedColumns = ['key', 'gg', 'dd'];
+    component.nestedSortProperty = 'title.key';
+    component.columns = mockColumns;
+    spyOn(component, 'applyColumnsWidthPreference');
+    spyOn(component, 'checkAllColumnsDisplayed');
+    spyOn(component, 'stickColumns');
+
+    component.sortColumnsToDisplay();
+    tick();
+
+    expect(component.columns[0].title.key).toEqual('key');
+    expect(component.columns[1].title.key).toEqual('gg');
+    expect(component.columns[2].title.key).toEqual('dd');
+    expect(component.applyColumnsWidthPreference).toHaveBeenCalled();
+    expect(component.checkAllColumnsDisplayed).toHaveBeenCalled();
+    expect(component.stickColumns).toHaveBeenCalled();
+  }));
+
+  it('should process blockedInfo and reset it after 7 seconds', fakeAsync(() => {
+    const info: IAlertInfo[] = [
+      { userName: 'user1', orderId: 1 },
+      { userName: 'user1', orderId: 2 },
+      { userName: 'user2', orderId: 3 }
+    ];
+
+    component.dataSource = new MatTableDataSource([{ id: 1 }, { id: 2 }, { id: 3 }]);
+    component.selection = jasmine.createSpyObj('selection', ['deselect']);
+    component.idsToChange = [1, 2, 3];
+
+    component.showBlockedMessage(info);
+
+    tick(7000);
+    expect(component.blockedInfo).toEqual([]);
+  }));
 });

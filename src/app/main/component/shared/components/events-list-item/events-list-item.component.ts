@@ -15,7 +15,7 @@ import { typeFiltersData } from '../../../events/models/event-consts';
 import { EventPageResponseDto, TagDto, TagObj } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
@@ -28,6 +28,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { ofType } from '@ngrx/effects';
+import { WarningPopUpComponent } from '../warning-pop-up/warning-pop-up.component';
 
 @Component({
   selector: 'app-events-list-item',
@@ -38,6 +39,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponseDto;
   @Input() userId: number;
   @Input() isUserAssignList: boolean;
+  @Input() isGalleryView: boolean;
 
   profileIcons = userAssignedCardsIcons;
 
@@ -46,7 +48,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
 
-  public rate: number;
   public author: string;
 
   public isRated: boolean;
@@ -81,7 +82,16 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
   };
+  private cancelationPopupData = {
+    popupTitle: 'homepage.events.pop-up-cancelling-event',
+    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
+    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
+    isUBS: false,
+    isUbsOrderSubmit: false,
+    isHabit: false
+  };
   private subsOnAttendEvent = new Subscription();
+  private subsOnUnAttendEvent = new Subscription();
   private dialogRef;
 
   @Output() public isLoggedIn: boolean;
@@ -123,12 +133,19 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
           this.nameBtn = this.btnName.cancel;
         }
       });
+
+    this.subsOnUnAttendEvent = this.actionsSubj
+      .pipe(ofType(EventsActions.RemoveAttenderEcoEventsById), takeUntil(this.destroyed$))
+      .subscribe((action: { id: number; type: string }) => {
+        if (action.id === this.event.id) {
+          this.nameBtn = this.btnName.join;
+        }
+      });
   }
 
   ngOnInit(): void {
     this.itemTags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
-    this.rate = Math.round(this.event.organizer.organizerRating);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.subscribeToLangChange();
     this.getAllAttendees();
@@ -137,7 +154,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.checkButtonStatus();
     this.address = this.event.dates[this.event.dates.length - 1].coordinates;
     this.isOnline = this.event.dates[this.event.dates.length - 1].onlineLink;
-    this.ecoEvents$.subscribe((res: IEcoEventsState) => {
+    this.ecoEvents$.pipe(takeUntil(this.destroyed$)).subscribe((res: IEcoEventsState) => {
       this.addAttenderError = res.error;
     });
     this.getAddress();
@@ -191,7 +208,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.eventService.setForm(null);
     switch (buttonName) {
       case this.btnName.cancel:
-        this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+        this.openPopUp();
         break;
       case this.btnName.join:
         if (this.addAttenderError) {
@@ -236,6 +253,29 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.snackBar.openSnackBar('joinedEvent');
   }
 
+  public submitEventCancelling() {
+    this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+  }
+
+  openPopUp(): void {
+    if (this.dialogRef) {
+      return;
+    }
+    this.dialogRef = this.dialog.open(WarningPopUpComponent, {
+      data: this.cancelationPopupData
+    });
+
+    this.dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.dialogRef = null;
+        if (result) {
+          this.submitEventCancelling();
+        }
+      });
+  }
+
   public openModal(): void {
     const initialState = {
       id: this.event.id,
@@ -275,8 +315,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
-    this.localStorageService.languageBehaviourSubject.subscribe((lang: string) => {
+    this.langChangeSub = this.localStorageService.languageSubject.pipe(takeUntil(this.destroyed$)).subscribe(this.bindLang.bind(this));
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.datePipe = new DatePipe(this.currentLang);
       this.newDate = this.datePipe.transform(this.event.creationDate, 'MMM dd, yyyy');
@@ -284,10 +324,13 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   getAllAttendees(): void {
-    this.eventService.getAllAttendees(this.event.id).subscribe((attendees) => {
-      this.attendees = attendees;
-      this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
-    });
+    this.eventService
+      .getAllAttendees(this.event.id)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((attendees) => {
+        this.attendees = attendees;
+        this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
+      });
   }
 
   public getAddress(): string {
@@ -316,24 +359,30 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     } else {
       this.isEventFavorite = !this.isEventFavorite;
       if (this.isEventFavorite) {
-        this.eventService.addEventToFavourites(this.event.id).subscribe({
-          error: () => {
-            this.snackBar.openSnackBar('error');
-            this.isEventFavorite = false;
-          }
-        });
-      } else {
-        this.eventService.removeEventFromFavourites(this.event.id).subscribe(
-          () => {
-            if (this.isUserAssignList) {
-              this.idOfUnFavouriteEvent.emit(this.event.id);
+        this.eventService
+          .addEventToFavourites(this.event.id)
+          .pipe(takeUntil(this.destroyed$))
+          .subscribe({
+            error: () => {
+              this.snackBar.openSnackBar('error');
+              this.isEventFavorite = false;
             }
-          },
-          () => {
-            this.snackBar.openSnackBar('error');
-            this.isEventFavorite = true;
-          }
-        );
+          });
+      } else {
+        this.eventService
+          .removeEventFromFavourites(this.event.id)
+          .pipe(takeUntil(this.destroyed$))
+          .subscribe(
+            () => {
+              if (this.isUserAssignList) {
+                this.idOfUnFavouriteEvent.emit(this.event.id);
+              }
+            },
+            () => {
+              this.snackBar.openSnackBar('error');
+              this.isEventFavorite = true;
+            }
+          );
       }
     }
   }
@@ -352,7 +401,5 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
-    this.destroyed$.unsubscribe();
-    this.langChangeSub.unsubscribe();
   }
 }

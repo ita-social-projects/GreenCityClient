@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatSliderChange } from '@angular/material/slider';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ElementRef } from '@angular/core';
+import { ElementRef, SimpleChange } from '@angular/core';
 import { of } from 'rxjs';
 
 describe('HabitDurationComponent', () => {
@@ -27,9 +27,16 @@ describe('HabitDurationComponent', () => {
   });
 
   it('should initialize with default values', () => {
-    expect(component.newDuration).toBe(7);
     expect(component.currentLang).toBe('');
     expect(component.days).toBe('d');
+  });
+
+  it('should reflect input value changes', () => {
+    const habitDurationInput = 14;
+
+    component.ngOnChanges({ habitDurationInitial: new SimpleChange(null, habitDurationInput, true) });
+    fixture.detectChanges();
+    expect(component.newDuration).toBe(14);
   });
 
   it('should update duration and emit event', () => {

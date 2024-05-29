@@ -19,7 +19,7 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
     currentPage: 1,
     totalItems: 0
   };
-  @Output() public repliesCounter = new EventEmitter();
+  @Output() public repliesCounter = new EventEmitter<number>();
   public elementsList: CommentsDTO[] = [];
   public isLoggedIn: boolean;
   public userId: number;
@@ -110,6 +110,16 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
           } else {
             this.setNoData();
           }
+        }
+      });
+    this.commentsService
+      .getCommentsCount(this.entityId)
+      .pipe(take(1))
+      .subscribe((data: number) => {
+        this.totalElements = data;
+        const totalCountParagraph = document.getElementById('total-count');
+        if (totalCountParagraph) {
+          totalCountParagraph.innerHTML = data.toString();
         }
       });
   }

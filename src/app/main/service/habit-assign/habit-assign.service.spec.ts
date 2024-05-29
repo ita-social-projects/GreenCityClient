@@ -10,7 +10,9 @@ import {
 } from '../../component/user/components/habit/mocks/habit-assigned-mock';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
-import { UpdateHabitDuration } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { HabitAssignInterface, UpdateHabitDuration } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HttpResponse } from '@angular/common/http';
 
 describe('HabitService', () => {
   let service: HabitAssignService;
@@ -117,9 +119,40 @@ describe('HabitService', () => {
 
     const req = httpMock.expectOne(`${habitAssignLink}/${habitId}/update-habit-duration?duration=${duration}`);
     req.flush(expectedRes);
-    httpMock.verify();
     expect(req.request.method).toBe('PUT');
     expect(actualRes).toEqual(expectedRes);
+  });
+
+  it('should set habit status', () => {
+    const expectedRes = { ...DEFAULTFULLINFOHABIT, status: HabitStatus.ACQUIRED };
+    let actualRes: HabitAssignInterface;
+
+    service.setHabitStatus(DEFAULTFULLINFOHABIT.id, HabitStatus.ACQUIRED).subscribe((res) => {
+      actualRes = res;
+    });
+
+    const req = httpMock.expectOne(`${habitAssignLink}/${DEFAULTFULLINFOHABIT.id}`);
+    req.flush(expectedRes);
+    expect(req.request.method).toBe('PATCH');
+    expect(actualRes).toEqual(expectedRes);
+  });
+
+  it('should delete habit assign by id', () => {
+    const habitAssignId = 1;
+    service.deleteHabitById(habitAssignId).subscribe();
+
+    const req = httpMock.expectOne(`${habitAssignLink}/delete/${habitAssignId}`);
+    req.flush(new HttpResponse({ status: 200 }));
+    expect(req.request.method).toBe('DELETE');
+  });
+
+  it('should toggle the progressNotificationHasDisplayed value to true', () => {
+    const habitAssignId = 1;
+    service.progressNotificationHasDisplayed(habitAssignId).subscribe();
+
+    const req = httpMock.expectOne(`${habitAssignLink}/${habitAssignId}/updateProgressNotificationHasDisplayed`);
+    req.flush(new HttpResponse({ status: 200 }));
+    expect(req.request.method).toBe('PUT');
   });
 
   afterEach(() => {

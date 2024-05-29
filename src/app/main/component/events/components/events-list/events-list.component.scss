@@ -65,6 +65,10 @@
     min-height: 20px;
     background: url('src/assets/events-icons/search.png');
     display: inline-block;
+
+    &:hover {
+      background: url('src/assets/events-icons/search-hover.png');
+    }
   }
 
   .search-img-active {
@@ -104,6 +108,7 @@
     width: 100%;
     box-shadow: 0 0 1px 0 var(--primary-grey);
     height: 40px;
+    padding-right: 25px;
   }
 }
 
@@ -114,7 +119,7 @@
 
 .filter-container {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-start;
   font-family: var(--primary-font);
   font-style: normal;
@@ -179,8 +184,7 @@ p {
 .filter-by {
   display: flex;
   align-items: center;
-  margin-right: 20px;
-  margin-top: 16px;
+  margin: 16px 20px 0 0;
   height: 28px;
   font-family: var(--primary-font);
   font-size: 20px;
@@ -263,6 +267,27 @@ p {
   }
 }
 
+.change-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  > button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    font-size: 16px;
+    color: var(--secondary-grey);
+    cursor: pointer;
+    transition: all 0.1s;
+
+    &:hover {
+      color: var(--primary-green);
+    }
+  }
+}
+
 .event-header {
   margin-top: 40px;
   width: 100%;
@@ -305,11 +330,24 @@ p {
 }
 
 .event-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 359px);
+  grid-gap: 32px;
   margin-bottom: 30px;
+
+  @include responsivePCFirst(2xl) {
+    grid-template-columns: repeat(3, 299px);
+  }
+
+  @include responsivePCFirst(lg) {
+    grid-template-columns: repeat(2, 344px);
+  }
+
+  @include responsivePCFirst(md) {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
 
   .mat-card {
     padding: 0;
@@ -317,9 +355,40 @@ p {
 
   .event-list-item {
     overflow: hidden;
-    max-width: 348px;
+    max-width: 359px;
     background-color: var(--primary-white);
     box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+
+    @include responsivePCFirst(2xl) {
+      max-width: 299px;
+    }
+
+    @include responsivePCFirst(lg) {
+      max-width: 344px;
+    }
+
+    @include responsivePCFirst(sm) {
+      width: 100%;
+      max-width: 359px;
+    }
+  }
+}
+
+.list-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  .list-item-view {
+    width: 100%;
+    height: 204px;
+    max-width: unset;
+
+    @include responsivePCFirst(sm) {
+      width: 359px;
+      height: 100%;
+    }
   }
 }
 

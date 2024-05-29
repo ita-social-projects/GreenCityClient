@@ -1,10 +1,11 @@
 <div class="research">
   <div class="search">
     <div class="search-input">
-      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target.value)" />
+      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target['value'])" />
     </div>
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
+  <div>{{ 'ubs-tables.orders-number' | translate }} : {{ totalElements }}</div>
   <div class="btn-group">
     <div class="filters-dropdown-wrappe">
       <button type="button" [matMenuTriggerFor]="clickMenu" #clickMenuTrigger="matMenuTrigger" class="btn btn-default filter-table-btn">
@@ -57,13 +58,11 @@
                               <input
                                 matInput
                                 class="date-input"
-                                type="text"
                                 [matDatepicker]="picker1"
                                 [placeholder]="'ubs-tables.date-placeholder' | translate"
                                 formControlName="{{ column.key }}From"
                                 [max]="currentDate"
-                                (keydown)="(false)"
-                                (dateChange)="changeInputDate($event.checked, column.key, 'From')"
+                                (dateChange)="changeInputDate($event['checked'], column.key, 'From')"
                               />
                               <button matSuffix class="calendar-btn">
                                 <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker1.open()" />
@@ -82,8 +81,7 @@
                                 [max]="currentDate"
                                 [placeholder]="'ubs-tables.date-placeholder' | translate"
                                 formControlName="{{ column.key }}To"
-                                (keydown)="(false)"
-                                (dateChange)="changeInputDate($event.checked, column.key, 'To')"
+                                (dateChange)="changeInputDate($event['checked'], column.key, 'To')"
                               />
                               <button matSuffix class="calendar-btn">
                                 <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker2.open()" />
@@ -95,11 +93,13 @@
                       </div>
                     </div>
                     <ng-template #nonDate>
-                      <li *ngFor="let option of column.values">
-                        <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
-                          {{ option | serverTranslate: currentLang }}
-                        </mat-checkbox>
-                      </li>
+                      <ul class="accordion-list">
+                        <li *ngFor="let option of column.values">
+                          <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
+                            {{ option | serverTranslate: currentLang }}
+                          </mat-checkbox>
+                        </li>
+                      </ul>
                     </ng-template>
                   </div>
                 </div>
@@ -139,7 +139,7 @@
               <i class="fa fa-close" aria-hidden="true"></i>
             </button>
           </div>
-          <div class="accordion">
+          <div class="accordion scrollbar">
             <ng-container *ngFor="let header of tableViewHeaders; index as i">
               <div class="accordion-item">
                 <div
@@ -177,6 +177,11 @@
               </div>
             </ng-container>
           </div>
+          <div class="sticky-bottom clear-apply-group">
+            <button type="button" class="filter-btn bg-lime" (click)="resetDefaultWidth()">
+              {{ 'ubs-tables.default-reset' | translate }}
+            </button>
+          </div>
         </ul>
       </div>
       <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
@@ -197,7 +202,6 @@
   class="scrolling"
   [style.display]="showTable()"
   infiniteScroll
-  [infiniteScrollDistance]="0"
   [infiniteScrollThrottle]="100"
   (scrolled)="onScroll()"
   [scrollWindow]="false"

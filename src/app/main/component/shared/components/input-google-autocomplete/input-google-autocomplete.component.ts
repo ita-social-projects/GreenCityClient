@@ -110,8 +110,11 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
           ...this.autoCompRequest
         };
 
-        this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
-          this.predictionList = cityPredictionList?.filter((city) => !regex.test(city.description)) ?? [];
+        this.autocompleteService.getPlacePredictions(request, (predictions: google.maps.places.AutocompletePrediction[]) => {
+          predictions =
+            predictions?.filter((prediction) => !regex.test(prediction.description) && !prediction.terms[0].value.includes('вул.')) ?? [];
+
+          this.predictionList = predictions;
         });
       } else {
         this.predictionList = [];

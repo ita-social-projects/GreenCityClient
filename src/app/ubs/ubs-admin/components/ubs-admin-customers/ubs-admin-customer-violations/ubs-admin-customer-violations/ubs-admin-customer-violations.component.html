@@ -9,7 +9,6 @@
     id="table-container"
     infiniteScroll
     [ngClass]="{ scrolling: isCanScroll }"
-    [infiniteScrollDistance]="0"
     [infiniteScrollThrottle]="100"
     (scrolled)="onScroll()"
     [scrollWindow]="false"

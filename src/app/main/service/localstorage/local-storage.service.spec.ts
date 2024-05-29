@@ -56,8 +56,7 @@ describe('LocalStorageService', () => {
     open: true,
     organizer: {
       id: 456,
-      name: 'Test organizer',
-      organizerRating: 4.5
+      name: 'Test organizer'
     },
     tags: [{ id: 789, nameUa: 'Test tag UA', nameEn: 'Test tag EN' }],
     title: 'Test event title',
@@ -68,7 +67,8 @@ describe('LocalStorageService', () => {
     countComments: 5,
     likes: 8,
     isRelevant: true,
-    isOrganizedByFriend: false
+    isOrganizedByFriend: false,
+    eventRate: 0
   };
 
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
@@ -286,23 +286,23 @@ describe('LocalStorageService', () => {
     });
   });
 
-  describe('UbsFondyOrderId', () => {
-    it('should set the UbsFondyOrderId in local storage', () => {
+  describe('UbsPaymentOrderId', () => {
+    it('should set the UbsPaymentOrderId in local storage', () => {
       const orderId = '123';
-      service.setUbsFondyOrderId(orderId);
-      expect(localStorage.getItem('UbsFondyOrderId')).toEqual(String(orderId));
+      service.setUbsPaymentOrderId(orderId);
+      expect(localStorage.getItem('UbsPaymentOrderId')).toEqual(String(orderId));
     });
 
-    it('should get the UbsFondyOrderId from local storage', () => {
+    it('should get the UbsPaymentOrderId from local storage', () => {
       const orderId = '123';
-      localStorage.setItem('UbsFondyOrderId', JSON.stringify(orderId));
-      expect(service.getUbsFondyOrderId()).toEqual(orderId);
+      localStorage.setItem('UbsPaymentOrderId', JSON.stringify(orderId));
+      expect(service.getUbsPaymentOrderId()).toEqual(orderId);
     });
 
-    it('should remove the UbsFondyOrderId from local storage', () => {
-      localStorage.setItem('UbsFondyOrderId', JSON.stringify('123'));
-      service.removeUbsFondyOrderId();
-      expect(localStorage.getItem('UbsFondyOrderId')).toBeNull();
+    it('should remove the UbsPaymentOrderId from local storage', () => {
+      localStorage.setItem('UbsPaymentOrderId', JSON.stringify('123'));
+      service.removeUbsPaymentOrderId();
+      expect(localStorage.getItem('UbsPaymentOrderId')).toBeNull();
     });
   });
 
@@ -339,10 +339,10 @@ describe('LocalStorageService', () => {
   });
 
   it('should clear payment info', () => {
-    localStorage.setItem('UbsFondyOrderId', '456');
+    localStorage.setItem('UbsPaymentOrderId', '456');
     localStorage.setItem('IsUserPagePayment', 'true');
     service.clearPaymentInfo();
-    expect(localStorage.getItem('UbsFondyOrderId')).toBeNull();
+    expect(localStorage.getItem('UbsPaymentOrderId')).toBeNull();
     expect(localStorage.getItem('IsUserPagePayment')).toBeNull();
   });
 
@@ -427,10 +427,10 @@ describe('LocalStorageService', () => {
   });
 
   it('should clear payment info from localStorage', () => {
-    service.setUbsFondyOrderId('abc');
+    service.setUbsPaymentOrderId('abc');
     service.setUserPagePayment(true);
     service.clearPaymentInfo();
-    expect(service.getUbsFondyOrderId()).toBeFalsy();
+    expect(service.getUbsPaymentOrderId()).toBeFalsy();
     expect(service.getUserPagePayment()).toBeFalsy();
   });
 

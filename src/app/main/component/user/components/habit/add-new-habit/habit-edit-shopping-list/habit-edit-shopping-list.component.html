@@ -1,18 +1,17 @@
 <div class="shop-list-container">
-  <div class="title">{{ 'user.habit.to-do-list' | translate }}</div>
+  <a *ngIf="!isAcquired && !isEditMode" class="edit-icon" (click)="changeEditMode()" aria-label="Edit Todo List"></a>
+  <a *ngIf="isEditMode" class="close-edit-mode" (click)="cancelEditing()" aria-label="Close Editing Todo List"></a>
+  <div class="title">{{ 'user.habit.to-do.to-do-list' | translate }}</div>
   <div *ngIf="shopList" class="list-container">
-    <ul *ngIf="shopList.length" class="shop-list">
+    <ul *ngIf="shopList.length" [ngClass]="isEditMode ? 'shop-list shop-list-edit-mode' : 'shop-list'">
       <li *ngFor="let item of shopList; index as i" class="list-item">
         <div class="item-box">
-          <button *ngIf="!isEditing" class="check-btn" (click)="selectItem(item)">
-            <img [src]="item.selected ? img.minusCheck : img.plusCheck" alt="Delete to-do item" />
-          </button>
-          <button *ngIf="isEditing" class="check-btn" [disabled]="isAcquired" (click)="selectItem(item)">
+          <button class="check-btn" [disabled]="isAcquired || !isEditMode" (click)="selectItem(item)">
             <img [src]="getCheckIcon(item)" alt="Check to-do item" />
           </button>
           <span
             class="item-text"
-            [ngClass]="{ unselected: isAcquired || (!item.selected && !isEditing) }"
+            [ngClass]="{ unselected: isAcquired || !item.selected, crossed: item.status === todoStatus.done }"
             appCustomTooltip
             #tooltip="matTooltip"
             [appCustomTooltip]="item.text"
@@ -24,22 +23,32 @@
           >
           </span>
         </div>
-        <button *ngIf="item.custom && !isAcquired" class="del-btn" type="button" (click)="deleteItem(item.text)"></button>
+        <button *ngIf="item.custom && isEditMode" class="del-btn" type="button" (click)="deleteItem(item.text)"></button>
       </li>
     </ul>
     <div *ngIf="!shopList.length" class="no-item">
-      {{ 'user.habit.no-shopping-items' | translate }}
+      {{ 'user.habit.to-do.no-shopping-items' | translate }}
     </div>
-    <form *ngIf="!isAcquired" [formGroup]="itemForm" class="add-item-form">
-      <input
-        class="add-field"
-        type="text"
-        formControlName="item"
-        [placeholder]="'user.habit.add-custom-item' | translate"
-        autocomplete="off"
-        (input)="checkItemValidity()"
-      />
-      <button [disabled]="!itemForm.valid" class="add-btn" type="submit" (click)="addItem(itemForm.get('item').value)">+</button>
-    </form>
+    <div *ngIf="isEditMode && !isAcquired">
+      <form [formGroup]="itemForm" class="add-item-form">
+        <input
+          class="add-field"
+          type="text"
+          formControlName="item"
+          [placeholder]="'user.habit.to-do.add-custom-item' | translate"
+          autocomplete="off"
+          (input)="checkItemValidity()"
+        />
+        <button [disabled]="!itemForm.valid" class="add-btn" type="submit" (click)="addItem(itemForm.get('item').value)">+</button>
+      </form>
+      <div class="save-cancel-wrapper">
+        <button class="save-cancel-btn" (click)="cancelEditing()">
+          {{ 'user.habit.to-do.cancel-editing' | translate }}
+        </button>
+        <button class="save-cancel-btn" (click)="changeEditMode()" [disabled]="!isListChanged">
+          {{ 'user.habit.to-do.save' | translate }}
+        </button>
+      </div>
+    </div>
   </div>
 </div>
