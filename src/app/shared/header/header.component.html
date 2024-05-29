@@ -111,9 +111,9 @@
               class="notification-icon"
               role="notification"
               tabindex="0"
-              (click)="openNotificationPopUp($event)"
+              (click)="openNotificationPopUp()"
             >
-              <img [src]="headerImageList.notification" alt="Internal search button" aria-hidden="true" />
+              <img [src]="headerImageList.notification" #notificationIconRef alt="Internal search button" aria-hidden="true" />
             </li>
             <!-- Search icon -->
             <li
