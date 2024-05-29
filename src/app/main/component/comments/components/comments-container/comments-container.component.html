@@ -3,7 +3,7 @@
     <div class="wrapper">
       <p>{{ 'user.map.comments' | translate }}</p>
       <p class="total-count">
-        {{ totalElements }}
+        <span id="total-count">{{ totalElements }}&nbsp;</span>
         <ng-container [ngSwitch]="totalElements">
           <span *ngSwitchCase="0">{{ 'homepage.eco-news.comment.comments.zero-comment' | translate }} </span>
           <span *ngSwitchCase="1"> {{ 'homepage.eco-news.comment.comments.one-comment' | translate }} </span>
