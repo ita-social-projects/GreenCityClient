@@ -57,8 +57,8 @@ export class EventsService implements OnDestroy {
     searchTitle?: string
   ): Observable<EventResponseDto> {
     let requestParams = new HttpParams();
-    requestParams = requestParams.append('page', page.toString().toUpperCase());
-    requestParams = requestParams.append('size', quantity.toString().toUpperCase());
+    requestParams = requestParams.append('page', page.toString());
+    requestParams = requestParams.append('size', quantity.toString());
     requestParams = requestParams.append('cities', filter.cities.toString().toUpperCase());
     requestParams = requestParams.append('tags', filter.tags.toString().toUpperCase());
     requestParams = requestParams.append('eventTime', filter.eventTime.toString().toUpperCase());
