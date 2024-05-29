@@ -4,8 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { notificationTriggersMock, notificationTriggerTimeMock } from '../../../services/notifications.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { notificationTriggersMock, notificationTriggerTimeMock } from '../../../services/notificationsMock';
 
 @Component({
   selector: 'app-ubs-admin-notification-settings',
