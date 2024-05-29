@@ -20,23 +20,18 @@
     <tbody>
       <tr>
         <td>
-          {{ getLangValue(notification.notificationTemplateMainInfoDto.title, notification.notificationTemplateMainInfoDto.titleEng) }}
+          <ng-container *ngIf="isLangUa; else englishTitle">{{ notification.notificationTemplateMainInfoDto.title }}</ng-container>
+          <ng-template #englishTitle>{{ notification.notificationTemplateMainInfoDto.titleEng }}</ng-template>
         </td>
         <td>
-          {{
-            getLangValue(
-              notification.notificationTemplateMainInfoDto.triggerDescription,
-              notification.notificationTemplateMainInfoDto.triggerDescriptionEng
-            )
-          }}
+          <ng-container *ngIf="isLangUa; else engTriggerDesc">{{
+            notification.notificationTemplateMainInfoDto.triggerDescription
+          }}</ng-container>
+          <ng-template #engTriggerDesc>{{ notification.notificationTemplateMainInfoDto.triggerDescriptionEng }}</ng-template>
         </td>
         <td>
-          {{
-            getLangValue(
-              notification.notificationTemplateMainInfoDto.timeDescription,
-              notification.notificationTemplateMainInfoDto.timeDescriptionEng
-            )
-          }}
+          <ng-container *ngIf="isLangUa; else engTimeDesc">{{ notification.notificationTemplateMainInfoDto.timeDescription }}</ng-container>
+          <ng-template #engTimeDesc>{{ notification.notificationTemplateMainInfoDto.timeDescriptionEng }}</ng-template>
         </td>
         <td>
           {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}
@@ -80,9 +75,14 @@
     <tbody>
       <tr *ngFor="let platform of notification.platforms" [ngClass]="{ 'platform-inactive': platform.status !== 'ACTIVE' }">
         <td>{{ platform.nameEng | titlecase }}</td>
-        <td>
-          {{ getLangValue(platform.body, platform.bodyEng) }}
-        </td>
+
+        <ng-container *ngIf="isLangUa; else englishBody"
+          ><td>{{ platform.body }}</td></ng-container
+        >
+        <ng-template #englishBody
+          ><td>{{ platform.bodyEng }}</td></ng-template
+        >
+
         <td *ngIf="isThisEmployeeHasRights" class="col-action">
           <div *ngIf="platform.status === 'ACTIVE'; else inactivePlatformActions">
             <button

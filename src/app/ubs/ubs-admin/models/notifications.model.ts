@@ -1,10 +1,10 @@
 export interface Platform {
   name: string;
+  nameEng: string;
   status: string;
-  body: {
-    en: string;
-    ua: string;
-  };
+  body: string;
+  bodyEng: string;
+  receiverType: string;
 }
 
 export interface NotificationTemplateMainInfoDto {
@@ -28,18 +28,12 @@ export interface NotificationTemplate {
 
 export interface NotificationTemplatesPage {
   currentPage: number;
-  page: [
-    {
-      id: number;
-      notificationTemplateMainInfoDto: NotificationTemplateMainInfoDto;
-    }
-  ];
+  page: NotificationPage[];
   totalElements: number;
   totalPages: number;
 }
 
-export interface NotificationFilterParams {
-  title?: string;
-  triggers?: string[];
-  status?: string;
+export interface NotificationPage {
+  id: number;
+  notificationTemplateMainInfoDto: NotificationTemplateMainInfoDto;
 }
