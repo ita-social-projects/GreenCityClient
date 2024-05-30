@@ -509,7 +509,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const table = document.getElementById('table');
     const tableContainer = document.getElementById('table-container');
     this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
-    if (!this.isUpdate && this.currentPage < this.totalPages) {
+    if (!this.isUpdate && this.currentPage + 1 < this.totalPages) {
       this.currentPage++;
       this.updateTableData();
     }
