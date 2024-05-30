@@ -176,7 +176,7 @@ header {
 
 .ubs-header-sign-in {
   display: flex;
-  width: 145px;
+  min-width: 145px;
   height: 36px;
   justify-content: center;
   align-items: center;
@@ -214,7 +214,7 @@ header {
   }
 
   li.header_sign-up-link {
-    padding-right: 0;
+    padding-right: 10px;
   }
 }
 
@@ -430,7 +430,6 @@ header {
         padding: 7px 17px;
         border: 2px solid #87bc1e;
         border-radius: 6px;
-        margin: 0;
 
         &:hover {
           border-color: var(--ubs-tertiary-dark-green);
@@ -644,7 +643,7 @@ header {
 
     .header_navigation-menu-right-list {
       .header_lang-switcher-wrp.header_navigation-menu-right-lang {
-        padding-left: 0;
+        padding: 0;
         cursor: pointer;
       }
 
@@ -995,10 +994,6 @@ header {
   .header_navigation-menu-left,
   #header_user-wrp {
     display: none;
-  }
-
-  .header_navigation-menu-right-list li.header_burger-btn {
-    padding-right: 0;
   }
 
   .header_burger-btn {
