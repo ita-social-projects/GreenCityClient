@@ -1,10 +1,10 @@
-import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { RateEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { Store } from '@ngrx/store';
-import { ReplaySubject, Subscription } from 'rxjs';
+import { ReplaySubject, Subscription, pipe, take } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -27,20 +27,17 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
   public isEventRaited = false;
   public hover: boolean;
 
-  private dialog: MatDialog;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public langChangeSub: Subscription;
 
   constructor(
     private store: Store,
     private localStorageService: LocalStorageService,
-    public injector: Injector,
     public bsModalRef: BsModalRef,
     private translate: TranslateService,
-    private matSnackBar: MatSnackBarComponent
-  ) {
-    this.dialog = injector.get(MatDialog);
-  }
+    private matSnackBar: MatSnackBarComponent,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.subscribeToLangChange();
@@ -58,9 +55,7 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
   public modalBtn(): void {
     if (!this.isRegistered) {
       this.bsModalRef.hide();
-      setTimeout(() => {
-        this.openAuthModalWindow('sign-in');
-      }, 500);
+      this.openAuthModalWindow('sign-in');
     } else {
       this.matSnackBar.openSnackBar('ratedEvent');
       this.onRateChange();
@@ -69,12 +64,16 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
 
   public openAuthModalWindow(page: string): void {
     this.elementName = page;
-    this.dialog.open(AuthModalComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: ['custom-dialog-container'],
-      data: { popUpName: page }
-    });
+    this.dialog
+      .open(AuthModalComponent, {
+        hasBackdrop: true,
+        closeOnNavigation: true,
+        panelClass: ['custom-dialog-container'],
+        data: { popUpName: page }
+      })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe();
   }
 
   public hoveringOver(event: any, rated = false): void {

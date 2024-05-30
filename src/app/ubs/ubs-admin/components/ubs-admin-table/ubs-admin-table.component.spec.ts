@@ -736,15 +736,6 @@ describe('UsbAdminTableComponent', () => {
     expect(component.applyFilters).toHaveBeenCalled();
   });
 
-  it('should change noFiltersApplied value to false changeFilters', () => {
-    const checked = true;
-    const currentColumn = 'currentColumn';
-    const option = { filtered: true };
-    component.changeFilters(checked, currentColumn, option);
-    expect((component as any).adminTableService.filters.length).toBe(1);
-    expect(component.noFiltersApplied).toBe(false);
-  });
-
   it('should noFilters applied to be false', () => {
     const checked = true;
     const currentColumn = 'currentColumn';

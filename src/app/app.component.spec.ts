@@ -1,9 +1,7 @@
-import { AppModule } from './app.module';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { AppModule } from './app.module';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -11,8 +9,8 @@ describe('AppComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, RouterTestingModule, HttpClientTestingModule],
-      providers: [UserOwnAuthService]
+      imports: [RouterTestingModule],
+      declarations: [AppComponent]
     }).compileComponents();
   }));
 

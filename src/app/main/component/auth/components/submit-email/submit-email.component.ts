@@ -10,8 +10,6 @@ export class SubmitEmailComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<SubmitEmailComponent>) {}
 
   ngOnInit() {
-    setTimeout(() => {
-      this.dialogRef.close();
-    }, 15000);
+    this.dialogRef.close();
   }
 }
