@@ -95,12 +95,15 @@ describe('UbsAdminNotificationListComponent', () => {
       page: NotificationTemplatesMock,
       totalElements: 1
     };
-    spyOn(notificationsService, 'getAllNotificationTemplates').and.returnValue(of(data as any));
 
+    spyOn(notificationsService, 'getAllNotificationTemplates').and.returnValue(of(data as any));
     component.loadPage(1);
 
+    expect(notificationsService.getAllNotificationTemplates).toHaveBeenCalledWith(0, component.itemsPerPage);
+    expect(component.spinner).toBeFalsy();
     expect(component.notifications).toEqual(data.page);
     expect(component.totalItems).toBe(data.totalElements);
+    expect(component.elementsArePresent).toBe(component.itemsPerPage < component.totalItems);
   });
 
   it('should return the correct language value when getLangValue() is called', () => {

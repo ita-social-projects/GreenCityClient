@@ -51,7 +51,10 @@ export const formatUnixCron = (notification: NotificationTemplateMainInfoDto): N
 };
 
 export const formatNotificationCron = (pages: NotificationPage[]): NotificationPage[] =>
-  pages.map((page) => ({ ...page, notificationTemplateMainInfoDto: formatUnixCron(page.notificationTemplateMainInfoDto) }));
+  pages.map((page: NotificationPage) => ({
+    ...page,
+    notificationTemplateMainInfoDto: formatUnixCron(page.notificationTemplateMainInfoDto)
+  }));
 
 const daysOfWeekAliases = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 const monthsAliases = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
