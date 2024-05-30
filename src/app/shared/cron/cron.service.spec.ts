@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CronService } from './cron.service';
+import { CronService, formatSpringCron, formatUnixCron } from './cron.service';
+import { NotificationMock } from '../../ubs/ubs-admin/services/notificationsMock';
 
 describe('CronService', () => {
   let service: CronService;
@@ -102,5 +103,73 @@ describe('CronService', () => {
     expect(service.descript('* * * JAN-SEP *')).toBe('щохвилини щомісяця з Січ до Вер');
     expect(service.descript('* * * 2-5 *')).toBe('щохвилини щомісяця з Лют до Трав');
     expect(service.descript('* * * 2,5,12 *')).toBe('щохвилини у Лют, Трав та Груд');
+  });
+});
+
+const notification = NotificationMock;
+
+describe('formatSpringCron', () => {
+  it('Valid cron schedule', () => {
+    notification.notificationTemplateMainInfoDto.schedule = '15 10 * * *';
+    const expected = '0 15 10 * * *';
+    expect(formatSpringCron(notification).notificationTemplateMainInfoDto.schedule).toBe(expected);
+  });
+
+  it('Invalid cron schedule', () => {
+    notification.notificationTemplateMainInfoDto.schedule = 'invalid schedule';
+    const expected = '0 invalid schedule';
+    expect(formatSpringCron(notification).notificationTemplateMainInfoDto.schedule).toBe(expected);
+  });
+
+  it('should prepend "0 " to the cron schedule', () => {
+    const notification = NotificationMock;
+    notification.notificationTemplateMainInfoDto.schedule = '30 8 * * *';
+    const result = formatSpringCron(notification);
+    expect(result.notificationTemplateMainInfoDto.schedule).toEqual('0 30 8 * * *');
+  });
+
+  it('should add "0 " at the beginning of the schedule', () => {
+    notification.notificationTemplateMainInfoDto.schedule = '15 10 * * *';
+    const expected = '0 15 10 * * *';
+    expect(formatSpringCron(notification).notificationTemplateMainInfoDto.schedule).toBe(expected);
+  });
+
+  it('should prepend "0 " to the cron schedule', () => {
+    notification.notificationTemplateMainInfoDto.schedule = '30 8 * * *';
+    const expected = '0 30 8 * * *';
+    expect(formatSpringCron(notification).notificationTemplateMainInfoDto.schedule).toBe(expected);
+  });
+
+  it('should remove the first "0 " from the schedule if it exists', () => {
+    notification.notificationTemplateMainInfoDto.schedule = '0 30 8 * * *';
+    const expected = '30 8 * * *';
+    expect(formatSpringCron(notification).notificationTemplateMainInfoDto.schedule).not.toBe(expected);
+  });
+});
+
+describe('formatUnixCron', () => {
+  it('should not change the schedule if it has more or less than 6 parts', () => {
+    notification.notificationTemplateMainInfoDto.schedule = '15 10 * * *';
+    expect(formatUnixCron(notification.notificationTemplateMainInfoDto).schedule).toBe('15 10 * * *');
+
+    notification.notificationTemplateMainInfoDto.schedule = '0 15 10 * * * *';
+    expect(formatUnixCron(notification.notificationTemplateMainInfoDto).schedule).toBe('0 15 10 * * * *');
+  });
+
+  it('should remove the first field from a 6-part cron schedule', () => {
+    notification.notificationTemplateMainInfoDto.schedule = '30 8 * * * *';
+    const expected = '8 * * * *';
+    expect(formatUnixCron(notification.notificationTemplateMainInfoDto).schedule).toBe(expected);
+  });
+
+  it('6-part cron schedule', () => {
+    notification.notificationTemplateMainInfoDto.schedule = '0 30 8 * * *';
+    const expected = '30 8 * * *';
+    expect(formatUnixCron(notification.notificationTemplateMainInfoDto).schedule).toBe(expected);
+  });
+
+  it('should not change if it empty cron schedule', () => {
+    notification.notificationTemplateMainInfoDto.schedule = '';
+    expect(formatUnixCron(notification.notificationTemplateMainInfoDto).schedule).toBe('');
   });
 });

@@ -15,6 +15,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
+import { formatSpringCron, formatUnixCron } from 'src/app/shared/cron/cron.service';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -87,7 +88,10 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(
         (notification: NotificationTemplate) => {
-          this.notification = notification;
+          this.notification = {
+            ...this.notification,
+            notificationTemplateMainInfoDto: formatUnixCron(notification.notificationTemplateMainInfoDto)
+          };
         },
         () => this.navigateToNotificationList()
       );
@@ -229,7 +233,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
 
   onSaveChanges(): void {
     this.notificationsService
-      .updateNotificationTemplate(this.notificationId, this.notification)
+      .updateNotificationTemplate(this.notificationId, formatSpringCron(this.notification))
       .pipe(takeUntil(this.destroy))
       .subscribe(() => this.snackBar.openSnackBar('updatedNotification'));
   }
