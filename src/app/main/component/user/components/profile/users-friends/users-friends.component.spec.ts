@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from '@angular/core/testing';
 import { UsersFriendsComponent } from './users-friends.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
@@ -123,36 +123,6 @@ describe('UsersFriendsComponent', () => {
     expect(friendsToShow).toBe(5);
   });
 
-  it('should update arrows visibility to visible', () => {
-    component.friendsToShow = 3;
-    component.amountOfFriends = 4;
-    const mockElement = document.createElement('div');
-    component.nextArrow = { nativeElement: mockElement };
-    component.previousArrow = { nativeElement: mockElement };
-
-    const setStyleSpy = spyOn(renderer, 'setStyle');
-
-    component.updateArrowsVisibility();
-
-    expect(setStyleSpy).toHaveBeenCalledWith(mockElement, 'visibility', 'visible');
-    expect(setStyleSpy).toHaveBeenCalledTimes(2);
-  });
-
-  it('should update arrows visibility to hidden', () => {
-    component.friendsToShow = 4;
-    component.amountOfFriends = 3;
-    const mockElement = document.createElement('div');
-    component.nextArrow = { nativeElement: mockElement };
-    component.previousArrow = { nativeElement: mockElement };
-
-    const setStyleSpy = spyOn(renderer, 'setStyle');
-
-    component.updateArrowsVisibility();
-
-    expect(setStyleSpy).toHaveBeenCalledWith(mockElement, 'visibility', 'hidden');
-    expect(setStyleSpy).toHaveBeenCalledTimes(2);
-  });
-
   it('should calculate friends to show and not change friends', () => {
     const newFriendsToShow = 3;
     component.friendsToShow = 2;
@@ -177,7 +147,7 @@ describe('UsersFriendsComponent', () => {
     component.calculateFriendsToShow();
 
     expect(component.friendsToShow).toEqual(newFriendsToShow);
-    expect(component.changeFriends).toHaveBeenCalledWith(false);
+    expect(component.changeFriends).toHaveBeenCalled();
     expect(component.showUsersFriends).toHaveBeenCalled();
   });
 

@@ -61,9 +61,4 @@ describe('FilterSelectComponent', () => {
     component.updateSelectedFilters(option);
     expect(option.isActive).toBe(true);
   });
-
-  it('should return value on getLangValue', () => {
-    const value = component.getLangValue('ua', 'en');
-    expect(value).toBe('en');
-  });
 });

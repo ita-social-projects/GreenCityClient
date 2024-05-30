@@ -6,7 +6,9 @@ describe('EventStoreService', () => {
   let service: EventStoreService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [EventStoreService]
+    });
     service = TestBed.inject(EventStoreService);
   });
 

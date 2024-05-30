@@ -13,6 +13,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { EventStoreService } from '../../services/event-store.service';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -163,7 +164,8 @@ describe('EventDetailsComponent', () => {
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: BsModalService, useValue: bsModalBsModalServiceMock },
-        { provide: MatDialog, useValue: dialogSpyObj }
+        { provide: MatDialog, useValue: dialogSpyObj },
+        EventStoreService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

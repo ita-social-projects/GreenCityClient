@@ -5,7 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of, BehaviorSubject, throwError } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
-import { PipeTransform, Pipe } from '@angular/core';
+import { PipeTransform, Pipe, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { FilterApproach, NotificationType } from '@global-user/models/notification.model';
 import { Router } from '@angular/router';
@@ -113,7 +113,8 @@ describe('UserNotificationsComponent', () => {
         { provide: Router, useValue: routerMock },
         { provide: UserNotificationService, useValue: userNotificationServiceMock },
         { provide: UserService, useValue: { userId: 1 } }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
