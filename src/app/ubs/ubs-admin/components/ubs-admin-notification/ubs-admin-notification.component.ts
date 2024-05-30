@@ -10,12 +10,11 @@ import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-
 import { NotificationTemplate } from '../../models/notifications.model';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { NotificationsService } from '../../services/notifications.service';
+import { NotificationsService, notificationTriggerTimeMock, notificationTriggersMock } from '../../services/notifications.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
-import { notificationTriggersMock, notificationTriggerTimeMock } from '../../services/notificationsMock';
 
 @Component({
   selector: 'app-ubs-admin-notification',
