@@ -7,15 +7,9 @@ export interface Platform {
   receiverType: string;
 }
 
-export interface NotificationTemplateMainInfoDto {
-  type: string;
-  title: string;
-  titleEng: string;
-  schedule: string | null;
-  trigger: string;
+export interface NotificationTemplateMainInfoDto extends NotificationTemplateUpdateInfoDto {
   triggerDescription: string;
   triggerDescriptionEng: string;
-  time: string;
   timeDescription: string;
   timeDescriptionEng: string;
   notificationStatus: string;
@@ -36,4 +30,18 @@ export interface NotificationTemplatesPage {
 export interface NotificationPage {
   id: number;
   notificationTemplateMainInfoDto: NotificationTemplateMainInfoDto;
+}
+
+export interface NotificationTemplateUpdate {
+  notificationTemplateUpdateInfo: NotificationTemplateUpdateInfoDto;
+  platforms: Platform[];
+}
+
+export interface NotificationTemplateUpdateInfoDto {
+  title: string;
+  titleEng: string;
+  trigger: string;
+  type: string;
+  time: string;
+  schedule: string | null;
 }

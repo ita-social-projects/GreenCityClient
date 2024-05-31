@@ -7,6 +7,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { NotificationsService, notificationStatuses } from '../../services/notifications.service';
 import { NotificationPage, NotificationTemplatesPage } from '../../models/notifications.model';
+import { formatNotificationCron } from 'src/app/shared/cron/cron.service';
 
 @Component({
   selector: 'app-ubs-admin-notification-list',
@@ -66,14 +67,14 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
 
-  loadPage(page, filters?): void {
+  loadPage(page: number, filters?): void {
     this.spinner = this.elementsArePresent;
 
     this.notificationsService
       .getAllNotificationTemplates(page - 1, this.itemsPerPage)
       .pipe(take(1))
       .subscribe((data: NotificationTemplatesPage) => {
-        this.notifications = data.page;
+        this.notifications = formatNotificationCron(data.page);
         this.totalItems = data.totalElements;
         this.spinner = false;
         this.elementsArePresent = this.itemsPerPage < this.totalItems;
