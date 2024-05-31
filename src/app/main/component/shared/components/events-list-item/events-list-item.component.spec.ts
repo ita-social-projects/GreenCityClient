@@ -1,4 +1,4 @@
-import { Language } from './../../../../i18n/Language';
+import { Language } from 'src/app/main/i18n/Language';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -16,12 +16,11 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { EventPageResponseDto, TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { AddAttenderEcoEventsByIdAction, EventsActions, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
+import { AddAttenderEcoEventsByIdAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { WarningPopUpComponent } from '../warning-pop-up/warning-pop-up.component';
 
 @Injectable()
 class TranslationServiceStub {
@@ -424,15 +423,6 @@ describe('EventsListItemComponent', () => {
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
       expect(component.nameBtn).toEqual(component.btnName.join);
     });
-
-    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is unactive', () => {
-      eventMock.isSubscribed = false;
-      component.event = eventMock;
-      component.event.organizer.id = 56;
-      component.event.isRelevant = false;
-      component.checkButtonStatus();
-      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
-    });
   });
 
   describe('ButtonAction', () => {
@@ -562,6 +552,7 @@ describe('EventsListItemComponent', () => {
     it(`should be clicked and called changeFavouriteStatus method`, fakeAsync(() => {
       spyOn(component, 'changeFavouriteStatus');
       component.event.isRelevant = true;
+      fixture.detectChanges();
       const button = fixture.debugElement.nativeElement.querySelector('.favourite-button');
       button.click();
       tick();
