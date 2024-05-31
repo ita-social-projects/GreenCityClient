@@ -33,16 +33,6 @@ export const formatSpringCron = (schedule: string | null): string => {
   return schedule && schedule.trim().split(/\s+/).length === 5 ? `0 ${schedule}` : schedule;
 };
 
-export const formatUnixCron = (notification: NotificationTemplate): NotificationTemplate => {
-  return {
-    ...notification,
-    notificationTemplateMainInfoDto: {
-      ...notification.notificationTemplateMainInfoDto,
-      schedule: convertToUnixCron(notification.notificationTemplateMainInfoDto.schedule)
-    }
-  };
-};
-
 export const formatNotificationCron = (pages: NotificationPage[]): NotificationPage[] => {
   return pages.map((page) => {
     const schedule = page.notificationTemplateMainInfoDto.schedule;
@@ -64,6 +54,16 @@ export const convertToUnixCron = (schedule: string): string => {
     }
   }
   return schedule;
+};
+
+export const formatUnixCron = (notification: NotificationTemplate): NotificationTemplate => {
+  return {
+    ...notification,
+    notificationTemplateMainInfoDto: {
+      ...notification.notificationTemplateMainInfoDto,
+      schedule: convertToUnixCron(notification.notificationTemplateMainInfoDto.schedule)
+    }
+  };
 };
 
 const daysOfWeekAliases = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
