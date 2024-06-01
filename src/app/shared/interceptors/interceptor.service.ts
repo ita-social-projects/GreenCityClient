@@ -190,7 +190,6 @@ export class InterceptorService implements HttpInterceptor {
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
     const currentUrl = this.router.url;
     const isUBS = currentUrl.includes('ubs');
-    this.isRefreshing = false;
     this.localStorageService.clear();
     this.dialog.closeAll();
     this.userOwnAuthService.isLoginUserSubject.next(false);
@@ -206,11 +205,13 @@ export class InterceptorService implements HttpInterceptor {
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe((isCanceled: boolean) => {
-        isCanceled && typeof isCanceled === 'boolean'
-          ? this.router.navigate(isUBS ? ['ubs'] : [''])
-          : this.router.navigateByUrl(currentUrl);
+      .subscribe(() => {
+        this.isRefreshing = false;
+        this.userOwnAuthService.isLoginUserSubject.getValue()
+          ? this.router.navigateByUrl(currentUrl)
+          : this.router.navigate(isUBS ? ['ubs'] : ['greenCity']);
       });
+
     return of<HttpEvent<any>>();
   }
 
