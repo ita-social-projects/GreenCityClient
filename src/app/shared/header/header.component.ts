@@ -3,7 +3,7 @@ import { Language } from '../../main/i18n/Language';
 import { headerIcons, ubsHeaderIcons } from '../../main/image-pathes/header-icons';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, takeUntil, takeWhile } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from '@global-service/user/user.service';
@@ -76,6 +76,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private headerService: HeaderService;
   private orderService: OrderService;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
+
   constructor(private dialog: MatDialog, injector: Injector, private store: Store, private socketService: SocketService) {
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
@@ -122,24 +123,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.localeStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
     });
-    this.onConnectedtoSocket();
-    interval(10000).subscribe(() => {
-      this.socketService.send(this.socketService.connection.greenCity, '/app/notifications', {
-        userId: this.userId
-      });
-    });
   }
 
   public onConnectedtoSocket(): void {
     this.socketService.initiateConnection();
-    this.socketService.onMessage(this.socketService.connection.greenCity, `/topic/${this.userId}/notification`).subscribe((msg) => {
-      if (msg && !this.isUBS) {
-        this.notificationIconRef.nativeElement.srcset = this.headerImageList.notificationHasNew;
-      }
-      if (!msg && !this.isUBS) {
-        this.notificationIconRef.nativeElement.srcset = this.headerImageList.notification;
-      }
-    });
+    this.socketService
+      .onMessage(this.socketService.connection.greenCity, `/topic/${this.userId}/notification`)
+      .pipe(
+        takeUntil(this.destroySub),
+        takeWhile((el) => this.isLoggedIn)
+      )
+      .subscribe((msg) => {
+        if (msg && !this.isUBS) {
+          this.notificationIconRef.nativeElement.srcset = this.headerImageList.notificationHasNew;
+        }
+        if (!msg && !this.isUBS) {
+          this.notificationIconRef.nativeElement.srcset = this.headerImageList.notification;
+        }
+      });
+    interval(10000)
+      .pipe(
+        takeUntil(this.destroySub),
+        takeWhile((el) => this.isLoggedIn)
+      )
+      .subscribe(() => {
+        this.socketService.send(this.socketService.connection.greenCity, '/app/notifications', {
+          userId: this.userId
+        });
+      });
   }
 
   public defineAuthorities() {
@@ -243,7 +254,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroySub),
         filter((userId) => userId !== null && !isNaN(userId))
       )
-      .subscribe((userId) => this.assignData(userId));
+      .subscribe((userId) => {
+        this.assignData(userId);
+        if (userId) {
+          this.onConnectedtoSocket();
+        }
+      });
   }
 
   public changeCurrentLanguage(language, index: number): void {
