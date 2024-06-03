@@ -24,11 +24,7 @@ export class HabitStatisticService implements OnLogout {
     habitStatistics: HabitDto[];
     availableHabits: AvailableHabitDto[];
     newHabits: NewHabitDto[];
-  } = {
-    habitStatistics: [],
-    availableHabits: [],
-    newHabits: []
-  };
+  } = { habitStatistics: [], availableHabits: [], newHabits: [] };
 
   constructor(
     private http: HttpClient,
