@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { AddCommentComponent } from './add-comment.component';
 import { UserProfileImageComponent } from '@global-user/components/shared/components/user-profile-image/user-profile-image.component';
@@ -11,6 +11,7 @@ import { CommentsService } from '../../services/comments.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { CommentTextareaComponent } from '../comment-textarea/comment-textarea.component';
 import { PlaceholderForDivDirective } from '../../directives/placeholder-for-div.directive';
+import { SocketService } from '@global-service/socket/socket.service';
 
 const COMMENT_MOCK = {
   author: {
@@ -51,6 +52,15 @@ describe('AddCommentComponent', () => {
   const commentsServiceMock: jasmine.SpyObj<CommentsService> = jasmine.createSpyObj('CommentsService', ['addComment']);
   commentsServiceMock.addComment.and.returnValue(of(COMMENT_MOCK));
 
+  const socketServiceMock: SocketService = jasmine.createSpyObj('SocketService', ['onMessage', 'send', 'initiateConnection']);
+  socketServiceMock.onMessage = () => new Observable();
+  socketServiceMock.send = () => new Observable();
+  socketServiceMock.connection = {
+    greenCity: { url: '', socket: null, state: null },
+    greenCityUser: { url: '', socket: null, state: null }
+  };
+  socketServiceMock.initiateConnection = () => {};
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AddCommentComponent, UserProfileImageComponent, CommentTextareaComponent, PlaceholderForDivDirective],
@@ -58,6 +68,7 @@ describe('AddCommentComponent', () => {
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },
         { provide: CommentsService, useValue: commentsServiceMock },
+        { provide: SocketService, useValue: socketServiceMock },
         FormBuilder
       ]
     }).compileComponents();

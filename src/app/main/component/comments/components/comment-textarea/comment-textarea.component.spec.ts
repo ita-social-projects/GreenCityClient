@@ -18,11 +18,13 @@ describe('CommentTextareaComponent', () => {
 
   const socketServiceMock: SocketService = jasmine.createSpyObj('SocketService', ['onMessage', 'send', 'initiateConnection']);
   socketServiceMock.onMessage = () => new Observable();
+  socketServiceMock.send = () => new Observable();
   socketServiceMock.connection = {
     greenCity: { url: '', socket: null, state: null },
     greenCityUser: { url: '', socket: null, state: null }
   };
   socketServiceMock.initiateConnection = () => {};
+
   const localStorageServiceMock: jasmine.SpyObj<LocalStorageService> = jasmine.createSpyObj('LocalStorageService', [
     'userIdBehaviourSubject'
   ]);
