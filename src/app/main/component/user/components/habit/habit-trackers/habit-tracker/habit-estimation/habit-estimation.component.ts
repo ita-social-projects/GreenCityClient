@@ -8,8 +8,6 @@ import { HabitStatisticsDto } from '../../../../../../../model/habit/HabitStatis
   styleUrls: ['./habit-estimation.component.scss']
 })
 export class HabitEstimationComponent {
-  @Input()
-  habit: HabitDto;
-  @Input()
-  statistic: HabitStatisticsDto;
+  @Input() habit: HabitDto;
+  @Input() statistic: HabitStatisticsDto;
 }

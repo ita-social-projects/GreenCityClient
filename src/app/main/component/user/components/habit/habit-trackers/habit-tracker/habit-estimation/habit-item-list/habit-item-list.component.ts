@@ -13,10 +13,8 @@ import { HabitItem } from '../habit-item/HabitItem';
 })
 export class HabitItemListComponent implements OnInit {
   habitItems: HabitItem[] = [];
-  @Input()
-  habitDto: HabitDto;
-  @Input()
-  habitStatistic: HabitStatisticsDto;
+  @Input() habitDto: HabitDto;
+  @Input() habitStatistic: HabitStatisticsDto;
   currentNumber = 0;
   isExpanded: boolean;
 

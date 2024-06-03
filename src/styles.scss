@@ -45,11 +45,11 @@ $main-palette: (
 
 $accent-palette: (
   100: black,
-  400: #000000,
+  400: #000,
   500: black,
   700: black,
   contrast: (
-    50: #ffffff,
+    50: #fff,
     100: var(--primary-white),
     200: var(--primary-white),
     300: var(--primary-white),

@@ -115,6 +115,16 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
           }
         }
       });
+    this.commentsService
+      .getCommentsCount(this.entityId)
+      .pipe(take(1))
+      .subscribe((data: number) => {
+        this.totalElements = data;
+        const totalCountParagraph = document.getElementById('total-count');
+        if (totalCountParagraph) {
+          totalCountParagraph.innerHTML = data.toString();
+        }
+      });
   }
 
   private setData(data: CommentsModel) {

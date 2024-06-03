@@ -12,12 +12,9 @@ import { LanguageService } from '../../../../../../i18n/language.service';
   styleUrls: ['./habit-tracker.component.scss']
 })
 export class HabitTrackerComponent implements OnInit {
-  @Input()
-  habit: HabitDto;
-  @Input()
-  chartId: string;
-  @Input()
-  usersHabitId: number;
+  @Input() habit: HabitDto;
+  @Input() chartId: string;
+  @Input() usersHabitId: number;
   $habit: Observable<HabitDto> = of<HabitDto>();
   currentStatistic: HabitStatisticsDto;
   habitStatistic: HabitStatisticsDto[];

@@ -11,8 +11,7 @@ import { IUserOrderInfo, PaymentStatusEn } from '../ubs-user-orders-list/models/
   styleUrls: ['./ubs-user-order-details.component.scss']
 })
 export class UbsUserOrderDetailsComponent implements OnDestroy, OnInit {
-  @Input()
-  order: IUserOrderInfo;
+  @Input() order: IUserOrderInfo;
   public currentLanguage: string;
   public certificatesAmount: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
