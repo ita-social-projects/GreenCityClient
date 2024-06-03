@@ -1,6 +1,6 @@
 import { Language } from '../../../../i18n/Language';
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
@@ -203,6 +203,8 @@ describe('EventsListItemComponent', () => {
   userOwnAuthServiceMock.credentialDataSubject = new Subject();
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
 
+  const eventStoreServiceMock: EventStoreService = jasmine.createSpyObj('EventStoreService', ['setEventListResponse']);
+
   const actionsSubj: ActionsSubject = new ActionsSubject();
 
   beforeEach(waitForAsync(() => {
@@ -223,7 +225,7 @@ describe('EventsListItemComponent', () => {
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: ActionsSubject, useValue: actionsSubj },
         { provide: MatDialog, useValue: dialogSpyObj },
-        EventStoreService
+        { provide: EventStoreService, useValue: eventStoreServiceMock }
       ],
       imports: [
         RouterTestingModule,
@@ -470,10 +472,12 @@ describe('EventsListItemComponent', () => {
       expect(component.deleteEvent).toHaveBeenCalled();
     });
 
-    xit('should set edit mode and navigate to create event page when edit button is clicked', () => {
+    it('should set edit mode and navigate to create event page when edit button is clicked', () => {
+      component.event.id = 1;
       component.buttonAction(component.btnName.edit);
       expect(localStorageServiceMock.setEditMode).toHaveBeenCalledWith('canUserEdit', true);
-      expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalled();
+      expect(eventStoreServiceMock.setEventListResponse).toHaveBeenCalledWith(component.event);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', 'update-event', 1]);
     });
 
     it('should call openAuthModalWindow', () => {
