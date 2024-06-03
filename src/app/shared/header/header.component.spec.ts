@@ -8,7 +8,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header.component';
-import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from '@global-service/user/user.service';
 import { AchievementService } from '@global-service/achievement/achievement.service';
@@ -21,6 +21,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IAppState } from 'src/app/store/state/app.state';
+import { SocketService } from '@global-service/socket/socket.service';
 
 class MatDialogMock {
   afterAllClosed = of(true);
@@ -92,6 +93,15 @@ describe('HeaderComponent', () => {
   ]);
   userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
 
+  const socketServiceMock: SocketService = jasmine.createSpyObj('SocketService', ['send', 'onMessage', 'initiateConnection']);
+  socketServiceMock.connection = {
+    greenCity: { url: '', socket: null, state: null },
+    greenCityUser: { url: '', socket: null, state: null }
+  };
+  socketServiceMock.send = () => of();
+  socketServiceMock.onMessage = () => of();
+  socketServiceMock.initiateConnection = () => {};
+
   let dialog: MatDialog;
   let router: Router;
 
@@ -118,7 +128,8 @@ describe('HeaderComponent', () => {
         { provide: HabitStatisticService, useValue: habitStatisticServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: SearchService, useValue: searchServiceMock },
-        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
+        { provide: SocketService, useValue: socketServiceMock }
       ]
     }).compileComponents();
   }));

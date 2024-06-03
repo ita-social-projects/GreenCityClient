@@ -544,9 +544,10 @@ describe('EventsListItemComponent', () => {
   });
 
   describe('changeFavouriteStatus()', () => {
-    xit(`should be clicked and called changeFavouriteStatus method`, fakeAsync(() => {
+    it(`should be clicked and called changeFavouriteStatus method`, fakeAsync(() => {
       spyOn(component, 'changeFavouriteStatus');
       component.event.isRelevant = true;
+      fixture.detectChanges();
       const button = fixture.debugElement.nativeElement.querySelector('.favourite-button');
       button.click();
       tick();
