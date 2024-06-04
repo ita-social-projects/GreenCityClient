@@ -5,6 +5,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { FileHandle } from '@ubs/ubs-admin/models/file-handle.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { of } from 'rxjs';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -31,6 +33,9 @@ describe('ImagesContainerComponent', () => {
   const event = { target: { files: [dataFileMock] } };
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = () => of();
+  const eventsServiceMock = jasmine.createSpyObj('EventsService', ['getImageAsFile']);
+  eventsServiceMock.getImageAsFile = () => of();
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -38,7 +43,8 @@ describe('ImagesContainerComponent', () => {
       imports: [HttpClientTestingModule],
       providers: [
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: TranslateService, useValue: translateServiceMock }
+        { provide: TranslateService, useValue: translateServiceMock },
+        { provide: EventsService, useValue: eventsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -54,43 +60,29 @@ describe('ImagesContainerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('ngOnInit expect initImages should be call', () => {
-    const spy = spyOn(component as any, 'initImages');
+  it('ngOnInit expect chooseImage should be call', () => {
+    component.images.length = 0;
+    const spy = spyOn(component as any, 'chooseImage');
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  xit('initImages images length to be 2', () => {
-    component.images = [];
-    (component as any).maxImages = 2;
-    (component as any).initImages();
-    expect(component.images.length).toBe(2);
+  it('should open snackbar when imageCount is 5', () => {
+    component.imageCount = 5;
+    const spy = spyOn((component as any).snackBar, 'openSnackBar');
+    component.chooseImage('test.jpg');
+    expect(spy).toHaveBeenCalledWith('errorMaxPhotos');
   });
 
-  xit('checkFileExtension', () => {
-    (component as any).checkFileExtension(new File([''], 'test-file.jpg'));
-    expect((component as any).isImageTypeError).toBe(true);
-  });
-
-  xit('filesDropped expect transferFile should be called once', () => {
-    const spy1 = spyOn(component as any, 'transferFile');
-
+  it('filesDropped expect transferFile should be called once', () => {
+    const spy1 = spyOn(component as any, 'validateImage');
     (component as any).filesDropped(files);
-
     expect(spy1).toHaveBeenCalledTimes(1);
   });
 
-  xit('transferFile expect imgArray.length to be 1', () => {
-    (component as any).imgArray = [];
-    (component as any).transferFile(files[0].file);
-    component.editMode = true;
-
-    expect((component as any).imgArray.length).toBe(1);
-  });
-
-  xit('loadFile expect  transferFile should be called with specified argument', () => {
-    const transferFileSpy = spyOn(component as any, 'transferFile');
+  it('loadFile expect  transferFile should be called ', () => {
+    const validateImageSpy = spyOn(component as any, 'validateImage');
     component.loadFile(event as any);
-    expect(transferFileSpy).toHaveBeenCalledWith(dataFileMock);
+    expect(validateImageSpy).toHaveBeenCalled();
   });
 });
