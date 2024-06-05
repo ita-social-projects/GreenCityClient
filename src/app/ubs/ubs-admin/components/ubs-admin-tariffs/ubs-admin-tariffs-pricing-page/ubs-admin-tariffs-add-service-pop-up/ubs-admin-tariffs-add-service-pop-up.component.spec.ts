@@ -113,13 +113,14 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     component.receivedData = {
       serviceData: {
         name: 'MockNameUA',
+        price: 1,
         nameEng: 'MockNameEng',
         description: 'MockDescrUA',
         descriptionEng: 'MockDescrEng'
       }
     };
     component.editForm();
-    expect(component.addServiceForm.get('price').value).toEqual('');
+    expect(component.addServiceForm.get('price').value).toEqual({ value: component.receivedData.serviceData.price });
     expect(component.addServiceForm.get('name').value).toEqual({ value: component.receivedData.serviceData.name });
     expect(component.addServiceForm.get('nameEng').value).toEqual({ value: component.receivedData.serviceData.nameEng });
     expect(component.addServiceForm.get('description').value).toEqual({ value: component.receivedData.serviceData.description });
