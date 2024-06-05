@@ -11,7 +11,10 @@ export class UploadPhotoContainerComponent implements OnInit {
   public isHorisontalImg: boolean;
   private croppedImage: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data, public dialogRef: MatDialogRef<UploadPhotoContainerComponent>) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data,
+    public dialogRef: MatDialogRef<UploadPhotoContainerComponent>
+  ) {}
 
   ngOnInit(): void {
     const img = new Image();

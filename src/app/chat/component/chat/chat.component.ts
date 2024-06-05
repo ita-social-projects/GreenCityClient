@@ -23,7 +23,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   private oldScrollHeight: number;
   private isChatUpdate = false;
 
-  constructor(public chatsService: ChatsService, private socketService: SocketService, public userService: UserService) {}
+  constructor(
+    public chatsService: ChatsService,
+    private socketService: SocketService,
+    public userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {

@@ -8,13 +8,14 @@ import { UbsUserGuardGuard } from './ubs-user-guard.guard';
 describe('UbsUserGuardGuard', () => {
   let guard: UbsUserGuardGuard;
 
-  let jwtServiceMock: JwtService;
-  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
+  const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
-  let userOwnAuthServiceMock: UserOwnAuthService;
-  userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage', 'isLoginUserSubject']);
+  const userOwnAuthServiceMock: UserOwnAuthService = jasmine.createSpyObj('UserOwnAuthService', [
+    'getDataFromLocalStorage',
+    'isLoginUserSubject'
+  ]);
   userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
 

@@ -37,7 +37,7 @@ import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 import { CronPipe } from './cron-pipe/cron.pipe';
 import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizable-bottom-sheet.component';
 import { NewsListGalleryViewComponent } from './news-list-gallery-view/news-list-gallery-view.component';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+// import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { CorrectUnitPipe } from './correct-unit-pipe/correct-unit.pipe';
 import { UploadPhotoContainerComponent } from './upload-photo-container/upload-photo-container.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -45,6 +45,7 @@ import { SafeHtmlTransformPipe } from './events-description-transforn/safe-html-
 import { LinkifyDirective } from 'src/app/shared/directives/linkify.directive';
 import { InputGoogleAutocompleteComponent } from '@shared/components/input-google-autocomplete/input-google-autocomplete.component';
 import { RemoveLeadingZeroDirective } from 'src/app/shared/directives/remove-leading-zero/remove-leading-zero.directive';
+import { AddressInputComponent } from './address-input/address-input.component';
 import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-display.component';
 
 @NgModule({
@@ -85,6 +86,7 @@ import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-dis
     LinkifyDirective,
     InputGoogleAutocompleteComponent,
     RemoveLeadingZeroDirective,
+    AddressInputComponent,
     RatingDisplayComponent
   ],
   imports: [
@@ -97,7 +99,7 @@ import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-dis
     ReactiveFormsModule,
     FormsModule,
     MatTooltipModule,
-    GooglePlaceModule,
+    // GooglePlaceModule,
     ImageCropperModule
   ],
   exports: [
@@ -134,6 +136,7 @@ import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-dis
     LinkifyDirective,
     InputGoogleAutocompleteComponent,
     RemoveLeadingZeroDirective,
+    AddressInputComponent,
     RatingDisplayComponent
   ]
 })

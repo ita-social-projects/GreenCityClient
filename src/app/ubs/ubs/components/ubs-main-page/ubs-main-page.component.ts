@@ -15,7 +15,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-main-page',
@@ -136,7 +136,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
   }

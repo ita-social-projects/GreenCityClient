@@ -1,5 +1,5 @@
 <div class="main-container outer">
-  <div class="friends" *ngIf="amountOfFriends != 0">
+  <div class="friends" *ngIf="amountOfFriends !== 0">
     <div class="friends-text">
       <div class="text-main-content">
         <p class="text-title">
@@ -11,27 +11,31 @@
       </div>
       <div>
         <span class="text-number">
-          {{ amountOfFriends }} {{ 'profile.friends-quantity' | correctUnit: amountOfFriends:currentLang | translate }}</span
+          {{ amountOfFriends }} {{ 'profile.friends-quantity' | correctUnit: amountOfFriends : currentLang | translate }}</span
         >
       </div>
     </div>
-    <div class="friends-images">
-      <div *ngFor="let friend of usersFriends" (click)="showFriendsInfo(friend)">
-        <app-user-profile-image
-          [imgPath]="friend.profilePicturePath"
-          [firstName]="friend.name"
-          class="friend-img"
-          [additionalImgClass]="'friend-user-profile'"
-        >
-        </app-user-profile-image>
-        <p class="friend-name">{{ friend.name | firststringword | maxTextLength: 10 }}</p>
+    <div class="slider-wrapper">
+      <img #nextArrow class="friends-previous" (click)="changeFriends(false)" [src]="arrows.arrowPrevious" alt="arrow previous" />
+      <div #slider class="friends-images">
+        <div *ngFor="let friend of usersFriends" (click)="showFriendsInfo(friend)">
+          <app-user-profile-image
+            [imgPath]="friend.profilePicturePath"
+            [firstName]="friend.name"
+            class="friend-img"
+            [additionalImgClass]="'friend-user-profile'"
+          >
+          </app-user-profile-image>
+          <p class="friend-name">{{ friend.name | firststringword | maxTextLength: 10 }}</p>
+        </div>
       </div>
+      <img #previousArrow class="friends-next" (click)="changeFriends(true)" [src]="arrows.arrowNext" alt="arrow next" />
     </div>
   </div>
   <div class="friends-error" *ngIf="amountOfFriends === 0">
     <div class="text-title">
       <p>{{ 'profile.my-eco-friends' | translate }}</p>
-      <span class="text-number">0 {{ 'profile.friends-quantity' | correctUnit: 0:currentLang | translate }}</span>
+      <span class="text-number">0 {{ 'profile.friends-quantity' | correctUnit: 0 : currentLang | translate }}</span>
       <div class="error-message">
         <div class="add-friends">
           <a [routerLink]="['/profile', userId, 'friends', 'recommended']">+</a>

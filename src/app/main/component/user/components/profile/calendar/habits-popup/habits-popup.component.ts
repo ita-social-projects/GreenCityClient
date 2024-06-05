@@ -95,9 +95,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   }
 
   public sortByDueDate(): void {
-    this.arrayOfDay.sort((a, b) => {
-      return b.getTime() - a.getTime();
-    });
+    this.arrayOfDay.sort((a, b) => b.getTime() - a.getTime());
   }
 
   setHabitStreak(array: HabitStatusCalendarListInterface[], id: number, isEnrolled: boolean, isExistArray: HabitAssignInterface) {

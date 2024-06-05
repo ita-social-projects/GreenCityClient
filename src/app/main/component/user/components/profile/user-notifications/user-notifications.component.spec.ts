@@ -1,11 +1,11 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { UserNotificationsComponent } from './user-notifications.component';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of, BehaviorSubject, throwError } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
-import { PipeTransform, Pipe } from '@angular/core';
+import { PipeTransform, Pipe, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { FilterApproach, NotificationType } from '@global-user/models/notification.model';
 import { Router } from '@angular/router';
@@ -102,7 +102,7 @@ describe('UserNotificationsComponent', () => {
     { name: FilterApproach.ORIGIN, isSelected: false, nameUa: 'Джерелом', nameEn: 'Origin' }
   ];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UserNotificationsComponent, TranslatePipeMock, LocalizedDatePipe],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
@@ -113,7 +113,8 @@ describe('UserNotificationsComponent', () => {
         { provide: Router, useValue: routerMock },
         { provide: UserNotificationService, useValue: userNotificationServiceMock },
         { provide: UserService, useValue: { userId: 1 } }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 

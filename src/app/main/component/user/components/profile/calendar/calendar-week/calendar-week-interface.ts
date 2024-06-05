@@ -1,7 +1,10 @@
-export interface CalendarWeekInterface {
+export interface CalendarWeekInterface extends BaseCalendar {
+  isCurrent: boolean;
+}
+
+export interface BaseCalendar {
   date: Date;
   dayName: string;
-  isCurrent: boolean;
   hasHabitsInProgress: boolean;
   areHabitsDone: boolean;
 }

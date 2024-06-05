@@ -1,10 +1,10 @@
 import { Breakpoints } from '../../../../config/breakpoints.constants';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { FilterModel, TagInterface } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -109,13 +109,15 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public dispatchStore(res: boolean): void {
-    if (this.hasNext && this.currentPage !== undefined) {
-      this.tagsList.length
-        ? this.store.dispatch(
-            GetEcoNewsByTagsAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, tagsList: this.tagsList, reset: res })
-          )
-        : this.store.dispatch(GetEcoNewsByPageAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, reset: res }));
+    if (!this.hasNext || this.currentPage === undefined) {
+      return;
     }
+
+    const action = this.tagsList.length
+      ? GetEcoNewsByTagsAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, tagsList: this.tagsList, reset: res })
+      : GetEcoNewsByPageAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, reset: res });
+
+    this.store.dispatch(action);
   }
 
   private checkUserSingIn(): void {

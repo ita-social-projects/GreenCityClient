@@ -12,12 +12,10 @@ import { createReducer, on } from '@ngrx/store';
 
 export const bigOrderTableReducer = createReducer(
   initialBigOrderTableState,
-  on(GetColumnToDisplaySuccess, SetColumnToDisplaySuccess, (state, action) => {
-    return {
-      ...state,
-      ordersViewParameters: action.ordersViewParameters
-    };
-  }),
+  on(GetColumnToDisplaySuccess, SetColumnToDisplaySuccess, (state, action) => ({
+    ...state,
+    ordersViewParameters: action.ordersViewParameters
+  })),
 
   on(GetColumnsSuccess, (state, action) => ({
     ...state,
@@ -35,40 +33,36 @@ export const bigOrderTableReducer = createReducer(
     };
   }),
 
-  on(ChangingOrderDataSuccess, (state, action) => {
-    return {
-      ...state,
-      bigOrderTable: {
-        ...state.bigOrderTable,
-        content: state.bigOrderTable.content.map((orderData) => {
-          if (action.orderId.includes(orderData.id)) {
-            const newOrderData = { ...orderData };
-            newOrderData[action.columnName] = action.newValue;
-            return newOrderData;
-          }
-          return orderData;
-        })
-      }
-    };
-  }),
+  on(ChangingOrderDataSuccess, (state, action) => ({
+    ...state,
+    bigOrderTable: {
+      ...state.bigOrderTable,
+      content: state.bigOrderTable.content.map((orderData) => {
+        if (action.orderId.includes(orderData.id)) {
+          const newOrderData = { ...orderData };
+          newOrderData[action.columnName] = action.newValue;
+          return newOrderData;
+        }
+        return orderData;
+      })
+    }
+  })),
 
-  on(ChangingOrderPaymentStatus, (state, action) => {
-    return {
-      ...state,
-      bigOrderTable: {
-        ...state.bigOrderTable,
-        content: state.bigOrderTable.content.map((orderData) => {
-          if (orderData.id === action.orderId) {
-            const newOrderData = { ...orderData };
-            const columnName = 'orderPaymentStatus';
-            newOrderData[columnName] = action.newValue;
-            return newOrderData;
-          }
-          return orderData;
-        })
-      }
-    };
-  }),
+  on(ChangingOrderPaymentStatus, (state, action) => ({
+    ...state,
+    bigOrderTable: {
+      ...state.bigOrderTable,
+      content: state.bigOrderTable.content.map((orderData) => {
+        if (orderData.id === action.orderId) {
+          const newOrderData = { ...orderData };
+          const columnName = 'orderPaymentStatus';
+          newOrderData[columnName] = action.newValue;
+          return newOrderData;
+        }
+        return orderData;
+      })
+    }
+  })),
 
   on(ReceivedFailure, (state, action) => ({
     ...state,

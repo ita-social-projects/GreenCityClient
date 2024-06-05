@@ -14,7 +14,10 @@ export class EditPaymentConfirmationPopUpComponent implements OnInit, OnDestroy 
   popupConfirm: string;
   popupCancel: string;
 
-  constructor(private matDialogRef: MatDialogRef<EditPaymentConfirmationPopUpComponent>, @Inject(MAT_DIALOG_DATA) public modalData: any) {}
+  constructor(
+    private matDialogRef: MatDialogRef<EditPaymentConfirmationPopUpComponent>,
+    @Inject(MAT_DIALOG_DATA) public modalData: any
+  ) {}
 
   ngOnInit(): void {
     this.popupTitle = this.modalData.popupTitle;
@@ -45,7 +48,7 @@ export class EditPaymentConfirmationPopUpComponent implements OnInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

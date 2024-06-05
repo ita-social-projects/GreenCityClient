@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SetCountComponent } from './set-count.component';
@@ -7,7 +7,7 @@ describe('SetCountComponent', () => {
   let component: SetCountComponent;
   let fixture: ComponentFixture<SetCountComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SetCountComponent],
       imports: [TranslateModule.forRoot()]

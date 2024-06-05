@@ -38,14 +38,15 @@ export class SocketService implements OnDestroy {
   public onMessage(connection: SocketConnection, topic: string): Observable<any> {
     return this.connect(connection).pipe(
       first(),
-      switchMap((client) => {
-        return new Observable<any>((observer) => {
-          const subscription: StompSubscription = client.subscribe(topic, (message) => {
-            observer.next(JSON.parse(message.body));
-          });
-          return () => client.unsubscribe(subscription.id);
-        });
-      })
+      switchMap(
+        (client) =>
+          new Observable<any>((observer) => {
+            const subscription: StompSubscription = client.subscribe(topic, (message) => {
+              observer.next(JSON.parse(message.body));
+            });
+            return () => client.unsubscribe(subscription.id);
+          })
+      )
     );
   }
 

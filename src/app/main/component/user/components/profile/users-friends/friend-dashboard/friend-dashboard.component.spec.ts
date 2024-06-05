@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Injectable, EventEmitter, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -41,9 +41,11 @@ describe('FriendDashboardComponent', () => {
   let component: FriendDashboardComponent;
   let fixture: ComponentFixture<FriendDashboardComponent>;
   let searchTerm$: Subject<string>;
-  let componentRefMock: any;
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+  let componentRefMock = {
+    findUserByName: jasmine.createSpy('findUserByName'),
+    findFriendByName: jasmine.createSpy('findFriendByName')
+  };
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
     'userIdBehaviourSubject',
     'languageSubject'
@@ -52,8 +54,7 @@ describe('FriendDashboardComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
-  let userFriendsServiceMock: UserFriendsService;
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'getRequests']);
+  const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'getRequests']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
   userFriendsServiceMock.getRequests = () => of(FRIENDS);
 
@@ -65,7 +66,7 @@ describe('FriendDashboardComponent', () => {
     findFriendByName: jasmine.createSpy('findFriendByName')
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FriendDashboardComponent],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],

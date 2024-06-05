@@ -110,7 +110,7 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
     this.langChangeSub.unsubscribe();
   }

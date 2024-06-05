@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { WarningPopUpComponent } from '@shared/components';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
@@ -32,7 +32,7 @@ xdescribe('WarningPopUpComponent', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [WarningPopUpComponent],
       imports: [TranslateModule.forRoot(), MatDialogModule, BrowserDynamicTestingModule, HttpClientTestingModule, StoreModule.forRoot({})],
@@ -56,16 +56,14 @@ xdescribe('WarningPopUpComponent', () => {
 
   describe('Testing the basic functionality', () => {
     it('should create keyboard event inside ngOnInit', () => {
-      // @ts-ignore
-      const spy = spyOn(component.matDialogRef, 'keydownEvents').and.returnValue(of());
+      const spy = spyOn((component as any).matDialogRef, 'keydownEvents').and.returnValue(of());
       component.ngOnInit();
 
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call setTitles inside ngOnInit', () => {
-      // @ts-ignore
-      const spy = spyOn(component, 'setTitles');
+      const spy = spyOn(component as any, 'setTitles');
       component.ngOnInit();
 
       expect(spy).toHaveBeenCalled();
@@ -82,8 +80,7 @@ xdescribe('WarningPopUpComponent', () => {
 
     it('should call close method inside userReply if isUbsOrderSubmit is false', () => {
       component.isUbsOrderSubmit = false;
-      // @ts-ignore
-      const spy = spyOn(component.matDialogRef, 'close');
+      const spy = spyOn((component as any).matDialogRef, 'close');
       component.userReply(true);
 
       expect(spy).toHaveBeenCalled();
@@ -101,10 +98,8 @@ xdescribe('WarningPopUpComponent', () => {
     });
 
     it('should cancel streams after ngOnDestroy', () => {
-      // @ts-ignore
-      const nextSpy = spyOn(component.destroyed$, 'next');
-      // @ts-ignore
-      const completeSpy = spyOn(component.destroyed$, 'complete');
+      const nextSpy = spyOn((component as any).destroyed$, 'next');
+      const completeSpy = spyOn((component as any).destroyed$, 'complete');
       component.ngOnDestroy();
 
       expect(nextSpy).toHaveBeenCalled();

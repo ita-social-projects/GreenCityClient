@@ -33,78 +33,78 @@ export class NewsEffects {
     private router: Router
   ) {}
 
-  getNewsListByTags = createEffect(() => {
-    return this.actions.pipe(
+  getNewsListByTags = createEffect(() =>
+    this.actions.pipe(
       ofType(GetEcoNewsByTagsAction),
-      mergeMap((actions: { currentPage: number; numberOfNews: number; tagsList: string[]; reset: boolean }) => {
-        return this.newsService.getNewsListByTags(actions.currentPage, actions.numberOfNews, actions.tagsList).pipe(
+      mergeMap((actions: { currentPage: number; numberOfNews: number; tagsList: string[]; reset: boolean }) =>
+        this.newsService.getNewsListByTags(actions.currentPage, actions.numberOfNews, actions.tagsList).pipe(
           map((ecoNews: EcoNewsDto) => GetEcoNewsByTagsSuccessAction({ ecoNews, reset: actions.reset })),
           catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  getEcoNewsListByPage = createEffect(() => {
-    return this.actions.pipe(
+  getEcoNewsListByPage = createEffect(() =>
+    this.actions.pipe(
       ofType(GetEcoNewsByPageAction),
-      mergeMap((actions: { currentPage: number; numberOfNews: number; reset: boolean }) => {
-        return this.newsService.getEcoNewsListByPage(actions.currentPage, actions.numberOfNews).pipe(
+      mergeMap((actions: { currentPage: number; numberOfNews: number; reset: boolean }) =>
+        this.newsService.getEcoNewsListByPage(actions.currentPage, actions.numberOfNews).pipe(
           map((ecoNews: EcoNewsDto) => GetEcoNewsByPageSuccessAction({ ecoNews, reset: actions.reset })),
           catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  getEcoNewsListByAutorId = createEffect(() => {
-    return this.actions.pipe(
+  getEcoNewsListByAutorId = createEffect(() =>
+    this.actions.pipe(
       ofType(GetEcoNewsByAuthorAction),
-      mergeMap((actions: { currentPage: number; numberOfNews: number; reset: boolean }) => {
-        return this.newsService.getEcoNewsListByAutorId(actions.currentPage, actions.numberOfNews).pipe(
+      mergeMap((actions: { currentPage: number; numberOfNews: number; reset: boolean }) =>
+        this.newsService.getEcoNewsListByAutorId(actions.currentPage, actions.numberOfNews).pipe(
           map((ecoNews: EcoNewsDto) => GetEcoNewsByAuthorSuccessAction({ ecoNews, reset: actions.reset })),
           catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  editNews = createEffect(() => {
-    return this.actions.pipe(
+  editNews = createEffect(() =>
+    this.actions.pipe(
       ofType(EditEcoNewsAction),
-      mergeMap((actions: { form: NewsDTO }) => {
-        return this.createEcoNewsService.editNews(actions.form).pipe(
+      mergeMap((actions: { form: NewsDTO }) =>
+        this.createEcoNewsService.editNews(actions.form).pipe(
           map((editedNews: EcoNewsModel) => EditEcoNewsSuccessAction({ editedNews })),
           catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  createNews = createEffect(() => {
-    return this.actions.pipe(
+  createNews = createEffect(() =>
+    this.actions.pipe(
       ofType(CreateEcoNewsAction),
-      mergeMap((actions: { value: NewsDTO }) => {
-        return this.createEcoNewsService.sendFormData(actions.value).pipe(
+      mergeMap((actions: { value: NewsDTO }) =>
+        this.createEcoNewsService.sendFormData(actions.value).pipe(
           map((newEcoNews: EcoNewsModel) => CreateEcoNewsSuccessAction({ newEcoNews })),
           catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  deleteNews = createEffect(() => {
-    return this.actions.pipe(
+  deleteNews = createEffect(() =>
+    this.actions.pipe(
       ofType(DeleteEcoNewsAction),
-      mergeMap((actions: { id: number }) => {
-        return this.newsService.deleteNews(actions.id).pipe(
+      mergeMap((actions: { id: number }) =>
+        this.newsService.deleteNews(actions.id).pipe(
           map(() => DeleteEcoNewsSuccessAction({ id: actions.id })),
           tap(() => {
             this.router.navigate(['/news']);
           }),
           catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 }

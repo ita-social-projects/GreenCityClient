@@ -30,6 +30,7 @@ describe('PlaceholderForDivDirective', () => {
   });
 
   it('should remove placeholder text when focused', () => {
+    divEl.innerHTML = '<span class="placeholder">placeholder</span>';
     divEl.dispatchEvent(new Event('focus'));
     fixture.detectChanges();
     expect(divEl.textContent).toBe('');

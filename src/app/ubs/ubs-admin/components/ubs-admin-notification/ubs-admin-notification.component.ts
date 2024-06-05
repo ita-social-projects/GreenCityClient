@@ -39,7 +39,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   isThisEmployeeCanActivateNotification: boolean;
   isThisEmployeeHasRights: boolean;
   permissions$ = this.store.select((state): Array<string> => state.employees.employeesPermissions);
-  isLangUa = this.currentLanguage === 'ua';
+  isLangUa: boolean;
   private employeeAuthorities: string[];
 
   constructor(
@@ -59,6 +59,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLanguage = lang;
     });
+    this.isLangUa = this.currentLanguage === 'ua';
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((params) => {
       this.notificationId = Number(params.id);
       this.loadNotification(this.notificationId);

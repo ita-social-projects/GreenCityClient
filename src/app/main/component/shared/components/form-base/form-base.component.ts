@@ -54,9 +54,9 @@ export class FormBaseComponent implements ComponentCanDeactivate {
 
   public checkChanges(): boolean {
     const body = this.getFormValues();
-    return Object.keys(body).some((key) => {
-      return JSON.stringify(body[key]) !== JSON.stringify(this.initialValues[key]) && this.initialValues[key] !== undefined;
-    });
+    return Object.keys(body).some(
+      (key) => JSON.stringify(body[key]) !== JSON.stringify(this.initialValues[key]) && this.initialValues[key] !== undefined
+    );
   }
 
   private cancelPopupJustifying(condition: boolean, isUbsOrderSubmit?: boolean) {

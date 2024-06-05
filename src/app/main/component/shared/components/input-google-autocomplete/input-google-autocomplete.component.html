@@ -2,6 +2,7 @@
   class="shadow-none form-control"
   [class.ng-invalid]="isInvalid"
   [class.ng-valid]="!isInvalid"
+  [placeholder]="placeholder"
   [formControl]="inputValue"
   (change)="onUserChange()"
   [matAutocomplete]="autoPrediction"

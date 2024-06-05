@@ -182,7 +182,7 @@
         font-weight: 400;
         padding: 6px;
         transition: 0.2s;
-        box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+        box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
         z-index: -1;
 
         .tooltip-heading {
@@ -234,7 +234,7 @@
   gap: 24px;
 
   .mat-expansion-panel {
-    box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+    box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
 
     ::ng-deep {
       .mat-expansion-panel-body {
@@ -454,11 +454,11 @@
 }
 
 .toggle-icon-up {
-  background-image: url('src/assets/img/ubs-admin-employees/arrow-up.svg');
+  background-image: url('/assets/img/ubs-admin-employees/arrow-up.svg');
 }
 
 .toggle-icon-down {
-  background-image: url('src/assets/img/ubs-admin-employees/arrow-down.svg');
+  background-image: url('/assets/img/ubs-admin-employees/arrow-down.svg');
 }
 
 .disabled {

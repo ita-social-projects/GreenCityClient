@@ -45,7 +45,11 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     return Math.max(this.orderSum - this.certificateSum - this.pointsUsed, 0);
   }
 
-  constructor(private fb: FormBuilder, public orderService: OrderService, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    public orderService: OrderService,
+    private store: Store
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(GetUserBonuses());

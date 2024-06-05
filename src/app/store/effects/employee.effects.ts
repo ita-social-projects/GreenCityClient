@@ -28,10 +28,13 @@ import { FilterData } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 
 @Injectable()
 export class EmployeesEffects {
-  constructor(private actions: Actions, private ubsAdminEmployeeService: UbsAdminEmployeeService) {}
+  constructor(
+    private actions: Actions,
+    private ubsAdminEmployeeService: UbsAdminEmployeeService
+  ) {}
 
-  getEmployees = createEffect(() => {
-    return this.actions.pipe(
+  getEmployees = createEffect(() =>
+    this.actions.pipe(
       ofType(GetEmployees),
       mergeMap(
         (actions: {
@@ -42,23 +45,22 @@ export class EmployeesEffects {
           reset: boolean;
           sortDirection?: string;
           filterData: FilterData;
-        }) => {
-          return this.ubsAdminEmployeeService
+        }) =>
+          this.ubsAdminEmployeeService
             .getEmployees(actions.pageNumber, actions.pageSize, actions.search, actions.sortBy, actions.sortDirection, actions.filterData)
             .pipe(
               map((employees: Employees) => GetEmployeesSuccess({ employees, reset: actions.reset })),
               catchError(() => EMPTY)
-            );
-        }
+            )
       )
-    );
-  });
+    )
+  );
 
-  addEmployee = createEffect(() => {
-    return this.actions.pipe(
+  addEmployee = createEffect(() =>
+    this.actions.pipe(
       ofType(AddEmployee),
-      mergeMap((action: { data: FormData; employee: EmployeeDataToSend }) => {
-        return this.ubsAdminEmployeeService.postEmployee(action.data).pipe(
+      mergeMap((action: { data: FormData; employee: EmployeeDataToSend }) =>
+        this.ubsAdminEmployeeService.postEmployee(action.data).pipe(
           map((data: EmployeeDataResponse) => {
             const employee = JSON.parse(JSON.stringify(action.employee.employeeDto));
             employee.id = data.employeeDto.id;
@@ -69,16 +71,16 @@ export class EmployeesEffects {
             return AddEmployeeSuccess({ employee });
           }),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  updateEmployee = createEffect(() => {
-    return this.actions.pipe(
+  updateEmployee = createEffect(() =>
+    this.actions.pipe(
       ofType(UpdateEmployee),
-      mergeMap((action: { data: FormData; employee: EmployeeDataToSend }) => {
-        return this.ubsAdminEmployeeService.updateEmployee(action.data).pipe(
+      mergeMap((action: { data: FormData; employee: EmployeeDataToSend }) =>
+        this.ubsAdminEmployeeService.updateEmployee(action.data).pipe(
           map((data: EmployeeDataResponse) => {
             const employee = JSON.parse(JSON.stringify(action.employee.employeeDto));
             employee.tariffs = data.tariffs;
@@ -88,44 +90,44 @@ export class EmployeesEffects {
             return UpdateEmployeeSuccess({ employee });
           }),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  activateEmployee = createEffect(() => {
-    return this.actions.pipe(
+  activateEmployee = createEffect(() =>
+    this.actions.pipe(
       ofType(ActivateEmployee),
-      mergeMap((action: { id: number }) => {
-        return this.ubsAdminEmployeeService.activateEmployee(action.id).pipe(
+      mergeMap((action: { id: number }) =>
+        this.ubsAdminEmployeeService.activateEmployee(action.id).pipe(
           map(() => ActivateEmployeeSuccess({ id: action.id })),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  deleteEmployee = createEffect(() => {
-    return this.actions.pipe(
+  deleteEmployee = createEffect(() =>
+    this.actions.pipe(
       ofType(DeleteEmployee),
-      mergeMap((action: { id: number }) => {
-        return this.ubsAdminEmployeeService.deleteEmployee(action.id).pipe(
+      mergeMap((action: { id: number }) =>
+        this.ubsAdminEmployeeService.deleteEmployee(action.id).pipe(
           map(() => DeleteEmployeeSuccess({ id: action.id })),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  getEmployeesPermissions = createEffect(() => {
-    return this.actions.pipe(
+  getEmployeesPermissions = createEffect(() =>
+    this.actions.pipe(
       ofType(GetEmployeesPermissions),
-      mergeMap((actions: { email: string }) => {
-        return this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(actions.email).pipe(
+      mergeMap((actions: { email: string }) =>
+        this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(actions.email).pipe(
           map((positionsAuthorities: EmployeePositionsAuthorities) => GetEmployeesPermissionsSuccess({ positionsAuthorities })),
           catchError(() => EMPTY)
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 }

@@ -8,8 +8,7 @@ describe('AchievementService', () => {
   let httpMock: HttpTestingController;
   let service: AchievementService;
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['unsetFirstSignIn']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['unsetFirstSignIn']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({

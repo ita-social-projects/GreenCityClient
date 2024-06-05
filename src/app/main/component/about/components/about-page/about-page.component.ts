@@ -16,7 +16,11 @@ export class AboutPageComponent implements OnInit, OnDestroy {
   private userId: number;
   public visionCards: VisionCard[] = visionCards;
 
-  constructor(private router: Router, private localStorageService: LocalStorageService, private translate: TranslateService) {}
+  constructor(
+    private router: Router,
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));

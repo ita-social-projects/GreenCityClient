@@ -1,6 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  // MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA
+} from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -39,7 +44,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsStationPopUpComponent],
       imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule],
@@ -49,7 +54,14 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
-        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
+        {
+          provide: MatSnackBarComponent,
+          useValue: {
+            openSnackBar: () => {
+              ('');
+            }
+          }
+        },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

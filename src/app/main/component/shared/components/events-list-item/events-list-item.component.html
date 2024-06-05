@@ -7,7 +7,7 @@
   </div>
   <div class="event-participants" *ngIf="attendees.length">
     <div class="event-participants-avatars">
-      <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
+      <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice: 0 : 2">
         <img [src]="avatar" alt="" />
       </div>
     </div>
@@ -111,7 +111,7 @@
       />
       <div class="event-assign__image-container__participants" *ngIf="attendees.length">
         <div class="event-assign__image-container__participants__avatars">
-          <div class="event-assign__image-container__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
+          <div class="event-assign__image-container__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice: 0 : 2">
             <img [src]="avatar" alt="" />
           </div>
         </div>

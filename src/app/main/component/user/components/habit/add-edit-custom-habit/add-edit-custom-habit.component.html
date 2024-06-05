@@ -11,10 +11,11 @@
           <div class="inputs-block">
             <div class="title-box">
               <div class="title-labels">
-                <label class="label">{{ 'user.habit.add-new-habit.habit-title' | translate }}</label>
+                <label for="title" class="label">{{ 'user.habit.add-new-habit.habit-title' | translate }}</label>
                 <span class="habit-tooltip"> {{ habitForm.get('title').value.length }}/70 </span>
               </div>
               <input
+                id="title"
                 formControlName="title"
                 class="primary-global-input"
                 [ngClass]="{ 'warning-input': habitForm.touched && habitForm.get('title').invalid }"
@@ -26,8 +27,8 @@
               </div>
             </div>
             <div class="difficulty-box">
-              <label class="label">{{ 'user.habit.add-new-habit.difficulty.name' | translate }}</label>
-              <ul class="difficulty-input">
+              <label for="complexityList" class="label">{{ 'user.habit.add-new-habit.difficulty.name' | translate }}</label>
+              <ul id="complexityList" class="difficulty-input">
                 <li *ngFor="let item of complexityList; index as i" class="star-button">
                   <span
                     ngbPopover="{{ item.name | translate }}"
@@ -46,7 +47,7 @@
             </div>
           </div>
           <div class="tags-section">
-            <label class="label">{{ 'user.habit.add-new-habit.pick-tags' | translate }}</label>
+            <div class="label">{{ 'user.habit.add-new-habit.pick-tags' | translate }}</div>
             <span class="habit-tooltip">{{ 'user.habit.add-new-habit.tags-limits' | translate }}</span>
             <app-tags-select
               [tagsList]="tagsList"
@@ -76,7 +77,7 @@
         <div class="block-width image-block">
           <div class="habit-block">
             <div>
-              <label class="label">{{ 'create-news.picture-title' | translate }}</label>
+              <div class="label">{{ 'create-news.picture-title' | translate }}</div>
               <app-drag-and-drop [formData]="habitForm" (newFile)="getFile($event)" class="image-drag-and-drop"></app-drag-and-drop>
               <app-select-images [images]="habitImages" class="select-image"></app-select-images>
             </div>

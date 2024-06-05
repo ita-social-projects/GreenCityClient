@@ -143,16 +143,11 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     return this.filterApproaches.find((el) => el.name === approachType).isSelected;
   }
 
+  /* prettier-ignore */
   private getAllSelectedFilters(approach: string): NotificationFilter[] {
     const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypesFilter : this.projects;
     const allOption = filterArr.find((el) => el.name === this.filterAll);
-    return allOption.isSelected
-      ? []
-      : [
-          ...filterArr.filter((el) => {
-            return el.isSelected === true && el.name !== this.filterAll;
-          })
-        ];
+    return allOption.isSelected ? [] : [...filterArr.filter((el) => {return el.isSelected === true && el.name !== this.filterAll;})];
   }
 
   getNotification(page?: number): void {
@@ -244,7 +239,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

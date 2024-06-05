@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 .action-wrp {
   display: flex;
   justify-content: space-between;
@@ -65,7 +67,6 @@
 }
 
 .habit-info {
-  display: flex;
   flex-direction: column;
   padding: 30px 0;
   max-width: 300px;
@@ -108,7 +109,7 @@
   }
 }
 
-@media (max-width: 1200px) {
+@include responsivePCFirst(lg) {
   .habit-wrp .habit-container .habit-info {
     max-width: 240px;
 
@@ -120,7 +121,7 @@
   }
 }
 
-@media (max-width: 991px) {
+@include responsivePCFirst(lg) {
   .habit-wrp .habit-container .habit-info {
     max-width: 310px;
 
@@ -130,7 +131,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@include responsivePCFirst(md) {
   .habit-wrp .habit-container .habit-info {
     max-width: 210px;
 
@@ -144,7 +145,7 @@
   }
 }
 
-@media (max-width: 575px) {
+@include responsivePCFirst(sm) {
   .habit-wrp .habit-container .habit-info {
     max-width: 230px;
 

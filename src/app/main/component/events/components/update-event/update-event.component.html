@@ -1,0 +1,3 @@
+<app-spinner *ngIf="isFetching"></app-spinner>
+<app-event-editor *ngIf="!isFetching && isAuthor" [eventId]="eventId" [formInput]="eventForm" [isUpdating]="true"></app-event-editor>
+<h2 *ngIf="!isAuthor">Event not found</h2>

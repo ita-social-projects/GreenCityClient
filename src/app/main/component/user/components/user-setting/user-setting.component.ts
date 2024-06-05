@@ -65,13 +65,7 @@ export class UserSettingComponent {
 
   private setEmailNotifications() {
     this.userService.getEmailNotificationsStatuses().subscribe((res) => {
-      this.emailNotifications = [
-        ...res
-          .filter((eNotification) => {
-            return eNotification !== 'DISABLED';
-          })
-          .map((column) => column)
-      ];
+      this.emailNotifications = [...res.filter((eNotification) => eNotification !== 'DISABLED').map((column) => column)];
     });
   }
 }

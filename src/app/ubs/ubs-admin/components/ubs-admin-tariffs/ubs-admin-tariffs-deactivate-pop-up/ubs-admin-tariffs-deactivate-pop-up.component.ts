@@ -5,16 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
-import {
-  Locations,
-  LocationDto,
-  SelectedItems,
-  Couriers,
-  Stations,
-  TariffCard,
-  DeactivateCard,
-  TranslationDto
-} from '../../../models/tariffs.interface';
+import { Locations, LocationDto, SelectedItems, Couriers, Stations, TariffCard, TranslationDto } from '../../../models/tariffs.interface';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
@@ -126,7 +117,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public ngOnDestroy(): void {
-    this.unsubscribe.next();
+    this.unsubscribe.next(true);
     this.unsubscribe.complete();
   }
 
