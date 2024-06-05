@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { AdminCustomersService } from './admin-customers.service';
 import { ICustomersTable } from '../models/customers-table.model';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 
 describe('AdminCustomersService', () => {
   let httpMock: HttpTestingController;

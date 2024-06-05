@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormArray, FormControl, FormsModule, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -39,9 +39,6 @@ import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
   let fixture: ComponentFixture<CreateEditNewsComponent>;
-  let ecoNewsServiceMock: EcoNewsService;
-  let createEcoNewsServiceMock: CreateEcoNewsService;
-  let createEditNewsFormBuilderMock: CreateEditNewsFormBuilder;
   let router: Router;
   let location: Location;
 
@@ -56,15 +53,14 @@ describe('CreateEditNewsComponent', () => {
     source: '',
     image: ''
   };
-  const emptyForm = () => {
-    return new FormGroup({
+  const emptyForm = () =>
+    new FormGroup({
       title: new FormControl(''),
       content: new FormControl(''),
       tags: new FormArray([]),
       image: new FormControl(''),
       source: new FormControl('')
     });
-  };
 
   const tagsArray = [
     { id: 1, name: 'Events', nameUa: 'Події' },
@@ -76,7 +72,7 @@ describe('CreateEditNewsComponent', () => {
     { name: 'Education', nameUa: 'Освіта', isActive: true }
   ];
 
-  createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', [
+  const createEcoNewsServiceMock: CreateEcoNewsService = jasmine.createSpyObj('CreateEcoNewsService', [
     'sendFormData',
     'editNews',
     'setForm',
@@ -96,31 +92,32 @@ describe('CreateEditNewsComponent', () => {
   createEcoNewsServiceMock.sendImagesData = () => of(['image']);
   createEcoNewsServiceMock.getTags = () => [];
 
-  ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
+  const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
   ecoNewsServiceMock.getEcoNewsById = (id) => {
-    return of(FIRSTECONEWS);
+    of(FIRSTECONEWS);
   };
 
-  createEditNewsFormBuilderMock = jasmine.createSpyObj('CreateEditNewsFormBuilder', ['getSetupForm', 'getEditForm']);
-  createEditNewsFormBuilderMock.getSetupForm = () => {
-    return new FormGroup({
+  const createEditNewsFormBuilderMock: CreateEditNewsFormBuilder = jasmine.createSpyObj('CreateEditNewsFormBuilder', [
+    'getSetupForm',
+    'getEditForm'
+  ]);
+  createEditNewsFormBuilderMock.getSetupForm = () =>
+    new FormGroup({
       title: new FormControl('', [Validators.required, Validators.maxLength(170)]),
       content: new FormControl('', [Validators.required, Validators.minLength(20)]),
       tags: new FormArray([]),
       image: new FormControl(''),
       source: new FormControl('')
     });
-  };
 
-  createEditNewsFormBuilderMock.getEditForm = (data) => {
-    return new FormGroup({
+  createEditNewsFormBuilderMock.getEditForm = (data) =>
+    new FormGroup({
       title: new FormControl(data.title, [Validators.required, Validators.maxLength(170)]),
       content: new FormControl(data.content, [Validators.required, Validators.minLength(20)]),
       tags: new FormArray([new FormControl(data.tags)]),
       image: new FormControl(data.imagePath),
       source: new FormControl(data.source)
     });
-  };
 
   const actionSub: ActionsSubject = new ActionsSubject();
 
@@ -138,11 +135,9 @@ describe('CreateEditNewsComponent', () => {
   localStorageServiceMock.languageSubject = of('en');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         CreateEditNewsComponent,

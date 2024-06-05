@@ -1,17 +1,24 @@
 <div
+  class="payment-wrapper"
   *ngIf="date !== 'orderDate' && date !== 'paymentDate' && date !== 'id'"
-  #tooltip="matTooltip"
-  matTooltip="{{ title | serverTranslate: lang }}"
-  matTooltipClass="my-custom-tooltip"
   [ngClass]="{ 'un-paid': unpaid, 'half-paid': halfpaid, paid: paid }"
-  (mouseenter)="showTooltip($event, tooltip)"
-  (mouseleave)="tooltip.hide()"
 >
+  <div
+    class="readonly"
+    #tooltip="matTooltip"
+    matTooltip="{{ title | serverTranslate: lang }}"
+    matTooltipClass="my-custom-tooltip"
+    (mouseenter)="showTooltip($event, tooltip)"
+    (mouseleave)="tooltip.hide()"
+  >
+    {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
+  </div>
+</div>
+
+<div *ngIf="date === 'id'" class="order-number" class="readonly">
   {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
 </div>
-<div *ngIf="date === 'id'" class="order-number">
-  {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
-</div>
-<div class="readonly_date" *ngIf="date === 'orderDate' || date === 'paymentDate'">
+
+<div class="readonly readonly_date" *ngIf="date === 'orderDate' || date === 'paymentDate'">
   <span>{{ title | date: 'dd/MM/y' }}</span>
 </div>

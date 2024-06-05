@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { FileHandle } from '../../../models/file-handle.model';
 
 describe('UbsAdminEmployeeEditFormComponent', () => {
   let component: UbsAdminEmployeeEditFormComponent;
@@ -17,14 +18,11 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
-  const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close', 'afterClosed']);
+  const matDialogRefMock = jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']);
   matDialogRefMock.afterClosed.and.returnValue(of(true));
-  const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
-  const dialogRefStub = {
-    afterClosed() {
-      return of(true);
-    }
-  };
+  const matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
+  matDialogMock.open.and.returnValue(matDialogRefMock);
+
   const mockedEmployeePositions = [
     {
       id: 2,
@@ -121,10 +119,16 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
     email: new FormControl('fake')
   });
   const dataFileMock = new File([''], 'test-file.jpeg');
+  const datasFileMock: FileHandle[] = [
+    {
+      file: new File([''], 'test-file.jpeg'),
+      url: ''
+    }
+  ];
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(true, true);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminEmployeeEditFormComponent],
       imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, CdkAccordionModule],
@@ -242,8 +246,8 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
   it('filesDropped should be called', () => {
     const filesDroppedMock = spyOn(component, 'filesDropped');
-    component.filesDropped(dataFileMock);
-    expect(filesDroppedMock).toHaveBeenCalledWith(dataFileMock);
+    component.filesDropped(datasFileMock);
+    expect(filesDroppedMock).toHaveBeenCalledWith(datasFileMock);
   });
 
   it('File should be transfered', () => {

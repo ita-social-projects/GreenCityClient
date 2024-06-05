@@ -9,7 +9,10 @@ export class ValidateAddressDirective implements OnInit, OnChanges {
   @Input() currentLocationId: number;
   @Input() address: Address;
 
-  constructor(private elementRef: ElementRef<HTMLInputElement>, private addressValidator: AddressValidator) {}
+  constructor(
+    private elementRef: ElementRef<HTMLInputElement>,
+    private addressValidator: AddressValidator
+  ) {}
 
   ngOnInit(): void {
     this.validateAddress();

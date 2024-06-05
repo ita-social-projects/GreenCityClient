@@ -243,8 +243,8 @@
             </ng-container>
           </div>
         </th>
-        <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
-          <mat-checkbox [checked]="allChecked" [indeterminate]="isIndeterminate" (change)="masterToggle($event)"> </mat-checkbox>
+        <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ padding: '0px' }">
+          <mat-checkbox [checked]="allChecked" [indeterminate]="isIndeterminate" (change)="masterToggle($event)"></mat-checkbox>
         </th>
       </mat-header-cell>
       <mat-cell
@@ -330,7 +330,7 @@
     ></mat-row>
   </table>
   <app-spinner *ngIf="isUpdate"></app-spinner>
-  <div class="message-container" *ngIf="!tableData?.length">
+  <div class="message-container" *ngIf="!tableData?.length && !isLoading">
     {{ 'ubs-tables.no-orders-found' | translate }}
   </div>
 </div>

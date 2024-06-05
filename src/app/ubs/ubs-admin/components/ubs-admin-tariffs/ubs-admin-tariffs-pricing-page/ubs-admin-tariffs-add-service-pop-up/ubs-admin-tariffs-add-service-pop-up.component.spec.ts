@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up.component';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,7 +11,6 @@ import { TariffsService } from '../../../../services/tariffs.service';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
-import { DatePipe } from '@angular/common';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsAdminTariffsAddServicePopupComponent', () => {
@@ -48,7 +47,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     tariffId: 1
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsAddServicePopUpComponent],
       imports: [

@@ -25,14 +25,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AuthModalComponent
   ],
   imports: [CoreModule, SharedMainModule, SharedModule, ReactiveFormsModule],
-  entryComponents: [
-    SignInComponent,
-    SignUpComponent,
-    RestorePasswordComponent,
-    SubmitEmailComponent,
-    ConfirmRestorePasswordComponent,
-    AuthModalComponent
-  ],
   exports: [InputcolorDirective],
   providers: [MatSnackBarModule]
 })

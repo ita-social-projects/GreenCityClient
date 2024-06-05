@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ShoppingListComponent } from './shopping-list.component';
+import { ShoppingListComponent } from '@global-user/components';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -14,6 +14,7 @@ import { SHOPLIST } from '@global-user/components/habit/mocks/shopping-list-mock
 import { ALLUSERSHOPLISTS } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.pipe';
 import { TodoStatus } from '@global-user/components/habit/models/todo-status.enum';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('ShoppingListComponent', () => {
   let component: ShoppingListComponent;
@@ -38,10 +39,17 @@ describe('ShoppingListComponent', () => {
   shoppingListServiceMock.updateStandardShopItemStatus = () => of();
   shoppingListServiceMock.updateCustomShopItemStatus = () => of();
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ShoppingListComponent, CorrectUnitPipe],
-      imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot(), BrowserAnimationsModule, NoopAnimationsModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+        BrowserAnimationsModule,
+        NoopAnimationsModule,
+        NgbModule
+      ],
       providers: [
         { provide: ShoppingListService, useValue: shoppingListServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }

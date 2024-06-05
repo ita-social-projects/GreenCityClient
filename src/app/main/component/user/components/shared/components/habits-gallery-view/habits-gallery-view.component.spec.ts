@@ -1,6 +1,6 @@
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HabitsGalleryViewComponent } from './habits-gallery-view.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -17,16 +17,13 @@ import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomP
 describe('HabitsGalleryViewComponent', () => {
   let component: HabitsGalleryViewComponent;
   let fixture: ComponentFixture<HabitsGalleryViewComponent>;
-  let matSnackBarMock: MatSnackBarComponent;
-  matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const matSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   matSnackBarMock.openSnackBar = (type: string) => {};
   let httpTestingController: HttpTestingController;
-  let habitAssignServiceMock: HabitAssignService;
-  habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', ['assignHabit']);
+  const habitAssignServiceMock: HabitAssignService = jasmine.createSpyObj('HabitAssignService', ['assignHabit']);
   habitAssignServiceMock.assignHabit = () => new Observable();
 
-  let fakeHabitAssignService: HabitAssignService;
-  fakeHabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', ['assignCustomHabit', 'assignHabit']);
+  const fakeHabitAssignService: HabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', ['assignCustomHabit', 'assignHabit']);
   fakeHabitAssignService.assignCustomHabit = () => of();
   fakeHabitAssignService.assignHabit = () => of();
 
@@ -42,7 +39,7 @@ describe('HabitsGalleryViewComponent', () => {
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HabitsGalleryViewComponent],
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatSnackBarModule, HttpClientTestingModule],

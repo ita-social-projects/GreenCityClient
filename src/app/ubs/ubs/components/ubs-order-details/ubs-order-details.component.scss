@@ -7,7 +7,7 @@
 
 .container {
   box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
-  padding: 10px 24px 40px 24px;
+  padding: 10px 24px 40px;
   color: var(--ubs-primary-grey);
   max-width: 100%;
 }
@@ -57,7 +57,7 @@ input[type='number'] {
     background: var(--primary-white);
     padding: 0.375rem 0.75rem;
     border-radius: 0.25rem;
-    margin: 0.5rem 0 2rem 0;
+    margin: 0.5rem 0 2rem;
     width: 14rem;
     border-color: var(--ubs-quintynary-light-grey);
   }
@@ -67,7 +67,7 @@ input[type='number'] {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 1rem 0 1.2rem 0;
+  padding: 1rem 0 1.2rem;
   border-top: 1px solid var(--ubs-primary-light-grey);
   border-bottom: 1px solid var(--ubs-primary-light-grey);
 

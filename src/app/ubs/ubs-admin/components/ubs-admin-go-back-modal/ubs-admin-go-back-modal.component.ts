@@ -8,7 +8,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./ubs-admin-go-back-modal.component.scss']
 })
 export class UbsAdminGoBackModalComponent {
-  constructor(private router: Router, private dialogRef: MatDialogRef<UbsAdminGoBackModalComponent>) {}
+  constructor(
+    private router: Router,
+    private dialogRef: MatDialogRef<UbsAdminGoBackModalComponent>
+  ) {}
 
   doNotDiscardChanges(): void {
     this.dialogRef.close();

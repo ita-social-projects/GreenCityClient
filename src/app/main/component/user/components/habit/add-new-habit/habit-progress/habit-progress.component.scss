@@ -1,7 +1,6 @@
 .progress-habit {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  flex-flow: row nowrap;
   justify-content: space-between;
   margin-bottom: 40px;
   height: 32px;
@@ -33,15 +32,15 @@
     }
 
     .done {
-      background: url('~/assets/img/icon/chek-circle.png') no-repeat center;
+      background: url('/assets/img/icon/chek-circle.png') no-repeat center;
     }
 
     .undone {
-      background: url('~/assets/icons/habits/plus-circle-green.svg') no-repeat center;
+      background: url('/assets/icons/habits/plus-circle-green.svg') no-repeat center;
     }
 
     .acquired {
-      background: url('~/assets/img/icon/star-circle.png') no-repeat center;
+      background: url('/assets/img/icon/star-circle.png') no-repeat center;
     }
 
     img {
@@ -75,7 +74,7 @@
       width: 80px;
       height: 50px;
       position: absolute;
-      background-image: url('~/assets/img/duration-thumb-label-progress.svg');
+      background-image: url('/assets/img/duration-thumb-label-progress.svg');
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat;
@@ -88,7 +87,7 @@
 
     .indicator {
       width: 38px;
-      background: linear-gradient(180deg, var(--primary-green), rgba(215, 254, 60, 0.47));
+      background: linear-gradient(180deg, var(--primary-green), rgb(215 254 60 / 47%));
       border-radius: 4px 4px 0 0;
 
       &:hover + .thumbLabel {
@@ -104,7 +103,7 @@
     .start-line {
       width: 38px;
       height: 4px;
-      background-color: rgba(215, 254, 60, 0.47);
+      background-color: rgb(215 254 60 / 47%);
       border-radius: 0 0 4px 4px;
     }
   }
@@ -139,7 +138,7 @@
 
       .indicator-mobile {
         display: block;
-        background: linear-gradient(270deg, var(--primary-green), rgba(215, 254, 60, 0.47));
+        background: linear-gradient(270deg, var(--primary-green), rgb(215 254 60 / 47%));
         height: 38px;
       }
 

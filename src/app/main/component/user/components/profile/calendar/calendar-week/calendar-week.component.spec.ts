@@ -1,5 +1,5 @@
 import { CalendarWeekComponent } from './calendar-week.component';
-import { ComponentFixture, TestBed, async, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { CalendarBaseComponent } from '@shared/components';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -14,7 +14,7 @@ describe('HabitCalendarComponent', () => {
   let day: CalendarWeekInterface;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [CalendarWeekComponent, CalendarBaseComponent],
       imports: [HttpClientTestingModule, MatDialogModule],
       providers: [
@@ -64,5 +64,36 @@ describe('HabitCalendarComponent', () => {
     (component as any).getLanguage();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should go to next week when isNext is true', () => {
+    component.weekDates = [day];
+    const initialWeekDates = [...component.weekDates];
+    component.changeWeek(true);
+    expect(component.weekDates).not.toEqual(initialWeekDates);
+  });
+
+  it('should go to previous week when isNext is false', () => {
+    component.weekDates = [day];
+    const initialWeekDates = [...component.weekDates];
+    component.changeWeek(false);
+    expect(component.weekDates).not.toEqual(initialWeekDates);
+  });
+
+  it('should call openDialogDayHabits if checkCanOpenPopup returns true', () => {
+    spyOn(component, 'checkCanOpenPopup').and.returnValue(true);
+    const openDialogDayHabitsSpy = spyOn(component, 'openDialogDayHabits');
+    const dayAsCalendarInterface = component.toCalendarMonth(day);
+    const mockEvent = new MouseEvent('click');
+    component.showHabits(mockEvent, day);
+    expect(openDialogDayHabitsSpy).toHaveBeenCalledWith(mockEvent, false, dayAsCalendarInterface);
+  });
+
+  it('should not call openDialogDayHabits if checkCanOpenPopup returns false', () => {
+    spyOn(component, 'checkCanOpenPopup').and.returnValue(false);
+    const openDialogDayHabitsSpy = spyOn(component, 'openDialogDayHabits');
+    const mockEvent = new MouseEvent('click');
+    component.showHabits(mockEvent, day);
+    expect(openDialogDayHabitsSpy).not.toHaveBeenCalled();
   });
 });

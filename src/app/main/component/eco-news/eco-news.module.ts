@@ -69,7 +69,6 @@ import { EcoNewsCommentsService } from '@eco-news-service/eco-news-comments.serv
     QuillModule.forRoot()
   ],
   exports: [TranslateModule],
-  entryComponents: [],
   providers: [
     MatSnackBarComponent,
     { provide: ACTION_TOKEN, useValue: ACTION_CONFIG },

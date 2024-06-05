@@ -1,6 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UbsMainPageComponent } from './ubs-main-page.component';
 import { MatDialog } from '@angular/material/dialog';
 import { of, Subject, throwError } from 'rxjs';
@@ -15,12 +15,12 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
   let fixture: ComponentFixture<UbsMainPageComponent>;
-  let jwtServiceMock: JwtService;
-  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
+  const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
 
   const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', [
@@ -108,7 +108,7 @@ describe('UbsMainPageComponent', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ emplpyees: { employeesPermissions: mockData } }));
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule, MatAutocompleteModule],
       declarations: [UbsMainPageComponent],
@@ -120,7 +120,8 @@ describe('UbsMainPageComponent', () => {
         { provide: CheckTokenService, useValue: checkTokenServiceMock },
         { provide: OrderService, useValue: orderServiceMock },
         { provide: JwtService, useValue: jwtServiceMock }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -224,7 +225,7 @@ describe('UbsMainPageComponent', () => {
 
     it('should response from getLocations if user had orders', () => {
       const courierName = 'Test502';
-      const res = { orderIsPresent: true };
+      const res = { allActiveLocationsDtos: null, tariffsForLocationDto: null, orderIsPresent: true };
       orderServiceMock.getLocations.and.returnValue(of(res));
       const spy = spyOn(component, 'saveLocation');
       component.getLocations(courierName);
@@ -234,7 +235,7 @@ describe('UbsMainPageComponent', () => {
 
     it('should response from getLocations if user doesnt have any odreds', () => {
       const courierName = 'Test502';
-      const res = { orderIsPresent: false };
+      const res = { allActiveLocationsDtos: null, tariffsForLocationDto: null, orderIsPresent: false };
       orderServiceMock.getLocations.and.returnValue(of(res));
       const spy = spyOn(component, 'openLocationDialog');
       component.getLocations(courierName);

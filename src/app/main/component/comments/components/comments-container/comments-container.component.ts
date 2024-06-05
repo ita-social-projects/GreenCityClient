@@ -28,7 +28,10 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
   public userReplies: CommentsDTO[] = [];
   public showAllReplies: boolean;
 
-  constructor(private commentsService: CommentsService, private userOwnAuthService: UserOwnAuthService) {}
+  constructor(
+    private commentsService: CommentsService,
+    private userOwnAuthService: UserOwnAuthService
+  ) {}
 
   ngDoCheck(): void {
     if (this.dataType === 'reply') {
@@ -110,6 +113,16 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
           } else {
             this.setNoData();
           }
+        }
+      });
+    this.commentsService
+      .getCommentsCount(this.entityId)
+      .pipe(take(1))
+      .subscribe((data: number) => {
+        this.totalElements = data;
+        const totalCountParagraph = document.getElementById('total-count');
+        if (totalCountParagraph) {
+          totalCountParagraph.innerHTML = data.toString();
         }
       });
   }

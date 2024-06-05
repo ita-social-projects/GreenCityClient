@@ -44,7 +44,8 @@ export class UbsFooterComponent {
       });
   }
 
-  public onPressEnter(event: KeyboardEvent): void {
+  public onPressEnter(event: Event): void {
+    //$Event KeyboardEvent
     event.preventDefault();
     this.openAboutServicePopUp(event);
   }

@@ -3,17 +3,15 @@
     Event address:
     <span>{{ adress }}</span>
   </p>
-  <agm-map [style.width.%]="100" [style.height.%]="100" [zoom]="12" (mapReady)="onMapReady($event)">
-    <agm-marker
+  <google-map [style.width.%]="100" [style.height.%]="100" [zoom]="12" (mapReady)="onMapReady($event)">
+    <map-marker
       *ngIf="eventPlace"
-      [latitude]="eventPlace.location.lat"
-      [longitude]="eventPlace.location.lng"
+      [position]="eventPlace.location"
       [title]="markerContent"
       (mouseOver)="markerOver(eventPlace)"
       (mouseOut)="markerOut(eventPlace)"
-      [animation]="eventPlace.animation"
-    ></agm-marker>
-  </agm-map>
+    />
+  </google-map>
   <div class="map-button">
     <button mat-raised-button color="warn" (click)="closeMap()">Close</button>
   </div>

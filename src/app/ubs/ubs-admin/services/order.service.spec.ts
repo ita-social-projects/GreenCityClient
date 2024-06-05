@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
 
 describe('OrderService', () => {

@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -13,9 +12,8 @@ import {
   EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
-import { Coordinates, EventPageResponseDto, PagePreviewDTO } from '../../models/events.interface';
+import { EventResponse, LocationResponse, PagePreviewDTO } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
-import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject, Subscription } from 'rxjs';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
@@ -23,8 +21,11 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
+import { ofType } from '@ngrx/effects';
+import { ICONS } from '../../models/event-consts';
 import { WarningPopUpComponent } from '@shared/components';
 import { TranslateService } from '@ngx-translate/core';
+import { EventStoreService } from '../../services/event-store.service';
 
 @Component({
   selector: 'app-event-details',
@@ -32,85 +33,42 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./event-details.component.scss']
 })
 export class EventDetailsComponent implements OnInit, OnDestroy {
-  bsOpen = false;
-
-  public icons = {
-    socials: {
-      plus: 'assets/img/events/plus.svg',
-      twitter: 'assets/img/events/twitter.svg',
-      linkedin: 'assets/img/events/linkedin.svg',
-      facebook: 'assets/img/events/facebook.svg'
-    },
-    clock: 'assets/img/events/clock.svg',
-    location: 'assets/img/events/location.svg',
-    link: 'assets/img/events/link.svg',
-    lock: {
-      open: 'assets/img/events/lock.svg',
-      closed: 'assets/img/events/lock-closed.svg'
-    },
-    user: 'assets/img/events/user.svg',
-    ellipsis: 'assets/img/events/ellipsis.svg',
-    arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
-  };
-
-  private userId: number;
+  public icons = ICONS;
   public eventId: number;
-  private dialogRef;
-
   public roles = {
     UNAUTHENTICATED: 'UNAUTHENTICATED',
     USER: 'USER',
     ORGANIZER: 'ORGANIZER',
     ADMIN: 'ADMIN'
   };
-
-  private cancelationPopupData = {
-    popupTitle: 'homepage.events.pop-up-cancelling-event',
-    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
-    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
-    isUBS: false,
-    isUbsOrderSubmit: false,
-    isHabit: false
-  };
-
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   public bsModalRef: BsModalRef;
   public role = this.roles.UNAUTHENTICATED;
   public isEventFavorite: boolean;
-
   attendees = [];
   attendeesAvatars = [];
-
   public organizerName: string;
-  public event: EventPageResponseDto | PagePreviewDTO;
+  public event: EventResponse | PagePreviewDTO;
   public locationLink: string;
-  public locationCoordinates: Coordinates;
+  public locationCoordinates: LocationResponse;
   public place: string;
-  public addressUa: string;
   public addressEn: string;
-
   public images: string[] = [];
   public sliderIndex = 0;
   public isPosting: boolean;
   public isActive: boolean;
   public currentDate = new Date();
-
   public max = 5;
-
+  public rate: number;
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title-admin',
     popupConfirm: 'homepage.events.delete-yes',
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
   };
-
   mapDialogData: any;
-
-  public address = 'Should be adress';
-
+  public address = 'Should be address';
   public maxRating = 5;
-  private destroy: Subject<boolean> = new Subject<boolean>();
-
   public backRoute: string;
   public routedFromProfile: boolean;
   public isUserCanJoin = false;
@@ -119,6 +77,18 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public addAttenderError: string;
   public isRegistered: boolean;
   public isReadonly = false;
+  googleMapLink: string;
+  private dialogRef;
+  private cancelationPopupData = {
+    popupTitle: 'homepage.events.pop-up-cancelling-event',
+    popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
+    popupCancel: 'homepage.events.events-popup.reject-cancelling-event-btn',
+    isUBS: false,
+    isUbsOrderSubmit: false,
+    isHabit: false
+  };
+  private userId: number;
+  private destroy: Subject<boolean> = new Subject<boolean>();
   private userNameSub: Subscription;
   private isOwner: boolean;
 
@@ -133,6 +103,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private jwtService: JwtService,
     private snackBar: MatSnackBarComponent,
     private modalService: BsModalService,
+    private eventStore: EventStoreService,
     private translate: TranslateService
   ) {}
 
@@ -142,12 +113,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
         this.userId = Number(id);
       });
-      this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponseDto) => {
+      this.eventService.getEventById(this.eventId).subscribe((res: EventResponse) => {
         this.event = res;
         this.organizerName = this.event.organizer.name;
         this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
         this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
         this.images = [res.titleImage, ...res.additionalImages];
+        this.rate = Math.round(this.event.organizer.organizerRating);
         this.mapDialogData = {
           lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
           lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude
@@ -178,36 +150,16 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
       this.backRoute = this.localStorageService.getPreviousPage();
     } else {
-      this.event = this.eventService.getForm();
+      this.event = this.eventService.getForm() as PagePreviewDTO;
       this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-      this.place = this.event.location.place;
+      this.place = this.event.location as string;
       this.images = this.event.imgArrayToPreview;
+
       this.bindUserName();
-      window.onpopstate = () => {
-        this.backToEdit();
-      };
       this.formatDates();
     }
-  }
-
-  private formatDates(): void {
-    this.event.dates.forEach((date) => {
-      if (date.startDate) {
-        date.startDate = this.eventService.transformDate(date, 'startDate');
-      }
-      if (date.finishDate) {
-        date.finishDate = this.eventService.transformDate(date, 'finishDate');
-      }
-    });
-  }
-
-  public backToEdit(): void {
-    this.eventService.setBackFromPreview(true);
-  }
-
-  public backToSubmit(): void {
-    this.eventService.setBackFromPreview(true);
-    this.eventService.setSubmitFromPreview(true);
+    const coords = this.event.dates[0].coordinates;
+    this.googleMapLink = `https://www.google.com.ua/maps/@${coords.longitude},${coords.latitude}`;
   }
 
   public bindUserName(): void {
@@ -220,35 +172,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     return this.eventService.getFormattedAddress(this.locationCoordinates);
   }
 
-  private verifyRole(): string {
-    let role = this.roles.UNAUTHENTICATED;
-    role = this.jwtService.getUserRole() === 'ROLE_USER' ? this.roles.USER : role;
-    role = this.userId === this.event.organizer.id ? this.roles.ORGANIZER : role;
-    role = this.jwtService.getUserRole() === 'ROLE_ADMIN' ? this.roles.ADMIN : role;
-    return role;
-  }
-
   public navigateToEditEvent(): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    this.localStorageService.setEventForEdit('editEvent', this.event);
-    this.router.navigate(['/events', 'create-event']);
-  }
-
-  public openMap(event): void {
-    const dataToMap = {
-      address: event.coordinates.addressEn,
-      lat: event.coordinates.latitude,
-      lng: event.coordinates.longitude
-    };
-    this.dialog.open(MapEventComponent, {
-      data: dataToMap,
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: '',
-      width: '900px',
-      height: '400px'
-    });
+    // this.localStorageService.setEventForEdit('editEvent', this.event);
+    this.eventStore.setEventAuthorId(this.eventId);
+    this.router.navigate(['/events', 'update-event', this.eventId]);
   }
 
   public submitEventCancelling() {
@@ -360,12 +288,34 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       isReadonly: this.isReadonly
     };
 
-    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, { class: 'modal-dialog-centered', initialState });
+    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, {
+      class: 'modal-dialog-centered',
+      initialState
+    });
     this.bsModalRef.content.closeBtnName = 'event.btn-close';
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
+  }
+
+  private formatDates(): void {
+    // this.event.dates.forEach((date) => {
+    //   if (date.startDate) {
+    //     date.startDate = this.eventService.transformDate(date, 'startDate');
+    //   }
+    //   if (date.finishDate) {
+    //     date.finishDate = this.eventService.transformDate(date, 'finishDate');
+    //   }
+    // });
+  }
+
+  private verifyRole(): string {
+    let role = this.roles.UNAUTHENTICATED;
+    role = this.jwtService.getUserRole() === 'ROLE_USER' ? this.roles.USER : role;
+    role = this.userId === this.event.organizer.id ? this.roles.ORGANIZER : role;
+    role = this.jwtService.getUserRole() === 'ROLE_ADMIN' ? this.roles.ADMIN : role;
+    return role;
   }
 }

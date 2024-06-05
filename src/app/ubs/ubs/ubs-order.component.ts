@@ -12,7 +12,10 @@ import { takeUntil } from 'rxjs/operators';
 export class UbsOrderComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private translate: TranslateService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang) => {

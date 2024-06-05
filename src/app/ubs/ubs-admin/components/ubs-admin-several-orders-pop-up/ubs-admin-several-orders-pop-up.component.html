@@ -14,10 +14,10 @@
 
           <div class="time_export">
             <div class="label_time">
-              <label class="form__label">{{ 'export-details.export-time' | translate }}</label>
+              <label for="export-time" class="form__label">{{ 'export-details.export-time' | translate }}</label>
             </div>
-            <div class="time_container">
-              <div class="form-group">
+            <div id="export-time" class="time_container">
+              <div id="export-time" class="form-group">
                 <input
                   autocomplete="off"
                   class="form-control time-from"
@@ -52,8 +52,8 @@
       <div class="form" formGroupName="responsiblePersonsForm">
         <div class="form-row" *ngFor="let person of responsiblePersonsData">
           <div class="form-group">
-            <label class="form__label">{{ person.translate | translate }}</label>
-            <select formControlName="{{ person.formControlName }}" class="form-control form__select">
+            <label for="person" class="form__label">{{ person.translate | translate }}</label>
+            <select id="person" formControlName="{{ person.formControlName }}" class="form-control form__select">
               <option *ngFor="let employee of person.responsiblePersonsArray" [value]="employee">
                 {{ employee }}
               </option>

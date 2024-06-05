@@ -12,7 +12,11 @@ export class NotificContentReplaceDirective implements OnChanges {
     { contentKey: 'message', replacementKey: 'message' },
     { contentKey: 'secondMessage', replacementKey: 'secondMessage' }
   ];
-  constructor(private el: ElementRef, private domSanitizer: DomSanitizer, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private domSanitizer: DomSanitizer,
+    private renderer: Renderer2
+  ) {}
 
   ngOnChanges() {
     if (this.replacements) {

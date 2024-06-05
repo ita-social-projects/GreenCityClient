@@ -19,7 +19,10 @@ export class OneNewsComponent implements OnInit {
 
   public profileIcons = userAssignedCardsIcons;
 
-  constructor(private localStorageService: LocalStorageService, private langService: LanguageService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private langService: LanguageService
+  ) {}
 
   ngOnInit(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {

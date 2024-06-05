@@ -9,11 +9,11 @@
   display: grid;
   grid-template-columns: repeat(1, 100%);
   grid-gap: 32px;
-  margin: 32px 0 64px 0;
+  margin: 32px 0 64px;
 }
 
 .search-item {
-  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+  box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   padding: 12px 24px;
   min-height: 240px;
 }

@@ -2,12 +2,12 @@ import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-ba
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
-import { DropdownModule } from 'angular-bootstrap-md';
+// import { DropdownModule } from 'angular-bootstrap-md';
 import { Language } from 'src/app/main/i18n/Language';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -24,9 +24,8 @@ import { Store } from '@ngrx/store';
 xdescribe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
   let fixture: ComponentFixture<UBSAddAddressPopUpComponent>;
-  let MatSnackBarMock: MatSnackBarComponent;
 
-  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
   const fakeAddress = {
@@ -84,20 +83,18 @@ xdescribe('UBSAddAddressPopUpComponent', () => {
   fakeLocalStorageService.getRequest = () => ADDRESSESMOCK.GOOGLEREQUEST;
 
   const fakeLanguageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  fakeLanguageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  fakeLanguageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
-        DropdownModule,
+        // DropdownModule,
         MatAutocompleteModule,
         TranslateModule.forRoot()
       ],

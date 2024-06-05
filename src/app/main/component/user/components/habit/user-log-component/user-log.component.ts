@@ -71,18 +71,10 @@ export class UserLogComponent implements OnInit {
   }
 
   private initializeNotTakenItemsStatistics(data: any) {
-    const cap = data.allItemsPerMonth.filter((obj) => {
-      return obj.habitItemName === 'cap';
-    });
-    const bag = data.allItemsPerMonth.filter((obj) => {
-      return obj.habitItemName === 'bag';
-    });
-    const diffBag = data.differenceUnTakenItemsWithPreviousDay.filter((obj) => {
-      return obj.habitItemName === 'bag';
-    });
-    const diffCap = data.differenceUnTakenItemsWithPreviousDay.filter((obj) => {
-      return obj.habitItemName === 'cap';
-    });
+    const cap = data.allItemsPerMonth.filter((obj) => obj.habitItemName === 'cap');
+    const bag = data.allItemsPerMonth.filter((obj) => obj.habitItemName === 'bag');
+    const diffBag = data.differenceUnTakenItemsWithPreviousDay.filter((obj) => obj.habitItemName === 'bag');
+    const diffCap = data.differenceUnTakenItemsWithPreviousDay.filter((obj) => obj.habitItemName === 'cap');
     if (cap.length !== 0) {
       this.$amountUnTakenItemsPerMonthCap = cap[0].habitItemAmount;
     } else {

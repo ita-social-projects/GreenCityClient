@@ -39,7 +39,6 @@ import {
 } from 'src/app/store/selectors/order.selectors';
 import { courierLimitValidator, uniqueArrayValidator } from 'src/app/ubs/ubs/services/order-validators';
 import { ICourierInfo } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
-import { isNumeric } from 'rxjs/internal-compatibility';
 import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
 import { WarningPopUpComponent } from '@shared/components';
 
@@ -138,7 +137,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.store
       .pipe(
         select(UBSCourierIdSelector),
-        filter((id) => isNumeric(id)),
+        filter((id) => typeof id === 'number' && !isNaN(id)),
         distinctUntilChanged(),
         takeUntil(this.$destroy)
       )
@@ -150,7 +149,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.store
       .pipe(
         select(locationIdSelector),
-        filter((id) => isNumeric(id)),
+        filter((id) => typeof id === 'number' && !isNaN(id)),
         distinctUntilChanged(),
         takeUntil(this.$destroy)
       )
@@ -162,7 +161,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.store
       .pipe(
         select(tariffIdIdSelector),
-        filter((id) => isNumeric(id)),
+        filter((id) => typeof id === 'number' && !isNaN(id)),
         distinctUntilChanged(),
         takeUntil(this.$destroy)
       )

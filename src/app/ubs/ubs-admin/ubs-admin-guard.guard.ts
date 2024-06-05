@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Observable } from 'rxjs';
@@ -7,12 +7,15 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UbsAdminGuardGuard implements CanActivate, CanLoad {
+export class UbsAdminGuardGuard {
   isLoggedIn: boolean;
   isAdmin: boolean;
   private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
 
-  constructor(private jwtService: JwtService, private userOwnAuthService: UserOwnAuthService) {}
+  constructor(
+    private jwtService: JwtService,
+    private userOwnAuthService: UserOwnAuthService
+  ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,

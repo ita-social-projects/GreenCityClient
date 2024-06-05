@@ -50,7 +50,10 @@ export class HabitProgressComponent implements OnChanges, OnInit {
   @Output() nowAcquiredHabit = new EventEmitter();
   @Output() progressValue = new EventEmitter<number>();
 
-  constructor(private habitAssignService: HabitAssignService, public datePipe: DatePipe) {}
+  constructor(
+    private habitAssignService: HabitAssignService,
+    public datePipe: DatePipe
+  ) {}
 
   ngOnChanges() {
     this.currentDate = this.datePipe.transform(new Date(), 'yyy-MM-dd');
@@ -85,9 +88,10 @@ export class HabitProgressComponent implements OnChanges, OnInit {
   }
 
   sortHabitStatusCalendarDtoListByDate() {
-    return this.habit.habitStatusCalendarDtoList.sort((a: HabitStatusCalendarListInterface, b: HabitStatusCalendarListInterface) => {
-      return new Date(b.enrollDate).getTime() - new Date(a.enrollDate).getTime();
-    });
+    return this.habit.habitStatusCalendarDtoList.sort(
+      (a: HabitStatusCalendarListInterface, b: HabitStatusCalendarListInterface) =>
+        new Date(b.enrollDate).getTime() - new Date(a.enrollDate).getTime()
+    );
   }
 
   updateHabitSteak(changes: ChangesFromCalendarToProgress): void {
@@ -97,17 +101,15 @@ export class HabitProgressComponent implements OnChanges, OnInit {
         id: null
       });
     } else {
-      this.habit.habitStatusCalendarDtoList = this.habit.habitStatusCalendarDtoList.filter((habit) => {
-        return habit.enrollDate !== changes.date;
-      });
+      this.habit.habitStatusCalendarDtoList = this.habit.habitStatusCalendarDtoList.filter((habit) => habit.enrollDate !== changes.date);
     }
     const sortedCalendarDtoList = this.sortHabitStatusCalendarDtoListByDate();
     if (sortedCalendarDtoList[0]?.enrollDate !== this.currentDate) {
       this.habit.habitStreak = 0;
     } else {
-      this.habit.habitStreak = sortedCalendarDtoList.filter((el, index, arr) => {
-        return index ? this.countDifferenceInDays(arr[0].enrollDate, el.enrollDate) === index : true;
-      }).length;
+      this.habit.habitStreak = sortedCalendarDtoList.filter((el, index, arr) =>
+        index ? this.countDifferenceInDays(arr[0].enrollDate, el.enrollDate) === index : true
+      ).length;
     }
     this.habit.workingDays = this.habit.habitStatusCalendarDtoList.length;
   }

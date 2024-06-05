@@ -5,11 +5,9 @@ import { HabitStatisticsDto } from '../../../../../../../model/habit/HabitStatis
 @Component({
   selector: 'app-habit-estimation',
   templateUrl: './habit-estimation.component.html',
-  styleUrls: ['./habit-estimation.component.scss'],
+  styleUrls: ['./habit-estimation.component.scss']
 })
 export class HabitEstimationComponent {
-  @Input()
-  habit: HabitDto;
-  @Input()
-  statistic: HabitStatisticsDto;
+  @Input() habit: HabitDto;
+  @Input() statistic: HabitStatisticsDto;
 }

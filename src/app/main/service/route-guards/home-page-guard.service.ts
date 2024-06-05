@@ -5,13 +5,16 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class HomePageGuardService implements CanActivate {
   private isLoggedIn = false;
   private userId: number;
 
-  constructor(private localStorageService: LocalStorageService, private router: Router) {
+  constructor(
+    private localStorageService: LocalStorageService,
+    private router: Router
+  ) {
     this.localStorageService.userIdBehaviourSubject.pipe(filter((userId) => userId !== null && !isNaN(userId))).subscribe((userId) => {
       this.isLoggedIn = true;
       this.userId = userId;

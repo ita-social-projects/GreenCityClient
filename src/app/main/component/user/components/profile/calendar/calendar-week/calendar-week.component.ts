@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface'
 import { CalendarInterface } from '../calendar-interface';
 import { MatDialog } from '@angular/material/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { Locale } from 'src/app/main/i18n/Language';
 
 @Component({
   selector: 'app-calendar-week',
@@ -71,7 +72,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   }
 
   private setDayName(source: Date): string {
-    return source.toLocaleDateString(this.language, { weekday: 'short' });
+    return source.toLocaleDateString(this.language === 'ua' ? Locale.UA : Locale.EN, { weekday: 'short' });
   }
 
   private getLanguage(): void {
@@ -83,10 +84,11 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   }
 
   public buildWeekCalendarTitle(): void {
+    const language = this.language === 'ua' ? Locale.UA : Locale.EN;
     const firstDay = this.weekDates[0].date.getDate();
     const lastDay = this.weekDates[6].date.getDate();
-    const firstDayMonth = this.weekDates[0].date.toLocaleDateString(this.language, { month: 'long' });
-    const lastDayMonth = this.weekDates[6].date.toLocaleDateString(this.language, { month: 'long' });
+    const firstDayMonth = this.weekDates[0].date.toLocaleDateString(language, { month: 'long' });
+    const lastDayMonth = this.weekDates[6].date.toLocaleDateString(language, { month: 'long' });
     const firstDayYear = this.weekDates[0].date.getFullYear();
     const lastDayYear = this.weekDates[6].date.getFullYear();
     const weekBetweenTwoYears = `${firstDay} ${firstDayMonth} ${firstDayYear} - ${lastDay} ${lastDayMonth} ${lastDayYear}`;
@@ -111,9 +113,22 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     this.destroyed$.complete();
   }
 
-  public showHabits(event, dayItem: CalendarInterface) {
+  public showHabits(event, dayItem: CalendarWeekInterface) {
     if (this.checkCanOpenPopup(dayItem)) {
-      this.openDialogDayHabits(event, false, dayItem);
+      this.openDialogDayHabits(event, false, this.toCalendarMonth(dayItem));
     }
+  }
+
+  toCalendarMonth(weekItem: CalendarWeekInterface): CalendarInterface {
+    const date = weekItem.date;
+    return {
+      ...weekItem,
+      numberOfDate: date.getDate(),
+      year: date.getFullYear(),
+      month: date.getMonth(),
+      firstDay: new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
+      totalDaysInMonth: new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
+      isCurrentDayActive: weekItem.isCurrent
+    };
   }
 }

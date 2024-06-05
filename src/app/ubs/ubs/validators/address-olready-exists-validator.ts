@@ -7,8 +7,8 @@ export function addressAlreadyExistsValidator(
   currentLanguage: Language
 ): (group: FormGroup) => ValidationErrors | null {
   return (group: FormGroup): ValidationErrors | null => {
-    const isAlreadyExist = addresses.some((address: Address) => {
-      return (
+    const isAlreadyExist = addresses.some(
+      (address: Address) =>
         getLangValue(address.region, address.regionEn, currentLanguage) === group.controls?.region.value &&
         getLangValue(address.city, address.cityEn, currentLanguage) === group.controls?.city.value &&
         getLangValue(address.street, address.streetEn, currentLanguage) === group.controls?.street.value &&
@@ -16,8 +16,7 @@ export function addressAlreadyExistsValidator(
         address.houseNumber === group.controls?.houseNumber.value &&
         address.houseCorpus === group.controls?.houseCorpus.value &&
         address.entranceNumber === group.controls?.entranceNumber.value
-      );
-    });
+    );
 
     return isAlreadyExist ? { addressAlreadyExists: true } : null;
   };

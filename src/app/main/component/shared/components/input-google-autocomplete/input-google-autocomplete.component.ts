@@ -21,6 +21,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 })
 export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() isInvalid = false;
+  @Input() placeholder = '';
   @Input() requestPrefix = '';
   @Input() requestSuffix = '';
   @Input() autoCompRequest?: google.maps.places.AutocompletionRequest;
@@ -105,9 +106,9 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
       if (input) {
         const regex = new RegExp(Patterns.countriesRestriction);
         const request = {
+          ...this.autoCompRequest,
           input: `${this.requestPrefix ?? ''}${input}${this.requestSuffix ?? ''}`,
-          language: this.languageService.getLangValue('uk', 'en') as string,
-          ...this.autoCompRequest
+          language: this.languageService.getLangValue('uk', 'en') as string
         };
 
         this.autocompleteService.getPlacePredictions(request, (predictions: google.maps.places.AutocompletePrediction[]) => {

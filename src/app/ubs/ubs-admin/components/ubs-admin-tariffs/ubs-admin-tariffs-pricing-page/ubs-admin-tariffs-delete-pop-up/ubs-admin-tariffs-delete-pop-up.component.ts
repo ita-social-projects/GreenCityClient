@@ -44,7 +44,7 @@ export class UbsAdminTariffsDeletePopUpComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

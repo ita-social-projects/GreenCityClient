@@ -17,7 +17,7 @@
     .days {
       grid-template-columns: repeat(7, 52px);
       margin: 0 9px 0 22px;
-      padding: 7px 0 0 0;
+      padding: 7px 0 0;
     }
   }
 
@@ -28,8 +28,7 @@
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 30px);
-      grid-row-gap: 8px;
-      grid-column-gap: 25px;
+      grid-gap: 8px 25px;
       grid-auto-rows: 28px;
       font-size: 16px;
       margin: 0;
@@ -45,6 +44,6 @@
   .calendar .top .days {
     grid-template-columns: repeat(7, 42px);
     margin: 0 9px 0 22px;
-    padding: 7px 0 0 0;
+    padding: 7px 0 0;
   }
 }

@@ -380,7 +380,6 @@
     "oops": "Oops!",
     "go-to-homepage": "Go To Homepage"
   },
-
   "snack-bar": {
     "error": {
       "not-enough-points": "There aren't enough points on your bonus account to pay for the order",
@@ -1010,14 +1009,23 @@
     "my-achievements": "My Achievements",
     "achieved": "achieved",
     "see-all": "See all",
-    "elements": { "plural": "items", "singular": "item" },
+    "elements": {
+      "plural": "items",
+      "singular": "item"
+    },
     "my-eco-friends": "My Friends",
-    "friends-quantity": { "plural": "connections", "singular": "connection" },
+    "friends-quantity": {
+      "plural": "connections",
+      "singular": "connection"
+    },
     "zero-friends": "You don't have any friends yet.",
     "zero-user-friends": "This user has no friends",
     "zero-requests": "Unfortunately you don’t have new friends requests",
     "my-eco-places": "My Eco Places",
-    "eco-places-quantity": { "plural": "favourites", "singular": "favourite" },
+    "eco-places-quantity": {
+      "plural": "favourites",
+      "singular": "favourite"
+    },
     "to-do-list": "My To-do list",
     "empty-list": "No items added yet.\nPlease add a task with some items to see it on your list",
     "shoppingList-no-items-message": "You don't have any items in your Shopping List",
@@ -1034,7 +1042,10 @@
     "my-articles": "My articles",
     "friends": {
       "link-to-profile": "Back to My habits",
-      "mutual-friends": { "plural": "mutual friends", "singular": "mutual friend" },
+      "mutual-friends": {
+        "plural": "mutual friends",
+        "singular": "mutual friend"
+      },
       "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
@@ -1171,6 +1182,7 @@
     "title": "Create event",
     "edit": "Edit Event",
     "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
+    "date-error": "Incorrect date",
     "content-placeholder": "e.g. Short description of event, agenda for event",
     "content-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
     "counter": "You typed",
@@ -1194,8 +1206,8 @@
     "day": "day",
     "all-day": "All day",
     "choose-date": "Choose a date",
-    "set-start-time": "Set Start Time",
-    "set-end-time": "Set End Time",
+    "set-start-time": "Start Time",
+    "set-end-time": "End Time",
     "event-place": "Place",
     "event-start": "Start",
     "event-online": "Online",
@@ -1204,6 +1216,7 @@
     "event-link": "Online Link",
     "event-offline-place": "Event Offline place",
     "event-online-link": "EventOnline link (should start with http:// or https://)",
+    "event-online-link-error": "Incorrect link",
     "enter-location": "Enter a location",
     "enter-link": "Enter link",
     "textarea-title": "Events Description",
@@ -1225,7 +1238,8 @@
     "preview-attendees": "people are going",
     "use-greencity-pics": "Use Greencity pictures",
     "created-event": "You have successfully added a new event",
-    "updated-event": "You have successfully updated an event"
+    "updated-event": "You have successfully updated an event",
+    "min-photo-error": "1 image minimum"
   },
   "input-error": {
     "required": "This field is required",

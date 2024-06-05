@@ -8,8 +8,9 @@
     <p *ngIf="data.edit" class="edit-text">{{ 'ubs-tariffs-add-location-pop-up.station_edit_text' | translate }}</p>
     <div class="d-flex">
       <div class="form-group">
-        <label>{{ 'ubs-tariffs-add-location-pop-up.station' | translate }}</label>
+        <label for="station-name">{{ 'ubs-tariffs-add-location-pop-up.station' | translate }}</label>
         <input
+          id="station-name"
           type="text"
           class="shadow-none form-control"
           formControlName="name"

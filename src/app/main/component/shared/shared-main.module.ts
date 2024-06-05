@@ -5,7 +5,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+// import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -22,7 +22,7 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
 import { NoDataComponent } from './components/no-data/no-data.component';
 import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
 import { CalendarBaseComponent } from '@shared/components';
-import usLocale from '@angular/common/locales/en-US-POSIX';
+import usLocale from '@angular/common/locales/en';
 import ruLocale from '@angular/common/locales/ru';
 import ukLocale from '@angular/common/locales/uk';
 import { FormBaseComponent } from './components/form-base/form-base.component';
@@ -42,6 +42,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 registerLocaleData(usLocale, 'en');
@@ -70,6 +71,7 @@ registerLocaleData(ukLocale, 'ua');
   imports: [
     ModalModule.forRoot(),
     RatingModule.forRoot(),
+    MatIconModule,
     ImageCropperModule,
     SharedModule,
     FormsModule,
@@ -83,7 +85,7 @@ registerLocaleData(ukLocale, 'ua');
         deps: [HttpClient]
       }
     }),
-    MDBBootstrapModule,
+    // MDBBootstrapModule,
     FileUploadModule,
     MatCardModule,
     MatDialogModule,
@@ -102,7 +104,7 @@ registerLocaleData(ukLocale, 'ua');
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,
-    MDBBootstrapModule,
+    // MDBBootstrapModule,
     FileUploadModule,
     MatCardModule,
     MatDialogModule,
@@ -126,8 +128,7 @@ registerLocaleData(ukLocale, 'ua');
     MatDividerModule,
     MatExpansionModule
   ],
-  providers: [MatSnackBarComponent, TranslateService],
-  entryComponents: [WarningPopUpComponent, HabitsPopupComponent]
+  providers: [MatSnackBarComponent, TranslateService]
 })
 export class SharedMainModule {}
 

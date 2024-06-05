@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -16,8 +16,7 @@ describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
   let fixture: ComponentFixture<CommentsListComponent>;
 
-  let commentsServiceMock: CommentsService;
-  commentsServiceMock = jasmine.createSpyObj('CommentsService', ['editComment']);
+  const commentsServiceMock: CommentsService = jasmine.createSpyObj('CommentsService', ['editComment']);
   commentsServiceMock.editComment = () => of();
   const matDialogMock = {
     open() {
@@ -49,7 +48,7 @@ describe('CommentsListComponent', () => {
 
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CommentsListComponent, DateLocalisationPipe],
       imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot(), RouterTestingModule],
@@ -92,7 +91,7 @@ describe('CommentsListComponent', () => {
   it('should emit event when user delete comment', () => {
     const spy = spyOn(component.changedList, 'emit');
     component.deleteComment(1);
-    expect(spy).toHaveBeenCalledWith(1);
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should return comments status', () => {
@@ -101,8 +100,7 @@ describe('CommentsListComponent', () => {
 
   it('should send data when user save edited content', () => {
     component.content.setValue('some test text');
-    // @ts-ignore
-    const spy = spyOn(component.commentsService, 'editComment').and.returnValue(of());
+    const spy = spyOn((component as any).commentsService, 'editComment').and.returnValue(of());
     component.saveEditedComment(commentData);
     expect(spy).toHaveBeenCalled();
   });

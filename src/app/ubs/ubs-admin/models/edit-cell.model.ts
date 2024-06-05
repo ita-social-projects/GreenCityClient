@@ -6,5 +6,6 @@ export interface IEditCell {
 
 export interface IAlertInfo {
   orderId: number;
+  ordersId?: Array<any>;
   userName: string;
 }

@@ -20,7 +20,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running unit tests with code coverage
 
-Run `ng test --codeCoverage` to execute the unit tests via [Karma](https://karma-runner.github.io) and to display test coverage via [karma-coverage-istanbul-reporter](https://github.com/mattlewis92/karma-coverage-istanbul-reporter).
+Run `ng test --code-coverage` to execute the unit tests via [Karma](https://karma-runner.github.io) and to display test coverage via [karma-coverage-istanbul-reporter](https://github.com/mattlewis92/karma-coverage-istanbul-reporter).
 After passing all tests run `cd coverage/GreenCityClient/ && start index.html` for Windows or `cd coverage/GreenCityClient/ && open index.html` for MacOS
 
 ## Running end-to-end tests
@@ -34,16 +34,16 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## How to connect with front-end if some issues
 
 1. Run ng version and npm -v in the console. You must have the following versions to work correctly:
-   Angular CLI: 9.1.15
-   Node: 14.20.1
-   npm: 6.14.15
+   Angular CLI: 16.2.10
+   Node: 18.19.0
+   npm: 10.2.3
 
 In most cases reinstalling the Node is enough.
-Use this link to install Node v.14.20.1 (https://nodejs.org/en/blog/release/v14.20.1) before that, uninstall your installed version.
+Use this link to install Node v.18.19.0 (https://nodejs.org/en/blog/release/v18.19.0) before that, uninstall your installed version.
 
-If the problem persists, try to install npm:6.14.15 at this link (https://www.npmjs.com/package/npm/v/6.14.15).
+If the problem persists, try to install npm:10.2.3 at this link (https://www.npmjs.com/package/npm/v/10.2.3).
 
-You should install Angular CLI 9.1.15 writting this in console: npm install -g @angular/cli@9.1.15
+You should install Angular CLI 16.2.10 writting this in console: npm install -g @angular/cli@16.2.10
 
 ## Running json-server
 

@@ -247,19 +247,22 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         cancellationReason: '' // TODO
       }),
       userInfoDto: this.fb.group({
-        recipientName: [
-          this.userInfo.recipientName,
-          [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
-        ],
-        recipientSurName: [
-          this.userInfo.recipientSurName,
-          [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
-        ],
-        recipientPhoneNumber: [
-          this.userInfo.recipientPhoneNumber,
-          [Validators.required, Validators.pattern(Patterns.adminPhone), PhoneNumberValidator('UA')]
-        ],
-        recipientEmail: [this.userInfo.recipientEmail, [Validators.pattern(Patterns.ubsMailPattern)]]
+        recipientName: new FormControl(this.userInfo.recipientName, [
+          Validators.required,
+          Validators.maxLength(30),
+          Validators.pattern(Patterns.NamePattern)
+        ]),
+        recipientSurName: new FormControl(this.userInfo.recipientSurName, [
+          Validators.required,
+          Validators.maxLength(30),
+          Validators.pattern(Patterns.NamePattern)
+        ]),
+        recipientPhoneNumber: new FormControl(this.userInfo.recipientPhoneNumber, [
+          Validators.required,
+          Validators.pattern(Patterns.adminPhone),
+          PhoneNumberValidator('UA')
+        ]),
+        recipientEmail: new FormControl(this.userInfo.recipientEmail, [Validators.pattern(Patterns.ubsMailPattern)])
       }),
       addressExportDetailsDto: this.fb.group({
         addressRegion: [{ value: this.addressInfo.addressRegion, disabled: this.isStatus }, Validators.required],
@@ -428,11 +431,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const keyUserInfo = 'userInfoDto';
     const keyAddressExportDetails = 'addressExportDetailsDto';
 
-    if (order.hasOwnProperty(keyUserInfo)) {
+    if (Object.prototype.hasOwnProperty.call(order, keyUserInfo)) {
       order[keyUserInfo][recipientId] = this.userInfo.recipientId;
     }
 
-    if (order.hasOwnProperty(keyAddressExportDetails)) {
+    if (Object.prototype.hasOwnProperty.call(order, keyAddressExportDetails)) {
       order[keyAddressExportDetails][addressId] = this.addressInfo.addressId;
     }
   }
@@ -547,7 +550,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.postDataItem([this.orderId], TableKeys.receivingStation, String(this.receivingStationId));
       }
       if (this.timeDeliveryFrom && this.timeDeliveryTo) {
-        this.postDataItem([this.orderId], TableKeys.timeOfExport, new Array(this.timeDeliveryFrom, this.timeDeliveryTo).join('-'));
+        this.postDataItem([this.orderId], TableKeys.timeOfExport, [this.timeDeliveryFrom, this.timeDeliveryTo].join('-'));
       }
     }
   }
@@ -589,7 +592,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       }
     } else {
       for (const formControlName in formItem.controls) {
-        if (formItem.controls.hasOwnProperty(formControlName)) {
+        if (Object.prototype.hasOwnProperty.call(formItem.controls, formControlName)) {
           const formControl = formItem.controls[formControlName];
 
           if (formControl instanceof FormControl) {
@@ -709,7 +712,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

@@ -34,7 +34,11 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     month: ''
   };
 
-  constructor(private fb: FormBuilder, private localStorageService: LocalStorageService, private cronService: CronService) {
+  constructor(
+    private fb: FormBuilder,
+    private localStorageService: LocalStorageService,
+    private cronService: CronService
+  ) {
     this.form = this.fb.group({
       time: this.fb.group({
         min: [0],
@@ -80,7 +84,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe((value) => {
+    this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.setDescription();
     });
     this.setDescription();

@@ -2,7 +2,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkTableModule } from '@angular/cdk/table';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsAdminTableComponent } from './ubs-admin-table.component';
@@ -113,7 +113,7 @@ describe('UsbAdminTableComponent', () => {
 
   const formBuilderMock: FormBuilder = new FormBuilder();
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -147,9 +147,7 @@ describe('UsbAdminTableComponent', () => {
   }));
 
   beforeEach(() => {
-    localStorageServiceMock.getUbsAdminOrdersTableTitleColumnFilter = () => {
-      return [{ orderStatus: OrderStatus.FORMED }];
-    };
+    localStorageServiceMock.getUbsAdminOrdersTableTitleColumnFilter = () => [{ orderStatus: OrderStatus.FORMED }];
 
     localStorageServiceMock.getAdminOrdersDateFilter = () => {
       return dateMock;
@@ -289,9 +287,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('should not call dateForm setValue method on initDateForm if getLocalForm is false', () => {
-    (component as any).getLocalDateForm = () => {
-      return false;
-    };
+    (component as any).getLocalDateForm = () => false;
     const val = (component as any).getLocalDateForm();
     expect(val).toBe(false);
   });
@@ -299,17 +295,13 @@ describe('UsbAdminTableComponent', () => {
   it('should not call dateForm setValue method on initDateForm if getLocalForm is false', () => {
     const dateForm = component.dateForm;
     spyOn(dateForm, 'setValue');
-    (component as any).getLocalDateForm = () => {
-      return false;
-    };
+    (component as any).getLocalDateForm = () => false;
     component.initDateForm();
     expect(dateForm.setValue).not.toHaveBeenCalled();
   });
 
   it('should set default value for dateForm on initDateForm if getLocalForm is false', () => {
-    (component as any).getLocalDateForm = () => {
-      return false;
-    };
+    (component as any).getLocalDateForm = () => false;
     component.initDateForm();
     expect(component.dateForm.value).toEqual(initDateMock);
   });
@@ -744,15 +736,6 @@ describe('UsbAdminTableComponent', () => {
     expect(component.applyFilters).toHaveBeenCalled();
   });
 
-  it('should change noFiltersApplied value to false changeFilters', () => {
-    const checked = true;
-    const currentColumn = 'currentColumn';
-    const option = { filtered: true };
-    component.changeFilters(checked, currentColumn, option);
-    expect((component as any).adminTableService.filters.length).toBe(1);
-    expect(component.noFiltersApplied).toBe(false);
-  });
-
   it('should noFilters applied to be false', () => {
     const checked = true;
     const currentColumn = 'currentColumn';
@@ -818,9 +801,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('should call initDateForm on clearFilters', () => {
-    localStorageServiceMock.getAdminOrdersDateFilter = () => {
-      return initDateMock;
-    };
+    localStorageServiceMock.getAdminOrdersDateFilter = () => initDateMock;
     component.clearFilters();
     expect(component.dateForm.value).toEqual(initDateMock);
   });

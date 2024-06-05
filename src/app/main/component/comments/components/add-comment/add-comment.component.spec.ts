@@ -1,14 +1,17 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { AddCommentComponent } from './add-comment.component';
 import { UserProfileImageComponent } from '@global-user/components/shared/components/user-profile-image/user-profile-image.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommentsService } from '../../services/comments.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
+import { CommentTextareaComponent } from '../comment-textarea/comment-textarea.component';
+import { PlaceholderForDivDirective } from '../../directives/placeholder-for-div.directive';
+import { SocketService } from '@global-service/socket/socket.service';
 
 const COMMENT_MOCK = {
   author: {
@@ -43,21 +46,30 @@ describe('AddCommentComponent', () => {
     socialNetworks: [{ id: 1, url: defaultImagePath }]
   } as EditProfileModel;
 
-  let profileServiceMock: ProfileService;
-  profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
+  const profileServiceMock: ProfileService = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
   profileServiceMock.getUserInfo = () => of(userData);
 
-  let commentsServiceMock: jasmine.SpyObj<CommentsService>;
-  commentsServiceMock = jasmine.createSpyObj('CommentsService', ['addComment']);
+  const commentsServiceMock: jasmine.SpyObj<CommentsService> = jasmine.createSpyObj('CommentsService', ['addComment']);
   commentsServiceMock.addComment.and.returnValue(of(COMMENT_MOCK));
 
-  beforeEach(async(() => {
+  const socketServiceMock: SocketService = jasmine.createSpyObj('SocketService', ['onMessage', 'send', 'initiateConnection']);
+  socketServiceMock.onMessage = () => new Observable();
+  socketServiceMock.send = () => new Observable();
+  socketServiceMock.connection = {
+    greenCity: { url: '', socket: null, state: null },
+    greenCityUser: { url: '', socket: null, state: null }
+  };
+  socketServiceMock.initiateConnection = () => {};
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AddCommentComponent, UserProfileImageComponent],
+      declarations: [AddCommentComponent, UserProfileImageComponent, CommentTextareaComponent, PlaceholderForDivDirective],
       imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },
-        { provide: CommentsService, useValue: commentsServiceMock }
+        { provide: CommentsService, useValue: commentsServiceMock },
+        { provide: SocketService, useValue: socketServiceMock },
+        FormBuilder
       ]
     }).compileComponents();
   }));

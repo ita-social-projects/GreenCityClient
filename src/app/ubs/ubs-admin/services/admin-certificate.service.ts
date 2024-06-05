@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CreateCertificate } from '../models/ubs-admin.interface';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 
 @Injectable({
   providedIn: 'root'

@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { CreateEditEventsComponent } from './components/create-edit-events/create-edit-events.component';
+import { RouterModule, Routes } from '@angular/router';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
-import { EventsListComponent } from './components/events-list/events-list.component';
+import { EventsListComponent } from './components';
 import { EventsComponent } from './events.component';
 import { AuthPageGuardService } from '@global-service/route-guards/auth-page-guard.service';
+import { UpdateEventComponent } from './components/update-event/update-event.component';
+import { EventEditorComponent } from './components/event-editor/event-editor.component';
 
 const routes: Routes = [
   {
@@ -21,10 +22,13 @@ const routes: Routes = [
       },
       {
         path: 'create-event',
-        component: CreateEditEventsComponent,
+        component: EventEditorComponent,
         canActivate: [AuthPageGuardService]
       },
-
+      {
+        path: 'update-event/:id',
+        component: UpdateEventComponent
+      },
       {
         path: ':id',
         component: EventDetailsComponent
