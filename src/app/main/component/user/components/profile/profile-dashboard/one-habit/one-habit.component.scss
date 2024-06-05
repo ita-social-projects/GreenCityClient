@@ -60,8 +60,9 @@ img {
       }
     }
 
-    .friends-photo {
+    .friends-photo-wrapper {
       display: flex;
+      cursor: pointer;
     }
 
     .edit {

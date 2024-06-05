@@ -23,6 +23,8 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   habitMark: string;
   isRequest = false;
   friends: FriendProfilePicturesArrayModel[];
+  numberOfFriendsToDisplay = 3;
+  lengthOfFriendsNamesList = 15;
   private destroy$ = new Subject<void>();
   private descriptionType = {
     acquired: () => {
@@ -143,6 +145,19 @@ export class OneHabitComponent implements OnInit, OnDestroy {
       .getFriendsTrakingSameHabitByHabitId(this.habit.habit.id)
       .pipe(take(1))
       .subscribe((resp) => (this.friends = resp));
+  }
+
+  public getTooltipText(): string {
+    if (this.friends.length < this.lengthOfFriendsNamesList) {
+      return this.friends.map((friend) => friend.name).join('\n');
+    } else {
+      let friendsNames = '';
+      for (let i = 0; i < this.lengthOfFriendsNamesList; i++) {
+        friendsNames += this.friends[i].name + '\n';
+      }
+      friendsNames += '...';
+      return friendsNames;
+    }
   }
 
   ngOnDestroy() {
