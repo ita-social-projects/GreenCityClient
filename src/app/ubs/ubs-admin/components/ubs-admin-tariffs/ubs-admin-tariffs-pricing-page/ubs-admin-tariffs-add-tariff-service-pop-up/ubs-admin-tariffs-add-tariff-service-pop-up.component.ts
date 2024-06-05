@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
-import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Bag } from '../../../../models/tariffs.interface';
@@ -67,7 +67,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     return this.fb.group({
       name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
       nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
-      capacity: new FormControl('', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999)]),
+      capacity: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceCapacity), Validators.min(1)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
       description: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
@@ -85,11 +85,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
         Validators.required,
         Validators.maxLength(30)
       ]),
-      capacity: new FormControl({ value: this.receivedData.bagData.capacity }, [
-        Validators.pattern(Patterns.ubsServicePrice),
-        Validators.min(1),
-        Validators.max(999)
-      ]),
+      capacity: new FormControl({ value: this.receivedData.bagData.capacity }, [Validators.required, Validators.pattern(Patterns.ubsServiceCapacity), Validators.min(1)]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       description: new FormControl(this.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng), [
@@ -107,15 +103,15 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
-  getControl(control: string): AbstractControl {
-    return this.addTariffServiceForm.get(control);
+  getControl(control: string): FormControl {
+    return this.addTariffServiceForm.get(control) as FormControl;
   }
 
-  get isDiscriptoinInvalid(): boolean {
+  isDescriptionInvalid(): boolean {
     return this.getControl('description').invalid && this.getControl('description').touched;
   }
 
-  get isDiscriptoinEnInvalid(): boolean {
+  isDescriptionEnInvalid(): boolean {
     return this.getControl('descriptionEng').invalid && this.getControl('descriptionEng').touched;
   }
 

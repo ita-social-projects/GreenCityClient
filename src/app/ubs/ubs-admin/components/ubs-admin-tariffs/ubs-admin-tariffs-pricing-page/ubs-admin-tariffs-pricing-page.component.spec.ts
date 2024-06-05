@@ -26,11 +26,7 @@ import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
-import {
-  // MockStore,
-  provideMockStore
-} from '@ngrx/store/testing';
-// import { IAppState } from 'src/app/store/state/app.state';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;

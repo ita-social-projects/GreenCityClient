@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Service } from '../../../../models/tariffs.interface';
@@ -92,15 +92,15 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
     });
   }
 
-  getControl(control: string): AbstractControl {
-    return this.addServiceForm.get(control);
+  getControl(control: string): FormControl {
+    return this.addServiceForm.get(control) as FormControl;
   }
 
-  get isDiscriptoinInvalid(): boolean {
+  isDescriptionInvalid(): boolean {
     return this.getControl('description').invalid && this.getControl('description').touched;
   }
 
-  get isDiscriptoinEnInvalid(): boolean {
+  isDescriptionEnInvalid(): boolean {
     return this.getControl('descriptionEng').invalid && this.getControl('descriptionEng').touched;
   }
 
