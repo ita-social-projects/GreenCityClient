@@ -58,6 +58,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLanguage = lang;
+      this.isLangUa = this.currentLanguage === 'ua';
     });
     this.isLangUa = this.currentLanguage === 'ua';
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((params) => {
@@ -75,7 +76,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     });
   }
 
-  definedIsEmployeeCanEditNotifications(employeeRights) {
+  definedIsEmployeeCanEditNotifications(employeeRights: string[]): void {
     this.employeeAuthorities = employeeRights;
     this.isThisEmployeeCanEditNotification = this.employeeAuthorities.includes(abilityEditAuthorities.notifications);
     this.isThisEmployeeCanActivateNotification = this.employeeAuthorities.includes(abilityDelAuthorities.notifications);
@@ -154,7 +155,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       });
   }
 
-  private findNewDescription(updatedNotification) {
+  private findNewDescription(updatedNotification): void {
     const indexTrigger = this.notificationTriggers.findIndex((item) => item.trigger === updatedNotification.trigger);
     const indexTime = this.notificationTriggerTime.findIndex((item) => item.time === updatedNotification.time);
 
