@@ -47,6 +47,7 @@ import { InputGoogleAutocompleteComponent } from '@shared/components/input-googl
 import { RemoveLeadingZeroDirective } from 'src/app/shared/directives/remove-leading-zero/remove-leading-zero.directive';
 import { AddressInputComponent } from './address-input/address-input.component';
 import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-display.component';
+import { RelativeDatePipe } from './relative-date.pipe';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-dis
     InputGoogleAutocompleteComponent,
     RemoveLeadingZeroDirective,
     AddressInputComponent,
-    RatingDisplayComponent
+    RatingDisplayComponent,
+    RelativeDatePipe
   ],
   imports: [
     CommonModule,
@@ -137,7 +139,8 @@ import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-dis
     InputGoogleAutocompleteComponent,
     RemoveLeadingZeroDirective,
     AddressInputComponent,
-    RatingDisplayComponent
+    RatingDisplayComponent,
+    RelativeDatePipe
   ]
 })
 export class SharedModule {}
