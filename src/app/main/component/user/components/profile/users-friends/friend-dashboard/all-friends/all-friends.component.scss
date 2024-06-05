@@ -1,7 +1,6 @@
 .all-friends-container {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   justify-content: center;
 
   @media (min-width: 576px) {

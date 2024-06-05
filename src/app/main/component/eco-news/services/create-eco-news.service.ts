@@ -27,7 +27,10 @@ export class CreateEcoNewsService {
   };
   private tags: FilterModel[] = [];
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store
+  ) {}
 
   public getFormData(): FormGroup {
     return this.currentForm;

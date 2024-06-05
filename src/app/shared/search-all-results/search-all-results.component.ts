@@ -36,7 +36,11 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   ];
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private searchService: SearchService, private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private searchService: SearchService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.route.queryParams.pipe(takeUntil(this.destroySub)).subscribe((params) => {

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, waitForAsync, flush, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -37,16 +37,15 @@ const MOCK_COMMENTS_DTO: CommentsDTO = {
 describe('CommentsContainerComponent', () => {
   let component: CommentsContainerComponent;
   let fixture: ComponentFixture<CommentsContainerComponent>;
-  let commentsServiceMock: jasmine.SpyObj<CommentsService>;
 
-  commentsServiceMock = jasmine.createSpyObj('CommentsService', [
+  const commentsServiceMock: jasmine.SpyObj<CommentsService> = jasmine.createSpyObj('CommentsService', [
     'getCommentsCount',
     'getActiveCommentsByPage',
     'getRepliesAmount',
     'getActiveRepliesByPage'
   ]);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CommentsContainerComponent],
       imports: [

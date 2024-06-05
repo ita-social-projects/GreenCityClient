@@ -16,6 +16,7 @@ interface NewTokenPair {
   accessToken: string;
   refreshToken: string;
 }
+
 interface EmployeesError {
   name: string;
   message: string;
@@ -139,6 +140,24 @@ export class InterceptorService implements HttpInterceptor {
     );
   }
 
+  /**
+   * Adds access token to authentication header.
+   *
+   * @param req - {@link HttpRequest}
+   * @param accessToken - {@link string} - access token key.
+   */
+  addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {
+    return req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+  }
+
+  public openErrorWindow(message: string): void {
+    this.snackBar.openSnackBar(message);
+  }
+
   private isQueryWithSecurity(url: string): boolean {
     return url.includes('ownSecurity') || url.includes('googleSecurity');
   }
@@ -221,23 +240,5 @@ export class InterceptorService implements HttpInterceptor {
    */
   private getNewTokenPair(refreshToken: string): Observable<NewTokenPair> {
     return this.http.get<NewTokenPair>(`${updateAccessTokenLink}?refreshToken=${refreshToken}`);
-  }
-
-  /**
-   * Adds access token to authentication header.
-   *
-   * @param req - {@link HttpRequest}
-   * @param accessToken - {@link string} - access token key.
-   */
-  addAccessTokenToHeader(req: HttpRequest<any>, accessToken: string) {
-    return req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    });
-  }
-
-  public openErrorWindow(message: string): void {
-    this.snackBar.openSnackBar(message);
   }
 }

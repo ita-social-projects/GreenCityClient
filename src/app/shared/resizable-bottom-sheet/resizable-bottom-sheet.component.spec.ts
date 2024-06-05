@@ -1,5 +1,5 @@
 import { OverlayModule } from '@angular/cdk/overlay';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ResizableBottomSheetComponent } from './resizable-bottom-sheet.component';
 
@@ -7,7 +7,7 @@ describe('ResizableBottomSheetComponent', () => {
   let component: ResizableBottomSheetComponent;
   let fixture: ComponentFixture<ResizableBottomSheetComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ResizableBottomSheetComponent],
       imports: [OverlayModule]

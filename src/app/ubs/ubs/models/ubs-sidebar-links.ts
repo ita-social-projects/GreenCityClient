@@ -1,4 +1,6 @@
-export const listElementsAdmin: object[] = [
+import { listElements } from 'src/app/shared/interface/ubs-base-sidebar-interface';
+
+export const listElementsAdmin: listElements[] = [
   {
     link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
     name: 'ubs-sidebar.orders',
@@ -31,7 +33,7 @@ export const listElementsAdmin: object[] = [
   }
 ];
 
-export const listElementsUser: object[] = [
+export const listElementsUser: listElements[] = [
   {
     link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
     name: 'ubs-user.orders',
@@ -54,7 +56,7 @@ export const listElementsUser: object[] = [
   }
 ];
 
-export const listElementsUserMobile: object[] = [
+export const listElementsUserMobile: listElements[] = [
   {
     link: 'assets/img/sidebarIcons/workers_icon.svg',
     name: 'ubs-user.user',

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TagsSelectComponent } from './tags-select.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ describe('TagsSelectComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue.and.returnValue('fakeTag');
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TagsSelectComponent],
       imports: [TranslateModule.forRoot()],

@@ -9,8 +9,9 @@
     <div class="d-flex">
       <div>
         <div class="form-group">
-          <label>{{ 'ubs-tariffs-add-location-pop-up.courier' | translate }}</label>
+          <label for="courier">{{ 'ubs-tariffs-add-location-pop-up.courier' | translate }}</label>
           <input
+            id="courier"
             type="text"
             class="shadow-none form-control"
             [formControlName]="checkLang('name', 'englishName')"
@@ -47,8 +48,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label>{{ 'ubs-tariffs-add-location-pop-up.courier-translation' | translate }}</label>
+        <label for="courier-translation">{{ 'ubs-tariffs-add-location-pop-up.courier-translation' | translate }}</label>
         <input
+          id="courier-translation"
           type="text"
           class="shadow-none form-control"
           [formControlName]="checkLang('englishName', 'name')"

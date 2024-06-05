@@ -15,7 +15,10 @@ export class AchievementService implements OnLogout {
   private dataStore: { achievements: AchievementDto[] } = { achievements: [] };
   readonly achievements = this.$achievements.asObservable();
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {}
 
   loadAchievements() {
     this.dataStore.achievements = [];

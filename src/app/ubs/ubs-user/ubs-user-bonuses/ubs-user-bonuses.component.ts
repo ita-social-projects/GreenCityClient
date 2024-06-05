@@ -22,7 +22,11 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   bonusesList: BonusModel[] = [];
   destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private snackBar: MatSnackBarComponent, private bonusesService: BonusesService, private localStorage: LocalStorageService) {}
+  constructor(
+    private snackBar: MatSnackBarComponent,
+    private bonusesService: BonusesService,
+    private localStorage: LocalStorageService
+  ) {}
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -77,7 +81,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

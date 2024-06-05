@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { DragAndDropComponent } from './drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -12,12 +12,11 @@ import { DragAndDropDirective } from '../../../eco-news/directives/drag-and-drop
 describe('DragAndDropComponent', () => {
   let component: DragAndDropComponent;
   let fixture: ComponentFixture<DragAndDropComponent>;
-  let imageCroppedEventMock: ImageCroppedEvent;
 
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
-  imageCroppedEventMock = {
+  const imageCroppedEventMock: ImageCroppedEvent = {
     base64: 'test',
     width: 200,
     height: 200,
@@ -45,7 +44,7 @@ describe('DragAndDropComponent', () => {
     title: new FormControl('asd asd asd asd asd s')
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DragAndDropComponent, DragAndDropDirective],
       imports: [ImageCropperModule, FormsModule, HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule],

@@ -52,7 +52,11 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   @Input() commentHtml: string;
   @Input() placeholder: string;
 
-  constructor(public socketService: SocketService, private localStorageService: LocalStorageService, public elementRef: ElementRef) {
+  constructor(
+    public socketService: SocketService,
+    private localStorageService: LocalStorageService,
+    public elementRef: ElementRef
+  ) {
     this.socketService.initiateConnection(this.socketService.connection.greenCity);
   }
 

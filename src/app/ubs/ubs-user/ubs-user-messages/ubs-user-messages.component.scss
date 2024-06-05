@@ -24,7 +24,7 @@
 }
 
 .main_header {
-  margin: 0 0 51px 0;
+  margin: 0 0 51px;
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
@@ -33,7 +33,7 @@
 
 .header-list {
   display: flex;
-  margin: -32px 0 5px 0;
+  margin: -32px 0 5px;
   padding-left: 35px;
 
   div {
@@ -69,7 +69,7 @@
 }
 
 .mat-expansion-panel {
-  margin: 10px 0 10px 0;
+  margin: 10px 0;
   box-shadow: none;
 
   .notification-images {
@@ -151,7 +151,7 @@
   line-height: 24px;
   letter-spacing: 0;
   text-align: left;
-  margin: 3% 0 15% 0;
+  margin: 3% 0 15%;
 
   li {
     margin-right: 10px;

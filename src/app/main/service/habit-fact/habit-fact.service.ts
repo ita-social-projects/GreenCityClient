@@ -6,7 +6,7 @@ import { habitFactRandomLink } from '../../links';
 import { HabitFactDto } from '../../model/habit-fact/HabitFactDto';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class HabitFactService {
   constructor(private http: HttpClient) {}

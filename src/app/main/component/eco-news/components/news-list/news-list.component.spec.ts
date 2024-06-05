@@ -9,7 +9,7 @@ import { NewsListListViewComponent } from './news-list-list-view/news-list-list-
 import { NewsListGalleryViewComponent } from 'src/app/shared/news-list-gallery-view/news-list-gallery-view.component';
 import { ChangeViewButtonComponent } from './change-view-button/change-view-button.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NewsListComponent } from './news-list.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RemainingCountComponent } from '../remaining-count/remaining-count.component';
@@ -23,13 +23,15 @@ describe('NewsListComponent', () => {
   let component: NewsListComponent;
   let fixture: ComponentFixture<NewsListComponent>;
 
-  let ecoNewsServiceMock: EcoNewsService;
-  ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getAllPresentTags', 'getNewsListByTags', 'getEcoNewsListByPage']);
+  const ecoNewsServiceMock: EcoNewsService = jasmine.createSpyObj('EcoNewsService', [
+    'getAllPresentTags',
+    'getNewsListByTags',
+    'getEcoNewsListByPage'
+  ]);
   ecoNewsServiceMock.getNewsListByTags = () => new Observable();
   ecoNewsServiceMock.getEcoNewsListByPage = () => new Observable();
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'userIdBehaviourSubject',
     'languageBehaviourSubject',
     'setCurentPage',
@@ -39,8 +41,7 @@ describe('NewsListComponent', () => {
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
 
-  let userOwnAuthServiceMock: UserOwnAuthService;
-  userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage']);
+  const userOwnAuthServiceMock: UserOwnAuthService = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage']);
   userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
   userOwnAuthServiceMock.credentialDataSubject = new Subject();
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
@@ -48,7 +49,7 @@ describe('NewsListComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of({ ecoNews: {}, pages: [], pageNumber: 1, error: 'error' });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         NewsListComponent,
@@ -123,9 +124,7 @@ describe('NewsListComponent', () => {
 
   it('should get value from sessionStorage', () => {
     const store = { viewGallery: 'true' };
-    const spy = spyOn(sessionStorage, 'getItem').and.callFake((key) => {
-      return store[key];
-    });
+    const spy = spyOn(sessionStorage, 'getItem').and.callFake((key) => store[key]);
 
     (component as any).getSessionStorageView();
     expect(spy('viewGallery')).toBe('true');

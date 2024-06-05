@@ -25,12 +25,12 @@
   }
 
   .edit-icon {
-    background-image: url(/assets/img/profile/icons/edit-line.svg);
+    background-image: url('/assets/img/profile/icons/edit-line.svg');
     background-size: 100%;
   }
 
   .close-edit-mode {
-    background-image: url('src/assets/img/icon/cross.svg');
+    background-image: url('/src/assets/img/icon/cross.svg');
     background-size: 80%;
   }
 }
@@ -48,8 +48,7 @@
     margin: 0;
     gap: 16px;
     list-style-type: none;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden scroll;
 
     .list-item {
       display: flex;
@@ -102,7 +101,7 @@
 .del-btn {
   height: 12px;
   width: 12px;
-  background-image: url('src/assets/img/icon/cross.svg');
+  background-image: url('/assets/img/icon/cross.svg');
   background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;

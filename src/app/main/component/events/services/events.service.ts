@@ -1,111 +1,44 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
 import {
   Addresses,
-  Coordinates,
-  DateEvent,
   EventFilterCriteriaInterface,
-  EventPageResponseDto,
+  EventResponse,
   EventResponseDto,
+  LocationResponse,
   PagePreviewDTO
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { DatePipe } from '@angular/common';
-import { TimeFront } from '../models/event-consts';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService implements OnDestroy {
-  public currentForm: PagePreviewDTO | EventPageResponseDto;
-  public backFromPreview: boolean;
-  public submitFromPreview: boolean;
+  public currentForm: PagePreviewDTO | EventResponse;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
   private divider = `, `;
-  private pipe = new DatePipe('en-US');
 
   constructor(
     private http: HttpClient,
     private langService: LanguageService
   ) {}
 
-  public setArePlacesFilled(dates: DateEvent[], submit?: boolean, check?: boolean, ind?: number): void {
-    const currentValues = this.arePlacesFilledSubject.getValue();
-    let newArray;
-
-    switch (true) {
-      case submit:
-        newArray = dates.map((nextValue) => !(nextValue.coordinates?.latitude || nextValue.onlineLink));
-        break;
-      case check:
-        currentValues[ind] = currentValues[ind] === null ? false : !(dates[ind].coordinates?.latitude || dates[ind].onlineLink);
-        this.arePlacesFilledSubject.next(currentValues);
-        return;
-      case currentValues.some((el) => el === true):
-        newArray = currentValues.slice(0, dates.length);
-        newArray = newArray.concat(Array(dates.length - newArray.length).fill(null));
-        break;
-      default:
-        newArray = dates.length && !submit ? Array(dates.length).fill(false) : currentValues;
-    }
-
-    this.arePlacesFilledSubject.next(newArray);
-  }
-
   public getAddresses(): Observable<Addresses[]> {
     return this.http.get<Addresses[]>(`${this.backEnd}events/addresses`);
-  }
-
-  public setBackFromPreview(val: boolean): void {
-    this.backFromPreview = val;
-  }
-
-  public getBackFromPreview(): boolean {
-    return this.backFromPreview;
-  }
-
-  public setSubmitFromPreview(val: boolean): void {
-    this.submitFromPreview = val;
-  }
-
-  public getSubmitFromPreview(): boolean {
-    return this.submitFromPreview;
-  }
-
-  public setInitialValueForPlaces(): void {
-    this.arePlacesFilledSubject.next([]);
-  }
-
-  public getCheckedPlacesObservable(): Observable<boolean[]> {
-    return this.arePlacesFilledSubject.asObservable();
   }
 
   public getImageAsFile(img: string): Observable<Blob> {
     return this.http.get(img, { responseType: 'blob' });
   }
 
-  public formatDate(dateString: Date, hour: string, min: string): string {
-    const date = new Date(dateString);
-    date.setHours(Number(hour), Number(min));
-    return date.toString();
-  }
-
-  public transformDate(date: DateEvent, typeDate: string): string {
-    return this.pipe.transform(
-      this.formatDate(date.date, date[typeDate].split(TimeFront.DIVIDER)[0], date[typeDate].split(TimeFront.DIVIDER)[1]),
-      'yyyy-MM-ddTHH:mm:ssZZZZZ'
-    );
-  }
-
-  public setForm(form: PagePreviewDTO | EventPageResponseDto): void {
+  public setForm(form: PagePreviewDTO | EventResponse): void {
     this.currentForm = form;
   }
 
-  public getForm(): PagePreviewDTO | EventPageResponseDto {
+  public getForm(): PagePreviewDTO | EventResponse {
     return this.currentForm;
   }
 
@@ -124,8 +57,8 @@ export class EventsService implements OnDestroy {
     searchTitle?: string
   ): Observable<EventResponseDto> {
     let requestParams = new HttpParams();
-    requestParams = requestParams.append('page', page.toString().toUpperCase());
-    requestParams = requestParams.append('size', quantity.toString().toUpperCase());
+    requestParams = requestParams.append('page', page.toString());
+    requestParams = requestParams.append('size', quantity.toString());
     requestParams = requestParams.append('cities', filter.cities.toString().toUpperCase());
     requestParams = requestParams.append('tags', filter.tags.toString().toUpperCase());
     requestParams = requestParams.append('eventTime', filter.eventTime.toString().toUpperCase());
@@ -149,7 +82,7 @@ export class EventsService implements OnDestroy {
     quantity: number,
     userLatitude: number,
     userLongitude: number,
-    eventType: string = ''
+    eventType = ''
   ): Observable<EventResponseDto> {
     return this.http.get<EventResponseDto>(
       `${this.backEnd}events/myEvents?eventType=${eventType}&page=${page}&size=${quantity}&` +
@@ -169,8 +102,8 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventResponseDto>(`${this.backEnd}events/getAllFavoriteEvents?page=${page}&size=${quantity}`);
   }
 
-  public getEventById(id: number): Observable<any> {
-    return this.http.get(`${this.backEnd}events/event/${id}`);
+  public getEventById(id: number): Observable<EventResponse> {
+    return this.http.get<EventResponse>(`${this.backEnd}events/event/${id}`);
   }
 
   public deleteEvent(id: number): Observable<any> {
@@ -193,14 +126,14 @@ export class EventsService implements OnDestroy {
     return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
   }
 
-  public getFormattedAddress(coordinates: Coordinates): string {
+  public getFormattedAddress(coordinates: LocationResponse): string {
     return this.getLangValue(
       coordinates?.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUa,
       coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
     );
   }
 
-  public getFormattedAddressEventsList(coordinates: Coordinates): string {
+  public getFormattedAddressEventsList(coordinates: LocationResponse): string {
     return this.getLangValue(
       coordinates.streetUa
         ? this.createEventsListAddresses(coordinates, 'Ua')
@@ -215,7 +148,7 @@ export class EventsService implements OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public createAddresses(coord: Coordinates | null, lang: string): string {
+  public createAddresses(coord: LocationResponse | null, lang: string): string {
     if (!coord) {
       return '';
     }
@@ -223,7 +156,7 @@ export class EventsService implements OnDestroy {
     return parts.join(this.divider);
   }
 
-  public createEventsListAddresses(coord: Coordinates | null, lang: string): string {
+  public createEventsListAddresses(coord: LocationResponse | null, lang: string): string {
     if (!coord) {
       return '';
     }

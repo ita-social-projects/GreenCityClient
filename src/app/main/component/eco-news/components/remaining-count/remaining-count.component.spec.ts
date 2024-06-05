@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { RemainingCountComponent } from './remaining-count.component';
@@ -7,7 +7,7 @@ describe('RemainingCountComponent', () => {
   let component: RemainingCountComponent;
   let fixture: ComponentFixture<RemainingCountComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [RemainingCountComponent]

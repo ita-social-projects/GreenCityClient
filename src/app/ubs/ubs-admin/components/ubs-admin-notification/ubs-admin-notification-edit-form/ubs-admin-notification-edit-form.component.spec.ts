@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form.component';
-import { ElementRef, ChangeDetectorRef } from '@angular/core';
+import { ElementRef, ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 
 describe('UbsAdminNotificationEditFormComponent', () => {
@@ -32,7 +32,7 @@ describe('UbsAdminNotificationEditFormComponent', () => {
     text: { en: 'Notification text for email', ua: 'Текст повідомлення для email' }
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminNotificationEditFormComponent],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, MatExpansionModule, NoopAnimationsModule],
@@ -43,7 +43,8 @@ describe('UbsAdminNotificationEditFormComponent', () => {
         { provide: MatSelect, useValue: { selectEn: selectEnMock, selectUa: selectUaMock } },
         { provide: ChangeDetectorRef, useValue: changeDetectorRefMock },
         { provide: MatDialogRef, useValue: matDialogRefMock }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -107,8 +108,8 @@ describe('UbsAdminNotificationEditFormComponent', () => {
   it('should set selectEn and selectUa values to 0 and call detectChanges after view checked', () => {
     component.textUa = textUaMock;
     component.textEn = textEnMock;
-    component.selectEn = selectEnMock;
-    component.selectUa = selectUaMock;
+    (component as any).selectEn = selectEnMock;
+    (component as any).selectUa = selectUaMock;
     (component as any).cdref = changeDetectorRefMock;
 
     component.ngAfterViewChecked();

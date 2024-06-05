@@ -1,25 +1,21 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HabitStatisticService } from './habit-statistic.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { HabitDto } from '@global-models/habit/HabitDto';
-import { AvailableHabitDto } from '@global-models/habit/AvailableHabitDto';
 import { NewHabitDto } from '@global-models/habit/NewHabitDto';
+import { habitStatisticLink } from '../../links';
+import {
+  AVAIL_HABIT_ARRAY_MOCK,
+  HABIT_STATISTIC_DTO,
+  HABIT_STATISTICS,
+  NEW_HABIT_ARRAY_MOCK
+} from '@global-user/components/habit/mocks/habit-mock';
 
 describe('HabitStatisticService', () => {
   let service: HabitStatisticService;
+  let httpMock: HttpTestingController;
   const PLACEHOLDER = '';
   const EMPTY_ARRAY = [];
-
-  const habitStatMock: HabitDto = {} as HabitDto;
-  const habitStatArrayMock: HabitDto[] = [habitStatMock];
-
-  const availHabitMock: AvailableHabitDto = {} as AvailableHabitDto;
-  const availHabitArrayMock: AvailableHabitDto[] = [availHabitMock];
-
-  const newHabitMock: NewHabitDto = {} as NewHabitDto;
-  const newHabitArrayMock: NewHabitDto[] = [newHabitMock];
-
   const argsWithIdMock = { id: 4 };
 
   beforeEach(() =>
@@ -31,6 +27,7 @@ describe('HabitStatisticService', () => {
 
   beforeEach(() => {
     service = TestBed.inject(HabitStatisticService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
@@ -39,42 +36,38 @@ describe('HabitStatisticService', () => {
 
   describe('basic functional testing', () => {
     it('should load data into dataStore.habitStatistics in loadHabitStatistics method', fakeAsync(() => {
-      // @ts-ignore
-      const spy = spyOn(service.http, 'get').and.returnValue(of(habitStatArrayMock));
+      const spy = spyOn((service as any).http, 'get').and.returnValue(of(NEW_HABIT_ARRAY_MOCK));
       service.loadHabitStatistics('english');
       tick(50);
 
       expect(spy).toHaveBeenCalled();
-      // @ts-ignore
-      expect(service.dataStore.habitStatistics).toEqual(habitStatArrayMock);
+      expect((service as any).dataStore.habitStatistics).toEqual(NEW_HABIT_ARRAY_MOCK);
     }));
 
     it('should load data into dataStore.availableHabits in loadAvailableHabits method', fakeAsync(() => {
-      // @ts-ignore
-      const spy = spyOn(service.http, 'get').and.returnValue(of(availHabitArrayMock));
+      const spy = spyOn((service as any).http, 'get').and.returnValue(of(AVAIL_HABIT_ARRAY_MOCK));
       service.loadAvailableHabits('english');
       tick(50);
 
       expect(spy).toHaveBeenCalled();
-      // @ts-ignore
-      expect(service.dataStore.availableHabits).toEqual(availHabitArrayMock);
+      expect((service as any).dataStore.availableHabits).toEqual(AVAIL_HABIT_ARRAY_MOCK);
     }));
 
     it('should update newHabit field in setNewHabitsState method', () => {
       const newHabitStub = new NewHabitDto(argsWithIdMock.id);
       service.setNewHabitsState(argsWithIdMock);
-      // @ts-ignore
-      expect(service.dataStore.newHabits).toContain(newHabitStub);
+
+      expect((service as any).dataStore.newHabits).toContain(newHabitStub);
 
       service.setNewHabitsState(argsWithIdMock);
-      // @ts-ignore
-      expect(service.dataStore.newHabits).not.toContain(newHabitStub);
+
+      expect((service as any).dataStore.newHabits).not.toContain(newHabitStub);
     });
 
     it('should execute clearDataStore method inside createHabits', fakeAsync(() => {
       const spy = spyOn(service, 'clearDataStore');
-      // @ts-ignore
-      spyOn(service.http, 'post').and.returnValue(of(service.dataStore.newHabits));
+
+      spyOn((service as any).http, 'post').and.returnValue(of((service as any).dataStore.newHabits));
       service.createHabits('english');
       tick(50);
 
@@ -84,8 +77,8 @@ describe('HabitStatisticService', () => {
     it('should execute both loadAvailableHabits and loadHabitStatistics in deleteHabit', fakeAsync(() => {
       const statisticSpy = spyOn(service, 'loadHabitStatistics');
       const availableSpy = spyOn(service, 'loadAvailableHabits');
-      // @ts-ignore
-      spyOn(service.http, 'delete').and.returnValue(of(PLACEHOLDER));
+
+      spyOn((service as any).http, 'delete').and.returnValue(of(PLACEHOLDER));
       service.deleteHabit(1, 'english');
       tick(50);
 
@@ -102,20 +95,17 @@ describe('HabitStatisticService', () => {
     });
 
     it('should return habitStatistics length', () => {
-      // @ts-ignore
-      service.dataStore.habitStatistics = habitStatArrayMock;
+      (service as any).dataStore.habitStatistics = NEW_HABIT_ARRAY_MOCK;
       const habitStatLength = service.getNumberOfHabits();
 
-      expect(habitStatLength).toEqual(habitStatArrayMock.length);
+      expect(habitStatLength).toEqual(NEW_HABIT_ARRAY_MOCK.length);
     });
 
     it('should reset newHabits in clearDataStore', () => {
-      // @ts-ignore
-      service.dataStore.newHabits = newHabitArrayMock;
+      (service as any).dataStore.newHabits = NEW_HABIT_ARRAY_MOCK;
       service.clearDataStore('english');
 
-      // @ts-ignore
-      expect(service.dataStore.newHabits).toEqual(EMPTY_ARRAY);
+      expect((service as any).dataStore.newHabits).toEqual(EMPTY_ARRAY);
     });
 
     it('should execute loadAvailableHabits and loadHabitStatistics inside clearDataStore', fakeAsync(() => {
@@ -129,20 +119,30 @@ describe('HabitStatisticService', () => {
     }));
 
     it('should reset newHabits, availableHabits, habitStatistics fields inside onLogout', () => {
-      // @ts-ignore
-      service.dataStore.habitStatistics = habitStatArrayMock;
-      // @ts-ignore
-      service.dataStore.availableHabits = availHabitArrayMock;
-      // @ts-ignore
-      service.dataStore.newHabits = newHabitArrayMock;
+      (service as any).dataStore.habitStatistics = NEW_HABIT_ARRAY_MOCK;
+      (service as any).dataStore.availableHabits = AVAIL_HABIT_ARRAY_MOCK;
+      (service as any).dataStore.newHabits = NEW_HABIT_ARRAY_MOCK;
       service.onLogout();
 
-      // @ts-ignore
-      expect(service.dataStore.habitStatistics).toEqual(EMPTY_ARRAY);
-      // @ts-ignore
-      expect(service.dataStore.availableHabits).toEqual(EMPTY_ARRAY);
-      // @ts-ignore
-      expect(service.dataStore.newHabits).toEqual(EMPTY_ARRAY);
+      expect((service as any).dataStore.habitStatistics).toEqual(EMPTY_ARRAY);
+      expect((service as any).dataStore.availableHabits).toEqual(EMPTY_ARRAY);
+      expect((service as any).dataStore.newHabits).toEqual(EMPTY_ARRAY);
     });
+  });
+
+  it('should update habit statistic', () => {
+    const habitStatisticDto = HABIT_STATISTIC_DTO;
+    service.updateHabitStatistic(habitStatisticDto);
+    const req = httpMock.expectOne(`${habitStatisticLink}${habitStatisticDto.id}`);
+    expect(req.request.method).toBe('PATCH');
+    req.flush(habitStatisticDto);
+  });
+
+  it('should create habit statistic', () => {
+    const habitStatistics = HABIT_STATISTICS;
+    service.createHabitStatistic(habitStatistics);
+    const req = httpMock.expectOne(`${habitStatisticLink}`);
+    expect(req.request.method).toBe('POST');
+    req.flush(habitStatistics);
   });
 });

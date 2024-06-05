@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { UserSuccessSignIn } from '../../model/user-success-sign-in';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class GoogleSignInService {
   constructor(private http: HttpClient) {}

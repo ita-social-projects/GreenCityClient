@@ -67,7 +67,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private isResizingRight: boolean;
   private totalPages = 1;
   private isTableHeightSet = false;
-  private initialFilterValues: {};
+  private initialFilterValues: object;
   private queryString = '';
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
@@ -210,9 +210,9 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private onCreateGroupFormValueChange() {
     this.initialFilterValues = this.filterForm.value;
     this.filterForm.valueChanges.subscribe((value) => {
-      this.hasChange = Object.keys(this.initialFilterValues).some((key) => {
-        return this.filterForm.value[key] !== null && this.filterForm.value[key] !== this.initialFilterValues[key];
-      });
+      this.hasChange = Object.keys(this.initialFilterValues).some(
+        (key) => this.filterForm.value[key] !== null && this.filterForm.value[key] !== this.initialFilterValues[key]
+      );
     });
   }
 

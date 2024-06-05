@@ -21,61 +21,65 @@ import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.se
 
 @Injectable()
 export class BigOrderTableEffects {
-  constructor(private actions: Actions, private adminTableService: AdminTableService, private orderService: OrderService) {}
+  constructor(
+    private actions: Actions,
+    private adminTableService: AdminTableService,
+    private orderService: OrderService
+  ) {}
 
-  getColumnToDisplay = createEffect(() => {
-    return this.actions.pipe(
+  getColumnToDisplay = createEffect(() =>
+    this.actions.pipe(
       ofType(GetColumnToDisplay),
-      mergeMap(() => {
-        return this.orderService.getColumnToDisplay().pipe(
+      mergeMap(() =>
+        this.orderService.getColumnToDisplay().pipe(
           map((ordersViewParameters: IOrdersViewParameters) => GetColumnToDisplaySuccess({ ordersViewParameters })),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  setColumnToDisplay = createEffect(() => {
-    return this.actions.pipe(
+  setColumnToDisplay = createEffect(() =>
+    this.actions.pipe(
       ofType(SetColumnToDisplay),
-      mergeMap((action: { columns: string; titles: string }) => {
-        return this.orderService.setColumnToDisplay(action.columns).pipe(
+      mergeMap((action: { columns: string; titles: string }) =>
+        this.orderService.setColumnToDisplay(action.columns).pipe(
           map(() => SetColumnToDisplaySuccess({ ordersViewParameters: { titles: action.titles } })),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  getColumns = createEffect(() => {
-    return this.actions.pipe(
+  getColumns = createEffect(() =>
+    this.actions.pipe(
       ofType(GetColumns),
-      mergeMap(() => {
-        return this.adminTableService.getColumns().pipe(
+      mergeMap(() =>
+        this.adminTableService.getColumns().pipe(
           map((bigOrderTableParams: IBigOrderTableParams) => GetColumnsSuccess({ bigOrderTableParams })),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  getTable = createEffect(() => {
-    return this.actions.pipe(
+  getTable = createEffect(() =>
+    this.actions.pipe(
       ofType(GetTable),
-      switchMap((action: { columnName?: string; page?: number; filter?: string; size?: number; sortingType?: string; reset?: boolean }) => {
-        return this.adminTableService.getTable(action.columnName, action.page, action.filter, action.size, action.sortingType).pipe(
+      switchMap((action: { columnName?: string; page?: number; filter?: string; size?: number; sortingType?: string; reset?: boolean }) =>
+        this.adminTableService.getTable(action.columnName, action.page, action.filter, action.size, action.sortingType).pipe(
           map((bigOrderTable: IBigOrderTable) => GetTableSuccess({ bigOrderTable, reset: action.reset })),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
-  changingOrderData = createEffect(() => {
-    return this.actions.pipe(
+  changingOrderData = createEffect(() =>
+    this.actions.pipe(
       ofType(ChangingOrderData),
-      mergeMap((action: { orderData: { orderId: number[]; columnName: string; newValue: string }[] }) => {
-        return of(...action.orderData).pipe(
+      mergeMap((action: { orderData: { orderId: number[]; columnName: string; newValue: string }[] }) =>
+        of(...action.orderData).pipe(
           concatMap((orderData) => this.adminTableService.postData(orderData.orderId, orderData.columnName, orderData.newValue)),
           map((_, index) =>
             ChangingOrderDataSuccess({
@@ -85,8 +89,8 @@ export class BigOrderTableEffects {
             })
           ),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 }

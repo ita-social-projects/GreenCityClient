@@ -12,8 +12,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { PlaceService } from '@global-service/place/place.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -30,13 +31,14 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public socialNetworksToServer: string[] = [];
   public namePattern = Patterns.NamePattern;
   public builder: EditProfileFormBuilder;
-  public placeService;
+  public placeService: PlaceService;
   private editProfileService: EditProfileService;
   private profileService: ProfileService;
   private snackBar: MatSnackBarComponent;
   private localStorageService: LocalStorageService;
   private translate: TranslateService;
-  public cityOptions = {
+  public cityOptions: google.maps.places.AutocompletionRequest = {
+    input: '',
     types: ['(cities)']
   };
   public userInfo = {
@@ -62,15 +64,20 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     return this.editProfileForm.get('name');
   }
 
-  get city() {
-    return this.editProfileForm.get('city');
+  get city(): FormControl {
+    return this.editProfileForm.get('city') as FormControl;
   }
 
   get credo() {
     return this.editProfileForm.get('credo');
   }
 
-  constructor(private injector: Injector, public dialog: MatDialog, public router: Router, private langService: LanguageService) {
+  constructor(
+    private injector: Injector,
+    public dialog: MatDialog,
+    public router: Router,
+    private langService: LanguageService
+  ) {
     super(router, dialog);
     this.builder = injector.get(EditProfileFormBuilder);
     this.editProfileService = injector.get(EditProfileService);
@@ -119,9 +126,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: data.showLocation,
       showEcoPlace: data.showEcoPlace,
       showShoppingList: data.showShoppingList,
-      socialNetworks: data.socialNetworks.map((network) => {
-        return network.url;
-      })
+      socialNetworks: data.socialNetworks.map((network) => network.url)
     };
     this.editProfileForm.markAllAsTouched();
   }

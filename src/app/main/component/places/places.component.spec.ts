@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PlacesComponent } from './places.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -11,6 +11,7 @@ import { FavoritePlaceService } from '@global-service/favorite-place/favorite-pl
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreatePlaceModel, OpeningHoursDto } from './models/create-place.model';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { tagsListPlacesData } from './models/places-consts';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 
@@ -118,10 +119,10 @@ describe('PlacesComponent', () => {
   const matDialogFake = jasmine.createSpyObj('matDialog', ['open']);
   matDialogFake.open.and.returnValue({ afterClosed: () => of(parametersToSend) });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PlacesComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, InfiniteScrollModule],
       providers: [
         {
           provide: LocalStorageService,

@@ -64,13 +64,13 @@
       </mat-accordion>
       <div class="d-flex justify-content-center">
         <pagination-controls
-          autoHide="true"
+          [autoHide]="true"
           id="pag"
           class="my-pagination"
           previousLabel=""
           nextLabel=""
-          directionLinks="true"
-          maxSize="5"
+          [directionLinks]="true"
+          [maxSize]="5"
           (pageChange)="onTableDataChange($event)"
         >
         </pagination-controls>

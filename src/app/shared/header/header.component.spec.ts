@@ -4,11 +4,11 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header.component';
-import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from '@global-service/user/user.service';
 import { AchievementService } from '@global-service/achievement/achievement.service';
@@ -16,11 +16,12 @@ import { HabitStatisticService } from '@global-service/habit-statistic/habit-sta
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { SearchService } from '@global-service/search/search.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { DropdownModule } from 'angular-bootstrap-md';
+// import { DropdownModule } from 'angular-bootstrap-md';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IAppState } from 'src/app/store/state/app.state';
+import { SocketService } from '@global-service/socket/socket.service';
 
 class MatDialogMock {
   afterAllClosed = of(true);
@@ -49,8 +50,7 @@ describe('HeaderComponent', () => {
   storeMock.select.and.returnValue(of({ emplpyees: { employeesPermissions: mockData } }));
   const fakeJwtService = jasmine.createSpyObj('JwtService', ['getEmailFromAccessToken']);
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
@@ -59,44 +59,53 @@ describe('HeaderComponent', () => {
   localStorageServiceMock.clear = () => true;
   localStorageServiceMock.setUbsRegistration = () => true;
 
-  let jwtServiceMock: JwtService;
-  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
+  const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
   jwtServiceMock.getUserRole = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
-  let userServiceMock: UserService;
-  userServiceMock = jasmine.createSpyObj('UserService', ['onLogout']);
+  const userServiceMock: UserService = jasmine.createSpyObj('UserService', ['onLogout']);
   userServiceMock.updateUserLanguage = () => of(true);
 
-  let achievementServiceMock: AchievementService;
-  achievementServiceMock = jasmine.createSpyObj('AchievementService', ['onLogout']);
+  const achievementServiceMock: AchievementService = jasmine.createSpyObj('AchievementService', ['onLogout']);
   achievementServiceMock.onLogout = () => true;
 
-  let habitStatisticServiceMock: HabitStatisticService;
-  habitStatisticServiceMock = jasmine.createSpyObj('HabitStatisticService', ['onLogout']);
+  const habitStatisticServiceMock: HabitStatisticService = jasmine.createSpyObj('HabitStatisticService', ['onLogout']);
   habitStatisticServiceMock.onLogout = () => true;
 
-  let languageServiceMock: LanguageService;
-  languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage', 'getUserLangValue']);
+  const languageServiceMock: LanguageService = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage', 'getUserLangValue']);
   languageServiceMock.getCurrentLanguage = () => mockLang as Language;
   languageServiceMock.getUserLangValue = () => of(mockLang);
   languageServiceMock.changeCurrentLanguage = () => true;
   languageServiceMock.getLanguageId = () => mockLangId;
 
-  let searchServiceMock: SearchService;
-  searchServiceMock = jasmine.createSpyObj('SearchService', ['searchSubject', 'allSearchSubject', 'toggleSearchModal']);
+  const searchServiceMock: SearchService = jasmine.createSpyObj('SearchService', [
+    'searchSubject',
+    'allSearchSubject',
+    'toggleSearchModal'
+  ]);
   searchServiceMock.searchSubject = new BehaviorSubject(true);
   searchServiceMock.allSearchSubject = new BehaviorSubject(true);
   searchServiceMock.toggleSearchModal = () => true;
 
-  let userOwnAuthServiceMock: UserOwnAuthService;
-  userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage', 'isLoginUserSubject']);
+  const userOwnAuthServiceMock: UserOwnAuthService = jasmine.createSpyObj('UserOwnAuthService', [
+    'getDataFromLocalStorage',
+    'isLoginUserSubject'
+  ]);
   userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
+
+  const socketServiceMock: SocketService = jasmine.createSpyObj('SocketService', ['send', 'onMessage', 'initiateConnection']);
+  socketServiceMock.connection = {
+    greenCity: { url: '', socket: null, state: null },
+    greenCityUser: { url: '', socket: null, state: null }
+  };
+  socketServiceMock.send = () => of();
+  socketServiceMock.onMessage = () => of();
+  socketServiceMock.initiateConnection = () => {};
 
   let dialog: MatDialog;
   let router: Router;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
       imports: [
@@ -104,7 +113,7 @@ describe('HeaderComponent', () => {
         TranslateModule.forRoot(),
         MatDialogModule,
         HttpClientTestingModule,
-        DropdownModule,
+        // DropdownModule,
         NoopAnimationsModule
       ],
       providers: [
@@ -119,7 +128,8 @@ describe('HeaderComponent', () => {
         { provide: HabitStatisticService, useValue: habitStatisticServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: SearchService, useValue: searchServiceMock },
-        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
+        { provide: SocketService, useValue: socketServiceMock }
       ]
     }).compileComponents();
   }));

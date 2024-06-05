@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { UbsAdminExportDetailsComponent } from './ubs-admin-export-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
@@ -11,10 +11,10 @@ describe('UbsAdminExportDetailsComponent', () => {
   let fixture: ComponentFixture<UbsAdminExportDetailsComponent>;
   const mockDate = '2022-01-01';
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminExportDetailsComponent],
-      imports: [TranslateModule.forRoot(), BrowserAnimationsModule, HttpClientModule],
+      imports: [TranslateModule.forRoot(), BrowserAnimationsModule, HttpClientModule, ReactiveFormsModule],
       providers: [HttpClient]
     }).compileComponents();
   }));
@@ -31,7 +31,7 @@ describe('UbsAdminExportDetailsComponent', () => {
       timeDeliveryTo: new FormControl('10-00'),
       receivingStationId: new FormControl('')
     });
-    (component.exportInfo = {
+    component.exportInfo = {
       allReceivingStations: [
         {
           createDate: '2022-04-14',
@@ -44,8 +44,8 @@ describe('UbsAdminExportDetailsComponent', () => {
       timeDeliveryFrom: null,
       timeDeliveryTo: null,
       receivingStationId: 1
-    }),
-      fixture.detectChanges();
+    };
+    fixture.detectChanges();
   });
 
   afterEach(() => {

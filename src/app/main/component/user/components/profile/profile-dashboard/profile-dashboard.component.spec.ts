@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { ProfileDashboardComponent } from './profile-dashboard.component';
+import { ProfileDashboardComponent } from '@global-user/components';
 
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -11,7 +11,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { EventPageResponseDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { EventResponse, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
@@ -28,7 +28,14 @@ describe('ProfileDashboardComponent', () => {
   LocalStorageServiceMock.setCurentPage = () => of('previousPage', '/profile');
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of({ ecoNews: {}, autorNews: [{ newsId: 1 }], pageNumber: 1, error: 'error', ecoNewsByAuthor: true });
+  storeMock.select = () =>
+    of({
+      ecoNews: {},
+      autorNews: [{ newsId: 1 }],
+      pageNumber: 1,
+      error: 'error',
+      ecoNewsByAuthor: true
+    });
 
   const MockHabits = {
     id: 1,
@@ -62,7 +69,7 @@ describe('ProfileDashboardComponent', () => {
               cityUa: 'Львів',
               countryEn: 'Ukraine',
               countryUa: 'Україна',
-              houseNumber: 55,
+              houseNumber: '55',
               regionEn: 'Lvivska oblast',
               regionUa: 'Львівська область',
               streetEn: 'Svobody Ave',
@@ -70,34 +77,20 @@ describe('ProfileDashboardComponent', () => {
               formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
               formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
             },
-            valid: true,
-            event: 'event',
+            event: null,
             finishDate: '2022-06-29T04:00:00Z',
-            id: 1,
+            id: null,
             onlineLink: 'http',
             startDate: '2022-06-29T04:00:00Z'
           }
         ],
-        location: {
-          date: new Date(),
-          finishDate: 'string',
-          onlineLink: 'string',
-          place: 'string',
-          startDate: 'string',
-          coordinates: {
-            latitude: 1,
-            longitude: 1
-          }
-        },
-        imgArray: [],
-        imgArrayToPreview: [],
         description: 'description',
-        editorText: 'description',
         id: 95,
         open: true,
         organizer: {
           id: 12,
-          name: 'username'
+          name: 'username',
+          organizerRating: 4
         },
         tags: [
           {
@@ -110,7 +103,6 @@ describe('ProfileDashboardComponent', () => {
         titleImage: 'image title',
         isSubscribed: true,
         isFavorite: false,
-        isActive: true,
         likes: 8,
         countComments: 9,
         isRelevant: true,
@@ -122,10 +114,9 @@ describe('ProfileDashboardComponent', () => {
     totalPages: 1
   };
 
-  const mockFavouriteEvents: EventPageResponseDto[] = [
+  const mockFavouriteEvents: EventResponse[] = [
     {
       additionalImages: [],
-      imgArrayToPreview: [],
       creationDate: '2022-05-31',
       dates: [
         {
@@ -136,7 +127,7 @@ describe('ProfileDashboardComponent', () => {
             cityUa: 'Львів',
             countryEn: 'Ukraine',
             countryUa: 'Україна',
-            houseNumber: 55,
+            houseNumber: '55',
             regionEn: 'Lvivska oblast',
             regionUa: 'Львівська область',
             streetEn: 'Svobody Ave',
@@ -144,21 +135,20 @@ describe('ProfileDashboardComponent', () => {
             formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
             formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
           },
-          event: 'event',
+          event: null,
           finishDate: '2022-06-29T04:00:00Z',
-          id: 1,
+          id: null,
           onlineLink: 'http',
-          startDate: '2022-06-29T04:00:00Z',
-          valid: true
+          startDate: '2022-06-29T04:00:00Z'
         }
       ],
       description: 'description',
-      editorText: 'description',
       id: 96,
       open: true,
       organizer: {
         id: 12,
-        name: 'username'
+        name: 'username',
+        organizerRating: 3
       },
       tags: [
         {
@@ -171,7 +161,6 @@ describe('ProfileDashboardComponent', () => {
       titleImage: 'image title',
       isSubscribed: true,
       isFavorite: true,
-      isActive: true,
       likes: 8,
       countComments: 9,
       isRelevant: true,
@@ -180,7 +169,6 @@ describe('ProfileDashboardComponent', () => {
     },
     {
       additionalImages: [],
-      imgArrayToPreview: [],
       creationDate: '2022-05-31',
       dates: [
         {
@@ -191,7 +179,7 @@ describe('ProfileDashboardComponent', () => {
             cityUa: 'Львів',
             countryEn: 'Ukraine',
             countryUa: 'Україна',
-            houseNumber: 55,
+            houseNumber: '55',
             regionEn: 'Lvivska oblast',
             regionUa: 'Львівська область',
             streetEn: 'Svobody Ave',
@@ -199,21 +187,20 @@ describe('ProfileDashboardComponent', () => {
             formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
             formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
           },
-          event: 'event',
+          event: null,
           finishDate: '2022-06-29T04:00:00Z',
-          id: 1,
+          id: null,
           onlineLink: 'http',
-          startDate: '2022-06-29T04:00:00Z',
-          valid: true
+          startDate: '2022-06-29T04:00:00Z'
         }
       ],
       description: 'description',
-      editorText: 'description',
       id: 14,
       open: true,
       organizer: {
         id: 12,
-        name: 'username'
+        name: 'username',
+        organizerRating: 3
       },
       tags: [
         {
@@ -226,7 +213,6 @@ describe('ProfileDashboardComponent', () => {
       titleImage: 'image title',
       isSubscribed: true,
       isFavorite: true,
-      isActive: true,
       likes: 8,
       countComments: 9,
       isRelevant: true,
@@ -235,10 +221,10 @@ describe('ProfileDashboardComponent', () => {
     }
   ];
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getAllUserEvents']);
-  EventsServiceMock.getAllUserEvents = () => of(MockResult);
+  const eventsServiceMock = jasmine.createSpyObj('EventsService', ['getAllUserEvents', 'getUserFavoriteEvents']);
+  eventsServiceMock.getAllUserEvents = () => of(MockResult);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileDashboardComponent],
       imports: [
@@ -253,7 +239,7 @@ describe('ProfileDashboardComponent', () => {
         { provide: HabitAssignService, useValue: HabitAssignServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: LocalStorageService, useValue: LocalStorageServiceMock },
-        { provide: EventsService, useValue: EventsServiceMock },
+        { provide: EventsService, useValue: eventsServiceMock },
         { provide: HttpClient, useValue: HttpClient }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -322,10 +308,10 @@ describe('ProfileDashboardComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('Should call getAllUserEvents method before subscribe', async(() => {
+  it('Should call getAllUserEvents method before subscribe', waitForAsync(() => {
     component.userId = 12;
-    const spy1 = spyOn(EventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
-    const spy2 = spyOn(EventsServiceMock.getAllUserEvents(), 'subscribe');
+    const spy1 = spyOn(eventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
+    const spy2 = spyOn(eventsServiceMock.getAllUserEvents(), 'subscribe');
     component.initGetUserEvents();
     expect(spy1).toHaveBeenCalledBefore(spy2);
     expect(spy2).toHaveBeenCalled();
@@ -412,7 +398,7 @@ describe('ProfileDashboardComponent', () => {
   });
 
   it('getUserEvents should call service', async(() => {
-    const spy = spyOn(EventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
+    const spy = spyOn(eventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
     component.eventsPage = 0;
     component.getUserEvents();
     expect(spy).toHaveBeenCalledTimes(1);
@@ -430,5 +416,27 @@ describe('ProfileDashboardComponent', () => {
     component.favouriteEvents = mockFavouriteEvents;
     component.removeUnFavouriteEvent(14);
     expect(component.favouriteEvents.length).toEqual(1);
+  });
+
+  it('should toggle isFavoriteBtnClicked property on escapeFromFavorites method', () => {
+    expect(component.isFavoriteBtnClicked).toBeFalse();
+    component.escapeFromFavorites();
+    expect(component.isFavoriteBtnClicked).toBeTrue();
+    component.escapeFromFavorites();
+    expect(component.isFavoriteBtnClicked).toBeFalse();
+  });
+
+  it('should set isFavoriteBtnClicked to true and call getUserFavouriteEvents when goToFavorites is called', () => {
+    spyOn(component, 'getUserFavouriteEvents');
+    component.goToFavorites();
+    expect(component.isFavoriteBtnClicked).toBeTrue();
+    expect(component.getUserFavouriteEvents).toHaveBeenCalled();
+  });
+
+  it('should call getUserFavoriteEvents and set favouriteEvents when getUserFavouriteEvents is called', () => {
+    eventsServiceMock.getUserFavoriteEvents.and.returnValue(of(MockResult));
+    component.getUserFavouriteEvents();
+    expect(eventsServiceMock.getUserFavoriteEvents).toHaveBeenCalledWith(0, component.eventsPerPage);
+    expect(component.favouriteEvents).toEqual(MockResult.page);
   });
 });

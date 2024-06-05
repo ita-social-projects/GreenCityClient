@@ -92,7 +92,7 @@ export class ModalTextComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

@@ -12,10 +12,8 @@ export const tariffReducer = createReducer(
     };
   }),
 
-  on(UpdateLocationsSuccess, (state, action) => {
-    return {
-      ...state,
-      locations: action.locations
-    };
-  })
+  on(UpdateLocationsSuccess, (state, action) => ({
+    ...state,
+    locations: action.locations
+  }))
 );

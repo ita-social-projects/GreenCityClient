@@ -1,11 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ProfileProgressComponent } from './profile-progress.component';
 import { ProfileService } from '../../profile-service/profile.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-import 'rxjs/add/observable/of';
+import { of } from 'rxjs';
 
 describe('ProfileProgressComponent', () => {
   let component: ProfileProgressComponent;
@@ -14,7 +13,7 @@ describe('ProfileProgressComponent', () => {
   let spy: jasmine.Spy;
   let mockProgress;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileProgressComponent],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
@@ -31,7 +30,7 @@ describe('ProfileProgressComponent', () => {
       amountHabitsAcquired: 0,
       amountPublishedNews: 0
     };
-    spy = spyOn(profileService, 'getUserProfileStatistics').and.returnValue(Observable.of(mockProgress));
+    spy = spyOn(profileService, 'getUserProfileStatistics').and.returnValue(of(mockProgress));
     fixture.detectChanges();
   });
 

@@ -1,4 +1,15 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewEncapsulation,
+  AfterViewInit,
+  ElementRef
+} from '@angular/core';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, Subject } from 'rxjs';
@@ -9,21 +20,31 @@ import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-selec
 @Component({
   selector: 'app-filter-select',
   templateUrl: './filter-select.component.html',
-  styleUrls: ['./filter-select.component.scss']
+  styleUrls: ['./filter-select.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class FilterSelectComponent implements OnInit {
+export class FilterSelectComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() filter: FilterSelect;
   @Input() resetAllEvent!: Observable<void>;
   @ViewChild('selectFilter') selectFilter: MatSelect;
-
+  @ViewChild('selectLabel') selectLabel: ElementRef;
   @Output() selectedList = new EventEmitter<any>();
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  alignFilter = { offset: 15, width: 200 };
 
   constructor(private langService: LanguageService) {}
 
   ngOnInit(): void {
     if (this.resetAllEvent) {
       this.resetAllEvent.pipe(takeUntil(this.destroy$)).subscribe(() => (this.selectFilter.value = null));
+    }
+  }
+
+  ngAfterViewInit(): void {
+    const offsetWidth = this.selectLabel?.nativeElement.offsetWidth;
+    this.selectFilter.panelWidth = this.alignFilter.width;
+    if (this.selectFilter?._positions?.[0]) {
+      this.selectFilter._positions[0].offsetX = -offsetWidth + this.alignFilter.offset;
     }
   }
 
@@ -44,5 +65,10 @@ export class FilterSelectComponent implements OnInit {
 
   getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -15,7 +15,10 @@ export class AdminTableService {
   filters: any[] = [];
   url = environment.ubsAdmin.backendUbsAdminLink + '/management/';
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {}
 
   getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string) {
     const searchValue = filter ? filter.split(' ').reduce((values, value) => (value ? values + `search=${value}&` : values), '') : '';
@@ -236,9 +239,7 @@ export class AdminTableService {
   }
 
   getDateChecked(dateColumn): boolean {
-    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
-      return column.key === dateColumn;
-    });
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => column.key === dateColumn);
     return currentColumnDateFilter.values[0]?.filtered;
   }
 
@@ -247,17 +248,13 @@ export class AdminTableService {
   }
 
   setDateCheckedFromStorage(dateColumn): void {
-    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
-      return column.key === dateColumn;
-    });
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => column.key === dateColumn);
     currentColumnDateFilter.values[0].filtered = true;
   }
 
   getDateValue(suffix: 'From' | 'To', dateColumn): boolean {
     let date;
-    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
-      return column.key === dateColumn;
-    });
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => column.key === dateColumn);
     for (const key in currentColumnDateFilter?.values[0]) {
       if (key.includes(suffix)) {
         date = currentColumnDateFilter?.values[0]?.[key];
@@ -279,12 +276,11 @@ export class AdminTableService {
     const year = today.getFullYear();
     let month = (today.getMonth() + 1).toString();
     let day = today.getDate().toString();
-    let todayDate: string;
 
     month = +month >= 10 ? month : `0${month}`;
     day = +day >= 10 ? day : `0${day}`;
 
-    todayDate = `${year}-${month}-${day}`;
+    const todayDate = `${year}-${month}-${day}`;
 
     return todayDate;
   }

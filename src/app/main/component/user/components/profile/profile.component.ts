@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
   public userInfo: EditProfileModel;
   public isDesktopWidth: boolean;
-  public screenBreakpoint = 1024;
+  public screenBreakpoint = 1023;
   public progress: ProfileStatistics;
 
   constructor(
@@ -34,7 +34,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.announce();
     this.showUserInfo();
     this.subscribeToLangChange();
-    this.bindLang(this.localStorageService.getCurrentLanguage());
     this.checkUserActivities();
   }
 
@@ -62,8 +61,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => {
-      this.bindLang(lang);
+      lang = lang ?? this.localStorageService.getCurrentLanguage();
       this.currLang = lang;
+      this.bindLang(lang);
     });
   }
 
@@ -77,6 +77,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.langChangeSub.unsubscribe();
+    if (this.langChangeSub) {
+      this.langChangeSub.unsubscribe();
+    }
   }
 }

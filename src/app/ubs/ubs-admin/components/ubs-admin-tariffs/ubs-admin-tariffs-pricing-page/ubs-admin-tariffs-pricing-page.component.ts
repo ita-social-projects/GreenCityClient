@@ -71,7 +71,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   public isEmployeeCanActivateDeactivate: boolean;
   public isEmployeeCanUseCrumbs: boolean;
 
-  constructor(private injector: Injector, private router: Router, private store: Store<IAppState>) {
+  constructor(
+    private injector: Injector,
+    private router: Router,
+    private store: Store<IAppState>
+  ) {
     this.location = injector.get(Location);
     this.dialog = injector.get(MatDialog);
     this.tariffsService = injector.get(TariffsService);
@@ -128,7 +132,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private initForm(): void {
     this.limitsForm = this.fb.group({
       limitDescription: new FormControl(''),
-      courierLimitsBy: new FormControl({ value: this.limitStatus }),
+      courierLimitsBy: new FormControl(this.limitStatus),
       minPriceOfOrder: new FormControl(null, [Validators.required, Validators.min(1)]),
       maxPriceOfOrder: new FormControl(null),
       minAmountOfBigBags: new FormControl(null, [Validators.required, Validators.min(1)]),
@@ -375,9 +379,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   async setCourierId(): Promise<any> {
-    const id = await this.getCourierId().then((value) => {
-      return value;
-    });
+    const id = await this.getCourierId().then((value) => value);
     this.currentCourierId = id;
     return this.currentCourierId;
   }
@@ -557,7 +559,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy.next();
+    this.destroy.next(true);
     if (this.destroy) {
       this.destroy.unsubscribe();
     }

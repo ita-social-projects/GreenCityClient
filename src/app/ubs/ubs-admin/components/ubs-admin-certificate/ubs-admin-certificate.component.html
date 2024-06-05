@@ -1,7 +1,7 @@
 <div class="research">
   <div class="search">
     <div class="search-input">
-      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target.value)" />
+      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target['value'])" />
     </div>
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
@@ -37,7 +37,7 @@
             </mat-icon>
           </span>
         </th>
-        <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
+        <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ padding: '0px' }">
           <mat-checkbox
             (change)="$event ? masterToggle() : null"
             [checked]="selection.hasValue() && isAllSelected()"

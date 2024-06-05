@@ -16,7 +16,7 @@
   max-width: 1150px;
   width: 100%;
   padding-left: 15px;
-  margin: 0 auto -15px auto;
+  margin: 0 auto -15px;
 }
 
 button:disabled {
@@ -100,14 +100,14 @@ button:disabled {
 }
 
 .box {
-  box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
+  box-shadow: 0 0 8px rgb(70 70 70 / 25%);
   padding: 30px;
   margin-bottom: 30px;
 }
 
 .inform-window {
   visibility: hidden;
-  box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
+  box-shadow: 0 0 8px rgb(70 70 70 / 25%);
   min-width: 200px;
   font-size: 14px;
   background-color: #fff;
