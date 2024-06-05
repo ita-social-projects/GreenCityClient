@@ -88,7 +88,7 @@ export const bigOrderTableReducer = createReducer(
       ...state.filters,
       [action.filter.column]: Array.isArray(state.filters?.[action.filter.column])
         ? [...(state.filters[action.filter.column] as string[]), action.filter.value]
-        : action.filter.value
+        : [action.filter.value]
     } as IFilters
   })),
 
@@ -98,14 +98,23 @@ export const bigOrderTableReducer = createReducer(
       ...state.filters,
       [action.filter.column]: Array.isArray(state.filters[action.filter.column])
         ? (state.filters[action.filter.column] as string[]).filter((value) => value !== action.filter.value)
-        : state.filters[action.filter.column]
+        : null
     }
   })),
 
-  on(ClearFilters, (state, action) => ({
-    ...state,
-    filters: action.columnName ? { ...state.filters, [action.columnName]: null } : null
-  })),
+  on(ClearFilters, (state, action) => {
+    if (!action.columnName) {
+      return { ...state, filters: null };
+    }
+
+    const isDate = action?.columnName.toLowerCase().includes('date');
+    return {
+      ...state,
+      filters: isDate
+        ? { ...state.filters, [action.columnName + 'To']: null, [action.columnName + 'From']: null }
+        : { ...state.filters, [action.columnName]: null }
+    };
+  }),
 
   on(LoadFiltersSuccessAction, (state, action) => ({
     ...state,
