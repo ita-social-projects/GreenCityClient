@@ -183,7 +183,9 @@ describe('EventsCommentsService', () => {
       expect(commentData).toEqual({});
     });
 
-    const req = httpTestingController.expectOne(`${url}events/comments?commentText=${commentText}&id=1`);
+    const req = httpTestingController.expectOne(`${url}events/comments?id=1`);
+    expect(req.request.method).toEqual('PATCH');
+    expect(req.request.body).toEqual(commentText);
     req.flush({});
   });
 });
