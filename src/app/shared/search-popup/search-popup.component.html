@@ -31,7 +31,7 @@
         </a>
         <div class="list-search-items">
           <app-search-item
-            *ngFor="let element of newsElements | slice: 0:3"
+            *ngFor="let element of newsElements | slice: 0 : 3"
             [searchModel]="element"
             [type]="'news'"
             (closeSearch)="closeSearch()"
@@ -46,7 +46,7 @@
         </a>
         <div class="list-search-items">
           <app-search-item
-            *ngFor="let element of eventsElements | slice: 0:3"
+            *ngFor="let element of eventsElements | slice: 0 : 3"
             [searchModel]="element"
             [type]="'events'"
             (closeSearch)="closeSearch()"

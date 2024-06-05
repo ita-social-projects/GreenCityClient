@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
@@ -79,11 +79,10 @@ describe('OneHabitComponent', () => {
   habitAssignServiceMock.getAssignHabitsByPeriod.and.returnValue(of());
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
 
-  let habitServiceMock: HabitService;
-  habitServiceMock = jasmine.createSpyObj('HabitService', ['getFriendsTrakingSameHabitByHabitId']);
+  const habitServiceMock: HabitService = jasmine.createSpyObj('HabitService', ['getFriendsTrakingSameHabitByHabitId']);
   habitServiceMock.getFriendsTrakingSameHabitByHabitId = () => of();
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, TranslateModule.forRoot()],
       declarations: [OneHabitComponent],

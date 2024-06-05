@@ -41,7 +41,7 @@
       </div>
       <div class="habit-picture-wrp">
         <div class="habit-picture">
-          <img [src]="habit.image" onerror="this.src='assets/img/habits/man.svg'" alt="habit picture" />
+          <img [src]="habit.image" (error)="habit.image = 'assets/img/habits/man.svg'" alt="habit" />
         </div>
       </div>
     </div>

@@ -4,5 +4,5 @@ export const Breakpoints = {
   tabletMidle: 768,
   tabletBig: 992,
   pcLow: 1200,
-  pcBig: 1440,
+  pcBig: 1440
 };

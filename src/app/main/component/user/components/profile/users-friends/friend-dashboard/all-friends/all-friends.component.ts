@@ -103,7 +103,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userOnlineStatusService.removeUsersId(UsersCategOnlineStatus.allFriends);
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

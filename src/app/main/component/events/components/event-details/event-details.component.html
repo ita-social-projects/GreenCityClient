@@ -1,36 +1,39 @@
 <div class="event-wrapper">
   <div class="container">
     <app-spinner *ngIf="isPosting"></app-spinner>
+
     <div *ngIf="event && !isPosting" class="event">
       <div class="event-nav">
         <div *ngIf="!eventService.getForm()" class="back-button">
           <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" class="button-link">
             <div class="button-content">
-              <img [src]="icons.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img arrow" />
+              <img [src]="icons.arrowLeft" alt="arrow" aria-hidden="true" class="button-arrow-img arrow" />
               <div class="button-text">{{ 'homepage.events.btn.back-route' | translate }}</div>
             </div>
           </a>
         </div>
         <div *ngIf="eventService.getForm()" class="back-button">
-          <a class="button-link" [routerLink]="['/events', 'create-event']">
+          <a [routerLink]="['/events', 'update-event', eventId]" class="button-link">
             <div class="button-content">
-              <img [src]="icons.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img arrow" />
-              <div class="button-text" (click)="backToEdit()">{{ 'create-event.back-edit' | translate }}</div>
+              <img [src]="icons.arrowLeft" alt="arrow" aria-hidden="true" class="button-arrow-img arrow" />
+              <div class="button-text">{{ 'create-event.back-edit' | translate }}</div>
             </div>
           </a>
         </div>
 
         <div *ngIf="role === roles.ORGANIZER || role === roles.ADMIN" class="edit-buttons">
-          <button *ngIf="event.isRelevant || role === roles.ADMIN" class="tertiary-global-button m-btn" (click)="deleteEvent()">
+          <button (click)="deleteEvent()" *ngIf="event.isRelevant || role === roles.ADMIN" class="tertiary-global-button m-btn">
             {{ 'homepage.events.btn.delete' | translate }}
           </button>
-          <button class="secondary-global-button m-btn" (click)="navigateToEditEvent()" [disabled]="!event.isRelevant">
+          <button (click)="navigateToEditEvent()" [disabled]="!event.isRelevant" class="secondary-global-button m-btn">
             {{ 'homepage.events.btn.edit' | translate }}
           </button>
         </div>
         <div *ngIf="eventService.getForm()">
-          <a class="button-link" [routerLink]="['/events', 'create-event']">
-            <button class="primary-global-button button-publish" (click)="backToSubmit()">{{ 'create-event.publish' | translate }}</button>
+          <a [routerLink]="['/events', 'create-event']" class="button-link">
+            <button class="primary-global-button button-publish">
+              {{ 'create-event.publish' | translate }}
+            </button>
           </a>
         </div>
       </div>
@@ -62,13 +65,13 @@
 
           <div class="event-tags-participants">
             <div class="event-tags">
-              <div class="event-tag" *ngFor="let tag of event.tags">
+              <div *ngFor="let tag of event.tags" class="event-tag">
                 {{ eventService.getLangValue(tag.nameUa, tag.nameEn) | uppercase }}
               </div>
             </div>
             <div class="event-participants">
-              <div class="event-participants-avatars" *ngIf="attendeesAvatars.length">
-                <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars">
+              <div *ngIf="attendeesAvatars.length" class="event-participants-avatars">
+                <div *ngFor="let avatar of attendeesAvatars" class="event-participants-avatar">
                   <img [src]="avatar" alt="" />
                 </div>
               </div>
@@ -86,7 +89,7 @@
                 <div class="event-date-icon">
                   <img [src]="icons.clock" alt="" />
                 </div>
-                <div class="event-date-content" *ngIf="event.dates.length === 1; else multipleDays">
+                <div *ngIf="event.dates.length === 1; else multipleDays" class="event-date-content">
                   <div class="event-duration">{{ event.dates[0].startDate | dateLocalisation }}</div>
                   <div>|</div>
                   <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
@@ -96,7 +99,7 @@
                     <div class="event-duration">
                       {{ event.dates[0].startDate | dateLocalisation }}
                       &nbsp;-&nbsp;
-                      {{ event.dates[event.dates.length - 1].finishDate | date: 'MMM d, y' }}
+                      {{ event.dates[event.dates.length - 1].finishDate | dateLocalisation }}
                     </div>
                     <div>|</div>
                     <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
@@ -110,13 +113,13 @@
                 <div class="event-location-icon">
                   <img [src]="icons.location" alt="" />
                 </div>
-                <span>{{ eventService.getForm() ? place : getAddress() }}</span>
+                <a href="{{ googleMapLink }}" target="_blank">{{ eventService.getForm() ? place : getAddress() }}</a>
               </div>
               <div *ngIf="locationLink" class="event-link">
                 <div class="event-link-icon">
                   <img [src]="icons.link" alt="" />
                 </div>
-                <a href="{{ locationLink }}" target="_blank" rel="noopener">
+                <a href="{{ locationLink }}" rel="noopener" target="_blank">
                   {{ locationLink }}
                 </a>
               </div>
@@ -142,17 +145,17 @@
             *ngIf="!eventService.getForm()"
             [ngClass]="localStorageService.getCurrentLanguage() === 'ua' ? 'save-join-event-block-ua' : 'save-join-event-block'"
           >
-            <button class="secondary-global-button" (click)="changeFavouriteStatus($event)">
+            <button (click)="changeFavouriteStatus($event)" class="secondary-global-button">
               {{ (isEventFavorite ? 'homepage.events.btn.unsave-event' : 'homepage.events.btn.save-event') | translate }}
             </button>
             <button
+              (click)="buttonAction($event)"
               *ngIf="isUserCanJoin && event.isRelevant"
               [ngClass]="isSubscribed ? 'secondary-global-button' : 'primary-global-button'"
-              (click)="buttonAction($event)"
             >
               {{ (isSubscribed ? 'event.btn-cancel' : 'event.btn-join') | translate }}
             </button>
-            <button class="primary-global-button" *ngIf="isUserCanRate" (click)="openModal()">{{ 'event.btn-rate' | translate }}</button>
+            <button (click)="openModal()" *ngIf="isUserCanRate" class="primary-global-button">{{ 'event.btn-rate' | translate }}</button>
           </div>
         </div>
 
@@ -161,7 +164,7 @@
           <div [innerHTML]="event.description | safeHtmlTransform" class="ql-editor"></div>
         </div>
       </div>
-      <app-comments-container *ngIf="!eventService.getForm()" class="event" [entityId]="eventId"></app-comments-container>
+      <app-comments-container *ngIf="!eventService.getForm()" [entityId]="eventId" class="event"></app-comments-container>
     </div>
   </div>
 </div>

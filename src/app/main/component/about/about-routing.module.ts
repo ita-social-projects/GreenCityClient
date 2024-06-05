@@ -5,12 +5,12 @@ import { AboutPageComponent } from './components/about-page/about-page.component
 const aboutRoutes: Routes = [
   {
     path: '',
-    component: AboutPageComponent,
-  },
+    component: AboutPageComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(aboutRoutes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AboutRoutingModule {}

@@ -22,11 +22,7 @@ export class TagFilterComponent implements OnInit {
   }
 
   public emitTrueFilterValues(): Array<string> {
-    return this.filters
-      .filter((active) => active.isActive)
-      .map((filter) => {
-        return this.getLangValue(filter.nameUa, filter.name);
-      });
+    return this.filters.filter((active) => active.isActive).map((filter) => this.getLangValue(filter.nameUa, filter.name));
   }
 
   public emitActiveFilters(): void {

@@ -6,8 +6,6 @@ import { Chat } from '../../model/Chat.model';
 })
 export class ChatsSearchPipe implements PipeTransform {
   transform(chats: Chat[], searchInput: string): Chat[] {
-    return chats.filter((chat) => {
-      return chat.name.toLowerCase().includes(searchInput.toLowerCase());
-    });
+    return chats.filter((chat) => chat.name.toLowerCase().includes(searchInput.toLowerCase()));
   }
 }

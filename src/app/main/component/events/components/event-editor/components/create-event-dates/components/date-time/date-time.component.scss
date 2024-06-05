@@ -1,0 +1,41 @@
+.date-time {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.time {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+
+  .dash {
+    height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  .time-item {
+    flex: 1;
+  }
+}
+
+.date {
+  flex: 1;
+}
+
+.day {
+  background-color: var(--quaternary-light-grey);
+  color: var(--quaternary-grey);
+  width: 64px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-right: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}

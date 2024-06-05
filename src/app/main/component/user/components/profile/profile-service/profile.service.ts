@@ -31,7 +31,11 @@ export class ProfileService {
     youtube: './assets/img/icon/youtube-icon.svg'
   };
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService, private languageService: LanguageService) {}
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService,
+    private languageService: LanguageService
+  ) {}
 
   public setUserId(): void {
     this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));

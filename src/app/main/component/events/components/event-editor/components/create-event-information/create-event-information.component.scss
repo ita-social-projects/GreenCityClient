@@ -1,0 +1,66 @@
+@import 'src/typography/_resp.scss';
+
+.event-container {
+  display: flex;
+  justify-content: center;
+  margin-right: 18px;
+  margin-left: 18px;
+}
+
+p {
+  margin: 0 0 8px;
+  color: var(--quaternary-grey);
+}
+
+quill-editor {
+  width: 100%;
+  overflow-y: auto;
+  border-radius: 4px;
+  border: 1px solid var(--quintynary-light-grey);
+}
+
+.header-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 5px;
+
+  @include responsiveMobileFirst(sm) {
+    gap: 24px;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  mat-label,
+  mat-form-field {
+    font-size: 14px;
+  }
+
+  .title-wrapper {
+    flex: 1 0 280px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .above-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .duration-wrapper {
+    flex: 1 1 96px;
+
+    @include responsiveMobileFirst(sm) {
+      flex: 0;
+      width: 96px;
+    }
+  }
+}
+
+.quill-error {
+  color: var(--error-red);
+}

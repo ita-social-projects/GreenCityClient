@@ -12,8 +12,7 @@
     letter-spacing: 0.002em;
     color: var(--ubs-primary-black);
     font-family: var(--primary-font);
-    grid-column-start: 1;
-    grid-column-end: -1;
+    grid-column: 1 / -1;
   }
 }
 
@@ -26,7 +25,7 @@
 
   .header_table {
     height: 34px;
-    margin: 5px 0 2px 0;
+    margin: 5px 0 2px;
     border-bottom: 1px solid var(--ubs-primary-light-grey);
 
     th {
@@ -142,8 +141,7 @@
   .download-link {
     display: grid;
     grid-template-areas: 'arrow text' 'maximize text';
-    grid-template-columns: 16px max-content;
-    grid-template-rows: 17px auto;
+    grid-template-rows: 17px auto / 16px max-content;
     margin: 30px 18px 33px 0;
     color: var(--primary-green);
   }

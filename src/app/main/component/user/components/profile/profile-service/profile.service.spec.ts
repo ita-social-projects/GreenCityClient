@@ -5,7 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ProfileService } from './profile.service';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 
 describe('ProfileService', () => {
   const backUserLink = environment.backendUserLink;
@@ -13,12 +13,10 @@ describe('ProfileService', () => {
   let profileService: ProfileService;
   let httpMock: HttpTestingController;
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
 
-  let languageServiceMock: LanguageService;
-  languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage']);
+  const languageServiceMock: LanguageService = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage = () => 'en' as Language;
 
   beforeEach(() => {
@@ -45,8 +43,7 @@ describe('ProfileService', () => {
 
   it('should set user id', () => {
     let userId = null;
-    // @ts-ignore
-    profileService.localStorageService.userIdBehaviourSubject.subscribe((id) => (userId = id));
+    (profileService as any).localStorageService.userIdBehaviourSubject.subscribe((id) => (userId = id));
     expect(userId).toBe(1111);
   });
 

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -29,7 +29,7 @@ describe('UbsUserOrderCancelPopUpComponent', () => {
   const userOrdersServiceMock = jasmine.createSpyObj('userOrdersService', ['deleteOrder']);
   userOrdersServiceMock.deleteOrder.and.returnValue(of());
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrderCancelPopUpComponent],
       imports: [MatDialogModule, TranslateModule.forRoot()],

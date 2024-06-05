@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./images-slider.component.scss']
 })
 export class ImagesSliderComponent {
-  @Input() images: [];
+  @Input() images: string[];
   public currentImageIdx = 0;
 
   public selectImage(ind: number): void {

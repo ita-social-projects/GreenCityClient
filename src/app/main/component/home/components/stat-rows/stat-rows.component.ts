@@ -4,7 +4,7 @@ import { UserService } from '../../../../service/user/user.service';
 @Component({
   selector: 'app-stat-rows',
   templateUrl: './stat-rows.component.html',
-  styleUrls: ['./stat-rows.component.scss'],
+  styleUrls: ['./stat-rows.component.scss']
 })
 export class StatRowsComponent implements OnInit {
   homePageHabitStats: Array<any>;
@@ -30,7 +30,7 @@ export class StatRowsComponent implements OnInit {
           count: getStatisticForHabitItemName('bags'),
           question: 'А скільки пакетів ти не взяв сьогодні ти?',
           iconPath: 'assets/img/habit-pic-bag.png',
-          locationText: 'тут можна купити еко-сумочки і торбинки',
+          locationText: 'тут можна купити еко-сумочки і торбинки'
         },
         {
           action: 'Не викинули',
@@ -38,8 +38,8 @@ export class StatRowsComponent implements OnInit {
           count: getStatisticForHabitItemName('caps'),
           question: 'А скільки склянок не викинув сьогодні ти?',
           iconPath: 'assets/img/habit-pic-cup.png',
-          locationText: 'заклади, які роблять знижку на напій в своє горнятко',
-        },
+          locationText: 'заклади, які роблять знижку на напій в своє горнятко'
+        }
       ];
     });
   }

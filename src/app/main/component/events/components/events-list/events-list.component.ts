@@ -1,12 +1,12 @@
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Addresses, EventFilterCriteriaInterface, EventPageResponseDto, FilterItem } from '../../models/events.interface';
+import { Addresses, EventFilterCriteriaInterface, EventListResponse, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
-import { typeFiltersData, timeStatusFiltersData, statusFiltersData } from '../../models/event-consts';
+import { statusFiltersData, timeStatusFiltersData, typeFiltersData } from '../../models/event-consts';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
@@ -34,19 +34,15 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public typeFilterControl = new FormControl();
   public searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
-  public eventsList: EventPageResponseDto[] = [];
+  public eventsList: EventListResponse[] = [];
 
   public isLoggedIn: string;
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  private ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   public selectedEventTimeStatusFiltersList: string[] = [];
   public selectedLocationFiltersList: string[] = [];
   public selectedStatusFiltersList: string[] = [];
   public selectedTypeFiltersList: string[] = [];
-  private page = 0;
   public hasNextPage = true;
   public countOfEvents = 0;
-  private eventsPerPage = 6;
   public noEventsMatch = false;
   public selectedFilters: FilterItem[] = [];
   public searchToggle = false;
@@ -58,6 +54,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public userId: number;
   public isLoading = true;
   public isGalleryView = true;
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
+  private page = 0;
+  private eventsPerPage = 6;
   private searchResultSubscription: Subscription;
   private dialog: MatDialog;
 
@@ -110,22 +110,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.page++;
   }
 
-  private searchEventsByTitle(searchTitle: string): void {
-    const eventListFilterCriterias = this.createEventListFilterCriteriasObject();
-    this.searchResultSubscription = this.eventService
-      .getEvents(this.page, this.eventsPerPage, eventListFilterCriterias, searchTitle)
-      .subscribe((res) => {
-        this.isLoading = false;
-        if (res.page.length > 0) {
-          this.countOfEvents = res.totalElements;
-          this.eventsList.push(...res.page);
-          this.hasNextPage = res.hasNext;
-        } else {
-          this.noEventsMatch = true;
-        }
-      });
-  }
-
   public search(): void {
     this.searchToggle = !this.searchToggle;
   }
@@ -143,16 +127,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.cleanEventList();
       this.getEvents();
     }
-  }
-
-  private getUserFavoriteEvents(): void {
-    this.eventService.getUserFavoriteEvents(this.page, this.eventsPerPage).subscribe((res) => {
-      this.isLoading = false;
-      this.eventsList.push(...res.page);
-      this.page++;
-      this.countOfEvents = res.totalElements;
-      this.hasNextPage = res.hasNext;
-    });
   }
 
   public getUniqueLocations(addresses: Array<Addresses>): FilterItem[] {
@@ -234,17 +208,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.updateListOfFilters(filter);
   }
 
-  private updateSelectedFiltersList(filterName: string, index?: number): void {
-    if (index) {
-      this.selectedFilters.splice(index, 1);
-    } else {
-      if (this.selectedFilters.find((item) => item.nameEn === filterName)) {
-        const indexOfItem = this.selectedFilters.findIndex((item) => item.nameEn === filterName);
-        this.selectedFilters.splice(indexOfItem, 1);
-      }
-    }
-  }
-
   public unselectAllFiltersInType(filterType: string): void {
     switch (filterType) {
       case 'eventTimeStatus':
@@ -288,18 +251,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.getEvents();
   }
 
-  private unselectCheckbox(checkboxList: MatSelect, optionName: string): void {
-    checkboxList.options.find((option: MatOption) => option.value === optionName).deselect();
-  }
-
-  private unselectCheckboxesInList(checkboxList: MatSelect): void {
-    checkboxList.options?.forEach((option) => {
-      if (option.selected) {
-        option.deselect();
-      }
-    });
-  }
-
   public resetAllFilters(): void {
     this.selectedFilters = [];
     this.selectedEventTimeStatusFiltersList = [];
@@ -311,6 +262,84 @@ export class EventsListComponent implements OnInit, OnDestroy {
     });
     this.cleanEventList();
     this.getEvents();
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public isUserLoggedRedirect(): void {
+    this.isLoggedIn ? this.router.navigate(['/events', 'create-event']) : this.openAuthModalWindow('sign-in');
+    this.eventService.setForm(null);
+  }
+
+  public openAuthModalWindow(page: string): void {
+    this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: page
+      }
+    });
+  }
+
+  public changeViewMode(type: string): void {
+    this.isGalleryView = type === 'gallery';
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+  }
+
+  private searchEventsByTitle(searchTitle: string): void {
+    const eventListFilterCriterias = this.createEventListFilterCriteriasObject();
+    this.searchResultSubscription = this.eventService
+      .getEvents(this.page, this.eventsPerPage, eventListFilterCriterias, searchTitle)
+      .subscribe((res) => {
+        this.isLoading = false;
+        if (res.page.length > 0) {
+          this.countOfEvents = res.totalElements;
+          this.eventsList.push(...res.page);
+          this.hasNextPage = res.hasNext;
+        } else {
+          this.noEventsMatch = true;
+        }
+      });
+  }
+
+  private getUserFavoriteEvents(): void {
+    this.eventService.getUserFavoriteEvents(this.page, this.eventsPerPage).subscribe((res) => {
+      this.isLoading = false;
+      this.eventsList.push(...res.page);
+      this.page++;
+      this.countOfEvents = res.totalElements;
+      this.hasNextPage = res.hasNext;
+    });
+  }
+
+  private updateSelectedFiltersList(filterName: string, index?: number): void {
+    if (index) {
+      this.selectedFilters.splice(index, 1);
+    } else {
+      if (this.selectedFilters.find((item) => item.nameEn === filterName)) {
+        const indexOfItem = this.selectedFilters.findIndex((item) => item.nameEn === filterName);
+        this.selectedFilters.splice(indexOfItem, 1);
+      }
+    }
+  }
+
+  private unselectCheckbox(checkboxList: MatSelect, optionName: string): void {
+    checkboxList.options.find((option: MatOption) => option.value === optionName).deselect();
+  }
+
+  private unselectCheckboxesInList(checkboxList: MatSelect): void {
+    checkboxList.options?.forEach((option) => {
+      if (option.selected) {
+        option.deselect();
+      }
+    });
   }
 
   private cleanEventList(): void {
@@ -337,35 +366,5 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.userId = data.userId;
       this.statusFiltersList = this.userId ? statusFiltersData : statusFiltersData.slice(0, 2);
     });
-  }
-
-  public getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
-  }
-
-  public isUserLoggedRedirect(): void {
-    this.isLoggedIn ? this.router.navigate(['/events', 'create-event']) : this.openAuthModalWindow('sign-in');
-    this.eventService.setBackFromPreview(false);
-    this.eventService.setForm(null);
-  }
-
-  public openAuthModalWindow(page: string): void {
-    this.dialog.open(AuthModalComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: ['custom-dialog-container'],
-      data: {
-        popUpName: page
-      }
-    });
-  }
-
-  public changeViewMode(type: string): void {
-    this.isGalleryView = type === 'gallery';
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.complete();
   }
 }

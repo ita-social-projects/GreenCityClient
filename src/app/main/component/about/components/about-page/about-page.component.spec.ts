@@ -1,5 +1,5 @@
 import { Language } from './../../../../i18n/Language';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -40,17 +40,15 @@ describe('AboutPageComponent', () => {
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const mockLang = 'ru';
 
-  let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AboutPageComponent],
       imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot()],

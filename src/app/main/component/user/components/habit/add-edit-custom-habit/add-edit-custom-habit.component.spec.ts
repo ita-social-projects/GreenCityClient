@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HabitService } from '@global-service/habit/habit.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of, Subject, BehaviorSubject } from 'rxjs';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -15,21 +15,46 @@ import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TodoStatus } from '../models/todo-status.enum';
+import { provideMockStore } from '@ngrx/store/testing';
+import { TagsSelectComponent } from '@shared/components/tags-select/tags-select.component';
+import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-drop.component';
+import { SelectImagesComponent } from '@shared/components/select-images/select-images.component';
+import { HabitProgressComponent } from '@global-user/components/habit/add-new-habit/habit-progress/habit-progress.component';
+import { HabitDurationComponent } from '@global-user/components/habit/add-new-habit/habit-duration/habit-duration.component';
+import { HabitEditShoppingListComponent } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
+import { HabitInviteFriendsComponent } from '@global-user/components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
+import { DatePipe } from '@angular/common';
+import { EditorChangeContent, QuillModule } from 'ngx-quill';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarWeekComponent } from '@global-user/components/profile/calendar/calendar-week/calendar-week.component';
+import { HabitCalendarComponent } from '@global-user/components/habit/add-new-habit/habit-calendar/habit-calendar.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { FileHandle } from '@eco-news-models/create-news-interface';
+import { DomSanitizer } from '@angular/platform-browser';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
   let fixture: ComponentFixture<AddEditCustomHabitComponent>;
-
   const initialState = { habit: { defaultDuration: 1 } };
-
+  const mockEvent: EditorChangeContent = {
+    event: 'text-change',
+    text: 'Updated text',
+    content: null,
+    delta: null,
+    editor: null,
+    html: null,
+    oldDelta: null,
+    source: null
+  };
   const tagsMock: TagInterface[] = [{ id: 1, name: 'Tag', nameUa: 'Тег', isActive: true }];
-
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getUserId', 'getCurrentLanguage']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getUserId', 'getCurrentLanguage', 'pipe']);
 
   localStorageServiceMock.getUserId = () => 2;
   localStorageServiceMock.languageSubject = new Subject<string>();
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject<number>(2);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   const habitServiceMock = jasmine.createSpyObj('fakeHabitService', ['getAllTags', 'addCustomHabit', 'deleteCustomHabit']);
@@ -37,15 +62,35 @@ describe('AddEditCustomHabitComponent', () => {
   habitServiceMock.addCustomHabit = () => of(null);
   habitServiceMock.deleteCustomHabit = () => of({});
 
-  const habitAssignServiceMock = jasmine.createSpyObj('fakeHabitAssignService', ['getHabitByAssignId']);
+  const habitAssignServiceMock = jasmine.createSpyObj('fakeHabitAssignService', [
+    'getHabitByAssignId',
+    'getAssignHabitsByPeriod',
+    'getAssignedHabits'
+  ]);
   habitAssignServiceMock.getHabitByAssignId = () => of(initialState);
+  habitAssignServiceMock.getAssignHabitsByPeriod = () => of([]);
+  habitAssignServiceMock.getAssignedHabits = () => of([]);
 
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AddEditCustomHabitComponent],
+      declarations: [
+        AddEditCustomHabitComponent,
+        TagsSelectComponent,
+        DragAndDropComponent,
+        HabitDurationComponent,
+        CalendarWeekComponent,
+        HabitCalendarComponent,
+        HabitEditShoppingListComponent,
+        HabitInviteFriendsComponent,
+        HabitProgressComponent,
+        SelectImagesComponent
+      ],
       imports: [
+        NgbModule,
+        FormsModule,
+        QuillModule.forRoot(),
         TranslateModule.forRoot(),
         RouterTestingModule,
         BrowserAnimationsModule,
@@ -53,13 +98,16 @@ describe('AddEditCustomHabitComponent', () => {
         ReactiveFormsModule,
         HttpClientTestingModule,
         MatDialogModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatSliderModule
       ],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: HabitService, useValue: habitServiceMock },
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
         { provide: Router, useValue: routerMock },
+        provideMockStore({ initialState }),
+        DatePipe,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -73,6 +121,7 @@ describe('AddEditCustomHabitComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddEditCustomHabitComponent);
     component = fixture.componentInstance;
+    habitAssignServiceMock.habitChangesFromCalendarSubj = new Subject();
     fixture.detectChanges();
   });
 
@@ -155,6 +204,45 @@ describe('AddEditCustomHabitComponent', () => {
     const spy = spyOn(component, 'goToAllHabits');
     component.addHabit();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call changeCustomHabit() and goToAllHabits() on success', () => {
+    const habitFormValue = { title: 'Title', description: 'Description', complexity: 1, duration: 7, tagIds: [1], image: '', shopList: [] };
+    component.habitForm.setValue(habitFormValue);
+    habitServiceMock.changeCustomHabit = jasmine.createSpy('changeCustomHabit').and.returnValue(of(null));
+    spyOn(component, 'goToAllHabits');
+    component.saveHabit();
+    expect(habitServiceMock.changeCustomHabit).toHaveBeenCalled();
+    expect(component.goToAllHabits).toHaveBeenCalled();
+  });
+
+  it('should set the image field in the form', () => {
+    const domSanitizer = TestBed.inject(DomSanitizer);
+    const mockFile = new File([''], 'filename', { type: 'text/html' });
+    const mockUrl = domSanitizer.bypassSecurityTrustUrl('');
+    const mockFileHandle: FileHandle[] = [{ file: mockFile, url: mockUrl }];
+
+    component.getFile(mockFileHandle);
+    expect(component.habitForm.get('image').value).toEqual(mockFile);
+  });
+
+  it('should set the complexity field in the form', () => {
+    const complexityValue = 2;
+    component.setComplexity(complexityValue);
+    expect(component.habitForm.get('complexity').value).toEqual(complexityValue + 1);
+  });
+
+  it('should not update editorText when event is selection-change', () => {
+    const spy = spyOn(component, 'handleErrorClass').and.callThrough();
+    component.changedEditor(mockEvent);
+    expect(spy).toHaveBeenCalledWith('warning');
+  });
+
+  it('should set errors when description is valid', () => {
+    const mockForm: FormGroup = TestBed.inject(FormBuilder).group({ description: ['Short'] });
+    component.habitForm = mockForm;
+    component.handleErrorClass('warning');
+    expect(mockForm.get('description').errors).toEqual({ invalidDescription: false });
   });
 
   it('should call handleHabitDelete after habit has been deleted', () => {

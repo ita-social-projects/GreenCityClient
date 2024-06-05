@@ -90,7 +90,7 @@
         />
         <mat-autocomplete
           #autoCity="matAutocomplete"
-          (opened)="onOpenDropdown($event)"
+          (opened)="onOpenDropdown()"
           (optionSelected)="onSelectCity($event, autocompleteTriggerCity)"
           autoActiveFirstOption
         >
@@ -108,11 +108,11 @@
           <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
         </div>
       </div>
-      <mat-chip-list #chipListCity aria-label="City selection">
+      <mat-chip-grid #chipListCity aria-label="City selection">
         <div class="city-list">
           <span *ngFor="let city of selectedCities" class="city-item">{{ city.name }}</span>
         </div>
-      </mat-chip-list>
+      </mat-chip-grid>
     </div>
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.courier' | translate }}</p>
@@ -186,7 +186,7 @@
     </tr>
   </thead>
   <tbody *ngIf="showAllTariff">
-    <tr *ngFor="let card of cards" class="cursor-pointer" (click)="page($event.target.className, card.cardId)">
+    <tr *ngFor="let card of cards" class="cursor-pointer" (click)="page($event.target['className'], card.cardId)">
       <td>
         {{ card.region }}
       </td>

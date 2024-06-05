@@ -21,7 +21,11 @@ export class AddCommentComponent implements OnInit {
   });
   public commentHtml: string;
 
-  constructor(private commentsService: CommentsService, private fb: FormBuilder, private profileService: ProfileService) {}
+  constructor(
+    private commentsService: CommentsService,
+    private fb: FormBuilder,
+    private profileService: ProfileService
+  ) {}
 
   ngOnInit() {
     this.getUserInfo();

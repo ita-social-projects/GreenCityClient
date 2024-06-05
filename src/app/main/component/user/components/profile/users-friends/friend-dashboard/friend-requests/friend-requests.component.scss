@@ -1,7 +1,6 @@
 .friend-requests-container {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   justify-content: center;
 
   @media (min-width: 576px) {
@@ -15,8 +14,7 @@
   .cards-box {
     display: flex;
     flex-direction: column;
-    row-gap: 14px;
-    column-gap: 32px;
+    gap: 14px 32px;
 
     @media (max-width: 1200px) {
       gap: 32px;

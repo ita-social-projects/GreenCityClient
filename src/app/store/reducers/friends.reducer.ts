@@ -43,9 +43,7 @@ export const friendsReducers = createReducer(
 
   on(GetAllFriendsRequestsSuccess, (state: IFriendState, action) => {
     const prevList = state.FriendRequestState ? [...state.FriendRequestList] : [];
-    const onlyNew = action.FriendRequestList.page.filter((friend) => {
-      return prevList.every((el) => el.id !== friend.id) || !prevList.length;
-    });
+    const onlyNew = action.FriendRequestList.page.filter((friend) => prevList.every((el) => el.id !== friend.id) || !prevList.length);
     return {
       ...state,
       FriendRequestList: [...prevList, ...onlyNew],
@@ -55,9 +53,7 @@ export const friendsReducers = createReducer(
 
   on(GetAllFriendsSuccess, (state: IFriendState, action) => {
     const prevList = state.FriendState ? [...state.FriendList] : [];
-    const onlyNew = action.FriendList.page.filter((friend) => {
-      return prevList.every((el) => el.id !== friend.id) || !prevList.length;
-    });
+    const onlyNew = action.FriendList.page.filter((friend) => prevList.every((el) => el.id !== friend.id) || !prevList.length);
     return {
       ...state,
       FriendList: [...prevList, ...onlyNew],
@@ -65,13 +61,11 @@ export const friendsReducers = createReducer(
     };
   }),
 
-  on(ResetFriends, (state: IFriendState, action) => {
-    return {
-      ...state,
-      FriendList: [],
-      FriendState: null,
-      FriendRequestList: [],
-      FriendRequestState: null
-    };
-  })
+  on(ResetFriends, (state: IFriendState, action) => ({
+    ...state,
+    FriendList: [],
+    FriendState: null,
+    FriendRequestList: [],
+    FriendRequestState: null
+  }))
 );

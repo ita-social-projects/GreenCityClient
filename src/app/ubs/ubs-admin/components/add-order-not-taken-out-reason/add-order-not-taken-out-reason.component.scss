@@ -16,7 +16,7 @@
 
   &::-webkit-scrollbar-thumb {
     background: var(--ubs-secondary-grey);
-    box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
+    box-shadow: 2px 2px 4px rgb(73 74 73 / 20%);
     border-radius: 4px;
     cursor: pointer;
   }

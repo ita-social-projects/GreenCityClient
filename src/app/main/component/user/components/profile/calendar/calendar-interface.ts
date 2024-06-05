@@ -1,12 +1,10 @@
-export interface CalendarInterface {
-  date: Date;
+import { BaseCalendar } from '@global-user/components/profile/calendar/calendar-week/calendar-week-interface';
+
+export interface CalendarInterface extends BaseCalendar {
   numberOfDate: number | string;
   year: number;
   month: number;
   firstDay: number;
-  dayName: string;
   totalDaysInMonth: number;
-  hasHabitsInProgress: boolean;
-  areHabitsDone: boolean;
   isCurrentDayActive: boolean;
 }

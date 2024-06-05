@@ -1,5 +1,5 @@
-@import './././src/app/ubs/ubs-admin/components/ubs-admin-employee/dialogs';
-@import './././src/app/ubs/ubs-admin/ubs-admin.component';
+@import '../dialogs';
+@import '../../../ubs-admin.component';
 
 .add-edit {
   width: 620px;
@@ -113,8 +113,7 @@ form {
 
 .accordion-role-body {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
+  flex-flow: column wrap;
   width: 100%;
   max-height: 140px;
 }
@@ -130,7 +129,7 @@ form {
   padding: 6px;
   border-radius: 3px;
   cursor: pointer;
-  box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0.5px 0.5px 0.5px 0.5px rgb(0 0 0 / 25%);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -191,7 +190,7 @@ label {
   &::after {
     display: block;
     content: '';
-    background: url('src/assets/img/ubs/drag-and-drop-img.svg') no-repeat center;
+    background: url('/assets/img/ubs/drag-and-drop-img.svg') no-repeat center;
     background-size: cover;
     position: absolute;
     top: 0;
@@ -270,7 +269,7 @@ label {
 
   tbody tr {
     background: var(--ubs-primary-white);
-    box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
+    box-shadow: 0 2px 6px rgb(100 114 125 / 15%);
 
     td {
       font-style: normal;

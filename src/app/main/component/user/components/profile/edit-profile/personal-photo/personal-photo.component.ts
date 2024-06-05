@@ -16,7 +16,10 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
   public editIcon = './assets/img/profile/icons/edit-photo.svg';
   public userName: string;
   @ViewChild('editImage') previousActiveElement: ElementRef;
-  constructor(private profileService: ProfileService, private dialog: MatDialog) {}
+  constructor(
+    private profileService: ProfileService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.setUserAvatar();

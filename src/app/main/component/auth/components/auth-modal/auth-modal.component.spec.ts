@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { RestorePasswordComponent } from '../restore-password/restore-password.component';
 import { SignUpComponent } from '../sign-up/sign-up.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SignInComponent } from '@global-auth/sign-in/sign-in.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -22,7 +22,7 @@ describe('AuthModalComponent', () => {
     close: () => {}
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AuthModalComponent, SignInComponent, SignUpComponent, RestorePasswordComponent, ErrorComponent, GoogleBtnComponent],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, FormsModule, HttpClientModule, MatDialogModule, RouterTestingModule],

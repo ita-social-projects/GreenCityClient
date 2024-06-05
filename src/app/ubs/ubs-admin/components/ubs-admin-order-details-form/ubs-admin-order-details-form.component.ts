@@ -57,7 +57,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() isEmployeeCanEditOrder: boolean;
   @Input() updateBonusAccount: number;
 
-  constructor(private fb: FormBuilder, private orderService: OrderService, private langService: LanguageService) {}
+  constructor(
+    private fb: FormBuilder,
+    private orderService: OrderService,
+    private langService: LanguageService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     const curStatus = changes.orderStatusInfo?.currentValue;

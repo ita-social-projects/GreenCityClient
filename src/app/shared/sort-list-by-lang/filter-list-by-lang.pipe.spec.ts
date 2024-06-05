@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { of } from 'rxjs';
 import { FilterListByLangPipe } from './filter-list-by-lang.pipe';
@@ -10,7 +10,7 @@ describe('FilterListByLangPipe', () => {
   localStorageServiceMock.languageSubject = of('en');
   const fakeList = [{ languageCode: 'ua' }, { languageCode: 'en' }, { languageCode: 'de' }];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FilterListByLangPipe],
       providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }]

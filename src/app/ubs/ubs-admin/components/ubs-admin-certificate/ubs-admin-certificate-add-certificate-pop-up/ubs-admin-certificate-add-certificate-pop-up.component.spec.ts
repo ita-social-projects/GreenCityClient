@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -43,17 +43,15 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
   let httpMock: HttpTestingController;
   const mockLang = 'ua';
 
-  let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminCertificateAddCertificatePopUpComponent],
       imports: [TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, IMaskModule],

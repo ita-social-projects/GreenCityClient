@@ -1,47 +1,46 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserSharedModule } from './../../../shared/user-shared.module';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProfileHeaderComponent } from './profile-header.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ProfileProgressComponent } from '../profile-progress/profile-progress.component';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ProfileHeaderComponent } from '@global-user/components';
+import { ProfileProgressComponent } from '@global-user/components';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateStore } from '@ngx-translate/core';
+import { TranslateModule, TranslateStore } from '@ngx-translate/core';
 import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
-import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
 import { EditProfileModel, UserLocationDto } from '@global-user/models/edit-profile.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UserProfileImageComponent } from '@global-user/components/shared/components/user-profile-image/user-profile-image.component';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { routes } from '../../../../../../../app-routing.module';
 
 describe('ProfileHeaderComponent', () => {
   let component: ProfileHeaderComponent;
   let fixture: ComponentFixture<ProfileHeaderComponent>;
-  let localStorageServiceMock: LocalStorageService;
   let profileService: ProfileService;
   const mockId = 123;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const userLocationDto = { id: 1, cityEn: 'City', cityUa: 'Місто', countryEn: 'Country', countryUa: 'Країна' } as UserLocationDto;
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.getUserId = () => mockId;
-  localStorageServiceMock.getCurrentLanguage = () => {
-    return 'ua' as Language;
-  };
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getUserCity']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfileHeaderComponent, ProfileProgressComponent, MaxTextLengthPipe],
-      imports: [UserSharedModule, RouterTestingModule.withRoutes([]), BrowserAnimationsModule, HttpClientTestingModule, MatTooltipModule],
+      declarations: [ProfileHeaderComponent, UserProfileImageComponent, ProfileProgressComponent],
+      imports: [MatTooltipModule, TranslateModule.forChild(), UserSharedModule, HttpClientTestingModule, RouterModule.forRoot(routes)],
       providers: [
-        { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: LanguageService, useVale: languageServiceMock },
-        TranslateStore,
-        ProfileService
+        { provide: ActivatedRoute, useValue: { snapshot: { params: { userName: 'testUser', userId: 123 } } } },
+        { provide: ProfileService, useClass: ProfileService },
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: TranslateStore, useClass: TranslateStore },
+        { provide: UserOnlineStatusService, useValue: { addUsersId: () => {}, removeUsersId: () => {}, checkIsOnline: () => true } },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ]
     }).compileComponents();
   }));
@@ -100,14 +99,25 @@ describe('ProfileHeaderComponent', () => {
   });
 
   it('Should return  User City name according to current language', () => {
-    const userLocationDto: UserLocationDto = {
-      id: 1,
-      cityEn: 'City',
-      cityUa: 'Місто',
-      countryEn: 'Country',
-      countryUa: 'Країна'
-    } as UserLocationDto;
-
     expect(component.getUserCity(userLocationDto)).toBe('Місто, Країна');
+  });
+
+  it('should return empty string if locationDto is null', () => {
+    const result = component.getUserCity(null);
+    expect(result).toEqual('');
+  });
+
+  it('should return empty string if cityUa and cityEn are both undefined', () => {
+    const result = component.getUserCity({ ...userLocationDto, cityEn: undefined, cityUa: undefined });
+    expect(result).toEqual('');
+  });
+
+  it('should return city and country when both cityUa and cityEn are defined', () => {
+    const result = component.getUserCity({ ...userLocationDto, cityEn: 'Kiev', cityUa: 'Kyiv' });
+    languageServiceMock.getUserCity(userLocationDto);
+
+    expect(languageServiceMock.getUserCity).toHaveBeenCalledTimes(1);
+    expect(languageServiceMock.getUserCity).toHaveBeenCalledWith(userLocationDto);
+    expect(result).toEqual('Kyiv, Країна');
   });
 });

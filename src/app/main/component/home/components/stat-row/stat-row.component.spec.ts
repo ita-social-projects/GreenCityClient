@@ -1,5 +1,5 @@
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StatRowComponent } from './stat-row.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -24,16 +24,13 @@ describe('StatRowComponent', () => {
   let component: StatRowComponent;
   let fixture: ComponentFixture<StatRowComponent>;
 
-  let snackBarMock: MatSnackBarComponent;
-  snackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   snackBarMock.openSnackBar = () => true;
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
 
-  let checkTokenServiceMock: CheckTokenService;
-  checkTokenServiceMock = jasmine.createSpyObj('checkTokenservice', ['openAuthModalWindow']);
+  const checkTokenServiceMock: CheckTokenService = jasmine.createSpyObj('checkTokenservice', ['openAuthModalWindow']);
 
   const activatedRouteMock = {
     queryParams: of({
@@ -47,10 +44,10 @@ describe('StatRowComponent', () => {
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StatRowComponent],
-      imports: [TranslateModule.forRoot(), RouterModule.forRoot([]), HttpClientTestingModule, MatSnackBarModule],
+      imports: [TranslateModule.forRoot(), RouterModule.forRoot([], {}), HttpClientTestingModule, MatSnackBarModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: MatSnackBarComponent, useValue: snackBarMock },

@@ -5,15 +5,15 @@
       <a *ngIf="ecoPlaces?.length > 3" class="btn-see-all">{{ 'profile.see-all' | translate }}</a>
     </div>
     <div class="favourites-quantity">
-      <span>{{ ecoPlaces?.length }} {{ 'profile.eco-places-quantity' | correctUnit: ecoPlaces?.length:currentLang | translate }}</span>
+      <span>{{ ecoPlaces?.length }} {{ 'profile.eco-places-quantity' | correctUnit: ecoPlaces?.length : currentLang | translate }}</span>
     </div>
   </div>
   <div>
     <ul class="eco-place-list">
-      <li class="item" *ngFor="let ecoPlace of ecoPlaces">{{ ecoPlace.name }}</li>
+      <li class="item" *ngFor="let ecoPlace of ecoPlaces"><span class="flag-default"></span>{{ ecoPlace.name }}</li>
     </ul>
   </div>
 </div>
-<ng-template #loading>
-  <mat-spinner color="grey" diameter="70" class="loading"></mat-spinner>
+<ng-template>
+  <mat-spinner diameter="70" class="loading"></mat-spinner>
 </ng-template>

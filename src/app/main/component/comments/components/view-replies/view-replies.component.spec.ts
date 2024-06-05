@@ -1,5 +1,5 @@
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ViewRepliesComponent } from './view-replies.component';
 
@@ -7,10 +7,10 @@ describe('ViewRepliesComponent', () => {
   let component: ViewRepliesComponent;
   let fixture: ComponentFixture<ViewRepliesComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ViewRepliesComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot()]
     }).compileComponents();
   }));
 

@@ -27,7 +27,11 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
   statusNotTakenOut = ordersStatuses.NotTakenOutUA;
   statusCancel = ordersStatuses.CancelUA;
 
-  constructor(private orderService: OrderService, private dialog: MatDialog, private languageService: LanguageService) {}
+  constructor(
+    private orderService: OrderService,
+    private dialog: MatDialog,
+    private languageService: LanguageService
+  ) {}
 
   ngOnInit(): void {
     this.currentLanguage = this.languageService.getCurrentLanguage();
@@ -129,7 +133,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }
