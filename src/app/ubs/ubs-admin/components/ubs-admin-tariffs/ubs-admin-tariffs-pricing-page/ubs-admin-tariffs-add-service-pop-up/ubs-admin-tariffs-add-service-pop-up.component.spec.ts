@@ -190,16 +190,17 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
 
   it('should return price Control on getControl', () => {
     (component as any).initForm();
-    const price:FormControl = component.getControl('price');
-    const name:FormControl = component.getControl('name');
-    const nameEng: FormControl = component.getControl('nameEng');
-    const description: FormControl = component.getControl('description');
-    const descriptionEng: FormControl = component.getControl('descriptionEng');
-    expect(price).toEqual(component.addServiceForm.get('price'));
-    expect(name).toEqual(component.addServiceForm.get('name'));
-    expect(nameEng).toEqual(component.addServiceForm.get('nameEng'));
-    expect(description).toEqual(component.addServiceForm.get('description'));
-    expect(descriptionEng).toEqual(component.addServiceForm.get('descriptionEng'));
+    const price = component.getControl('price') as FormControl;
+    const name = component.getControl('name') as FormControl;
+    const nameEng = component.getControl('nameEng') as FormControl;
+    const description = component.getControl('description') as FormControl;
+    const descriptionEng = component.getControl('descriptionEng') as FormControl;
+
+    expect(price).toEqual(component.addServiceForm.get('price') as FormControl);
+    expect(name).toEqual(component.addServiceForm.get('name') as FormControl);
+    expect(nameEng).toEqual(component.addServiceForm.get('nameEng') as FormControl);
+    expect(description).toEqual(component.addServiceForm.get('description') as FormControl);
+    expect(descriptionEng).toEqual(component.addServiceForm.get('descriptionEng') as FormControl);
   });
 
   it('should fillFields correctly', () => {
