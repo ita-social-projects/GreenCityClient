@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -70,6 +70,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     private fb: FormBuilder,
     private store: Store,
     private sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef,
     router: Router,
     dialog: MatDialog
   ) {
@@ -100,9 +101,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.additionalOrders = orderDetails.additionalOrders || [];
     });
 
-    this.store
-      .pipe(select(personalDataSelector), filter(Boolean), takeUntil(this.$destroy))
-      .subscribe((personalData: PersonalData) => (this.personalData = personalData));
+    this.store.pipe(select(personalDataSelector), filter(Boolean), takeUntil(this.$destroy)).subscribe((personalData: PersonalData) => {
+      this.personalData = personalData;
+      this.cdr.detectChanges();
+    });
   }
 
   processOrder(shouldBePaid: boolean = true): void {
