@@ -1,5 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { IBigOrderTable, IBigOrderTableParams, IOrdersViewParameters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import {
+  IBigOrderTable,
+  IBigOrderTableParams,
+  IFilter,
+  IFilters,
+  IOrdersViewParameters
+} from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
 export enum BigOrderTableActions {
   GetColumnToDisplay = '[BigOrderTable] Get Columns To Display',
@@ -13,7 +19,17 @@ export enum BigOrderTableActions {
   ChangingOrderData = '[BigOrderTable] Changing Order Data',
   ChangingOrderPaymentStatus = '[BigOrderTable] Changing Order Payment Status',
   ChangingOrderDataSuccess = '[BigOrderTable] Changing Order Data Success',
-  ReceivedFailure = '[BigOrderTable] Received Failure'
+  ReceivedFailure = '[BigOrderTable] Received Failure',
+
+  AddFilters = '[BigOrderTable] Add Filters',
+  AddFilterMulti = '[BigOrderTable] Add Filter Multi',
+  RemoveFilter = '[BigOrderTable] Remove Filter',
+  ClearFilters = '[BigOrderTable] Clear Filters',
+
+  SaveFilters = '[BigOrderTable] Save Filters',
+
+  LoadFilters = '[BigOrderTable] Load Filters',
+  LoadFiltersSuccess = '[BigOrderTable] Load Filters Success'
 }
 
 export const GetColumnToDisplay = createAction(BigOrderTableActions.GetColumnToDisplay);
@@ -61,5 +77,15 @@ export const ChangingOrderDataSuccess = createAction(
   BigOrderTableActions.ChangingOrderDataSuccess,
   props<{ orderId: number[]; columnName: string; newValue: string }>()
 );
+
+export const AddFiltersAction = createAction(BigOrderTableActions.AddFilters, props<{ filters: IFilters; fetchTable: boolean }>());
+export const AddFilterMultiAction = createAction(BigOrderTableActions.AddFilterMulti, props<{ filter: IFilter; fetchTable: boolean }>());
+export const RemoveFilter = createAction(BigOrderTableActions.RemoveFilter, props<{ filter: IFilter; fetchTable: boolean }>());
+export const ClearFilters = createAction(BigOrderTableActions.ClearFilters, props<{ fetchTable: boolean; columnName?: string }>());
+
+export const SaveFiltersAction = createAction(BigOrderTableActions.SaveFilters);
+
+export const LoadFiltersAction = createAction(BigOrderTableActions.LoadFilters);
+export const LoadFiltersSuccessAction = createAction(BigOrderTableActions.LoadFiltersSuccess, props<{ filters: IFilters | null }>());
 
 export const ReceivedFailure = createAction(BigOrderTableActions.ReceivedFailure, props<{ error: string | null }>());

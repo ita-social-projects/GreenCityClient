@@ -369,6 +369,15 @@ export interface CreateCertificate {
   points?: number;
 }
 
+export interface IFilter {
+  column: string;
+  value: string | boolean;
+}
+
+export interface IFilters {
+  [key: string]: string | string[] | boolean;
+}
+
 export interface IFilteredColumn {
   key: string;
   en: string;

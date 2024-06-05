@@ -1,12 +1,22 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment';
-import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue } from '../models/ubs-admin.interface';
+import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import * as moment from 'moment';
 
+const columnMapping: { [key: string]: string } = {
+  dateOfExportFrom: 'deliveryDate.from',
+  dateOfExportTo: 'deliveryDate.to',
+  responsibleDriver: 'responsibleDriverId',
+  responsibleNavigator: 'responsibleNavigatorId',
+  responsibleCaller: 'responsibleCallerId',
+  responsibleLogicMan: 'responsibleLogicManId',
+  city: 'citiesEn',
+  district: 'districtsEn'
+};
 @Injectable({
   providedIn: 'root'
 })
@@ -20,43 +30,26 @@ export class AdminTableService {
     private localStorageService: LocalStorageService
   ) {}
 
-  getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string) {
+  getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string, filters?: IFilters) {
     const searchValue = filter ? filter.split(' ').reduce((values, value) => (value ? values + `search=${value}&` : values), '') : '';
     const SORT_BY_AND_PAGE_NUMBER = `sortBy=${columnName}&pageNumber=${page}`;
     const SEARCH_AND_PAGE_SIZE_AND_DIRECTION = searchValue + `pageSize=${size}&sortDirection=${sortingType}`;
     const BASE_QUERY = `${this.url}bigOrderTable?${SORT_BY_AND_PAGE_NUMBER}&${SEARCH_AND_PAGE_SIZE_AND_DIRECTION}`;
-    let filtersQuery = '';
-    if (this.filters.length) {
-      this.filters.forEach((elem) => {
-        const objKeys = Object.keys(elem);
-        if (objKeys.length === 1) {
-          const key = objKeys[0];
-          filtersQuery += `&${key}=${elem[key]}`;
-        }
-        if (objKeys.length === 2) {
-          const keyFrom = objKeys[0].replace('From', '.from');
-          const keyTo = objKeys[1].replace('To', '.to');
-          const elementFrom = this.setDateFormat(elem[objKeys[0]]);
-          const elementTo = this.setDateFormat(elem[objKeys[1]]);
-          if (this.isValidDate(elementFrom) && this.isValidDate(elementTo)) {
-            filtersQuery += `&${keyFrom}=${elementFrom}&${keyTo}=${elementTo}`;
-          }
+
+    let params = new HttpParams();
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value && typeof value === 'string') {
+          params = params.append(this.convertToEndpointName(key), value);
+        } else if (Array.isArray(value)) {
+          const endpointName = this.convertToEndpointName(key);
+          value.forEach((val) => {
+            params = params.append(endpointName, val);
+          });
         }
       });
     }
-    return this.http.get<IBigOrderTable>(`${BASE_QUERY}${filtersQuery}`);
-  }
-
-  isValidDate(dateString: string): boolean {
-    const regEx = /^\d{4}-\d{2}-\d{2}$/;
-    const date = new Date(dateString);
-    if (!regEx.test(dateString) || Number.isNaN(date.getTime())) {
-      return false;
-    }
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return dateString === `${year}-${month}-${day}`;
+    return this.http.get<IBigOrderTable>(BASE_QUERY, { params });
   }
 
   getColumns() {
@@ -93,6 +86,10 @@ export class AdminTableService {
 
   setColumnsForFiltering(columns): void {
     this.columnsForFiltering = columns;
+  }
+
+  convertToEndpointName(column: string): string {
+    return columnMapping[column] || column.replace('From', '.from').replace('To', '.to');
   }
 
   public changeColumnNameEqualToEndPoint(column: string): string {
@@ -244,6 +241,10 @@ export class AdminTableService {
   }
 
   setDateFormat(date): string {
+    return moment(date).format('YYYY-MM-DD');
+  }
+
+  convertDate(date: Date): string {
     return moment(date).format('YYYY-MM-DD');
   }
 

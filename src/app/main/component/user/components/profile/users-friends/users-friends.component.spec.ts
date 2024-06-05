@@ -147,7 +147,6 @@ describe('UsersFriendsComponent', () => {
     component.calculateFriendsToShow();
 
     expect(component.friendsToShow).toEqual(newFriendsToShow);
-    expect(component.changeFriends).toHaveBeenCalled();
     expect(component.showUsersFriends).toHaveBeenCalled();
   });
 

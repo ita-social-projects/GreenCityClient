@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { EventResponse, PagePreviewDTO } from '../../component/events/models/events.interface';
 import { Address, CourierLocations, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
+import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -296,6 +297,14 @@ export class LocalStorageService {
     } else {
       window.localStorage.removeItem('UbsAdminOrdersTableTitleColumnFilters');
     }
+  }
+
+  public getFilters(): IFilters | null {
+    return JSON.parse(window.localStorage.getItem('filters'));
+  }
+
+  public setFilters(filters: IFilters): void {
+    window.localStorage.setItem('filters', JSON.stringify(filters));
   }
 
   public getUbsAdminOrdersTableTitleColumnFilter() {
