@@ -337,7 +337,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   addOrder(value: string = ''): void {
-    const newFormControl = new FormControl(value, [Validators.minLength(4), Validators.maxLength(10)]);
+    const newFormControl = new FormControl(value, [Validators.required, Validators.maxLength(8)]);
     this.additionalOrders.push(newFormControl);
   }
 
