@@ -4,14 +4,13 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StatRowComponent } from '../stat-row/stat-row.component';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { HomepageComponent } from './homepage.component';
 import { EcoEventsComponent, StatRowsComponent, SubscribeComponent } from '..';
 import { EcoEventsItemComponent } from '../eco-events/eco-events-item/eco-events-item.component';
-import { SwiperModule } from 'ngx-swiper-wrapper';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -25,7 +24,6 @@ import { AuthModule } from 'src/app/main/component/auth/auth.module';
 import { EcoNewsModule } from 'src/app/main/component/eco-news/eco-news.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { APP_BASE_HREF } from '@angular/common';
-import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
 
 class MatDialogMock {
   open() {
@@ -38,21 +36,17 @@ class MatDialogMock {
 describe('HomepageComponent', () => {
   let component: HomepageComponent;
   let fixture: ComponentFixture<HomepageComponent>;
-  let snackBarMock: MatSnackBarComponent;
-  snackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   snackBarMock.openSnackBar = () => true;
 
-  let verifyEmailServiceMock: VerifyEmailService;
-  verifyEmailServiceMock = jasmine.createSpyObj('VerifyEmailService', ['onCheckToken']);
+  const verifyEmailServiceMock: VerifyEmailService = jasmine.createSpyObj('VerifyEmailService', ['onCheckToken']);
   verifyEmailServiceMock.onCheckToken = () => of(true);
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject', 'getUserId']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject', 'getUserId']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
-  let userServiceMock: UserService;
-  userServiceMock = jasmine.createSpyObj('UserService', ['countActivatedUsers']);
+  const userServiceMock: UserService = jasmine.createSpyObj('UserService', ['countActivatedUsers']);
   userServiceMock.countActivatedUsers = () => of(1111);
   userServiceMock.getTodayStatisticsForAllHabitItems = () => of([]);
   const activatedRouteMock = {
@@ -63,12 +57,11 @@ describe('HomepageComponent', () => {
   };
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([]),
-        SwiperModule,
         FormsModule,
         HttpClientTestingModule,
         MatSnackBarModule,

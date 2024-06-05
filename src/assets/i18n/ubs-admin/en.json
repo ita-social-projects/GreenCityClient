@@ -382,6 +382,7 @@
     "filters": "Filters",
     "placeholder": "Search by name or contacts",
     "no-orders-found": "According to these criteria, no orders were found",
+    "default-reset": "Reset width",
     "orders-number": "Number of orders"
   },
   "ubs-customer-filters": {
@@ -793,7 +794,7 @@
     "station": "Receiving station",
     "date": "Date ",
     "user": "Added by ",
-    "placeholder_region": "Selet region",
+    "placeholder_region": "Select region",
     "placeholder_location": "Select city",
     "placeholder_courier": "Select courier",
     "placeholder_station": "Select station",

@@ -9,7 +9,10 @@ export class UbsAdminRedirectGuard implements CanActivate {
   isAdmin: boolean;
   private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
 
-  constructor(private router: Router, private jwtService: JwtService) {}
+  constructor(
+    private router: Router,
+    private jwtService: JwtService
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     this.checkIsAdmin();

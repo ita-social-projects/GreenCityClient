@@ -28,7 +28,7 @@
   >
     <mat-option *ngFor="let user of suggestedUsers" [value]="user" (click)="selectSuggestion(user)" (blur)="onDropdownBlur($event)">
       <app-user-profile-image
-        [imgPath]="user.profilePicturePath || ''"
+        [imgPath]="user.profilePicture || ''"
         [firstName]="user.userName"
         class="user-img"
         [additionalImgClass]="'comment-tag-img'"

@@ -2,14 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from './local-storage.service';
 import { Subject } from 'rxjs';
-import { EventPageResponseDto } from '../../component/events/models/events.interface';
+import { EventResponse } from '../../component/events/models/events.interface';
 import { CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 
 describe('LocalStorageService', () => {
   let service: LocalStorageService;
   const ACCESS_TOKEN = 'accessToken';
 
-  const mockEvent: EventPageResponseDto = {
+  const mockEvent: EventResponse = {
     additionalImages: ['image1.jpg', 'image2.jpg'],
     creationDate: '2022-05-31',
     dates: [
@@ -21,7 +21,7 @@ describe('LocalStorageService', () => {
           cityUa: 'cityEn',
           countryEn: 'Ukraine',
           countryUa: 'Україна',
-          houseNumber: 55,
+          houseNumber: '55',
           regionEn: 'Lvivska oblast',
           regionUa: 'Львівська область',
           streetEn: 'Svobody Ave',
@@ -29,41 +29,26 @@ describe('LocalStorageService', () => {
           formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
           formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
         },
-        valid: true,
-        event: 'event',
+        event: null,
         finishDate: 'finishDate',
-        id: 3,
+        id: null,
         onlineLink: 'link',
         startDate: '2022-02-01T00:00:00Z'
       }
     ],
-    location: {
-      date: new Date(),
-      finishDate: 'string',
-      onlineLink: 'string',
-      place: 'string',
-      startDate: 'string',
-      coordinates: {
-        latitude: 1,
-        longitude: 1
-      }
-    },
-    imgArray: [],
-    imgArrayToPreview: [],
     description: 'Test event description',
-    editorText: 'Test event description',
     id: 123,
     open: true,
     organizer: {
       id: 456,
-      name: 'Test organizer'
+      name: 'Test organizer',
+      organizerRating: 3
     },
     tags: [{ id: 789, nameUa: 'Test tag UA', nameEn: 'Test tag EN' }],
     title: 'Test event title',
     titleImage: 'testImage.jpg',
     isSubscribed: true,
     isFavorite: false,
-    isActive: true,
     countComments: 5,
     likes: 8,
     isRelevant: true,
@@ -286,23 +271,23 @@ describe('LocalStorageService', () => {
     });
   });
 
-  describe('UbsFondyOrderId', () => {
-    it('should set the UbsFondyOrderId in local storage', () => {
+  describe('UbsPaymentOrderId', () => {
+    it('should set the UbsPaymentOrderId in local storage', () => {
       const orderId = '123';
-      service.setUbsFondyOrderId(orderId);
-      expect(localStorage.getItem('UbsFondyOrderId')).toEqual(String(orderId));
+      service.setUbsPaymentOrderId(orderId);
+      expect(localStorage.getItem('UbsPaymentOrderId')).toEqual(String(orderId));
     });
 
-    it('should get the UbsFondyOrderId from local storage', () => {
+    it('should get the UbsPaymentOrderId from local storage', () => {
       const orderId = '123';
-      localStorage.setItem('UbsFondyOrderId', JSON.stringify(orderId));
-      expect(service.getUbsFondyOrderId()).toEqual(orderId);
+      localStorage.setItem('UbsPaymentOrderId', JSON.stringify(orderId));
+      expect(service.getUbsPaymentOrderId()).toEqual(orderId);
     });
 
-    it('should remove the UbsFondyOrderId from local storage', () => {
-      localStorage.setItem('UbsFondyOrderId', JSON.stringify('123'));
-      service.removeUbsFondyOrderId();
-      expect(localStorage.getItem('UbsFondyOrderId')).toBeNull();
+    it('should remove the UbsPaymentOrderId from local storage', () => {
+      localStorage.setItem('UbsPaymentOrderId', JSON.stringify('123'));
+      service.removeUbsPaymentOrderId();
+      expect(localStorage.getItem('UbsPaymentOrderId')).toBeNull();
     });
   });
 
@@ -339,10 +324,10 @@ describe('LocalStorageService', () => {
   });
 
   it('should clear payment info', () => {
-    localStorage.setItem('UbsFondyOrderId', '456');
+    localStorage.setItem('UbsPaymentOrderId', '456');
     localStorage.setItem('IsUserPagePayment', 'true');
     service.clearPaymentInfo();
-    expect(localStorage.getItem('UbsFondyOrderId')).toBeNull();
+    expect(localStorage.getItem('UbsPaymentOrderId')).toBeNull();
     expect(localStorage.getItem('IsUserPagePayment')).toBeNull();
   });
 
@@ -427,10 +412,10 @@ describe('LocalStorageService', () => {
   });
 
   it('should clear payment info from localStorage', () => {
-    service.setUbsFondyOrderId('abc');
+    service.setUbsPaymentOrderId('abc');
     service.setUserPagePayment(true);
     service.clearPaymentInfo();
-    expect(service.getUbsFondyOrderId()).toBeFalsy();
+    expect(service.getUbsPaymentOrderId()).toBeFalsy();
     expect(service.getUserPagePayment()).toBeFalsy();
   });
 
@@ -544,7 +529,15 @@ describe('LocalStorageService', () => {
     });
 
     it('should remove UbsAdminOrdersTableTitleColumnFilters from local storage', () => {
-      localStorage.setItem('UbsAdminOrdersTableTitleColumnFilters', JSON.stringify([{ column: 'column1', value: 'value1' }]));
+      localStorage.setItem(
+        'UbsAdminOrdersTableTitleColumnFilters',
+        JSON.stringify([
+          {
+            column: 'column1',
+            value: 'value1'
+          }
+        ])
+      );
       service.removeAdminOrderFilters();
       expect(localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')).toBeNull();
     });

@@ -61,17 +61,13 @@ export const employeesReducer = createReducer(
     error: action.error
   })),
 
-  on(GetEmployeesPermissionsSuccess, (state, action) => {
-    return {
-      ...state,
-      employeesPermissions: action.positionsAuthorities.authorities
-    };
-  }),
+  on(GetEmployeesPermissionsSuccess, (state, action) => ({
+    ...state,
+    employeesPermissions: action.positionsAuthorities.authorities
+  })),
 
-  on(ResetEmployeePermissions, (state) => {
-    return {
-      ...state,
-      employeesPermissions: []
-    };
-  })
+  on(ResetEmployeePermissions, (state) => ({
+    ...state,
+    employeesPermissions: []
+  }))
 );

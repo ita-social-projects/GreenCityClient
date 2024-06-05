@@ -33,7 +33,10 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   private statuses = [OrderStatus.BROUGHT_IT_HIMSELF, OrderStatus.CANCELED];
 
-  constructor(private cdr: ChangeDetectorRef, public orderService: OrderService) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    public orderService: OrderService
+  ) {}
 
   ngAfterViewChecked(): void {
     const isFormRequired = !this.orderService.isStatusInArray(this.orderStatus, this.statuses);
@@ -120,7 +123,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

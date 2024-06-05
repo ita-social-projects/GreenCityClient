@@ -23,7 +23,7 @@ export class HabitAssignService implements OnDestroy {
   userId: number;
   language: string;
   destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  habitsFromDashBoard: any;
+  habitsFromDashBoard: Array<any> = [];
   habitsInProgressToView: Array<HabitAssignInterface> = [];
   habitsInProgress: Array<HabitAssignInterface> = [];
   habitForEdit: HabitAssignInterface;
@@ -32,7 +32,10 @@ export class HabitAssignService implements OnDestroy {
   habitDate: any;
   mapOfArrayOfAllDate = new Map();
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {
     localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((userId) => (this.userId = userId));
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((language) => (this.language = language));
   }
@@ -75,7 +78,7 @@ export class HabitAssignService implements OnDestroy {
     return this.http.post<HabitAssignInterface>(`${habitAssignLink}/${habitAssignId}/unenroll/${date}`, null);
   }
 
-  getAssignHabitsByPeriod(startDate: string, endDate: string) {
+  getAssignHabitsByPeriod(startDate: string, endDate: string): Observable<HabitsForDateInterface[]> {
     const query = `${habitAssignLink}/activity/${startDate}/to/${endDate}?lang=${this.language}`;
     return this.http.get<Array<HabitsForDateInterface>>(query);
   }
@@ -93,7 +96,7 @@ export class HabitAssignService implements OnDestroy {
     return this.http.put<object>(`${habitAssignLink}/${habitAssignId}/updateProgressNotificationHasDisplayed`, {});
   }
 
-  setCircleFromPopUpToProgress(changesFromCalendar: ChangesFromCalendarToProgress) {
+  setCircleFromPopUpToProgress(changesFromCalendar: ChangesFromCalendarToProgress): void {
     this.habitChangesFromCalendarSubj.next(changesFromCalendar);
   }
 

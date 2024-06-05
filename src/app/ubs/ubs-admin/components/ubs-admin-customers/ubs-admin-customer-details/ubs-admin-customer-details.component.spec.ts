@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -10,11 +10,13 @@ describe('UbsAdminCustomerDetailsComponent', () => {
   let component: UbsAdminCustomerDetailsComponent;
   let fixture: ComponentFixture<UbsAdminCustomerDetailsComponent>;
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCustomer', 'removeCurrentCustomer']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getCustomer',
+    'removeCurrentCustomer'
+  ]);
   let locationMock: Location;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [UbsAdminCustomerDetailsComponent],

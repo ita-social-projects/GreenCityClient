@@ -1,10 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UbsFooterComponent } from './ubs-footer.component';
 import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UbsPickUpServicePopUpComponent } from 'src/app/ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 @Injectable()
 class TranslationServiceStub {
@@ -41,17 +42,16 @@ class MatDialogMock {
 }
 
 describe('UbsFooterComponent', () => {
-  let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
   let component: UbsFooterComponent;
   let fixture: ComponentFixture<UbsFooterComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsFooterComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, RouterTestingModule],
       providers: [
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: MatDialog, useClass: MatDialogMock }

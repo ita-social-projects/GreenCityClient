@@ -17,6 +17,7 @@ import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date
 import { MatRadioChange } from '@angular/material/radio';
 import { EditPaymentConfirmationPopUpComponent } from '../shared/components/edit-payment-confirmation-pop-up/edit-payment-confirmation-pop-up.component';
 import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
+import { FileHandle } from '../../models/file-handle.model';
 
 interface InputData {
   orderId: number;
@@ -218,7 +219,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       );
   }
 
-  public filesDropped(files: File): void {
+  public filesDropped(files: FileHandle[]): void {
     this.file = files[0].file;
     this.isWarning = this.showWarning(this.file);
     if (!this.isWarning) {

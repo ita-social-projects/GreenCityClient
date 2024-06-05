@@ -12,14 +12,17 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 })
 export class ProfileCardsComponent implements OnInit, OnDestroy {
   public profileSubscription: Subscription;
-  public languageSunscription: Subscription;
+  public languageSubscription: Subscription;
   public factOfTheDay: CardModel;
-  public error;
+  public error: string;
 
-  constructor(private profileService: ProfileService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private profileService: ProfileService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
-    this.languageSunscription = this.localStorageService.languageBehaviourSubject.subscribe(() => {
+    this.languageSubscription = this.localStorageService.languageBehaviourSubject.subscribe(() => {
       this.getFactOfTheDay();
     });
   }
@@ -40,6 +43,6 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.profileSubscription.unsubscribe();
-    this.languageSunscription.unsubscribe();
+    this.languageSubscription.unsubscribe();
   }
 }

@@ -13,6 +13,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Breakpoints } from 'src/app/main/config/breakpoints.constants';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { BaseCalendar } from '@global-user/components/profile/calendar/calendar-week/calendar-week-interface';
 
 @Component({
   selector: 'app-calendar-base',
@@ -108,7 +109,11 @@ export class CalendarBaseComponent implements OnDestroy {
   }
 
   public bindDefaultTranslate(): void {
-    this.defaultTranslateSub = this.translate.getTranslation(this.translate.getDefaultLang()).subscribe((res) => {
+    let lang = this.translate.getDefaultLang();
+    if (!lang) {
+      lang = 'en';
+    }
+    this.defaultTranslateSub = this.translate.getTranslation(lang).subscribe((res) => {
       const translations = res.profile.calendar;
       this.daysName = translations.days;
       this.months = translations.months;
@@ -299,14 +304,12 @@ export class CalendarBaseComponent implements OnDestroy {
       new Date(this.selectedDay).setHours(0, 0, 0, 0);
   }
 
-  checkCanOpenPopup(dayItem: CalendarInterface) {
+  checkCanOpenPopup(dayItem: BaseCalendar) {
     return !!dayItem.hasHabitsInProgress;
   }
 
   openDialogDayHabits(event, isMonthCalendar, dayItem: CalendarInterface) {
     const dateForHabitPopup = `${dayItem.year}-${dayItem.month + 1}-${dayItem.numberOfDate}`;
-    let horisontalPositioning: string;
-    let verticalPosition: string;
     if (dayItem.numberOfDate) {
       this.habitAssignService.habitDate = new Date(dateForHabitPopup);
     } else {
@@ -326,9 +329,9 @@ export class CalendarBaseComponent implements OnDestroy {
     this.breakpointObserver.observe([`(max-width: ${Breakpoints.pcLow}px)`]).subscribe((result: BreakpointState) => {
       space = result.matches ? 20 : 40;
     });
-    horisontalPositioning =
+    const horisontalPositioning =
       window.innerWidth - pos.left > dialogBoxSize.width ? pos.left + space : window.innerWidth - (dialogBoxSize.width + space);
-    verticalPosition = window.innerHeight - pos.top < dialogHeight ? window.innerHeight - dialogHeight : pos.top + space;
+    const verticalPosition = window.innerHeight - pos.top < dialogHeight ? window.innerHeight - dialogHeight : pos.top + space;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
@@ -365,9 +368,7 @@ export class CalendarBaseComponent implements OnDestroy {
       .getAssignedHabits()
       .pipe(takeUntil(this.destroySub), take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
-        this.allAssignedHabits = response.map((el) => {
-          return { id: el.id, createDateTime: el.createDateTime };
-        });
+        this.allAssignedHabits = response.map((el) => ({ id: el.id, createDateTime: el.createDateTime }));
       });
   }
 

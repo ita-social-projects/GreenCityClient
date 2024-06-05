@@ -15,7 +15,6 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
 import { abilityDelAuthorities, abilityEditAuthorities } from '../../../models/ubs-admin.interface';
@@ -72,7 +71,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   public isEmployeeCanActivateDeactivate: boolean;
   public isEmployeeCanUseCrumbs: boolean;
 
-  constructor(private injector: Injector, private router: Router, private store: Store<IAppState>) {
+  constructor(
+    private injector: Injector,
+    private router: Router,
+    private store: Store<IAppState>
+  ) {
     this.location = injector.get(Location);
     this.dialog = injector.get(MatDialog);
     this.tariffsService = injector.get(TariffsService);
@@ -129,11 +132,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private initForm(): void {
     this.limitsForm = this.fb.group({
       limitDescription: new FormControl(''),
-      courierLimitsBy: new FormControl({ value: this.limitStatus }),
-      minPriceOfOrder: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
-      maxPriceOfOrder: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
-      minAmountOfBigBags: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
-      maxAmountOfBigBags: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty])
+      courierLimitsBy: new FormControl(this.limitStatus),
+      minPriceOfOrder: new FormControl(null, [Validators.required, Validators.min(1)]),
+      maxPriceOfOrder: new FormControl(null),
+      minAmountOfBigBags: new FormControl(null, [Validators.required, Validators.min(1)]),
+      maxAmountOfBigBags: new FormControl(null)
     });
   }
 
@@ -142,6 +145,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   get maxPriceOfOrder() {
+    this.limitsForm.markAsDirty();
     return this.limitsForm.get('maxPriceOfOrder');
   }
 
@@ -171,9 +175,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       minAmountOfBigBags: null,
       maxAmountOfBigBags: null
     });
-
-    this.minBigBags.clearValidators();
-    this.minBigBags.updateValueAndValidity();
     this.setMinValueValidation(this.minPriceOfOrder, this.maxPriceOfOrder);
   }
 
@@ -185,8 +186,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       maxPriceOfOrder: null
     });
 
-    this.minPriceOfOrder.clearValidators();
-    this.minPriceOfOrder.updateValueAndValidity();
     this.setMinValueValidation(this.minBigBags, this.maxBigBags);
   }
 
@@ -240,6 +239,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   onChecked(id, event): void {
+    this.limitsForm.markAsDirty();
     const currentBag = this.bags.find((bag) => bag.id === id);
     currentBag.limitIncluded = event.checked;
     this.unClickSaveBTN(event);
@@ -379,9 +379,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   async setCourierId(): Promise<any> {
-    const id = await this.getCourierId().then((value) => {
-      return value;
-    });
+    const id = await this.getCourierId().then((value) => value);
     this.currentCourierId = id;
     return this.currentCourierId;
   }
@@ -540,24 +538,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   disableSaveButton(): boolean {
-    const minPriceOfOrder = this.limitsForm.get('minPriceOfOrder');
-    const maxPriceOfOrder = this.limitsForm.get('maxPriceOfOrder');
-    const minAmountOfBigBags = this.limitsForm.get('minAmountOfBigBags');
-    const maxAmountOfBigBags = this.limitsForm.get('maxAmountOfBigBags');
-    const atLeastOneSelectedCheck = this.checkAtLeastOneChecked();
-
-    const byPrice =
-      this.limitStatus === limitStatus.limitByPriceOfOrder &&
-      (minPriceOfOrder.errors?.cannotBeEmpty || maxPriceOfOrder.errors?.cannotBeEmpty);
-
-    const byBags =
-      this.limitStatus === limitStatus.limitByAmountOfBag &&
-      (minAmountOfBigBags.errors?.cannotBeEmpty || maxAmountOfBigBags.errors?.cannotBeEmpty);
-
-    const inValidNumber =
-      (maxPriceOfOrder.invalid && maxPriceOfOrder.touched) || (maxAmountOfBigBags.invalid && maxAmountOfBigBags.touched);
-
-    if (this.limitsForm.pristine || this.saveBTNClicked || byPrice || byBags || inValidNumber || !atLeastOneSelectedCheck) {
+    const byPrice = this.limitStatus === limitStatus.limitByPriceOfOrder && (this.minPriceOfOrder?.errors || this.maxPriceOfOrder?.errors);
+    const byBags = this.limitStatus === limitStatus.limitByAmountOfBag && (this.minBigBags?.errors || this.maxBigBags?.errors);
+    const isBagsChosen = this.bags.some((el) => el.limitIncluded);
+    if (this.limitsForm.pristine || this.saveBTNClicked || byPrice || byBags || !isBagsChosen) {
       return true;
     }
 
@@ -575,7 +559,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy.next();
+    this.destroy.next(true);
     if (this.destroy) {
       this.destroy.unsubscribe();
     }

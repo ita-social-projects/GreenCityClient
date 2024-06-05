@@ -15,7 +15,10 @@ export class UserMessagesService implements OnDestroy {
   public countOfNoReadeMessages: any;
   language: string;
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((language) => (this.language = language));
   }
 
@@ -32,7 +35,7 @@ export class UserMessagesService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroyed$.next();
+    this.destroyed$.next(true);
     this.destroyed$.unsubscribe();
   }
 }

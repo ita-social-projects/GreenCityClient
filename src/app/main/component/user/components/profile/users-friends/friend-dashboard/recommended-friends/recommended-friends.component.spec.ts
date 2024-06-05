@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -11,29 +11,39 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
 import { RecommendedFriendsComponent } from './recommended-friends.component';
 import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 
 describe('RecommendedFriendsComponent', () => {
   let component: RecommendedFriendsComponent;
   let fixture: ComponentFixture<RecommendedFriendsComponent>;
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
-  let userFriendsServiceMock: UserFriendsService;
 
-  const userFriendsService = 'userFriendsService';
+  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = () => {};
 
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getPossibleFriends', 'findNewFriendsByName', 'addFriend']);
-  userFriendsServiceMock.getNewFriends = () => of(FRIENDS);
+  const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', [
+    'getPossibleFriends',
+    'findNewFriendsByName',
+    'addFriend',
+    'getNewFriends'
+  ]);
   userFriendsServiceMock.getNewFriends = () => of(FRIENDS);
   userFriendsServiceMock.addFriend = (idFriend) => of(FIRSTFRIEND);
 
-  beforeEach(async(() => {
+  const userOnlineStatusServiceMock: UserOnlineStatusService = jasmine.createSpyObj('UserOnlineStatusService', [
+    'addUsersId',
+    'removeUsersId'
+  ]);
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RecommendedFriendsComponent],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarComponent }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: UserOnlineStatusService, useValue: userOnlineStatusServiceMock }
       ],
       imports: [
         TranslateModule.forRoot(),

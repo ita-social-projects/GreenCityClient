@@ -63,7 +63,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
             (response) => {
               this.orderResponseError = response?.result === 'error';
               this.orderStatusDone = !this.orderResponseError;
-              this.orderId = response.order_id ? response.order_id.split('_')[0] : this.localStorageService.getUbsFondyOrderId();
+              this.orderId = response.order_id ? response.order_id.split('_')[0] : this.localStorageService.getUbsPaymentOrderId();
               this.renderView();
               this.isSpinner = false;
             },
@@ -121,7 +121,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
     this.localStorageService.clearPaymentInfo();
   }

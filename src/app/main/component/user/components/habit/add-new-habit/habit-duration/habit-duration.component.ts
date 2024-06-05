@@ -8,10 +8,10 @@ import {
   OnDestroy,
   OnChanges,
   SimpleChanges,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  AfterViewInit
 } from '@angular/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { MatSliderChange } from '@angular/material/slider';
 import { Subject, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from 'src/app/main/i18n/Language';
@@ -24,40 +24,45 @@ import { HABIT_DEFAULT_DURATION } from '../../const/data.const';
   styleUrls: ['./habit-duration.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy {
+export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Input() habitDurationInitial = HABIT_DEFAULT_DURATION;
   @Output() changeDuration = new EventEmitter<number>();
+  public langChangeSub: Subscription;
   public newDuration: number;
   public currentLang = '';
-  public thumbTextEl;
-  public langChangeSub: Subscription;
+  public thumbTextEl: HTMLElement;
   public days = 'd';
   private destroyRef = new Subject();
 
-  constructor(private elem: ElementRef, private langService: LanguageService, public translate: TranslateService) {}
+  constructor(
+    private elem: ElementRef,
+    private langService: LanguageService,
+    public translate: TranslateService
+  ) {}
 
   ngOnInit() {
+    this.newDuration = this.habitDurationInitial;
     this.subscribeToLangChange();
     this.observeLanguageChanges();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     const durationChange = changes.habitDurationInitial;
-
-    if (durationChange.firstChange) {
-      this.currentLang = this.langService.getCurrentLanguage();
-      this.initializeThumbTextEl();
-    }
     this.newDuration = durationChange.currentValue;
-
     this.updateDuration();
     if (this.thumbTextEl) {
       this.updateLabel();
     }
   }
 
+  ngAfterViewInit(): void {
+    this.currentLang = this.langService.getCurrentLanguage();
+    this.initializeThumbTextEl();
+    this.updateLabel();
+  }
+
   ngOnDestroy() {
-    this.destroyRef.next();
+    this.destroyRef.next(true);
     this.destroyRef.complete();
   }
 
@@ -65,24 +70,18 @@ export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy {
     this.changeDuration.emit(this.newDuration);
   }
 
-  public updateInput(event: MatSliderChange) {
-    this.newDuration = event.value;
-    this.updateLabel();
-  }
-
   public subscribeToLangChange(): void {
     this.translate.onDefaultLangChange.pipe(takeUntil(this.destroyRef)).subscribe((res) => {
       const translations = res.translations;
       this.days = translations.user.habit.duration.day;
-      this.thumbTextEl.textContent = this.newDuration + this.days;
     });
   }
 
   private initializeThumbTextEl() {
-    this.thumbTextEl = this.elem.nativeElement.getElementsByClassName('mat-slider-thumb-label-text')[0];
+    this.thumbTextEl = this.elem.nativeElement.getElementsByClassName('mdc-slider__value-indicator-text')[0];
   }
 
-  private updateLabel() {
+  public updateLabel() {
     if (this.currentLang === Language.UA) {
       this.thumbTextEl.textContent = this.newDuration + 'дн';
     } else {

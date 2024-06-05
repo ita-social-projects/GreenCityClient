@@ -30,7 +30,11 @@ export class FriendDashboardComponent implements OnInit {
   private size = 10;
   friendsList$ = this.store.select((state: IAppState): IFriendState => state.friend);
 
-  constructor(private localStorageService: LocalStorageService, private translate: TranslateService, private store: Store) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService,
+    private store: Store
+  ) {}
 
   ngOnInit() {
     this.initUser();

@@ -70,7 +70,7 @@ import { RecommendedFriendsComponent } from './components/profile/users-friends/
 import { FriendItemComponent } from './components/profile/users-friends/friend-dashboard/friend-item/friend-item.component';
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+// import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends-pop-up/habit-invite-friends-pop-up.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { OneNewsComponent } from './components/profile/profile-dashboard/one-news/one-news.component';
@@ -86,6 +86,9 @@ import { AddEditCustomHabitComponent } from './components/habit/add-edit-custom-
 import { QuillModule } from 'ngx-quill';
 import { UserNotificationsComponent } from './components/profile/user-notifications/user-notifications.component';
 import { UserNotificationsPopUpComponent } from './components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { NotificContentReplaceDirective } from './directives/notific-content-replace.directive';
 
 @NgModule({
   declarations: [
@@ -152,11 +155,13 @@ import { UserNotificationsPopUpComponent } from './components/profile/user-notif
     HabitsWidgetComponent,
     AddEditCustomHabitComponent,
     UserNotificationsComponent,
-    UserNotificationsPopUpComponent
+    UserNotificationsPopUpComponent,
+    NotificContentReplaceDirective
   ],
   imports: [
     NgbModule,
-    GooglePlaceModule,
+    MatIconModule,
+    // GooglePlaceModule,
     UserRoutingModule,
     CommonModule,
     SharedMainModule,
@@ -180,7 +185,8 @@ import { UserNotificationsPopUpComponent } from './components/profile/user-notif
     UserSharedModule,
     MatTabsModule,
     NgxPaginationModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    FormsModule
   ],
   exports: [MatAutocompleteModule],
   providers: [EditProfileFormBuilder]

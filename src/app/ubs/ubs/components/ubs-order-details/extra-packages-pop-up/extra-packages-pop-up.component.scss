@@ -80,8 +80,7 @@
           min-height: 290px;
           max-height: 450px;
           display: flex;
-          flex-direction: column;
-          flex-wrap: wrap;
+          flex-flow: column wrap;
           justify-content: space-between;
           list-style: none;
 
@@ -114,14 +113,12 @@
 
       .box-items {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        flex-flow: row wrap;
         justify-content: space-between;
 
         .item {
           display: flex;
-          flex-direction: row;
-          flex-wrap: nowrap;
+          flex-flow: row nowrap;
           align-items: center;
           width: 45%;
 
@@ -159,8 +156,7 @@
         }
 
         .box-items {
-          flex-direction: column;
-          flex-wrap: nowrap;
+          flex-flow: column nowrap;
 
           .item {
             padding-bottom: 16px;
@@ -189,11 +185,10 @@
     width: 100%;
     background-color: var(--ubs-main-page-secondary-light-grey);
     font-family: var(--ubs-secondary-font);
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden scroll;
 
     .header {
-      padding: 4px 0 24px 0;
+      padding: 4px 0 24px;
 
       h3 {
         font-size: 28px;
@@ -214,7 +209,7 @@
       overflow-y: visible;
 
       .box {
-        margin: 0 0 24px 0;
+        margin: 0 0 24px;
         padding: 24px 5px;
         width: calc(100% - 48px);
         height: auto;
@@ -267,7 +262,7 @@
               }
 
               p {
-                margin: 5px 0 0 0;
+                margin: 5px 0 0;
                 padding: 0;
                 font-weight: 500;
                 font-size: 11px;

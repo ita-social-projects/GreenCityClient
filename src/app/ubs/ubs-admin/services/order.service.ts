@@ -39,9 +39,7 @@ export class OrderService {
   constructor(private http: HttpClient) {}
 
   filterStatuses(allStatuses: Array<any>, availableStatusesNames: string[]) {
-    return availableStatusesNames.map((status) => {
-      return allStatuses.find((el) => el.key === status);
-    });
+    return availableStatusesNames.map((status) => allStatuses.find((el) => el.key === status));
   }
 
   getAvailableOrderStatuses(currentOrderStatus: string, statuses: Array<any>) {
@@ -98,7 +96,7 @@ export class OrderService {
     return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}`);
   }
 
-  public updateOrderInfo(orderId: number, lang: string, data: {}, images?: NotTakenOutReasonImages[]) {
+  public updateOrderInfo(orderId: number, lang: string, data: object, images?: NotTakenOutReasonImages[]) {
     const formData: FormData = new FormData();
     formData.append('updateOrderPageAdminDto', JSON.stringify(data));
 
@@ -173,7 +171,7 @@ export class OrderService {
     return this.http.put<any>(`${this.backend}`, postData);
   }
 
-  public updateOrdersInfo(lang: string, data: {}) {
+  public updateOrdersInfo(lang: string, data: object) {
     return this.http.put(`${this.backend}/management/all-order-page-admin-info?lang=${lang}`, data);
   }
 

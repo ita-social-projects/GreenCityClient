@@ -27,7 +27,10 @@ export class HabitService {
     })
   };
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((language) => (this.language = language));
   }
 

@@ -1,8 +1,8 @@
-@import 'src/app/chat/chat-styles-reset';
+@import '../../../chat/chat-styles-reset';
 
 :host {
   height: 100%;
-  border-left: 1px solid rgba(0, 0, 0, 0.25);
+  border-left: 1px solid rgb(0 0 0 / 25%);
 }
 
 .current-chat {

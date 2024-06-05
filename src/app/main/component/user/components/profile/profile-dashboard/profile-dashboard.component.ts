@@ -1,19 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { EventPageResponseDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { EventResponse, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
+import { ActivatedRoute } from '@angular/router';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
@@ -21,10 +20,10 @@ import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 @Component({
   selector: 'app-profile-dashboard',
   templateUrl: './profile-dashboard.component.html',
-  styleUrls: ['./profile-dashboard.component.scss']
+  styleUrls: ['./profile-dashboard.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProfileDashboardComponent implements OnInit, OnDestroy {
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   loading = false;
   numberOfHabitsOnView = 3;
   habitsAcquired: Array<HabitAssignInterface> = [];
@@ -35,43 +34,39 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     news: false,
     articles: false
   };
-  isActiveInfinityScroll = false;
+  isActiveNewsScroll = false;
+  isActiveEventsScroll = false;
+  isActiveFavoriteEventsScroll = false;
   userId: number;
   news: EcoNewsModel[];
-
   public isOnlineChecked = false;
   public isOfflineChecked = false;
-
-  public eventsList: EventPageResponseDto[] = [];
-  public favouriteEvents: EventPageResponseDto[] = [];
+  public eventsList: EventResponse[] = [];
+  public favouriteEvents: EventResponse[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
+  favoriteEventsPage = 0;
   public totalEvents = 0;
-
-  private hasNext = true;
-  private currentPage: number;
-  private newsCount = 3;
-
   public totalNews = 0;
-
   public eventType = '';
   public isFavoriteBtnClicked = false;
-
   public userLatitude = 0;
   public userLongitude = 0;
-
   public images = singleNewsImages;
-
   authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private hasNext = true;
+  private hasNextPageOfEvents = true;
+  private hasNextPageOfFavoriteEvents = true;
+  private currentPage: number;
+  private newsCount = 3;
 
   constructor(
     private localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService,
-    public shoppingService: ShoppingListService,
     private store: Store,
     private eventService: EventsService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -126,15 +121,22 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       this.eventType = '';
     }
 
-    this.initGetUserEvents(this.eventType);
+    this.eventsList = [];
+    this.eventsPage = 0;
+    this.hasNextPageOfEvents = true;
+    this.getUserEvents();
   }
 
   public escapeFromFavorites(): void {
     this.isFavoriteBtnClicked = !this.isFavoriteBtnClicked;
+    this.isActiveEventsScroll = true;
+    this.isActiveFavoriteEventsScroll = false;
   }
 
   public goToFavorites(): void {
     this.isFavoriteBtnClicked = true;
+    this.isActiveEventsScroll = false;
+    this.isActiveFavoriteEventsScroll = true;
     this.getUserFavouriteEvents();
   }
 
@@ -145,30 +147,38 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .subscribe((res: EventResponseDto) => {
         this.eventsList = res.page;
         this.totalEvents = res.totalElements;
+        this.hasNextPageOfEvents = res.hasNext;
       });
   }
 
   getUserFavouriteEvents(): void {
-    this.eventService
-      .getUserFavoriteEvents(0, this.eventsPerPage)
-      .pipe(take(1))
-      .subscribe((res: EventResponseDto) => {
-        this.favouriteEvents = res.page;
-      });
+    if (this.favoriteEventsPage !== undefined && this.hasNextPageOfFavoriteEvents) {
+      this.eventService
+        .getUserFavoriteEvents(this.favoriteEventsPage, this.eventsPerPage)
+        .pipe(take(1))
+        .subscribe((res: EventResponseDto) => {
+          this.favouriteEvents.push(...res.page);
+          this.favoriteEventsPage++;
+          this.hasNextPageOfFavoriteEvents = res.hasNext;
+        });
+    }
   }
 
   removeUnFavouriteEvent(id: number): void {
     this.favouriteEvents = this.favouriteEvents.filter((event) => event.id !== id);
   }
 
-  onEventsPageChange(page: number, eventType?: string): void {
-    this.eventsPage = page;
-    this.eventService
-      .getAllUserEvents(this.eventsPage - 1, 6, this.userLatitude, this.userLongitude, eventType)
-      .pipe(take(1))
-      .subscribe((res) => {
-        this.eventsList = res.page;
-      });
+  getUserEvents(): void {
+    if (this.eventsPage !== undefined && this.hasNextPageOfEvents) {
+      this.eventService
+        .getAllUserEvents(this.eventsPage, this.eventsPerPage, this.userLatitude, this.userLongitude, this.eventType)
+        .pipe(take(1))
+        .subscribe((res: EventResponseDto) => {
+          this.eventsList.push(...res.page);
+          this.eventsPage++;
+          this.hasNextPageOfEvents = res.hasNext;
+        });
+    }
   }
 
   public dispatchNews(res: boolean) {
@@ -186,14 +196,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   public changeStatus(habit: HabitAssignInterface) {
     this.habitAssignService.habitsInProgress = this.habitAssignService.habitsInProgress.filter((el) => el.id !== habit.id);
     this.habitsAcquired = [...this.habitsAcquired, habit];
-  }
-
-  private getUserId() {
-    this.userId = this.localStorageService.getUserId();
-  }
-
-  private subscribeToLangChange() {
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.executeRequests());
   }
 
   public executeRequests() {
@@ -231,14 +233,10 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     return [...habitsOnView, ...allHabits.slice(currentNumberOfHabitsOnView, currentNumberOfHabitsOnView + this.numberOfHabitsOnView)];
   }
 
-  private sortHabitsData(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
-    return habitsArray.sort((firstHabit, secondHabit) => {
-      return firstHabit.createDateTime > secondHabit.createDateTime ? -1 : 1;
-    });
-  }
-
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    this.isActiveInfinityScroll = tabChangeEvent.index === 1;
+    this.isActiveNewsScroll = tabChangeEvent.index === 1;
+    this.isActiveEventsScroll = tabChangeEvent.index === 2 && !this.isFavoriteBtnClicked;
+    this.isActiveFavoriteEventsScroll = tabChangeEvent.index === 2 && this.isFavoriteBtnClicked;
   }
 
   onScroll(): void {
@@ -248,5 +246,17 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+  }
+
+  private getUserId() {
+    this.userId = this.localStorageService.getUserId();
+  }
+
+  private subscribeToLangChange() {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.executeRequests());
+  }
+
+  private sortHabitsData(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
+    return habitsArray.sort((firstHabit, secondHabit) => (firstHabit.createDateTime > secondHabit.createDateTime ? -1 : 1));
   }
 }

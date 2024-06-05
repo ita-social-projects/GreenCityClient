@@ -1,10 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
@@ -62,7 +61,7 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     button: 'update'
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsAddTariffServicePopUpComponent, ServerTranslatePipe, ModalTextComponent],
       imports: [
@@ -290,10 +289,10 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     };
     component.editForm();
 
-    expect(component.addTariffServiceForm.get('name').value).toEqual({ value: expectedName });
-    expect(component.addTariffServiceForm.get('nameEng').value).toEqual({ value: expectedNameEng });
-    expect(component.addTariffServiceForm.get('description').value).toEqual({ value: expectedDescription });
-    expect(component.addTariffServiceForm.get('descriptionEng').value).toEqual({ value: expectedDescriptionEng });
+    expect(component.addTariffServiceForm.get('name').value).toEqual(expectedName);
+    expect(component.addTariffServiceForm.get('nameEng').value).toEqual(expectedNameEng);
+    expect(component.addTariffServiceForm.get('description').value).toEqual(expectedDescription);
+    expect(component.addTariffServiceForm.get('descriptionEng').value).toEqual(expectedDescriptionEng);
     expect(component.addTariffServiceForm.get('capacity').value).toEqual({ value: expectedCapacity });
   });
 });

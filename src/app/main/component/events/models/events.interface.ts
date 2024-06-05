@@ -1,3 +1,62 @@
+import { FormControl } from '@angular/forms';
+
+type FormControllers<T> = {
+  [K in keyof T]: FormControl<T[K]>;
+};
+
+export interface FormEmitter<T> {
+  key: any;
+  form: T | undefined;
+  valid: boolean;
+  sharedKey: number;
+  formKey: string;
+}
+
+export type FormCollectionEmitter<T> = Omit<FormEmitter<T>, 'sharedKey' | 'formKey'>;
+
+export interface DateTime {
+  date: Date;
+  startTime: string;
+  endTime: string;
+  allDay: boolean;
+}
+
+export type DateTimeGroup = FormControllers<DateTime>;
+
+export interface PlaceOnline {
+  coordinates: {
+    lat: number | null;
+    lng: number | null;
+  };
+  onlineLink: string;
+  place: string;
+  appliedLinkForAll: boolean;
+  appliedPlaceForAll: boolean;
+}
+
+export type PlaceOnlineGroup = FormControllers<PlaceOnline>;
+export type DateInformation = { dateTime: DateTime; placeOnline: PlaceOnline; pastDate?: boolean };
+
+export interface ImagesContainer {
+  file: File;
+  url: string;
+  main: boolean;
+}
+
+export interface EventInformation {
+  title: string;
+  duration: number;
+  description: string;
+  open: boolean;
+  tags: string[];
+  editorText: string;
+  images: ImagesContainer[];
+}
+
+export type EventInformationGroup = FormControllers<EventInformation>;
+
+export type EventForm = { dateInformation: DateInformation[]; eventInformation: EventInformation };
+
 export interface EventDTO {
   title: string;
   description: string;
@@ -29,19 +88,6 @@ export interface Dates {
   id?: number;
 }
 
-export interface DateEvent {
-  date?: Date;
-  startDate: string;
-  finishDate: string;
-  coordinates?: {
-    latitude: number;
-    longitude: number;
-  };
-  onlineLink?: string;
-  valid: boolean;
-  check: boolean;
-}
-
 export interface Coords {
   coords: { lat: number; lng: number };
   placeId: number;
@@ -55,12 +101,6 @@ export interface MapMarker {
   animation: string;
 }
 
-export interface EventImage {
-  src: string;
-  label: string;
-  isLabel: boolean;
-}
-
 export interface EventResponseDto {
   currentPage: number;
   first: boolean;
@@ -68,40 +108,63 @@ export interface EventResponseDto {
   hasPrevious: boolean;
   last: boolean;
   number: number;
-  page: Array<EventPageResponseDto>;
+  page: Array<EventResponse>;
   totalElements: number;
   totalPages: number;
 }
 
-export interface Organizer {
+export interface OrganizerInfo {
+  organizerRating: number;
   id: number;
   name: string;
 }
 
-export interface EventPageResponseDto {
-  additionalImages: Array<string>;
-  dates: Array<DateEventResponseDto>;
-  creationDate: string;
-  description: any;
-  eventRate: number;
+export interface LocationResponse {
+  countryEn: string;
+  countryUa: string;
+  latitude: number;
+  longitude: number;
+  regionEn: string;
+  regionUa: string;
+  houseNumber: string | null;
+  streetEn: string | null;
+  streetUa: string | null;
+  formattedAddressEn: string;
+  formattedAddressUa: string;
+  cityEn: string;
+  cityUa: string;
+}
+
+export interface EventDatesResponse {
+  onlineLink: null | string;
+  coordinates: LocationResponse | null;
+  startDate: string;
+  finishDate: string;
+  id: null;
+  event: null;
+}
+
+export interface EventResponse {
   id: number;
-  open: boolean;
-  location?: DateFormObj;
-  imgArray?: any[];
-  editorText: string;
-  imgArrayToPreview: string[];
-  organizer: Organizer;
-  tags: Array<TagDto>;
   title: string;
+  organizer: OrganizerInfo;
+  creationDate: string;
+  description: string;
+  dates: EventDatesResponse[];
+  tags: { nameUa: string; id: number; nameEn: string }[];
   titleImage: string;
+  additionalImages: string[];
+  isRelevant: boolean;
+  likes: number;
+  countComments: number;
+  eventRate: number;
+  open: boolean;
   isSubscribed: boolean;
   isFavorite: boolean;
-  isActive: boolean;
-  isRelevant: boolean;
-  countComments: number;
-  likes: number;
   isOrganizedByFriend: boolean;
 }
+
+export type EventListResponse = Omit<EventResponse, 'additionalImages' | 'description'>;
 
 export interface TagDto {
   id: number;
@@ -136,11 +199,6 @@ export interface DateEventResponseDto {
   valid: boolean;
 }
 
-export interface OfflineDto {
-  latitude: number;
-  longitude: number;
-}
-
 export interface TagObj {
   nameUa: string;
   nameEn: string;
@@ -167,18 +225,14 @@ export interface PagePreviewDTO {
   isRelevant?: boolean;
   id?: number;
   editorText: string;
-  organizer?: Organizer;
-  dates: DateEvent[];
-  tags: Array<string>;
+  organizer?: OrganizerInfo;
+  dates: Dates[];
+  tags: any;
   imgArray: any[];
   imgArrayToPreview: any[];
-  location: DateFormObj;
+  location: string;
 }
 
-export interface InitialStartDate {
-  initialDate: Date;
-  initialStartTime: string;
-}
 export interface EventFilterCriteriaInterface {
   eventTime: Array<string>;
   cities: Array<string>;

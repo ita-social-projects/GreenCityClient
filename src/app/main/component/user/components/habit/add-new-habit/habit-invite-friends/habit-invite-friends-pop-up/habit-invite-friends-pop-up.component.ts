@@ -21,7 +21,10 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   addedFriends: FriendModel[] = [];
   searchIcon = searchIcon;
 
-  constructor(private userFriendsService: UserFriendsService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private userFriendsService: UserFriendsService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
     this.getUserId();
@@ -85,7 +88,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroyed$.next();
+    this.destroyed$.next(true);
     this.destroyed$.complete();
   }
 }

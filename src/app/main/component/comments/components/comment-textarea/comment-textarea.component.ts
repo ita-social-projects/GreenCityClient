@@ -31,7 +31,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   private searchQuery = '';
   private lastTagCharIndex: number;
   private charToTagUsers = ['@', '#'];
-  private range;
+  private range: Range;
 
   public content: FormControl = new FormControl('', [Validators.required, this.innerHtmlMaxLengthValidator(8000)]);
   public suggestedUsers: TaggedUser[] = [];
@@ -52,7 +52,11 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   @Input() commentHtml: string;
   @Input() placeholder: string;
 
-  constructor(public socketService: SocketService, private localStorageService: LocalStorageService, public elementRef: ElementRef) {
+  constructor(
+    public socketService: SocketService,
+    private localStorageService: LocalStorageService,
+    public elementRef: ElementRef
+  ) {
     this.socketService.initiateConnection(this.socketService.connection.greenCity);
   }
 
@@ -282,7 +286,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

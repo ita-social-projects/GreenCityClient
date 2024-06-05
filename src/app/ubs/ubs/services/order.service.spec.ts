@@ -1,5 +1,5 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 import { TestBed } from '@angular/core/testing';
 import { Subject, of } from 'rxjs';
 import { OrderService } from './order.service';

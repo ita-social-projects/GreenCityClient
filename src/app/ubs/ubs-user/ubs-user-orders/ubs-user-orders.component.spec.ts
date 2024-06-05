@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
@@ -47,9 +47,9 @@ describe('UbsUserOrdersComponent', () => {
   };
 
   const fakeCurrentOrdersData = new Array(10).fill(fakeOrder1);
-  const fakeCurrentOrdersDataPage2 = new Array().fill(fakeOrder2);
+  const fakeCurrentOrdersDataPage2 = [].fill(fakeOrder2);
   const fakeClosedOrdersData = new Array(10).fill(fakeOrder2);
-  const fakeClosedOrdersDataPage2 = new Array().fill(fakeOrder1);
+  const fakeClosedOrdersDataPage2 = [].fill(fakeOrder1);
 
   const RouterMock = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -78,7 +78,7 @@ describe('UbsUserOrdersComponent', () => {
   const localStorageServiceMock = new LocalStorageService();
 
   const selectMatTabByIdx = async (idx) => {
-    const label = fixture.debugElement.queryAll(By.css('.mat-tab-label'))[idx];
+    const label = fixture.debugElement.queryAll(By.css('.mat-mdc-tab'))[idx];
     label.triggerEventHandler('click', null);
     fixture.detectChanges();
     await fixture.whenRenderingDone();
@@ -88,7 +88,7 @@ describe('UbsUserOrdersComponent', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersComponent, LocalizedCurrencyPipe, InfiniteScrollDirective],
       imports: [
@@ -97,7 +97,7 @@ describe('UbsUserOrdersComponent', () => {
         InfiniteScrollModule,
         MatTabsModule,
         NoopAnimationsModule,
-        RouterModule.forRoot([]),
+        RouterModule.forRoot([], {}),
         ReactiveFormsModule,
         MatDialogModule,
         StoreModule.forRoot({})
@@ -128,7 +128,7 @@ describe('UbsUserOrdersComponent', () => {
     spyOn(component, 'scroll');
     component.orderIdToScroll = 1315;
     component.orderToScroll = fakeOrder1;
-    component.selected = new FormControl({ value: 0 });
+    component.selected = new FormControl(0);
     fixture.detectChanges();
   };
 

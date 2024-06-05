@@ -24,7 +24,10 @@ export class UserOnlineStatusService implements OnDestroy {
   public usersOnlineStatus$: BehaviorSubject<UserOnlineStatus[]> = new BehaviorSubject([]);
   private userId: number;
 
-  constructor(private localStorageService: LocalStorageService, private socketService: SocketService) {
+  constructor(
+    private localStorageService: LocalStorageService,
+    private socketService: SocketService
+  ) {
     this.socketService.initiateConnection(this.socketService.connection.greenCityUser);
     this.localStorageService.userIdBehaviourSubject.subscribe((userId) => {
       this.userId = userId;
@@ -71,7 +74,7 @@ export class UserOnlineStatusService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

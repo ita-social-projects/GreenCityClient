@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { ubsAdminNotificationLink } from 'src/app/main/links';
 import { catchError } from 'rxjs/operators';
-import { NotificationTemplate, NotificationTemplatesPage } from '../models/notifications.model';
+import { NotificationTemplate, NotificationTemplatesPage, NotificationTemplateUpdate } from '../models/notifications.model';
 
 export const notificationTriggersMock = [
   {
@@ -98,7 +98,7 @@ export const notificationStatuses = ['ACTIVE', 'INACTIVE'];
 export class NotificationsService {
   constructor(private http: HttpClient) {}
 
-  getAllNotificationTemplates(page: number = 0, size: number = 10): Observable<NotificationTemplatesPage> {
+  getAllNotificationTemplates(page = 0, size = 10): Observable<NotificationTemplatesPage> {
     return this.http.get<NotificationTemplatesPage>(`${ubsAdminNotificationLink}/get-all-templates?page=${page}&size=${size}`);
   }
 
@@ -108,7 +108,7 @@ export class NotificationsService {
       .pipe(catchError(() => throwError(`No notification template with id ${id}!`)));
   }
 
-  updateNotificationTemplate(id: number, notification) {
+  updateNotificationTemplate(id: number, notification: NotificationTemplateUpdate) {
     return this.http.put(`${ubsAdminNotificationLink}/update-template/${id}`, notification);
   }
 

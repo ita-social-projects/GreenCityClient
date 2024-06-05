@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { UserNotificationService } from '@global-user/services/user-notification.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -12,9 +13,12 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   limitNotifications = 3;
   notifications = [];
-  notificationToShow = [];
+  isLoading = true;
 
-  constructor(public dialogRef: MatDialogRef<UserNotificationsPopUpComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<UserNotificationsPopUpComponent>,
+    private userNotificationService: UserNotificationService
+  ) {}
 
   ngOnInit(): void {
     this.dialogRef
@@ -25,12 +29,14 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
           this.closeDialog({ openAll: false });
         }
       });
-    this.dialogRef
-      .backdropClick()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => this.closeDialog({ openAll: false }));
 
-    this.notificationToShow = this.notifications.filter((el) => !el.read).slice(0, this.limitNotifications);
+    this.userNotificationService
+      .getThreeNewNotification()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data) => {
+        this.notifications = data;
+        this.isLoading = false;
+      });
   }
 
   openAll() {
@@ -42,7 +48,7 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.onDestroy$.next();
+    this.onDestroy$.next(true);
     this.onDestroy$.complete();
   }
 }

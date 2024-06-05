@@ -1,5 +1,5 @@
-import { Component, Inject, Injector, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, Inject, Injector, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { ResponceOrderFondyModel } from '../models/ResponceOrderFondyModel';
@@ -14,6 +14,7 @@ import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.ser
 import { MatRadioChange } from '@angular/material/radio';
 import { IBonusInfo } from '../models/IBonusInfo.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { IProcessOrderResponse } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -21,6 +22,9 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
   styleUrls: ['./ubs-user-order-payment-pop-up.component.scss']
 })
 export class UbsUserOrderPaymentPopUpComponent implements OnInit {
+  @ViewChild('liqpayFormContainer', { static: false }) liqpayFormContainer: ElementRef;
+
+  sanitizedLiqpayForm: any;
   private localStorageService: LocalStorageService;
   private ubsOrderFormService: UBSOrderFormService;
   private orderService: OrderService;
@@ -94,7 +98,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public initForm(): void {
     this.orderDetailsForm = this.fb.group({
       bonus: ['no', [Validators.required]],
-      paymentSystem: ['Fondy', [Validators.required]],
+      paymentSystem: ['Liqpay', [Validators.required]],
       formArrayCertificates: this.fb.array([this.createCertificateItem()])
     });
   }
@@ -111,14 +115,9 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return this.orderDetailsForm.get('paymentSystem') as FormControl;
   }
 
-  public certificateSubmit(index: number, certificate: FormControl): void {
+  public certificateSubmit(index: number, certificate: FormControl | AbstractControl): void {
     this.isCertBeenUsed = false;
-    if (
-      !this.usedCertificates ||
-      !this.usedCertificates.some((item, ind) => {
-        return item === certificate.value.certificateCode && ind !== index;
-      })
-    ) {
+    if (!this.usedCertificates || !this.usedCertificates.some((item, ind) => item === certificate.value.certificateCode && ind !== index)) {
       this.userCertificate.certificates.push(certificate.value);
 
       this.calculateCertificate(certificate);
@@ -133,7 +132,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return this.isCertBeenUsed;
   }
 
-  public calculateCertificate(certificate: FormControl): void {
+  public calculateCertificate(certificate: FormControl | AbstractControl): void {
     this.userCertificate.certificateSum = 0;
     this.userCertificate.certificateStatusActive = false;
     this.orderService.processCertificate(certificate.value.certificateCode).subscribe(
@@ -184,7 +183,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return date?.split('-').reverse().join('.');
   }
 
-  public deleteCertificate(index: number, certificate: FormControl): void {
+  public deleteCertificate(index: number, certificate: FormControl | AbstractControl): void {
     const certSum = this.formArrayCertificates.value.reduce(
       (certificatesSum: number, certificateItem: ICertificatePayment) => certificatesSum + certificateItem.certificateSum,
       0
@@ -268,12 +267,11 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.localStorageService.clearPaymentInfo();
     this.localStorageService.setUserPagePayment(true);
 
-    if (this.formPaymentSystem.value === 'Fondy') {
+    if (this.formPaymentSystem.value === 'Liqpay') {
       this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe(
         (response: ResponceOrderFondyModel) => {
           if (response.link) {
-            this.localStorageService.setUbsFondyOrderId(this.orderClientDto.orderId);
-            this.redirectToExternalUrl(response.link);
+            this.processLiqpay(response);
           } else {
             this.redirectionToConfirmPage();
             this.dialogRef.close();
@@ -284,6 +282,18 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
         }
       );
     }
+  }
+
+  private processLiqpay(response: ResponceOrderFondyModel): void {
+    this.localStorageService.setUbsPaymentOrderId(response.orderId);
+
+    this.sanitizedLiqpayForm = this.sanitizer.bypassSecurityTrustHtml(response.link);
+    setTimeout(() => {
+      const form: HTMLFormElement = this.liqpayFormContainer.nativeElement.querySelector('form');
+      if (form) {
+        form.submit();
+      }
+    });
   }
 
   public orderOptionPayment(event: Event): void {

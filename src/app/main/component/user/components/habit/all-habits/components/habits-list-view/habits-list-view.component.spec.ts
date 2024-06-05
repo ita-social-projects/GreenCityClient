@@ -1,5 +1,5 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { HabitsListViewComponent } from './habits-list-view.component';
@@ -11,15 +11,14 @@ import { DEFAULTHABIT } from '@global-user/components/habit/mocks/habit-assigned
 describe('HabitsListViewComponent', () => {
   let component: HabitsListViewComponent;
   let fixture: ComponentFixture<HabitsListViewComponent>;
-  let MatSnackBarMock: MatSnackBarComponent;
-  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
   let httpTestingController: HttpTestingController;
 
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HabitsListViewComponent],
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatSnackBarModule, HttpClientTestingModule],

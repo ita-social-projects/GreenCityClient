@@ -31,7 +31,7 @@ import { UbsUserOrderCancelPopUpComponent } from './ubs-user-orders-list/ubs-use
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UbsSwitcherComponent } from './ubs-user-profile-page/ubs-switcher/ubs-switcher.component';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+// import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
   declarations: [
@@ -58,7 +58,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     MatTabsModule,
     FormsModule,
     ReactiveFormsModule,
-    GooglePlaceModule,
+    // GooglePlaceModule,
     FormsModule,
     NgxPaginationModule,
     InfiniteScrollModule,
@@ -84,8 +84,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { hasBackdrop: true }
     }
-  ],
-  entryComponents: [UbsProfileChangePasswordPopUpComponent, UbsUserOrderPaymentPopUpComponent, UbsUserOrderCancelPopUpComponent]
+  ]
 })
 export class UbsUserModule {}
 

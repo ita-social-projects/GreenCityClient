@@ -1,10 +1,60 @@
-export const PlatformsMock = [
-  { name: 'email', status: 'ACTIVE', body: { en: 'Successful payment, text for Email', ua: 'Успішна оплата, текст для Email' } },
-  { name: 'telegram', status: 'INACTIVE', body: { en: 'Successful payment, text for Tg', ua: 'Успішна оплата, текст для Tg' } },
-  { name: 'viber', status: 'INACTIVE', body: { en: 'Successful payment, text for Viber', ua: 'Успішна оплата, текст для Viber' } }
+import { NotificationTemplate, Platform } from '../models/notifications.model';
+
+export const platformSuccessfulMock: Platform[] = [
+  {
+    receiverType: '',
+    nameEng: 'email',
+    name: 'email',
+    status: 'ACTIVE',
+    bodyEng: 'Successful payment, text for Email',
+    body: 'Успішна оплата, текст для Email'
+  },
+  {
+    receiverType: '',
+    nameEng: 'telegram',
+    name: 'telegram',
+    status: 'INACTIVE',
+    bodyEng: 'Successful payment, text for Tg',
+    body: 'Успішна оплата, текст для Tg'
+  },
+  {
+    receiverType: '',
+    nameEng: 'viber',
+    name: 'viber',
+    status: 'INACTIVE',
+    bodyEng: 'Successful payment, text for Viber',
+    body: 'Успішна оплата, текст для Viber'
+  }
 ];
 
-export const NotificationMock = {
+export const platformUnpaidMock: Platform[] = [
+  {
+    receiverType: '',
+    nameEng: 'email',
+    name: 'email',
+    status: 'ACTIVE',
+    bodyEng: 'Unpaid order, text for Email',
+    body: 'Неоплачене замовлення, текст для Email'
+  },
+  {
+    receiverType: '',
+    nameEng: 'mobile',
+    name: 'mobile',
+    status: 'ACTIVE',
+    bodyEng: 'Unpaid order, text for Tg',
+    body: 'Неоплачене замовлення, текст для Tg'
+  },
+  {
+    receiverType: '',
+    nameEng: 'site',
+    name: 'site',
+    status: 'INACTIVE',
+    bodyEng: 'Unpaid order, text for Viber',
+    body: 'Неоплачене замовлення, текст для Viber'
+  }
+];
+
+export const NotificationMock: NotificationTemplate = {
   notificationTemplateMainInfoDto: {
     type: 'UNPAID_ORDER',
     trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
@@ -18,11 +68,7 @@ export const NotificationMock = {
     titleEng: 'Unpaid order',
     notificationStatus: 'ACTIVE'
   },
-  platforms: [
-    { name: 'email', status: 'ACTIVE', body: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' } },
-    { name: 'mobile', status: 'ACTIVE', body: { en: 'Unpaid order, text for Tg', ua: 'Неоплачене замовлення, текст для Tg' } },
-    { name: 'site', status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
-  ]
+  platforms: platformUnpaidMock
 };
 
 export const NotificationTemplatesMock = [
@@ -44,11 +90,7 @@ export const NotificationTemplatesMock = [
       titleEng: 'Unpaid order',
       notificationStatus: 'ACTIVE'
     },
-    platforms: [
-      { name: 'email', status: 'ACTIVE', body: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' } },
-      { name: 'telegram', status: 'ACTIVE', body: { en: 'Unpaid order, text for Tg', ua: 'Неоплачене замовлення, текст для Tg' } },
-      { name: 'viber', status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
-    ]
+    platforms: platformUnpaidMock
   },
   {
     id: 2,
@@ -65,13 +107,15 @@ export const NotificationTemplatesMock = [
       titleEng: 'The payment was successful',
       notificationStatus: 'ACTIVE'
     },
-    platforms: PlatformsMock
+    platforms: platformSuccessfulMock
   },
   {
     id: 3,
     notificationTemplateMainInfoDto: {
       type: 'COURIER_ITINERARY_FORMED',
       trigger: 'ORDER_ADDED_TO_ITINERARY_STATUS_CONFIRMED',
+      triggerDescription: 'Система отримує відповідь від платіжної системи',
+      triggerDescriptionEng: 'The system gets an answer from the payment system',
       time: 'IMMEDIATELY',
       timeDescription: 'Одразу',
       timeDescriptionEng: 'Immediately',
@@ -80,7 +124,7 @@ export const NotificationTemplatesMock = [
       titleEng: 'The courier route formed',
       notificationStatus: 'ACTIVE'
     },
-    platforms: PlatformsMock
+    platforms: platformSuccessfulMock
   },
   {
     id: 4,
@@ -97,7 +141,7 @@ export const NotificationTemplatesMock = [
       titleEng: 'Pay the change in the order',
       notificationStatus: 'ACTIVE'
     },
-    platforms: PlatformsMock
+    platforms: platformSuccessfulMock
   },
   {
     id: 5,
@@ -114,7 +158,7 @@ export const NotificationTemplatesMock = [
       titleEng: 'Accrued bonuses to the account',
       notificationStatus: 'ACTIVE'
     },
-    platforms: PlatformsMock
+    platforms: platformSuccessfulMock
   },
   {
     id: 6,
@@ -131,7 +175,7 @@ export const NotificationTemplatesMock = [
       titleEng: 'Violation of the rules',
       notificationStatus: 'INACTIVE'
     },
-    platforms: PlatformsMock
+    platforms: platformSuccessfulMock
   },
   {
     id: 7,
@@ -148,7 +192,7 @@ export const NotificationTemplatesMock = [
       titleEng: 'Cancellation of violation of sorting rules',
       notificationStatus: 'ACTIVE'
     },
-    platforms: PlatformsMock
+    platforms: platformSuccessfulMock
   },
   {
     id: 8,
@@ -165,7 +209,7 @@ export const NotificationTemplatesMock = [
       titleEng: 'Changes in violations of sorting rules',
       notificationStatus: 'ACTIVE'
     },
-    platforms: PlatformsMock
+    platforms: platformSuccessfulMock
   },
   {
     id: 9,
@@ -182,6 +226,6 @@ export const NotificationTemplatesMock = [
       titleEng: `Let's stay connected`,
       notificationStatus: 'INACTIVE'
     },
-    platforms: PlatformsMock
+    platforms: platformSuccessfulMock
   }
 ];

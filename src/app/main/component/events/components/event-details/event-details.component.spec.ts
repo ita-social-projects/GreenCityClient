@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { EventDetailsComponent } from './event-details.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { BsModalRef, ModalModule, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
@@ -13,8 +13,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MapEventComponent } from '../map-event/map-event.component';
-import { EventPageResponseDto } from '../../models/events.interface';
+import { EventStoreService } from '../../services/event-store.service';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -122,6 +121,7 @@ describe('EventDetailsComponent', () => {
   LocalStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   LocalStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   LocalStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+
   class MatDialogMock {
     open() {
       return {
@@ -129,20 +129,20 @@ describe('EventDetailsComponent', () => {
       };
     }
   }
+
   LocalStorageServiceMock.getPreviousPage = () => '/profile';
 
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
   const bsModalBsModalServiceMock = jasmine.createSpyObj('BsModalService', ['show']);
-  let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
-  translateServiceMock.setDefaultLang = (lang: string) => of();
+  const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  translateServiceMock.setDefaultLang = (lang: string) => of(lang);
   translateServiceMock.get = () => of(true);
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
   const actionSub: ActionsSubject = new ActionsSubject();
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const dialogSpyObj = jasmine.createSpyObj('MatDialog', ['open']);
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
@@ -164,7 +164,8 @@ describe('EventDetailsComponent', () => {
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: BsModalService, useValue: bsModalBsModalServiceMock },
-        { provide: MatDialog, useValue: dialogSpyObj }
+        { provide: MatDialog, useValue: dialogSpyObj },
+        EventStoreService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -280,14 +281,6 @@ describe('EventDetailsComponent', () => {
     component.buttonAction({} as MouseEvent);
     expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('errorJoinEvent');
     expect(component.addAttenderError).toBe('');
-  });
-
-  it('should call setBackFromPreview and setSubmitFromPreview methods from eventService', () => {
-    const spy1 = spyOn(EventsServiceMock, 'setBackFromPreview');
-    const spy2 = spyOn(EventsServiceMock, 'setSubmitFromPreview');
-    component.backToSubmit();
-    expect(spy1).toHaveBeenCalledWith(true);
-    expect(spy2).toHaveBeenCalledWith(true);
   });
 
   it('should call submitEventCancelling if result is true after dialog closed when submitting event join cancelation', () => {

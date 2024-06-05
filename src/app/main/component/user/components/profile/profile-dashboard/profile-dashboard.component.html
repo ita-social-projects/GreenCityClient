@@ -2,6 +2,7 @@
   <div class="menu">
     <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedIndex">
       <mat-tab label="{{ 'profile.dashboard.my-habits' | translate }}">
+        <hr />
         <div *ngIf="!loading; else spinner">
           <div *ngIf="habitAssignService.habitsInProgress.length || habitsAcquired.length">
             <div class="in-progress header">
@@ -11,7 +12,7 @@
                 </app-set-count>
               </p>
               <a [routerLink]="['/profile', userId, 'allhabits']">
-                <div id="create-button" class="secondary-global-button s-btn">
+                <div id="create-button-new-habit" class="secondary-global-button s-btn">
                   <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
                 </div>
               </a>
@@ -53,7 +54,7 @@
             <app-no-data [title]="'profile.dashboard.no-habits-in-progress'" [text]="'profile.dashboard.no-habits-in-progress-advice'">
             </app-no-data>
             <a [routerLink]="['/profile', userId, 'allhabits']">
-              <div id="create-button" class="secondary-global-button m-btn">
+              <div id="create-button-add-new-habit" class="secondary-global-button m-btn">
                 <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
               </div>
             </a>
@@ -62,6 +63,7 @@
       </mat-tab>
 
       <mat-tab label="{{ 'profile.dashboard.my-news' | translate }}">
+        <hr />
         <div *ngIf="!loading; else spinner">
           <div class="in-progress header">
             <p>
@@ -70,7 +72,7 @@
               </app-set-count>
             </p>
             <a [routerLink]="['/news/create-news']">
-              <div id="create-button" class="secondary-global-button s-btn">
+              <div id="create-button-news" class="secondary-global-button s-btn">
                 <span>{{ 'profile.dashboard.add-news' | translate }}</span>
               </div>
             </a>
@@ -79,9 +81,10 @@
             <div
               class="scrolling"
               infinite-scroll
+              [infiniteScrollDistance]="1"
               [infiniteScrollThrottle]="100"
               (scrolled)="onScroll()"
-              [infiniteScrollDisabled]="!isActiveInfinityScroll"
+              [infiniteScrollDisabled]="!isActiveNewsScroll"
             >
               <ul class="news-list">
                 <li *ngFor="let data of news" [routerLink]="['/news', data.id]">
@@ -94,11 +97,12 @@
       </mat-tab>
 
       <mat-tab label="{{ 'homepage.events.my-space.tag-title' | translate }}">
+        <hr />
         <div *ngIf="!loading; else spinner">
           <div class="in-progress header" id="my-events" *ngIf="!isFavoriteBtnClicked">
             <div class="buttons-wrapper">
               <a [routerLink]="['/events/create-event']">
-                <div id="create-button" class="secondary-global-button s-btn">
+                <div id="create-button-event" class="secondary-global-button s-btn">
                   <span>{{ 'profile.dashboard.add-event' | translate }}</span>
                 </div>
               </a>
@@ -123,50 +127,51 @@
               <div class="edit-events">{{ 'create-event.back' | translate }}</div>
             </div>
           </div>
-          <ul class="news-list" *ngIf="totalEvents && !isFavoriteBtnClicked">
-            <li
-              *ngFor="
-                let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
-              "
-            >
-              <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="true"></app-events-list-item>
-            </li>
-          </ul>
-          <ul class="news-list" *ngIf="isFavoriteBtnClicked">
-            <li
-              *ngFor="
-                let eventItem of favouriteEvents
-                  | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
-              "
-            >
-              <app-events-list-item
-                [event]="eventItem"
-                [userId]="userId"
-                [isUserAssignList]="true"
-                (idOfUnFavouriteEvent)="removeUnFavouriteEvent($event)"
-              ></app-events-list-item>
-            </li>
-          </ul>
-          <pagination-controls
-            class="events-pagination"
-            (pageChange)="onEventsPageChange($event, eventType)"
-            (pageBoundsCorrection)="onEventsPageChange($event, eventType)"
-            maxSize="7"
-            autoHide="true"
-            responsive="true"
-            *ngIf="this.totalEvents"
-          ></pagination-controls>
+          <div
+            class="scrolling"
+            infinite-scroll
+            [infiniteScrollDistance]="1"
+            [infiniteScrollThrottle]="100"
+            (scrolled)="getUserEvents()"
+            [infiniteScrollDisabled]="!isActiveEventsScroll"
+          >
+            <ul class="news-list" *ngIf="totalEvents && !isFavoriteBtnClicked">
+              <li *ngFor="let eventItem of eventsList">
+                <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="true"></app-events-list-item>
+              </li>
+            </ul>
+          </div>
+          <div
+            *ngIf="isFavoriteBtnClicked"
+            class="scrolling"
+            infinite-scroll
+            [infiniteScrollDistance]="1"
+            [infiniteScrollThrottle]="100"
+            (scrolled)="getUserFavouriteEvents()"
+            [infiniteScrollDisabled]="!isActiveFavoriteEventsScroll"
+          >
+            <ul class="news-list">
+              <li *ngFor="let eventItem of favouriteEvents">
+                <app-events-list-item
+                  [event]="eventItem"
+                  [userId]="userId"
+                  [isUserAssignList]="true"
+                  (idOfUnFavouriteEvent)="removeUnFavouriteEvent($event)"
+                ></app-events-list-item>
+              </li>
+            </ul>
+          </div>
+
           <div class="no-data" *ngIf="!this.totalEvents">
             <app-no-data [title]="'profile.dashboard.no-events'" [text]="'profile.dashboard.no-events-advice'"> </app-no-data>
             <a [routerLink]="['/events']">
-              <div id="create-button" class="secondary-global-button m-btn">
+              <div id="create-button-join-event" class="secondary-global-button m-btn">
                 <span>{{ 'profile.dashboard.join-event' | translate }}</span>
               </div>
             </a>
           </div>
         </div>
       </mat-tab>
-      <mat-tab disabled> </mat-tab>
     </mat-tab-group>
   </div>
 

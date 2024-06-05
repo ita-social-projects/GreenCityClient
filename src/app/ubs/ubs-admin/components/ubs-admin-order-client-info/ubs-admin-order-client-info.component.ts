@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { FormGroup, AbstractControl, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -35,6 +35,10 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
 
   get recipientEmail() {
     return this.userInfoDto.get('recipientEmail');
+  }
+
+  get recipientPhoneNumber(): FormControl {
+    return this.userInfoDto.get('recipientPhoneNumber') as FormControl;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -109,7 +113,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

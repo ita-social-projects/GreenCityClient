@@ -7,12 +7,12 @@
     </div>
     <div *ngIf="pageOpen">
       <div class="w-100 d-flex justify-content-between">
-        <label class="col-sm-2 form__label">{{ 'order-details.service' | translate }}</label>
-        <label class="col-sm-2 form__label">{{ 'order-details.volume' | translate }}</label>
-        <label class="col-sm-2 form__label">{{ 'order-details.cost' | translate }}</label>
-        <label class="col-sm-2 text-center form__label">{{ 'order-details.planned-amount' | translate }}</label>
-        <label class="col-sm-2 text-center form__label">{{ 'order-details.approved-amount' | translate }}</label>
-        <label class="col-sm-2 text-center form__label" *ngIf="isVisible">{{ 'order-details.exported-amount' | translate }}</label>
+        <label for="" class="col-sm-2 form__label">{{ 'order-details.service' | translate }}</label>
+        <label for="" class="col-sm-2 form__label">{{ 'order-details.volume' | translate }}</label>
+        <label for="" class="col-sm-2 form__label">{{ 'order-details.cost' | translate }}</label>
+        <label for="" class="col-sm-2 text-center form__label">{{ 'order-details.planned-amount' | translate }}</label>
+        <label for="" class="col-sm-2 text-center form__label">{{ 'order-details.approved-amount' | translate }}</label>
+        <label for="" class="col-sm-2 text-center form__label" *ngIf="isVisible">{{ 'order-details.exported-amount' | translate }}</label>
       </div>
       <hr class="divider" />
       <div class="main">
@@ -28,7 +28,7 @@
                 min="0"
                 max="999"
                 formControlName="plannedQuantity{{ bag.id }}"
-                disabled
+                [disabled]
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count">
@@ -41,7 +41,7 @@
                 formControlName="confirmedQuantity{{ bag.id }}"
                 [attr.disabled]="isDisabledConfirmQuantity() ? true : null"
                 (change)="onQuantityChange('confirmed', bag.id)"
-                disabled
+                [disabled]
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
@@ -208,7 +208,7 @@
             formControlName="customerComment"
             placeholder="{{ 'order-details.client-comment.placeholder' | translate }}"
             id="customer-comment"
-            disabled
+            [disabled]
           >
           </textarea>
         </div>

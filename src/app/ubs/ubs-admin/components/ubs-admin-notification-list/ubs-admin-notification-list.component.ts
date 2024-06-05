@@ -5,7 +5,9 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { NotificationsService, notificationTriggersMock, notificationStatuses } from '../../services/notifications.service';
+import { NotificationsService, notificationStatuses } from '../../services/notifications.service';
+import { NotificationPage, NotificationTemplatesPage } from '../../models/notifications.model';
+import { formatNotificationCron } from 'src/app/shared/cron/cron.service';
 
 @Component({
   selector: 'app-ubs-admin-notification-list',
@@ -17,10 +19,9 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
     plus: 'assets/img/ubs-admin-notifications/plus.svg',
     arrowDown: './assets/img/arrow-down.svg'
   };
-  private destroy = new Subject<void>();
-  statuses = ['ALL', ...notificationStatuses];
-  triggers = notificationTriggersMock;
-  notifications: any[] = [];
+  private destroy = new Subject<boolean>();
+  statuses: string[] = ['ALL', ...notificationStatuses];
+  notifications: NotificationPage[] = [];
   filtersForm: FormGroup;
   itemsPerPage = 10;
   currentPage = 1;
@@ -28,6 +29,7 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   currentLanguage: string;
   spinner: boolean;
   elementsArePresent = true;
+  isLangUa: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -42,6 +44,7 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLanguage = lang;
+      this.isLangUa = this.currentLanguage === 'ua';
     });
 
     this.loadPage(1);
@@ -60,18 +63,18 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.complete();
   }
 
-  loadPage(page, filters?): void {
+  loadPage(page: number, filters?): void {
     this.spinner = this.elementsArePresent;
 
     this.notificationsService
       .getAllNotificationTemplates(page - 1, this.itemsPerPage)
       .pipe(take(1))
-      .subscribe((data) => {
-        this.notifications = data.page;
+      .subscribe((data: NotificationTemplatesPage) => {
+        this.notifications = formatNotificationCron(data.page);
         this.totalItems = data.totalElements;
         this.spinner = false;
         this.elementsArePresent = this.itemsPerPage < this.totalItems;

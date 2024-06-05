@@ -77,11 +77,11 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   editForm(): void {
     this.addTariffServiceForm = this.fb.group({
-      name: new FormControl({ value: this.getLangValue(this.receivedData.bagData.name, this.receivedData.bagData.nameEng) }, [
+      name: new FormControl(this.getLangValue(this.receivedData.bagData.name, this.receivedData.bagData.nameEng), [
         Validators.required,
         Validators.maxLength(30)
       ]),
-      nameEng: new FormControl({ value: this.getLangValue(this.receivedData.bagData.nameEng, this.receivedData.bagData.name) }, [
+      nameEng: new FormControl(this.getLangValue(this.receivedData.bagData.nameEng, this.receivedData.bagData.name), [
         Validators.required,
         Validators.maxLength(30)
       ]),
@@ -92,14 +92,14 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       ]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
-      description: new FormControl(
-        { value: this.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng) },
-        [Validators.required, Validators.maxLength(255)]
-      ),
-      descriptionEng: new FormControl(
-        { value: this.getLangValue(this.receivedData.bagData.descriptionEng, this.receivedData.bagData.description) },
-        [Validators.required, Validators.maxLength(255)]
-      )
+      description: new FormControl(this.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng), [
+        Validators.required,
+        Validators.maxLength(255)
+      ]),
+      descriptionEng: new FormControl(this.getLangValue(this.receivedData.bagData.descriptionEng, this.receivedData.bagData.description), [
+        Validators.required,
+        Validators.maxLength(255)
+      ])
     });
   }
 

@@ -11,7 +11,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class ChatModalComponent {
   public chatIcons = CHAT_ICONS;
 
-  constructor(private dialogRef: MatDialogRef<ChatModalComponent>, private chatsService: ChatsService) {}
+  constructor(
+    private dialogRef: MatDialogRef<ChatModalComponent>,
+    private chatsService: ChatsService
+  ) {}
 
   close() {
     this.chatsService.setCurrentChat(null);

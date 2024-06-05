@@ -8,11 +8,11 @@ import { OrderService } from '../../services/order.service';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of, Subject, throwError } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { IMaskModule } from 'angular-imask';
@@ -118,9 +118,7 @@ xdescribe('OrderDetailsFormComponent', () => {
   shareFormService.locations = mockLocations;
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
@@ -136,7 +134,7 @@ xdescribe('OrderDetailsFormComponent', () => {
   orderServiceMock.getTariffForExistingOrder.and.returnValue(of());
   orderServiceMock.setOrderDetailsFromState.and.returnValue(of());
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent, FilterLocationListByLangPipe],
       imports: [

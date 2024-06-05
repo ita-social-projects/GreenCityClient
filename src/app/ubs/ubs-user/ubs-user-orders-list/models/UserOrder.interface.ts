@@ -46,7 +46,9 @@ export interface IBags {
   count: number;
   price: number;
   service: string;
+  serviceEng: string;
   totalPrice: number;
+  fullPrice: number;
 }
 
 export interface ICertificate {

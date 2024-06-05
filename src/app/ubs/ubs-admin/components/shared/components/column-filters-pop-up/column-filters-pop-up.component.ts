@@ -88,9 +88,7 @@ export class ColumnFiltersPopUpComponent implements OnInit {
 
   getOptionsForFiltering() {
     const columnsForFiltering = this.getColumnsForFiltering();
-    let filteredCol: IFilteredColumn;
-
-    filteredCol = columnsForFiltering.find((column) => column.key === this.data.columnName);
+    const filteredCol: IFilteredColumn = columnsForFiltering.find((column) => column.key === this.data.columnName);
 
     return filteredCol.values;
   }

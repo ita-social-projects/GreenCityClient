@@ -1,12 +1,13 @@
-import { ColumnFiltersPopUpComponent } from './../shared/components/column-filters-pop-up/column-filters-pop-up.component';
+import { ColumnFiltersPopUpComponent } from '../shared/components/column-filters-pop-up/column-filters-pop-up.component';
 import {
   IBigOrderTable,
   IBigOrderTableParams,
+  IColumnDTO,
   IDateFilters,
   IFilteredColumn,
   IFilteredColumnValue,
   IOrdersViewParameters
-} from './../../models/ubs-admin.interface';
+} from '../../models/ubs-admin.interface';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -36,6 +37,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
+import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -47,7 +49,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   nonSortableColumns = nonSortableColumns;
   sortingColumn: string;
   sortType: string;
-  columns: any[] = [];
+  columns: IColumnDTO[] = [];
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<any>;
   selection = new SelectionModel<any>(true, []);
@@ -79,7 +81,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   model: string;
   modelChanged: Subject<string> = new Subject<string>();
   previousSettings: string[];
-  displayedColumnsView: any[] = [];
+  displayedColumnsView: IColumnDTO[] = [];
   displayedColumnsViewTitles: string[] = [];
   firstPageLoad: boolean;
   isStoreEmpty: boolean;
@@ -97,13 +99,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   cancellationComment: string;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
   defaultColumnWidth = 120; // In px
-  minColumnWidth = 50;
+  minColumnWidth = 100;
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
   isRestoredFilters = false;
   public dateForm: FormGroup;
   public filters: IDateFilters[] = [];
-
+  defaultColumnsWidth: Map<string, number> = new Map(Object.entries(defaultColumnsWidthPreference));
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
   ordersViewParameters$ = this.store.select((state: IAppState): IOrdersViewParameters => state.bigOrderTable.ordersViewParameters);
@@ -513,7 +515,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
   editDetails(): void {
-    const keys = [
+    const keys: TableKeys[] = [
       TableKeys.receivingStation,
       TableKeys.responsibleDriver,
       TableKeys.responsibleCaller,
@@ -521,7 +523,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       TableKeys.responsibleNavigator
     ];
     this.displayedColumnsView
-      .filter((el) => keys.includes(el.title.key))
+      .filter((el) => keys.includes(TableKeys[el.title.key as keyof typeof TableKeys]))
       .forEach((field) => this.dataForPopUp.push({ arrayData: field.checked, title: field.titleForSorting }));
   }
   // checks if all required fields is filled in
@@ -636,12 +638,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   private editAll(e: IEditCell): void {
     this.editCellProgressBar = true;
-    const newTableData = this.tableData.map((item) => {
-      return {
-        ...item,
-        [e.nameOfColumn]: e.newValue
-      };
-    });
+    const newTableData = this.tableData.map((item) => ({
+      ...item,
+      [e.nameOfColumn]: e.newValue
+    }));
     this.tableData = newTableData;
     this.dataSource = new MatTableDataSource(newTableData);
     this.allChecked = false;
@@ -665,7 +665,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.cancellationComment = null;
   }
 
-  toggleAccordion(e: PointerEvent): void {
+  toggleAccordion(e: MouseEvent): void {
     (e.target as HTMLElement).parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
     const matIcon = (e.target as HTMLElement).closest('div').querySelector('mat-icon');
     matIcon.textContent = matIcon.textContent === 'keyboard_arrow_down' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
@@ -693,11 +693,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   calculateTextWidth(event, tooltip): void {
-    const textContainerWidth = event.toElement.offsetWidth;
+    const textContainerWidth = event.target.offsetWidth;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     context.font = '14.8px Lato, sans-serif';
-    const textWidth = Math.round(context.measureText(event.toElement.innerText).width);
+    const textWidth = Math.round(context.measureText(event.target.innerText).width);
 
     if (textContainerWidth < textWidth) {
       tooltip.show();
@@ -760,7 +760,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', true);
   }
 
-  openColumnFilterPopup(event: PointerEvent, column) {
+  openColumnFilterPopup(event: MouseEvent, column) {
     const popupWidth = 350;
     const popupHeight = 400;
     const isDateFilter = column.title.key.toLowerCase().includes('date');
@@ -795,7 +795,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const displayedColumnsCopy = JSON.parse(JSON.stringify(this.displayedColumns));
     const prop = this.nestedSortProperty.split('.');
     const len = prop.length;
-
+    setTimeout(() => this.applyColumnsWidthPreference(), 0);
     this.columns.sort((a, b) => {
       let i = 0;
       while (i < len) {
@@ -811,7 +811,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       const undisplayedColumns = [];
       for (const column of this.columns) {
         if (!this.displayedColumns.includes(column.title.key)) {
-          undisplayedColumns.push(this.columns[column]);
+          undisplayedColumns.push(column);
         }
       }
       undisplayedColumns.length =
@@ -830,10 +830,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   public onResizeColumn(event: MouseEvent, columnIndex: number): void {
     if (!this.isTimePickerOpened) {
-      const resizeHandleWidth = 15; // Px
+      const resizeHandleWidth = 15;
       const resizeStartX = event.pageX;
-      const tableOffsetX = this.getTableOffsetX();
-      const minCellWidth = 150;
+      let lastStickyOffsetShift = 0;
+
+      columnIndex = this.isResizingTargetColumn(event) ? columnIndex : columnIndex - 1;
 
       const {
         left: leftColumnBoundary,
@@ -843,52 +844,61 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
       const isResizingLeft = resizeStartX <= leftColumnBoundary + resizeHandleWidth;
       const isResizingRight = resizeStartX >= rightColumnBoundary - resizeHandleWidth;
+
       if (!isResizingLeft && !isResizingRight) {
         return;
       }
 
       event.preventDefault();
 
-      const adjColumnIndex = isResizingRight ? columnIndex + 1 : columnIndex - 1;
-      const isAdjColumnSticky = adjColumnIndex < this.stickyColumnsAmount;
-      const { width: adjColumnOriginalWidth, left: adjColumnLeftBoundary } = this.getColumnHeaderBoundaries(adjColumnIndex);
-
       let newColumnWidth = originalColumnWidth;
-      let newAdjColumnWidth = adjColumnOriginalWidth;
-      let cleanupMouseMove = () => {};
-      let cleanupMouseUp = () => {};
+      // eslint-disable-next-line prefer-const
+      let cleanupMouseMoveFn;
+      // eslint-disable-next-line prefer-const
+      let cleanupMouseUpFn;
+
       const onMouseMove = (moveEvent) => {
         const movedToX = moveEvent.pageX;
-        const dx = isResizingRight ? movedToX - resizeStartX : -movedToX + resizeStartX;
-        if (originalColumnWidth + dx < this.minColumnWidth || adjColumnOriginalWidth - dx < this.minColumnWidth) {
-          return;
-        }
-        newColumnWidth = originalColumnWidth + dx >= minCellWidth ? originalColumnWidth + dx : minCellWidth;
-        newAdjColumnWidth = adjColumnOriginalWidth - dx >= minCellWidth ? adjColumnOriginalWidth - dx : minCellWidth;
-        if (newColumnWidth > minCellWidth && newAdjColumnWidth > minCellWidth) {
-          this.setColumnWidth(columnIndex, newColumnWidth);
-          this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
-        }
-        // Move column if it is sticky
-        if (isAdjColumnSticky) {
-          const leftColumnLeftBoundary = isResizingRight ? leftColumnBoundary : adjColumnLeftBoundary;
-          const newLeftColumnWidth = isResizingRight ? newColumnWidth : newAdjColumnWidth;
-          const rightColumnIndex = isResizingRight ? adjColumnIndex : columnIndex;
-          const rightColumnOffsetX = leftColumnLeftBoundary + newLeftColumnWidth - tableOffsetX;
-          this.setStickyColumnOffsetX(rightColumnIndex, rightColumnOffsetX);
+        const diffX = isResizingRight ? movedToX - resizeStartX : -movedToX + resizeStartX;
+
+        newColumnWidth = originalColumnWidth + diffX > 100 ? originalColumnWidth + diffX : 100;
+
+        this.setColumnWidth(columnIndex, newColumnWidth);
+
+        if (columnIndex < this.stickyColumnsAmount - 1) {
+          const actualResize = newColumnWidth - originalColumnWidth;
+
+          for (let i = columnIndex + 1; i < this.stickyColumnsAmount; i++) {
+            this.shiftStickyColumnX(i, actualResize - lastStickyOffsetShift);
+          }
+
+          lastStickyOffsetShift = actualResize;
         }
       };
       const onMouseUp = () => {
-        this.updateColumnsWidthPreference(adjColumnIndex, newAdjColumnWidth);
-        cleanupMouseMove();
-        cleanupMouseUp();
+        this.updateColumnsWidthPreference(columnIndex, newColumnWidth);
+        cleanupMouseMoveFn();
+        cleanupMouseUpFn();
       };
-      cleanupMouseMove = this.renderer.listen('document', 'mousemove', onMouseMove);
-      cleanupMouseUp = this.renderer.listen('document', 'mouseup', onMouseUp);
+      cleanupMouseMoveFn = this.renderer.listen('document', 'mousemove', onMouseMove);
+      cleanupMouseUpFn = this.renderer.listen('document', 'mouseup', onMouseUp);
     }
   }
 
-  private getTableOffsetX(): number | undefined {
+  private isResizingTargetColumn(event: MouseEvent) {
+    const column = event.target as HTMLElement;
+
+    if (!column) {
+      return;
+    }
+
+    const columnBounds = column.getBoundingClientRect();
+    const columnMidpoint = columnBounds.left + columnBounds.width / 2;
+
+    return event.clientX > columnMidpoint;
+  }
+
+  private getTableOffsetX(): number {
     return this.getColumnHeaderBoundaries(0)?.left;
   }
 
@@ -907,6 +917,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
   }
 
+  private shiftStickyColumnX(index: number, shift: number): void {
+    const columnKey = this.columns[index].title.key;
+    const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
+    columnCells.forEach((cell) => {
+      const currentLeft = parseInt((cell as HTMLElement).style.left, 10) || 100;
+      const newLeft = currentLeft + shift;
+      this.renderer.setStyle(cell, 'left', `${newLeft}px`);
+    });
+  }
+
   private setColumnWidth(index: number, width: number): void {
     const columnKey = this.columns[index].title.key;
     const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
@@ -916,9 +936,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   applyColumnsWidthPreference(): void {
+    if (!this.columnsWidthPreference) {
+      this.columnsWidthPreference = new Map();
+    }
     for (const [idx, col] of this.columns.entries()) {
-      const key = col.title.key;
-      const width = this.columnsWidthPreference.get(key) ?? this.defaultColumnWidth;
+      const width = this.columnsWidthPreference.get(col.title.key) ?? this.defaultColumnWidth;
       this.setColumnWidth(idx, width);
     }
     const tableOffsetX = this.getTableOffsetX();
@@ -926,14 +948,20 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       return;
     }
     for (let idx = 1; idx < this.stickyColumnsAmount; idx++) {
-      this.setStickyColumnOffsetX(idx, this.getColumnHeaderBoundaries(idx - 1).right - tableOffsetX);
+      const columnHeaderBoundaries = this.getColumnHeaderBoundaries(idx - 1);
+      if (columnHeaderBoundaries) {
+        this.setStickyColumnOffsetX(idx, columnHeaderBoundaries.right - tableOffsetX);
+      }
     }
   }
 
   updateColumnsWidthPreference(columnIndex: number, newWidth: number) {
-    const col = this.columns[columnIndex];
-    this.columnsWidthPreference.set(col.title.key, newWidth);
-
+    const column: IColumnDTO = this.columns[columnIndex];
+    column.weight = newWidth;
+    if (!this.columnsWidthPreference) {
+      this.columnsWidthPreference = new Map();
+    }
+    this.columnsWidthPreference.set(column.title.key, newWidth);
     this.adminTableService
       .setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference)
       .pipe(takeUntil(this.destroy))
@@ -976,8 +1004,23 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   showTable(): string {
     return this.displayedColumns.length > 1 ? 'block' : 'none';
   }
+
+  resetDefaultWidth(): void {
+    this.showAllColumns(false);
+    this.columnsWidthPreference = this.defaultColumnsWidth;
+    for (let i = 1; i < this.columns.length - 1; i++) {
+      const cols = document.querySelectorAll('.column_cell.ng-star-inserted');
+      const col = cols[i - 1] as HTMLElement;
+      const width = this.defaultColumnsWidth.get(this.columns[i].title.key);
+      col.style.width = width + 'px';
+    }
+    this.applyColumnsWidthPreference();
+
+    this.adminTableService.setUbsAdminOrdersTableColumnsWidthPreference(this.defaultColumnsWidth).pipe(takeUntil(this.destroy)).subscribe();
+  }
+
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

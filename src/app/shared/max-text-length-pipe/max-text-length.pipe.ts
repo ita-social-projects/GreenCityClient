@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'maxTextLength'
 })
 export class MaxTextLengthPipe implements PipeTransform {
-  transform(textName: string, maxTextLength: number = 15): string {
+  transform(textName: string, maxTextLength = 15): string {
     if (!textName) {
       return '';
     }

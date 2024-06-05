@@ -1,6 +1,6 @@
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { RestorePasswordComponent } from './restore-password.component';
-import { async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -21,37 +21,32 @@ import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.serv
 describe('RestorePasswordComponent', () => {
   let component: RestorePasswordComponent;
   let fixture: ComponentFixture<RestorePasswordComponent>;
-  let localStorageServiceMock: LocalStorageService;
-  let googleServiceMock: GoogleSignInService;
   let router: Router;
-  let matDialogMock: MatDialogRef<RestorePasswordComponent>;
-  let MatSnackBarMock: MatSnackBarComponent;
-  let userSuccessSignIn;
   let dialog: MatDialog;
 
-  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
-  userSuccessSignIn = new UserSuccessSignIn();
+  const userSuccessSignIn = new UserSuccessSignIn();
   userSuccessSignIn.userId = '13';
   userSuccessSignIn.name = 'Name';
   userSuccessSignIn.accessToken = '13';
   userSuccessSignIn.refreshToken = '13';
 
-  matDialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
+  const matDialogMock: MatDialogRef<RestorePasswordComponent> = jasmine.createSpyObj('MatDialogRef', ['close']);
   matDialogMock.close = () => 'Close the window please';
 
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
 
-  googleServiceMock = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
+  const googleServiceMock: GoogleSignInService = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
 
   const userOwnSignInServiceMock = jasmine.createSpyObj('userOwnSignInService', ['saveUserToLocalStorage']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RestorePasswordComponent],
       imports: [
@@ -139,17 +134,13 @@ describe('RestorePasswordComponent', () => {
     });
 
     it('Test sendEmailForRestore method', () => {
-      const spy = (restorePasswordService.sendEmailForRestore = jasmine
-        .createSpy('sendEmail')
-        .and.returnValue(Observable.of(mockFormData)));
+      const spy = (restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(of(mockFormData)));
       restorePasswordService.sendEmailForRestore(mockFormData);
       expect(spy).toHaveBeenCalled();
     });
 
     it('sentEmail should call sendEmailForRestore', () => {
-      const spy = (restorePasswordService.sendEmailForRestore = jasmine
-        .createSpy('sendEmail')
-        .and.returnValue(Observable.of(mockFormData)));
+      const spy = (restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(of(mockFormData)));
       component.sentEmail();
       expect(spy).toHaveBeenCalled();
     });
@@ -181,8 +172,7 @@ describe('RestorePasswordComponent', () => {
     it('Should return an emailErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: { message: 'Ups' } });
 
-      // @ts-ignore
-      component.onSentEmailBadMessage(errors);
+      (component as any).onSentEmailBadMessage(errors);
       fixture.detectChanges();
       expect(component.emailErrorMessageBackEnd).toBe('email-not-exist');
     });
@@ -190,8 +180,7 @@ describe('RestorePasswordComponent', () => {
     it('Should return an emailErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
 
-      // @ts-ignore
-      component.onSignInFailure(errors);
+      (component as any).onSignInFailure(errors);
       fixture.detectChanges();
       expect(component.emailErrorMessageBackEnd).toBe('Ups');
     });
@@ -199,17 +188,14 @@ describe('RestorePasswordComponent', () => {
     it('Should return an passwordErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: [{ name: 'password', message: 'Ups' }] });
 
-      // @ts-ignore
-      component.onSignInFailure(errors);
+      (component as any).onSignInFailure(errors);
       fixture.detectChanges();
       expect(component.passwordErrorMessageBackEnd).toBe('Ups');
     });
 
     it('Should return an backEndError when login failed', () => {
       errors = new HttpErrorResponse({ error: { message: 'Ups' } });
-
-      // @ts-ignore
-      component.onSignInFailure(errors.error);
+      (component as any).onSignInFailure(errors.error);
       fixture.detectChanges();
       expect(component.backEndError).toBe('Ups');
     });

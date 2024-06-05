@@ -1,31 +1,38 @@
 import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { EventPageResponseDto, PagePreviewDTO } from '../../component/events/models/events.interface';
-import { CourierLocations, Address, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
+import { EventResponse, PagePreviewDTO } from '../../component/events/models/events.interface';
+import { Address, CourierLocations, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageService {
+  languageSubject: Subject<string> = new Subject<string>();
+  firstNameBehaviourSubject: BehaviorSubject<string>;
+  languageBehaviourSubject: BehaviorSubject<string>;
+  accessTokenBehaviourSubject: BehaviorSubject<string>;
+  ubsRegBehaviourSubject: BehaviorSubject<boolean>;
+  ubsRedirectionBehaviourSubject: BehaviorSubject<number>;
+  userIdBehaviourSubject: BehaviorSubject<number>;
+  private readonly USER_ID = 'userId';
   private readonly ACCESS_TOKEN = 'accessToken';
   private readonly REFRESH_TOKEN = 'refreshToken';
-  private readonly USER_ID = 'userId';
   private readonly NAME = 'name';
   private readonly PREVIOUS_PAGE = 'previousPage';
   private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
   private readonly EDIT_EVENT = 'editEvent';
-  private EDIT_HABIT = '';
   private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
   private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
 
-  languageSubject: Subject<string> = new Subject<string>();
-  firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
-  userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
-  languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
-  accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
-  ubsRegBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getUbsRegistration());
-  ubsRedirectionBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getOrderIdToRedirect());
+  constructor() {
+    this.firstNameBehaviourSubject = new BehaviorSubject<string>(this.getName());
+    this.languageBehaviourSubject = new BehaviorSubject<string>(this.getCurrentLanguage());
+    this.accessTokenBehaviourSubject = new BehaviorSubject<string>(this.getAccessToken());
+    this.ubsRegBehaviourSubject = new BehaviorSubject<boolean>(this.getUbsRegistration());
+    this.ubsRedirectionBehaviourSubject = new BehaviorSubject<number>(this.getOrderIdToRedirect());
+    this.userIdBehaviourSubject = new BehaviorSubject<number>(this.getUserId());
+  }
 
   public setHabitsGalleryView(value: boolean): void {
     localStorage.setItem(this.HABITS_GALLERY_VIEW, JSON.stringify(value));
@@ -47,7 +54,7 @@ export class LocalStorageService {
     return localStorage.getItem(this.CAN_USER_EDIT_EVENT) === 'true';
   }
 
-  public setEventForEdit(key: string, event: EventPageResponseDto | PagePreviewDTO) {
+  public setEventForEdit(key: string, event: EventResponse | PagePreviewDTO) {
     localStorage.setItem(key, JSON.stringify(event));
   }
 
@@ -61,10 +68,6 @@ export class LocalStorageService {
 
   public getUserId(): number {
     return Number.parseInt(localStorage.getItem(this.USER_ID), 10);
-  }
-
-  private getName(): string {
-    return localStorage.getItem(this.NAME);
   }
 
   public getPreviousPage(): string {
@@ -190,8 +193,8 @@ export class LocalStorageService {
     localStorage.removeItem('UbsOrderId');
   }
 
-  public setUbsFondyOrderId(orderId: string | number) {
-    localStorage.setItem('UbsFondyOrderId', String(orderId));
+  public setUbsPaymentOrderId(orderId: string | number) {
+    localStorage.setItem('UbsPaymentOrderId', String(orderId));
   }
 
   public setUbsBonusesOrderId(orderId: string | number) {
@@ -202,12 +205,12 @@ export class LocalStorageService {
     return localStorage.getItem('UbsBonusesOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsBonusesOrderId'));
   }
 
-  public getUbsFondyOrderId(): any {
-    return localStorage.getItem('UbsFondyOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsFondyOrderId'));
+  public getUbsPaymentOrderId(): any {
+    return localStorage.getItem('UbsPaymentOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsPaymentOrderId'));
   }
 
-  public removeUbsFondyOrderId() {
-    localStorage.removeItem('UbsFondyOrderId');
+  public removeUbsPaymentOrderId() {
+    localStorage.removeItem('UbsPaymentOrderId');
   }
 
   public removeOrderWithoutPayment(): void {
@@ -231,7 +234,7 @@ export class LocalStorageService {
   }
 
   public clearPaymentInfo(): void {
-    this.removeUbsFondyOrderId();
+    this.removeUbsPaymentOrderId();
     this.removeUserPagePayment();
   }
 
@@ -296,8 +299,7 @@ export class LocalStorageService {
   }
 
   public getUbsAdminOrdersTableTitleColumnFilter() {
-    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
-    return parsed;
+    return JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
   }
 
   public removeAdminOrderFilters(): void {
@@ -312,8 +314,7 @@ export class LocalStorageService {
   }
 
   public getAdminOrdersDateFilter() {
-    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters'));
-    return parsed;
+    return JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters'));
   }
 
   public removeAdminOrderDateFilters(): void {
@@ -366,5 +367,9 @@ export class LocalStorageService {
 
   public removeIsAnotherClient(): void {
     localStorage.removeItem('anotherClient');
+  }
+
+  private getName(): string {
+    return localStorage.getItem(this.NAME);
   }
 }

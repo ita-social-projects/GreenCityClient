@@ -1,6 +1,6 @@
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FooterComponent } from './footer.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -10,16 +10,15 @@ describe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageSubject = new Subject();
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FooterComponent],
       imports: [RouterTestingModule, TranslateModule.forRoot()],
-      providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }],
+      providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }]
     }).compileComponents();
   }));
 

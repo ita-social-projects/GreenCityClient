@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,23 +9,28 @@ import { BehaviorSubject, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { FriendRequestsComponent } from './friend-requests.component';
 import { FRIENDS } from '@global-user/mocks/friends-mock';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status.service'; // Import the missing service
 
 describe('FriendRequestsComponent', () => {
   let component: FriendRequestsComponent;
   let fixture: ComponentFixture<FriendRequestsComponent>;
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ friendsList: FRIENDS }));
 
-  beforeEach(async(() => {
+  const userOnlineStatusServiceMock = jasmine.createSpyObj('UserOnlineStatusService', ['addUsersId', 'removeUsersId']);
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FriendRequestsComponent],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([]), InfiniteScrollModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: Store, useValue: storeMock }
+        { provide: Store, useValue: storeMock },
+        { provide: UserOnlineStatusService, useValue: userOnlineStatusServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();

@@ -1,0 +1,44 @@
+<app-spinner *ngIf="isPosting"></app-spinner>
+<div *ngIf="!isPosting">
+  <div class="container">
+    <div class="event-header">
+      <div class="event-header-items">
+        <div class="mb-4">
+          <a [routerLink]="routedFromProfile ? [previousPath, { tabId: 2 }] : [previousPath]" class="back">
+            <img [src]="images.arrowLeft" alt="arrow" aria-hidden="true" class="arrow" />
+            <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
+          </a>
+        </div>
+        <h3 *ngIf="!isUpdating">{{ 'create-event.title' | translate }}</h3>
+        <h3 *ngIf="isUpdating">{{ 'create-event.edit' | translate }}</h3>
+        <p>{{ 'create-event.description' | translate }}</p>
+      </div>
+    </div>
+    <div class="mat-wrapper flex-lg-row">
+      <mat-card class="information-card">
+        <app-create-event-information
+          (formStatus)="checkFormInformation($event, 'event')"
+          [formInput]="formValues.eventInformation"
+        ></app-create-event-information>
+      </mat-card>
+      <mat-card>
+        <app-create-event-dates
+          (formsEmit)="checkFormInformation($event, 'date')"
+          [formInput]="formValues.dateInformation"
+        ></app-create-event-dates>
+      </mat-card>
+    </div>
+
+    <div class="submit-container">
+      <button (click)="onPreview()" [disabled]="!formsIsValid" class="secondary-global-button submit-buttons">
+        {{ 'create-event.preview' | translate }}
+      </button>
+
+      <button (click)="submitEvent()" [disabled]="!formsIsValid" class="primary-global-button submit-buttons">
+        {{ submitButtonName | translate }}
+      </button>
+
+      <button (click)="clear()" class="tertiary-global-button">{{ 'create-event.cancel' | translate }}</button>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@ import { WarningPopUpComponent } from '../../../shared/components/warning-pop-up
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 
 import { DeleteCommentComponent } from './delete-comment.component';
 import { of } from 'rxjs';
@@ -22,11 +22,10 @@ describe('DeleteCommentComponent', () => {
   let component: DeleteCommentComponent;
   let fixture: ComponentFixture<DeleteCommentComponent>;
 
-  let commentsServiceMock: CommentsService;
-  commentsServiceMock = jasmine.createSpyObj('CommentsService', ['deleteComments']);
+  const commentsServiceMock: CommentsService = jasmine.createSpyObj('CommentsService', ['deleteComments']);
   commentsServiceMock.deleteComments = () => of(true);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DeleteCommentComponent, WarningPopUpComponent],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, BrowserAnimationsModule],

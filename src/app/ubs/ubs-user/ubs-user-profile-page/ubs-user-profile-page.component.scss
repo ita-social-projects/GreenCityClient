@@ -18,8 +18,7 @@ $inputwidth: 260px;
 
     .header-text {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+      flex-flow: row wrap;
       justify-content: space-between;
 
       .header-buttons {
@@ -37,7 +36,7 @@ $inputwidth: 260px;
   .input-group {
     background-color: var(--ubs-primary-white);
     padding: 44px;
-    box-shadow: 4px 4px 10px rgba(151, 151, 151, 0.3);
+    box-shadow: 4px 4px 10px rgb(151 151 151 / 30%);
     border-radius: 10px;
 
     form {
@@ -63,14 +62,14 @@ $inputwidth: 260px;
   }
 
   .h5-margin-bottom {
-    margin: 0 0 14px 0;
+    margin: 0 0 14px;
     padding: 0;
   }
 
   .address-header {
     display: flex;
     align-items: center;
-    margin: 28px 0 14px 0;
+    margin: 28px 0 14px;
 
     .address-header__title {
       font-size: 20px;
@@ -93,7 +92,7 @@ $inputwidth: 260px;
 
   h5 {
     font-weight: bold;
-    margin: 10px 0 18px 0;
+    margin: 10px 0 18px;
     padding: 0;
   }
 
@@ -111,7 +110,7 @@ $inputwidth: 260px;
     width: 300px;
 
     .s-link {
-      margin: 14px 0 22px 0;
+      margin: 14px 0 22px;
     }
   }
 
@@ -127,8 +126,8 @@ $inputwidth: 260px;
   .inline {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     justify-content: flex-start;
+    gap: 50px;
 
     .notificationEdit {
       margin-top: 20px;
@@ -190,8 +189,7 @@ $inputwidth: 260px;
   .submit-btns {
     display: flex;
     justify-content: flex-start;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     padding-top: 53px;
     gap: 30px;
   }
@@ -207,7 +205,7 @@ $inputwidth: 260px;
       display: flex;
       justify-content: flex-start;
       margin: 0 10px;
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 14px 28px rgb(0 0 0 / 25%);
     }
   }
 
@@ -219,6 +217,7 @@ $inputwidth: 260px;
 
 .delete-address {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   margin-left: auto;
   order: 2;

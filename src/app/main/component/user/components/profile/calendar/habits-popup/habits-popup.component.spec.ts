@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { HabitPopupInterface } from '../habit-popup-interface';
@@ -10,6 +10,7 @@ import { HabitAssignService } from '@global-service/habit-assign/habit-assign.se
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { DatePipe } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
@@ -55,9 +56,9 @@ describe('HabitsPopupComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [RouterTestingModule, TranslateModule.forRoot(), NgbModule],
       declarations: [HabitsPopupComponent],
       providers: [
         { provide: DatePipe, useClass: DatePipeMock },

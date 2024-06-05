@@ -7,7 +7,7 @@
   </div>
   <div class="event-participants" *ngIf="attendees.length">
     <div class="event-participants-avatars">
-      <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
+      <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice: 0 : 2">
         <img [src]="avatar" alt="" />
       </div>
     </div>
@@ -17,7 +17,7 @@
   </div>
 
   <div class="image-container">
-    <img class="event-image" src="{{ event.titleImage }}" alt="event" />
+    <img class="event-image" src="{{ event.titleImage }}" onerror="this.src='assets/img/events/default-image.png'" alt="event" />
   </div>
 
   <div class="content">
@@ -103,10 +103,15 @@
 <div *ngIf="isUserAssignList">
   <div class="event-assign">
     <div class="event-assign__image-container">
-      <img class="event-assign__image-container-image" src="{{ event.titleImage }}" alt="event" />
+      <img
+        class="event-assign__image-container-image"
+        src="{{ event.titleImage }}"
+        onerror="this.src='assets/img/events/default-image.png'"
+        alt="event"
+      />
       <div class="event-assign__image-container__participants" *ngIf="attendees.length">
         <div class="event-assign__image-container__participants__avatars">
-          <div class="event-assign__image-container__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
+          <div class="event-assign__image-container__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice: 0 : 2">
             <img [src]="avatar" alt="" />
           </div>
         </div>

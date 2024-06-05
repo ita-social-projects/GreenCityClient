@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "14"
+  - '18'
 
 dist: bionic
 addons:
@@ -14,27 +14,22 @@ install:
   - npm install
 
 jobs:
-
   include:
     - stage: build
       script:
-      - ng lint
+        - ng lint
       name: check app by linter
-    -
-      script:
-      - npm run stylelint
+    - script:
+        - npm run stylelint
       name: check styles by linter
-    -
-      script:
-      - ng test --watch=false --progress=false --browsers=ChromeHeadless
+    - script:
+        - ng test --watch=false --progress=false --browsers=ChromeHeadless
       name: test app
-    -
-      script:
-      - ng e2e --protractor-config=e2e/protractor-ci.conf.js
+    - script:
+        - ng e2e --protractor-config=e2e/protractor-ci.conf.js
       name: test e2e
-    -
-      script:      
-      -  ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
+    - script:
+        - ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       name: build app using aot compilation
     - stage: deploy
       script: ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
@@ -47,4 +42,3 @@ jobs:
         local_dir: dist/GreenCityClient
         on:
           branch: dev
-   

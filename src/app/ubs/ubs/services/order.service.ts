@@ -17,7 +17,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, of, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/OrderClientDto';
 import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
@@ -141,7 +141,7 @@ export class OrderService {
   }
 
   getUbsOrderStatus(): Observable<any> {
-    const fondyOrderId = this.localStorageService.getUbsFondyOrderId();
+    const fondyOrderId = this.localStorageService.getUbsPaymentOrderId();
     if (fondyOrderId) {
       return this.getFondyStatus(fondyOrderId);
     }
@@ -182,7 +182,7 @@ export class OrderService {
     this.shareFormService.isDataSaved = true;
     this.shareFormService.orderDetails = null;
     this.shareFormService.personalData = null;
-    this.localStorageService.removeUbsFondyOrderId();
+    this.localStorageService.removeUbsPaymentOrderId();
     this.cleanOrderState();
   }
 
@@ -194,6 +194,6 @@ export class OrderService {
   cleanPrevOrderState(): void {
     this.cleanOrderState();
     localStorage.removeItem('UBSExistingOrderId');
-    this.localStorageService.removeUbsFondyOrderId();
+    this.localStorageService.removeUbsPaymentOrderId();
   }
 }
