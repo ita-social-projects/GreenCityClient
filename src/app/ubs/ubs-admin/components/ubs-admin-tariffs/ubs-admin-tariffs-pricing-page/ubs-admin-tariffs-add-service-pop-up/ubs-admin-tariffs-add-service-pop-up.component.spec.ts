@@ -190,11 +190,11 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
 
   it('should return price Control on getControl', () => {
     (component as any).initForm();
-    const price = component.getControl('price');
-    const name = component.getControl('name');
-    const nameEng = component.getControl('nameEng');
-    const description = component.getControl('description');
-    const descriptionEng = component.getControl('descriptionEng');
+    const price:FormControl = component.getControl('price');
+    const name:FormControl = component.getControl('name');
+    const nameEng: FormControl = component.getControl('nameEng');
+    const description: FormControl = component.getControl('description');
+    const descriptionEng: FormControl = component.getControl('descriptionEng');
     expect(price).toEqual(component.addServiceForm.get('price'));
     expect(name).toEqual(component.addServiceForm.get('name'));
     expect(nameEng).toEqual(component.addServiceForm.get('nameEng'));
