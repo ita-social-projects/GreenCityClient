@@ -32,7 +32,7 @@ export const Patterns = {
   certificateInitialValue: '^[0-9]{1,4}$',
 
   ubsPrice: /^\d*[.]?\d{0,2}$/,
-  ubsServicePrice: /^\d*[.,]?\d{0,2}$/,
+  ubsServicePrice: /^[0-9]{1,6}([.,][0-9]{0,2})?$/,
   ubsServiceBasicPrice: /^[0-9.,]{1,8}$/,
 
   ubsWithDigitPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я0-9][іІєЄїЇёЁa-zA-Zа-яА-Я0-9\-,.ʼ'`ʹ)(! ]*$/iu,

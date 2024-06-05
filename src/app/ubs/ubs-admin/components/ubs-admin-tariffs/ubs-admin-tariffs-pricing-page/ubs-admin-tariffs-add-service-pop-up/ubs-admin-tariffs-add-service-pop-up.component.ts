@@ -86,7 +86,10 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
         Validators.pattern(Patterns.ServiceNamePattern),
         Validators.maxLength(255)
       ]),
-      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
+      price: new FormControl({ value: this.receivedData.serviceData.price }, [
+        Validators.required,
+        Validators.pattern(Patterns.ubsServiceBasicPrice)
+      ]),
       description: new FormControl({ value: this.receivedData.serviceData.description }, [Validators.maxLength(255), Validators.required]),
       descriptionEng: new FormControl(this.receivedData.serviceData.descriptionEng, [Validators.maxLength(255), Validators.required])
     });
