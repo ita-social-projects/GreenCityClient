@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
-import { NotificationTemplate } from '../../models/notifications.model';
+import { NotificationTemplate, NotificationTemplateUpdate } from '../../models/notifications.model';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { NotificationsService, notificationTriggerTimeMock, notificationTriggersMock } from '../../services/notifications.service';
@@ -15,6 +15,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
+import { formatSpringCron, formatUnixCron } from 'src/app/shared/cron/cron.service';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -89,7 +90,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(
         (notification: NotificationTemplate) => {
-          this.notification = notification;
+          this.notification = formatUnixCron(notification);
         },
         () => this.navigateToNotificationList()
       );
@@ -231,16 +232,24 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
 
   onSaveChanges(): void {
     this.notificationsService
-      .updateNotificationTemplate(this.notificationId, this.notification)
+      .updateNotificationTemplate(this.notificationId, this.mapNotification(this.notification))
       .pipe(takeUntil(this.destroy))
       .subscribe(() => this.snackBar.openSnackBar('updatedNotification'));
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public ngOnDestroy(): void {
+  mapNotification(notification: NotificationTemplate): NotificationTemplateUpdate {
+    const { title, titleEng, trigger, type, time, schedule } = notification.notificationTemplateMainInfoDto;
+    return {
+      notificationTemplateUpdateInfo: { title, titleEng, trigger, type, time, schedule: formatSpringCron(schedule) },
+      platforms: notification.platforms
+    };
+  }
+
+  ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.complete();
   }

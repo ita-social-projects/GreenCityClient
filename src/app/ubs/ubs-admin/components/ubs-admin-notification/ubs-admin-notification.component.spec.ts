@@ -138,8 +138,6 @@ describe('UbsAdminNotificationComponent', () => {
       save: '.submit-button'
     };
     const cont = container ?? fixture.debugElement;
-    console.log(cont.query(By.css(buttons[name])));
-
     return cont.query(By.css(buttons[name]));
   };
 

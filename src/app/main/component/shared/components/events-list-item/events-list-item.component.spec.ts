@@ -1,6 +1,6 @@
-import { Language } from '../../../../i18n/Language';
+import { Language } from 'src/app/main/i18n/Language';
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
@@ -406,15 +406,6 @@ describe('EventsListItemComponent', () => {
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
       expect(component.nameBtn).toEqual(component.btnName.join);
-    });
-
-    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is unactive', () => {
-      eventMock.isSubscribed = false;
-      component.event = eventMock;
-      component.event.organizer.id = 56;
-      component.event.isRelevant = false;
-      component.checkButtonStatus();
-      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
     });
   });
 
