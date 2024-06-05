@@ -20,10 +20,7 @@ export class ChatsService {
   public chatsMessages: object = {};
   private messagesIsLoading = false;
 
-  constructor(
-    private httpClient: HttpClient,
-    private dialog: MatDialog
-  ) {}
+  constructor(private httpClient: HttpClient) {}
 
   public get userChats() {
     return this.userChatsStream$.getValue();
