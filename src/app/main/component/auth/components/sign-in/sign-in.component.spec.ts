@@ -9,14 +9,11 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
-
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
-
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { ErrorComponent } from '../error/error.component';
@@ -37,7 +34,7 @@ describe('SignIn component', () => {
 
   const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
-  storeMock.select.and.returnValue(of({ emplpyees: { emplpyeesPermissions: mockData } }));
+  storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
@@ -66,7 +63,20 @@ describe('SignIn component', () => {
   jwtServiceMock.getEmailFromAccessToken = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
-  beforeEach(waitForAsync(() => {
+  function waitForGoogleScriptToLoad(): Promise<void> {
+    return new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (typeof google !== 'undefined') {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 100);
+    });
+  }
+
+  beforeEach(waitForAsync(async () => {
+    await waitForGoogleScriptToLoad();
+
     TestBed.configureTestingModule({
       declarations: [SignInComponent, ErrorComponent, GoogleBtnComponent],
       imports: [
@@ -86,7 +96,7 @@ describe('SignIn component', () => {
         { provide: UserOwnSignInService, useValue: signInServiceMock },
         { provide: ProfileService }
       ]
-    });
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -127,7 +137,7 @@ describe('SignIn component', () => {
   });
 
   describe('Check valid state of both input fields functionality testing', () => {
-    it('Should change value of generalError to error message if both fiels are touched and empty', () => {
+    it('Should change value of generalError to error message if both fields are touched and empty', () => {
       const passwordControl = component.signInForm.get('password');
       passwordControl.markAsTouched();
       const emailControl = component.signInForm.get('email');
