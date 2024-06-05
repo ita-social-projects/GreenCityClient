@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Chart } from 'chart.js';
 import 'chartjs-plugin-labels';
 import { DayEstimation } from '../../../../../../../model/habit/DayEstimation';
@@ -7,7 +7,7 @@ import { HabitStatisticsDto } from '../../../../../../../model/habit/HabitStatis
 @Component({
   selector: 'app-habit-chart',
   templateUrl: './habit-chart.component.html',
-  styleUrls: ['./habit-chart.component.scss'],
+  styleUrls: ['./habit-chart.component.scss']
 })
 export class HabitChartComponent implements OnInit, OnChanges {
   @Input() caption: string;
@@ -37,8 +37,8 @@ export class HabitChartComponent implements OnInit, OnChanges {
       data: [],
       backgroundColor: [],
       borderColor: this.COLOR_WHITE,
-      borderWidth: 3,
-    },
+      borderWidth: 3
+    }
   ];
 
   ngOnInit() {
@@ -53,16 +53,16 @@ export class HabitChartComponent implements OnInit, OnChanges {
       type: 'doughnut',
       data: {
         datasets: this.habitChartDataset,
-        labels: this.outerLabels,
+        labels: this.outerLabels
       },
       options: {
         animation: {
-          duration: 0,
+          duration: 0
         },
         cutoutPercentage: 61,
         responsive: false,
         legend: {
-          display: false,
+          display: false
         },
         tooltips: {
           enabled: this.showTooltipOnHover,
@@ -75,8 +75,8 @@ export class HabitChartComponent implements OnInit, OnChanges {
               const tooltip = data.datasets[tooltipItem.datasetIndex];
               const value = data.labels[tooltipItem.index];
               return value === 0 ? tooltip.label + ': ' + 0 : tooltip.label + ': ' + value;
-            },
-          },
+            }
+          }
         },
         plugins: {
           labels: {
@@ -84,10 +84,10 @@ export class HabitChartComponent implements OnInit, OnChanges {
               return args.label >= 0 ? args.label : '';
             },
             fontSize: 16,
-            fontColor: this.COLOR_WHITE,
-          },
-        },
-      },
+            fontColor: this.COLOR_WHITE
+          }
+        }
+      }
     });
   }
 
@@ -116,7 +116,7 @@ export class HabitChartComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.outerHabitChart) {
       this.habitChartDataset = [
         {
@@ -124,8 +124,8 @@ export class HabitChartComponent implements OnInit, OnChanges {
           data: [],
           backgroundColor: [],
           borderColor: this.COLOR_WHITE,
-          borderWidth: 3,
-        },
+          borderWidth: 3
+        }
       ];
       this.outerLabels = [];
       this.outerHabitChart.update();
@@ -133,7 +133,7 @@ export class HabitChartComponent implements OnInit, OnChanges {
       this.fillSegments();
       this.outerHabitChart.data = {
         datasets: this.habitChartDataset,
-        labels: this.outerLabels,
+        labels: this.outerLabels
       };
 
       this.outerHabitChart.update();

@@ -6,7 +6,10 @@ import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnChanges, R
 export class PlaceholderForDivDirective implements AfterViewInit, OnChanges {
   @Input() placeholderText;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2
+  ) {}
 
   @HostListener('focus')
   onFocus() {

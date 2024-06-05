@@ -1,14 +1,14 @@
 import { UbsUserMessagesComponent } from './ubs-user-messages.component';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+// import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { NotificationBody, Notifications } from '../../ubs-admin/models/ubs-user.model';
 import { UserMessagesService } from '../services/user-messages.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxPaginationModule, PaginatePipe, PaginationService } from 'ngx-pagination';
+import { NgxPaginationModule, PaginatePipe } from 'ngx-pagination';
 import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
@@ -39,7 +39,7 @@ describe('UbsUserMessagesComponent', () => {
   const userMessageServiceMock = jasmine.createSpyObj('UserMessagesService', ['getNotification']);
   userMessageServiceMock.getNotification = () => of(fakeNotification);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserMessagesComponent, PaginatePipe],
       imports: [MatDialogModule, TranslateModule.forRoot(), RouterTestingModule, NgxPaginationModule],

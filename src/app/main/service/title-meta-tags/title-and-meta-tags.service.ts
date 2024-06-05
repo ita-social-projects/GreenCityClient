@@ -15,7 +15,12 @@ export class TitleAndMetaTagsService {
   private titleSubject = new Subject<string>();
   private metasSubject = new Subject<MetasModel>();
 
-  constructor(private titleService: Title, private meta: Meta, private router: Router, private translations: TranslateService) {}
+  constructor(
+    private titleService: Title,
+    private meta: Meta,
+    private router: Router,
+    private translations: TranslateService
+  ) {}
 
   public useTitleMetasData(): void {
     this.initTitle();

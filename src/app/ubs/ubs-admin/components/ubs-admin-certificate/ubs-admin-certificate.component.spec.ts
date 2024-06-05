@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminCertificateComponent } from './ubs-admin-certificate.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -27,7 +27,7 @@ describe('UbsAdminCertificateComponent', () => {
   const matDialogMock = jasmine.createSpyObj('dialog', ['open']);
   matDialogMock.open.and.returnValue({ afterClosed: () => of(true) });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatDialogModule, MatTableModule, InfiniteScrollModule],
       providers: [

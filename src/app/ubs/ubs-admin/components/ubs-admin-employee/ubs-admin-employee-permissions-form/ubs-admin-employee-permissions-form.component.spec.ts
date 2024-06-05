@@ -1,5 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { of, throwError } from 'rxjs';
 import { UbsAdminEmployeePermissionsFormComponent } from './ubs-admin-employee-permissions-form.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
@@ -37,7 +37,7 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
     close() {}
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminEmployeePermissionsFormComponent],
       imports: [CdkAccordionModule, TranslateModule.forRoot(), ReactiveFormsModule, HttpClientModule, MatCheckboxModule, MatDialogModule],

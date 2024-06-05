@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges, S
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { IGeneralOrderInfo, IPaymentStatus } from '../../models/ubs-admin.interface';
+import { IGeneralOrderInfo, IPaymentStatus, NotTakenOutReasonImages } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
@@ -27,9 +27,13 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   @Input() isEmployeeCanEditOrder: boolean;
   @Output() changedOrderStatus = new EventEmitter<string>();
   @Output() cancelReason = new EventEmitter<string>();
-  @Output() notTakenOutReason = new EventEmitter<FormData>();
+  @Output() notTakenOutReason = new EventEmitter<{ description: string; images: NotTakenOutReasonImages[] }>();
 
-  constructor(public orderService: OrderService, private dialog: MatDialog, private langService: LanguageService) {}
+  constructor(
+    public orderService: OrderService,
+    private dialog: MatDialog,
+    private langService: LanguageService
+  ) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public availableOrderStatuses;
@@ -190,7 +194,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

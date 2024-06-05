@@ -16,11 +16,17 @@ export class MatSnackBarComponent {
     createEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.create-news' },
     attention: { classname: SnackbarClassName.attention, key: 'snack-bar.attention.default' },
     success: { classname: SnackbarClassName.success, key: 'snack-bar.success.default' },
-    exitConfirmRestorePassword: { classname: SnackbarClassName.attention, key: 'snack-bar.attention.exit-confirm-restore-password' },
+    exitConfirmRestorePassword: {
+      classname: SnackbarClassName.attention,
+      key: 'snack-bar.attention.exit-confirm-restore-password'
+    },
     successRestorePassword: { classname: SnackbarClassName.success, key: 'snack-bar.success.restore-password' },
     successRestorePasswordUbs: { classname: SnackbarClassName.successUbs, key: 'snack-bar.success.restore-password' },
     successConfirmPassword: { classname: SnackbarClassName.success, key: 'snack-bar.success.confirm-restore-password' },
-    successConfirmPasswordUbs: { classname: SnackbarClassName.successUbs, key: 'snack-bar.success.confirm-restore-password' },
+    successConfirmPasswordUbs: {
+      classname: SnackbarClassName.successUbs,
+      key: 'snack-bar.success.confirm-restore-password'
+    },
     signUp: { classname: SnackbarClassName.success, key: 'snack-bar.success.sign-up' },
     signUpUbs: { classname: SnackbarClassName.successUbs, key: 'snack-bar.success.sign-up' },
     successConfirmEmail: { classname: SnackbarClassName.success, key: 'snack-bar.success.confirm-email' },
@@ -60,10 +66,14 @@ export class MatSnackBarComponent {
     errorImageTypeSize: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-type-and-size' },
     errorImageType: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-type' },
     errorImageSize: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-size' },
-    errorMaxPhotos: { classname: SnackbarClassName.error, key: 'user.photo-upload.you-can-upload-max-photos-event' }
+    errorMaxPhotos: { classname: SnackbarClassName.error, key: 'user.photo-upload.you-can-upload-max-photos-event' },
+    errorMinPhoto: { classname: SnackbarClassName.error, key: 'create-event.min-photo-error' }
   };
 
-  constructor(public snackBar: MatSnackBar, private translate: TranslateService) {}
+  constructor(
+    public snackBar: MatSnackBar,
+    private translate: TranslateService
+  ) {}
 
   public openSnackBar(type: string, additionalValue?: string) {
     const isInclude = type.includes('400') ? this.getSnackBarMessage('error') : this.getSnackBarMessage('errorMessage', type);

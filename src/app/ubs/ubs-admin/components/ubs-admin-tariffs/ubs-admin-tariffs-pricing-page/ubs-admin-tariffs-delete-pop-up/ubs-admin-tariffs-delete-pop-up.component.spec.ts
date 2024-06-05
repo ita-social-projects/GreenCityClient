@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UbsAdminTariffsDeletePopUpComponent } from './ubs-admin-tariffs-delete-pop-up.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ describe('UbsAdminTariffsDeletePopupComponent', () => {
     test: 'test'
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsDeletePopUpComponent],
       imports: [MatDialogModule, HttpClientTestingModule, TranslateModule.forRoot()],

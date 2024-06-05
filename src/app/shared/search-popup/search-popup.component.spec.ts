@@ -1,7 +1,7 @@
 import { Language } from '../../main/i18n/Language';
 
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchPopupComponent } from './search-popup.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -22,10 +22,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
   let fixture: ComponentFixture<SearchPopupComponent>;
-  let matSnackBarMock: MatSnackBar;
-  matSnackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  const matSnackBarMock: MatSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   const mockTipData = {
@@ -64,13 +62,12 @@ describe('SearchPopupComponent', () => {
     tipsAndTricks: [mockTipData]
   };
 
-  let searchMock: SearchService;
-  searchMock = jasmine.createSpyObj('SearchService', ['getAllResults']);
+  const searchMock: SearchService = jasmine.createSpyObj('SearchService', ['getAllResults']);
   searchMock.searchSubject = new Subject();
   searchMock.getAllResults = () => of(searchModelMock);
   searchMock.closeSearchSignal = () => true;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SearchPopupComponent, SearchItemComponent, SearchNotFoundComponent],
       imports: [

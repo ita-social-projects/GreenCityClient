@@ -28,7 +28,10 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
   public userReplies: CommentsDTO[] = [];
   public showAllReplies: boolean;
 
-  constructor(private commentsService: CommentsService, private userOwnAuthService: UserOwnAuthService) {}
+  constructor(
+    private commentsService: CommentsService,
+    private userOwnAuthService: UserOwnAuthService
+  ) {}
 
   ngDoCheck(): void {
     if (this.dataType === 'reply') {

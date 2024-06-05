@@ -60,11 +60,6 @@ export class EcoNewsCommentsService implements CommentsService {
   }
 
   public editComment(id: number, text: string): Observable<void> {
-    const body = {
-      parentCommentId: id,
-      text
-    };
-
-    return this.http.patch<void>(`${this.backEnd}econews/comments?id=${id}&text=${text}`, body);
+    return this.http.patch<void>(`${this.backEnd}econews/comments?id=${id}`, text);
   }
 }

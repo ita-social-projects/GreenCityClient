@@ -15,7 +15,10 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
   notifications = [];
   isLoading = true;
 
-  constructor(public dialogRef: MatDialogRef<UserNotificationsPopUpComponent>, private userNotificationService: UserNotificationService) {}
+  constructor(
+    public dialogRef: MatDialogRef<UserNotificationsPopUpComponent>,
+    private userNotificationService: UserNotificationService
+  ) {}
 
   ngOnInit(): void {
     this.dialogRef
@@ -45,7 +48,7 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.onDestroy$.next();
+    this.onDestroy$.next(true);
     this.onDestroy$.complete();
   }
 }

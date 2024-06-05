@@ -117,7 +117,7 @@
 
   .showing-block {
     background: var(--ubs-primary-white);
-    box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+    box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
     padding: 0 25px;
     margin-bottom: 32px;
     min-height: 120px;
@@ -227,7 +227,7 @@
   height: 6px;
   margin-left: 1px;
   margin-right: 5px;
-  background-image: url('src/assets/img/ubs-admin-employees/cross.svg');
+  background-image: url('/assets/img/ubs-admin-employees/cross.svg');
   background-size: contain;
   background-repeat: no-repeat;
   margin-top: 7px;

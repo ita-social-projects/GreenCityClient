@@ -1,5 +1,3 @@
-$additional-color: #e1e5e3;
-
 p {
   margin: 0;
 }
@@ -12,7 +10,7 @@ p {
   padding: 16px;
 
   .chain {
-    font-family: var(--primary-font);
+    font-family: var(--tertiary-font);
     font-style: normal;
 
     &:last-child {
@@ -62,9 +60,8 @@ p {
     height: 189px;
     grid-template-rows: repeat(2, 1fr);
     grid-template-columns: repeat(2, 1fr);
-    column-gap: 16px;
-    row-gap: 16px;
-    border-top: 1px solid $additional-color;
+    gap: 16px 16px;
+    border-top: 1px solid var(--light-green-grey-color);
 
     .chain {
       border-right: none;
@@ -87,14 +84,15 @@ p {
 @media (min-width: 1200px) {
   .stat {
     width: 213px;
-    column-gap: 16px;
-    row-gap: 16px;
+    gap: 16px 16px;
   }
 }
 
 @media (max-width: 575px) {
   .stat {
     .chain {
+      padding: 0 16px;
+
       p:first-child {
         font-size: 24px;
         line-height: 32px;

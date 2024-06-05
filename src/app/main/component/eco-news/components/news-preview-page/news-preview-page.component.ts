@@ -62,9 +62,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
     this.actionsSubj
       .pipe(
         ofType(NewsActions.CreateEcoNewsSuccess, NewsActions.EditEcoNewsSuccess),
-        catchError((err) => {
-          return throwError(err);
-        })
+        catchError((err) => throwError(err))
       )
       .subscribe(() => {
         this.router.navigate(['/news']);

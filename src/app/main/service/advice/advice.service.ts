@@ -5,9 +5,8 @@ import { Observable } from 'rxjs';
 import { AdviceDto } from '../../model/advice/AdviceDto';
 import { adviceRandomLink } from '../../links';
 
-
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AdviceService {
   constructor(private http: HttpClient) {}

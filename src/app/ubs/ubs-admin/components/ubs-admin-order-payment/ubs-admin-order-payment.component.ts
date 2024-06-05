@@ -66,7 +66,11 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     іsPermissionConfirm: true
   };
 
-  constructor(private orderService: OrderService, private dialog: MatDialog, private store: Store<IAppState>) {}
+  constructor(
+    private orderService: OrderService,
+    private dialog: MatDialog,
+    private store: Store<IAppState>
+  ) {}
 
   ngOnInit() {
     this.currentOrderStatus = this.orderStatus;
@@ -194,9 +198,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   public preconditionChangePaymentData(extraPayment: IPaymentInfoDto): void {
-    const checkPaymentId = (): number => {
-      return this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === extraPayment.id).length;
-    };
+    const checkPaymentId = (): number => this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === extraPayment.id).length;
 
     this.recountUnpaidAmount(extraPayment.amount);
     extraPayment.settlementdate = this.formatDate(extraPayment.settlementdate);
@@ -272,7 +274,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

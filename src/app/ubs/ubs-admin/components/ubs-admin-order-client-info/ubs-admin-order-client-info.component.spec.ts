@@ -1,11 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SimpleChange, SimpleChanges } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { IMaskModule } from 'angular-imask';
 
 describe('UbsAdminOrderClientInfoComponent', () => {
   let component: UbsAdminOrderClientInfoComponent;
@@ -38,9 +39,9 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     ableActualChange: 'true'
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule, NoopAnimationsModule, TranslateModule.forRoot()],
+      imports: [ReactiveFormsModule, IMaskModule, MatDialogModule, NoopAnimationsModule, TranslateModule.forRoot()],
       declarations: [UbsAdminOrderClientInfoComponent]
     }).compileComponents();
   }));

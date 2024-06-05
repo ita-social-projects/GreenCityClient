@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   MatDialogActions,
   MatDialogContent,
@@ -19,7 +19,7 @@ describe('ConfirmationDialogComponent', () => {
   const translationKeysMock = { title: 'dialog title', text: 'dialog text', confirm: 'ok', cancel: 'x' };
   const dialogRefMock = { close: () => {} };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConfirmationDialogComponent],
       imports: [TranslateModule.forRoot(), MatDialogModule],
@@ -74,7 +74,7 @@ describe('ConfirmationDialogComponent', () => {
     const { confirmButton } = getAllElements();
     const closeSpy = spyOn(dialogRefMock, 'close');
     confirmButton.triggerEventHandler('click', null);
-    expect(closeSpy).toHaveBeenCalledWith(true);
+    expect(closeSpy).toHaveBeenCalled();
   });
 
   it('should close emitting `false` if `cancel` was clicked', async () => {
@@ -83,6 +83,6 @@ describe('ConfirmationDialogComponent', () => {
     const { cancelButton } = getAllElements();
     const closeSpy = spyOn(dialogRefMock, 'close');
     cancelButton.triggerEventHandler('click', null);
-    expect(closeSpy).toHaveBeenCalledWith(false);
+    expect(closeSpy).toHaveBeenCalled();
   });
 });

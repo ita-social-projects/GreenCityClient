@@ -16,7 +16,10 @@ export class HabitInviteFriendsComponent implements OnDestroy {
   userId: number;
   addedFriends: FriendModel[] = [];
 
-  constructor(private userFriendsService: UserFriendsService, private dialog: MatDialog) {}
+  constructor(
+    private userFriendsService: UserFriendsService,
+    private dialog: MatDialog
+  ) {}
 
   openInviteFriendsDialog() {
     this.dialog.open(HabitInviteFriendsPopUpComponent, {
@@ -30,7 +33,7 @@ export class HabitInviteFriendsComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroyed$.next();
+    this.destroyed$.next(true);
     this.destroyed$.complete();
   }
 }

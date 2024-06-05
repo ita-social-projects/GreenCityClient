@@ -10,11 +10,12 @@ a {
   margin-bottom: 3rem;
 
   .header {
-    font-family: var(--primary-font);
+    font-family: var(--tertiary-font);
     font-style: normal;
-    font-weight: bold;
+    font-weight: 700;
     font-size: 16px;
     line-height: 24px;
+    letter-spacing: 0.01em;
 
     p {
       color: var(--primary-dark-grey);
@@ -46,7 +47,7 @@ a {
         }
 
         .flag-active {
-          background: url('src/assets/events-icons/bookmark-active.png') no-repeat center;
+          background: url('/assets/events-icons/bookmark-active.png') no-repeat center;
         }
       }
     }
@@ -56,7 +57,7 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin: 24px 0;
     height: 48px;
   }
 
@@ -101,7 +102,7 @@ a {
 
   .events-types {
     * {
-      margin: 0 5px 0 5px;
+      margin: 0 5px;
       color: var(--primary-green);
     }
   }
@@ -193,8 +194,7 @@ a {
 
     #my-events {
       height: auto;
-      flex-wrap: nowrap;
-      flex-direction: column;
+      flex-flow: column nowrap;
       gap: 15px;
 
       .buttons-wrapper {
@@ -279,11 +279,11 @@ a {
     color: #fff;
   }
 
-  li:not(.current):not(.disabled) .ng-star-inserted {
+  li:not(.current, .disabled) .ng-star-inserted {
     color: var(--primary-green);
   }
 
-  li:not(:first-child):not(:last-child) {
+  li:not(:first-child, :last-child) {
     border: 2px var(--primary-green) solid;
     border-radius: 10%;
   }
@@ -300,4 +300,20 @@ a {
     margin: 0 5px;
     color: var(--primary-green);
   }
+}
+
+.mdc-tab__text-label {
+  font-size: 16px !important;
+}
+
+.mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: var(--primary-green) !important;
+}
+
+.mat-mdc-tab .mdc-tab-indicator__content--underline {
+  border: 0.5px solid var(--primary-green) !important;
+}
+
+hr.ng-star-inserted {
+  margin: 0 0 12px;
 }

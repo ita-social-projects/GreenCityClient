@@ -56,9 +56,6 @@ import { UbsAdminEmployeeTableComponent } from './components/ubs-admin-employee/
 import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-customers/ubs-admin-customer-details/ubs-admin-customer-details.component';
 import { UbsAdminOrderHistoryComponent } from './components/ubs-admin-order-history/ubs-admin-order-history.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
-import { AgmCoreModule } from '@agm/core';
-import { environment } from '@environment/environment';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
@@ -97,6 +94,8 @@ import { ConfirmationDialogComponent } from './components/shared/components/conf
 import { TariffSelectorComponent } from './components/ubs-admin-employee/ubs-admin-employee-edit-form/tariff-selector/tariff-selector.component';
 import { ClickOutsideDirective } from './derictives/clickOutside.directive';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -186,13 +185,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatNativeDateModule,
     MatTableModule,
     MatDialogModule,
-    GooglePlaceModule,
     MatMenuModule,
     SharedMainModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.agmCoreModuleApiKey,
-      libraries: ['places']
-    }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -207,7 +201,9 @@ import { MatMenuModule } from '@angular/material/menu';
     MatChipsModule,
     MatSelectModule,
     MatExpansionModule,
-    CdkAccordionModule
+    CdkAccordionModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   providers: [
     AdminCertificateService,
@@ -218,17 +214,10 @@ import { MatMenuModule } from '@angular/material/menu';
       multi: true
     }
   ],
-  exports: [UbsAdminEmployeeComponent],
-  entryComponents: [
-    UbsAdminTableComponent,
-    AddViolationsComponent,
-    UbsAdminEmployeeEditFormComponent,
-    UbsAdminCancelModalComponent,
-    UbsAdminGoBackModalComponent
-  ]
+  exports: [UbsAdminEmployeeComponent]
 })
 export class UbsAdminModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<UbsAdminModule> {
     return {
       ngModule: UbsAdminModule,
       providers: [AdminTableService]

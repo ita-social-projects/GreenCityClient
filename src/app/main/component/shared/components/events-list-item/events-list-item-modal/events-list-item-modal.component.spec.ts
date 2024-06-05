@@ -1,5 +1,5 @@
-import { Language } from './../../../../../i18n/Language';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { Language } from '../../../../../i18n/Language';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { EventsListItemModalComponent } from './events-list-item-modal.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
@@ -10,6 +10,7 @@ import { of, Subject } from 'rxjs';
 import { EventEmitter, Injectable } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { FormsModule } from '@angular/forms';
 
 @Injectable()
 class TranslationServiceStub {
@@ -44,23 +45,23 @@ describe('EventsListItemModalComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['dispatch']);
   const mockLang = 'ua';
 
-  let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
-  translateServiceMock.setDefaultLang = (lang: string) => of();
+  const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  translateServiceMock.setDefaultLang = (lang: string) => of(lang);
   translateServiceMock.get = () => of(true);
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageSubject', 'getCurrentLanguage']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'languageSubject',
+    'getCurrentLanguage'
+  ]);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
 
-  let MatSnackBarMock: MatSnackBarComponent;
-  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListItemModalComponent],
       providers: [
@@ -70,7 +71,7 @@ describe('EventsListItemModalComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ],
-      imports: [RatingModule.forRoot(), ModalModule.forRoot(), MatDialogModule, TranslateModule.forRoot()]
+      imports: [RatingModule.forRoot(), ModalModule.forRoot(), MatDialogModule, TranslateModule.forRoot(), FormsModule]
     }).compileComponents();
   }));
 

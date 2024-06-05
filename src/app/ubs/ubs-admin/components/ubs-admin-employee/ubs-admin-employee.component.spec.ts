@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { TariffsService } from '../../services/tariffs.service';
@@ -13,7 +13,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { Locations } from '../../models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -151,9 +151,7 @@ describe('UbsAdminEmployeeComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getCurrentLangObs', 'getLangValue']);
   languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
   matDialogMock.open.and.returnValue(dialogStub);
@@ -161,7 +159,7 @@ describe('UbsAdminEmployeeComponent', () => {
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminEmployeeComponent, MatAutocomplete],
       imports: [
@@ -355,8 +353,9 @@ describe('UbsAdminEmployeeComponent', () => {
     const eventMock = {
       option: {
         value: 'First'
-      }
-    };
+      },
+      source: {}
+    } as MatAutocompleteSelectedEvent;
     const spy = spyOn(component, 'selectCity');
     component.onSelectCity(eventMock as any);
     expect(spy).toHaveBeenCalledWith(eventMock);

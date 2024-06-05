@@ -18,7 +18,7 @@ import { Subject, interval } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
+import { UbsPickUpServicePopUpComponent } from '../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
@@ -76,8 +76,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private headerService: HeaderService;
   private orderService: OrderService;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
-
-  constructor(private dialog: MatDialog, injector: Injector, private store: Store, private socketService: SocketService) {
+  constructor(
+    private dialog: MatDialog,
+    injector: Injector,
+    private store: Store,
+    private socketService: SocketService
+  ) {
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
     this.router = injector.get(Router);
@@ -186,21 +190,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.languageService
         .getUserLangValue()
         .pipe(takeUntil(this.destroySub))
-        .subscribe(
-          (lang) => {
-            this.setCurrentLanguage(lang);
+        .subscribe({
+          next: (lang) => {
+            if (lang) {
+              this.setCurrentLanguage(lang);
+            }
           },
-          (error) => {
+          error: () => {
             this.setCurrentLanguage(this.languageService.getCurrentLanguage());
           }
-        );
+        });
     } else {
       this.setCurrentLanguage(this.languageService.getCurrentLanguage());
     }
   }
 
   private setCurrentLanguage(language: string): void {
+    if (!language) {
+      language = 'en';
+    }
     this.currentLanguage = language;
+    this.languageService.changeCurrentLanguage(language.toLowerCase() as Language);
     this.setLangArr();
   }
 
@@ -349,7 +359,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  public onPressEnterAboutService(event: KeyboardEvent): void {
+  public onPressEnterAboutService(event: Event): void {
+    //$Event KeyboardEvent
     event.preventDefault();
     this.openAboutServicePopUp(event);
   }
@@ -427,7 +438,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.store.dispatch(ResetFriends());
   }
 
-  public toggleLangDropdown(event: KeyboardEvent): void {
+  public toggleLangDropdown(event: Event): void {
+    //$Event KeyboardEvent
     event.preventDefault();
     this.langDropdownVisible = !this.langDropdownVisible;
   }

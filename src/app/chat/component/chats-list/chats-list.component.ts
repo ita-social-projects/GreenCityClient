@@ -19,7 +19,10 @@ export class ChatsListComponent implements OnInit {
   @Input() isPopup: boolean;
   @Output() createNewMessageWindow: EventEmitter<Chat> = new EventEmitter<Chat>();
 
-  constructor(public chatService: ChatsService, private socketService: SocketService) {}
+  constructor(
+    public chatService: ChatsService,
+    private socketService: SocketService
+  ) {}
 
   ngOnInit(): void {
     this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {
@@ -28,7 +31,7 @@ export class ChatsListComponent implements OnInit {
     });
   }
 
-  public messageDateTreat(date: Date): string {
+  public messageDateTreat(date: string): string {
     const messageDate = new Date(date);
     const today = new Date();
     if (messageDate.getFullYear() !== today.getFullYear()) {

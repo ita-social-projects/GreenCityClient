@@ -32,7 +32,12 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   $isAddressLoading = this.store.pipe(select(isAddressLoadingSelector));
   private $destroy: Subject<void> = new Subject<void>();
 
-  constructor(private route: ActivatedRoute, private dialog: MatDialog, private addressValidator: AddressValidator, private store: Store) {}
+  constructor(
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private addressValidator: AddressValidator,
+    private store: Store
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(GetAddresses());

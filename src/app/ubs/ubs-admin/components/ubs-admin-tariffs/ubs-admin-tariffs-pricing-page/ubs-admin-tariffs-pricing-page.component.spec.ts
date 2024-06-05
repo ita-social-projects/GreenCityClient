@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -26,8 +26,11 @@ import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IAppState } from 'src/app/store/state/app.state';
+import {
+  // MockStore,
+  provideMockStore
+} from '@ngrx/store/testing';
+// import { IAppState } from 'src/app/store/state/app.state';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -230,15 +233,13 @@ describe('UbsAdminPricingPageComponent', () => {
   localStorageServiceMock.languageBehaviourSubject = of();
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const orderServiceMock = jasmine.createSpyObj('orderServiceMock', ['completedLocation']);
 
   storeMock.select = () => of([fakeLocations]);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         UbsAdminTariffsPricingPageComponent,

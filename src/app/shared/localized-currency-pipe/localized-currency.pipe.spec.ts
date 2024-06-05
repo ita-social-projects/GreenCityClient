@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -13,7 +13,7 @@ describe('LocalizedCurrencyPipe', () => {
   translateMock.defaultLang = 'en';
   translateMock.onDefaultLangChange = of(fakeDefaultLangObj);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LocalizedCurrencyPipe],
       imports: [TranslateModule.forRoot()],

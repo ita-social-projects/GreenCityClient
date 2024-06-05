@@ -31,7 +31,11 @@ export class TariffSelectorComponent implements OnInit {
       }))
   };
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<TariffSelectorComponent>, private tariffsService: TariffsService) {
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<TariffSelectorComponent>,
+    private tariffsService: TariffsService
+  ) {
     this.search = this.fb.control(null);
 
     this.search.valueChanges.subscribe((term) => {

@@ -1,5 +1,5 @@
 ::ng-deep {
-  font-family: 'Lato', sans-serif;
+  font-family: Lato, sans-serif;
 
   .mat-tab-label-content {
     font-size: 20px;
@@ -113,9 +113,9 @@ button {
 }
 
 .mat-expansion-panel {
-  margin: 10px 0 10px 0;
+  margin: 10px 0;
   background: var(--primary-white);
-  box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
+  box-shadow: 0 2px 6px rgb(100 114 125 / 15%);
 }
 
 .mat-expansion-panel-header-title {

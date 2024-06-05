@@ -1,23 +1,20 @@
-$bp-smallest: 320px;
-$bp-phone: 576px;
-$bp-tablet: 768px;
-$bp-desktop: 1080px;
-$bp-largest: 1199px;
+@import 'src/typography/_resp.scss';
 
 .outer {
   background-color: var(--primary-white);
   display: flex;
+  border-radius: 4px;
+  box-shadow: 1px 4px 8px var(--quintynary-dark-grey);
 }
 
 .shopping-list-block {
   width: 213px;
   margin: 0 auto;
-  border-top: 1px solid var(--quaternary-light-grey);
 }
 
 .shopping-list-content {
   padding-top: 24px;
-  font-family: var(--primary-font);
+  font-family: var(--tertiary-font);
   font-style: normal;
 
   &:last-child {
@@ -43,6 +40,7 @@ $bp-largest: 1199px;
   font-size: 16px;
   line-height: 24px;
   color: var(--quaternary-dark-grey);
+  letter-spacing: 0.02em;
 }
 
 h2 > span {
@@ -52,7 +50,7 @@ h2 > span {
 .empty-list {
   text-align: left;
   font-size: 12px;
-  font-family: var(--secondary-font);
+  font-family: var(--tertiary-font);
   font-weight: 400;
   font-style: normal;
   line-height: 15px;
@@ -73,8 +71,9 @@ h2 > span {
   width: 100%;
   font-weight: normal;
   font-size: 12px;
-  padding: 6px 0;
+  padding: 0;
   text-decoration: none;
+  align-items: center;
 }
 
 .item-striked {
@@ -88,7 +87,7 @@ h2 > span {
 }
 
 .shopping-list-min {
-  height: 100px;
+  height: 90px;
 }
 
 .shopping-list-max {
@@ -97,11 +96,13 @@ h2 > span {
 
 .shopping-list {
   width: 100%;
-  padding: 5px 0 0 0;
-  overflow-y: hidden;
+  padding: 5px 0 0;
+  overflow-x: hidden;
 
   li {
     display: flex;
+    align-items: center;
+    padding: 0;
 
     span {
       margin-right: 5px;
@@ -129,15 +130,31 @@ h2 > span {
 
 .mat-spinner circle,
 ::ng-deep.mat-progress-spinner circle {
-  stroke: rgb(226, 226, 226) !important;
+  stroke: rgb(226 226 226) !important;
 }
 
 .loading {
   margin: 0 auto;
 }
 
-@media (min-width: $bp-tablet) and (max-width: $bp-largest) {
+@include responsiveRange(md, 2xl) {
   .shopping-list-block {
+    border-top: 1px solid var(--quaternary-light-grey);
     width: 184px;
+  }
+}
+
+@include responsiveRange(xs, md) {
+  .outer {
+    margin-top: 20px;
+  }
+
+  .shopping-list-block {
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  .calendar-week {
+    margin-top: 0;
   }
 }

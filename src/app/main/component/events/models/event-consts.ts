@@ -1,16 +1,30 @@
 import { FilterItem } from './events.interface';
 
-export enum TimeBack {
-  START = '00:00',
-  END = '23:59'
-}
+export const ICONS = {
+  socials: {
+    plus: 'assets/img/events/plus.svg',
+    twitter: 'assets/img/events/twitter.svg',
+    linkedin: 'assets/img/events/linkedin.svg',
+    facebook: 'assets/img/events/facebook.svg'
+  },
+  clock: 'assets/img/events/clock.svg',
+  location: 'assets/img/events/location.svg',
+  link: 'assets/img/events/link.svg',
+  lock: {
+    open: 'assets/img/events/lock.svg',
+    closed: 'assets/img/events/lock-closed.svg'
+  },
+  user: 'assets/img/events/user.svg',
+  ellipsis: 'assets/img/events/ellipsis.svg',
+  arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
+};
 
-export enum TimeFront {
-  START = '0:00',
-  END = '23:59',
-  DIVIDER = ':',
-  MINUTES = '00'
-}
+export const ROLES = {
+  UNAUTHENTICATED: 'UNAUTHENTICATED',
+  USER: 'USER',
+  ORGANIZER: 'ORGANIZER',
+  ADMIN: 'ADMIN'
+};
 
 export const timeStatusFiltersData: FilterItem[] = [
   { type: 'eventTimeStatus', nameEn: 'Future', nameUa: 'Майбутні' },
@@ -65,3 +79,38 @@ export const EventFilterCriteria = {
   statuses: [],
   tags: []
 };
+
+export const EVENT_LOCALE = {
+  durationDays: [
+    { en: '1 day', ua: '1 день' },
+    { en: '2 days', ua: '2 дні' },
+    { en: '3 days', ua: '3 дні' },
+    { en: '4 days', ua: '4 дні' },
+    { en: '5 days', ua: '5 днів' },
+    { en: '6 days', ua: '6 днів' },
+    { en: '7 days', ua: '7 днів' }
+  ],
+  titleError: {
+    ua: 'Введіть заголовок до 70 символів включно',
+    en: 'Enter a title up to and including 70 characters'
+  },
+  quillError: {
+    ua: 'Недостатньо символів. Залишилось: ',
+    en: 'Not enough characters. Left: '
+  },
+  eventTypeOptions: [
+    { en: 'Closed', ua: 'Закрита' },
+    { en: 'Open', ua: 'Відкрита' }
+  ],
+  initiativeTags: [
+    { en: 'Economic', ua: 'Економічний' },
+    { en: 'Social', ua: 'Соціальний' },
+    { en: 'Environmental', ua: 'Екологічний' }
+  ],
+  dateError: {
+    en: 'Past date',
+    ua: 'Минула дата'
+  }
+};
+
+export type EventLocaleKeys = keyof typeof EVENT_LOCALE;

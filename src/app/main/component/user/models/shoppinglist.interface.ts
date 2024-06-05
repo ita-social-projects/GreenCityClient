@@ -19,7 +19,7 @@ export interface CustomShoppingItem {
 
 export interface HabitUpdateShopList {
   habitAssignId: number;
-  standartShopList: ShoppingList[];
+  standardShopList: ShoppingList[];
   customShopList: ShoppingList[];
   lang: string;
 }

@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -9,7 +9,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
@@ -27,7 +27,7 @@ describe('EditProfileComponent', () => {
   let fixture: ComponentFixture<EditProfileComponent>;
   let router: Router;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     (window as any).google = {
       maps: {
         places: {
@@ -216,13 +216,13 @@ describe('EditProfileComponent', () => {
     });
 
     it('getInitialValue should call ProfileService', () => {
-      const spy = spyOn(profileService, 'getUserInfo').and.returnValue(Observable.of(mockUserInfo));
+      const spy = spyOn(profileService, 'getUserInfo').and.returnValue(of(mockUserInfo));
       component.getInitialValue();
       expect(spy.calls.any()).toBeTruthy();
     });
 
     it('onSubmit should call EditProfileService', () => {
-      const spy = spyOn(editProfileService, 'postDataUserProfile').and.returnValue(Observable.of(mockUserInfo));
+      const spy = spyOn(editProfileService, 'postDataUserProfile').and.returnValue(of(mockUserInfo));
       component.onSubmit();
       expect(spy).toHaveBeenCalled();
     });

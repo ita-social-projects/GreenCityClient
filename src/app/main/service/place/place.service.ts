@@ -26,7 +26,10 @@ export class PlaceService {
   private backEnd = environment.backendLink;
   private tagsType = 'PLACES_FILTER';
 
-  constructor(private http: HttpClient, private filterService: FilterPlaceService) {}
+  constructor(
+    private http: HttpClient,
+    private filterService: FilterPlaceService
+  ) {}
 
   public getAllPlaces(page: number, size: number) {
     return this.http.get(`${this.baseUrl}all?page=${page}&size=${size}`);

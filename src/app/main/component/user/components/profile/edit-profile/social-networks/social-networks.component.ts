@@ -29,7 +29,10 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
   @Input() socialNetworks = [];
   @Output() socialNetworksChange: EventEmitter<any> = new EventEmitter();
 
-  constructor(private dialog: MatDialog, private profileService: ProfileService) {}
+  constructor(
+    private dialog: MatDialog,
+    private profileService: ProfileService
+  ) {}
 
   ngOnInit() {
     this.icons = this.profileService.icons;

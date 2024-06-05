@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SwUpdate } from '@angular/service-worker';
-import { FocusDetectionService } from './focus-detection.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 
 @Component({
@@ -11,11 +9,7 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 export class AppComponent implements OnInit {
   offline: boolean;
 
-  constructor(private updates: SwUpdate, private focusDetectionService: FocusDetectionService, private googleScript: GoogleScript) {
-    updates.available.subscribe((event) => {
-      updates.activateUpdate().then(() => document.location.reload());
-    });
-  }
+  constructor(private googleScript: GoogleScript) {}
 
   ngOnInit(): void {
     this.onNetworkStatusChange();

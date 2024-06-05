@@ -17,7 +17,10 @@ export class DeleteCommentComponent {
   @Output() public elementsList = new EventEmitter<number>();
   public deleteIcon = 'assets/img/comments/delete.png';
 
-  constructor(private commentsService: CommentsService, private dialog: MatDialog) {}
+  constructor(
+    private commentsService: CommentsService,
+    private dialog: MatDialog
+  ) {}
 
   public openPopup(): void {
     const dialogRef = this.dialog.open(WarningPopUpComponent, {
