@@ -126,11 +126,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
 
   getOptionsForFiltering(): IFilteredColumnValue[] {
     const columnsForFiltering = this.getColumnsForFiltering();
-    let filteredCol: IFilteredColumn;
-
-    filteredCol = columnsForFiltering.find((column) => column.key === this.data.columnName);
-
-    return filteredCol.values;
+    return columnsForFiltering.find((column) => column.key === this.data.columnName).values;
   }
 
   getColumnsForFiltering(): IFilteredColumn[] {
