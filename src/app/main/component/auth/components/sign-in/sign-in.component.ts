@@ -21,6 +21,9 @@ import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admi
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 
+import { HttpClient } from '@angular/common/http';
+import { googleProvider } from './GoogleOAuthProvider/GoogleOAuthProvider';
+
 declare let google: any;
 @Component({
   selector: 'app-sign-in',
@@ -62,7 +65,8 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     private profileService: ProfileService,
     private ubsAdminEmployeeService: UbsAdminEmployeeService,
     private zone: NgZone,
-    private store: Store<IAppState>
+    private store: Store<IAppState>,
+    private http: HttpClient
   ) {}
 
   ngOnDestroy(): void {
@@ -84,6 +88,8 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
     this.passwordField = this.signInForm.get('password');
+
+    this.signInWithGooglePopup();
   }
 
   ngOnChanges(): void {
@@ -128,20 +134,31 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
       );
   }
 
-  public signInWithGoogle(): void {
+  public signInWithGooglePopup(): void {
     const gAccounts: accounts = google.accounts;
     gAccounts.id.initialize({
       client_id: environment.googleClientId,
       ux_mode: 'popup',
       cancel_on_tap_outside: true,
-      callback: this.handleGgOneTap.bind(this)
+      callback: (resp) => this.handleGoogleAuth(resp.credential)
     });
     gAccounts.id.prompt();
   }
 
-  public handleGgOneTap(resp): void {
+  public signInWithGoogle(): void {
+    const login = googleProvider.useGoogleLogin({
+      flow: 'implicit',
+      onSuccess: (res) => {
+        this.handleGoogleAuth(res.access_token);
+      },
+      onError: (err) => console.error('Failed to login with google redirect', err)
+    });
+    login();
+  }
+
+  public handleGoogleAuth(resp): void {
     this.googleService
-      .signIn(resp.credential)
+      .signIn(resp)
       .pipe(takeUntil(this.destroy))
       .subscribe((signInData: UserSuccessSignIn) => {
         this.onSignInWithGoogleSuccess(signInData);
