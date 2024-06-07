@@ -320,10 +320,7 @@
     font-weight: 700;
     line-height: 34px;
     margin-top: 25px;
-
-    &::first-letter {
-      text-transform: capitalize;
-    }
+    text-transform: uppercase;
 
     &:hover {
       background-color: var(--ubs-tertiary-dark-green);
