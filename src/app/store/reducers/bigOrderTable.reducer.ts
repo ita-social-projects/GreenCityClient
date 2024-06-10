@@ -6,9 +6,15 @@ import {
   ChangingOrderPaymentStatus,
   GetColumnsSuccess,
   GetTableSuccess,
-  ReceivedFailure
+  ReceivedFailure,
+  LoadFiltersSuccessAction,
+  AddFiltersAction,
+  RemoveFilter,
+  AddFilterMultiAction,
+  ClearFilters
 } from '../actions/bigOrderTable.actions';
 import { createReducer, on } from '@ngrx/store';
+import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
 export const bigOrderTableReducer = createReducer(
   initialBigOrderTableState,
@@ -26,6 +32,7 @@ export const bigOrderTableReducer = createReducer(
     const prevContent = action.reset ? [] : state.bigOrderTable?.content ?? [];
     return {
       ...state,
+      isFiltersApplied: true,
       bigOrderTable: {
         ...action.bigOrderTable,
         content: [...prevContent, ...action.bigOrderTable.content]
@@ -67,5 +74,50 @@ export const bigOrderTableReducer = createReducer(
   on(ReceivedFailure, (state, action) => ({
     ...state,
     error: action.error
+  })),
+
+  on(AddFiltersAction, (state, action) => ({
+    ...state,
+    isFiltersApplied: false,
+    filters: { ...state.filters, ...action.filters }
+  })),
+
+  on(AddFilterMultiAction, (state, action) => ({
+    ...state,
+    filters: {
+      ...state.filters,
+      [action.filter.column]: Array.isArray(state.filters?.[action.filter.column])
+        ? [...(state.filters[action.filter.column] as string[]), action.filter.value]
+        : [action.filter.value]
+    } as IFilters
+  })),
+
+  on(RemoveFilter, (state, action) => ({
+    ...state,
+    filters: {
+      ...state.filters,
+      [action.filter.column]: Array.isArray(state.filters[action.filter.column])
+        ? (state.filters[action.filter.column] as string[]).filter((value) => value !== action.filter.value)
+        : null
+    }
+  })),
+
+  on(ClearFilters, (state, action) => {
+    if (!action.columnName) {
+      return { ...state, filters: null };
+    }
+
+    const isDate = action?.columnName.toLowerCase().includes('date');
+    return {
+      ...state,
+      filters: isDate
+        ? { ...state.filters, [action.columnName + 'To']: null, [action.columnName + 'From']: null }
+        : { ...state.filters, [action.columnName]: null }
+    };
+  }),
+
+  on(LoadFiltersSuccessAction, (state, action) => ({
+    ...state,
+    filters: action.filters
   }))
 );

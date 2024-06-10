@@ -540,12 +540,10 @@ body {
   }
 }
 
-@media screen and (min-width: 768px) {
-  .customize-mat-panel {
-    margin-left: -200px;
-  }
-}
-
 .customize-mat-panel {
   margin-top: 15px;
+}
+
+.mat-mdc-menu-panel {
+  overflow: visible !important;
 }

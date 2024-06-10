@@ -125,7 +125,9 @@
       "filterAll": "Усі",
       "delete": "Видалити",
       "mark-as-read": "Позначити прочитаним",
-      "mark-as-unread": "Позначити непрочитаним"
+      "mark-as-unread": "Позначити непрочитаним",
+      "today": "Сьогодні",
+      "yesterday": "Вчора"
     },
     "events": {
       "title": "Події",
