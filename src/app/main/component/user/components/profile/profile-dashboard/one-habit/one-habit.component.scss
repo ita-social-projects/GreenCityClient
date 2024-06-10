@@ -62,7 +62,13 @@ img {
 
     .friends-photo-wrapper {
       display: flex;
+      align-items: center;
       cursor: pointer;
+
+      .rest-of-the-friends {
+        color: var(--quintynary-light-grey);
+        margin-left: 10px;
+      }
     }
 
     .edit {

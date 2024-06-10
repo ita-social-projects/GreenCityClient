@@ -9,6 +9,8 @@ import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
+import { MatDialog } from '@angular/material/dialog';
+import { FriendsListPopUpComponent } from '@global-user/components/shared/components/friends-list-pop-up/friends-list-pop-up.component';
 
 @Component({
   selector: 'app-one-habit',
@@ -47,7 +49,8 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     private habitAssignService: HabitAssignService,
     public datePipe: DatePipe,
     public router: Router,
-    public habitService: HabitService
+    public habitService: HabitService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -158,6 +161,14 @@ export class OneHabitComponent implements OnInit, OnDestroy {
       friendsNames += '...';
       return friendsNames;
     }
+  }
+
+  public onDialogOpen() {
+    this.dialog.open(FriendsListPopUpComponent, {
+      data: this.friends,
+      width: '400px',
+      height: '400px'
+    });
   }
 
   ngOnDestroy() {

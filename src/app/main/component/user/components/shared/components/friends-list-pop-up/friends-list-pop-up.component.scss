@@ -1,0 +1,17 @@
+.container {
+  .close {
+    position: absolute;
+    top: 26px;
+    right: 26px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+  }
+
+  .list-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+}

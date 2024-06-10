@@ -1,0 +1,11 @@
+<div class="container">
+  <div>
+    <button (click)="onClose()" class="close">
+      <img src="{{ closeButton }}" />
+    </button>
+  </div>
+  <div *ngFor="let friend of data; index as i" class="list-item">
+    <app-user-profile-image imgPath="{{ friend.profilePicturePath }}" additionalImgClass="friend-user-profile"> </app-user-profile-image>
+    <p>{{ friend.name }}</p>
+  </div>
+</div>
