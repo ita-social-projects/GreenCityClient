@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HabitService } from '@global-service/habit/habit.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { of, Subject, BehaviorSubject } from 'rxjs';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -217,13 +217,44 @@ describe('AddEditCustomHabitComponent', () => {
   });
 
   it('should set the image field in the form', () => {
-    const domSanitizer = TestBed.inject(DomSanitizer);
-    const mockFile = new File([''], 'filename', { type: 'text/html' });
-    const mockUrl = domSanitizer.bypassSecurityTrustUrl('');
-    const mockFileHandle: FileHandle[] = [{ file: mockFile, url: mockUrl }];
+    const blob = new Blob(['data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA'], { type: 'image/png' });
+    const mockFileObject = new File([blob], 'test_image.png', { type: 'image/png' });
 
-    component.getFile(mockFileHandle);
-    expect(component.habitForm.get('image').value).toEqual(mockFile);
+    const mockFile: FileHandle = {
+      url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA',
+      file: mockFileObject
+    };
+    const expectedFileName = 'test_image.png';
+
+    component.getFile([mockFile]);
+
+    expect(component.habitForm.get('image').value).toBeTruthy();
+    expect(component.habitForm.get('image').value instanceof File).toBe(true);
+    expect(component.habitForm.get('image').value.name).toBe(expectedFileName);
+  });
+
+  it('should set the image field in the form if there is no filename', () => {
+    const mockDate = 1718093883495;
+    spyOn(Date, 'now').and.returnValue(mockDate);
+
+    const base64String = 'iVBORw0KGgoAAAANSUhEUgAAAAUA';
+    const blob = new Blob([`data:image/png;base64,${base64String}`], { type: 'image/png' });
+    const mockFileObject = new File([blob], '', { type: 'image/png' });
+    Object.defineProperty(mockFileObject, 'name', { value: undefined });
+
+    const mockFile: FileHandle = {
+      url: `data:image/png;base64,${base64String}`,
+      file: mockFileObject
+    };
+    const expectedFileName = `cropped_image_${mockDate}.png`;
+
+    component.getFile([mockFile]);
+
+    const fileValue = component.habitForm.get('image').value;
+
+    expect(fileValue).toBeTruthy();
+    expect(fileValue instanceof File).toBe(true);
+    expect(fileValue.name).toBe(expectedFileName);
   });
 
   it('should set the complexity field in the form', () => {

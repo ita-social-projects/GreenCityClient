@@ -158,7 +158,23 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   getFile(image: FileHandle[]): void {
-    this.habitForm.get('image').setValue(image[0].file);
+    const imageUrl = image[0].url;
+    const base64Url = imageUrl.toString();
+    const base64Data = base64Url.split(',')[1];
+
+    const binaryData = atob(base64Data);
+    const byteArray = new Uint8Array(binaryData.length);
+    for (let i = 0; i < binaryData.length; i++) {
+      byteArray[i] = binaryData.charCodeAt(i);
+    }
+
+    const originalFileName = image[0].file?.name;
+    const fallbackFileName = `cropped_image_${Date.now()}.png`;
+
+    const blob = new Blob([byteArray], { type: 'image/png' });
+    const file = new File([blob], originalFileName || fallbackFileName, { type: 'image/png' });
+
+    this.habitForm.get('image').setValue(file);
   }
 
   goToAllHabits(): void {

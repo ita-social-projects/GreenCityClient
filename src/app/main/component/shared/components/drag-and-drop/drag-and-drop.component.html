@@ -13,7 +13,7 @@
 <div *ngIf="!isWarning; else elseBlock">
   <div *ngFor="let file of files">
     <div *ngIf="!isCropper" class="image-preview">
-      <img [src]="file.url" appDragAndDrop (files)="filesDropped($event)" alt="image-cropper" />
+      <img [src]="file.url" appDragAndDrop (files)="filesDropped($event)" alt="img-cropper" />
     </div>
     <div *ngIf="isCropper" class="cropper-block">
       <image-cropper
@@ -24,6 +24,7 @@
         [imageFile]="file.file"
         (imageCropped)="imageCropped($event)"
         class="cropper"
+        [output]="'base64'"
       >
       </image-cropper>
     </div>
