@@ -156,6 +156,7 @@ export interface IBags {
   capacity: number;
   id: number;
   name: string;
+  nameEng: string;
   price: number;
   planned?: number;
   confirmed?: number;
@@ -366,6 +367,15 @@ export interface CreateCertificate {
   monthCount: number;
   initialPointsValue: number;
   points?: number;
+}
+
+export interface IFilter {
+  column: string;
+  value: string | boolean;
+}
+
+export interface IFilters {
+  [key: string]: string | string[] | boolean;
 }
 
 export interface IFilteredColumn {

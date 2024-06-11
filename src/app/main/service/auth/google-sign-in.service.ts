@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 import { UserSuccessSignIn } from '../../model/user-success-sign-in';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class GoogleSignInService {
   constructor(private http: HttpClient) {}
 
   public signIn(token: string, lang = 'en'): Observable<UserSuccessSignIn> {
-    return this.http.get<UserSuccessSignIn>(`${googleSecurityLink}?idToken=${token}&lang=${lang}`);
+    return this.http.get<UserSuccessSignIn>(`${googleSecurityLink}?token=${token}&lang=${lang}`);
   }
 }

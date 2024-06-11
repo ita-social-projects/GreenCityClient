@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 .profile-container {
   background-color: var(--after-primary-light-grey);
 }
@@ -14,8 +16,7 @@
 
     .app-users-achievements,
     .app-users-friends,
-    .app-eco-places,
-    .app-shopping-list {
+    .app-eco-places {
       display: none;
     }
   }
@@ -31,7 +32,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@include responsivePCFirst(md) {
   .profile-wrapper {
     display: flex;
     flex-direction: column;
@@ -41,6 +42,11 @@
       order: 1;
       width: 100vw;
       min-height: 323px;
+    }
+
+    .app-users-friends {
+      width: 100%;
+      margin-top: 15px;
     }
 
     .habits-dashboard {
@@ -60,7 +66,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@include responsiveMobileFirst(md) {
   .profile-wrapper {
     display: grid;
     grid-template-columns: 219px 469px;
@@ -71,11 +77,11 @@
     .left-column {
       width: 100%;
       grid-area: 1 / 1 / 3 / 2;
+      margin-bottom: 24px;
 
       .app-users-achievements,
       .app-users-friends,
-      .app-eco-places,
-      .app-shopping-list {
+      .app-eco-places {
         display: block;
       }
     }
@@ -96,20 +102,22 @@
   }
 }
 
-@media (min-width: 992px) {
+@include responsiveMobileFirst(lg) {
   .profile-wrapper {
     grid-template-columns: 216px 710px;
   }
 }
 
-@media (min-width: 1024px) {
+@include responsiveMobileFirst(xl) {
   .profile-wrapper {
     grid-template-columns: 216px 464px 216px;
     grid-template-rows: 1fr;
 
     .left-column {
       grid-area: 1 / 1 / 2 / 2;
-      margin-bottom: 5px;
+      margin-bottom: 24px;
+      box-shadow: 1px 4px 8px var(--quintynary-dark-grey);
+      border-radius: 4px;
     }
 
     .habits-dashboard {
@@ -119,7 +127,7 @@
 
     .right-column {
       grid-area: 1 / 3 / 2 / 4;
-      margin-top: 54px;
+      margin-top: 30px;
 
       .app-profile-cards {
         display: block;
@@ -129,14 +137,86 @@
   }
 }
 
-@media (min-width: 1200px) {
+@include responsiveMobileFirst(2xl) {
   .profile-wrapper {
     grid-template-columns: 261px 554px 261px;
   }
 }
 
-@media (max-width: 575px) {
+@include responsivePCFirst(sm) {
   .left-column {
     height: 430px;
+
+    .app-users-friends {
+      width: 100%;
+    }
+  }
+
+  .profile-wrapper {
+    .right-column {
+      app-shopping-list {
+        display: none;
+      }
+    }
+
+    .left-column {
+      .app-users-friends {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@include responsivePCFirst(md) {
+  .profile-wrapper {
+    .left-column {
+      .app-users-friends {
+        display: flex;
+      }
+
+      .app-shopping-list {
+        display: none;
+      }
+    }
+
+    .right-column {
+      app-shopping-list {
+        margin-top: 50px;
+        margin-bottom: 24px;
+      }
+    }
+  }
+}
+
+@include responsiveRange(md, xl) {
+  .profile-wrapper {
+    .left-column {
+      .app-shopping-list {
+        display: block;
+      }
+    }
+
+    .right-column {
+      .app-shopping-list {
+        display: none;
+      }
+    }
+  }
+}
+
+@include responsiveMobileFirst(xl) {
+  .profile-wrapper {
+    .left-column {
+      .app-shopping-list {
+        display: none;
+      }
+    }
+
+    .right-column {
+      .app-shopping-list {
+        display: block;
+        margin-top: 16px;
+      }
+    }
   }
 }

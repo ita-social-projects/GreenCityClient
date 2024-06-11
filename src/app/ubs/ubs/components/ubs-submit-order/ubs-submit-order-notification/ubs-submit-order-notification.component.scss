@@ -84,7 +84,7 @@ h3 {
 .form-title {
   @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 40px, 700);
 
-  margin: -35px 0 35px 0;
+  margin: -35px 0 35px;
 }
 
 @media (min-width: 481px) and (max-width: 767px) {

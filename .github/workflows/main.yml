@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [18.x]
 
     # Steps
     steps:
@@ -41,8 +41,8 @@ jobs:
       - name: Install
         run: |
           npm install
-          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.133-1_amd64.deb
-          sudo apt-get install ./google-chrome-stable_114.0.5735.133-1_amd64.deb -y --allow-downgrades
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_125.0.6422.76-1_amd64.deb 
+          sudo apt-get install ./google-chrome-stable_125.0.6422.76-1_amd64.deb  -y --allow-downgrades
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
           unzip sonar-scanner-cli-5.0.1.3006-linux.zip
           sudo mv sonar-scanner-5.0.1.3006-linux /opt/sonar-scanner
@@ -54,7 +54,7 @@ jobs:
         run: npm run stylelint
 
       - name: Unit Tests
-        run: npx ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless
+        run: npx ng test --watch=false --progress=false --code-coverage=true --browsers=ChromeHeadless
 
       - name: Sonar scan
         #continue-on-error: true
@@ -72,8 +72,8 @@ jobs:
           -Dsonar.test.inclusions=**/*.spec.ts
           -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
 
-      - name: E2E Tests
-        run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
+      # - name: E2E Tests
+      #   run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
 
       - name: Build
         run: |

@@ -7,7 +7,10 @@ import { BonusesService } from 'src/app/ubs/ubs-user/ubs-user-bonuses/services/b
 
 @Injectable()
 export class UbsUserEffects {
-  constructor(private actions: Actions, private bonusesService: BonusesService) {}
+  constructor(
+    private actions: Actions,
+    private bonusesService: BonusesService
+  ) {}
 
   getUserBonuses = createEffect(() => {
     return this.actions.pipe(

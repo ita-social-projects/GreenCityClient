@@ -5,7 +5,10 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable()
 export class EditProfileFormBuilder {
-  constructor(private builder: FormBuilder, private langService: LanguageService) {}
+  constructor(
+    private builder: FormBuilder,
+    private langService: LanguageService
+  ) {}
   getProfileForm() {
     return this.builder.group({
       name: ['', Validators.maxLength(30)],

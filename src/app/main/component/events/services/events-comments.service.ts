@@ -60,11 +60,6 @@ export class EventsCommentsService implements CommentsService {
   }
 
   public editComment(id: number, text: string): Observable<void> {
-    const body = {
-      parentCommentId: id,
-      text
-    };
-
-    return this.http.patch<void>(`${this.backEnd}events/comments?commentText=${text}&id=${id}`, body);
+    return this.http.patch<void>(`${this.backEnd}events/comments?id=${id}`, text);
   }
 }

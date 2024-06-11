@@ -109,7 +109,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userOnlineStatusService.removeUsersId(UsersCategOnlineStatus.recommendedFriends);
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

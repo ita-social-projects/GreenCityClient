@@ -4,7 +4,7 @@ import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { UbsUserGuardGuard } from './ubs/ubs-user/ubs-user-guard.guard';
 import { UbsAdminGuardGuard } from './ubs/ubs-admin/ubs-admin-guard.guard';
 import { UbsAdminRedirectGuard } from './ubs/ubs-admin/ubs-admin-redirect-guard.guard';

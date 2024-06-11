@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { HabitInviteFriendsPopUpComponent } from './habit-invite-friends-pop-up.component';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { Router } from '@angular/router';
 import { FRIENDS, FIRSTFRIEND, SECONDFRIEND } from '@global-user/mocks/friends-mock';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 describe('HabitInviteFriendsPopUpComponent', () => {
   let component: HabitInviteFriendsPopUpComponent;
@@ -23,10 +23,10 @@ describe('HabitInviteFriendsPopUpComponent', () => {
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HabitInviteFriendsPopUpComponent],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatDialogModule, MatCheckboxModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },

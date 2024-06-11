@@ -22,7 +22,10 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
   іsPermissionConfirm = false;
   isCancelButtonShow = false;
 
-  constructor(private matDialogRef: MatDialogRef<DialogPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(
+    private matDialogRef: MatDialogRef<DialogPopUpComponent>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
 
   ngOnInit(): void {
     this.setTitles();
@@ -63,7 +66,7 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

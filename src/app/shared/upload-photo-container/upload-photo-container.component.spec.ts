@@ -1,7 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UploadPhotoContainerComponent } from './upload-photo-container.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('UploadPhotoContainerComponent', () => {
@@ -9,12 +9,12 @@ describe('UploadPhotoContainerComponent', () => {
   let fixture: ComponentFixture<UploadPhotoContainerComponent>;
   let dialogRef: MatDialogRef<UploadPhotoContainerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     dialogRef = jasmine.createSpyObj('dialogRef', ['close']);
 
     TestBed.configureTestingModule({
       declarations: [UploadPhotoContainerComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), ImageCropperModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: { file: { url: 'test_url' } } }

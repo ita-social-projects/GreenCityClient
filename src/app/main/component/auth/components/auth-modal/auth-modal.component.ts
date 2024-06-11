@@ -25,7 +25,7 @@ export class AuthModalComponent implements OnInit, OnDestroy {
   public isUbs;
 
   ngOnInit(): void {
-    this.isUbs = this.data.hasOwnProperty('isUbs') ? this.data.isUbs : this.router.url.includes('ubs');
+    this.isUbs = Object.prototype.hasOwnProperty.call(this.data, 'isUbs') ? this.data.isUbs : this.router.url.includes('ubs');
     this.authImages = this.isUbs ? ubsAuthImages : authImages;
     this.setAuthPage();
     this.announce();

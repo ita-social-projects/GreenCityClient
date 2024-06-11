@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -64,33 +64,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     }
   ];
 
-  const mockCities = [
-    {
-      locationTranslationDtoList: [
-        {
-          locationName: 'Фейк1',
-          languageCode: 'ua'
-        },
-        {
-          locationName: 'Fake1',
-          languageCode: 'en'
-        }
-      ]
-    },
-    {
-      locationTranslationDtoList: [
-        {
-          locationName: 'Фейк2',
-          languageCode: 'ua'
-        },
-        {
-          locationName: 'Fake2',
-          languageCode: 'en'
-        }
-      ]
-    }
-  ];
-
   const localItem = {
     location: 'фейк',
     englishLocation: 'fake',
@@ -128,21 +101,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     ]
   };
 
-  const eventMockCity = {
-    option: {
-      value: {
-        latitude: 0,
-        locationId: 1,
-        locationStatus: 'ACTIVE',
-        locationTranslationDtoList: [
-          { locationName: 'фейк', languageCode: 'ua' },
-          { locationName: 'fake', languageCode: 'en' }
-        ],
-        longitude: 0
-      }
-    }
-  };
-
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
@@ -157,9 +115,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string | any[], valEn: string | any[]) => {
-    return valUa;
-  };
+  languageServiceMock.getLangValue = (valUa: string | any[], valEn: string | any[]) => valUa;
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
@@ -171,7 +127,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
 
   const googleScriptMock = jasmine.createSpyObj('googleService', ['load']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, ReactiveFormsModule, MatAutocompleteModule],
       declarations: [UbsAdminTariffsLocationPopUpComponent],
@@ -346,15 +302,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.selectedCities.length).toBe(1);
     expect(component.location.value).toBe('');
     expect(component.englishLocation.value).toBe('');
-  });
-
-  it('should set value of region', () => {
-    const spy = spyOn(component, 'setTranslation');
-    const eventMock = {
-      place_id: 'fakeId'
-    };
-    component.setValueOfRegion(eventMock);
-    expect(spy).toHaveBeenCalled();
   });
 
   it('should return ua Value by getLangValue', () => {

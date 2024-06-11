@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Pipe, PipeTransform } from '@angular/core';
 import { EcoEventsItemComponent } from './eco-events-item.component';
 import { EcoEventsComponent } from '../eco-events.component';
@@ -16,7 +16,7 @@ describe('EcoEventsItemComponent', () => {
     }
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EcoEventsItemComponent, EcoEventsComponent, MockPipe],
       imports: [RouterTestingModule, TranslateModule.forRoot()]

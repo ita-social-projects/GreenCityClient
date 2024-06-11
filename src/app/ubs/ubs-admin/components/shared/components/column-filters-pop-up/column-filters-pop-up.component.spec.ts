@@ -1,7 +1,6 @@
-import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule, MatDialog } from '@angular/material/dialog';
@@ -9,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { ColumnFiltersPopUpComponent } from './column-filters-pop-up.component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('ColumnFiltersPopUpComponent', () => {
   let component: ColumnFiltersPopUpComponent;
@@ -36,7 +36,7 @@ describe('ColumnFiltersPopUpComponent', () => {
     }
   ];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), MatDialogModule, SharedModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule],
       declarations: [ColumnFiltersPopUpComponent],
@@ -44,7 +44,8 @@ describe('ColumnFiltersPopUpComponent', () => {
         { provide: AdminTableService, useValue: fakeAdminTableService },
         { provide: MAT_DIALOG_DATA, useValue: matDialogDataMock },
         { provide: MatDialogRef, useValue: fakeDialog },
-        MatDatepickerModule
+        MatDatepickerModule,
+        provideMockStore()
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -82,38 +83,9 @@ describe('ColumnFiltersPopUpComponent', () => {
   }));
 
   it('method setPopupPosUnderButton should should set size anp pos', () => {
-    // @ts-ignore
-    component.setPopupPosUnderButton();
+    (component as any).setPopupPosUnderButton();
     expect(fakeDialog.updatePosition).toHaveBeenCalled();
     expect(fakeDialog.updateSize).toHaveBeenCalled();
-  });
-
-  it('method changeColumnFilters should invoke changeColumnFilters from service', () => {
-    component.changeColumnFilters(true, 'test', { filtered: true });
-    expect(fakeAdminTableService.changeFilters).toHaveBeenCalled();
-  });
-
-  it('method getDateChecked should invoke getDateChecked from service', () => {
-    fakeAdminTableService.getDateChecked.and.returnValue(true);
-    const res = component.getDateChecked();
-    expect(res).toBeTruthy();
-  });
-
-  it('method getDateValue should invoke getDateValue from service', () => {
-    fakeAdminTableService.getDateValue.and.returnValue(true);
-    const res = component.getDateValue('To');
-    expect(res).toBeTruthy();
-  });
-
-  it('method changeInputDateFilters should invoke changeInputDateFilters from service', () => {
-    component.changeInputDateFilters('test', 'test');
-    expect(fakeAdminTableService.changeInputDateFilters).toHaveBeenCalled();
-  });
-
-  it('method changeDateFilters should invoke changeDateFilters from service', () => {
-    const event = new MatCheckboxChange();
-    component.changeDateFilters(event, true);
-    expect(fakeAdminTableService.changeDateFilters).toHaveBeenCalled();
   });
 
   it('method getOptionsForFiltering should return options', () => {

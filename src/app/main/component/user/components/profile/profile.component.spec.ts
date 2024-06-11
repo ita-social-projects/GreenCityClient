@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -25,7 +25,7 @@ describe('ProfileComponent', () => {
   profileServiceMock.getUserInfo.and.returnValue(of(fakeItem as any));
   const translateServiceMock = jasmine.createSpyObj('translate', ['setDefaultLang']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileComponent],
       imports: [TranslateModule.forRoot()],
@@ -55,7 +55,6 @@ describe('ProfileComponent', () => {
       const spyAnnounce = spyOn(component, 'announce');
       const spyShowUserInfo = spyOn(component, 'showUserInfo');
       const spySubscribeToLangChange = spyOn(component as any, 'subscribeToLangChange');
-      const spyBindLang = spyOn(component as any, 'bindLang');
       const spyCheckUserActivities = spyOn(component as any, 'checkUserActivities');
 
       component.ngOnInit();
@@ -63,7 +62,6 @@ describe('ProfileComponent', () => {
       expect(spyAnnounce).toHaveBeenCalled();
       expect(spyShowUserInfo).toHaveBeenCalled();
       expect(spySubscribeToLangChange).toHaveBeenCalled();
-      expect(spyBindLang).toHaveBeenCalledWith('ua');
       expect(spyCheckUserActivities).toHaveBeenCalled();
       expect(component.isDesktopWidth).toBeTruthy();
       expect(localStorageServiceMock.setCurentPage).toHaveBeenCalledWith('previousPage', '/profile');

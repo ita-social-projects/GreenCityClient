@@ -90,7 +90,7 @@ label,
 }
 
 .comment-title {
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
 }
 
 .personal-data,
@@ -127,7 +127,7 @@ label,
     }
 
     .city-notice {
-      margin: 5px 0 0 0;
+      margin: 5px 0 0;
     }
   }
 }
@@ -179,8 +179,7 @@ label,
   margin-top: 46px;
   padding-left: 40px;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   justify-content: space-between;
   gap: 1rem;
 

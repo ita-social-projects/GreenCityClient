@@ -1,7 +1,7 @@
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { FormsModule } from '@angular/forms';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SearchAllResultsComponent } from './search-all-results.component';
@@ -37,8 +37,7 @@ describe('SearchAllResultsComponent', () => {
     totalPages: 1
   };
 
-  let searchMock: SearchService;
-  searchMock = jasmine.createSpyObj('SearchService', ['getAllResults']);
+  const searchMock: SearchService = jasmine.createSpyObj('SearchService', ['getAllResults']);
   searchMock.searchSubject = new Subject();
   searchMock.getAllResultsByCat = () => of(searchDataMock);
   searchMock.closeSearchSignal = () => true;
@@ -49,7 +48,7 @@ describe('SearchAllResultsComponent', () => {
     })
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SearchAllResultsComponent, SearchItemComponent, SearchNotFoundComponent],
       imports: [
@@ -96,16 +95,16 @@ describe('SearchAllResultsComponent', () => {
       component.inputValue = 'test';
       component.searchCategory = 'tetCat';
       spyOn(mockRouter, 'navigate').and.returnValue(new Promise((res) => res(true)));
-      // @ts-ignore
-      component.onSearchUpdateQuery();
+
+      (component as any).onSearchUpdateQuery();
       expect(mockRouter.navigate).toHaveBeenCalled();
     }));
 
     it('should toogle dropdown', () => {
       component.itemsFound = 1;
       component.displayedElements = [mockNewsData];
-      // @ts-ignore
-      component.resetData();
+
+      (component as any).resetData();
       expect(component.itemsFound).toBe(0);
       expect(component.displayedElements).toEqual([]);
     });
@@ -127,8 +126,8 @@ describe('SearchAllResultsComponent', () => {
 
     it('should on update page url if current filter is same', () => {
       component.searchCategory = 'econews';
-      // @ts-ignore
-      const spy = spyOn(component, 'onSearchUpdateQuery').and.returnValue(true);
+
+      const spy = spyOn(component as any, 'onSearchUpdateQuery').and.returnValue(true);
       component.onFilterByClick({ category: 'econews', name: 'news' });
       expect(spy).not.toHaveBeenCalled();
     });

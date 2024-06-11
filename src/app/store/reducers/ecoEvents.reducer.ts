@@ -32,15 +32,13 @@ export const EcoEventsReducer = createReducer(
     };
   }),
 
-  on(CreateEcoEventSuccessAction, RateEcoEventsByIdSuccessAction, (state) => {
-    return {
-      ...state,
-      eventsList: [],
-      pageNumber: 0,
-      visitedPages: [],
-      totalPages: 0
-    };
-  }),
+  on(CreateEcoEventSuccessAction, RateEcoEventsByIdSuccessAction, (state) => ({
+    ...state,
+    eventsList: [],
+    pageNumber: 0,
+    visitedPages: [],
+    totalPages: 0
+  })),
   on(DeleteEcoEventSuccessAction, (state, action) => {
     const prevList = state.eventsList;
     const newState = prevList.filter((event) => event.id !== action.id);

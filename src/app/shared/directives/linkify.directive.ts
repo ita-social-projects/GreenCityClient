@@ -8,7 +8,11 @@ import { Patterns } from 'src/assets/patterns/patterns';
 export class LinkifyDirective implements OnChanges {
   @Input() appLinkify = '';
 
-  constructor(private el: ElementRef, private sanitizer: DomSanitizer, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private sanitizer: DomSanitizer,
+    private renderer: Renderer2
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.appLinkify) {

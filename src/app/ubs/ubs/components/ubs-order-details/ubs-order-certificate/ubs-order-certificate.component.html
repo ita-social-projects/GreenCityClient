@@ -4,8 +4,9 @@
     formArrayName="formArrayCertificates"
     *ngFor="let certificate of formArrayCertificates.controls; let i = index"
   >
-    <label class="eco-label">{{ 'order-details.certificate-number' | translate }}</label>
+    <label for="certificate" class="eco-label">{{ 'order-details.certificate-number' | translate }}</label>
     <input
+      id="certificate"
       type="text"
       class="shadow-none form-control col-12 col-sm-8 my-1 input-border"
       placeholder="xxxx-xxxx"

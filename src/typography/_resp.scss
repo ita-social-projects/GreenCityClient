@@ -1,5 +1,6 @@
 $breakpointsMobile: (
   xs: 320px,
+  s: 450px,
   sm: 576px,
   md: 768px,
   lg: 992px,
@@ -10,6 +11,7 @@ $breakpointsMobile: (
 
 $breakpointsPC: (
   xs: 319px,
+  s: 449px,
   sm: 575px,
   md: 767px,
   lg: 991px,
@@ -36,6 +38,14 @@ $breakpointsPC: (
     }
   } @else {
     @warn "No breakpoint defined for #{$breakpoint}.";
+  }
+}
+
+@mixin responsiveRange($min-width, $max-width) {
+  @include responsiveMobileFirst($min-width) {
+    @include responsivePCFirst($max-width) {
+      @content;
+    }
   }
 }
 /* stylelint-enable */

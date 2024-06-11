@@ -20,11 +20,10 @@
 
     <form class="form" [formGroup]="orderDetailsForm">
       <div class="labels-box">
-        <label class="label">{{ 'order-details.service' | translate }}</label>
-        <label class="label">{{ 'order-details.volume' | translate }}</label>
-        <label class="label">{{ 'order-details.cost' | translate }}</label>
-        <label class="label">{{ 'order-details.number-of-packages' | translate }}</label>
-        <label class="label label-total">{{ 'order-details.sum' | translate }}</label>
+        <label for="title-service" class="label">{{ 'order-details.service' | translate }}</label>
+        <label for="title-volume" class="label">{{ 'order-details.volume' | translate }}</label>
+        <label for="title-cost" class="label">{{ 'order-details.cost' | translate }}</label>
+        <label for="title-sum'" class="label label-total">{{ 'order-details.sum' | translate }}</label>
       </div>
       <div class="main" formGroupName="bags">
         <ul class="main-box">

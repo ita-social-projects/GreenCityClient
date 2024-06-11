@@ -147,7 +147,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.unsubscribe.next();
+    this.unsubscribe.next(true);
     this.unsubscribe.complete();
   }
 
@@ -240,7 +240,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   setSelectedStation() {
-    this.selectedStation = this.station.value.map((stationName) => {
+    const stationNames: string[] = Array.isArray(this.station.value) ? this.station.value : this.station.value.split(',');
+
+    this.selectedStation = stationNames.map((stationName) => {
       const selectedStationValue = this.stations.find((ob) => ob.name === stationName);
 
       return {

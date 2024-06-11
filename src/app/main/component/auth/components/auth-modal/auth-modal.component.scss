@@ -1,5 +1,6 @@
+@import 'src/typography/_resp.scss';
+
 .main {
-  width: 99vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +13,8 @@
   max-width: 960px;
   background-color: white;
   border-radius: 4px;
-  overflow: scroll;
+  padding: 0 30px;
+  overflow: auto;
 
   .left-side {
     display: block;
@@ -31,7 +33,7 @@
     .close-modal-window {
       display: flex;
       justify-content: flex-end;
-      margin: 26px 26px 22px 90%;
+      margin: 26px 0 22px 95%;
       width: min-content;
       padding: 5px;
     }
@@ -51,8 +53,7 @@
 
 @media screen and (max-width: 992px) {
   .wrapper {
-    width: 100%;
-    max-width: 480px;
+    width: 480px;
 
     .left-side {
       display: none;

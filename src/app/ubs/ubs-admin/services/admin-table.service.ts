@@ -1,12 +1,22 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
-import { environment } from '@environment/environment.js';
-import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue } from '../models/ubs-admin.interface';
+import { environment } from '@environment/environment';
+import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import * as moment from 'moment';
 
+const columnMapping: { [key: string]: string } = {
+  dateOfExportFrom: 'deliveryDate.from',
+  dateOfExportTo: 'deliveryDate.to',
+  responsibleDriver: 'responsibleDriverId',
+  responsibleNavigator: 'responsibleNavigatorId',
+  responsibleCaller: 'responsibleCallerId',
+  responsibleLogicMan: 'responsibleLogicManId',
+  city: 'citiesEn',
+  district: 'districtsEn'
+};
 @Injectable({
   providedIn: 'root'
 })
@@ -15,38 +25,31 @@ export class AdminTableService {
   filters: any[] = [];
   url = environment.ubsAdmin.backendUbsAdminLink + '/management/';
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {}
 
-  getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string) {
+  getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string, filters?: IFilters) {
     const searchValue = filter ? filter.split(' ').reduce((values, value) => (value ? values + `search=${value}&` : values), '') : '';
     const SORT_BY_AND_PAGE_NUMBER = `sortBy=${columnName}&pageNumber=${page}`;
     const SEARCH_AND_PAGE_SIZE_AND_DIRECTION = searchValue + `pageSize=${size}&sortDirection=${sortingType}`;
     const BASE_QUERY = `${this.url}bigOrderTable?${SORT_BY_AND_PAGE_NUMBER}&${SEARCH_AND_PAGE_SIZE_AND_DIRECTION}`;
-    let filtersQuery = '';
-    if (this.filters.length) {
-      this.filters.forEach((elem) => {
-        const objKeys = Object.keys(elem);
-        if (objKeys.length === 1) {
-          const key = objKeys[0];
-          filtersQuery += `&${key}=${elem[key]}`;
-        }
-        if (objKeys.length === 2) {
-          const keyFrom = objKeys[0].replace('From', '.from');
-          const keyTo = objKeys[1].replace('To', '.to');
-          const elementFrom = elem[objKeys[0]];
-          const elementTo = elem[objKeys[1]];
-          if (!isNaN(Date.parse(elementFrom)) && !isNaN(Date.parse(elementTo))) {
-            filtersQuery += `&${keyFrom}=${this.formateDate(elementFrom)}&${keyTo}=${this.formateDate(elementTo)}`;
-          }
+
+    let params = new HttpParams();
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value && typeof value === 'string') {
+          params = params.append(this.convertToEndpointName(key), value);
+        } else if (Array.isArray(value)) {
+          const endpointName = this.convertToEndpointName(key);
+          value.forEach((val) => {
+            params = params.append(endpointName, val);
+          });
         }
       });
     }
-    return this.http.get<IBigOrderTable>(`${BASE_QUERY}${filtersQuery}`);
-  }
-
-  private formateDate(date) {
-    const dateFrom = new Date(date).toISOString();
-    return dateFrom.slice(0, dateFrom.indexOf('T'));
+    return this.http.get<IBigOrderTable>(BASE_QUERY, { params });
   }
 
   getColumns() {
@@ -83,6 +86,10 @@ export class AdminTableService {
 
   setColumnsForFiltering(columns): void {
     this.columnsForFiltering = columns;
+  }
+
+  convertToEndpointName(column: string): string {
+    return columnMapping[column] || column.replace('From', '.from').replace('To', '.to');
   }
 
   public changeColumnNameEqualToEndPoint(column: string): string {
@@ -229,9 +236,7 @@ export class AdminTableService {
   }
 
   getDateChecked(dateColumn): boolean {
-    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
-      return column.key === dateColumn;
-    });
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => column.key === dateColumn);
     return currentColumnDateFilter.values[0]?.filtered;
   }
 
@@ -239,18 +244,18 @@ export class AdminTableService {
     return moment(date).format('YYYY-MM-DD');
   }
 
+  convertDate(date: Date): string {
+    return moment(date).format('YYYY-MM-DD');
+  }
+
   setDateCheckedFromStorage(dateColumn): void {
-    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
-      return column.key === dateColumn;
-    });
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => column.key === dateColumn);
     currentColumnDateFilter.values[0].filtered = true;
   }
 
   getDateValue(suffix: 'From' | 'To', dateColumn): boolean {
     let date;
-    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
-      return column.key === dateColumn;
-    });
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => column.key === dateColumn);
     for (const key in currentColumnDateFilter?.values[0]) {
       if (key.includes(suffix)) {
         date = currentColumnDateFilter?.values[0]?.[key];
@@ -272,12 +277,11 @@ export class AdminTableService {
     const year = today.getFullYear();
     let month = (today.getMonth() + 1).toString();
     let day = today.getDate().toString();
-    let todayDate: string;
 
     month = +month >= 10 ? month : `0${month}`;
     day = +day >= 10 ? day : `0${day}`;
 
-    todayDate = `${year}-${month}-${day}`;
+    const todayDate = `${year}-${month}-${day}`;
 
     return todayDate;
   }

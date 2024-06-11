@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { catchError, concatMap, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   GetColumnToDisplay,
@@ -13,15 +13,31 @@ import {
   GetTableSuccess,
   ChangingOrderData,
   ChangingOrderDataSuccess,
-  ReceivedFailure
+  ReceivedFailure,
+  LoadFiltersAction,
+  LoadFiltersSuccessAction,
+  SaveFiltersAction,
+  AddFiltersAction,
+  AddFilterMultiAction,
+  RemoveFilter,
+  ClearFilters
 } from '../actions/bigOrderTable.actions';
 import { IBigOrderTable, IBigOrderTableParams, IOrdersViewParameters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { select, Store } from '@ngrx/store';
+import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
 
 @Injectable()
 export class BigOrderTableEffects {
-  constructor(private actions: Actions, private adminTableService: AdminTableService, private orderService: OrderService) {}
+  constructor(
+    private actions: Actions,
+    private adminTableService: AdminTableService,
+    private orderService: OrderService,
+    private localStorageService: LocalStorageService,
+    private store: Store
+  ) {}
 
   getColumnToDisplay = createEffect(() => {
     return this.actions.pipe(
@@ -50,6 +66,7 @@ export class BigOrderTableEffects {
   getColumns = createEffect(() => {
     return this.actions.pipe(
       ofType(GetColumns),
+      tap(() => this.store.dispatch(LoadFiltersAction())),
       mergeMap(() => {
         return this.adminTableService.getColumns().pipe(
           map((bigOrderTableParams: IBigOrderTableParams) => GetColumnsSuccess({ bigOrderTableParams })),
@@ -62,11 +79,14 @@ export class BigOrderTableEffects {
   getTable = createEffect(() => {
     return this.actions.pipe(
       ofType(GetTable),
-      switchMap((action: { columnName?: string; page?: number; filter?: string; size?: number; sortingType?: string; reset?: boolean }) => {
-        return this.adminTableService.getTable(action.columnName, action.page, action.filter, action.size, action.sortingType).pipe(
-          map((bigOrderTable: IBigOrderTable) => GetTableSuccess({ bigOrderTable, reset: action.reset })),
-          catchError((error) => of(ReceivedFailure(error)))
-        );
+      withLatestFrom(this.store.pipe(select(filtersSelector))),
+      switchMap(([action, filters]) => {
+        return this.adminTableService
+          .getTable(action.columnName, action.page, action.filter, action.size, action.sortingType, filters)
+          .pipe(
+            map((bigOrderTable: IBigOrderTable) => GetTableSuccess({ bigOrderTable, reset: action.reset })),
+            catchError((error) => of(ReceivedFailure(error)))
+          );
       })
     );
   });
@@ -89,4 +109,40 @@ export class BigOrderTableEffects {
       })
     );
   });
+
+  addFilter = createEffect(
+    () =>
+      this.actions.pipe(
+        ofType(AddFiltersAction, AddFilterMultiAction, RemoveFilter, ClearFilters),
+        tap(() => this.store.dispatch(SaveFiltersAction())),
+        tap((action) => {
+          if (action.fetchTable) {
+            this.store.dispatch(GetTable({ page: 0, size: 25, columnName: 'id', sortingType: 'DESC', reset: true }));
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  loadFilters = createEffect(() => {
+    return this.actions.pipe(
+      ofType(LoadFiltersAction),
+      switchMap(() => {
+        const filters = this.localStorageService.getFilters();
+        return of(LoadFiltersSuccessAction({ filters }));
+      })
+    );
+  });
+
+  saveFilters = createEffect(
+    () =>
+      this.actions.pipe(
+        ofType(SaveFiltersAction, AddFilterMultiAction, RemoveFilter),
+        withLatestFrom(this.store.pipe(select(filtersSelector))),
+        tap(([action, data]) => {
+          this.localStorageService.setFilters(data);
+        })
+      ),
+    { dispatch: false }
+  );
 }

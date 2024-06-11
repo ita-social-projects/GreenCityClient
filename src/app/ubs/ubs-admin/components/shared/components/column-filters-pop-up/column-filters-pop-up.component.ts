@@ -1,25 +1,36 @@
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
-import { Component, ElementRef, HostListener, Inject, Injector, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IFilteredColumn, IFilteredColumnValue } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { IFilteredColumn, IFilteredColumnValue, IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { DateAdapter } from '@angular/material/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LanguageModel } from '@eco-news-models/create-news-interface';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { select, Store } from '@ngrx/store';
+import * as moment from 'moment';
+import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
+import { AddFilterMultiAction, AddFiltersAction, RemoveFilter } from 'src/app/store/actions/bigOrderTable.actions';
 
 @Component({
   selector: 'app-column-filters-pop-up',
   templateUrl: './column-filters-pop-up.component.html',
   styleUrls: ['./column-filters-pop-up.component.scss']
 })
-export class ColumnFiltersPopUpComponent implements OnInit {
+export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
+  @ViewChild('picker1') pickerFrom: MatDatepicker<Date>;
+  @ViewChild('picker2') pickerTo: MatDatepicker<Date>;
+
+  dateFrom: Date;
+  dateTo: Date;
+  dateChecked: boolean;
+
   isPopupOpened = false;
-  isCalendarOpened = false;
-  private localStorageService: LocalStorageService;
-  public currentLang: string;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  private allFilters: IFilters;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -27,24 +38,45 @@ export class ColumnFiltersPopUpComponent implements OnInit {
     private elementRef: ElementRef,
     private adapter: DateAdapter<LanguageModel>,
     private injector: Injector,
-    private adminTableService: AdminTableService
-  ) {
-    this.localStorageService = injector.get(LocalStorageService);
-  }
+    private adminTableService: AdminTableService,
+    private store: Store,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
-      this.currentLang = lang;
       const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
       this.adapter.setLocale(locale);
     });
     this.setPopupPosUnderButton();
+    this.initListeners();
+  }
+
+  initListeners(): void {
+    this.store.pipe(takeUntil(this.destroy$), select(filtersSelector)).subscribe((filters: IFilters) => {
+      this.allFilters = filters;
+
+      const filtersDateCheck = filters?.[this.data.columnName + 'Check'];
+      if (filtersDateCheck !== null && filtersDateCheck !== undefined && typeof filtersDateCheck === 'boolean') {
+        this.dateChecked = filtersDateCheck;
+      }
+
+      const filtersDateFrom = filters?.[this.data.columnName + 'From'];
+      if (filtersDateFrom && typeof filtersDateFrom === 'string') {
+        this.dateFrom = new Date(filtersDateFrom);
+      }
+
+      const filtersDateTo = filters?.[this.data.columnName + 'To'];
+      if (filtersDateTo && typeof filtersDateTo === 'string') {
+        this.dateTo = new Date(filtersDateTo);
+      }
+    });
   }
 
   @HostListener('document:click', ['$event'])
-  public onClick(event: any) {
+  onClick(event: any): void {
     const clickedInside = this.matDialogRef.componentInstance.elementRef.nativeElement.contains(event.target);
-    const isCalendarOpened = event.target?.className === 'mat-calendar-body-cell-content mat-calendar-body-selected';
+    const isCalendarOpened = this.pickerFrom?.opened || this.pickerTo?.opened;
 
     if (!clickedInside && this.isPopupOpened && !isCalendarOpened) {
       this.matDialogRef.close();
@@ -53,6 +85,61 @@ export class ColumnFiltersPopUpComponent implements OnInit {
     if (!this.isPopupOpened) {
       this.isPopupOpened = true;
     }
+  }
+
+  changeColumnFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
+    checked
+      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value: option.key }, fetchTable: true }))
+      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value: option.key }, fetchTable: true }));
+  }
+
+  onDateChecked(e: MatCheckboxChange, checked: boolean): void {
+    this.store.dispatch(AddFiltersAction({ filters: { [this.data.columnName + 'Check']: checked }, fetchTable: false }));
+  }
+
+  onDateChange(): void {
+    if (this.dateChecked && this.dateFrom?.getTime() > this.dateTo?.getTime()) {
+      const temp = this.dateFrom;
+      this.dateFrom = this.dateTo;
+      this.dateTo = temp;
+    } else if (!this.dateChecked) {
+      this.dateTo = this.dateFrom;
+    }
+
+    const dateFrom = this.formatDate(this.dateFrom);
+    const dateTo = this.formatDate(this.dateTo);
+
+    this.store.dispatch(
+      AddFiltersAction({
+        filters: {
+          [this.data.columnName + 'From']: dateFrom,
+          [this.data.columnName + 'To']: dateTo
+        },
+        fetchTable: false
+      })
+    );
+  }
+
+  isFilterChecked(columnName: string, value: string): boolean {
+    return (this.allFilters?.[columnName] as string[])?.includes(value);
+  }
+
+  getOptionsForFiltering(): IFilteredColumnValue[] {
+    const columnsForFiltering = this.getColumnsForFiltering();
+    return columnsForFiltering.find((column) => column.key === this.data.columnName).values;
+  }
+
+  getColumnsForFiltering(): IFilteredColumn[] {
+    return this.adminTableService.columnsForFiltering;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private formatDate(date: Date): string {
+    return moment(date).format('YYYY-MM-DD');
   }
 
   private setPopupPosUnderButton(): void {
@@ -64,38 +151,5 @@ export class ColumnFiltersPopUpComponent implements OnInit {
     }
     this.matDialogRef.updatePosition(position);
     this.matDialogRef.updateSize(`${this.data.width}px`, `${this.data.height}px`);
-  }
-
-  changeColumnFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
-    this.adminTableService.changeFilters(checked, currentColumn, option);
-  }
-
-  getDateChecked(): boolean {
-    return this.adminTableService.getDateChecked(this.data.columnName);
-  }
-
-  getDateValue(suffix: 'From' | 'To'): boolean {
-    return this.adminTableService.getDateValue(this.data.columnName, suffix);
-  }
-
-  changeDateFilters(e: MatCheckboxChange, checked: boolean): void {
-    this.adminTableService.changeDateFilters(e, checked, this.data.columnName);
-  }
-
-  changeInputDateFilters(value: string, suffix: string): void {
-    this.adminTableService.changeInputDateFilters(value, this.data.columnName, suffix);
-  }
-
-  getOptionsForFiltering() {
-    const columnsForFiltering = this.getColumnsForFiltering();
-    let filteredCol: IFilteredColumn;
-
-    filteredCol = columnsForFiltering.find((column) => column.key === this.data.columnName);
-
-    return filteredCol.values;
-  }
-
-  getColumnsForFiltering() {
-    return this.adminTableService.columnsForFiltering;
   }
 }

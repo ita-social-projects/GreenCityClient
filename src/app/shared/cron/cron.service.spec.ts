@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CronService } from './cron.service';
+import { CronService, formatNotificationCron, formatSpringCron, formatUnixCron } from './cron.service';
+import { NotificationMock } from '../../ubs/ubs-admin/services/notificationsMock';
+import { NotificationPage } from '../../ubs/ubs-admin/models/notifications.model';
 
 describe('CronService', () => {
   let service: CronService;
@@ -102,5 +104,67 @@ describe('CronService', () => {
     expect(service.descript('* * * JAN-SEP *')).toBe('щохвилини щомісяця з Січ до Вер');
     expect(service.descript('* * * 2-5 *')).toBe('щохвилини щомісяця з Лют до Трав');
     expect(service.descript('* * * 2,5,12 *')).toBe('щохвилини у Лют, Трав та Груд');
+  });
+});
+
+describe('Convert Cron from Spring to UNIX formats and vise versa', () => {
+  const notification = NotificationMock;
+
+  const formatUnixCronMock = [
+    { spring: '0 8 * * * *', unix: '8 * * * *' },
+    { spring: '0 30 8 * * *', unix: '30 8 * * *' },
+    { spring: '0 */2 * * * *', unix: '*/2 * * * *' },
+    { spring: '0 1,2 * * * *', unix: '1,2 * * * *' },
+    { spring: '0 */4 * * * *', unix: '*/4 * * * *' }
+  ];
+
+  const invalidFormatUnixCronMock = [
+    { input: 'invalid schedule', expected: 'invalid schedule' },
+    { input: '30 8 * *', expected: '30 8 * *' },
+    { input: '', expected: '' },
+    { input: null, expected: null }
+  ];
+
+  formatUnixCronMock.forEach((testCase) => {
+    it(`should format to Spring Cron schedule: ${testCase.spring}`, () => {
+      expect(formatSpringCron(testCase.unix)).toEqual(testCase.spring);
+    });
+  });
+
+  invalidFormatUnixCronMock.forEach((testCase) => {
+    it(`should format to invalid Format UnixCronMock  Cron schedule ${testCase.input}`, () => {
+      notification.notificationTemplateMainInfoDto.schedule = testCase.input;
+      expect(formatSpringCron(testCase.input)).toEqual(testCase.expected);
+      expect(formatUnixCron(notification).notificationTemplateMainInfoDto.schedule).toEqual(testCase.expected);
+    });
+  });
+
+  formatUnixCronMock.forEach((testCase) => {
+    it(`should format the cron schedule correctly for schedule: ${testCase.spring}`, () => {
+      notification.notificationTemplateMainInfoDto.schedule = testCase.spring;
+      expect(formatUnixCron(notification).notificationTemplateMainInfoDto.schedule).toEqual(testCase.unix);
+    });
+  });
+
+  it('should not change the schedule if it has more or less than 6 parts', () => {
+    notification.notificationTemplateMainInfoDto.schedule = '15 10 * * *';
+    expect(formatUnixCron(notification).notificationTemplateMainInfoDto.schedule).toEqual('15 10 * * *');
+    notification.notificationTemplateMainInfoDto.schedule = '0 15 10 * * * *';
+    expect(formatUnixCron(notification).notificationTemplateMainInfoDto.schedule).toEqual('0 15 10 * * * *');
+  });
+
+  formatUnixCronMock.forEach((testCase) => {
+    it(`should correctly format '${testCase.spring}' to '${testCase.unix}'`, () => {
+      const pages: NotificationPage[] = [
+        {
+          id: 1,
+          notificationTemplateMainInfoDto: {
+            ...notification.notificationTemplateMainInfoDto,
+            schedule: testCase.spring
+          }
+        }
+      ];
+      expect(formatNotificationCron(pages)[0].notificationTemplateMainInfoDto.schedule).toEqual(testCase.unix);
+    });
   });
 });

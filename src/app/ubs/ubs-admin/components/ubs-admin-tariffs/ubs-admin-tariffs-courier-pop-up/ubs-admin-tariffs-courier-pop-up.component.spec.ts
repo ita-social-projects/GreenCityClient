@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,7 +9,10 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TariffsService } from '../../../services/tariffs.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import {
+  // MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger
+} from '@angular/material/autocomplete';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('UbsAdminTariffsCourierPopUpComponent', () => {
@@ -61,7 +64,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsCourierPopUpComponent],
       imports: [MatDialogModule, BrowserAnimationsModule, TranslateModule.forRoot(), ReactiveFormsModule],
@@ -89,8 +92,12 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
 
   it('should set names correctly', () => {
     component.courierForm = fakeCourierForm;
+    const fakeCourierFormValue = {
+      name: 'fake',
+      englishName: 'fake'
+    };
     component.setNewCourierName();
-    component.courierForm.setValue(fakeCourierForm.value);
+    component.courierForm.setValue(fakeCourierFormValue);
     expect(component.courierForm.value).toEqual(fakeCourierForm.value);
   });
 

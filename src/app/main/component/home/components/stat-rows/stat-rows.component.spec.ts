@@ -1,6 +1,6 @@
 import { HabitItemsAmountStatisticDto } from './../../../../model/goal/HabitItemsAmountStatisticDto';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserService } from '@global-service/user/user.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
@@ -22,11 +22,9 @@ class MatDialogMock {
 describe('StatRowsComponent', () => {
   let component: StatRowsComponent;
   let fixture: ComponentFixture<StatRowsComponent>;
-  let snackBarMock: MatSnackBarComponent;
-  snackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   snackBarMock.openSnackBar = () => true;
-  let userServiceMock: UserService;
-  userServiceMock = jasmine.createSpyObj('UserService', ['getTodayStatisticsForAllHabitItems']);
+  const userServiceMock: UserService = jasmine.createSpyObj('UserService', ['getTodayStatisticsForAllHabitItems']);
   userServiceMock.getTodayStatisticsForAllHabitItems = (): Observable<Array<HabitItemsAmountStatisticDto>> =>
     of([
       {
@@ -35,10 +33,10 @@ describe('StatRowsComponent', () => {
       }
     ]);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StatRowsComponent, StatRowComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterModule.forRoot([])],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterModule.forRoot([], {})],
       providers: [
         { provide: UserService, useValue: userServiceMock },
         { provide: MatSnackBarComponent, useValue: snackBarMock },

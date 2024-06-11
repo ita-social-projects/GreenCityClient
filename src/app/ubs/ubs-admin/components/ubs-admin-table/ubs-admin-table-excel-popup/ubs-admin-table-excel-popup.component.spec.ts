@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup.component';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
@@ -43,7 +43,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
     }
   ];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, FormsModule, TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule],
       declarations: [UbsAdminTableExcelPopupComponent],
@@ -77,11 +77,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
 
   it('after saveTable should call getOrdersTable', () => {
     spyOn(component, 'createXLSX');
-    spyOn(component, 'getOrdersTable').and.returnValue(
-      new Promise((res, rej) => {
-        return true;
-      })
-    );
+    spyOn(component, 'getOrdersTable').and.returnValue(new Promise((res, rej) => true));
     component.isLoading = false;
     component.tableView = 'wholeTable';
     component.name = 'Orders-Table.xlsx';
@@ -93,11 +89,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
   });
 
   it('after saveTable should call getCertificatesTable', () => {
-    spyOn(component, 'getCertificatesTable').and.returnValue(
-      new Promise((res) => {
-        return true;
-      })
-    );
+    spyOn(component, 'getCertificatesTable').and.returnValue(new Promise((res) => true));
     component.tableView = 'wholeTable';
     component.name = 'Certificates-Table.xlsx';
     component.saveTable();
@@ -105,11 +97,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
   });
 
   it('after saveTable should call getCustomersTable', () => {
-    spyOn(component, 'getCustomersTable').and.returnValue(
-      new Promise((res) => {
-        return true;
-      })
-    );
+    spyOn(component, 'getCustomersTable').and.returnValue(new Promise((res) => true));
     component.tableView = 'wholeTable';
     component.name = 'Customers-Table.xlsx';
     component.saveTable();
@@ -117,11 +105,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
   });
 
   it('after saveTable should call getOrdersTable', () => {
-    spyOn(component, 'getOrdersTable').and.returnValue(
-      new Promise((res) => {
-        return true;
-      })
-    );
+    spyOn(component, 'getOrdersTable').and.returnValue(new Promise((res) => true));
     component.tableView = 'currentFilter';
     component.name = 'Orders-Table.xlsx';
     component.saveTable();
@@ -129,11 +113,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
   });
 
   it('after saveTable should call getCertificatesTable', () => {
-    spyOn(component, 'getCertificatesTable').and.returnValue(
-      new Promise((res) => {
-        return true;
-      })
-    );
+    spyOn(component, 'getCertificatesTable').and.returnValue(new Promise((res) => true));
     component.tableView = 'currentFilter';
     component.name = 'Certificates-Table.xlsx';
     component.saveTable();
@@ -141,11 +121,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
   });
 
   it('after saveTable should call getCustomersTable', () => {
-    spyOn(component, 'getCustomersTable').and.returnValue(
-      new Promise((res) => {
-        return true;
-      })
-    );
+    spyOn(component, 'getCustomersTable').and.returnValue(new Promise((res) => true));
     spyOn(component, 'createXLSX');
     component.tableView = 'currentFilter';
     component.name = 'Customers-Table.xlsx';

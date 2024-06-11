@@ -40,7 +40,11 @@ export class TableCellSelectComponent implements OnInit {
   @Output() editButtonClick = new EventEmitter();
   @Output() orderCancellation = new EventEmitter();
 
-  constructor(private adminTableService: AdminTableService, private orderService: OrderService, public dialog: MatDialog) {}
+  constructor(
+    private adminTableService: AdminTableService,
+    private orderService: OrderService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.currentValue = this.optional.filter((item) => item.key === this.key)[0];

@@ -2,12 +2,11 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSelectHarness } from '@angular/material/select/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,12 +14,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { UbsAdminNotificationListComponent } from './ubs-admin-notification-list.component';
 import { NotificationTemplatesMock } from '../../services/notificationsMock';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -36,9 +36,7 @@ describe('UbsAdminNotificationListComponent', () => {
   let notificationsService: NotificationsService;
   let langService: LanguageService;
   let router;
-  let localStorageServiceMock: LocalStorageService;
-
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getUserId']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getUserId']);
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
 
   const notificationsServiceMock = {
@@ -50,7 +48,7 @@ describe('UbsAdminNotificationListComponent', () => {
   };
   const activatedRouteMock = { params: of({ id: 1 }) };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminNotificationListComponent, CronPipe],
       imports: [
@@ -63,7 +61,8 @@ describe('UbsAdminNotificationListComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         NgxPaginationModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        InfiniteScrollModule
       ],
       providers: [
         FormBuilder,
@@ -96,12 +95,15 @@ describe('UbsAdminNotificationListComponent', () => {
       page: NotificationTemplatesMock,
       totalElements: 1
     };
-    spyOn(notificationsService, 'getAllNotificationTemplates').and.returnValue(of(data as any));
 
+    spyOn(notificationsService, 'getAllNotificationTemplates').and.returnValue(of(data as any));
     component.loadPage(1);
 
+    expect(notificationsService.getAllNotificationTemplates).toHaveBeenCalledWith(0, component.itemsPerPage);
+    expect(component.spinner).toBeFalsy();
     expect(component.notifications).toEqual(data.page);
     expect(component.totalItems).toBe(data.totalElements);
+    expect(component.elementsArePresent).toBe(component.itemsPerPage < component.totalItems);
   });
 
   it('should return the correct language value when getLangValue() is called', () => {

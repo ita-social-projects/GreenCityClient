@@ -6,7 +6,10 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   providedIn: 'root'
 })
 export class CreateEditNewsFormBuilder {
-  constructor(private fb: FormBuilder, public localStorageService: LocalStorageService) {}
+  constructor(
+    private fb: FormBuilder,
+    public localStorageService: LocalStorageService
+  ) {}
 
   getSetupForm() {
     return this.fb.group({

@@ -84,9 +84,9 @@ export class AddPlaceComponent implements OnInit {
       categoryName: this.type.value,
       placeName: this.name.value,
       locationName: this.address.value,
-      openingHoursList: this.workingTime.map((time): OpeningHoursDto => {
-        return { openTime: time.timeFrom, closeTime: time.timeTo, weekDay: time.dayOfWeek };
-      })
+      openingHoursList: this.workingTime.map(
+        (time): OpeningHoursDto => ({ openTime: time.timeFrom, closeTime: time.timeTo, weekDay: time.dayOfWeek })
+      )
     };
     this.matDialogRef.close(sendPlace);
   }

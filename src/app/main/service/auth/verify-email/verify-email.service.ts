@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { verifyEmailLink } from 'src/app/main/links';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class VerifyEmailService {
   constructor(private http: HttpClient) {}

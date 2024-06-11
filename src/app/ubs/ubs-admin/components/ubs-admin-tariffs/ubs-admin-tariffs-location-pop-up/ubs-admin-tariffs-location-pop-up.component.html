@@ -6,22 +6,18 @@
 <ng-template #form>
   <form [formGroup]="locationForm">
     <p *ngIf="data.edit" class="edit-text">{{ 'ubs-tariffs-add-location-pop-up.region_edit_text' | translate }}</p>
-    <div class="d-flex first-row">
-      <div>
+    <div class="inputs-row first-row">
+      <div class="wrapper">
         <div class="form-group">
-          <label>{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
-          <input
+          <label for="region-options">{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
+          <app-input-google-autocomplete
+            id="region-options"
             *ngIf="!data.edit"
-            ngx-google-places-autocomplete
-            type="text"
-            [ngClass]="{ 'error-input': regionExist }"
-            class="shadow-none form-control"
-            required
-            [options]="regionOptions"
             formControlName="region"
+            [autoCompRequest]="regionOptions"
             [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_region' | translate"
-            (onAddressChange)="onRegionSelected($event)"
-          />
+            (predictionSelected)="onRegionSelected($event)"
+          ></app-input-google-autocomplete>
           <div *ngIf="data.edit">
             <input
               type="text"
@@ -55,8 +51,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label>{{ 'ubs-tariffs-add-location-pop-up.region_translate' | translate }}</label>
+        <label for="english-region">{{ 'ubs-tariffs-add-location-pop-up.region_translate' | translate }}</label>
         <input
+          id="english-region"
           type="text"
           class="shadow-none form-control"
           required
@@ -85,63 +82,34 @@
       </div>
     </mat-expansion-panel>
     <p *ngIf="data.edit" class="edit-text">{{ 'ubs-tariffs-add-location-pop-up.city_edit_text' | translate }}</p>
-    <div class="d-flex">
+    <div class="inputs-row">
       <div>
         <div class="form-group">
-          <label>{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
-          <input
-            *ngIf="!data.edit"
-            #locationInput
-            class="shadow-none form-control mb-1"
+          <label for="location">{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
+          <app-input-google-autocomplete
+            id="location"
             [ngClass]="{ 'error-input': cityExist || cityInvalid }"
             formControlName="location"
             [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location' | translate"
-            [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
-            (keyup.enter)="addCity()"
-          />
-          <div *ngIf="data.edit">
-            <input
-              class="shadow-none form-control mb-1"
-              formControlName="location"
-              #locationInput
-              [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location' | translate"
-              (keyup)="setPredictCities()"
-              matInput
-              (keyup.enter)="addEditedCity()"
-              [matAutocomplete]="autoCity"
-            />
-            <mat-autocomplete #autoCity="matAutocomplete">
-              <mat-option
-                class="autocomplete-dropdown"
-                *ngFor="let cityName of cityPredictionList"
-                [value]="cityName.description"
-                (click)="onCitySelected(cityName)"
-              >
-                {{ cityName.description }}
-              </mat-option>
-            </mat-autocomplete>
-          </div>
-          <img
-            *ngIf="location.value.length"
-            [src]="icons.cross"
-            class="cross-img"
-            alt="close-icon"
-            (click)="location.setValue(''); citySelected = false"
-          />
+            [autoCompRequest]="cityOptions"
+            [requestPrefix]="region.value + ', ' + getLangValue('місто ', 'city ')"
+            (keyup.enter)="data.edit ? addEditedCity() : addCity()"
+            (predictionSelected)="onCitySelected($event)"
+          >
+          </app-input-google-autocomplete>
+          <img *ngIf="location.value" [src]="icons.cross" class="cross-img" alt="close-icon" (click)="onClearCity()" />
         </div>
-        <div class="w-100" *ngIf="cityInvalid && !data.edit">
+        <div class="w-100" *ngIf="location.touched && !location.value">
           <p class="validation-city">{{ 'ubs-tariffs-add-location-pop-up.city_error_message' | translate }}</p>
         </div>
-        <div class="w-100" *ngIf="cityExist && !data.edit">
-          <p class="validation-city">{{ 'ubs-tariffs-add-location-pop-up.city_exist' | translate }}</p>
-        </div>
-        <div class="w-100" *ngIf="editedCityExist && data.edit">
+        <div class="w-100" *ngIf="cityExist || editedCityExist">
           <p class="validation-city">{{ 'ubs-tariffs-add-location-pop-up.city_exist' | translate }}</p>
         </div>
       </div>
       <div class="form-group">
-        <label>{{ 'ubs-tariffs-add-location-pop-up.locality_translate' | translate }}</label>
+        <label for="locality-translate">{{ 'ubs-tariffs-add-location-pop-up.locality_translate' | translate }}</label>
         <input
+          id="locality-translate"
           class="shadow-none form-control mb-1"
           formControlName="englishLocation"
           [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location_translate' | translate"
@@ -156,11 +124,10 @@
         />
       </div>
     </div>
-    <div *ngIf="!data.edit" class="d-flex">
-      <div class="add-city" (click)="addCity()">{{ 'ubs-tariffs-add-location-pop-up.add-city' | translate }}</div>
-    </div>
-    <div *ngIf="data.edit" class="d-flex">
-      <div class="add-city" (click)="addEditedCity()">{{ 'ubs-tariffs-add-location-pop-up.add-city' | translate }}</div>
+    <div class="d-flex">
+      <button class="btn add-city" (click)="data.edit ? addEditedCity() : addCity()" [disabled]="isAddCityDisabled()">
+        {{ 'ubs-tariffs-add-location-pop-up.add-city' | translate }}
+      </button>
     </div>
     <div class="mb-2">
       <div *ngFor="let item of selectedCities; let index = index">

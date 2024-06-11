@@ -226,9 +226,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       if (item) {
         this.locations = item;
         const regions = this.locations
-          .map((element) => {
-            return element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLang).map((it) => it.regionName);
-          })
+          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLang).map((it) => it.regionName))
           .flat(2);
         this.filteredRegions = regions;
         this.cities = this.mapCities(this.locations);
@@ -507,9 +505,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   selectPosition(event: MatAutocompleteSelectedEvent): void {
     const newValue = event.option.viewValue;
-    const selectedValue = this.employeePositions.find((ob) => {
-      return this.getLangValue(ob.name, ob.nameEn) === newValue;
-    });
+    const selectedValue = this.employeePositions.find((ob) => this.getLangValue(ob.name, ob.nameEn) === newValue);
     const positionNameUk = selectedValue.name;
     const positionNameEng = selectedValue.nameEn;
     const positionId = selectedValue.id;
@@ -532,9 +528,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   selectCourier(event: MatAutocompleteSelectedEvent): void {
     const newValue = event.option.viewValue;
-    const selectedValue = this.couriers.find((ob) => {
-      return this.getLangValue(ob.nameUk, ob.nameEn) === newValue;
-    });
+    const selectedValue = this.couriers.find((ob) => this.getLangValue(ob.nameUk, ob.nameEn) === newValue);
     const courierNameUk = selectedValue.nameUk;
     const courierNameEng = selectedValue.nameEn;
     const courierId = selectedValue.courierId;
@@ -658,7 +652,8 @@ export class UbsAdminEmployeeComponent implements OnInit {
     return this.getLangValue(selectedRegionName, selectedRegionEnglishName);
   }
 
-  addItem(event: MatChipInputEvent, option: string): void {
+  addItem(event: any, option: string): void {
+    //$Event MatChipInputEvent
     const value = event.value;
 
     if ((value || '').trim()) {

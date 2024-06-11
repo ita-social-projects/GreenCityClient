@@ -156,7 +156,7 @@ h4 {
   flex-flow: row wrap;
   align-items: center;
 
-  .ng-invalid.ng-touched {
+  .invalid {
     border: 1px solid red !important;
   }
 
@@ -204,7 +204,7 @@ h4 {
 }
 
 .min-bags-number.red-border ::ng-deep .mat-checkbox-frame {
-  border-color: rgb(255, 0, 0);
+  border-color: rgb(255 0 0);
 }
 
 ::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
@@ -323,7 +323,7 @@ button[disabled] {
 ::ng-deep .address-matDialog-styles-pricing-page {
   .mat-dialog-container {
     width: 572px !important;
-    padding: 40px 45px 20px 45px;
+    padding: 40px 45px 20px;
     max-height: 100vh;
   }
 }

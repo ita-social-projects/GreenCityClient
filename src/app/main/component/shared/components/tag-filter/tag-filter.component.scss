@@ -61,7 +61,6 @@
   .wrapper {
     display: grid;
     grid-template-columns: max-content auto;
-    row-gap: 0;
-    column-gap: 24px;
+    gap: 0 24px;
   }
 }

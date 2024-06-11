@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SubscribeComponent } from './subscribe.component';
 import { SubscriptionService } from '@global-service/subscription/subscription.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,13 +9,12 @@ describe('SubscribeComponent', () => {
   let component: SubscribeComponent;
   let fixture: ComponentFixture<SubscribeComponent>;
 
-  let fakeSubscriptionService: SubscriptionService;
-  fakeSubscriptionService = jasmine.createSpyObj('fakeSub', ['subscribeToNewsletter']);
+  const fakeSubscriptionService: SubscriptionService = jasmine.createSpyObj('fakeSub', ['subscribeToNewsletter']);
   fakeSubscriptionService.subscriptionError = of('sth');
 
   const emailMock = 'example12@gamil.com';
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SubscribeComponent],
       imports: [TranslateModule.forRoot(), FormsModule],

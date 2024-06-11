@@ -3,23 +3,21 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
-import { greenIcon, notification, redIcon, searchIcon, share, star, starHalf, starUnfilled } from '../../image-pathes/places-icons.js';
+import { greenIcon, notification, redIcon, searchIcon, share, star, starHalf, starUnfilled } from '../../image-pathes/places-icons';
 import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
 import { debounceTime, take } from 'rxjs/operators';
-import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-types';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
 import { combineLatest, Subscription } from 'rxjs';
-import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant.js';
-import { NewsTagInterface } from '@user-models/news.model';
+import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service.js';
-import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component.js';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model.js';
-import { tagsListPlacesData } from './models/places-consts.js';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { tagsListPlacesData } from './models/places-consts';
 
 @Component({
   selector: 'app-places',
@@ -90,14 +88,15 @@ export class PlacesComponent implements OnInit, OnDestroy {
       this.updateIsActivePlaceFavorite();
 
       if (isFavoriteFilter) {
-        this.places = places.filter((place: Place) => {
-          return this.favoritePlaces.some((favoritePlace: Place) => favoritePlace.location.id === place.location.id);
-        });
+        this.places = places.filter((place: Place) =>
+          this.favoritePlaces.some((favoritePlace: Place) => favoritePlace.location.id === place.location.id)
+        );
       } else {
         this.places = places;
       }
     });
 
+    // eslint-disable-next-line no-extra-boolean-cast
     if (!!this.userId) {
       this.favoritePlaceService.updateFavoritePlaces(false);
     }
@@ -122,14 +121,14 @@ export class PlacesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public mapCenterChange(newValue: LatLngLiteral): void {
+  public mapCenterChange(newValue: any): void {
     this.position = {
       latitude: newValue.lat,
       longitude: newValue.lng
     };
   }
 
-  public mapBoundsChange(newValue: LatLngBounds): void {
+  public mapBoundsChange(newValue: any): void {
     this.mapBoundsDto = {
       northEastLat: newValue.getNorthEast().lat(),
       northEastLng: newValue.getNorthEast().lng(),
@@ -178,6 +177,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
         .afterClosed()
         .subscribe((data) => {
           this.userId = data;
+          // eslint-disable-next-line no-extra-boolean-cast
           if (!!data) {
             this.toggleFavoriteFromSideBar(place);
           }
@@ -276,9 +276,9 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   private updateIsActivePlaceFavorite(): void {
-    this.isActivePlaceFavorite = this.favoritePlaces.some((favoritePlace: Place) => {
-      return favoritePlace.location.id === this.activePlace?.location.id;
-    });
+    this.isActivePlaceFavorite = this.favoritePlaces.some(
+      (favoritePlace: Place) => favoritePlace.location.id === this.activePlace?.location.id
+    );
   }
 
   public getStars(rating: number): Array<string> {
@@ -314,7 +314,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
     );
   }
 
-  onLocationSelected(event: Location) {
+  onLocationSelected(event: Event | Location) {
     return;
   }
 

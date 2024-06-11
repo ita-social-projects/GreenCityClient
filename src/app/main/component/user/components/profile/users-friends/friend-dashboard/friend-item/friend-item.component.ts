@@ -108,14 +108,14 @@ export class FriendItemComponent implements OnInit {
     this.userFriendsService
       .addFriend(this.friend.id)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.snackBar.openSnackBar('addFriend');
           this.friend.friendStatus = 'REQUEST';
           this.friend.requesterId = this.currentUserId;
         },
-        (err) => console.error(err.message)
-      );
+        error: (err) => console.error(err.message)
+      });
   }
 
   public unsendFriendRequest(id: number): void {

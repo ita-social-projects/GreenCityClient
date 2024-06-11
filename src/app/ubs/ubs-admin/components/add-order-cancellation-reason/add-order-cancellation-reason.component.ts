@@ -34,10 +34,10 @@ export class AddOrderCancellationReasonComponent implements OnInit {
     public router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.isHistory = this.data.isHistory;
-    this.orderID = this.data.orderID;
-    this.cancellationReason = this.data.reason;
-    this.cancellationComment = this.data.comment;
+    this.isHistory = this.data?.isHistory;
+    this.orderID = this.data?.orderID;
+    this.cancellationReason = this.data?.reason;
+    this.cancellationComment = this.data?.comment;
   }
 
   ngOnInit(): void {
