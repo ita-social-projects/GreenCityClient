@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as SockJS from 'sockjs-client';
 import { environment } from '@environment/environment';
-import { CompatClient, IMessage, Stomp } from '@stomp/stompjs';
+import { CompatClient, IMessage, Stomp, StompSubscription } from '@stomp/stompjs';
 import { Message } from '../../model/Message.model';
 import { ChatsService } from '../chats/chats.service';
 import { User } from '../../model/User.model';
@@ -19,6 +19,7 @@ export class SocketService {
   private userId: number;
   private isOpenNewChat = false;
   private isOpenNewChatInWindow = false;
+  private subscriptions: StompSubscription[] = [];
 
   public updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
 
@@ -36,7 +37,7 @@ export class SocketService {
   }
 
   private onConnected() {
-    this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
+    const messagesSubs = this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
       const newMessage: Message = JSON.parse(data.body);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
       if (messages) {
@@ -44,12 +45,15 @@ export class SocketService {
         this.chatsService.currentChatMessagesStream$.next(messages.page);
       }
     });
-    this.stompClient.subscribe('/message/new-participant', (participant) => {
-      console.log(participant);
+    this.subscriptions.push(messagesSubs);
+
+    const newParticipantSubs = this.stompClient.subscribe('/message/new-participant', (participant) => {
       const newChatParticipant: User = JSON.parse(participant.body);
       this.chatsService.currentChat.participants.push(newChatParticipant);
     });
-    this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
+    this.subscriptions.push(newParticipantSubs);
+
+    const newChatSubs = this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
       const newUserChat = JSON.parse(newChat.body);
       const usersChats = [...this.chatsService.userChats, newUserChat];
       this.chatsService.userChatsStream$.next(usersChats);
@@ -66,6 +70,7 @@ export class SocketService {
         this.chatsService.setCurrentChat(newUserChat);
       }
     });
+    this.subscriptions.push(newChatSubs);
   }
 
   private onError(error) {
@@ -91,5 +96,14 @@ export class SocketService {
     this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
     this.isOpenNewChat = isOpen;
     this.isOpenNewChatInWindow = isOpenInWindow;
+  }
+
+  disconnect(): void {
+    this.subscriptions.forEach((subs) => {
+      if (subs) {
+        subs.unsubscribe();
+      }
+    });
+    this.stompClient.disconnect();
   }
 }
