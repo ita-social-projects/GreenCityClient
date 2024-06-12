@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Service } from '../../../../models/tariffs.interface';
@@ -86,21 +86,24 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
         Validators.pattern(Patterns.ServiceNamePattern),
         Validators.maxLength(255)
       ]),
-      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
+      price: new FormControl({ value: this.receivedData.serviceData.price }, [
+        Validators.required,
+        Validators.pattern(Patterns.ubsServiceBasicPrice)
+      ]),
       description: new FormControl({ value: this.receivedData.serviceData.description }, [Validators.maxLength(255), Validators.required]),
       descriptionEng: new FormControl(this.receivedData.serviceData.descriptionEng, [Validators.maxLength(255), Validators.required])
     });
   }
 
-  getControl(control: string): AbstractControl {
-    return this.addServiceForm.get(control);
+  getControl(control: string): FormControl {
+    return this.addServiceForm.get(control) as FormControl;
   }
 
-  get isDiscriptoinInvalid(): boolean {
+  isDescriptionInvalid(): boolean {
     return this.getControl('description').invalid && this.getControl('description').touched;
   }
 
-  get isDiscriptoinEnInvalid(): boolean {
+  isDescriptionEnInvalid(): boolean {
     return this.getControl('descriptionEng').invalid && this.getControl('descriptionEng').touched;
   }
 

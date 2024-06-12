@@ -27,12 +27,12 @@ export const Patterns = {
     '{3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]' +
     '|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])',
 
-  paymantAmountPattern: '^[0-9]+(.[0-9]{1,2})?$',
-  sertificateMonthCount: '^[0-9]{1,2}$',
-  sertificateInitialValue: '^[0-9]{1,4}$',
+  paymentAmountPattern: '^[0-9]+(.[0-9]{1,2})?$',
+  certificateMonthCount: '^[0-9]{1,2}$',
+  certificateInitialValue: '^[0-9]{1,4}$',
 
   ubsPrice: /^\d*[.]?\d{0,2}$/,
-  ubsServicePrice: /^\d*[.,]?\d{0,2}$/,
+  ubsServicePrice: /^[0-9]{1,6}([.,][0-9]{0,2})?$/,
   ubsServiceBasicPrice: /^[0-9.,]{1,8}$/,
 
   ubsWithDigitPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я0-9][іІєЄїЇёЁa-zA-Zа-яА-Я0-9\-,.ʼ'`ʹ)(! ]*$/iu,
@@ -47,7 +47,8 @@ export const Patterns = {
 
   urlLinkifyPattern: /(\bhttps?:\/\/[^<>\s]+\b)/gi,
   emailLinkifyPattern: /\b[^<>@\s]+@[^<>\s]+\b/gi,
-  phoneLinkifyPattern: /\+\d{10,}/g
+  phoneLinkifyPattern: /\+\d{10,}/g,
+  ubsServiceCapacity: /^[1-9]\d{0,2}$/
 };
 
 export const Masks = {

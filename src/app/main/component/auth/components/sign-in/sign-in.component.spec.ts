@@ -1,5 +1,5 @@
-import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
-import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
+import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
+import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { ErrorComponent } from '../error/error.component';
