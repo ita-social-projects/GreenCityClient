@@ -102,10 +102,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     if (this.orderInfo.generalOrderInfo.orderPaymentStatus !== PaymnetStatus.UNPAID) {
       this.orderDetailsForm.get('certificates').disable();
     }
-    this.orderDetailsForm.controls['certificates'].setValidators([
-      Validators.minLength(8),
-      Validators.pattern(Patterns.serteficatePattern)
-    ]);
+    this.orderDetailsForm.get('certificates').setValidators([Validators.minLength(8), Validators.pattern(Patterns.serteficatePattern)]);
   }
 
   public showWriteOffStationField(): boolean {
