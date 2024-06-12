@@ -70,6 +70,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   public isEmployeeCanEditPricingCard: boolean;
   public isEmployeeCanActivateDeactivate: boolean;
   public isEmployeeCanUseCrumbs: boolean;
+  public orderMaxLimit = { amount: 99999, sum: 9999999 };
 
   constructor(
     private injector: Injector,
@@ -123,8 +124,9 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   setMinValueValidation(minFormControl: AbstractControl, maxFormControl: AbstractControl): void {
+    const validatorLimit = maxFormControl === this.maxPriceOfOrder ? this.orderMaxLimit.sum : this.orderMaxLimit.amount;
     minFormControl.valueChanges.pipe(startWith(minFormControl.value)).subscribe((value) => {
-      maxFormControl.setValidators([Validators.min(value + 1)]);
+      maxFormControl.setValidators([Validators.min(value + 1), Validators.max(validatorLimit)]);
       maxFormControl.updateValueAndValidity();
     });
   }
@@ -134,9 +136,9 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       limitDescription: new FormControl(''),
       courierLimitsBy: new FormControl(this.limitStatus),
       minPriceOfOrder: new FormControl(null, [Validators.required, Validators.min(1)]),
-      maxPriceOfOrder: new FormControl(null),
+      maxPriceOfOrder: new FormControl(null, [Validators.max(this.orderMaxLimit.sum)]),
       minAmountOfBigBags: new FormControl(null, [Validators.required, Validators.min(1)]),
-      maxAmountOfBigBags: new FormControl(null)
+      maxAmountOfBigBags: new FormControl(null, [Validators.max(this.orderMaxLimit.amount)])
     });
   }
 
