@@ -32,7 +32,6 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding-bottom: 48px;
 
     .close-modal-window {
       display: flex;
@@ -51,12 +50,6 @@
       align-self: center;
       width: 370px;
     }
-  }
-}
-
-@media screen and (max-width: 1620px) {
-  .wrapper {
-    height: 680px;
   }
 }
 
