@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnChanges, Optional } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -36,9 +36,9 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
 
   public initForm(): void {
     this.formConfig = this.fb.group({
-      currentPassword: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.pattern(this.passRegexp)]],
-      confirmPassword: ['', [Validators.required]]
+      currentPassword: ['', [Validators.required, Validators.maxLength(20)]],
+      password: ['', [Validators.required, Validators.maxLength(20), Validators.pattern(this.passRegexp)]],
+      confirmPassword: ['', [Validators.required, Validators.maxLength(20)]]
     });
 
     if (this.hasPassword) {
