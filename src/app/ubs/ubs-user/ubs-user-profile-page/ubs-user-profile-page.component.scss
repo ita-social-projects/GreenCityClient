@@ -135,6 +135,7 @@ $inputwidth: 260px;
 
     .form-control {
       background-color: var(--ubs-primary-white);
+      border: 1px solid var(----ubs-lighter-grey) !important;
     }
 
     .recipientName {
