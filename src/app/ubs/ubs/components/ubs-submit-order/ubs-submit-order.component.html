@@ -16,11 +16,9 @@
           <ng-container *ngIf="bag.quantity">
             <span class="bag-name">{{ getLangValue(bag.name, bag.nameEng) }}</span>
             <span class="bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
-            <span class="bag-name">{{ bag.price | currency }} {{ 'order-details.currency' | translate }}</span>
+            <span class="bag-name">{{ bag.price }} {{ 'order-details.currency' | translate }}</span>
             <span class="bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
-            <span class="bag-name text-right orderSum">
-              {{ bag.quantity * bag.price | currency }} {{ 'order-details.currency' | translate }}
-            </span>
+            <span class="bag-name text-right orderSum"> {{ bag.quantity * bag.price }} {{ 'order-details.currency' | translate }} </span>
           </ng-container>
         </li>
       </ul>
@@ -32,13 +30,13 @@
             <p class="total-content" [class.d-none]="!orderSum">
               <span>{{ 'order-details.order-amount' | translate }} </span>
               <span>
-                <strong>{{ orderSum | currency }} {{ 'order-details.currency' | translate }}</strong>
+                <strong>{{ orderSum }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
             <p class="total-content" *ngIf="certificateUsed">
               <span>{{ 'order-details.certificate' | translate }} </span>
               <span>
-                <strong class="money-saved">-{{ certificateUsed | currency }} {{ 'order-details.currency' | translate }} </strong>
+                <strong class="money-saved">-{{ certificateUsed }} {{ 'order-details.currency' | translate }} </strong>
               </span>
             </p>
             <p class="total-content" *ngIf="pointsUsed">
@@ -50,7 +48,7 @@
             <p class="total-content">
               <span class="bold">{{ 'order-details.amount-due' | translate }} </span>
               <span>
-                <strong class="total-sum">{{ finalSum | currency }} {{ 'order-details.currency' | translate }}</strong>
+                <strong class="total-sum">{{ finalSum }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
           </div>
