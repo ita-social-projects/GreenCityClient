@@ -218,7 +218,7 @@
     cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="dropListDropped($event)"
     [dataSource]="dataSource"
-    *ngIf="!isLoading; else spinner"
+    *ngIf="!isLoading && dataSource; else spinner"
     aria-label="ordersTable"
   >
     <ng-container *ngFor="let column of displayedColumnsView; let i = index" [matColumnDef]="column.title.key" [sticky]="column.sticky">
