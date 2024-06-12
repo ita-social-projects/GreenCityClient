@@ -23,12 +23,15 @@ describe('UbsAdminRedirectGuard', () => {
   describe('canActivate', () => {
     it('should return true when the user is not an admin', () => {
       spyOn(jwtService, 'getUserRole').and.returnValue('ROLE_USER');
+      spyOn(jwtService.userRole$, 'getValue').and.returnValue('ROLE_USER');
       const result = guard.canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot);
       expect(result).toBeTruthy();
     });
 
     it('should navigate to /ubs-admin/orders and return false when the user is an admin', () => {
       spyOn(jwtService, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
+      spyOn(jwtService.userRole$, 'getValue').and.returnValue('ROLE_UBS_EMPLOYEE');
+
       const result = guard.canActivate({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot);
       expect(result).toBeTruthy();
     });

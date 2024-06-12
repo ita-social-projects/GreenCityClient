@@ -168,7 +168,7 @@
             </ul>
             <ng-container *ngIf="isLoggedIn">
               <ul
-                class="tertiary-global-button"
+                [ngClass]="isLoggedIn ? 'tertiary-global-button' : ''"
                 id="header_user-wrp"
                 role="menu"
                 tabindex="0"
@@ -181,12 +181,11 @@
                   'ubs-user-cabinet': isUBS,
                   'ubs-admin-cabinet': isAdmin
                 }"
-                (click)="toggleDropdown()"
                 (clickOutSide)="autoCloseUserDropDown($event)"
                 (keyup.enter)="toggleDropdown()"
               >
                 <li [ngClass]="isAdmin ? 'admin-list-item' : 'list-item'" role="listitem">
-                  <a [ngClass]="isUBS ? 'ubs-header_user-name' : 'header_user-name'" aria-hidden="true">
+                  <a [ngClass]="isUBS ? 'ubs-header_user-name' : 'header_user-name'" (click)="toggleDropdown()" aria-hidden="true">
                     <img src="../assets/img/events/user.svg" alt="log-in user" />
                   </a>
                 </li>

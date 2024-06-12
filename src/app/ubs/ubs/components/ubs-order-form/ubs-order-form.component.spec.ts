@@ -5,15 +5,22 @@ import { UBSOrderFormComponent } from './ubs-order-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
+import { of } from 'rxjs';
 
 describe('UBSOrderFormComponent ', () => {
   let component: UBSOrderFormComponent;
   let fixture: ComponentFixture<UBSOrderFormComponent>;
 
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: { orderDetails: [] } }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, MatStepperModule, TranslateModule.forRoot(), BrowserAnimationsModule],
       declarations: [UBSOrderFormComponent],
+      providers: [provideMockStore({}), { provide: Store, useValue: storeMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

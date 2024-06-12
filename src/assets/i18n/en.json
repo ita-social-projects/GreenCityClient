@@ -360,6 +360,10 @@
       "submit": "Submit",
       "close": "Close"
     },
+    "warning": {
+      "massage": "Attention! Our website is in testing mode. Have you noticed a bug? Please leave your feedback and we will improve our service as soon as possible.",
+      "button": "Feedback"
+    },
     "auth": {
       "sign-in": {
         "title": "Welcome back!",
@@ -998,5 +1002,9 @@
     "text-2": "Nice and sound",
     "text-3": "Good job!",
     "text-finish": "Thank you !!!"
+  },
+  "chat": {
+    "messages": "Messages",
+    "support-chat": "Support-chat"
   }
 }

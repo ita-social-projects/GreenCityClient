@@ -97,6 +97,7 @@ import { ConfirmationDialogComponent } from './components/shared/components/conf
 import { TariffSelectorComponent } from './components/ubs-admin-employee/ubs-admin-employee-edit-form/tariff-selector/tariff-selector.component';
 import { ClickOutsideDirective } from './derictives/clickOutside.directive';
 import { MatMenuModule } from '@angular/material/menu';
+import { ChatModule } from 'src/app/chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -207,7 +208,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatChipsModule,
     MatSelectModule,
     MatExpansionModule,
-    CdkAccordionModule
+    CdkAccordionModule,
+    ChatModule
   ],
   providers: [
     AdminCertificateService,

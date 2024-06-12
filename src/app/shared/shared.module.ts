@@ -43,6 +43,7 @@ import { MaxTextLengthPipe } from './max-text-length-pipe/max-text-length.pipe';
 import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizable-bottom-sheet.component';
 import { UploadPhotoContainerComponent } from './upload-photo-container/upload-photo-container.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { LinkifyDirective } from './directives/linkify.directive';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ResizableBottomSheetComponent,
     UploadPhotoContainerComponent,
     CorrectUnitPipe,
-    SafeHtmlTransformPipe
+    SafeHtmlTransformPipe,
+    LinkifyDirective
   ],
   imports: [
     CommonModule,
@@ -124,7 +126,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     MaxTextLengthPipe,
     CorrectUnitPipe,
     SafeHtmlTransformPipe,
-    ResizableBottomSheetComponent
+    ResizableBottomSheetComponent,
+    LinkifyDirective
   ]
 })
 export class SharedModule {}

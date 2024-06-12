@@ -2,6 +2,7 @@
   width: 100%;
   padding: 12px 0;
   display: flex;
+  padding-left: 80px;
   background-color: var(--ubs-secondary-dark-green);
   font-family: var(--ubs-secondary-font);
 
@@ -94,6 +95,8 @@
 
 @media (min-width: 576px) and (max-width: 768px) {
   .footer {
+    padding-left: 50px;
+
     &-menu {
       margin: 0;
 
@@ -135,6 +138,8 @@
 
 @media (max-width: 576px) {
   .footer {
+    padding-left: 50px;
+
     .container-fluid {
       display: flex;
       flex-direction: column;

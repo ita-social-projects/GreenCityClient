@@ -54,7 +54,6 @@
         }
 
         .header-price {
-          width: inherit;
           width: 100%;
           height: 129px;
           display: flex;
@@ -291,8 +290,8 @@
       button {
         font-family: var(--ubs-secondary-font);
         border-radius: 6px;
-        font-weight: 700;
-        text-transform: lowercase;
+        font-weight: 600;
+        text-transform: uppercase;
       }
 
       .main-caption {
@@ -321,10 +320,7 @@
     font-weight: 700;
     line-height: 34px;
     margin-top: 25px;
-
-    &::first-letter {
-      text-transform: capitalize;
-    }
+    text-transform: uppercase;
 
     &:hover {
       background-color: var(--ubs-tertiary-dark-green);
@@ -1236,8 +1232,10 @@ section .main-container {
             margin: 0;
             width: 325px;
             height: 59px;
-            font-size: 22px;
-            line-height: 27px;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 22px;
+            text-transform: uppercase;
           }
 
           .link-to-shop {
@@ -1539,7 +1537,7 @@ section .main-container {
         }
 
         #how-works-content {
-          margin-top: 40px 0 0 0;
+          margin-top: 40px;
           height: 100%;
 
           button {

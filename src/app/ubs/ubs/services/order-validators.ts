@@ -20,47 +20,48 @@ export function uniqueArrayValidator(): ValidatorFn {
 
 export function courierLimitValidator(bags: Bag[], courierInfo: ICourierInfo): ValidatorFn {
   return (group: FormGroup): ValidationErrors | null => {
-    for (const bag of bags.filter((el) => el.limitedIncluded)) {
-      if (group.get(`quantity${bag.id}`)) {
-        const quantity = +group.get(`quantity${bag.id}`)?.value;
-        const validationError = validate(bag, courierInfo, quantity);
-
-        return validationError;
-      }
+    const filtredBags = bags.filter((el) => el.limitedIncluded);
+    if (courierInfo.courierLimit === 'LIMIT_BY_AMOUNT_OF_BAG') {
+      return validateAmountLimit(filtredBags, group, courierInfo);
+    } else if (courierInfo.courierLimit === 'LIMIT_BY_SUM_OF_ORDER') {
+      return validateSumLimit(filtredBags, group, courierInfo);
     }
-
     return null;
   };
 }
 
-function validate(bag: Bag, courierInfo: ICourierInfo, quantity: number): ValidationErrors | null {
-  if (courierInfo.courierLimit === 'LIMIT_BY_AMOUNT_OF_BAG') {
-    return validateAmountLimit(courierInfo, quantity);
-  } else if (courierInfo.courierLimit === 'LIMIT_BY_SUM_OF_ORDER') {
-    return validateSumLimit(bag, courierInfo, quantity);
-  }
+function validateAmountLimit(filtredBags: Bag[], group, courierInfo: ICourierInfo): ValidationErrors | null {
+  const orderBagAmount = filtredBags.reduce((amount, bag) => {
+    if (group.get(`quantity${bag.id}`)) {
+      const quantity = +group.get(`quantity${bag.id}`)?.value;
+      amount += quantity;
+    }
+    return amount;
+  }, 0);
+  const message = { min: 'order-details.min-big-bags', max: 'order-details.max-big-bags' };
 
-  return null;
+  return setErrors(filtredBags, courierInfo, orderBagAmount, message);
 }
 
-function validateAmountLimit(courierInfo: ICourierInfo, quantity: number): ValidationErrors | null {
-  if (quantity < courierInfo.min) {
-    return { courierLimitError: true, message: 'order-details.min-big-bags', value: courierInfo.min };
-  } else if (quantity > courierInfo.max) {
-    return { courierLimitError: true, message: 'order-details.max-big-bags', value: courierInfo.max };
-  }
+function validateSumLimit(filtredBags: Bag[], group, courierInfo: ICourierInfo): ValidationErrors | null {
+  const orderSum = filtredBags.reduce((sum, bag) => {
+    if (group.get(`quantity${bag.id}`) && bag.price) {
+      const quantity = +group.get(`quantity${bag.id}`)?.value;
+      sum += quantity * bag.price;
+    }
+    return sum;
+  }, 0);
+  const message = { min: 'order-details.min-sum', max: 'order-details.max-sum' };
 
-  return null;
+  return setErrors(filtredBags, courierInfo, orderSum, message);
 }
 
-function validateSumLimit(bag: Bag, courierInfo: ICourierInfo, quantity: number): ValidationErrors | null {
-  const sum = quantity * bag.price;
-
-  if (sum < courierInfo.min) {
-    return { courierLimitError: true, message: 'order-details.min-sum', value: courierInfo.min };
-  } else if (sum > courierInfo.max) {
-    return { courierLimitError: true, message: 'order-details.max-sum', value: courierInfo.max };
+function setErrors(filtredBags: Bag[], courierInfo: ICourierInfo, limitValue: number, message): ValidationErrors | null {
+  const bagsList = filtredBags.map((el) => el.capacity).join(', ');
+  if (courierInfo.min && limitValue < courierInfo.min) {
+    return { courierLimitError: true, message: message.min, value: { totalLimit: courierInfo.min, bags: bagsList } };
+  } else if (courierInfo.max && limitValue > courierInfo.max) {
+    return { courierLimitError: true, message: message.max, value: { totalLimit: courierInfo.max, bags: bagsList } };
   }
-
   return null;
 }

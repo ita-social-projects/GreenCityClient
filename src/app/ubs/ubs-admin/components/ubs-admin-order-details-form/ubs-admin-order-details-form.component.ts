@@ -40,6 +40,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public isOrderDone = false;
   public isOrderNotTakenOut = false;
   isDisabledWriteOffStation = false;
+  masks = Masks;
 
   @Output() deleteNumberOrderFromEcoShopChanged = new EventEmitter<boolean>();
   @Output() changeOverpayment = new EventEmitter<number>();
@@ -101,6 +102,10 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     if (this.orderInfo.generalOrderInfo.orderPaymentStatus !== PaymnetStatus.UNPAID) {
       this.orderDetailsForm.get('certificates').disable();
     }
+    this.orderDetailsForm.controls['certificates'].setValidators([
+      Validators.minLength(8),
+      Validators.pattern(Patterns.serteficatePattern)
+    ]);
   }
 
   public showWriteOffStationField(): boolean {

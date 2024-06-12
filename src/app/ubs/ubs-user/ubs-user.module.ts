@@ -33,6 +33,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UbsSwitcherComponent } from './ubs-user-profile-page/ubs-switcher/ubs-switcher.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { LayoutModule } from '@angular/cdk/layout';
+import { ChatModule } from 'src/app/chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatRadioModule,
     MatAutocompleteModule,
     MatDialogModule,
-    LayoutModule
+    LayoutModule,
+    ChatModule
   ],
   providers: [
     {

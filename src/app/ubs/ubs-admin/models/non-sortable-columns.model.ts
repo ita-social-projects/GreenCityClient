@@ -10,7 +10,7 @@ export const nonSortableColumns = [
   'commentForOrderByClient',
   'orderCertificateCode',
   'idOrderFromShop',
-  'bagAmount',
+  'bagsAmount',
   'phone_number',
   'recipient_phone',
   'comment_to_address_for_client',

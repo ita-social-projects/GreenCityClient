@@ -12,3 +12,7 @@ export interface Messages {
   totalElements: number;
   totalPages: number;
 }
+
+export interface MessagesToSave extends Messages {
+  newMessagesAmount?: number;
+}
