@@ -118,7 +118,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   setMinValueValidation(minFormControl: AbstractControl, maxFormControl: AbstractControl): void {
-    let validatorLimit = maxFormControl === this.maxPriceOfOrder ? this.orderMaxLimit.sum : this.orderMaxLimit.amount;
+    const validatorLimit = maxFormControl === this.maxPriceOfOrder ? this.orderMaxLimit.sum : this.orderMaxLimit.amount;
     minFormControl.valueChanges.pipe(startWith(minFormControl.value)).subscribe((value) => {
       maxFormControl.setValidators([Validators.min(value + 1), Validators.max(validatorLimit)]);
       maxFormControl.updateValueAndValidity();
