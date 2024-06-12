@@ -95,7 +95,7 @@
             type="tel"
             class="form-control recipientPhone"
             id="recipientPhone"
-            [formControl]="userForm.controls['recipientPhone']"
+            [formControl]="getControl('recipientPhone')"
             placeholder="+380__ ___ __ __"
             [unmask]="true"
             [imask]="{ mask: phoneMask }"
@@ -160,11 +160,11 @@
                 <p>{{ getLangValue(address.value?.street, address.value?.streetEn) }}</p>
               </div>
               <div class="form-group input-margin">
-                <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
+                <label for="houseNumber" class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
                 <p>{{ address.value?.houseNumber }}</p>
               </div>
               <div class="form-group input-margin">
-                <label for="houseCorpus " class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
+                <label for="houseCorpus" class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
                 <p>{{ address.value?.houseCorpus }}</p>
               </div>
               <div class="form-group">
@@ -190,6 +190,7 @@
               <div class="form-group input-margin region">
                 <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
                 <input
+                  id="region"
                   ngx-google-places-autocomplete
                   type="text"
                   class="shadow-none form-control"
@@ -206,6 +207,7 @@
               <div class="form-group city">
                 <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
                 <input
+                  id="city"
                   (input)="setPredictCities(i)"
                   (click)="emptyPredictLists()"
                   [formControlName]="getLangValue('city', 'cityEn')"
@@ -232,6 +234,7 @@
               <div class="form-group input-margin street">
                 <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
                 <input
+                  id="street"
                   (input)="setPredictStreets(i)"
                   (click)="emptyPredictLists()"
                   type="text"
@@ -255,7 +258,7 @@
                 </div>
               </div>
               <div class="form-group input-margin houseNumber">
-                <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
+                <label for="houseNumber" class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
                 <input
                   id="houseNumber"
                   type="text"
@@ -281,7 +284,7 @@
                 </div>
               </div>
               <div class="form-group input-margin houseCorpus">
-                <label for="houseCorpus " class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
+                <label for="houseCorpus" class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
                 <input type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
                 <div *ngIf="address.get('houseCorpus').invalid && address.get('houseCorpus').touched">
                   <app-ubs-input-error [formElement]="address.get('houseCorpus')"> </app-ubs-input-error>
@@ -302,6 +305,7 @@
               <div class="form-group district">
                 <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
                 <select
+                  id="district"
                   [formControlName]="getLangValue('district', 'districtEn')"
                   class="shadow-none form-control district"
                   (change)="onDistrictSelected(i)"

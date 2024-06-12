@@ -25,7 +25,6 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   isLoadSmallSpinner: boolean;
   isLoadBar: boolean;
   images = [];
-  public countOfMessages: number;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   destroy: Subject<boolean> = new Subject<boolean>();
   localization = {
