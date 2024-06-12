@@ -126,6 +126,7 @@
                 class="input"
                 type="number"
                 min="1"
+                [max]="orderMaxLimit.sum"
                 (keypress)="checkOnNumber($event, minPriceOfOrder)"
                 id="from"
                 formControlName="minPriceOfOrder"
@@ -164,7 +165,7 @@
                 (keypress)="checkOnNumber($event, minBigBags)"
                 id="from-packages"
                 formControlName="minAmountOfBigBags"
-                placeholder="20"
+                placeholder="0"
                 [ngClass]="{ invalid: !!minBigBags?.errors && limitStatus === limitEnum.limitByAmountOfBag }"
               />
               <span class="line">-</span>
@@ -172,10 +173,11 @@
                 class="input"
                 type="number"
                 min="2"
+                [max]="orderMaxLimit.amount"
                 (keypress)="checkOnNumber($event, maxBigBags)"
                 id="to-packages"
                 formControlName="maxAmountOfBigBags"
-                placeholder="20"
+                placeholder="0"
                 [ngClass]="{ invalid: !!maxBigBags?.errors && limitStatus === limitEnum.limitByAmountOfBag }"
               />
               <label id="label-limit" for="to-packages"></label>
