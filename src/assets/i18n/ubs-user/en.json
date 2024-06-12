@@ -10,7 +10,7 @@
     "title": "Your messages",
     "title-table": {
       "number": "№ order",
-      "theme-messages": "Theme messages",
+      "theme-messages": "Message subject",
       "time": "Time"
     }
   },
