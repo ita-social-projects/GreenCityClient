@@ -76,6 +76,13 @@ describe('ErrorComponent ', () => {
     expect(component.errorMessage).toBe('input-error.max-length-comment');
   });
 
+  it('errorMessage should have correct value if we have maxlength error in change password form fields', () => {
+    Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 20 } } } });
+    fixture.detectChanges();
+    component.getType();
+    expect(component.errorMessage).toBe('input-error.max-length-password');
+  });
+
   it('errorMessage should have correct value if we have required error', () => {
     Object.assign(component, { formElement: { errors: { required: true } } });
     fixture.detectChanges();
