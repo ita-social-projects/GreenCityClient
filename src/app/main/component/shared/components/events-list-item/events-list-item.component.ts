@@ -34,7 +34,8 @@ import { EventStoreService } from '../../../events/services/event-store.service'
 @Component({
   selector: 'app-events-list-item',
   templateUrl: './events-list-item.component.html',
-  styleUrls: ['./events-list-item.component.scss', './events-list-item-user.component.scss']
+  styleUrls: ['./events-list-item.component.scss', './events-list-item-user.component.scss'],
+  providers: [EventStoreService]
 })
 export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventListResponse;
