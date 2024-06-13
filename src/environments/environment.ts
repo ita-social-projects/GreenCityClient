@@ -6,7 +6,7 @@ export const environment = {
   backendChatLink: 'https://greencity-chat.greencity.cx.ua/',
   backendUserLink: 'https://greencity-user.greencity.cx.ua/',
   backendUbsLink: 'https://greencity-ubs.greencity.cx.ua/',
-  frontendLink: 'https://www.greencity.social/',
+  frontendLink: 'https://www.greencity.cx.ua/',
   socket: 'https://greencity.greencity.cx.ua/socket',
   userSocket: 'https://greencity-user.greencity.cx.ua/socket',
   chatSocket: 'https://greencity-chat.greencity.cx.ua/socket',
