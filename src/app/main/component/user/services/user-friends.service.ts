@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environment/environment';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
-import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel, UserDataAsFriend } from '@global-user/models/friend.model';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { Observable } from 'rxjs';
 
@@ -79,6 +79,10 @@ export class UserFriendsService {
 
   public unsendFriendRequest(idFriend: number): Observable<object> {
     return this.http.delete<object>(`${this.urlFriend}friends/${idFriend}/cancelRequest`, {});
+  }
+
+  public getUserDataAsFriend(idFriend: number): Observable<UserDataAsFriend> {
+    return this.http.get<UserDataAsFriend>(`${this.urlFriend}friends/user-data-as-friend/${idFriend}`);
   }
 
   addedFriendsToHabit(friend) {
