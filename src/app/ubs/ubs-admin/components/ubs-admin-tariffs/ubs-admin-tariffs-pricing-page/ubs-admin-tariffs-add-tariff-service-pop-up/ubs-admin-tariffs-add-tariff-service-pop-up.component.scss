@@ -1,18 +1,19 @@
 @import '../../ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
 
 .description-input {
-  width: 220px;
+  width: 228px;
   height: 196px;
   padding: 8px;
   font-size: 14px;
   line-height: 20px;
   display: block;
   resize: none;
+  border-radius: 0.25rem;
 }
 
 .courier-input,
 .capacity-input {
-  width: 95px;
+  width: 108px;
   height: 2.25rem;
   font-size: 0.9rem;
   color: var(--ubs-quaternary-dark-grey);
@@ -35,6 +36,7 @@
 
 .description-input-wrapper {
   border: 1px solid var(--ubs-primary-red);
+  border-radius: 0.25rem;
 }
 
 .btn {
@@ -44,7 +46,7 @@
 }
 
 .form-group {
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 input[type='number'] {
@@ -61,4 +63,8 @@ input[type='number']:hover,
 input[type='number']:focus {
   appearance: none;
   -moz-appearance: textfield;
+}
+
+.left-tariff-input {
+  margin-left: 12px;
 }

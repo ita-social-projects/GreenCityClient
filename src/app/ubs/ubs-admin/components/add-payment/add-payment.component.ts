@@ -117,7 +117,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
         this.payment?.settlementdate ? formatDate(this.convertDate(this.payment.settlementdate), 'yyyy-MM-dd', 'ua') : null,
         [Validators.required]
       ],
-      amount: [this.payment?.amount ?? '', [Validators.required, Validators.pattern(Patterns.paymantAmountPattern)]],
+      amount: [this.payment?.amount ?? '', [Validators.required, Validators.pattern(Patterns.paymentAmountPattern)]],
       paymentId: [this.payment?.paymentId ?? '', [Validators.required]],
       receiptLink: [this.payment?.receiptLink ?? '']
     });

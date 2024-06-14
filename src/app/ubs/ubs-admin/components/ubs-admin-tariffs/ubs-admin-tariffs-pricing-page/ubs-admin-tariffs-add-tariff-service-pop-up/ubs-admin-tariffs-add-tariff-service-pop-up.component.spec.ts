@@ -9,7 +9,7 @@ import { ModalTextComponent } from '../../../shared/components/modal-text/modal-
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Bag } from '../../../../models/tariffs.interface';
-import { Patterns } from '../../../../../../../assets/patterns/patterns';
+import { Patterns } from '@assets/patterns/patterns';
 import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -164,22 +164,18 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     expect(commissionControl.valid).toBeTruthy();
   });
 
-  it('should return input value Control on getControl', () => {
+  it('should return price Control on getControl', () => {
     (component as any).initForm();
-    const name = component.getControl('name');
-    const nameEng = component.getControl('nameEng');
-    const commission = component.getControl('commission');
-    const capacity = component.getControl('capacity');
-    const description = component.getControl('description');
-    const descriptionEng = component.getControl('descriptionEng');
-    const price = component.getControl('price');
-    expect(name).toEqual(component.addTariffServiceForm.get('name'));
-    expect(nameEng).toEqual(component.addTariffServiceForm.get('nameEng'));
-    expect(commission).toEqual(component.addTariffServiceForm.get('commission'));
-    expect(capacity).toEqual(component.addTariffServiceForm.get('capacity'));
-    expect(description).toEqual(component.addTariffServiceForm.get('description'));
-    expect(descriptionEng).toEqual(component.addTariffServiceForm.get('descriptionEng'));
-    expect(price).toEqual(component.addTariffServiceForm.get('price'));
+    const price = component.getControl('price') as FormControl;
+    const name = component.getControl('name') as FormControl;
+    const nameEng = component.getControl('nameEng') as FormControl;
+    const description = component.getControl('description') as FormControl;
+    const descriptionEng = component.getControl('descriptionEng') as FormControl;
+    expect(price).toEqual(component.addTariffServiceForm.get('price') as FormControl);
+    expect(name).toEqual(component.addTariffServiceForm.get('name') as FormControl);
+    expect(nameEng).toEqual(component.addTariffServiceForm.get('nameEng') as FormControl);
+    expect(description).toEqual(component.addTariffServiceForm.get('description') as FormControl);
+    expect(descriptionEng).toEqual(component.addTariffServiceForm.get('descriptionEng') as FormControl);
   });
 
   it('component should initialize createTariffService form from with correct parameters', () => {

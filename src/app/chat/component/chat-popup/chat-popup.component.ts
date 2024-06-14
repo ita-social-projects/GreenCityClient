@@ -68,5 +68,6 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
+    this.socketService.disconnect();
   }
 }

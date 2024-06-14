@@ -53,13 +53,13 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
       code: new FormControl('', [Validators.required, Validators.pattern(this.certificatePattern)]),
       monthCount: new FormControl('', [
         Validators.required,
-        Validators.pattern(Patterns.sertificateMonthCount),
+        Validators.pattern(Patterns.certificateMonthCount),
         Validators.max(12),
         Validators.min(1)
       ]),
       initialPointsValue: new FormControl('', [
         Validators.required,
-        Validators.pattern(Patterns.sertificateInitialValue),
+        Validators.pattern(Patterns.certificateInitialValue),
         Validators.min(1),
         Validators.max(9999.99)
       ])
