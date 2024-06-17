@@ -96,6 +96,7 @@ import { ClickOutsideDirective } from './derictives/clickOutside.directive';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 
 @NgModule({
   declarations: [
@@ -208,6 +209,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   providers: [
     AdminCertificateService,
     TranslateService,
+    UnsavedChangesGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,

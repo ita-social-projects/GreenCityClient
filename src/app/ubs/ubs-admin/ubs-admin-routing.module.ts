@@ -14,6 +14,7 @@ import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-custome
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { UbsAdminNotificationListComponent } from './components/ubs-admin-notification-list/ubs-admin-notification-list.component';
 import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
+import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 
 const ubsAdminRoutes: Routes = [
   {
@@ -25,7 +26,7 @@ const ubsAdminRoutes: Routes = [
       { path: 'customers/:username', component: UbsAdminCustomerDetailsComponent },
       { path: 'certificates', component: UbsAdminCertificateComponent },
       { path: 'orders', component: UbsAdminTableComponent },
-      { path: 'order/:id', component: UbsAdminOrderComponent },
+      { path: 'order/:id', component: UbsAdminOrderComponent, canDeactivate: [UnsavedChangesGuard] },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
       { path: 'tariffs', component: UbsAdminTariffsLocationDashboardComponent },
       { path: `tariffs/location/:id`, component: UbsAdminTariffsPricingPageComponent },

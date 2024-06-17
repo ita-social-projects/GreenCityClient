@@ -1,15 +1,14 @@
-import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, Injector, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, Injector, ViewChild, HostListener } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
-import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import {
@@ -38,6 +37,7 @@ import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enu
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { AdminTableService } from '../../services/admin-table.service';
 import { TableKeys } from '../../services/table-keys.enum';
+import { UnsavedChangesGuard } from '@ubs/ubs-admin/guards/unsaved-changes.guard';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -102,7 +102,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     private injector: Injector,
     private store: Store<IAppState>,
     private googleScript: GoogleScript,
-    public ubsAdminEmployeeService: UbsAdminEmployeeService
+    public ubsAdminEmployeeService: UbsAdminEmployeeService,
+    private unsavedChangesGuard: UnsavedChangesGuard
   ) {
     this.matSnackBar = injector.get<MatSnackBarComponent>(MatSnackBarComponent);
     this.orderService = injector.get<OrderService>(OrderService);
@@ -365,10 +366,34 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       });
   }
 
+  canDeactivate(): boolean | Observable<boolean> {
+    console.log('Checking form dirty state and submission status');
+    console.log('Form dirty:', this.orderForm.dirty);
+    console.log('Form submitted:', this.isSubmitted);
+
+    if (!this.orderForm.dirty || this.isSubmitted) {
+      this.adminTableService.cancelEdit([this.orderId]).subscribe();
+      return true;
+    } else {
+      return this.unsavedChangesGuard.openConfirmDialog(this.getDataForGuard());
+    }
+  }
+
+  private getDataForGuard(): { orderIds: number[] } {
+    return {
+      orderIds: [this.orderId]
+    };
+  }
+
   goBack(): void {
-    this.orderForm.dirty && !this.isSubmitted
-      ? this.dialog.open(UbsAdminGoBackModalComponent, { hasBackdrop: true })
-      : this.router.navigate(['ubs-admin', 'orders']);
+    this.router.navigate(['ubs-admin', 'orders']);
+  }
+
+  @HostListener('window:beforeunload')
+  unloadNotification($event: any): void {
+    if (!this.canDeactivate()) {
+      $event.returnValue = true;
+    }
   }
 
   onChangedOrderStatus(status: string) {
