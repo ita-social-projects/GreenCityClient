@@ -1,0 +1,20 @@
+<div class="friend-btn" (click)="handleAction($event)" (keydown)="handleAction($event)">
+  <button [id]="userAsFriend?.chatId ? 'openChatButton' : 'createChatButton'" class="secondary-global-button m-btn chat-btn">
+    {{ (userAsFriend?.chatId ? 'profile.friends.open-chat' : 'profile.friends.create-chat') | translate }}
+  </button>
+  <button id="addFriend" *ngIf="canAddFriend" class="secondary-global-button m-btn">
+    {{ 'profile.friends.add-new-friend' | translate }}
+  </button>
+  <button id="cancelRequest" *ngIf="canCancelRequest" class="secondary-global-button m-btn">
+    {{ 'profile.friends.cancel-friend-request' | translate }}
+  </button>
+  <button id="deleteFriend" *ngIf="canDeleteFriend" class="secondary-global-button m-btn">
+    {{ 'profile.friends.delete-friend' | translate }}
+  </button>
+  <button id="declineRequest" *ngIf="canAcceptDeclineRequest" class="secondary-global-button m-btn">
+    {{ 'profile.friends.request-decline' | translate }}
+  </button>
+  <button id="acceptRequest" *ngIf="canAcceptDeclineRequest" class="secondary-global-button m-btn">
+    {{ 'profile.friends.request-accept' | translate }}
+  </button>
+</div>
