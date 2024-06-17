@@ -1,4 +1,4 @@
-import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel, FriendStatusValues } from '@global-user/models/friend.model';
 
 export const FIRSTFRIEND: FriendModel = {
   id: 1,
@@ -9,7 +9,7 @@ export const FIRSTFRIEND: FriendModel = {
   userLocationDto: { cityUa: 'Місто' },
   mutualFriends: 5,
   email: 'name@mail.com',
-  friendStatus: 'FRIEND',
+  friendStatus: FriendStatusValues.FRIEND,
   chatId: 2
 } as FriendModel;
 
@@ -22,7 +22,7 @@ export const SECONDFRIEND: FriendModel = {
   userLocationDto: { cityUa: 'Місто' },
   mutualFriends: 5,
   email: 'name2@mail.com',
-  friendStatus: 'FRIEND',
+  friendStatus: FriendStatusValues.FRIEND,
   chatId: 2
 } as FriendModel;
 
@@ -35,7 +35,7 @@ export const THIRDDFRIEND: FriendModel = {
   userLocationDto: { cityUa: 'Місто' },
   mutualFriends: 5,
   email: 'name2@mail.com',
-  friendStatus: 'FRIEND',
+  friendStatus: FriendStatusValues.FRIEND,
   chatId: 2
 } as FriendModel;
 

@@ -4,7 +4,7 @@ import { environment } from '@environment/environment';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { FriendArrayModel, FriendModel, UserDataAsFriend } from '@global-user/models/friend.model';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,7 @@ export class UserFriendsService {
       'Content-Type': 'application/json'
     })
   };
+  removeFriendSubj$: Subject<number> = new Subject<number>();
 
   constructor(private http: HttpClient) {}
 
