@@ -37,7 +37,7 @@ import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enu
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { AdminTableService } from '../../services/admin-table.service';
 import { TableKeys } from '../../services/table-keys.enum';
-import { UnsavedChangesGuard } from '@ubs/ubs-admin/guards/unsaved-changes.guard';
+import { UnsavedChangesGuard } from '@ubs/ubs-admin/unsaved-changes-guard.guard';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -103,7 +103,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     private store: Store<IAppState>,
     private googleScript: GoogleScript,
     public ubsAdminEmployeeService: UbsAdminEmployeeService,
-    private unsavedChangesGuard: UnsavedChangesGuard
+    public unsavedChangesGuard: UnsavedChangesGuard
   ) {
     this.matSnackBar = injector.get<MatSnackBarComponent>(MatSnackBarComponent);
     this.orderService = injector.get<OrderService>(OrderService);
@@ -367,11 +367,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   canDeactivate(): boolean | Observable<boolean> {
-    console.log('Checking form dirty state and submission status');
-    console.log('Form dirty:', this.orderForm.dirty);
-    console.log('Form submitted:', this.isSubmitted);
-
-    if (!this.orderForm.dirty || this.isSubmitted) {
+    if (!this.orderForm.dirty) {
       this.adminTableService.cancelEdit([this.orderId]).subscribe();
       return true;
     } else {
@@ -379,7 +375,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
   }
 
-  private getDataForGuard(): { orderIds: number[] } {
+  getDataForGuard(): { orderIds: number[] } {
     return {
       orderIds: [this.orderId]
     };

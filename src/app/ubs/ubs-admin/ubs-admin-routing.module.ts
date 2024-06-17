@@ -14,7 +14,7 @@ import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-custome
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { UbsAdminNotificationListComponent } from './components/ubs-admin-notification-list/ubs-admin-notification-list.component';
 import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
-import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
+import { UnsavedChangesGuard } from './unsaved-changes-guard.guard';
 
 const ubsAdminRoutes: Routes = [
   {
