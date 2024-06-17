@@ -14,31 +14,31 @@ import { limitStatus } from '../ubs-admin-tariffs/ubs-tariffs.enum';
 })
 export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   private CAPACITY_OF_BIG_BAG = 120;
-  public LIMIT_OF_ECO_SHOP_NUMBERS = 5;
-  public SHOP_NUMBER_MASK = Masks.ecoStoreMask;
-  public SHOP_NUMBER_PATTERN = Patterns.ordersPattern;
-  public amountOfBigBags: number;
-  public payMore = true;
-  public isInputDisabled = false;
-  public isVisible: boolean;
+  LIMIT_OF_ECO_SHOP_NUMBERS = 5;
+  SHOP_NUMBER_MASK = Masks.ecoStoreMask;
+  SHOP_NUMBER_PATTERN = Patterns.ordersPattern;
+  amountOfBigBags: number;
+  payMore = true;
+  isInputDisabled = false;
+  isVisible: boolean;
   isOrderBroughtByHimself = false;
-  public bagsInfo;
-  public orderDetails: IOrderDetails;
-  public overpayment: number;
-  public overpaymentMessage: string;
-  public buyMore = false;
-  public showUbsCourier = false;
-  public limitMsg;
-  public limitAmount;
+  bagsInfo;
+  orderDetails: IOrderDetails;
+  overpayment: number;
+  overpaymentMessage: string;
+  buyMore = false;
+  showUbsCourier = false;
+  limitMsg;
+  limitAmount;
   isOrderCancelledAfterFormed = false;
-  public courierPrice: number;
-  public writeoffAtStationSum: number;
-  public isOrderCancelled = false;
+  courierPrice: number;
+  writeoffAtStationSum: number;
+  isOrderCancelled = false;
   isOrderPaid = false;
   isCourierPriceInvalid = false;
   pageOpen: boolean;
-  public isOrderDone = false;
-  public isOrderNotTakenOut = false;
+  isOrderDone = false;
+  isOrderNotTakenOut = false;
   isDisabledWriteOffStation = false;
 
   @Output() deleteNumberOrderFromEcoShopChanged = new EventEmitter<boolean>();
@@ -107,21 +107,21 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     }
   }
 
-  public showWriteOffStationField(): boolean {
+  showWriteOffStationField(): boolean {
     const isPaidWithBonuses = this.orderDetails.bonuses !== 0;
     const isPaidWithCert = this.orderDetails.certificateDiscount !== 0;
     return this.isOrderBroughtByHimself && (this.isOrderPaid || isPaidWithBonuses || isPaidWithCert);
   }
 
-  public resetOrderDetails() {
+  resetOrderDetails() {
     this.orderDetails = JSON.parse(JSON.stringify(this.orderDetailsOriginal));
   }
 
-  public isDisabledConfirmQuantity() {
+  isDisabledConfirmQuantity() {
     return this.isOrderBroughtByHimself || this.isOrderCancelled || this.isOrderNotTakenOut || this.isOrderDone;
   }
 
-  public recalculateSum() {
+  recalculateSum() {
     this.writeoffAtStationSum = this.orderInfo.writeOffStationSum ? this.orderInfo.writeOffStationSum : 0;
     this.courierPrice = this.orderDetails.courierPricePerPackage;
     this.resetBagsInfo();
@@ -215,7 +215,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     this.pageOpen = !this.pageOpen;
   }
 
-  public onQuantityChange(bagType, bagId): void {
+  onQuantityChange(bagType, bagId): void {
     this.orderDetails.bags.forEach((bag) => {
       if (bag.id === Number(bagId)) {
         bag[bagType] = this.orderDetailsForm.get(bagType + 'Quantity' + bagId).value;
@@ -345,12 +345,12 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     }
   }
 
-  public getStoreOrderNumbers() {
+  getStoreOrderNumbers() {
     const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
     return arr.controls;
   }
 
-  public checkMaxOrdersFromShop(): boolean {
+  checkMaxOrdersFromShop(): boolean {
     const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
     const currentAmountOfNumbersFromShop = arr.controls.length;
     return currentAmountOfNumbersFromShop < this.LIMIT_OF_ECO_SHOP_NUMBERS;
@@ -368,20 +368,20 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     this.deleteNumberOrderFromEcoShopChanged.emit(true);
   }
 
-  public changeWriteOffSum(e): void {
+  changeWriteOffSum(e): void {
     this.writeoffAtStationSum = +e.target.value;
     this.emitSumForStation(this.writeoffAtStationSum);
     this.calculateFinalSum();
   }
 
-  public changeUbsCourierSum(e): void {
+  changeUbsCourierSum(e): void {
     this.courierPrice = +e.target.value;
     this.isCourierPriceInvalid = this.courierPrice > this.orderDetailsForm.value.orderFullPrice;
     this.emitUbsPrice(this.courierPrice);
     this.calculateFinalSum();
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 }

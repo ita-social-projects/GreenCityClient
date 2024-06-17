@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./ubs-submit-order-notification.component.scss']
 })
 export class UbsSubmitOrderNotificationComponent implements OnInit {
-  public isNotification = true;
+  isNotification = true;
   orderId: number;
   constructor(private route: ActivatedRoute) {}
 

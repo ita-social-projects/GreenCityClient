@@ -16,12 +16,12 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FriendProfilePageComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject();
-  public requests: FriendModel[] = null;
-  public userId: number;
-  public userInfo: EditProfileModel;
-  public progress: ProfileStatistics;
-  public isRequest: boolean;
-  public showButtons = true;
+  requests: FriendModel[] = null;
+  userId: number;
+  userInfo: EditProfileModel;
+  progress: ProfileStatistics;
+  isRequest: boolean;
+  showButtons = true;
 
   constructor(
     private userFriendsService: UserFriendsService,
@@ -67,7 +67,7 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
     return array.filter((item) => item.id !== id);
   }
 
-  public accept(id: number): void {
+  accept(id: number): void {
     this.userFriendsService
       .acceptRequest(id)
       .pipe(takeUntil(this.destroy$))
@@ -77,7 +77,7 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
     this.showButtons = false;
   }
 
-  public decline(id: number): void {
+  decline(id: number): void {
     this.userFriendsService
       .declineRequest(id)
       .pipe(takeUntil(this.destroy$))

@@ -11,7 +11,7 @@ export class PaginationComponent {
   @Input() maxSize: number;
   @Output() ChangePage = new EventEmitter<number>();
 
-  public changePage(page: number): void {
+  changePage(page: number): void {
     this.ChangePage.emit(page);
   }
 }

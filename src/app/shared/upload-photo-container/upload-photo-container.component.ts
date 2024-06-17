@@ -8,7 +8,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
   styleUrls: ['./upload-photo-container.component.scss']
 })
 export class UploadPhotoContainerComponent implements OnInit {
-  public isHorisontalImg: boolean;
+  isHorisontalImg: boolean;
   private croppedImage: string;
 
   constructor(
@@ -34,7 +34,7 @@ export class UploadPhotoContainerComponent implements OnInit {
     };
   }
 
-  public imageCropped(event: ImageCroppedEvent): void {
+  imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event.base64;
   }
 

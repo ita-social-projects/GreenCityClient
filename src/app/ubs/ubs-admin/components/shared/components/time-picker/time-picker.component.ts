@@ -8,12 +8,12 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./time-picker.component.scss']
 })
 export class TimePickerComponent implements OnInit {
-  public fromSelect: string[];
-  public toSelect: string[];
-  public fromInput: string;
-  public toInput: string;
-  public from: string;
-  public to: string;
+  fromSelect: string[];
+  toSelect: string[];
+  fromInput: string;
+  toInput: string;
+  from: string;
+  to: string;
   currentHour: string;
   currentDate;
 

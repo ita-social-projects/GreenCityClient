@@ -9,8 +9,8 @@ import { WeekDays } from '@global-models/weekDays.model';
 })
 export class TimePickerPopupComponent implements OnInit {
   @Output()
-  public timeOfWork = new EventEmitter<WorkingTime[]>();
-  public selectTheWorkDay: WeekPickModel[] = [
+  timeOfWork = new EventEmitter<WorkingTime[]>();
+  selectTheWorkDay: WeekPickModel[] = [
     {
       dayToDisplay: 'places.days.monday',
       timeFrom: '',

@@ -12,9 +12,9 @@ import { Router } from '@angular/router';
 })
 export class AuthModalComponent implements OnInit, OnDestroy {
   private destroySub: Subject<boolean> = new Subject<boolean>();
-  public authImages: { mainImage: string; cross: string; hiddenEye: string; openEye: string; google: string };
-  public authPage: string;
-  public authImageValue: boolean;
+  authImages: { mainImage: string; cross: string; hiddenEye: string; openEye: string; google: string };
+  authPage: string;
+  authImageValue: boolean;
 
   constructor(
     private announcer: LiveAnnouncer,
@@ -22,7 +22,7 @@ export class AuthModalComponent implements OnInit, OnDestroy {
     public matDialogRef: MatDialogRef<AuthModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
-  public isUbs;
+  isUbs;
 
   ngOnInit(): void {
     this.isUbs = Object.prototype.hasOwnProperty.call(this.data, 'isUbs') ? this.data.isUbs : this.router.url.includes('ubs');
@@ -31,15 +31,15 @@ export class AuthModalComponent implements OnInit, OnDestroy {
     this.announce();
   }
 
-  public announce() {
+  announce() {
     this.announcer.announce('Welcome to login page', 'assertive');
   }
 
-  public changeAuthPage(page: string): void {
+  changeAuthPage(page: string): void {
     this.authPage = page;
   }
 
-  public closeWindow(): void {
+  closeWindow(): void {
     this.matDialogRef.close();
   }
 

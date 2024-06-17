@@ -33,14 +33,14 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   private charToTagUsers = ['@', '#'];
   private range: Range;
 
-  public content: FormControl = new FormControl('', [Validators.required, this.innerHtmlMaxLengthValidator(8000)]);
-  public suggestedUsers: TaggedUser[] = [];
-  public isDropdownVisible: boolean;
-  public cursorPosition: {
+  content: FormControl = new FormControl('', [Validators.required, this.innerHtmlMaxLengthValidator(8000)]);
+  suggestedUsers: TaggedUser[] = [];
+  isDropdownVisible: boolean;
+  cursorPosition: {
     top: number;
     left: number;
   };
-  public isTextareaFocused: boolean;
+  isTextareaFocused: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   @ViewChild('commentTextarea') commentTextarea: ElementRef;

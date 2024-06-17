@@ -11,7 +11,7 @@ import { NewsService } from '@global-service/news/news.service';
 export class EcoEventsComponent implements OnInit {
   readonly eventImg = 'assets/img/main-event-placeholder.png';
   readonly arrow = 'assets/img/icon/arrow.png';
-  public latestNews: NewsDto[] = [];
+  latestNews: NewsDto[] = [];
 
   constructor(private newsService: NewsService) {}
 

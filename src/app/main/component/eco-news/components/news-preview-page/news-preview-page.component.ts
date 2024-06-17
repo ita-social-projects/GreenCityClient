@@ -20,17 +20,17 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   styleUrls: ['./news-preview-page.component.scss']
 })
 export class NewsPreviewPageComponent implements OnInit, OnDestroy {
-  public images = singleNewsImages;
-  public previewItem: FormGroup;
-  public actualDate = new Date();
-  public userName: string;
-  public isPosting = false;
+  images = singleNewsImages;
+  previewItem: FormGroup;
+  actualDate = new Date();
+  userName: string;
+  isPosting = false;
   private userNameSub: Subscription;
-  public attributes: ActionInterface;
-  public newsId: number;
-  public onSubmit;
-  public currentLang: string;
-  public tags: FilterModel[] = [];
+  attributes: ActionInterface;
+  newsId: number;
+  onSubmit;
+  currentLang: string;
+  tags: FilterModel[] = [];
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -69,7 +69,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  public isBackToEdit(): void {
+  isBackToEdit(): void {
     this.createEcoNewsService.isBackToEditing = true;
     setTimeout(() => {
       this.createEcoNewsService.isBackToEditing = false;
@@ -87,7 +87,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
     this.tags = this.createEcoNewsService.getTags();
   }
 
-  public postNewsItem(): void {
+  postNewsItem(): void {
     this.isPosting = true;
 
     const dataToEdit = this.previewItem.value;
@@ -95,7 +95,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(CreateEcoNewsAction({ value: dataToEdit }));
   }
 
-  public editNews(): void {
+  editNews(): void {
     const dataToEdit = {
       ...this.previewItem.value,
       id: this.newsId
@@ -106,14 +106,14 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(EditEcoNewsAction({ form: dataToEdit }));
   }
 
-  public getImagePath(): string {
+  getImagePath(): string {
     if (this.previewItem.value.image) {
       return this.previewItem.value.image;
     }
     return this.images.largeImage;
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 

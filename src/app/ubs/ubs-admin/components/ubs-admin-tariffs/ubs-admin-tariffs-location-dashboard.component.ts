@@ -74,7 +74,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  public icons = {
+  icons = {
     setting: './assets/img/ubs-tariff/setting.svg',
     crumbs: './assets/img/ubs-tariff/crumbs.svg',
     restore: './assets/img/ubs-tariff/restore.svg',
@@ -203,7 +203,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  public setStateValue(): void {
+  setStateValue(): void {
     Object.assign(this.filterData, { status: 'ACTIVE' });
     this.state.valueChanges.subscribe((value) => {
       Object.assign(this.filterData, { status: value });
@@ -221,11 +221,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  public isRegionValueAll() {
+  isRegionValueAll() {
     return this.region.value.toLowerCase() === TariffRegionAll.en || this.region.value.toLowerCase() === TariffRegionAll.ua;
   }
 
-  public checkisCardExist(): void {
+  checkisCardExist(): void {
     this.isFieldFilled = [
       this.courier.value,
       this.selectedCities.length,
@@ -286,7 +286,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this[fieldName].setValue('');
   }
 
-  public _filter(name: string, items: any[]): any[] {
+  _filter(name: string, items: any[]): any[] {
     const filterValue = name.toLowerCase();
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }
@@ -304,7 +304,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  public setCountOfCheckedCity(): void {
+  setCountOfCheckedCity(): void {
     if (this.selectedCities.length) {
       this.translate.get('ubs-tariffs.selected').subscribe((data) => (this.cityPlaceholder = `${this.selectedCities.length} ${data}`));
     } else {
@@ -312,12 +312,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  public onOpenDropdown(): void {
+  onOpenDropdown(): void {
     const panel = document.querySelector('.mat-autocomplete-panel');
     panel.scrollTop = this.scrollPosition;
   }
 
-  public onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
+  onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     const panel = document.querySelector('.mat-autocomplete-panel');
     this.scrollPosition = panel.scrollTop;
 
@@ -373,7 +373,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  public onSelectStation(event: MatAutocompleteSelectedEvent): void {
+  onSelectStation(event: MatAutocompleteSelectedEvent): void {
     const selectedValue = this.stations.find((ob) => ob.name === event.option.value);
     const tempItem = {
       name: selectedValue.name,
@@ -387,7 +387,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  public stationSelected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger) {
+  stationSelected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger) {
     if (event.option.value === 'all') {
       this.toggleSelectAllStation();
       const stationsId = this.stations.map((station) => station.id);
@@ -408,11 +408,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.checkisCardExist();
   }
 
-  public checkSelectedItem(item: string, array: Array<{ name: string; id: number }>): boolean {
+  checkSelectedItem(item: string, array: Array<{ name: string; id: number }>): boolean {
     return array.map((it) => it.name).includes(item);
   }
 
-  public setStationPlaceholder(): void {
+  setStationPlaceholder(): void {
     if (this.selectedStation.length) {
       this.translate.get('ubs-tariffs.selected').subscribe((data) => (this.stationPlaceholder = `${this.selectedStation.length} ${data}`));
     } else {
@@ -477,7 +477,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  public onSelectCourier(event): void {
+  onSelectCourier(event): void {
     if (event.value === 'all') {
       Object.assign(this.filterData, { courier: '' });
     } else {
@@ -521,7 +521,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  public mapCities(region: Locations[]): Array<object> {
+  mapCities(region: Locations[]): Array<object> {
     const cityArray = [];
     region.forEach((element) =>
       element.locationsDto.forEach((el) => {
@@ -567,7 +567,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       });
   }
 
-  public getExistingCard(filterData) {
+  getExistingCard(filterData) {
     this.isLoadingCards = true;
     this.cardsUk.length = 0;
     this.cardsEn.length = 0;
@@ -627,7 +627,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.canRegionInputValueBeRegion = value && !!this._filter(value, [...locationNames, TariffRegionAll.ua, TariffRegionAll.en]).length;
   }
 
-  public onChangeRegion() {
+  onChangeRegion() {
     if (
       this.canRegionInputValueBeRegion &&
       !this.isRegionValueAll() &&
@@ -646,7 +646,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  public regionSelected(event) {
+  regionSelected(event) {
     if (this.isRegionValueAll()) {
       Object.assign(this.filterData, { region: '' });
     } else {
@@ -682,7 +682,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     );
   }
 
-  public createCardDto(): void {
+  createCardDto(): void {
     this.createCardObj = {
       courierId: this.courierId,
       receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
@@ -691,7 +691,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     };
   }
 
-  public createTariffCard(): void {
+  createTariffCard(): void {
     this.createCardDto();
     const matDialogRef = this.dialog.open(UbsAdminTariffsCardPopUpComponent, {
       disableClose: true,
@@ -771,7 +771,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.selectedCard.station = res.station;
   }
 
-  public createCardRequest(card): void {
+  createCardRequest(card): void {
     this.tariffsService.createCard(card).pipe(takeUntil(this.destroy)).subscribe();
   }
 
@@ -963,7 +963,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     ]).pipe(map(([service, tariffForService, limits]) => !!(service && tariffForService && limits)));
   }
 
-  public openCreateCard(): void {
+  openCreateCard(): void {
     this.dialog.open(UbsAdminTariffsCardPopUpComponent, {
       disableClose: true,
       hasBackdrop: true,
@@ -975,11 +975,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
-  public getLangArrayValue(uaValue: string[], enValue: string[]) {
+  getLangArrayValue(uaValue: string[], enValue: string[]) {
     return this.languageService.getLangValue(uaValue, enValue) as string[];
   }
 

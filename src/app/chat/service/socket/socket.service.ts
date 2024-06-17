@@ -21,11 +21,14 @@ export class SocketService {
   private isOpenNewChatInWindow = false;
   private subscriptions: StompSubscription[] = [];
 
-  public updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
+  updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
 
-  constructor(private chatsService: ChatsService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private chatsService: ChatsService,
+    private localStorageService: LocalStorageService
+  ) {}
 
-  public connect() {
+  connect() {
     this.userId = this.localStorageService.getUserId();
     this.socket = new SockJS(this.backendSocketLink);
     this.stompClient = Stomp.over(() => this.socket);

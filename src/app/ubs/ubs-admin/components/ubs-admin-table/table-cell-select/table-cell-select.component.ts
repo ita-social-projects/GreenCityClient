@@ -27,8 +27,8 @@ export class TableCellSelectComponent implements OnInit {
   @Input() showPopUp: boolean;
   @Input() dataForPopUp: IDataForPopUp[];
 
-  public isEditable: boolean;
-  public isBlocked: boolean;
+  isEditable: boolean;
+  isBlocked: boolean;
   private newOption: string;
   private typeOfChange: number[];
   private checkStatus: boolean;
@@ -68,7 +68,7 @@ export class TableCellSelectComponent implements OnInit {
   private findKeyForNewOption(): number {
     return this.optional.findIndex((item) => item[this.lang] === this.newOption);
   }
-  public edit(): void {
+  edit(): void {
     this.isEditable = false;
     this.isBlocked = true;
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
@@ -88,7 +88,7 @@ export class TableCellSelectComponent implements OnInit {
     this.editButtonClick.emit(this.id);
   }
 
-  public save(): void {
+  save(): void {
     const newValueObj = this.findKeyForNewOption();
     if (newValueObj === -1) {
       this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
@@ -118,7 +118,7 @@ export class TableCellSelectComponent implements OnInit {
     });
   }
 
-  public saveClick(): void {
+  saveClick(): void {
     if (this.nameOfColumn === 'orderStatus' && this.checkStatus && this.showPopUp) {
       this.checkIfStatusConfirmed();
     } else if (this.nameOfColumn === 'orderStatus' && (this.newOption === 'Canceled' || this.newOption === 'Скасовано')) {
@@ -138,19 +138,19 @@ export class TableCellSelectComponent implements OnInit {
     }
   }
 
-  public cancel(): void {
+  cancel(): void {
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
     this.cancelEdit.emit(this.typeOfChange);
     this.newOption = '';
     this.isEditable = false;
   }
 
-  public chosenOption(e: any): void {
+  chosenOption(e: any): void {
     this.newOption = e.target.value;
     this.checkStatus = this.filterStatusesForPopUp();
   }
 
-  public openCancelPopUp(): void {
+  openCancelPopUp(): void {
     this.dialog
       .open(AddOrderCancellationReasonComponent, {
         hasBackdrop: true

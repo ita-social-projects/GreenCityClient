@@ -18,12 +18,12 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   @Input({ required: true }) sharedKey: number;
   @Input() formDisabled: boolean;
   @Input() formInput: DateTime;
-  public today: Date = new Date();
-  public dateFilterBind = this._dateFilter.bind(this);
-  public startOptionsArr: string[];
-  public endOptionsArr: string[];
+  today: Date = new Date();
+  dateFilterBind = this._dateFilter.bind(this);
+  startOptionsArr: string[];
+  endOptionsArr: string[];
   // we will attach this validator later in code { validators: timeValidator(this._timeArr[this._upperTimeLimit]) }
-  public form: FormGroup<DateTimeGroup> = this.fb.nonNullable.group({
+  form: FormGroup<DateTimeGroup> = this.fb.nonNullable.group({
     date: [this.today, Validators.required],
     startTime: ['', Validators.required],
     endTime: ['', Validators.required],
@@ -105,7 +105,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     }
   }
 
-  public toggleAllDay(): void {
+  toggleAllDay(): void {
     this._checkedAllDay = !this._checkedAllDay;
     const startTime = this.startTime;
     const endTime = this.endTime;

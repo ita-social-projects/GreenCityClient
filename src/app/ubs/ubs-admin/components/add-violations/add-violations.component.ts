@@ -48,7 +48,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   initialData: InitialData;
   isInitialDataChanged = false;
   isInitialImageDataChanged = false;
-  public date = new Date();
+  date = new Date();
   unsubscribe: Subject<any> = new Subject();
   viewMode = false;
   editMode = false;

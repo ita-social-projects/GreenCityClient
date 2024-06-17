@@ -292,11 +292,11 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public getLangControl(uaControl: AbstractControl, enControl: AbstractControl): AbstractControl {
+  getLangControl(uaControl: AbstractControl, enControl: AbstractControl): AbstractControl {
     return this.langService.getLangValue(uaControl, enControl) as AbstractControl;
   }
 

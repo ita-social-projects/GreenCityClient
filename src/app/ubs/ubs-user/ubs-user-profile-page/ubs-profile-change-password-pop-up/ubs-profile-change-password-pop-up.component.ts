@@ -14,11 +14,11 @@ import { Patterns } from 'src/assets/patterns/patterns';
   styleUrls: ['./ubs-profile-change-password-pop-up.component.scss']
 })
 export class UbsProfileChangePasswordPopUpComponent implements OnInit {
-  public formConfig: FormGroup;
+  formConfig: FormGroup;
   private readonly passRegexp = Patterns.regexpPass;
-  public updatePasswordDto: UpdatePasswordDto;
-  public hasPassword: boolean;
-  public hasWrongCurrentPassword = false;
+  updatePasswordDto: UpdatePasswordDto;
+  hasPassword: boolean;
+  hasWrongCurrentPassword = false;
 
   constructor(
     private changePasswordService: ChangePasswordService,
@@ -34,7 +34,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     this.updatePasswordDto = new UpdatePasswordDto();
   }
 
-  public initForm(): void {
+  initForm(): void {
     this.formConfig = this.fb.group({
       currentPassword: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern(this.passRegexp)]],
@@ -57,7 +57,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     return password === currentPassword ? { newPasswordMatchesOld: true } : null;
   }
 
-  public onSubmit(): void {
+  onSubmit(): void {
     this.updatePasswordDto.currentPassword = this.formConfig.value.password;
     this.updatePasswordDto.confirmPassword = this.formConfig.value.confirmPassword;
     this.updatePasswordDto.password = this.formConfig.value.password;

@@ -15,11 +15,11 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, O
   @Input() orderStatus: string;
   @Input() isEmployeeCanEditOrder: boolean;
 
-  public allCallManagers: string[];
-  public allLogisticians: string[];
-  public allNavigators: string[];
-  public allDrivers: string[];
-  public isOrderStatusCancelOrDone = false;
+  allCallManagers: string[];
+  allLogisticians: string[];
+  allNavigators: string[];
+  allDrivers: string[];
+  isOrderStatusCancelOrDone = false;
   pageOpen: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -45,7 +45,7 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, O
     this.allDrivers = this.getEmployeesById(employees, 5);
   }
 
-  public isFormRequired(): boolean {
+  isFormRequired(): boolean {
     const isNotOpen = !this.pageOpen;
     const isNotValid = !this.responsiblePersonsForm.valid;
     const isNotCancelOrDone = !this.isOrderStatusCancelOrDone;
@@ -53,7 +53,7 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, O
     return isNotOpen && isNotValid && isNotCancelOrDone;
   }
 
-  public getEmployeesById(employeeObjects: Map<string, IEmployee[]>, id: number): string[] {
+  getEmployeesById(employeeObjects: Map<string, IEmployee[]>, id: number): string[] {
     for (const key of Object.keys(employeeObjects)) {
       if (key.includes(`id=${id},`)) {
         const resultEmployeeArr: string[] = [];

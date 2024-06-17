@@ -33,7 +33,7 @@ export class UserOrdersService {
     return this.http.get<IUserOrdersInfo>(`${this.url}/user-order/${orderId}`);
   }
 
-  public deleteOrder(orderId: number): Observable<object> {
+  deleteOrder(orderId: number): Observable<object> {
     return this.http.delete<object>(`${this.url}/delete-order/${orderId}`);
   }
 }

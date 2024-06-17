@@ -16,26 +16,29 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   ]
 })
 export class AddressInputComponent implements ControlValueAccessor, OnInit {
-  public value: string | undefined;
-  public onTouched!: () => void;
+  value: string | undefined;
+  onTouched!: () => void;
   private onChange!: (value: string) => void;
   @Output() private getAddressData: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private translate: TranslateService, public localStorageService: LocalStorageService) {}
+  constructor(
+    private translate: TranslateService,
+    public localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
     this.bindLang(this.localStorageService.getCurrentLanguage());
   }
 
-  public writeValue(value: string): void {
+  writeValue(value: string): void {
     this.value = value;
   }
 
-  public registerOnChange(fn: (value: string) => void): void {
+  registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  public registerOnTouched(fn: () => void): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 

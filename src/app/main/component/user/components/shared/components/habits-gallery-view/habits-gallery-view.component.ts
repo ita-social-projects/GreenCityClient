@@ -16,10 +16,10 @@ import { starIcons } from 'src/app/main/image-pathes/habits-images';
 export class HabitsGalleryViewComponent implements OnInit {
   @Input() habit: HabitInterface;
   private userId: number;
-  public whiteStar = starIcons.whiteStar;
-  public greenStar = starIcons.greenStar;
-  public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
-  public star: number;
+  whiteStar = starIcons.whiteStar;
+  greenStar = starIcons.greenStar;
+  stars = [this.whiteStar, this.whiteStar, this.whiteStar];
+  star: number;
 
   constructor(
     public router: Router,
@@ -34,20 +34,20 @@ export class HabitsGalleryViewComponent implements OnInit {
     this.userId = this.localStorageService.getUserId();
   }
 
-  public getStars(complexity: number) {
+  getStars(complexity: number) {
     for (this.star = 0; this.star < complexity; this.star++) {
       this.stars[this.star] = this.greenStar;
     }
   }
 
-  public goHabitMore(): void {
+  goHabitMore(): void {
     const link = `/profile/${this.userId}/allhabits/`;
     this.habit.assignId
       ? this.router.navigate([`${link}edithabit`, this.habit.assignId], { relativeTo: this.route })
       : this.router.navigate([`${link}addhabit`, this.habit.id], { relativeTo: this.route });
   }
 
-  public addHabit() {
+  addHabit() {
     this.habit.isCustomHabit ? this.assignCustomHabit() : this.assignStandartHabit();
   }
 

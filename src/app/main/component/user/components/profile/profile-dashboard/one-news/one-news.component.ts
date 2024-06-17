@@ -14,10 +14,10 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 export class OneNewsComponent implements OnInit {
   @Input() ecoNewsModel: EcoNewsModel;
 
-  public tags: Array<string>;
+  tags: Array<string>;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  public profileIcons = userAssignedCardsIcons;
+  profileIcons = userAssignedCardsIcons;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -30,7 +30,7 @@ export class OneNewsComponent implements OnInit {
     });
   }
 
-  public checkNewsImage(): string {
+  checkNewsImage(): string {
     if (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') {
       return this.ecoNewsModel.imagePath;
     } else {

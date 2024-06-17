@@ -11,10 +11,10 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   styleUrls: ['./profile-cards.component.scss']
 })
 export class ProfileCardsComponent implements OnInit, OnDestroy {
-  public profileSubscription: Subscription;
-  public languageSubscription: Subscription;
-  public factOfTheDay: CardModel;
-  public error: string;
+  profileSubscription: Subscription;
+  languageSubscription: Subscription;
+  factOfTheDay: CardModel;
+  error: string;
 
   constructor(
     private profileService: ProfileService,

@@ -26,7 +26,7 @@ export class WeekDaysUtils {
     WeekDays.SUNDAY
   ];
 
-  public static getCurrentDay(): string {
+  static getCurrentDay(): string {
     const currTime = new Date();
     return this.sortedUTCDays[currTime.getUTCDay()];
   }
@@ -101,7 +101,7 @@ export class WeekDaysUtils {
     return result + firstDay + lastDay + ' ' + prevHours + '\n';
   }
 
-  public getWeekDayShortForm(day: string): any {
+  getWeekDayShortForm(day: string): any {
     switch (day) {
       case 'MONDAY':
         return 'Mon';

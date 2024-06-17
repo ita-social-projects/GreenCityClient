@@ -28,19 +28,19 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   @Output() paymentUpdate = new EventEmitter<number>();
   @Output() paymentToBonusAccount = new EventEmitter<number>();
 
-  public message: string;
-  public pageOpen: boolean;
-  public orderId: number;
-  public overpayment: number;
-  public paidAmount: number;
-  public unPaidAmount: number;
-  public paymentInfo: IPaymentInfo;
-  public paymentsArray: IPaymentInfoDto[];
-  public paymentsIdArray: string[] = [];
-  public currentOrderStatus: string;
+  message: string;
+  pageOpen: boolean;
+  orderId: number;
+  overpayment: number;
+  paidAmount: number;
+  unPaidAmount: number;
+  paymentInfo: IPaymentInfo;
+  paymentsArray: IPaymentInfoDto[];
+  paymentsIdArray: string[] = [];
+  currentOrderStatus: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  public isMoneyReturning = false;
-  public isRefundApplicationCreate = false;
+  isMoneyReturning = false;
+  isRefundApplicationCreate = false;
   private returnMoneyDialogDate = {
     popupTitle: 'return-payment.message',
     popupConfirm: 'employees.btn.yes',
@@ -100,48 +100,48 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     }
   }
 
-  public formatDate(date: string): string {
+  formatDate(date: string): string {
     return date.split('-').reverse().join('.');
   }
 
-  public positivePaymentsArrayAmount(): void {
+  positivePaymentsArrayAmount(): void {
     this.paymentsArray.forEach((payment: IPaymentInfoDto) => {
       payment.amount = Math.abs(payment.amount);
     });
   }
 
-  public setDateInPaymentArray(paymentsArray: IPaymentInfoDto[]): void {
+  setDateInPaymentArray(paymentsArray: IPaymentInfoDto[]): void {
     paymentsArray.forEach((payment: IPaymentInfoDto) => {
       payment.settlementdate = this.formatDate(payment.settlementdate);
     });
   }
 
-  public openDetails(): void {
+  openDetails(): void {
     this.pageOpen = !this.pageOpen;
   }
 
-  public isOverpaymentReturnAvailable(): boolean {
+  isOverpaymentReturnAvailable(): boolean {
     return this.overpayment && this.currentOrderStatus === OrderStatus.CANCELED;
   }
 
-  public setOverpayment(overpayment: number): void {
+  setOverpayment(overpayment: number): void {
     this.message = this.orderService.getOverpaymentMsg(overpayment);
     this.overpayment = Math.abs(overpayment);
   }
 
-  public getStringDate(date: Date): string {
+  getStringDate(date: Date): string {
     return date.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').reverse().join('-');
   }
 
-  public displayUnpaidAmount(): boolean {
+  displayUnpaidAmount(): boolean {
     return this.unPaidAmount && this.currentOrderStatus !== OrderStatus.CANCELED;
   }
 
-  public setCancelOrderOverpayment(sum: number): void {
+  setCancelOrderOverpayment(sum: number): void {
     this.overpayment = sum;
   }
 
-  public enrollToBonusAccount(sum: number): void {
+  enrollToBonusAccount(sum: number): void {
     const currentDate: string = this.getStringDate(new Date());
     const paymentDetails: PaymentDetails = {
       amount: sum,
@@ -159,7 +159,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     });
   }
 
-  public returnMoney(id: number): void {
+  returnMoney(id: number): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.returnMoneyDialogDate,
       hasBackdrop: true,
@@ -190,14 +190,14 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       });
   }
 
-  public recountUnpaidAmount(value: number): void {
+  recountUnpaidAmount(value: number): void {
     this.unPaidAmount -= value;
     if (this.unPaidAmount < 0) {
       this.unPaidAmount = 0;
     }
   }
 
-  public preconditionChangePaymentData(extraPayment: IPaymentInfoDto): void {
+  preconditionChangePaymentData(extraPayment: IPaymentInfoDto): void {
     const checkPaymentId = (): number => this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === extraPayment.id).length;
 
     this.recountUnpaidAmount(extraPayment.amount);
@@ -221,7 +221,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.store.dispatch(ChangingOrderPaymentStatus({ orderId, newValue }));
   }
 
-  public openPopup(viewMode: boolean, paymentIndex?: number): void {
+  openPopup(viewMode: boolean, paymentIndex?: number): void {
     this.dialog
       .open(AddPaymentComponent, {
         hasBackdrop: true,

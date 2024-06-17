@@ -11,9 +11,9 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./eco-places.component.scss']
 })
 export class EcoPlacesComponent implements OnInit, OnDestroy {
-  public ecoPlaces: EcoPlaces[] = [];
-  public destroy$: Subject<void> = new Subject<void>();
-  public currentLang: string;
+  ecoPlaces: EcoPlaces[] = [];
+  destroy$: Subject<void> = new Subject<void>();
+  currentLang: string;
 
   constructor(
     private profileService: ProfileService,
@@ -25,7 +25,7 @@ export class EcoPlacesComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject.subscribe((lang) => (this.currentLang = lang));
   }
 
-  public getEcoPlaces(): void {
+  getEcoPlaces(): void {
     this.profileService
       .getEcoPlaces()
       .pipe(takeUntil(this.destroy$))

@@ -14,7 +14,7 @@ export class NewsService {
     private languageService: LanguageService
   ) {}
 
-  public loadLatestNews(): Observable<NewsDto[]> {
+  loadLatestNews(): Observable<NewsDto[]> {
     const currentLanguage = this.languageService.getCurrentLanguage();
 
     return this.http.get<NewsDto[]>(`${latestNewsLink}?language=${currentLanguage}`);

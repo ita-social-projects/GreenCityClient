@@ -19,11 +19,11 @@ import { ProfileService } from 'src/app/main/component/user/components/profile/p
   ]
 })
 export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
-  public urlValidationRegex = Patterns.linkPattern;
-  public showInput = false;
-  public inputTextValue;
-  public editedSocialLink: any = false;
-  public icons: Record<string, string> = {};
+  urlValidationRegex = Patterns.linkPattern;
+  showInput = false;
+  inputTextValue;
+  editedSocialLink: any = false;
+  icons: Record<string, string> = {};
 
   @ViewChild('socialLink') socialLink: NgModel;
   @Input() socialNetworks = [];
@@ -58,7 +58,7 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
     // TODO: add functionality to this method
   }
 
-  public onEditLink(link): void {
+  onEditLink(link): void {
     this.onChange(link);
     this.onToggleInput(true);
     this.inputTextValue = link.url;
@@ -66,7 +66,7 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
     this.onFilterSocialLink(link);
   }
 
-  public onDeleteLink(link): void {
+  onDeleteLink(link): void {
     this.onChange(link);
     const dialogRef = this.dialog.open(WarningPopUpComponent, {
       hasBackdrop: true,
@@ -95,7 +95,7 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
     this.onEmitSocialNetworksChange();
   }
 
-  public onToggleInput(state?: boolean): void {
+  onToggleInput(state?: boolean): void {
     if (arguments.length > 0) {
       this.showInput = state;
     } else {
@@ -103,11 +103,11 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  public getSocialImage(socialNetwork: string): string {
+  getSocialImage(socialNetwork: string): string {
     return this.profileService.getSocialImage(socialNetwork);
   }
 
-  public onCloseForm(): void {
+  onCloseForm(): void {
     if (this.editedSocialLink) {
       this.onAddLink(this.editedSocialLink);
       this.editedSocialLink = false;
@@ -116,7 +116,7 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
     this.inputTextValue = '';
   }
 
-  public getErrorMessage(linkErrors) {
+  getErrorMessage(linkErrors) {
     let result = 'user.edit-profile.input-validation-';
     Object.keys(linkErrors).forEach((error) => {
       result = result + error;
@@ -124,7 +124,7 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
     return result;
   }
 
-  public onAddLink(link?) {
+  onAddLink(link?) {
     this.onChange(link);
     const value = link || this.inputTextValue;
     if (this.checkIsUrl(value) && !this.onCheckForExisting(value)) {
@@ -141,7 +141,7 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  public replaceHttp(str: string) {
+  replaceHttp(str: string) {
     return str.replace(/(https|http):\/\//i, '');
   }
 
