@@ -364,7 +364,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Service) => {
         this.service = res;
-        this.servicePrice = this.service?.price * 100;
+        this.servicePrice = this.service?.price;
         this.isLoadBar1 = false;
       });
   }
