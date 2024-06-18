@@ -1,4 +1,4 @@
-.container {
+.dialog-container {
   .close {
     position: absolute;
     top: 26px;
@@ -13,5 +13,16 @@
     align-items: center;
     gap: 15px;
     margin-bottom: 10px;
+    font-family: var(--tertiary-font);
+
+    .habit-progress {
+      display: flex;
+
+      p {
+        font-size: 14px;
+        color: var(--primary-green);
+        margin-left: 5px;
+      }
+    }
   }
 }

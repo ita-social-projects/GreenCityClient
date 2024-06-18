@@ -1,11 +1,15 @@
-<div class="container">
-  <div>
-    <button (click)="onClose()" class="close">
-      <img src="{{ closeButton }}" />
-    </button>
-  </div>
-  <div *ngFor="let friend of data; index as i" class="list-item">
+<div class="dialog-container">
+  <button (click)="onClose()" class="close">
+    <img src="{{ closeButton }}" alt="close" />
+  </button>
+  <div *ngFor="let friend of friends; index as i" class="list-item">
     <app-user-profile-image imgPath="{{ friend.profilePicturePath }}" additionalImgClass="friend-user-profile"> </app-user-profile-image>
-    <p>{{ friend.name }}</p>
+    <div>
+      <div class="habit-progress">
+        <img class="calendar" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
+        <p>{{ friend.habitProggress.workingDays }} / {{ friend.habitProggress.duration }}</p>
+      </div>
+      <p>{{ friend.name }}</p>
+    </div>
   </div>
 </div>

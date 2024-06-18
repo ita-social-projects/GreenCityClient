@@ -24,7 +24,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   daysCounter: number;
   habitMark: string;
   isRequest = false;
-  friends: FriendProfilePicturesArrayModel[];
+  friends: FriendProfilePicturesArrayModel[] = [];
   numberOfFriendsToDisplay = 3;
   lengthOfFriendsNamesList = 15;
   private destroy$ = new Subject<void>();
@@ -165,7 +165,10 @@ export class OneHabitComponent implements OnInit, OnDestroy {
 
   public onDialogOpen() {
     this.dialog.open(FriendsListPopUpComponent, {
-      data: this.friends,
+      data: {
+        friends: this.friends,
+        habitId: this.habit.habit.id
+      },
       width: '400px',
       height: '400px'
     });
