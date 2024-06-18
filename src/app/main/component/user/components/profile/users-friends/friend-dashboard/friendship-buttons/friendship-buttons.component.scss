@@ -12,7 +12,7 @@
   position: relative;
 }
 
-.chat-btn:before {
+.chat-btn::before {
   content: '';
   position: absolute;
   left: -6px;
@@ -26,7 +26,7 @@
   transform: rotate(45deg);
 }
 
-.chat-btn:after {
+.chat-btn::after {
   content: '';
   position: absolute;
   left: -5px;
@@ -36,4 +36,16 @@
   height: 10px;
   transform: rotate(45deg);
   background-color: var(--primary-white);
+}
+
+.chat-btn:hover::before {
+  border: 1px solid var(--secondary-dark-green);
+}
+
+.chat-btn:focus::before {
+  border: 2px solid var(--secondary-dark-green);
+}
+
+.chat-btn:focus::after {
+  left: -4px;
 }
