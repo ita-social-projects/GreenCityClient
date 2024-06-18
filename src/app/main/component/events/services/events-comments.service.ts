@@ -15,7 +15,7 @@ export class EventsCommentsService implements CommentsService {
 
   constructor(private http: HttpClient) {}
 
-  public addComment(entityId: number, text: string, id = 0): Observable<AddedCommentDTO> {
+  addComment(entityId: number, text: string, id = 0): Observable<AddedCommentDTO> {
     const body = {
       parentCommentId: id,
       text
@@ -24,19 +24,19 @@ export class EventsCommentsService implements CommentsService {
     return this.http.post<EventsAddedCommentDTO>(`${this.backEnd}events/comments/${entityId}`, body);
   }
 
-  public getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<CommentsModel> {
+  getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<CommentsModel> {
     return this.http.get<EventsCommentsModel>(`${this.backEnd}events/comments/active?eventId=${entityId}&page=${page}&size=${size}`);
   }
 
-  public getCommentsCount(entityId: number): Observable<number> {
+  getCommentsCount(entityId: number): Observable<number> {
     return this.http.get<number>(`${this.backEnd}events/comments/count/${entityId}`);
   }
 
-  public getActiveRepliesByPage(id: number, page: number, size: number): Observable<CommentsModel> {
+  getActiveRepliesByPage(id: number, page: number, size: number): Observable<CommentsModel> {
     return this.http.get<EventsCommentsModel>(`${this.backEnd}events/comments/replies/active/${id}?page=${page}&size=${size}`);
   }
 
-  public deleteComments(id: number) {
+  deleteComments(id: number) {
     return this.http.delete<object>(`${this.backEnd}events/comments/${id}`, { observe: 'response' }).pipe(
       map((response) => {
         if (response.status >= 200 && response.status < 300) {
@@ -47,19 +47,19 @@ export class EventsCommentsService implements CommentsService {
     );
   }
 
-  public getCommentLikes(id: number): Observable<number> {
+  getCommentLikes(id: number): Observable<number> {
     return this.http.get<number>(`${this.backEnd}events/comments/likes/count/commentId=${id}`);
   }
 
-  public getRepliesAmount(id: number): Observable<number> {
+  getRepliesAmount(id: number): Observable<number> {
     return this.http.get<number>(`${this.backEnd}events/comments/replies/active/count/${id}`);
   }
 
-  public postLike(id: number): Observable<void> {
+  postLike(id: number): Observable<void> {
     return this.http.post<void>(`${this.backEnd}events/comments/like?commentId=${id}`, {});
   }
 
-  public editComment(id: number, text: string): Observable<void> {
+  editComment(id: number, text: string): Observable<void> {
     return this.http.patch<void>(`${this.backEnd}events/comments?id=${id}`, text);
   }
 }

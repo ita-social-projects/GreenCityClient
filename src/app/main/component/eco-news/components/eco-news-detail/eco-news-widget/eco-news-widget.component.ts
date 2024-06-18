@@ -11,9 +11,9 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
   styleUrls: ['./eco-news-widget.component.scss']
 })
 export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
-  public recommendedNews: EcoNewsModel[];
-  public selectedId: number;
-  public recommendedNewsSubscription: Subscription;
+  recommendedNews: EcoNewsModel[];
+  selectedId: number;
+  recommendedNewsSubscription: Subscription;
 
   constructor(
     private ecoNewsService: EcoNewsService,
@@ -24,7 +24,7 @@ export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
     this.newsIdSubscription();
   }
 
-  public newsIdSubscription(): void {
+  newsIdSubscription(): void {
     this.recommendedNewsSubscription = this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {

@@ -13,7 +13,7 @@ export class ErrorComponent implements OnChanges {
   @Input() public isSignInPassword: boolean;
   @Input() public passwordConfirmFieldValue: string;
 
-  public errorMessage = '';
+  errorMessage = '';
 
   private getErrorMsg = {
     required: () => {

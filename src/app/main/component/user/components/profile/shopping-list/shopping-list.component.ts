@@ -14,11 +14,11 @@ import { TodoStatus } from '@global-user/components/habit/models/todo-status.enu
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit {
-  public shoppingList: ShoppingList[] = [];
-  public toggle: boolean;
+  shoppingList: ShoppingList[] = [];
+  toggle: boolean;
   private userId: number;
-  public currentLang: string;
-  public profileSubscription: Subscription;
+  currentLang: string;
+  profileSubscription: Subscription;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -53,19 +53,19 @@ export class ShoppingListComponent implements OnInit {
       });
   }
 
-  public convertShopList(list: AllShoppingLists[], type: string): ShoppingList[] {
+  convertShopList(list: AllShoppingLists[], type: string): ShoppingList[] {
     return list.reduce((acc, obj) => acc.concat(type === 'custom' ? obj.customShoppingListItemDto : obj.userShoppingListItemDto), []);
   }
 
-  public isValidURL(url: string): boolean {
+  isValidURL(url: string): boolean {
     return Patterns.isValidURL.test(url);
   }
 
-  public openCloseList(): void {
+  openCloseList(): void {
     this.toggle = !this.toggle;
   }
 
-  public toggleDone(item: ShoppingList): void {
+  toggleDone(item: ShoppingList): void {
     item.status = item.status === TodoStatus.inprogress ? TodoStatus.done : TodoStatus.inprogress;
     item.custom ? this.updateStatusCustomItem(item) : this.updateStatusItem(item);
   }

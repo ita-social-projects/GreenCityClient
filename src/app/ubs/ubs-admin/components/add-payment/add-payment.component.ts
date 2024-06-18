@@ -62,8 +62,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   isInitialDataChanged = false;
   isInitialImageChanged = false;
   dataSource = new MatTableDataSource();
-  public date = new Date();
-  public adminName: string;
+  date = new Date();
+  adminName: string;
   private maxImageSize = 10485760;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   deleteDialogData = {
@@ -77,8 +77,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no'
   };
-  public paymentSum: string;
-  public isCanPaymentEdit: boolean;
+  paymentSum: string;
+  isCanPaymentEdit: boolean;
   constructor(
     private injector: Injector,
     private dialogRef: MatDialogRef<AddPaymentComponent>,
@@ -194,7 +194,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.processPayment(this.orderId, result);
   }
 
-  public processPayment(orderId: number, postData: PostData): void {
+  processPayment(orderId: number, postData: PostData): void {
     this.isUploading = true;
     of(true)
       .pipe(
@@ -219,7 +219,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       );
   }
 
-  public filesDropped(files: FileHandle[]): void {
+  filesDropped(files: FileHandle[]): void {
     this.file = files[0].file;
     this.isWarning = this.showWarning(this.file);
     if (!this.isWarning) {
@@ -354,7 +354,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       });
   }
 
-  public verifyEditing(): void {
+  verifyEditing(): void {
     if (this.isInitialDataChanged || this.isInitialImageChanged) {
       const matDialogRef = this.dialog.open(EditPaymentConfirmationPopUpComponent, {
         data: this.verifyEditingData,

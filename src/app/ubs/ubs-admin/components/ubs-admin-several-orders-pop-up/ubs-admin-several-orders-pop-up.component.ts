@@ -16,20 +16,20 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./ubs-admin-several-orders-pop-up.component.scss']
 })
 export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
-  public showTimePicker = false;
-  public fromSelect: string[];
-  public toSelect: string[];
-  public fromInput: string;
-  public toInput: string;
-  public from: string;
-  public to: string;
-  public allCallManagers: string[];
-  public allLogisticians: string[];
-  public allNavigators: string[];
-  public allDrivers: string[];
-  public receivingStations: string[];
-  public currentDate: string;
-  public responsiblePersonsData: IResponsiblePersonsData[];
+  showTimePicker = false;
+  fromSelect: string[];
+  toSelect: string[];
+  fromInput: string;
+  toInput: string;
+  from: string;
+  to: string;
+  allCallManagers: string[];
+  allLogisticians: string[];
+  allNavigators: string[];
+  allDrivers: string[];
+  receivingStations: string[];
+  currentDate: string;
+  responsiblePersonsData: IResponsiblePersonsData[];
 
   values = {};
   ordersForm: FormGroup;
@@ -123,7 +123,7 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
     return newEmployee;
   }
 
-  public onSubmit(): void {
+  onSubmit(): void {
     const newValues: any = {};
     this.ordersForm.disable();
     newValues.orderId = this.ordersId;

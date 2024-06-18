@@ -18,11 +18,11 @@ import { Locale } from 'src/app/main/i18n/Language';
   styleUrls: ['./calendar-week.component.scss']
 })
 export class CalendarWeekComponent extends CalendarBaseComponent implements OnInit, OnDestroy {
-  public language: string;
+  language: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  public currentDate = new Date();
-  public weekTitle: string;
-  public weekDates: CalendarWeekInterface[];
+  currentDate = new Date();
+  weekTitle: string;
+  weekDates: CalendarWeekInterface[];
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -83,7 +83,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     });
   }
 
-  public buildWeekCalendarTitle(): void {
+  buildWeekCalendarTitle(): void {
     const language = this.language === 'ua' ? Locale.UA : Locale.EN;
     const firstDay = this.weekDates[0].date.getDate();
     const lastDay = this.weekDates[6].date.getDate();
@@ -98,7 +98,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     this.weekTitle = firstDayMonth === lastDayMonth ? weekInOneMonth : isWeekBetweenTwoMonth;
   }
 
-  public changeWeek(isNext: boolean): void {
+  changeWeek(isNext: boolean): void {
     const year = this.weekDates[0].date.getFullYear();
     const month = this.weekDates[0].date.getMonth();
     const day = this.weekDates[0].date.getDate() + (isNext ? 7 : -7);
@@ -113,7 +113,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     this.destroyed$.complete();
   }
 
-  public showHabits(event, dayItem: CalendarWeekInterface) {
+  showHabits(event, dayItem: CalendarWeekInterface) {
     if (this.checkCanOpenPopup(dayItem)) {
       this.openDialogDayHabits(event, false, this.toCalendarMonth(dayItem));
     }

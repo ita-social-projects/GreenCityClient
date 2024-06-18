@@ -24,8 +24,8 @@ import { UserOnlineStatusService } from '@global-user/services/user-online-statu
 })
 export class FriendItemComponent implements OnInit {
   private destroy$ = new Subject();
-  public currentLang: string;
-  public userId: number;
+  currentLang: string;
+  userId: number;
   private dialogConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -45,7 +45,7 @@ export class FriendItemComponent implements OnInit {
       popupCancel: `profile.friends.unfriend-popup.cancel`
     }
   };
-  public currentUserId: number;
+  currentUserId: number;
 
   @Input() friend: FriendModel;
   @Output() friendDelete = new EventEmitter<number>();
@@ -96,7 +96,7 @@ export class FriendItemComponent implements OnInit {
     }
   }
 
-  public clickHandler(event: MouseEvent): void {
+  clickHandler(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (target.tagName === 'BUTTON') {
       this.checkButtons(target.id);
@@ -104,7 +104,7 @@ export class FriendItemComponent implements OnInit {
       target.classList.contains('friend-mutual-link') ? this.toUsersInfo(UserDashboardTab.mutualFriends) : this.toUsersInfo();
     }
   }
-  public addFriend(id: number): void {
+  addFriend(id: number): void {
     this.userFriendsService
       .addFriend(this.friend.id)
       .pipe(takeUntil(this.destroy$))
@@ -118,7 +118,7 @@ export class FriendItemComponent implements OnInit {
       });
   }
 
-  public unsendFriendRequest(id: number): void {
+  unsendFriendRequest(id: number): void {
     this.userFriendsService
       .unsendFriendRequest(id)
       .pipe(take(1))
@@ -128,7 +128,7 @@ export class FriendItemComponent implements OnInit {
       });
   }
 
-  public openConfirmPopup(): void {
+  openConfirmPopup(): void {
     const dialogRef = this.dialog.open(WarningPopUpComponent, this.confirmDialogConfig);
 
     dialogRef
@@ -170,7 +170,7 @@ export class FriendItemComponent implements OnInit {
     }
   }
 
-  public getFriendCity(locationDto: UserLocationDto): string {
+  getFriendCity(locationDto: UserLocationDto): string {
     return this.langService.getLangValue(locationDto?.cityUa, locationDto?.cityEn) as string;
   }
 
@@ -186,19 +186,19 @@ export class FriendItemComponent implements OnInit {
     this.chatsService.openCurrentChat(this.friend.chatId);
   }
 
-  public isAbleToAdd(): boolean {
+  isAbleToAdd(): boolean {
     return (!this.friend.friendStatus || this.friend.friendStatus === 'REJECTED') && this.friend.id !== this.currentUserId;
   }
 
-  public isCurrentUserRequested(): boolean {
+  isCurrentUserRequested(): boolean {
     return this.friend.friendStatus === 'REQUEST' && this.friend.requesterId === this.currentUserId;
   }
 
-  public isFriendRequest(): boolean {
+  isFriendRequest(): boolean {
     return this.friend.friendStatus === 'REQUEST' && this.friend.requesterId === this.friend.id;
   }
 
-  public checkIsOnline(friendId: number): boolean {
+  checkIsOnline(friendId: number): boolean {
     return this.userOnlineStatusService.checkIsOnline(friendId);
   }
 }

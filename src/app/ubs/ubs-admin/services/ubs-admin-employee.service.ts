@@ -9,11 +9,11 @@ import { FilterData } from '../models/tariffs.interface';
   providedIn: 'root'
 })
 export class UbsAdminEmployeeService {
-  public getAllEmployees = `${ubsAdminEmployeeLink}/getAll-employees`;
-  public searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  public filterDataSubject$: Subject<FilterData> = new Subject<FilterData>();
-  public employeePositionsAuthorities$: Subject<EmployeePositionsAuthorities> = new Subject<EmployeePositionsAuthorities>();
-  public employeePositions$: BehaviorSubject<Array<string>> = new BehaviorSubject<Array<string>>([]);
+  getAllEmployees = `${ubsAdminEmployeeLink}/getAll-employees`;
+  searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  filterDataSubject$: Subject<FilterData> = new Subject<FilterData>();
+  employeePositionsAuthorities$: Subject<EmployeePositionsAuthorities> = new Subject<EmployeePositionsAuthorities>();
+  employeePositions$: BehaviorSubject<Array<string>> = new BehaviorSubject<Array<string>>([]);
   constructor(private http: HttpClient) {}
 
   getEmployees(

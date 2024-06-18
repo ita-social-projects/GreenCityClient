@@ -10,8 +10,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit, OnDestroy {
-  public actualYear = new Date().getFullYear();
-  public footerImageList = footerIcons;
+  actualYear = new Date().getFullYear();
+  footerImageList = footerIcons;
   private userId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
@@ -21,7 +21,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((userId) => (this.userId = userId));
   }
 
-  public getUserId(): number | string {
+  getUserId(): number | string {
     return this.userId !== null && !isNaN(this.userId) ? this.userId : 'not_signed-in';
   }
 

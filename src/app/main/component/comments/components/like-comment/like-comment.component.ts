@@ -15,15 +15,15 @@ export class LikeCommentComponent implements OnInit {
   @Input() private comment: CommentsDTO;
   @Output() public likesCounter = new EventEmitter();
   @ViewChild('like', { static: true }) like: ElementRef;
-  public likeState: boolean;
+  likeState: boolean;
   private userId: number;
-  public error = false;
-  public commentsImages = {
+  error = false;
+  commentsImages = {
     like: 'assets/img/comments/like.png',
     liked: 'assets/img/comments/liked.png'
   };
-  public socketMessageToSubscribe: string;
-  public socketMessageToSend: string;
+  socketMessageToSubscribe: string;
+  socketMessageToSend: string;
 
   constructor(
     private commentsService: CommentsService,
@@ -52,7 +52,7 @@ export class LikeCommentComponent implements OnInit {
     }
   }
 
-  public onConnectedtoSocket(): void {
+  onConnectedtoSocket(): void {
     this.socketService.onMessage(this.socketService.connection.greenCity, this.socketMessageToSubscribe).subscribe((msg) => {
       this.changeLkeBtn(msg);
       this.likesCounter.emit(msg.amountLikes);
@@ -64,11 +64,11 @@ export class LikeCommentComponent implements OnInit {
     this.like.nativeElement.srcset = this.commentsImages[imgName];
   }
 
-  public getUserId(): void {
+  getUserId(): void {
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
   }
 
-  public pressLike(): void {
+  pressLike(): void {
     this.commentsService.postLike(this.comment.id).subscribe(() => {
       this.getUserId();
       this.socketService.send(this.socketService.connection.greenCity, this.socketMessageToSend, {
@@ -79,7 +79,7 @@ export class LikeCommentComponent implements OnInit {
     });
   }
 
-  public changeLkeBtn(msg: SocketAmountLikes): void {
+  changeLkeBtn(msg: SocketAmountLikes): void {
     if (msg.liked) {
       this.likeState = true;
       this.like.nativeElement.srcset = this.commentsImages.liked;

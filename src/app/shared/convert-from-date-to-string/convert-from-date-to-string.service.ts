@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ConvertFromDateToStringService {
-  public toISOStringWithTimezoneOffset(date: Date): string {
+  toISOStringWithTimezoneOffset(date: Date): string {
     const parseDate = Date.parse(date.toString());
     let diff: number;
     try {

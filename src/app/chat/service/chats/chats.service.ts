@@ -12,43 +12,43 @@ import { MatDialog } from '@angular/material/dialog';
   providedIn: 'root'
 })
 export class ChatsService {
-  public userChatsStream$: BehaviorSubject<Chat[]> = new BehaviorSubject<Chat[]>([]);
-  public currentChatsStream$: BehaviorSubject<Chat> = new BehaviorSubject<Chat>(null);
-  public currentChatMessagesStream$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
-  public searchedFriendsStream$: BehaviorSubject<FriendModel[]> = new BehaviorSubject<FriendModel[]>([]);
-  public isChatUpdateStream$: Subject<boolean> = new Subject<boolean>();
-  public chatsMessages: object = {};
+  userChatsStream$: BehaviorSubject<Chat[]> = new BehaviorSubject<Chat[]>([]);
+  currentChatsStream$: BehaviorSubject<Chat> = new BehaviorSubject<Chat>(null);
+  currentChatMessagesStream$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
+  searchedFriendsStream$: BehaviorSubject<FriendModel[]> = new BehaviorSubject<FriendModel[]>([]);
+  isChatUpdateStream$: Subject<boolean> = new Subject<boolean>();
+  chatsMessages: object = {};
   private messagesIsLoading = false;
 
   constructor(private httpClient: HttpClient) {}
 
-  public get userChats() {
+  get userChats() {
     return this.userChatsStream$.getValue();
   }
 
-  public get currentChat() {
+  get currentChat() {
     return this.currentChatsStream$.getValue();
   }
 
-  public get currentChatMessages() {
+  get currentChatMessages() {
     return this.currentChatMessagesStream$.getValue();
   }
 
-  public getAllUserChats(userId: number): void {
+  getAllUserChats(userId: number): void {
     this.httpClient.get<Chat[]>(`${environment.backendChatLink}chat`).subscribe((chats: Chat[]) => {
       this.userChatsStream$.next(chats);
     });
   }
 
-  public updateChat(chat: Chat): void {
+  updateChat(chat: Chat): void {
     this.httpClient.put<Chat>(`${environment.backendChatLink}chat`, chat).subscribe();
   }
 
-  public getAllChatMessages(chatId: number, page: number): Observable<Messages> {
+  getAllChatMessages(chatId: number, page: number): Observable<Messages> {
     return this.httpClient.get<Messages>(`${environment.backendChatLink}chat/messages/${chatId}?size=20&&page=${page}`);
   }
 
-  public setCurrentChat(chat: Chat | null): void {
+  setCurrentChat(chat: Chat | null): void {
     // If messages are already loading.
     if (this.messagesIsLoading) {
       return;
@@ -74,7 +74,7 @@ export class ChatsService {
     });
   }
 
-  public updateChatMessages(id: number, page: number) {
+  updateChatMessages(id: number, page: number) {
     this.messagesIsLoading = true;
     this.getAllChatMessages(id, page).subscribe((messages: Messages) => {
       this.chatsMessages[id].page.unshift(...messages.page);
@@ -83,12 +83,12 @@ export class ChatsService {
     });
   }
 
-  public openCurrentChat(chatId: number) {
+  openCurrentChat(chatId: number) {
     const currentChat = this.userChats.find((chat) => chat.id === chatId);
     this.setCurrentChat(currentChat);
   }
 
-  public searchFriends(name: string) {
+  searchFriends(name: string) {
     this.httpClient
       .get(`${environment.backendUserLink}user/findUserByName?name=${name}&page=0&size=5`)
       .subscribe((data: FriendArrayModel) => {

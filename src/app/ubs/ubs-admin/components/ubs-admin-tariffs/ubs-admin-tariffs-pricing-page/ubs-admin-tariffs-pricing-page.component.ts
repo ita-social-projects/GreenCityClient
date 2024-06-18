@@ -48,14 +48,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   service: Service;
   thisLocation: Locations[];
   reset = true;
-  public limitEnum = limitStatus;
+  limitEnum = limitStatus;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  public currentLanguage: string;
-  public icons = {
+  currentLanguage: string;
+  icons = {
     edit: './assets/img/profile/icons/edit.svg',
     delete: './assets/img/profile/icons/delete.svg'
   };
-  public dialog: MatDialog;
+  dialog: MatDialog;
   private tariffsService: TariffsService;
   private orderService: OrderService;
   private localStorageService: LocalStorageService;
@@ -66,11 +66,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
   private employeeAuthorities: string[];
-  public isEmployeeCanControlService: boolean;
-  public isEmployeeCanEditPricingCard: boolean;
-  public isEmployeeCanActivateDeactivate: boolean;
-  public isEmployeeCanUseCrumbs: boolean;
-  public orderMaxLimit = { amount: 99999, sum: 9999999 };
+  isEmployeeCanControlService: boolean;
+  isEmployeeCanEditPricingCard: boolean;
+  isEmployeeCanActivateDeactivate: boolean;
+  isEmployeeCanUseCrumbs: boolean;
+  orderMaxLimit = { amount: 99999, sum: 9999999 };
 
   constructor(
     private injector: Injector,
@@ -480,7 +480,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getSelectedTariffCard(): void {
+  getSelectedTariffCard(): void {
     this.tariffsService
       .getCardInfo()
       .pipe(takeUntil(this.destroy))
@@ -531,7 +531,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  public checkOnNumber(event: KeyboardEvent, control: AbstractControl): boolean {
+  checkOnNumber(event: KeyboardEvent, control: AbstractControl): boolean {
     return !isNaN(Number(event.key)) && control.value !== 0;
   }
 
@@ -556,7 +556,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 

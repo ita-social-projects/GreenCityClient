@@ -11,15 +11,15 @@ import { SearchDto } from 'src/app/main/component/layout/components/models/searc
 export class SearchService {
   private backEndLink = environment.backendLink;
   private allElemsSubj = new Subject<any>();
-  public searchSubject = new Subject<boolean>();
-  public allSearchSubject = new Subject<boolean>();
-  public allElements: SearchDto;
+  searchSubject = new Subject<boolean>();
+  allSearchSubject = new Subject<boolean>();
+  allElements: SearchDto;
 
-  public getAllResults(searchQuery: string, category, lang: string): Observable<SearchModel> {
+  getAllResults(searchQuery: string, category, lang: string): Observable<SearchModel> {
     return this.http.get<SearchModel>(`${this.backEndLink}search/${category}?lang=${lang}&searchQuery=${encodeURI(searchQuery)}`);
   }
 
-  public getAllResultsByCat(
+  getAllResultsByCat(
     query: string,
     category: string = 'news',
     page: number = 0,
@@ -31,19 +31,19 @@ export class SearchService {
     );
   }
 
-  public toggleSearchModal() {
+  toggleSearchModal() {
     this.searchSubject.next(true);
   }
 
-  public closeSearchSignal() {
+  closeSearchSignal() {
     this.searchSubject.next(false);
   }
 
-  public toggleAllSearch(value) {
+  toggleAllSearch(value) {
     this.allSearchSubject.next(value);
   }
 
-  public getElementsAsObserv(): Observable<any> {
+  getElementsAsObserv(): Observable<any> {
     return this.allElemsSubj.asObservable();
   }
 

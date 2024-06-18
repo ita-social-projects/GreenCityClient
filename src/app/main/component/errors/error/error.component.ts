@@ -7,11 +7,11 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent {
-  public closeDiaglog = './assets/img/icon/close.png';
+  closeDiaglog = './assets/img/icon/close.png';
 
   constructor(private matDialogRef: MatDialogRef<ErrorComponent>) {}
 
-  public closePopup(): void {
+  closePopup(): void {
     this.matDialogRef.close();
   }
 }

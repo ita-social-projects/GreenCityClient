@@ -154,7 +154,7 @@ export class InterceptorService implements HttpInterceptor {
     });
   }
 
-  public openErrorWindow(message: string): void {
+  openErrorWindow(message: string): void {
     this.snackBar.openSnackBar(message);
   }
 

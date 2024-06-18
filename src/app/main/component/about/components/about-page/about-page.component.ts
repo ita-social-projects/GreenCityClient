@@ -12,9 +12,9 @@ import { visionCards } from '../constants/vision-cards.const';
   styleUrls: ['./about-page.component.scss']
 })
 export class AboutPageComponent implements OnInit, OnDestroy {
-  public langChangeSub: Subscription;
+  langChangeSub: Subscription;
   private userId: number;
-  public visionCards: VisionCard[] = visionCards;
+  visionCards: VisionCard[] = visionCards;
 
   constructor(
     private router: Router,
@@ -36,11 +36,11 @@ export class AboutPageComponent implements OnInit, OnDestroy {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 
-  public navigateToHabit(): void {
+  navigateToHabit(): void {
     this.router.navigate(['profile', this.userId]);
   }
 
-  public generateVisionCardClass(idx: number) {
+  generateVisionCardClass(idx: number) {
     return `vision-card vision-card__${idx + 1}`;
   }
 

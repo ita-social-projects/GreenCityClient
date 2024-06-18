@@ -12,11 +12,11 @@ import { ubsHeaderIcons } from '../../main/image-pathes/header-icons';
   styleUrls: ['./ubs-footer.component.scss']
 })
 export class UbsFooterComponent {
-  public footerPicture = ubsHeaderIcons;
-  public screenWidth = window.innerWidth;
-  public currentYear = new Date().getFullYear();
-  public ubsNavLinks = ubsNavLinks;
-  public socialLinks = socialLinks;
+  footerPicture = ubsHeaderIcons;
+  screenWidth = window.innerWidth;
+  currentYear = new Date().getFullYear();
+  ubsNavLinks = ubsNavLinks;
+  socialLinks = socialLinks;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   @ViewChild('serviceref') serviceref: ElementRef;
 
@@ -26,7 +26,7 @@ export class UbsFooterComponent {
     this.screenWidth = window.innerWidth;
   }
 
-  public openAboutServicePopUp(event: Event): void {
+  openAboutServicePopUp(event: Event): void {
     event.preventDefault();
     const matDialogRef = this.dialog.open(UbsPickUpServicePopUpComponent, {
       hasBackdrop: true,
@@ -44,7 +44,7 @@ export class UbsFooterComponent {
       });
   }
 
-  public onPressEnter(event: Event): void {
+  onPressEnter(event: Event): void {
     //$Event KeyboardEvent
     event.preventDefault();
     this.openAboutServicePopUp(event);

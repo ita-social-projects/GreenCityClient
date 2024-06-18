@@ -28,29 +28,29 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   private localStorageService: LocalStorageService;
   private ubsOrderFormService: UBSOrderFormService;
   private orderService: OrderService;
-  public selectedRadio: string;
-  public certificatePattern = Patterns.serteficatePattern;
-  public certificateMask = Masks.certificateMask;
-  public orderDetailsForm: FormGroup;
-  public certificateStatus: boolean[] = [];
-  public orderClientDto: OrderClientDto;
-  public selectedPayment: string;
-  public isUseBonuses: boolean;
-  public liqPayButtonForm: SafeHtml;
-  public liqPayButton: NodeListOf<HTMLElement>;
-  public dataLoadingLiqPay: boolean;
-  public isLiqPayLink: boolean;
-  public isCertBeenUsed = false;
-  public usedCertificates: string[] = [];
-  public overpayment: number;
+  selectedRadio: string;
+  certificatePattern = Patterns.serteficatePattern;
+  certificateMask = Masks.certificateMask;
+  orderDetailsForm: FormGroup;
+  certificateStatus: boolean[] = [];
+  orderClientDto: OrderClientDto;
+  selectedPayment: string;
+  isUseBonuses: boolean;
+  liqPayButtonForm: SafeHtml;
+  liqPayButton: NodeListOf<HTMLElement>;
+  dataLoadingLiqPay: boolean;
+  isLiqPayLink: boolean;
+  isCertBeenUsed = false;
+  usedCertificates: string[] = [];
+  overpayment: number;
 
-  public userOrder: IOrderDetailsUser = {
+  userOrder: IOrderDetailsUser = {
     id: this.data.orderId,
     sum: this.data.price,
     bonusValue: this.data.bonuses
   };
 
-  public userCertificate: ICertificate = {
+  userCertificate: ICertificate = {
     certificateStatusActive: false,
     certificateError: false,
     creationDate: [],
@@ -60,7 +60,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     certificates: []
   };
 
-  public bonusInfo: IBonusInfo = {
+  bonusInfo: IBonusInfo = {
     left: 0,
     used: 0
   };
@@ -87,7 +87,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.orderClientDto = new OrderClientDto();
   }
 
-  public createCertificateItem(): FormGroup {
+  createCertificateItem(): FormGroup {
     return this.fb.group({
       certificateCode: [null, [Validators.minLength(8), Validators.pattern(this.certificatePattern)]],
       certificateSum: [0, [Validators.min(0)]],
@@ -95,7 +95,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     });
   }
 
-  public initForm(): void {
+  initForm(): void {
     this.orderDetailsForm = this.fb.group({
       bonus: ['no', [Validators.required]],
       paymentSystem: ['Liqpay', [Validators.required]],
@@ -115,7 +115,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return this.orderDetailsForm.get('paymentSystem') as FormControl;
   }
 
-  public certificateSubmit(index: number, certificate: FormControl | AbstractControl): void {
+  certificateSubmit(index: number, certificate: FormControl | AbstractControl): void {
     this.isCertBeenUsed = false;
     if (!this.usedCertificates || !this.usedCertificates.some((item, ind) => item === certificate.value.certificateCode && ind !== index)) {
       this.userCertificate.certificates.push(certificate.value);
@@ -132,7 +132,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return this.isCertBeenUsed;
   }
 
-  public calculateCertificate(certificate: FormControl | AbstractControl): void {
+  calculateCertificate(certificate: FormControl | AbstractControl): void {
     this.userCertificate.certificateSum = 0;
     this.userCertificate.certificateStatusActive = false;
     this.orderService.processCertificate(certificate.value.certificateCode).subscribe(
@@ -183,7 +183,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return date?.split('-').reverse().join('.');
   }
 
-  public deleteCertificate(index: number, certificate: FormControl | AbstractControl): void {
+  deleteCertificate(index: number, certificate: FormControl | AbstractControl): void {
     const certSum = this.formArrayCertificates.value.reduce(
       (certificatesSum: number, certificateItem: ICertificatePayment) => certificatesSum + certificateItem.certificateSum,
       0
@@ -230,13 +230,13 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     );
   }
 
-  public addNewCertificate(): void {
+  addNewCertificate(): void {
     this.formArrayCertificates.push(this.createCertificateItem());
     this.userCertificate.certificateStatusActive = false;
     this.certificateStatus.push(true);
   }
 
-  public fillOrderClientDto(): void {
+  fillOrderClientDto(): void {
     this.orderClientDto.orderId = this.userOrder.id;
     if (this.userCertificate.certificates.length) {
       this.orderClientDto.certificates = [];
@@ -246,13 +246,13 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     }
   }
 
-  public formOrderWithoutPaymentSystems(id: number): void {
+  formOrderWithoutPaymentSystems(id: number): void {
     this.ubsOrderFormService.transferOrderId(id);
     this.ubsOrderFormService.setOrderResponseErrorStatus(false);
     this.ubsOrderFormService.setOrderStatus(true);
   }
 
-  public redirectionToConfirmPage(): void {
+  redirectionToConfirmPage(): void {
     this.formOrderWithoutPaymentSystems(this.orderClientDto.orderId);
     this.router.navigate(['ubs', 'confirm']);
   }
@@ -261,7 +261,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     document.location.href = url;
   }
 
-  public processOrder(): void {
+  processOrder(): void {
     this.dataLoadingLiqPay = true;
     this.fillOrderClientDto();
     this.localStorageService.clearPaymentInfo();
@@ -296,12 +296,12 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     });
   }
 
-  public orderOptionPayment(event: Event): void {
+  orderOptionPayment(event: Event): void {
     this.selectedPayment = (event.target as HTMLInputElement).value;
     this.fillOrderClientDto();
   }
 
-  public bonusOption(event: MatRadioChange): void {
+  bonusOption(event: MatRadioChange): void {
     if (event.value === 'yes') {
       this.isUseBonuses = true;
       this.calculateBonuses();

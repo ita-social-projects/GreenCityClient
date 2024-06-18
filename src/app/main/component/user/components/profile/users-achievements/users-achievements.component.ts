@@ -7,7 +7,7 @@ import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
   styleUrls: ['./users-achievements.component.scss']
 })
 export class UsersAchievementsComponent {
-  public achievementsImages = PROFILE_IMAGES.achs;
+  achievementsImages = PROFILE_IMAGES.achs;
 
   @Input() currLang: string;
 }

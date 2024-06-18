@@ -8,7 +8,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   styleUrls: ['./tag-filter.component.scss']
 })
 export class TagFilterComponent implements OnInit {
-  public filters: Array<FilterModel> = [];
+  filters: Array<FilterModel> = [];
   @Input() private storageKey: string;
   @Input() public tagsListData = [];
   @Input() public header: string;
@@ -21,15 +21,15 @@ export class TagFilterComponent implements OnInit {
     this.emitActiveFilters();
   }
 
-  public emitTrueFilterValues(): Array<string> {
+  emitTrueFilterValues(): Array<string> {
     return this.filters.filter((active) => active.isActive).map((filter) => this.getLangValue(filter.nameUa, filter.name));
   }
 
-  public emitActiveFilters(): void {
+  emitActiveFilters(): void {
     this.tagsList.emit(this.emitTrueFilterValues());
   }
 
-  public toggleFilter(currentFilter: string): void {
+  toggleFilter(currentFilter: string): void {
     this.filters.forEach((el) => (el.isActive = el.name === currentFilter ? !el.isActive : el.isActive));
     this.emitActiveFilters();
     const isAnyFilterSelcted = this.filters.some((item) => item.isActive === true);
@@ -49,7 +49,7 @@ export class TagFilterComponent implements OnInit {
     return filters !== null ? JSON.parse(filters) : this.tagsListData;
   }
 
-  public getLangValue(valUa: string, valEn: string): string {
+  getLangValue(valUa: string, valEn: string): string {
     return this.langService.getLangValue(valUa, valEn) as string;
   }
 }

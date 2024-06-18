@@ -19,16 +19,16 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
   @Input() ecoNewsText;
   @ViewChild('ecoNewsText', { static: true }) text;
 
-  public profileIcons = userAssignedCardsIcons;
-  public newsImage: string;
-  public likeImg = 'assets/events-icons/like.png';
-  public commentImg = 'assets/events-icons/frame.png';
-  public tags: Array<string>;
-  public currentLang: string;
+  profileIcons = userAssignedCardsIcons;
+  newsImage: string;
+  likeImg = 'assets/events-icons/like.png';
+  commentImg = 'assets/events-icons/frame.png';
+  tags: Array<string>;
+  currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  public newDate;
-  public datePipe;
+  newDate;
+  datePipe;
 
   constructor(
     public translate: TranslateService,
@@ -44,7 +44,7 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
     });
   }
 
-  public checkNewsImage(): string {
+  checkNewsImage(): string {
     this.newsImage =
       this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
         ? this.ecoNewsModel.imagePath

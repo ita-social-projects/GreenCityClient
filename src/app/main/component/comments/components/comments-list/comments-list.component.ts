@@ -22,14 +22,14 @@ export class CommentsListComponent {
   @Input() public isLoggedIn: boolean;
   @Input() public userId: number;
   @Output() public changedList = new EventEmitter<AddedCommentDTO>();
-  public types = dataTypes;
-  public commentMaxLength = 8000;
-  public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(this.commentMaxLength)]);
+  types = dataTypes;
+  commentMaxLength = 8000;
+  content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(this.commentMaxLength)]);
   private commentHtml = '';
-  public editIcon = 'assets/img/comments/edit.png';
-  public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
-  public likeImg = 'assets/img/comments/like.png';
-  public isEditTextValid: boolean;
+  editIcon = 'assets/img/comments/edit.png';
+  cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
+  likeImg = 'assets/img/comments/like.png';
+  isEditTextValid: boolean;
   private confirmDialogConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -41,7 +41,7 @@ export class CommentsListComponent {
       popupCancel: `homepage.eco-news.comment.comment-popup-cancel-edit.cancel`
     }
   };
-  public isAddingReply = false;
+  isAddingReply = false;
   private isAdmin = this.jwtService.getUserRole() === 'ROLE_ADMIN';
 
   constructor(
@@ -51,15 +51,15 @@ export class CommentsListComponent {
     private dialog: MatDialog
   ) {}
 
-  public deleteComment($event): void {
+  deleteComment($event): void {
     this.changedList.emit($event);
   }
 
-  public isCommentEdited(element: CommentsDTO): boolean {
+  isCommentEdited(element: CommentsDTO): boolean {
     return element.status === 'EDITED';
   }
 
-  public saveEditedComment(element: CommentsDTO): void {
+  saveEditedComment(element: CommentsDTO): void {
     this.commentsService
       .editComment(element.id, this.commentHtml)
       .pipe(take(1))
@@ -71,7 +71,7 @@ export class CommentsListComponent {
     element.modifiedDate = String(Date.now());
   }
 
-  public cancelEditedComment(element: CommentsDTO): void {
+  cancelEditedComment(element: CommentsDTO): void {
     const dialogRef = this.dialog.open(WarningPopUpComponent, this.confirmDialogConfig);
     dialogRef
       .afterClosed()
@@ -83,7 +83,7 @@ export class CommentsListComponent {
       });
   }
 
-  public changeCounter(counter: number, id: number, key: string): void {
+  changeCounter(counter: number, id: number, key: string): void {
     this.elementsList = this.elementsList.map((item) => {
       if (item.id === id) {
         item[key] = counter;
@@ -92,7 +92,7 @@ export class CommentsListComponent {
     });
   }
 
-  public onCommentClick(event: MouseEvent): void {
+  onCommentClick(event: MouseEvent): void {
     const userId = (event.target as HTMLElement).getAttribute('data-userid');
     const userName = (event.target as HTMLElement).textContent;
     if (userId) {
@@ -100,7 +100,7 @@ export class CommentsListComponent {
     }
   }
 
-  public showElements(id: number, key: 'isEdit' | 'showAllRelies' | 'showRelyButton'): void {
+  showElements(id: number, key: 'isEdit' | 'showAllRelies' | 'showRelyButton'): void {
     if (key !== 'showAllRelies') {
       this.updateContentControl(id);
     }
@@ -115,13 +115,13 @@ export class CommentsListComponent {
     });
   }
 
-  public updateContentControl(id: number): void {
+  updateContentControl(id: number): void {
     const commentContent = this.elementsList.filter((el) => el.id === id)[0].text;
     this.content.setValue(commentContent);
     this.isEditTextValid = true;
   }
 
-  public isShowReplies(id: number): boolean {
+  isShowReplies(id: number): boolean {
     for (const item of this.elementsList) {
       if (item.id === id && item.showAllRelies) {
         return item.showAllRelies;
@@ -130,7 +130,7 @@ export class CommentsListComponent {
     return false;
   }
 
-  public checkCommentAuthor(commentAuthorId: number) {
+  checkCommentAuthor(commentAuthorId: number) {
     return this.isAdmin || commentAuthorId === Number(this.userId);
   }
 

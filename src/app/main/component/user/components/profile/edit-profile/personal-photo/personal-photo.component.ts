@@ -10,11 +10,11 @@ import { ProfileService } from '../../profile-service/profile.service';
   styleUrls: ['./personal-photo.component.scss']
 })
 export class PersonalPhotoComponent implements OnInit, OnDestroy {
-  public avatarImg: string;
-  public avatarSubscription: Subscription;
-  public currentPage = 'edit photo';
-  public editIcon = './assets/img/profile/icons/edit-photo.svg';
-  public userName: string;
+  avatarImg: string;
+  avatarSubscription: Subscription;
+  currentPage = 'edit photo';
+  editIcon = './assets/img/profile/icons/edit-photo.svg';
+  userName: string;
   @ViewChild('editImage') previousActiveElement: ElementRef;
   constructor(
     private profileService: ProfileService,
@@ -32,7 +32,7 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
     });
   }
 
-  public openEditPhoto(): void {
+  openEditPhoto(): void {
     const dialogRef = this.dialog.open(EditPhotoPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,

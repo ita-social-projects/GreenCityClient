@@ -68,11 +68,11 @@ export class AdminTableService {
     return this.http.put<IAlertInfo[]>(`${this.url}blockOrders`, ids);
   }
 
-  public cancelEdit(ids: number[]) {
+  cancelEdit(ids: number[]) {
     return this.http.put(`${this.url}unblockOrders`, ids);
   }
 
-  public howChangeCell(all: boolean, group: number[], single: number): number[] {
+  howChangeCell(all: boolean, group: number[], single: number): number[] {
     if (all) {
       return [];
     }
@@ -92,7 +92,7 @@ export class AdminTableService {
     return columnMapping[column] || column.replace('From', '.from').replace('To', '.to');
   }
 
-  public changeColumnNameEqualToEndPoint(column: string): string {
+  changeColumnNameEqualToEndPoint(column: string): string {
     let endPointColumnName: string;
     switch (column) {
       case 'dateOfExport':
@@ -123,7 +123,7 @@ export class AdminTableService {
     return endPointColumnName;
   }
 
-  public changeColumnNameEqualToTable(column: string): string {
+  changeColumnNameEqualToTable(column: string): string {
     let tableColumnName: string;
     switch (column) {
       case 'deliveryDate':
@@ -264,7 +264,7 @@ export class AdminTableService {
     return date;
   }
 
-  public saveDateFilters(checked, currentColumn, elem) {
+  saveDateFilters(checked, currentColumn, elem) {
     this.columnsForFiltering.forEach((column) => {
       if (column.key === currentColumn) {
         column.values = [{ ...elem, filtered: checked }];
@@ -286,7 +286,7 @@ export class AdminTableService {
     return todayDate;
   }
 
-  public setFilters(filters): void {
+  setFilters(filters): void {
     this.filters = filters;
   }
 
@@ -307,7 +307,7 @@ export class AdminTableService {
     return this.http.put(`${this.url}orderTableColumnsWidth`, columnWidthDto);
   }
 
-  public getUbsAdminOrdersTableColumnsWidthPreference() {
+  getUbsAdminOrdersTableColumnsWidthPreference() {
     return this.http.get(`${this.url}orderTableColumnsWidth`);
   }
 }

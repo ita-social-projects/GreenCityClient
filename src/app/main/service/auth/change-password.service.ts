@@ -9,15 +9,15 @@ import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 export class ChangePasswordService {
   constructor(private http: HttpClient) {}
 
-  public restorePassword(dto: RestoreDto): Observable<object> {
+  restorePassword(dto: RestoreDto): Observable<object> {
     return this.http.post<object>(updatePasswordLink, dto);
   }
 
-  public changePassword(updatePasswordDto: UpdatePasswordDto): Observable<object> {
+  changePassword(updatePasswordDto: UpdatePasswordDto): Observable<object> {
     return this.http.put<UpdatePasswordDto>(changePasswordLink, updatePasswordDto);
   }
 
-  public setPasswordForGoogleAuth(updatePasswordDto: UpdatePasswordDto): Observable<object> {
+  setPasswordForGoogleAuth(updatePasswordDto: UpdatePasswordDto): Observable<object> {
     return this.http.post<object>(setPasswordForGoogleLink, updatePasswordDto);
   }
 }

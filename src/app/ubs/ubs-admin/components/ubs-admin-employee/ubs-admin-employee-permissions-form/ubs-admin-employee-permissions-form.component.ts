@@ -20,7 +20,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
   employee: Page;
   panelToggler = false;
 
-  public groups = [
+  groups = [
     { name: 'clients', permissions: ['SEE_CLIENTS_PAGE'] },
     {
       name: 'employees',

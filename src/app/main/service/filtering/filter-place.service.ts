@@ -27,8 +27,8 @@ export class FilterPlaceService {
   distance: number;
   userMarkerLocation: PlaceLocation = new PlaceLocation();
 
-  public filtersDto$: BehaviorSubject<any> = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
-  public isFavoriteFilter$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  filtersDto$: BehaviorSubject<any> = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
+  isFavoriteFilter$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private datePipe: DatePipe) {}
 

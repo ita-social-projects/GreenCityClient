@@ -71,7 +71,7 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
     });
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 

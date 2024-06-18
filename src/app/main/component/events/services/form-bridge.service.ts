@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class FormBridgeService {
   // TODO change any to form type
-  public dayMap = new Map<number, Date | undefined>();
+  dayMap = new Map<number, Date | undefined>();
 
   private _locationSubject: BehaviorSubject<{
     place: string;
