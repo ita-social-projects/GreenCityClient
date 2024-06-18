@@ -14,6 +14,7 @@ import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-
 import { Language } from 'src/app/main/i18n/Language';
 import { FriendModel } from '@user-models/friend.model';
 import { Router } from '@angular/router';
+import { FriendStatusValues } from '@user-models/friend.model';
 
 describe('UsersFriendsComponent', () => {
   let renderer: Renderer2;
@@ -30,10 +31,10 @@ describe('UsersFriendsComponent', () => {
   localStorageServiceMock.languageSubject = of('en');
 
   const userData: FriendModel[] = [
-    { id: 1, name: 'John', email: 'john@example.com', rating: 5, friendStatus: 'FRIEND', requesterId: 2 },
-    { id: 2, name: 'Jane', email: 'jane@example.com', rating: 4, friendStatus: 'FRIEND', requesterId: 1 },
-    { id: 3, name: 'Doe', email: 'doe@example.com', rating: 3, friendStatus: 'FRIEND', requesterId: 2 },
-    { id: 4, name: 'Jack', email: 'Jack@example.com', rating: 3, friendStatus: 'FRIEND', requesterId: 2 }
+    { id: 1, name: 'John', email: 'john@example.com', rating: 5, friendStatus: FriendStatusValues.FRIEND, requesterId: 2 },
+    { id: 2, name: 'Jane', email: 'jane@example.com', rating: 4, friendStatus: FriendStatusValues.FRIEND, requesterId: 1 },
+    { id: 3, name: 'Doe', email: 'doe@example.com', rating: 3, friendStatus: FriendStatusValues.FRIEND, requesterId: 2 },
+    { id: 4, name: 'Jack', email: 'Jack@example.com', rating: 3, friendStatus: FriendStatusValues.FRIEND, requesterId: 2 }
   ];
 
   const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', ['getAllFriends']);
