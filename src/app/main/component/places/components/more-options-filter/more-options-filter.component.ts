@@ -13,11 +13,11 @@ import { baseFiltersForPlaces, servicesFiltersForPlaces } from '../../models/pla
 export class MoreOptionsFilterComponent implements OnInit, OnChanges {
   @Input() public value: MoreOptionsFormValue;
   @Output() public filtersChange: EventEmitter<MoreOptionsFormValue> = new EventEmitter<MoreOptionsFormValue>();
-  public baseFilters: FilterModel[] = baseFiltersForPlaces;
-  public distanceFilter: DistanceFilter = { isActive: false, value: null };
-  public servicesFilters: FilterModel[] = servicesFiltersForPlaces;
+  baseFilters: FilterModel[] = baseFiltersForPlaces;
+  distanceFilter: DistanceFilter = { isActive: false, value: null };
+  servicesFilters: FilterModel[] = servicesFiltersForPlaces;
 
-  public filtersForm: FormGroup = new FormGroup({
+  filtersForm: FormGroup = new FormGroup({
     baseFilters: new FormGroup(
       this.baseFilters.reduce((filters: any, filterName: FilterModel) => {
         filters[filterName.name] = new FormControl(false);
@@ -36,7 +36,7 @@ export class MoreOptionsFilterComponent implements OnInit, OnChanges {
     )
   });
 
-  public isActiveFilter = false;
+  isActiveFilter = false;
 
   private suppressNextEmit = false;
 
@@ -63,7 +63,7 @@ export class MoreOptionsFilterComponent implements OnInit, OnChanges {
     }
   }
 
-  public updateIsActiveFilter(formValue: MoreOptionsFormValue): void {
+  updateIsActiveFilter(formValue: MoreOptionsFormValue): void {
     const isBaseFilter: boolean = Object.values(formValue.baseFilters).includes(true);
     const isServicesFilter: boolean = Object.values(formValue.servicesFilters).includes(true);
     this.isActiveFilter = isBaseFilter || isServicesFilter || formValue.distance.isActive;

@@ -10,7 +10,7 @@ import { SnackbarClassName } from '@global-errors/error-constants';
   providers: [TranslateService]
 })
 export class MatSnackBarComponent {
-  public message: string;
+  message: string;
   snackType = {
     error: { classname: SnackbarClassName.error, key: 'snack-bar.error.default' },
     createEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.create-news' },
@@ -76,7 +76,7 @@ export class MatSnackBarComponent {
     private translate: TranslateService
   ) {}
 
-  public openSnackBar(type: string, additionalValue?: string) {
+  openSnackBar(type: string, additionalValue?: string) {
     const isInclude = type.includes('400') ? this.getSnackBarMessage('error') : this.getSnackBarMessage('errorMessage', type);
     if (additionalValue) {
       return this.snackType[type] ? this.getSnackBarMessage(type, additionalValue) : isInclude;
@@ -84,7 +84,7 @@ export class MatSnackBarComponent {
     return this.snackType[type] ? this.getSnackBarMessage(type) : isInclude;
   }
 
-  public getSnackBarMessage(type: string, additionalValue?: string): void {
+  getSnackBarMessage(type: string, additionalValue?: string): void {
     const className = this.snackType[type].classname;
     const key = this.snackType[type].key || type;
     const addValue = additionalValue ? { orderId: additionalValue } : {};

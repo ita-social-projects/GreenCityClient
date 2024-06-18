@@ -16,16 +16,16 @@ import { UserOnlineStatusService } from '@global-user/services/user-online-statu
   styleUrls: ['./all-friends.component.scss']
 })
 export class AllFriendsComponent implements OnInit, OnDestroy {
-  public userId: number;
-  public friends: FriendModel[] = [];
+  userId: number;
+  friends: FriendModel[] = [];
   private destroy$ = new Subject();
-  public currentPage = 0;
+  currentPage = 0;
   private size = 10;
-  public totalPages: number;
-  public emptySearchList = false;
-  public searchQuery = '';
-  public isFetching = false;
-  public searchMode = false;
+  totalPages: number;
+  emptySearchList = false;
+  searchQuery = '';
+  isFetching = false;
+  searchMode = false;
   readonly absent = 'assets/img/noNews.svg';
   friendsStore$ = this.store.select((state: IAppState) => state.friend);
 
@@ -45,7 +45,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getAllFriends() {
+  getAllFriends() {
     this.isFetching = true;
     this.friendsStore$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.isFetching = false;
@@ -60,7 +60,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public findFriendByName(value: string): void {
+  findFriendByName(value: string): void {
     this.isFetching = true;
     this.searchQuery = value;
     this.searchMode = true;
@@ -89,7 +89,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onScroll(): void {
+  onScroll(): void {
     if (this.emptySearchList) {
       return;
     }
@@ -100,7 +100,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public initUser(): void {
+  initUser(): void {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));
   }
 

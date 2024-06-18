@@ -10,7 +10,7 @@ import { filter, first, switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class SocketService implements OnDestroy {
-  public connection = {
+  connection = {
     greenCity: { url: environment.socket, socket: null, state: null },
     greenCityUser: { url: environment.userSocket, socket: null, state: null }
   };
@@ -27,7 +27,7 @@ export class SocketService implements OnDestroy {
     }
   }
 
-  public connect(connection: SocketConnection): Observable<any> {
+  connect(connection: SocketConnection): Observable<any> {
     return new Observable((observer) => {
       connection.state.pipe(filter((state) => state === SocketClientState.CONNECTED)).subscribe(() => {
         observer.next(connection.socket);
@@ -35,7 +35,7 @@ export class SocketService implements OnDestroy {
     });
   }
 
-  public onMessage(connection: SocketConnection, topic: string): Observable<any> {
+  onMessage(connection: SocketConnection, topic: string): Observable<any> {
     return this.connect(connection).pipe(
       first(),
       switchMap(
@@ -50,7 +50,7 @@ export class SocketService implements OnDestroy {
     );
   }
 
-  public send(connection: SocketConnection, topic: string, payload: any): void {
+  send(connection: SocketConnection, topic: string, payload: any): void {
     this.connect(connection)
       .pipe(first())
       .subscribe((client) => client.send(topic, {}, JSON.stringify(payload)));

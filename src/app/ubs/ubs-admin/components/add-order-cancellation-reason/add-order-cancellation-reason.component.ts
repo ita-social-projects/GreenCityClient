@@ -17,13 +17,13 @@ import { CancellationReason } from 'src/app/ubs/ubs/order-status.enum';
 export class AddOrderCancellationReasonComponent implements OnInit {
   closeButton = './assets/img/profile/icons/cancel.svg';
   date = new Date();
-  public commentForm: FormGroup;
-  public cancellationReason: string;
-  public cancellationComment: string;
-  public orderID: number;
-  public isHistory: boolean;
-  public adminName;
-  public reasonList = CancellationReasonList;
+  commentForm: FormGroup;
+  cancellationReason: string;
+  cancellationComment: string;
+  orderID: number;
+  isHistory: boolean;
+  adminName;
+  reasonList = CancellationReasonList;
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -47,7 +47,7 @@ export class AddOrderCancellationReasonComponent implements OnInit {
     });
   }
 
-  public initForm(): void {
+  initForm(): void {
     this.commentForm = this.fb.group({
       cancellationComment: ['', [Validators.required, Validators.maxLength(255)]]
     });
@@ -69,7 +69,7 @@ export class AddOrderCancellationReasonComponent implements OnInit {
     this.dialogRef.close(res);
   }
 
-  public disableButton(): boolean {
+  disableButton(): boolean {
     const isCancelReasonOther = this.cancellationReason === CancellationReason.OTHER;
     const isFormUntouched = this.commentForm.untouched && !this.cancellationReason;
     const isInvalidCommentForm = this.commentForm.invalid && this.commentForm.touched && isCancelReasonOther;

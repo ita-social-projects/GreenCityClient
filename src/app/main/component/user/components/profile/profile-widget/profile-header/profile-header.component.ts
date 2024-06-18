@@ -17,7 +17,7 @@ import { UsersCategOnlineStatus } from '@global-user/models/friend.model';
 })
 export class ProfileHeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject();
-  public mockedUserInfo = {
+  mockedUserInfo = {
     city: '',
     status: 'online',
     rating: 0,
@@ -25,16 +25,16 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   };
   socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city', 'x'];
   userSocialNetworks: Array<any>;
-  public userId: number;
-  public profileUserId: number;
+  userId: number;
+  profileUserId: number;
   private isCurrentUserProfile: boolean;
-  public icons: Record<string, string> = {};
+  icons: Record<string, string> = {};
   private userId$: Subscription;
 
   @Input() public progress: ProfileStatistics;
   @Input() public userInfo: EditProfileModel;
-  public isUserOnline: boolean;
-  public showEditButton: boolean;
+  isUserOnline: boolean;
+  showEditButton: boolean;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -59,7 +59,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public checkIsOnline(): boolean {
+  checkIsOnline(): boolean {
     return this.isCurrentUserProfile || this.userOnlineStatusService.checkIsOnline(this.profileUserId);
   }
 
@@ -70,11 +70,11 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     return 0;
   }
 
-  public getSocialImage(socialNetwork: string): string {
+  getSocialImage(socialNetwork: string): string {
     return this.profileService.getSocialImage(socialNetwork);
   }
 
-  public getUserCity(locationDto: UserLocationDto): string {
+  getUserCity(locationDto: UserLocationDto): string {
     if (locationDto) {
       const city = this.langService.getLangValue(locationDto?.cityUa, locationDto?.cityEn) as string;
       const country = this.langService.getLangValue(locationDto?.countryUa, locationDto?.countryEn) as string;

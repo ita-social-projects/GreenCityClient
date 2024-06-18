@@ -15,9 +15,9 @@ import { UserOnlineStatusService } from '@global-user/services/user-online-statu
 })
 export class FriendItemComponent implements OnInit {
   private destroy$ = new Subject();
-  public currentLang: string;
-  public userId: number;
-  public currentUserId: number;
+  currentLang: string;
+  userId: number;
+  currentUserId: number;
   userDataAsFriend: UserDataAsFriend;
 
   @Input() friend: FriendModel;
@@ -66,18 +66,18 @@ export class FriendItemComponent implements OnInit {
     }
   }
 
-  public clickHandler(event: MouseEvent): void {
+  clickHandler(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (target.tagName !== 'BUTTON') {
       target.classList.contains('friend-mutual-link') ? this.toUsersInfo(UserDashboardTab.mutualFriends) : this.toUsersInfo();
     }
   }
 
-  public getFriendCity(locationDto: UserLocationDto): string {
+  getFriendCity(locationDto: UserLocationDto): string {
     return this.langService.getLangValue(locationDto?.cityUa, locationDto?.cityEn) as string;
   }
 
-  public checkIsOnline(friendId: number): boolean {
+  checkIsOnline(friendId: number): boolean {
     return this.userOnlineStatusService.checkIsOnline(friendId);
   }
 }

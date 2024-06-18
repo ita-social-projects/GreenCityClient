@@ -108,7 +108,7 @@ export class CronService {
     }
   };
 
-  public setLocale(locale: string) {
+  setLocale(locale: string) {
     const available = Object.keys(this.locales);
     if (!available.includes(locale)) {
       throw new Error(`Locale ${locale} is not available. List of available locales: ${available.join(', ')}.`);
@@ -122,7 +122,7 @@ export class CronService {
   private mapMonthsTranslations = (...months: number[]) => months.map((mon) => this.locales[this.currentLocale].months[mon - 1]);
   private mapDaysOfWeekTranslations = (...days: number[]) => days.map((day) => this.locales[this.currentLocale].daysOfWeek[day - 1]);
 
-  public parsePart(part: string, validateRange: (val: number) => boolean) {
+  parsePart(part: string, validateRange: (val: number) => boolean) {
     // Every value
     if (part === '*') {
       return { type: 'every', value: null };
@@ -165,7 +165,7 @@ export class CronService {
     throw new Error('Unsupported or invalid cron expression!');
   }
 
-  public parse(cron: string) {
+  parse(cron: string) {
     const [min, hour, dayOfMonth, month, dayOfWeek] = cron.split(' ');
     return {
       min: this.parsePart(min, this.rangeValidators.minute),
@@ -233,7 +233,7 @@ export class CronService {
     return `${dayOfMonthPart} ${andPart} ${dayOfWeekPart}`;
   }
 
-  public descript(cron: string, locale?: string) {
+  descript(cron: string, locale?: string) {
     if (locale) {
       this.setLocale(locale);
     }

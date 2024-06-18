@@ -15,22 +15,18 @@ import { SearchCategory } from '../search-popup/search-consts';
   styleUrls: ['./search-all-results.component.scss']
 })
 export class SearchAllResultsComponent implements OnInit, OnDestroy {
-  public displayedElements: NewsSearchModel[] = [];
-  public isSearchFound: boolean;
-  public itemsFound = 0;
-  public currentPage = 0;
-  public searchCategory: string;
-  public sortType = '';
-  public sortTypes = ['Relevance', 'Newest', 'Oldest'];
-  public sortTypesLocalization = [
-    'search.search-all-results.relevance',
-    'search.search-all-results.newest',
-    'search.search-all-results.oldest'
-  ];
-  public inputValue: string;
-  public isLoading = true;
-  public searchIcons = searchIcons;
-  public filterByItems: FilterByitem[] = [
+  displayedElements: NewsSearchModel[] = [];
+  isSearchFound: boolean;
+  itemsFound = 0;
+  currentPage = 0;
+  searchCategory: string;
+  sortType = '';
+  sortTypes = ['Relevance', 'Newest', 'Oldest'];
+  sortTypesLocalization = ['search.search-all-results.relevance', 'search.search-all-results.newest', 'search.search-all-results.oldest'];
+  inputValue: string;
+  isLoading = true;
+  searchIcons = searchIcons;
+  filterByItems: FilterByitem[] = [
     { category: SearchCategory.NEWS, name: 'news' },
     { category: SearchCategory.EVENTS, name: 'events' }
   ];
@@ -52,7 +48,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.onAddSearchInputListener();
   }
 
-  public handleInputChanges(event: any): void {
+  handleInputChanges(event: any): void {
     this.inputValue = event.target.value;
     this.onSearchUpdateQuery();
   }
@@ -109,7 +105,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onScroll(): void {
+  onScroll(): void {
     if (!this.isLoading) {
       this.isLoading = true;
       this.currentPage++;
@@ -117,7 +113,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public changeCurrentSorting(newSorting: number): void {
+  changeCurrentSorting(newSorting: number): void {
     this.isLoading = true;
     [this.sortTypes[0], this.sortTypes[newSorting]] = [this.sortTypes[newSorting], this.sortTypes[0]];
     [this.sortTypesLocalization[0], this.sortTypesLocalization[newSorting]] = [
@@ -143,7 +139,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onFilterByClick(item: FilterByitem) {
+  onFilterByClick(item: FilterByitem) {
     if (this.searchCategory === item.category) {
       return;
     }

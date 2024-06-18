@@ -45,28 +45,28 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   profileIcons = userAssignedCardsIcons;
 
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
-  public itemTags: Array<TagObj>;
-  public activeTags: Array<TagObj>;
-  public author: string;
-  public isRated: boolean;
-  public isRegistered: boolean;
-  public isReadonly = false;
-  public isPosting: boolean;
-  public isEventFavorite: boolean;
-  public btnStyle: string;
-  public nameBtn: string;
-  public max = 3;
-  public bsModalRef: BsModalRef;
-  public langChangeSub: Subscription;
-  public currentLang: string;
-  public datePipe: DatePipe;
-  public newDate: string | null;
-  public address: LocationResponse;
-  public addAttenderError: string;
-  public isOnline: string;
-  public isOwner: boolean;
-  public isAdmin: boolean;
-  public isActive: boolean;
+  itemTags: Array<TagObj>;
+  activeTags: Array<TagObj>;
+  author: string;
+  isRated: boolean;
+  isRegistered: boolean;
+  isReadonly = false;
+  isPosting: boolean;
+  isEventFavorite: boolean;
+  btnStyle: string;
+  nameBtn: string;
+  max = 3;
+  bsModalRef: BsModalRef;
+  langChangeSub: Subscription;
+  currentLang: string;
+  datePipe: DatePipe;
+  newDate: string | null;
+  address: LocationResponse;
+  addAttenderError: string;
+  isOnline: string;
+  isOwner: boolean;
+  isAdmin: boolean;
+  isActive: boolean;
   attendees = [];
   attendeesAvatars = [];
   deleteDialogData = {
@@ -77,12 +77,12 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   };
   @Output() public isLoggedIn: boolean;
   @Output() idOfUnFavouriteEvent = new EventEmitter<number>();
-  public styleBtn = {
+  styleBtn = {
     secondary: 'secondary-global-button',
     primary: 'primary-global-button',
     hiden: 'event-button-hiden'
   };
-  public btnName = {
+  btnName = {
     edit: 'event.btn-edit',
     delete: 'event.btn-delete',
     rate: 'event.btn-rate',
@@ -153,16 +153,16 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.isEventFavorite = this.event.isFavorite;
   }
 
-  public routeToEvent(): void {
+  routeToEvent(): void {
     this.router.navigate(['/events', this.event.id]);
   }
 
-  public filterTags(tags: Array<TagDto>) {
+  filterTags(tags: Array<TagDto>) {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
     this.activeTags = this.itemTags.filter((val) => val.isActive);
   }
 
-  public checkButtonStatus(): void {
+  checkButtonStatus(): void {
     const { isSubscribed, isRelevant } = this.event;
     this.isActive = isRelevant;
     this.isOwner = Number(this.userId) === this.event.organizer.id;
@@ -195,7 +195,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  public buttonAction(buttonName: string): void {
+  buttonAction(buttonName: string): void {
     this.eventService.setForm(null);
     switch (buttonName) {
       case this.btnName.cancel:
@@ -239,7 +239,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  public submitEventCancelling() {
+  submitEventCancelling() {
     this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
   }
 
@@ -262,7 +262,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       });
   }
 
-  public openModal(): void {
+  openModal(): void {
     const initialState = {
       id: this.event.id,
       isRegistered: this.isRegistered,
@@ -277,7 +277,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.bsModalRef.content.closeBtnName = 'event.btn-close';
   }
 
-  public deleteEvent(): void {
+  deleteEvent(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.deleteDialogData,
       hasBackdrop: true,
@@ -298,12 +298,12 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       });
   }
 
-  public bindLang(lang: string): void {
+  bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
     this.currentLang = this.localStorageService.getCurrentLanguage();
   }
 
-  public subscribeToLangChange(): void {
+  subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.pipe(takeUntil(this.destroyed$)).subscribe(this.bindLang.bind(this));
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang: string) => {
       this.currentLang = lang;
@@ -322,17 +322,17 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getAddress(): string {
+  getAddress(): string {
     if (this.address) {
       return this.eventService.getFormattedAddressEventsList(this.address);
     }
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public changeFavouriteStatus(event?: Event) {
+  changeFavouriteStatus(event?: Event) {
     event?.stopPropagation();
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
@@ -376,7 +376,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  public openAuthModalWindow(page: string): void {
+  openAuthModalWindow(page: string): void {
     this.dialogRef = this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,

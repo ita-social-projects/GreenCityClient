@@ -12,7 +12,10 @@ import { TariffPlaceholderSelected } from '../components/ubs-admin-tariffs/ubs-t
   providedIn: 'root'
 })
 export class TariffsService {
-  constructor(private http: HttpClient, private langService: LanguageService) {}
+  constructor(
+    private http: HttpClient,
+    private langService: LanguageService
+  ) {}
 
   getAllTariffsForService(tariffId: number) {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getTariffService`);
@@ -74,7 +77,7 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/setTariffLimits/${tariffId}`, limits);
   }
 
-  public getJSON(sourceText, lang, translateTo): Observable<any> {
+  getJSON(sourceText, lang, translateTo): Observable<any> {
     return ajax.getJSON(
       `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${lang}&tl=${translateTo}&dt=t&q=` + encodeURI(sourceText)
     );
@@ -104,27 +107,27 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/update-courier`, newCourier);
   }
 
-  public deleteCityInLocation(id: number) {
+  deleteCityInLocation(id: number) {
     return this.http.delete(`${mainUbsLink}/ubs/superAdmin/deleteLocation/${id}`);
   }
 
-  public getFilteredCard(filterData): Observable<any[]> {
+  getFilteredCard(filterData): Observable<any[]> {
     return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/tariffs`, { params: filterData });
   }
 
-  public getCardInfo(): Observable<any[]> {
+  getCardInfo(): Observable<any[]> {
     return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/tariffs`);
   }
 
-  public createCard(card: CreateCard): Observable<object> {
+  createCard(card: CreateCard): Observable<object> {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/add-new-tariff`, card);
   }
 
-  public checkIfCardExist(card: CreateCard): Observable<object> {
+  checkIfCardExist(card: CreateCard): Observable<object> {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/check-if-tariff-exists`, card);
   }
 
-  public editTariffInfo(body, tariffId) {
+  editTariffInfo(body, tariffId) {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffInfo/${tariffId}`, body);
   }
 

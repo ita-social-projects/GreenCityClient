@@ -14,7 +14,7 @@ export class InputErrorComponent implements OnInit {
   @Input() public numberDate: boolean;
   @Input() public isStartEventError: boolean;
 
-  public errorMessage: string | undefined;
+  errorMessage: string | undefined;
   private validationErrors = {
     required: 'input-error.required',
     minlength: 'input-error.min-length-short',

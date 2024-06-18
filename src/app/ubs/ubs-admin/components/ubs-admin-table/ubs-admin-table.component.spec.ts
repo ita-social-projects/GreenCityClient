@@ -485,11 +485,11 @@ describe('UsbAdminTableComponent', () => {
   it('onScroll', () => {
     spyOn(component, 'updateTableData');
     component.isUpdate = false;
-    component.currentPage = 1;
+    component.currentPage = 0;
     component.totalPages = 2;
     component.onScroll();
     expect(component.updateTableData).toHaveBeenCalledTimes(1);
-    expect(component.currentPage).toBe(2);
+    expect(component.currentPage).toBe(1);
   });
 
   it('editDetails', () => {

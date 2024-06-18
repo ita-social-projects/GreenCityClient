@@ -13,10 +13,10 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  public toggle: boolean;
-  public isUBS: boolean;
-  public ubsUrl = 'ubs';
-  public isLogin: boolean;
+  toggle: boolean;
+  isUBS: boolean;
+  ubsUrl = 'ubs';
+  isLogin: boolean;
 
   constructor(
     private languageService: LanguageService,
@@ -48,11 +48,11 @@ export class MainComponent implements OnInit {
     this.userService.updateLastTimeActivity();
   }
 
-  public setFocus(): void {
+  setFocus(): void {
     this.focusFirst.nativeElement.focus();
   }
 
-  public skipFocus(): void {
+  skipFocus(): void {
     this.focusLast.nativeElement.focus();
   }
 

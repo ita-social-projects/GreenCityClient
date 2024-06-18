@@ -6,10 +6,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./edit-comment.component.scss']
 })
 export class EditCommentComponent {
-  public editIcon = 'assets/img/comments/edit.png';
+  editIcon = 'assets/img/comments/edit.png';
   @Output() isEditing = new EventEmitter<boolean>();
 
-  public editComments() {
+  editComments() {
     this.isEditing.emit();
   }
 }

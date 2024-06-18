@@ -14,7 +14,10 @@ export class AddressComponent implements OnInit, OnDestroy {
   currentLang: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private localStorageService: LocalStorageService, private langService: LanguageService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private langService: LanguageService
+  ) {}
 
   ngOnInit(): void {
     this.currentLang = this.localStorageService.getCurrentLanguage();
@@ -23,7 +26,7 @@ export class AddressComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 

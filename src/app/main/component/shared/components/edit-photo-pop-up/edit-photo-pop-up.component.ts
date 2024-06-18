@@ -11,18 +11,18 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   styleUrls: ['./edit-photo-pop-up.component.scss']
 })
 export class EditPhotoPopUpComponent implements OnInit {
-  public avatarImg: string;
-  public cancelButton = './assets/img/profile/icons/cancel.svg';
-  public files: FileHandle[] = [];
-  public isWarning = false;
-  public selectedPhoto = false;
-  public selectedFile: File = null;
-  public selectedFileUrl: string | ArrayBuffer;
-  public isNotification: boolean;
-  public loadingAnim: boolean;
+  avatarImg: string;
+  cancelButton = './assets/img/profile/icons/cancel.svg';
+  files: FileHandle[] = [];
+  isWarning = false;
+  selectedPhoto = false;
+  selectedFile: File = null;
+  selectedFileUrl: string | ArrayBuffer;
+  isNotification: boolean;
+  loadingAnim: boolean;
   private croppedImage: string;
   private maxImageSize = 10485760;
-  public isDragAndDropMenu = false;
+  isDragAndDropMenu = false;
 
   constructor(
     private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
@@ -35,18 +35,18 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.setUserAvatar();
   }
 
-  public openFilesWindow(event: KeyboardEvent) {
+  openFilesWindow(event: KeyboardEvent) {
     if (event.code === 'Space' || event.code === 'Enter') {
       (event.target as HTMLInputElement).click();
     }
   }
 
-  public onSelectPhoto(event: Event): void {
+  onSelectPhoto(event: Event): void {
     const imageFile = (event.target as HTMLInputElement).files[0];
     this.transferFile(imageFile);
   }
 
-  public filesDropped(files: FileHandle[]): void {
+  filesDropped(files: FileHandle[]): void {
     const imageFile = files[0].file;
     this.transferFile(imageFile);
   }
@@ -62,11 +62,11 @@ export class EditPhotoPopUpComponent implements OnInit {
     }
   }
 
-  public imageCropped(event: ImageCroppedEvent): void {
+  imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event.base64;
   }
 
-  public savePhoto(): void {
+  savePhoto(): void {
     this.loadingAnim = true;
     const formData = new FormData();
     formData.append('base64', this.croppedImage);
@@ -82,7 +82,7 @@ export class EditPhotoPopUpComponent implements OnInit {
     );
   }
 
-  public deletePhoto(): void {
+  deletePhoto(): void {
     this.loadingAnim = true;
     this.editProfileService.deleProfilePhoto().subscribe(
       () => {
@@ -96,7 +96,7 @@ export class EditPhotoPopUpComponent implements OnInit {
     );
   }
 
-  public closeEditPhoto(): void {
+  closeEditPhoto(): void {
     this.matDialogRef.close();
   }
 

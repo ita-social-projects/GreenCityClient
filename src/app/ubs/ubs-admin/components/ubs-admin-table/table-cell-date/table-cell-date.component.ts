@@ -18,13 +18,13 @@ export class TableCellDateComponent {
   @Output() editDateCell = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
 
-  public isBlocked: boolean;
-  public isEditable: boolean;
-  public current: Date = new Date();
+  isBlocked: boolean;
+  isEditable: boolean;
+  current: Date = new Date();
 
   constructor(private adminTableService: AdminTableService) {}
 
-  public edit(): void {
+  edit(): void {
     this.isEditable = false;
     this.isBlocked = true;
     let typeOfChange: number[];

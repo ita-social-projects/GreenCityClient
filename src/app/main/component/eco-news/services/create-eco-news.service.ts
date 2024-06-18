@@ -12,14 +12,14 @@ import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
   providedIn: 'root'
 })
 export class CreateEcoNewsService {
-  public newsId: number;
-  public currentForm: FormGroup;
+  newsId: number;
+  currentForm: FormGroup;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
-  public files: FileHandle[] = [];
-  public fileUrl: string;
-  public isImageValid: boolean;
-  public isBackToEditing: boolean;
+  files: FileHandle[] = [];
+  fileUrl: string;
+  isImageValid: boolean;
+  isBackToEditing: boolean;
   private httpOptions = {
     headers: new HttpHeaders({
       Authorization: 'my-auth-token'
@@ -32,23 +32,23 @@ export class CreateEcoNewsService {
     private store: Store
   ) {}
 
-  public getFormData(): FormGroup {
+  getFormData(): FormGroup {
     return this.currentForm;
   }
 
-  public getTags(): FilterModel[] {
+  getTags(): FilterModel[] {
     return this.tags;
   }
 
-  public setTags(tags: FilterModel[]): void {
+  setTags(tags: FilterModel[]): void {
     this.tags = tags;
   }
 
-  public getNewsId(): number {
+  getNewsId(): number {
     return this.newsId;
   }
 
-  public editNews(form): Observable<EcoNewsModel> {
+  editNews(form): Observable<EcoNewsModel> {
     let body: NewsDTO = {
       id: form.id,
       tags: form.tags,
@@ -74,18 +74,18 @@ export class CreateEcoNewsService {
     return this.http.put<EcoNewsModel>(environment.backendLink + 'econews/update', formData, this.httpOptions);
   }
 
-  public setForm(form: FormGroup): void {
+  setForm(form: FormGroup): void {
     this.currentForm = form;
     if (this.currentForm) {
       this.currentForm.value.image = this.files[0] ? this.files[0].url : this.fileUrl;
     }
   }
 
-  public setNewsId(id: number): void {
+  setNewsId(id: number): void {
     this.newsId = id;
   }
 
-  public sendFormData(form): Observable<EcoNewsModel> {
+  sendFormData(form): Observable<EcoNewsModel> {
     const body: NewsDTO = {
       tags: form.tags,
       text: form.content,
@@ -106,7 +106,7 @@ export class CreateEcoNewsService {
     return this.http.post<EcoNewsModel>(`${this.url}econews`, formData, this.httpOptions);
   }
 
-  public sendImagesData(imagesFilesArr: File[]): Observable<[string]> {
+  sendImagesData(imagesFilesArr: File[]): Observable<[string]> {
     const formData: FormData = new FormData();
 
     imagesFilesArr.forEach((f: File) => {

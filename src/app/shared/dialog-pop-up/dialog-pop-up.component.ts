@@ -61,7 +61,7 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
     this.іsPermissionConfirm = this.data.іsPermissionConfirm;
   }
 
-  public userReply(reply: boolean): void {
+  userReply(reply: boolean): void {
     this.matDialogRef.close(reply);
   }
 

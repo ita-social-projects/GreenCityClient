@@ -20,31 +20,31 @@ import { BaseCalendar } from '@global-user/components/profile/calendar/calendar-
   template: ''
 })
 export class CalendarBaseComponent implements OnDestroy {
-  public calendarImages = calendarImage;
-  public monthAndYearName: string;
-  public yearData: number;
-  public activeMonth: string;
-  public monthView = true;
-  public daysName: Array<string> = [];
-  public months: Array<string> = [];
-  public monthsShort: Array<string> = [];
-  public monthsCalendar: Array<string> = [];
-  public calendarDay: Array<CalendarInterface> = [];
-  public currentDayName: string;
-  public language: string;
-  public currentMonth = new Date().getMonth();
-  public currentYear = new Date().getFullYear();
-  public selectedDay;
-  public isDayTracked;
-  public habits;
-  public isFetching;
-  public checkIfFuture;
-  public toggleEnrollHabit;
-  public langChangeSub: Subscription;
-  public defaultTranslateSub: Subscription;
+  calendarImages = calendarImage;
+  monthAndYearName: string;
+  yearData: number;
+  activeMonth: string;
+  monthView = true;
+  daysName: Array<string> = [];
+  months: Array<string> = [];
+  monthsShort: Array<string> = [];
+  monthsCalendar: Array<string> = [];
+  calendarDay: Array<CalendarInterface> = [];
+  currentDayName: string;
+  language: string;
+  currentMonth = new Date().getMonth();
+  currentYear = new Date().getFullYear();
+  selectedDay;
+  isDayTracked;
+  habits;
+  isFetching;
+  checkIfFuture;
+  toggleEnrollHabit;
+  langChangeSub: Subscription;
+  defaultTranslateSub: Subscription;
   private destroySub = new Subject<void>();
 
-  public calendar: CalendarInterface = {
+  calendar: CalendarInterface = {
     date: new Date(),
     numberOfDate: 0,
     year: 0,
@@ -57,13 +57,13 @@ export class CalendarBaseComponent implements OnDestroy {
     isCurrentDayActive: false
   };
 
-  public userHabitsListByPeriod: Array<HabitsForDateInterface>;
-  public currentDayItem: CalendarInterface;
-  public isCheckedHabits: boolean;
-  public checkAnswer = false;
-  public isHabitListEditable: boolean;
-  public daysCanEditHabits = 7;
-  public allAssignedHabits: Array<Pick<HabitAssignInterface, 'id' | 'createDateTime'>>;
+  userHabitsListByPeriod: Array<HabitsForDateInterface>;
+  currentDayItem: CalendarInterface;
+  isCheckedHabits: boolean;
+  checkAnswer = false;
+  isHabitListEditable: boolean;
+  daysCanEditHabits = 7;
+  allAssignedHabits: Array<Pick<HabitAssignInterface, 'id' | 'createDateTime'>>;
 
   constructor(
     public translate: TranslateService,
@@ -84,16 +84,16 @@ export class CalendarBaseComponent implements OnDestroy {
     this.destroySub.complete();
   }
 
-  public toggleCalendarView(): void {
+  toggleCalendarView(): void {
     this.monthView = !this.monthView;
     this.yearData = this.currentYear;
   }
 
-  public getDaysInMonth(iMonth, iYear): number {
+  getDaysInMonth(iMonth, iYear): number {
     return new Date(iYear, iMonth + 1, 0).getDate();
   }
 
-  public subscribeToLangChange(): void {
+  subscribeToLangChange(): void {
     this.langChangeSub = this.translate.onDefaultLangChange.subscribe((res) => {
       setTimeout(() => {
         const translations = res.translations.profile.calendar;
@@ -108,7 +108,7 @@ export class CalendarBaseComponent implements OnDestroy {
     });
   }
 
-  public bindDefaultTranslate(): void {
+  bindDefaultTranslate(): void {
     let lang = this.translate.getDefaultLang();
     if (!lang) {
       lang = 'en';
@@ -124,14 +124,14 @@ export class CalendarBaseComponent implements OnDestroy {
     });
   }
 
-  public buildCalendar(): void {
+  buildCalendar(): void {
     this.calculateCalendarModel(this.currentMonth, this.currentYear);
     this.bindCalendarModel();
     this.setEmptyDays();
     this.isCurrentDayActive();
   }
 
-  public calculateCalendarModel(month: number, year: number): void {
+  calculateCalendarModel(month: number, year: number): void {
     this.calendar.month = month;
     this.calendar.year = year;
     this.calendar.firstDay = new Date(year, month, 0).getDay();
@@ -139,19 +139,19 @@ export class CalendarBaseComponent implements OnDestroy {
     this.monthAndYearName = `${this.months[month]} ${year}`;
   }
 
-  public bindCalendarModel(): void {
+  bindCalendarModel(): void {
     const end = this.calendar.totalDaysInMonth;
     const calendarDays = Array.from({ length: end }, (_, i) => this.getMonthTemplate(i + 1));
     this.calendarDay = [...this.calendarDay, ...calendarDays];
   }
 
-  public setEmptyDays(): void {
+  setEmptyDays(): void {
     const end = this.calendar.firstDay;
     const emptyDays = Array.from({ length: end }, () => this.getMonthTemplate());
     this.calendarDay = [...emptyDays, ...this.calendarDay];
   }
 
-  public getMonthTemplate(days?: number): CalendarInterface {
+  getMonthTemplate(days?: number): CalendarInterface {
     return {
       numberOfDate: days || '',
       date: new Date(),
@@ -166,7 +166,7 @@ export class CalendarBaseComponent implements OnDestroy {
     };
   }
 
-  public isCurrentDayActive(): void {
+  isCurrentDayActive(): void {
     this.calendarDay.forEach(
       (el) =>
         (el.isCurrentDayActive =
@@ -174,7 +174,7 @@ export class CalendarBaseComponent implements OnDestroy {
     );
   }
 
-  public markCurrentDayOfWeek(): void {
+  markCurrentDayOfWeek(): void {
     const option: any = { weekday: 'short' };
     this.language = this.languageService.getCurrentLanguage();
     this.calendarDay.forEach((el) => {
@@ -185,7 +185,7 @@ export class CalendarBaseComponent implements OnDestroy {
     });
   }
 
-  public nextMonth(): void {
+  nextMonth(): void {
     this.currentYear = this.currentMonth === 11 ? this.currentYear + 1 : this.currentYear;
     this.currentMonth = (this.currentMonth + 1) % 12;
     this.calendarDay = [];
@@ -193,7 +193,7 @@ export class CalendarBaseComponent implements OnDestroy {
     this.getUserHabits(true, this.calendarDay);
   }
 
-  public previousMonth(): void {
+  previousMonth(): void {
     this.currentYear = this.currentMonth === 0 ? this.currentYear - 1 : this.currentYear;
     this.currentMonth = this.currentMonth === 0 ? 11 : this.currentMonth - 1;
     this.calendarDay = [];
@@ -201,28 +201,28 @@ export class CalendarBaseComponent implements OnDestroy {
     this.getUserHabits(true, this.calendarDay);
   }
 
-  public buildMonthCalendar(months): void {
+  buildMonthCalendar(months): void {
     this.yearData = this.currentYear;
     this.monthsCalendar = months;
     this.isActiveMonth();
   }
 
-  public isActiveMonth(): void {
+  isActiveMonth(): void {
     this.activeMonth = this.calendarDay
       .filter((item) => item.isCurrentDayActive)
       .map((el) => this.monthsShort[el.month])
       .toString();
   }
 
-  public previousYear(): void {
+  previousYear(): void {
     this.yearData = this.yearData - 1;
   }
 
-  public nextYear(): void {
+  nextYear(): void {
     this.yearData = this.yearData + 1;
   }
 
-  public buildSelectedMonthCalendar(month): void {
+  buildSelectedMonthCalendar(month): void {
     this.monthView = true;
     this.currentMonth = this.monthsShort.indexOf(month);
     this.currentYear = this.yearData;
@@ -231,7 +231,7 @@ export class CalendarBaseComponent implements OnDestroy {
     this.getUserHabits(true, this.calendarDay);
   }
 
-  public formatDate(isMonthCalendar: boolean, dayItem) {
+  formatDate(isMonthCalendar: boolean, dayItem) {
     if (isMonthCalendar) {
       return `${dayItem.year}-${dayItem.month + 1 < 10 ? '0' + (dayItem.month + 1) : dayItem.month + 1}-${
         dayItem.numberOfDate < 10 ? '0' + dayItem.numberOfDate : dayItem.numberOfDate
@@ -247,7 +247,7 @@ export class CalendarBaseComponent implements OnDestroy {
     return habitsList.find((list) => list.enrollDate === date);
   }
 
-  public getUserHabits(isMonthCalendar, days) {
+  getUserHabits(isMonthCalendar, days) {
     const firstDay = isMonthCalendar ? days.find((day) => day.numberOfDate === 1) : days[0];
     const startDate = this.formatDate(isMonthCalendar, firstDay);
     const endDate = this.formatDate(isMonthCalendar, days[days.length - 1]);

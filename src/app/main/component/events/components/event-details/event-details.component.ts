@@ -33,33 +33,33 @@ import { EventStoreService } from '../../services/event-store.service';
   styleUrls: ['./event-details.component.scss']
 })
 export class EventDetailsComponent implements OnInit, OnDestroy {
-  public icons = ICONS;
-  public eventId: number;
-  public roles = {
+  icons = ICONS;
+  eventId: number;
+  roles = {
     UNAUTHENTICATED: 'UNAUTHENTICATED',
     USER: 'USER',
     ORGANIZER: 'ORGANIZER',
     ADMIN: 'ADMIN'
   };
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
-  public bsModalRef: BsModalRef;
-  public role = this.roles.UNAUTHENTICATED;
-  public isEventFavorite: boolean;
+  bsModalRef: BsModalRef;
+  role = this.roles.UNAUTHENTICATED;
+  isEventFavorite: boolean;
   attendees = [];
   attendeesAvatars = [];
-  public organizerName: string;
-  public event: EventResponse | PagePreviewDTO;
-  public locationLink: string;
-  public locationCoordinates: LocationResponse;
-  public place: string;
-  public addressEn: string;
-  public images: string[] = [];
-  public sliderIndex = 0;
-  public isPosting: boolean;
-  public isActive: boolean;
-  public currentDate = new Date();
-  public max = 5;
-  public rate: number;
+  organizerName: string;
+  event: EventResponse | PagePreviewDTO;
+  locationLink: string;
+  locationCoordinates: LocationResponse;
+  place: string;
+  addressEn: string;
+  images: string[] = [];
+  sliderIndex = 0;
+  isPosting: boolean;
+  isActive: boolean;
+  currentDate = new Date();
+  max = 5;
+  rate: number;
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title-admin',
     popupConfirm: 'homepage.events.delete-yes',
@@ -67,16 +67,16 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     style: 'green'
   };
   mapDialogData: any;
-  public address = 'Should be address';
-  public maxRating = 5;
-  public backRoute: string;
-  public routedFromProfile: boolean;
-  public isUserCanJoin = false;
-  public isUserCanRate = false;
-  public isSubscribed = false;
-  public addAttenderError: string;
-  public isRegistered: boolean;
-  public isReadonly = false;
+  address = 'Should be address';
+  maxRating = 5;
+  backRoute: string;
+  routedFromProfile: boolean;
+  isUserCanJoin = false;
+  isUserCanRate = false;
+  isSubscribed = false;
+  addAttenderError: string;
+  isRegistered: boolean;
+  isReadonly = false;
   googleMapLink: string;
   private dialogRef;
   private cancelationPopupData = {
@@ -162,24 +162,24 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.googleMapLink = `https://www.google.com.ua/maps/@${coords.longitude},${coords.latitude}`;
   }
 
-  public bindUserName(): void {
+  bindUserName(): void {
     this.userNameSub = this.localStorageService.firstNameBehaviourSubject.subscribe((name) => {
       this.organizerName = name;
     });
   }
 
-  public getAddress(): string {
+  getAddress(): string {
     return this.eventService.getFormattedAddress(this.locationCoordinates);
   }
 
-  public navigateToEditEvent(): void {
+  navigateToEditEvent(): void {
     this.localStorageService.setEditMode('canUserEdit', true);
     // this.localStorageService.setEventForEdit('editEvent', this.event);
     this.eventStore.setEventAuthorId(this.eventId);
     this.router.navigate(['/events', 'update-event', this.eventId]);
   }
 
-  public submitEventCancelling() {
+  submitEventCancelling() {
     this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
     this.isSubscribed = !this.isSubscribed;
   }
@@ -203,7 +203,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public deleteEvent(): void {
+  deleteEvent(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.deleteDialogData,
       hasBackdrop: true,
@@ -224,7 +224,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public changeFavouriteStatus(event?: Event) {
+  changeFavouriteStatus(event?: Event) {
     event?.stopPropagation();
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
@@ -246,7 +246,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     buttonElement.blur();
   }
 
-  public buttonAction(event: Event): void {
+  buttonAction(event: Event): void {
     if (this.role === this.roles.UNAUTHENTICATED) {
       this.openAuthModalWindow('sign-in');
       return;
@@ -264,7 +264,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public openAuthModalWindow(page: string): void {
+  openAuthModalWindow(page: string): void {
     const matDialogRef = this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -280,7 +280,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public openModal(): void {
+  openModal(): void {
     const initialState = {
       id: this.event.id,
       isRegistered: this.isRegistered,

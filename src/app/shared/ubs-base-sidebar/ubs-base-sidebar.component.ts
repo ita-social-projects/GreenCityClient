@@ -24,12 +24,12 @@ import { listElements } from '../interface/ubs-base-sidebar-interface';
   styleUrls: ['./ubs-base-sidebar.component.scss']
 })
 export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
-  public destroySub: Subject<boolean> = new Subject<boolean>();
+  destroySub: Subject<boolean> = new Subject<boolean>();
   readonly bellsNoneNotification = 'assets/img/sidebarIcons/none_notification_Bell.svg';
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
   private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
   private sidebarChangeBreakpoint: number;
-  public isAdmin = false;
+  isAdmin = false;
   destroy: Subject<boolean> = new Subject<boolean>();
   @Input() public listElements: listElements[] = [];
   @Input() public listElementsMobile: listElements[] = [];
@@ -49,15 +49,15 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
     private cdr?: ChangeDetectorRef
   ) {}
 
-  public isExpanded = false;
+  isExpanded = false;
 
-  public navigateToPage(event: Event, routerLink: string): void {
+  navigateToPage(event: Event, routerLink: string): void {
     event.stopPropagation();
     const mainLink = this.isAdmin ? 'ubs-admin' : 'ubs-user';
     this.router.navigate([mainLink, ...routerLink.split('/')]);
   }
 
-  public setIndexToSidebarIcons(): void {
+  setIndexToSidebarIcons(): void {
     if (this.drawer.opened) {
       this.sideBarIcons.nativeElement.style.zIndex = '0';
       this.sidebarContainer.nativeElement.style.marginLeft = '25px';
@@ -69,13 +69,13 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
     }
   }
 
-  public getIcon(listItem): string {
+  getIcon(listItem): string {
     return listItem.link === this.bellsNoneNotification && this.serviceUserMessages.countOfNoReadeMessages
       ? this.bellsNotification
       : listItem.link;
   }
 
-  public toggleMenu() {
+  toggleMenu() {
     this.isExpanded = !this.isExpanded;
   }
 

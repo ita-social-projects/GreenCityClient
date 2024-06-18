@@ -65,15 +65,15 @@ export class FriendDashboardComponent implements OnInit {
     }
   }
 
-  public onInput(input): void {
+  onInput(input): void {
     this.searchTerm$.next(input.value);
   }
 
-  public onActivate(outlet): void {
+  onActivate(outlet): void {
     this.componentRef = outlet;
   }
 
-  public searchForFriends(searchText: string): void {
+  searchForFriends(searchText: string): void {
     if (this.componentRef instanceof RecommendedFriendsComponent) {
       this.componentRef.findUserByName(searchText);
     }
@@ -82,11 +82,11 @@ export class FriendDashboardComponent implements OnInit {
     }
   }
 
-  public hideInputField(): void {
+  hideInputField(): void {
     this.hideInput = this.componentRef instanceof FriendRequestsComponent;
   }
 
-  public initUser(): void {
+  initUser(): void {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));
   }
 

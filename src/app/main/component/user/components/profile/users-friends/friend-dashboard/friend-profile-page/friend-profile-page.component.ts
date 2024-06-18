@@ -16,13 +16,13 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FriendProfilePageComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject();
-  public profileUserId: number;
-  public loggedInUserId: number;
-  public userInfo: EditProfileModel;
-  public progress: ProfileStatistics;
-  public showButtons = false;
-  public userAsFriend: UserDataAsFriend;
-  public friendStatus = FriendStatusValues;
+  profileUserId: number;
+  loggedInUserId: number;
+  userInfo: EditProfileModel;
+  progress: ProfileStatistics;
+  showButtons = false;
+  userAsFriend: UserDataAsFriend;
+  friendStatus = FriendStatusValues;
 
   constructor(
     private userFriendsService: UserFriendsService,
