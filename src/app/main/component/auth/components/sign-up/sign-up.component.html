@@ -136,19 +136,18 @@
     (click)="signUpWithGoogle()"
     aria-label="Sign in with Google"
   ></app-google-btn>
+  <div class="exist-account">
+    <span>
+      {{ 'user.auth.sign-up.haveyou-account' | translate }}
+      <a
+        [ngClass]="isUbs ? 'ubs-link' : 'green-link'"
+        tabindex="0"
+        (keyup.enter)="openSignInWindow()"
+        (click)="openSignInWindow()"
+        aria-label="sign in modal window"
+      >
+        {{ 'user.auth.sign-up.enter' | translate }}
+      </a>
+    </span>
+  </div>
 </form>
-
-<div class="exist-account">
-  <span>
-    {{ 'user.auth.sign-up.haveyou-account' | translate }}
-    <a
-      [ngClass]="isUbs ? 'ubs-link' : 'green-link'"
-      tabindex="0"
-      (keyup.enter)="openSignInWindow()"
-      (click)="openSignInWindow()"
-      aria-label="sign in modal window"
-    >
-      {{ 'user.auth.sign-up.enter' | translate }}
-    </a>
-  </span>
-</div>
