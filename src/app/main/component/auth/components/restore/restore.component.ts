@@ -8,15 +8,15 @@ import { RestorePasswordService } from '../../../../service/auth/restore-passwor
   styles: ['.btn { width: 200px; }', '.btn-wrp { margin-top: 40px; text-align: center }']
 })
 export class RestoreComponent {
-  public email: string;
-  public currentLanguage: string;
+  email: string;
+  currentLanguage: string;
 
   constructor(
     private restorePasswordService: RestorePasswordService,
     private localStorageService: LocalStorageService
   ) {}
 
-  public sentEmail(): void {
+  sentEmail(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.restorePasswordService.sendEmailForRestore(this.email, this.currentLanguage);
   }

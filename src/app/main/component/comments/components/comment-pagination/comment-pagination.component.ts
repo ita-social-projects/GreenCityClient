@@ -9,18 +9,18 @@ import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, Ou
 export class CommentPaginationComponent implements AfterViewChecked {
   @Input() public config: PaginationConfig;
   @Output() public setPage = new EventEmitter();
-  public maxSize = 5;
-  public maxCommentsOnPage = 10;
-  public bigTotalSize = null;
+  maxSize = 5;
+  maxCommentsOnPage = 10;
+  bigTotalSize = null;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
-  public onPageChange(event) {
+  onPageChange(event) {
     this.config.currentPage = event;
     this.setPage.emit(event);
   }
 
-  public calcPaginationSize(totalPages, currentPages) {
+  calcPaginationSize(totalPages, currentPages) {
     if (currentPages <= 2 || currentPages >= totalPages - 1) {
       this.bigTotalSize = 5;
     } else if (currentPages === 3 || currentPages === totalPages - 2) {

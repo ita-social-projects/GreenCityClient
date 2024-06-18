@@ -15,10 +15,10 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 export class FormBaseComponent implements ComponentCanDeactivate {
   @ViewChild('formEditProf') formEditProf: ElementRef;
 
-  public areChangesSaved = false;
-  public initialValues = {};
-  public previousPath = '';
-  public popupConfig = {
+  areChangesSaved = false;
+  initialValues = {};
+  previousPath = '';
+  popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
@@ -31,7 +31,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     }
   };
 
-  public getFormValues(): any {
+  getFormValues(): any {
     // TODO: add functionality to this method
   }
 
@@ -47,12 +47,12 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     return this.areChangesSaved ? true : !this.checkChanges();
   }
 
-  public cancel(isPristine: boolean): void {
+  cancel(isPristine: boolean): void {
     this.cancelPopupJustifying(isPristine);
     localStorage.removeItem('newsTags');
   }
 
-  public checkChanges(): boolean {
+  checkChanges(): boolean {
     const body = this.getFormValues();
     return Object.keys(body).some(
       (key) => JSON.stringify(body[key]) !== JSON.stringify(this.initialValues[key]) && this.initialValues[key] !== undefined

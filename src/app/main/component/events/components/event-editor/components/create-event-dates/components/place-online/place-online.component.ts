@@ -19,20 +19,20 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
   @ViewChild('placesRef') placesRef: ElementRef;
 
-  public isPlaceSelected = false;
-  public isOnline = false;
-  public isPlaceDisabled = false;
-  public isLinkDisabled: boolean;
-  public isMapDisabled: boolean;
-  public appliedForAllLocations = false;
+  isPlaceSelected = false;
+  isOnline = false;
+  isPlaceDisabled = false;
+  isLinkDisabled: boolean;
+  isMapDisabled: boolean;
+  appliedForAllLocations = false;
   @Input() formDisabled: boolean;
   @Input() formInput: PlaceOnline;
   @Input() dayNumber: number;
-  public mapMarkerCoords: google.maps.LatLngLiteral = { lng: null, lat: null };
+  mapMarkerCoords: google.maps.LatLngLiteral = { lng: null, lat: null };
 
-  public appliedForAllLink = false;
+  appliedForAllLink = false;
   // FORM
-  public formGroup: FormGroup<PlaceOnlineGroup> = this.fb.nonNullable.group(
+  formGroup: FormGroup<PlaceOnlineGroup> = this.fb.nonNullable.group(
     {
       coordinates: new FormControl({ lat: DefaultCoordinates.LATITUDE, lng: DefaultCoordinates.LONGITUDE }),
       onlineLink: new FormControl(''),
@@ -42,7 +42,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     },
     { validators: dateFormValidator() }
   );
-  public mapOptions: google.maps.MapOptions = {
+  mapOptions: google.maps.MapOptions = {
     center: this.coordinates.value,
     zoom: 8,
     gestureHandling: 'greedy',
@@ -126,7 +126,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     this.destroy.emit(this._key);
   }
 
-  public toggleOnline(): void {
+  toggleOnline(): void {
     this.isOnline = !this.isOnline;
     if (this.isOnline) {
       this.link.setValidators([Validators.required, Validators.pattern(Patterns.linkPattern)]);
@@ -137,7 +137,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     }
   }
 
-  public toggleLocation(): void {
+  toggleLocation(): void {
     this.isPlaceSelected = !this.isPlaceSelected;
 
     if (this._lastLocation.place) {
@@ -170,7 +170,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     }
   }
 
-  public mapClick(event: google.maps.MapMouseEvent): void {
+  mapClick(event: google.maps.MapMouseEvent): void {
     const coords = event.latLng.toJSON();
     this.updateMapAndLocation(coords);
   }

@@ -15,25 +15,25 @@ import { NotTakenOutReasonImage } from '../../models/not-taken-out-reason.model'
   styleUrls: ['./add-order-not-taken-out-reason.component.scss']
 })
 export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
-  public closeButton = './assets/img/profile/icons/cancel.svg';
+  closeButton = './assets/img/profile/icons/cancel.svg';
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
-  public notTakenOutReason: string;
-  public adminName;
+  notTakenOutReason: string;
+  adminName;
   private isUploading = false;
-  public addNotTakenOutForm: FormGroup;
+  addNotTakenOutForm: FormGroup;
   maxNumberOfImgs = 6;
   name: string;
   file: File;
   private id;
   isImageSizeError = false;
   isImageTypeError = false;
-  public date = new Date();
-  public images: NotTakenOutReasonImage[] = [];
-  public imagesToDelete: string[] | null = [];
-  public isOpendFromHistory = false;
-  public orderID: number;
-  public reasonDescription: string;
-  public reasonImages: NotTakenOutReasonImage[] = [];
+  date = new Date();
+  images: NotTakenOutReasonImage[] = [];
+  imagesToDelete: string[] | null = [];
+  isOpendFromHistory = false;
+  orderID: number;
+  reasonDescription: string;
+  reasonImages: NotTakenOutReasonImage[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -58,7 +58,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
       this.adminName = firstName;
     });
   }
-  public initForm(): void {
+  initForm(): void {
     this.addNotTakenOutForm = this.fb.group({
       notTakenOutReason: ['', [Validators.required, Validators.maxLength(255)]]
     });
@@ -84,7 +84,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
     this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
-  public transferFile(imageFile: File): void {
+  transferFile(imageFile: File): void {
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(imageFile);
     reader.onload = () => {
@@ -101,7 +101,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
     this.loadFiles([...event.target.files]);
   }
 
-  public openImage(image: NotTakenOutReasonImage): void {
+  openImage(image: NotTakenOutReasonImage): void {
     const imagesForView = this.isOpendFromHistory ? this.reasonImages : this.images;
     this.dialog.open(ShowImgsPopUpComponent, {
       hasBackdrop: true,
@@ -121,12 +121,12 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
     this.images = this.images.filter((image) => image !== imageToDelete);
   }
 
-  public send(): void {
+  send(): void {
     this.isUploading = true;
     this.dialogRef.close({ description: JSON.stringify(this.addNotTakenOutForm.value.notTakenOutReason), images: this.images });
   }
 
-  public close(): void {
+  close(): void {
     this.dialogRef.close();
   }
 

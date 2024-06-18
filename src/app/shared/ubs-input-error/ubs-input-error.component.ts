@@ -26,7 +26,7 @@ export class UBSInputErrorComponent implements OnInit {
   @Input() public inputName: string;
   @Input() public fromEmployee: boolean;
 
-  public errorMessage: string | undefined;
+  errorMessage: string | undefined;
   private validationErrors = {
     email: 'input-error.email-wrong',
     emailEmployee: 'input-error.email-required-employee',

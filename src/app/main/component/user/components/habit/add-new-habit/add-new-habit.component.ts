@@ -58,15 +58,15 @@ export class AddNewHabitComponent implements OnInit {
   star: number;
 
   private habitId: number;
-  public habitAssignId: number;
-  public userId: number;
-  public wasCustomHabitCreatedByUser = false;
+  habitAssignId: number;
+  userId: number;
+  wasCustomHabitCreatedByUser = false;
   private currentLang: string;
   private enoughToAcquire = 80;
   private page = 0;
   private size = 3;
   private isCustomHabit = false;
-  public images = singleNewsImages;
+  images = singleNewsImages;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(

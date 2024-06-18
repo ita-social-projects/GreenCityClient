@@ -29,25 +29,25 @@ declare let google: any;
 export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   @Input() isUbs: boolean;
 
-  public signUpForm: FormGroup;
-  public emailControl: AbstractControl;
-  public firstNameControl: AbstractControl;
-  public passwordControl: AbstractControl;
-  public passwordControlConfirm: AbstractControl;
-  public signUpImages = authImages;
-  public userOwnSignUp: UserOwnSignUp;
-  public loadingAnim: boolean;
-  public emailErrorMessageBackEnd: string;
-  public passwordErrorMessageBackEnd: string;
-  public firstNameErrorMessageBackEnd: string;
-  public passwordConfirmErrorMessageBackEnd: string;
-  public backEndError: string;
-  public emailFieldValue: string;
-  public nameFieldValue: string;
-  public passwordFieldValue: string;
-  public passwordConfirmFieldValue: string;
-  public isSignInPage: boolean;
-  public currentLanguage: string;
+  signUpForm: FormGroup;
+  emailControl: AbstractControl;
+  firstNameControl: AbstractControl;
+  passwordControl: AbstractControl;
+  passwordControlConfirm: AbstractControl;
+  signUpImages = authImages;
+  userOwnSignUp: UserOwnSignUp;
+  loadingAnim: boolean;
+  emailErrorMessageBackEnd: string;
+  passwordErrorMessageBackEnd: string;
+  firstNameErrorMessageBackEnd: string;
+  passwordConfirmErrorMessageBackEnd: string;
+  backEndError: string;
+  emailFieldValue: string;
+  nameFieldValue: string;
+  passwordFieldValue: string;
+  passwordConfirmFieldValue: string;
+  isSignInPage: boolean;
+  currentLanguage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private errorsType = {
     name: (error: string) => (this.firstNameErrorMessageBackEnd = error),
@@ -83,7 +83,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     this.passwordConfirmClassCheck();
   }
 
-  public onSubmit(userOwnRegister: UserOwnSignUp): void {
+  onSubmit(userOwnRegister: UserOwnSignUp): void {
     const { email, firstName, password } = this.signUpForm.value;
 
     userOwnRegister.email = email;
@@ -106,7 +106,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
       );
   }
 
-  public signUpWithGoogle(): void {
+  signUpWithGoogle(): void {
     const login = googleProvider.useGoogleLogin({
       flow: 'implicit',
       onSuccess: (res) => {
@@ -117,7 +117,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     login();
   }
 
-  public handleGoogleAuth(resp): void {
+  handleGoogleAuth(resp): void {
     try {
       this.googleService
         .signIn(resp, this.currentLanguage)
@@ -128,7 +128,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  public setEmailBackendErr(): void {
+  setEmailBackendErr(): void {
     this.emailErrorMessageBackEnd = null;
     if (this.signUpForm) {
       this.emailFieldValue = this.emailControl.value;
@@ -139,16 +139,16 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  public setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
+  setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
     htmlImage.src = htmlInput.type === 'password' ? this.signUpImages.hiddenEye : this.signUpImages.openEye;
   }
 
-  public openSignInWindow(): void {
+  openSignInWindow(): void {
     this.pageName.emit('sign-in');
   }
 
-  public getEmailError(): string {
+  getEmailError(): string {
     return /already registered/.test(this.emailErrorMessageBackEnd)
       ? 'user.auth.sign-up.the-user-already-exists-by-this-email'
       : 'user.auth.sign-up.this-is-not-email';
@@ -175,7 +175,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     this.passwordControlConfirm = this.signUpForm.get('repeatPassword');
   }
 
-  public trimValue(control: AbstractControl): void {
+  trimValue(control: AbstractControl): void {
     control.setValue(control.value.trim());
   }
 
@@ -225,25 +225,25 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  public emailClassCheck(): string {
+  emailClassCheck(): string {
     return (this.emailControl?.invalid && this.emailControl.touched) || this.emailErrorMessageBackEnd || this.backEndError
       ? 'main-data-input wrong-input'
       : 'main-data-input';
   }
 
-  public firstNameClassCheck(): string {
+  firstNameClassCheck(): string {
     return (this.firstNameControl?.invalid && this.firstNameControl.touched) || this.backEndError
       ? 'main-data-input wrong-input'
       : 'main-data-input';
   }
 
-  public passwordClassCheck(): string {
+  passwordClassCheck(): string {
     return (this.passwordControl?.invalid && this.passwordControl.touched) || this.backEndError
       ? 'main-data-input-password wrong-input'
       : 'main-data-input-password';
   }
 
-  public passwordConfirmClassCheck(): string {
+  passwordConfirmClassCheck(): string {
     return (this.passwordControlConfirm?.invalid && this.passwordControlConfirm.touched) ||
       this.backEndError ||
       (this.passwordControl?.value !== this.passwordControlConfirm?.value && this.passwordControlConfirm?.value !== '')

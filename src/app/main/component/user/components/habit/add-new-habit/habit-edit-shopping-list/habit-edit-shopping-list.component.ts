@@ -22,18 +22,18 @@ export class HabitEditShoppingListComponent implements OnInit, OnChanges, OnDest
   @Input() isAcquired = false;
 
   private fieldSymbolsLimit = FIELD_SYMBOLS_LIMIT;
-  public itemForm = new FormGroup({
+  itemForm = new FormGroup({
     item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(this.fieldSymbolsLimit)])
   });
-  public subscription: Subscription;
-  public userId: number;
+  subscription: Subscription;
+  userId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
-  public shoppingItemNameLimit = SHOPPING_ITEM_NAME_LIMIT;
-  public todoStatus = TodoStatus;
-  public isEditMode = false;
+  shoppingItemNameLimit = SHOPPING_ITEM_NAME_LIMIT;
+  todoStatus = TodoStatus;
+  isEditMode = false;
   private shopListBeforeEditing: ShoppingList[] = [];
-  public isListChanged: boolean;
+  isListChanged: boolean;
   private confirmDialogConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -48,7 +48,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnChanges, OnDest
   private deleteItemTitle = `user.habit.to-do.item-delete-pop-up-title`;
   private cancelEditingTitle = `user.habit.to-do.cancel-pop-up-title`;
 
-  public img = HABIT_SHOPPING_LIST_CHECK;
+  img = HABIT_SHOPPING_LIST_CHECK;
 
   @Output() newList = new EventEmitter<ShoppingList[]>();
 
@@ -86,7 +86,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnChanges, OnDest
     });
   }
 
-  public getCheckIcon(item: ShoppingList): string {
+  getCheckIcon(item: ShoppingList): string {
     if (this.isAcquired) {
       return this.img.disableCheck;
     }
@@ -96,7 +96,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnChanges, OnDest
     return item.selected ? this.img.minusCheck : this.img.plusCheck;
   }
 
-  public addItem(value: string): void {
+  addItem(value: string): void {
     this.isListChanged = true;
     const newItem = {
       id: null,
@@ -113,7 +113,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnChanges, OnDest
     this.newList.emit(this.shopList);
   }
 
-  public selectItem(item: ShoppingList): void {
+  selectItem(item: ShoppingList): void {
     this.isListChanged = true;
     this.shopList.map((element) => {
       if (element.text === item.text) {
@@ -140,7 +140,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnChanges, OnDest
     });
   }
 
-  public deleteItem(text: string): void {
+  deleteItem(text: string): void {
     this.isListChanged = true;
     this.confirmDialogConfig.data.popupTitle = this.deleteItemTitle;
     this.dialog
@@ -161,7 +161,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnChanges, OnDest
     }
   }
 
-  public changeEditMode(): void {
+  changeEditMode(): void {
     if (!this.isEditMode) {
       this.isListChanged = false;
       this.shopListBeforeEditing = [];
@@ -179,7 +179,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnChanges, OnDest
     return isItemsChanged || isLengthChanged;
   }
 
-  public cancelEditing(): void {
+  cancelEditing(): void {
     if (this.isListItemsChanged()) {
       this.confirmDialogConfig.data.popupTitle = this.cancelEditingTitle;
       this.dialog

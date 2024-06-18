@@ -77,7 +77,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  public removeOrderFromLocalStorage(): void {
+  removeOrderFromLocalStorage(): void {
     this.routeSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd && event.url.toString() !== '/ubs/confirm') {
         this.localStorageService.removeOrderWithoutPayment();
@@ -86,7 +86,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  public checkPaymentStatus(): void {
+  checkPaymentStatus(): void {
     const isOrderSavedWithoutPayment = this.localStorageService.getOrderWithoutPayment();
     if (isOrderSavedWithoutPayment) {
       this.localStorageService.setUbsOrderId(this.orderId);
@@ -94,7 +94,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     this.isSpinner = false;
   }
 
-  public isUserPageOrderPayment(): boolean {
+  isUserPageOrderPayment(): boolean {
     return this.localStorageService.getUserPagePayment() === 'true' || this.pageReloaded;
   }
 

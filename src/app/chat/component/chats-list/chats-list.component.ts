@@ -13,9 +13,9 @@ import { Chat } from '../../model/Chat.model';
   styleUrls: ['./chats-list.component.scss']
 })
 export class ChatsListComponent implements OnInit {
-  public chatIcons = CHAT_ICONS;
-  public searchField = '';
-  public searchFieldControl = new FormControl();
+  chatIcons = CHAT_ICONS;
+  searchField = '';
+  searchFieldControl = new FormControl();
   @Input() isPopup: boolean;
   @Output() createNewMessageWindow: EventEmitter<Chat> = new EventEmitter<Chat>();
 
@@ -31,7 +31,7 @@ export class ChatsListComponent implements OnInit {
     });
   }
 
-  public messageDateTreat(date: string): string {
+  messageDateTreat(date: string): string {
     const messageDate = new Date(date);
     const today = new Date();
     if (messageDate.getFullYear() !== today.getFullYear()) {
@@ -41,7 +41,7 @@ export class ChatsListComponent implements OnInit {
     return isToday ? 'HH:mm' : 'dd/MM';
   }
 
-  public checkChat(friend: FriendModel) {
+  checkChat(friend: FriendModel) {
     if (friend.chatId) {
       const userChat = this.chatService.userChats.find((chat) => chat.id === friend.chatId);
       this.chatService.setCurrentChat(userChat);

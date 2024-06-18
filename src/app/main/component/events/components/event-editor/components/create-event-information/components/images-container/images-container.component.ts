@@ -11,18 +11,18 @@ import { ImagesContainer } from '../../../../../../models/events.interface';
   styleUrls: ['./images-container.component.scss']
 })
 export class ImagesContainerComponent implements OnInit {
-  public defImgs = [
+  defImgs = [
     '/assets/img/events/illustration-earth.png',
     '/assets/img/events/illustration-money.png',
     '/assets/img/events/illustration-people.png',
     '/assets/img/events/illustration-recycle.png',
     '/assets/img/events/illustration-store.png'
   ];
-  public editMode: boolean;
+  editMode: boolean;
   @Input() images: ImagesContainer[] = [];
-  public imageCount = 0;
-  public isImageSizeError: boolean;
-  public selected = '';
+  imageCount = 0;
+  isImageSizeError: boolean;
+  selected = '';
 
   @ViewChild('takeInput') InputVar: ElementRef;
 
@@ -36,7 +36,7 @@ export class ImagesContainerComponent implements OnInit {
     private eventService: EventsService
   ) {}
 
-  public selectImg(img: number) {
+  selectImg(img: number) {
     //  const index = this.images.findIndex(value => value.main);
     this.images.forEach((value) => (value.main = false));
     this.images[img].main = true;
@@ -52,7 +52,7 @@ export class ImagesContainerComponent implements OnInit {
     }
   }
 
-  public chooseImage(img: string) {
+  chooseImage(img: string) {
     if (this.imageCount === 5) {
       this.snackBar.openSnackBar('errorMaxPhotos');
       return;
@@ -64,18 +64,18 @@ export class ImagesContainerComponent implements OnInit {
     });
   }
 
-  public filesDropped(files: FileHandle[]): void {
+  filesDropped(files: FileHandle[]): void {
     const imageFile = files[0].file;
     this.validateImage(imageFile);
   }
 
-  public loadFile(event: Event): void {
+  loadFile(event: Event): void {
     const imageFile: File = (event.target as HTMLInputElement).files[0];
     this.InputVar.nativeElement.value = '';
     this.validateImage(imageFile);
   }
 
-  public deleteImage(img: ImagesContainer, i: number): void {
+  deleteImage(img: ImagesContainer, i: number): void {
     if (this.images.length === 1) {
       this.snackBar.openSnackBar('errorMinPhoto');
       return;

@@ -11,7 +11,7 @@ export class SearchNotFoundComponent {
   @Input() inputValue;
   images = searchIcons;
 
-  public emitClose(): void {
+  emitClose(): void {
     this.closeUnsuccessfulSearchResults.emit(true);
   }
 }

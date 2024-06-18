@@ -12,12 +12,12 @@ import { UserService } from '@global-service/user/user.service';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
-  public chatIcons = CHAT_ICONS;
-  public shouldNotBeScrolled = false;
+  chatIcons = CHAT_ICONS;
+  shouldNotBeScrolled = false;
   @ViewChild('chat') chat: ElementRef;
-  public messageControl: FormControl = new FormControl();
-  public isHaveMessages = true;
-  public showEmojiPicker = false;
+  messageControl: FormControl = new FormControl();
+  isHaveMessages = true;
+  showEmojiPicker = false;
 
   private page = 0;
   private oldScrollHeight: number;

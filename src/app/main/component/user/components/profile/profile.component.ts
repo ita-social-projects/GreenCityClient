@@ -14,12 +14,12 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  public currLang: string;
+  currLang: string;
   private langChangeSub: Subscription;
-  public userInfo: EditProfileModel;
-  public isDesktopWidth: boolean;
-  public screenBreakpoint = 1023;
-  public progress: ProfileStatistics;
+  userInfo: EditProfileModel;
+  isDesktopWidth: boolean;
+  screenBreakpoint = 1023;
+  progress: ProfileStatistics;
 
   constructor(
     private announcer: LiveAnnouncer,
@@ -41,15 +41,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.isDesktopWidth = this.isDeskWidth();
   }
 
-  public isDeskWidth() {
+  isDeskWidth() {
     return window.innerWidth > this.screenBreakpoint;
   }
 
-  public announce() {
+  announce() {
     this.announcer.announce('Success, logging you in', 'assertive');
   }
 
-  public showUserInfo(): void {
+  showUserInfo(): void {
     this.profileService.getUserInfo().subscribe((item) => {
       this.userInfo = item;
     });

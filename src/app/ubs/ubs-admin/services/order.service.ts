@@ -92,11 +92,11 @@ export class OrderService {
     }
   }
 
-  public getOrderInfo(orderId) {
+  getOrderInfo(orderId) {
     return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}`);
   }
 
-  public updateOrderInfo(orderId: number, lang: string, data: object, images?: NotTakenOutReasonImages[]) {
+  updateOrderInfo(orderId: number, lang: string, data: object, images?: NotTakenOutReasonImages[]) {
     const formData: FormData = new FormData();
     formData.append('updateOrderPageAdminDto', JSON.stringify(data));
 
@@ -111,71 +111,71 @@ export class OrderService {
     });
   }
 
-  public isStatusInArray(status: string, statusArray: Array<string>): boolean {
+  isStatusInArray(status: string, statusArray: Array<string>): boolean {
     return statusArray.some((s) => s === status);
   }
 
-  public getOrderDetails(orderId: number, lang: string): Observable<any> {
+  getOrderDetails(orderId: number, lang: string): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/read-order-info/${orderId}?language=${lang}`);
   }
 
-  public getOrderSumDetails(orderId: number): Observable<any> {
+  getOrderSumDetails(orderId: number): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/get-order-sum-detail/871`);
   }
 
-  public getUserInfo(orderId: number, lang: string): Observable<any> {
+  getUserInfo(orderId: number, lang: string): Observable<any> {
     return this.http.get<any>(`${this.backend}/user-info/${orderId}?lang=${lang}`);
   }
 
-  public getUserViolations(userEmail: string): Observable<UserViolations> {
+  getUserViolations(userEmail: string): Observable<UserViolations> {
     return this.http.get<UserViolations>(`${this.backend}/management/getUsersViolations?email=${userEmail}`);
   }
 
-  public getPaymentInfo(orderId: number): Observable<any> {
+  getPaymentInfo(orderId: number): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/getPaymentInfo?orderId=${orderId}`);
   }
 
-  public deleteManualPayment(paymentId: number) {
+  deleteManualPayment(paymentId: number) {
     return this.http.delete(`${this.backend}/management/delete-manual-payment/${paymentId}`);
   }
 
-  public readAddressOrder(orderId: number) {
+  readAddressOrder(orderId: number) {
     return this.http.get<any>(`${this.backend}/management/read-address-order/${orderId}`);
   }
 
-  public getOrderExportDetails(orderId: number): Observable<any> {
+  getOrderExportDetails(orderId: number): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/get-order-export-details/${orderId}`);
   }
 
-  public getAllReceivingStations(): Observable<any> {
+  getAllReceivingStations(): Observable<any> {
     return this.http.get<any>(`${this.backendLink}/admin/ubs-employee/get-all-receiving-station`);
   }
 
-  public getAllResponsiblePersons(positionId: number): Observable<any> {
+  getAllResponsiblePersons(positionId: number): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/get-all-employee-by-position/${positionId}`);
   }
 
-  public getOrderDetailStatus(orderId: number): Observable<any> {
+  getOrderDetailStatus(orderId: number): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/read-order-detail-status/${orderId}`);
   }
 
-  public getOrderHistory(orderId: number, lang: string): Observable<IOrderHistory[]> {
+  getOrderHistory(orderId: number, lang: string): Observable<IOrderHistory[]> {
     return this.http.get<IOrderHistory[]>(`${this.backend}/order_history/${orderId}?lang=${lang}`);
   }
 
-  public getNotTakenOutReason(historyId: number): Observable<INotTakenOutReason> {
+  getNotTakenOutReason(historyId: number): Observable<INotTakenOutReason> {
     return this.http.get<INotTakenOutReason>(`${this.backend}/management/get-not-taken-order-reason/${historyId}`);
   }
 
-  public updateRecipientsData(postData: any) {
+  updateRecipientsData(postData: any) {
     return this.http.put<any>(`${this.backend}`, postData);
   }
 
-  public updateOrdersInfo(lang: string, data: object) {
+  updateOrdersInfo(lang: string, data: object) {
     return this.http.put(`${this.backend}/management/all-order-page-admin-info?lang=${lang}`, data);
   }
 
-  public addPaymentManually(orderId: number, data: PaymentDetails, file?: File): Observable<IPaymentInfoDto> {
+  addPaymentManually(orderId: number, data: PaymentDetails, file?: File): Observable<IPaymentInfoDto> {
     const formData: FormData = new FormData();
     if (file) {
       formData.append('image', file);
@@ -184,11 +184,11 @@ export class OrderService {
     return this.http.post<IPaymentInfoDto>(`${this.backend}/management/add-manual-payment/${orderId}`, formData);
   }
 
-  public addPaymentBonuses(orderId: number, data: PaymentDetails): Observable<IPaymentInfoDto> {
+  addPaymentBonuses(orderId: number, data: PaymentDetails): Observable<IPaymentInfoDto> {
     return this.http.post<IPaymentInfoDto>(`${this.backend}/management/add-bonuses-user/${orderId}`, data);
   }
 
-  public updatePaymentManually(paymentId: number, postData, file): Observable<any> {
+  updatePaymentManually(paymentId: number, postData, file): Observable<any> {
     const formData: FormData = new FormData();
     if (file) {
       formData.append('image', file);
@@ -197,31 +197,31 @@ export class OrderService {
     return this.http.put(`${this.backend}/management/update-manual-payment/${paymentId}`, formData);
   }
 
-  public getColumnToDisplay() {
+  getColumnToDisplay() {
     return this.http.get(`${this.backend}/management/getOrdersViewParameters`);
   }
 
-  public setColumnToDisplay(columns: string) {
+  setColumnToDisplay(columns: string) {
     return this.http.put<any>(`${this.backend}/management/changeOrdersTableView?titles=${columns}`, '');
   }
 
-  public addViolationToCurrentOrder(violation) {
+  addViolationToCurrentOrder(violation) {
     return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
   }
 
-  public updateViolationOfCurrentOrder(violation) {
+  updateViolationOfCurrentOrder(violation) {
     return this.http.put(`${this.backend}/management/updateViolationToUser`, violation);
   }
 
-  public getViolationOfCurrentOrder(orderId): Observable<IViolation> {
+  getViolationOfCurrentOrder(orderId): Observable<IViolation> {
     return this.http.get<IViolation>(`${this.backend}/management/violation-details/${orderId}`);
   }
 
-  public deleteViolationOfCurrentOrder(orderId) {
+  deleteViolationOfCurrentOrder(orderId) {
     return this.http.delete(`${this.backend}/management/delete-violation-from-order/${orderId}`);
   }
 
-  public getOverpaymentMsg(overpayment) {
+  getOverpaymentMsg(overpayment) {
     let message: string;
     const OVERPAYMENT_MESSAGE = 'order-payment.overpayment';
     const UNDERPAYMENT_MESSAGE = 'order-payment.underpayment';
@@ -232,7 +232,7 @@ export class OrderService {
     }
     return message;
   }
-  public matchProps(prop: string): number {
+  matchProps(prop: string): number {
     switch (prop) {
       case FormFieldsName.CallManager:
         return ResponsibleEmployee.CallManager;
@@ -245,11 +245,11 @@ export class OrderService {
     }
   }
 
-  public getOrderCancelReason(orderId: number): Observable<any> {
+  getOrderCancelReason(orderId: number): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/get-order-cancellation-reason/${orderId}`);
   }
 
-  public saveOrderIdForRefund(orderId: number) {
+  saveOrderIdForRefund(orderId: number) {
     return this.http.post(`${this.backend}/management/save-order-for-refund/${orderId}`, orderId, { observe: 'response' });
   }
 }

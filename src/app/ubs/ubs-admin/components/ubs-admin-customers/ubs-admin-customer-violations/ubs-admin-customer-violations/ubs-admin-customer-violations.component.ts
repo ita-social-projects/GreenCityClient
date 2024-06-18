@@ -22,16 +22,16 @@ export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
   private page = 0;
   private totalElements: number;
 
-  public currentLang: string;
-  public username: string;
-  public violationsList: any[];
-  public columns = [];
-  public displayedColumns: string[] = [];
-  public dataSource: MatTableDataSource<any>;
-  public isLoading = true;
-  public switchViewButton: number | null;
-  public arrowDirection: string;
-  public isCanScroll = false;
+  currentLang: string;
+  username: string;
+  violationsList: any[];
+  columns = [];
+  displayedColumns: string[] = [];
+  dataSource: MatTableDataSource<any>;
+  isLoading = true;
+  switchViewButton: number | null;
+  arrowDirection: string;
+  isCanScroll = false;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -87,7 +87,7 @@ export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public onScroll() {
+  onScroll() {
     this.updateViolations();
   }
 
@@ -98,18 +98,18 @@ export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onSortTable(column: string, sortingType: string) {
+  onSortTable(column: string, sortingType: string) {
     this.sortingColumn = column;
     this.sortingType = sortingType;
     this.arrowDirection = column === this.arrowDirection ? null : column;
     this.getViolations();
   }
 
-  public goBack(): void {
+  goBack(): void {
     this.router.navigate(['ubs-admin', 'customers']);
   }
 
-  public openOrder(id: number): void {
+  openOrder(id: number): void {
     this.router.navigate([]).then((result) => {
       window.open(`/GreenCityClient/#/ubs-admin/order/${id}`, '_blank');
     });

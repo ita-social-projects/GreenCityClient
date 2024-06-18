@@ -26,19 +26,19 @@ declare let google: any;
 export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   @Input() isUbs: boolean;
 
-  public restorePasswordForm: FormGroup;
-  public emailField: AbstractControl;
-  public closeBtn = SignInIcons;
-  public mainSignInImage = SignInIcons;
-  public googleImage = SignInIcons;
-  public emailErrorMessageBackEnd: string;
-  public passwordErrorMessageBackEnd: string;
-  public backEndError: string;
-  public userOwnSignIn: UserOwnSignIn;
-  public loadingAnim: boolean;
-  public currentLanguage: string;
-  public userIdSubscription: Subscription;
-  public emailFieldValue: string;
+  restorePasswordForm: FormGroup;
+  emailField: AbstractControl;
+  closeBtn = SignInIcons;
+  mainSignInImage = SignInIcons;
+  googleImage = SignInIcons;
+  emailErrorMessageBackEnd: string;
+  passwordErrorMessageBackEnd: string;
+  backEndError: string;
+  userOwnSignIn: UserOwnSignIn;
+  loadingAnim: boolean;
+  currentLanguage: string;
+  userIdSubscription: Subscription;
+  emailFieldValue: string;
   @Output() public pageName = new EventEmitter();
 
   constructor(
@@ -65,13 +65,13 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
     this.classCheck();
   }
 
-  public initFormReactive(): void {
+  initFormReactive(): void {
     this.restorePasswordForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email])
     });
   }
 
-  public configDefaultErrorMessage(): void {
+  configDefaultErrorMessage(): void {
     this.emailErrorMessageBackEnd = null;
     this.passwordErrorMessageBackEnd = null;
     this.backEndError = null;
@@ -88,11 +88,11 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  public onCloseRestoreWindow(): void {
+  onCloseRestoreWindow(): void {
     this.matDialogRef.close();
   }
 
-  public onBackToSignIn(page): void {
+  onBackToSignIn(page): void {
     this.pageName.emit(page);
   }
 
@@ -131,7 +131,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  public signInWithGoogle(): void {
+  signInWithGoogle(): void {
     const gAccounts: accounts = google.accounts;
     gAccounts.id.initialize({
       client_id: environment.googleClientId,
@@ -142,7 +142,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
     gAccounts.id.prompt();
   }
 
-  public handleGoogleAuth(resp): void {
+  handleGoogleAuth(resp): void {
     try {
       this.googleService.signIn(resp.credential).subscribe((signInData: UserSuccessSignIn) => {
         this.onSignInWithGoogleSuccess(signInData);
@@ -159,7 +159,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  public classCheck(): string {
+  classCheck(): string {
     return (this.emailField.invalid && this.emailField.touched) || this.backEndError || this.emailErrorMessageBackEnd
       ? 'alert-email-validation'
       : 'successful-email-validation';

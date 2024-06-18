@@ -8,9 +8,8 @@ import { WeekDays } from '@global-models/weekDays.model';
   styleUrls: ['./time-picker-popup.component.scss']
 })
 export class TimePickerPopupComponent implements OnInit {
-  @Output()
-  public timeOfWork = new EventEmitter<WorkingTime[]>();
-  public selectTheWorkDay: WeekPickModel[] = [
+  @Output() timeOfWork = new EventEmitter<WorkingTime[]>();
+  selectTheWorkDay: WeekPickModel[] = [
     {
       dayToDisplay: 'places.days.monday',
       timeFrom: '',

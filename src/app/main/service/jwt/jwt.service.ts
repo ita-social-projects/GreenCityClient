@@ -10,7 +10,7 @@ export class JwtService {
 
   constructor(private localStorageService: LocalStorageService) {}
 
-  public isExpired(token: string): boolean {
+  isExpired(token: string): boolean {
     if (token != null) {
       const jwtData = token.split('.')[1];
       const decodedJwtJsonData = window.atob(jwtData);
@@ -32,7 +32,7 @@ export class JwtService {
     return JSON.parse(decodedPayload).sub;
   }
 
-  public getUserRole(): string {
+  getUserRole(): string {
     const accessToken = this.localStorageService.getAccessToken();
     if (accessToken != null) {
       const payload = accessToken.split('.')[1];

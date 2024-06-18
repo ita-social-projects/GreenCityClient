@@ -12,12 +12,12 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./user-setting.component.scss']
 })
 export class UserSettingComponent {
-  public isSomethingEdited = false;
-  public email = '';
-  public userUpdateModel = new UserUpdateModel();
-  public isFirstNameEditing = false;
-  public isLastNameEditing = false;
-  public emailNotifications: string[] = [];
+  isSomethingEdited = false;
+  email = '';
+  userUpdateModel = new UserUpdateModel();
+  isFirstNameEditing = false;
+  isLastNameEditing = false;
+  emailNotifications: string[] = [];
 
   constructor(
     private userService: UserService,
@@ -37,7 +37,7 @@ export class UserSettingComponent {
     });
   }
 
-  public updateUser() {
+  updateUser() {
     this.userService.updateUser(this.userUpdateModel).subscribe(() => {
       this.localStorageService.setFirstName(this.userUpdateModel.firstName);
       this.dialogRef.close();
@@ -45,19 +45,19 @@ export class UserSettingComponent {
     });
   }
 
-  public somethingEdited() {
+  somethingEdited() {
     this.isLastNameEditing = false;
     this.isFirstNameEditing = false;
     this.isSomethingEdited = true;
   }
 
-  public firstNameEditing() {
+  firstNameEditing() {
     if (!this.isLastNameEditing) {
       this.isFirstNameEditing = true;
     }
   }
 
-  public lastNameEditing() {
+  lastNameEditing() {
     if (!this.isFirstNameEditing) {
       this.isLastNameEditing = true;
     }

@@ -25,26 +25,26 @@ import { tagsListPlacesData } from './models/places-consts';
   styleUrls: ['./places.component.scss']
 })
 export class PlacesComponent implements OnInit, OnDestroy {
-  public position: any = {};
-  public zoom = 13;
-  public tagList: FilterModel[] = tagsListPlacesData;
-  public searchName = '';
-  public moreOptionsFilters: MoreOptionsFormValue;
-  public searchIcon = searchIcon;
-  public notification = notification;
-  public share = share;
-  public basicFilters: string[];
-  public mapBoundsDto: MapBoundsDto;
-  public places: Place[] = [];
-  public readonly redIconUrl: string = redIcon;
-  public readonly greenIconUrl: string = greenIcon;
-  public activePlace: Place;
-  public activePlaceDetails: google.maps.places.PlaceResult;
-  public favoritePlaces: Place[] = [];
-  public isActivePlaceFavorite = false;
-  public readonly tagFilterStorageKey = 'placesTagFilter';
-  public readonly moreOptionsStorageKey = 'moreOptionsFilter';
-  public placesList: Array<AllAboutPlace>;
+  position: any = {};
+  zoom = 13;
+  tagList: FilterModel[] = tagsListPlacesData;
+  searchName = '';
+  moreOptionsFilters: MoreOptionsFormValue;
+  searchIcon = searchIcon;
+  notification = notification;
+  share = share;
+  basicFilters: string[];
+  mapBoundsDto: MapBoundsDto;
+  places: Place[] = [];
+  readonly redIconUrl: string = redIcon;
+  readonly greenIconUrl: string = greenIcon;
+  activePlace: Place;
+  activePlaceDetails: google.maps.places.PlaceResult;
+  favoritePlaces: Place[] = [];
+  isActivePlaceFavorite = false;
+  readonly tagFilterStorageKey = 'placesTagFilter';
+  readonly moreOptionsStorageKey = 'moreOptionsFilter';
+  placesList: Array<AllAboutPlace>;
 
   @ViewChild('drawer') drawer: MatDrawer;
 
@@ -54,7 +54,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   private page = 0;
   private totalPages: number;
   private size = 6;
-  public userId: number;
+  userId: number;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -105,11 +105,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
   }
 
-  public onMapIdle(): void {
+  onMapIdle(): void {
     this.updateFilters();
   }
 
-  public onMapReady(map: any): void {
+  onMapReady(map: any): void {
     this.map = map;
     this.setUserLocation();
     this.googlePlacesService = new google.maps.places.PlacesService(this.map);
@@ -121,14 +121,14 @@ export class PlacesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public mapCenterChange(newValue: any): void {
+  mapCenterChange(newValue: any): void {
     this.position = {
       latitude: newValue.lat,
       longitude: newValue.lng
     };
   }
 
-  public mapBoundsChange(newValue: any): void {
+  mapBoundsChange(newValue: any): void {
     this.mapBoundsDto = {
       northEastLat: newValue.getNorthEast().lat(),
       northEastLng: newValue.getNorthEast().lng(),
@@ -137,23 +137,23 @@ export class PlacesComponent implements OnInit, OnDestroy {
     };
   }
 
-  public moreOptionsChange(newValue: MoreOptionsFormValue): void {
+  moreOptionsChange(newValue: MoreOptionsFormValue): void {
     this.moreOptionsFilters = newValue;
     this.setMoreOptionsValueToSessionStorage(this.moreOptionsFilters);
     this.updateFilters();
   }
 
-  public basicFiltersChange(newValue: string[]) {
+  basicFiltersChange(newValue: string[]) {
     this.basicFilters = newValue;
     this.updateFilters();
   }
 
-  public searchNameChange(newValue: string): void {
+  searchNameChange(newValue: string): void {
     this.searchName = newValue;
     this.updateFilters();
   }
 
-  public updateFilters(): void {
+  updateFilters(): void {
     this.filterPlaceService.updateFiltersDto({
       searchName: this.searchName,
       moreOptionsFilters: this.moreOptionsFilters,
@@ -163,7 +163,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public toggleFavoriteFromSideBar(place) {
+  toggleFavoriteFromSideBar(place) {
     if (!this.userId) {
       this.dialog
         .open(AuthModalComponent, {
@@ -192,7 +192,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public updatePlaceList(isAfterClose: boolean): void {
+  updatePlaceList(isAfterClose: boolean): void {
     if (isAfterClose) {
       this.page = 0;
     } else if (this.totalPages === this.page) {
@@ -214,7 +214,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
     });
   }
 
-  public toggleFavorite(): void {
+  toggleFavorite(): void {
     if (this.isActivePlaceFavorite) {
       this.favoritePlaceService.deleteFavoritePlace(this.activePlace.id);
     } else {
@@ -230,13 +230,13 @@ export class PlacesComponent implements OnInit, OnDestroy {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 
-  public selectPlace(place: Place): void {
+  selectPlace(place: Place): void {
     this.activePlace = place;
     this.updateIsActivePlaceFavorite();
     this.getPlaceInfoFromGoogleApi(place);
   }
 
-  public selectPlaceFromSideBar(place: AllAboutPlace) {
+  selectPlaceFromSideBar(place: AllAboutPlace) {
     const sendingPlace = {
       id: place.id,
       name: place.name,
@@ -281,7 +281,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
     );
   }
 
-  public getStars(rating: number): Array<string> {
+  getStars(rating: number): Array<string> {
     const stars = [];
     const maxRating = 5;
     const validRating = Math.min(rating, maxRating);

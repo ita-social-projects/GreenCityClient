@@ -11,8 +11,8 @@ import { UbsAdminEmployeeService } from '../../ubs-admin/services/ubs-admin-empl
   templateUrl: './ubs-user-sidebar.component.html'
 })
 export class UbsUserSidebarComponent extends UbsBaseSidebarComponent {
-  public listElementsUser = listElementsUser;
-  public listElementsUserMobile = listElementsUserMobile;
+  listElementsUser = listElementsUser;
+  listElementsUserMobile = listElementsUserMobile;
 
   constructor(
     public ubsAdminEmployeeService: UbsAdminEmployeeService,

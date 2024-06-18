@@ -5,5 +5,5 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class CommonService {
-  public newMessageWindowRequireCloseStream$: Subject<boolean> = new Subject<boolean>();
+  newMessageWindowRequireCloseStream$: Subject<boolean> = new Subject<boolean>();
 }

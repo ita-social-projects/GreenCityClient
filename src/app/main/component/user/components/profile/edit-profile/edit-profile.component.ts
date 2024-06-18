@@ -22,32 +22,32 @@ import { PlaceService } from '@global-service/place/place.service';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy {
-  public editProfileForm: FormGroup;
+  editProfileForm: FormGroup;
   private langChangeSub: Subscription;
   private currentLocation: UserLocationDto;
-  public coordinates: Coordinates = { latitude: null, longitude: null };
-  public previousPath = '/profile';
-  public socialNetworks: Array<{ id: number; url: string }>;
-  public socialNetworksToServer: string[] = [];
-  public namePattern = Patterns.NamePattern;
-  public builder: EditProfileFormBuilder;
-  public placeService: PlaceService;
+  coordinates: Coordinates = { latitude: null, longitude: null };
+  previousPath = '/profile';
+  socialNetworks: Array<{ id: number; url: string }>;
+  socialNetworksToServer: string[] = [];
+  namePattern = Patterns.NamePattern;
+  builder: EditProfileFormBuilder;
+  placeService: PlaceService;
   private editProfileService: EditProfileService;
   private profileService: ProfileService;
   private snackBar: MatSnackBarComponent;
   private localStorageService: LocalStorageService;
   private translate: TranslateService;
-  public cityOptions: google.maps.places.AutocompletionRequest = {
+  cityOptions: google.maps.places.AutocompletionRequest = {
     input: '',
     types: ['(cities)']
   };
-  public userInfo = {
+  userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
     status: 'online',
     rate: 658
   };
-  public popupConfig = {
+  popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
@@ -94,7 +94,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.bindLang(this.localStorageService.getCurrentLanguage());
   }
 
-  public getFormValues(): any {
+  getFormValues(): any {
     return {
       firstName: this.editProfileForm.value.name,
       latitude: this.coordinates.latitude,
@@ -111,7 +111,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.coordinates = coordinates;
   }
 
-  public getFormInitialValues(data: EditProfileModel): void {
+  getFormInitialValues(data: EditProfileModel): void {
     this.initialValues = {
       firstName: data.name,
       get latitude() {
@@ -131,7 +131,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.editProfileForm.markAllAsTouched();
   }
 
-  public emitSocialLinks(val: string[]) {
+  emitSocialLinks(val: string[]) {
     this.socialNetworksToServer = val;
   }
 
@@ -139,11 +139,11 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.editProfileForm = this.builder.getProfileForm();
   }
 
-  public getLangValue(uaValue, enValue): string {
+  getLangValue(uaValue, enValue): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public getInitialValue(): void {
+  getInitialValue(): void {
     this.profileService
       .getUserInfo()
       .pipe(take(1), filter(Boolean))
@@ -158,12 +158,12 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       });
   }
 
-  public onSubmit(): void {
+  onSubmit(): void {
     this.areChangesSaved = true;
     this.sendFormData(this.editProfileForm);
   }
 
-  public sendFormData(form): void {
+  sendFormData(form): void {
     const body: EditProfileDto = {
       coordinates: { longitude: this.coordinates.longitude, latitude: this.coordinates.latitude },
       name: form.value.name,
