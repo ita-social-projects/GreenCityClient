@@ -40,21 +40,21 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   @Input() isUpdating: boolean;
   @Input() cancelChanges: boolean;
   @Input({ required: true }) eventId: number;
-  public quillModules = {};
-  public places: Place[] = [];
-  public isPosting = false;
-  public editEvent: EventResponse;
-  public tags: Array<TagObj>;
-  public isImageSizeError: boolean;
-  public isImageTypeError = false;
-  public images = singleNewsImages;
-  public currentLang: string;
-  public submitButtonName = 'create-event.publish';
-  public subscription: Subscription;
-  public imgArray: Array<File> = [];
-  public userId: number;
-  public previousPath: string;
-  public popupConfig = {
+  quillModules = {};
+  places: Place[] = [];
+  isPosting = false;
+  editEvent: EventResponse;
+  tags: Array<TagObj>;
+  isImageSizeError: boolean;
+  isImageTypeError = false;
+  images = singleNewsImages;
+  currentLang: string;
+  submitButtonName = 'create-event.publish';
+  subscription: Subscription;
+  imgArray: Array<File> = [];
+  userId: number;
+  previousPath: string;
+  popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
@@ -66,8 +66,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       popupCancel: 'homepage.events.events-popup.cancel'
     }
   };
-  public routedFromProfile: boolean;
-  public formsIsValid = false;
+  routedFromProfile: boolean;
+  formsIsValid = false;
   private matSnackBar: MatSnackBarComponent;
   private _invalidFormsMap = new Map();
   private _formsValues: EventForm = {
@@ -151,7 +151,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     this.previousPath = this.localStorageService.getPreviousPage() || '/events';
   }
 
-  public onPreview() {
+  onPreview() {
     this.eventStore.setEditorValues(structuredClone(this._formsValues));
     const { dateInformation, eventInformation } = this._formsValues;
     const { images, duration, title, description, open, tags } = eventInformation;
@@ -173,7 +173,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     this.router.navigate(['events', 'preview']);
   }
 
-  public clear() {
+  clear() {
     const clearedForm = {
       eventInformation: undefined,
       dateInformation: undefined
@@ -183,7 +183,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     this.cancel(true);
   }
 
-  public submitEvent(): void {
+  submitEvent(): void {
     const { eventInformation, dateInformation } = this._formsValues;
     const { open, tags, editorText, title, images } = eventInformation;
     const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
@@ -253,12 +253,12 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     });
   }
 
-  public escapeFromCreateEvent(): void {
+  escapeFromCreateEvent(): void {
     this.router.navigate(['/events']);
     this.eventSuccessfullyAdded();
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 

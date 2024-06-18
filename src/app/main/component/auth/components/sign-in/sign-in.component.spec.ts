@@ -104,6 +104,7 @@ describe('SignIn component', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     router = fixture.debugElement.injector.get(Router);
+    spyOn(component, 'signInWithGooglePopup');
     spyOn(router.url, 'includes').and.returnValue(false);
     spyOn(router, 'navigate');
   });

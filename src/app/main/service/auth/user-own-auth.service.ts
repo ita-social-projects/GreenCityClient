@@ -6,12 +6,12 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   providedIn: 'root'
 })
 export class UserOwnAuthService {
-  public credentialDataSubject = new Subject<any>();
-  public isLoginUserSubject = new BehaviorSubject<boolean>(!!this.localStorageService.getUserId());
+  credentialDataSubject = new Subject<any>();
+  isLoginUserSubject = new BehaviorSubject<boolean>(!!this.localStorageService.getUserId());
 
   constructor(private localStorageService: LocalStorageService) {}
 
-  public getDataFromLocalStorage(): void {
+  getDataFromLocalStorage(): void {
     const keys = { ...localStorage };
     this.credentialDataSubject.next(keys);
   }

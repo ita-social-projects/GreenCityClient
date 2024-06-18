@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./edit-payment-confirmation-pop-up.component.scss']
 })
 export class EditPaymentConfirmationPopUpComponent implements OnInit, OnDestroy {
-  public destroy$: Subject<boolean> = new Subject<boolean>();
+  destroy$: Subject<boolean> = new Subject<boolean>();
   popupTitle: string;
   popupConfirm: string;
   popupCancel: string;
@@ -43,7 +43,7 @@ export class EditPaymentConfirmationPopUpComponent implements OnInit, OnDestroy 
       });
   }
 
-  public userReply(res: boolean): void {
+  userReply(res: boolean): void {
     this.matDialogRef.close(res);
   }
 

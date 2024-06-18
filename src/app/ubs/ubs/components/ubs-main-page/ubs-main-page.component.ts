@@ -25,21 +25,21 @@ import { Observable } from 'rxjs';
 export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private subs = new Subscription();
   private destroy: Subject<boolean> = new Subject<boolean>();
-  public ubsMainPageImages = ubsMainPageImages;
+  ubsMainPageImages = ubsMainPageImages;
   locations: CourierLocations;
   selectedLocationId: number;
   isFetching: boolean;
   currentLocation: string;
-  public isAdmin = false;
-  public boxWidth: number;
-  public lineSize = Array(4).fill(0);
-  public screenWidth: number;
-  public selectedTariffId: number;
+  isAdmin = false;
+  boxWidth: number;
+  lineSize = Array(4).fill(0);
+  screenWidth: number;
+  selectedTariffId: number;
   activeCouriers;
   ubsCourierName = 'UBS';
   private userId: number;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
-  public bags: Bag[];
+  bags: Bag[];
   locationsToShowBags: ActiveLocations[];
   locationToShow: ActiveLocations;
 
@@ -173,7 +173,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       this.lineSize = Array.from(boxes, (box) => box.getBoundingClientRect().height / 2 - halfCircleHeight - circleIndent + boxesIndent);
     }
   }
-  public onCheckToken(): void {
+  onCheckToken(): void {
     this.subs.add(this.checkTokenservice.onCheckToken());
   }
 
@@ -187,7 +187,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.orderService.cleanPrevOrderState();
   }
 
-  public openAuthModalWindow(): void {
+  openAuthModalWindow(): void {
     this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -198,7 +198,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     });
   }
 
-  public checkIsAdmin(): boolean {
+  checkIsAdmin(): boolean {
     let isEmployeeHasAuthorities = true;
     const userRole = this.jwtService.getUserRole();
     this.permissions$.subscribe((employeeAuthorities) => {
@@ -301,7 +301,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       );
   }
 
-  public getElementDescription(nameUk: string, nameEng: string, capacity: number): string {
+  getElementDescription(nameUk: string, nameEng: string, capacity: number): string {
     let nameUk1 = nameUk.toLowerCase();
     nameUk1 = nameUk1.charAt(0).toUpperCase() + nameUk1.slice(1);
 
@@ -310,7 +310,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     return this.getLangValue(ukrDescription, engDescription);
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 

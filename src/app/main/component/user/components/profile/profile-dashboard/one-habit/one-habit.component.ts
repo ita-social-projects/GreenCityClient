@@ -54,12 +54,12 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     this.getUsersFriendTrakingSameHabit();
   }
 
-  public goToHabitProfile(): void {
+  goToHabitProfile(): void {
     const userId = localStorage.getItem('userId');
     this.router.navigate([`profile/${userId}/allhabits/edithabit/${this.habit.id}`]);
   }
 
-  public buildHabitDescription(): void {
+  buildHabitDescription(): void {
     const isDone = this.habit.habitStatusCalendarDtoList.some((item) => item.enrollDate === this.currentDate);
     if (this.habit.status === HabitStatus.ACQUIRED) {
       this.descriptionType.acquired();
@@ -94,7 +94,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     }
   }
 
-  public enroll() {
+  enroll() {
     this.isRequest = true;
     this.habitAssignService
       .enrollByHabit(this.habit.id, this.currentDate)
@@ -114,7 +114,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public unenroll() {
+  unenroll() {
     this.isRequest = true;
     this.habitAssignService
       .unenrollByHabit(this.habit.id, this.currentDate)
@@ -129,7 +129,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getDayName(): string {
+  getDayName(): string {
     return this.habit.habitStreak === 1 ? 'user.habit.one-habit.good-day' : 'user.habit.one-habit.good-days';
   }
 
@@ -138,7 +138,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     this.showPhoto = check;
   }
 
-  public getUsersFriendTrakingSameHabit(): void {
+  getUsersFriendTrakingSameHabit(): void {
     this.habitService
       .getFriendsTrakingSameHabitByHabitId(this.habit.habit.id)
       .pipe(take(1))

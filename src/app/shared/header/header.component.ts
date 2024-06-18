@@ -33,37 +33,37 @@ import { SocketService } from '@global-service/socket/socket.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  public dropdownVisible = false;
-  public langDropdownVisible = false;
-  public name: string;
-  public isLoggedIn: boolean;
-  public isAdmin: boolean;
-  public isGreenCityAdmin: boolean;
-  public managementLink: string;
-  public isAllSearchOpen = false;
-  public toggleBurgerMenu = false;
-  public arrayLang: Array<LanguageModel>;
-  public ariaStatus = 'profile options collapsed';
-  public isSearchClicked = false;
+  dropdownVisible = false;
+  langDropdownVisible = false;
+  name: string;
+  isLoggedIn: boolean;
+  isAdmin: boolean;
+  isGreenCityAdmin: boolean;
+  managementLink: string;
+  isAllSearchOpen = false;
+  toggleBurgerMenu = false;
+  arrayLang: Array<LanguageModel>;
+  ariaStatus = 'profile options collapsed';
+  isSearchClicked = false;
   private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
   private adminRoleGreenCityValue = 'ROLE_ADMIN';
   private userRole: string;
   private userId: number;
   private backEndLink = environment.backendLink;
   private destroySub: Subject<boolean> = new Subject<boolean>();
-  public headerImageList;
+  headerImageList;
   @ViewChild('signinref') signinref: ElementRef;
   @ViewChild('signupref') signupref: ElementRef;
   @ViewChild('serviceref') serviceref: ElementRef;
   @ViewChild('notificationIconRef') notificationIconRef: ElementRef;
-  public elementName;
-  public isUBS: boolean;
-  public ubsUrl = 'ubs';
-  public imageLogo;
-  public navLinks;
-  public selectedIndex: number = null;
-  public currentLanguage: string;
-  public imgAlt: string;
+  elementName;
+  isUBS: boolean;
+  ubsUrl = 'ubs';
+  imageLogo;
+  navLinks;
+  selectedIndex: number = null;
+  currentLanguage: string;
+  imgAlt: string;
   private localeStorageService: LocalStorageService;
   private jwtService: JwtService;
   private router: Router;
@@ -129,7 +129,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onConnectedtoSocket(): void {
+  onConnectedtoSocket(): void {
     this.socketService.initiateConnection();
     this.socketService
       .onMessage(this.socketService.connection.greenCity, `/topic/${this.userId}/notification`)
@@ -157,7 +157,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  public defineAuthorities() {
+  defineAuthorities() {
     this.permissions$.subscribe((employeeAuthorities) => {
       this.isAdmin = this.userRole === this.adminRoleValue && !!employeeAuthorities.length;
     });
@@ -167,7 +167,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getHeaderClass(): string {
+  getHeaderClass(): string {
     if (this.isUBS) {
       return this.isAdmin ? 'header-for-admin' : 'header_navigation-menu-ubs';
     } else {
@@ -175,7 +175,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getRouterLink(): string {
+  getRouterLink(): string {
     if (this.isUBS && this.isAdmin) {
       return '/ubs-admin/orders';
     }
@@ -221,7 +221,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.imageLogo = this.isUBS ? ubsHeaderIcons.ubsAdminLogo : headerIcons.greenCityLogo;
   }
 
-  public focusDone(): void {
+  focusDone(): void {
     if (this.elementName === 'sign-up' && !this.isLoggedIn) {
       this.signupref.nativeElement.focus();
     }
@@ -272,7 +272,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  public changeCurrentLanguage(language, index: number): void {
+  changeCurrentLanguage(language, index: number): void {
     this.languageService.changeCurrentLanguage(language.toLowerCase() as Language);
     const temporary = this.arrayLang[0].lang;
     this.arrayLang[0].lang = language;
@@ -284,7 +284,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getUserId(): number | string {
+  getUserId(): number | string {
     if (this.userId !== null && !isNaN(this.userId)) {
       return this.userId;
     }
@@ -309,7 +309,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.isLoginUserSubject.next(true);
   }
 
-  public toggleSearchPage(): void {
+  toggleSearchPage(): void {
     this.searchSearch.toggleSearchModal();
   }
 
@@ -321,26 +321,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isAllSearchOpen = signal;
   }
 
-  public toggleDropdown(): void {
+  toggleDropdown(): void {
     this.dropdownVisible = !this.dropdownVisible;
     this.ariaStatus = this.dropdownVisible ? 'profile options expanded' : 'profile options collapsed';
   }
 
-  public autoCloseUserDropDown(event): void {
+  autoCloseUserDropDown(event): void {
     this.dropdownVisible = event;
     this.ariaStatus = 'profile options collapsed';
   }
 
-  public autoCloseLangDropDown(event): void {
+  autoCloseLangDropDown(event): void {
     this.langDropdownVisible = event;
   }
 
-  public onToggleBurgerMenu(): void {
+  onToggleBurgerMenu(): void {
     this.toggleBurgerMenu = !this.toggleBurgerMenu;
     this.toggleScroll();
   }
 
-  public openAuthModalWindow(page: string): void {
+  openAuthModalWindow(page: string): void {
     this.elementName = page;
     const matDialogRef = this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
@@ -359,13 +359,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  public onPressEnterAboutService(event: Event): void {
+  onPressEnterAboutService(event: Event): void {
     //$Event KeyboardEvent
     event.preventDefault();
     this.openAboutServicePopUp(event);
   }
 
-  public openAboutServicePopUp(event: Event): void {
+  openAboutServicePopUp(event: Event): void {
     event.preventDefault();
     const matDialogRef = this.dialog.open(UbsPickUpServicePopUpComponent, {
       hasBackdrop: true,
@@ -383,7 +383,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  public openNotificationsDialog(): void {
+  openNotificationsDialog(): void {
     this.dropdownVisible = false;
     this.router.navigate(['/profile', this.userId, 'notifications']);
   }
@@ -421,7 +421,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     matDialogRef.afterClosed();
   }
 
-  public signOut(): void {
+  signOut(): void {
     this.dropdownVisible = false;
 
     this.jwtService.userRole$.next('');
@@ -438,7 +438,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.store.dispatch(ResetFriends());
   }
 
-  public toggleLangDropdown(event: Event): void {
+  toggleLangDropdown(event: Event): void {
     //$Event KeyboardEvent
     event.preventDefault();
     this.langDropdownVisible = !this.langDropdownVisible;
@@ -451,7 +451,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public toggleScroll(): void {
+  toggleScroll(): void {
     this.toggleBurgerMenu ? document.body.classList.add('modal-open') : document.body.classList.remove('modal-open');
   }
 }

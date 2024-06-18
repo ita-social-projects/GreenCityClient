@@ -24,19 +24,19 @@ export class EcoNewsService implements OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((language) => (this.language = language));
   }
 
-  public getEcoNewsListByPage(page: number, quantity: number) {
+  getEcoNewsListByPage(page: number, quantity: number) {
     return this.http.get(`${this.backEnd}econews?page=${page}&size=${quantity}`);
   }
 
-  public getEcoNewsListByAutorId(page: number, quantity: number) {
+  getEcoNewsListByAutorId(page: number, quantity: number) {
     return this.http.get(`${this.backEnd}econews/byUserPage?page=${page}&size=${quantity}`);
   }
 
-  public getNewsListByTags(page: number, quantity: number, tags: Array<string>) {
+  getNewsListByTags(page: number, quantity: number, tags: Array<string>) {
     return this.http.get(`${this.backEnd}econews/tags?page=${page}&size=${quantity}&tags=${tags}`);
   }
 
-  public getNewsList(): Observable<any> {
+  getNewsList(): Observable<any> {
     const headers = new HttpHeaders();
     headers.set('Content-type', 'application/json');
     return new Observable((observer: Observer<any>) => {
@@ -49,15 +49,15 @@ export class EcoNewsService implements OnDestroy {
     });
   }
 
-  public getEcoNewsById(id: number): Observable<EcoNewsModel> {
+  getEcoNewsById(id: number): Observable<EcoNewsModel> {
     return this.http.get<EcoNewsModel>(`${this.backEnd}econews/${id}?lang=${this.language}`);
   }
 
-  public getRecommendedNews(id: number): Observable<EcoNewsModel[]> {
+  getRecommendedNews(id: number): Observable<EcoNewsModel[]> {
     return this.http.get<EcoNewsModel[]>(`${this.backEnd}econews/recommended?openedEcoNewsId=${id}`);
   }
 
-  public getIsLikedByUser(econewsId) {
+  getIsLikedByUser(econewsId) {
     return this.http.get(`${this.backEnd}econews/isLikedByUser`, {
       params: {
         econewsId
@@ -65,11 +65,11 @@ export class EcoNewsService implements OnDestroy {
     });
   }
 
-  public postToggleLike(id: number) {
+  postToggleLike(id: number) {
     return this.http.post(`${this.backEnd}econews/like?id=${id}`, {});
   }
 
-  public deleteNews(id: number): Observable<any> {
+  deleteNews(id: number): Observable<any> {
     return this.http.delete(`${this.backEnd}econews/${id}`);
   }
 

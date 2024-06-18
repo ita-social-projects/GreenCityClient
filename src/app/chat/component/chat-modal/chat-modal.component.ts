@@ -9,7 +9,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./chat-modal.component.scss']
 })
 export class ChatModalComponent {
-  public chatIcons = CHAT_ICONS;
+  chatIcons = CHAT_ICONS;
 
   constructor(
     private dialogRef: MatDialogRef<ChatModalComponent>,

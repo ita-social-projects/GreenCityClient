@@ -82,7 +82,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   search: string;
   currentPageForTable = 0;
 
-  public icons = {
+  icons = {
     setting: './assets/img/ubs-tariff/setting.svg',
     crumbs: './assets/img/ubs-tariff/crumbs.svg',
     restore: './assets/img/ubs-tariff/restore.svg',
@@ -246,12 +246,12 @@ export class UbsAdminEmployeeComponent implements OnInit {
     );
   }
 
-  public _filter(name: string, items: any[]): any[] {
+  _filter(name: string, items: any[]): any[] {
     const filterValue = name.toLowerCase();
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
-  public mapCities(region: Locations[]): Array<object> {
+  mapCities(region: Locations[]): Array<object> {
     const cityArray = [];
     region.forEach((element) =>
       element.locationsDto.forEach((el) => {
@@ -295,7 +295,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       });
   }
 
-  public setCountOfCheckedFilters(selectedFilter, filtreName: string, placeholder: string): void {
+  setCountOfCheckedFilters(selectedFilter, filtreName: string, placeholder: string): void {
     if (selectedFilter.length) {
       this.translate.get('ubs-tariffs.selected').subscribe((data) => (this[placeholder] = `${selectedFilter.length} ${data}`));
     } else {
@@ -331,7 +331,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     );
   }
 
-  public onSelectPosition(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
+  onSelectPosition(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     if (event.option.value === selectOptions.all) {
       this.toggleSelectAllPositions();
       const positionsId = this.employeePositions.map((position) => position.id);
@@ -349,7 +349,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     }
   }
 
-  public onSelectCourier(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
+  onSelectCourier(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     if (event.option.value === selectOptions.all) {
       this.toggleSelectAllCourier();
       const couriersId = this.couriers.map((courier) => courier.courierId);
@@ -475,7 +475,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       .join();
   }
 
-  public resetRegionValue(): void {
+  resetRegionValue(): void {
     this.region.setValue('');
     this.selectedCities = [];
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
@@ -484,7 +484,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.addNewFilters(this.filterData);
   }
 
-  public onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
+  onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     if (event.option.value === selectOptions.all) {
       this.toggleSelectAllCity();
       const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);

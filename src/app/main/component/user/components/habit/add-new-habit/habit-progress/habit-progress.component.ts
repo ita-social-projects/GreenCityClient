@@ -24,14 +24,14 @@ export class HabitProgressComponent implements OnChanges, OnInit {
     }
   }
 
-  public indicator: number;
+  indicator: number;
   isRequest = false;
   currentDate: string;
   showPhoto: boolean;
   daysCounter: number;
   habitMark: string;
   heightThumbLabel = 4;
-  public isHidden = false;
+  isHidden = false;
   millisecondsOfDay = 1000 * 3600 * 24;
   screenBreakpoint = 1024;
   isDesktopWidth: boolean;
@@ -79,7 +79,7 @@ export class HabitProgressComponent implements OnChanges, OnInit {
     this.isDesktopWidth = this.isDeskWidth();
   }
 
-  public isDeskWidth(): boolean {
+  isDeskWidth(): boolean {
     return window.innerWidth > this.screenBreakpoint;
   }
 
@@ -114,12 +114,12 @@ export class HabitProgressComponent implements OnChanges, OnInit {
     this.habit.workingDays = this.habit.habitStatusCalendarDtoList.length;
   }
 
-  public countProgressBar(): void {
+  countProgressBar(): void {
     this.indicator = Math.round((this.habit.workingDays / this.habit.duration) * 100);
     this.progressValue.emit(this.indicator);
   }
 
-  public buildHabitDescription(): void {
+  buildHabitDescription(): void {
     if (this.habit.status === HabitStatus.ACQUIRED) {
       this.descriptionType.acquired();
     } else if (this.habit.status === HabitStatus.INPROGRESS) {
@@ -132,7 +132,7 @@ export class HabitProgressComponent implements OnChanges, OnInit {
     }
   }
 
-  public enroll() {
+  enroll() {
     this.isRequest = true;
     this.habitAssignService
       .enrollByHabit(this.habit.id, this.currentDate)
@@ -148,7 +148,7 @@ export class HabitProgressComponent implements OnChanges, OnInit {
       });
   }
 
-  public unenroll() {
+  unenroll() {
     this.isRequest = true;
     this.habitAssignService
       .unenrollByHabit(this.habit.id, this.currentDate)
@@ -184,7 +184,7 @@ export class HabitProgressComponent implements OnChanges, OnInit {
     }
   }
 
-  public getDayName(): string {
+  getDayName(): string {
     return this.habit.habitStreak === 1 ? 'user.habit.one-habit.good-day' : 'user.habit.one-habit.good-days';
   }
 }

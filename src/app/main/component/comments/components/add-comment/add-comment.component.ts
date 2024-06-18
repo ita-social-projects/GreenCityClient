@@ -14,12 +14,12 @@ export class AddCommentComponent implements OnInit {
   @Input() public entityId: number;
   @Input() public commentId: number;
   @Output() public updateList = new EventEmitter<AddedCommentDTO>();
-  public avatarImage: string;
-  public firstName: string;
-  public addCommentForm: FormGroup = this.fb.group({
+  avatarImage: string;
+  firstName: string;
+  addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000), this.noSpaceValidator]]
   });
-  public commentHtml: string;
+  commentHtml: string;
 
   constructor(
     private commentsService: CommentsService,
@@ -35,7 +35,7 @@ export class AddCommentComponent implements OnInit {
     return (control.value || '').trim().length ? null : { spaces: true };
   }
 
-  public getUserInfo(): void {
+  getUserInfo(): void {
     this.profileService.getUserInfo().subscribe((item) => {
       this.firstName = item.name;
       this.avatarImage = item.profilePicturePath;
@@ -47,7 +47,7 @@ export class AddCommentComponent implements OnInit {
     this.commentHtml = data.innerHTML;
   }
 
-  public onSubmit(): void {
+  onSubmit(): void {
     this.commentsService
       .addComment(this.entityId, this.commentHtml, this.commentId)
       .pipe(take(1))

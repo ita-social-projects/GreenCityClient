@@ -17,8 +17,8 @@ export class LanguageService {
   private defaultLanguage = Language.EN;
   private monthMap = new Map<Language, string[]>();
   private languageSubj = new BehaviorSubject(Language.EN);
-  public isLoggedIn = false;
-  public synqLanguageArr: LanguageId[] = [
+  isLoggedIn = false;
+  synqLanguageArr: LanguageId[] = [
     { id: 1, code: 'ua' },
     { id: 2, code: 'en' },
     { id: 3, code: 'ru' }
@@ -80,7 +80,7 @@ export class LanguageService {
     ]);
   }
 
-  public getUserLangValue() {
+  getUserLangValue() {
     return this.http.get(`${userLink}/lang`, { responseType: 'text' });
   }
 
@@ -90,7 +90,7 @@ export class LanguageService {
     });
   }
 
-  public setDefaultLanguage() {
+  setDefaultLanguage() {
     this.checkLogin();
     if (this.isLoggedIn) {
       this.getUserLangValue()
@@ -117,11 +117,11 @@ export class LanguageService {
     this.changeCurrentLanguage(language);
   }
 
-  public getCurrentLanguage() {
+  getCurrentLanguage() {
     return this.localStorageService.getCurrentLanguage();
   }
 
-  public getLangValue(uaValue: langValue, enValue: langValue): langValue {
+  getLangValue(uaValue: langValue, enValue: langValue): langValue {
     return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
   }
 
@@ -130,22 +130,22 @@ export class LanguageService {
     return this.languageMap[language] || this.defaultLanguage;
   }
 
-  public getLocalizedMonth(month: number) {
+  getLocalizedMonth(month: number) {
     return this.monthMap.get(this.getCurrentLanguage())[month];
   }
 
-  public changeCurrentLanguage(language: Language) {
+  changeCurrentLanguage(language: Language) {
     this.localStorageService.setCurrentLanguage(language);
     this.translate.setDefaultLang(language);
     this.translate.use(language);
     this.languageSubj.next(language);
   }
 
-  public getCurrentLangObs() {
+  getCurrentLangObs() {
     return this.languageSubj.asObservable();
   }
 
-  public getLanguageId(language: Language) {
+  getLanguageId(language: Language) {
     return this.synqLanguageArr.find((res) => res.code === language).id;
   }
 }

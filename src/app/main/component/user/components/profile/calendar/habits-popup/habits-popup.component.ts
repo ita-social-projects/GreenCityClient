@@ -94,7 +94,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     }
   }
 
-  public sortByDueDate(): void {
+  sortByDueDate(): void {
     this.arrayOfDay.sort((a, b) => b.getTime() - a.getTime());
   }
 

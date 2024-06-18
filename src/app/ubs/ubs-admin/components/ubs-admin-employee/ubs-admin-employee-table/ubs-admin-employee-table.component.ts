@@ -42,17 +42,17 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   filterDatas: FilterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
   employeesData$ = this.store.select(modifiedEmployee);
-  public isTooltipOpened: boolean;
-  public isStatusActive = EmployeeStatus.active;
-  public isStatusInactive = EmployeeStatus.inactive;
-  public deleteDialogData = {
+  isTooltipOpened: boolean;
+  isStatusActive = EmployeeStatus.active;
+  isStatusInactive = EmployeeStatus.inactive;
+  deleteDialogData = {
     popupTitle: 'employees.warning-title',
     popupConfirm: 'employees.btn.deactivate',
     popupCancel: 'employees.btn.cancel',
     style: PopUpsStyles.lightGreen
   };
 
-  public activateDialogData = {
+  activateDialogData = {
     popupTitle: 'employees.activate-employee-title',
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no',
@@ -61,7 +61,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     isItrefund: false
   };
 
-  public icons = {
+  icons = {
     edit: './assets/img/ubs-admin-employees/edit.svg',
     settings: './assets/img/ubs-admin-employees/gear.svg',
     delete: './assets/img/ubs-admin-employees/bin.svg',

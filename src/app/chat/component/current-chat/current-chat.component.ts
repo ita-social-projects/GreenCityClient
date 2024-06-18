@@ -9,7 +9,10 @@ import { CHAT_ICONS } from '../../chat-icons';
   styleUrls: ['./current-chat.component.scss']
 })
 export class CurrentChatComponent {
-  public chatIcons = CHAT_ICONS;
+  chatIcons = CHAT_ICONS;
 
-  constructor(public chatsService: ChatsService, private translate: TranslateService) {}
+  constructor(
+    public chatsService: ChatsService,
+    private translate: TranslateService
+  ) {}
 }

@@ -10,17 +10,17 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./warning-pop-up.component.scss', './warning-pop-up-ubs.component.scss']
 })
 export class WarningPopUpComponent implements OnInit, OnDestroy {
-  public popupTitle: string;
-  public popupSubtitle: string;
-  public popupConfirm: string;
-  public popupCancel: string;
-  public isLoading = false;
-  public isUBS: boolean;
-  public isUbsOrderSubmit: boolean;
-  public isHabit: boolean;
-  public habitName: string;
-  public habitId: number;
-  public closeButton = './assets/img/profile/icons/cancel.svg';
+  popupTitle: string;
+  popupSubtitle: string;
+  popupConfirm: string;
+  popupCancel: string;
+  isLoading = false;
+  isUBS: boolean;
+  isUbsOrderSubmit: boolean;
+  isHabit: boolean;
+  habitName: string;
+  habitId: number;
+  closeButton = './assets/img/profile/icons/cancel.svg';
   private $destroy: Subject<void> = new Subject<void>();
 
   constructor(
@@ -61,7 +61,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     }
   }
 
-  public userReply(reply: boolean | null): void {
+  userReply(reply: boolean | null): void {
     if (reply) {
       localStorage.removeItem('newsTags');
     }

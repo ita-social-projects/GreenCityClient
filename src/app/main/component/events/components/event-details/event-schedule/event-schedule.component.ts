@@ -19,7 +19,7 @@ export class EventScheduleComponent {
 
   constructor(public eventService: EventsService) {}
 
-  public getAddress(location: LocationResponse): string {
+  getAddress(location: LocationResponse): string {
     return this.eventService.getFormattedAddress(location);
   }
 }

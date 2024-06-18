@@ -21,21 +21,21 @@ import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
   styleUrls: ['./news-list.component.scss']
 })
 export class NewsListComponent implements OnInit, OnDestroy {
-  public view: boolean;
-  public gallery: boolean;
-  public tagsList: Array<string> = [];
-  public elements: EcoNewsModel[];
-  public remaining = 0;
-  public windowSize: number;
-  public isLoggedIn: boolean;
+  view: boolean;
+  gallery: boolean;
+  tagsList: Array<string> = [];
+  elements: EcoNewsModel[];
+  remaining = 0;
+  windowSize: number;
+  isLoggedIn: boolean;
   private currentPage: number;
-  public scroll: boolean;
-  public numberOfNews: number;
-  public elementsArePresent = true;
-  public tagList: FilterModel[] = tagsListEcoNewsData;
+  scroll: boolean;
+  numberOfNews: number;
+  elementsArePresent = true;
+  tagList: FilterModel[] = tagsListEcoNewsData;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  public hasNext = true;
+  hasNext = true;
 
   econews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
@@ -76,7 +76,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$));
   }
 
-  public onResize(): void {
+  onResize(): void {
     this.getSessionStorageView();
     this.windowSize = window.innerWidth;
     const isGalleryView = !!this.gallery;
@@ -90,16 +90,16 @@ export class NewsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onScroll(): void {
+  onScroll(): void {
     this.scroll = true;
     this.dispatchStore(false);
   }
 
-  public changeView(event: boolean): void {
+  changeView(event: boolean): void {
     this.view = event;
   }
 
-  public getFilterData(value: Array<string>): void {
+  getFilterData(value: Array<string>): void {
     if (this.tagsList !== value) {
       this.tagsList = value;
     }
@@ -108,7 +108,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.dispatchStore(true);
   }
 
-  public dispatchStore(res: boolean): void {
+  dispatchStore(res: boolean): void {
     if (!this.hasNext || this.currentPage === undefined) {
       return;
     }

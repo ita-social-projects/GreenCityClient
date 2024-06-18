@@ -14,15 +14,15 @@ import { Patterns } from 'src/assets/patterns/patterns';
   providedIn: 'root'
 })
 export class ProfileService {
-  public userId: number;
-  public icons = {
+  userId: number;
+  icons = {
     edit: './assets/img/profile/icons/edit.svg',
     add: './assets/img/profile/icons/add.svg',
     delete: './assets/img/profile/icons/delete.svg',
     defaultIcon: './assets/img/profile/icons/default_social.svg'
   };
 
-  public socialMedia = {
+  socialMedia = {
     facebook: './assets/img/icon/facebook-icon.svg',
     linkedin: './assets/img/icon/linkedin-icon.svg',
     instagram: './assets/img/icon/instagram-icon.svg',
@@ -37,30 +37,30 @@ export class ProfileService {
     private languageService: LanguageService
   ) {}
 
-  public setUserId(): void {
+  setUserId(): void {
     this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
   }
 
-  public getFactsOfTheDay(): Observable<CardModel> {
+  getFactsOfTheDay(): Observable<CardModel> {
     const currentLang = this.languageService.getCurrentLanguage();
     return this.http.get<CardModel>(`${mainLink}factoftheday/?lang=${currentLang}`);
   }
 
-  public getUserInfo(): Observable<EditProfileModel> {
+  getUserInfo(): Observable<EditProfileModel> {
     this.setUserId();
     return this.http.get<EditProfileModel>(`${mainUserLink}user/${this.userId}/profile/`);
   }
 
-  public getUserProfileStatistics(): Observable<ProfileStatistics> {
+  getUserProfileStatistics(): Observable<ProfileStatistics> {
     this.setUserId();
     return this.http.get<ProfileStatistics>(`${mainUserLink}user/${this.userId}/profileStatistics/`);
   }
 
-  public getEcoPlaces(): Observable<EcoPlaces[]> {
+  getEcoPlaces(): Observable<EcoPlaces[]> {
     return this.http.get<EcoPlaces[]>(`${mainLink}favorite_place/`);
   }
 
-  public getSocialImage(socialNetwork: string): string {
+  getSocialImage(socialNetwork: string): string {
     const domain = this.getDomainFromUrl(socialNetwork);
 
     if (!domain) {

@@ -7,17 +7,17 @@ import { Component, Input } from '@angular/core';
 })
 export class ImagesSliderComponent {
   @Input() images: string[];
-  public currentImageIdx = 0;
+  currentImageIdx = 0;
 
-  public selectImage(ind: number): void {
+  selectImage(ind: number): void {
     this.currentImageIdx = ind;
   }
 
-  public moveRight(): void {
+  moveRight(): void {
     this.currentImageIdx = this.currentImageIdx === this.images.length - 1 ? 0 : ++this.currentImageIdx;
   }
 
-  public moveLeft(): void {
+  moveLeft(): void {
     this.currentImageIdx = this.currentImageIdx === 0 ? this.images.length - 1 : --this.currentImageIdx;
   }
 }

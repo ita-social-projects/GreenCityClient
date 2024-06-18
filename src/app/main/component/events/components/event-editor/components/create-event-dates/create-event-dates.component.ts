@@ -20,7 +20,7 @@ export class CreateEventDatesComponent implements OnInit, OnDestroy {
 
   constructor(private bridge: FormBridgeService) {}
 
-  public checkForm({ key, valid, form, sharedKey, formKey }: FormEmitter<unknown>) {
+  checkForm({ key, valid, form, sharedKey, formKey }: FormEmitter<unknown>) {
     if (valid) {
       this._invalidMap.delete(key);
       if (!this.formsValue[sharedKey]) {
@@ -36,7 +36,7 @@ export class CreateEventDatesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public childrenDestroy(key: any) {
+  childrenDestroy(key: any) {
     this._invalidMap.delete(key);
     if (this._invalidMap.size) {
       this.formsEmit.emit({ key: this._key, form: this.formsValue, valid: true });

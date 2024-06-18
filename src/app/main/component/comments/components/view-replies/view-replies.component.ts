@@ -6,8 +6,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./view-replies.component.scss']
 })
 export class ViewRepliesComponent {
-  public arrowDown = 'assets/img/comments/arrow_down.png';
-  public arrowUp = 'assets/img/comments/arrow_up.png';
+  arrowDown = 'assets/img/comments/arrow_down.png';
+  arrowUp = 'assets/img/comments/arrow_up.png';
   @Input() public repliesCounter: number;
   @Input() public isShowReplies: boolean;
 }

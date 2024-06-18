@@ -42,9 +42,9 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   quillModules = {};
   isEditing = false;
-  public isValidDescription: boolean;
-  public previousPath: string;
-  public popupConfig = {
+  isValidDescription: boolean;
+  previousPath: string;
+  popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
@@ -117,25 +117,25 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     });
   }
 
-  public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
+  changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
     if (event.event !== 'selection-change') {
       this.editorText = event.text;
     }
     this.handleErrorClass('warning');
   }
 
-  public handleErrorClass(errorClassName: string): string {
+  handleErrorClass(errorClassName: string): string {
     const descrControl = this.habitForm.get('description');
     this.isValidDescription = this.editorText.length > 20;
     this.isValidDescription ? descrControl.setErrors(null) : descrControl.setErrors({ invalidDescription: this.isValidDescription });
     return !this.isValidDescription ? errorClassName : '';
   }
 
-  public trimValue(control: AbstractControl): void {
+  trimValue(control: AbstractControl): void {
     control.setValue(control.value.trim());
   }
 
-  public setComplexity(i: number): void {
+  setComplexity(i: number): void {
     this.habitForm.patchValue({ complexity: i + 1 });
   }
 

@@ -38,24 +38,24 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private tableHeightService: TableHeightService;
   private adminCustomerService: AdminCustomersService;
 
-  public isLoading = false;
-  public isUpdate = false;
-  public nonSortableColumns = nonSortableColumns;
-  public columns = [];
-  public arrowDirection: string;
-  public currentLang: string;
-  public displayedColumns: string[] = [];
-  public dataSource: MatTableDataSource<any>;
-  public currentPage = 0;
-  public totalElements = 0;
-  public allElements: number;
-  public display = 'none';
-  public filterForm: FormGroup;
-  public hasChange = false;
-  public filters: Filters;
-  public filterValue = '';
-  public modelChanged: Subject<string> = new Subject<string>();
-  public pageSize = 10;
+  isLoading = false;
+  isUpdate = false;
+  nonSortableColumns = nonSortableColumns;
+  columns = [];
+  arrowDirection: string;
+  currentLang: string;
+  displayedColumns: string[] = [];
+  dataSource: MatTableDataSource<any>;
+  currentPage = 0;
+  totalElements = 0;
+  allElements: number;
+  display = 'none';
+  filterForm: FormGroup;
+  hasChange = false;
+  filters: Filters;
+  filterValue = '';
+  modelChanged: Subject<string> = new Subject<string>();
+  pageSize = 10;
 
   private tableData: any[];
   private sortType: string;
@@ -122,7 +122,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.cdr.detectChanges();
   }
 
-  public getSortingData(columnName: string, sortingType: string) {
+  getSortingData(columnName: string, sortingType: string) {
     this.sortingColumn = columnName;
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
@@ -130,7 +130,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.getTable();
   }
 
-  public togglePopUp() {
+  togglePopUp() {
     if (this.display === 'block') {
       this.submitFilterForm();
     }
@@ -153,16 +153,16 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.filters = this.filterForm.value;
   }
 
-  public checkOnNumber(event: KeyboardEvent): boolean {
+  checkOnNumber(event: KeyboardEvent): boolean {
     return !isNaN(Number(event.key));
   }
 
-  public numberPlusOrMinus(column: string, add: boolean): void {
+  numberPlusOrMinus(column: string, add: boolean): void {
     const val = Number(this.filterForm.get(column).value);
     add ? this.filterForm.get(column).setValue(val + 1) : this.filterForm.get(column).setValue(val - 1);
   }
 
-  public submitFilterForm() {
+  submitFilterForm() {
     this.filters = this.filterForm.value;
     const prevQueryString = this.queryString;
     const queryParams = [];
@@ -201,7 +201,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     }
   }
 
-  public onDeleteFilter(filterFrom: string, filterTo: string) {
+  onDeleteFilter(filterFrom: string, filterTo: string) {
     this.filterForm.get(filterFrom).setValue('');
     this.filterForm.get(filterTo).setValue('');
     this.submitFilterForm();
@@ -216,12 +216,12 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     });
   }
 
-  public onClearFilters() {
+  onClearFilters() {
     this.filterForm.reset(this.initialFilterValues);
     this.submitFilterForm();
   }
 
-  public openExportExcel(): void {
+  openExportExcel(): void {
     const dialogConfig = new MatDialogConfig();
     const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
     dialogRef.componentInstance.totalElements = this.totalElements;
@@ -233,14 +233,14 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     dialogRef.componentInstance.name = 'Customers-Table.xlsx';
   }
 
-  public onScroll(): void {
+  onScroll(): void {
     if (!this.isUpdate && this.currentPage < this.totalPages) {
       this.currentPage++;
       this.updateTableData();
     }
   }
 
-  public applyFilter(filterValue: string): void {
+  applyFilter(filterValue: string): void {
     this.filterValue = filterValue;
     this.modelChanged.next(filterValue);
   }
@@ -290,7 +290,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   //////////// resize logic
-  public onResizeColumn(event: any, index: number) {
+  onResizeColumn(event: any, index: number) {
     this.checkResizing(event, index);
     this.currentResizeIndex = index;
     this.pressed = true;
@@ -374,7 +374,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.setTableResize(this.matTableRef.nativeElement.clientWidth);
   }
 
-  public openPages(columnName, row) {
+  openPages(columnName, row) {
     if (columnName === 'clientName') {
       this.openCustomer(row, row[columnName]);
     } else if (columnName === 'number_of_orders') {

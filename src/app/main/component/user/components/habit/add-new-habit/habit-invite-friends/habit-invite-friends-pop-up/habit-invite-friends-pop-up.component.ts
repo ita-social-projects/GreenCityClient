@@ -74,7 +74,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onInput(input): void {
+  onInput(input): void {
     this.inputValue = input.target.value;
     this.inputFriends = this.friends.filter((friend) => friend.name.includes(this.inputValue) || friend.email.includes(this.inputValue));
   }

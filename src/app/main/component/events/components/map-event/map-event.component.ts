@@ -13,10 +13,10 @@ export class MapEventComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private map: google.maps.Map;
 
-  public eventPlace: MapMarkerInterface;
-  public adress: string;
-  public markerContent = 'Event Address';
-  public mapDeactivate: boolean;
+  eventPlace: MapMarkerInterface;
+  adress: string;
+  markerContent = 'Event Address';
+  mapDeactivate: boolean;
 
   @Output() location = new EventEmitter<Coords>();
 
@@ -47,7 +47,7 @@ export class MapEventComponent implements OnInit, OnDestroy {
       });
   }
 
-  public onMapReady(map: any): void {
+  onMapReady(map: any): void {
     this.map = map;
     if (this.data.lat) {
       this.map.setCenter({
@@ -57,14 +57,14 @@ export class MapEventComponent implements OnInit, OnDestroy {
     }
   }
 
-  public markerOver(marker: MapMarkerInterface): void {
+  markerOver(marker: MapMarkerInterface): void {
     marker.animation = 'BOUNCE';
   }
-  public markerOut(marker: MapMarkerInterface): void {
+  markerOut(marker: MapMarkerInterface): void {
     marker.animation = '';
   }
 
-  public closeMap(): void {
+  closeMap(): void {
     this.matDialogRef.close();
   }
 

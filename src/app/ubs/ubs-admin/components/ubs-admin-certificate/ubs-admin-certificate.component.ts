@@ -221,7 +221,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
     dialogRef.componentInstance.name = 'Certificates-Table.xlsx';
   }
 
-  public onResizeColumn(event: any, index: number) {
+  onResizeColumn(event: any, index: number) {
     this.checkResizing(event, index);
     this.currentResizeIndex = index;
     this.pressed = true;

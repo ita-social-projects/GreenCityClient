@@ -5,5 +5,5 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class UiActionsService {
-  public stopScrollingSubject = new BehaviorSubject<boolean>(false);
+  stopScrollingSubject = new BehaviorSubject<boolean>(false);
 }

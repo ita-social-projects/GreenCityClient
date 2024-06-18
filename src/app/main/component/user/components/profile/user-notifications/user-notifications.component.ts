@@ -19,15 +19,15 @@ import { UserService } from '@global-service/user/user.service';
 })
 export class UserNotificationsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  public currentLang: string;
-  public filterApproach = FilterApproach;
-  public notificationFriendRequest = NotificationType.FRIEND_REQUEST_RECEIVED;
-  public filterApproaches = [
+  currentLang: string;
+  filterApproach = FilterApproach;
+  notificationFriendRequest = NotificationType.FRIEND_REQUEST_RECEIVED;
+  filterApproaches = [
     { name: FilterApproach.ALL, isSelected: true, nameUa: 'Усі', nameEn: 'All' },
     { name: FilterApproach.TYPE, isSelected: false, nameUa: 'Типом', nameEn: 'Type' },
     { name: FilterApproach.ORIGIN, isSelected: false, nameUa: 'Джерелом', nameEn: 'Origin' }
   ];
-  public notificationTypesFilter: NotificationFilter[] = [
+  notificationTypesFilter: NotificationFilter[] = [
     {
       name: 'All',
       nameEn: 'All',
@@ -64,24 +64,24 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       isSelected: true
     }
   ];
-  public projects: NotificationFilter[] = [
+  projects: NotificationFilter[] = [
     { name: 'All', nameEn: 'All', nameUa: 'Усі', isSelected: true },
     { name: 'GREENCITY', nameEn: 'GreenCity', isSelected: false },
     { name: 'PICKUP', nameEn: 'Pick up', isSelected: false }
   ];
 
-  public notifications: NotificationModel[] = [];
-  public currentPage = 0;
-  public itemsPerPage = 10;
-  public hasNextPage: boolean;
+  notifications: NotificationModel[] = [];
+  currentPage = 0;
+  itemsPerPage = 10;
+  hasNextPage: boolean;
   private filterChangeSubs$: Subject<{ type: NotificationFilter; approach: string }> = new Subject();
-  public isFilterDisabled: boolean;
+  isFilterDisabled: boolean;
 
-  public isLoading = true;
-  public isSmallSpinnerVisible = false;
+  isLoading = true;
+  isSmallSpinnerVisible = false;
   private filterAll = 'All';
-  public deleteIcon = 'assets/img/comments/delete.png';
-  public markAsReadIcon = 'assets/img/comments/mark-read.svg';
+  deleteIcon = 'assets/img/comments/delete.png';
+  markAsReadIcon = 'assets/img/comments/mark-read.svg';
 
   constructor(
     private languageService: LanguageService,

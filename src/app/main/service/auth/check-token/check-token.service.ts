@@ -18,7 +18,7 @@ export class CheckTokenService {
     public dialog: MatDialog
   ) {}
 
-  public onCheckToken(): void {
+  onCheckToken(): void {
     this.activatedRoute.queryParams
       .pipe(
         switchMap((params) => {
@@ -33,7 +33,7 @@ export class CheckTokenService {
         }
       });
   }
-  public openAuthModalWindow(): void {
+  openAuthModalWindow(): void {
     this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,

@@ -27,11 +27,11 @@ import { HABIT_DEFAULT_DURATION } from '../../const/data.const';
 export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Input() habitDurationInitial = HABIT_DEFAULT_DURATION;
   @Output() changeDuration = new EventEmitter<number>();
-  public langChangeSub: Subscription;
-  public newDuration: number;
-  public currentLang = '';
-  public thumbTextEl: HTMLElement;
-  public days = 'd';
+  langChangeSub: Subscription;
+  newDuration: number;
+  currentLang = '';
+  thumbTextEl: HTMLElement;
+  days = 'd';
   private destroyRef = new Subject();
 
   constructor(
@@ -66,11 +66,11 @@ export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy, Aft
     this.destroyRef.complete();
   }
 
-  public updateDuration() {
+  updateDuration() {
     this.changeDuration.emit(this.newDuration);
   }
 
-  public subscribeToLangChange(): void {
+  subscribeToLangChange(): void {
     this.translate.onDefaultLangChange.pipe(takeUntil(this.destroyRef)).subscribe((res) => {
       const translations = res.translations;
       this.days = translations.user.habit.duration.day;
@@ -81,7 +81,7 @@ export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy, Aft
     this.thumbTextEl = this.elem.nativeElement.getElementsByClassName('mdc-slider__value-indicator-text')[0];
   }
 
-  public updateLabel() {
+  updateLabel() {
     if (this.currentLang === Language.UA) {
       this.thumbTextEl.textContent = this.newDuration + 'дн';
     } else {

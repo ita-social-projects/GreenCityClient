@@ -17,16 +17,16 @@ import { GetCourierLocations, GetOrderDetails } from 'src/app/store/actions/orde
 })
 export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
-  public locations: CourierLocations;
-  public cities: LocationsName[];
-  public selectedLocationId: number;
-  public selectedTariffId: number;
-  public isFetching = false;
+  locations: CourierLocations;
+  cities: LocationsName[];
+  selectedLocationId: number;
+  selectedTariffId: number;
+  isFetching = false;
   private currentLanguage: string;
-  public currentLocation: string;
+  currentLocation: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  public myControl = new FormControl();
-  public filteredOptions: Observable<any>;
+  myControl = new FormControl();
+  filteredOptions: Observable<any>;
   courierUBS;
   courierUBSName = 'UBS';
 
@@ -146,7 +146,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     return id;
   }
 
-  public closePopUp(): void {
+  closePopUp(): void {
     this.dialogRef.close();
   }
 

@@ -12,8 +12,8 @@ import { IUserOrderInfo, PaymentStatusEn } from '../ubs-user-orders-list/models/
 })
 export class UbsUserOrderDetailsComponent implements OnDestroy, OnInit {
   @Input() order: IUserOrderInfo;
-  public currentLanguage: string;
-  public certificatesAmount: number;
+  currentLanguage: string;
+  certificatesAmount: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -34,7 +34,7 @@ export class UbsUserOrderDetailsComponent implements OnDestroy, OnInit {
     return order.paymentStatus === PaymentStatusEn.PAID;
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
