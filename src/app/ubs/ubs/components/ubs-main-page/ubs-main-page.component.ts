@@ -204,7 +204,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     nameUk1 = nameUk1.charAt(0).toUpperCase() + nameUk1.slice(1);
 
     const ukrDescription = `${nameUk1} об'ємом ${capacity} л`;
-    const engDescription = `With ${nameEng.toLowerCase()} with a volume of ${capacity} l.`;
+    const engDescription = `With ${nameEng.toLowerCase()} with a volume of ${capacity} l`;
     return this.getLangValue(ukrDescription, engDescription);
   }
 
