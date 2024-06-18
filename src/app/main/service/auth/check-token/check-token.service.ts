@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EMPTY } from 'rxjs';
+import { EMPTY, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { VerifyEmailService } from '@auth-service/verify-email/verify-email.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,8 +18,8 @@ export class CheckTokenService {
     public dialog: MatDialog
   ) {}
 
-  public onCheckToken(): void {
-    this.activatedRoute.queryParams
+  public onCheckToken(): Subscription {
+    return this.activatedRoute.queryParams
       .pipe(
         switchMap((params) => {
           const { token, user_id } = params;
