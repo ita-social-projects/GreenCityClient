@@ -28,6 +28,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   public isAdmin: boolean;
 
   @Input() isSupportChat: boolean;
+  @Input() chatClass: string;
 
   @ViewChild(ReferenceDirective) elementRef: ReferenceDirective;
   private dialogConfig = {
