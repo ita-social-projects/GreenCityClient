@@ -117,32 +117,30 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
       return;
     }
     const target = event.target as HTMLElement;
-    if (target.tagName === 'BUTTON') {
-      switch (target.id) {
-        case 'addFriend':
-          this.addFriend(this.userAsFriend.id);
-          break;
-        case 'cancelRequest':
-          this.unsendFriendRequest(this.userAsFriend.id);
-          break;
-        case 'deleteFriend':
-          this.openConfirmPopup();
-          break;
-        case 'declineRequest':
-          this.store.dispatch(DeclineRequest({ id: this.userAsFriend.id }));
-          break;
-        case 'acceptRequest':
-          this.store.dispatch(AcceptRequest({ id: this.userAsFriend.id }));
-          break;
-        case 'createChatButton':
-          this.onCreateChat();
-          break;
-        case 'openChatButton':
-          this.onOpenChat();
-          break;
-        default:
-          break;
-      }
+    switch (target.id) {
+      case 'addFriend':
+        this.addFriend(this.userAsFriend.id);
+        break;
+      case 'cancelRequest':
+        this.unsendFriendRequest(this.userAsFriend.id);
+        break;
+      case 'deleteFriend':
+        this.openConfirmPopup();
+        break;
+      case 'declineRequest':
+        this.store.dispatch(DeclineRequest({ id: this.userAsFriend.id }));
+        break;
+      case 'acceptRequest':
+        this.store.dispatch(AcceptRequest({ id: this.userAsFriend.id }));
+        break;
+      case 'createChatButton':
+        this.onCreateChat();
+        break;
+      case 'openChatButton':
+        this.onOpenChat();
+        break;
+      default:
+        break;
     }
   }
 

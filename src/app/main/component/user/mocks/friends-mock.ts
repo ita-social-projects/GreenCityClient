@@ -1,4 +1,4 @@
-import { FriendArrayModel, FriendModel, FriendStatusValues } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel, FriendStatusValues, UserDataAsFriend } from '@global-user/models/friend.model';
 
 export const FIRSTFRIEND: FriendModel = {
   id: 1,
@@ -44,4 +44,11 @@ export const FRIENDS: FriendArrayModel = {
   totalPages: 1,
   currentPage: 1,
   page: [FIRSTFRIEND, SECONDFRIEND]
+};
+
+export const UserAsFriend: UserDataAsFriend = {
+  id: 1,
+  friendStatus: FriendStatusValues.REQUEST,
+  requesterId: 1,
+  chatId: null
 };
