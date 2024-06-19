@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
@@ -58,6 +60,19 @@ describe('OneHabitComponent', () => {
     habitStatusCalendarDtoList: [fakeHabitStatusCalendarList]
   };
 
+  const fakeFriendsTrakingSameHabit = [
+    {
+      id: 1,
+      name: 'Ivanov',
+      profilePicturePath: 'photo/qacsads.jpg'
+    },
+    {
+      id: 2,
+      name: 'Petrov',
+      profilePicturePath: 'photo/petrov.jpg'
+    }
+  ];
+
   const habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', [
     'getAssignHabitsByPeriod',
     'enrollByHabit',
@@ -84,7 +99,7 @@ describe('OneHabitComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [RouterTestingModule, TranslateModule.forRoot(), MatDialogModule, MatTooltipModule],
       declarations: [OneHabitComponent],
       providers: [
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
@@ -100,6 +115,7 @@ describe('OneHabitComponent', () => {
     fixture = TestBed.createComponent(OneHabitComponent);
     component = fixture.componentInstance;
     component.habit = fakeHabitAssign as any;
+    component.friends = fakeFriendsTrakingSameHabit as any;
     fixture.detectChanges();
   });
 
@@ -219,6 +235,13 @@ describe('OneHabitComponent', () => {
     it('should be displayed', () => {
       const image = fixture.debugElement.query(By.css('.image')).nativeElement;
       expect(image.src).toBe('https://www.testgreencity.ga/blob/13231313.png');
+    });
+  });
+
+  describe('getTooltipText', () => {
+    it('should return string with friends names and new lines', () => {
+      const friendsNames = component.getTooltipText();
+      expect(friendsNames).toBe('Ivanov\nPetrov');
     });
   });
 });

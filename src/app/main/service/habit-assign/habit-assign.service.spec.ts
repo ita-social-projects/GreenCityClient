@@ -7,7 +7,8 @@ import {
   HABITSFORDATE,
   DEFAULTFULLINFOHABIT,
   HABITSASSIGNEDLIST,
-  CHANGES_FROM_CALENDAR
+  CHANGES_FROM_CALENDAR,
+  FRIENDSHABITPROGESS
 } from '@global-user/components/habit/mocks/habit-assigned-mock';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
@@ -48,6 +49,15 @@ describe('HabitService', () => {
     const req = httpMock.expectOne(`${habitAssignLink}/1?lang=ua`);
     expect(req.request.method).toBe('GET');
     req.flush(DEFAULTFULLINFOHABIT);
+  });
+
+  it('should get friends habit progress by habit id', () => {
+    service.getFriendsHabitProgress(1).subscribe((data) => {
+      expect(data).toEqual(FRIENDSHABITPROGESS);
+    });
+    const req = httpMock.expectOne(`${habitAssignLink}/1/friends/habit-duration-info`);
+    expect(req.request.method).toBe('GET');
+    req.flush(FRIENDSHABITPROGESS);
   });
 
   it('should assign habit', () => {
