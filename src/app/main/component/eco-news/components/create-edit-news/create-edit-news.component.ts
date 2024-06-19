@@ -239,8 +239,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   }
 
-  createFakeFunction() {}
-
   escapeFromCreatePage(): void {
     this.isPosting = false;
     this.allowUserEscape();
