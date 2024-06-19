@@ -3,10 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { PreventNavigationBackGuard } from './prevent-navigation-back.guard';
 import { MatDialog } from '@angular/material/dialog';
 
-class MatDialogMock {
-  closeAll() {}
-}
-
 describe('PreventNavigationBackGuard', () => {
   let guard: PreventNavigationBackGuard;
   class MatDialogMock {

@@ -76,10 +76,12 @@
     .location-to-show-bags-wrapper {
       margin-top: 10px;
     }
-    ::ng-deep mat-form-field {
+
+    ::ng-deep {
       .mat-form-field-label {
         font-size: 14px;
         margin-top: 30px;
+
         @media screen and (max-width: 767px) {
           font-size: 10px;
           margin-top: 20px;
@@ -92,6 +94,7 @@
         width: fit-content;
         border-top: 0;
         padding: 10px 0;
+
         @media screen and (max-width: 576px) {
           min-width: 250px;
           font-size: 20px;
@@ -107,9 +110,11 @@
       font-family: var(--ubs-secondary-font);
       text-overflow: ellipsis;
       background-color: transparent;
+
       &:hover {
         cursor: pointer;
       }
+
       @media screen and (max-width: 767px) {
         font-size: 20px;
       }
