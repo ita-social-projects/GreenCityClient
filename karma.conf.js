@@ -18,7 +18,7 @@ module.exports = function (config) {
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage/GreenCityClient'),
       subdir: '.',
-      reports: ['html', 'lcovonly', 'text-summary'],
+      reporters: [{ type: 'html' }, { type: 'lcovonly', file: 'lcov.info' }, { type: 'text-summary' }],
       fixWebpackSourcePaths: true
     },
     customLaunchers: {
