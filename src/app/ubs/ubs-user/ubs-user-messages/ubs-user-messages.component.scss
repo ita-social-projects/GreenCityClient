@@ -34,7 +34,7 @@
 .header-list {
   display: flex;
   margin: -32px 0 5px 0;
-  padding-left: 35px;
+  padding-left: 48px;
 
   div {
     color: var(--ubs-primary-grey);
@@ -99,7 +99,6 @@
 
 .panel-description {
   text-align: left;
-  padding-left: 10px;
 }
 
 .date {
@@ -134,20 +133,16 @@
   font-style: normal;
   font-weight: 700;
   line-height: 20px;
-  letter-spacing: 0.10000000149011612px;
+  letter-spacing: 0.1px;
   text-align: left;
 }
 
-.id {
-  margin-left: 15px;
-}
-
 .time {
-  margin-left: -15px;
+  margin-left: -45px;
 }
 
 .theme {
-  margin-left: 15px;
+  margin-left: -11px;
 }
 
 .my-pagination::ng-deep .ngx-pagination {
@@ -251,9 +246,17 @@
   .my-pagination {
     margin-top: 3%;
   }
+}
 
+@media (max-width: 1600px) {
   .time {
-    margin-left: -8px;
+    margin-left: -21px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .time {
+    margin-left: -10px;
   }
 }
 
@@ -269,9 +272,8 @@
     display: flex;
     align-items: center;
   }
-
-  .theme {
-    margin-left: 10px;
+  .time {
+    margin-left: 0;
   }
 }
 
@@ -297,19 +299,6 @@
       line-height: 20px;
       letter-spacing: 0.1px;
       text-align: left;
-    }
-
-    .id {
-      padding: 0 5px;
-    }
-
-    .time {
-      margin-left: 0;
-    }
-
-    .theme {
-      margin-left: 5px;
-      padding: 0 7px;
     }
   }
 
@@ -344,14 +333,6 @@
 }
 
 @media (max-width: 420px) {
-  .theme {
-    margin-left: 10px;
-  }
-
-  .time {
-    margin-right: 50px;
-  }
-
   .my-pagination {
     margin-top: 3%;
   }
