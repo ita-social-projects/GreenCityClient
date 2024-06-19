@@ -221,23 +221,25 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   createNews(): void {
-    // const imagesSrc = checkImages(this.editorHTML);
-    // if (imagesSrc) {
-    //   const imgFiles = imagesSrc.map((base64) => dataURLtoFile(base64));
-    //   this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
-    //     (response) => {
-    //       const findBase64Regex = Patterns.Base64Regex;
-    //       response.forEach((link) => {
-    //         this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
-    //       });
-    //       this.sendData(this.editorHTML);
-    //     },
-    //     (err) => console.error(err)
-    //   );
-    // } else {
-    //   this.sendData(this.editorHTML);
-    // }
+    const imagesSrc = checkImages(this.editorHTML);
+    if (imagesSrc) {
+      const imgFiles = imagesSrc.map((base64) => dataURLtoFile(base64));
+      this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
+        (response) => {
+          const findBase64Regex = Patterns.Base64Regex;
+          response.forEach((link) => {
+            this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
+          });
+          this.sendData(this.editorHTML);
+        },
+        (err) => console.error(err)
+      );
+    } else {
+      this.sendData(this.editorHTML);
+    }
   }
+
+  createFakeFunction() {}
 
   escapeFromCreatePage(): void {
     this.isPosting = false;
