@@ -4,218 +4,193 @@ $inputwidth: 260px;
   box-shadow: none;
 }
 
-.ubs_profile-container {
-  font-family: var(--primary-font);
-  font-size: 0.9em;
-  max-width: 1200px;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 100px;
-  margin-top: 19px;
+.alert-data-message {
+  font-size: 16px;
+  margin: 0 0 30px 30px;
+}
 
-  .ubs_profile-header {
+.input-group {
+  background-color: var(--ubs-primary-white);
+  box-shadow: 4px 4px 10px rgba(151, 151, 151, 0.3);
+  border-radius: 10px;
+
+  form {
     width: 100%;
+    padding: 16px;
+  }
+}
 
-    .header-text {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-between;
+input {
+  font-size: 1em;
 
-      .header-buttons {
-        display: flex;
-        margin: 0 0 30px 30px;
+  &:focus {
+    border: 1px solid var(--ubs-button-dark-green);
+    box-shadow: none;
+  }
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid var(--ubs-error-ligh-red);
+}
+
+.marg-btn {
+  margin: 26px 30px 0 0;
+}
+
+.h5-margin-bottom {
+  margin: 0 0 14px 0;
+  padding: 0;
+}
+
+.address-header {
+  display: flex;
+  align-items: center;
+  margin: 28px 0 14px 0;
+
+  .address-header__title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .address-header__default {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ubs-secondary-grey);
+    border-left: 1px solid var(--ubs-secondary-grey);
+    padding-left: 10px;
+    margin-left: 10px;
+  }
+}
+
+.localization {
+  width: 210px;
+}
+
+h5 {
+  font-weight: bold;
+  margin: 10px 0 18px 0;
+  padding: 0;
+}
+
+h3 {
+  font-weight: bold;
+  color: var(--ubs-quaternary-dark-grey);
+  margin-bottom: 30px;
+  width: 250px;
+}
+
+.wrapper-btn {
+  display: flex;
+  align-items: center;
+  width: 300px;
+
+  .s-link {
+    margin: 14px 0 22px 0;
+  }
+}
+
+.form-group {
+  p {
+    padding: 0 13px 0 0;
+    color: var(--ubs-quaternary-dark-grey);
+    font-size: 16px;
+    margin-bottom: 1px;
+  }
+}
+
+.inline {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  .notificationEdit {
+    margin-top: 20px;
+  }
+
+  .form-control {
+    background-color: var(--ubs-primary-white);
+  }
+
+  .recipientName {
+    width: $inputwidth;
+  }
+
+  .recipientSurname {
+    width: $inputwidth;
+  }
+
+  .recipientEmail {
+    width: $inputwidth;
+    background-color: var(--ubs-ligth-grey);
+
+    @media (min-width: 768px) {
+      & {
+        width: $inputwidth + 65px;
       }
     }
   }
 
-  .alert-data-message {
+  .recipientPhone {
+    width: $inputwidth - 70px;
+  }
+
+  .region,
+  .street,
+  .district {
+    width: $inputwidth + 35px;
+  }
+
+  .city {
+    width: $inputwidth - 20px;
+  }
+
+  .houseNumber,
+  .houseCorpus,
+  .entranceNumber {
+    width: 64px;
+  }
+
+  label {
+    margin-bottom: 10px;
+    padding: 0;
+    color: var(--ubs-secondary-grey);
+    font-family: var(--primary-font);
+    font-style: normal;
+    font-weight: 400;
     font-size: 16px;
-    margin: 0 0 30px 30px;
+    line-height: 24px;
   }
 
-  .input-group {
-    background-color: var(--ubs-primary-white);
-    padding: 44px;
-    box-shadow: 4px 4px 10px rgba(151, 151, 151, 0.3);
-    border-radius: 10px;
-
-    form {
-      width: 100%;
-    }
-  }
-
-  input {
-    font-size: 1em;
-
-    &:focus {
-      border: 1px solid var(--ubs-button-dark-green);
-      box-shadow: none;
-    }
-  }
-
-  input.ng-invalid.ng-touched {
-    border: 1px solid var(--ubs-error-ligh-red);
-  }
-
-  .marg-btn {
-    margin: 26px 30px 0 0;
-  }
-
-  .h5-margin-bottom {
-    margin: 0 0 14px 0;
+  .col-sm-6 {
     padding: 0;
   }
+}
 
-  .address-header {
-    display: flex;
-    align-items: center;
-    margin: 28px 0 14px 0;
+.ubs_profile-footer {
+  width: 905px;
 
-    .address-header__title {
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .address-header__default {
-      font-size: 12px;
-      font-weight: 400;
-      color: var(--ubs-secondary-grey);
-      border-left: 1px solid var(--ubs-secondary-grey);
-      padding-left: 10px;
-      margin-left: 10px;
-    }
+  .footer-text {
+    margin: 20px;
   }
 
-  .localization {
-    width: 210px;
-  }
-
-  h5 {
-    font-weight: bold;
-    margin: 10px 0 18px 0;
-    padding: 0;
-  }
-
-  h3 {
-    font-weight: bold;
-    color: var(--ubs-quaternary-dark-grey);
-    margin-bottom: 30px;
-    margin-left: 30px;
-    width: 250px;
-  }
-
-  .wrapper-btn {
-    display: flex;
-    align-items: center;
-    width: 300px;
-
-    .s-link {
-      margin: 14px 0 22px 0;
-    }
-  }
-
-  .form-group {
-    p {
-      padding: 0 13px 0 0;
-      color: var(--ubs-quaternary-dark-grey);
-      font-size: 16px;
-      margin-bottom: 1px;
-    }
-  }
-
-  .inline {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    //width: $inputwidth;
-
-    .notificationEdit {
-      margin-top: 20px;
-    }
-
-    .form-control {
-      background-color: var(--ubs-primary-white);
-    }
-
-    .recipientName {
-      width: $inputwidth;
-    }
-
-    .recipientSurname {
-      width: $inputwidth;
-    }
-
-    .recipientEmail {
-      width: $inputwidth + 65px;
-      background-color: var(--ubs-ligth-grey);
-    }
-
-    .recipientPhone {
-      width: $inputwidth - 70px;
-    }
-
-    .region,
-    .street,
-    .district {
-      width: $inputwidth + 35px;
-    }
-
-    .city {
-      width: $inputwidth - 20px;
-    }
-
-    .houseNumber,
-    .houseCorpus,
-    .entranceNumber {
-      width: 64px;
-    }
-
-    label {
-      margin-bottom: 10px;
-      padding: 0;
-      color: var(--ubs-secondary-grey);
-      font-family: var(--primary-font);
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 24px;
-    }
-
-    .col-sm-6 {
-      padding: 0;
-    }
-  }
-
-  .submit-btns {
+  .footer-btns {
     display: flex;
     justify-content: flex-start;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding-top: 53px;
-    gap: 30px;
+    margin: 0 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
   }
+}
 
-  .ubs_profile-footer {
-    width: 905px;
+.contacts {
+  display: block;
+  width: 100%;
+}
 
-    .footer-text {
-      margin: 20px;
-    }
-
-    .footer-btns {
-      display: flex;
-      justify-content: flex-start;
-      margin: 0 10px;
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
-    }
-  }
-
-  .contacts {
-    display: block;
-    width: 100%;
-  }
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 30px;
 }
 
 .delete-address {
@@ -272,8 +247,6 @@ $inputwidth: 260px;
 
 @media (max-width: 1439px) {
   .ubs_profile-container {
-    max-width: 800px;
-
     .delete-address {
       margin-left: auto;
       order: 2;
@@ -296,13 +269,46 @@ $inputwidth: 260px;
   }
 }
 
-@media (max-width: 600px) {
-  .ubs_profile-header {
-    margin-left: 20px;
+@media (max-width: 768px) {
+  .ubs_profile-container {
+    padding-inline: 24px;
+    padding-top: 12px;
   }
 
   .ubs_profile-container .input-group {
-    padding: 16px;
+    background-color: transparent !important;
+    box-shadow: none;
+  }
+
+  h3 {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .input-group {
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .input-group form {
+    padding: 0 !important;
+  }
+
+  .form-group {
+    width: 100% !important;
+
+    .form-control {
+      width: 100% !important;
+    }
+  }
+
+  .input-margin {
+    margin-right: 0 !important;
+  }
+
+  .edit-button {
+    width: 100%;
   }
 }
 

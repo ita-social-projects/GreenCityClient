@@ -12,7 +12,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 @Component({
   selector: 'app-ubs-user-bonuses',
   templateUrl: './ubs-user-bonuses.component.html',
-  styleUrls: ['./ubs-user-bonuses.component.scss']
+  styleUrls: ['./ubs-user-bonuses.component.scss', '../styles/ubs-user-common.scss']
 })
 export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['dateOfEnrollment', 'amount', 'reason'];
@@ -20,6 +20,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   totalBonuses: number;
   isLoading = true;
   bonusesList: BonusModel[] = [];
+
   destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private snackBar: MatSnackBarComponent, private bonusesService: BonusesService, private localStorage: LocalStorageService) {}

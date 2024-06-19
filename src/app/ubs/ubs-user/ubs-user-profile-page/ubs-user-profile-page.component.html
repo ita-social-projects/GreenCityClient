@@ -1,369 +1,369 @@
-<div class="ubs_profile-container mx-auto">
-  <div class="container">
-    <div class="row">
-      <div class="ubs_profile-header">
-        <div class="header-text">
-          <div class="header-title">
-            <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
-            <div *ngIf="isEditing && !userProfile?.recipientName">
-              <div class="alert-data-message">{{ 'ubs-client-profile.alert-data-message' | translate }}</div>
-            </div>
+<div class="ubs-container">
+  <div class="ubs-container__header flex justify-sb align-center">
+    <div class="header-title">
+      <h2>{{ 'ubs-client-profile.data' | translate }}</h2>
+      <div *ngIf="isEditing && !userProfile?.recipientName">
+        <div class="alert-data-message">{{ 'ubs-client-profile.alert-data-message' | translate }}</div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="!isEditing">
+      <button tabindex="0" class="ubs-primary-global-button s-btn edit-button" (click)="onEdit()">
+        {{ 'ubs-client-profile.btn.edit' | translate }}
+      </button>
+    </ng-container>
+  </div>
+
+  <div role="form" tabindex="0" id="form" class="input-group input-group-sm">
+    <form *ngIf="!isFetching; else spinner" [formGroup]="userForm">
+      <h5 class="h5-margin-bottom">{{ 'ubs-client-profile.personal' | translate }}</h5>
+      <div class="personal inline">
+        <div class="form-group input-margin">
+          <label for="recipientName">{{ 'ubs-client-profile.name' | translate }}</label>
+          <input *ngIf="isEditing" type="text" class="form-control recipientName" id="recipientName" formControlName="recipientName" />
+          <p *ngIf="!isEditing">{{ userProfile?.recipientName }}</p>
+          <div *ngIf="getControl('recipientName').invalid && getControl('recipientName').touched">
+            <app-ubs-input-error [formElement]="getControl('recipientName')"> </app-ubs-input-error>
           </div>
-          <div class="header-buttons">
-            <ng-container *ngIf="!isEditing">
-              <button tabindex="0" class="ubs-secondary-global-button s-btn" (click)="openChangePasswordDialog()">
-                {{ 'ubs-client-profile.btn.change-password' | translate }}
-              </button>
-              <button tabindex="0" class="ubs-danger-global-button s-btn" (click)="openDeleteProfileDialog()">
-                {{ 'ubs-client-profile.btn.delete-profile' | translate }}
-              </button>
-            </ng-container>
+        </div>
+        <div [ngClass]="{ inputMargin: isEditing }" class="form-group">
+          <label for="recipientSurname">{{ 'ubs-client-profile.surname' | translate }}</label>
+          <input
+            *ngIf="isEditing"
+            type="text"
+            class="form-control recipientSurname"
+            id="recipientSurname"
+            formControlName="recipientSurname"
+          />
+          <p *ngIf="!isEditing">{{ userProfile?.recipientSurname }}</p>
+          <div *ngIf="getControl('recipientSurname').invalid && getControl('recipientSurname').touched">
+            <app-ubs-input-error [formElement]="getControl('recipientSurname')"> </app-ubs-input-error>
           </div>
         </div>
       </div>
 
-      <div role="form" tabindex="0" id="form" class="input-group input-group-sm">
-        <form *ngIf="!isFetching; else spinner" [formGroup]="userForm">
-          <h5 class="h5-margin-bottom">{{ 'ubs-client-profile.personal' | translate }}</h5>
-          <div class="personal inline">
-            <div class="form-group input-margin">
-              <label for="recipientName">{{ 'ubs-client-profile.name' | translate }}</label>
-              <input *ngIf="isEditing" type="text" class="form-control recipientName" id="recipientName" formControlName="recipientName" />
-              <p *ngIf="!isEditing">{{ userProfile?.recipientName }}</p>
-              <div *ngIf="getControl('recipientName').invalid && getControl('recipientName').touched">
-                <app-ubs-input-error [formElement]="getControl('recipientName')"> </app-ubs-input-error>
-              </div>
-            </div>
-            <div [ngClass]="{ inputMargin: isEditing }" class="form-group">
-              <label for="recipientSurname">{{ 'ubs-client-profile.surname' | translate }}</label>
-              <input
-                *ngIf="isEditing"
-                type="text"
-                class="form-control recipientSurname"
-                id="recipientSurname"
-                formControlName="recipientSurname"
-              />
-              <p *ngIf="!isEditing">{{ userProfile?.recipientSurname }}</p>
-              <div *ngIf="getControl('recipientSurname').invalid && getControl('recipientSurname').touched">
-                <app-ubs-input-error [formElement]="getControl('recipientSurname')"> </app-ubs-input-error>
-              </div>
-            </div>
+      <h5>{{ 'ubs-client-profile.contacts' | translate }}</h5>
+      <div class="contacts inline">
+        <div class="form-group col-sm-6">
+          <label for="recipientEmail" class="form-label">{{ 'ubs-client-profile.email' | translate }}</label>
+          <input
+            *ngIf="isEditing"
+            type="email"
+            class="form-control recipientEmail"
+            id="recipientEmail"
+            [readonly]="true"
+            formControlName="recipientEmail"
+            aria-describedby="emailHelp"
+          />
+          <p *ngIf="!isEditing">{{ userProfile?.recipientEmail }}</p>
+        </div>
+        <div *ngIf="isEditing">
+          <div class="wrapper-btn">
+            <button aria-label="Add alternative email" class="ubs-link-global-button s-link" (click)="toggleAlternativeEmail()">
+              {{ 'ubs-client-profile.btn.alternative-email' | translate }}
+            </button>
           </div>
-
-          <h5>{{ 'ubs-client-profile.contacts' | translate }}</h5>
-          <div class="contacts inline">
-            <div class="form-group col-sm-6">
-              <label for="recipientEmail" class="form-label">{{ 'ubs-client-profile.email' | translate }}</label>
+          <div *ngIf="alternativeEmailDisplay" class="form-group col-sm-6">
+            <label for="recipientEmail" class="form-label">{{ 'ubs-client-profile.alternative-email' | translate }}</label>
+            <div class="input-container">
               <input
                 *ngIf="isEditing"
                 type="email"
                 class="form-control recipientEmail"
-                id="recipientEmail"
-                [readonly]="true"
-                formControlName="recipientEmail"
+                id="alternateEmail"
+                [readonly]="false"
+                formControlName="alternateEmail"
                 aria-describedby="emailHelp"
               />
-              <p *ngIf="!isEditing">{{ userProfile?.recipientEmail }}</p>
-            </div>
-            <div *ngIf="isEditing">
-              <div class="wrapper-btn">
-                <button aria-label="Add alternative email" class="ubs-link-global-button s-link" (click)="toggleAlternativeEmail()">
-                  {{ 'ubs-client-profile.btn.alternative-email' | translate }}
-                </button>
-              </div>
-              <div *ngIf="alternativeEmailDisplay" class="form-group col-sm-6">
-                <label for="recipientEmail" class="form-label">{{ 'ubs-client-profile.alternative-email' | translate }}</label>
-                <div class="input-container">
-                  <input
-                    *ngIf="isEditing"
-                    type="email"
-                    class="form-control recipientEmail"
-                    id="alternateEmail"
-                    [readonly]="false"
-                    formControlName="alternateEmail"
-                    aria-describedby="emailHelp"
-                  />
-                  <button class="reset-button" (click)="resetValue()">
-                    <img [src]="resetFieldImg" alt="reset field" />
-                  </button>
-                </div>
-                <div *ngIf="getControl('alternateEmail').invalid && getControl('alternateEmail').touched">
-                  <app-ubs-input-error [formElement]="getControl('alternateEmail')"> </app-ubs-input-error>
-                </div>
-              </div>
-            </div>
-            <label *ngIf="userProfile?.alternateEmail && !isEditing" class="form-label">{{
-              'ubs-client-profile.alternative-email' | translate
-            }}</label>
-            <p *ngIf="!isEditing">{{ userProfile?.alternateEmail }}</p>
-            <div class="form-group col-sm-6">
-              <label for="recipientPhone" class="form-label">{{ 'ubs-client-profile.phone' | translate }}</label>
-              <input
-                *ngIf="isEditing"
-                type="tel"
-                class="form-control recipientPhone"
-                id="recipientPhone"
-                [formControl]="userForm.controls['recipientPhone']"
-                placeholder="+380__ ___ __ __"
-                [unmask]="true"
-                [imask]="{ mask: phoneMask }"
-              />
-              <p *ngIf="!isEditing">{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
-              <div *ngIf="getControl('recipientPhone').invalid && getControl('recipientPhone').touched">
-                <app-ubs-input-error [formElement]="getControl('recipientPhone')"> </app-ubs-input-error>
-              </div>
-            </div>
-            <div class="form-group col-sm-6">
-              <label for="recipientNotification" [ngClass]="{ notificationEdit: isEditing }" class="form-label">{{
-                'ubs-client-profile.get-notification-in' | translate
-              }}</label>
-              <div role="checkbox" class="checkbox-wrapper">
-                <div class="social-media">Telegram</div>
-                <app-ubs-switcher
-                  class="ubs-switcher"
-                  [isChecked]="userProfile.telegramIsNotify"
-                  [isEditing]="!isEditing"
-                  value="id1"
-                  id="telegramNotification"
-                  (switchChanged)="onSwitchChanged('telegramNotification')"
-                ></app-ubs-switcher>
-                <div class="social-media">Viber</div>
-                <app-ubs-switcher
-                  class="ubs-switcher"
-                  [isChecked]="userProfile.viberIsNotify"
-                  [isEditing]="!isEditing"
-                  value="id2"
-                  id="telegramNotification"
-                  (switchChanged)="onSwitchChanged('viberNotification')"
-                ></app-ubs-switcher>
-              </div>
-              <div class="alert-mess">{{ 'ubs-client-profile.social-media-mess' | translate }}</div>
-            </div>
-          </div>
-
-          <div class="address" formArrayName="address" *ngFor="let address of userForm.controls.address['controls']; let i = index">
-            <div formGroupName="{{ i }}" class="ubs-cliend-profile-group">
-              <!-- Not editing -->
-              <div *ngIf="!isEditing">
-                <div class="address-header">
-                  <span class="address-header__title">
-                    {{ 'ubs-client-profile.address' | translate }}
-                    <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
-                  </span>
-                  <span *ngIf="address.value?.actual" class="address-header__default">{{ 'ubs-client-profile.default' | translate }}</span>
-                </div>
-                <div class="inline">
-                  <div class="form-group input-margin localization">
-                    <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
-                    <p>{{ getLangValue(address.value?.region, address.value?.regionEn) }}</p>
-                  </div>
-                  <div class="form-group">
-                    <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
-                    <p>{{ getLangValue(address.value?.city, address.value?.cityEn) }}</p>
-                  </div>
-                </div>
-                <div class="inline">
-                  <div class="form-group input-margin localization">
-                    <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
-                    <p>{{ getLangValue(address.value?.street, address.value?.streetEn) }}</p>
-                  </div>
-                  <div class="form-group input-margin">
-                    <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
-                    <p>{{ address.value?.houseNumber }}</p>
-                  </div>
-                  <div class="form-group input-margin">
-                    <label for="houseCorpus " class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
-                    <p>{{ address.value?.houseCorpus }}</p>
-                  </div>
-                  <div class="form-group">
-                    <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
-                    <p>{{ address.value?.entranceNumber }}</p>
-                  </div>
-                </div>
-                <div class="inline">
-                  <div class="form-group mrgbtn localization">
-                    <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
-                    <p>{{ getLangValue(address.value?.district, address.value?.districtEn) }}</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Is editing -->
-              <div *ngIf="isEditing">
-                <h5 class="address-header">
-                  {{ 'ubs-client-profile.address' | translate }}
-                  <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
-                </h5>
-                <div class="inline">
-                  <div class="form-group input-margin region">
-                    <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
-                    <input
-                      ngx-google-places-autocomplete
-                      type="text"
-                      class="shadow-none form-control"
-                      required
-                      [options]="regionOptions"
-                      formControlName="{{ getLangValue('region', 'regionEn') }}"
-                      (input)="setRegionValue(i)"
-                      (onAddressChange)="onRegionSelected($event, i)"
-                    />
-                    <div *ngIf="setValidationInputError(address, 'region', 'regionEn')">
-                      <app-ubs-input-error [formElement]="address.get(getLangValue('region', 'regionEn'))"> </app-ubs-input-error>
-                    </div>
-                  </div>
-                  <div class="form-group city">
-                    <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
-                    <input
-                      (input)="setPredictCities(i)"
-                      (click)="emptyPredictLists()"
-                      [formControlName]="getLangValue('city', 'cityEn')"
-                      class="shadow-none form-control"
-                      matInput
-                      [matAutocomplete]="autoCity"
-                    />
-                    <mat-autocomplete #autoCity="matAutocomplete">
-                      <mat-option
-                        class="autocomplete-dropdown"
-                        *ngFor="let cityName of cityPredictionList"
-                        [value]="cityName.description"
-                        (onSelectionChange)="onCitySelected(i, cityName)"
-                      >
-                        {{ cityName.description }}
-                      </mat-option>
-                    </mat-autocomplete>
-                    <div *ngIf="setValidationInputError(address, 'city', 'cityEn')">
-                      <app-ubs-input-error [formElement]="address.get(getLangValue('city', 'cityEn'))"> </app-ubs-input-error>
-                    </div>
-                  </div>
-                </div>
-                <div class="inline">
-                  <div class="form-group input-margin street">
-                    <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
-                    <input
-                      (input)="setPredictStreets(i)"
-                      (click)="emptyPredictLists()"
-                      type="text"
-                      class="form-control"
-                      [formControlName]="getLangValue('street', 'streetEn')"
-                      matInput
-                      [matAutocomplete]="autoStreet"
-                    />
-                    <mat-autocomplete #autoStreet="matAutocomplete">
-                      <mat-option
-                        class="autocomplete-dropdown"
-                        *ngFor="let streetName of streetPredictionList"
-                        [value]="streetName.description"
-                        (onSelectionChange)="onStreetSelected(i, streetName)"
-                      >
-                        {{ streetName.description }}
-                      </mat-option>
-                    </mat-autocomplete>
-                    <div *ngIf="setValidationInputError(address, 'street', 'streetEn')">
-                      <app-ubs-input-error [formElement]="address.get(getLangValue('street', 'streetEn'))"> </app-ubs-input-error>
-                    </div>
-                  </div>
-                  <div class="form-group input-margin houseNumber">
-                    <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
-                    <input
-                      id="houseNumber"
-                      type="text"
-                      class="form-control"
-                      formControlName="houseNumber"
-                      matInput
-                      [matAutocomplete]="autoHouse"
-                      (input)="setPredictHouseNumbers(userForm.controls.address.get(i.toString()))"
-                      (focusout)="checkHouseInput(userForm.controls.address.get(i.toString()))"
-                    />
-                    <mat-autocomplete #autoHouse="matAutocomplete">
-                      <mat-option
-                        class="autocomplete-dropdown"
-                        *ngFor="let house of housePredictionList"
-                        [value]="house.structured_formatting.main_text"
-                        (onSelectionChange)="onHouseSelected(userForm.controls.address.get(i.toString()), house)"
-                      >
-                        {{ house.structured_formatting.main_text }}
-                      </mat-option>
-                    </mat-autocomplete>
-                    <div *ngIf="address.get('houseNumber').invalid && address.get('houseNumber').touched">
-                      <app-ubs-input-error [formElement]="address.get('houseNumber')"> </app-ubs-input-error>
-                    </div>
-                  </div>
-                  <div class="form-group input-margin houseCorpus">
-                    <label for="houseCorpus " class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
-                    <input type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
-                    <div *ngIf="address.get('houseCorpus').invalid && address.get('houseCorpus').touched">
-                      <app-ubs-input-error [formElement]="address.get('houseCorpus')"> </app-ubs-input-error>
-                    </div>
-                  </div>
-                  <div class="form-group entranceNumber">
-                    <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
-                    <input type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
-                    <div class="validation" *ngIf="address.get('entranceNumber').invalid && address.get('entranceNumber').touched">
-                      <app-ubs-input-error [formElement]="address.get('entranceNumber')"> </app-ubs-input-error>
-                    </div>
-                  </div>
-                  <div class="delete-address" (click)="openDeleteAddressDialog(address)">
-                    <img src="assets/img/icon/trash-bin.svg" alt="delete address" />
-                  </div>
-                </div>
-                <div class="inline">
-                  <div class="form-group district">
-                    <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
-                    <select
-                      [formControlName]="getLangValue('district', 'districtEn')"
-                      class="shadow-none form-control district"
-                      (change)="onDistrictSelected(i)"
-                    >
-                      <option
-                        *ngFor="let district of address.value?.addressRegionDistrictList"
-                        [ngValue]="getLangValue(district.nameUa, district.nameEn)"
-                      >
-                        {{ getLangValue(district.nameUa, district.nameEn) }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <div class="custom-radio d-flex">
-                    <input
-                      class="checkmark"
-                      name="address"
-                      type="radio"
-                      [value]="address.value?.id"
-                      [checked]="address.value?.actual"
-                      (click)="setActualAddress(address.value?.id)"
-                    />
-                    <span>{{ 'personal-info.default-address' | translate }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <ng-container *ngIf="!isEditing">
-            <button tabindex="0" class="ubs-primary-global-button s-btn marg-btn" (click)="onEdit()">
-              {{ 'ubs-client-profile.btn.edit' | translate }}
-            </button>
-          </ng-container>
-          <div *ngIf="isEditing && userProfile.addressDto.length < maxAddressLength">
-            <div class="wrapper-btn">
-              <button aria-label="Add adrress" class="ubs-link-global-button s-link" (click)="openAddAdressDialog()">
-                {{ 'ubs-client-profile.btn.add-address' | translate }}
+              <button class="reset-button" (click)="resetValue()">
+                <img [src]="resetFieldImg" alt="reset field" />
               </button>
             </div>
+            <div *ngIf="getControl('alternateEmail').invalid && getControl('alternateEmail').touched">
+              <app-ubs-input-error [formElement]="getControl('alternateEmail')"> </app-ubs-input-error>
+            </div>
           </div>
-          <div class="submit-btns" *ngIf="isEditing">
-            <button class="ubs-primary-global-button s-btn" type="submit" (click)="onSubmit()" [disabled]="isSubmitBtnDisabled()">
-              {{ 'ubs-client-profile.btn.save' | translate }}
-            </button>
-            <button class="ubs-secondary-global-button s-btn" type="submit" (click)="onCancel()">
-              {{ 'ubs-client-profile.btn.cancel' | translate }}
-            </button>
+        </div>
+        <label *ngIf="userProfile?.alternateEmail && !isEditing" class="form-label">{{
+          'ubs-client-profile.alternative-email' | translate
+        }}</label>
+        <p *ngIf="!isEditing">{{ userProfile?.alternateEmail }}</p>
+        <div class="form-group col-sm-6">
+          <label for="recipientPhone" class="form-label">{{ 'ubs-client-profile.phone' | translate }}</label>
+          <input
+            *ngIf="isEditing"
+            type="tel"
+            class="form-control recipientPhone"
+            id="recipientPhone"
+            [formControl]="getControl('recipientPhone')"
+            placeholder="+380__ ___ __ __"
+            [unmask]="true"
+            [imask]="{ mask: phoneMask }"
+          />
+          <p *ngIf="!isEditing">{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
+          <div *ngIf="getControl('recipientPhone').invalid && getControl('recipientPhone').touched">
+            <app-ubs-input-error [formElement]="getControl('recipientPhone')"> </app-ubs-input-error>
           </div>
-        </form>
+        </div>
+        <div class="form-group col-sm-6">
+          <label for="recipientNotification" [ngClass]="{ notificationEdit: isEditing }" class="form-label">{{
+            'ubs-client-profile.get-notification-in' | translate
+          }}</label>
+          <div role="checkbox" class="checkbox-wrapper">
+            <div class="social-media">Telegram</div>
+            <app-ubs-switcher
+              class="ubs-switcher"
+              [isChecked]="userProfile.telegramIsNotify"
+              [isEditing]="!isEditing"
+              value="id1"
+              id="telegramNotification"
+              (switchChanged)="onSwitchChanged('telegramNotification')"
+            ></app-ubs-switcher>
+            <div class="social-media">Viber</div>
+            <app-ubs-switcher
+              class="ubs-switcher"
+              [isChecked]="userProfile.viberIsNotify"
+              [isEditing]="!isEditing"
+              value="id2"
+              id="telegramNotification"
+              (switchChanged)="onSwitchChanged('viberNotification')"
+            ></app-ubs-switcher>
+          </div>
+          <div class="alert-mess">{{ 'ubs-client-profile.social-media-mess' | translate }}</div>
+        </div>
       </div>
-    </div>
+
+      <div class="address" formArrayName="address" *ngFor="let address of userForm.controls.address['controls']; let i = index">
+        <div formGroupName="{{ i }}" class="ubs-cliend-profile-group">
+          <!-- Not editing -->
+          <div *ngIf="!isEditing">
+            <div class="address-header">
+              <span class="address-header__title">
+                {{ 'ubs-client-profile.address' | translate }}
+                <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
+              </span>
+              <span *ngIf="address.value?.actual" class="address-header__default">{{ 'ubs-client-profile.default' | translate }}</span>
+            </div>
+            <div class="inline">
+              <div class="form-group input-margin localization">
+                <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
+                <p>{{ getLangValue(address.value?.region, address.value?.regionEn) }}</p>
+              </div>
+              <div class="form-group">
+                <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
+                <p>{{ getLangValue(address.value?.city, address.value?.cityEn) }}</p>
+              </div>
+            </div>
+            <div class="inline">
+              <div class="form-group input-margin localization">
+                <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
+                <p>{{ getLangValue(address.value?.street, address.value?.streetEn) }}</p>
+              </div>
+              <div class="form-group input-margin">
+                <label for="houseNumber" class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
+                <p>{{ address.value?.houseNumber }}</p>
+              </div>
+              <div class="form-group input-margin">
+                <label for="houseCorpus" class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
+                <p>{{ address.value?.houseCorpus }}</p>
+              </div>
+              <div class="form-group">
+                <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
+                <p>{{ address.value?.entranceNumber }}</p>
+              </div>
+            </div>
+            <div class="inline">
+              <div class="form-group mrgbtn localization">
+                <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
+                <p>{{ getLangValue(address.value?.district, address.value?.districtEn) }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Is editing -->
+          <div *ngIf="isEditing">
+            <h5 class="address-header">
+              {{ 'ubs-client-profile.address' | translate }}
+              <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
+            </h5>
+            <div class="inline">
+              <div class="form-group input-margin region">
+                <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
+                <input
+                  id="region"
+                  ngx-google-places-autocomplete
+                  type="text"
+                  class="shadow-none form-control"
+                  required
+                  [options]="regionOptions"
+                  formControlName="{{ getLangValue('region', 'regionEn') }}"
+                  (input)="setRegionValue(i)"
+                  (onAddressChange)="onRegionSelected($event, i)"
+                />
+                <div *ngIf="setValidationInputError(address, 'region', 'regionEn')">
+                  <app-ubs-input-error [formElement]="address.get(getLangValue('region', 'regionEn'))"> </app-ubs-input-error>
+                </div>
+              </div>
+              <div class="form-group city">
+                <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
+                <input
+                  id="city"
+                  (input)="setPredictCities(i)"
+                  (click)="emptyPredictLists()"
+                  [formControlName]="getLangValue('city', 'cityEn')"
+                  class="shadow-none form-control"
+                  matInput
+                  [matAutocomplete]="autoCity"
+                />
+                <mat-autocomplete #autoCity="matAutocomplete">
+                  <mat-option
+                    class="autocomplete-dropdown"
+                    *ngFor="let cityName of cityPredictionList"
+                    [value]="cityName.description"
+                    (onSelectionChange)="onCitySelected(i, cityName)"
+                  >
+                    {{ cityName.description }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div *ngIf="setValidationInputError(address, 'city', 'cityEn')">
+                  <app-ubs-input-error [formElement]="address.get(getLangValue('city', 'cityEn'))"> </app-ubs-input-error>
+                </div>
+              </div>
+            </div>
+            <div class="inline">
+              <div class="form-group input-margin street">
+                <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
+                <input
+                  id="street"
+                  (input)="setPredictStreets(i)"
+                  (click)="emptyPredictLists()"
+                  type="text"
+                  class="form-control"
+                  [formControlName]="getLangValue('street', 'streetEn')"
+                  matInput
+                  [matAutocomplete]="autoStreet"
+                />
+                <mat-autocomplete #autoStreet="matAutocomplete">
+                  <mat-option
+                    class="autocomplete-dropdown"
+                    *ngFor="let streetName of streetPredictionList"
+                    [value]="streetName.description"
+                    (onSelectionChange)="onStreetSelected(i, streetName)"
+                  >
+                    {{ streetName.description }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div *ngIf="setValidationInputError(address, 'street', 'streetEn')">
+                  <app-ubs-input-error [formElement]="address.get(getLangValue('street', 'streetEn'))"> </app-ubs-input-error>
+                </div>
+              </div>
+              <div class="form-group input-margin houseNumber">
+                <label for="houseNumber" class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
+                <input
+                  id="houseNumber"
+                  type="text"
+                  class="form-control"
+                  formControlName="houseNumber"
+                  matInput
+                  [matAutocomplete]="autoHouse"
+                  (input)="setPredictHouseNumbers(userForm.controls.address.get(i.toString()))"
+                  (focusout)="checkHouseInput(userForm.controls.address.get(i.toString()))"
+                />
+                <mat-autocomplete #autoHouse="matAutocomplete">
+                  <mat-option
+                    class="autocomplete-dropdown"
+                    *ngFor="let house of housePredictionList"
+                    [value]="house.structured_formatting.main_text"
+                    (onSelectionChange)="onHouseSelected(userForm.controls.address.get(i.toString()), house)"
+                  >
+                    {{ house.structured_formatting.main_text }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div *ngIf="address.get('houseNumber').invalid && address.get('houseNumber').touched">
+                  <app-ubs-input-error [formElement]="address.get('houseNumber')"> </app-ubs-input-error>
+                </div>
+              </div>
+              <div class="form-group input-margin houseCorpus">
+                <label for="houseCorpus" class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
+                <input type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
+                <div *ngIf="address.get('houseCorpus').invalid && address.get('houseCorpus').touched">
+                  <app-ubs-input-error [formElement]="address.get('houseCorpus')"> </app-ubs-input-error>
+                </div>
+              </div>
+              <div class="form-group entranceNumber">
+                <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
+                <input type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
+                <div class="validation" *ngIf="address.get('entranceNumber').invalid && address.get('entranceNumber').touched">
+                  <app-ubs-input-error [formElement]="address.get('entranceNumber')"> </app-ubs-input-error>
+                </div>
+              </div>
+              <div class="delete-address" (click)="openDeleteAddressDialog(address)">
+                <img src="assets/img/icon/trash-bin.svg" alt="delete address" />
+              </div>
+            </div>
+            <div class="inline">
+              <div class="form-group district">
+                <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
+                <select
+                  id="district"
+                  [formControlName]="getLangValue('district', 'districtEn')"
+                  class="shadow-none form-control district"
+                  (change)="onDistrictSelected(i)"
+                >
+                  <option
+                    *ngFor="let district of address.value?.addressRegionDistrictList"
+                    [ngValue]="getLangValue(district.nameUa, district.nameEn)"
+                  >
+                    {{ getLangValue(district.nameUa, district.nameEn) }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <div class="custom-radio d-flex">
+                <input
+                  class="checkmark"
+                  name="address"
+                  type="radio"
+                  [value]="address.value?.id"
+                  [checked]="address.value?.actual"
+                  (click)="setActualAddress(address.value?.id)"
+                />
+                <span>{{ 'personal-info.default-address' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ubs-container__btn-group">
+        <ng-container *ngIf="!isEditing">
+          <button tabindex="0" class="ubs-secondary-global-button s-btn" (click)="openChangePasswordDialog()">
+            {{ 'ubs-client-profile.btn.change-password' | translate }}
+          </button>
+          <button tabindex="0" class="ubs-danger-global-button s-btn" (click)="openDeleteProfileDialog()">
+            {{ 'ubs-client-profile.btn.delete-profile' | translate }}
+          </button>
+        </ng-container>
+      </div>
+      <div *ngIf="isEditing && userProfile.addressDto.length < maxAddressLength">
+        <div class="wrapper-btn">
+          <button aria-label="Add adrress" class="ubs-link-global-button s-link" (click)="openAddAdressDialog()">
+            {{ 'ubs-client-profile.btn.add-address' | translate }}
+          </button>
+        </div>
+      </div>
+      <div class="ubs-container__btn-group" *ngIf="isEditing">
+        <button class="ubs-primary-global-button s-btn" type="submit" (click)="onSubmit()" [disabled]="isSubmitBtnDisabled()">
+          {{ 'ubs-client-profile.btn.save' | translate }}
+        </button>
+        <button class="ubs-secondary-global-button s-btn" type="submit" (click)="onCancel()">
+          {{ 'ubs-client-profile.btn.cancel' | translate }}
+        </button>
+      </div>
+    </form>
   </div>
+
   <ng-template #spinner>
     <app-spinner class="mx-auto"></app-spinner>
   </ng-template>

@@ -22,11 +22,12 @@ import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePredict
 import { Language } from 'src/app/main/i18n/Language';
 import { RequiredFromDropdownValidator } from '../requiredFromDropDown.validator';
 import { NotificationPlatform } from '../../ubs/notification-platform.enum';
+import { Options } from 'ngx-google-places-autocomplete/objects/options/options';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
   templateUrl: './ubs-user-profile-page.component.html',
-  styleUrls: ['./ubs-user-profile-page.component.scss']
+  styleUrls: ['./ubs-user-profile-page.component.scss', '../styles/ubs-user-common.scss']
 })
 export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDestroy {
   autocompleteService: GoogleAutoService;
@@ -66,10 +67,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     city: false,
     street: false
   };
-  regionOptions = {
+  regionOptions: Options = new Options({
     types: ['administrative_area_level_1'],
     componentRestrictions: { country: 'UA' }
-  };
+  });
 
   constructor(
     public dialog: MatDialog,
@@ -646,8 +647,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     }
   }
 
-  getControl(control: string) {
-    return this.userForm.get(control);
+  getControl(control: string): FormControl {
+    return this.userForm.get(control) as FormControl;
   }
 
   toggleAlternativeEmail() {

@@ -1,7 +1,7 @@
-<div class="wrapper">
-  <div class="main-header">
-    <h1 class="main-header-title">{{ 'user-orders.order-title' | translate }}</h1>
-    <button *ngIf="activeCouriers" class="ubs-primary-global-button s-btn" (click)="redirectToOrder()">
+<div class="ubs-container">
+  <div class="ubs-container__header flex justify-sb align-center">
+    <h2>{{ 'user-orders.order-title' | translate }}</h2>
+    <button *ngIf="activeCouriers" class="ubs-primary-global-button s-btn new-order-button" (click)="redirectToOrder()">
       {{ 'user-orders.btn.new-order' | translate }}
     </button>
   </div>
