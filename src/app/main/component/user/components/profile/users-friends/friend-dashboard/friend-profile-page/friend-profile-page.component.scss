@@ -11,13 +11,6 @@
     min-height: 323px;
     box-shadow: 4px 0 8px -4px var(--quintynary-dark-grey);
     background-color: var(--primary-white);
-
-    .friend-request {
-      display: flex;
-      align-items: center;
-      justify-content: space-evenly;
-      margin: 10px 0;
-    }
   }
 
   .gree-dot {
@@ -38,6 +31,12 @@
 
   .content {
     margin-top: 25px;
+  }
+
+  .friend-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
   }
 }
 

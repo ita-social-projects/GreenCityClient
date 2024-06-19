@@ -1,0 +1,51 @@
+.friend-btn {
+  display: flex;
+  flex-direction: column;
+  width: 125px;
+  height: 100%;
+  justify-content: end;
+  gap: 15px;
+  text-wrap: nowrap;
+}
+
+.chat-btn {
+  position: relative;
+}
+
+.chat-btn::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 35%;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--primary-green);
+  border-right: 0;
+  border-top: 0;
+  transform: rotate(45deg);
+}
+
+.chat-btn::after {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 35%;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  background-color: var(--primary-white);
+}
+
+.chat-btn:hover::before {
+  border: 1px solid var(--secondary-dark-green);
+}
+
+.chat-btn:focus::before {
+  border: 2px solid var(--secondary-dark-green);
+}
+
+.chat-btn:focus::after {
+  left: -4px;
+}

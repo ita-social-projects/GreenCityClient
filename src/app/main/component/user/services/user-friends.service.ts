@@ -2,9 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environment/environment';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
-import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel, UserDataAsFriend } from '@global-user/models/friend.model';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,7 @@ export class UserFriendsService {
       'Content-Type': 'application/json'
     })
   };
+  removeFriendSubj$: Subject<number> = new Subject<number>();
 
   constructor(private http: HttpClient) {}
 
@@ -79,6 +80,10 @@ export class UserFriendsService {
 
   unsendFriendRequest(idFriend: number): Observable<object> {
     return this.http.delete<object>(`${this.urlFriend}friends/${idFriend}/cancelRequest`, {});
+  }
+
+  getUserDataAsFriend(idFriend: number): Observable<UserDataAsFriend> {
+    return this.http.get<UserDataAsFriend>(`${this.urlFriend}friends/user-data-as-friend/${idFriend}`);
   }
 
   addedFriendsToHabit(friend) {
