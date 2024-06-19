@@ -95,6 +95,7 @@
         @media screen and (max-width: 576px) {
           min-width: 250px;
           font-size: 20px;
+          padding: 20px 0 10px;
         }
       }
     }
@@ -1929,8 +1930,9 @@ section .main-container {
 
     section .price-section {
       h2 {
-        padding: 60px 16px 50px 16px;
+        padding: 50px 16px;
         margin-bottom: 0;
+        line-height: 1.3;
       }
 
       .box-card {
@@ -1964,7 +1966,7 @@ section .main-container {
     }
 
     section.pick-up-service {
-      padding-top: 64px;
+      padding-top: 220px;
       padding-bottom: 64px;
 
       .main-container {
