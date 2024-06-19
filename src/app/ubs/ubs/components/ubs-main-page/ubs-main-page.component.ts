@@ -1,4 +1,4 @@
-import { CheckTokenService } from './../../../../main/service/auth/check-token/check-token.service';
+import { CheckTokenService } from '@auth-service/check-token/check-token.service';
 import { Component, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -124,12 +124,12 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       });
     this.screenWidth = document.documentElement.clientWidth;
     this.onCheckToken();
-    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
+    this.boxWidth = this.getBoxWidth();
   }
 
   ngAfterViewChecked(): void {
     this.screenWidth = document.documentElement.clientWidth;
-    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
+    this.boxWidth = this.getBoxWidth();
     this.calcLineSize();
     this.cdref.detectChanges();
   }
@@ -138,6 +138,11 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.destroy.next();
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
+  }
+
+  private getBoxWidth(): number {
+    const element: Element = document.querySelector('.main-container');
+    return element ? element.getBoundingClientRect().width : 0;
   }
 
   getBags(locationId = 1, tariffId = 1): void {
@@ -203,8 +208,8 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     let nameUk1 = nameUk.toLowerCase();
     nameUk1 = nameUk1.charAt(0).toUpperCase() + nameUk1.slice(1);
 
-    const ukrDescription = `${nameUk1} об'ємом ${capacity} л.`;
-    const engDescription = `With ${nameEng.toLowerCase()} with a volume of ${capacity} l.`;
+    const ukrDescription = `${nameUk1} об'ємом ${capacity} л`;
+    const engDescription = `With ${nameEng.toLowerCase()} with a volume of ${capacity} l`;
     return this.getLangValue(ukrDescription, engDescription);
   }
 

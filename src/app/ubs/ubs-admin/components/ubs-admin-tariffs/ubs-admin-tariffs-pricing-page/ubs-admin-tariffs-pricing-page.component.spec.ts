@@ -24,7 +24,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Bag, BagLimitDto, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
-import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -52,10 +51,10 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeValue = '1';
   const fakeCourierForm = new FormGroup({
     courierLimitsBy: new FormControl('fake'),
-    minPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    maxPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    minAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    maxAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
+    minPriceOfOrder: new FormControl('fake'),
+    maxPriceOfOrder: new FormControl('fake'),
+    minAmountOfBigBags: new FormControl('fake'),
+    maxAmountOfBigBags: new FormControl('fake'),
     limitDescription: new FormControl('fake')
   });
   const fakeLocations: Locations = {

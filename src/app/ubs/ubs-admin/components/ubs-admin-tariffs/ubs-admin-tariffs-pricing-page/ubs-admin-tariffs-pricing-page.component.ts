@@ -15,7 +15,6 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
 import { abilityDelAuthorities, abilityEditAuthorities } from '../../../models/ubs-admin.interface';
@@ -71,6 +70,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   public isEmployeeCanEditPricingCard: boolean;
   public isEmployeeCanActivateDeactivate: boolean;
   public isEmployeeCanUseCrumbs: boolean;
+  public orderMaxLimit = { amount: 99999, sum: 9999999 };
 
   constructor(private injector: Injector, private router: Router, private store: Store<IAppState>) {
     this.location = injector.get(Location);
@@ -118,8 +118,9 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   setMinValueValidation(minFormControl: AbstractControl, maxFormControl: AbstractControl): void {
+    const validatorLimit = maxFormControl === this.maxPriceOfOrder ? this.orderMaxLimit.sum : this.orderMaxLimit.amount;
     minFormControl.valueChanges.pipe(startWith(minFormControl.value)).subscribe((value) => {
-      maxFormControl.setValidators([Validators.min(value + 1)]);
+      maxFormControl.setValidators([Validators.min(value + 1), Validators.max(validatorLimit)]);
       maxFormControl.updateValueAndValidity();
     });
   }
@@ -128,10 +129,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.limitsForm = this.fb.group({
       limitDescription: new FormControl(''),
       courierLimitsBy: new FormControl({ value: this.limitStatus }),
-      minPriceOfOrder: new FormControl(null, [Validators.required, Validators.min(1), LimitsValidator.cannotBeEmpty]),
-      maxPriceOfOrder: new FormControl(null),
-      minAmountOfBigBags: new FormControl(null, [Validators.required, Validators.min(1), LimitsValidator.cannotBeEmpty]),
-      maxAmountOfBigBags: new FormControl(null)
+      minPriceOfOrder: new FormControl(null, [Validators.required, Validators.min(1)]),
+      maxPriceOfOrder: new FormControl(null, [Validators.max(this.orderMaxLimit.sum)]),
+      minAmountOfBigBags: new FormControl(null, [Validators.required, Validators.min(1)]),
+      maxAmountOfBigBags: new FormControl(null, [Validators.max(this.orderMaxLimit.amount)])
     });
   }
 
@@ -364,7 +365,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Service) => {
         this.service = res;
-        this.servicePrice = this.service?.price * 100;
+        this.servicePrice = this.service?.price;
         this.isLoadBar1 = false;
       });
   }

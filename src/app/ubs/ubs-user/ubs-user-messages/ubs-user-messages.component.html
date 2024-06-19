@@ -1,78 +1,80 @@
-<div class="ubs-container">
-  <h2 class="ubs-container__header">{{ localization.title | translate }}</h2>
-  <div class="header-list">
-    <div class="col-2 id">{{ mobileTableHeader(localization.id | translate) }}</div>
-    <div class="col-5 theme">{{ mobileTableHeader(localization.themeMessages | translate) }}</div>
-    <div class="col-2 time">{{ mobileTableHeader(localization.time | translate) }}</div>
-  </div>
-  <div class="under-line"></div>
-  <div class="load-spinner" *ngIf="isLoadSpinner">
-    <mat-spinner class="custom-spinner"></mat-spinner>
-  </div>
-  <div class="load-bar" *ngIf="isLoadBar">
-    <mat-progress-bar class="custom-bar" mode="indeterminate"></mat-progress-bar>
-  </div>
-  <div *ngIf="!isAnyMessages" class="if-empty">{{ 'ubs-messages.message' | translate }}</div>
-  <div *ngIf="isAnyMessages">
-    <mat-accordion multi="false" [togglePosition]="'before'">
-      <mat-expansion-panel
-        *ngFor="
-          let notification of notifications
-            | paginate
-              : {
-                  id: 'pag',
-                  itemsPerPage: pageSize,
-                  currentPage: page,
-                  totalItems: count
-                }
-        "
-        (click)="setRead(notification.id, notification.read)"
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title class="col-2 panel-title" [ngClass]="{ textColorTitle: !notification.read }">
-            {{ notification.orderId }}
-          </mat-panel-title>
-          <mat-panel-description class="col-5 panel-description" [ngClass]="{ textColorTitle: !notification.read }">
-            {{ notification.title }}
-          </mat-panel-description>
-          <mat-panel-description class="date col-4" [ngClass]="{ textColorTitle: !notification.read }">
-            {{ notification.notificationTime | date: 'HH:mm dd.MM.yyyy' }}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="load-spinner small" *ngIf="isLoadSmallSpinner && !notification.isOpen">
-          <mat-spinner class="custom-spinner" diameter="60"></mat-spinner>
-        </div>
-        <div class="description" *ngIf="!isLoadSmallSpinner">
-          <app-notification-body [body]="notification.body" [orderId]="notification.orderId"> </app-notification-body>
-        </div>
-        <div *ngIf="notification.images?.length" class="description title-img">
-          {{ 'add-violation-modal.label-for-photo-container' | translate }}
-        </div>
-        <div *ngIf="notification.images?.length" class="description img">
-          <img
-            *ngFor="let image of notification.images; index as i"
-            class="notification-images"
-            src="{{ image }}"
-            alt=""
-            (click)="openImg(i)"
-          />
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
-    <div class="d-flex justify-content-center">
-      <pagination-controls
-        autoHide="true"
-        id="pag"
-        class="my-pagination"
-        previousLabel=""
-        nextLabel=""
-        directionLinks="true"
-        maxSize="5"
-        (pageChange)="onTableDataChange($event)"
-      >
-      </pagination-controls>
+<div class="wrapper">
+  <div class="content">
+    <div class="main_header">{{ localization.title | translate }}</div>
+    <div class="header-list">
+      <div class="col-2 id">{{ localization.id | translate }}</div>
+      <div class="col-5 theme">{{ localization.themeMessages | translate }}</div>
+      <div class="col-4 time">{{ localization.time | translate }}</div>
+    </div>
+    <div class="under-line"></div>
+    <div class="load-spinner" *ngIf="isLoadSpinner">
+      <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+    <div class="load-bar" *ngIf="isLoadBar">
+      <mat-progress-bar class="custom-bar" mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="!isAnyMessages" class="if-empty">{{ 'ubs-messages.message' | translate }}</div>
+    <div *ngIf="isAnyMessages">
+      <mat-accordion multi="false" [togglePosition]="'before'">
+        <mat-expansion-panel
+          *ngFor="
+            let notification of notifications
+              | paginate
+                : {
+                    id: 'pag',
+                    itemsPerPage: pageSize,
+                    currentPage: page,
+                    totalItems: count
+                  }
+          "
+          (click)="setRead(notification.id, notification.read)"
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title class="col-2 panel-title" [ngClass]="{ textColorTitle: !notification.read }">
+              {{ notification.orderId }}
+            </mat-panel-title>
+            <mat-panel-description class="col-5 panel-description" [ngClass]="{ textColorTitle: !notification.read }">
+              {{ notification.title }}
+            </mat-panel-description>
+            <mat-panel-description class="date col-4" [ngClass]="{ textColorTitle: !notification.read }">
+              {{ notification.notificationTime | date: 'HH:mm dd.MM.yyyy' }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="load-spinner small" *ngIf="isLoadSmallSpinner && !notification.isOpen">
+            <mat-spinner class="custom-spinner" diameter="60"></mat-spinner>
+          </div>
+          <div class="description" *ngIf="!isLoadSmallSpinner">
+            <app-notification-body [body]="notification.body" [orderId]="notification.orderId"> </app-notification-body>
+          </div>
+          <div *ngIf="notification.images?.length" class="description title-img">
+            {{ 'add-violation-modal.label-for-photo-container' | translate }}
+          </div>
+          <div *ngIf="notification.images?.length" class="description img">
+            <img
+              *ngFor="let image of notification.images; index as i"
+              class="notification-images"
+              src="{{ image }}"
+              alt=""
+              (click)="openImg(i)"
+            />
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          autoHide="true"
+          id="pag"
+          class="my-pagination"
+          previousLabel=""
+          nextLabel=""
+          directionLinks="true"
+          maxSize="5"
+          (pageChange)="onTableDataChange($event)"
+        >
+        </pagination-controls>
+      </div>
     </div>
   </div>
 </div>

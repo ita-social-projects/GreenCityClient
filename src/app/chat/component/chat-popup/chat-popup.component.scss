@@ -15,7 +15,7 @@
   transform: translateY(calc(100% - 45px));
   transition: transform 0.2s ease-out;
   max-height: 650px;
-  z-index: 1000;
+  z-index: 7;
 
   &.opened {
     transform: translateY(0);
@@ -99,5 +99,25 @@
   > img {
     height: 20px;
     width: 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .chat-popup {
+    max-height: 46px;
+
+    &.chat-user {
+      bottom: 82px;
+    }
+
+    &.chat-admin {
+      bottom: 140px;
+    }
+
+    &.opened {
+      transition: transform 0.2s ease-in;
+      transform: translateY(0);
+      max-height: 650px;
+    }
   }
 }

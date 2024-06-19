@@ -39,6 +39,7 @@
 .form-content-container {
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   .content-label {
     margin: 20px 0 4px;
@@ -157,7 +158,10 @@
 }
 
 .exist-account {
-  margin-top: 70px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+
   font-size: 16px;
   font-family: var(--primary-font);
   line-height: 24px;
@@ -174,11 +178,5 @@
     color: var(--primary-green);
     margin-left: 16px;
     text-decoration: none;
-  }
-}
-
-@media screen and (max-width: 1620px) {
-  .exist-account {
-    margin-top: 40px;
   }
 }
