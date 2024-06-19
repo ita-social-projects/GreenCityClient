@@ -7,7 +7,12 @@
 
 export const ubsNavLinks = [
   { name: 'user.lower-nav-bar.sorting-rules', route: 'https://nowaste.com.ua/sort-station/', url: true },
-  { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.ua/', url: true }
+  { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.ua/', url: true },
+  {
+    name: 'user.lower-nav-bar.user-agreement',
+    route: 'https://docs.google.com/document/d/1wloNK_HGEzhLBzfgNso1W3DdbhuP3QnS11z5BTKJlys/edit?usp=sharing',
+    url: true
+  }
 ];
 
 export const socialLinks = [
