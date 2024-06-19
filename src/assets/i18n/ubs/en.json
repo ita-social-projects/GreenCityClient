@@ -394,7 +394,8 @@
     "lower-nav-bar": {
       "about-us": "About service",
       "sorting-rules": "Sorting rules",
-      "eco-shop": "Eco-Shop"
+      "eco-shop": "Eco-Shop",
+      "user-agreement": "User agreement"
     },
     "auth": {
       "sign-in": {
