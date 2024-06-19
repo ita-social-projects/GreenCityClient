@@ -99,10 +99,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.isVisible = this.orderStatusInfo.ableActualChange;
     this.isOrderPaid = this.totalPaid !== 0;
+    const controlName = 'certificates';
     if (this.orderInfo.generalOrderInfo.orderPaymentStatus !== PaymnetStatus.UNPAID) {
-      this.orderDetailsForm.get('certificates').disable();
+      this.orderDetailsForm.get(controlName).disable();
     }
-    this.orderDetailsForm.get('certificates').setValidators([Validators.minLength(8), Validators.pattern(Patterns.serteficatePattern)]);
+    this.orderDetailsForm.controls[controlName].setValidators([Validators.minLength(8), Validators.pattern(Patterns.serteficatePattern)]);
   }
 
   public showWriteOffStationField(): boolean {

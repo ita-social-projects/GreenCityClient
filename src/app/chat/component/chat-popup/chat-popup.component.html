@@ -1,4 +1,4 @@
-<div class="chat-popup" [class.opened]="isOpen">
+<div class="chat-popup" [ngClass]="chatClass" [class.opened]="isOpen">
   <div class="popup-top-panel">
     <div class="panel-account" (click)="isOpen = !isOpen">
       <span class="panel-account-title">{{ (isSupportChat ? 'chat.support-chat' : 'chat.messages') | translate }}</span>
