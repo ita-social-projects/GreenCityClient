@@ -222,10 +222,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   createNews(): void {
     const imagesSrc = checkImages(this.editorHTML);
-
     if (imagesSrc) {
       const imgFiles = imagesSrc.map((base64) => dataURLtoFile(base64));
-
       this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
         (response) => {
           const findBase64Regex = Patterns.Base64Regex;
