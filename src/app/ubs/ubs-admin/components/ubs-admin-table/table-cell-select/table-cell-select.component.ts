@@ -20,7 +20,7 @@ export class TableCellSelectComponent implements OnInit {
   @Input() id: number;
   @Input() nameOfColumn: string;
   @Input() key: string;
-  @Input() currentValue: string = '';
+  @Input() currentValue = '';
   @Input() lang: string;
   @Input() ordersToChange: number[];
   @Input() isAllChecked: boolean;
