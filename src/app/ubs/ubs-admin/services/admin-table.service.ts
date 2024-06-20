@@ -6,6 +6,7 @@ import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters } from 
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import moment from 'moment';
+import { Observable } from 'rxjs';
 
 const columnMapping: { [key: string]: string } = {
   dateOfExportFrom: 'deliveryDate.from',
@@ -66,6 +67,10 @@ export class AdminTableService {
 
   blockOrders(ids: number[]) {
     return this.http.put<IAlertInfo[]>(`${this.url}blockOrders`, ids);
+  }
+
+  unblockOrders(ids: number[]): Observable<number[]> {
+    return this.http.put<number[]>(`${this.url}unblockOrders`, ids);
   }
 
   cancelEdit(ids: number[]) {
