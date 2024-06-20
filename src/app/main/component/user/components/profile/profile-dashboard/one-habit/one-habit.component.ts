@@ -150,7 +150,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
       .subscribe((resp) => (this.friends = resp));
   }
 
-  public getTooltipText(): string {
+  getTooltipText(): string {
     if (this.friends.length < this.lengthOfFriendsNamesList) {
       return this.friends.map((friend) => friend.name).join('\n');
     } else {
@@ -163,7 +163,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onDialogOpen() {
+  onDialogOpen() {
     this.dialog.open(FriendsListPopUpComponent, {
       data: {
         friends: this.friends,
