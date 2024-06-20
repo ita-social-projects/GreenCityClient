@@ -18,15 +18,12 @@
   }
 
   .price-section {
-    height: 648px;
-
     h2 {
       padding: 0 0 80px 0;
     }
 
     .box-card {
       display: flex;
-      height: 264px;
       justify-content: center;
       flex-wrap: wrap;
       gap: 20px;
@@ -862,7 +859,6 @@ section .main-container {
       height: 100%;
 
       .box-card {
-        margin-top: 71px;
         margin-left: auto;
         margin-right: auto;
         max-width: 1140px;
@@ -1164,12 +1160,7 @@ section .main-container {
     }
 
     section .price-section {
-      height: 100%;
-
       .box-card {
-        margin-top: 71px;
-        height: 100%;
-
         #price-frame {
           width: 298px;
           height: 229px;
@@ -1942,7 +1933,6 @@ section .main-container {
 
       .box-card {
         flex-direction: column;
-        height: 650px;
         justify-content: normal;
         gap: 19px;
         margin: 0 16px;
@@ -1971,7 +1961,7 @@ section .main-container {
     }
 
     section.pick-up-service {
-      padding-top: 220px;
+      padding-top: 60px;
       padding-bottom: 64px;
 
       .main-container {
