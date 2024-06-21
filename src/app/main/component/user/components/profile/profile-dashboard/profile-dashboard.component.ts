@@ -59,7 +59,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   private hasNextPageOfEvents = true;
   private hasNextPageOfFavoriteEvents = true;
   private currentPage: number;
-  private newsCount = 3;
+  private newsCount = 5;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -78,7 +78,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       if (val.ecoNewsByAuthor) {
         this.totalNews = val.ecoNewsByAuthor.totalElements;
         this.hasNext = val.ecoNewsByAuthor.hasNext;
-        this.news = val.autorNews;
+        this.news = val.authorNews;
+        console.log('news from authorNews', this.news);
       }
     });
 
@@ -240,6 +241,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   onScroll(): void {
+    console.log('onScroll fired');
     this.dispatchNews(false);
   }
 

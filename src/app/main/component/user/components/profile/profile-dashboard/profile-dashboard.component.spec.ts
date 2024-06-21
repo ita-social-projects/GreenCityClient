@@ -31,7 +31,7 @@ describe('ProfileDashboardComponent', () => {
   storeMock.select = () =>
     of({
       ecoNews: {},
-      autorNews: [{ newsId: 1 }],
+      authorNews: [{ newsId: 1 }],
       pageNumber: 1,
       error: 'error',
       ecoNewsByAuthor: true
