@@ -7,6 +7,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { of } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -44,7 +45,8 @@ describe('ImagesContainerComponent', () => {
       providers: [
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: TranslateService, useValue: translateServiceMock },
-        { provide: EventsService, useValue: eventsServiceMock }
+        { provide: EventsService, useValue: eventsServiceMock },
+        { provide: MatDialog, useValue: {} }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
