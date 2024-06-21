@@ -44,6 +44,8 @@
     line-height: 20px;
     letter-spacing: 0.10000000149011612px;
     text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 
@@ -272,6 +274,7 @@
     display: flex;
     align-items: center;
   }
+
   .time {
     margin-left: 0;
   }
@@ -289,6 +292,7 @@
   .header-list {
     display: flex;
     margin-top: -32px;
+    padding-left: 0;
 
     div {
       color: var(--ubs-primary-grey);
