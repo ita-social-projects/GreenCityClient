@@ -12,7 +12,7 @@ import {
   EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
-import { EventResponse, LocationResponse, PagePreviewDTO } from '../../models/events.interface';
+import { EventDatesResponse, EventResponse, LocationResponse, PagePreviewDTO } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject, Subscription } from 'rxjs';
@@ -22,10 +22,14 @@ import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 import { ofType } from '@ngrx/effects';
-import { ICONS } from '../../models/event-consts';
+import { CREATE_ROUTE, ICONS, UPDATE_ROUTE } from '../../models/event-consts';
 import { WarningPopUpComponent } from '@shared/components';
 import { TranslateService } from '@ngx-translate/core';
 import { EventStoreService } from '../../services/event-store.service';
+import { LanguageService } from '../../../../i18n/language.service';
+import { AttendersModalComponent } from '../attenders-modal/attenders-modal.component';
+import { EventScheduleComponent } from '../event-schedule/event-schedule.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-event-details',
@@ -33,33 +37,33 @@ import { EventStoreService } from '../../services/event-store.service';
   styleUrls: ['./event-details.component.scss']
 })
 export class EventDetailsComponent implements OnInit, OnDestroy {
-  icons = ICONS;
-  eventId: number;
-  roles = {
+  public icons = ICONS;
+  public eventId: number;
+  public roles = {
     UNAUTHENTICATED: 'UNAUTHENTICATED',
     USER: 'USER',
     ORGANIZER: 'ORGANIZER',
     ADMIN: 'ADMIN'
   };
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
-  bsModalRef: BsModalRef;
-  role = this.roles.UNAUTHENTICATED;
-  isEventFavorite: boolean;
+  public bsModalRef: BsModalRef;
+  public role = this.roles.UNAUTHENTICATED;
+  public isEventFavorite: boolean;
   attendees = [];
   attendeesAvatars = [];
-  organizerName: string;
-  event: EventResponse | PagePreviewDTO;
-  locationLink: string;
-  locationCoordinates: LocationResponse;
-  place: string;
-  addressEn: string;
-  images: string[] = [];
-  sliderIndex = 0;
-  isPosting: boolean;
-  isActive: boolean;
-  currentDate = new Date();
-  max = 5;
-  rate: number;
+  placeLink: string;
+  public organizerName: string;
+  public event: EventResponse | PagePreviewDTO;
+  public locationCoordinates: LocationResponse;
+  public place: string;
+  public addressEn: string;
+  public images: string[] = [];
+  public sliderIndex = 0;
+  public isFetching: boolean;
+  public isActive: boolean;
+  public currentDate = new Date();
+  public max = 5;
+  public rate: number;
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title-admin',
     popupConfirm: 'homepage.events.delete-yes',
@@ -67,17 +71,23 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     style: 'green'
   };
   mapDialogData: any;
-  address = 'Should be address';
-  maxRating = 5;
-  backRoute: string;
-  routedFromProfile: boolean;
-  isUserCanJoin = false;
-  isUserCanRate = false;
-  isSubscribed = false;
-  addAttenderError: string;
-  isRegistered: boolean;
-  isReadonly = false;
+  public address = 'Should be address';
+  public maxRating = 5;
+  public backRoute: string;
+  public routedFromProfile: boolean;
+  public isUserCanJoin = false;
+  public isUserCanRate = false;
+  public isSubscribed = false;
+  public addAttenderError: string;
+  public isRegistered: boolean;
+  public isReadonly = false;
+  firstDateStart: Date;
+  firstDateEnd: Date;
   googleMapLink: string;
+  onlineLink: string;
+  dates: EventDatesResponse[] = [];
+  protected readonly UPDATE_ROUTE = UPDATE_ROUTE;
+  protected readonly CREATE_ROUTE = CREATE_ROUTE;
   private dialogRef;
   private cancelationPopupData = {
     popupTitle: 'homepage.events.pop-up-cancelling-event',
@@ -104,8 +114,14 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBarComponent,
     private modalService: BsModalService,
     private eventStore: EventStoreService,
+    public languageService: LanguageService,
+    private _bottomSheet: MatBottomSheet,
     private translate: TranslateService
   ) {}
+
+  openAttendersDialog() {
+    this.dialog.open(AttendersModalComponent);
+  }
 
   ngOnInit(): void {
     if (this.route.snapshot.params.id) {
@@ -115,9 +131,17 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       });
       this.eventService.getEventById(this.eventId).subscribe((res: EventResponse) => {
         this.event = res;
+        const fd = res.dates[0];
+        this.dates = res.dates;
+        this.firstDateStart = new Date(fd.startDate);
+        this.firstDateEnd = new Date(fd.finishDate);
+        this.place = fd.coordinates?.formattedAddressEn;
+        this.placeLink = this.place
+          ? `https://www.google.com/maps/search/?api=1&query=${fd.coordinates.latitude}%2C${fd.coordinates.longitude}`
+          : undefined;
+        this.onlineLink = fd.onlineLink;
         this.organizerName = this.event.organizer.name;
-        this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-        this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
+        this.locationCoordinates = fd.coordinates;
         this.images = [res.titleImage, ...res.additionalImages];
         this.rate = Math.round(this.event.organizer.organizerRating);
         this.mapDialogData = {
@@ -151,35 +175,39 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.backRoute = this.localStorageService.getPreviousPage();
     } else {
       this.event = this.eventService.getForm() as PagePreviewDTO;
-      this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-      this.place = this.event.location as string;
+      const fd = this.event.dates[0];
+      this.firstDateStart = new Date(fd.startDate);
+      this.firstDateEnd = new Date(fd.finishDate);
+      this.place = fd.coordinates.addressUa;
+      this.placeLink = this.place
+        ? `https://www.google.com/maps/search/?api=1&query=${fd.coordinates.latitude}%2C${fd.coordinates.longitude}`
+        : undefined;
+      this.onlineLink = fd.onlineLink;
       this.images = this.event.imgArrayToPreview;
 
       this.bindUserName();
       this.formatDates();
     }
-    const coords = this.event.dates[0].coordinates;
-    this.googleMapLink = `https://www.google.com.ua/maps/@${coords.longitude},${coords.latitude}`;
   }
 
-  bindUserName(): void {
+  public bindUserName(): void {
     this.userNameSub = this.localStorageService.firstNameBehaviourSubject.subscribe((name) => {
       this.organizerName = name;
     });
   }
 
-  getAddress(): string {
+  public getAddress(): string {
     return this.eventService.getFormattedAddress(this.locationCoordinates);
   }
 
-  navigateToEditEvent(): void {
+  public navigateToEditEvent(): void {
     this.localStorageService.setEditMode('canUserEdit', true);
     // this.localStorageService.setEventForEdit('editEvent', this.event);
-    this.eventStore.setEventAuthorId(this.eventId);
+    this.eventStore.setEventAuthorId(this.event.organizer.id);
     this.router.navigate(['/events', 'update-event', this.eventId]);
   }
 
-  submitEventCancelling() {
+  public submitEventCancelling() {
     this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
     this.isSubscribed = !this.isSubscribed;
   }
@@ -203,7 +231,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  deleteEvent(): void {
+  openSchedule() {
+    this._bottomSheet.open(EventScheduleComponent, {
+      data: this.dates
+    });
+  }
+
+  public deleteEvent(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.deleteDialogData,
       hasBackdrop: true,
@@ -219,12 +253,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         if (res) {
           this.store.dispatch(DeleteEcoEventAction({ id: this.eventId }));
-          this.isPosting = true;
+          this.isFetching = true;
         }
       });
   }
 
-  changeFavouriteStatus(event?: Event) {
+  public changeFavouriteStatus(event?: Event) {
     event?.stopPropagation();
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
@@ -246,7 +280,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     buttonElement.blur();
   }
 
-  buttonAction(event: Event): void {
+  public buttonAction(event: Event): void {
     if (this.role === this.roles.UNAUTHENTICATED) {
       this.openAuthModalWindow('sign-in');
       return;
@@ -264,7 +298,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  openAuthModalWindow(page: string): void {
+  public openAuthModalWindow(page: string): void {
     const matDialogRef = this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -280,7 +314,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  openModal(): void {
+  public openModal(): void {
     const initialState = {
       id: this.event.id,
       isRegistered: this.isRegistered,

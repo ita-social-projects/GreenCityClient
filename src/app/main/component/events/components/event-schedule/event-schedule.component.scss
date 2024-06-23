@@ -1,0 +1,17 @@
+.start-date-container {
+  display: grid;
+  grid-template-columns: max-content auto; /* 1 part for rating, 2 parts for info */
+  grid-template-rows: auto; /* Let rows adjust to content height */
+  column-gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .start-date {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+p {
+  margin: 0;
+}

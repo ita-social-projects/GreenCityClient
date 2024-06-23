@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { EventForm, EventListResponse } from '../models/events.interface';
+import { EventForm, EventListResponse, PagePreviewDTO } from '../models/events.interface';
 
 @Injectable()
 export class EventStoreService implements OnDestroy {
@@ -10,6 +10,8 @@ export class EventStoreService implements OnDestroy {
   };
 
   constructor() {}
+
+  setPreviewForm(form: PagePreviewDTO) {}
 
   setEditorValues(value: EventForm) {
     this.state.editorValues = value;

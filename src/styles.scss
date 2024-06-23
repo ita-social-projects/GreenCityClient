@@ -119,12 +119,22 @@ label {
   line-height: 24px;
 }
 
+h4 {
+  font-weight: 700;
+  font-family: Roboto, sans-serif;
+  font-size: 32px;
+  line-height: 40px;
+  color: var(--quaternary-dark-grey);
+}
+
 .hide {
   display: none;
 }
 
 a {
   cursor: pointer;
+  color: black;
+  text-decoration: none;
 }
 
 a,

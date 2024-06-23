@@ -5,7 +5,7 @@
     "ng": "ng",
     "config": "ts-node ./scripts/setenv.ts",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "node --max-old-space-size=8192 ./node_modules/@angular/cli/bin/ng build ",
     "build-prod": "ng build --configuration production",
     "build-stage": "ng build --configuration=stage",
     "test": "ng test",

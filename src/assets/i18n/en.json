@@ -1257,5 +1257,11 @@
   },
   "chat": {
     "empty-chat": "Chat hasn’t got any message yet"
+  },
+  "shared": {
+    "start": "Start",
+    "place": "Place",
+    "link": "Online link",
+    "day": "day"
   }
 }

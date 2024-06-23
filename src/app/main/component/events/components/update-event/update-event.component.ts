@@ -52,15 +52,11 @@ export class UpdateEventComponent implements OnInit {
             this.isAuthor = this.authorId === userId;
             this.isFetching = false;
           },
-          error: (error) => {
+          complete: () => {
             this.isFetching = false;
-            this.isAuthor = false;
+            this.isAuthor = this.authorId === userId;
           }
         });
-        if (this.isFetching) {
-          this.isFetching = false;
-          this.isAuthor = false;
-        }
       } else {
         this.isAuthor = false;
       }
@@ -86,6 +82,7 @@ export class UpdateEventComponent implements OnInit {
       images: correctImages
     };
     const dateInformation: DateInformation[] = this._transformDatesToForm(form.dates);
+    console.log(dateInformation);
     return {
       dateInformation,
       eventInformation
@@ -93,10 +90,7 @@ export class UpdateEventComponent implements OnInit {
   }
 
   private _transformDatesToForm(form: EventDatesResponse[]): DateInformation[] {
-    // let allPlace = true;
-    // let allLink = true;
-    // const address = form[0].coordinates?.formattedAddressEn;
-    // const link = form[0].onlineLink;
+    const date = new Date();
     return form.map((value) => {
       const { finishDate, startDate, onlineLink, coordinates } = value;
       const _startDate = new Date(startDate);
@@ -111,10 +105,12 @@ export class UpdateEventComponent implements OnInit {
       const formattedEndTime = `${endHours}:${endMinutes}`;
       _startDate.setHours(0, 0, 0, 0);
 
-      const place = this.languageService.getCurrentLanguage() === 'ua' ? coordinates?.formattedAddressUa : coordinates?.formattedAddressEn;
-
-      // allPlace &&= address === coordinates?.formattedAddressEn ?? false;
-      // allLink &&= link === onlineLink;
+      const place =
+        (this.languageService.getCurrentLanguage() === 'ua' ? coordinates?.formattedAddressUa : coordinates?.formattedAddressEn) || '';
+      let pastDate = false;
+      if (_startDate.getTime() <= date.getTime()) {
+        pastDate = true;
+      }
       return {
         dateTime: { startTime: formattedStartTime, date: _startDate, endTime: formattedEndTime, allDay: false },
         placeOnline: {
@@ -123,7 +119,8 @@ export class UpdateEventComponent implements OnInit {
           place,
           onlineLink,
           coordinates: { lat: coordinates?.latitude, lng: coordinates?.longitude }
-        }
+        },
+        pastDate
       };
     });
   }

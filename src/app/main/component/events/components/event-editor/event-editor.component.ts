@@ -167,7 +167,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       tags: tags,
       imgArray: imagesUrl,
       imgArrayToPreview: imagesUrl,
-      location: dateInformation[0].placeOnline.place
+      location: dateInformation[0].placeOnline.place,
+      id: this.eventId
     };
     this.eventsService.setForm(sendEventDto);
     this.router.navigate(['events', 'preview']);
@@ -200,6 +201,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       const responseImages = this.initialForm.eventInformation.images.map((value) => value.url);
       const currentImages = this._savedFormValues.eventInformation.images.filter((value) => !value.file).map((value) => value.url);
       const removedImages = responseImages.filter((value) => !currentImages.includes(value));
+      console.log(this.eventId);
       sendEventDto = {
         ...sendEventDto,
         imagesToDelete: removedImages,
@@ -245,6 +247,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       }
       if (place) {
         dates.coordinates = {
+          addressEn: place,
+          addressUa: place,
           latitude: coordinates.lat,
           longitude: coordinates.lng
         };

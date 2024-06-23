@@ -28,10 +28,8 @@ import { EventDetailsComponent } from './components/event-details/event-details.
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ImagesSliderComponent } from './components/event-details/images-slider/images-slider.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { EventScheduleOverlayComponent } from './components/event-details/event-schedule-overlay/event-schedule-overlay.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { EventScheduleComponent } from './components/event-details/event-schedule/event-schedule.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
@@ -45,6 +43,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { DateTimeComponent } from './components/event-editor/components/create-event-dates/components/date-time/date-time.component';
 import { UpdateEventComponent } from './components/update-event/update-event.component';
 import { EventStoreService } from './services/event-store.service';
+import { AttendersModalComponent } from './components/attenders-modal/attenders-modal.component';
+import { EventScheduleComponent } from './components/event-schedule/event-schedule.component';
 
 @NgModule({
   declarations: [
@@ -56,12 +56,12 @@ import { EventStoreService } from './services/event-store.service';
     ImagesContainerComponent,
     EventDetailsComponent,
     ImagesSliderComponent,
-    EventScheduleOverlayComponent,
     EventScheduleComponent,
     CreateEventInformationComponent,
     CreateEventDatesComponent,
     DateTimeComponent,
-    UpdateEventComponent
+    UpdateEventComponent,
+    AttendersModalComponent
   ],
   imports: [
     MatDialogModule,

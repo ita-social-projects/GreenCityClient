@@ -1,5 +1,7 @@
 import { FilterItem } from './events.interface';
 
+export const UPDATE_ROUTE = '/events/update-event';
+export const CREATE_ROUTE = '/events/create-event';
 export const ICONS = {
   socials: {
     plus: 'assets/img/events/plus.svg',

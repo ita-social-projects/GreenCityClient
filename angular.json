@@ -31,12 +31,16 @@
               "src/styles.scss"
             ],
             "scripts": ["./node_modules/quill/dist/quill.min.js"],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "outputHashing": "none",
+            "sourceMap": true,
+            "namedChunks": false,
+            "aot": true,
+            "extractLicenses": false,
+            "statsJson": false,
+            "progress": true,
+            "vendorChunk": true,
+            "buildOptimizer": false
           },
           "configurations": {
             "production": {

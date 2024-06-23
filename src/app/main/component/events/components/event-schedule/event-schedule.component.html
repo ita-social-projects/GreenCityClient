@@ -1,0 +1,32 @@
+<div class="schedule-container">
+  <div *ngFor="let day of dates; let i = index">
+    <p class="h-4">{{ i + 1 }} {{ 'shared.day' | translate }}</p>
+    <div class="start-date-container">
+      <p class="subtitle-1">{{ 'shared.start' | translate }}</p>
+      <div class="d-flex flex-row">
+        <div class="start-date">
+          <span>{{ day.startDate | dateLocalisation }}</span>
+          <span>{{ day.startDate | date: 'HH:mm' }} - {{ day.finishDate | date: 'HH:mm' }} </span>
+        </div>
+      </div>
+
+      <ng-container *ngIf="day.coordinates">
+        <p class="subtitle-1">{{ 'shared.place' | translate }}</p>
+        <a
+          [href]="
+            'https://www.google.com/maps/search/?api=1&query=' +
+            (day.coordinates?.latitude || '') +
+            '%2C' +
+            (day.coordinates?.longitude || '')
+          "
+          target="_blank"
+          >{{ day.coordinates[ls.getCurrentLanguage() === 'ua' ? 'formattedAddressUa' : 'formattedAddressEn'] }}</a
+        >
+      </ng-container>
+      <ng-container *ngIf="day.onlineLink">
+        <p class="subtitle-1">{{ 'shared.link' | translate }}</p>
+        <span> {{ day.onlineLink }}</span>
+      </ng-container>
+    </div>
+  </div>
+</div>
