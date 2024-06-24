@@ -79,7 +79,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         this.totalNews = val.ecoNewsByAuthor.totalElements;
         this.hasNext = val.ecoNewsByAuthor.hasNext;
         this.news = val.authorNews;
-        console.log('news from authorNews', this.news);
       }
     });
 
