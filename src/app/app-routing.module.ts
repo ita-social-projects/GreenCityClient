@@ -5,9 +5,10 @@ import { SearchAllResultsComponent } from 'src/app/main/component/layout/compone
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { UbsUserGuardGuard } from './ubs/ubs-user/ubs-user-guard.guard';
-import { UbsAdminGuardGuard } from './ubs/ubs-admin/ubs-admin-guard.guard';
-import { UbsAdminRedirectGuard } from './ubs/ubs-admin/ubs-admin-redirect-guard.guard';
+import { UbsUserGuardGuard } from '@ubs/ubs-user/ubs-user-guard.guard';
+import { UbsAdminGuardGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
+import { UbsAdminRedirectGuard } from '@ubs/ubs-admin/ubs-admin-redirect-guard.guard';
+import { AchievementListComponent } from '@global-user/components';
 
 export const routes: Routes = [
   {
@@ -56,7 +57,8 @@ export const routes: Routes = [
       {
         path: 'greenCity',
         component: HomepageComponent
-      }
+      },
+      { path: 'achievements', component: AchievementListComponent }
     ]
   },
   {

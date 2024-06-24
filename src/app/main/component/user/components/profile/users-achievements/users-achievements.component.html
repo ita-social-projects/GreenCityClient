@@ -5,7 +5,7 @@
         <p class="my-achievements">
           {{ 'profile.my-achievements' | translate }}
         </p>
-        <a href="">{{ 'profile.see-all' | translate }}</a>
+        <a [routerLink]="['/achievements']">{{ 'profile.see-all' | translate }}</a>
       </div>
       <div>
         <div class="achieved-quantity">15 {{ 'profile.achieved' | translate }}</div>
