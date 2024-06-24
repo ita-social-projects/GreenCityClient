@@ -241,7 +241,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   onScroll(): void {
-    console.log('onScroll fired');
     this.dispatchNews(false);
   }
 
