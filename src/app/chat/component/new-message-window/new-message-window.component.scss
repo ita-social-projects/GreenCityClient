@@ -8,6 +8,13 @@
   z-index: 100;
 }
 
+@media (max-width: 576px) {
+  :host {
+    right: 4px;
+    bottom: 121px;
+  }
+}
+
 .new-message-window {
   width: 250px;
   box-sizing: border-box;

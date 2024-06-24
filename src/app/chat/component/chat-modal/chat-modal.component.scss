@@ -60,3 +60,9 @@
 
   @include flex(row, center, flex-start);
 }
+
+@media (max-width: 576px) {
+  .chat-modal-wrapper {
+    padding-top: 25px;
+  }
+}

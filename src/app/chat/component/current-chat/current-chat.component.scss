@@ -60,3 +60,24 @@
 .no-current-chat {
   background: var(--quaternary-dark-grey);
 }
+
+@media (max-width: 576px) {
+  .green-people-ph {
+    display: none;
+  }
+
+  .chats {
+    padding-top: 25px;
+  }
+
+  .current-chat-content {
+    width: 100%;
+  }
+  .current-chat-title {
+    width: 100%;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
