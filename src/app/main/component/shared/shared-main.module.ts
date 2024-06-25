@@ -44,6 +44,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { EventStoreService } from '../events/services/event-store.service';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -128,7 +129,7 @@ registerLocaleData(ukLocale, 'ua');
     MatDividerModule,
     MatExpansionModule
   ],
-  providers: [MatSnackBarComponent, TranslateService]
+  providers: [MatSnackBarComponent, TranslateService, EventStoreService]
 })
 export class SharedMainModule {}
 
