@@ -35,7 +35,7 @@ export class FriendsListPopUpComponent implements OnInit {
     });
   }
 
-  navigateToFriendsPage(friendId: number, friendsName: String): void {
+  navigateToFriendsPage(friendId: number, friendsName: string): void {
     this.router.navigate(['/profile', this.data.habitId, 'friends', friendsName, friendId]);
     this.onClose();
   }
