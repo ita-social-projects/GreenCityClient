@@ -20,7 +20,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TodoStatus } from '../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HABIT_COMPLEXITY_LIST, HABIT_DEFAULT_DURATION, HABIT_IMAGES, HABIT_TAGS_MAXLENGTH, STAR_IMAGES } from '../const/data.const';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { ImageService } from '@global-service/image/image.service';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -73,7 +73,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private habitService: HabitService,
     private userFriendsService: UserFriendsService,
     private snackBar: MatSnackBarComponent,
-    private eventService: EventsService,
+    private imageService: ImageService,
     private activatedRoute: ActivatedRoute
   ) {
     super(router, dialog);
@@ -111,21 +111,9 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
         this.initialDuration = habitState.defaultDuration;
         this.setEditHabit();
         this.getHabitTags();
-        const imageName = habitState.image.substring(habitState.image.lastIndexOf('/') + 1);
-        this.eventService.getImageAsFile(habitState.image).subscribe((blob: Blob) => {
-          const file = new File([blob], imageName, { type: 'image/png' });
-
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onloadend = () => {
-            const base64data = reader.result;
-
-            this.habitService.imageFile = {
-              url: base64data,
-              file: file
-            };
-            this.imageFile = this.habitService.imageFile;
-          };
+        this.imageService.createFileHandle(habitState.image, 'image/jpeg').subscribe((fileHandle: FileHandle) => {
+          this.habitService.imageFile = fileHandle;
+          this.imageFile = fileHandle;
         });
       });
     this.editorText = this.habitForm.get('description').value;

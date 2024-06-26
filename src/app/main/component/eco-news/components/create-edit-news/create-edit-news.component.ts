@@ -8,7 +8,7 @@ import { EcoNewsService } from '../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
-import { FilterModel, TagInterface } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { ACTION_TOKEN, TEXT_AREAS_HEIGHT } from './action.constants';
 import { ActionInterface } from '../../models/action.interface';
@@ -26,7 +26,7 @@ import { ofType } from '@ngrx/effects';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
-import { EventsService } from '../../../events/services/events.service';
+import { ImageService } from '@global-service/image/image.service';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -42,7 +42,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     private injector: Injector,
     private langService: LanguageService,
     private fb: FormBuilder,
-    private eventService: EventsService,
+    private imageService: ImageService,
     @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);
@@ -306,21 +306,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         this.setActiveFilters(item);
         this.onSourceChange();
         this.setInitialValues();
-        const imageName = item.imagePath.substring(item.imagePath.lastIndexOf('/') + 1);
-        this.eventService.getImageAsFile(item.imagePath).subscribe((blob: Blob) => {
-          const file = new File([blob], imageName, { type: 'image/png' });
-
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onloadend = () => {
-            const base64data = reader.result;
-
-            this.createEcoNewsService.file = {
-              url: base64data,
-              file: file
-            };
-            this.imageFile = this.createEcoNewsService.file;
-          };
+        this.imageService.createFileHandle(item.imagePath, 'image/jpeg').subscribe((fileHandle: FileHandle) => {
+          this.createEcoNewsService.file = fileHandle;
+          this.imageFile = fileHandle;
         });
       });
   }
