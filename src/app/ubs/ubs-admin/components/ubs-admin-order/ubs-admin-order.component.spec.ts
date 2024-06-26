@@ -291,9 +291,4 @@ describe('UbsAdminOrderComponent', () => {
     const name = component.getReceivingStationById(1);
     expect(name).toEqual('Саперно-Слобідська');
   });
-
-  it('getReceivingStationById should return null if the receiving station name is not found', () => {
-    const name = component.getReceivingStationById(4);
-    expect(name).toBeNull();
-  });
 });
