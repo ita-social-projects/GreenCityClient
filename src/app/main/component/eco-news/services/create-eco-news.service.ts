@@ -16,8 +16,7 @@ export class CreateEcoNewsService {
   currentForm: FormGroup;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
-  files: FileHandle[] = [];
-  fileUrl: string;
+  file: FileHandle = null;
   isImageValid: boolean;
   isBackToEditing: boolean;
   private httpOptions = {
@@ -49,7 +48,7 @@ export class CreateEcoNewsService {
   }
 
   editNews(form): Observable<EcoNewsModel> {
-    let body: NewsDTO = {
+    const body: NewsDTO = {
       id: form.id,
       tags: form.tags,
       content: form.content,
@@ -61,14 +60,10 @@ export class CreateEcoNewsService {
 
     const formData = new FormData();
 
-    if (this.files.length !== 0) {
-      body = {
-        ...body,
-        image: this.files[0].url
-      };
-    }
-    this.files = [];
     formData.append('updateEcoNewsDto', JSON.stringify(body));
+    if (this.file) {
+      formData.append('image', this.file.file);
+    }
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
 
     return this.http.put<EcoNewsModel>(environment.backendLink + 'econews/update', formData, this.httpOptions);
@@ -77,7 +72,7 @@ export class CreateEcoNewsService {
   setForm(form: FormGroup): void {
     this.currentForm = form;
     if (this.currentForm) {
-      this.currentForm.value.image = this.files[0] ? this.files[0].url : this.fileUrl;
+      this.currentForm.value.image = this.file ? this.file.url : '';
     }
   }
 
@@ -95,14 +90,11 @@ export class CreateEcoNewsService {
     };
 
     const formData = new FormData();
-
-    if (this.files.length !== 0) {
-      body.image = this.files[0].url;
-    }
-    this.files = [];
-
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
-    this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
+
+    if (this.file) {
+      formData.append('image', this.file.file);
+    }
     return this.http.post<EcoNewsModel>(`${this.url}econews`, formData, this.httpOptions);
   }
 

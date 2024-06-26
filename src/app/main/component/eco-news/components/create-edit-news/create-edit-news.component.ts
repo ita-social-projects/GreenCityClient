@@ -3,7 +3,7 @@ import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, catchError, take } from 'rxjs/operators';
-import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
+import { FileHandle, QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
@@ -26,6 +26,7 @@ import { ofType } from '@ngrx/effects';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
+import { EventsService } from '../../../events/services/events.service';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -41,6 +42,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     private injector: Injector,
     private langService: LanguageService,
     private fb: FormBuilder,
+    private eventService: EventsService,
     @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);
@@ -101,7 +103,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   savingImages = false;
   updatedEcoNewsTags: Array<string>;
   currentLang: string;
-
+  imageFile: FileHandle;
   // TODO: add types | DTO to service
 
   ngOnInit() {
@@ -113,6 +115,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang: string) => {
       this.currentLang = lang;
     });
+    this.imageFile = this.createEcoNewsService.file;
+  }
+
+  getFile(image: FileHandle): void {
+    this.createEcoNewsService.file = image;
   }
 
   setInitialValues(): void {
@@ -301,6 +308,22 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         this.setActiveFilters(item);
         this.onSourceChange();
         this.setInitialValues();
+        const imageName = item.imagePath.substring(item.imagePath.lastIndexOf('/') + 1);
+        this.eventService.getImageAsFile(item.imagePath).subscribe((blob: Blob) => {
+          const file = new File([blob], imageName, { type: 'image/png' });
+
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onloadend = () => {
+            const base64data = reader.result;
+
+            this.createEcoNewsService.file = {
+              url: base64data,
+              file: file
+            };
+            this.imageFile = this.createEcoNewsService.file;
+          };
+        });
       });
   }
 
@@ -328,7 +351,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   goToPreview(): void {
     this.allowUserEscape();
-    this.createEcoNewsService.fileUrl = this.form.value.image;
+    // this.createEcoNewsService.fileUrl = this.form.value.image;
     this.createEcoNewsService.setForm(this.form);
     this.createEcoNewsService.setNewsId(this.newsId);
     this.router.navigate(['news', 'preview']).catch((err) => console.error(err));

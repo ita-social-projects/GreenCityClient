@@ -20,6 +20,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TodoStatus } from '../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HABIT_COMPLEXITY_LIST, HABIT_DEFAULT_DURATION, HABIT_IMAGES, HABIT_TAGS_MAXLENGTH, STAR_IMAGES } from '../const/data.const';
+import { EventsService } from 'src/app/main/component/events/services/events.service';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -56,6 +57,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       popupCancel: 'user.habit.all-habits.habits-popup.cancel'
     }
   };
+  imageFile: FileHandle;
   private habitId: number;
   private userId: number;
   private currentLang: string;
@@ -71,6 +73,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private habitService: HabitService,
     private userFriendsService: UserFriendsService,
     private snackBar: MatSnackBarComponent,
+    private eventService: EventsService,
     private activatedRoute: ActivatedRoute
   ) {
     super(router, dialog);
@@ -95,6 +98,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     if (this.isEditing) {
       this.initEditData();
     }
+    this.imageFile = this.habitService.imageFile;
   }
 
   initEditData() {
@@ -107,6 +111,22 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
         this.initialDuration = habitState.defaultDuration;
         this.setEditHabit();
         this.getHabitTags();
+        const imageName = habitState.image.substring(habitState.image.lastIndexOf('/') + 1);
+        this.eventService.getImageAsFile(habitState.image).subscribe((blob: Blob) => {
+          const file = new File([blob], imageName, { type: 'image/png' });
+
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onloadend = () => {
+            const base64data = reader.result;
+
+            this.habitService.imageFile = {
+              url: base64data,
+              file: file
+            };
+            this.imageFile = this.habitService.imageFile;
+          };
+        });
       });
     this.editorText = this.habitForm.get('description').value;
   }
@@ -157,8 +177,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.habitForm.get('tagIds').setValue(this.selectedTagsList);
   }
 
-  getFile(image: FileHandle[]): void {
-    this.habitForm.get('image').setValue(image[0].file);
+  getFile(image: FileHandle): void {
+    this.habitService.imageFile = image;
   }
 
   goToAllHabits(): void {
