@@ -14,7 +14,7 @@ export class ImageService {
     return this.http.get(url, { responseType: 'blob' }).pipe(map((blob) => new File([blob], filename, { type: type })));
   }
 
-  createFileHandle(url: string, type: string, nameFile?: string): Observable<FileHandle> {
+  createFileHandle(url: string, type: string): Observable<FileHandle> {
     return new Observable<FileHandle>((observer) => {
       this.loadImageAsFile(url, type).subscribe((file: File) => {
         const reader = new FileReader();

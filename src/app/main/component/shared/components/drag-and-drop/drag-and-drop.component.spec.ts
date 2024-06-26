@@ -6,7 +6,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { FileHandle } from '@eco-news-models/create-news-interface';
-import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { DragAndDropDirective } from '../../../eco-news/directives/drag-and-drop.directive';
 
 describe('DragAndDropComponent', () => {
@@ -55,10 +54,15 @@ describe('DragAndDropComponent', () => {
   });
 
   it('should cancel changes', () => {
+    spyOn(component.newFile, 'emit');
     component.file = { url: '', file: null };
     component.cancelChanges();
     expect(component.file).toEqual(null);
     expect(component.isCropper).toBe(true);
+    expect(component.newFile.emit).toHaveBeenCalledWith(component.file);
+    expect(component.croppedImage).toEqual(null);
+    expect(component.selectedFile).toEqual(null);
+    expect(component.selectedFileUrl).toEqual(null);
   });
 
   it('should file is dropped', () => {
@@ -83,5 +87,29 @@ describe('DragAndDropComponent', () => {
     component.isWarning = true;
     component.showWarning();
     expect(component.isWarning).toBeFalsy();
+  });
+
+  it('should stop cropping', (done) => {
+    spyOn(component.newFile, 'emit');
+    component.croppedImage = { ...imageCroppedEventMock, blob: new Blob(['some content'], { type: 'image/png' }) };
+    component.stopCropping();
+    setTimeout(() => {
+      expect(component.file.url).toContain('data:image/png;base64');
+      expect(component.file.file.name).toBe('text-file.jpeg');
+      expect(component.isCropper).toBe(false);
+      expect(component.isWarning).toBe(false);
+      expect(component.newFile.emit).toHaveBeenCalledWith(component.file);
+      done();
+    }, 100);
+  });
+
+  it('should set isCropper based on isFromPreview', () => {
+    component.isFromPreview = true;
+    component.ngOnInit();
+    expect(component.isCropper).toBe(false);
+
+    component.isFromPreview = false;
+    component.ngOnInit();
+    expect(component.isCropper).toBe(true);
   });
 });
