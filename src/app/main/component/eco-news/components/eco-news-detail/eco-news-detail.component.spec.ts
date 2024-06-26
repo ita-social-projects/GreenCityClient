@@ -35,7 +35,7 @@ describe('EcoNewsDetailComponent', () => {
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of({ pages: [FIRSTECONEWS], autorNews: [{ id: 4 }] });
+  storeMock.select = () => of({ pages: [FIRSTECONEWS], authorNews: [{ id: 4 }] });
   const sanitaizerMock = jasmine.createSpyObj('sanitaizer', ['bypassSecurityTrustHtml']);
   const fakeElement = document.createElement('div') as SafeHtml;
   sanitaizerMock.bypassSecurityTrustHtml.and.returnValue(fakeElement);

@@ -9,6 +9,8 @@ import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
+import { MatDialog } from '@angular/material/dialog';
+import { FriendsListPopUpComponent } from '@global-user/components/shared/components/friends-list-pop-up/friends-list-pop-up.component';
 
 @Component({
   selector: 'app-one-habit',
@@ -22,7 +24,9 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   daysCounter: number;
   habitMark: string;
   isRequest = false;
-  friends: FriendProfilePicturesArrayModel[];
+  friends: FriendProfilePicturesArrayModel[] = [];
+  numberOfFriendsToDisplay = 3;
+  lengthOfFriendsNamesList = 15;
   private destroy$ = new Subject<void>();
   private descriptionType = {
     acquired: () => {
@@ -45,7 +49,8 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     private habitAssignService: HabitAssignService,
     public datePipe: DatePipe,
     public router: Router,
-    public habitService: HabitService
+    public habitService: HabitService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -143,6 +148,30 @@ export class OneHabitComponent implements OnInit, OnDestroy {
       .getFriendsTrakingSameHabitByHabitId(this.habit.habit.id)
       .pipe(take(1))
       .subscribe((resp) => (this.friends = resp));
+  }
+
+  getTooltipText(): string {
+    if (this.friends.length < this.lengthOfFriendsNamesList) {
+      return this.friends.map((friend) => friend.name).join('\n');
+    } else {
+      let friendsNames = '';
+      for (let i = 0; i < this.lengthOfFriendsNamesList; i++) {
+        friendsNames += this.friends[i].name + '\n';
+      }
+      friendsNames += '...';
+      return friendsNames;
+    }
+  }
+
+  onDialogOpen() {
+    this.dialog.open(FriendsListPopUpComponent, {
+      data: {
+        friends: this.friends,
+        habitId: this.habit.habit.id
+      },
+      width: '400px',
+      height: '400px'
+    });
   }
 
   ngOnDestroy() {

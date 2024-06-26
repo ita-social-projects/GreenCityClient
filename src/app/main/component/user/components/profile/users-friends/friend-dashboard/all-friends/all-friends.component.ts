@@ -40,6 +40,9 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initUser();
     this.getAllFriends();
+    this.userFriendsService.removeFriendSubj$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      this.onScroll();
+    });
   }
 
   getAllFriends() {

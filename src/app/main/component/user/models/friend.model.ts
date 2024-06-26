@@ -9,11 +9,20 @@ export interface FriendModel {
   rating: number;
   userLocationDto?: UserLocationDto | null;
   mutualFriends?: number;
-  friendStatus: 'FRIEND' | 'REQUEST' | 'REJECTED' | null;
+  friendStatus: FriendStatus;
   requesterId: number | null;
   chatId?: number;
   isOnline?: boolean;
 }
+
+export type FriendStatus = 'FRIEND' | 'REQUEST' | 'REJECTED' | null;
+
+export const FriendStatusValues = {
+  FRIEND: 'FRIEND' as FriendStatus,
+  REQUEST: 'REQUEST' as FriendStatus,
+  REJECTED: 'REJECTED' as FriendStatus,
+  NONE: null as FriendStatus
+};
 
 export interface FriendArrayModel {
   totalElements: number;
@@ -50,4 +59,11 @@ export type UserCateg = keyof typeof UsersCategOnlineStatus;
 export interface UserOnlineStatus {
   id: number;
   onlineStatus: boolean;
+}
+
+export interface UserDataAsFriend {
+  id: number;
+  friendStatus: FriendStatus | null;
+  requesterId: number | null;
+  chatId?: number;
 }
