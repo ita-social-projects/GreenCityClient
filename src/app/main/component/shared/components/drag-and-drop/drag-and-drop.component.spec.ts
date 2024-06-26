@@ -25,30 +25,10 @@ describe('DragAndDropComponent', () => {
     offsetImagePosition: null
   };
 
-  const createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', [
-    'isBackToEditing',
-    'files',
-    'isImageValid',
-    'getFormData'
-  ]);
-  createEcoNewsServiceMock.isBackToEditing = true;
-  createEcoNewsServiceMock.files = ['files'];
-  createEcoNewsServiceMock.isImageValid = true;
-  createEcoNewsServiceMock.getFormData.and.returnValue({ value: { image: defaultImagePath } });
-
-  const formDataMock: FormGroup = new FormGroup({
-    content: new FormControl('asd aspd kasd ksdfj ksdjfi sdjf osd'),
-    image: new FormControl(defaultImagePath),
-    source: new FormControl('https://www.telerik.com/blogs/testing-dynamic-forms-in-angular'),
-    tags: new FormControl(['news, ads']),
-    title: new FormControl('asd asd asd asd asd s')
-  });
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DragAndDropComponent, DragAndDropDirective],
-      imports: [ImageCropperModule, FormsModule, HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule],
-      providers: [{ provide: CreateEcoNewsService, useValue: createEcoNewsServiceMock }]
+      imports: [ImageCropperModule, FormsModule, HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule]
     }).compileComponents();
   }));
 
@@ -57,24 +37,15 @@ describe('DragAndDropComponent', () => {
     component = fixture.componentInstance;
     component.isWarning = false;
     component.isCropper = false;
-    component.formData = formDataMock;
-    component.files = [
-      {
-        url: 'http://',
-        file: new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' })
-      }
-    ];
+    component.file = {
+      url: 'http://',
+      file: new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' })
+    };
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('ngOnInit', () => {
-    spyOn(component, 'patchImage');
-    component.ngOnInit();
-    expect(component.patchImage).toHaveBeenCalledTimes(1);
   });
 
   it('should an image is cropped', () => {
@@ -84,16 +55,10 @@ describe('DragAndDropComponent', () => {
   });
 
   it('should cancel changes', () => {
-    component.files = ['not empty'] as any;
+    component.file = { url: '', file: null };
     component.cancelChanges();
-    expect(component.files).toEqual([]);
-    expect(createEcoNewsServiceMock.files).toEqual([]);
+    expect(component.file).toEqual(null);
     expect(component.isCropper).toBe(true);
-  });
-
-  it('should stop cropping an image', () => {
-    component.stopCropping();
-    expect(component.isCropper).toBe(false);
   });
 
   it('should file is dropped', () => {
@@ -102,7 +67,7 @@ describe('DragAndDropComponent', () => {
       { url: 'http://', file: new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' }) }
     ];
     component.filesDropped(files);
-    expect(createEcoNewsServiceMock.isImageValid).toBe(true);
+    expect(component.isWarning).toBe(false);
   });
 
   it('should render a Warning title', () => {
@@ -113,23 +78,8 @@ describe('DragAndDropComponent', () => {
     expect(warning.textContent).toContain('drag-and-drop.picture-tooltip');
   });
 
-  it('should patch an image', () => {
-    component.isCropper = true;
-    component.patchImage();
-    expect(component.isCropper).toBe(false);
-  });
-
-  it('patchImage should use getPreviewImg ', () => {
-    component.files[0].file = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
-    formDataMock.value.image = '';
-    component.patchImage();
-    expect(component.files[0].url).toBe(defaultImagePath);
-
-    formDataMock.value.image = defaultImagePath;
-  });
-
   it('showWarning', () => {
-    component.files[0].file = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
+    component.file.file = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
     component.isWarning = true;
     component.showWarning();
     expect(component.isWarning).toBeFalsy();

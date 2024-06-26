@@ -26,10 +26,7 @@ export class CreateEcoNewsService {
   };
   private tags: FilterModel[] = [];
 
-  constructor(
-    private http: HttpClient,
-    private store: Store
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getFormData(): FormGroup {
     return this.currentForm;
@@ -63,6 +60,7 @@ export class CreateEcoNewsService {
     formData.append('updateEcoNewsDto', JSON.stringify(body));
     if (this.file) {
       formData.append('image', this.file.file);
+      this.file = null;
     }
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
 
@@ -94,6 +92,7 @@ export class CreateEcoNewsService {
 
     if (this.file) {
       formData.append('image', this.file.file);
+      this.file = null;
     }
     return this.http.post<EcoNewsModel>(`${this.url}econews`, formData, this.httpOptions);
   }
