@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DragAndDropComponent } from './drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { DragAndDropDirective } from '../../../eco-news/directives/drag-and-drop.directive';

@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 
