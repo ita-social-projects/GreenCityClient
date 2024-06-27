@@ -17,8 +17,6 @@ export class EventScheduleComponent {
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: EventDatesResponse[],
     public ls: LanguageService
   ) {
-    console.log(data);
     this.dates = data;
-    console.log(this.dates);
   }
 }

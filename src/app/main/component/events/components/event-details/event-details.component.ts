@@ -6,12 +6,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
-import {
-  AddAttenderEcoEventsByIdAction,
-  DeleteEcoEventAction,
-  EventsActions,
-  RemoveAttenderEcoEventsByIdAction
-} from 'src/app/store/actions/ecoEvents.actions';
+import { AddAttenderEcoEventsByIdAction, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { EventDatesResponse, EventResponse, LocationResponse, PagePreviewDTO } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -21,7 +16,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
-import { ofType } from '@ngrx/effects';
 import { CREATE_ROUTE, ICONS, UPDATE_ROUTE } from '../../models/event-consts';
 import { WarningPopUpComponent } from '@shared/components';
 import { TranslateService } from '@ngx-translate/core';
@@ -124,6 +118,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('iminitializer');
     if (this.route.snapshot.params.id) {
       this.eventId = this.route.snapshot.params.id;
       this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
@@ -162,14 +157,19 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       });
 
       this.localStorageService.setEditMode('canUserEdit', true);
-      this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
-        this.attendees = attendees;
-        this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
-      });
+      this.eventService
+        .getAllAttendees(this.eventId)
+        .pipe(take(1))
+        .subscribe((attendees) => {
+          this.attendees = attendees;
+          this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
+        });
 
-      this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => {
-        this.router.navigate(['/events']);
-      });
+      // this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess), takeUntil(this.destroy)).subscribe((action) => {
+      //   console.log('hz');
+      //   console.log(action);
+      //   this.router.navigate(['/events']);
+      // });
 
       this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
       this.backRoute = this.localStorageService.getPreviousPage();
@@ -252,8 +252,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          this.store.dispatch(DeleteEcoEventAction({ id: this.eventId }));
           this.isFetching = true;
+          this.eventService.deleteEvent(this.eventId).subscribe({
+            complete: () => {
+              this.router.navigate(['/events']);
+            }
+          });
         }
       });
   }

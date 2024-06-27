@@ -65,7 +65,6 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.today = this._setDay(this.dayNumber);
     this._fillTimeArray();
     this._subscribeToFormChanges();
     this._subscribeToFormStatus();
@@ -83,12 +82,16 @@ export class DateTimeComponent implements OnInit, OnDestroy {
 
     if (this.formInput) {
       this.form.setValue(this.formInput);
+      this.today = new Date();
+      this.today.setHours(0, 0, 0, 0);
       if (this.formInput.allDay) {
         this.toggleAllDay();
       }
       if (this.formDisabled) {
         this.form.disable();
       }
+    } else {
+      this.today = this._setDay(this.dayNumber);
     }
     this.ls.getCurrentLangObs().subscribe((lang) => {
       const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
@@ -222,6 +225,9 @@ export class DateTimeComponent implements OnInit, OnDestroy {
       return false; // Handle invalid dates
     }
     const dateTime = date.getTime();
+    if (dateTime < this.today.getTime()) {
+      return false;
+    }
     let prevDate: Date | undefined;
     for (let i = this.dayNumber - 1; i >= 0 && !prevDate; i--) {
       prevDate = this.bridge.getDayFromMap(i);
