@@ -48,7 +48,7 @@
 img {
   height: 64px;
   width: 108px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 %image-base {
@@ -77,6 +77,12 @@ img {
   right: 0;
 }
 
+.selected-edit {
+  position: absolute;
+  top: 20px;
+  right: 42px;
+}
+
 .input-wrapper {
   width: 100%;
   height: 100%;
@@ -88,6 +94,7 @@ img {
   overflow: auto hidden;
   gap: 20px;
   width: 100%;
+  padding-bottom: 15px;
 }
 
 .images-def-wrapper::-webkit-scrollbar-track {
