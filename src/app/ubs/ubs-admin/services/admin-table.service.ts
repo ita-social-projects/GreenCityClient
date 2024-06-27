@@ -5,7 +5,7 @@ import { environment } from '@environment/environment';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import * as moment from 'moment';
+import moment from 'moment';
 
 const columnMapping: { [key: string]: string } = {
   dateOfExportFrom: 'deliveryDate.from',
