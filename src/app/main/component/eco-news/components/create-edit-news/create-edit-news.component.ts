@@ -104,7 +104,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   updatedEcoNewsTags: Array<string>;
   currentLang: string;
   imageFile: FileHandle;
-  isFromPreview: boolean;
   // TODO: add types | DTO to service
 
   ngOnInit() {
@@ -156,7 +155,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       if (this.createEcoNewsService.getNewsId()) {
         this.setDataForEdit();
       } else {
-        this.isFromPreview = true;
         this.setDataForCreate();
       }
       this.formData = this.createEcoNewsService.getFormData();

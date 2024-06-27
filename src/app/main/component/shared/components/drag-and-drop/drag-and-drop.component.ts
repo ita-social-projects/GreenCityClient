@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 
@@ -7,20 +7,15 @@ import { FileHandle } from '@eco-news-models/create-news-interface';
   templateUrl: './drag-and-drop.component.html',
   styleUrls: ['./drag-and-drop.component.scss']
 })
-export class DragAndDropComponent implements OnInit {
+export class DragAndDropComponent {
   selectedFile: File = null;
   selectedFileUrl: string;
   imageChangedEvent: FileHandle[];
   isCropper = true;
   isWarning = false;
   croppedImage: ImageCroppedEvent;
-  @Input() isFromPreview: boolean;
   @Input() file: FileHandle;
   @Output() newFile = new EventEmitter<FileHandle>();
-
-  ngOnInit(): void {
-    this.isCropper = !this.isFromPreview;
-  }
 
   stopCropping(): void {
     const changeFile = new File([this.croppedImage.blob], this.file.file.name, { type: 'image/png' });

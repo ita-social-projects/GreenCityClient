@@ -102,14 +102,4 @@ describe('DragAndDropComponent', () => {
       done();
     }, 100);
   });
-
-  it('should set isCropper based on isFromPreview', () => {
-    component.isFromPreview = true;
-    component.ngOnInit();
-    expect(component.isCropper).toBe(false);
-
-    component.isFromPreview = false;
-    component.ngOnInit();
-    expect(component.isCropper).toBe(true);
-  });
 });
