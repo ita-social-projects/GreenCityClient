@@ -3,6 +3,11 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { IAppState } from 'src/app/store/state/app.state';
+import { Store } from '@ngrx/store';
+import { UbsAdminEmployeeService } from './services/ubs-admin-employee.service';
+import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-ubs-admin',
@@ -11,12 +16,31 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class UbsAdminComponent implements OnInit, OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
+  hasAuthorities: boolean;
+  authorities: string[] = [];
+  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
-  constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private translate: TranslateService,
+    private localStorageService: LocalStorageService,
+    private store: Store<IAppState>,
+    public ubsAdminEmployeeService: UbsAdminEmployeeService,
+    public jwtService: JwtService
+  ) {}
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.translate.setDefaultLang(lang !== 'en' && lang !== 'ua' ? 'ua' : lang);
+    });
+    const userEmail = this.jwtService.getEmailFromAccessToken();
+    this.store.dispatch(GetEmployeesPermissions({ email: userEmail }));
+    this.authoritiesSubscription();
+  }
+
+  private authoritiesSubscription() {
+    this.permissions$.subscribe((authorities) => {
+      this.hasAuthorities = authorities.length > 0;
+      this.authorities = authorities;
     });
   }
 
