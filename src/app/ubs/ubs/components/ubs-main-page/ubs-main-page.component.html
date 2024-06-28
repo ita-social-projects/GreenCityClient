@@ -92,7 +92,7 @@
               <mat-option
                 *ngFor="let location of locationsToShowBags"
                 [value]="getLangValue(location?.nameUk, location?.nameEn)"
-                (click)="getBags(location.locationId, location.locationId)"
+                (click)="getBags(location.locationId)"
               >
                 {{ getLangValue(location.nameUk, location.nameEn) }}
               </mat-option>

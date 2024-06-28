@@ -88,6 +88,10 @@
         }
       }
 
+      .mdc-text-field--filled {
+        background-color: transparent;
+      }
+
       .mat-mdc-form-field-infix {
         display: flex;
         min-width: 500px;
@@ -1169,8 +1173,6 @@ section .main-container {
         height: 100%;
 
         .box-card {
-          margin-top: 71px;
-
           #price-frame {
             width: 298px;
             height: 229px;
