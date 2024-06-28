@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil, finalize, tap, concatMap } from 'rxjs/operators';
+import { takeUntil, finalize, tap, concatMap, switchMap } from 'rxjs/operators';
 import { ubsMainPageImages } from '../../../../main/image-pathes/ubs-main-page-images';
 import { AllLocationsDtos, CourierLocations, Bag, OrderDetails, ActiveLocations } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
@@ -145,20 +145,22 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     return element ? element.getBoundingClientRect().width : 0;
   }
 
-  getBags(locationId = 1, tariffId = 1): void {
+  getBags(locationId = 1): void {
     this.locationToShow = this.locationsToShowBags.find((el) => el.locationId === locationId);
+    const courierId = this.findCourierByName(this.ubsCourierName)?.courierId;
 
     this.orderService
-      .getOrderDetails(locationId, tariffId)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(
-        (orderData: OrderDetails) => {
-          this.bags = orderData.bags;
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
+      .getInfoAboutTariff(courierId, this.locationToShow.locationId)
+      .pipe(
+        switchMap((data) => {
+          const tariffId = data.tariffsForLocationDto.tariffInfoId;
+          return this.orderService.getOrderDetails(locationId, tariffId);
+        }),
+        takeUntil(this.destroy)
+      )
+      .subscribe((orderData: OrderDetails) => {
+        this.bags = orderData.bags;
+      });
   }
 
   calcLineSize() {
