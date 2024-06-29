@@ -75,11 +75,12 @@
           <img class="gear-icon" [src]="icons.gear" alt="" />
         </div>
       </div>
-      <mat-menu class="cron-picker-overlay" #selectSchedule="matMenu">
+      <mat-menu class="cron-picker-overlay" #selectSchedule="matMenu" yPosition="above">
         <app-cron-picker
           [schedule]="schedule"
           (click)="$event.stopPropagation()"
           (scheduleSelected)="onScheduleSelected($event)"
+          (cancel)="onCronPickerCancel()"
         ></app-cron-picker>
       </mat-menu>
     </div>

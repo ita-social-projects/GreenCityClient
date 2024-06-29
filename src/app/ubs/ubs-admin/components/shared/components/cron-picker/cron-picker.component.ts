@@ -16,6 +16,7 @@ const compareObjects = (obj1: any, obj2: any) => JSON.stringify(obj1) === JSON.s
 export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() schedule = '';
   @Output() scheduleSelected = new EventEmitter<string>();
+  @Output() cancel = new EventEmitter<void>();
 
   form: FormGroup;
   private destroy = new Subject<void>();
@@ -108,6 +109,10 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     const params = this.getCronParams();
     const cron = `${params.min} ${params.hour} ${params.dayOfMonth} ${params.month} ${params.dayOfWeek}`;
     this.scheduleSelected.emit(cron);
+  }
+
+  onCancel(): void {
+    this.cancel.emit();
   }
 
   private mapScheduleToFormValue(cron: string): any {

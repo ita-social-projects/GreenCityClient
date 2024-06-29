@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { notificationTriggersMock, notificationTriggerTimeMock } from '../../../services/notifications.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-ubs-admin-notification-settings',
@@ -13,6 +14,8 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   styleUrls: ['./ubs-admin-notification-settings.component.scss']
 })
 export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy {
+  @ViewChild(MatMenuTrigger, { static: true }) matMenuTriggerRef: MatMenuTrigger;
+
   icons = {
     gear: './assets/img/ubs-admin-notifications/gear.svg',
     arrowDown: './assets/img/arrow-down.svg'
@@ -77,5 +80,9 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
 
   onCancel(): void {
     this.dialogRef.close();
+  }
+
+  onCronPickerCancel() {
+    this.matMenuTriggerRef.closeMenu();
   }
 }
