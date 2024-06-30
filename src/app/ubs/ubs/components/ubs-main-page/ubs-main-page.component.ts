@@ -42,6 +42,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   bags: Bag[];
   locationsToShowBags: ActiveLocations[];
   locationToShow: ActiveLocations;
+  isTarriffLoading = true;
 
   perPackageTitle = 'ubs-homepage.ubs-courier.price.price-title';
 
@@ -142,6 +143,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   getBags(locationId = 1): void {
+    this.isTarriffLoading = true;
     this.locationToShow = this.locationsToShowBags.find((el) => el.locationId === locationId);
     const courierId = this.findCourierByName(this.ubsCourierName)?.courierId;
 
@@ -156,6 +158,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       )
       .subscribe((orderData: OrderDetails) => {
         this.bags = orderData.bags;
+        this.isTarriffLoading = false;
       });
   }
 
