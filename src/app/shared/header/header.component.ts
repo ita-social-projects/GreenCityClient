@@ -1,29 +1,29 @@
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Language } from '../../main/i18n/Language';
-import { headerIcons, ubsHeaderIcons } from '../../main/image-pathes/header-icons';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
+import { Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NavigationStart, Router } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
-import { JwtService } from '@global-service/jwt/jwt.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { UserService } from '@global-service/user/user.service';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { environment } from '@environment/environment';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { Role } from '@global-models/user/roles.model';
 import { AchievementService } from '@global-service/achievement/achievement.service';
 import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
-import { SearchService } from '@global-service/search/search.service';
-import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { LanguageModel } from '../../main/component/layout/components/models/languageModel';
-import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { environment } from '@environment/environment';
-import { Subject } from 'rxjs';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
-import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
-import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
-import { Store } from '@ngrx/store';
+import { JwtService } from '@global-service/jwt/jwt.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { SearchService } from '@global-service/search/search.service';
+import { UserService } from '@global-service/user/user.service';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
+import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
 import { IAppState } from 'src/app/store/state/app.state';
-import { Role } from '@global-models/user/roles.model';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { LanguageModel } from '../../main/component/layout/components/models/languageModel';
+import { Language } from '../../main/i18n/Language';
+import { headerIcons, ubsHeaderIcons } from '../../main/image-pathes/header-icons';
+import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 
 @Component({
   selector: 'app-header',
@@ -381,8 +381,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.jwtService.userRole$.next('');
       }
     });
-    const userEmail = this.jwtService.getEmailFromAccessToken();
-    this.store.dispatch(GetEmployeesPermissions({ email: userEmail }));
+    this.store.dispatch(ResetEmployeePermissions());
   }
 
   public toggleLangDropdown(event: KeyboardEvent): void {
