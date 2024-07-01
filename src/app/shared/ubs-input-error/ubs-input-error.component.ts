@@ -50,7 +50,8 @@ export class UBSInputErrorComponent implements OnInit {
     newPasswordMatchesOld: 'input-error.newPassword-MatchesOld',
     confirmPasswordMistmatch: 'ubs-client-profile.password-error-confirm',
     requiredFromDropdown: 'personal-info.required-from-dropdown',
-    emailExist: 'input-error.email-exist'
+    emailExist: 'input-error.email-exist',
+    wrongEntrance: 'input-error.entrance-wrong'
   };
 
   ngOnInit() {
@@ -99,6 +100,8 @@ export class UBSInputErrorComponent implements OnInit {
         return this.validationErrors.wrongCity;
       case Patterns.numericAndAlphabetic.toString():
         return this.validationErrors.lettersAndNumbericOnly;
+      case Patterns.entranceNumber.toString():
+        return this.validationErrors.wrongEntrance;
       case Patterns.NamePattern.toString():
         return this.validationErrors.wrongName;
       case Patterns.ubsMailPattern.toString():

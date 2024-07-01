@@ -13,6 +13,7 @@ export const Patterns = {
   socialMediaPattern: /^(?:https?:\/\/)?(?:www\.)?([^\/?]+)\.com/,
 
   numericAndAlphabetic: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\-\\\/]*$/,
+  entranceNumber: '^[0-9]*$',
 
   serteficatePattern: /(?!0000)\d{4}-(?!0000)\d{4}/,
   ubsCommentPattern: /[\S\s]{0,255}/,

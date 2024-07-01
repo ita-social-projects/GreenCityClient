@@ -53,7 +53,8 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   addressData: CAddressData;
   isTouched = false;
 
-  private buildingPattern = Patterns.numericAndAlphabetic;
+  private buildingPattern = Patterns.numericAndAlphabetic; 
+  private entrancePattern = Patterns.entranceNumber;
   private $destroy: Subject<void> = new Subject();
 
   autocompleteRegionRequest = {
@@ -208,7 +209,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       district: [this.addressData.getDistrict() ?? '', Validators.required],
       houseNumber: [this.address?.houseNumber ?? '', [Validators.required, Validators.pattern(this.buildingPattern)]],
       houseCorpus: [this.address?.houseCorpus ?? '', [Validators.maxLength(4), Validators.pattern(this.buildingPattern)]],
-      entranceNumber: [this.address?.entranceNumber ?? '', [Validators.maxLength(2), Validators.pattern(this.buildingPattern)]],
+      entranceNumber: [this.address?.entranceNumber ?? '', [Validators.maxLength(2), Validators.pattern(this.entrancePattern)]],
       placeId: [this.address?.placeId ?? '', Validators.required],
       addressComment: [this.address?.addressComment ?? '', []]
     });
