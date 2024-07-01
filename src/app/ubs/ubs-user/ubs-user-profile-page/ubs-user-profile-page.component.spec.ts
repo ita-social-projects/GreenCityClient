@@ -186,7 +186,7 @@ describe('UbsUserProfilePageComponent', () => {
     component.isEditing = true;
     fixture.detectChanges();
     spyOn(component, 'onCancel');
-    const cancelButton = fixture.debugElement.query(By.css('.submit-btns .ubs-secondary-global-button')).nativeElement;
+    const cancelButton = fixture.debugElement.query(By.css('.ubs-container__btn-group button[type="submit"]:last-child ')).nativeElement;
     cancelButton.click();
     tick();
     expect(component.onCancel).toHaveBeenCalled();
@@ -194,7 +194,7 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('method openDeleteProfileDialog should be calls by clicking delete button', fakeAsync(() => {
     spyOn(component, 'openDeleteProfileDialog');
-    const deleteButton = fixture.debugElement.query(By.css('.header-buttons .ubs-danger-global-button')).nativeElement;
+    const deleteButton = fixture.debugElement.query(By.css('.ubs-container__btn-group .ubs-danger-global-button')).nativeElement;
     deleteButton.click();
     tick();
     expect(component.openDeleteProfileDialog).toHaveBeenCalled();
@@ -227,7 +227,7 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('method openChangePasswordDialog should calls by clicking open button', fakeAsync(() => {
     spyOn(component, 'openChangePasswordDialog');
-    const openButton = fixture.debugElement.query(By.css('.header-buttons .ubs-secondary-global-button')).nativeElement;
+    const openButton = fixture.debugElement.query(By.css('.ubs-container__btn-group .ubs-secondary-global-button')).nativeElement;
     openButton.click();
     tick();
     expect(component.openChangePasswordDialog).toHaveBeenCalled();
