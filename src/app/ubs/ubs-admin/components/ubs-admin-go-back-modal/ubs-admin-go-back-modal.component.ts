@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
 
 @Component({
   selector: 'app-ubs-admin-go-back-modal',
@@ -9,16 +9,17 @@ import { Router } from '@angular/router';
 })
 export class UbsAdminGoBackModalComponent {
   constructor(
-    private router: Router,
-    private dialogRef: MatDialogRef<UbsAdminGoBackModalComponent>
+    private dialogRef: MatDialogRef<UbsAdminGoBackModalComponent>,
+    public adminTableService: AdminTableService,
+    @Inject(MAT_DIALOG_DATA) public data: { orderIds: number[] }
   ) {}
 
   doNotDiscardChanges(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   discardChanges(): void {
-    this.dialogRef.close();
-    this.router.navigate(['ubs-admin', 'orders']);
+    this.adminTableService.cancelEdit(this.data.orderIds).subscribe();
+    this.dialogRef.close(true);
   }
 }

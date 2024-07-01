@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 import { LanguageModel } from '@eco-news-models/create-news-interface';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { select, Store } from '@ngrx/store';
-import * as moment from 'moment';
+import moment from 'moment';
 import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
 import { AddFilterMultiAction, AddFiltersAction, RemoveFilter } from 'src/app/store/actions/bigOrderTable.actions';
 

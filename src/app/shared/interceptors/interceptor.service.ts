@@ -22,6 +22,8 @@ interface EmployeesError {
   message: string;
 }
 
+const blackList = ['https://csb'];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -56,6 +58,10 @@ export class InterceptorService implements HttpInterceptor {
         })
       );
     } else {
+      if (blackList.some((url) => req.url.includes(url))) {
+        return next.handle(req);
+      }
+
       // else return the normal request
       if (this.localStorageService.getAccessToken()) {
         req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());

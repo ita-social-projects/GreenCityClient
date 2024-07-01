@@ -37,7 +37,11 @@ export class EventScheduleOverlayComponent implements AfterViewInit, OnDestroy {
 
   private destroy = new Subject<void>();
 
-  constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef, private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private overlay: Overlay,
+    private viewContainerRef: ViewContainerRef,
+    private breakpointObserver: BreakpointObserver
+  ) {}
 
   ngAfterViewInit(): void {
     this.portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
@@ -159,20 +163,19 @@ export class EventScheduleOverlayComponent implements AfterViewInit, OnDestroy {
     return strategy;
   }
 
-  ngOnDestroy(): void {
-    this.destroy.next();
-    this.destroy.complete();
-  }
-
   onScheduleClick(): void {
     if (this.breakpointObserver.isMatched(this.breakpoints.xs)) {
       this.isBottomSheetOpen = true;
-      return;
+    } else {
+      this.isOverlayOpen = true;
+      this.overlayRef.attach(this.portal);
+      this.overlayRef.updatePositionStrategy(this.getOverlayPositionStrategy());
+      this.overlayRef.updateScrollStrategy(this.getOverlayScrollStrategy());
     }
+  }
 
-    this.isOverlayOpen = true;
-    this.overlayRef.attach(this.portal);
-    this.overlayRef.updatePositionStrategy(this.getOverlayPositionStrategy());
-    this.overlayRef.updateScrollStrategy(this.getOverlayScrollStrategy());
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.complete();
   }
 }
