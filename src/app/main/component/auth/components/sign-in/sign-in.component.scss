@@ -1,3 +1,4 @@
+@import 'src/typography/_resp.scss';
 $inputHeight: 36px;
 
 @mixin button {
@@ -217,16 +218,26 @@ h2 {
   }
 }
 
-@media screen and (max-width: 992px) {
+@include responsivePCFirst(lg) {
   .missing-account {
     margin-top: 40px;
     text-align: left;
   }
 }
 
-@media screen and (max-width: 380px) {
+@include responsiveMobileFirst(sm) {
   .missing-account {
-    .green-link {
+    p {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+}
+
+@include responsivePCFirst(sm) {
+  .missing-account {
+    .green-link,
+    .ubs-link {
       margin-left: 0;
     }
   }

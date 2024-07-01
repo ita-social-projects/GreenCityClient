@@ -60,7 +60,7 @@
   }
 }
 
-@media screen and (max-width: 992px) {
+@include responsivePCFirst(lg) {
   .wrapper {
     width: 480px;
     padding-right: 0;
@@ -71,7 +71,7 @@
   }
 }
 
-@media screen and (max-width: 400px) {
+@include responsivePCFirst(lg) {
   .wrapper {
     .right-side {
       div {
