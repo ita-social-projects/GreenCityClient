@@ -62,7 +62,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   datePipe: DatePipe;
   newDate: string | null;
   address: LocationResponse;
-  addAttenderError: string;
+  attenderError: string;
   isOnline: string;
   isOwner: boolean;
   isAdmin: boolean;
@@ -147,7 +147,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.address = this.event.dates[this.event.dates.length - 1].coordinates;
     this.isOnline = this.event.dates[this.event.dates.length - 1].onlineLink;
     this.ecoEvents$.pipe(takeUntil(this.destroyed$)).subscribe((res: IEcoEventsState) => {
-      this.addAttenderError = res.error;
+      this.attenderError = res.error;
     });
     this.getAddress();
     this.isEventFavorite = this.event.isFavorite;
@@ -202,9 +202,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         this.openPopUp();
         break;
       case this.btnName.join:
-        if (this.addAttenderError) {
+        if (this.attenderError) {
           this.snackBar.openSnackBar('errorJoinEvent');
-          this.addAttenderError = '';
+          this.attenderError = '';
         } else if (!this.isRegistered) {
           this.openAuthModalWindow('sign-in');
           this.dialogRef
