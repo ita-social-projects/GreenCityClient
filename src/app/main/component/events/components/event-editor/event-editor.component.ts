@@ -12,6 +12,7 @@ import {
   EventInformation,
   EventResponse,
   FormCollectionEmitter,
+  ImagesContainer,
   PagePreviewDTO,
   TagObj
 } from '../../models/events.interface';
@@ -117,6 +118,9 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       case 'event':
         this._formsValues.eventInformation = form as EventInformation;
         break;
+      case 'images':
+        this._formsValues.eventInformation.images = form as ImagesContainer[];
+        break;
       // Add more cases for other types if needed
       default:
         break;
@@ -197,15 +201,12 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
 
     //TODO CAN WE CHANGE TITLE IMAGE?
     if (this.isUpdating) {
-      const responseImages = this.initialForm.eventInformation.images.map((value) => value.url);
       const currentImages = this._savedFormValues.eventInformation.images.filter((value) => !value.file).map((value) => value.url);
-      const removedImages = responseImages.filter((value) => !currentImages.includes(value));
       sendEventDto = {
         ...sendEventDto,
-        imagesToDelete: removedImages,
         additionalImages: currentImages.slice(1),
         id: this.eventId,
-        titleImage: responseImages[0]
+        titleImage: currentImages[0]
       };
     }
     const formData: FormData = new FormData();
@@ -219,6 +220,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
         formData.append('images', item.file);
       }
     });
+
     this.createEvent(formData);
   }
 
