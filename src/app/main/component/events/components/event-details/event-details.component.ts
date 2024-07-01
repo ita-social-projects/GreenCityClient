@@ -24,7 +24,6 @@ import { EventsListItemModalComponent } from '@shared/components/events-list-ite
 import { ofType } from '@ngrx/effects';
 import { CREATE_ROUTE, ICONS, UPDATE_ROUTE } from '../../models/event-consts';
 import { WarningPopUpComponent } from '@shared/components';
-import { TranslateService } from '@ngx-translate/core';
 import { EventStoreService } from '../../services/event-store.service';
 import { LanguageService } from '../../../../i18n/language.service';
 import { AttendersModalComponent } from '../attenders-modal/attenders-modal.component';
@@ -56,9 +55,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   event: EventResponse | PagePreviewDTO;
   locationCoordinates: LocationResponse;
   place: string;
-  addressEn: string;
   images: string[] = [];
-  sliderIndex = 0;
   isFetching: boolean;
   isActive: boolean;
   currentDate = new Date();
@@ -72,18 +69,16 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   };
   mapDialogData: any;
   address = 'Should be address';
-  maxRating = 5;
   backRoute: string;
   routedFromProfile: boolean;
   isUserCanJoin = false;
   isUserCanRate = false;
   isSubscribed = false;
-  addAttenderError: string;
+  attenderError: string;
   isRegistered: boolean;
   isReadonly = false;
   firstDateStart: Date;
   firstDateEnd: Date;
-  googleMapLink: string;
   onlineLink: string;
   dates: EventDatesResponse[] = [];
   protected readonly UPDATE_ROUTE = UPDATE_ROUTE;
@@ -100,7 +95,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   private userId: number;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private userNameSub: Subscription;
-  private isOwner: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -115,8 +109,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private eventStore: EventStoreService,
     public languageService: LanguageService,
-    private _bottomSheet: MatBottomSheet,
-    private translate: TranslateService
+    private _bottomSheet: MatBottomSheet
   ) {}
 
   openAttendersDialog() {
@@ -157,7 +150,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         this.isUserCanJoin = this.isActive && !isOwner;
         this.role = this.verifyRole();
         this.ecoEvents$.subscribe((result: IEcoEventsState) => {
-          this.addAttenderError = result.error;
+          this.attenderError = result.error;
         });
       });
 
@@ -280,16 +273,16 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     buttonElement.blur();
   }
 
-  buttonAction(event: Event): void {
+  buttonAction(): void {
     if (this.role === this.roles.UNAUTHENTICATED) {
       this.openAuthModalWindow('sign-in');
       return;
     }
-    if (this.isUserCanJoin && this.addAttenderError) {
+    if (this.isUserCanJoin && this.attenderError) {
       this.snackBar.openSnackBar('errorJoinEvent');
-      this.addAttenderError = '';
+      this.attenderError = '';
     }
-    if (!this.isSubscribed && !this.addAttenderError) {
+    if (!this.isSubscribed && !this.attenderError) {
       this.snackBar.openSnackBar('joinedEvent');
       this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
       this.isSubscribed = !this.isSubscribed;
@@ -307,7 +300,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         popUpName: page
       }
     });
-    matDialogRef.afterClosed().subscribe((res) => {
+    matDialogRef.afterClosed().subscribe(() => {
       if (this.userId) {
         this.router.navigate(['/events', this.eventId]);
       }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client';
 import { environment } from '@environment/environment';
 import { CompatClient, IMessage, Stomp, StompSubscription } from '@stomp/stompjs';
 import { Message } from '../../model/Message.model';
@@ -13,6 +13,7 @@ import { FriendChatInfo } from '../../model/Chat.model';
   providedIn: 'root'
 })
 export class SocketService {
+  updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
   private socket: WebSocket;
   private stompClient: CompatClient;
   private backendSocketLink = `${environment.chatSocket}`;
@@ -20,8 +21,6 @@ export class SocketService {
   private isOpenNewChat = false;
   private isOpenNewChatInWindow = false;
   private subscriptions: StompSubscription[] = [];
-
-  updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
 
   constructor(
     private chatsService: ChatsService,
@@ -37,6 +36,36 @@ export class SocketService {
       () => this.onConnected(),
       (error) => this.onError(error)
     );
+  }
+
+  addParticipant(userId: number) {
+    this.stompClient.send(`/app/${this.chatsService.currentChat.id}/participant`, {}, JSON.stringify(userId));
+  }
+
+  sendMessage(message: Message) {
+    this.stompClient.send('/app/chat', {}, JSON.stringify(message));
+    const currentChat = this.chatsService.currentChat;
+    currentChat.lastMessage = message.content;
+    currentChat.lastMessageDate = message.createDate;
+  }
+
+  createNewChat(participantsId, isOpen, isOpenInWindow?) {
+    const newChatInfo = {
+      currentUserId: this.userId,
+      participantsIds: participantsId
+    };
+    this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
+    this.isOpenNewChat = isOpen;
+    this.isOpenNewChatInWindow = isOpenInWindow;
+  }
+
+  disconnect(): void {
+    this.subscriptions.forEach((subs) => {
+      if (subs) {
+        subs.unsubscribe();
+      }
+    });
+    this.stompClient.disconnect();
   }
 
   private onConnected() {
@@ -78,35 +107,5 @@ export class SocketService {
 
   private onError(error) {
     console.log(error);
-  }
-
-  addParticipant(userId: number) {
-    this.stompClient.send(`/app/${this.chatsService.currentChat.id}/participant`, {}, JSON.stringify(userId));
-  }
-
-  sendMessage(message: Message) {
-    this.stompClient.send('/app/chat', {}, JSON.stringify(message));
-    const currentChat = this.chatsService.currentChat;
-    currentChat.lastMessage = message.content;
-    currentChat.lastMessageDate = message.createDate;
-  }
-
-  createNewChat(participantsId, isOpen, isOpenInWindow?) {
-    const newChatInfo = {
-      currentUserId: this.userId,
-      participantsIds: participantsId
-    };
-    this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
-    this.isOpenNewChat = isOpen;
-    this.isOpenNewChatInWindow = isOpenInWindow;
-  }
-
-  disconnect(): void {
-    this.subscriptions.forEach((subs) => {
-      if (subs) {
-        subs.unsubscribe();
-      }
-    });
-    this.stompClient.disconnect();
   }
 }

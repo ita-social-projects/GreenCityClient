@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import {
+  CreateEcoNewsSuccessAction,
+  DeleteEcoNewsSuccessAction,
+  EditEcoNewsSuccessAction,
+  GetEcoNewsByAuthorSuccessAction,
   GetEcoNewsByPageSuccessAction,
   GetEcoNewsByTagsSuccessAction,
-  GetEcoNewsByAuthorSuccessAction,
-  CreateEcoNewsSuccessAction,
-  EditEcoNewsSuccessAction,
-  DeleteEcoNewsSuccessAction,
   ReceivedEcoNewsFailureAction
 } from '../actions/ecoNews.actions';
 import { initialNewsState } from '../state/ecoNews.state';
@@ -27,7 +27,7 @@ export const EcoNewsReducer = createReducer(
     };
   }),
   on(GetEcoNewsByAuthorSuccessAction, (state, action) => {
-    let prevAuthorNews = state.autorNews;
+    let prevAuthorNews = state.authorNews;
     let prevNumber = state.authorNewsPage;
     if (action.reset) {
       prevAuthorNews = [];
@@ -35,7 +35,7 @@ export const EcoNewsReducer = createReducer(
     }
     return {
       ...state,
-      autorNews: [...prevAuthorNews, ...action.ecoNews.page],
+      authorNews: [...prevAuthorNews, ...action.ecoNews.page],
       ecoNewsByAuthor: { ...action.ecoNews },
       authorNewsPage: prevNumber + 1
     };
@@ -49,7 +49,7 @@ export const EcoNewsReducer = createReducer(
       }
       return val;
     }),
-    autorNews: state.autorNews.map((value) => {
+    authorNews: state.authorNews.map((value) => {
       if (value && value.id === +action.editedNews.id) {
         return action.editedNews;
       }
@@ -61,20 +61,20 @@ export const EcoNewsReducer = createReducer(
   on(CreateEcoNewsSuccessAction, (state, action) => ({
     ...state,
     pages: [action.newEcoNews, ...state.pages],
-    autorNews: [action.newEcoNews, ...state.autorNews],
+    authorNews: [action.newEcoNews, ...state.authorNews],
     countOfEcoNews: action.newEcoNews.countOfEcoNews
   })),
 
   on(DeleteEcoNewsSuccessAction, (state, action) => {
     const updatedPages = state.pages?.filter((newsPage) => newsPage.id !== +action.id);
-    const updatedAuthorNews = state.autorNews?.filter((authorNews) => authorNews.id !== +action.id);
+    const updatedAuthorNews = state.authorNews?.filter((authorNews) => authorNews.id !== +action.id);
     const totalElements = state.ecoNewsByAuthor.totalElements;
     const totalElem = totalElements > 0 ? totalElements - 1 : totalElements;
     const updatedEcoNewsByAuthorPage = state.ecoNewsByAuthor.page?.filter((newsPage) => newsPage.id !== +action.id);
     return {
       ...state,
       pages: updatedPages || state.pages,
-      autorNews: updatedAuthorNews || state.autorNews,
+      authorNews: updatedAuthorNews || state.authorNews,
       ecoNewsByAuthor: {
         ...state.ecoNewsByAuthor,
         totalElements: totalElem,

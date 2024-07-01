@@ -11,7 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { WarningPopUpComponent, EditPhotoPopUpComponent } from './components';
+import { EditPhotoPopUpComponent, WarningPopUpComponent } from './components';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
@@ -44,6 +44,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { EventStoreService } from '../events/services/event-store.service';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -128,7 +129,7 @@ registerLocaleData(ukLocale, 'ua');
     MatDividerModule,
     MatExpansionModule
   ],
-  providers: [MatSnackBarComponent, TranslateService]
+  providers: [MatSnackBarComponent, TranslateService, EventStoreService]
 })
 export class SharedMainModule {}
 

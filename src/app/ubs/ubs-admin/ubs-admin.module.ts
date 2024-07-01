@@ -6,7 +6,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
 import { UbsAdminSidebarComponent } from './components/ubs-admin-sidebar/ubs-admin-sidebar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from '../../material.module';
@@ -96,6 +96,7 @@ import { ClickOutsideDirective } from './derictives/clickOutside.directive';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { UnsavedChangesGuard } from './unsaved-changes-guard.guard';
 
 @NgModule({
   declarations: [
@@ -208,6 +209,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   providers: [
     AdminCertificateService,
     TranslateService,
+    UnsavedChangesGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async, waitForAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileDashboardComponent } from '@global-user/components';
 
@@ -31,7 +31,7 @@ describe('ProfileDashboardComponent', () => {
   storeMock.select = () =>
     of({
       ecoNews: {},
-      autorNews: [{ newsId: 1 }],
+      authorNews: [{ newsId: 1 }],
       pageNumber: 1,
       error: 'error',
       ecoNewsByAuthor: true

@@ -1,0 +1,16 @@
+<div class="content">
+  <h3 class="title">Edit image</h3>
+
+  <ng-container *ngIf="!isLoading && imageFile; else spinner">
+    <image-cropper (imageCropped)="onImageCropped($event)" [aspectRatio]="data.aspectRatio" [imageFile]="imageFile"></image-cropper>
+  </ng-container>
+
+  <div class="controls">
+    <button (click)="onCancel()" class="cancel secondary-global-button">Cancel</button>
+    <button (click)="onSave()" class="save primary-global-button">Save</button>
+  </div>
+</div>
+
+<ng-template #spinner>
+  <mat-spinner></mat-spinner>
+</ng-template>
