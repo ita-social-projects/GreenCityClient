@@ -29,7 +29,7 @@ export class FriendsListPopUpComponent implements OnInit {
       this.data.friends.forEach((element) => {
         this.friends.push({
           ...element,
-          habitProggress: progress.find((p) => p.userId === element.id)
+          habitProgress: progress.find((p) => p.userId === element.id)
         });
       });
     });

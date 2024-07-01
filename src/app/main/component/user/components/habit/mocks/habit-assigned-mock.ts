@@ -1,7 +1,7 @@
 import { HabitInterface } from '../models/interfaces/habit.interface';
 import {
   ChangesFromCalendarToProgress,
-  FriendsHabitProggress,
+  FriendsHabitProgress,
   HabitAssignInterface,
   ResponseInterface
 } from '../models/interfaces/habit-assign.interface';
@@ -181,7 +181,7 @@ export const CHANGES_FROM_CALENDAR: ChangesFromCalendarToProgress = {
   date: '2024-04-25'
 };
 
-export const FRIENDSHABITPROGESS: FriendsHabitProggress[] = [
+export const FRIENDSHABITPROGESS: FriendsHabitProgress[] = [
   {
     userId: 1,
     duration: 14,

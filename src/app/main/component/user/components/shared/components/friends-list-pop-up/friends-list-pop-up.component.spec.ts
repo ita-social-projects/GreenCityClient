@@ -87,8 +87,8 @@ describe('FriendsListPopUpComponent', () => {
   describe('getFriendsHabitProgress', () => {
     it('should set friends correctly', () => {
       component.getFriendsHabitProgress();
-      expect(component.friends[0].habitProggress).toBeTruthy();
-      expect(component.friends[0].habitProggress.userId).toBe(1);
+      expect(component.friends[0].habitProgress).toBeTruthy();
+      expect(component.friends[0].habitProgress.userId).toBe(1);
       expect(component.friends[0].name).toBe('Ivan Petrov');
       expect(component.friends[1].name).toBe('Dmytro');
     });

@@ -54,10 +54,10 @@ export interface FriendsHabitPopupModel {
   id: number;
   name: string;
   profilePicturePath: string;
-  habitProggress: FriendsHabitProggress;
+  habitProgress: FriendsHabitProgress;
 }
 
-export interface FriendsHabitProggress {
+export interface FriendsHabitProgress {
   userId: number;
   duration: number;
   workingDays: number;
