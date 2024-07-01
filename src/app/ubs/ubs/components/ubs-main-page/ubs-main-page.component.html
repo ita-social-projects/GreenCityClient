@@ -92,7 +92,7 @@
               <mat-option
                 *ngFor="let location of locationsToShowBags"
                 [value]="getLangValue(location?.nameUk, location?.nameEn)"
-                (click)="getBags(location.locationId, location.locationId)"
+                (click)="getBags(location.locationId)"
               >
                 {{ getLangValue(location.nameUk, location.nameEn) }}
               </mat-option>
@@ -107,7 +107,7 @@
           </mat-form-field>
         </div>
       </h2>
-      <div class="box-card">
+      <div *ngIf="!isTarriffLoading; else spinner" class="box-card">
         <div id="price-frame" *ngFor="let elemPrice of bags">
           <div class="content-price">
             <div>{{ getElementDescription(elemPrice.name, elemPrice.nameEng, elemPrice.capacity) }}</div>
@@ -118,6 +118,9 @@
           </div>
         </div>
       </div>
+      <ng-template #spinner>
+        <app-spinner></app-spinner>
+      </ng-template>
     </div>
   </section>
 
