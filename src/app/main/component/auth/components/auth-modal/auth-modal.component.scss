@@ -14,22 +14,30 @@
   max-width: 960px;
   background-color: white;
   border-radius: 4px;
-  padding-right: 40px;
   overflow: auto;
 
   .left-side {
-    display: block;
-    max-height: 100vh;
+    width: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+
+    .main-picture {
+      border-radius: 4px;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
   }
 
   .right-side {
-    width: 100%;
-    max-width: 480px;
+    width: 480px;
     max-height: 100vh;
-    height: 768px;
     display: flex;
     flex-direction: column;
-    padding-bottom: 48px;
+    padding: 20px;
+    box-sizing: border-box;
 
     .close-modal-window {
       display: flex;
@@ -52,7 +60,7 @@
   }
 }
 
-@media screen and (max-width: 992px) {
+@include responsivePCFirst(lg) {
   .wrapper {
     width: 480px;
     padding-right: 0;
@@ -60,22 +68,24 @@
     .left-side {
       display: none;
     }
+  }
+}
 
+@include responsivePCFirst(lg) {
+  .wrapper {
     .right-side {
-      height: 620px;
-
-      .close-modal-window {
-        margin: 26px 0 22px 90%;
+      div {
+        max-width: 320px;
       }
     }
   }
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 350px) {
   .wrapper {
     .right-side {
       div {
-        max-width: 300px;
+        max-width: 280px;
       }
     }
   }
