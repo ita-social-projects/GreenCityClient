@@ -9,7 +9,7 @@
         <img class="calendar" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
         <p>{{ friend.habitProggress.workingDays }} / {{ friend.habitProggress.duration }}</p>
       </div>
-      <p class="friends-name" (click)="navigateToFriendsPage(friend.id, friend.name)">{{ friend.name }}</p>
+      <a (click)="navigateToFriendsPage(friend.id, friend.name)">{{ friend.name }}</a>
     </div>
   </div>
 </div>
