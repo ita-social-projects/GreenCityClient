@@ -94,7 +94,12 @@
           >
             {{ 'order-edit.btn.cancel' | translate }}
           </button>
-          <button type="submit" class="save-button" [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder" (click)="onSubmit()">
+          <button
+            type="submit"
+            class="save-button"
+            [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder || generalInfo.blocked"
+            (click)="onSubmit()"
+          >
             {{ 'order-edit.btn.save' | translate }}
             <span class="inform-window" *ngIf="!orderForm.valid">
               {{ 'information-window.message' | translate }}
