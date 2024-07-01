@@ -1107,7 +1107,8 @@
       "days-of-month": "Specific days of month",
       "every-month": "Every month",
       "months": "Specific months",
-      "select": "Select"
+      "select": "Select",
+      "cancel": "Cancel"
     },
     "errors": {
       "at-least-one-day-of-week": "At least one day of week should be selected",

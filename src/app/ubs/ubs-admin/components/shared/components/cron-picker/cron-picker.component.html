@@ -102,6 +102,9 @@
         {{ 'cron-picker.errors.at-least-one-month' | translate }}
       </span>
     </div>
+    <button mat-flat-button class="cancel-button" type="button" (click)="onCancel()">
+      {{ 'cron-picker.labels.cancel' | translate }}
+    </button>
     <button mat-flat-button class="select-schedule-button" type="button" (click)="onSelect()" [disabled]="form.invalid">
       {{ 'cron-picker.labels.select' | translate }}
     </button>

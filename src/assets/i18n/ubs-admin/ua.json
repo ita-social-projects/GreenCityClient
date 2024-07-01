@@ -1103,7 +1103,8 @@
       "days-of-month": "Обрані дні місяця",
       "every-month": "Щомісяця",
       "months": "Обрані місяці",
-      "select": "Обрати"
+      "select": "Обрати",
+      "cancel": "Скасувати"
     },
     "errors": {
       "at-least-one-day-of-week": "Виберіть хоча б один день тижня",

@@ -85,6 +85,7 @@ describe('CronPickerComponent', () => {
     const monthsToggleButtonGroup = await monthPanelLoader.getHarness(MatButtonToggleGroupHarness.with({ ancestor: '.select-months' }));
     const monthsToggles = await monthsToggleButtonGroup.getToggles();
     const selectButton = await loader.getHarness(MatButtonHarness.with({ selector: '.select-schedule-button' }));
+    const cancelButton = await loader.getHarness(MatButtonHarness.with({ selector: '.cancel-button' }));
 
     return {
       timePanelLoader,
@@ -100,7 +101,8 @@ describe('CronPickerComponent', () => {
       monthTypeRadioGroup,
       monthsToggleButtonGroup,
       monthsToggles,
-      selectButton
+      selectButton,
+      cancelButton
     };
   };
 
@@ -264,5 +266,12 @@ describe('CronPickerComponent', () => {
         await toggle.isChecked();
       })
     ).toBe(true);
+  });
+
+  it('should call output event when cancel clicked', async () => {
+    const { cancelButton } = await getAllElements();
+    spyOn(component.cancel, 'emit');
+    await cancelButton.click();
+    expect(component.cancel.emit).toHaveBeenCalled();
   });
 });

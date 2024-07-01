@@ -6,8 +6,6 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSelectHarness } from '@angular/material/select/testing';
-import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings.component';
@@ -99,5 +97,11 @@ describe('UbsAdminNotificationSettingsComponent', () => {
       time: formData.time,
       schedule: component.schedule
     });
+  });
+
+  it('shuold call matTriger on onCronPickerCancel', () => {
+    spyOn(component.matMenuTriggerRef, 'closeMenu');
+    component.onCronPickerCancel();
+    expect(component.matMenuTriggerRef.closeMenu).toHaveBeenCalled();
   });
 });
