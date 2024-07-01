@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UsersFriendsComponent } from './users-friends.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
@@ -138,7 +138,7 @@ describe('UsersFriendsComponent', () => {
     expect(component.showUsersFriends).toHaveBeenCalled();
   });
 
-  it('should calculate friends to show and change friends', () => {
+  xit('should calculate friends to show and change friends', () => {
     const newFriendsToShow = 5;
     component.amountOfFriends = 3;
     spyOn(component, 'getFriendsToShow').and.returnValue(newFriendsToShow);

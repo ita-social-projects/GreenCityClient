@@ -18,7 +18,8 @@
         <img *ngIf="img.url" [src]="img.url" alt="image-of-event" />
 
         <div *ngIf="img.main" class="selected-text">Main</div>
-        <span (click)="deleteImage(img, i)" class="selected-delete xs-text"><mat-icon>close</mat-icon></span>
+        <span (click)="deleteImage(img, i); $event.stopPropagation()" class="selected-delete xs-text"><mat-icon>close</mat-icon></span>
+        <span (click)="onEdit(img, i); $event.stopPropagation()" class="selected-edit xs-text"><mat-icon>edit</mat-icon></span>
       </div>
     </div>
   </div>

@@ -1,21 +1,20 @@
 <div class="select_wr">
-  <div *ngIf="!isEditable">{{ currentValue | serverTranslate: lang }}</div>
-  <div *ngIf="isEditable">
-    <select (change)="chosenOption($event)" class="select_dropdown">
-      <option *ngIf="!currentValue"></option>
-      <option
-        *ngFor="let option of optional"
-        [value]="option | serverTranslate: lang"
-        [selected]="(option | serverTranslate: lang) === (currentValue | serverTranslate: lang)"
-      >
-        {{ option | serverTranslate: lang }}
-      </option>
-    </select>
-  </div>
-  <div *ngIf="!doneOrCanceled" class="options_wr">
-    <mat-spinner *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>
-    <span *ngIf="!isEditable && !isBlocked" class="pointer" (click)="edit()">&#9998;</span>
-    <span *ngIf="isEditable && !isBlocked" class="save" (click)="saveClick()">&#10004;</span>
-    <span *ngIf="isEditable && !isBlocked" class="cancel" (click)="cancel()">&#10006;</span>
-  </div>
+  <div *ngIf="doneOrCanceled; else selectOption">{{ currentValue | serverTranslate: lang }}</div>
 </div>
+
+<ng-template #selectOption>
+  <mat-spinner *ngIf="isTryingToLock" strokeWidth="3" diameter="20"></mat-spinner>
+
+  <mat-select
+    #select
+    (change)="chosenOption($event)"
+    [placeholder]="currentValue | serverTranslate: lang"
+    (click)="onSelectClick()"
+    (closed)="onSelectClosed()"
+    [disabled]="isDisabled"
+  >
+    <mat-option *ngFor="let option of optional" [value]="option | serverTranslate: lang">
+      {{ option | serverTranslate: lang }}
+    </mat-option>
+  </mat-select>
+</ng-template>

@@ -48,6 +48,7 @@ import { RemoveLeadingZeroDirective } from 'src/app/shared/directives/remove-lea
 import { AddressInputComponent } from './address-input/address-input.component';
 import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-display.component';
 import { RelativeDatePipe } from './relative-date.pipe';
+import { EditImagePopUpComponent } from './edit-image-pop-up/edit-image-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { RelativeDatePipe } from './relative-date.pipe';
     RemoveLeadingZeroDirective,
     AddressInputComponent,
     RatingDisplayComponent,
-    RelativeDatePipe
+    RelativeDatePipe,
+    EditImagePopUpComponent
   ],
   imports: [
     CommonModule,

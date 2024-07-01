@@ -74,7 +74,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   isUserCanJoin = false;
   isUserCanRate = false;
   isSubscribed = false;
-  addAttenderError: string;
+  attenderError: string;
   isRegistered: boolean;
   isReadonly = false;
   googleMapLink: string;
@@ -113,39 +113,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
         this.userId = Number(id);
       });
-      this.eventService.getEventById(this.eventId).subscribe((res: EventResponse) => {
-        this.event = res;
-        this.organizerName = this.event.organizer.name;
-        this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-        this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
-        this.images = [res.titleImage, ...res.additionalImages];
-        this.rate = Math.round(this.event.organizer.organizerRating);
-        this.mapDialogData = {
-          lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
-          lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude
-        };
-        this.isEventFavorite = this.event.isFavorite;
-        this.isRegistered = !!this.userId;
-        this.isSubscribed = this.event.isSubscribed;
-        const isOwner = Number(this.userId) === this.event.organizer.id;
-        this.isActive = this.event.isRelevant;
-        this.isUserCanRate = this.isSubscribed && !this.isActive && !isOwner;
-        this.isUserCanJoin = this.isActive && !isOwner;
-        this.role = this.verifyRole();
-        this.ecoEvents$.subscribe((result: IEcoEventsState) => {
-          this.addAttenderError = result.error;
-        });
-      });
-
+      this.getEventById();
       this.localStorageService.setEditMode('canUserEdit', true);
-      this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
-        this.attendees = attendees;
-        this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
-      });
-
-      this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => {
-        this.router.navigate(['/events']);
-      });
+      this.getAllAttendees();
+      this.navigateBackOnEventDeleteListener();
 
       this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
       this.backRoute = this.localStorageService.getPreviousPage();
@@ -157,7 +128,17 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
       this.bindUserName();
       this.formatDates();
+      this.setGoogleMapLink();
     }
+  }
+
+  navigateBackOnEventDeleteListener(): void {
+    this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => {
+      this.router.navigate(['/events']);
+    });
+  }
+
+  setGoogleMapLink() {
     const coords = this.event.dates[0].coordinates;
     this.googleMapLink = `https://www.google.com.ua/maps/@${coords.longitude},${coords.latitude}`;
   }
@@ -165,6 +146,44 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   bindUserName(): void {
     this.userNameSub = this.localStorageService.firstNameBehaviourSubject.subscribe((name) => {
       this.organizerName = name;
+    });
+  }
+
+  getAllAttendees(): void {
+    this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
+      this.attendees = attendees;
+      this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
+    });
+  }
+
+  getEventById(): void {
+    this.eventService.getEventById(this.eventId).subscribe((res: EventResponse) => {
+      this.event = res;
+      this.organizerName = this.event.organizer.name;
+      this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
+      this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
+      this.images = [res.titleImage, ...res.additionalImages];
+      this.rate = Math.round(this.event.organizer.organizerRating);
+      this.mapDialogData = {
+        lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
+        lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude
+      };
+      this.isEventFavorite = this.event.isFavorite;
+      this.isRegistered = !!this.userId;
+      this.isSubscribed = this.event.isSubscribed;
+      const isOwner = Number(this.userId) === this.event.organizer.id;
+      this.isActive = this.event.isRelevant;
+      this.isUserCanRate = this.isSubscribed && !this.isActive && !isOwner;
+      this.isUserCanJoin = this.isActive && !isOwner;
+      this.role = this.verifyRole();
+      this.addAttenderError();
+      this.setGoogleMapLink();
+    });
+  }
+
+  addAttenderError() {
+    this.ecoEvents$.subscribe((result: IEcoEventsState) => {
+      this.attenderError = result.error;
     });
   }
 
@@ -251,11 +270,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.openAuthModalWindow('sign-in');
       return;
     }
-    if (this.isUserCanJoin && this.addAttenderError) {
+    if (this.isUserCanJoin && this.attenderError) {
       this.snackBar.openSnackBar('errorJoinEvent');
-      this.addAttenderError = '';
+      this.attenderError = '';
     }
-    if (!this.isSubscribed && !this.addAttenderError) {
+    if (!this.isSubscribed && !this.attenderError) {
       this.snackBar.openSnackBar('joinedEvent');
       this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
       this.isSubscribed = !this.isSubscribed;
