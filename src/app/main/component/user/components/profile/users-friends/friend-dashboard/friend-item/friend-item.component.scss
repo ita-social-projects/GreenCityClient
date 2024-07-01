@@ -150,33 +150,9 @@
   }
 }
 
-.buttons {
-  display: flex;
-  flex-direction: column;
-  width: 114px;
-  justify-content: end;
-  gap: 20px;
-}
-
-.friend-btn {
-  button {
-    line-height: 16px;
-    width: 100%;
-    margin-bottom: 20px;
-  }
-}
-
 .friend-with-photo {
   display: flex;
   flex-direction: column-reverse;
-}
-
-.chat-btn {
-  width: 45px;
-  height: 40px;
-  border: none;
-  background: url('/assets/img/chat/open-chat.png');
-  background-size: 100% 100%;
 }
 
 ::ng-deep .mat-tooltip {

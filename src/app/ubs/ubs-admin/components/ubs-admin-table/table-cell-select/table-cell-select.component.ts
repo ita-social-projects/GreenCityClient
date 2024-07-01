@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { take } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { IDataForPopUp } from '../../../models/ubs-admin.interface';
@@ -8,6 +8,7 @@ import { OrderService } from '../../../services/order.service';
 import { AddOrderCancellationReasonComponent } from '../../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminSeveralOrdersPopUpComponent } from '../../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-table-cell-select',
@@ -19,7 +20,7 @@ export class TableCellSelectComponent implements OnInit {
   @Input() id: number;
   @Input() nameOfColumn: string;
   @Input() key: string;
-  @Input() currentValue: string;
+  @Input() currentValue = '';
   @Input() lang: string;
   @Input() ordersToChange: number[];
   @Input() isAllChecked: boolean;
@@ -27,8 +28,12 @@ export class TableCellSelectComponent implements OnInit {
   @Input() showPopUp: boolean;
   @Input() dataForPopUp: IDataForPopUp[];
 
-  public isEditable: boolean;
-  public isBlocked: boolean;
+  isLocked = false; //Locked by user
+  isBlocked = false; //Blocked by someone else
+  isTryingToLock = false;
+  isSelectOpened = false;
+  isDisabled = true;
+  options = [];
   private newOption: string;
   private typeOfChange: number[];
   private checkStatus: boolean;
@@ -40,59 +45,57 @@ export class TableCellSelectComponent implements OnInit {
   @Output() editButtonClick = new EventEmitter();
   @Output() orderCancellation = new EventEmitter();
 
+  @ViewChild('select') select: MatSelect;
+
   constructor(
     private adminTableService: AdminTableService,
     private orderService: OrderService,
     public dialog: MatDialog
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
-    if (!this.currentValue) {
-      this.currentValue = '';
-    }
     this.filterStatuses();
   }
 
-  private filterStatuses(): void {
-    if (this.nameOfColumn === 'orderStatus') {
-      this.optional = this.orderService.getAvailableOrderStatuses(this.key, this.optional);
+  onSelectClick(): void {
+    if (this.isLocked) {
+      return;
     }
-  }
-  // The condition of pickup details for required fields
-  private filterStatusesForPopUp(): boolean {
-    const statuses = [OrderStatus.ADJUSTMENT, OrderStatus.CONFIRMED, OrderStatus.ON_THE_ROUTE, OrderStatus.DONE];
-    const key = this.optional[this.findKeyForNewOption()].key;
-    return statuses.includes(key);
-  }
-  private findKeyForNewOption(): number {
-    return this.optional.findIndex((item) => item[this.lang] === this.newOption);
-  }
-  public edit(): void {
-    this.isEditable = false;
-    this.isBlocked = true;
-    this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
-    this.adminTableService
-      .blockOrders(this.typeOfChange)
-      .pipe(take(1))
-      .subscribe((res: IAlertInfo[]) => {
-        if (res[0] === undefined) {
-          this.isBlocked = false;
-          this.isEditable = true;
-        } else {
-          this.isEditable = false;
-          this.isBlocked = false;
-          this.showBlockedInfo.emit(res);
-        }
-      });
-    this.editButtonClick.emit(this.id);
+
+    this.lockOrder();
   }
 
-  public save(): void {
+  onSelectClosed(): void {
+    this.isLocked = false;
+    this.isDisabled = true;
+
+    this.releaseLock();
+  }
+
+  lockOrder(): void {
+    this.isTryingToLock = true;
+
+    this.adminTableService
+      .blockOrders([this.id])
+      .pipe(
+        take(1),
+        finalize(() => {
+          this.editButtonClick.emit(this.id);
+          this.isTryingToLock = false;
+        })
+      )
+      .subscribe({
+        next: (res: IAlertInfo[]) => {
+          this.processLockResponse(res);
+        }
+      });
+  }
+
+  save(): void {
     const newValueObj = this.findKeyForNewOption();
     if (newValueObj === -1) {
       this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
-      this.isEditable = false;
       this.cancelEdit.emit(this.typeOfChange);
     } else {
       const newSelectValue: IEditCell = {
@@ -101,24 +104,12 @@ export class TableCellSelectComponent implements OnInit {
         newValue: this.optional[newValueObj].key
       };
       this.editCellSelect.emit(newSelectValue);
-      this.isEditable = false;
       this.newOption = '';
       this.cancelEdit.emit(this.typeOfChange);
     }
   }
 
-  private openPopUp(): void {
-    this.dialogConfig.disableClose = true;
-    const modalRef = this.dialog.open(UbsAdminSeveralOrdersPopUpComponent, this.dialogConfig);
-    modalRef.componentInstance.dataFromTable = this.dataForPopUp;
-    modalRef.componentInstance.ordersId = this.ordersToChange;
-    modalRef.componentInstance.currentLang = this.lang;
-    modalRef.afterClosed().subscribe((result) => {
-      result ? this.save() : this.cancel();
-    });
-  }
-
-  public saveClick(): void {
+  saveClick(): void {
     if (this.nameOfColumn === 'orderStatus' && this.checkStatus && this.showPopUp) {
       this.checkIfStatusConfirmed();
     } else if (this.nameOfColumn === 'orderStatus' && (this.newOption === 'Canceled' || this.newOption === 'Скасовано')) {
@@ -138,19 +129,18 @@ export class TableCellSelectComponent implements OnInit {
     }
   }
 
-  public cancel(): void {
+  cancel(): void {
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
     this.cancelEdit.emit(this.typeOfChange);
     this.newOption = '';
-    this.isEditable = false;
   }
 
-  public chosenOption(e: any): void {
+  chosenOption(e: any): void {
     this.newOption = e.target.value;
     this.checkStatus = this.filterStatusesForPopUp();
   }
 
-  public openCancelPopUp(): void {
+  openCancelPopUp(): void {
     this.dialog
       .open(AddOrderCancellationReasonComponent, {
         hasBackdrop: true
@@ -169,5 +159,53 @@ export class TableCellSelectComponent implements OnInit {
         this.orderCancellation.emit(orderCancellationData);
         this.save();
       });
+  }
+
+  private processLockResponse(res: IAlertInfo[]): void {
+    if (res.length) {
+      this.isBlocked = true;
+      this.isLocked = false;
+      this.isDisabled = true;
+      this.showBlockedInfo.emit(res);
+    } else {
+      this.isLocked = true;
+      this.isBlocked = false;
+      this.isDisabled = false;
+      setTimeout(() => {
+        this.select.open();
+      });
+    }
+  }
+
+  private releaseLock(): void {
+    this.adminTableService.unblockOrders([this.id]).pipe(take(1)).subscribe();
+  }
+
+  private openPopUp(): void {
+    this.dialogConfig.disableClose = true;
+    const modalRef = this.dialog.open(UbsAdminSeveralOrdersPopUpComponent, this.dialogConfig);
+    modalRef.componentInstance.dataFromTable = this.dataForPopUp;
+    modalRef.componentInstance.ordersId = this.ordersToChange;
+    modalRef.componentInstance.currentLang = this.lang;
+    modalRef.afterClosed().subscribe((result) => {
+      result ? this.save() : this.cancel();
+    });
+  }
+
+  private filterStatuses(): void {
+    if (this.nameOfColumn === 'orderStatus') {
+      this.optional = this.orderService.getAvailableOrderStatuses(this.key, this.optional);
+    }
+  }
+
+  // The condition of pickup details for required fields
+  private filterStatusesForPopUp(): boolean {
+    const statuses = [OrderStatus.ADJUSTMENT, OrderStatus.CONFIRMED, OrderStatus.ON_THE_ROUTE, OrderStatus.DONE];
+    const key = this.optional[this.findKeyForNewOption()].key;
+    return statuses.includes(key);
+  }
+
+  private findKeyForNewOption(): number {
+    return this.optional.findIndex((item) => item[this.lang] === this.newOption);
   }
 }

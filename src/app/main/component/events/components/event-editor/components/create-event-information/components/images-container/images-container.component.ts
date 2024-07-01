@@ -1,9 +1,11 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FileHandle } from '../../../../../../../../../ubs/ubs-admin/models/file-handle.model';
 import { EventsService } from '../../../../../../services/events.service';
 import { ImagesContainer } from '../../../../../../models/events.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { EditImagePopUpComponent } from 'src/app/shared/edit-image-pop-up/edit-image-pop-up.component';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-images-container',
@@ -11,18 +13,18 @@ import { ImagesContainer } from '../../../../../../models/events.interface';
   styleUrls: ['./images-container.component.scss']
 })
 export class ImagesContainerComponent implements OnInit {
-  public defImgs = [
+  defImgs = [
     '/assets/img/events/illustration-earth.png',
     '/assets/img/events/illustration-money.png',
     '/assets/img/events/illustration-people.png',
     '/assets/img/events/illustration-recycle.png',
     '/assets/img/events/illustration-store.png'
   ];
-  public editMode: boolean;
+  editMode: boolean;
   @Input() images: ImagesContainer[] = [];
-  public imageCount = 0;
-  public isImageSizeError: boolean;
-  public selected = '';
+  imageCount = 0;
+  isImageSizeError: boolean;
+  selected = '';
 
   @ViewChild('takeInput') InputVar: ElementRef;
 
@@ -31,17 +33,18 @@ export class ImagesContainerComponent implements OnInit {
   private isImageTypeError = false;
 
   constructor(
-    private localStorageService: LocalStorageService,
     private snackBar: MatSnackBarComponent,
-    private eventService: EventsService
+    private eventService: EventsService,
+    private matDialog: MatDialog
   ) {}
 
-  public selectImg(img: number) {
-    //  const index = this.images.findIndex(value => value.main);
+  selectImg(img: number): void {
     this.images.forEach((value) => (value.main = false));
     this.images[img].main = true;
     [this.images[0], this.images[img]] = [this.images[img], this.images[0]];
     this.images[0].main = true;
+
+    this.imagesOutput.emit(this.images);
   }
 
   ngOnInit(): void {
@@ -52,7 +55,7 @@ export class ImagesContainerComponent implements OnInit {
     }
   }
 
-  public chooseImage(img: string) {
+  chooseImage(img: string) {
     if (this.imageCount === 5) {
       this.snackBar.openSnackBar('errorMaxPhotos');
       return;
@@ -64,18 +67,38 @@ export class ImagesContainerComponent implements OnInit {
     });
   }
 
-  public filesDropped(files: FileHandle[]): void {
+  filesDropped(files: FileHandle[]): void {
     const imageFile = files[0].file;
     this.validateImage(imageFile);
   }
 
-  public loadFile(event: Event): void {
+  loadFile(event: Event): void {
     const imageFile: File = (event.target as HTMLInputElement).files[0];
     this.InputVar.nativeElement.value = '';
     this.validateImage(imageFile);
   }
 
-  public deleteImage(img: ImagesContainer, i: number): void {
+  onEdit(image: ImagesContainer, index: number): void {
+    const dialogRef = this.matDialog.open(EditImagePopUpComponent, {
+      data: { index, image, aspectRatio: 16 / 9 },
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((data) => {
+        if (!data?.croppedImage || data?.index < 0) {
+          return;
+        }
+
+        this.images[data.index] = { ...this.images[data.index], file: data.croppedImage, url: URL.createObjectURL(data.croppedImage) };
+      });
+  }
+
+  deleteImage(img: ImagesContainer, i: number): void {
     if (this.images.length === 1) {
       this.snackBar.openSnackBar('errorMinPhoto');
       return;
@@ -86,6 +109,7 @@ export class ImagesContainerComponent implements OnInit {
     }
 
     this.imageCount -= 1;
+
     this.imagesOutput.emit(this.images);
   }
 
@@ -119,6 +143,7 @@ export class ImagesContainerComponent implements OnInit {
       }
 
       this.images.push(image);
+      this.imagesOutput.emit(this.images);
     };
     // TODO Display snack bar error on error load
     reader.onerror = () => {

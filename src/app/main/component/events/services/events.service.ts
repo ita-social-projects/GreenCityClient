@@ -16,7 +16,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   providedIn: 'root'
 })
 export class EventsService implements OnDestroy {
-  public currentForm: PagePreviewDTO | EventResponse;
+  currentForm: PagePreviewDTO | EventResponse;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private divider = `, `;
@@ -26,36 +26,33 @@ export class EventsService implements OnDestroy {
     private langService: LanguageService
   ) {}
 
-  public getAddresses(): Observable<Addresses[]> {
+  getAddresses(): Observable<Addresses[]> {
     return this.http.get<Addresses[]>(`${this.backEnd}events/addresses`);
   }
 
-  public getImageAsFile(img: string): Observable<Blob> {
+  getImageAsFile(img: string): Observable<Blob> {
     return this.http.get(img, { responseType: 'blob' });
   }
 
-  public setForm(form: PagePreviewDTO | EventResponse): void {
+  setForm(form: PagePreviewDTO | EventResponse): void {
     this.currentForm = form;
   }
 
-  public getForm(): PagePreviewDTO | EventResponse {
+  getForm(): PagePreviewDTO | EventResponse {
     return this.currentForm;
   }
 
-  public createEvent(formData: FormData): Observable<any> {
+  createEvent(formData: FormData): Observable<any> {
     return this.http.post<any>(`${this.backEnd}events/create`, formData);
   }
 
-  public editEvent(formData: FormData): Observable<any> {
+  editEvent(formData: FormData): Observable<any> {
+    console.log('formData', formData);
+
     return this.http.put<any>(`${this.backEnd}events/update`, formData);
   }
 
-  public getEvents(
-    page: number,
-    quantity: number,
-    filter: EventFilterCriteriaInterface,
-    searchTitle?: string
-  ): Observable<EventResponseDto> {
+  getEvents(page: number, quantity: number, filter: EventFilterCriteriaInterface, searchTitle?: string): Observable<EventResponseDto> {
     let requestParams = new HttpParams();
     requestParams = requestParams.append('page', page.toString());
     requestParams = requestParams.append('size', quantity.toString());
@@ -69,15 +66,15 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventResponseDto>(`${this.backEnd}events`, { params: requestParams });
   }
 
-  public getSubscribedEvents(page: number, quantity: number): Observable<EventResponseDto> {
+  getSubscribedEvents(page: number, quantity: number): Observable<EventResponseDto> {
     return this.http.get<EventResponseDto>(`${this.backEnd}events/myEvents?page=${page}&size=${quantity}`);
   }
 
-  public getCreatedEvents(page: number, quantity: number): Observable<EventResponseDto> {
+  getCreatedEvents(page: number, quantity: number): Observable<EventResponseDto> {
     return this.http.get<EventResponseDto>(`${this.backEnd}events/myEvents/createdEvents?page=${page}&size=${quantity}`);
   }
 
-  public getAllUserEvents(
+  getAllUserEvents(
     page: number,
     quantity: number,
     userLatitude: number,
@@ -90,50 +87,50 @@ export class EventsService implements OnDestroy {
     );
   }
 
-  public addEventToFavourites(eventId: number): Observable<void> {
+  addEventToFavourites(eventId: number): Observable<void> {
     return this.http.post<void>(`${this.backEnd}events/addToFavorites/${eventId}`, eventId);
   }
 
-  public removeEventFromFavourites(eventId: number): Observable<void> {
+  removeEventFromFavourites(eventId: number): Observable<void> {
     return this.http.delete<void>(`${this.backEnd}events/removeFromFavorites/${eventId}`);
   }
 
-  public getUserFavoriteEvents(page: number, quantity: number): Observable<EventResponseDto> {
+  getUserFavoriteEvents(page: number, quantity: number): Observable<EventResponseDto> {
     return this.http.get<EventResponseDto>(`${this.backEnd}events/getAllFavoriteEvents?page=${page}&size=${quantity}`);
   }
 
-  public getEventById(id: number): Observable<EventResponse> {
+  getEventById(id: number): Observable<EventResponse> {
     return this.http.get<EventResponse>(`${this.backEnd}events/event/${id}`);
   }
 
-  public deleteEvent(id: number): Observable<any> {
+  deleteEvent(id: number): Observable<any> {
     return this.http.delete(`${this.backEnd}events/delete/${id}`);
   }
 
-  public rateEvent(id: number, grade: number): Observable<any> {
+  rateEvent(id: number, grade: number): Observable<any> {
     return this.http.post<any>(`${this.backEnd}events/rateEvent/${id}/${grade}`, null);
   }
 
-  public addAttender(id: number): Observable<any> {
+  addAttender(id: number): Observable<any> {
     return this.http.post<any>(`${this.backEnd}events/addAttender/${id}`, { observe: 'response' });
   }
 
-  public removeAttender(id: number): Observable<any> {
+  removeAttender(id: number): Observable<any> {
     return this.http.delete<any>(`${this.backEnd}events/removeAttender/${id}`);
   }
 
-  public getAllAttendees(id: number): Observable<any> {
+  getAllAttendees(id: number): Observable<any> {
     return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
   }
 
-  public getFormattedAddress(coordinates: LocationResponse): string {
+  getFormattedAddress(coordinates: LocationResponse): string {
     return this.getLangValue(
       coordinates?.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUa,
       coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
     );
   }
 
-  public getFormattedAddressEventsList(coordinates: LocationResponse): string {
+  getFormattedAddressEventsList(coordinates: LocationResponse): string {
     return this.getLangValue(
       coordinates.streetUa
         ? this.createEventsListAddresses(coordinates, 'Ua')
@@ -144,11 +141,11 @@ export class EventsService implements OnDestroy {
     );
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public createAddresses(coord: LocationResponse | null, lang: string): string {
+  createAddresses(coord: LocationResponse | null, lang: string): string {
     if (!coord) {
       return '';
     }
@@ -156,7 +153,7 @@ export class EventsService implements OnDestroy {
     return parts.join(this.divider);
   }
 
-  public createEventsListAddresses(coord: LocationResponse | null, lang: string): string {
+  createEventsListAddresses(coord: LocationResponse | null, lang: string): string {
     if (!coord) {
       return '';
     }

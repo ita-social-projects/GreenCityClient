@@ -101,10 +101,8 @@ a {
   justify-content: space-between;
 
   .events-types {
-    * {
-      margin: 0 5px;
-      color: var(--primary-green);
-    }
+    display: flex;
+    gap: 10px;
   }
 }
 

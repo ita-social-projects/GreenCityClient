@@ -35,93 +35,93 @@ export class LocalStorageService {
     this.userIdBehaviourSubject = new BehaviorSubject<number>(this.getUserId());
   }
 
-  public setHabitsGalleryView(value: boolean): void {
+  setHabitsGalleryView(value: boolean): void {
     localStorage.setItem(this.HABITS_GALLERY_VIEW, JSON.stringify(value));
   }
 
-  public getHabitsGalleryView(): boolean | null {
+  getHabitsGalleryView(): boolean | null {
     return JSON.parse(localStorage.getItem(this.HABITS_GALLERY_VIEW));
   }
 
-  public getAccessToken(): string {
+  getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
   }
 
-  public setEditMode(key: string, permision: boolean) {
+  setEditMode(key: string, permision: boolean) {
     localStorage.setItem(key, `${permision}`);
   }
 
-  public getEditMode(): boolean {
+  getEditMode(): boolean {
     return localStorage.getItem(this.CAN_USER_EDIT_EVENT) === 'true';
   }
 
-  public setEventForEdit(key: string, event: EventResponse | PagePreviewDTO) {
+  setEventForEdit(key: string, event: EventResponse | PagePreviewDTO) {
     localStorage.setItem(key, JSON.stringify(event));
   }
 
-  public getEventForEdit() {
+  getEventForEdit() {
     return JSON.parse(localStorage.getItem(this.EDIT_EVENT));
   }
 
-  public getRefreshToken(): string {
+  getRefreshToken(): string {
     return localStorage.getItem(this.REFRESH_TOKEN);
   }
 
-  public getUserId(): number {
+  getUserId(): number {
     return Number.parseInt(localStorage.getItem(this.USER_ID), 10);
   }
 
-  public getPreviousPage(): string {
+  getPreviousPage(): string {
     return localStorage.getItem(this.PREVIOUS_PAGE);
   }
 
-  public setCurentPage(key: string, pageName: string) {
+  setCurentPage(key: string, pageName: string) {
     localStorage.setItem(key, pageName);
   }
 
-  public setAccessToken(accessToken: string): void {
+  setAccessToken(accessToken: string): void {
     localStorage.setItem(this.ACCESS_TOKEN, accessToken);
     this.removeUbsRegistration();
     this.accessTokenBehaviourSubject.next(accessToken);
   }
 
-  public setRefreshToken(refreshToken: string): void {
+  setRefreshToken(refreshToken: string): void {
     localStorage.setItem(this.REFRESH_TOKEN, refreshToken);
   }
 
-  public setUserId(userId: number): void {
+  setUserId(userId: number): void {
     localStorage.setItem(this.USER_ID, String(userId));
     this.userIdBehaviourSubject.next(this.getUserId());
   }
 
-  public setFirstName(name: string): void {
+  setFirstName(name: string): void {
     localStorage.setItem(this.NAME, name);
     this.firstNameBehaviourSubject.next(name);
   }
 
-  public setFirstSignIn(): void {
+  setFirstSignIn(): void {
     localStorage.setItem('firstSignIn', 'true');
   }
 
-  public unsetFirstSignIn(): void {
+  unsetFirstSignIn(): void {
     localStorage.setItem('firstSignIn', 'false');
   }
 
-  public getFirstSighIn(): boolean {
+  getFirstSighIn(): boolean {
     return localStorage.getItem('firstSignIn') === 'true';
   }
 
-  public setCurrentLanguage(language: Language) {
+  setCurrentLanguage(language: Language) {
     localStorage.setItem('language', language);
     this.languageSubject.next(language);
     this.languageBehaviourSubject.next(language);
   }
 
-  public getCurrentLanguage(): Language {
+  getCurrentLanguage(): Language {
     return localStorage.getItem('language') as Language;
   }
 
-  public clear(): void {
+  clear(): void {
     const currentLanguage: Language = this.getCurrentLanguage();
     localStorage.clear();
     this.setCurrentLanguage(currentLanguage);
@@ -129,117 +129,117 @@ export class LocalStorageService {
     this.userIdBehaviourSubject.next(null);
   }
 
-  public setUbsRegistration(value: boolean): void {
+  setUbsRegistration(value: boolean): void {
     if (!localStorage.getItem(this.USER_ID)) {
       this.ubsRegBehaviourSubject.next(value);
       localStorage.setItem('callUbsRegWindow', `${value}`);
     }
   }
 
-  public getUbsRegistration(): boolean {
+  getUbsRegistration(): boolean {
     return localStorage.getItem('callUbsRegWindow') === 'true';
   }
 
-  public removeUbsRegistration(): void {
+  removeUbsRegistration(): void {
     localStorage.removeItem('callUbsRegWindow');
   }
 
-  public setUbsOrderData(personalData: string, orderData: string) {
+  setUbsOrderData(personalData: string, orderData: string) {
     localStorage.setItem('UBSpersonalData', personalData);
     localStorage.setItem('UBSorderData', orderData);
   }
 
-  public setUBSOrderData(orderData: OrderDetails) {
+  setUBSOrderData(orderData: OrderDetails) {
     localStorage.setItem('UBSorderData', JSON.stringify(orderData));
   }
 
-  public setUbsOrderDataBeforeRedirect(personalData: string, orderData: string, anotherClientData: string, UBSExistingOrderId: string) {
+  setUbsOrderDataBeforeRedirect(personalData: string, orderData: string, anotherClientData: string, UBSExistingOrderId: string) {
     localStorage.setItem('UBSpersonalData', personalData);
     localStorage.setItem('UBSorderData', orderData);
     localStorage.setItem('anotherClient', anotherClientData);
     localStorage.setItem('UBSExistingOrderId', UBSExistingOrderId);
   }
 
-  public removeanotherClientData(): void {
+  removeanotherClientData(): void {
     localStorage.removeItem('anotherClient');
   }
 
-  public setLocationId(currentLocationId: number) {
+  setLocationId(currentLocationId: number) {
     localStorage.setItem('currentLocationId', String(currentLocationId));
   }
 
-  public setLocations(locations: any) {
+  setLocations(locations: any) {
     localStorage.setItem('locations', JSON.stringify(locations));
   }
 
-  public setOrderWithoutPayment(value: boolean): void {
+  setOrderWithoutPayment(value: boolean): void {
     localStorage.setItem('saveOrderWithoutPayment', String(value));
   }
 
-  public getOrderWithoutPayment(): any {
+  getOrderWithoutPayment(): any {
     return localStorage.getItem('saveOrderWithoutPayment') === 'undefined'
       ? false
       : JSON.parse(localStorage.getItem('saveOrderWithoutPayment'));
   }
 
-  public setUbsOrderId(orderId: string | number): void {
+  setUbsOrderId(orderId: string | number): void {
     localStorage.setItem('UbsOrderId', String(orderId));
   }
 
-  public getUbsOrderId(): any {
+  getUbsOrderId(): any {
     return localStorage.getItem('UbsOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsOrderId'));
   }
 
-  public removeUbsOrderId() {
+  removeUbsOrderId() {
     localStorage.removeItem('UbsOrderId');
   }
 
-  public setUbsPaymentOrderId(orderId: string | number) {
+  setUbsPaymentOrderId(orderId: string | number) {
     localStorage.setItem('UbsPaymentOrderId', String(orderId));
   }
 
-  public setUbsBonusesOrderId(orderId: string | number) {
+  setUbsBonusesOrderId(orderId: string | number) {
     localStorage.setItem('UbsBonusesOrderId', String(orderId));
   }
 
-  public getUbsBonusesOrderId(): any {
+  getUbsBonusesOrderId(): any {
     return localStorage.getItem('UbsBonusesOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsBonusesOrderId'));
   }
 
-  public getUbsPaymentOrderId(): any {
+  getUbsPaymentOrderId(): any {
     return localStorage.getItem('UbsPaymentOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsPaymentOrderId'));
   }
 
-  public removeUbsPaymentOrderId() {
+  removeUbsPaymentOrderId() {
     localStorage.removeItem('UbsPaymentOrderId');
   }
 
-  public removeOrderWithoutPayment(): void {
+  removeOrderWithoutPayment(): void {
     localStorage.removeItem('saveOrderWithoutPayment');
   }
 
-  public removeUBSExistingOrderId() {
+  removeUBSExistingOrderId() {
     localStorage.removeItem('UBSExistingOrderId');
   }
 
-  public setUserPagePayment(state: boolean): unknown {
+  setUserPagePayment(state: boolean): unknown {
     return localStorage.setItem('IsUserPagePayment', String(state));
   }
 
-  public getUserPagePayment(): string {
+  getUserPagePayment(): string {
     return localStorage.getItem('IsUserPagePayment');
   }
 
-  public removeUserPagePayment(): void {
+  removeUserPagePayment(): void {
     localStorage.removeItem('IsUserPagePayment');
   }
 
-  public clearPaymentInfo(): void {
+  clearPaymentInfo(): void {
     this.removeUbsPaymentOrderId();
     this.removeUserPagePayment();
   }
 
-  public removeUbsOrderData() {
+  removeUbsOrderData() {
     localStorage.removeItem('UBSpersonalData');
     localStorage.removeItem('UBSorderData');
     localStorage.removeItem('currentLocationId');
@@ -248,49 +248,49 @@ export class LocalStorageService {
     localStorage.removeItem('anotherClient');
   }
 
-  public removeUbsOrderAndPersonalData(): void {
+  removeUbsOrderAndPersonalData(): void {
     localStorage.removeItem('UBSpersonalData');
     localStorage.removeItem('UBSorderData');
   }
 
-  public getUbsPersonalData(): any {
+  getUbsPersonalData(): any {
     return localStorage.getItem('UBSpersonalData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSpersonalData'));
   }
 
-  public getUbsOrderData(): OrderDetails {
+  getUbsOrderData(): OrderDetails {
     return localStorage.getItem('UBSorderData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSorderData'));
   }
 
-  public getLocationId(): any {
+  getLocationId(): any {
     return localStorage.getItem('currentLocationId') === null ? false : JSON.parse(localStorage.getItem('currentLocationId'));
   }
 
-  public getExistingOrderId(): string {
+  getExistingOrderId(): string {
     return localStorage.getItem('UBSExistingOrderId');
   }
 
-  public setCustomer(customer) {
+  setCustomer(customer) {
     return localStorage.setItem('currentCustomer', JSON.stringify(customer));
   }
 
-  public getCustomer() {
+  getCustomer() {
     return JSON.parse(localStorage.getItem('currentCustomer'));
   }
 
-  public removeCurrentCustomer(): void {
+  removeCurrentCustomer(): void {
     localStorage.removeItem('currentCustomer');
   }
 
-  public setOrderIdToRedirect(orderId: number): void {
+  setOrderIdToRedirect(orderId: number): void {
     localStorage.setItem(this.ORDER_TO_REDIRECT, String(orderId));
     this.ubsRedirectionBehaviourSubject.next(orderId);
   }
 
-  public getOrderIdToRedirect(): number {
+  getOrderIdToRedirect(): number {
     return Number.parseInt(localStorage.getItem(this.ORDER_TO_REDIRECT), 10);
   }
 
-  public setUbsAdminOrdersTableTitleColumnFilter(filters): void {
+  setUbsAdminOrdersTableTitleColumnFilter(filters): void {
     if (filters.length) {
       const serialized = JSON.stringify(filters);
       window.localStorage.setItem('UbsAdminOrdersTableTitleColumnFilters', serialized);
@@ -299,82 +299,82 @@ export class LocalStorageService {
     }
   }
 
-  public getFilters(): IFilters | null {
+  getFilters(): IFilters | null {
     return JSON.parse(window.localStorage.getItem('filters'));
   }
 
-  public setFilters(filters: IFilters): void {
+  setFilters(filters: IFilters): void {
     window.localStorage.setItem('filters', JSON.stringify(filters));
   }
 
-  public getUbsAdminOrdersTableTitleColumnFilter() {
+  getUbsAdminOrdersTableTitleColumnFilter() {
     return JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
   }
 
-  public removeAdminOrderFilters(): void {
+  removeAdminOrderFilters(): void {
     window.localStorage.removeItem('UbsAdminOrdersTableTitleColumnFilters');
   }
 
-  public setAdminOrdersDateFilter(filters): void {
+  setAdminOrdersDateFilter(filters): void {
     if (filters) {
       const serialized = JSON.stringify(filters);
       window.localStorage.setItem('UbsAdminOrdersDateFilters', serialized);
     }
   }
 
-  public getAdminOrdersDateFilter() {
+  getAdminOrdersDateFilter() {
     return JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters'));
   }
 
-  public removeAdminOrderDateFilters(): void {
+  removeAdminOrderDateFilters(): void {
     window.localStorage.removeItem('UbsAdminOrdersDateFilters');
   }
 
-  public setFinalSumOfOrder(value): void {
+  setFinalSumOfOrder(value): void {
     localStorage.setItem('finalSumOfOrder', JSON.stringify(value));
   }
 
-  public getFinalSumOfOrder(): number {
+  getFinalSumOfOrder(): number {
     return JSON.parse(localStorage.getItem('finalSumOfOrder'));
   }
 
-  public setTariffId(currentTariffId: number): void {
+  setTariffId(currentTariffId: number): void {
     localStorage.setItem('currentTariffId', String(currentTariffId));
   }
 
-  public getTariffId(): number {
+  getTariffId(): number {
     return JSON.parse(localStorage.getItem('currentTariffId'));
   }
 
-  public setAddressId(addressId: number): void {
+  setAddressId(addressId: number): void {
     localStorage.setItem('addressId', String(addressId));
   }
 
-  public getAddressId(): number {
+  getAddressId(): number {
     return JSON.parse(localStorage.getItem('addressId'));
   }
 
-  public setAddresses(addresses: Address[]) {
+  setAddresses(addresses: Address[]) {
     localStorage.setItem('addresses', JSON.stringify(addresses));
   }
 
-  public getCurrentLocationId(): number {
+  getCurrentLocationId(): number {
     return JSON.parse(localStorage.getItem('currentLocationId'));
   }
 
-  public getLocations(): CourierLocations {
+  getLocations(): CourierLocations {
     return JSON.parse(localStorage.getItem('locations'));
   }
 
-  public getIsAnotherClient(): boolean {
+  getIsAnotherClient(): boolean {
     return JSON.parse(localStorage.getItem('anotherClient'));
   }
 
-  public setIsAnotherClient(value: boolean) {
+  setIsAnotherClient(value: boolean) {
     localStorage.setItem('anotherClient', String(value));
   }
 
-  public removeIsAnotherClient(): void {
+  removeIsAnotherClient(): void {
     localStorage.removeItem('anotherClient');
   }
 

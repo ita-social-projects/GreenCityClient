@@ -9,11 +9,12 @@
 .wrapper {
   display: flex;
   justify-content: space-between;
+  gap: 40px;
   width: 100%;
   max-width: 960px;
   background-color: white;
   border-radius: 4px;
-  padding: 0 30px;
+  padding-right: 40px;
   overflow: auto;
 
   .left-side {
@@ -33,7 +34,7 @@
     .close-modal-window {
       display: flex;
       justify-content: flex-end;
-      margin: 26px 0 22px 95%;
+      margin: 26px 0 22px 98%;
       width: min-content;
       padding: 5px;
     }
@@ -54,6 +55,7 @@
 @media screen and (max-width: 992px) {
   .wrapper {
     width: 480px;
+    padding-right: 0;
 
     .left-side {
       display: none;
@@ -61,6 +63,10 @@
 
     .right-side {
       height: 620px;
+
+      .close-modal-window {
+        margin: 26px 0 22px 90%;
+      }
     }
   }
 }

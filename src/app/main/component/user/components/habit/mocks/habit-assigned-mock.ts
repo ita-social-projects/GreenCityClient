@@ -1,5 +1,10 @@
 import { HabitInterface } from '../models/interfaces/habit.interface';
-import { ChangesFromCalendarToProgress, HabitAssignInterface, ResponseInterface } from '../models/interfaces/habit-assign.interface';
+import {
+  ChangesFromCalendarToProgress,
+  FriendsHabitProggress,
+  HabitAssignInterface,
+  ResponseInterface
+} from '../models/interfaces/habit-assign.interface';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { TodoStatus } from '../models/todo-status.enum';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
@@ -175,3 +180,11 @@ export const CHANGES_FROM_CALENDAR: ChangesFromCalendarToProgress = {
   isEnrolled: true,
   date: '2024-04-25'
 };
+
+export const FRIENDSHABITPROGESS: FriendsHabitProggress[] = [
+  {
+    userId: 1,
+    duration: 14,
+    workingDays: 2
+  }
+];

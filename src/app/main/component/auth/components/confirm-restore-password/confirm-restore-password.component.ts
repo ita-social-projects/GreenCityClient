@@ -15,23 +15,23 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./confirm-restore-password.component.scss']
 })
 export class ConfirmRestorePasswordComponent implements OnInit {
-  public confirmRestorePasswordForm: FormGroup;
-  public passwordField: AbstractControl;
-  public confirmPasswordField: AbstractControl;
-  public password: FormControl;
-  public confirmPassword: FormControl;
-  public closeBtn = SignInIcons;
-  public authImages = authImages;
-  public emailErrorMessageBackEnd: string;
-  public passwordErrorMessageBackEnd: string;
-  public loadingAnim: boolean;
-  public passwordFieldValue: string;
-  public passwordConfirmFieldValue: string;
-  public form: any;
-  public token: string;
-  public restoreDto: RestoreDto;
-  public isUbs: boolean;
-  public isSignInPage: boolean;
+  confirmRestorePasswordForm: FormGroup;
+  passwordField: AbstractControl;
+  confirmPasswordField: AbstractControl;
+  password: FormControl;
+  confirmPassword: FormControl;
+  closeBtn = SignInIcons;
+  authImages = authImages;
+  emailErrorMessageBackEnd: string;
+  passwordErrorMessageBackEnd: string;
+  loadingAnim: boolean;
+  passwordFieldValue: string;
+  passwordConfirmFieldValue: string;
+  form: any;
+  token: string;
+  restoreDto: RestoreDto;
+  isUbs: boolean;
+  isSignInPage: boolean;
 
   constructor(
     private router: Router,
@@ -50,7 +50,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     this.authImages = this.isUbs ? ubsAuthImages : authImages;
   }
 
-  public initFormReactive(): void {
+  initFormReactive(): void {
     this.confirmRestorePasswordForm = this.formBuilder.group(
       {
         password: new FormControl('', []),
@@ -62,7 +62,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     );
   }
 
-  public getFormFields(): void {
+  getFormFields(): void {
     this.passwordField = this.confirmRestorePasswordForm.get('password');
     this.confirmPasswordField = this.confirmRestorePasswordForm.get('confirmPassword');
   }
@@ -74,7 +74,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     });
   }
 
-  public sendPasswords() {
+  sendPasswords() {
     this.restoreDto.confirmPassword = this.confirmRestorePasswordForm.value.confirmPassword;
     this.restoreDto.password = this.confirmRestorePasswordForm.value.password;
     this.restoreDto.token = this.token;
@@ -92,7 +92,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     );
   }
 
-  public setPasswordBackendErr(): void {
+  setPasswordBackendErr(): void {
     this.passwordErrorMessageBackEnd = null;
     if (this.confirmRestorePasswordForm) {
       this.passwordFieldValue = this.passwordField.value;
@@ -101,12 +101,12 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     }
   }
 
-  public setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
+  setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
     htmlImage.src = htmlInput.type === 'password' ? this.authImages.hiddenEye : this.authImages.openEye;
   }
 
-  public closeModal(): void {
+  closeModal(): void {
     this.router.navigate(this.isUbs ? ['ubs'] : ['']);
     this.snackBar.openSnackBar('exitConfirmRestorePassword');
   }

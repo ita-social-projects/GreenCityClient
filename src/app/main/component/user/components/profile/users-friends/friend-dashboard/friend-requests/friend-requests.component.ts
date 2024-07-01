@@ -15,13 +15,13 @@ import { UserOnlineStatusService } from '@global-user/services/user-online-statu
   styleUrls: ['./friend-requests.component.scss']
 })
 export class FriendRequestsComponent implements OnInit, OnDestroy {
-  public requests: FriendModel[] = [];
-  public userId: number;
+  requests: FriendModel[] = [];
+  userId: number;
   private destroy$ = new Subject();
-  public scroll: boolean;
-  public currentPage = 0;
+  scroll: boolean;
+  currentPage = 0;
   private size = 10;
-  public totalPages: number;
+  totalPages: number;
   friendsStore$ = this.store.select((state: IAppState): IFriendState => state.friend);
   readonly absent = 'assets/img/noNews.svg';
 
@@ -51,7 +51,7 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));
   }
 
-  public onScroll(): void {
+  onScroll(): void {
     if (this.currentPage < this.totalPages - 1) {
       this.currentPage += 1;
       this.scroll = true;

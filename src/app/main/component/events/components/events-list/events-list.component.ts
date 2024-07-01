@@ -28,32 +28,32 @@ export class EventsListComponent implements OnInit, OnDestroy {
   @ViewChild('statusFilter') statusOptionList: MatSelect;
   @ViewChild('typeFilter') typeOptionList: MatSelect;
 
-  public eventTimeStatusFilterControl = new FormControl();
-  public locationFilterControl = new FormControl();
-  public statusFilterControl = new FormControl();
-  public typeFilterControl = new FormControl();
-  public searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
+  eventTimeStatusFilterControl = new FormControl();
+  locationFilterControl = new FormControl();
+  statusFilterControl = new FormControl();
+  typeFilterControl = new FormControl();
+  searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
-  public eventsList: EventListResponse[] = [];
+  eventsList: EventListResponse[] = [];
 
-  public isLoggedIn: string;
-  public selectedEventTimeStatusFiltersList: string[] = [];
-  public selectedLocationFiltersList: string[] = [];
-  public selectedStatusFiltersList: string[] = [];
-  public selectedTypeFiltersList: string[] = [];
-  public hasNextPage = true;
-  public countOfEvents = 0;
-  public noEventsMatch = false;
-  public selectedFilters: FilterItem[] = [];
-  public searchToggle = false;
-  public bookmarkSelected = false;
-  public eventTimeStatusFiltersList: FilterItem[] = timeStatusFiltersData;
-  public locationFiltersList: FilterItem[] = [];
-  public statusFiltersList: FilterItem[] = [];
-  public typeFiltersList: FilterItem[] = typeFiltersData;
-  public userId: number;
-  public isLoading = true;
-  public isGalleryView = true;
+  isLoggedIn: string;
+  selectedEventTimeStatusFiltersList: string[] = [];
+  selectedLocationFiltersList: string[] = [];
+  selectedStatusFiltersList: string[] = [];
+  selectedTypeFiltersList: string[] = [];
+  hasNextPage = true;
+  countOfEvents = 0;
+  noEventsMatch = false;
+  selectedFilters: FilterItem[] = [];
+  searchToggle = false;
+  bookmarkSelected = false;
+  eventTimeStatusFiltersList: FilterItem[] = timeStatusFiltersData;
+  locationFiltersList: FilterItem[] = [];
+  statusFiltersList: FilterItem[] = [];
+  typeFiltersList: FilterItem[] = typeFiltersData;
+  userId: number;
+  isLoading = true;
+  isGalleryView = true;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   private page = 0;
@@ -100,7 +100,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getEvents(): void {
+  getEvents(): void {
     if (this.bookmarkSelected) {
       this.getUserFavoriteEvents();
     } else {
@@ -110,15 +110,15 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.page++;
   }
 
-  public search(): void {
+  search(): void {
     this.searchToggle = !this.searchToggle;
   }
 
-  public cancelSearch(): void {
+  cancelSearch(): void {
     this.searchEventControl.value.trim() === '' ? (this.searchToggle = false) : this.searchEventControl.setValue('');
   }
 
-  public showSelectedEvents(): void {
+  showSelectedEvents(): void {
     this.bookmarkSelected = !this.bookmarkSelected;
     if (this.bookmarkSelected) {
       this.cleanEventList();
@@ -129,7 +129,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getUniqueLocations(addresses: Array<Addresses>): FilterItem[] {
+  getUniqueLocations(addresses: Array<Addresses>): FilterItem[] {
     const uniqueLocationsName = new Set<string>();
     const uniqueLocations: FilterItem[] = [];
     addresses.forEach((address: Addresses) => {
@@ -144,7 +144,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     return uniqueLocations;
   }
 
-  public updateListOfFilters(filter: FilterItem): void {
+  updateListOfFilters(filter: FilterItem): void {
     switch (filter.type) {
       case 'eventTimeStatus':
         if (this.selectedEventTimeStatusFiltersList.includes(filter.nameEn)) {
@@ -203,12 +203,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.getEvents();
   }
 
-  public removeItemFromSelectedFiltersList(filter: FilterItem, index?: number): void {
+  removeItemFromSelectedFiltersList(filter: FilterItem, index?: number): void {
     this.updateSelectedFiltersList(filter.nameEn, index);
     this.updateListOfFilters(filter);
   }
 
-  public unselectAllFiltersInType(filterType: string): void {
+  unselectAllFiltersInType(filterType: string): void {
     switch (filterType) {
       case 'eventTimeStatus':
         this.selectedEventTimeStatusFiltersList.forEach((item) => {
@@ -251,7 +251,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.getEvents();
   }
 
-  public resetAllFilters(): void {
+  resetAllFilters(): void {
     this.selectedFilters = [];
     this.selectedEventTimeStatusFiltersList = [];
     this.selectedLocationFiltersList = [];
@@ -264,16 +264,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.getEvents();
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
-  public isUserLoggedRedirect(): void {
+  isUserLoggedRedirect(): void {
     this.isLoggedIn ? this.router.navigate(['/events', 'create-event']) : this.openAuthModalWindow('sign-in');
     this.eventService.setForm(null);
   }
 
-  public openAuthModalWindow(page: string): void {
+  openAuthModalWindow(page: string): void {
     this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -284,7 +284,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  public changeViewMode(type: string): void {
+  changeViewMode(type: string): void {
     this.isGalleryView = type === 'gallery';
   }
 

@@ -22,7 +22,7 @@ export class TitleAndMetaTagsService {
     private translations: TranslateService
   ) {}
 
-  public useTitleMetasData(): void {
+  useTitleMetasData(): void {
     this.initTitle();
     this.initMetas();
     this.applyingTitleMetasData();

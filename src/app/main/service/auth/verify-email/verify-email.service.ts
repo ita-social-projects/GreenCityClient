@@ -9,7 +9,7 @@ export class VerifyEmailService {
   constructor(private http: HttpClient) {}
 
   // check if the token is still valid
-  public onCheckToken(token: string, userId: string) {
+  onCheckToken(token: string, userId: string) {
     return this.http.get(`${verifyEmailLink}?token=${token}&user_id=${userId}`);
   }
 }

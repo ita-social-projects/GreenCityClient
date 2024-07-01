@@ -20,13 +20,13 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
     totalItems: 0
   };
   @Output() public repliesCounter = new EventEmitter<number>();
-  public elementsList: CommentsDTO[] = [];
-  public isLoggedIn: boolean;
-  public userId: number;
-  public totalElements = 0;
-  public elementsArePresent = true;
-  public userReplies: CommentsDTO[] = [];
-  public showAllReplies: boolean;
+  elementsList: CommentsDTO[] = [];
+  isLoggedIn: boolean;
+  userId: number;
+  totalElements = 0;
+  elementsArePresent = true;
+  userReplies: CommentsDTO[] = [];
+  showAllReplies: boolean;
 
   constructor(
     private commentsService: CommentsService,
@@ -54,16 +54,16 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
     }
   }
 
-  public initCommentsList(): void {
+  initCommentsList(): void {
     this.dataType === 'comment' ? this.getComments() : this.getReplies();
   }
 
-  public updateRepliesList(commentId: number) {
+  updateRepliesList(commentId: number) {
     this.initCommentsList();
     this.userReplies = this.userReplies.filter((comment) => comment.id !== commentId);
   }
 
-  public updateElementsListReply(comment: AddedCommentDTO): void {
+  updateElementsListReply(comment: AddedCommentDTO): void {
     const reply: CommentsDTO = {
       ...comment,
       currentUserLiked: false,

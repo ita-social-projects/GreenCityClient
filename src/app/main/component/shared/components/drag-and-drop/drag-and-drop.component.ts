@@ -10,12 +10,12 @@ import { FileHandle } from '@eco-news-models/create-news-interface';
   styleUrls: ['./drag-and-drop.component.scss']
 })
 export class DragAndDropComponent implements OnInit {
-  public selectedFile: File = null;
-  public selectedFileUrl: string;
-  public imageChangedEvent: FileHandle[];
-  public isCropper = true;
-  public files: FileHandle[] = [];
-  public isWarning = false;
+  selectedFile: File = null;
+  selectedFileUrl: string;
+  imageChangedEvent: FileHandle[];
+  isCropper = true;
+  files: FileHandle[] = [];
+  isWarning = false;
   private croppedImage: string;
   @Input() public formData: FormGroup;
 
@@ -28,7 +28,7 @@ export class DragAndDropComponent implements OnInit {
     this.croppedImage = this.formData.value.image;
   }
 
-  public stopCropping(): void {
+  stopCropping(): void {
     this.createEcoNewsService.files = this.files;
     this.files.forEach((item) => (item.url = this.croppedImage));
     this.isCropper = false;
@@ -36,14 +36,14 @@ export class DragAndDropComponent implements OnInit {
     this.isWarning = false;
   }
 
-  public cancelChanges(): void {
+  cancelChanges(): void {
     this.files = [];
     this.createEcoNewsService.files = [];
     this.isCropper = true;
     this.croppedImage = null;
   }
 
-  public patchImage(): void {
+  patchImage(): void {
     const getPreviewImg = this.createEcoNewsService.getFormData();
     if (this.formData.value.image) {
       this.isCropper = false;
@@ -59,17 +59,17 @@ export class DragAndDropComponent implements OnInit {
     }
   }
 
-  public imageCropped(event: ImageCroppedEvent): void {
+  imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event.base64;
   }
 
-  public filesDropped(files: FileHandle[]): void {
+  filesDropped(files: FileHandle[]): void {
     this.files = files;
     this.isCropper = true;
     this.showWarning();
   }
 
-  public onFileSelected(event): void {
+  onFileSelected(event): void {
     this.selectedFile = event.target.files[0] as File;
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(this.selectedFile);
@@ -85,7 +85,7 @@ export class DragAndDropComponent implements OnInit {
     this.createEcoNewsService.fileUrl = this.selectedFileUrl;
   }
 
-  public showWarning(): void {
+  showWarning(): void {
     this.files.forEach((item) => {
       const imageValCondition = (item.file.type === 'image/jpeg' || item.file.type === 'image/png') && item.file.size < 10485760;
       this.isWarning = !(item && imageValCondition);

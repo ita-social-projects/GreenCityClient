@@ -409,6 +409,7 @@
       "update-notification": "Notification was updated",
       "rating-send": "Rating sent",
       "add-friend": "Friend request sent",
+      "cancel-request": "Your friend request has been canceled",
       "joint-event-request": "The request to join the closed event has been successfully sent to the organizer",
       "create-news": "Your news has been successfully published"
     }
@@ -1182,7 +1183,7 @@
     "title": "Create event",
     "edit": "Edit Event",
     "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
-    "date-error": "Incorrect date",
+    "date-error": "Past date can't be chosen",
     "content-placeholder": "e.g. Short description of event, agenda for event",
     "content-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
     "counter": "You typed",
@@ -1215,7 +1216,7 @@
     "event-location": "Location",
     "event-link": "Online Link",
     "event-offline-place": "Event Offline place",
-    "event-online-link": "EventOnline link (should start with http:// or https://)",
+    "event-online-link": "Please add a link to the event. The link must start with http(s)://",
     "event-online-link-error": "Incorrect link",
     "enter-location": "Enter a location",
     "enter-link": "Enter link",

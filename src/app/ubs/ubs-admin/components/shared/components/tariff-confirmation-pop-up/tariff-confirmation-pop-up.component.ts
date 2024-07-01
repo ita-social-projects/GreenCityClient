@@ -14,9 +14,9 @@ import { TariffConfirmationPopUpInterface } from 'src/app/ubs/ubs-admin/models/u
   styleUrls: ['./tariff-confirmation-pop-up.component.scss']
 })
 export class TariffConfirmationPopUpComponent implements OnInit {
-  public name: string;
-  public datePipe = new DatePipe('ua');
-  public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  name: string;
+  datePipe = new DatePipe('ua');
+  newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   unsubscribe: Subject<any> = new Subject();
   values: TariffConfirmationPopUpInterface;
 
@@ -35,11 +35,11 @@ export class TariffConfirmationPopUpComponent implements OnInit {
     });
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public onNoClick(): void {
+  onNoClick(): void {
     const matDialogRef = this.dialog.open(ModalTextComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
@@ -57,7 +57,7 @@ export class TariffConfirmationPopUpComponent implements OnInit {
     });
   }
 
-  public actionClick(): void {
+  actionClick(): void {
     this.dialogRef.close(true);
   }
 }

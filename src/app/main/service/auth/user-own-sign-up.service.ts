@@ -9,9 +9,12 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   providedIn: 'root'
 })
 export class UserOwnSignUpService {
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {}
 
-  public signUp(userOwnRegister: UserOwnSignUp, lang = 'en'): Observable<any> {
+  signUp(userOwnRegister: UserOwnSignUp, lang = 'en'): Observable<any> {
     if (userOwnRegister.firstName === undefined) {
       return of<any>();
     }

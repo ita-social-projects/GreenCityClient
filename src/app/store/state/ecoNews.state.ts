@@ -7,7 +7,7 @@ export interface IEcoNewsState {
   pageNumber: number;
 
   ecoNewsByAuthor: EcoNewsDto;
-  autorNews: EcoNewsModel[];
+  authorNews: EcoNewsModel[];
   authorNewsPage: number;
   countOfEcoNews: number;
 
@@ -20,7 +20,7 @@ export const initialNewsState: IEcoNewsState = {
   pageNumber: 0,
 
   ecoNewsByAuthor: null,
-  autorNews: [],
+  authorNews: [],
   authorNewsPage: 0,
   error: null,
   countOfEcoNews: 0

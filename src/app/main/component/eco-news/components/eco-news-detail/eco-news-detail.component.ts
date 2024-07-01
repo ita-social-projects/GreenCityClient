@@ -18,23 +18,23 @@ import { DeleteEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';
   styleUrls: ['./eco-news-detail.component.scss']
 })
 export class EcoNewsDetailComponent implements OnInit, OnDestroy {
-  public newsItem: EcoNewsModel;
-  public images = singleNewsImages;
-  public userId: number;
-  public isLiked: boolean;
-  public tags: Array<string>;
-  public currentLang: string;
-  public likesType = {
+  newsItem: EcoNewsModel;
+  images = singleNewsImages;
+  userId: number;
+  isLiked: boolean;
+  tags: Array<string>;
+  currentLang: string;
+  likesType = {
     like: 'assets/img/comments/like.png',
     liked: 'assets/img/comments/liked.png'
   };
 
-  public newsId: number;
+  newsId: number;
   private newsImage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  public backRoute: string;
-  public routedFromProfile: boolean;
+  backRoute: string;
+  routedFromProfile: boolean;
   private deleteDialogData = {
     popupTitle: 'homepage.eco-news.news-delete-popup.delete-title',
     popupConfirm: 'homepage.eco-news.news-delete-popup.delete-yes',
@@ -70,31 +70,31 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getEcoNewsById(id: number): void {
+  getEcoNewsById(id: number): void {
     this.ecoNewsService.getEcoNewsById(id).subscribe((res: EcoNewsModel) => {
       this.newsItem = res;
       this.tags = this.getAllTags();
     });
   }
-  public getAllTags(): Array<string> {
+  getAllTags(): Array<string> {
     return this.langService.getLangValue(this.newsItem.tagsUa, this.newsItem.tags) as string[];
   }
 
-  public checkNewsImage(): string {
+  checkNewsImage(): string {
     this.newsImage = this.newsItem.imagePath && this.newsItem.imagePath !== ' ' ? this.newsItem.imagePath : this.images.largeImage;
     return this.newsImage;
   }
 
-  public getUserId(): void {
+  getUserId(): void {
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
   }
 
-  public onSocialShareLinkClick(type: string): void {
+  onSocialShareLinkClick(type: string): void {
     const data = this.shareLinks();
     window.open(data[type](), '_blank');
   }
 
-  public onLikeNews(): void {
+  onLikeNews(): void {
     if (this.isLiked) {
       this.isLiked = false;
       this.newsItem.likes = this.newsItem.likes - 1;
@@ -132,7 +132,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  public deleteNews(): void {
+  deleteNews(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.deleteDialogData,
       hasBackdrop: true,

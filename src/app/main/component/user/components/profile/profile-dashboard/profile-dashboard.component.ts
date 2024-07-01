@@ -28,8 +28,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   numberOfHabitsOnView = 3;
   habitsAcquired: Array<HabitAssignInterface> = [];
   habitsAcquiredToView: Array<HabitAssignInterface> = [];
-  public selectedIndex = 0;
-  public tabs = {
+  selectedIndex = 0;
+  tabs = {
     habits: true,
     news: false,
     articles: false
@@ -39,27 +39,27 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   isActiveFavoriteEventsScroll = false;
   userId: number;
   news: EcoNewsModel[];
-  public isOnlineChecked = false;
-  public isOfflineChecked = false;
-  public eventsList: EventResponse[] = [];
-  public favouriteEvents: EventResponse[] = [];
-  public eventsPerPage = 6;
-  public eventsPage = 1;
+  isOnlineChecked = false;
+  isOfflineChecked = false;
+  eventsList: EventResponse[] = [];
+  favouriteEvents: EventResponse[] = [];
+  eventsPerPage = 6;
+  eventsPage = 1;
   favoriteEventsPage = 0;
-  public totalEvents = 0;
-  public totalNews = 0;
-  public eventType = '';
-  public isFavoriteBtnClicked = false;
-  public userLatitude = 0;
-  public userLongitude = 0;
-  public images = singleNewsImages;
+  totalEvents = 0;
+  totalNews = 0;
+  eventType = '';
+  isFavoriteBtnClicked = false;
+  userLatitude = 0;
+  userLongitude = 0;
+  images = singleNewsImages;
   authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private hasNext = true;
   private hasNextPageOfEvents = true;
   private hasNextPageOfFavoriteEvents = true;
   private currentPage: number;
-  private newsCount = 3;
+  private newsCount = 5;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -78,7 +78,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       if (val.ecoNewsByAuthor) {
         this.totalNews = val.ecoNewsByAuthor.totalElements;
         this.hasNext = val.ecoNewsByAuthor.hasNext;
-        this.news = val.autorNews;
+        this.news = val.authorNews;
       }
     });
 
@@ -127,13 +127,13 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.getUserEvents();
   }
 
-  public escapeFromFavorites(): void {
+  escapeFromFavorites(): void {
     this.isFavoriteBtnClicked = !this.isFavoriteBtnClicked;
     this.isActiveEventsScroll = true;
     this.isActiveFavoriteEventsScroll = false;
   }
 
-  public goToFavorites(): void {
+  goToFavorites(): void {
     this.isFavoriteBtnClicked = true;
     this.isActiveEventsScroll = false;
     this.isActiveFavoriteEventsScroll = true;
@@ -181,7 +181,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  public dispatchNews(res: boolean) {
+  dispatchNews(res: boolean) {
     if (this.currentPage !== undefined && this.hasNext) {
       this.store.dispatch(
         GetEcoNewsByAuthorAction({
@@ -193,12 +193,12 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  public changeStatus(habit: HabitAssignInterface) {
+  changeStatus(habit: HabitAssignInterface) {
     this.habitAssignService.habitsInProgress = this.habitAssignService.habitsInProgress.filter((el) => el.id !== habit.id);
     this.habitsAcquired = [...this.habitsAcquired, habit];
   }
 
-  public executeRequests() {
+  executeRequests() {
     this.loading = true;
     this.habitAssignService
       .getAssignedHabits()

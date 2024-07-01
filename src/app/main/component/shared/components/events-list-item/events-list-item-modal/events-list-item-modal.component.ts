@@ -15,20 +15,20 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   styleUrls: ['events-list-item-modal.component.scss']
 })
 export class EventsListItemModalComponent implements OnInit, OnDestroy {
-  public id: number;
-  public max: number;
-  public rate: number;
-  public isReadonly: boolean;
-  public isRegistered: boolean;
-  public isPosting: boolean;
-  public text: string;
-  public textByRate = '';
-  public elementName: string;
-  public isEventRaited = false;
-  public hover: boolean;
+  id: number;
+  max: number;
+  rate: number;
+  isReadonly: boolean;
+  isRegistered: boolean;
+  isPosting: boolean;
+  text: string;
+  textByRate = '';
+  elementName: string;
+  isEventRaited = false;
+  hover: boolean;
 
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  public langChangeSub: Subscription;
+  langChangeSub: Subscription;
 
   constructor(
     private store: Store,
@@ -48,11 +48,11 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
     };
   }
 
-  public starsHandler(index: number, value: number): void {
+  starsHandler(index: number, value: number): void {
     this.isEventRaited = index > value;
   }
 
-  public modalBtn(): void {
+  modalBtn(): void {
     if (!this.isRegistered) {
       this.bsModalRef.hide();
       this.openAuthModalWindow('sign-in');
@@ -62,7 +62,7 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  public openAuthModalWindow(page: string): void {
+  openAuthModalWindow(page: string): void {
     this.elementName = page;
     this.dialog
       .open(AuthModalComponent, {
@@ -76,24 +76,24 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  public hoveringOver(event: any, rated = false): void {
+  hoveringOver(event: any, rated = false): void {
     //$Event number
     this.textByRate = rated ? this.text : this.textByRate;
     this.text = [1, 2, 3].includes(event) ? `event.text-${event}` : '';
     this.hover = [1, 2, 3].includes(event);
   }
 
-  public onRateChange(): void {
+  onRateChange(): void {
     this.text = `event.text-finish`;
     this.bsModalRef.hide();
     this.store.dispatch(RateEcoEventsByIdAction({ id: this.id, grade: this.rate }));
   }
 
-  public bindLang(lang: string): void {
+  bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
 
-  public subscribeToLangChange(): void {
+  subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 

@@ -18,16 +18,16 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   private scroll = false;
   private currentFriendPage = 0;
   private currentMutualPage = 0;
-  public userId: number;
-  public isActiveInfinityScroll = false;
-  public isFetching = true;
-  public numberAllFriends: number;
-  public numberAllMutualFriends: number;
-  public currentUserId: number;
-  public friendsList: FriendModel[] = [];
-  public mutualFriendsList: FriendModel[] = [];
-  public selectedIndex = 0;
-  public userDashboardTab = UserDashboardTab;
+  userId: number;
+  isActiveInfinityScroll = false;
+  isFetching = true;
+  numberAllFriends: number;
+  numberAllMutualFriends: number;
+  currentUserId: number;
+  friendsList: FriendModel[] = [];
+  mutualFriendsList: FriendModel[] = [];
+  selectedIndex = 0;
+  userDashboardTab = UserDashboardTab;
   readonly absentContent = 'assets/img/noNews.svg';
 
   constructor(
@@ -83,7 +83,7 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  public onScroll(): void {
+  onScroll(): void {
     if (this.selectedIndex === 3 && !this.scroll && this.friendsList.length < this.numberAllFriends) {
       this.scroll = true;
       this.currentFriendPage += 1;
@@ -96,7 +96,7 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     const tabName = Object.values(UserDashboardTab)[tabChangeEvent.index];
     const url = this.router.createUrlTree([], { relativeTo: this.route, queryParams: { tab: tabName } }).toString();
     this.location.replaceState(url);

@@ -14,31 +14,43 @@ export const friendsReducers = createReducer(
   initialFriendState,
 
   on(DeclineRequestSuccess, (state, action) => {
-    const ListofFriendsRequests = state.FriendRequestList.filter((val) => val.id !== action.id);
-    return {
-      ...state,
-      FriendRequestList: ListofFriendsRequests,
-      FriendRequestState: { ...state.FriendRequestState, totalElements: state.FriendRequestState.totalElements - 1 }
-    };
+    let newState;
+    if (state.FriendRequestState) {
+      const ListofFriendsRequests = state.FriendRequestList.filter((val) => val.id !== action.id);
+      newState = {
+        ...state,
+        FriendRequestList: ListofFriendsRequests,
+        FriendRequestState: { ...state.FriendRequestState, totalElements: state.FriendRequestState.totalElements - 1 }
+      };
+    }
+    return state.FriendRequestState ? newState : state;
   }),
 
   on(AcceptRequestSuccess, (state: IFriendState, action) => {
-    const ListofFriendsRequests = state.FriendRequestList.filter((val) => val.id !== action.id);
-    return {
-      ...state,
-      FriendRequestList: ListofFriendsRequests,
-      FriendRequestState: { ...state.FriendRequestState, totalElements: state.FriendRequestState.totalElements - 1 },
-      FriendState: { ...state.FriendState, totalElements: state.FriendState.totalElements + 1 }
-    };
+    let newState;
+    if (state.FriendRequestState) {
+      const ListofFriendsRequests = state.FriendRequestList.filter((val) => val.id !== action.id);
+      newState = {
+        ...state,
+        FriendRequestList: ListofFriendsRequests,
+        FriendRequestState: { ...state.FriendRequestState, totalElements: state.FriendRequestState?.totalElements - 1 },
+        FriendState: { ...state.FriendState, totalElements: state.FriendState.totalElements + 1 }
+      };
+    }
+    return state.FriendRequestState ? newState : state;
   }),
 
   on(DeleteFriendSuccess, (state: IFriendState, action) => {
-    const ListofFriends: FriendModel[] = state.FriendList.filter((val) => val.id !== action.id);
-    return {
-      ...state,
-      FriendList: ListofFriends,
-      FriendState: { ...state.FriendState, totalElements: state.FriendState.totalElements - 1 }
-    };
+    let newState;
+    if (state.FriendState) {
+      const ListofFriends: FriendModel[] = state.FriendList.filter((val) => val.id !== action.id);
+      newState = {
+        ...state,
+        FriendList: ListofFriends,
+        FriendState: { ...state.FriendState, totalElements: state.FriendState.totalElements - 1 }
+      };
+    }
+    return state.FriendState ? newState : state;
   }),
 
   on(GetAllFriendsRequestsSuccess, (state: IFriendState, action) => {

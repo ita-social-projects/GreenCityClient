@@ -36,10 +36,10 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   ) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  public availableOrderStatuses;
-  public availablePaymentOrderStatuses: IPaymentStatus[];
-  public isOrderStatusSelected = true;
-  public isHistory = false;
+  availableOrderStatuses;
+  availablePaymentOrderStatuses: IPaymentStatus[];
+  isOrderStatusSelected = true;
+  isHistory = false;
 
   get adminComment() {
     return this.generalOrderInfo.get('adminComment');
@@ -78,7 +78,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     setTimeout(() => (this.isOrderStatusSelected = true));
   }
 
-  public onChangedOrderStatus(statusName: string) {
+  onChangedOrderStatus(statusName: string) {
     this.changedOrderStatus.emit(statusName);
     if (statusName === OrderStatus.CANCELED) {
       this.openPopup();
@@ -132,7 +132,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       });
   }
 
-  public setOrderPaymentStatus() {
+  setOrderPaymentStatus() {
     let orderState: string;
     this.generalInfo.orderStatusesDtos.find((status) => {
       if (status.key === this.generalInfo.orderStatus) {
@@ -189,7 +189,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     }
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 

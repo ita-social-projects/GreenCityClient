@@ -4,15 +4,15 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class HeaderService {
-  public selectedIndex = null;
+  selectedIndex = null;
 
-  public ubsNavLinks = [
+  ubsNavLinks = [
     { name: 'user.lower-nav-bar.sorting-rules', route: 'https://nowaste.com.ua/sort-station/', url: true },
     { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.ua/', url: true },
     { name: 'Green City', route: '/greenCity', url: false }
   ];
 
-  public navLinks = [
+  navLinks = [
     { name: 'user.lower-nav-bar.eco-events', route: '/news', url: false },
     { name: 'user.lower-nav-bar.events', route: '/events', url: false },
     { name: 'user.lower-nav-bar.map', route: '/places', url: false },
@@ -21,12 +21,12 @@ export class HeaderService {
     { name: 'user.lower-nav-bar.ubs', route: '/', url: false }
   ];
 
-  public ubsArrLang = [
+  ubsArrLang = [
     { lang: 'UA', langName: 'ukrainian' },
     { lang: 'EN', langName: 'english' }
   ];
 
-  public gCArrLang = [
+  gCArrLang = [
     { lang: 'Ua', langName: 'ukrainian' },
     { lang: 'En', langName: 'english' }
   ];

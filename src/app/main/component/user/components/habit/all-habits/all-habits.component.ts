@@ -37,7 +37,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   private lang: string;
-  public images = singleNewsImages;
+  images = singleNewsImages;
 
   cleanFilters: Subject<void> = new Subject<void>();
 
@@ -83,7 +83,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public checkHabitsView(): void {
+  checkHabitsView(): void {
     const galleryView = this.localStorageService.getHabitsGalleryView();
     this.galleryView = galleryView ?? this.galleryView;
   }
@@ -119,7 +119,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onDisplayModeChange(mode: boolean): void {
+  onDisplayModeChange(mode: boolean): void {
     this.galleryView = mode;
     this.localStorageService.setHabitsGalleryView(mode);
   }
@@ -152,12 +152,12 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.cleanFilters.next();
   }
 
-  public onResize(): void {
+  onResize(): void {
     this.windowSize = window.innerWidth;
     this.galleryView = this.windowSize >= 576 ? this.galleryView : true;
   }
 
-  public onScroll(): void {
+  onScroll(): void {
     this.isFetching = false;
     if (!this.isAllPages) {
       this.isFetching = true;
@@ -168,7 +168,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public checkIfAssigned(): void {
+  checkIfAssigned(): void {
     this.habitAssignService
       .getAssignedHabits()
       .pipe(take(1))
@@ -184,7 +184,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public goToCreateHabit(): void {
+  goToCreateHabit(): void {
     const userId = localStorage.getItem('userId');
     this.router.navigate([`profile/${userId}/create-habit`]);
   }

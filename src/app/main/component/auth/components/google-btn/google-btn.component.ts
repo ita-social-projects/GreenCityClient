@@ -8,5 +8,5 @@ import { Component, Input } from '@angular/core';
 })
 export class GoogleBtnComponent {
   @Input() public text: string;
-  public googleImage = SignInIcons;
+  googleImage = SignInIcons;
 }

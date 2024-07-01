@@ -16,7 +16,7 @@ import { CreatePlaceModel } from '../../component/places/models/create-place.mod
   providedIn: 'root'
 })
 export class PlaceService {
-  public places$: Subject<Place[]> = new Subject<Place[]>();
+  places$: Subject<Place[]> = new Subject<Place[]>();
   places: Place[];
   showHours = false;
   private baseUrl = `${mainLink}place/`;
@@ -31,7 +31,7 @@ export class PlaceService {
     private filterService: FilterPlaceService
   ) {}
 
-  public getAllPlaces(page: number, size: number) {
+  getAllPlaces(page: number, size: number) {
     return this.http.get(`${this.baseUrl}all?page=${page}&size=${size}`);
   }
 
@@ -74,7 +74,7 @@ export class PlaceService {
     return this.http.get<string[]>(`${placeLink}statuses`);
   }
 
-  public getAllFilterPlaceCategories(): Observable<FilterPlaceCategories[]> {
+  getAllFilterPlaceCategories(): Observable<FilterPlaceCategories[]> {
     return this.http.get<FilterPlaceCategories[]>(`${this.backEnd}place/v2/filteredPlacesCategories`);
   }
 

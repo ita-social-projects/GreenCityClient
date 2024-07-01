@@ -15,14 +15,14 @@ export class DeleteCommentComponent {
   @Input() public element: CommentsDTO;
   @Input() public dataType: string;
   @Output() public elementsList = new EventEmitter<number>();
-  public deleteIcon = 'assets/img/comments/delete.png';
+  deleteIcon = 'assets/img/comments/delete.png';
 
   constructor(
     private commentsService: CommentsService,
     private dialog: MatDialog
   ) {}
 
-  public openPopup(): void {
+  openPopup(): void {
     const dialogRef = this.dialog.open(WarningPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,

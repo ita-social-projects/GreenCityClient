@@ -13,17 +13,17 @@ import { calendarImage } from '@shared/components/calendar-base/calendar-image';
   styleUrls: ['./users-friends.component.scss']
 })
 export class UsersFriendsComponent implements OnInit, OnDestroy {
-  public usersFriends: FriendModel[];
-  public noFriends = null;
-  public userId: number;
-  public amountOfFriends: number;
-  public destroy$ = new Subject();
-  public currentLang: string;
-  public friendsToShow: number;
-  public slideIndex = 0;
-  public totalPages = 0;
-  public arrows = calendarImage;
-  public itemsMap = { 768: 6, 576: 5, 320: 3, 220: 1 };
+  usersFriends: FriendModel[];
+  noFriends = null;
+  userId: number;
+  amountOfFriends: number;
+  destroy$ = new Subject();
+  currentLang: string;
+  friendsToShow: number;
+  slideIndex = 0;
+  totalPages = 0;
+  arrows = calendarImage;
+  itemsMap = { 768: 6, 576: 5, 320: 3, 220: 1 };
   @ViewChild('slider', { static: true }) slider: ElementRef;
   @ViewChild('nextArrow', { static: false }) nextArrow: ElementRef;
   @ViewChild('previousArrow', { static: false }) previousArrow: ElementRef;
@@ -44,7 +44,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
       .subscribe(() => this.calculateFriendsToShow());
   }
 
-  public showUsersFriends(): void {
+  showUsersFriends(): void {
     this.userFriendsService
       .getAllFriends(this.slideIndex, this.friendsToShow)
       .pipe(takeUntil(this.destroy$))
@@ -61,11 +61,11 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public initUser(): void {
+  initUser(): void {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));
   }
 
-  public showFriendsInfo(friend: FriendModel): void {
+  showFriendsInfo(friend: FriendModel): void {
     this.router.navigate([`profile/${this.userId}/friends`, friend.name, friend.id]);
   }
 

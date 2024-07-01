@@ -1,0 +1,28 @@
+.dialog-container {
+  .close {
+    position: absolute;
+    top: 26px;
+    right: 26px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+  }
+
+  .list-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    font-family: var(--tertiary-font);
+
+    .habit-progress {
+      display: flex;
+
+      p {
+        font-size: 14px;
+        color: var(--primary-green);
+        margin-left: 5px;
+      }
+    }
+  }
+}
