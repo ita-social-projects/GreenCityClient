@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -12,19 +12,23 @@ import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { Component } from '@angular/core';
 import { limitStatus } from '@ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
 import { mockLocations, orderDetailsMock, ubsOrderServiseMock } from '@ubs/mocks/order-data-mock';
+import {
+  certificateUsedSelector,
+  courierLocationsSelector,
+  isOrderDetailsLoadingSelector,
+  locationIdSelector,
+  orderDetailsSelector,
+  pointsUsedSelector
+} from '../../../../store/selectors/order.selectors';
+import { CourierLocations, OrderDetails } from '@ubs/ubs/models/ubs.interface';
+import { IUserOrderInfo } from '@ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
+import { SetAdditionalOrders, SetOrderComment } from '../../../../store/actions/order.actions';
 
 @Component({
   selector: 'app-spinner',
   template: '<div></div>'
 })
 export class MockSpinnerComponent {}
-
-export function getMockStore() {
-  return {
-    dispatch: jasmine.createSpy('dispatch'),
-    pipe: jasmine.createSpy('pipe').and.returnValue(new BehaviorSubject([]))
-  };
-}
 
 describe('UBSOrderDetailsComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -34,6 +38,7 @@ describe('UBSOrderDetailsComponent', () => {
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
   let dialog: MatDialog;
   let route: ActivatedRoute;
+  let mockStore: any;
 
   const orderServiceMock = jasmine.createSpyObj('OrderService', [
     'getOrders',
@@ -61,8 +66,30 @@ describe('UBSOrderDetailsComponent', () => {
   localStorageService.getUbsOrderData = () => null;
   localStorageService.languageSubject = fakeLanguageSubject;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(waitForAsync(() => {
+    mockStore = {
+      pipe: jasmine.createSpy('pipe').and.callFake((selector) => {
+        switch (selector) {
+          case isOrderDetailsLoadingSelector:
+            return new BehaviorSubject<boolean>(false);
+          case courierLocationsSelector:
+            return new BehaviorSubject<CourierLocations>({} as CourierLocations);
+          case orderDetailsSelector:
+            return new BehaviorSubject<OrderDetails>({ bags: [{ id: 1 }] } as OrderDetails);
+          case locationIdSelector:
+            return new BehaviorSubject<number>(1);
+          case pointsUsedSelector:
+            return new BehaviorSubject<number>(50);
+          case certificateUsedSelector:
+            return new BehaviorSubject<number>(20);
+          default:
+            return of(null);
+        }
+      }),
+      dispatch: jasmine.createSpy('dispatch')
+    };
+
+    TestBed.configureTestingModule({
       declarations: [UBSOrderDetailsComponent, MockSpinnerComponent],
       imports: [
         ReactiveFormsModule,
@@ -76,7 +103,7 @@ describe('UBSOrderDetailsComponent', () => {
       providers: [
         FormBuilder,
         TranslateService,
-        { provide: Store, useValue: getMockStore() },
+        { provide: Store, useValue: mockStore },
         {
           provide: MatDialog,
           useValue: { open: () => ({ afterClosed: () => of(true) }) }
@@ -87,7 +114,7 @@ describe('UBSOrderDetailsComponent', () => {
         }
       ]
     }).compileComponents();
-  });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UBSOrderDetailsComponent);
@@ -95,6 +122,13 @@ describe('UBSOrderDetailsComponent', () => {
     store = TestBed.inject(Store);
     dialog = TestBed.inject(MatDialog);
     route = TestBed.inject(ActivatedRoute);
+    component.orderDetailsForm = new FormGroup({
+      orderComment: new FormControl('Test Comment'),
+      additionalOrders: new FormArray([new FormControl('Order 1'), new FormControl('Order 2')]),
+      bags: new FormGroup({
+        quantity1: new FormControl('1')
+      })
+    });
     fixture.detectChanges();
   });
 
@@ -188,5 +222,120 @@ describe('UBSOrderDetailsComponent', () => {
 
   it('updateBagsQuantyty should call updateOrderDetails method', () => {
     orderServiceMock.setOrderDetailsFromState(orderDetailsMock).subscribe((orderDet) => {});
+  });
+
+  it('should have the correct popupConfig', () => {
+    expect(component.popupConfig).toEqual({
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-ubs-style',
+      data: {
+        popupTitle: 'confirmation.title',
+        popupSubtitle: 'confirmation.subTitle',
+        popupConfirm: 'confirmation.cancel',
+        popupCancel: 'confirmation.dismiss',
+        isUBS: true
+      }
+    });
+  });
+
+  it('should emit secondStepDisabledChange event', () => {
+    spyOn(component.secondStepDisabledChange, 'emit');
+    component['changeSecondStepDisabled'](true);
+    expect(component.secondStepDisabledChange.emit).toHaveBeenCalledWith(true);
+  });
+
+  it('should get bagsGroup from orderDetailsForm', () => {
+    component.orderDetailsForm = new FormGroup({
+      bags: new FormGroup({})
+    });
+    expect(component.bagsGroup).toBe(component.orderDetailsForm.get('bags') as FormGroup);
+  });
+
+  it('should get orderComment from orderDetailsForm', () => {
+    component.orderDetailsForm = new FormGroup({
+      orderComment: new FormControl('')
+    });
+    expect(component.orderComment).toBe(component.orderDetailsForm.get('orderComment'));
+  });
+
+  it('should get additionalOrders from orderDetailsForm', () => {
+    component.orderDetailsForm = new FormGroup({
+      additionalOrders: new FormArray([])
+    });
+    expect(component.additionalOrders).toBe(component.orderDetailsForm.get('additionalOrders') as FormArray);
+  });
+
+  it('should get bag quantity by id', () => {
+    component.orderDetailsForm = new FormGroup({
+      bags: new FormGroup({
+        quantity1: new FormControl('5')
+      })
+    });
+    expect(component.getBagQuantity(1)).toBe(5);
+  });
+
+  it('should initialize existing order values', () => {
+    component.existingOrderInfo = {
+      orderComment: 'Test Comment',
+      additionalOrders: ['Order 1', 'Order 2']
+    } as IUserOrderInfo;
+
+    component.orderDetailsForm = new FormGroup({
+      orderComment: new FormControl(''),
+      additionalOrders: new FormArray([])
+    });
+
+    spyOn(component.additionalOrders, 'clear').and.callThrough();
+    spyOn(component, 'addOrder').and.callThrough();
+
+    component.initExistingOrderValues();
+
+    expect(component.orderComment.value).toBe('Test Comment');
+    expect(component.additionalOrders.clear).toHaveBeenCalled();
+    expect(component.addOrder).toHaveBeenCalledTimes(2);
+  });
+
+  it('should initialize location', () => {
+    component.locations = {
+      locationsDtosList: [{ locationId: 1, nameUk: 'Kyiv', nameEn: 'Kyiv' }],
+      regionDto: { nameUk: 'Kyiv Region', nameEn: 'Kyiv Region' }
+    } as CourierLocations;
+
+    component.locationId = 1;
+
+    component.initLocation();
+
+    expect(component.currentLocation).toBe('Kyiv, Kyiv Region');
+  });
+
+  afterEach(() => {
+    component.ngOnDestroy();
+  });
+
+  it('should dispatch additional orders', () => {
+    component.additionalOrders.push(new FormControl('Order 1'));
+    component.additionalOrders.push(new FormControl('Order 2'));
+    component.dispatchAdditionalOrders();
+    expect(mockStore.dispatch).toHaveBeenCalledWith(SetAdditionalOrders({ orders: ['Order 1', 'Order 2'] }));
+  });
+
+  it('should dispatch order comment', () => {
+    component.orderComment.setValue('Test Comment');
+    component.dispatchOrderComment();
+    expect(mockStore.dispatch).toHaveBeenCalledWith(SetOrderComment({ comment: 'Test Comment' }));
+  });
+
+  it('should initialize location', () => {
+    component.locations = {
+      locationsDtosList: [{ locationId: 1, nameUk: 'Kyiv', nameEn: 'Kyiv' }],
+      regionDto: { nameUk: 'Kyiv Region', nameEn: 'Kyiv Region' }
+    } as CourierLocations;
+
+    component.locationId = 1;
+    component.initLocation();
+
+    expect(component.currentLocation).toBe('Kyiv, Kyiv Region');
   });
 });

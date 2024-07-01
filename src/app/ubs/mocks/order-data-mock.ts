@@ -10,31 +10,31 @@ export const ubsOrderDataMock = {
   additionalOrders: [''],
   bags: [
     {
-      id: 1,
-      name: 'Мікс відходів',
       capacity: 120,
+      count: 2,
       price: 650,
-      nameEng: 'Mix waste',
-      limitedIncluded: true,
-      quantity: 2
+      service: 'Мікс відходів',
+      serviceEng: 'Mix waste',
+      totalPrice: 0,
+      fullPrice: 0
     },
     {
-      id: 3,
-      name: 'Текстильні відходи',
       capacity: 60,
+      count: 0,
       price: 220,
-      nameEng: 'Textile waste',
-      limitedIncluded: false,
-      quantity: 0
+      service: 'Текстильні відходи',
+      serviceEng: 'Textile waste',
+      totalPrice: 0,
+      fullPrice: 0
     },
     {
-      id: 2,
-      name: 'Текстильні відходи',
       capacity: 20,
+      count: 0,
       price: 110,
-      nameEng: 'Textile waste',
-      limitedIncluded: false,
-      quantity: 0
+      service: 'Текстильні відходи',
+      serviceEng: 'Textile waste',
+      totalPrice: 0,
+      fullPrice: 0
     }
   ],
   certificates: [],
@@ -73,32 +73,6 @@ export const mockLocations = {
   maxPriceOfOrder: 500000,
   minAmountOfBigBags: 2,
   minPriceOfOrder: 500
-};
-
-export const ordersMock = {
-  points: 0,
-  bags: [
-    {
-      code: 'ua',
-      capacity: 100,
-      id: 0,
-      locationId: 1,
-      price: 300,
-      quantity: 10,
-      nameEng: 'def',
-      name: 'def'
-    },
-    {
-      code: 'ua',
-      capacity: 100,
-      id: 1,
-      locationId: 1,
-      price: 300,
-      quantity: 10,
-      nameEng: 'def',
-      name: 'def'
-    }
-  ]
 };
 
 export const orderDetailsMock: OrderDetails = {
