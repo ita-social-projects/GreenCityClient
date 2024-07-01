@@ -14,6 +14,10 @@ $cardTextColor: #1d2830;
   justify-content: $justify-content;
 }
 
+.map-container {
+  width: 100%;
+}
+
 .main {
   margin-top: 24px;
   font-family: var(--primary-font), sans-serif;
@@ -30,7 +34,8 @@ $cardTextColor: #1d2830;
 
     .filter {
       display: flex;
-      margin-top: 26px;
+      align-items: center;
+      margin-top: 24px;
     }
 
     .choose-location-input {

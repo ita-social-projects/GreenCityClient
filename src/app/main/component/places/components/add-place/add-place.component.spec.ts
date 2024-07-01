@@ -13,7 +13,6 @@ import { PlaceService } from '@global-service/place/place.service';
 import { of } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FilterPlaceCategories } from '../../models/place';
-import { NewsTagInterface } from '@user-models/news.model';
 import { CreatePlaceModel, OpeningHoursDto } from '../../models/create-place.model';
 import { WorkingTime } from '../../models/week-pick-model';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
@@ -103,9 +102,9 @@ describe('AddPlaceComponent', () => {
 
   it('component should initialize from with correct parameters', () => {
     component.initForm();
-    expect(component.addPlaceForm.get('type').value).toEqual('');
-    expect(component.addPlaceForm.get('name').value).toEqual('');
-    expect(component.addPlaceForm.get('address').value).toEqual('');
+    expect(component.placeFormGroup.get('type').value).toEqual('');
+    expect(component.placeFormGroup.get('name').value).toEqual('');
+    expect(component.placeFormGroup.get('address').value).toEqual('');
   });
 
   it('pop up should close', () => {

@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
@@ -18,6 +18,7 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from './models/places-consts';
+import { GoogleMap } from '@angular/google-maps';
 
 @Component({
   selector: 'app-places',
@@ -25,6 +26,7 @@ import { tagsListPlacesData } from './models/places-consts';
   styleUrls: ['./places.component.scss']
 })
 export class PlacesComponent implements OnInit, OnDestroy {
+  @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
   position: any = {};
   zoom = 13;
   tagList: FilterModel[] = tagsListPlacesData;
@@ -45,16 +47,21 @@ export class PlacesComponent implements OnInit, OnDestroy {
   readonly tagFilterStorageKey = 'placesTagFilter';
   readonly moreOptionsStorageKey = 'moreOptionsFilter';
   placesList: Array<AllAboutPlace>;
-
+  mapOptions: google.maps.MapOptions = {
+    center: { lat: 50, lng: 50 },
+    zoom: 8,
+    gestureHandling: 'greedy',
+    minZoom: 4,
+    maxZoom: 20
+  };
   @ViewChild('drawer') drawer: MatDrawer;
-
-  private map: any;
+  userId: number;
+  loaded = false;
   private googlePlacesService: google.maps.places.PlacesService;
   private langChangeSub: Subscription;
   private page = 0;
   private totalPages: number;
   private size = 6;
-  userId: number;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -63,10 +70,23 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private filterPlaceService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
     private dialog: MatDialog,
-    private userOwnAuthService: UserOwnAuthService
+    private userOwnAuthService: UserOwnAuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+    const loader = new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (google && google.maps && google.maps.Map) {
+          clearInterval(interval);
+          resolve(null);
+        }
+      }, 100);
+    });
+
+    loader.then(() => {
+      this.loaded = true;
+    });
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.getPlaceList();
@@ -103,22 +123,6 @@ export class PlacesComponent implements OnInit, OnDestroy {
 
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.subscribeToLangChange();
-  }
-
-  onMapIdle(): void {
-    this.updateFilters();
-  }
-
-  onMapReady(map: any): void {
-    this.map = map;
-    this.setUserLocation();
-    this.googlePlacesService = new google.maps.places.PlacesService(this.map);
-  }
-
-  private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
-      this.userId = data.userId;
-    });
   }
 
   mapCenterChange(newValue: any): void {
@@ -201,33 +205,12 @@ export class PlacesComponent implements OnInit, OnDestroy {
     this.getPlaceList();
   }
 
-  private getPlaceList(): void {
-    this.placeService.getAllPlaces(this.page, this.size).subscribe((item: any) => {
-      this.placesList = item.page;
-      if (this.placesList) {
-        this.drawer.toggle(true);
-      } else {
-        this.drawer.toggle(false);
-      }
-      this.totalPages = item.totalPages;
-      this.page += 1;
-    });
-  }
-
   toggleFavorite(): void {
     if (this.isActivePlaceFavorite) {
       this.favoritePlaceService.deleteFavoritePlace(this.activePlace.id);
     } else {
       this.favoritePlaceService.addFavoritePlace({ placeId: this.activePlace.id, name: this.activePlace.name });
     }
-  }
-
-  private bindLang(lang: string): void {
-    this.translate.setDefaultLang(lang);
-  }
-
-  private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 
   selectPlace(place: Place): void {
@@ -243,6 +226,78 @@ export class PlacesComponent implements OnInit, OnDestroy {
       location: place.location
     };
     this.selectPlace(sendingPlace);
+  }
+
+  getStars(rating: number): Array<string> {
+    const stars = [];
+    const maxRating = 5;
+    const validRating = Math.min(rating, maxRating);
+    for (let i = 0; i <= validRating - 1; i++) {
+      stars.push(star);
+    }
+    if (Math.trunc(validRating) < validRating) {
+      stars.push(starHalf);
+    }
+    for (let i = stars.length; i < maxRating; i++) {
+      stars.push(starUnfilled);
+    }
+    return stars;
+  }
+
+  onLocationSelected(event: Event | Location) {
+    return;
+  }
+
+  openTimePickerPopUp() {
+    this.dialog
+      .open(AddPlaceComponent, {
+        hasBackdrop: true,
+        closeOnNavigation: true,
+        disableClose: true,
+        panelClass: 'add-place-wrapper-class'
+      })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((value) => {
+        console.log(value);
+        if (value) {
+          this.placeService.createPlace(value).subscribe((resp: any) => {
+            this.onLocationSelected(location);
+          });
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.langChangeSub.unsubscribe();
+  }
+
+  private checkUserSingIn(): void {
+    this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
+      this.userId = data.userId;
+    });
+  }
+
+  private getPlaceList(): void {
+    this.placeService.getAllPlaces(this.page, this.size).subscribe((item: any) => {
+      console.log('ff');
+      this.placesList = item.page;
+      if (this.placesList) {
+        this.drawer.toggle(true);
+      } else {
+        this.drawer.toggle(false);
+      }
+      this.totalPages = item.totalPages;
+      this.page += 1;
+    });
+  }
+
+  private bindLang(lang: string): void {
+    this.translate.setDefaultLang(lang);
+  }
+
+  private subscribeToLangChange(): void {
+    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 
   private getPlaceInfoFromGoogleApi(place: Place) {
@@ -281,58 +336,20 @@ export class PlacesComponent implements OnInit, OnDestroy {
     );
   }
 
-  getStars(rating: number): Array<string> {
-    const stars = [];
-    const maxRating = 5;
-    const validRating = Math.min(rating, maxRating);
-    for (let i = 0; i <= validRating - 1; i++) {
-      stars.push(star);
-    }
-    if (Math.trunc(validRating) < validRating) {
-      stars.push(starHalf);
-    }
-    for (let i = stars.length; i < maxRating; i++) {
-      stars.push(starUnfilled);
-    }
-    return stars;
-  }
-
-  private setUserLocation(): void {
-    navigator.geolocation.getCurrentPosition(
-      (position: any) => {
-        this.map.setCenter({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        });
-      },
-      () => {
-        this.map.setCenter({
-          lat: 49.84579567734425,
-          lng: 24.025124653312258
-        });
-      }
-    );
-  }
-
-  onLocationSelected(event: Event | Location) {
-    return;
-  }
-
-  openTimePickerPopUp() {
-    this.dialog
-      .open(AddPlaceComponent, { hasBackdrop: true, closeOnNavigation: true, disableClose: true, panelClass: 'add-place-wrapper-class' })
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((value) => {
-        if (value) {
-          this.placeService.createPlace(value).subscribe((resp: any) => {
-            this.onLocationSelected(location);
-          });
-        }
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.langChangeSub.unsubscribe();
-  }
+  // private setUserLocation(): void {
+  //   navigator.geolocation.getCurrentPosition(
+  //     (position: any) => {
+  //       this.map.setCenter({
+  //         lat: position.coords.latitude,
+  //         lng: position.coords.longitude
+  //       });
+  //     },
+  //     () => {
+  //       this.map.setCenter({
+  //         lat: 49.84579567734425,
+  //         lng: 24.025124653312258
+  //       });
+  //     }
+  //   );
+  // }
 }

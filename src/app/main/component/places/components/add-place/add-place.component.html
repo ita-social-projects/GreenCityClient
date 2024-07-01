@@ -1,44 +1,38 @@
 <div class="form-container">
-  <form [formGroup]="addPlaceForm" (click)="$event.stopPropagation()">
+  <form (click)="$event.stopPropagation()" [formGroup]="placeFormGroup">
     <div class="form-field">
-      <label for="type" class="label"> {{ 'places.category' | translate }} <span class="hint">Hint</span></label>
-      <select formControlName="type" class="input" [class.ng-invalid]="type.invalid && type.touched">
+      <label class="label"> {{ 'places.category' | translate }} <span class="hint">Hint</span></label>
+      <select [class.ng-invalid]="type.invalid && type.touched" class="input" formControlName="type">
         <option *ngFor="let categories of filterCategories" value="{{ categories.name }}">
           {{ localStorageService.getCurrentLanguage() === 'en' ? categories.name : categories.nameUa }}
         </option>
       </select>
     </div>
     <div class="form-field">
-      <label for="name" class="label">{{ 'places.name' | translate }} <span class="hint">Hint</span></label>
+      <label class="label">{{ 'places.name' | translate }} <span class="hint">Hint</span></label>
       <input
+        [class.ng-invalid]="name.invalid && name.touched"
         class="input"
-        type="text"
         formControlName="name"
         placeholder="{{ 'places.name' | translate }}"
-        [class.ng-invalid]="name.invalid && name.touched"
+        type="text"
       />
-      <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="clear('name')">
+      <button (click)="clear('name')" aria-label="Clear" class="btn-close" mat-icon-button matSuffix>
         <mat-icon>close</mat-icon>
       </button>
     </div>
     <div class="form-field">
-      <label for="address" class="label">{{ 'places.address' | translate }} <span class="hint">Hint</span></label>
-      <app-address-input
-        class="input"
-        formControlName="address"
-        [class.ng-invalid]="address.invalid && address.touched"
-        (getAddressData)="onLocationSelected($event)"
-      >
-      </app-address-input>
-      <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="clear('address')">
+      <label class="label">{{ 'places.address' | translate }} <span class="hint">Hint</span></label>
+      <app-place-address-input formControlName="address"> </app-place-address-input>
+      <button (click)="clear('address')" aria-label="Clear" class="btn-close" mat-icon-button matSuffix>
         <mat-icon>close</mat-icon>
       </button>
     </div>
     <app-time-picker-pop-up (timeOfWork)="getTimeOfWork($event)"></app-time-picker-pop-up>
   </form>
   <div class="btn-wrapper">
-    <button class="secondary-global-button" (click)="cancel()">{{ 'places.btn.cancel' | translate }}</button>
-    <button class="primary-global-button" [disabled]="addPlaceForm.invalid || !workingTimeIsValid" (click)="addPlace()">
+    <button (click)="cancel()" class="secondary-global-button">{{ 'places.btn.cancel' | translate }}</button>
+    <button (click)="addPlace()" [disabled]="placeFormGroup.invalid || !workingTimeIsValid" class="primary-global-button">
       {{ 'places.btn.add' | translate }}
       <span class="message-details">
         {{ 'places.validation.information-message' | translate }}

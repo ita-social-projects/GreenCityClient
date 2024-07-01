@@ -1,65 +1,57 @@
-<main role="main" id="main-content">
+<main id="main-content" role="main">
   <div class="main container">
     <div class="places-filter">
       <div class="search">
         <div class="search-elements">
-          <img class="search-icon" src="{{ searchIcon }}" alt="search-icon" />
+          <img alt="search-icon" class="search-icon" src="{{ searchIcon }}" />
           <input
             #searchInput
-            class="form-control search-write"
-            type="text"
-            name="search"
-            list="places_names"
-            [value]="searchName"
-            placeholder="{{ 'user.map.searching-for-a-place' | translate }}"
             (keyup)="searchNameChange(searchInput.value)"
+            [value]="searchName"
+            class="form-control search-write"
+            name="search"
+            placeholder="{{ 'user.map.searching-for-a-place' | translate }}"
+            type="text"
           />
-          <input
-            matInput
-            matGoogleMapsAutocomplete
-            country="ua"
-            class="choose-location-input"
-            (onLocationSelected)="onLocationSelected($event)"
-            placeholder="{{ 'user.map.choose-location' | translate }}"
-          />
+          <input class="choose-location-input" matInput placeholder="{{ 'user.map.choose-location' | translate }}" />
         </div>
-        <button class="secondary-global-button m-btn" (click)="openTimePickerPopUp()">{{ 'user.map.add-place' | translate }}</button>
+        <button (click)="openTimePickerPopUp()" class="secondary-global-button m-btn">{{ 'user.map.add-place' | translate }}</button>
       </div>
       <div class="filter">
         <app-tag-filter
           (tagsList)="basicFiltersChange($event)"
-          header="homepage.eco-news.filter"
           [storageKey]="tagFilterStorageKey"
           [tagsListData]="tagList"
+          header="homepage.eco-news.filter"
         ></app-tag-filter>
-        <app-more-options-filter (filtersChange)="moreOptionsChange($event)" [value]="moreOptionsFilters"> </app-more-options-filter>
+        <app-more-options-filter (filtersChange)="moreOptionsChange($event)" [value]="moreOptionsFilters"></app-more-options-filter>
       </div>
     </div>
     <hr />
     <div class="places-map">
       <div class="place-info">
-        <mat-drawer-container class="example-container sidebar-container" autosize>
-          <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed>
+        <mat-drawer-container autosize class="example-container sidebar-container">
+          <mat-drawer #drawer class="example-sidenav sidebar-drawer" closed mode="side">
             <div *ngIf="!activePlaceDetails">
               <p class="title-sidebar">Popular eco places</p>
-              <div class="sidebar-content-all" *ngFor="let place of placesList">
+              <div *ngFor="let place of placesList" class="sidebar-content-all">
                 <div class="head">
-                  <p class="content-title" (click)="selectPlaceFromSideBar(place)">{{ place.name }}</p>
+                  <p (click)="selectPlaceFromSideBar(place)" class="content-title">{{ place.name }}</p>
                   <button (click)="toggleFavoriteFromSideBar(place)" class="btn-bookmark">
                     <span class="material-icons">{{ place.isFavorite ? 'bookmark' : 'bookmark_border' }}</span>
                   </button>
                 </div>
                 <p class="content-address">{{ place.location.address }}</p>
               </div>
-              <div infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="updatePlaceList(false)"></div>
+              <div (scrolled)="updatePlaceList(false)" [infiniteScrollThrottle]="500" infiniteScroll></div>
             </div>
-            <div class="sidebar-content" *ngIf="activePlaceDetails">
-              <span class="close-mark" (click)="updatePlaceList(true)"></span>
+            <div *ngIf="activePlaceDetails" class="sidebar-content">
+              <span (click)="updatePlaceList(true)" class="close-mark"></span>
               <div class="title-wrapper">
                 <h6 class="content-title">{{ activePlaceDetails.name }}</h6>
               </div>
-              <div class="sidebar-photo" *ngIf="activePlaceDetails.photos">
-                <img [src]="activePlaceDetails.photos[0]?.getUrl({})" class="content-photo" alt="" />
+              <div *ngIf="activePlaceDetails.photos" class="sidebar-photo">
+                <img [src]="activePlaceDetails.photos[0]?.getUrl({})" alt="" class="content-photo" />
               </div>
               <div class="sidebar-address">
                 <span class="content-address">{{ activePlaceDetails.vicinity }}</span>
@@ -71,25 +63,26 @@
                 <p class="content-description">{{ activePlaceDetails?.types.join(', ') }}</p>
               </div>
               <div>
-                <a [href]="activePlaceDetails.website" target="_blank" class="content-website" *ngIf="activePlaceDetails.website">{{
+                <a *ngIf="activePlaceDetails.website" [href]="activePlaceDetails.website" class="content-website" target="_blank">{{
                   activePlaceDetails.website
                 }}</a>
               </div>
               <ul class="content-list">
                 <li class="content-list-event">
-                  <img class="event-icon" src="{{ notification }}" alt="event-icon" />
+                  <img alt="event-icon" class="event-icon" src="{{ notification }}" />
                   <p class="event-description">{{ 'user.places-card.card-first-event' | translate }}</p>
                 </li>
                 <li class="content-list-event">
-                  <img class="event-icon" src="{{ share }}" alt="event-icon" />
+                  <img alt="event-icon" class="event-icon" src="{{ share }}" />
                   <p class="event-description">{{ 'user.places-card.card-second-event' | translate }}</p>
                 </li>
               </ul>
               <h6 class="content-reviews-title">
-                {{ 'user.places-card.card-rating' | translate }} &nbsp;&nbsp; <span>{{ activePlaceDetails.rating }}</span>
+                {{ 'user.places-card.card-rating' | translate }} &nbsp;&nbsp;
+                <span>{{ activePlaceDetails.rating }}</span>
               </h6>
               <div class="stars-container">
-                <img *ngFor="let star of getStars(activePlaceDetails.rating)" class="star" src="{{ star }}" alt="star" />
+                <img *ngFor="let star of getStars(activePlaceDetails.rating)" alt="star" class="star" src="{{ star }}" />
               </div>
               <span class="content-reviews-amount"
                 >{{ activePlaceDetails.reviews?.length }} {{ 'user.places-card.card-reviews' | translate }}</span
@@ -98,21 +91,13 @@
           </mat-drawer>
         </mat-drawer-container>
       </div>
-      <div class="google-map" #map>
-        <google-map
-          [style.width.%]="100"
-          [style.height.%]="100"
-          [zoom]="zoom"
-          (centerChange)="mapCenterChange($event)"
-          (boundsChange)="mapBoundsChange($event)"
-          (idle)="onMapIdle()"
-          (mapReady)="onMapReady($event)"
-        >
+      <div *ngIf="loaded" class="map-container">
+        <google-map [options]="mapOptions" width="100%">
           <map-marker
+            (click)="selectPlace(place)"
             *ngFor="let place of places"
-            [position]="place.location"
-            (markerClick)="selectPlace(place)"
             [icon]="place.id === activePlace?.id ? greenIconUrl : redIconUrl"
+            [position]="place.location"
             class="marker"
           />
         </google-map>

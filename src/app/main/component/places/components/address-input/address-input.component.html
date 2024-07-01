@@ -1,11 +1,1 @@
-<input
-  matGoogleMapsAutocomplete
-  country="ua"
-  class="input"
-  type="text"
-  placeholder="{{ 'places.address' | translate }}"
-  (onLocationSelected)="selectAddressApi($event)"
-  (onAutocompleteSelected)="setAddressValue($event)"
-  [value]="value"
-  (blur)="onTouched()"
-/>
+<input #inputElement class="autocomplete" matInput />

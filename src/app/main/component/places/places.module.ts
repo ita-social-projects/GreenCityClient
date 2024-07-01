@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-// import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PlacesRoutesModule } from './places-routing.module';
-import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { GoogleMapsModule } from '@angular/google-maps';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RatingModule } from 'ngx-bootstrap/rating';
-// import { Ng5SliderModule } from 'ng5-slider';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SharedMainModule } from '@shared/shared-main.module';
@@ -25,12 +23,13 @@ import { MatSliderModule } from '@angular/material/slider';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-// import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+
 import { MaterialModule } from '../../../material.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TimePickerPopupComponent } from './components/time-picker-pop-up/time-picker-popup.component';
 import { AddressInputComponent } from './components/address-input/address-input.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent, TimePickerPopupComponent, AddressInputComponent],
@@ -41,19 +40,16 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     SharedMainModule,
     CommonModule,
     PlacesRoutesModule,
-    // Ng2SearchPipeModule,
     MatTableModule,
     FormsModule,
     ReactiveFormsModule,
     MatMenuModule,
     ReactiveFormsModule,
-    // GooglePlaceModule,
-    GoogleMapsModule,
     MatIconModule,
     MatButtonModule,
     MatAutocompleteModule,
     RatingModule,
-    // Ng5SliderModule,
+
     MatDialogModule,
     NgbModule,
     MatRippleModule,
@@ -69,7 +65,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatSliderModule,
     MaterialModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    GoogleMapsModule
   ],
   providers: [TranslateService]
 })
