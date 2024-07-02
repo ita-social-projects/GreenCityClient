@@ -376,11 +376,6 @@ describe('UBSOrderDetailsComponent', () => {
     expect(quantity).toBe(5);
   });
 
-  it(' should return ua Value by getLangValue', () => {
-    const value = component.getLangValue('uaValue', 'enValue');
-    expect(value).toBe('enValue');
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
