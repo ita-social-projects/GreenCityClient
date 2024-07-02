@@ -7,9 +7,9 @@
     <div>
       <div class="habit-progress">
         <img class="calendar" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
-        <p>{{ friend.habitProggress.workingDays }} / {{ friend.habitProggress.duration }}</p>
+        <p>{{ friend.habitProgress.workingDays }} / {{ friend.habitProgress.duration }}</p>
       </div>
-      <p>{{ friend.name }}</p>
+      <a (click)="navigateToFriendsPage(friend.id, friend.name)">{{ friend.name }}</a>
     </div>
   </div>
 </div>

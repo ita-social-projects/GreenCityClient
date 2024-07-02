@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { FriendsHabitPopupModel } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 
@@ -15,7 +16,8 @@ export class FriendsListPopUpComponent implements OnInit {
   constructor(
     public matDialogRef: MatDialogRef<FriendsListPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data,
-    private habitAsignService: HabitAssignService
+    private habitAsignService: HabitAssignService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -27,10 +29,15 @@ export class FriendsListPopUpComponent implements OnInit {
       this.data.friends.forEach((element) => {
         this.friends.push({
           ...element,
-          habitProggress: progress.find((p) => p.userId === element.id)
+          habitProgress: progress.find((p) => p.userId === element.id)
         });
       });
     });
+  }
+
+  navigateToFriendsPage(friendId: number, friendsName: string): void {
+    this.router.navigate(['/profile', this.data.habitId, 'friends', friendsName, friendId]);
+    this.onClose();
   }
 
   onClose() {
