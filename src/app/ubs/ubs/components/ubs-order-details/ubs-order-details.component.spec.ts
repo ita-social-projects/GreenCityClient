@@ -26,8 +26,11 @@ import {
   GetExistingOrderDetails,
   GetExistingOrderTariff,
   SetAdditionalOrders,
+  SetBags,
   SetOrderComment
 } from '../../../../store/actions/order.actions';
+import { ExtraPackagesPopUpComponent } from '@ubs/ubs/components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
+import { UbsOrderLocationPopupComponent } from '@ubs/ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 
 @Component({
   selector: 'app-spinner',
@@ -452,19 +455,118 @@ describe('UBSOrderDetailsComponent', () => {
   });
 
   it('should initialize location', () => {
-    const locationId = 1;
-    component.locationId = locationId;
+    component.locationId = 1;
     component.locations = mockCourierLocations;
-
     const getLangValueSpy = spyOn(component, 'getLangValue').and.callThrough();
-
     component.initLocation();
-
     const expectedLocation = 'Kyiv, Kyiv Region';
     expect(component.currentLocation).toBe(expectedLocation);
 
     expect(getLangValueSpy.calls.count()).toBe(2);
     expect(getLangValueSpy.calls.argsFor(0)).toEqual(['Kyiv', 'Kyiv']);
     expect(getLangValueSpy.calls.argsFor(1)).toEqual(['Kyiv Region', 'Kyiv Region']);
+  });
+
+  it('should calculate final sum', () => {
+    component.orderSum = 100;
+    component.certificateUsed = 10;
+    component.pointsUsed = 20;
+    component.calculateFinalSum();
+
+    expect(component.finalSum).toBe(70);
+  });
+
+  it('should get form values', () => {
+    component.orderSum = 100;
+    const result = component.getFormValues();
+
+    expect(result).toBe(true);
+  });
+
+  it('should check if can add eco shop order number', () => {
+    component.addOrder('Order 1');
+    component.addOrder('Order 2');
+    const result = component.isCanAddEcoShopOrderNumber();
+
+    expect(result).toBe(false);
+  });
+
+  it('should add order', () => {
+    component.addOrder('Order 1');
+    expect(component.additionalOrders.controls.length).toBe(2);
+  });
+
+  it('should delete order', () => {
+    component.addOrder('Order 1');
+    component.addOrder('Order 2');
+    component.deleteOrder(0);
+
+    expect(component.additionalOrders.controls.length).toBe(2);
+  });
+
+  it('should remove order on Enter key press', () => {
+    component.addOrder('Order 1');
+    component.addOrder('Order 2');
+    component.removeOrder({ code: 'Enter' } as KeyboardEvent, 0);
+    expect(component.additionalOrders.controls.length).toBe(2);
+  });
+
+  it('should check if order is already entered', () => {
+    component.addOrder('Order 1');
+    component.addOrder('Order 1');
+    const result = component.isAlreadyEntered(0);
+    expect(result).toBe(false);
+  });
+
+  it('should add order', () => {
+    component.addOrder('Order 1');
+    expect(component.additionalOrders.controls.length).toBe(2);
+  });
+
+  it('should get language value', () => {
+    const result = component.getLangValue('Test Value UA', 'Test Value EN');
+    expect(result).toBe('Test Value EN');
+  });
+
+  it('should open extra packages dialog', () => {
+    const dialogSpy = spyOn(component.dialog, 'open').and.callThrough();
+
+    component.openExtraPackages();
+
+    expect(dialogSpy).toHaveBeenCalled();
+    expect(dialogSpy.calls.mostRecent().args[0]).toBe(ExtraPackagesPopUpComponent);
+    expect(dialogSpy.calls.mostRecent().args[1].panelClass).toBe('extra-packages');
+    expect(dialogSpy.calls.mostRecent().args[1].closeOnNavigation).toBe(false);
+    expect(dialogSpy.calls.mostRecent().args[1].hasBackdrop).toBe(true);
+  });
+
+  it('should open location dialog', () => {
+    const dialogSpy = spyOn(component.dialog, 'open').and.callThrough();
+    const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of({}), close: null });
+    dialogSpy.and.returnValue(dialogRefSpyObj);
+
+    component.openLocationDialog();
+
+    expect(dialogSpy).toHaveBeenCalledWith(UbsOrderLocationPopupComponent, {
+      hasBackdrop: true,
+      disableClose: false,
+      closeOnNavigation: false
+    });
+    expect(component.isDialogOpen).toBeFalse();
+  });
+
+  it('should handle dialog close', () => {
+    const dialogSpy = spyOn(component.dialog, 'open').and.callThrough();
+    const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of({ data: true }), close: null });
+    dialogSpy.and.returnValue(dialogRefSpyObj);
+    spyOn(component.orderDetailsForm, 'markAllAsTouched');
+    component.openLocationDialog();
+    expect(component.orderDetailsForm.markAllAsTouched).toHaveBeenCalled();
+    expect(component.isDialogOpen).toBeFalse();
+  });
+
+  it('should check on number', () => {
+    const result = component.checkOnNumber({ key: '1' } as KeyboardEvent);
+    expect(result).toBe(true);
   });
 });
