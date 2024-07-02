@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async, waitForAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileDashboardComponent } from '@global-user/components';
 

@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 @mixin button {
   display: flex;
   align-items: center;
@@ -48,7 +50,7 @@
   flex-direction: column;
 
   .content-label {
-    margin: 20px 0 4px;
+    margin: 20px 0 4px !important;
     font-size: 16px;
     font-family: var(--primary-font);
     line-height: 14px;

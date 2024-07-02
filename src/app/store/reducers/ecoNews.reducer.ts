@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import {
+  CreateEcoNewsSuccessAction,
+  DeleteEcoNewsSuccessAction,
+  EditEcoNewsSuccessAction,
+  GetEcoNewsByAuthorSuccessAction,
   GetEcoNewsByPageSuccessAction,
   GetEcoNewsByTagsSuccessAction,
-  GetEcoNewsByAuthorSuccessAction,
-  CreateEcoNewsSuccessAction,
-  EditEcoNewsSuccessAction,
-  DeleteEcoNewsSuccessAction,
   ReceivedEcoNewsFailureAction
 } from '../actions/ecoNews.actions';
 import { initialNewsState } from '../state/ecoNews.state';

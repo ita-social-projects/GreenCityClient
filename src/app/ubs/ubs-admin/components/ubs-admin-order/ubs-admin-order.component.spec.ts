@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { UbsAdminOrderComponent } from './ubs-admin-order.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -11,17 +11,18 @@ import { Store, StoreModule } from '@ngrx/store';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
-import { OrderInfoMockedData } from '../../services/orderInfoMock';
+import { GeneralInfoMock, OrderInfoMockedData } from '../../services/orderInfoMock';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
-import { GeneralInfoMock } from '../../services/orderInfoMock';
 import { Language } from 'src/app/main/i18n/Language';
 import { employeePositionsName } from '../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
-import { HeaderComponent } from 'src/app/shared/header/header.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { UbsAdminTableComponent } from '../ubs-admin-table/ubs-admin-table.component';
+import { UBSAdminRoutingModule } from '@ubs/ubs-admin/ubs-admin-routing.module';
+import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
+import { UnsavedChangesGuard } from '@ubs/ubs-admin/unsaved-changes-guard.guard';
 
 describe('UbsAdminOrderComponent', () => {
   let component: UbsAdminOrderComponent;
@@ -29,6 +30,8 @@ describe('UbsAdminOrderComponent', () => {
   let localStorageService: LocalStorageService;
   let translate: TranslateService;
   let orderService: OrderService;
+  let adminTableService: AdminTableService;
+  let unsavedChangesGuard: UnsavedChangesGuard;
 
   const initialState = {
     employees: null,
@@ -64,6 +67,10 @@ describe('UbsAdminOrderComponent', () => {
   ]);
   ubsAdminEmployeeServiceMock.employeePositions$ = new BehaviorSubject(employeePositionsMock);
   ubsAdminEmployeeServiceMock.employeePositionsAuthorities$ = new BehaviorSubject(employeePositionsAuthorities);
+
+  const unsavedChangesGuardMock = jasmine.createSpyObj('UnsavedChangesGuard', ['openConfirmDialog']);
+  unsavedChangesGuardMock.openConfirmDialog.and.returnValue(of(true));
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -71,7 +78,8 @@ describe('UbsAdminOrderComponent', () => {
         MatSnackBarModule,
         BrowserAnimationsModule,
         MatDialogModule,
-        RouterTestingModule,
+        UBSAdminRoutingModule,
+        RouterTestingModule.withRoutes([{ path: 'ubs-admin/orders', component: UbsAdminTableComponent }]),
         HttpClientTestingModule,
         StoreModule.forRoot({})
       ],
@@ -84,7 +92,8 @@ describe('UbsAdminOrderComponent', () => {
         OrderService,
         provideMockStore({}),
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock }
+        { provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock },
+        { provide: UnsavedChangesGuard, useValue: unsavedChangesGuardMock }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -96,6 +105,8 @@ describe('UbsAdminOrderComponent', () => {
     localStorageService = TestBed.inject(LocalStorageService);
     translate = TestBed.inject(TranslateService);
     orderService = TestBed.inject(OrderService);
+    adminTableService = TestBed.inject(AdminTableService);
+    unsavedChangesGuard = TestBed.inject(UnsavedChangesGuard);
     component.orderForm = new FormGroup({
       exportDetailsDto: new FormGroup({
         field1: new FormControl(),
@@ -290,5 +301,37 @@ describe('UbsAdminOrderComponent', () => {
   it('getReceivingStationById should return the receiving station name for a given id', () => {
     const name = component.getReceivingStationById(1);
     expect(name).toEqual('Саперно-Слобідська');
+  });
+
+  it('getReceivingStationById should return null if the receiving station name is not found', () => {
+    const name = component.getReceivingStationById(4);
+    expect(name).toBeNull();
+  });
+
+  describe('canDeactivate', () => {
+    it('should return true and call cancelEdit when orderForm is not dirty', () => {
+      component.orderId = 1;
+      console.log(component.orderForm.dirty);
+
+      const cancelEditSpy = spyOn(adminTableService, 'cancelEdit').and.callThrough();
+      const result = component.canDeactivate();
+
+      expect(result).toBe(true);
+      expect(cancelEditSpy).toHaveBeenCalled();
+      expect(cancelEditSpy).toHaveBeenCalledWith([1]);
+      expect(unsavedChangesGuardMock.openConfirmDialog).not.toHaveBeenCalled();
+    });
+
+    it('should open confirm dialog when orderForm is dirty', () => {
+      component.orderForm.markAsDirty();
+      component.orderId = 1;
+      component.unsavedChangesGuard = unsavedChangesGuardMock;
+
+      const result = component.canDeactivate();
+
+      expect(component.getDataForGuard()).toEqual({ orderIds: [1] });
+      expect(unsavedChangesGuardMock.openConfirmDialog).toHaveBeenCalledWith({ orderIds: [1] });
+      expect(result).toBeInstanceOf(Observable<boolean>);
+    });
   });
 });

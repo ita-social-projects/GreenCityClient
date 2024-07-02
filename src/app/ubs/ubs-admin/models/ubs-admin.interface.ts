@@ -21,6 +21,7 @@ export interface Sort {
   sorted: boolean;
   unsorted: boolean;
 }
+
 export interface Page {
   email: string;
   employeePositions: EmployeePositions[];
@@ -80,6 +81,7 @@ export interface TariffForEmployee {
   selected?: boolean;
   locations: any[];
 }
+
 export interface TariffForEmployeeItem {
   en: string;
   ua: string;
@@ -165,6 +167,7 @@ export interface IBags {
 
 export interface IGeneralOrderInfo {
   id: number;
+  blocked: boolean;
   dateFormed: string;
   adminComment: string;
   orderStatus: string;
