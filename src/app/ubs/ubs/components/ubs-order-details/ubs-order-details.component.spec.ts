@@ -338,4 +338,53 @@ describe('UBSOrderDetailsComponent', () => {
 
     expect(component.currentLocation).toBe('Kyiv, Kyiv Region');
   });
+
+  it('should have correct popupConfig', () => {
+    expect(component.popupConfig).toEqual({
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-ubs-style',
+      data: {
+        popupTitle: 'confirmation.title',
+        popupSubtitle: 'confirmation.subTitle',
+        popupConfirm: 'confirmation.cancel',
+        popupCancel: 'confirmation.dismiss',
+        isUBS: true
+      }
+    });
+  });
+
+  it('should emit event on secondStepDisabledChange', () => {
+    spyOn(component.secondStepDisabledChange, 'emit');
+    component.secondStepDisabledChange.emit(true);
+    expect(component.secondStepDisabledChange.emit).toHaveBeenCalledWith(true);
+  });
+
+  it('should get bagsGroup from form', () => {
+    const bagsGroup = component.bagsGroup as FormGroup;
+    expect(bagsGroup).toBe(component.orderDetailsForm.get('bags') as FormGroup);
+  });
+
+  it('should get orderComment from form', () => {
+    const orderComment = component.orderComment;
+    expect(orderComment).toBe(component.orderDetailsForm.get('orderComment'));
+  });
+
+  it('should get additionalOrders from form', () => {
+    const additionalOrders = component.additionalOrders as FormArray;
+    expect(additionalOrders).toBe(component.orderDetailsForm.get('additionalOrders') as FormArray);
+  });
+
+  it('should get bag quantity', () => {
+    const bagsFormGroup = component.orderDetailsForm.get('bags') as FormGroup;
+    bagsFormGroup.addControl('quantity1', new FormBuilder().control(5));
+    const quantity = component.getBagQuantity(1);
+    expect(quantity).toBe(5);
+  });
+
+  it(' should return ua Value by getLangValue', () => {
+    const value = component.getLangValue('uaValue', 'enValue');
+    expect(value).toBe('enValue');
+  });
 });
