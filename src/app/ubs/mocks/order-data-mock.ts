@@ -1,10 +1,16 @@
-import { OrderDetails } from '@ubs/ubs/models/ubs.interface';
+import { CourierLocations, OrderDetails } from '@ubs/ubs/models/ubs.interface';
+import { OrderStatus } from '@ubs/ubs/order-status.enum';
 
 export const ubsOrderServiseMock = {
   orderDetails: null,
   personalData: null,
   error: null
 };
+
+export const mockCourierLocations = {
+  locationsDtosList: [{ locationId: 1, nameUk: 'Kyiv', nameEn: 'Kyiv' }],
+  regionDto: { nameUk: 'Kyiv Region', nameEn: 'Kyiv Region' }
+} as CourierLocations;
 
 export const ubsOrderDataMock = {
   additionalOrders: [''],
@@ -97,4 +103,45 @@ export const orderDetailsMock: OrderDetails = {
     }
   ],
   points: 0
+};
+
+export const fakeInputOrderData = {
+  additionalOrders: [],
+  address: {
+    addressCity: 'Lviv',
+    addressComment: 'qweqe223',
+    addressDistinct: 'Darnitsk',
+    addressRegion: 'Lviv region',
+    addressStreet: 'King Danylo'
+  },
+  amountBeforePayment: 1100,
+  bags: [
+    {
+      capacity: 120,
+      count: 2,
+      price: 250,
+      service: 'Safe',
+      totalPrice: 500
+    }
+  ],
+  bonuses: 0,
+  certificate: [
+    { certificateStatus: 'USED', points: 10, creationDate: '2022-05-09', code: '9953-7741' },
+    { certificateStatus: 'USED', points: 500, creationDate: '2022-04-15', code: '3003-1992' }
+  ],
+  dateForm: '2022-03-24T23:48:21.689274',
+  datePaid: '2022-03-24T23:48:21.689274',
+  extend: true,
+  id: 1,
+  orderComment: '',
+  orderFullPrice: 1100,
+  orderStatus: OrderStatus.ADJUSTMENT,
+  paidAmount: 1100,
+  paymentStatus: 'Paid',
+  sender: {
+    senderEmail: 'm.kovalushun@gmail.com',
+    senderName: 'mukola',
+    senderPhone: '+380977777777',
+    senderSurname: 'Kovalushun'
+  }
 };

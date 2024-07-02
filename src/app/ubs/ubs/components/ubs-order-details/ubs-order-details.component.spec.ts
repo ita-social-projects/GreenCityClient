@@ -11,7 +11,7 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { Component } from '@angular/core';
 import { limitStatus } from '@ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
-import { mockLocations, orderDetailsMock, ubsOrderServiseMock } from '@ubs/mocks/order-data-mock';
+import { fakeInputOrderData, mockCourierLocations, mockLocations, orderDetailsMock, ubsOrderServiseMock } from '@ubs/mocks/order-data-mock';
 import {
   certificateUsedSelector,
   courierLocationsSelector,
@@ -22,7 +22,12 @@ import {
 } from '../../../../store/selectors/order.selectors';
 import { CourierLocations, OrderDetails } from '@ubs/ubs/models/ubs.interface';
 import { IUserOrderInfo } from '@ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
-import { SetAdditionalOrders, SetOrderComment } from '../../../../store/actions/order.actions';
+import {
+  GetExistingOrderDetails,
+  GetExistingOrderTariff,
+  SetAdditionalOrders,
+  SetOrderComment
+} from '../../../../store/actions/order.actions';
 
 @Component({
   selector: 'app-spinner',
@@ -132,6 +137,11 @@ describe('UBSOrderDetailsComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+    component.ngOnDestroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -140,10 +150,6 @@ describe('UBSOrderDetailsComponent', () => {
     spyOn(component, 'initListeners');
     component.ngOnInit();
     expect(component.initListeners).toHaveBeenCalled();
-  });
-
-  afterEach(() => {
-    fixture.destroy();
   });
 
   it('should calculate final sum', () => {
@@ -298,20 +304,11 @@ describe('UBSOrderDetailsComponent', () => {
   });
 
   it('should initialize location', () => {
-    component.locations = {
-      locationsDtosList: [{ locationId: 1, nameUk: 'Kyiv', nameEn: 'Kyiv' }],
-      regionDto: { nameUk: 'Kyiv Region', nameEn: 'Kyiv Region' }
-    } as CourierLocations;
-
+    component.locations = mockCourierLocations;
     component.locationId = 1;
-
     component.initLocation();
 
     expect(component.currentLocation).toBe('Kyiv, Kyiv Region');
-  });
-
-  afterEach(() => {
-    component.ngOnDestroy();
   });
 
   it('should dispatch additional orders', () => {
@@ -328,11 +325,7 @@ describe('UBSOrderDetailsComponent', () => {
   });
 
   it('should initialize location', () => {
-    component.locations = {
-      locationsDtosList: [{ locationId: 1, nameUk: 'Kyiv', nameEn: 'Kyiv' }],
-      regionDto: { nameUk: 'Kyiv Region', nameEn: 'Kyiv Region' }
-    } as CourierLocations;
-
+    component.locations = mockCourierLocations;
     component.locationId = 1;
     component.initLocation();
 
@@ -386,5 +379,97 @@ describe('UBSOrderDetailsComponent', () => {
   it(' should return ua Value by getLangValue', () => {
     const value = component.getLangValue('uaValue', 'enValue');
     expect(value).toBe('enValue');
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should have correct initial popupConfig', () => {
+    expect(component.popupConfig).toEqual({
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-ubs-style',
+      data: {
+        popupTitle: 'confirmation.title',
+        popupSubtitle: 'confirmation.subTitle',
+        popupConfirm: 'confirmation.cancel',
+        popupCancel: 'confirmation.dismiss',
+        isUBS: true
+      }
+    });
+  });
+
+  it('should emit secondStepDisabledChange event', () => {
+    spyOn(component.secondStepDisabledChange, 'emit');
+    component.secondStepDisabledChange.emit(true);
+    expect(component.secondStepDisabledChange.emit).toHaveBeenCalledWith(true);
+  });
+
+  it('should get bagsGroup', () => {
+    const bagsGroup = component.bagsGroup;
+    expect(bagsGroup).toBeTruthy();
+  });
+
+  it('should get additionalOrders', () => {
+    const additionalOrders = component.additionalOrders;
+    expect(additionalOrders.controls.length).toBe(1);
+  });
+
+  it('should get additionalOrders', () => {
+    const additionalOrders = component.additionalOrders;
+    expect(additionalOrders.controls.length).toBeGreaterThan(0);
+  });
+
+  it('should fetch data for existing order', () => {
+    const orderId = 1;
+    component.existingOrderId = orderId;
+    const initExistingOrderValuesSpy = spyOn(component, 'initExistingOrderValues');
+
+    component.fetchDataForExistingOrder();
+
+    expect(store.dispatch).toHaveBeenCalledWith(GetExistingOrderDetails({ orderId }));
+    expect(store.dispatch).toHaveBeenCalledWith(GetExistingOrderTariff({ orderId }));
+
+    (mockStore.pipe as jasmine.Spy).and.returnValue(of(1));
+    component.fetchDataForExistingOrder();
+    expect(component.locationId).toBe(1);
+
+    const orderInfo = JSON.parse(JSON.stringify(fakeInputOrderData)) as IUserOrderInfo;
+    (mockStore.pipe as jasmine.Spy).and.returnValue(of(orderInfo));
+    component.fetchDataForExistingOrder();
+    expect(component.existingOrderInfo).toEqual(orderInfo);
+    expect(initExistingOrderValuesSpy).toHaveBeenCalled();
+  });
+
+  it('should initialize existing order values', () => {
+    const orderInfo = JSON.parse(JSON.stringify(fakeInputOrderData)) as IUserOrderInfo;
+    component.existingOrderInfo = orderInfo;
+    const addOrderSpy = spyOn(component, 'addOrder');
+
+    component.initExistingOrderValues();
+    expect(component.orderComment.value).toBe(orderInfo.orderComment);
+    expect(addOrderSpy.calls.count()).toBe(orderInfo.additionalOrders.length);
+    orderInfo.additionalOrders.forEach((order, index) => {
+      expect(addOrderSpy.calls.argsFor(index)[0]).toBe(order);
+    });
+  });
+
+  it('should initialize location', () => {
+    const locationId = 1;
+    component.locationId = locationId;
+    component.locations = mockCourierLocations;
+
+    const getLangValueSpy = spyOn(component, 'getLangValue').and.callThrough();
+
+    component.initLocation();
+
+    const expectedLocation = 'Kyiv, Kyiv Region';
+    expect(component.currentLocation).toBe(expectedLocation);
+
+    expect(getLangValueSpy.calls.count()).toBe(2);
+    expect(getLangValueSpy.calls.argsFor(0)).toEqual(['Kyiv', 'Kyiv']);
+    expect(getLangValueSpy.calls.argsFor(1)).toEqual(['Kyiv Region', 'Kyiv Region']);
   });
 });
