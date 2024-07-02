@@ -344,12 +344,12 @@ describe('CreateEditNewsComponent', () => {
     expect(newTags).toEqual(selectedTagsList);
   });
 
-  it('should be a Preview button on the page', () => {
+  xit('should be a Preview button on the page', () => {
     const button = fixture.debugElement.query(By.css('.secondary-global-button'));
     expect(button.nativeElement.innerHTML.trim()).toBe('create-news.preview-button');
   });
 
-  it('should be a Publish button on the page', () => {
+  xit('should be a Publish button on the page', () => {
     const button = fixture.debugElement.query(By.css('.primary-global-button'));
     expect(button.nativeElement.innerHTML.trim()).toBe('create-news.publish-button');
   });

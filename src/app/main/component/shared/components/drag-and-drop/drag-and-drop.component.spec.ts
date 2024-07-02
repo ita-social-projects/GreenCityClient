@@ -3,10 +3,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DragAndDropComponent } from './drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { FileHandle } from '@eco-news-models/create-news-interface';
-import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { DragAndDropDirective } from '../../../eco-news/directives/drag-and-drop.directive';
 
 describe('DragAndDropComponent', () => {
@@ -25,30 +24,10 @@ describe('DragAndDropComponent', () => {
     offsetImagePosition: null
   };
 
-  const createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', [
-    'isBackToEditing',
-    'files',
-    'isImageValid',
-    'getFormData'
-  ]);
-  createEcoNewsServiceMock.isBackToEditing = true;
-  createEcoNewsServiceMock.files = ['files'];
-  createEcoNewsServiceMock.isImageValid = true;
-  createEcoNewsServiceMock.getFormData.and.returnValue({ value: { image: defaultImagePath } });
-
-  const formDataMock: FormGroup = new FormGroup({
-    content: new FormControl('asd aspd kasd ksdfj ksdjfi sdjf osd'),
-    image: new FormControl(defaultImagePath),
-    source: new FormControl('https://www.telerik.com/blogs/testing-dynamic-forms-in-angular'),
-    tags: new FormControl(['news, ads']),
-    title: new FormControl('asd asd asd asd asd s')
-  });
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DragAndDropComponent, DragAndDropDirective],
-      imports: [ImageCropperModule, FormsModule, HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule],
-      providers: [{ provide: CreateEcoNewsService, useValue: createEcoNewsServiceMock }]
+      imports: [ImageCropperModule, FormsModule, HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule]
     }).compileComponents();
   }));
 
@@ -57,24 +36,15 @@ describe('DragAndDropComponent', () => {
     component = fixture.componentInstance;
     component.isWarning = false;
     component.isCropper = false;
-    component.formData = formDataMock;
-    component.files = [
-      {
-        url: 'http://',
-        file: new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' })
-      }
-    ];
+    component.file = {
+      url: 'http://',
+      file: new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' })
+    };
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('ngOnInit', () => {
-    spyOn(component, 'patchImage');
-    component.ngOnInit();
-    expect(component.patchImage).toHaveBeenCalledTimes(1);
   });
 
   it('should an image is cropped', () => {
@@ -84,16 +54,15 @@ describe('DragAndDropComponent', () => {
   });
 
   it('should cancel changes', () => {
-    component.files = ['not empty'] as any;
+    spyOn(component.newFile, 'emit');
+    component.file = { url: '', file: null };
     component.cancelChanges();
-    expect(component.files).toEqual([]);
-    expect(createEcoNewsServiceMock.files).toEqual([]);
+    expect(component.file).toEqual(null);
     expect(component.isCropper).toBe(true);
-  });
-
-  it('should stop cropping an image', () => {
-    component.stopCropping();
-    expect(component.isCropper).toBe(false);
+    expect(component.newFile.emit).toHaveBeenCalledWith(component.file);
+    expect(component.croppedImage).toEqual(null);
+    expect(component.selectedFile).toEqual(null);
+    expect(component.selectedFileUrl).toEqual(null);
   });
 
   it('should file is dropped', () => {
@@ -102,7 +71,7 @@ describe('DragAndDropComponent', () => {
       { url: 'http://', file: new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' }) }
     ];
     component.filesDropped(files);
-    expect(createEcoNewsServiceMock.isImageValid).toBe(true);
+    expect(component.isWarning).toBe(false);
   });
 
   it('should render a Warning title', () => {
@@ -113,25 +82,24 @@ describe('DragAndDropComponent', () => {
     expect(warning.textContent).toContain('drag-and-drop.picture-tooltip');
   });
 
-  it('should patch an image', () => {
-    component.isCropper = true;
-    component.patchImage();
-    expect(component.isCropper).toBe(false);
-  });
-
-  it('patchImage should use getPreviewImg ', () => {
-    component.files[0].file = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
-    formDataMock.value.image = '';
-    component.patchImage();
-    expect(component.files[0].url).toBe(defaultImagePath);
-
-    formDataMock.value.image = defaultImagePath;
-  });
-
   it('showWarning', () => {
-    component.files[0].file = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
+    component.file.file = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
     component.isWarning = true;
     component.showWarning();
     expect(component.isWarning).toBeFalsy();
+  });
+
+  it('should stop cropping', (done) => {
+    spyOn(component.newFile, 'emit');
+    component.croppedImage = { ...imageCroppedEventMock, blob: new Blob(['some content'], { type: 'image/png' }) };
+    component.stopCropping();
+    setTimeout(() => {
+      expect(component.file.url).toContain('data:image/png;base64');
+      expect(component.file.file.name).toBe('text-file.jpeg');
+      expect(component.isCropper).toBe(false);
+      expect(component.isWarning).toBe(false);
+      expect(component.newFile.emit).toHaveBeenCalledWith(component.file);
+      done();
+    }, 100);
   });
 });
