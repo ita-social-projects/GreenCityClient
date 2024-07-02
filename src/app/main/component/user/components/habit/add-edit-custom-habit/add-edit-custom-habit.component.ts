@@ -20,6 +20,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TodoStatus } from '../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HABIT_COMPLEXITY_LIST, HABIT_DEFAULT_DURATION, HABIT_IMAGES, HABIT_TAGS_MAXLENGTH, STAR_IMAGES } from '../const/data.const';
+import { ImageService } from '@global-service/image/image.service';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -56,6 +57,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       popupCancel: 'user.habit.all-habits.habits-popup.cancel'
     }
   };
+  imageFile: FileHandle;
   private habitId: number;
   private userId: number;
   private currentLang: string;
@@ -71,6 +73,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private habitService: HabitService,
     private userFriendsService: UserFriendsService,
     private snackBar: MatSnackBarComponent,
+    private imageService: ImageService,
     private activatedRoute: ActivatedRoute
   ) {
     super(router, dialog);
@@ -95,6 +98,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     if (this.isEditing) {
       this.initEditData();
     }
+    this.imageFile = this.habitService.imageFile;
   }
 
   initEditData() {
@@ -107,6 +111,10 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
         this.initialDuration = habitState.defaultDuration;
         this.setEditHabit();
         this.getHabitTags();
+        this.imageService.createFileHandle(habitState.image, 'image/jpeg').subscribe((fileHandle: FileHandle) => {
+          this.habitService.imageFile = fileHandle;
+          this.imageFile = fileHandle;
+        });
       });
     this.editorText = this.habitForm.get('description').value;
   }
@@ -157,8 +165,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.habitForm.get('tagIds').setValue(this.selectedTagsList);
   }
 
-  getFile(image: FileHandle[]): void {
-    this.habitForm.get('image').setValue(image[0].file);
+  getFile(image: FileHandle): void {
+    this.habitService.imageFile = image;
   }
 
   goToAllHabits(): void {

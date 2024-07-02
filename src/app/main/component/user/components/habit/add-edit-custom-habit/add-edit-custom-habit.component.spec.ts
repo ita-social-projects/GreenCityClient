@@ -32,6 +32,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
@@ -114,7 +115,8 @@ describe('AddEditCustomHabitComponent', () => {
             params: of({ id: 123 })
           }
         }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -214,16 +216,6 @@ describe('AddEditCustomHabitComponent', () => {
     component.saveHabit();
     expect(habitServiceMock.changeCustomHabit).toHaveBeenCalled();
     expect(component.goToAllHabits).toHaveBeenCalled();
-  });
-
-  it('should set the image field in the form', () => {
-    const domSanitizer = TestBed.inject(DomSanitizer);
-    const mockFile = new File([''], 'filename', { type: 'text/html' });
-    const mockUrl = domSanitizer.bypassSecurityTrustUrl('');
-    const mockFileHandle: FileHandle[] = [{ file: mockFile, url: mockUrl }];
-
-    component.getFile(mockFileHandle);
-    expect(component.habitForm.get('image').value).toEqual(mockFile);
   });
 
   it('should set the complexity field in the form', () => {

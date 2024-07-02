@@ -12,6 +12,7 @@ import { HabitInterface, HabitListInterface } from '@global-user/components/habi
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { CustomHabitDtoRequest, CustomHabit } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
+import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.mode
 export class HabitService {
   language: string;
   destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  imageFile: FileHandle = null;
   private tagsType = 'HABIT';
   private backEnd = environment.backendLink;
   private httpOptions = {
@@ -85,8 +87,9 @@ export class HabitService {
 
     const formData = new FormData();
     formData.append('request', JSON.stringify(body));
-    if (habit.image) {
-      formData.append('image', habit.image);
+    if (this.imageFile) {
+      formData.append('image', this.imageFile.file);
+      this.imageFile = null;
     }
 
     const accessToken = localStorage.getItem('accessToken');

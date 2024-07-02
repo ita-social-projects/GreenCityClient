@@ -32,7 +32,7 @@ describe('CreateEcoNewsService', () => {
   beforeEach(() => {
     service = TestBed.inject(CreateEcoNewsService);
     httpTestingController = TestBed.inject(HttpTestingController);
-    service.files[0] = { file: null, url: defaultImagePath };
+    service.file = { file: null, url: defaultImagePath };
   });
 
   afterEach(() => {
@@ -62,13 +62,6 @@ describe('CreateEcoNewsService', () => {
   it('should set current form using setForm method', () => {
     service.setForm(form);
     expect(service.currentForm).toEqual(form);
-  });
-
-  it('should set image value to empty string', () => {
-    service.fileUrl = 'new URL';
-    service.files[0] = null;
-    service.setForm(form);
-    expect(service.currentForm.value.image).toEqual('new URL');
   });
 
   it('should make POST request', () => {
