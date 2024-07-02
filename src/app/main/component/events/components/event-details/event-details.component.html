@@ -93,7 +93,7 @@
                 </div>
                 <div>
                   <button (click)="openSchedule()" mat-icon-button>
-                    <mat-icon> more_horiz </mat-icon>
+                    <mat-icon> more_horiz</mat-icon>
                   </button>
                 </div>
               </div>
@@ -116,7 +116,6 @@
             <div>
               <mat-chip-set>
                 <ng-container *ngFor="let tag of event.tags">
-                  <!--                  TODO CHANGE TAG NAME-->
                   <mat-chip color="primary" highlighted="true"
                     >{{ (languageService.getCurrentLanguage() === 'ua' ? tag.nameUa : tag.nameEn) || tag }}
                   </mat-chip>
@@ -140,7 +139,7 @@
           class="event-controllers"
         >
           <button
-            (click)="buttonAction($event)"
+            (click)="buttonAction()"
             *ngIf="isUserCanJoin && event.isRelevant"
             [ngClass]="isSubscribed ? 'secondary-global-button' : 'primary-global-button'"
           >

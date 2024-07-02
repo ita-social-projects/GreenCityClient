@@ -9,31 +9,40 @@
 .wrapper {
   display: flex;
   justify-content: space-between;
+  gap: 40px;
   width: 100%;
   max-width: 960px;
   background-color: white;
   border-radius: 4px;
-  padding: 0 30px;
   overflow: auto;
 
   .left-side {
-    display: block;
-    max-height: 100vh;
+    width: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+
+    .main-picture {
+      border-radius: 4px;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
   }
 
   .right-side {
-    width: 100%;
-    max-width: 480px;
+    width: 480px;
     max-height: 100vh;
-    height: 768px;
     display: flex;
     flex-direction: column;
-    padding-bottom: 48px;
+    padding: 20px;
+    box-sizing: border-box;
 
     .close-modal-window {
       display: flex;
       justify-content: flex-end;
-      margin: 26px 0 22px 95%;
+      margin: 26px 0 22px 98%;
       width: min-content;
       padding: 5px;
     }
@@ -51,25 +60,32 @@
   }
 }
 
-@media screen and (max-width: 992px) {
+@include responsivePCFirst(lg) {
   .wrapper {
     width: 480px;
+    padding-right: 0;
 
     .left-side {
       display: none;
     }
+  }
+}
 
+@include responsivePCFirst(lg) {
+  .wrapper {
     .right-side {
-      height: 620px;
+      div {
+        max-width: 320px;
+      }
     }
   }
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 350px) {
   .wrapper {
     .right-side {
       div {
-        max-width: 300px;
+        max-width: 280px;
       }
     }
   }

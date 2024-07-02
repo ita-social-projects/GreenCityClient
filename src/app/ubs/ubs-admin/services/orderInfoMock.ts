@@ -1,4 +1,4 @@
-import { IOrderInfo, IEmployee, IPaymentInfoDto } from '../models/ubs-admin.interface';
+import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../models/ubs-admin.interface';
 import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
 import { limitStatus } from '../components/ubs-admin-tariffs/ubs-tariffs.enum';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
@@ -18,6 +18,7 @@ export const OrderInfoMockedData: IOrderInfo = {
     orderStatus: OrderStatus.FORMED,
     orderStatusName: 'Сформовано',
     orderStatusNameEng: 'Formed',
+    blocked: true,
     orderStatusesDtos: [
       {
         ableActualChange: false,

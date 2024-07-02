@@ -5,7 +5,8 @@ import { environment } from '@environment/environment';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import * as moment from 'moment';
+import moment from 'moment';
+import { Observable } from 'rxjs';
 
 const columnMapping: { [key: string]: string } = {
   dateOfExportFrom: 'deliveryDate.from',
@@ -17,6 +18,7 @@ const columnMapping: { [key: string]: string } = {
   city: 'citiesEn',
   district: 'districtsEn'
 };
+
 @Injectable({
   providedIn: 'root'
 })
@@ -66,6 +68,10 @@ export class AdminTableService {
 
   blockOrders(ids: number[]) {
     return this.http.put<IAlertInfo[]>(`${this.url}blockOrders`, ids);
+  }
+
+  unblockOrders(ids: number[]): Observable<number[]> {
+    return this.http.put<number[]>(`${this.url}unblockOrders`, ids);
   }
 
   cancelEdit(ids: number[]) {
@@ -272,20 +278,6 @@ export class AdminTableService {
     });
   }
 
-  private getTodayDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    let month = (today.getMonth() + 1).toString();
-    let day = today.getDate().toString();
-
-    month = +month >= 10 ? month : `0${month}`;
-    day = +day >= 10 ? day : `0${day}`;
-
-    const todayDate = `${year}-${month}-${day}`;
-
-    return todayDate;
-  }
-
   setFilters(filters): void {
     this.filters = filters;
   }
@@ -309,5 +301,19 @@ export class AdminTableService {
 
   getUbsAdminOrdersTableColumnsWidthPreference() {
     return this.http.get(`${this.url}orderTableColumnsWidth`);
+  }
+
+  private getTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = (today.getMonth() + 1).toString();
+    let day = today.getDate().toString();
+
+    month = +month >= 10 ? month : `0${month}`;
+    day = +day >= 10 ? day : `0${day}`;
+
+    const todayDate = `${year}-${month}-${day}`;
+
+    return todayDate;
   }
 }

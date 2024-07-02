@@ -2,12 +2,12 @@
   <h3 class="title">Edit image</h3>
 
   <ng-container *ngIf="!isLoading && imageFile; else spinner">
-    <image-cropper [imageFile]="imageFile" [aspectRatio]="data.aspectRatio" (imageCropped)="onImageCropped($event)"></image-cropper>
+    <image-cropper (imageCropped)="onImageCropped($event)" [aspectRatio]="data.aspectRatio" [imageFile]="imageFile"></image-cropper>
   </ng-container>
 
   <div class="controls">
-    <button class="cancel secondary-global-button" (click)="onCancel()">Cancel</button>
-    <button class="save primary-global-button" (click)="onSave()">Save</button>
+    <button (click)="onCancel()" class="cancel secondary-global-button">Cancel</button>
+    <button (click)="onSave()" class="save primary-global-button">Save</button>
   </div>
 </div>
 

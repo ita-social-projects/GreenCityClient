@@ -94,7 +94,11 @@ export class ImagesContainerComponent implements OnInit {
           return;
         }
 
-        this.images[data.index] = { ...this.images[data.index], file: data.croppedImage, url: URL.createObjectURL(data.croppedImage) };
+        this.images[data.index] = {
+          ...this.images[data.index],
+          file: data.croppedImage,
+          url: URL.createObjectURL(data.croppedImage)
+        };
       });
   }
 
