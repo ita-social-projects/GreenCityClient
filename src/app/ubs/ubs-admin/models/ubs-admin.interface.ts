@@ -165,6 +165,7 @@ export interface IBags {
 
 export interface IGeneralOrderInfo {
   id: number;
+  blocked: boolean;
   dateFormed: string;
   adminComment: string;
   orderStatus: string;
