@@ -69,9 +69,7 @@ export class DragAndDropComponent {
   }
 
   showWarning(): void {
-    const imageValCondition =
-      (this.file.file.type === 'image/jpeg' || this.file.file.type === 'image/png') && this.file.file.size < 10485760;
-    this.isWarning = !(this.file && imageValCondition);
+    this.isWarning = !((this.file.file.type === 'image/jpeg' || this.file.file.type === 'image/png') && this.file.file.size < 10485760);
     if (this.isWarning) {
       this.file = null;
     } else {
