@@ -6,7 +6,6 @@ import {
   IDateFilters,
   IFilteredColumn,
   IFilteredColumnValue,
-  IFilters,
   IOrdersViewParameters
 } from '../../models/ubs-admin.interface';
 import { TableHeightService } from '../../services/table-height.service';
@@ -15,7 +14,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { debounceTime,filter, take, takeUntil } from 'rxjs/operators';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { Subject, timer, Subscription } from 'rxjs';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -24,17 +23,13 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import {
-  AddFilterMultiAction,
-  AddFiltersAction,
   ChangingOrderData,
-  ClearFilters,
   GetColumns,
   GetColumnToDisplay,
   GetTable,
-  RemoveFilter,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
 import { MouseEvents } from 'src/app/shared/mouse-events';
@@ -42,7 +37,6 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
-import { filtersSelector, isFiltersAppliedSelector, isNoFiltersAppliedSelector } from 'src/app/store/selectors/big-order-table.selectors';
 import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
 
 import { TriggerTableFetchService } from '../../services/trigger-table-fetch.service';
@@ -79,7 +73,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   idsToChange: number[] = [];
   allChecked = false;
   tableViewHeaders = [];
-  blockedInfo: IAlertInfo[] = [];
+  public blockedInfo: IAlertInfo[] = [];
   isAllColumnsDisplayed: boolean;
   count: number;
   display = 'none';
@@ -101,24 +95,22 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   noFiltersApplied = true;
   isFiltersOpened = false;
   isTimePickerOpened = false;
-  showPopUp: boolean;
+  public showPopUp: boolean;
   mouseEvents = MouseEvents;
   cancellationReason: string;
   cancellationComment: string;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
   defaultColumnWidth = 120; // In px
-  minColumnWidth = 100;
+  minColumnWidth = 50;
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
   isRestoredFilters = false;
-  dateForm: FormGroup;
-  filters: IDateFilters[] = [];
-  allFilters: IFilters;
+  public dateForm: FormGroup;
+  public filters: IDateFilters[] = [];
   defaultColumnsWidth: Map<string, number> = new Map(Object.entries(defaultColumnsWidthPreference));
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
   ordersViewParameters$ = this.store.select((state: IAppState): IOrdersViewParameters => state.bigOrderTable.ordersViewParameters);
-  isFiltersApplied$ = this.store.select(isFiltersAppliedSelector);
 
   constructor(
     private store: Store<IAppState>,
@@ -138,11 +130,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   ngOnInit() {
     this.triggerTableFetchService.action$.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.getTable(this.filterValue, this.sortingColumn, this.sortType, true);
-      this.bigOrderTable$.subscribe((item) => {
-        this.tableData = item.content;
-        this.dataSource = new MatTableDataSource(this.tableData);
-      });
+      this.refetchTableData();
     });
 
     this.firstPageLoad = true;
@@ -302,20 +290,26 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       paymentDateTo: new FormControl(''),
       paymentDateCheck: new FormControl(false)
     });
-    this.initFiltersListener();
+    if (this.getLocalDateForm()) {
+      this.dateForm.setValue(this.getLocalDateForm());
+    }
     this.filters = this.dateForm.value;
   }
 
-  initFiltersListener(): void {
-    this.store.pipe(takeUntil(this.destroy), select(filtersSelector), filter(Boolean)).subscribe((filters: IFilters) => {
-      this.dateForm.patchValue(filters);
-      this.filters = this.dateForm.value;
-      this.allFilters = filters;
+  private refetchTableData(): void {
+    this.getTable(this.filterValue, this.sortingColumn, this.sortType, true);
+    this.bigOrderTable$.subscribe((item) => {
+      this.tableData = item.content;
+      this.dataSource = new MatTableDataSource(this.tableData);
     });
   }
 
-  getControlValue(column: string, suffix: string): string | boolean {
+  public getControlValue(column: string, suffix: string): string | boolean {
     return this.dateForm.get(`${column}${suffix}`).value;
+  }
+
+  private getLocalDateForm(): IDateFilters[] {
+    return this.localStorageService.getAdminOrdersDateFilter();
   }
 
   checkAllColumnsDisplayed(): void {
@@ -392,7 +386,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  showBlockedMessage(info): void {
+  public showBlockedMessage(info): void {
     this.blockedInfo = info;
 
     const uniqUsers: string[] = [];
@@ -430,7 +424,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       });
   }
 
-  changeColumns(checked: boolean, key: string, positionIndex): void {
+  public changeColumns(checked: boolean, key: string, positionIndex): void {
     this.displayedColumns = checked
       ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
       : this.displayedColumns.filter((item) => item !== key);
@@ -438,11 +432,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortColumnsToDisplay();
   }
 
-  toggleFilters(): void {
+  public toggleFilters(): void {
     this.isFiltersOpened = !this.isFiltersOpened;
   }
 
-  toggleTableView(): void {
+  public toggleTableView(): void {
     this.display = this.display === 'none' ? 'block' : 'none';
     this.isPopupOpen = !this.isPopupOpen;
     if (!this.isPopupOpen) {
@@ -452,7 +446,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.previousSettings = this.displayedColumns;
   }
 
-  showAllColumns(isCheckAll: boolean): void {
+  public showAllColumns(isCheckAll: boolean): void {
     isCheckAll ? this.setUnDisplayedColumns() : this.setDisplayedColumns();
   }
 
@@ -530,7 +524,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const table = document.getElementById('table');
     const tableContainer = document.getElementById('table-container');
     this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
-    if (!this.isUpdate && this.currentPage + 1 < this.totalPages) {
+    if (!this.isUpdate && this.currentPage < this.totalPages) {
       this.currentPage++;
       this.updateTableData();
     }
@@ -580,7 +574,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.allChecked = this.isAllSelected;
   }
 
-  editCell(e: IEditCell): void {
+  public editCell(e: IEditCell): void {
     if (this.allChecked) {
       this.editAll(e);
     } else if (this.idsToChange.length === 0) {
@@ -590,7 +584,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  cancelEditCell(ids: number[]): void {
+  public cancelEditCell(ids: number[]): void {
     this.adminTableService.cancelEdit(ids).subscribe();
     this.idsToChange = [];
     this.allChecked = false;
@@ -600,7 +594,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.isTimePickerOpened = isOpened;
   }
 
-  closeAlertMess(): void {
+  public closeAlertMess(): void {
     this.blockedInfo = [];
   }
 
@@ -652,17 +646,19 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.postData(this.idsToChange, e.nameOfColumn, e.newValue);
   }
 
-  addOrderCancellationData(orderCancellationData: { cancellationReason: string; cancellationComment: string | null }) {
+  public addOrderCancellationData(orderCancellationData: { cancellationReason: string; cancellationComment: string | null }) {
     this.cancellationReason = orderCancellationData.cancellationReason;
     this.cancellationComment = orderCancellationData.cancellationComment;
   }
 
   private editAll(e: IEditCell): void {
     this.editCellProgressBar = true;
-    const newTableData = this.tableData.map((item) => ({
-      ...item,
-      [e.nameOfColumn]: e.newValue
-    }));
+    const newTableData = this.tableData.map((item) => {
+      return {
+        ...item,
+        [e.nameOfColumn]: e.newValue
+      };
+    });
     this.tableData = newTableData;
     this.dataSource = new MatTableDataSource(newTableData);
     this.allChecked = false;
@@ -714,11 +710,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   calculateTextWidth(event, tooltip): void {
-    const textContainerWidth = event.target.offsetWidth;
+    const textContainerWidth = event.toElement.offsetWidth;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     context.font = '14.8px Lato, sans-serif';
-    const textWidth = Math.round(context.measureText(event.target.innerText).width);
+    const textWidth = Math.round(context.measureText(event.toElement.innerText).width);
 
     if (textContainerWidth < textWidth) {
       tooltip.show();
@@ -730,42 +726,35 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
-    this.tableData = [];
-    this.isLoading = true;
-
-    checked
-      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value: option.key }, fetchTable: true }))
-      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value: option.key }, fetchTable: true }));
+    this.adminTableService.changeFilters(checked, currentColumn, option);
+    this.noFiltersApplied = !this.adminTableService.filters.length;
+    this.applyFilters();
   }
 
-  changeInputDate(): void {
-    const filters = {};
+  changeInputDate(checked: boolean, currentColumn: string, suffix: string): void {
+    this.noFiltersApplied = false;
+    const checkControl = this.dateForm.get(`${currentColumn}Check`).value;
 
-    Object.keys(this.dateForm.value).forEach((key) => {
-      const value = this.dateForm.get(key)?.value;
-
-      if (value !== null || value !== undefined) {
-        filters[key] = value instanceof Date ? this.adminTableService.convertDate(value) : value;
+    if (suffix === 'From' || suffix === 'To') {
+      const date = this.getControlValue(currentColumn, suffix);
+      const value = this.adminTableService.setDateFormat(date);
+      this.dateForm.get(`${currentColumn}${suffix}`).setValue(value);
+      const biggerFrom = this.getControlValue(currentColumn, 'From') >= this.getControlValue(currentColumn, 'To');
+      if (suffix === 'From' && biggerFrom) {
+        this.dateForm.get(`${currentColumn}To`).setValue(value);
       }
-    });
-
-    if (!filters) {
-      return;
+      if (suffix === 'To' && biggerFrom) {
+        this.dateForm.get(`${currentColumn}From`).setValue(value);
+      }
+      this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
+      this.applyFilters();
+    } else if (suffix === 'Check') {
+      this.dateForm.get(`${currentColumn}Check`).setValue(checked);
     }
-
-    this.addFilters(filters);
+    this.localStorageService.setAdminOrdersDateFilter(this.dateForm.value);
   }
 
-  private addFilters(filters: IFilters, fetchTable = true): void {
-    this.tableData = [];
-    this.isLoading = true;
-    this.store.dispatch(AddFiltersAction({ filters, fetchTable }));
-  }
-
-  clearFilters(): void {
-    this.store.dispatch(ClearFilters({ fetchTable: true }));
-    this.tableData = [];
-    this.isLoading = true;
+  public clearFilters(): void {
     const columnsForFiltering = this.adminTableService.columnsForFiltering;
     columnsForFiltering.forEach((column) => {
       column.values.forEach((value) => {
@@ -773,11 +762,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       });
     });
     this.setColumnsForFiltering(columnsForFiltering);
+    this.adminTableService.setFilters([]);
+    this.applyFilters();
+    this.noFiltersApplied = true;
+    this.localStorageService.removeAdminOrderFilters();
+    this.localStorageService.removeAdminOrderDateFilters();
     this.dateForm.reset();
     this.initDateForm();
   }
 
-  applyFilters() {
+  public applyFilters() {
     this.currentPage = 0;
     this.firstPageLoad = true;
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', true);
@@ -806,7 +800,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       }
       if (buttonName === 'clear') {
         const columnName = data[1];
-        this.store.dispatch(ClearFilters({ fetchTable: true, columnName }));
+        this.adminTableService.clearColumnFilters(columnName);
       }
       if (buttonName) {
         this.applyFilters();
@@ -851,13 +845,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.stickColumns();
   }
 
-  onResizeColumn(event: MouseEvent, columnIndex: number): void {
+  public onResizeColumn(event: MouseEvent, columnIndex: number): void {
     if (!this.isTimePickerOpened) {
-      const resizeHandleWidth = 15;
+      const resizeHandleWidth = 15; // Px
       const resizeStartX = event.pageX;
-      let lastStickyOffsetShift = 0;
-
-      columnIndex = this.isResizingTargetColumn(event) ? columnIndex : columnIndex - 1;
+      const tableOffsetX = this.getTableOffsetX();
+      const minCellWidth = 150;
 
       const {
         left: leftColumnBoundary,
@@ -867,58 +860,49 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
       const isResizingLeft = resizeStartX <= leftColumnBoundary + resizeHandleWidth;
       const isResizingRight = resizeStartX >= rightColumnBoundary - resizeHandleWidth;
-
       if (!isResizingLeft && !isResizingRight) {
         return;
       }
 
       event.preventDefault();
 
-      let newColumnWidth = originalColumnWidth;
-      // eslint-disable-next-line prefer-const
-      let cleanupMouseMoveFn;
-      // eslint-disable-next-line prefer-const
-      let cleanupMouseUpFn;
+      const adjColumnIndex = isResizingRight ? columnIndex + 1 : columnIndex - 1;
+      const isAdjColumnSticky = adjColumnIndex < this.stickyColumnsAmount;
+      const { width: adjColumnOriginalWidth, left: adjColumnLeftBoundary } = this.getColumnHeaderBoundaries(adjColumnIndex);
 
+      let newColumnWidth = originalColumnWidth;
+      let newAdjColumnWidth = adjColumnOriginalWidth;
+      let cleanupMouseMove = () => {};
+      let cleanupMouseUp = () => {};
       const onMouseMove = (moveEvent) => {
         const movedToX = moveEvent.pageX;
-        const diffX = isResizingRight ? movedToX - resizeStartX : -movedToX + resizeStartX;
-
-        newColumnWidth = originalColumnWidth + diffX > 100 ? originalColumnWidth + diffX : 100;
-
-        this.setColumnWidth(columnIndex, newColumnWidth);
-
-        if (columnIndex < this.stickyColumnsAmount - 1) {
-          const actualResize = newColumnWidth - originalColumnWidth;
-
-          for (let i = columnIndex + 1; i < this.stickyColumnsAmount; i++) {
-            this.shiftStickyColumnX(i, actualResize - lastStickyOffsetShift);
-          }
-
-          lastStickyOffsetShift = actualResize;
+        const dx = isResizingRight ? movedToX - resizeStartX : -movedToX + resizeStartX;
+        if (originalColumnWidth + dx < this.minColumnWidth || adjColumnOriginalWidth - dx < this.minColumnWidth) {
+          return;
+        }
+        newColumnWidth = originalColumnWidth + dx >= minCellWidth ? originalColumnWidth + dx : minCellWidth;
+        newAdjColumnWidth = adjColumnOriginalWidth - dx >= minCellWidth ? adjColumnOriginalWidth - dx : minCellWidth;
+        if (newColumnWidth > minCellWidth && newAdjColumnWidth > minCellWidth) {
+          this.setColumnWidth(columnIndex, newColumnWidth);
+          this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
+        }
+        // Move column if it is sticky
+        if (isAdjColumnSticky) {
+          const leftColumnLeftBoundary = isResizingRight ? leftColumnBoundary : adjColumnLeftBoundary;
+          const newLeftColumnWidth = isResizingRight ? newColumnWidth : newAdjColumnWidth;
+          const rightColumnIndex = isResizingRight ? adjColumnIndex : columnIndex;
+          const rightColumnOffsetX = leftColumnLeftBoundary + newLeftColumnWidth - tableOffsetX;
+          this.setStickyColumnOffsetX(rightColumnIndex, rightColumnOffsetX);
         }
       };
       const onMouseUp = () => {
-        this.updateColumnsWidthPreference(columnIndex, newColumnWidth);
-        cleanupMouseMoveFn();
-        cleanupMouseUpFn();
+        this.updateColumnsWidthPreference(adjColumnIndex, newAdjColumnWidth);
+        cleanupMouseMove();
+        cleanupMouseUp();
       };
-      cleanupMouseMoveFn = this.renderer.listen('document', 'mousemove', onMouseMove);
-      cleanupMouseUpFn = this.renderer.listen('document', 'mouseup', onMouseUp);
+      cleanupMouseMove = this.renderer.listen('document', 'mousemove', onMouseMove);
+      cleanupMouseUp = this.renderer.listen('document', 'mouseup', onMouseUp);
     }
-  }
-
-  private isResizingTargetColumn(event: MouseEvent) {
-    const column = event.target as HTMLElement;
-
-    if (!column) {
-      return;
-    }
-
-    const columnBounds = column.getBoundingClientRect();
-    const columnMidpoint = columnBounds.left + columnBounds.width / 2;
-
-    return event.clientX > columnMidpoint;
   }
 
   private getTableOffsetX(): number {
@@ -937,16 +921,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
     columnCells.forEach((cell) => {
       this.renderer.setStyle(cell, 'left', `${offset}px`);
-    });
-  }
-
-  private shiftStickyColumnX(index: number, shift: number): void {
-    const columnKey = this.columns[index].title.key;
-    const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
-    columnCells.forEach((cell) => {
-      const currentLeft = parseInt((cell as HTMLElement).style.left, 10) || 100;
-      const newLeft = currentLeft + shift;
-      this.renderer.setStyle(cell, 'left', `${newLeft}px`);
     });
   }
 
@@ -995,22 +969,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.adminTableService.setColumnsForFiltering(columns);
   }
 
-  checkForCheckedBoxes(columnName: string): boolean {
-    if (!this.allFilters) {
-      return false;
-    }
-
-    const isFiltered = Object.keys(this.allFilters)?.some((key) => key.startsWith(columnName));
-
-    if (!isFiltered) {
-      return false;
-    }
-
-    return !!this.allFilters[columnName.toLowerCase().includes('date') ? `${columnName}From` : columnName];
-  }
-
-  isFilterChecked(columnName: string, value: string): boolean {
-    return (this.allFilters?.[columnName] as string[])?.includes(value);
+  checkForCheckedBoxes(column): boolean {
+    return column.values.some((item) => item.filtered);
   }
 
   checkIfFilteredBy(columnKey: string): boolean {
