@@ -1,21 +1,21 @@
-<main role="main" id="main-content">
-  <div class="container" *ngIf="newsItem">
+<main id="main-content" role="main">
+  <div *ngIf="newsItem" class="container">
     <div class="top-elements">
       <div class="back-button">
         <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 1 }] : [backRoute]" class="button-link">
           <div class="button-content">
             <div class="button-arrow">
-              <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
+              <img [src]="images.arrowLeft" alt="arrow" aria-hidden="true" class="button-arrow-img" />
             </div>
             <div class="button-text">{{ 'eco-news-single-view.back-button' | translate }}</div>
           </div>
         </a>
       </div>
-      <div class="edit-delete-block" *ngIf="newsItem.author.id === userId">
-        <button class="secondary-global-button delete-news-button" type="button" (click)="deleteNews()">
+      <div *ngIf="newsItem.author.id === userId" class="edit-delete-block">
+        <button (click)="deleteNews()" class="secondary-global-button delete-news-button" type="button">
           {{ 'eco-news-single-view.delete-news-button' | translate }}
         </button>
-        <a [routerLink]="['/news/create-news']" [queryParams]="{ id: newsItem.id }">
+        <a [queryParams]="{ id: newsItem.id }" [routerLink]="['/news/create-news']">
           <div class="edit-news">
             {{ 'eco-news-single-view.edit-news-button' | translate }}
           </div>
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="tags">
-      <div class="tags-item" *ngFor="let tag of tags">
+      <div *ngFor="let tag of tags" class="tags-item">
         {{ tag }}
       </div>
     </div>
@@ -40,8 +40,8 @@
         </div>
         <div class="news-info-author">{{ 'eco-news-single-view.author' | translate }} {{ newsItem.author.name }}</div>
         <div class="like_wr">
-          <img *ngIf="!userId" class="news_like disable" [src]="likesType.like" alt="like" />
-          <img *ngIf="userId" (click)="onLikeNews()" class="news_like" [src]="isLiked ? likesType.liked : likesType.like" alt="like" />
+          <img *ngIf="userId" [src]="likesType.like" alt="like" class="news_like disable" />
+          <img (click)="onLikeNews()" *ngIf="!userId" [src]="isLiked ? likesType.liked : likesType.like" alt="like" class="news_like" />
           <span class="numerosity_likes">{{ newsItem.likes }}</span>
         </div>
       </div>
@@ -62,13 +62,13 @@
         </div>
         <div class="news-text">
           <div class="news-text-content word-wrap ql-snow">
-            <div class="ql-editor" [innerHTML]="newsItem.content | safeHtml"></div>
+            <div [innerHTML]="newsItem.content | safeHtml" class="ql-editor"></div>
           </div>
-          <div class="source-field" *ngIf="newsItem?.source">
+          <div *ngIf="newsItem?.source" class="source-field">
             <div class="source-title">
               {{ 'eco-news-single-view.news-source' | translate }}
             </div>
-            <a href="{{ newsItem?.source }}" class="source-text word-wrap">
+            <a class="source-text word-wrap" href="{{ newsItem?.source }}">
               {{ newsItem?.source | UrlHostname }}
             </a>
           </div>
