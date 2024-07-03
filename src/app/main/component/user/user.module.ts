@@ -89,6 +89,7 @@ import { UserNotificationsPopUpComponent } from './components/profile/user-notif
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { NotificContentReplaceDirective } from './directives/notific-content-replace.directive';
+import { FriendshipButtonsComponent } from './components/profile/users-friends/friend-dashboard/friendship-buttons/friendship-buttons.component';
 
 @NgModule({
   declarations: [
@@ -156,7 +157,8 @@ import { NotificContentReplaceDirective } from './directives/notific-content-rep
     AddEditCustomHabitComponent,
     UserNotificationsComponent,
     UserNotificationsPopUpComponent,
-    NotificContentReplaceDirective
+    NotificContentReplaceDirective,
+    FriendshipButtonsComponent
   ],
   imports: [
     NgbModule,

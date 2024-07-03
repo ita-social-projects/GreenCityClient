@@ -30,7 +30,7 @@
           <li *ngFor="let bag of bags" class="main-list-item">
             <span class="bag-name">{{ getLangValue(bag.name, bag.nameEng) }}</span>
             <span class="bag-name">{{ bag.capacity | volume }}</span>
-            <span class="bag-name">{{ bag.price | currency | localizedCurrency }}</span>
+            <span class="bag-name">{{ bag.price | localizedCurrency }}</span>
             <div class="bag-name form-group count">
               <div class="quantity-input-wrapper">
                 <button (click)="changeQuantity(bag.id, -1)" type="button">
@@ -55,7 +55,7 @@
                 </button>
               </div>
             </div>
-            <span class="bag-name label-total"> {{ getBagQuantity(bag.id) * bag.price | currency | localizedCurrency }}</span>
+            <span class="bag-name label-total"> {{ getBagQuantity(bag.id) * bag.price | localizedCurrency }}</span>
           </li>
         </ul>
       </div>
@@ -66,25 +66,25 @@
               <p class="total-content" [class.d-none]="orderSum === 0">
                 <span>{{ 'order-details.order-amount' | translate }}</span>
                 <span>
-                  <strong>{{ orderSum | currency | localizedCurrency }}</strong>
+                  <strong>{{ orderSum | localizedCurrency }}</strong>
                 </span>
               </p>
               <p class="total-content" *ngIf="certificateUsed">
                 <span>{{ 'order-details.certificate' | translate }} </span>
                 <span>
-                  <strong class="money-saved">-{{ certificateUsed | currency | localizedCurrency }}</strong>
+                  <strong class="money-saved">-{{ certificateUsed | localizedCurrency }}</strong>
                 </span>
               </p>
               <p class="total-content" *ngIf="pointsUsed">
                 <span>{{ 'order-details.bonuses' | translate }}</span>
                 <span>
-                  <strong class="money-saved">-{{ pointsUsed | currency | localizedCurrency }}</strong>
+                  <strong class="money-saved">-{{ pointsUsed | localizedCurrency }}</strong>
                 </span>
               </p>
               <p class="total-content">
                 <span>{{ 'order-details.amount-due' | translate }} </span>
                 <span>
-                  <strong>{{ finalSum | currency | localizedCurrency }}</strong>
+                  <strong>{{ finalSum | localizedCurrency }}</strong>
                 </span>
               </p>
             </div>

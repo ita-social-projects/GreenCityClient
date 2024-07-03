@@ -10,11 +10,11 @@ import { take } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class FavoritePlaceService {
-  public favoritePlaces$: BehaviorSubject<Place[]> = new BehaviorSubject([]);
+  favoritePlaces$: BehaviorSubject<Place[]> = new BehaviorSubject([]);
 
   constructor(private http: HttpClient) {}
 
-  public updateFavoritePlaces(isFromSideBar: boolean): void {
+  updateFavoritePlaces(isFromSideBar: boolean): void {
     if (!isFromSideBar) {
       this.http
         .get<Place[]>(favoritePlaceLink)
@@ -25,7 +25,7 @@ export class FavoritePlaceService {
     }
   }
 
-  public addFavoritePlace(favoritePlaceSave: FavoritePlace, isFromSideBar?: boolean): void {
+  addFavoritePlace(favoritePlaceSave: FavoritePlace, isFromSideBar?: boolean): void {
     this.http
       .post<FavoritePlace>(placeLink + 'save/favorite/', favoritePlaceSave)
       .pipe(take(1))
@@ -34,7 +34,7 @@ export class FavoritePlaceService {
       });
   }
 
-  public deleteFavoritePlace(placeId: number, isFromSideBar?: boolean): void {
+  deleteFavoritePlace(placeId: number, isFromSideBar?: boolean): void {
     this.http
       .delete<any>(`${favoritePlaceLink}${placeId}`)
       .pipe(take(1))

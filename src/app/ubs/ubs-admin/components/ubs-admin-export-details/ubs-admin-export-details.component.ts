@@ -19,18 +19,18 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
-  public showTimePicker = false;
-  public fromSelect: string[];
-  public toSelect: string[];
-  public fromInput: string;
-  public toInput: string;
-  public from: string;
-  public to: string;
-  public currentHour: string;
-  public allReceivingStations: string[];
-  public currentDate: string;
-  public isOrderStatusCancelOrDone = false;
-  public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
+  showTimePicker = false;
+  fromSelect: string[];
+  toSelect: string[];
+  fromInput: string;
+  toInput: string;
+  from: string;
+  to: string;
+  currentHour: string;
+  allReceivingStations: string[];
+  currentDate: string;
+  isOrderStatusCancelOrDone = false;
+  resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   private statuses = [OrderStatus.BROUGHT_IT_HIMSELF, OrderStatus.CANCELED];
 
   constructor(
@@ -70,7 +70,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
     this.currentDate = new Date().toISOString().split('T')[0];
   }
 
-  public resetValue(): void {
+  resetValue(): void {
     this.exportDetailsDto.get('receivingStationId').setValue(null);
   }
 
@@ -78,7 +78,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
     this.pageOpen = !this.pageOpen;
   }
 
-  public isFormRequired(): boolean {
+  isFormRequired(): boolean {
     const isNotOpen = !this.pageOpen;
     const isNotValid = !this.exportDetailsDto.valid;
     const isNotCancelOrDone = !this.isOrderStatusCancelOrDone;

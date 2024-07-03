@@ -17,7 +17,7 @@ import { ChatModalComponent } from '../chat-modal/chat-modal.component';
   styleUrls: ['./chat-popup.component.scss']
 })
 export class ChatPopupComponent implements OnInit, OnDestroy {
-  public chatIcons = CHAT_ICONS;
+  chatIcons = CHAT_ICONS;
   private onDestroy$ = new Subject();
   private userId: number;
 
@@ -47,7 +47,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());
   }
 
-  public openNewMessageWindow(isEmpty: boolean) {
+  openNewMessageWindow(isEmpty: boolean) {
     if (isEmpty) {
       this.chatsService.setCurrentChat(null);
     }
@@ -60,7 +60,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     this.elementRef.containerRef.clear();
   }
 
-  public openChatModal() {
+  openChatModal() {
     this.dialog.closeAll();
     this.dialog.open(ChatModalComponent, this.dialogConfig);
   }
@@ -68,5 +68,6 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
+    this.socketService.disconnect();
   }
 }

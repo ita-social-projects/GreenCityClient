@@ -20,16 +20,16 @@ export class UbsAdminCustomerOrdersComponent implements OnInit, AfterViewChecked
   private sortingType: string;
   private page = 0;
 
-  public columns = [];
-  public displayedColumns: string[] = [];
-  public dataSource: MatTableDataSource<any>;
-  public currentLang: string;
-  public arrowDirection: string;
-  public userName: string;
-  public orders = [];
-  public isLoading = true;
-  public isCanScroll = false;
-  public isTableLoading = false;
+  columns = [];
+  displayedColumns: string[] = [];
+  dataSource: MatTableDataSource<any>;
+  currentLang: string;
+  arrowDirection: string;
+  userName: string;
+  orders = [];
+  isLoading = true;
+  isCanScroll = false;
+  isTableLoading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -79,7 +79,7 @@ export class UbsAdminCustomerOrdersComponent implements OnInit, AfterViewChecked
     }
   }
 
-  public onScroll() {
+  onScroll() {
     this.updateOrders();
   }
 
@@ -97,14 +97,14 @@ export class UbsAdminCustomerOrdersComponent implements OnInit, AfterViewChecked
       });
   }
 
-  public onSortTable(column: string, sortingType: string) {
+  onSortTable(column: string, sortingType: string) {
     this.sortingColumn = column;
     this.sortingType = sortingType;
     this.arrowDirection = column === this.arrowDirection ? null : column;
     this.getOrders();
   }
 
-  public goBack(): void {
+  goBack(): void {
     this.router.navigate(['ubs-admin', 'customers']);
   }
 
@@ -115,7 +115,7 @@ export class UbsAdminCustomerOrdersComponent implements OnInit, AfterViewChecked
     });
   }
 
-  public openOrder(id: number): void {
+  openOrder(id: number): void {
     this.router.navigate([]).then((result) => {
       window.open(`/GreenCityClient/#/ubs-admin/order/${id}`, '_blank');
     });

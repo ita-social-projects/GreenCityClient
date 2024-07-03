@@ -10,7 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class UserOnlineStatusService implements OnDestroy {
   private destroy$ = new Subject();
-  public usersToCheckOnlineStatus = {
+  usersToCheckOnlineStatus = {
     [UsersCategOnlineStatus.profile]: [],
     [UsersCategOnlineStatus.allFriends]: [],
     [UsersCategOnlineStatus.recommendedFriends]: [],
@@ -19,9 +19,9 @@ export class UserOnlineStatusService implements OnDestroy {
     [UsersCategOnlineStatus.mutualFriends]: []
   };
   private timeInterval = 60000;
-  public timer$ = interval(this.timeInterval);
-  public usersIdToCheck$ = new BehaviorSubject({});
-  public usersOnlineStatus$: BehaviorSubject<UserOnlineStatus[]> = new BehaviorSubject([]);
+  timer$ = interval(this.timeInterval);
+  usersIdToCheck$ = new BehaviorSubject({});
+  usersOnlineStatus$: BehaviorSubject<UserOnlineStatus[]> = new BehaviorSubject([]);
   private userId: number;
 
   constructor(
@@ -36,7 +36,7 @@ export class UserOnlineStatusService implements OnDestroy {
     });
   }
 
-  public sendRequestMessage(): void {
+  sendRequestMessage(): void {
     merge(this.timer$, this.usersIdToCheck$)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
@@ -50,7 +50,7 @@ export class UserOnlineStatusService implements OnDestroy {
         }
       });
   }
-  public subscribeToSocketResponse(): void {
+  subscribeToSocketResponse(): void {
     this.socketService
       .onMessage(this.socketService.connection.greenCityUser, `/topic/${this.userId}/usersOnlineStatus`)
       .pipe(takeUntil(this.destroy$))
@@ -58,18 +58,18 @@ export class UserOnlineStatusService implements OnDestroy {
         this.usersOnlineStatus$.next(res);
       });
   }
-  public checkIsOnline(friendId: number): boolean {
+  checkIsOnline(friendId: number): boolean {
     const usersOnlineStatus = this.usersOnlineStatus$.getValue();
     const user = usersOnlineStatus.find((el) => el.id === friendId);
     return user ? user.onlineStatus : false;
   }
 
-  public addUsersId(type: UserCateg, value: Array<number>): void {
+  addUsersId(type: UserCateg, value: Array<number>): void {
     this.usersToCheckOnlineStatus[type] = [...new Set([...this.usersToCheckOnlineStatus[type], ...value])];
     this.usersIdToCheck$.next(this.usersToCheckOnlineStatus);
   }
 
-  public removeUsersId(type: UserCateg): void {
+  removeUsersId(type: UserCateg): void {
     this.usersToCheckOnlineStatus[type] = [];
   }
 

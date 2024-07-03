@@ -113,13 +113,14 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     component.receivedData = {
       serviceData: {
         name: 'MockNameUA',
+        price: 1,
         nameEng: 'MockNameEng',
         description: 'MockDescrUA',
         descriptionEng: 'MockDescrEng'
       }
     };
     component.editForm();
-    expect(component.addServiceForm.get('price').value).toEqual('');
+    expect(component.addServiceForm.get('price').value).toEqual({ value: component.receivedData.serviceData.price });
     expect(component.addServiceForm.get('name').value).toEqual({ value: component.receivedData.serviceData.name });
     expect(component.addServiceForm.get('nameEng').value).toEqual({ value: component.receivedData.serviceData.nameEng });
     expect(component.addServiceForm.get('description').value).toEqual({ value: component.receivedData.serviceData.description });
@@ -190,16 +191,17 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
 
   it('should return price Control on getControl', () => {
     (component as any).initForm();
-    const price = component.getControl('price');
-    const name = component.getControl('name');
-    const nameEng = component.getControl('nameEng');
-    const description = component.getControl('description');
-    const descriptionEng = component.getControl('descriptionEng');
-    expect(price).toEqual(component.addServiceForm.get('price'));
-    expect(name).toEqual(component.addServiceForm.get('name'));
-    expect(nameEng).toEqual(component.addServiceForm.get('nameEng'));
-    expect(description).toEqual(component.addServiceForm.get('description'));
-    expect(descriptionEng).toEqual(component.addServiceForm.get('descriptionEng'));
+    const price = component.getControl('price') as FormControl;
+    const name = component.getControl('name') as FormControl;
+    const nameEng = component.getControl('nameEng') as FormControl;
+    const description = component.getControl('description') as FormControl;
+    const descriptionEng = component.getControl('descriptionEng') as FormControl;
+
+    expect(price).toEqual(component.addServiceForm.get('price') as FormControl);
+    expect(name).toEqual(component.addServiceForm.get('name') as FormControl);
+    expect(nameEng).toEqual(component.addServiceForm.get('nameEng') as FormControl);
+    expect(description).toEqual(component.addServiceForm.get('description') as FormControl);
+    expect(descriptionEng).toEqual(component.addServiceForm.get('descriptionEng') as FormControl);
   });
 
   it('should fillFields correctly', () => {

@@ -112,10 +112,10 @@
             </div>
             <div class="events-filter">
               <div class="events-types">
-                <mat-checkbox [(ngModel)]="isOnlineChecked" (ngModelChange)="onCheckboxChange('ONLINE')">
+                <mat-checkbox [(ngModel)]="isOnlineChecked" (ngModelChange)="onCheckboxChange('ONLINE')" color="primary" class="checkbox">
                   {{ 'homepage.events.my-space.event-type-online' | translate }}
                 </mat-checkbox>
-                <mat-checkbox [(ngModel)]="isOfflineChecked" (ngModelChange)="onCheckboxChange('OFFLINE')"
+                <mat-checkbox [(ngModel)]="isOfflineChecked" (ngModelChange)="onCheckboxChange('OFFLINE')" color="primary" class="checkbox"
                   >{{ 'homepage.events.my-space.event-type-offline' | translate }}
                 </mat-checkbox>
               </div>

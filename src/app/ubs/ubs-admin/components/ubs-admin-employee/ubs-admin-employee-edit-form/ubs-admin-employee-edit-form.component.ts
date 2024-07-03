@@ -41,14 +41,14 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   phoneMask = Masks.phoneMask;
   private maxImageSize = 10485760;
   private destroyed$: Subject<void> = new Subject<void>();
-  public isWarning = false;
-  public isUploading = false;
-  public isInitialDataChanged = false;
-  public isInitialImageChanged = false;
-  public isInitialPositionsChanged = false;
-  public isInitialTariffsChanged = false;
-  public isImageError: boolean;
-  public editMode: boolean;
+  isWarning = false;
+  isUploading = false;
+  isInitialDataChanged = false;
+  isInitialImageChanged = false;
+  isInitialPositionsChanged = false;
+  isInitialTariffsChanged = false;
+  isImageError: boolean;
+  editMode: boolean;
   initialData: InitialData;
   imageURL: string | ArrayBuffer;
   imageName = 'Your Avatar';
@@ -278,7 +278,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.transferFile(imageFile);
   }
 
-  public filesDropped(files: FileHandle[]): void {
+  filesDropped(files: FileHandle[]): void {
     const imageFile = files[0].file;
     this.transferFile(imageFile);
   }

@@ -20,8 +20,8 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   unpaid: boolean;
   paid: boolean;
   halfpaid: boolean;
-  public dataObj: IColumnBelonging = null;
-  public data: string | number | { ua: string; en: string } | null;
+  dataObj: IColumnBelonging = null;
+  data: string | number | { ua: string; en: string } | null;
   private font = '12px Lato, sans-serif';
   typeof: any;
 
@@ -57,7 +57,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
     }
   }
 
-  public isStatus() {
+  isStatus() {
     switch (this.data) {
       case PaymnetStatus.PAID:
         this.paid = true;

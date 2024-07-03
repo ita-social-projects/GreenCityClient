@@ -14,7 +14,7 @@ export class UserOwnSignInService {
     private localStorageService: LocalStorageService
   ) {}
 
-  public signIn(model: UserOwnSignIn) {
+  signIn(model: UserOwnSignIn) {
     const body = {
       email: model.email,
       password: model.password
@@ -22,7 +22,7 @@ export class UserOwnSignInService {
     return this.http.post(userOwnSignInLink, body);
   }
 
-  public saveUserToLocalStorage(data: UserSuccessSignIn) {
+  saveUserToLocalStorage(data: UserSuccessSignIn) {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setAccessToken(data.accessToken);
     this.localStorageService.setRefreshToken(data.refreshToken);

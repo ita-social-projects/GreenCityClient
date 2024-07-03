@@ -21,7 +21,7 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
   certificateMask = Masks.certificateMask;
   monthCountDisabled: boolean;
   pointsValueDisabled: boolean;
-  public langChangeSub: Subscription;
+  langChangeSub: Subscription;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -48,18 +48,18 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 
-  public initForm(): void {
+  initForm(): void {
     this.addCertificateForm = this.fb.group({
       code: new FormControl('', [Validators.required, Validators.pattern(this.certificatePattern)]),
       monthCount: new FormControl('', [
         Validators.required,
-        Validators.pattern(Patterns.sertificateMonthCount),
+        Validators.pattern(Patterns.certificateMonthCount),
         Validators.max(12),
         Validators.min(1)
       ]),
       initialPointsValue: new FormControl('', [
         Validators.required,
-        Validators.pattern(Patterns.sertificateInitialValue),
+        Validators.pattern(Patterns.certificateInitialValue),
         Validators.min(1),
         Validators.max(9999.99)
       ])

@@ -18,6 +18,7 @@ export const OrderInfoMockedData: IOrderInfo = {
     orderStatus: OrderStatus.FORMED,
     orderStatusName: 'Сформовано',
     orderStatusNameEng: 'Formed',
+    blocked: true,
     orderStatusesDtos: [
       {
         ableActualChange: false,

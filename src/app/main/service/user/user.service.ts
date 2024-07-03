@@ -9,7 +9,7 @@ import { habitStatisticLink, userLink } from '../../links';
 import { RolesModel } from '../../model/user/roles.model';
 import { UserFilterDtoModel } from '../../model/user/userFilterDto.model';
 import { UserUpdateModel } from '../../model/user/user-update.model';
-import * as moment from 'moment';
+import moment from 'moment';
 import { HabitItemsAmountStatisticDto } from '@global-models/goal/HabitItemsAmountStatisticDto';
 
 @Injectable({

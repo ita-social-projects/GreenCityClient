@@ -271,16 +271,16 @@ describe('EventDetailsComponent', () => {
     expect(spy).toHaveBeenCalledWith('sign-in');
   });
 
-  it('should call openSnackBar with "errorJoinEvent" when isUserCanJoin is true and addAttenderError is truthy', () => {
+  it('should call openSnackBar with "errorJoinEvent" when isUserCanJoin is true and attenderError is truthy', () => {
     component.role = 'USER';
     component.isUserCanJoin = true;
-    component.addAttenderError = 'some error';
+    component.attenderError = 'some error';
     const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
     dialogRefSpy.afterClosed.and.returnValue(of(true));
     dialogSpy.open.and.returnValue(dialogRefSpy);
     component.buttonAction({} as MouseEvent);
     expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('errorJoinEvent');
-    expect(component.addAttenderError).toBe('');
+    expect(component.attenderError).toBe('');
   });
 
   it('should call submitEventCancelling if result is true after dialog closed when submitting event join cancelation', () => {

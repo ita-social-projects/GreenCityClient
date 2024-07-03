@@ -22,6 +22,8 @@ interface EmployeesError {
   message: string;
 }
 
+const blackList = ['https://csb'];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -56,6 +58,10 @@ export class InterceptorService implements HttpInterceptor {
         })
       );
     } else {
+      if (blackList.some((url) => req.url.includes(url))) {
+        return next.handle(req);
+      }
+
       // else return the normal request
       if (this.localStorageService.getAccessToken()) {
         req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
@@ -154,7 +160,7 @@ export class InterceptorService implements HttpInterceptor {
     });
   }
 
-  public openErrorWindow(message: string): void {
+  openErrorWindow(message: string): void {
     this.snackBar.openSnackBar(message);
   }
 
@@ -209,7 +215,6 @@ export class InterceptorService implements HttpInterceptor {
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
     const currentUrl = this.router.url;
     const isUBS = currentUrl.includes('ubs');
-    this.isRefreshing = false;
     this.localStorageService.clear();
     this.dialog.closeAll();
     this.userOwnAuthService.isLoginUserSubject.next(false);
@@ -225,11 +230,13 @@ export class InterceptorService implements HttpInterceptor {
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe((isCanceled: boolean) => {
-        isCanceled && typeof isCanceled === 'boolean'
-          ? this.router.navigate(isUBS ? ['ubs'] : [''])
-          : this.router.navigateByUrl(currentUrl);
+      .subscribe(() => {
+        this.isRefreshing = false;
+        this.userOwnAuthService.isLoginUserSubject.getValue()
+          ? this.router.navigateByUrl(currentUrl)
+          : this.router.navigate(isUBS ? ['ubs'] : ['greenCity']);
       });
+
     return of<HttpEvent<any>>();
   }
 

@@ -7,9 +7,10 @@ import { CommonModule } from '@angular/common';
 // import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { UserProfileImageComponent } from './components/user-profile-image/user-profile-image.component';
 import { CustomTooltipDirective } from './directives/custom-tooltip.directive';
+import { FriendsListPopUpComponent } from './components/friends-list-pop-up/friends-list-pop-up.component';
 
 @NgModule({
-  declarations: [HabitsGalleryViewComponent, UserProfileImageComponent, CustomTooltipDirective],
+  declarations: [HabitsGalleryViewComponent, UserProfileImageComponent, CustomTooltipDirective, FriendsListPopUpComponent],
   imports: [
     CommonModule,
     TranslateModule.forChild({

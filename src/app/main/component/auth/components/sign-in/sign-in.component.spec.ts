@@ -1,5 +1,5 @@
-import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
-import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
+import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
+import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { ErrorComponent } from '../error/error.component';
@@ -21,6 +21,12 @@ import { SignInComponent } from './sign-in.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+
+declare global {
+  interface Window {
+    google: any;
+  }
+}
 
 describe('SignIn component', () => {
   let component: SignInComponent;
@@ -58,24 +64,23 @@ describe('SignIn component', () => {
 
   const googleServiceMock: GoogleSignInService = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
+
+  const googleAccountMock = {
+    id: {
+      initialize: jasmine.createSpy('initialize'),
+      prompt: jasmine.createSpy('prompt')
+    }
+  };
+
+  window.google = { accounts: googleAccountMock };
+
   const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
   jwtServiceMock.getUserRole = () => 'true';
   jwtServiceMock.getEmailFromAccessToken = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
-  function waitForGoogleScriptToLoad(): Promise<void> {
-    return new Promise((resolve) => {
-      const interval = setInterval(() => {
-        if (typeof google !== 'undefined') {
-          clearInterval(interval);
-          resolve();
-        }
-      }, 100);
-    });
-  }
-
   beforeEach(waitForAsync(async () => {
-    await waitForGoogleScriptToLoad();
+    window.google = { accounts: googleAccountMock };
 
     TestBed.configureTestingModule({
       declarations: [SignInComponent, ErrorComponent, GoogleBtnComponent],
@@ -104,6 +109,7 @@ describe('SignIn component', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     router = fixture.debugElement.injector.get(Router);
+    spyOn(component, 'signInWithGooglePopup');
     spyOn(router.url, 'includes').and.returnValue(false);
     spyOn(router, 'navigate');
   });

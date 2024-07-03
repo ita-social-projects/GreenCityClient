@@ -2,6 +2,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { getTestBed, TestBed } from '@angular/core/testing';
 
 import { UserFriendsService } from './user-friends.service';
+import { UserDataAsFriend } from '@global-user/models/friend.model';
+import { FriendStatusValues } from '@global-user/models/friend.model';
 
 describe('UserFriendsService', () => {
   let injector: TestBed;
@@ -183,5 +185,16 @@ describe('UserFriendsService', () => {
     );
     expect(req.request.method).toBe('GET');
     req.flush(friends);
+  });
+
+  it('should get User Data As Friend', () => {
+    const userData: UserDataAsFriend = { id: 1, chatId: null, friendStatus: FriendStatusValues.REQUEST, requesterId: 1 };
+    userFriendsService.getUserDataAsFriend(1).subscribe((data) => {
+      expect(data).toEqual(userData);
+    });
+
+    const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/user-data-as-friend/1`);
+    expect(req.request.method).toBe('GET');
+    req.flush(userData);
   });
 });

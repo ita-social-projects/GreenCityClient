@@ -45,7 +45,7 @@
         </td>
         <td>{{ getLangValue(service.name, service.nameEng) }}</td>
         <td>{{ getLangValue(service.description, service.descriptionEng) }}</td>
-        <td>{{ servicePrice | currency | localizedCurrency }}</td>
+        <td>{{ servicePrice | localizedCurrency }}</td>
       </tr>
     </table>
   </div>
@@ -92,9 +92,9 @@
         <td>{{ getLangValue(bag.name, bag.nameEng) }}</td>
         <td>{{ bag.capacity | volume }}</td>
         <td>{{ getLangValue(bag.description, bag.descriptionEng) }}</td>
-        <td>{{ bag.price | currency | localizedCurrency }}</td>
-        <td>{{ bag.commission | currency | localizedCurrency }}</td>
-        <td>{{ bag.fullPrice | currency | localizedCurrency }}</td>
+        <td>{{ bag.price | localizedCurrency }}</td>
+        <td>{{ bag.commission | localizedCurrency }}</td>
+        <td>{{ bag.fullPrice | localizedCurrency }}</td>
       </tr>
     </table>
   </div>
@@ -126,6 +126,7 @@
                 class="input"
                 type="number"
                 min="1"
+                [max]="orderMaxLimit.sum"
                 (keypress)="checkOnNumber($event, minPriceOfOrder)"
                 id="from"
                 formControlName="minPriceOfOrder"
@@ -166,7 +167,7 @@
                 (keypress)="checkOnNumber($event, minBigBags)"
                 id="from-packages"
                 formControlName="minAmountOfBigBags"
-                placeholder="20"
+                placeholder="0"
                 (change)="unClickSaveBTN($event)"
                 [ngClass]="{ invalid: !!minBigBags?.errors && limitStatus === limitEnum.limitByAmountOfBag }"
               />
@@ -175,10 +176,11 @@
                 class="input"
                 type="number"
                 min="2"
+                [max]="orderMaxLimit.amount"
                 (keypress)="checkOnNumber($event, maxBigBags)"
                 id="to-packages"
                 formControlName="maxAmountOfBigBags"
-                placeholder="20"
+                placeholder="0"
                 (change)="unClickSaveBTN($event)"
                 [ngClass]="{ invalid: !!maxBigBags?.errors && limitStatus === limitEnum.limitByAmountOfBag }"
               />

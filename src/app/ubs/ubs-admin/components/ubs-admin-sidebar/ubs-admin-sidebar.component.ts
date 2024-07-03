@@ -16,11 +16,11 @@ import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions'
   templateUrl: './ubs-admin-sidebar.component.html'
 })
 export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements AfterViewInit, OnInit {
-  public listElementsAdmin = listElementsAdmin;
-  public employeeAuthorities: string[];
-  public positionName: Array<string>;
-  public destroySub: Subject<boolean> = new Subject<boolean>();
-  public permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
+  listElementsAdmin = listElementsAdmin;
+  employeeAuthorities: string[];
+  positionName: Array<string>;
+  destroySub: Subject<boolean> = new Subject<boolean>();
+  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   constructor(
     public ubsAdminEmployeeService: UbsAdminEmployeeService,

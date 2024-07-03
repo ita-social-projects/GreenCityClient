@@ -13,19 +13,19 @@ import { UserOnlineStatusService } from '@global-user/services/user-online-statu
   styleUrls: ['./recommended-friends.component.scss']
 })
 export class RecommendedFriendsComponent implements OnInit, OnDestroy {
-  public recommendedFriends: FriendModel[] = [];
-  public recommendedFriendsBySearch: FriendModel[] = [];
-  public userId: number;
+  recommendedFriends: FriendModel[] = [];
+  recommendedFriendsBySearch: FriendModel[] = [];
+  userId: number;
   private destroy$ = new Subject();
-  public scroll = false;
-  public currentPage = 0;
-  public totalPages: number;
-  public amountOfFriends: number;
-  public isFetching = false;
-  public emptySearchList = false;
-  public sizePage = 10;
-  public searchQuery = '';
-  public searchMode = false;
+  scroll = false;
+  currentPage = 0;
+  totalPages: number;
+  amountOfFriends: number;
+  isFetching = false;
+  emptySearchList = false;
+  sizePage = 10;
+  searchQuery = '';
+  searchMode = false;
 
   readonly absent = 'assets/img/noNews.svg';
   constructor(
@@ -40,7 +40,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
     this.getNewFriends(this.currentPage);
   }
 
-  public findUserByName(value: string) {
+  findUserByName(value: string) {
     this.searchQuery = value;
     this.isFetching = true;
     this.searchMode = true;
@@ -68,7 +68,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       );
   }
 
-  public getNewFriends(currentPage: number) {
+  getNewFriends(currentPage: number) {
     this.isFetching = true;
     this.userFriendsService
       .getNewFriends('', currentPage)
@@ -92,7 +92,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       );
   }
 
-  public onScroll(): void {
+  onScroll(): void {
     if (this.scroll || this.emptySearchList) {
       return;
     }

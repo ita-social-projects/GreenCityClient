@@ -19,15 +19,15 @@ import { tagsListPlacesData } from '../../models/places-consts';
   styleUrls: ['./add-place.component.scss']
 })
 export class AddPlaceComponent implements OnInit {
-  public addPlaceForm: FormGroup;
-  public workingHours = '';
-  public tagList: Array<FilterModel> = tagsListPlacesData;
-  public filterCategories: FilterPlaceCategories[];
-  public timeArrStart = [];
-  public timeArrEnd = [];
-  public timeArr: Array<string> = [];
-  public workingTime: WorkingTime[];
-  public workingTimeIsValid: boolean;
+  addPlaceForm: FormGroup;
+  workingHours = '';
+  tagList: Array<FilterModel> = tagsListPlacesData;
+  filterCategories: FilterPlaceCategories[];
+  timeArrStart = [];
+  timeArrEnd = [];
+  timeArr: Array<string> = [];
+  workingTime: WorkingTime[];
+  workingTimeIsValid: boolean;
   @Output() getAddressData: any = new EventEmitter<any>();
 
   constructor(
@@ -104,7 +104,7 @@ export class AddPlaceComponent implements OnInit {
       });
   }
 
-  public bindLang(lang: string): void {
+  bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
 }

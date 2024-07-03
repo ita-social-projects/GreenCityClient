@@ -544,6 +544,14 @@ body {
   margin-top: 15px;
 }
 
+.multiline-matTooltip {
+  white-space: pre-line;
+}
+
 .mat-mdc-menu-panel {
   overflow: visible !important;
+}
+
+.mat-mdc-select-min-line {
+  font-size: 12px;
 }

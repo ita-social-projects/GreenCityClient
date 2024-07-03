@@ -4,9 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { FriendProfilePageComponent } from './friend-profile-page.component';
-import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
+import { FRIENDS, UserAsFriend } from '@global-user/mocks/friends-mock';
 
 describe('FriendProfilePageComponent', () => {
   let component: FriendProfilePageComponent;
@@ -15,20 +15,24 @@ describe('FriendProfilePageComponent', () => {
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
-    'languageSubject'
+    'languageSubject',
+    'userIdBehaviourSubject'
   ]);
   localStorageServiceMock.languageSubject = new Subject();
+  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1);
 
   const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', [
     'getUserProfileStatistics',
     'getUserInfo',
     'getRequests',
     'declineRequest',
-    'acceptRequest'
+    'acceptRequest',
+    'getUserDataAsFriend'
   ]);
   userFriendsServiceMock.getUserProfileStatistics = () => of();
   userFriendsServiceMock.getUserInfo = () => of();
   userFriendsServiceMock.getRequests = () => of(FRIENDS);
+  userFriendsServiceMock.getUserDataAsFriend = () => of(UserAsFriend);
   const activatedRouteMock = {
     snapshot: {
       params: {

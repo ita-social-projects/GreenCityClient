@@ -1,0 +1,15 @@
+<div class="dialog-container">
+  <button (click)="onClose()" class="close">
+    <img src="{{ closeButton }}" alt="close" />
+  </button>
+  <div *ngFor="let friend of friends; index as i" class="list-item">
+    <app-user-profile-image imgPath="{{ friend.profilePicturePath }}" additionalImgClass="friend-user-profile"> </app-user-profile-image>
+    <div>
+      <div class="habit-progress">
+        <img class="calendar" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
+        <p>{{ friend.habitProgress.workingDays }} / {{ friend.habitProgress.duration }}</p>
+      </div>
+      <a (click)="navigateToFriendsPage(friend.id, friend.name)">{{ friend.name }}</a>
+    </div>
+  </div>
+</div>

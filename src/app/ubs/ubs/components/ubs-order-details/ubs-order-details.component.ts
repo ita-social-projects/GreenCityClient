@@ -280,10 +280,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   initExistingOrderValues(): void {
-    this.orderComment.setValue(this.existingOrderInfo.orderComment);
-    if (this.existingOrderInfo.additionalOrders.length > 0) {
-      this.additionalOrders.clear();
-      this.existingOrderInfo.additionalOrders.forEach((order) => this.addOrder(order));
+    if (this.existingOrderInfo) {
+      this.orderComment.setValue(this.existingOrderInfo.orderComment);
+      if (this.existingOrderInfo.additionalOrders?.length > 0) {
+        this.additionalOrders.clear();
+        this.existingOrderInfo.additionalOrders.forEach((order) => this.addOrder(order));
+      }
     }
   }
 

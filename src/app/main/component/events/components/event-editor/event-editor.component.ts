@@ -12,6 +12,7 @@ import {
   EventInformation,
   EventResponse,
   FormCollectionEmitter,
+  ImagesContainer,
   PagePreviewDTO,
   TagObj
 } from '../../models/events.interface';
@@ -40,21 +41,21 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   @Input() isUpdating: boolean;
   @Input() cancelChanges: boolean;
   @Input({ required: true }) eventId: number;
-  public quillModules = {};
-  public places: Place[] = [];
-  public isPosting = false;
-  public editEvent: EventResponse;
-  public tags: Array<TagObj>;
-  public isImageSizeError: boolean;
-  public isImageTypeError = false;
-  public images = singleNewsImages;
-  public currentLang: string;
-  public submitButtonName = 'create-event.publish';
-  public subscription: Subscription;
-  public imgArray: Array<File> = [];
-  public userId: number;
-  public previousPath: string;
-  public popupConfig = {
+  quillModules = {};
+  places: Place[] = [];
+  isPosting = false;
+  editEvent: EventResponse;
+  tags: Array<TagObj>;
+  isImageSizeError: boolean;
+  isImageTypeError = false;
+  images = singleNewsImages;
+  currentLang: string;
+  submitButtonName = 'create-event.publish';
+  subscription: Subscription;
+  imgArray: Array<File> = [];
+  userId: number;
+  previousPath: string;
+  popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
@@ -66,8 +67,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       popupCancel: 'homepage.events.events-popup.cancel'
     }
   };
-  public routedFromProfile: boolean;
-  public formsIsValid = false;
+  routedFromProfile: boolean;
+  formsIsValid = false;
   private matSnackBar: MatSnackBarComponent;
   private _invalidFormsMap = new Map();
   private _formsValues: EventForm = {
@@ -117,6 +118,9 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       case 'event':
         this._formsValues.eventInformation = form as EventInformation;
         break;
+      case 'images':
+        this._formsValues.eventInformation.images = form as ImagesContainer[];
+        break;
       // Add more cases for other types if needed
       default:
         break;
@@ -151,7 +155,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     this.previousPath = this.localStorageService.getPreviousPage() || '/events';
   }
 
-  public onPreview() {
+  onPreview() {
     this.eventStore.setEditorValues(structuredClone(this._formsValues));
     const { dateInformation, eventInformation } = this._formsValues;
     const { images, duration, title, description, open, tags } = eventInformation;
@@ -173,7 +177,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     this.router.navigate(['events', 'preview']);
   }
 
-  public clear() {
+  clear() {
     const clearedForm = {
       eventInformation: undefined,
       dateInformation: undefined
@@ -183,7 +187,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     this.cancel(true);
   }
 
-  public submitEvent(): void {
+  submitEvent(): void {
     const { eventInformation, dateInformation } = this._formsValues;
     const { open, tags, editorText, title, images } = eventInformation;
     const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
@@ -197,15 +201,12 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
 
     //TODO CAN WE CHANGE TITLE IMAGE?
     if (this.isUpdating) {
-      const responseImages = this.initialForm.eventInformation.images.map((value) => value.url);
       const currentImages = this._savedFormValues.eventInformation.images.filter((value) => !value.file).map((value) => value.url);
-      const removedImages = responseImages.filter((value) => !currentImages.includes(value));
       sendEventDto = {
         ...sendEventDto,
-        imagesToDelete: removedImages,
         additionalImages: currentImages.slice(1),
         id: this.eventId,
-        titleImage: responseImages[0]
+        titleImage: currentImages[0]
       };
     }
     const formData: FormData = new FormData();
@@ -219,6 +220,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
         formData.append('images', item.file);
       }
     });
+
     this.createEvent(formData);
   }
 
@@ -253,12 +255,12 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     });
   }
 
-  public escapeFromCreateEvent(): void {
+  escapeFromCreateEvent(): void {
     this.router.navigate(['/events']);
     this.eventSuccessfullyAdded();
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 

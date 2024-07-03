@@ -10,7 +10,7 @@ import { UserSuccessSignIn } from '../../model/user-success-sign-in';
 export class GoogleSignInService {
   constructor(private http: HttpClient) {}
 
-  public signIn(token: string, lang = 'en'): Observable<UserSuccessSignIn> {
+  signIn(token: string, lang = 'en'): Observable<UserSuccessSignIn> {
     return this.http.get<UserSuccessSignIn>(`${googleSecurityLink}?token=${token}&lang=${lang}`);
   }
 }

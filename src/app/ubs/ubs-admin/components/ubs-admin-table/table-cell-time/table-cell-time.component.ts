@@ -23,16 +23,16 @@ export class TableCellTimeComponent implements OnInit {
   @Output() showBlockedInfo = new EventEmitter();
   @Output() isTimePickerOpened = new EventEmitter();
 
-  public fromInput: string;
-  public toInput: string;
-  public fromSelect: string[];
-  public toSelect: string[];
-  public isEditable: boolean;
-  public isBlocked: boolean;
+  fromInput: string;
+  toInput: string;
+  fromSelect: string[];
+  toSelect: string[];
+  isEditable: boolean;
+  isBlocked: boolean;
   private typeOfChange: number[];
-  public from: string;
-  public to: string;
-  public parseTime = [];
+  from: string;
+  to: string;
+  parseTime = [];
 
   constructor(private adminTableService: AdminTableService) {}
 
@@ -44,7 +44,7 @@ export class TableCellTimeComponent implements OnInit {
     this.toInput = this.to;
   }
 
-  public parseTime_(timeExport: string): void {
+  parseTime_(timeExport: string): void {
     let arr = [];
     const res = timeExport.split('-').map((e) => {
       arr = e.split(':');
@@ -56,7 +56,7 @@ export class TableCellTimeComponent implements OnInit {
     this.from = res[0];
     this.to = res[1];
   }
-  public edit(): void {
+  edit(): void {
     this.isTimePickerOpened.emit(true);
     this.isEditable = false;
     this.isBlocked = true;

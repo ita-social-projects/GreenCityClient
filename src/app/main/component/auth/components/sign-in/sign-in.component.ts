@@ -31,23 +31,23 @@ declare let google: any;
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit, OnDestroy, OnChanges {
-  public closeBtn = SignInIcons;
-  public mainSignInImage = SignInIcons;
-  public googleImage = SignInIcons;
-  public hideShowPasswordImage = SignInIcons;
-  public userOwnSignIn: UserOwnSignIn;
-  public loadingAnim: boolean;
-  public signInForm: FormGroup;
-  public signInFormValid: boolean;
-  public emailField: AbstractControl;
-  public passwordField: AbstractControl;
-  public emailFieldValue: string;
-  public passwordFieldValue: string;
+  closeBtn = SignInIcons;
+  mainSignInImage = SignInIcons;
+  googleImage = SignInIcons;
+  hideShowPasswordImage = SignInIcons;
+  userOwnSignIn: UserOwnSignIn;
+  loadingAnim: boolean;
+  signInForm: FormGroup;
+  signInFormValid: boolean;
+  emailField: AbstractControl;
+  passwordField: AbstractControl;
+  emailFieldValue: string;
+  passwordFieldValue: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  public isSignInPage: boolean;
+  isSignInPage: boolean;
   private errorUnverifiedEmail = 'You should verify the email first, check your email box!';
   private errorUnauthorized = 'Unauthorized';
-  public generalError: string;
+  generalError: string;
 
   @Output() private pageName = new EventEmitter();
   @Input() isUbs: boolean;
@@ -97,7 +97,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.passwordClassCheck();
   }
 
-  public configDefaultErrorMessage(): void {
+  configDefaultErrorMessage(): void {
     this.generalError = null;
     if (this.signInForm) {
       this.emailFieldValue = this.emailField.value;
@@ -106,13 +106,13 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  public allFieldsEmptyCheck() {
+  allFieldsEmptyCheck() {
     const emailAndPasswordEmpty =
       this.passwordField.touched && !this.passwordField.value && this.emailField.touched && !this.emailField.value;
     this.generalError = emailAndPasswordEmpty ? 'user.auth.sign-in.fill-all-red-fields' : null;
   }
 
-  public signIn(): void {
+  signIn(): void {
     if (this.signInForm.invalid) {
       return;
     }
@@ -134,7 +134,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
       );
   }
 
-  public signInWithGooglePopup(): void {
+  signInWithGooglePopup(): void {
     const gAccounts: accounts = google.accounts;
     gAccounts.id.initialize({
       client_id: environment.googleClientId,
@@ -145,7 +145,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     gAccounts.id.prompt();
   }
 
-  public signInWithGoogle(): void {
+  signInWithGoogle(): void {
     const login = googleProvider.useGoogleLogin({
       flow: 'implicit',
       onSuccess: (res) => {
@@ -156,7 +156,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     login();
   }
 
-  public handleGoogleAuth(resp): void {
+  handleGoogleAuth(resp): void {
     this.googleService
       .signIn(resp)
       .pipe(takeUntil(this.destroy))
@@ -165,11 +165,11 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
       });
   }
 
-  public onOpenModalWindow(windowPath: string): void {
+  onOpenModalWindow(windowPath: string): void {
     this.pageName.emit(windowPath);
   }
 
-  public onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
+  onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
@@ -189,7 +189,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  public togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
+  togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
     input.type = input.type === 'password' ? 'text' : 'password';
     src.src = input.type === 'password' ? this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
     src.alt = input.type === 'password' ? 'show password' : 'hide password';
@@ -203,7 +203,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  public onSignInSuccess(data: UserSuccessSignIn): void {
+  onSignInSuccess(data: UserSuccessSignIn): void {
     this.loadingAnim = false;
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.localStorageService.setFirstName(data.name);
@@ -212,7 +212,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.router.navigate(this.navigateToPage(data));
   }
 
-  public navigateToPage(data): any {
+  navigateToPage(data): any {
     const getUbsRoleSignIn = this.jwtService.getUserRole();
     this.jwtService.userRole$.next(getUbsRoleSignIn);
     if (getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE') {
@@ -246,13 +246,13 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  public emailClassCheck(): string {
+  emailClassCheck(): string {
     return (this.emailField?.invalid && this.emailField.touched) || this.generalError
       ? 'alert-email-validation'
       : 'successful-email-validation';
   }
 
-  public passwordClassCheck(): string {
+  passwordClassCheck(): string {
     return (this.passwordField?.invalid && this.passwordField.touched) || this.generalError
       ? 'alert-password-validation'
       : 'successful-password-validation';

@@ -16,13 +16,13 @@ import { FriendModel } from '@global-user/models/friend.model';
   styleUrls: ['./new-message-window.component.scss']
 })
 export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDestroy {
-  public chatIcons = CHAT_ICONS;
-  public userSearchField = '';
+  chatIcons = CHAT_ICONS;
+  userSearchField = '';
   private onDestroy$ = new Subject();
-  public userSearchControl: FormControl = new FormControl();
-  public messageControl: FormControl = new FormControl('', [Validators.max(250)]);
-  public showEmojiPicker = false;
-  public isHaveMessages = true;
+  userSearchControl: FormControl = new FormControl();
+  messageControl: FormControl = new FormControl('', [Validators.max(250)]);
+  showEmojiPicker = false;
+  isHaveMessages = true;
   @ViewChild('chat') chat: ElementRef;
 
   constructor(
@@ -48,11 +48,11 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
     element.scrollTop = element.scrollHeight;
   }
 
-  public close() {
+  close() {
     this.commonService.newMessageWindowRequireCloseStream$.next(true);
   }
 
-  public checkChat(friend: FriendModel) {
+  checkChat(friend: FriendModel) {
     if (friend.chatId) {
       const userChat = this.chatsService.userChats.find((chat) => chat.id === friend.chatId);
       this.chatsService.setCurrentChat(userChat);
@@ -61,7 +61,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
     }
   }
 
-  public sendMessage() {
+  sendMessage() {
     const messageContent = this.messageControl.value.trim();
     if (messageContent) {
       const message: Message = {

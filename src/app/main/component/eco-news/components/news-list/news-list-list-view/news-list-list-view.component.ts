@@ -36,14 +36,14 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
 
   private smallHeight = 'smallHeight';
   private bigHeight = 'bigHeight';
-  public profileIcons = userAssignedCardsIcons;
-  public newsImage: string;
-  public tags: Array<string>;
-  public currentLang: string;
+  profileIcons = userAssignedCardsIcons;
+  newsImage: string;
+  tags: Array<string>;
+  currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  public newDate;
-  public datePipe;
+  newDate;
+  datePipe;
 
   constructor(
     public router: Router,
@@ -71,7 +71,7 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
 
   // the idea is to get the height of the header and based on it visualize the Description and Header by adding specific class names
   // another problem is that the line height and container height are different for different devices
-  public checkHeightOfTittle(): void {
+  checkHeightOfTittle(): void {
     const titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
     const descClass = this.getHeightOfDesc(titleHeightOfElement);
     const titleClass = this.getHeightOfTitle(titleHeightOfElement);
@@ -80,7 +80,7 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
     this.renderer.addClass(this.titleHeight.nativeElement, titleClass);
   }
 
-  public checkNewsImage(): string {
+  checkNewsImage(): string {
     this.newsImage =
       this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
         ? this.ecoNewsModel.imagePath
@@ -92,7 +92,7 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
     return window.innerWidth <= 768 ? this.smallHeight : this.bigHeight;
   }
 
-  public routeToNews(): void {
+  routeToNews(): void {
     this.router.navigate(['/news', this.ecoNewsModel.id]);
   }
 

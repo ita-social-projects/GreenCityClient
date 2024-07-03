@@ -14,7 +14,7 @@ export class InputErrorComponent implements OnInit {
   @Input() public numberDate: boolean;
   @Input() public isStartEventError: boolean;
 
-  public errorMessage: string | undefined;
+  errorMessage: string | undefined;
   private validationErrors = {
     required: 'input-error.required',
     minlength: 'input-error.min-length-short',
@@ -25,6 +25,7 @@ export class InputErrorComponent implements OnInit {
     maxlengthService: 'ubs-tariffs-add-service.error_service_name_content',
     maxlengthServiceDescription: 'ubs-tariffs-add-service.error_content',
     pattern: 'input-error.pattern',
+    capacity: 'input-error.capacity',
     maxlengthEventName: 'create-event.max-length-title',
     requiredEventName: 'create-event.title-required',
     requiredEventDate: 'create-event.date-required',
@@ -94,8 +95,10 @@ export class InputErrorComponent implements OnInit {
   }
 
   private getMinValueErrorMessage(actualValue: number): string {
-    if (actualValue < 1) {
+    if (actualValue < 0) {
       return this.validationErrors.negativeNumberValue;
+    } else if (actualValue === 0) {
+      return this.validationErrors.capacity;
     }
   }
 

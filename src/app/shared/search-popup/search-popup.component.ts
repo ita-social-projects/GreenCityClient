@@ -20,18 +20,18 @@ import { SearchCategory } from './search-consts';
   styleUrls: ['./search-popup.component.scss']
 })
 export class SearchPopupComponent implements OnInit, OnDestroy {
-  public newsElements: NewsSearchModel[] = [];
-  public eventsElements: EventsSearchModel[] = [];
-  public isSearchClicked = false;
-  public itemsFound: number = null;
-  public searchModalSubscription: Subscription;
-  public searchInput = new FormControl('');
-  public isLoading = false;
-  public isNewsSearchFound: boolean;
-  public searchValueChanges;
+  newsElements: NewsSearchModel[] = [];
+  eventsElements: EventsSearchModel[] = [];
+  isSearchClicked = false;
+  itemsFound: number = null;
+  searchModalSubscription: Subscription;
+  searchInput = new FormControl('');
+  isLoading = false;
+  isNewsSearchFound: boolean;
+  searchValueChanges;
   private currentLanguage: string;
-  public searchIcons = searchIcons;
-  public searctabindex: SearchService;
+  searchIcons = searchIcons;
+  searctabindex: SearchService;
 
   constructor(
     public searchService: SearchService,
@@ -68,15 +68,15 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     this.searchValueChanges.pipe(filter(negate(isNil))).subscribe(() => this.resetData());
   }
 
-  public announce() {
+  announce() {
     this.announcer.announce('Welcome to the search window', 'assertive');
   }
 
-  public setupInitialValue(): void {
+  setupInitialValue(): void {
     this.searchModalSubscription = this.searchService.searchSubject.subscribe((signal) => this.subscribeToSignal(signal));
   }
 
-  public openErrorPopup(): void {
+  openErrorPopup(): void {
     this.snackBar.openSnackBar('error');
   }
 
@@ -95,7 +95,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     this.isSearchClicked = signal;
   }
 
-  public closeSearch(): void {
+  closeSearch(): void {
     this.searchService.closeSearchSignal();
     this.isSearchClicked = false;
     this.resetData();

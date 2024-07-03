@@ -22,7 +22,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   @Input() orders: IUserOrderInfo[];
   @Input() bonuses: number;
 
-  public currentLanguage: string;
+  currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   orderDetails: OrderDetails;
   personalDetails: PersonalData;
@@ -54,35 +54,35 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public isOrderUnpaid(order: IUserOrderInfo): boolean {
+  isOrderUnpaid(order: IUserOrderInfo): boolean {
     return order.paymentStatusEng === PaymentStatusEn.UNPAID;
   }
 
-  public isOrderHalfPaid(order: IUserOrderInfo): boolean {
+  isOrderHalfPaid(order: IUserOrderInfo): boolean {
     return order.paymentStatusEng === PaymentStatusEn.HALFPAID;
   }
 
-  public isOrderCanceled(order: IUserOrderInfo): boolean {
+  isOrderCanceled(order: IUserOrderInfo): boolean {
     return order.orderStatusEng === OrderStatusEn.CANCELED;
   }
 
-  public isOrderDoneOrCancel(order: IUserOrderInfo): boolean {
+  isOrderDoneOrCancel(order: IUserOrderInfo): boolean {
     const isOrderDone = order.orderStatusEng === OrderStatusEn.DONE;
     const isOrderCancelled = order.orderStatusEng === OrderStatusEn.CANCELED;
     return isOrderDone || isOrderCancelled;
   }
 
-  public isOrderPriceGreaterThenZero(order: IUserOrderInfo): boolean {
+  isOrderPriceGreaterThenZero(order: IUserOrderInfo): boolean {
     return order.orderFullPrice > 0;
   }
 
-  public isOrderPaymentAccess(order: IUserOrderInfo): boolean {
+  isOrderPaymentAccess(order: IUserOrderInfo): boolean {
     return (
       this.isOrderPriceGreaterThenZero(order) && (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order)) && !this.isOrderCanceled(order)
     );
   }
 
-  public canOrderBeCancel(order: IUserOrderInfo): boolean {
+  canOrderBeCancel(order: IUserOrderInfo): boolean {
     return (
       order.paymentStatusEng !== PaymentStatusEn.HALFPAID &&
       order.orderStatusEng !== OrderStatusEn.ADJUSTMENT &&
@@ -93,7 +93,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     );
   }
 
-  public changeCard(id: number): void {
+  changeCard(id: number): void {
     this.orders.forEach((order) => (order.extend = order.id === id ? !order.extend : false));
   }
 
@@ -109,19 +109,19 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     });
   }
 
-  public openOrderPaymentDialog(order: IUserOrderInfo): void {
+  openOrderPaymentDialog(order: IUserOrderInfo): void {
     const isOrderFormed = order.orderStatusEng === OrderStatusEn.FORMED;
     this.isOrderUnpaid(order) && isOrderFormed ? this.getDataForLocalStorage(order) : this.openOrderPaymentPopUp(order);
     this.orderService.cleanOrderState();
   }
 
-  public getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
+  getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
     const bags = order.bags;
     const bag = bags.find((item) => item.capacity === capacity && item.service === bagTypeName);
     return bag ? bag.count : null;
   }
 
-  public getDataForLocalStorage(order: IUserOrderInfo): void {
+  getDataForLocalStorage(order: IUserOrderInfo): void {
     this.localStorageService.removeUbsOrderAndPersonalData();
 
     let orderDataResponse: OrderDetails;
@@ -181,18 +181,18 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     return this.bags.filter((item) => item.id === id)[0].quantity;
   }
 
-  public setDataToLocalStorage(): void {
+  setDataToLocalStorage(): void {
     const personalData = JSON.stringify(this.personalDetails);
     const orderData = JSON.stringify(this.orderDetails);
     this.localStorageService.setUbsOrderDataBeforeRedirect(personalData, orderData, this.anotherClient, this.orderId);
     this.redirectToStepOne();
   }
 
-  public redirectToStepOne(): void {
+  redirectToStepOne(): void {
     this.router.navigate(['ubs/order'], { queryParams: { existingOrderId: this.orderId } });
   }
 
-  public openOrderCancelDialog(order: IUserOrderInfo): void {
+  openOrderCancelDialog(order: IUserOrderInfo): void {
     this.dialog.open(UbsUserOrderCancelPopUpComponent, {
       data: {
         orderId: order.id,
@@ -201,11 +201,11 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     });
   }
 
-  public sortingOrdersByData(): void {
+  sortingOrdersByData(): void {
     this.orders.sort((a: IUserOrderInfo, b: IUserOrderInfo): number => (a.dateForm < b.dateForm ? 1 : -1));
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 }

@@ -11,7 +11,7 @@ export class UserProfileImageComponent {
   @Input() isOnline;
   @Input() additionalImgClass = '';
 
-  public getDefaultProfileImg(): string {
+  getDefaultProfileImg(): string {
     let initials = '';
 
     if (this.firstName) {

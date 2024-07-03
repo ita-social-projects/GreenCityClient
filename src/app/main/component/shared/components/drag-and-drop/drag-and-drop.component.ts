@@ -1,7 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Component({
@@ -9,89 +7,73 @@ import { FileHandle } from '@eco-news-models/create-news-interface';
   templateUrl: './drag-and-drop.component.html',
   styleUrls: ['./drag-and-drop.component.scss']
 })
-export class DragAndDropComponent implements OnInit {
-  public selectedFile: File = null;
-  public selectedFileUrl: string;
-  public imageChangedEvent: FileHandle[];
-  public isCropper = true;
-  public files: FileHandle[] = [];
-  public isWarning = false;
-  private croppedImage: string;
-  @Input() public formData: FormGroup;
+export class DragAndDropComponent {
+  selectedFile: File = null;
+  selectedFileUrl: string;
+  imageChangedEvent: FileHandle[];
+  isCropper = true;
+  isWarning = false;
+  croppedImage: ImageCroppedEvent;
+  @Input() file: FileHandle;
+  @Output() newFile = new EventEmitter<FileHandle>();
 
-  @Output() newFile = new EventEmitter<FileHandle[]>();
+  stopCropping(): void {
+    const changeFile = new File([this.croppedImage.blob], this.file.file.name, { type: 'image/png' });
 
-  constructor(private createEcoNewsService: CreateEcoNewsService) {}
+    const reader = new FileReader();
+    reader.readAsDataURL(changeFile);
+    reader.onloadend = () => {
+      const base64data = reader.result;
 
-  ngOnInit() {
-    this.patchImage();
-    this.croppedImage = this.formData.value.image;
+      this.file = {
+        url: base64data,
+        file: changeFile
+      };
+      this.isCropper = false;
+      this.newFile.emit(this.file);
+      this.isWarning = false;
+    };
   }
 
-  public stopCropping(): void {
-    this.createEcoNewsService.files = this.files;
-    this.files.forEach((item) => (item.url = this.croppedImage));
-    this.isCropper = false;
-    this.newFile.emit(this.files);
-    this.isWarning = false;
-  }
-
-  public cancelChanges(): void {
-    this.files = [];
-    this.createEcoNewsService.files = [];
+  cancelChanges(): void {
+    this.file = null;
     this.isCropper = true;
     this.croppedImage = null;
+    this.selectedFile = null;
+    this.selectedFileUrl = null;
+    this.newFile.emit(this.file);
   }
 
-  public patchImage(): void {
-    const getPreviewImg = this.createEcoNewsService.getFormData();
-    if (this.formData.value.image) {
-      this.isCropper = false;
-      this.isWarning = false;
-      this.files = [{ file: this.formData.value.file, url: this.formData.value.image }];
-    } else if (getPreviewImg) {
-      this.isCropper = false;
-      this.isWarning = false;
-      this.files = [{ file: getPreviewImg.value.file, url: getPreviewImg.value.image }];
-    }
-    if (!this.createEcoNewsService.isBackToEditing && !this.formData.value.image) {
-      this.cancelChanges();
-    }
+  imageCropped(event: ImageCroppedEvent): void {
+    this.croppedImage = event;
   }
 
-  public imageCropped(event: ImageCroppedEvent): void {
-    this.croppedImage = event.base64;
-  }
-
-  public filesDropped(files: FileHandle[]): void {
-    this.files = files;
+  filesDropped(files: FileHandle[]): void {
+    this.file = files[0];
     this.isCropper = true;
     this.showWarning();
   }
 
-  public onFileSelected(event): void {
+  onFileSelected(event): void {
     this.selectedFile = event.target.files[0] as File;
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(this.selectedFile);
     reader.onload = (ev) => this.handleFile(ev);
-    this.createEcoNewsService.files = this.files;
   }
 
   private handleFile(event): void {
     const binaryString = event.target.result;
     this.selectedFileUrl = binaryString;
-    this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
+    this.file = { url: this.selectedFileUrl, file: this.selectedFile };
     this.showWarning();
-    this.createEcoNewsService.fileUrl = this.selectedFileUrl;
   }
 
-  public showWarning(): void {
-    this.files.forEach((item) => {
-      const imageValCondition = (item.file.type === 'image/jpeg' || item.file.type === 'image/png') && item.file.size < 10485760;
-      this.isWarning = !(item && imageValCondition);
-      if (this.isWarning) {
-        this.files.pop();
-      }
-    });
+  showWarning(): void {
+    this.isWarning = !((this.file.file.type === 'image/jpeg' || this.file.file.type === 'image/png') && this.file.file.size < 10485760);
+    if (this.isWarning) {
+      this.file = null;
+    } else {
+      this.newFile.emit(this.file);
+    }
   }
 }

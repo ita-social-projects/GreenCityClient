@@ -16,15 +16,15 @@ export class EditProfileService {
 
   constructor(private http: HttpClient) {}
 
-  public postDataUserProfile(data): Observable<EditProfileModel> {
+  postDataUserProfile(data): Observable<EditProfileModel> {
     return this.http.put<EditProfileModel>(`${mainUserLink}user/profile`, data, { ...this.httpOptions, responseType: 'text' as 'json' });
   }
 
-  public updateProfilePhoto(data): Observable<object[]> {
+  updateProfilePhoto(data): Observable<object[]> {
     return this.http.patch<object[]>(`${mainUserLink}user/profilePicture`, data);
   }
 
-  public deleProfilePhoto(): Observable<object> {
+  deleProfilePhoto(): Observable<object> {
     return this.http.patch<object>(`${mainUserLink}user/deleteProfilePicture`, this.httpOptions);
   }
 }

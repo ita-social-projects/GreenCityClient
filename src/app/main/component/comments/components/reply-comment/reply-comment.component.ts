@@ -9,12 +9,12 @@ export class ReplyCommentComponent {
   @Input() public isAddingReply: boolean;
   @ViewChild('reply', { static: true }) reply: ElementRef;
 
-  public commentsImages = {
+  commentsImages = {
     reply: 'assets/img/comments/reply.svg',
     replying: 'assets/img/comments/reply-green.svg'
   };
 
-  public writeReply(): void {
+  writeReply(): void {
     const imgName = this.isAddingReply ? 'reply' : 'replying';
     this.reply.nativeElement.srcset = this.commentsImages[imgName];
   }

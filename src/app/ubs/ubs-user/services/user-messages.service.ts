@@ -10,9 +10,9 @@ import { takeUntil } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserMessagesService implements OnDestroy {
-  public url = environment.backendUbsLink;
+  url = environment.backendUbsLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  public countOfNoReadeMessages: any;
+  countOfNoReadeMessages: any;
   language: string;
 
   constructor(

@@ -15,7 +15,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   styleUrls: ['./tariff-deactivate-confirmation-pop-up.component.scss']
 })
 export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
-  public adminName: string;
+  adminName: string;
   newDate: string;
   unsubscribe: Subject<any> = new Subject();
   courierName: string;
@@ -66,15 +66,15 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
     this.newDate = this.tariffsService.setDate(currentLang);
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
-  public getLangArrayValue(uaValue: string[], enValue: string[]) {
+  getLangArrayValue(uaValue: string[], enValue: string[]) {
     return this.languageService.getLangValue(uaValue, enValue) as string[];
   }
 
-  public onCancelClick(): void {
+  onCancelClick(): void {
     const matDialog = this.dialog.open(ModalTextComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
@@ -91,7 +91,7 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
     });
   }
 
-  public actionClick(): void {
+  actionClick(): void {
     this.dialogRef.close(true);
     this.snackBar.openSnackBar('successUpdateUbsData');
   }

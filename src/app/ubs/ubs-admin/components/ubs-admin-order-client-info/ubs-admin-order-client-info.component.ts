@@ -25,8 +25,8 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
-  public userViolationForCurrentOrder: number;
-  public totalUserViolations: number;
+  userViolationForCurrentOrder: number;
+  totalUserViolations: number;
   isOrderDone = false;
   isOrderNotTakenOut = false;
   isOrderCanceled = false;
@@ -62,7 +62,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
     this.pageOpen = !this.pageOpen;
   }
 
-  public setViolationData(): void {
+  setViolationData(): void {
     this.totalUserViolations = this.userInfo.totalUserViolations;
     this.userViolationForCurrentOrder = this.userInfo.userViolationForCurrentOrder;
   }

@@ -7,7 +7,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Subject, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AllFriendsComponent } from './all-friends.component';
 import { FIRSTFRIEND, FRIENDS, SECONDFRIEND } from '@global-user/mocks/friends-mock';
@@ -22,12 +22,14 @@ describe('AllFriendsComponent', () => {
     'getFriendsByName',
     'getAllFriends',
     'deleteFriend',
-    'addFriend'
+    'addFriend',
+    'removeFriendSubj$'
   ]);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
   userFriendsServiceMock.getFriendsByName = () => of(FRIENDS);
   userFriendsServiceMock.deleteFriend = (idFriend) => of(FIRSTFRIEND);
   userFriendsServiceMock.addFriend = (idFriend) => of(FIRSTFRIEND);
+  userFriendsServiceMock.removeFriendSubj$ = new Subject();
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ friendsList: FRIENDS }));

@@ -49,3 +49,16 @@ export interface UpdateHabitDuration {
   workingDays: number;
   duration: number;
 }
+
+export interface FriendsHabitPopupModel {
+  id: number;
+  name: string;
+  profilePicturePath: string;
+  habitProgress: FriendsHabitProgress;
+}
+
+export interface FriendsHabitProgress {
+  userId: number;
+  duration: number;
+  workingDays: number;
+}

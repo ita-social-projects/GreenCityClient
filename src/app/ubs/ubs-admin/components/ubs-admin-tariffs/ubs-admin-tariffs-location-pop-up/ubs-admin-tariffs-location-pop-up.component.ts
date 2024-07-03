@@ -92,7 +92,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
   placeService: GooglePlaceService;
 
-  public icons = {
+  icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
     cross: '././assets/img/ubs/cross.svg'
   };
@@ -322,7 +322,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     });
   }
 
-  public _filter(name: string, items: any[]): any[] {
+  _filter(name: string, items: any[]): any[] {
     const filterValue = name.toLowerCase();
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }

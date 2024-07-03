@@ -79,7 +79,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   idsToChange: number[] = [];
   allChecked = false;
   tableViewHeaders = [];
-  public blockedInfo: IAlertInfo[] = [];
+  blockedInfo: IAlertInfo[] = [];
   isAllColumnsDisplayed: boolean;
   count: number;
   display = 'none';
@@ -101,7 +101,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   noFiltersApplied = true;
   isFiltersOpened = false;
   isTimePickerOpened = false;
-  public showPopUp: boolean;
+  showPopUp: boolean;
   mouseEvents = MouseEvents;
   cancellationReason: string;
   cancellationComment: string;
@@ -111,8 +111,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
   isRestoredFilters = false;
-  public dateForm: FormGroup;
-  public filters: IDateFilters[] = [];
+  dateForm: FormGroup;
+  filters: IDateFilters[] = [];
   allFilters: IFilters;
   defaultColumnsWidth: Map<string, number> = new Map(Object.entries(defaultColumnsWidthPreference));
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
@@ -314,7 +314,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
   }
 
-  public getControlValue(column: string, suffix: string): string | boolean {
+  getControlValue(column: string, suffix: string): string | boolean {
     return this.dateForm.get(`${column}${suffix}`).value;
   }
 
@@ -392,7 +392,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  public showBlockedMessage(info): void {
+  showBlockedMessage(info): void {
     this.blockedInfo = info;
 
     const uniqUsers: string[] = [];
@@ -430,7 +430,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       });
   }
 
-  public changeColumns(checked: boolean, key: string, positionIndex): void {
+  changeColumns(checked: boolean, key: string, positionIndex): void {
     this.displayedColumns = checked
       ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
       : this.displayedColumns.filter((item) => item !== key);
@@ -438,11 +438,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortColumnsToDisplay();
   }
 
-  public toggleFilters(): void {
+  toggleFilters(): void {
     this.isFiltersOpened = !this.isFiltersOpened;
   }
 
-  public toggleTableView(): void {
+  toggleTableView(): void {
     this.display = this.display === 'none' ? 'block' : 'none';
     this.isPopupOpen = !this.isPopupOpen;
     if (!this.isPopupOpen) {
@@ -452,7 +452,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.previousSettings = this.displayedColumns;
   }
 
-  public showAllColumns(isCheckAll: boolean): void {
+  showAllColumns(isCheckAll: boolean): void {
     isCheckAll ? this.setUnDisplayedColumns() : this.setDisplayedColumns();
   }
 
@@ -530,7 +530,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const table = document.getElementById('table');
     const tableContainer = document.getElementById('table-container');
     this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
-    if (!this.isUpdate && this.currentPage < this.totalPages) {
+    if (!this.isUpdate && this.currentPage + 1 < this.totalPages) {
       this.currentPage++;
       this.updateTableData();
     }
@@ -580,7 +580,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.allChecked = this.isAllSelected;
   }
 
-  public editCell(e: IEditCell): void {
+  editCell(e: IEditCell): void {
     if (this.allChecked) {
       this.editAll(e);
     } else if (this.idsToChange.length === 0) {
@@ -590,7 +590,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  public cancelEditCell(ids: number[]): void {
+  cancelEditCell(ids: number[]): void {
     this.adminTableService.cancelEdit(ids).subscribe();
     this.idsToChange = [];
     this.allChecked = false;
@@ -600,7 +600,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.isTimePickerOpened = isOpened;
   }
 
-  public closeAlertMess(): void {
+  closeAlertMess(): void {
     this.blockedInfo = [];
   }
 
@@ -652,7 +652,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.postData(this.idsToChange, e.nameOfColumn, e.newValue);
   }
 
-  public addOrderCancellationData(orderCancellationData: { cancellationReason: string; cancellationComment: string | null }) {
+  addOrderCancellationData(orderCancellationData: { cancellationReason: string; cancellationComment: string | null }) {
     this.cancellationReason = orderCancellationData.cancellationReason;
     this.cancellationComment = orderCancellationData.cancellationComment;
   }
@@ -762,7 +762,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.store.dispatch(AddFiltersAction({ filters, fetchTable }));
   }
 
-  public clearFilters(): void {
+  clearFilters(): void {
     this.store.dispatch(ClearFilters({ fetchTable: true }));
     this.tableData = [];
     this.isLoading = true;
@@ -777,7 +777,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.initDateForm();
   }
 
-  public applyFilters() {
+  applyFilters() {
     this.currentPage = 0;
     this.firstPageLoad = true;
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', true);
@@ -851,7 +851,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.stickColumns();
   }
 
-  public onResizeColumn(event: MouseEvent, columnIndex: number): void {
+  onResizeColumn(event: MouseEvent, columnIndex: number): void {
     if (!this.isTimePickerOpened) {
       const resizeHandleWidth = 15;
       const resizeStartX = event.pageX;
