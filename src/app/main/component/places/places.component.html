@@ -92,14 +92,14 @@
         </mat-drawer-container>
       </div>
       <div *ngIf="loaded" class="map-container">
-        <google-map [options]="mapOptions" width="100%">
-          <map-marker
-            (click)="selectPlace(place)"
-            *ngFor="let place of places"
-            [icon]="place.id === activePlace?.id ? greenIconUrl : redIconUrl"
-            [position]="place.location"
-            class="marker"
-          />
+        <google-map (mapInitialized)="mapInitialized($event)" [options]="mapOptions" width="100%">
+          <ng-container *ngFor="let place of places">
+            <map-marker
+              (mapClick)="selectPlace(place)"
+              [icon]="place.id === activePlace?.id ? greenIconUrl : redIconUrl"
+              [position]="place.location"
+            />
+          </ng-container>
         </google-map>
       </div>
     </div>

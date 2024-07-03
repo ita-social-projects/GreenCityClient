@@ -48,7 +48,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   readonly moreOptionsStorageKey = 'moreOptionsFilter';
   placesList: Array<AllAboutPlace>;
   mapOptions: google.maps.MapOptions = {
-    center: { lat: 50, lng: 50 },
+    center: { lat: 50.450001, lng: 30.523333 },
     zoom: 8,
     gestureHandling: 'greedy',
     minZoom: 4,
@@ -57,6 +57,8 @@ export class PlacesComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer: MatDrawer;
   userId: number;
   loaded = false;
+  // }
+  protected readonly event = event;
   private googlePlacesService: google.maps.places.PlacesService;
   private langChangeSub: Subscription;
   private page = 0;
@@ -214,6 +216,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   selectPlace(place: Place): void {
+    console.log(place);
     this.activePlace = place;
     this.updateIsActivePlaceFavorite();
     this.getPlaceInfoFromGoogleApi(place);
@@ -248,6 +251,10 @@ export class PlacesComponent implements OnInit, OnDestroy {
     return;
   }
 
+  mapInitialized(map: google.maps.Map) {
+    this.googlePlacesService = new google.maps.places.PlacesService(map);
+  }
+
   openTimePickerPopUp() {
     this.dialog
       .open(AddPlaceComponent, {
@@ -280,7 +287,6 @@ export class PlacesComponent implements OnInit, OnDestroy {
 
   private getPlaceList(): void {
     this.placeService.getAllPlaces(this.page, this.size).subscribe((item: any) => {
-      console.log('ff');
       this.placesList = item.page;
       if (this.placesList) {
         this.drawer.toggle(true);
@@ -310,11 +316,13 @@ export class PlacesComponent implements OnInit, OnDestroy {
       fields: ['ALL']
     };
     this.googlePlacesService.findPlaceFromQuery(findByQueryRequest, (places: google.maps.places.PlaceResult[]) => {
+      console.log(places);
       const detailsRequest: google.maps.places.PlaceDetailsRequest = {
         placeId: places[0].place_id,
         fields: ['ALL']
       };
       this.googlePlacesService.getDetails(detailsRequest, (placeDetails: google.maps.places.PlaceResult) => {
+        console.log(placeDetails);
         this.activePlaceDetails = placeDetails;
         this.drawer.toggle(true);
       });
@@ -328,12 +336,6 @@ export class PlacesComponent implements OnInit, OnDestroy {
   private getMoreOptionsValueFromSessionStorage(): void {
     const formValue: MoreOptionsFormValue = JSON.parse(sessionStorage.getItem(this.moreOptionsStorageKey));
     this.moreOptionsFilters = formValue ?? initialMoreOptionsFormValue;
-  }
-
-  private updateIsActivePlaceFavorite(): void {
-    this.isActivePlaceFavorite = this.favoritePlaces.some(
-      (favoritePlace: Place) => favoritePlace.location.id === this.activePlace?.location.id
-    );
   }
 
   // private setUserLocation(): void {
@@ -351,5 +353,10 @@ export class PlacesComponent implements OnInit, OnDestroy {
   //       });
   //     }
   //   );
-  // }
+
+  private updateIsActivePlaceFavorite(): void {
+    this.isActivePlaceFavorite = this.favoritePlaces.some(
+      (favoritePlace: Place) => favoritePlace.location.id === this.activePlace?.location.id
+    );
+  }
 }
