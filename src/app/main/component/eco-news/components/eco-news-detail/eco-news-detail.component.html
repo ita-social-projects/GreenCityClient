@@ -40,8 +40,8 @@
         </div>
         <div class="news-info-author">{{ 'eco-news-single-view.author' | translate }} {{ newsItem.author.name }}</div>
         <div class="like_wr">
-          <img *ngIf="userId" [src]="likesType.like" alt="like" class="news_like disable" />
-          <img (click)="onLikeNews()" *ngIf="!userId" [src]="isLiked ? likesType.liked : likesType.like" alt="like" class="news_like" />
+          <img *ngIf="isAuthor" [src]="likesType.like" alt="like" class="news_like disable" />
+          <img (click)="onLikeNews()" *ngIf="!isAuthor" [src]="isLiked ? likesType.liked : likesType.like" alt="like" class="news_like" />
           <span class="numerosity_likes">{{ newsItem.likes }}</span>
         </div>
       </div>

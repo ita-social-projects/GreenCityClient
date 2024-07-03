@@ -30,11 +30,11 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   };
 
   newsId: number;
-  private newsImage: string;
-  private destroy: Subject<boolean> = new Subject<boolean>();
-
   backRoute: string;
   routedFromProfile: boolean;
+  isAuthor = false;
+  private newsImage: string;
+  private destroy: Subject<boolean> = new Subject<boolean>();
   private deleteDialogData = {
     popupTitle: 'homepage.eco-news.news-delete-popup.delete-title',
     popupConfirm: 'homepage.eco-news.news-delete-popup.delete-yes',
@@ -60,6 +60,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     }
     if (this.newsId) {
       this.getEcoNewsById(this.newsId);
+      this.isAuthor = this.newsItem.author.id === this.userId;
     }
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.backRoute = this.localStorageService.getPreviousPage();
@@ -76,6 +77,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       this.tags = this.getAllTags();
     });
   }
+
   getAllTags(): Array<string> {
     return this.langService.getLangValue(this.newsItem.tagsUa, this.newsItem.tags) as string[];
   }
@@ -106,32 +108,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  private postToggleLike(): void {
-    this.ecoNewsService.postToggleLike(this.newsId).pipe(take(1)).subscribe();
-  }
-
-  private shareLinks() {
-    const currentPage: string = window.location.href.replace('#', '%23');
-    return {
-      fb: () => `https://www.facebook.com/sharer/sharer.php?u=${currentPage}`,
-      linkedin: () => `https://www.linkedin.com/sharing/share-offsite/?url=${currentPage}`,
-      twitter: () => `https://twitter.com/share?url=${currentPage}&text=${this.newsItem.title}&hashtags=${this.tags.join(',')}`
-    };
-  }
-
-  private setNewsId(): void {
-    this.newsId = this.route.snapshot.params.id;
-  }
-
-  private getIsLiked(): void {
-    this.ecoNewsService
-      .getIsLikedByUser(this.newsId)
-      .pipe(take(1))
-      .subscribe((val: boolean) => {
-        this.isLiked = val;
-      });
-  }
-
   deleteNews(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.deleteDialogData,
@@ -156,5 +132,31 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy.next(true);
     this.destroy.unsubscribe();
+  }
+
+  private postToggleLike(): void {
+    this.ecoNewsService.postToggleLike(this.newsId).pipe(take(1)).subscribe();
+  }
+
+  private shareLinks() {
+    const currentPage: string = window.location.href.replace('#', '%23');
+    return {
+      fb: () => `https://www.facebook.com/sharer/sharer.php?u=${currentPage}`,
+      linkedin: () => `https://www.linkedin.com/sharing/share-offsite/?url=${currentPage}`,
+      twitter: () => `https://twitter.com/share?url=${currentPage}&text=${this.newsItem.title}&hashtags=${this.tags.join(',')}`
+    };
+  }
+
+  private setNewsId(): void {
+    this.newsId = this.route.snapshot.params.id;
+  }
+
+  private getIsLiked(): void {
+    this.ecoNewsService
+      .getIsLikedByUser(this.newsId)
+      .pipe(take(1))
+      .subscribe((val: boolean) => {
+        this.isLiked = val;
+      });
   }
 }
