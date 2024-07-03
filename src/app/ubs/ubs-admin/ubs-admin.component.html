@@ -1,4 +1,3 @@
 <app-header></app-header>
 <app-search-popup></app-search-popup>
-<app-ubs-admin-sidebar *ngIf="hasAuthorities" [authorities]="authorities"></app-ubs-admin-sidebar>
-<app-ubs-admin-no-authorities *ngIf="!hasAuthorities"></app-ubs-admin-no-authorities>
+<app-ubs-admin-sidebar [authorities]="authorities" [hasAuthorities]="hasAuthorities"></app-ubs-admin-sidebar>

@@ -96,7 +96,6 @@ import { ClickOutsideDirective } from './derictives/clickOutside.directive';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { UbsAdminNoAuthoritiesComponent } from './components/ubs-admin-no-authorities/ubs-admin-no-authorities.component';
 
 @NgModule({
   declarations: [
@@ -163,8 +162,7 @@ import { UbsAdminNoAuthoritiesComponent } from './components/ubs-admin-no-author
     UbsAdminNotificationEditFormComponent,
     UbsAdminNotificationSettingsComponent,
     ConfirmationDialogComponent,
-    TariffSelectorComponent,
-    UbsAdminNoAuthoritiesComponent
+    TariffSelectorComponent
   ],
   imports: [
     CommonModule,

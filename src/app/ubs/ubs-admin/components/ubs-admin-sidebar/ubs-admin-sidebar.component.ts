@@ -10,7 +10,8 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-admin-sidebar',
-  templateUrl: './ubs-admin-sidebar.component.html'
+  templateUrl: './ubs-admin-sidebar.component.html',
+  styleUrls: ['./ubs-admin-sidebar.component.scss']
 })
 export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements AfterViewInit, OnInit {
   @Input() hasAuthorities: boolean;
@@ -42,7 +43,7 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     }
   }
 
-  private listElenenChangetUtil(elementName: string) {
+  private listElementChangedUtil(elementName: string) {
     this.listElementsAdmin = this.listElementsAdmin.filter((listItem: AdminSideBarMenu) => listItem.name !== elementName);
     return this.listElementsAdmin;
   }
@@ -51,27 +52,27 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     this.employeeAuthorities = authorities;
 
     if (!this.customerViewer) {
-      this.listElenenChangetUtil(SideMenuElementsNames.customers);
+      this.listElementChangedUtil(SideMenuElementsNames.customers);
     }
 
     if (!this.employeesViewer) {
-      this.listElenenChangetUtil(SideMenuElementsNames.employees);
+      this.listElementChangedUtil(SideMenuElementsNames.employees);
     }
 
     if (!this.certificatesViewer) {
-      this.listElenenChangetUtil(SideMenuElementsNames.certificates);
+      this.listElementChangedUtil(SideMenuElementsNames.certificates);
     }
 
     if (!this.notificationsViewer) {
-      this.listElenenChangetUtil(SideMenuElementsNames.notifications);
+      this.listElementChangedUtil(SideMenuElementsNames.notifications);
     }
 
     if (!this.tariffsViewer) {
-      this.listElenenChangetUtil(SideMenuElementsNames.tariffs);
+      this.listElementChangedUtil(SideMenuElementsNames.tariffs);
     }
 
     if (!this.ordersViewer) {
-      this.listElenenChangetUtil(SideMenuElementsNames.orders);
+      this.listElementChangedUtil(SideMenuElementsNames.orders);
     }
   }
 
