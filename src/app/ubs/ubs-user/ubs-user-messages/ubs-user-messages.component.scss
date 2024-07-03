@@ -262,6 +262,14 @@
   }
 }
 
+@media (max-width: 768px) {
+  .description {
+    max-width: 100%;
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
 @media (max-width: 575px) {
   .header-list {
     padding-left: 25px;
