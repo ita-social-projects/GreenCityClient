@@ -5,71 +5,74 @@
     </button>
     <p class="page-title">{{ 'ubs-notifications.page-title' | translate }}</p>
   </div>
-
-  <table class="table-notification-info" aria-label="Notification info">
-    <thead>
-      <tr>
-        <th class="col-topic">{{ 'ubs-notifications.columns-notification-list.topic' | translate }}</th>
-        <th class="col-trigger">{{ 'ubs-notifications.columns-notification-list.trigger' | translate }}</th>
-        <th class="col-time">{{ 'ubs-notifications.columns-notification-list.time' | translate }}</th>
-        <th class="col-period">{{ 'ubs-notifications.columns-notification-list.period' | translate }}</th>
-        <th class="col-status">{{ 'ubs-notifications.columns-notification-list.status' | translate }}</th>
-        <th *ngIf="isThisEmployeeHasRights" class="col-actions"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          {{ getLangValue(notification.notificationTemplateMainInfoDto.title, notification.notificationTemplateMainInfoDto.titleEng) }}
-        </td>
-        <td>
-          {{
-            getLangValue(
-              notification.notificationTemplateMainInfoDto.triggerDescription,
-              notification.notificationTemplateMainInfoDto.triggerDescriptionEng
-            )
-          }}
-        </td>
-        <td>
-          {{
-            getLangValue(
-              notification.notificationTemplateMainInfoDto.timeDescription,
-              notification.notificationTemplateMainInfoDto.timeDescriptionEng
-            )
-          }}
-        </td>
-        <td>
-          {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}
-        </td>
-        <td>
-          {{ 'ubs-notifications.statuses.' + notification.notificationTemplateMainInfoDto.notificationStatus | translate }}
-        </td>
-        <td *ngIf="isThisEmployeeHasRights" class="col-actions">
-          <div>
-            <button *ngIf="isThisEmployeeCanEditNotification" class="action-button edit-button" (click)="onEditNotificationSettings()">
-              <img [src]="icons.edit" alt="" />
-            </button>
-            <button
-              *ngIf="notification.notificationTemplateMainInfoDto.notificationStatus === 'ACTIVE' && isThisEmployeeCanActivateNotification"
-              class="action-button deactivate-button"
-              (click)="onDeactivateNotification()"
-            >
-              <img [src]="icons.delete" alt="" />
-            </button>
-            <button
-              *ngIf="
-                notification.notificationTemplateMainInfoDto.notificationStatus === 'INACTIVE' && isThisEmployeeCanActivateNotification
-              "
-              class="action-button deactivate-button"
-              (click)="onActivateNotification()"
-            >
-              <img [src]="icons.activate" alt="" />
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-wrapper">
+    <table class="table-notification-info" aria-label="Notification info">
+      <thead>
+        <tr>
+          <th class="col-topic">{{ 'ubs-notifications.columns-notification-list.topic' | translate }}</th>
+          <th class="col-trigger">{{ 'ubs-notifications.columns-notification-list.trigger' | translate }}</th>
+          <th class="col-time">{{ 'ubs-notifications.columns-notification-list.time' | translate }}</th>
+          <th class="col-period">{{ 'ubs-notifications.columns-notification-list.period' | translate }}</th>
+          <th class="col-status">{{ 'ubs-notifications.columns-notification-list.status' | translate }}</th>
+          <th *ngIf="isThisEmployeeHasRights" class="col-actions"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            {{ getLangValue(notification.notificationTemplateMainInfoDto.title, notification.notificationTemplateMainInfoDto.titleEng) }}
+          </td>
+          <td>
+            {{
+              getLangValue(
+                notification.notificationTemplateMainInfoDto.triggerDescription,
+                notification.notificationTemplateMainInfoDto.triggerDescriptionEng
+              )
+            }}
+          </td>
+          <td>
+            {{
+              getLangValue(
+                notification.notificationTemplateMainInfoDto.timeDescription,
+                notification.notificationTemplateMainInfoDto.timeDescriptionEng
+              )
+            }}
+          </td>
+          <td>
+            {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}
+          </td>
+          <td>
+            {{ 'ubs-notifications.statuses.' + notification.notificationTemplateMainInfoDto.notificationStatus | translate }}
+          </td>
+          <td *ngIf="isThisEmployeeHasRights" class="col-actions">
+            <div>
+              <button *ngIf="isThisEmployeeCanEditNotification" class="action-button edit-button" (click)="onEditNotificationSettings()">
+                <img [src]="icons.edit" alt="" />
+              </button>
+              <button
+                *ngIf="
+                  notification.notificationTemplateMainInfoDto.notificationStatus === 'ACTIVE' && isThisEmployeeCanActivateNotification
+                "
+                class="action-button deactivate-button"
+                (click)="onDeactivateNotification()"
+              >
+                <img [src]="icons.delete" alt="" />
+              </button>
+              <button
+                *ngIf="
+                  notification.notificationTemplateMainInfoDto.notificationStatus === 'INACTIVE' && isThisEmployeeCanActivateNotification
+                "
+                class="action-button deactivate-button"
+                (click)="onActivateNotification()"
+              >
+                <img [src]="icons.activate" alt="" />
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <table class="table-notification-platforms" aria-label="Notification text for platforms">
     <thead>
