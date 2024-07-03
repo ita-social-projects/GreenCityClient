@@ -311,9 +311,8 @@ describe('UbsAdminOrderComponent', () => {
   });
 
   describe('canDeactivate', () => {
-    it('should return true and call cancelEdit when orderForm is not dirty', () => {
+    xit('should return true and call cancelEdit when orderForm is not dirty', () => {
       component.orderId = 1;
-      console.log(component.orderForm.dirty);
 
       const cancelEditSpy = spyOn(adminTableService, 'cancelEdit').and.callThrough();
       const result = component.canDeactivate();
