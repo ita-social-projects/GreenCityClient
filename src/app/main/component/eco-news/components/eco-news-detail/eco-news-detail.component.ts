@@ -60,7 +60,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     }
     if (this.newsId) {
       this.getEcoNewsById(this.newsId);
-      this.isAuthor = this.newsItem.author.id === this.userId;
     }
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.backRoute = this.localStorageService.getPreviousPage();
@@ -75,6 +74,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     this.ecoNewsService.getEcoNewsById(id).subscribe((res: EcoNewsModel) => {
       this.newsItem = res;
       this.tags = this.getAllTags();
+      this.isAuthor = this.newsItem.author.id === this.userId;
     });
   }
 
