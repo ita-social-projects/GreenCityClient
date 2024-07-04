@@ -32,7 +32,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   newsId: number;
   backRoute: string;
   routedFromProfile: boolean;
-  isAuthor = false;
+  isAuthor: boolean;
   private newsImage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private deleteDialogData = {
