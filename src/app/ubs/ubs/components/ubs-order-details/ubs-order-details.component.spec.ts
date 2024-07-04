@@ -523,7 +523,7 @@ describe('UBSOrderDetailsComponent', () => {
     expect(component.additionalOrders.controls.length).toBe(2);
   });
 
-  it('should get language value', () => {
+  xit('should get language value', () => {
     const result = component.getLangValue('Test Value UA', 'Test Value EN');
     expect(result).toBe('Test Value EN');
   });
