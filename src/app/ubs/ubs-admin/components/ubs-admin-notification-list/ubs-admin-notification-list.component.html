@@ -1,50 +1,53 @@
 <div class="d-flex justify-content-between">
   <p class="h5 page-title">{{ 'ubs-notifications.page-title' | translate }}</p>
 </div>
-<table class="table-notifications" aria-label="Notifications list">
-  <thead>
-    <tr>
-      <th class="col-topic">{{ 'ubs-notifications.columns-notification-list.topic' | translate }}</th>
-      <th class="col-trigger">{{ 'ubs-notifications.columns-notification-list.trigger' | translate }}</th>
-      <th class="col-time">{{ 'ubs-notifications.columns-notification-list.time' | translate }}</th>
-      <th class="col-period">{{ 'ubs-notifications.columns-notification-list.period' | translate }}</th>
-      <th class="col-status">{{ 'ubs-notifications.columns-notification-list.status' | translate }}</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr
-      *ngFor="
-        let notification of notifications | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }
-      "
-      (click)="navigateToNotification(notification.id)"
-    >
-      <td>
-        {{ getLangValue(notification.notificationTemplateMainInfoDto.title, notification.notificationTemplateMainInfoDto.titleEng) }}
-      </td>
-      <td>
-        {{
-          getLangValue(
-            notification.notificationTemplateMainInfoDto.triggerDescription,
-            notification.notificationTemplateMainInfoDto.triggerDescriptionEng
-          )
-        }}
-      </td>
-      <td>
-        {{
-          getLangValue(
-            notification.notificationTemplateMainInfoDto.timeDescription,
-            notification.notificationTemplateMainInfoDto.timeDescriptionEng
-          )
-        }}
-      </td>
-      <td>
-        {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}
-      </td>
-      <td>
-        {{ 'ubs-notifications.statuses.' + notification.notificationTemplateMainInfoDto.notificationStatus | translate }}
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-wrapper">
+  <table class="table-notifications" aria-label="Notifications list">
+    <thead>
+      <tr>
+        <th class="col-topic">{{ 'ubs-notifications.columns-notification-list.topic' | translate }}</th>
+        <th class="col-trigger">{{ 'ubs-notifications.columns-notification-list.trigger' | translate }}</th>
+        <th class="col-time">{{ 'ubs-notifications.columns-notification-list.time' | translate }}</th>
+        <th class="col-period">{{ 'ubs-notifications.columns-notification-list.period' | translate }}</th>
+        <th class="col-status">{{ 'ubs-notifications.columns-notification-list.status' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let notification of notifications | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }
+        "
+        (click)="navigateToNotification(notification.id)"
+      >
+        <td>
+          {{ getLangValue(notification.notificationTemplateMainInfoDto.title, notification.notificationTemplateMainInfoDto.titleEng) }}
+        </td>
+        <td>
+          {{
+            getLangValue(
+              notification.notificationTemplateMainInfoDto.triggerDescription,
+              notification.notificationTemplateMainInfoDto.triggerDescriptionEng
+            )
+          }}
+        </td>
+        <td>
+          {{
+            getLangValue(
+              notification.notificationTemplateMainInfoDto.timeDescription,
+              notification.notificationTemplateMainInfoDto.timeDescriptionEng
+            )
+          }}
+        </td>
+        <td>
+          {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}
+        </td>
+        <td>
+          {{ 'ubs-notifications.statuses.' + notification.notificationTemplateMainInfoDto.notificationStatus | translate }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <app-spinner *ngIf="spinner"></app-spinner>
 <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="loadPage(currentPage)"></div>
