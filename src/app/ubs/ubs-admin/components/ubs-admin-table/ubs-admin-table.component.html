@@ -291,7 +291,6 @@
         </app-table-cell-select>
         <app-table-cell-date
           *ngIf="column.editType === 'DATE'"
-          [doneOrCanceled]="checkStatusOfOrders(row.id)"
           [date]="row[column.title.key]"
           [nameOfColumn]="column.title.key"
           [id]="row.id"
@@ -309,7 +308,6 @@
           [id]="row.id"
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
-          [doneOrCanceled]="checkStatusOfOrders(row.id)"
           (cancelEdit)="cancelEditCell($event)"
           (editTimeCell)="editCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"

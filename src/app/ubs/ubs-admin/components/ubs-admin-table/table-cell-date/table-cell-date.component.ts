@@ -13,7 +13,6 @@ export class TableCellDateComponent {
   @Input() id: number;
   @Input() ordersToChange: number[];
   @Input() isAllChecked: boolean;
-  @Input() doneOrCanceled: boolean;
 
   @Output() editDateCell = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
@@ -54,7 +53,7 @@ export class TableCellDateComponent {
       });
   }
 
-  changeData(e) {
+  changeData(e): void {
     const parseDate = Date.parse(e.value);
     const diff = e.value.getTimezoneOffset();
     const date = new Date(parseDate + -diff * 60 * 1000).toISOString();
