@@ -7,7 +7,7 @@ export function emptyOrValid(validators: ValidatorFn[]): ValidatorFn {
     }
 
     let errors: ValidationErrors = {};
-    for (let validator of validators) {
+    for (const validator of validators) {
       const validationResult = validator(control);
 
       if (validationResult) {
