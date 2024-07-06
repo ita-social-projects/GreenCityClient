@@ -158,8 +158,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   }
 
   onScroll(): void {
-    console.error('scroll');
-
     this.isFetching = false;
     if (!this.isAllPages) {
       this.isFetching = true;
