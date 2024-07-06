@@ -16,7 +16,8 @@ const columnMapping: { [key: string]: string } = {
   responsibleCaller: 'responsibleCallerId',
   responsibleLogicMan: 'responsibleLogicManId',
   city: 'citiesEn',
-  district: 'districtsEn'
+  district: 'districtsEn',
+  region: 'regionEn'
 };
 @Injectable({
   providedIn: 'root'
