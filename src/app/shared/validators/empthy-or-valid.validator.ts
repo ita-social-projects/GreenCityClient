@@ -15,6 +15,6 @@ export function emptyOrValid(validators: ValidatorFn[]): ValidatorFn {
       }
     }
 
-    return errors ? errors : null;
+    return errors;
   };
 }
