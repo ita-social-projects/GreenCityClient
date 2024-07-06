@@ -28,6 +28,7 @@
           (keydown.enter)="navigateToPage($event, listItem.routerLink)"
           (keydown.space)="navigateToPage($event, listItem.routerLink)"
           [matTooltip]="!isExpanded ? (listItem.name | translate) : null"
+          matTooltipPosition="left"
         >
           <a
             class="sidebar-list-item-link"
