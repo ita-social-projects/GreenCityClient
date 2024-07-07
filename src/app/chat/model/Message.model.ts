@@ -6,6 +6,10 @@ export interface Message {
   createDate?: string;
 }
 
+export type MessageExtended = Message & {
+  isFirstOfDay?: boolean;
+};
+
 export interface Messages {
   currentPage: number;
   page: Message[];

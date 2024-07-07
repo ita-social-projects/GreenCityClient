@@ -235,3 +235,50 @@
 
   column-gap: 10px;
 }
+
+.button-icon {
+  width: 19px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-size: 70%;
+  align-self: center;
+}
+
+.delete-message {
+  background-image: url(src/assets/img/profile/icons/delete.svg);
+}
+
+.edit-message {
+  background-image: url(src/assets/img/profile/icons/edit.svg);
+}
+
+.cancel-editing {
+  background-image: url(src/assets/img/ubs/cross.svg);
+}
+
+.editing {
+  background-color: #f0f8ff;
+}
+
+.message-hint {
+  position: relative;
+  padding: 2px;
+  border: 1px solid grey;
+  font-size: 12px;
+  overflow: hidden;
+
+  .message-content {
+    max-height: 35px;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cancel-editing {
+    position: absolute;
+    top: 2px;
+    right: 0px;
+    width: 10px;
+    height: 10px;
+  }
+}

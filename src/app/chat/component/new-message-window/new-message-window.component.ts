@@ -6,11 +6,13 @@ import { ChatsService } from '../../service/chats/chats.service';
 import { Subject } from 'rxjs';
 import { CommonService } from '../../service/common/common.service';
 import { SocketService } from '../../service/socket/socket.service';
-import { Message } from '../../model/Message.model';
+import { Message, MessageExtended } from '../../model/Message.model';
 import { UserService } from '@global-service/user/user.service';
-import { FriendModel } from '@global-user/models/friend.model';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Role } from '@global-models/user/roles.model';
+import { MatDialog } from '@angular/material/dialog';
+import { WarningPopUpComponent } from '@shared/components';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-new-message-window',
@@ -21,11 +23,24 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   public chatIcons = CHAT_ICONS;
   public userSearchField = '';
   private onDestroy$ = new Subject();
-  public userSearchControl: FormControl = new FormControl();
   public messageControl: FormControl = new FormControl('', [Validators.max(250)]);
   public showEmojiPicker = false;
   public isHaveMessages = true;
   public isAdmin: boolean;
+  public isEditMode: boolean;
+  public messageToEdit: Message;
+  public currentChatMessages: Observable<MessageExtended[]>;
+  private dialogConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'chat.delete-message-question',
+      popupConfirm: 'chat.delete-message-confirm',
+      popupCancel: 'chat.delete-message-cancel'
+    }
+  };
   @ViewChild('chat') chat: ElementRef;
 
   constructor(
@@ -33,13 +48,17 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     private commonService: CommonService,
     private socketService: SocketService,
     public userService: UserService,
-    private jwt: JwtService
+    private jwt: JwtService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.userSearchControl.valueChanges.pipe(debounceTime(500), takeUntil(this.onDestroy$)).subscribe((newInput) => {
-      this.userSearchField = newInput;
-      this.chatsService.searchFriends(newInput);
+    this.currentChatMessages = this.chatsService.currentChatMessages$;
+    this.chatsService.currentChatsStream$.subscribe((chat) => {
+      console.log(chat);
+      if (chat) {
+        this.socketService.subscribeToUpdateDeleteMessage(chat.id);
+      }
     });
 
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
@@ -73,12 +92,18 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   public sendMessage() {
-    const message: Message = {
-      roomId: this.chatsService.currentChat.id,
-      senderId: this.userService.userId,
-      content: this.messageControl.value
-    };
-    this.socketService.sendMessage(message);
+    if (!this.isEditMode) {
+      const message: Message = {
+        roomId: this.chatsService.currentChat.id,
+        senderId: this.userService.userId,
+        content: this.messageControl.value
+      };
+      this.socketService.sendMessage(message);
+    } else {
+      this.socketService.updateMessage({ ...this.messageToEdit, ...{ content: this.messageControl.value } });
+      this.isEditMode = false;
+    }
+
     this.messageControl.setValue('');
   }
 
@@ -89,6 +114,33 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   addEmoji(event) {
     const newValue = this.messageControl.value ? this.messageControl.value + event.emoji.native : event.emoji.native;
     this.messageControl.setValue(newValue);
+  }
+
+  openDeleteMessageDialog(message: MessageExtended) {
+    this.dialog
+      .open(WarningPopUpComponent, this.dialogConfig)
+      .afterClosed()
+      .subscribe((data) => {
+        if (data) {
+          this.socketService.removeMessage(this.omitIsFirstOfDay(message));
+        }
+      });
+  }
+
+  omitIsFirstOfDay(message: MessageExtended): Message {
+    const { id, roomId, senderId, content } = message;
+    return { id, roomId, senderId, content };
+  }
+
+  toggleEditMode(message?: MessageExtended) {
+    if (message) {
+      this.isEditMode = true;
+      this.messageToEdit = this.omitIsFirstOfDay(message);
+      this.messageControl.setValue(message.content);
+    } else {
+      this.isEditMode = false;
+      this.messageControl.setValue('');
+    }
   }
 
   ngOnDestroy(): void {

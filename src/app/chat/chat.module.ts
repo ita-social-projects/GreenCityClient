@@ -8,7 +8,6 @@ import { ReferenceDirective } from './directive/reference/reference.directive';
 import { ChatModalComponent } from './component/chat-modal/chat-modal.component';
 import { CurrentChatComponent } from './component/current-chat/current-chat.component';
 import { ChatComponent } from './component/chat/chat.component';
-import { MessageFromDayPipe } from './pipe/message-from-day/message-from-day.pipe';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,8 +27,7 @@ import { CommonModule } from '@angular/common';
     ReferenceDirective,
     ChatModalComponent,
     CurrentChatComponent,
-    ChatComponent,
-    MessageFromDayPipe
+    ChatComponent
   ],
   imports: [
     FormsModule,

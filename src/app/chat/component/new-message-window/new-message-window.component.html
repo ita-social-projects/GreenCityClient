@@ -9,13 +9,30 @@
       <span class="chat-name">{{ chatsService.currentChat.name }}</span>
     </div>
   </div>
+
   <div class="chat" #chat>
     <div *ngIf="isHaveMessages" class="chat-messages">
-      <div class="messages-from-day" *ngFor="let messagesFromDay of chatsService.currentChatMessagesStream$ | async | messageFromDay">
-        <div class="chat-days-separate-line">
-          <span>{{ messagesFromDay[0].createDate | date: 'dd.MM.yyyy' }}</span>
+      <div *ngFor="let message of currentChatMessages | async">
+        <div *ngIf="message.isFirstOfDay" class="chat-days-separate-line">
+          <span>{{ message.createDate | date: 'dd.MM.yyyy' }}</span>
         </div>
-        <div class="message" *ngFor="let message of messagesFromDay" [class.own]="message.senderId === userService.userId">
+        <div
+          [ngClass]="{
+            message: true,
+            own: message.senderId === userService.userId,
+            editing: message.id === messageToEdit?.id
+          }"
+        >
+          <button
+            class="button-icon delete-message"
+            *ngIf="message.senderId === userService.userId"
+            (click)="openDeleteMessageDialog(message)"
+          ></button>
+          <button
+            class="button-icon edit-message"
+            *ngIf="message.senderId === userService.userId"
+            (click)="toggleEditMode(message)"
+          ></button>
           <img [src]="chatIcons.userLogo" alt="user logo" />
           <div class="msg-block">
             <span>{{ message.content }}</span>
@@ -26,6 +43,11 @@
     </div>
   </div>
   <div *ngIf="!isHaveMessages">Chat hasn't messages yet</div>
+
+  <div *ngIf="isEditMode" class="message-hint">
+    <div class="message-content">{{ messageToEdit.content }}</div>
+    <button class="button-icon cancel-editing" *ngIf="isEditMode" (click)="toggleEditMode()"></button>
+  </div>
 
   <form *ngIf="!isAdmin || (chatsService.isAdminParticipant$ | async)" class="message-sender" (ngSubmit)="sendMessage()">
     <div class="sender-additional-buttons">
@@ -44,6 +66,7 @@
   <div *ngIf="isAdmin && (chatsService.isAdminParticipant$ | async) === false" class="join-chat">
     <button (click)="chatsService.addAdminToChat(userService.userId)">Join chat</button>
   </div>
+
   <emoji-mart
     *ngIf="showEmojiPicker"
     class="emoji-mart"

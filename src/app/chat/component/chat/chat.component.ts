@@ -1,12 +1,13 @@
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChatsService } from '../../service/chats/chats.service';
 import { CHAT_ICONS } from '../../chat-icons';
-import { Message } from '../../model/Message.model';
+import { Message, MessageExtended } from '../../model/Message.model';
 import { FormControl } from '@angular/forms';
 import { SocketService } from '../../service/socket/socket.service';
 import { UserService } from '@global-service/user/user.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Role } from '@global-models/user/roles.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -25,6 +26,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   private page = 0;
   private oldScrollHeight: number;
   private isChatUpdate = false;
+  public currentChatMessages: Observable<MessageExtended[]>;
 
   constructor(
     public chatsService: ChatsService,
@@ -34,6 +36,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   ) {}
 
   ngOnInit(): void {
+    this.currentChatMessages = this.chatsService.currentChatMessages$;
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
       this.shouldNotBeScrolled = false;
       this.isHaveMessages = messages.length !== 0;

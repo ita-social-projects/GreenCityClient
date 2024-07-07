@@ -1234,6 +1234,9 @@
   },
   "chat": {
     "messages": "Messages",
-    "support-chat": "Support-chat"
+    "support-chat": "Support-chat",
+    "delete-message-question": "Do you want to remove the message?",
+    "delete-message-confirm": "Yes",
+    "delete-message-cancel": "No"
   }
 }

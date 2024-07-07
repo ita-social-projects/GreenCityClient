@@ -7,7 +7,7 @@
   [scrollWindow]="false"
   (scrolledUp)="onScroll()"
 >
-  <div *ngIf="isHaveMessages" class="chat-messages">
+  <!-- <div *ngIf="isHaveMessages" class="chat-messages">
     <div class="messages-from-day" *ngFor="let messagesFromDay of chatsService.currentChatMessagesStream$ | async | messageFromDay">
       <div class="chat-days-separate-line">
         <span>{{ messagesFromDay[0].createDate | date: 'dd.MM.yyyy' }}</span>
@@ -20,7 +20,7 @@
         <span class="msg-time">{{ message.createDate | date: 'HH:mm' }}</span>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
 <div *ngIf="!isHaveMessages">Chat hasn't messages yet</div>
 <form *ngIf="!isAdmin || (chatsService.isAdminParticipant$ | async)" class="sender" (ngSubmit)="sendMessage()">

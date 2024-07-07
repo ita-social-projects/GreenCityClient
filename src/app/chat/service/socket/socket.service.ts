@@ -4,7 +4,6 @@ import { environment } from '@environment/environment';
 import { CompatClient, IMessage, Stomp, StompSubscription } from '@stomp/stompjs';
 import { Message } from '../../model/Message.model';
 import { ChatsService } from '../chats/chats.service';
-import { User } from '../../model/User.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { FriendChatInfo, Participant } from '../../model/Chat.model';
@@ -40,10 +39,12 @@ export class SocketService {
       () => this.onConnected(),
       (error) => this.onError(error)
     );
+    // this.stompClient.reconnectDelay = 1000;
   }
 
   private onConnected() {
     const isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
+
     const messagesSubs = this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
       const newMessage: Message = JSON.parse(data.body);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
@@ -122,6 +123,14 @@ export class SocketService {
     currentChat.lastMessageDateTime = message.createDate;
   }
 
+  removeMessage(message: Message) {
+    this.stompClient.send('/app/chat/delete', {}, JSON.stringify(message));
+  }
+
+  updateMessage(message: Message) {
+    this.stompClient.send('/app/chat/update', {}, JSON.stringify(message));
+  }
+
   createNewChat(ids, isOpen, isOpenInWindow?) {
     const key = this.chatsService.isSupportChat ? 'locationsIds' : 'participantsIds';
     const newChatInfo = {
@@ -131,6 +140,12 @@ export class SocketService {
     this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
     this.isOpenNewChat = isOpen;
     this.isOpenNewChatInWindow = isOpenInWindow;
+  }
+
+  subscribeToUpdateDeleteMessage(roomId: number) {
+    return this.stompClient.subscribe(`/room/${roomId}/queue/messages`, (data) => {
+      console.log(data);
+    });
   }
 
   disconnect(): void {

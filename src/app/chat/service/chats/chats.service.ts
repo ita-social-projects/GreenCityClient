@@ -3,9 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Chat, ChatDto } from '../../model/Chat.model';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Message, MessagesToSave } from '../../model/Message.model';
+import { Message, MessageExtended, MessagesToSave } from '../../model/Message.model';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { Messages } from './../../model/Message.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,23 @@ export class ChatsService {
 
   get isSupportChat() {
     return this.isSupportChat$.getValue();
+  }
+
+  get currentChatMessages$(): Observable<MessageExtended[]> {
+    return this.currentChatMessagesStream$.pipe(
+      map((messages) => {
+        return [...messages].map((message, index, array) => {
+          const isFirstOfDay = index === 0 || !this.isSameDay(message.createDate, array[index - 1].createDate);
+          return { ...message, isFirstOfDay: isFirstOfDay };
+        });
+      })
+    );
+  }
+
+  isSameDay(value1: string, value2: string): boolean {
+    const date1 = new Date(value1);
+    const date2 = new Date(value2);
+    return date1.getDate() === date2.getDate() && date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth();
   }
 
   getAllUserChats(userId: number): void {
