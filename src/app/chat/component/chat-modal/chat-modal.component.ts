@@ -8,10 +8,15 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './chat-modal.component.html',
   styleUrls: ['./chat-modal.component.scss']
 })
-export class ChatModalComponent {
+export class ChatModalComponent implements OnInit {
   public chatIcons = CHAT_ICONS;
+  isSupportChat: boolean;
 
   constructor(private dialogRef: MatDialogRef<ChatModalComponent>, private chatsService: ChatsService) {}
+
+  ngOnInit(): void {
+    this.isSupportChat = this.chatsService.isSupportChat;
+  }
 
   close() {
     this.chatsService.setCurrentChat(null);

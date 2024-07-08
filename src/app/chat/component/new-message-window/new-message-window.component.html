@@ -54,7 +54,7 @@
       <button type="button">
         <img [src]="chatIcons.paperClip" alt="clip" title="Add file" />
       </button>
-      <button type="button">
+      <button *ngIf="!isSupportChat" type="button">
         <img [src]="chatIcons.smile" alt="smile" title="Add emoji" (click)="toggleEmojiPicker()" />
       </button>
     </div>

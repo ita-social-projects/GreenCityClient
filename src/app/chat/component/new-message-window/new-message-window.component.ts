@@ -30,6 +30,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   public isEditMode: boolean;
   public messageToEdit: Message;
   public currentChatMessages: Observable<MessageExtended[]>;
+  public isSupportChat: boolean;
   private dialogConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -70,6 +71,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
       });
     });
     this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
+    this.isSupportChat = this.chatsService.isSupportChat;
   }
 
   ngAfterViewInit(): void {
