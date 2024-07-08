@@ -1,3 +1,5 @@
+export const common = 'https://www\\.pick-up\\.city\\/\\#\\/ubs';
+
 export const Patterns = {
   linkPattern: /^$|^https?:\/\//,
 
@@ -43,7 +45,8 @@ export const Patterns = {
   urlLinkifyPattern: /(\bhttps?:\/\/[^<>\s]+\b)/gi,
   emailLinkifyPattern: /\b[^<>@\s]+@[^<>\s]+\b/gi,
   phoneLinkifyPattern: /\+\d{10,}/g,
-  chatLinkPattern: /\bt\.me\/[\w.-]+\b/gi
+  chatLinkPattern: /\bt\.me\/[\w.-]+\b/gi,
+  orderLinkPattern: new RegExp(`<a href="(${common})\\/order\\/\\d+" target="_blank">(${common}\\/order\\/\\d+)<\\/a>`, 'gi')
 };
 
 export const Masks = {

@@ -29,6 +29,7 @@ export class LinkifyDirective implements OnChanges {
     text = text.replace(Patterns.urlLinkifyPattern, (match) => `<a href="${match}" target="_blank">${match}</a>`);
     text = text.replace(Patterns.phoneLinkifyPattern, (match) => `<a href="tel:${match}">${match}</a>`);
     text = text.replace(Patterns.chatLinkPattern, (match) => `<a href="https://${match}" target="_blank">${match}</a>`);
+    text = text.replace(Patterns.orderLinkPattern, '<a href="$1-user/orders" target="_blank">$2</a>');
     return text;
   }
 
