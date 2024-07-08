@@ -23,16 +23,12 @@
             editing: message.id === messageToEdit?.id
           }"
         >
-          <button
-            class="button-icon delete-message"
-            *ngIf="message.senderId === userService.userId"
-            (click)="openDeleteMessageDialog(message)"
-          ></button>
-          <button
-            class="button-icon edit-message"
-            *ngIf="message.senderId === userService.userId"
-            (click)="toggleEditMode(message)"
-          ></button>
+          <button class="button-icon" *ngIf="message.senderId === userService.userId" (click)="openDeleteMessageDialog(message)">
+            <img [src]="chatIcons.delete" alt="delete-message" />
+          </button>
+          <button class="button-icon" *ngIf="message.senderId === userService.userId" (click)="toggleEditMode(message)">
+            <img [src]="chatIcons.edit" alt="edit-message" />
+          </button>
           <img [src]="chatIcons.userLogo" alt="user logo" />
           <div class="msg-block">
             <span>{{ message.content }}</span>
@@ -45,8 +41,11 @@
   <div *ngIf="!isHaveMessages">Chat hasn't messages yet</div>
 
   <div *ngIf="isEditMode" class="message-hint">
-    <div class="message-content">{{ messageToEdit.content }}</div>
-    <button class="button-icon cancel-editing" *ngIf="isEditMode" (click)="toggleEditMode()"></button>
+    <img [src]="chatIcons.edit" alt="edit" />
+    <span class="message-content">{{ messageToEdit.content }}</span>
+    <button *ngIf="isEditMode" class="cancel-editing" (click)="toggleEditMode()">
+      <img [src]="chatIcons.cancelEdit" alt="cancel edit" />
+    </button>
   </div>
 
   <form *ngIf="!isAdmin || (chatsService.isAdminParticipant$ | async)" class="message-sender" (ngSubmit)="sendMessage()">

@@ -176,14 +176,14 @@
   padding: 10px;
   width: 100%;
 
-  img {
+  & > img {
     height: 25px;
   }
 
   &.own {
     justify-content: flex-end;
 
-    img {
+    & > img {
       display: none;
     }
   }
@@ -237,23 +237,11 @@
 }
 
 .button-icon {
-  width: 19px;
-  height: 16px;
-  background-repeat: no-repeat;
-  background-size: 70%;
   align-self: center;
-}
-
-.delete-message {
-  background-image: url(src/assets/img/profile/icons/delete.svg);
-}
-
-.edit-message {
-  background-image: url(src/assets/img/profile/icons/edit.svg);
-}
-
-.cancel-editing {
-  background-image: url(src/assets/img/ubs/cross.svg);
+  img {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 .editing {
@@ -277,9 +265,12 @@
 
   .cancel-editing {
     position: absolute;
-    top: 2px;
+    top: -2px;
     right: 0px;
-    width: 10px;
-    height: 10px;
+  }
+
+  img {
+    width: 8px;
+    height: 8px;
   }
 }
