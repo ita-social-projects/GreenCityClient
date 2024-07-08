@@ -23,6 +23,7 @@ export class SocketService {
   private subscriptions: StompSubscription[] = [];
 
   public updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
+  public updateDeleteMessageSubs: StompSubscription;
 
   constructor(
     private chatsService: ChatsService,
@@ -39,7 +40,7 @@ export class SocketService {
       () => this.onConnected(),
       (error) => this.onError(error)
     );
-    // this.stompClient.reconnectDelay = 1000;
+    this.stompClient.reconnectDelay = 1000;
   }
 
   private onConnected() {
@@ -142,8 +143,8 @@ export class SocketService {
     this.isOpenNewChatInWindow = isOpenInWindow;
   }
 
-  subscribeToUpdateDeleteMessage(roomId: number) {
-    this.stompClient.subscribe(`/room/${roomId}/queue/messages`, (data: IMessage) => {
+  subscribeToUpdateDeleteMessage(roomId: number): void {
+    this.updateDeleteMessageSubs = this.stompClient.subscribe(`/room/${roomId}/queue/messages`, (data: IMessage) => {
       const message = JSON.parse(data.body);
       this.chatsService.currentChatMessages.find((el) => el.id === message.id).content = message.content;
       this.chatsService.currentChatMessagesStream$.next(this.chatsService.currentChatMessages);
