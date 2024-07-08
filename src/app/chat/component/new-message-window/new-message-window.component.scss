@@ -257,14 +257,15 @@
 }
 
 .editing {
-  background-color: #f0f8ff;
+  background-color: var(--ubs-liberty-green);
 }
 
 .message-hint {
   position: relative;
   padding: 2px;
   border: 1px solid grey;
-  font-size: 12px;
+  font-size: 11px;
+  font-style: italic;
   overflow: hidden;
 
   .message-content {

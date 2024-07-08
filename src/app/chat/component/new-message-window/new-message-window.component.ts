@@ -55,7 +55,6 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   ngOnInit(): void {
     this.currentChatMessages = this.chatsService.currentChatMessages$;
     this.chatsService.currentChatsStream$.subscribe((chat) => {
-      console.log(chat);
       if (chat) {
         this.socketService.subscribeToUpdateDeleteMessage(chat.id);
       }
@@ -102,6 +101,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     } else {
       this.socketService.updateMessage({ ...this.messageToEdit, ...{ content: this.messageControl.value } });
       this.isEditMode = false;
+      this.messageToEdit = null;
     }
 
     this.messageControl.setValue('');
@@ -139,6 +139,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
       this.messageControl.setValue(message.content);
     } else {
       this.isEditMode = false;
+      this.messageToEdit = null;
       this.messageControl.setValue('');
     }
   }
