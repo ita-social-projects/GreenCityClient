@@ -20,5 +20,5 @@ export const CHAT_ICONS = {
   profile: 'assets/img/chat/profile.svg',
   edit: 'assets/img/profile/icons/edit.svg',
   delete: 'assets/img/profile/icons/delete.svg',
-  cancelEdit: 'assets/img/ubs/cross.svg'
+  cancel: 'assets/img/ubs/cross.svg'
 };

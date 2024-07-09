@@ -66,7 +66,7 @@ export class SocketService {
       const newChatParticipant: Participant = JSON.parse(participant.body);
       this.chatsService.currentChat.participants.push(newChatParticipant);
     });
-    this.subscriptions.push(messagesSubs);
+    this.subscriptions.push(newParticipantSubs);
 
     const newChatSubs = this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
       const newUserChat = JSON.parse(newChat.body);
@@ -124,11 +124,11 @@ export class SocketService {
     currentChat.lastMessageDateTime = message.createDate;
   }
 
-  removeMessage(message: Message) {
+  removeMessage(message: Message): void {
     this.stompClient.send('/app/chat/delete', {}, JSON.stringify(message));
   }
 
-  updateMessage(message: Message) {
+  updateMessage(message: Message): void {
     this.stompClient.send('/app/chat/update', {}, JSON.stringify(message));
   }
 

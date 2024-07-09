@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl, Validators } from '@angular/forms';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { ChatsService } from '../../service/chats/chats.service';
 import { Subject } from 'rxjs';
 import { CommonService } from '../../service/common/common.service';
@@ -42,6 +42,9 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
       popupCancel: 'chat.delete-message-cancel'
     }
   };
+
+  uploadedFile: File;
+
   @ViewChild('chat') chat: ElementRef;
 
   constructor(
@@ -93,12 +96,29 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   public sendMessage() {
+    const message: Message = {
+      roomId: this.chatsService.currentChat.id,
+      senderId: this.userService.userId,
+      content: this.messageControl.value
+    };
+    if (this.uploadedFile) {
+      this.chatsService
+        .sendMessageWithFile(message, this.uploadedFile)
+        .pipe(take(1))
+        .subscribe((data: Message) => {
+          this.uploadedFile = null;
+          this.messageControl.setValue('');
+          const newMessage: Message = data;
+          const messages = this.chatsService.currentChatMessages;
+          if (messages) {
+            messages.push(newMessage);
+            this.chatsService.currentChatMessagesStream$.next([...messages]);
+          }
+        });
+      return;
+    }
+
     if (!this.isEditMode) {
-      const message: Message = {
-        roomId: this.chatsService.currentChat.id,
-        senderId: this.userService.userId,
-        content: this.messageControl.value
-      };
       this.socketService.sendMessage(message);
     } else {
       this.socketService.updateMessage({ ...this.messageToEdit, ...{ content: this.messageControl.value } });
@@ -107,6 +127,28 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     this.messageControl.setValue('');
+  }
+
+  fileChanges(event: InputEvent): void {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.uploadedFile = file;
+    this.isEditMode = false;
+  }
+
+  loadFile(url: string): void {
+    this.chatsService.getFile(url).subscribe((blob) => {
+      const fileName = url.split('/').pop();
+      this.downloadBlob(blob, fileName);
+    });
+  }
+
+  downloadBlob(blob: Blob, fileName: string): void {
+    const a = document.createElement('a');
+    const objectUrl = URL.createObjectURL(blob);
+    a.href = objectUrl;
+    a.download = fileName;
+    a.click();
+    URL.revokeObjectURL(objectUrl);
   }
 
   toggleEmojiPicker() {
@@ -137,6 +179,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   toggleEditMode(message?: MessageExtended) {
     if (message) {
       this.isEditMode = true;
+      this.uploadedFile = null;
       this.messageToEdit = this.omitIsFirstOfDay(message);
       this.messageControl.setValue(message.content);
     } else {

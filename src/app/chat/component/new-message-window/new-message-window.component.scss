@@ -132,6 +132,24 @@
   }
 }
 
+.loaded-files {
+  position: relative;
+
+  & > img {
+    width: 20px;
+  }
+
+  button {
+    width: 12px;
+    position: absolute;
+    right: 2px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+}
+
 .message-sender {
   @include flex(row, space-between, center);
 
@@ -152,6 +170,11 @@
 
     &:hover {
       background: var(--quaternary-grey);
+    }
+
+    &:disabled:hover {
+      cursor: unset;
+      background: var(--quaternary-dark-grey);
     }
   }
 
@@ -183,7 +206,7 @@
   &.own {
     justify-content: flex-end;
 
-    & > img {
+    & > .logo {
       display: none;
     }
   }
@@ -205,6 +228,17 @@
     color: #fff;
     overflow-wrap: break-word;
     width: 100%;
+  }
+}
+
+.msg-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  img {
+    width: 40px;
+    margin-top: 10px;
   }
 }
 
@@ -238,6 +272,7 @@
 
 .button-icon {
   align-self: center;
+
   img {
     width: 14px;
     height: 14px;
@@ -266,11 +301,19 @@
   .cancel-editing {
     position: absolute;
     top: -2px;
-    right: 0px;
+    right: 0;
   }
 
   img {
     width: 8px;
     height: 8px;
   }
+}
+
+.file-upload label:hover {
+  cursor: pointer;
+}
+
+.file-upload input[type='file'] {
+  display: none;
 }

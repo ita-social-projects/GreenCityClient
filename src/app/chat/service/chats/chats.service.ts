@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Chat, ChatDto } from '../../model/Chat.model';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -53,7 +53,7 @@ export class ChatsService {
       map((messages) => {
         return [...messages].map((message, index, array) => {
           const isFirstOfDay = index === 0 || !this.isSameDay(message.createDate, array[index - 1].createDate);
-          return { ...message, isFirstOfDay: isFirstOfDay };
+          return { ...message, isFirstOfDay };
         });
       })
     );
@@ -169,5 +169,22 @@ export class ChatsService {
       const chat = this.userChats.find((el) => el.id === this.currentChat.id);
       chat.participants.push(newParticipant);
     });
+  }
+
+  sendMessageWithFile(message: Message, file: File) {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    const jsonBlob = new Blob([JSON.stringify(message)], { type: 'application/json' });
+    formData.append('chatMessageDto', jsonBlob);
+    const httpOptions = {
+      headers: new HttpHeaders()
+    };
+    httpOptions.headers.append('Content-Type', 'multipart/form-data');
+
+    return this.httpClient.post(`${environment.backendChatLink}chat/upload/image`, formData, httpOptions);
+  }
+
+  public getFile(img: string): Observable<Blob> {
+    return this.httpClient.get(img, { responseType: 'blob' });
   }
 }
