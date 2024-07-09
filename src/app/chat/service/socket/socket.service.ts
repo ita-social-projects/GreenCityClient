@@ -146,8 +146,14 @@ export class SocketService {
   subscribeToUpdateDeleteMessage(roomId: number): void {
     this.updateDeleteMessageSubs = this.stompClient.subscribe(`/room/${roomId}/queue/messages`, (data: IMessage) => {
       const message = JSON.parse(data.body);
-      this.chatsService.currentChatMessages.find((el) => el.id === message.id).content = message.content;
-      this.chatsService.currentChatMessagesStream$.next(this.chatsService.currentChatMessages);
+      if (data.headers.update) {
+        this.chatsService.currentChatMessages.find((el) => el.id === message.id).content = message.content;
+        this.chatsService.currentChatMessagesStream$.next(this.chatsService.currentChatMessages);
+      }
+      if (data.headers.delete) {
+        const updatedMessages = this.chatsService.currentChatMessages.filter((el) => el.id !== message.id);
+        this.chatsService.currentChatMessagesStream$.next(updatedMessages);
+      }
     });
   }
 
