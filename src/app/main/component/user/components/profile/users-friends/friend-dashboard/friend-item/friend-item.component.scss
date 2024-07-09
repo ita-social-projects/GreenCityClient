@@ -6,7 +6,7 @@
   max-width: 603px;
   height: 194px;
   background: var(--primary-white);
-  font-family: var(--primary-font);
+  font-family: var(--tertiary-font);
   padding: 24px 24px 10px;
   border-radius: 8px;
   box-shadow: 0 5px 10px rgb(202 207 211 / 70%);
@@ -30,7 +30,7 @@
   }
 
   @media (max-width: 450px) {
-    padding: 24px 6px 8px 10px;
+    padding: 24px 14px 8px 14px;
   }
 
   @media (min-width: 280px) {
@@ -115,7 +115,7 @@
 
 .friend-rate {
   color: var(--primary-green);
-  font-family: var(--quaternary-font);
+  font-family: var(--tertiary-font);
   font-weight: 600;
   font-size: 12px;
   line-height: 16px;
