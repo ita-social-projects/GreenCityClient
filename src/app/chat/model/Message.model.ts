@@ -4,6 +4,10 @@ export interface Message {
   senderId: number;
   content: string;
   createDate?: string;
+  fileName?: string | null;
+  fileType?: string | null;
+  fileUrl?: string | null;
+  likes?: unknown[];
 }
 
 export type MessageExtended = Message & {
