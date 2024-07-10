@@ -1046,8 +1046,8 @@
     "settings-popup": {
       "title": "Notification settings",
       "labels": {
-        "titleEn": "Notification topic in english",
-        "titleUa": "Notification topic in ukrainian",
+        "titleEn": "Notification topic in English",
+        "titleUa": "Notification topic in Ukrainian",
         "trigger": "Trigger",
         "time": "Trigger time",
         "schedule": "Repeat"

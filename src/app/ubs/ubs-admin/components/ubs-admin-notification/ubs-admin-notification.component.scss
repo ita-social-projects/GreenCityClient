@@ -46,11 +46,16 @@
     line-height: 32px;
   }
 
+  .table-wrapper {
+    width: 100%;
+    overflow: auto;
+  }
+
   .table-notification-info {
     border-collapse: separate;
     border-spacing: 0 8px;
     table-layout: fixed;
-    width: 100%;
+    width: auto;
 
     th {
       font-weight: bold;
@@ -60,6 +65,11 @@
       color: var(--ubs-primary-grey);
       padding: 4px 16px;
       border-bottom: 1px solid var(--ubs-primary-light-grey);
+
+      @media (max-width: 768px) {
+        font-size: 12px;
+        padding: 4px 8px;
+      }
     }
 
     tbody tr {
@@ -75,11 +85,14 @@
       color: var(--ubs-quaternary-dark-grey);
       padding: 16px;
       vertical-align: top;
+
+      @media (max-width: 768px) {
+        padding: 4px 8px;
+        font-size: 12px;
+      }
     }
 
     .col-actions {
-      width: 60px;
-
       div {
         display: flex;
         flex-direction: row;
@@ -102,11 +115,21 @@
       color: var(--ubs-primary-white);
       font-weight: normal;
       font-style: var(--primary-font);
+
+      @media (max-width: 768px) {
+        font-size: 12px;
+        padding: 8px;
+      }
     }
 
     td {
       padding: 9px 16px;
       height: 100px;
+
+      @media (max-width: 768px) {
+        font-size: 12px;
+        padding: 8px;
+      }
     }
 
     .col-platform {
@@ -173,5 +196,9 @@
     &:disabled {
       background-color: var(--ubs-primary-light-grey);
     }
+  }
+
+  ::-webkit-scrollbar {
+    height: 5px;
   }
 }

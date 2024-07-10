@@ -98,6 +98,16 @@
   width: 20%;
 }
 
+.table-wrapper {
+  width: 100%;
+  overflow: auto;
+  padding-bottom: 50px;
+
+  @media (max-width: 480px) {
+    padding-bottom: 170px;
+  }
+}
+
 .table-notifications thead tr th {
   font-weight: bold;
   font-size: 14px;
@@ -106,6 +116,13 @@
   color: var(--ubs-primary-grey);
   padding: 4px 16px;
   border-bottom: 1px solid var(--ubs-primary-light-grey);
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
 }
 
 .table-notifications tbody tr td {
@@ -114,19 +131,27 @@
   font-size: 14px;
   line-height: 20px;
   color: var(--ubs-quaternary-dark-grey);
-  padding: 16px;
+  padding: 16px 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
 }
 
 .table-notifications tbody tr {
   background: var(--ubs-primary-white);
   box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
+  cursor: pointer;
 }
 
 .table-notifications {
   border-collapse: separate;
   border-spacing: 0 8px;
   table-layout: fixed;
-  width: 100%;
+  width: auto;
 }
 
 button {
@@ -158,4 +183,8 @@ button {
 
 .select-pagination-wrapper select {
   margin-left: 15px;
+}
+
+::-webkit-scrollbar {
+  height: 5px;
 }

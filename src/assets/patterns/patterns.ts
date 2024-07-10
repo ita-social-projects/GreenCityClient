@@ -42,7 +42,8 @@ export const Patterns = {
 
   urlLinkifyPattern: /(\bhttps?:\/\/[^<>\s]+\b)/gi,
   emailLinkifyPattern: /\b[^<>@\s]+@[^<>\s]+\b/gi,
-  phoneLinkifyPattern: /\+\d{10,}/g
+  phoneLinkifyPattern: /\+\d{10,}/g,
+  chatLinkPattern: /\bt\.me\/[\w.-]+\b/gi
 };
 
 export const Masks = {
