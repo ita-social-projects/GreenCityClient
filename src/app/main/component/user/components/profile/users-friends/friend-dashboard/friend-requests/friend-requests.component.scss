@@ -1,9 +1,11 @@
+@import 'src/typography/_resp.scss';
+
 .friend-requests-container {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
 
-  @media (min-width: 576px) {
+  @include responsiveMobileFirst(sm) {
     flex-direction: column;
   }
 
@@ -16,18 +18,18 @@
     flex-direction: column;
     gap: 14px 32px;
 
-    @media (max-width: 1200px) {
+    @include responsivePCFirst(2xl) {
       gap: 32px;
     }
 
-    @media (min-width: 1024px) {
+    @include responsiveMobileFirst(xl) {
       display: grid;
       max-width: 870px;
       margin: 0 auto;
       grid-template-columns: 1fr 1fr;
     }
 
-    @media (min-width: 1200px) {
+    @include responsiveMobileFirst(2xl) {
       max-width: 1140px;
     }
   }
@@ -47,7 +49,7 @@
     margin-bottom: 30px;
 
     .noRequests {
-      font-family: Montserrat, sans-serif;
+      font-family: var(--tertiary-font);
       font-size: 32px;
       font-weight: 500;
       font-style: normal;
@@ -61,19 +63,19 @@
     flex-direction: column;
     gap: 20px;
 
-    @media (min-width: 576px) {
+    @include responsiveMobileFirst(sm) {
       gap: 32px;
       row-gap: 16px;
     }
 
-    @media (min-width: 1024px) {
+    @include responsiveMobileFirst(xl) {
       display: grid;
       max-width: 870px;
       margin: 0 auto;
       grid-template-columns: 1fr 1fr;
     }
 
-    @media (min-width: 1200px) {
+    @include responsiveMobileFirst(2xl) {
       max-width: 1140px;
     }
   }
