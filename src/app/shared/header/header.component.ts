@@ -145,16 +145,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.notificationIconRef.nativeElement.srcset = this.headerImageList.notification;
         }
       });
-    interval(10000)
-      .pipe(
-        takeUntil(this.destroySub),
-        takeWhile((el) => this.isLoggedIn)
-      )
-      .subscribe(() => {
-        this.socketService.send(this.socketService.connection.greenCity, '/app/notifications', {
-          userId: this.userId
-        });
-      });
+
+    this.socketService.send(this.socketService.connection.greenCity, '/app/notifications', { userId: this.userId });
   }
 
   defineAuthorities() {
