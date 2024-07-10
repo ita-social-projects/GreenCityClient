@@ -137,7 +137,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
           time: this.notification.notificationTemplateMainInfoDto.time,
           schedule: this.notification.notificationTemplateMainInfoDto.schedule
         },
-        panelClass: 'notification-settings-matDialog'
+        maxHeight: '100vh'
       })
       .afterClosed()
       .subscribe((updates: { title: { en: string; ua: string }; trigger: string; time: string; schedule: string }) => {
