@@ -23,6 +23,9 @@ export interface HabitTranslationInterface {
   habitItem: any;
   languageCode: string;
   name: string;
+  nameUa: string;
+  descriptionUa: string;
+  habitItemUa: any;
 }
 
 export interface HabitListInterface {

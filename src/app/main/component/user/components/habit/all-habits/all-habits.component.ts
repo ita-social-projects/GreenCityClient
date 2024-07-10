@@ -54,12 +54,12 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.onResize();
     this.checkHabitsView();
+    this.getAllHabits(0, this.pageSize);
 
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang) => {
       this.translate.setDefaultLang(lang);
       this.lang = lang;
       this.getAllHabitsTags();
-      this.getAllHabits(0, this.pageSize);
     });
   }
 

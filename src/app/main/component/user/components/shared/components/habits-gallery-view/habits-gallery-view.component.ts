@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { HabitInterface } from '@global-user/components/habit/models/interfaces/
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { starIcons } from 'src/app/main/image-pathes/habits-images';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-habits-gallery-view',
@@ -15,11 +16,14 @@ import { starIcons } from 'src/app/main/image-pathes/habits-images';
 })
 export class HabitsGalleryViewComponent implements OnInit {
   @Input() habit: HabitInterface;
-  private userId: number;
+
   whiteStar = starIcons.whiteStar;
   greenStar = starIcons.greenStar;
   stars = [this.whiteStar, this.whiteStar, this.whiteStar];
   star: number;
+
+  private userId: number;
+  private langService = inject(LanguageService);
 
   constructor(
     public router: Router,
@@ -49,6 +53,10 @@ export class HabitsGalleryViewComponent implements OnInit {
 
   addHabit() {
     this.habit.isCustomHabit ? this.assignCustomHabit() : this.assignStandartHabit();
+  }
+
+  getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   private assignStandartHabit() {
