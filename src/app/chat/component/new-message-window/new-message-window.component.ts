@@ -166,21 +166,18 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
       .afterClosed()
       .subscribe((data) => {
         if (data) {
-          this.socketService.removeMessage(this.omitIsFirstOfDay(message));
+          const { id, roomId, senderId, content } = message;
+          this.socketService.removeMessage({ id, roomId, senderId, content });
         }
       });
   }
 
-  omitIsFirstOfDay(message: MessageExtended): Message {
-    const { id, roomId, senderId, content } = message;
-    return { id, roomId, senderId, content };
-  }
-
-  toggleEditMode(message?: MessageExtended) {
+  toggleEditMode(message?: MessageExtended): void {
     if (message) {
       this.isEditMode = true;
       this.uploadedFile = null;
-      this.messageToEdit = this.omitIsFirstOfDay(message);
+      const { id, roomId, senderId, content } = message;
+      this.messageToEdit = { id, roomId, senderId, content };
       this.messageControl.setValue(message.content);
     } else {
       this.isEditMode = false;

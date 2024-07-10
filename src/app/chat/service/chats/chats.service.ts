@@ -59,7 +59,7 @@ export class ChatsService {
     );
   }
 
-  isSameDay(value1: string, value2: string): boolean {
+  private isSameDay(value1: string, value2: string): boolean {
     const date1 = new Date(value1);
     const date2 = new Date(value2);
     return date1.getDate() === date2.getDate() && date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth();
@@ -134,7 +134,7 @@ export class ChatsService {
     });
   }
 
-  public openCurrentChat(chatId: number) {
+  public openCurrentChat(chatId: number): void {
     const currentChat = this.userChats.find((chat) => chat.id === chatId);
     this.setCurrentChat(currentChat);
   }
@@ -147,13 +147,13 @@ export class ChatsService {
       });
   }
 
-  public getLocationsChats(userId: number) {
+  public getLocationsChats(userId: number): void {
     this.httpClient.get(`${environment.backendChatLink}chat/locations/${userId}`).subscribe((el) => {
       this.locationChats$.next(el);
     });
   }
 
-  public addAdminToChat(adminId: number) {
+  public addAdminToChat(adminId: number): void {
     this.httpClient.post(`${environment.backendChatLink}chat/admin/${adminId}/${this.currentChat.id}`, {}).subscribe(() => {
       const newParticipant = {
         id: adminId,
@@ -171,7 +171,7 @@ export class ChatsService {
     });
   }
 
-  sendMessageWithFile(message: Message, file: File) {
+  sendMessageWithFile(message: Message, file: File): Observable<Message> {
     const formData: FormData = new FormData();
     formData.append('file', file);
     const jsonBlob = new Blob([JSON.stringify(message)], { type: 'application/json' });
@@ -181,7 +181,7 @@ export class ChatsService {
     };
     httpOptions.headers.append('Content-Type', 'multipart/form-data');
 
-    return this.httpClient.post(`${environment.backendChatLink}chat/upload/image`, formData, httpOptions);
+    return this.httpClient.post<Message>(`${environment.backendChatLink}chat/upload/image`, formData, httpOptions);
   }
 
   public getFile(img: string): Observable<Blob> {
