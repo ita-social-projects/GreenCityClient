@@ -37,6 +37,7 @@
     "delete-address": "Are you sure you want to delete this address?",
     "delete-message": "If you delete your profile, your bonuses will burn out and your order information will be deleted without the possibility of recovery",
     "get-notification-in": "Get notification in",
+    "subtitle": "Please fill in your profile to make the ordering process as quick and convenient as possible",
     "error-change-pass": "Password is wrong",
     "btn": {
       "edit": "Edit data",
