@@ -144,6 +144,7 @@
 .table-notifications tbody tr {
   background: var(--ubs-primary-white);
   box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
+  cursor: pointer;
 }
 
 .table-notifications {
