@@ -41,6 +41,7 @@ import { courierLimitValidator, uniqueArrayValidator } from 'src/app/ubs/ubs/ser
 import { ICourierInfo } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
 import { WarningPopUpComponent } from '@shared/components';
+import { emptyOrValid } from 'src/app/shared/validators/empthy-or-valid.validator';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -339,7 +340,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   addOrder(value: string = ''): void {
-    const newFormControl = new FormControl(value, [Validators.required, Validators.maxLength(8)]);
+    const newFormControl = new FormControl(value, [emptyOrValid([Validators.minLength(4)]), Validators.maxLength(8)]);
     this.additionalOrders.push(newFormControl);
   }
 
