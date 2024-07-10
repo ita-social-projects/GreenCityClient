@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl, Validators } from '@angular/forms';
 import { take, takeUntil } from 'rxjs/operators';
@@ -44,7 +44,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   };
 
   uploadedFile: File;
-
+  @Input() class: string;
   @ViewChild('chat') chat: ElementRef;
 
   constructor(

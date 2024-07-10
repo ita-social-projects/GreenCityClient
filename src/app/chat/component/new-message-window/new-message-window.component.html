@@ -1,4 +1,4 @@
-<div class="new-message-window">
+<div class="new-message-window" [ngClass]="class || 'message-window'" class="new-message-window">
   <div class="new-msg-title">
     <span class="msg-title">New Message</span>
     <button class="close-new-msg" (click)="close()" title="Close">&times;</button>
