@@ -44,6 +44,7 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
 import { filtersSelector, isFiltersAppliedSelector, isNoFiltersAppliedSelector } from 'src/app/store/selectors/big-order-table.selectors';
 import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
+import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -721,10 +722,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.tableData = [];
     this.isLoading = true;
+    const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
 
     checked
-      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value: option.key }, fetchTable: true }))
-      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value: option.key }, fetchTable: true }));
+      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
+      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
   }
 
   changeInputDate(): void {
@@ -989,7 +991,17 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       return false;
     }
 
-    const isFiltered = Object.keys(this.allFilters)?.some((key) => key.startsWith(columnName));
+    const isFiltered = Object.keys(this.allFilters)?.some((key) => {
+      if (!key.startsWith(columnName)) {
+        return false;
+      }
+
+      if (Array.isArray(this.allFilters[key])) {
+        return (this.allFilters[key] as string[])?.length > 0;
+      } else {
+        return true;
+      }
+    });
 
     if (!isFiltered) {
       return false;
