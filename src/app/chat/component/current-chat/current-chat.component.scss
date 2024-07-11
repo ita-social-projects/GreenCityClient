@@ -2,13 +2,14 @@
 
 :host {
   height: 100%;
-  border-left: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 .current-chat {
   @include flex(column, center, center);
 
+  align-items: flex-end;
   height: 100%;
+  border-left: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 .current-chat-title {
@@ -48,7 +49,7 @@
 .current-chat-content {
   @include flex(row, center, center);
 
-  width: 35vw;
+  width: 320px;
   flex: 1;
   overflow: hidden;
 }
@@ -73,6 +74,7 @@
   .current-chat-content {
     width: 100%;
   }
+
   .current-chat-title {
     width: 100%;
     padding: 10px;

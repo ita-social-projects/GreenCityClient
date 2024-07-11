@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Chat, ChatDto } from '../../model/Chat.model';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Message, MessagesToSave } from '../../model/Message.model';
+import { Message, MessageExtended, MessagesToSave } from '../../model/Message.model';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { Messages } from './../../model/Message.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,23 @@ export class ChatsService {
 
   get isSupportChat() {
     return this.isSupportChat$.getValue();
+  }
+
+  get currentChatMessages$(): Observable<MessageExtended[]> {
+    return this.currentChatMessagesStream$.pipe(
+      map((messages) => {
+        return [...messages].map((message, index, array) => {
+          const isFirstOfDay = index === 0 || !this.isSameDay(message.createDate, array[index - 1].createDate);
+          return { ...message, isFirstOfDay };
+        });
+      })
+    );
+  }
+
+  private isSameDay(value1: string, value2: string): boolean {
+    const date1 = new Date(value1);
+    const date2 = new Date(value2);
+    return date1.getDate() === date2.getDate() && date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth();
   }
 
   getAllUserChats(userId: number): void {
@@ -116,7 +134,7 @@ export class ChatsService {
     });
   }
 
-  public openCurrentChat(chatId: number) {
+  public openCurrentChat(chatId: number): void {
     const currentChat = this.userChats.find((chat) => chat.id === chatId);
     this.setCurrentChat(currentChat);
   }
@@ -129,13 +147,13 @@ export class ChatsService {
       });
   }
 
-  public getLocationsChats(userId: number) {
+  public getLocationsChats(userId: number): void {
     this.httpClient.get(`${environment.backendChatLink}chat/locations/${userId}`).subscribe((el) => {
       this.locationChats$.next(el);
     });
   }
 
-  public addAdminToChat(adminId: number) {
+  public addAdminToChat(adminId: number): void {
     this.httpClient.post(`${environment.backendChatLink}chat/admin/${adminId}/${this.currentChat.id}`, {}).subscribe(() => {
       const newParticipant = {
         id: adminId,
@@ -151,5 +169,22 @@ export class ChatsService {
       const chat = this.userChats.find((el) => el.id === this.currentChat.id);
       chat.participants.push(newParticipant);
     });
+  }
+
+  sendMessageWithFile(message: Message, file: File): Observable<Message> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    const jsonBlob = new Blob([JSON.stringify(message)], { type: 'application/json' });
+    formData.append('chatMessageDto', jsonBlob);
+    const httpOptions = {
+      headers: new HttpHeaders()
+    };
+    httpOptions.headers.append('Content-Type', 'multipart/form-data');
+
+    return this.httpClient.post<Message>(`${environment.backendChatLink}chat/upload/image`, formData, httpOptions);
+  }
+
+  public getFile(img: string): Observable<Blob> {
+    return this.httpClient.get(img, { responseType: 'blob' });
   }
 }

@@ -9,15 +9,15 @@
   height: 100%;
   width: 300px;
 
-  @include flex(column, center, center);
+  @include flex(column, start, center);
 }
 
 .close-modal-button {
   font-size: 45px;
   cursor: pointer;
   position: absolute;
-  top: -15px;
-  right: 10px;
+  top: -23px;
+  right: 5px;
   z-index: 1500;
 }
 
@@ -59,10 +59,8 @@
   position: relative;
 
   @include flex(row, center, flex-start);
-}
 
-@media (max-width: 576px) {
-  .chat-modal-wrapper {
-    padding-top: 25px;
+  .mat-tab-group {
+    width: 100%;
   }
 }

@@ -4,7 +4,6 @@ import { environment } from '@environment/environment';
 import { CompatClient, IMessage, Stomp, StompSubscription } from '@stomp/stompjs';
 import { Message } from '../../model/Message.model';
 import { ChatsService } from '../chats/chats.service';
-import { User } from '../../model/User.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { FriendChatInfo, Participant } from '../../model/Chat.model';
@@ -24,6 +23,7 @@ export class SocketService {
   private subscriptions: StompSubscription[] = [];
 
   public updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
+  public updateDeleteMessageSubs: StompSubscription;
 
   constructor(
     private chatsService: ChatsService,
@@ -40,10 +40,12 @@ export class SocketService {
       () => this.onConnected(),
       (error) => this.onError(error)
     );
+    this.stompClient.reconnectDelay = 1000;
   }
 
   private onConnected() {
     const isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
+
     const messagesSubs = this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
       const newMessage: Message = JSON.parse(data.body);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
@@ -64,7 +66,7 @@ export class SocketService {
       const newChatParticipant: Participant = JSON.parse(participant.body);
       this.chatsService.currentChat.participants.push(newChatParticipant);
     });
-    this.subscriptions.push(messagesSubs);
+    this.subscriptions.push(newParticipantSubs);
 
     const newChatSubs = this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
       const newUserChat = JSON.parse(newChat.body);
@@ -122,6 +124,14 @@ export class SocketService {
     currentChat.lastMessageDateTime = message.createDate;
   }
 
+  removeMessage(message: Message): void {
+    this.stompClient.send('/app/chat/delete', {}, JSON.stringify(message));
+  }
+
+  updateMessage(message: Message): void {
+    this.stompClient.send('/app/chat/update', {}, JSON.stringify(message));
+  }
+
   createNewChat(ids, isOpen, isOpenInWindow?) {
     const key = this.chatsService.isSupportChat ? 'locationsIds' : 'participantsIds';
     const newChatInfo = {
@@ -131,6 +141,20 @@ export class SocketService {
     this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
     this.isOpenNewChat = isOpen;
     this.isOpenNewChatInWindow = isOpenInWindow;
+  }
+
+  subscribeToUpdateDeleteMessage(roomId: number): void {
+    this.updateDeleteMessageSubs = this.stompClient.subscribe(`/room/${roomId}/queue/messages`, (data: IMessage) => {
+      const message = JSON.parse(data.body);
+      if (data.headers.update) {
+        this.chatsService.currentChatMessages.find((el) => el.id === message.id).content = message.content;
+        this.chatsService.currentChatMessagesStream$.next(this.chatsService.currentChatMessages);
+      }
+      if (data.headers.delete) {
+        const updatedMessages = this.chatsService.currentChatMessages.filter((el) => el.id !== message.id);
+        this.chatsService.currentChatMessagesStream$.next(updatedMessages);
+      }
+    });
   }
 
   disconnect(): void {
