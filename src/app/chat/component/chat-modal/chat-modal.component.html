@@ -1,16 +1,27 @@
 <div class="chat-modal-wrapper">
   <button class="close-modal-button" type="button" (click)="close()" title="Close">
-    <img [src]="chatIcons.close" alt="close" />
+    <img [src]="isMobile ? chatIcons.cancel : chatIcons.close" alt="close" />
   </button>
   <div class="controlPanel">
-    <div class="switchView">
+    <div *ngIf="!isSupportChat" class="switchView">
       <img [src]="chatIcons.profile" alt="profile" />
       <img [src]="chatIcons.chats" alt="profile" />
     </div>
-    <img [src]="chatIcons.setting" alt="profile" />
+    <img *ngIf="!isSupportChat" [src]="chatIcons.setting" alt="profile" />
   </div>
-  <div class="chats">
-    <app-chats-list></app-chats-list>
-  </div>
-  <app-current-chat></app-current-chat>
+
+  <mat-tab-group *ngIf="isMobile; else desktop">
+    <mat-tab label="Chat list">
+      <div class="chats">
+        <app-chats-list></app-chats-list></div
+    ></mat-tab>
+    <mat-tab label="Chat"> <app-current-chat></app-current-chat></mat-tab>
+  </mat-tab-group>
+
+  <ng-template #desktop>
+    <div class="chats">
+      <app-chats-list></app-chats-list>
+    </div>
+    <app-current-chat></app-current-chat
+  ></ng-template>
 </div>

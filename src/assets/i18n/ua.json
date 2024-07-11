@@ -1030,6 +1030,9 @@
   },
   "chat": {
     "messages": "Повідомлення",
-    "support-chat": "Чат підтримки"
+    "support-chat": "Чат підтримки",
+    "delete-message-question": "Ви дійсно бажаєте видалити повідомлення?",
+    "delete-message-confirm": "Так",
+    "delete-message-cancel": "Ні"
   }
 }

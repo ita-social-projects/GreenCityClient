@@ -2,7 +2,6 @@
 
 :host {
   width: 100%;
-  height: calc(100% - 45px);
 
   @include flex(column, center, center);
 }
