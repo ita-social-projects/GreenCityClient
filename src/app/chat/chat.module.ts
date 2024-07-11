@@ -14,6 +14,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { CommonModule } from '@angular/common';
       },
       isolate: true
     }),
-    CommonModule
+    CommonModule,
+    MatTabsModule
   ],
   exports: [ChatPopupComponent]
 })

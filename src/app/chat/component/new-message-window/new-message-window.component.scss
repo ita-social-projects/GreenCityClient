@@ -1,5 +1,10 @@
 @import 'src/app/chat/chat-styles-reset';
 
+:host {
+  width: 100%;
+  height: 100%;
+}
+
 .message-window {
   width: 250px;
   position: fixed;
@@ -10,20 +15,6 @@
   .chat {
     width: 100%;
     height: 200px;
-    flex: 1;
-    overflow-y: scroll;
-  }
-}
-
-.curent-chat {
-  position: fixed;
-  bottom: 0;
-  right: 330px;
-  z-index: 100;
-
-  .chat {
-    width: 100%;
-    height: 385px;
     flex: 1;
     overflow-y: scroll;
   }
@@ -145,7 +136,7 @@
   }
 }
 
-.loaded-files {
+.attached-file {
   position: relative;
 
   & > img {
@@ -205,11 +196,17 @@
   }
 }
 
+.message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 .message {
   @include flex(row, flex-start, flex-end);
 
-  column-gap: 10px;
-  padding: 10px;
+  column-gap: 5px;
+  padding: 10px 0;
   width: 100%;
 
   & > img {
@@ -225,22 +222,28 @@
   }
 }
 
+.uploaded-image {
+  height: 46px;
+  margin-right: 35px;
+  border-radius: 8px;
+}
+
 .msg-block {
   @include flex(row, flex-start, center);
 
-  max-width: 45%;
+  max-width: 100%;
   padding: 8px;
   border-radius: 10px 10px 10px 0;
   position: relative;
   box-shadow: 0 0 1px 1px rgb(0 0 0 / 25%);
   background: var(--primary-green);
+  overflow: hidden;
 
   span {
     font-size: 14px;
     font-family: var(--primary-font);
     color: #fff;
     overflow-wrap: break-word;
-    width: 100%;
   }
 }
 
@@ -248,11 +251,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  max-width: 60%;
 
-  img {
-    width: 40px;
-    margin-top: 10px;
-  }
+  // img {
+  //   width: 40px;
+  //   margin-top: 10px;
+  // }
 }
 
 .message.own .msg-block {
@@ -329,4 +333,17 @@
 
 .file-upload input[type='file'] {
   display: none;
+}
+
+.current-chat {
+  .new-msg-title,
+  .receiver {
+    display: none;
+  }
+
+  .chat {
+    width: 100%;
+    height: 472px;
+    overflow-y: scroll;
+  }
 }

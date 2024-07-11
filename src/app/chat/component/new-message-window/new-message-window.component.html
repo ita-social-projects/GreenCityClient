@@ -12,10 +12,12 @@
 
   <div class="chat" #chat>
     <div *ngIf="isHaveMessages" class="chat-messages">
-      <div *ngFor="let message of currentChatMessages | async">
+      <div *ngFor="let message of currentChatMessages | async" class="message-container">
         <div *ngIf="message.isFirstOfDay" class="chat-days-separate-line">
           <span>{{ message.createDate | date: 'dd.MM.yyyy' }}</span>
         </div>
+        <img *ngIf="message.fileUrl" [src]="message.fileUrl" class="uploaded-image" (click)="loadFile(message.fileUrl)" />
+
         <div
           [ngClass]="{
             message: true,
@@ -34,7 +36,6 @@
             <div class="msg-block">
               <span>{{ message.content }}</span>
             </div>
-            <img [src]="message.fileUrl" (click)="loadFile(message.fileUrl)" />
           </div>
 
           <span class="msg-time">{{ message.createDate | date: 'HH:mm' }}</span>
@@ -51,7 +52,8 @@
       <img [src]="chatIcons.cancel" alt="cancel edit" />
     </button>
   </div>
-  <div *ngIf="uploadedFile" class="loaded-files">
+
+  <div *ngIf="uploadedFile" class="attached-file">
     <img [src]="chatIcons.file" alt="file" title="added file" />
     <button (click)="uploadedFile = null">
       <img [src]="chatIcons.cancel" alt="cancel file" />
