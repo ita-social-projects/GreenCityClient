@@ -41,24 +41,23 @@
           <span class="msg-time">{{ message.createDate | date: 'HH:mm' }}</span>
         </div>
       </div>
+      <div *ngIf="isEditMode" class="message-hint">
+        <img [src]="chatIcons.edit" alt="edit" />
+        <span class="message-content">{{ messageToEdit.content }}</span>
+        <button *ngIf="isEditMode" class="cancel-editing" (click)="toggleEditMode()">
+          <img [src]="chatIcons.cancel" alt="cancel edit" />
+        </button>
+      </div>
+
+      <div *ngIf="uploadedFile" class="attached-file">
+        <img [src]="chatIcons.file" alt="file" title="added file" />
+        <button (click)="uploadedFile = null">
+          <img [src]="chatIcons.cancel" alt="cancel file" />
+        </button>
+        <p>{{ uploadedFile?.name }}</p>
+      </div>
     </div>
-  </div>
-  <div *ngIf="!isHaveMessages">Chat hasn't messages yet</div>
-
-  <div *ngIf="isEditMode" class="message-hint">
-    <img [src]="chatIcons.edit" alt="edit" />
-    <span class="message-content">{{ messageToEdit.content }}</span>
-    <button *ngIf="isEditMode" class="cancel-editing" (click)="toggleEditMode()">
-      <img [src]="chatIcons.cancel" alt="cancel edit" />
-    </button>
-  </div>
-
-  <div *ngIf="uploadedFile" class="attached-file">
-    <img [src]="chatIcons.file" alt="file" title="added file" />
-    <button (click)="uploadedFile = null">
-      <img [src]="chatIcons.cancel" alt="cancel file" />
-    </button>
-    <p>{{ uploadedFile?.name }}</p>
+    <div *ngIf="!isHaveMessages">Chat hasn't messages yet</div>
   </div>
 
   <form *ngIf="!isAdmin || (chatsService.isAdminParticipant$ | async)" class="message-sender" (ngSubmit)="sendMessage()">

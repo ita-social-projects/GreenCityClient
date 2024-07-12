@@ -10,10 +10,10 @@
     <img *ngIf="!isSupportChat" [src]="chatIcons.setting" alt="profile" />
   </div>
 
-  <mat-tab-group *ngIf="isMobile; else desktop">
+  <mat-tab-group #tabGroup *ngIf="isMobile; else desktop">
     <mat-tab label="Chat list">
       <div class="chats">
-        <app-chats-list></app-chats-list></div
+        <app-chats-list (click)="tabGroup.selectedIndex = 1"></app-chats-list></div
     ></mat-tab>
     <mat-tab label="Chat"> <app-current-chat></app-current-chat></mat-tab>
   </mat-tab-group>

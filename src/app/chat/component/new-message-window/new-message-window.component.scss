@@ -12,18 +12,16 @@
   right: 330px;
   z-index: 100;
 
+  @media (max-width: 576px) {
+    right: 4px;
+    bottom: 121px;
+  }
+
   .chat {
     width: 100%;
     height: 200px;
     flex: 1;
     overflow-y: scroll;
-  }
-}
-
-@media (max-width: 576px) {
-  :host {
-    right: 4px;
-    bottom: 121px;
   }
 }
 
@@ -138,6 +136,7 @@
 
 .attached-file {
   position: relative;
+  width: 97%;
 
   & > img {
     width: 20px;
@@ -252,11 +251,6 @@
   flex-direction: column;
   align-items: flex-end;
   max-width: 60%;
-
-  // img {
-  //   width: 40px;
-  //   margin-top: 10px;
-  // }
 }
 
 .message.own .msg-block {
@@ -336,14 +330,24 @@
 }
 
 .current-chat {
-  .new-msg-title,
-  .receiver {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .new-msg-title {
     display: none;
   }
 
   .chat {
     width: 100%;
-    height: 472px;
     overflow-y: scroll;
+    min-height: 390px;
+    max-height: 390px;
+    align-content: end;
+
+    @media (max-width: 769px) {
+      min-height: 340px;
+      max-height: 340px;
+    }
   }
 }

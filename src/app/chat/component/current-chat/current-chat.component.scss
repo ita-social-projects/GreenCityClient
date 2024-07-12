@@ -1,7 +1,9 @@
 @import 'src/app/chat/chat-styles-reset';
 
 :host {
+  display: block;
   height: 100%;
+  width: 328px;
 }
 
 .current-chat {
@@ -47,9 +49,9 @@
 }
 
 .current-chat-content {
-  @include flex(row, center, center);
+  @include flex(row, center, end);
 
-  width: 320px;
+  width: 100%;
   flex: 1;
   overflow: hidden;
 }
@@ -63,23 +65,11 @@
 }
 
 @media (max-width: 576px) {
-  .green-people-ph {
-    display: none;
+  :host {
+    width: 100%;
   }
 
   .chats {
     padding-top: 25px;
-  }
-
-  .current-chat-content {
-    width: 100%;
-  }
-
-  .current-chat-title {
-    width: 100%;
-    padding: 10px;
-    position: absolute;
-    top: 0;
-    left: 0;
   }
 }
