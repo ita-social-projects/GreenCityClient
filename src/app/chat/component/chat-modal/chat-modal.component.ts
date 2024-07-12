@@ -1,7 +1,8 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ChatsService } from '../../service/chats/chats.service';
 import { CHAT_ICONS } from '../../chat-icons';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-chat-modal',
