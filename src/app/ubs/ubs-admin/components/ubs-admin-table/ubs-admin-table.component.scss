@@ -589,6 +589,7 @@ mat-spinner {
   font-weight: 600;
   font-size: 14px;
   line-height: 24px;
+  cursor: pointer;
 }
 
 .items {
@@ -637,4 +638,8 @@ mat-spinner {
   margin: 0 auto;
   font-family: var(--primary-font);
   font-size: 14px;
+}
+
+::ng-deep .mdc-form-field > label {
+  width: 275px;
 }
