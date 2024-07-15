@@ -1,4 +1,8 @@
 <div class="current-chat" *ngIf="chatsService.currentChat; else noCurrentChatPlaceholder">
+  <div class="current-chat-title">
+    <img [src]="chatIcons.userLogo" alt="user logo" />
+    <span class="current-chat-name">{{ chatsService.currentChat.name }}</span>
+  </div>
   <div class="current-chat-content">
     <app-new-message-window [class]="'current-chat'"></app-new-message-window>
   </div>

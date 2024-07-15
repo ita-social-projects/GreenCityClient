@@ -181,10 +181,12 @@ export class ChatsService {
     };
     httpOptions.headers.append('Content-Type', 'multipart/form-data');
 
-    return this.httpClient.post<Message>(`${environment.backendChatLink}chat/upload/image`, formData, httpOptions);
+    return this.isImage(file)
+      ? this.httpClient.post<Message>(`${environment.backendChatLink}chat/upload/image`, formData, httpOptions)
+      : this.httpClient.post<Message>(`${environment.backendChatLink}chat/upload/file`, formData, httpOptions);
   }
 
-  public getFile(img: string): Observable<Blob> {
-    return this.httpClient.get(img, { responseType: 'blob' });
+  isImage(file: File): boolean {
+    return file && file['type'].split('/')[0] === 'image';
   }
 }
