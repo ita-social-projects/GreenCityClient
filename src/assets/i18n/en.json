@@ -627,6 +627,7 @@
       "last-name-is-required": "Last name is required.",
       "last-name-must-be-at-least-1-characters-long": "Last name must be at least 1 characters long.",
       "email-notifications": "Email notifications:",
+      "profile-update-error-name": "Name must only contain letters, numbers, spaces, hyphens, and dots in the center.",
       "yes": "Yes",
       "no": "No",
       "frequency": "Frequency",
