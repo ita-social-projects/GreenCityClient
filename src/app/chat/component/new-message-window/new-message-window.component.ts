@@ -135,6 +135,12 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     const file = (event.target as HTMLInputElement).files[0];
     this.uploadedFile = file;
     this.isEditMode = false;
+    setTimeout(() => {
+      const element: HTMLElement = this.chat?.nativeElement;
+      if (element) {
+        element.scrollTop = element.scrollHeight;
+      }
+    }, 0);
   }
 
   toggleEmojiPicker() {

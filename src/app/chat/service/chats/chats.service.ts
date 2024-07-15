@@ -187,6 +187,6 @@ export class ChatsService {
   }
 
   isImage(file: File): boolean {
-    return file && file['type'].split('/')[0] === 'image';
+    return file && file.type.split('/')[0] === 'image';
   }
 }
