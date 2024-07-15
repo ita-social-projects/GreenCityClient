@@ -84,7 +84,8 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
         orderID: this.orderInfo.generalOrderInfo.id,
         reason: this.cancellationReason,
         comment: this.cancellationComment
-      }
+      },
+      maxHeight: '100vh'
     });
   }
 

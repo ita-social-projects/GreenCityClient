@@ -81,10 +81,3 @@
     color: var(--error-red);
   }
 }
-
-@media screen and (max-height: 770px), (max-width: 425px) {
-  .container {
-    overflow-y: scroll;
-    max-height: 700px;
-  }
-}
