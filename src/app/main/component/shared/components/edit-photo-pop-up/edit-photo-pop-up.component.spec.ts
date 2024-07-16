@@ -159,4 +159,56 @@ describe('EditPhotoPopUpComponent', () => {
     expect((component as any).showWarning).toHaveBeenCalledWith(file);
     expect(component.selectedFile).toBeNull();
   });
+
+  it('should delete photo successfully', fakeAsync(() => {
+    mockEditProfileService.deleteProfilePhoto.and.returnValue(of({}));
+    spyOn<any>(component, 'closeEditPhoto');
+    component['deletePhoto']();
+    tick();
+
+    expect(component.loadingAnim).toBeFalse();
+    expect(mockEditProfileService.deleteProfilePhoto).toHaveBeenCalled();
+    expect(component['closeEditPhoto']).toHaveBeenCalled();
+  }));
+
+  it('should handle delete photo error', fakeAsync(() => {
+    mockEditProfileService.deleteProfilePhoto.and.returnValue(throwError(() => 'Error'));
+    spyOn<any>(component, 'openErrorDialog');
+    component['deletePhoto']();
+    tick();
+
+    expect(component.loadingAnim).toBeFalse();
+    expect(mockEditProfileService.deleteProfilePhoto).toHaveBeenCalled();
+    expect(component['openErrorDialog']).toHaveBeenCalled();
+  }));
+
+  it('should save photo successfully', fakeAsync(() => {
+    const croppedImage = 'data:image/png;base64,MockBase64ImageData';
+    (component as any).croppedImage = croppedImage;
+    const formData = new FormData();
+    formData.append('base64', croppedImage);
+    mockEditProfileService.updateProfilePhoto.and.returnValue(of([]));
+    spyOn<any>(component, 'closeEditPhoto');
+    component['savePhoto']();
+    tick();
+
+    expect(component.loadingAnim).toBeFalse();
+    expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalledWith(formData);
+    expect(component['closeEditPhoto']).toHaveBeenCalled();
+  }));
+
+  it('should handle save photo error', fakeAsync(() => {
+    const croppedImage = 'data:image/png;base64,MockBase64ImageData';
+    (component as any).croppedImage = croppedImage;
+    const formData = new FormData();
+    formData.append('base64', croppedImage);
+    mockEditProfileService.updateProfilePhoto.and.returnValue(throwError(() => 'Error'));
+    spyOn<any>(component, 'openErrorDialog');
+    component['savePhoto']();
+    tick();
+
+    expect(component.loadingAnim).toBeFalse();
+    expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalledWith(formData);
+    expect(component['openErrorDialog']).toHaveBeenCalled();
+  }));
 });
