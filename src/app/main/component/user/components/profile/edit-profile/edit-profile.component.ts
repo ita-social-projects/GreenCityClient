@@ -29,7 +29,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   previousPath = '/profile';
   socialNetworks: Array<{ id: number; url: string }>;
   socialNetworksToServer: string[] = [];
-  namePattern = Patterns.NamePattern;
+  namePattern: RegExp = Patterns.NamePattern;
   builder: EditProfileFormBuilder;
   placeService: PlaceService;
   private editProfileService: EditProfileService;
@@ -131,15 +131,15 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.editProfileForm.markAllAsTouched();
   }
 
-  emitSocialLinks(val: string[]) {
+  emitSocialLinks(val: string[]): void {
     this.socialNetworksToServer = val;
   }
 
-  private initForm() {
+  private initForm(): void {
     this.editProfileForm = this.builder.getProfileForm();
   }
 
-  getLangValue(uaValue, enValue): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
@@ -163,7 +163,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.sendFormData(this.editProfileForm);
   }
 
-  sendFormData(form): void {
+  sendFormData(form: FormGroup): void {
     const body: EditProfileDto = {
       coordinates: { longitude: this.coordinates.longitude, latitude: this.coordinates.latitude },
       name: form.value.name,
@@ -174,10 +174,15 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       socialNetworks: this.socialNetworksToServer
     };
 
-    this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe(() => {
-      this.router.navigate(['profile', this.profileService.userId]);
-      this.snackBar.openSnackBar('changesSaved');
-      this.localStorageService.setFirstName(form.value.name);
+    this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe({
+      next: (): void => {
+        this.router.navigate(['profile', this.profileService.userId]);
+        this.snackBar.openSnackBar('changesSaved');
+        this.localStorageService.setFirstName(form.value.name);
+      },
+      error: (): void => {
+        this.snackBar.openSnackBar('errorUpdateProfile');
+      }
     });
   }
 

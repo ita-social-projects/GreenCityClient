@@ -11,7 +11,7 @@
       class="shadow-none form-control col-12 col-sm-8 my-1 input-border"
       placeholder="xxxx-xxxx"
       [unmask]="false"
-      [imask]="{ mask: certificateMask }"
+      [imask]="certificateMask"
       [formControlName]="i"
       [readonly]="certificates[i]"
       (keydown.enter)="onActivateCertififcate(i)"
@@ -73,7 +73,7 @@
 
   <div class="points">
     <h5>{{ 'order-details.bonus-need' | translate }}</h5>
-    <p>{{ 'order-details.bonus-left' | translate }} {{ points | currency | localizedCurrency }}</p>
+    <p>{{ 'order-details.bonus-left' | translate }} {{ points | localizedCurrency }}</p>
     <div class="radio-btn" *ngIf="points !== 0 && orderSum - certificateSum > 0" appSpacePrevent>
       <label class="custom-radio-btn">
         {{ 'order-details.no' | translate }}
@@ -88,10 +88,10 @@
     </div>
     <div class="points-balance">
       <small class="text-message" [class.d-none]="pointsUsed === 0">
-        <span>{{ 'order-details.used' | translate }} {{ pointsUsed | currency | localizedCurrency }}</span>
+        <span>{{ 'order-details.used' | translate }} {{ pointsUsed | localizedCurrency }}</span>
       </small>
       <small class="text-message" [class.d-none]="pointsUsed === 0">
-        <span>{{ 'order-details.balance' | translate }} {{ points - pointsUsed | currency | localizedCurrency }}</span>
+        <span>{{ 'order-details.balance' | translate }} {{ points - pointsUsed | localizedCurrency }}</span>
       </small>
     </div>
   </div>

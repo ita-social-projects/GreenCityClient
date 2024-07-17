@@ -70,30 +70,30 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.loadingAnim = true;
     const formData = new FormData();
     formData.append('base64', this.croppedImage);
-    this.editProfileService.updateProfilePhoto(formData).subscribe(
-      () => {
+    this.editProfileService.updateProfilePhoto(formData).subscribe({
+      next: () => {
         this.loadingAnim = false;
         this.closeEditPhoto();
       },
-      () => {
+      error: () => {
         this.loadingAnim = false;
         this.openErrorDialog();
       }
-    );
+    });
   }
 
   deletePhoto(): void {
     this.loadingAnim = true;
-    this.editProfileService.deleProfilePhoto().subscribe(
-      () => {
+    this.editProfileService.deleteProfilePhoto().subscribe({
+      next: () => {
         this.loadingAnim = false;
         this.closeEditPhoto();
       },
-      () => {
+      error: () => {
         this.loadingAnim = false;
         this.openErrorDialog();
       }
-    );
+    });
   }
 
   closeEditPhoto(): void {

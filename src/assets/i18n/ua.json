@@ -634,6 +634,7 @@
       "last-name-is-required": "Введіть прізвище.",
       "last-name-must-be-at-least-1-characters-long": "Прізвище повинно містити принаймі 1 символ.",
       "email-notifications": "Сповіщення:",
+      "profile-update-error-name": "Ім'я повинно містити лише літери, цифри, пробіли, дефіси та крапки по центру.",
       "yes": "Так",
       "no": "Ні",
       "frequency": "Частота",
