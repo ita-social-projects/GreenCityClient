@@ -24,7 +24,7 @@ export class EditProfileService {
     return this.http.patch<object[]>(`${mainUserLink}user/profilePicture`, data);
   }
 
-  deleProfilePhoto(): Observable<object> {
+  deleteProfilePhoto(): Observable<object> {
     return this.http.patch<object>(`${mainUserLink}user/deleteProfilePicture`, this.httpOptions);
   }
 }
