@@ -2,7 +2,7 @@
   <div class="dialog-container-title">
     <h2>{{ 'ubs-client-profile.payment.title' | translate }}</h2>
     <h6 class="text-order-sum">
-      {{ 'ubs-client-profile.payment.sum' | translate }} {{ userOrder.sum | currency }}
+      {{ 'ubs-client-profile.payment.sum' | translate }} {{ userOrder.sum }}
       {{ 'ubs-client-profile.payment.curency' | translate }}
     </h6>
   </div>
@@ -23,7 +23,7 @@
             <input
               type="text"
               class="form-control shadow-none input-border"
-              [imask]="{ mask: certificateMask }"
+              [imask]="certificateMask"
               [unmask]="false"
               placeholder="xxxx-xxxx"
               formControlName="certificateCode"
