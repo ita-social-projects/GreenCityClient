@@ -640,6 +640,6 @@ mat-spinner {
   font-size: 14px;
 }
 
-::ng-deep .mdc-form-field > label {
+:host ::ng-deep .mdc-form-field > label {
   width: 275px;
 }
