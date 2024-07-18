@@ -144,20 +144,43 @@
 }
 
 .attached-file {
-  position: relative;
+  @include flex(row, flex-start, flex-end);
+
+  column-gap: 5px;
+  padding: 10px 0 10px 30px;
+  width: 100%;
+
+  &.own {
+    flex-direction: row-reverse;
+    padding-left: 0;
+    padding-right: 35px;
+  }
+
+  .file-box {
+    max-width: 70px;
+    text-align: center;
+  }
 
   & > img {
+    width: 50%;
+  }
+
+  .file-icon {
     width: 20px;
   }
 
-  button {
-    width: 12px;
-    position: absolute;
-    right: 2px;
+  button,
+  a {
+    width: 16px;
+    height: 16px;
+    align-self: center;
   }
 
   p {
     font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -203,7 +226,8 @@
   }
 }
 
-.message-container {
+.message-container,
+.attached-file-container {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -216,7 +240,7 @@
   padding: 10px 0;
   width: 100%;
 
-  & > img {
+  & > .logo {
     height: 25px;
   }
 
@@ -259,11 +283,6 @@
   flex-direction: column;
   align-items: flex-end;
   max-width: 60%;
-
-  // img {
-  //   width: 40px;
-  //   margin-top: 10px;
-  // }
 }
 
 .message.own .msg-block {
@@ -343,6 +362,10 @@
 }
 
 .current-chat {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
   .new-msg-title,
   .receiver {
     display: none;
@@ -350,7 +373,14 @@
 
   .chat {
     width: 100%;
-    height: 472px;
     overflow-y: scroll;
+    min-height: calc((80vh - 108px));
+    max-height: calc((80vh - 108px));
+    align-content: end;
+
+    @media (max-width: 769px) {
+      min-height: calc((80vh - 159px));
+      max-height: calc((80vh - 159px));
+    }
   }
 }

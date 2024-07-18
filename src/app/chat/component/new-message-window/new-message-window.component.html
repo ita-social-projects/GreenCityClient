@@ -21,7 +21,31 @@
         <div *ngIf="message.isFirstOfDay" class="chat-days-separate-line">
           <span>{{ message.createDate | date: 'dd.MM.yyyy' }}</span>
         </div>
-        <img *ngIf="message.fileUrl" [src]="message.fileUrl" class="uploaded-image" (click)="loadFile(message.fileUrl)" alt="uploaded"/>
+        <div
+          *ngIf="message.fileType === 'IMAGE'"
+          [ngClass]="{
+            'attached-file': true,
+            own: message.senderId === userService.userId
+          }"
+        >
+          <img [src]="message.fileUrl" alt="download image" />
+          <a [href]="message.fileUrl" download> <img [src]="chatIcons.download" alt="file" title="added file" /></a>
+        </div>
+
+        <div
+          *ngIf="message.fileType === 'FILE'"
+          [ngClass]="{
+            'attached-file': true,
+            own: message.senderId === userService.userId
+          }"
+        >
+          <div class="file-box">
+            <img [src]="chatIcons.file" class="file-icon" alt="download file" />
+            <p>{{ message.fileName }}</p>
+          </div>
+
+          <a [href]="message.fileUrl" download> <img [src]="chatIcons.download" alt="file" title="added file" /></a>
+        </div>
 
         <div
           [ngClass]="{
@@ -46,24 +70,26 @@
           <span class="msg-time">{{ message.createDate | date: 'HH:mm' }}</span>
         </div>
       </div>
+      <div *ngIf="isEditMode" class="message-hint">
+        <img [src]="chatIcons.edit" alt="edit" />
+        <span class="message-content">{{ messageToEdit.content }}</span>
+        <button *ngIf="isEditMode" class="cancel-editing" (click)="toggleEditMode()">
+          <img [src]="chatIcons.cancel" alt="cancel edit" />
+        </button>
+      </div>
+      <div *ngIf="uploadedFile" class="attached-file-container">
+        <div class="attached-file">
+          <div class="file-box">
+            <img [src]="chatIcons.file" class="file-icon" alt="file" title="added file" />
+            <p>{{ uploadedFile?.name }}</p>
+          </div>
+          <button (click)="uploadedFile = null">
+            <img [src]="chatIcons.cancel" alt="cancel file" />
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-  <div *ngIf="!isHaveMessages">Chat hasn't messages yet</div>
-
-  <div *ngIf="isEditMode" class="message-hint">
-    <img [src]="chatIcons.edit" alt="edit" />
-    <span class="message-content">{{ messageToEdit.content }}</span>
-    <button *ngIf="isEditMode" class="cancel-editing" (click)="toggleEditMode()">
-      <img [src]="chatIcons.cancel" alt="cancel edit" />
-    </button>
-  </div>
-
-  <div *ngIf="uploadedFile" class="attached-file">
-    <img [src]="chatIcons.file" alt="file" title="added file" />
-    <button (click)="uploadedFile = null">
-      <img [src]="chatIcons.cancel" alt="cancel file" />
-    </button>
-    <p>{{ uploadedFile?.name }}</p>
+    <div *ngIf="!isHaveMessages">Chat hasn't messages yet</div>
   </div>
 
   <form *ngIf="!isAdmin || (chatsService.isAdminParticipant$ | async)" class="message-sender" (ngSubmit)="sendMessage()">
@@ -72,7 +98,7 @@
         <label for="file-input">
           <img [src]="chatIcons.paperClip" alt="clip" title="Add file" />
         </label>
-        <input id="file-input" type="file" (change)="fileChanges($event)" accept="image/*" />
+        <input id="file-input" type="file" (change)="fileChanges($event)" onclick="this.value=null;" />
       </div>
 
       <button *ngIf="!isSupportChat" type="button">

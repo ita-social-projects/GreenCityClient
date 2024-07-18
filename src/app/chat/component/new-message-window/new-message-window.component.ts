@@ -83,8 +83,10 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   ngAfterViewInit(): void {
-    const element: HTMLElement = this.chat.nativeElement;
-    element.scrollTop = element.scrollHeight;
+    const element: HTMLElement = this.chat?.nativeElement;
+    if (element) {
+      element.scrollTop = element.scrollHeight;
+    }
   }
 
   public close(): void {
@@ -137,22 +139,12 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   fileChanges(event: Event): void {
     this.uploadedFile = (event.target as HTMLInputElement).files[0];
     this.isEditMode = false;
-  }
-
-  loadFile(url: string): void {
-    this.chatsService.getFile(url).subscribe((blob) => {
-      const fileName = url.split('/').pop();
-      this.downloadBlob(blob, fileName);
-    });
-  }
-
-  downloadBlob(blob: Blob, fileName: string): void {
-    const a = document.createElement('a');
-    const objectUrl = URL.createObjectURL(blob);
-    a.href = objectUrl;
-    a.download = fileName;
-    a.click();
-    URL.revokeObjectURL(objectUrl);
+    setTimeout(() => {
+      const element: HTMLElement = this.chat?.nativeElement;
+      if (element) {
+        element.scrollTop = element.scrollHeight;
+      }
+    }, 0);
   }
 
   toggleEmojiPicker(): void {
@@ -165,6 +157,8 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   openDeleteMessageDialog(message: MessageExtended): void {
+    this.isEditMode = false;
+    this.messageToEdit = null;
     this.dialog
       .open(WarningPopUpComponent, this.dialogConfig)
       .afterClosed()
@@ -187,11 +181,17 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
       this.isEditMode = false;
       this.messageToEdit = null;
       this.messageControl.setValue('');
+      const element: HTMLElement = this.chat?.nativeElement;
+      if (element) {
+        element.scrollTop = element.scrollHeight;
+      }
     }
   }
 
   ngOnDestroy(): void {
-    this.socketService.updateDeleteMessageSubs.unsubscribe();
+    if (this.socketService.updateDeleteMessageSubs) {
+      this.socketService.updateDeleteMessageSubs.unsubscribe();
+    }
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
