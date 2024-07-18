@@ -26,7 +26,6 @@
                 <div
                   class="accordion-group-header"
                   [ngClass]="{ highlighted: checkForCheckedBoxes(column.key) }"
-                  class="accordion-group-header"
                   data-bs-toggle="collapse"
                   attr.data-bs-target="#panelsStayOpen-collapse{{ i }}"
                   aria-expanded="false"
@@ -34,7 +33,7 @@
                   (click)="toggleAccordion($event)"
                 >
                   <mat-icon>keyboard_arrow_down</mat-icon>
-                  <span>{{ column | serverTranslate: currentLang }}</span>
+                  <span class="head">{{ column | serverTranslate: currentLang }}</span>
                 </div>
                 <div
                   id="panelsStayOpen-collapse{{ i }}"
