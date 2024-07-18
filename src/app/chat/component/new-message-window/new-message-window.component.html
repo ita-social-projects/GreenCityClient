@@ -1,5 +1,10 @@
-<div class="new-message-window" [ngClass]="class || 'message-window'" class="new-message-window">
-  <div class="new-msg-title">
+<div class="new-message-window"
+     [ngClass]="{
+       'message-window': true,
+       'chat-admin': isAdmin && currentPath.includes('/ubs-admin'),
+       'chat-user': !isAdmin && currentPath.includes('/ubs-user')
+     }">
+<div class="new-msg-title">
     <span class="msg-title">New Message</span>
     <button class="close-new-msg" (click)="close()" title="Close">&times;</button>
   </div>
@@ -16,7 +21,7 @@
         <div *ngIf="message.isFirstOfDay" class="chat-days-separate-line">
           <span>{{ message.createDate | date: 'dd.MM.yyyy' }}</span>
         </div>
-        <img *ngIf="message.fileUrl" [src]="message.fileUrl" class="uploaded-image" (click)="loadFile(message.fileUrl)" />
+        <img *ngIf="message.fileUrl" [src]="message.fileUrl" class="uploaded-image" (click)="loadFile(message.fileUrl)" alt="uploaded"/>
 
         <div
           [ngClass]="{

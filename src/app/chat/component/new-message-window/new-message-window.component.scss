@@ -21,9 +21,16 @@
 }
 
 @media (max-width: 576px) {
-  :host {
-    right: 4px;
-    bottom: 121px;
+  .message-window {
+    right: 8px;
+
+    &.chat-user {
+      bottom: 61px;
+    }
+
+    &.chat-admin {
+      bottom: 121px;
+    }
   }
 }
 

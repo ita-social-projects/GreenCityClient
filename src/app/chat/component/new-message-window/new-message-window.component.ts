@@ -13,6 +13,8 @@ import { Role } from '@global-models/user/roles.model';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
+import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
   selector: 'app-new-message-window',
@@ -21,7 +23,6 @@ import { Observable } from 'rxjs/Observable';
 })
 export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestroy {
   public chatIcons = CHAT_ICONS;
-  public userSearchField = '';
   private onDestroy$ = new Subject();
   public messageControl: FormControl = new FormControl('', [Validators.max(250)]);
   public showEmojiPicker = false;
@@ -46,6 +47,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   uploadedFile: File;
   @Input() class: string;
   @ViewChild('chat') chat: ElementRef;
+  currentPath: string;
 
   constructor(
     public chatsService: ChatsService,
@@ -53,8 +55,11 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     private socketService: SocketService,
     public userService: UserService,
     private jwt: JwtService,
-    public dialog: MatDialog
-  ) {}
+    public dialog: MatDialog,
+    private router: Router
+  ) {
+    this.currentPath = this.router.url;
+  }
 
   ngOnInit(): void {
     this.currentChatMessages = this.chatsService.currentChatMessages$;
@@ -82,7 +87,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     element.scrollTop = element.scrollHeight;
   }
 
-  public close() {
+  public close(): void {
     this.commonService.newMessageWindowRequireCloseStream$.next(true);
   }
 
@@ -95,7 +100,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     }
   }
 
-  public sendMessage() {
+  public sendMessage(): void {
     const message: Message = {
       roomId: this.chatsService.currentChat.id,
       senderId: this.userService.userId,
@@ -129,9 +134,8 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     this.messageControl.setValue('');
   }
 
-  fileChanges(event: InputEvent): void {
-    const file = (event.target as HTMLInputElement).files[0];
-    this.uploadedFile = file;
+  fileChanges(event: Event): void {
+    this.uploadedFile = (event.target as HTMLInputElement).files[0];
     this.isEditMode = false;
   }
 
@@ -151,16 +155,16 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     URL.revokeObjectURL(objectUrl);
   }
 
-  toggleEmojiPicker() {
+  toggleEmojiPicker(): void {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
 
-  addEmoji(event) {
+  addEmoji(event: EmojiEvent): void {
     const newValue = this.messageControl.value ? this.messageControl.value + event.emoji.native : event.emoji.native;
     this.messageControl.setValue(newValue);
   }
 
-  openDeleteMessageDialog(message: MessageExtended) {
+  openDeleteMessageDialog(message: MessageExtended): void {
     this.dialog
       .open(WarningPopUpComponent, this.dialogConfig)
       .afterClosed()

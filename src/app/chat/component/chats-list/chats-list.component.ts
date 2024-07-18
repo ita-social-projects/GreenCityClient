@@ -50,7 +50,7 @@ export class ChatsListComponent implements OnInit {
     }
   }
 
-  messageDateTreat(date: Date): string {
+  messageDateTreat(date: string): string {
     const messageDate = new Date(date);
     const today = new Date();
     if (messageDate.getFullYear() !== today.getFullYear()) {
@@ -60,7 +60,7 @@ export class ChatsListComponent implements OnInit {
     return isToday ? 'HH:mm' : 'dd/MM';
   }
 
-  checkChat(chatTarget: any) {
+  checkChat(chatTarget: any): void {
     if (this.isAdmin) {
       return;
     }
@@ -81,7 +81,7 @@ export class ChatsListComponent implements OnInit {
     }
   }
 
-  openNewMessageWindow(chat: Chat) {
+  openNewMessageWindow(chat: Chat): void {
     chat.amountUnreadMessages = null;
     this.titleService.setTitle('Pick Up City');
     this.chatService.setCurrentChat(chat);
