@@ -84,6 +84,7 @@
 @include responsiveRange(md, xl) {
   .footer {
     padding-left: 20px;
+
     &-menu {
       margin: 0;
     }
