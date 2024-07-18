@@ -27,7 +27,7 @@ describe('UbsAdminOrderHistoryComponent', () => {
   const MatDialogRefMock = { close: () => {} };
 
   const OrderInfoMock = OrderInfoMockedData;
-  const cancellationReasonMock = "User don't want to communicate with us";
+  const cancellationReasonMock = 'User do not want to communicate with us';
   const cancellationCommentMock = '';
 
   const dialogStub = {
