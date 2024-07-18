@@ -113,7 +113,8 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.openPopup();
     expect((component as any).dialog.open).toHaveBeenCalledWith(AddOrderCancellationReasonComponent, {
       hasBackdrop: true,
-      data
+      data,
+      maxHeight: '100vh'
     });
   });
 

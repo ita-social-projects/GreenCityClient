@@ -92,7 +92,8 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     this.dialog
       .open(AddOrderCancellationReasonComponent, {
         hasBackdrop: true,
-        data: { isHistory: this.isHistory }
+        data: { isHistory: this.isHistory },
+        maxHeight: '100vh'
       })
       .afterClosed()
       .pipe(take(1))
