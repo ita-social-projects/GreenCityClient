@@ -24,8 +24,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   @Input() public isNotification: boolean;
   @Input() public orderIdFromNotification: number;
 
-  @ViewChild('liqpayFormContainer', { static: false }) liqpayFormContainer: ElementRef;
-
   paymentForm: FormGroup = this.fb.group({});
 
   bags: Bag[] = [];
@@ -43,7 +41,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   existingOrderId: number;
   isShouldBePaid: boolean;
   isFirstFormValid: boolean;
-  sanitizedLiqpayForm: any;
   private $destroy: Subject<void> = new Subject<void>();
 
   popupConfig = {
@@ -115,15 +112,15 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.orderService.processNewOrder(this.getOrder(shouldBePaid))
     )
       .pipe(takeUntil(this.$destroy))
-      .subscribe(
-        (response: IProcessOrderResponse) => {
-          this.processLiqpay(response);
+      .subscribe({
+        next: (response: IProcessOrderResponse) => {
+          this.processWayForPay(response);
         },
-        () => {
+        error: () => {
           this.isLoadingAnim = false;
           this.redirectToConfirmPage();
         }
-      );
+      });
   }
 
   onCancel(): void {
@@ -135,24 +132,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .subscribe((isSave) => (isSave ? this.processOrder(false) : this.redirectToMainPage()));
   }
 
-  private processFondy(response: IProcessOrderResponse): void {
+  private processWayForPay(response: IProcessOrderResponse): void {
     this.localStorageService.setUbsPaymentOrderId(response.orderId);
     if (response.link && this.isShouldBePaid) {
       this.redirectToExternalUrl(response.link);
-    }
-  }
-
-  private processLiqpay(response: IProcessOrderResponse): void {
-    this.localStorageService.setUbsPaymentOrderId(response.orderId);
-
-    if (response.link && this.isShouldBePaid) {
-      this.sanitizedLiqpayForm = this.sanitizer.bypassSecurityTrustHtml(response.link);
-      setTimeout(() => {
-        const form: HTMLFormElement = this.liqpayFormContainer.nativeElement.querySelector('form');
-        if (form) {
-          form.submit();
-        }
-      });
     }
   }
 
