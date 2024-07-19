@@ -250,16 +250,17 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   });
 
   describe('processOrder', () => {
-    it('makes expected calls for Fondy with link', () => {
+    it('makes expected calls for WayForPay with link', () => {
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
+      const processWayForPaySpy = spyOn(component, 'processWayForPay');
       component.orderDetailsForm.controls.paymentSystem.setValue('Liqpay');
 
       component.processOrder();
 
       expect(fillOrderClientDtoSpy).toHaveBeenCalled();
+      expect(processWayForPaySpy).toHaveBeenCalled();
       expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
       expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
-      expect(localStorageServiceMock.setUbsPaymentOrderId).toHaveBeenCalled();
     });
 
     it('makes expected calls for Fondy without link', () => {
