@@ -58,10 +58,10 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     public dialog: MatDialog,
     private router: Router
   ) {
-    this.currentPath = this.router.url;
   }
 
   ngOnInit(): void {
+    this.currentPath = this.router.url;
     this.currentChatMessages = this.chatsService.currentChatMessages$;
     this.chatsService.currentChatsStream$.pipe(takeUntil(this.onDestroy$)).subscribe((chat) => {
       if (chat) {
