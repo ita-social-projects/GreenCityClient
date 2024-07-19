@@ -26,6 +26,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   private userId: number;
   public isAdmin: boolean;
+  breakpoint = 575;
 
   @Input() isSupportChat: boolean;
   @Input() chatClass: string;
@@ -35,8 +36,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
-    panelClass: 'custom-dialog-container',
-    height: '80vh'
+    panelClass: ['custom-dialog-container', 'chat-dialog-container']
   };
 
   constructor(

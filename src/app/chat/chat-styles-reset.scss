@@ -154,6 +154,14 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
+::ng-deep .custom-dialog-container.chat-dialog-container {
+  height: 80dvh;
+  @media (max-width: 575px) {
+    min-height: 100dvh;
+    max-height: 100dvh;
+  }
+}
+
 .custom-dialog-container .mat-dialog-container {
   padding: 0;
   display: block;

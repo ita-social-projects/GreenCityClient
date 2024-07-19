@@ -164,9 +164,13 @@
 
   button,
   a {
-    width: 16px;
-    height: 16px;
+    display: block;
     align-self: center;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   p {
@@ -367,13 +371,13 @@
   .chat {
     width: 100%;
     overflow-y: scroll;
-    min-height: calc((80vh - 108px));
-    max-height: calc((80vh - 108px));
+    min-height: calc((80dvh - 108px));
+    max-height: calc((80dvh - 108px));
     align-content: end;
 
-    @media (max-width: 769px) {
-      min-height: calc((80vh - 159px));
-      max-height: calc((80vh - 159px));
+    @media (max-width: 575px) {
+      min-height: calc((100dvh - 159px));
+      max-height: calc((100dvh - 159px));
     }
   }
 }

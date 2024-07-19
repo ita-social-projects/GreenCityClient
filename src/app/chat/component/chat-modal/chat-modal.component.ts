@@ -12,7 +12,7 @@ export class ChatModalComponent implements OnInit {
   public chatIcons = CHAT_ICONS;
   isSupportChat: boolean;
   isMobile: boolean;
-  breakpoint = 768;
+  breakpoint = 576;
 
   constructor(private dialogRef: MatDialogRef<ChatModalComponent>, private chatsService: ChatsService) {}
 
