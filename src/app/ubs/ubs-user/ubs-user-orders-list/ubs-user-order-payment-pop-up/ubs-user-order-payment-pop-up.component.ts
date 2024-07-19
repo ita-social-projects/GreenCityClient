@@ -281,7 +281,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     }
   }
 
-  private processWayForPay(response: IProcessOrderResponse): void {
+  processWayForPay(response: IProcessOrderResponse): void {
     this.localStorageService.setUbsPaymentOrderId(response.orderId);
     if (response.link) {
       this.redirectToExternalUrl(response.link);
