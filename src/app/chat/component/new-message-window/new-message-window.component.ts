@@ -184,6 +184,22 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     }
   }
 
+  loadFile(url: string): void {
+    this.chatsService.getFile(url).subscribe((blob) => {
+      const fileName = url.split('/').pop();
+      this.downloadBlob(blob, fileName);
+    });
+  }
+
+  downloadBlob(blob: Blob, fileName: string): void {
+    const a = document.createElement('a');
+    const objectUrl = URL.createObjectURL(blob);
+    a.href = objectUrl;
+    a.download = fileName;
+    a.click();
+    URL.revokeObjectURL(objectUrl);
+  }
+
   ngOnDestroy(): void {
     if (this.socketService.updateDeleteMessageSubs) {
       this.socketService.updateDeleteMessageSubs.unsubscribe();

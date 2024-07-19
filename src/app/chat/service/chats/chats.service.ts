@@ -189,4 +189,8 @@ export class ChatsService {
   isImage(file: File): boolean {
     return file && file.type.split('/')[0] === 'image';
   }
+
+  public getFile(img: string): Observable<Blob> {
+    return this.httpClient.get(img, { responseType: 'blob' });
+  }
 }
