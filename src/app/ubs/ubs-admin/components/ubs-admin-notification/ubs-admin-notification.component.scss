@@ -54,8 +54,7 @@
   .table-notification-info {
     border-collapse: separate;
     border-spacing: 0 8px;
-    table-layout: fixed;
-    width: auto;
+    width: 100%;
 
     th {
       font-weight: bold;
@@ -96,7 +95,7 @@
       div {
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: flex-end;
       }
     }
   }
@@ -152,7 +151,7 @@
   }
 
   .action-button {
-    padding: 0;
+    padding: 0 3px;
     border: 0;
     background-color: transparent;
   }

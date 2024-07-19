@@ -358,18 +358,12 @@ header {
           cursor: pointer;
         }
       }
-
-      .header_navigation-menu-right-lang {
-        .lang-option {
-          cursor: pointer;
-
-          span {
-            font-size: 14px;
-          }
-        }
-      }
     }
   }
+}
+
+.lang-option {
+  cursor: pointer;
 }
 
 .header-container {
@@ -679,6 +673,7 @@ header {
   font-size: 14px;
   color: var(--ubs-main-page-primary-light-grey);
   font-weight: 600;
+  cursor: pointer;
 
   &:hover {
     text-decoration: underline;
