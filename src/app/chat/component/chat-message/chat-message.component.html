@@ -1,47 +1,44 @@
 <div
-  *ngIf="message.fileType === fileTypes.IMAGE"
-  [ngClass]="{
-    'attached-file': true,
-    own: message.senderId === userService.userId
-  }"
->
-  <img [src]="message.fileUrl" alt="image" />
-  <button (click)="loadFile(message.fileUrl)"><img [src]="chatIcons.download" alt="file" title="download image" /></button>
-</div>
-
-<div
-  *ngIf="message.fileType === fileTypes.FILE"
-  [ngClass]="{
-    'attached-file': true,
-    own: message.senderId === userService.userId
-  }"
->
-  <div class="file-box">
-    <img [src]="chatIcons.file" class="file-icon" alt="download file" />
-    <p>{{ message.fileName }}</p>
-  </div>
-  <a [href]="message.fileUrl" download> <img [src]="chatIcons.download" alt="file" title="added file" /></a>
-</div>
-
-<div
   [ngClass]="{
     message: true,
     own: message.senderId === userService.userId,
     editing: isBeingEdited
   }"
 >
-  <button class="button-icon" *ngIf="message.senderId === userService.userId" (click)="openDeleteMessageDialog()">
-    <img [src]="chatIcons.delete" alt="delete-message" />
-  </button>
-  <button class="button-icon" *ngIf="message.senderId === userService.userId" (click)="activateEditMode()">
-    <img [src]="chatIcons.edit" alt="edit-message" />
-  </button>
   <img [src]="chatIcons.userLogo" class="logo" alt="user logo" />
+  <span *ngIf="message.senderId === userService.userId" class="msg-time">{{ message.createDate | date: 'HH:mm' }}</span>
+
   <div class="msg-content">
-    <div class="msg-block">
-      <span>{{ message.content }}</span>
+    <div *ngIf="message.fileType === fileTypes.IMAGE" class="attached-file" [ngClass]="{ own: message.senderId === userService.userId }">
+      <img [src]="message.fileUrl" alt="image" />
+      <button (click)="loadFile(message.fileUrl)"><img [src]="chatIcons.download" alt="file" title="download image" /></button>
+      <span *ngIf="message.senderId !== userService.userId && !message.content" class="msg-time">{{
+        message.createDate | date: 'HH:mm'
+      }}</span>
+    </div>
+
+    <div *ngIf="message.fileType === fileTypes.FILE" class="attached-file" [ngClass]="{ own: message.senderId === userService.userId }">
+      <div class="file-box">
+        <img [src]="chatIcons.file" class="file-icon" alt="download file" />
+        <p>{{ message.fileName }}</p>
+      </div>
+      <a [href]="message.fileUrl" download> <img [src]="chatIcons.download" alt="file" title="added file" /></a>
+      <span *ngIf="message.senderId !== userService.userId && !message.content" class="msg-time">{{
+        message.createDate | date: 'HH:mm'
+      }}</span>
+    </div>
+    <div class="msg-time-box">
+      <div *ngIf="message.content" class="msg-block">
+        <span>{{ message.content }}</span>
+      </div>
+      <span *ngIf="message.senderId !== userService.userId" class="msg-time">{{ message.createDate | date: 'HH:mm' }}</span>
     </div>
   </div>
 
-  <span class="msg-time">{{ message.createDate | date: 'HH:mm' }}</span>
+  <button class="button-icon" *ngIf="message.senderId === userService.userId && message.content" (click)="activateEditMode()">
+    <img [src]="chatIcons.edit" alt="edit-message" />
+  </button>
+  <button class="button-icon" *ngIf="message.senderId === userService.userId" (click)="openDeleteMessageDialog()">
+    <img [src]="chatIcons.delete" alt="delete-message" />
+  </button>
 </div>

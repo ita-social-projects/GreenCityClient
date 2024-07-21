@@ -4,15 +4,13 @@
   @include flex(row, flex-start, flex-end);
 
   column-gap: 5px;
-  padding: 10px 0;
+  padding: 0;
   width: 100%;
-  padding-left: 30px;
-  padding-right: 0;
+  margin-bottom: 10px;
 
   &.own {
     flex-direction: row-reverse;
     padding-left: 0;
-    padding-right: 35px;
   }
 
   .file-box {
@@ -66,12 +64,23 @@
   }
 
   &.own {
-    justify-content: flex-end;
+    flex-direction: row-reverse;
 
     & > .logo {
       display: none;
     }
   }
+}
+
+.msg-time-box {
+  display: flex;
+  align-items: end;
+  align-self: flex-start;
+  gap: 5px;
+}
+
+.message.own .msg-time-box {
+  align-self: flex-end;
 }
 
 .msg-block {
@@ -84,6 +93,7 @@
   box-shadow: 0 0 1px 1px rgb(0 0 0 / 25%);
   background: var(--primary-green);
   overflow: hidden;
+  align-self: flex-start;
 
   span {
     font-size: 14px;
@@ -98,12 +108,13 @@
   flex-direction: column;
   align-items: flex-end;
   max-width: 60%;
+  min-width: 40%;
 }
 
 .message.own .msg-block {
-  justify-content: flex-end;
   border-radius: 10px 10px 0 10px;
   background: var(--quaternary-dark-grey);
+  align-self: flex-end;
 }
 
 .msg-time {

@@ -6,14 +6,16 @@ import { ChatsService } from '../../service/chats/chats.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { SocketService } from '../../service/socket/socket.service';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-chat-message',
   templateUrl: './chat-message.component.html',
   styleUrls: ['./chat-message.component.scss']
 })
-export class ChatMessageComponent {
+export class ChatMessageComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject();
   chatIcons = CHAT_ICONS;
   isBeingEdited: boolean;
   fileTypes = FileType;
@@ -30,7 +32,6 @@ export class ChatMessageComponent {
   };
 
   @Input() message: Message;
-  @Output() changeMessageToEdit = new EventEmitter();
 
   constructor(
     public userService: UserService,
@@ -39,9 +40,15 @@ export class ChatMessageComponent {
     private socketService: SocketService
   ) {}
 
+  ngOnInit(): void {
+    this.chatsService.messageToEdit$.pipe(takeUntil(this.destroy$)).subscribe((message) => {
+      this.isBeingEdited = message?.id === this.message.id;
+    });
+  }
+
   openDeleteMessageDialog() {
     this.isBeingEdited = false;
-    this.changeMessageToEdit.emit(null);
+    this.chatsService.messageToEdit$.next(null);
     this.dialog
       .open(WarningPopUpComponent, this.dialogConfig)
       .afterClosed()
@@ -56,7 +63,7 @@ export class ChatMessageComponent {
 
   activateEditMode(): void {
     this.isBeingEdited = true;
-    this.changeMessageToEdit.emit(this.message);
+    this.chatsService.messageToEdit$.next(this.message);
   }
 
   loadFile(url: string): void {
@@ -73,5 +80,10 @@ export class ChatMessageComponent {
     a.download = fileName;
     a.click();
     URL.revokeObjectURL(objectUrl);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

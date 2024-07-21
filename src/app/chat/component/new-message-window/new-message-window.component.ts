@@ -65,6 +65,15 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     });
     this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
     this.isSupportChat = this.chatsService.isSupportChat;
+    this.chatsService.messageToEdit$.pipe(takeUntil(this.onDestroy$)).subscribe((message) => {
+      this.isEditMode = !!message;
+      this.uploadedFile = null;
+      if (message) {
+        const { id, roomId, senderId, content } = message;
+        this.messageToEdit = { id, roomId, senderId, content };
+      }
+      this.messageControl.setValue(message ? message.content : '');
+    });
   }
 
   ngAfterViewInit(): void {
@@ -142,21 +151,8 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     this.messageControl.setValue(newValue);
   }
 
-  changeMessageToEdit(message: Message) {
-    this.isEditMode = !!message;
-    this.uploadedFile = null;
-    if (message) {
-      const { id, roomId, senderId, content } = message;
-      this.messageToEdit = { id, roomId, senderId, content };
-    }
-    this.messageControl.setValue(message ? message.content : '');
-  }
-
   closeEditMode(): void {
-    this.isEditMode = false;
-    this.messageToEdit = null;
-    this.messageControl.setValue('');
-    this.chatMessage.isBeingEdited = false;
+    this.chatsService.messageToEdit$.next(null);
     const element: HTMLElement = this.chat?.nativeElement;
     if (element) {
       element.scrollTop = element.scrollHeight;

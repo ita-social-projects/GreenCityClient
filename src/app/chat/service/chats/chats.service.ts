@@ -23,6 +23,7 @@ export class ChatsService {
   private messagesIsLoading = false;
   isSupportChat$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isAdminParticipant$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  messageToEdit$: BehaviorSubject<Message> = new BehaviorSubject<Message>(null);
   supportChatPageSize = 10;
   messagesPageSize = 20;
 

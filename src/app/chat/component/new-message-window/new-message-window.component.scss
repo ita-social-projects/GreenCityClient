@@ -134,6 +134,43 @@
   }
 }
 
+.attached-file {
+  @include flex(row, flex-start, flex-end);
+
+  column-gap: 5px;
+  padding: 10px 0;
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 0;
+
+  .file-box {
+    max-width: 70px;
+    text-align: center;
+  }
+
+  .file-icon {
+    width: 20px;
+  }
+
+  button,
+  a {
+    display: block;
+    align-self: center;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  p {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 .message-sender {
   @include flex(row, space-between, center);
 
