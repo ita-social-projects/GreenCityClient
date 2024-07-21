@@ -5,7 +5,7 @@ export interface Message {
   content: string;
   createDate?: string;
   fileName?: string | null;
-  fileType?: string | null;
+  fileType?: FileType | null;
   fileUrl?: string | null;
   likes?: unknown[];
 }
@@ -23,4 +23,9 @@ export interface Messages {
 
 export interface MessagesToSave extends Messages {
   newMessagesAmount?: number;
+}
+
+export enum FileType {
+  FILE = 'FILE',
+  IMAGE = 'IMAGE'
 }

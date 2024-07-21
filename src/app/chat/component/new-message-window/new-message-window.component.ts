@@ -11,8 +11,8 @@ import { UserService } from '@global-service/user/user.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Role } from '@global-models/user/roles.model';
 import { MatDialog } from '@angular/material/dialog';
-import { WarningPopUpComponent } from '@shared/components';
 import { Observable } from 'rxjs/Observable';
+import { ChatMessageComponent } from '../chat-message/chat-message.component';
 
 @Component({
   selector: 'app-new-message-window',
@@ -31,21 +31,11 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   public messageToEdit: Message;
   public currentChatMessages: Observable<MessageExtended[]>;
   public isSupportChat: boolean;
-  private dialogConfig = {
-    hasBackdrop: true,
-    closeOnNavigation: true,
-    disableClose: true,
-    panelClass: 'popup-dialog-container',
-    data: {
-      popupTitle: 'chat.delete-message-question',
-      popupConfirm: 'chat.delete-message-confirm',
-      popupCancel: 'chat.delete-message-cancel'
-    }
-  };
 
   uploadedFile: File;
-  @Input() class: string;
+  @Input() isModal: boolean;
   @ViewChild('chat') chat: ElementRef;
+  @ViewChild('message') chatMessage: ChatMessageComponent;
 
   constructor(
     public chatsService: ChatsService,
@@ -152,52 +142,25 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     this.messageControl.setValue(newValue);
   }
 
-  openDeleteMessageDialog(message: MessageExtended) {
-    this.isEditMode = false;
-    this.messageToEdit = null;
-    this.dialog
-      .open(WarningPopUpComponent, this.dialogConfig)
-      .afterClosed()
-      .subscribe((data) => {
-        if (data) {
-          const { id, roomId, senderId, content } = message;
-          this.socketService.removeMessage({ id, roomId, senderId, content });
-        }
-      });
-  }
-
-  toggleEditMode(message?: MessageExtended): void {
+  changeMessageToEdit(message: Message) {
+    this.isEditMode = !!message;
+    this.uploadedFile = null;
     if (message) {
-      this.isEditMode = true;
-      this.uploadedFile = null;
       const { id, roomId, senderId, content } = message;
       this.messageToEdit = { id, roomId, senderId, content };
-      this.messageControl.setValue(message.content);
-    } else {
-      this.isEditMode = false;
-      this.messageToEdit = null;
-      this.messageControl.setValue('');
-      const element: HTMLElement = this.chat?.nativeElement;
-      if (element) {
-        element.scrollTop = element.scrollHeight;
-      }
     }
+    this.messageControl.setValue(message ? message.content : '');
   }
 
-  loadFile(url: string): void {
-    this.chatsService.getFile(url).subscribe((blob) => {
-      const fileName = url.split('/').pop();
-      this.downloadBlob(blob, fileName);
-    });
-  }
-
-  downloadBlob(blob: Blob, fileName: string): void {
-    const a = document.createElement('a');
-    const objectUrl = URL.createObjectURL(blob);
-    a.href = objectUrl;
-    a.download = fileName;
-    a.click();
-    URL.revokeObjectURL(objectUrl);
+  closeEditMode(): void {
+    this.isEditMode = false;
+    this.messageToEdit = null;
+    this.messageControl.setValue('');
+    this.chatMessage.isBeingEdited = false;
+    const element: HTMLElement = this.chat?.nativeElement;
+    if (element) {
+      element.scrollTop = element.scrollHeight;
+    }
   }
 
   ngOnDestroy(): void {
