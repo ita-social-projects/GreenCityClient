@@ -85,7 +85,7 @@ input[type='number'] {
 }
 
 .form {
-  margin-top: 20px;
+  margin-top: 30px;
 
   .labels-box {
     display: flex;
@@ -107,6 +107,7 @@ input[type='number'] {
   margin: 0;
 }
 
+.label-packages,
 .label-total {
   text-align: center;
 }
@@ -114,7 +115,7 @@ input[type='number'] {
 .main-list-item {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   margin-bottom: 16px;
 }
 
@@ -525,7 +526,7 @@ h5 {
     &::placeholder {
       @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-light-grey), 14px, 400);
 
-      margin-bottom: 3rem;
+      margin-bottom: 2.5rem;
     }
   }
 
@@ -564,6 +565,14 @@ li {
 }
 
 @media screen and (max-width: 575px) {
+  .quantity-input-wrapper {
+    button {
+      .mat-icon {
+        font-size: 10px;
+      }
+    }
+  }
+
   .mat-horizontal-content-container {
     padding: 0;
   }
@@ -590,6 +599,7 @@ li {
   }
 
   .count {
+    max-width: 17%;
     .input {
       text-align: center;
     }
@@ -672,6 +682,7 @@ li {
 
   .validMes {
     text-align: center;
+    line-height: normal;
   }
 
   .messages-container {
@@ -754,7 +765,7 @@ li {
   }
 
   .bag-name {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .label-total {
@@ -767,7 +778,7 @@ li {
     }
 
     button {
-      width: 8px;
+      width: 12px;
       font-size: 15px;
     }
   }

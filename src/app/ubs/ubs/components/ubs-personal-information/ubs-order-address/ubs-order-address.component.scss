@@ -49,7 +49,7 @@ textarea {
   &::placeholder {
     @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-light-grey), 14px, 400);
 
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
 }
 

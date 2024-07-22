@@ -61,6 +61,7 @@
     "volume": "Volume",
     "cost": "Cost",
     "number-of-packages": "Number of packages",
+    "number-of": "Packages",
     "sum": "Total",
     "currency": "UAH",
     "litr": "l",
