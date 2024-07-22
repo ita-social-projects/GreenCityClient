@@ -41,4 +41,8 @@
   <button class="button-icon" *ngIf="message.senderId === userService.userId" (click)="openDeleteMessageDialog()">
     <img [src]="chatIcons.delete" alt="delete-message" />
   </button>
+  <button class="button-icon" (click)="changeLikeStatus(message)">
+    <img [src]="message?.isLiked ? chatIcons.liked : chatIcons.like" alt="like-message" />
+    <span class="likes-counter"> {{ message.likes?.length || 0 }}</span>
+  </button>
 </div>

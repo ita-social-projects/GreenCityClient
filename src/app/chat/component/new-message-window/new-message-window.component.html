@@ -38,7 +38,7 @@
             <img [src]="chatIcons.file" class="file-icon" alt="file" title="added file" />
             <p>{{ uploadedFile?.name }}</p>
           </div>
-          <button (click)="uploadedFile = null">
+          <button (click)="uploadedFile = null" class="calcel-file">
             <img [src]="chatIcons.cancel" alt="cancel file" />
           </button>
         </div>
@@ -61,7 +61,7 @@
       </button>
     </div>
     <input type="text" placeholder="Type something..." [formControl]="messageControl" />
-    <button class="send-button" type="submit" [disabled]="(!messageControl.value && !uploadedFile) || !chatsService.currentChat">
+    <button class="send-button" type="submit" [disabled]="(!messageControl.value.trim() && !uploadedFile) || !chatsService.currentChat">
       <img [src]="chatIcons.send" alt="send" title="Send mail" />
     </button>
   </form>

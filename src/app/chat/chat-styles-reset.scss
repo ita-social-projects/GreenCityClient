@@ -155,10 +155,11 @@ body {
 }
 
 ::ng-deep .custom-dialog-container.chat-dialog-container {
-  height: 80dvh;
+  height: 80vh;
+
   @media (max-width: 575px) {
-    min-height: 100dvh;
-    max-height: 100dvh;
+    min-height: 100vh;
+    max-height: 100vh;
   }
 }
 

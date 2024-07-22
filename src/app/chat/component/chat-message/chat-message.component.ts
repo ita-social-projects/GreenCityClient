@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FileType, Message } from '../../model/Message.model';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FileType, Message, MessageExtended } from '../../model/Message.model';
 import { CHAT_ICONS } from '../../chat-icons';
 import { UserService } from '@global-service/user/user.service';
 import { ChatsService } from '../../service/chats/chats.service';
@@ -31,7 +31,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     }
   };
 
-  @Input() message: Message;
+  @Input() message: MessageExtended;
 
   constructor(
     public userService: UserService,
@@ -80,6 +80,10 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     a.download = fileName;
     a.click();
     URL.revokeObjectURL(objectUrl);
+  }
+
+  changeLikeStatus(message: Message): void {
+    this.socketService.likeMessage({ messageId: message.id, participantId: this.userService.userId });
   }
 
   ngOnDestroy(): void {
