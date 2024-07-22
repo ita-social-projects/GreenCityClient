@@ -134,49 +134,6 @@
   }
 }
 
-.attached-file {
-  @include flex(row, flex-start, flex-end);
-
-  column-gap: 5px;
-  padding: 10px 0;
-  width: 100%;
-  padding-left: 30px;
-  padding-right: 0;
-
-  &.own {
-    flex-direction: row-reverse;
-    padding-left: 0;
-    padding-right: 35px;
-  }
-
-  .file-box {
-    max-width: 70px;
-    text-align: center;
-  }
-
-  & > img {
-    width: 50%;
-  }
-
-  .file-icon {
-    width: 20px;
-  }
-
-  button,
-  a {
-    width: 16px;
-    height: 16px;
-    align-self: center;
-  }
-
-  p {
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
 .message-sender {
   @include flex(row, space-between, center);
 
@@ -219,106 +176,6 @@
   }
 }
 
-.message-container,
-.attached-file-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.message {
-  @include flex(row, flex-start, flex-end);
-
-  column-gap: 5px;
-  padding: 10px 0;
-  width: 100%;
-
-  & > .logo {
-    height: 25px;
-  }
-
-  &.own {
-    justify-content: flex-end;
-
-    & > .logo {
-      display: none;
-    }
-  }
-}
-
-.uploaded-image {
-  height: 46px;
-  margin-right: 35px;
-  border-radius: 8px;
-}
-
-.msg-block {
-  @include flex(row, flex-start, center);
-
-  max-width: 100%;
-  padding: 8px;
-  border-radius: 10px 10px 10px 0;
-  position: relative;
-  box-shadow: 0 0 1px 1px rgb(0 0 0 / 25%);
-  background: var(--primary-green);
-  overflow: hidden;
-
-  span {
-    font-size: 14px;
-    font-family: var(--primary-font);
-    color: #fff;
-    overflow-wrap: break-word;
-  }
-}
-
-.msg-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  max-width: 60%;
-}
-
-.message.own .msg-block {
-  justify-content: flex-end;
-  border-radius: 10px 10px 0 10px;
-  background: var(--quaternary-dark-grey);
-}
-
-.msg-time {
-  font-size: 12px;
-  text-overflow: clip;
-}
-
-.emoji-mart {
-  position: absolute;
-  bottom: 0;
-  right: 250px;
-  box-sizing: border-box;
-}
-
-::ng-deep .emoji-mart-scroll {
-  height: 150px;
-}
-
-.sender-additional-buttons {
-  @include flex(row, space-between, center);
-
-  column-gap: 10px;
-}
-
-.button-icon {
-  align-self: center;
-
-  img {
-    width: 14px;
-    height: 14px;
-  }
-}
-
-.editing {
-  background-color: var(--ubs-liberty-green);
-}
-
 .message-hint {
   position: relative;
   padding: 2px;
@@ -346,6 +203,65 @@
   }
 }
 
+.attached-file {
+  @include flex(row, flex-start, flex-end);
+
+  column-gap: 5px;
+  padding: 10px 0;
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 0;
+
+  .file-box {
+    max-width: 70px;
+    text-align: center;
+  }
+
+  .file-icon {
+    width: 20px;
+  }
+
+  .calcel-file {
+    display: block;
+    align-self: flex-start;
+  }
+
+  .calcel-file > img {
+    width: 16px;
+    height: 16px;
+  }
+
+  p {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.uploaded-image {
+  height: 46px;
+  margin-right: 35px;
+  border-radius: 8px;
+}
+
+.emoji-mart {
+  position: absolute;
+  bottom: 0;
+  right: 250px;
+  box-sizing: border-box;
+}
+
+::ng-deep .emoji-mart-scroll {
+  height: 150px;
+}
+
+.sender-additional-buttons {
+  @include flex(row, space-between, center);
+
+  column-gap: 10px;
+}
+
 .file-upload label:hover {
   cursor: pointer;
 }
@@ -359,11 +275,6 @@
   display: flex;
   flex-direction: column;
 
-  .new-msg-title,
-  .receiver {
-    display: none;
-  }
-
   .chat {
     width: 100%;
     overflow-y: scroll;
@@ -371,9 +282,9 @@
     max-height: calc((80vh - 108px));
     align-content: end;
 
-    @media (max-width: 769px) {
-      min-height: calc((80vh - 159px));
-      max-height: calc((80vh - 159px));
+    @media (max-width: 575px) {
+      min-height: calc((100vh - 159px));
+      max-height: calc((100vh - 159px));
     }
   }
 }

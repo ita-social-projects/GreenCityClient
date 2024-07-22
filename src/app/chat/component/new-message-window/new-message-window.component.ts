@@ -11,8 +11,8 @@ import { UserService } from '@global-service/user/user.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Role } from '@global-models/user/roles.model';
 import { MatDialog } from '@angular/material/dialog';
-import { WarningPopUpComponent } from '@shared/components';
 import { Observable } from 'rxjs/Observable';
+import { ChatMessageComponent } from '../chat-message/chat-message.component';
 
 @Component({
   selector: 'app-new-message-window',
@@ -31,21 +31,11 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   public messageToEdit: Message;
   public currentChatMessages: Observable<MessageExtended[]>;
   public isSupportChat: boolean;
-  private dialogConfig = {
-    hasBackdrop: true,
-    closeOnNavigation: true,
-    disableClose: true,
-    panelClass: 'popup-dialog-container',
-    data: {
-      popupTitle: 'chat.delete-message-question',
-      popupConfirm: 'chat.delete-message-confirm',
-      popupCancel: 'chat.delete-message-cancel'
-    }
-  };
 
   uploadedFile: File;
-  @Input() class: string;
+  @Input() isModal: boolean;
   @ViewChild('chat') chat: ElementRef;
+  @ViewChild('message') chatMessage: ChatMessageComponent;
 
   constructor(
     public chatsService: ChatsService,
@@ -66,15 +56,26 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
 
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
       this.isHaveMessages = messages.length !== 0;
+
+      const chatElem = this.chat?.nativeElement;
+      const chatHeight = chatElem?.scrollHeight;
       setTimeout(() => {
-        if (this.chat?.nativeElement) {
-          const chatElem = this.chat.nativeElement;
+        if (chatElem && chatHeight < chatElem.scrollHeight) {
           chatElem.scrollTop = chatElem.scrollHeight - chatElem.clientHeight;
         }
       });
     });
     this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
     this.isSupportChat = this.chatsService.isSupportChat;
+    this.chatsService.messageToEdit$.pipe(takeUntil(this.onDestroy$)).subscribe((message) => {
+      this.isEditMode = !!message;
+      this.uploadedFile = null;
+      if (message) {
+        const { id, roomId, senderId, content } = message;
+        this.messageToEdit = { id, roomId, senderId, content };
+      }
+      this.messageControl.setValue(message ? message.content : '');
+    });
   }
 
   ngAfterViewInit(): void {
@@ -152,35 +153,11 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     this.messageControl.setValue(newValue);
   }
 
-  openDeleteMessageDialog(message: MessageExtended) {
-    this.isEditMode = false;
-    this.messageToEdit = null;
-    this.dialog
-      .open(WarningPopUpComponent, this.dialogConfig)
-      .afterClosed()
-      .subscribe((data) => {
-        if (data) {
-          const { id, roomId, senderId, content } = message;
-          this.socketService.removeMessage({ id, roomId, senderId, content });
-        }
-      });
-  }
-
-  toggleEditMode(message?: MessageExtended): void {
-    if (message) {
-      this.isEditMode = true;
-      this.uploadedFile = null;
-      const { id, roomId, senderId, content } = message;
-      this.messageToEdit = { id, roomId, senderId, content };
-      this.messageControl.setValue(message.content);
-    } else {
-      this.isEditMode = false;
-      this.messageToEdit = null;
-      this.messageControl.setValue('');
-      const element: HTMLElement = this.chat?.nativeElement;
-      if (element) {
-        element.scrollTop = element.scrollHeight;
-      }
+  closeEditMode(): void {
+    this.chatsService.messageToEdit$.next(null);
+    const element: HTMLElement = this.chat?.nativeElement;
+    if (element) {
+      element.scrollTop = element.scrollHeight;
     }
   }
 

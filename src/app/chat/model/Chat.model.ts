@@ -23,11 +23,11 @@ export interface FriendChatInfo {
 }
 
 export interface Participant {
-  email: string;
+  email?: string;
   id: number;
   name: string;
   profilePicture: string;
-  role: string;
-  rooms: any[];
-  userStatus: string;
+  role?: string;
+  rooms?: any[];
+  userStatus?: string;
 }

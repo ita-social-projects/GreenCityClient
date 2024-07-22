@@ -7,6 +7,7 @@ import { Message, MessageExtended, MessagesToSave } from '../../model/Message.mo
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { Messages } from './../../model/Message.model';
 import { map } from 'rxjs/operators';
+import { UserService } from '@global-service/user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +24,11 @@ export class ChatsService {
   private messagesIsLoading = false;
   isSupportChat$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isAdminParticipant$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  messageToEdit$: BehaviorSubject<Message> = new BehaviorSubject<Message>(null);
   supportChatPageSize = 10;
   messagesPageSize = 20;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, public userService: UserService) {}
 
   get userChats() {
     return this.userChatsStream$.getValue();
@@ -51,9 +53,10 @@ export class ChatsService {
   get currentChatMessages$(): Observable<MessageExtended[]> {
     return this.currentChatMessagesStream$.pipe(
       map((messages) => {
-        return [...messages].map((message, index, array) => {
+        return messages.map((message, index, array) => {
           const isFirstOfDay = index === 0 || !this.isSameDay(message.createDate, array[index - 1].createDate);
-          return { ...message, isFirstOfDay };
+          const isLiked = message?.likes?.some((el) => el.id === this.userService.userId);
+          return { ...message, isFirstOfDay, isLiked: !!isLiked };
         });
       })
     );
@@ -188,5 +191,9 @@ export class ChatsService {
 
   isImage(file: File): boolean {
     return file && file.type.split('/')[0] === 'image';
+  }
+
+  public getFile(img: string): Observable<Blob> {
+    return this.httpClient.get(img, { responseType: 'blob' });
   }
 }

@@ -1,3 +1,5 @@
+import { Participant } from './Chat.model';
+
 export interface Message {
   id?: number;
   roomId: number;
@@ -5,13 +7,14 @@ export interface Message {
   content: string;
   createDate?: string;
   fileName?: string | null;
-  fileType?: string | null;
+  fileType?: FileType | null;
   fileUrl?: string | null;
-  likes?: unknown[];
+  likes?: Participant[];
 }
 
 export type MessageExtended = Message & {
   isFirstOfDay?: boolean;
+  isLiked?: boolean;
 };
 
 export interface Messages {
@@ -23,4 +26,14 @@ export interface Messages {
 
 export interface MessagesToSave extends Messages {
   newMessagesAmount?: number;
+}
+
+export enum FileType {
+  FILE = 'FILE',
+  IMAGE = 'IMAGE'
+}
+
+export interface MessagesLikeDto {
+  messageId: number;
+  participantId: number;
 }

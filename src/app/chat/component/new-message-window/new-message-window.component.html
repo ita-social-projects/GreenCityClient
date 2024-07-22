@@ -1,9 +1,15 @@
-<div class="new-message-window" [ngClass]="class || 'message-window'" class="new-message-window">
-  <div class="new-msg-title">
+<div
+  class="new-message-window"
+  [ngClass]="{
+    'current-chat': isModal,
+    'message-window': !isModal
+  }"
+>
+  <div *ngIf="!isModal" class="new-msg-title">
     <span class="msg-title">New Message</span>
     <button class="close-new-msg" (click)="close()" title="Close">&times;</button>
   </div>
-  <div class="receiver">
+  <div *ngIf="!isModal" class="receiver">
     <div *ngIf="chatsService.currentChat" class="account">
       <img [src]="chatIcons.userLogo" alt="user-logo" />
       <span class="chat-name">{{ chatsService.currentChat.name }}</span>
@@ -16,59 +22,13 @@
         <div *ngIf="message.isFirstOfDay" class="chat-days-separate-line">
           <span>{{ message.createDate | date: 'dd.MM.yyyy' }}</span>
         </div>
-        <div
-          *ngIf="message.fileType === 'IMAGE'"
-          [ngClass]="{
-            'attached-file': true,
-            own: message.senderId === userService.userId
-          }"
-        >
-          <img [src]="message.fileUrl" alt="download image" />
-          <a [href]="message.fileUrl" download> <img [src]="chatIcons.download" alt="file" title="added file" /></a>
-        </div>
-
-        <div
-          *ngIf="message.fileType === 'FILE'"
-          [ngClass]="{
-            'attached-file': true,
-            own: message.senderId === userService.userId
-          }"
-        >
-          <div class="file-box">
-            <img [src]="chatIcons.file" class="file-icon" alt="download file" />
-            <p>{{ message.fileName }}</p>
-          </div>
-
-          <a [href]="message.fileUrl" download> <img [src]="chatIcons.download" alt="file" title="added file" /></a>
-        </div>
-
-        <div
-          [ngClass]="{
-            message: true,
-            own: message.senderId === userService.userId,
-            editing: message.id === messageToEdit?.id
-          }"
-        >
-          <button class="button-icon" *ngIf="message.senderId === userService.userId" (click)="openDeleteMessageDialog(message)">
-            <img [src]="chatIcons.delete" alt="delete-message" />
-          </button>
-          <button class="button-icon" *ngIf="message.senderId === userService.userId" (click)="toggleEditMode(message)">
-            <img [src]="chatIcons.edit" alt="edit-message" />
-          </button>
-          <img [src]="chatIcons.userLogo" class="logo" alt="user logo" />
-          <div class="msg-content">
-            <div class="msg-block">
-              <span>{{ message.content }}</span>
-            </div>
-          </div>
-
-          <span class="msg-time">{{ message.createDate | date: 'HH:mm' }}</span>
-        </div>
+        <app-chat-message [message]="message" #message></app-chat-message>
       </div>
+
       <div *ngIf="isEditMode" class="message-hint">
         <img [src]="chatIcons.edit" alt="edit" />
         <span class="message-content">{{ messageToEdit.content }}</span>
-        <button *ngIf="isEditMode" class="cancel-editing" (click)="toggleEditMode()">
+        <button *ngIf="isEditMode" class="cancel-editing" (click)="closeEditMode()">
           <img [src]="chatIcons.cancel" alt="cancel edit" />
         </button>
       </div>
@@ -78,7 +38,7 @@
             <img [src]="chatIcons.file" class="file-icon" alt="file" title="added file" />
             <p>{{ uploadedFile?.name }}</p>
           </div>
-          <button (click)="uploadedFile = null">
+          <button (click)="uploadedFile = null" class="calcel-file">
             <img [src]="chatIcons.cancel" alt="cancel file" />
           </button>
         </div>
@@ -101,7 +61,7 @@
       </button>
     </div>
     <input type="text" placeholder="Type something..." [formControl]="messageControl" />
-    <button class="send-button" type="submit" [disabled]="!messageControl.value || !chatsService.currentChat">
+    <button class="send-button" type="submit" [disabled]="(!messageControl.value.trim() && !uploadedFile) || !chatsService.currentChat">
       <img [src]="chatIcons.send" alt="send" title="Send mail" />
     </button>
   </form>
