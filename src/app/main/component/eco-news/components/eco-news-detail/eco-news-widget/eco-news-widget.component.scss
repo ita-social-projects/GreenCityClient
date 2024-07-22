@@ -25,6 +25,7 @@ hr {
   list-style: none;
   padding-left: 0;
 }
+
 @include responsivePCFirst(xl) {
   .gallery-view-active {
     grid-template-columns: repeat(3, 1fr);
