@@ -45,7 +45,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   };
 
   uploadedFile: File;
-  @Input() class: string;
+  @Input() isModal: boolean;
   @ViewChild('chat') chat: ElementRef;
   currentPath: string;
 
@@ -57,8 +57,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     private jwt: JwtService,
     public dialog: MatDialog,
     private router: Router
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.currentPath = this.router.url;
