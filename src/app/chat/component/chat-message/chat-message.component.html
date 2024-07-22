@@ -27,8 +27,8 @@
         message.createDate | date: 'HH:mm'
       }}</span>
     </div>
-    <div class="msg-time-box">
-      <div *ngIf="message.content" class="msg-block">
+    <div *ngIf="message.content" class="msg-time-box">
+      <div class="msg-block">
         <span>{{ message.content }}</span>
       </div>
       <span *ngIf="message.senderId !== userService.userId" class="msg-time">{{ message.createDate | date: 'HH:mm' }}</span>
