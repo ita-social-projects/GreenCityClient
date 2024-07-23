@@ -281,10 +281,13 @@
     min-height: calc((80vh - 108px));
     max-height: calc((80vh - 108px));
     align-content: end;
-
+    /* stylelint-disable */
     @media (max-width: 575px) {
       min-height: calc((100vh - 159px));
       max-height: calc((100vh - 159px));
+      min-height: calc((100dvh - 159px));
+      max-height: calc((100dvh - 159px));
     }
+    /* stylelint-enable */
   }
 }
