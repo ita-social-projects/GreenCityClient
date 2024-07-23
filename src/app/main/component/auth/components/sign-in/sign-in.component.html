@@ -10,36 +10,24 @@
         id="email"
         type="email"
         placeholder="example@email.com"
-        name="email"
-        required
         formControlName="email"
-        (input)="configDefaultErrorMessage()"
-        (blur)="allFieldsEmptyCheck()"
-        [ngClass]="emailClassCheck()"
+        [ngClass]="{ 'alert-email-validation': email.invalid && email.touched }"
         aria-required="true"
         aria-describedby="email-err-msg"
         tabindex="0"
       />
-      <div
-        *ngIf="emailField.invalid && emailField.touched && (!passwordField.touched || passwordFieldValue) && !generalError"
-        id="email-err-msg"
-        class="validation-email-error"
-      >
-        <app-error [formElement]="emailField" [emailFieldValue]="emailFieldValue" [controlName]="'email'" tabindex="0"></app-error>
+      <div id="email-err-msg" class="validation-email-error">
+        <app-error [control]="email"></app-error>
       </div>
-      <div *ngIf="generalError" class="email-field-margin"></div>
+      <div *ngIf="error$ | async as error" class="email-field-margin"></div>
       <label for="password" aria-required="true">{{ 'user.auth.sign-in.password' | translate }}</label>
-      <div class="password-input-btn-show-hide" [ngClass]="passwordClassCheck()">
+      <div class="password-input-btn-show-hide" [ngClass]="{ 'alert-password-validation': password.invalid && password.touched }">
         <input
-          id="password"
           #input
+          id="password"
           type="password"
-          required
           formControlName="password"
           placeholder="{{ 'user.auth.sign-in.password' | translate }}"
-          name="form-control password-signin"
-          (input)="configDefaultErrorMessage()"
-          (blur)="allFieldsEmptyCheck()"
           aria-required="true"
           aria-describedby="pass-err-msg"
         />
@@ -54,16 +42,11 @@
           />
         </span>
       </div>
-      <div
-        tabindex="0"
-        *ngIf="passwordField.invalid && passwordField.touched && (!emailField.touched || emailFieldValue) && !generalError"
-        id="pass-err-msg"
-        class="validation-password-error"
-      >
-        <app-error [formElement]="passwordField" [isSignInPassword]="isSignInPage" [controlName]="'password'"></app-error>
+      <div id="pass-err-msg" class="validation-password-error">
+        <app-error [control]="password"></app-error>
       </div>
-      <div *ngIf="generalError" class="alert-general-error" tabindex="0">
-        {{ generalError | translate }}
+      <div *ngIf="error$ | async as error" class="alert-general-error">
+        {{ error | translate }}
       </div>
       <div *ngIf="!isUbs" class="forgot-wrapper">
         <a
@@ -77,10 +60,10 @@
       </div>
       <button
         [ngClass]="isUbs ? 'ubsStyle' : 'greenStyle'"
-        [disabled]="(emailField.invalid || !passwordField.touched) && passwordField.invalid"
+        [disabled]="(email.invalid || !password.touched) && password.invalid"
         type="submit"
       >
-        <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span *ngIf="isLoading$ | async" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         {{ 'user.auth.sign-in.sign-in' | translate }}
       </button>
 

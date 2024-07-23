@@ -9,7 +9,7 @@ describe('UbsUserGuardGuard', () => {
   let guard: UbsUserGuardGuard;
 
   const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole']);
-  jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
   const userOwnAuthServiceMock: UserOwnAuthService = jasmine.createSpyObj('UserOwnAuthService', [

@@ -41,6 +41,10 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   emailFieldValue: string;
   @Output() public pageName = new EventEmitter();
 
+  get email(): FormControl {
+    return this.restorePasswordForm.get('email') as FormControl;
+  }
+
   constructor(
     private matDialogRef: MatDialogRef<RestorePasswordComponent>,
     public dialog: MatDialog,
