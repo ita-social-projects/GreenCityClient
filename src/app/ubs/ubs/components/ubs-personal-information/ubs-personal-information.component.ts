@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -19,8 +19,7 @@ import { WarningPopUpComponent } from '@shared/components';
 @Component({
   selector: 'app-ubs-personal-information',
   templateUrl: './ubs-personal-information.component.html',
-  styleUrls: ['./ubs-personal-information.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./ubs-personal-information.component.scss']
 })
 export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy {
   personalData: PersonalData;
