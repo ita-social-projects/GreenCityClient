@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import * as SockJS from 'sockjs-client';
 import { environment } from '@environment/environment';
 import { CompatClient, IMessage, Stomp, StompSubscription } from '@stomp/stompjs';
-import { Message } from '../../model/Message.model';
+import { Message, MessagesLikeDto } from '../../model/Message.model';
 import { ChatsService } from '../chats/chats.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
@@ -132,6 +132,10 @@ export class SocketService {
     this.stompClient.send('/app/chat/update', {}, JSON.stringify(message));
   }
 
+  likeMessage(message: MessagesLikeDto): void {
+    this.stompClient.send('/app/chat/like', {}, JSON.stringify(message));
+  }
+
   createNewChat(ids, isOpen, isOpenInWindow?) {
     const key = this.chatsService.isSupportChat ? 'locationsIds' : 'participantsIds';
     const newChatInfo = {
@@ -147,8 +151,11 @@ export class SocketService {
     this.updateDeleteMessageSubs = this.stompClient.subscribe(`/room/${roomId}/queue/messages`, (data: IMessage) => {
       const message = JSON.parse(data.body);
       if (data.headers.update) {
-        this.chatsService.currentChatMessages.find((el) => el.id === message.id).content = message.content;
+        const updatedMessage = this.chatsService.currentChatMessages.find((el) => el.id === message.id);
+        updatedMessage.content = message.content;
+        updatedMessage.likes = message.likes;
         this.chatsService.currentChatMessagesStream$.next(this.chatsService.currentChatMessages);
+        this.chatsService.messageToEdit$.next(null);
       }
       if (data.headers.delete) {
         const updatedMessages = this.chatsService.currentChatMessages.filter((el) => el.id !== message.id);

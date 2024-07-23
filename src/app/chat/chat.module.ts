@@ -15,6 +15,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ChatMessageComponent } from './component/chat-message/chat-message.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     NewMessageWindowComponent,
     ReferenceDirective,
     ChatModalComponent,
-    CurrentChatComponent
+    CurrentChatComponent,
+    ChatMessageComponent
   ],
   imports: [
     FormsModule,

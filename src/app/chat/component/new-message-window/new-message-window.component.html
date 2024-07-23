@@ -1,10 +1,13 @@
-<div class="new-message-window"
-     [ngClass]="{
-       'message-window': true,
-       'chat-admin': isAdmin && currentPath.includes('/ubs-admin'),
-       'chat-user': !isAdmin && currentPath.includes('/ubs-user')
-     }">
-<div class="new-msg-title">
+<div
+  class="new-message-window"
+  [ngClass]="{
+    'current-chat': isModal,
+    'message-window': !isModal,
+    'chat-admin': isAdmin && currentPath.includes('/ubs-admin'),
+    'chat-user': !isAdmin && currentPath.includes('/ubs-user')
+  }"
+>
+  <div class="new-msg-title">
     <span class="msg-title">New Message</span>
     <button class="close-new-msg" (click)="close()" title="Close">&times;</button>
   </div>
