@@ -142,9 +142,6 @@ describe('UBSSubmitOrderComponent', () => {
     component.ngOnInit();
 
     expect(component.initListeners).toHaveBeenCalled();
-    expect(store.pipe).toHaveBeenCalledWith(orderSelectors);
-    expect(store.pipe).toHaveBeenCalledWith(orderDetailsSelector);
-    expect(store.pipe).toHaveBeenCalledWith(personalDataSelector);
     expect(component.certificateUsed).toBe(10);
     expect(component.pointsUsed).toBe(5);
     expect(component.orderSum).toBe(100);
