@@ -258,10 +258,11 @@ export class CAddressData {
 
   private getSearchAddress(isExactAddress = true): string {
     const houseNumber = isExactAddress && this.houseNumber ? `${this.houseNumber}, ` : '';
-    const street = isExactAddress ? `${this.street}, ` : '';
+    const street = isExactAddress ? `${this.languageService.getLangValue(this.street, this.streetEn)}, ` : '';
+
     return this.languageService.getCurrentLanguage() === Language.EN
-      ? `${street}${houseNumber}${this.cityEn}, Ukraine`
-      : `${street}${houseNumber}${this.city}, Україна`;
+      ? `${this.regionEn}, city ${this.cityEn}, ${street}${houseNumber}${this.cityEn}, Ukraine`
+      : `${this.region}, місто ${this.city}, ${street}${houseNumber}${this.city}, Україна`;
   }
 
   private setProperties(propertyName: string, prediction: GooglePrediction): void {
