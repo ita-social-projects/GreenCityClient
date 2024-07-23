@@ -137,7 +137,7 @@
 .message-sender {
   @include flex(row, space-between, center);
 
-  padding: 10px;
+  padding: 5px 10px;
   background: var(--quaternary-dark-grey);
 
   img {
@@ -162,13 +162,15 @@
     }
   }
 
-  input {
+  div[role='textbox'] {
     width: 100%;
     border: none;
     font-size: 15px;
     margin: 0 10px;
     background: var(--quaternary-dark-grey);
     color: var(--primary-white);
+    overflow: auto;
+    max-height: 80px;
 
     &:focus {
       outline: 0;
@@ -178,9 +180,9 @@
 
 .message-hint {
   position: relative;
-  padding: 2px;
+  padding: 4px;
   border: 1px solid grey;
-  font-size: 11px;
+  font-size: 13px;
   font-style: italic;
   overflow: hidden;
 
@@ -198,8 +200,8 @@
   }
 
   img {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
   }
 }
 
@@ -211,6 +213,7 @@
   width: 100%;
   padding-left: 30px;
   padding-right: 0;
+  border-top: 1px solid grey;
 
   .file-box {
     max-width: 70px;
@@ -278,13 +281,7 @@
   .chat {
     width: 100%;
     overflow-y: scroll;
-    min-height: calc((80vh - 108px));
-    max-height: calc((80vh - 108px));
     align-content: end;
-
-    @media (max-width: 575px) {
-      min-height: calc((100vh - 159px));
-      max-height: calc((100vh - 159px));
-    }
+    flex-grow: 1;
   }
 }

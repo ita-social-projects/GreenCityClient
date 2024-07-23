@@ -12,7 +12,6 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { Role } from '@global-models/user/roles.model';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs/Observable';
-import { ChatMessageComponent } from '../chat-message/chat-message.component';
 
 @Component({
   selector: 'app-new-message-window',
@@ -35,7 +34,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   uploadedFile: File;
   @Input() isModal: boolean;
   @ViewChild('chat') chat: ElementRef;
-  @ViewChild('message') chatMessage: ChatMessageComponent;
+  @ViewChild('customInput', { static: true }) customInput: ElementRef;
 
   constructor(
     public chatsService: ChatsService,
@@ -75,7 +74,14 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
         this.messageToEdit = { id, roomId, senderId, content };
       }
       this.messageControl.setValue(message ? message.content : '');
+      if (this.customInput) {
+        this.customInput.nativeElement.textContent = message ? message.content : '';
+      }
     });
+  }
+
+  changeValue(event: InputEvent): void {
+    this.messageControl.setValue((event.target as HTMLDivElement).textContent.trim());
   }
 
   ngAfterViewInit(): void {
@@ -111,6 +117,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
         .subscribe((data: Message) => {
           this.uploadedFile = null;
           this.messageControl.setValue('');
+          this.customInput.nativeElement.textContent = '';
           const newMessage: Message = data;
           const messages = this.chatsService.currentChatMessages;
           if (messages) {
@@ -130,6 +137,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     this.messageControl.setValue('');
+    this.customInput.nativeElement.textContent = '';
   }
 
   fileChanges(event: InputEvent): void {
@@ -151,6 +159,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   addEmoji(event) {
     const newValue = this.messageControl.value ? this.messageControl.value + event.emoji.native : event.emoji.native;
     this.messageControl.setValue(newValue);
+    this.customInput.nativeElement.textContent = newValue;
   }
 
   closeEditMode(): void {
