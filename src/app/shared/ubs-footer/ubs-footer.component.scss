@@ -45,8 +45,6 @@
       .route-link {
         display: flex;
         font-weight: 600;
-        font-size: 14px;
-        line-height: 12px;
         color: var(--ubs-primary-white);
       }
 
@@ -138,11 +136,11 @@
 
 @media (max-width: 576px) {
   .footer {
-    padding-left: 50px;
+    height: 320px;
+    padding-left: 0;
+    padding-bottom: 40px;
 
     .container-fluid {
-      display: flex;
-      flex-direction: column;
       gap: 23px;
     }
 
@@ -150,7 +148,6 @@
       margin: 0;
 
       &_social-media {
-        width: 90%;
         justify-content: space-around;
 
         a {
@@ -166,19 +163,17 @@
         gap: 12px;
         width: 100%;
         justify-content: space-around;
-
-        li .route-link {
-          max-width: 75px;
-        }
-
-        .pick-up-service {
-          max-width: 60px;
-        }
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 20px;
       }
 
       &_main {
         margin: 0;
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 20px;
       }
     }
 
@@ -204,11 +199,23 @@
 
 @media (min-width: 320px) and (max-width: 480px) {
   .footer {
-    height: 176px;
+    height: 350px;
+    padding-left: 0;
+    padding-bottom: 50px;
+
+    &-menu_links {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 0;
+
+      a {
+        font-size: 18px;
+        line-height: 1.5;
+      }
+    }
 
     &-menu_main {
-      flex-direction: column-reverse;
-      align-items: center;
+      flex-direction: column;
       gap: 30px;
     }
 
