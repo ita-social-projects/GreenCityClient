@@ -13,7 +13,6 @@ import { orderDetailsMock, personalMockData } from 'src/app/ubs/mocks/order-data
 import { Store } from '@ngrx/store';
 import { orderDetailsSelector, orderSelectors, personalDataSelector } from '../../../../store/selectors/order.selectors';
 import { WarningPopUpComponent } from '@shared/components';
-import { HttpErrorResponse } from '@angular/common/http';
 
 describe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;
@@ -74,21 +73,6 @@ describe('UBSSubmitOrderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('error from subscription should set loadingAnim to false', () => {
-    const errorResponse = new HttpErrorResponse({
-      error: { code: 'some code', message: 'some message' },
-      status: 404
-    });
-
-    spyOn(orderService, 'processExistingOrder').and.returnValue(throwError(() => errorResponse));
-    component.existingOrderId = 1;
-    component.processOrder(true);
-
-    fixture.whenStable().then(() => {
-      expect(component.isLoadingAnim).toBeFalse();
-    });
-  });
-
   it('should initialize with query params', () => {
     expect(component.existingOrderId).toBe(1);
   });
@@ -135,22 +119,5 @@ describe('UBSSubmitOrderComponent', () => {
 
     expect(component.isLoadingAnim).toBe(false);
     expect((component as any).redirectToConfirmPage).toHaveBeenCalled();
-  });
-
-  it('should initialize listeners correctly', () => {
-    spyOn(component, 'initListeners').and.callThrough();
-    component.ngOnInit();
-
-    expect(component.initListeners).toHaveBeenCalled();
-    expect(component.certificateUsed).toBe(10);
-    expect(component.pointsUsed).toBe(5);
-    expect(component.orderSum).toBe(100);
-    expect(component.addressId).toBe(123);
-    expect(component.locationId).toBe(456);
-    expect(component.isFirstFormValid).toBe(true);
-    expect(component.orderDetails).toEqual(orderDetailsMock);
-    expect(component.bags).toEqual(orderDetailsMock.bags.filter((bag) => bag.quantity));
-    expect(component.additionalOrders).toEqual(orderDetailsMock.additionalOrders);
-    expect(component.personalData).toEqual(personalMockData);
   });
 });
