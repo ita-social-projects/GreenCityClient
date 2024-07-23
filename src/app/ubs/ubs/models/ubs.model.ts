@@ -261,8 +261,8 @@ export class CAddressData {
     const street = isExactAddress ? `${this.languageService.getLangValue(this.street, this.streetEn)}, ` : '';
 
     return this.languageService.getCurrentLanguage() === Language.EN
-      ? `${this.regionEn}, city ${this.cityEn}, ${street}${houseNumber}${this.cityEn}, Ukraine`
-      : `${this.region}, місто ${this.city}, ${street}${houseNumber}${this.city}, Україна`;
+      ? `${this.regionEn}, city ${this.cityEn}, ${street}${houseNumber}, Ukraine`
+      : `${this.region}, місто ${this.city}, ${street}${houseNumber}, Україна`;
   }
 
   private setProperties(propertyName: string, prediction: GooglePrediction): void {
