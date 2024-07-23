@@ -48,7 +48,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
 
   ngOnInit(): void {
     this.currentChatMessages = this.chatsService.currentChatMessages$;
-    this.chatsService.currentChatsStream$.pipe(takeUntil(this.onDestroy$)).subscribe((chat) => {
+    this.chatsService.currentChatStream$.pipe(takeUntil(this.onDestroy$)).subscribe((chat) => {
       if (chat) {
         this.socketService.subscribeToUpdateDeleteMessage(chat.id);
       }
