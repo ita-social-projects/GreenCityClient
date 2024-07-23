@@ -6,13 +6,14 @@ import { FormBuilder } from '@angular/forms';
 import { UBSSubmitOrderComponent } from './ubs-submit-order.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { orderDetailsMock, personalMockData } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';
 import { orderDetailsSelector, orderSelectors, personalDataSelector } from '../../../../store/selectors/order.selectors';
 import { WarningPopUpComponent } from '@shared/components';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;
@@ -20,6 +21,7 @@ describe('UBSSubmitOrderComponent', () => {
   let store: jasmine.SpyObj<Store>;
   let orderService: jasmine.SpyObj<OrderService>;
   let dialog: jasmine.SpyObj<MatDialog>;
+  let router: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
     const storeSpy = jasmine.createSpyObj('Store', ['pipe']);
@@ -27,6 +29,7 @@ describe('UBSSubmitOrderComponent', () => {
     const dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
     const localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', ['setUbsPaymentOrderId']);
     const langServiceSpy = jasmine.createSpyObj('LanguageService', ['getLangValue']);
+    const spyRouter = jasmine.createSpyObj('Router', ['navigate']);
 
     storeSpy.pipe.and.callFake((selector: any) => {
       if (selector === orderSelectors) {
@@ -57,7 +60,8 @@ describe('UBSSubmitOrderComponent', () => {
         { provide: ActivatedRoute, useValue: { queryParams: of({ existingOrderId: 1 }) } },
         { provide: LocalStorageService, useValue: localStorageServiceSpy },
         { provide: LanguageService, useValue: langServiceSpy },
-        { provide: MatDialog, useValue: dialogSpy }
+        { provide: MatDialog, useValue: dialogSpy },
+        { provide: Router, useValue: spyRouter }
       ]
     }).compileComponents();
 
@@ -66,6 +70,7 @@ describe('UBSSubmitOrderComponent', () => {
     store = TestBed.inject(Store) as jasmine.SpyObj<Store>;
     orderService = TestBed.inject(OrderService) as jasmine.SpyObj<OrderService>;
     dialog = TestBed.inject(MatDialog) as jasmine.SpyObj<MatDialog>;
+    router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     fixture.detectChanges();
   });
 
@@ -119,5 +124,25 @@ describe('UBSSubmitOrderComponent', () => {
 
     expect(component.isLoadingAnim).toBe(false);
     expect((component as any).redirectToConfirmPage).toHaveBeenCalled();
+  });
+
+  it('should handle error from processExistingOrder', () => {
+    const errorResponse = new HttpErrorResponse({
+      error: { code: 'some code', message: 'some message' },
+      status: 404
+    });
+
+    if (!router.navigate.calls) {
+      spyOn(router, 'navigate');
+    }
+
+    orderService.processExistingOrder.and.returnValue(throwError(() => errorResponse));
+    component.existingOrderId = 1;
+    component.orderDetails = orderDetailsMock;
+    component.processOrder();
+    fixture.detectChanges();
+
+    expect(component.isLoadingAnim).toBeFalse();
+    expect(router.navigate).toHaveBeenCalledWith(['ubs', 'confirm']);
   });
 });
