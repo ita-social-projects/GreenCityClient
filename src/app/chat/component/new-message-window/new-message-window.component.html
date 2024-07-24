@@ -2,7 +2,9 @@
   class="new-message-window"
   [ngClass]="{
     'current-chat': isModal,
-    'message-window': !isModal
+    'message-window': !isModal,
+    'chat-admin': isAdmin && currentPath.includes('/ubs-admin'),
+    'chat-user': !isAdmin && currentPath.includes('/ubs-user')
   }"
 >
   <div *ngIf="!isModal" class="new-msg-title">
@@ -44,7 +46,7 @@
             <img [src]="chatIcons.file" class="file-icon" alt="file" title="added file" />
             <p>{{ uploadedFile?.name }}</p>
           </div>
-          <button (click)="uploadedFile = null" class="calcel-file">
+          <button (click)="uploadedFile = null">
             <img [src]="chatIcons.cancel" alt="cancel file" />
           </button>
         </div>
