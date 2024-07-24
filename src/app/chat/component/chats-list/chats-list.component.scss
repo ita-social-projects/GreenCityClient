@@ -42,8 +42,8 @@
 }
 
 .chats {
-  height: 100%;
-  overflow-y: auto;
+  height: 595px;
+  overflow-y: scroll;
   width: 100%;
 
   @include flex(column, flex-start, flex-start);

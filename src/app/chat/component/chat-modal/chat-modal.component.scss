@@ -9,7 +9,7 @@
   height: 100%;
   width: 300px;
 
-  @include flex(column, start, center);
+  @include flex(column, flex-start, center);
 }
 
 .close-modal-button {

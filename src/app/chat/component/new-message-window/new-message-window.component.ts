@@ -12,6 +12,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { Role } from '@global-models/user/roles.model';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-message-window',
@@ -20,7 +21,6 @@ import { Observable } from 'rxjs/Observable';
 })
 export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestroy {
   public chatIcons = CHAT_ICONS;
-  public userSearchField = '';
   private onDestroy$ = new Subject();
   public messageControl: FormControl = new FormControl('', [Validators.max(250)]);
   public showEmojiPicker = false;
@@ -30,7 +30,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   public messageToEdit: Message;
   public currentChatMessages: Observable<MessageExtended[]>;
   public isSupportChat: boolean;
-
+  currentPath: string;
   uploadedFile: File;
   @Input() isModal: boolean;
   @ViewChild('chat') chat: ElementRef;
@@ -42,10 +42,12 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     private socketService: SocketService,
     public userService: UserService,
     private jwt: JwtService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.currentPath = this.router.url;
     this.currentChatMessages = this.chatsService.currentChatMessages$;
     this.chatsService.currentChatStream$.pipe(takeUntil(this.onDestroy$)).subscribe((chat) => {
       if (chat) {
@@ -80,7 +82,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     });
   }
 
-  changeValue(event: InputEvent): void {
+  changeValue(event: Event): void {
     this.messageControl.setValue((event.target as HTMLDivElement).textContent.trim());
   }
 
@@ -140,9 +142,8 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
     this.customInput.nativeElement.textContent = '';
   }
 
-  fileChanges(event: InputEvent): void {
-    const file = (event.target as HTMLInputElement).files[0];
-    this.uploadedFile = file;
+  fileChanges(event: Event): void {
+    this.uploadedFile = (event.target as HTMLInputElement).files[0];
     this.isEditMode = false;
     setTimeout(() => {
       const element: HTMLElement = this.chat?.nativeElement;
