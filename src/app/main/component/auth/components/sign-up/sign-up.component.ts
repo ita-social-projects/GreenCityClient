@@ -3,7 +3,7 @@ import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-su
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { authImages } from './../../../../image-pathes/auth-images';
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -56,6 +56,22 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     passwordConfirm: (error: string) => (this.passwordConfirmErrorMessageBackEnd = error)
   };
   @Output() private pageName = new EventEmitter();
+
+  get email(): FormControl {
+    return this.signUpForm.get('email') as FormControl;
+  }
+
+  get firstName(): FormControl {
+    return this.signUpForm.get('firstName') as FormControl;
+  }
+
+  get password(): FormControl {
+    return this.signUpForm.get('password') as FormControl;
+  }
+
+  get confirmPassword(): FormControl {
+    return this.signUpForm.get('repeatPassword') as FormControl;
+  }
 
   constructor(
     private matDialogRef: MatDialogRef<SignUpComponent>,

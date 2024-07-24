@@ -60,7 +60,7 @@ describe('HeaderComponent', () => {
   localStorageServiceMock.setUbsRegistration = () => true;
 
   const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
-  jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
   const userServiceMock: UserService = jasmine.createSpyObj('UserService', ['onLogout']);

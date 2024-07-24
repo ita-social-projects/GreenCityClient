@@ -6,8 +6,7 @@ import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { UbsUserGuardGuard } from '@ubs/ubs-user/ubs-user-guard.guard';
-import { UbsAdminGuardGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
-import { UbsAdminRedirectGuard } from '@ubs/ubs-admin/ubs-admin-redirect-guard.guard';
+import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
 import { AchievementListComponent } from '@global-user/components';
 
 export const routes: Routes = [
@@ -17,8 +16,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'ubs',
-        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule),
-        canActivate: [UbsAdminRedirectGuard]
+        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
       },
       {
         path: '',
@@ -64,7 +62,7 @@ export const routes: Routes = [
   {
     path: 'ubs-admin',
     loadChildren: () => import('./ubs/ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule),
-    canLoad: [UbsAdminGuardGuard]
+    canLoad: [UbsAdminGuard]
   },
   {
     path: 'ubs-user',

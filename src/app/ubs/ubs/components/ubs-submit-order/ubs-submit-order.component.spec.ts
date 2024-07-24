@@ -1,94 +1,76 @@
 import { OrderService } from '../../services/order.service';
-import { of, Subject, throwError } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
+import { of, throwError } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
 import { UBSSubmitOrderComponent } from './ubs-submit-order.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { MatDialogModule } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
+import { orderDetailsMock, personalMockData } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';
+import { orderDetailsSelector, orderSelectors, personalDataSelector } from '../../../../store/selectors/order.selectors';
+import { WarningPopUpComponent } from '@shared/components';
+import { HttpErrorResponse } from '@angular/common/http';
 
-xdescribe('UBSSubmitOrderComponent', () => {
+describe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;
   let fixture: ComponentFixture<UBSSubmitOrderComponent>;
-  let router: Router;
-  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', [
-    'getCurrentLanguage',
-    'setUserPagePayment',
-    'setFinalSumOfOrder',
-    'removeUbsFondyOrderId',
-    'getExistingOrderId'
-  ]);
-  fakeLocalStorageService.getCurrentLanguage.and.returnValue('ua');
-  fakeLocalStorageService.languageSubject = of('ua');
-  const fakeOrderService = jasmine.createSpyObj('fakeOrderService', ['getOrderUrl']);
-  const mockedOrderDetails = {
-    bags: [],
-    points: 9
-  };
-  const mockedPersonalData = {
-    id: 9,
-    firstName: 'fake',
-    lastName: 'fake',
-    email: 'fake',
-    phoneNumber: 'fake',
-    addressComment: 'fake',
-    city: 'fake',
-    cityEn: 'fakeEn',
-    district: 'fake',
-    districtEn: 'fakeEn',
-    street: 'fake',
-    streetEn: 'fakeEn',
-    houseCorpus: 'fake',
-    entranceNumber: 'fake',
-    houseNumber: 'fake',
-    senderFirstName: 'fake',
-    senderLastName: 'fake',
-    senderEmail: 'fake',
-    senderPhoneNumber: 'fake'
-  };
+  let store: jasmine.SpyObj<Store>;
+  let orderService: jasmine.SpyObj<OrderService>;
+  let dialog: jasmine.SpyObj<MatDialog>;
+  let router: jasmine.SpyObj<Router>;
 
-  class FakeShareFormService {
-    get changedOrder() {
-      return of(mockedOrderDetails);
-    }
-    get changedPersonalData() {
-      return of(mockedPersonalData);
-    }
-  }
+  beforeEach(async () => {
+    const storeSpy = jasmine.createSpyObj('Store', ['pipe']);
+    const orderServiceSpy = jasmine.createSpyObj('OrderService', ['processExistingOrder', 'processNewOrder']);
+    const dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+    const localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', ['setUbsPaymentOrderId']);
+    const langServiceSpy = jasmine.createSpyObj('LanguageService', ['getLangValue']);
+    const spyRouter = jasmine.createSpyObj('Router', ['navigate']);
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
+    storeSpy.pipe.and.callFake((selector: any) => {
+      if (selector === orderSelectors) {
+        return of({
+          certificateUsed: 10,
+          pointsUsed: 5,
+          orderSum: 100,
+          addressId: 123,
+          locationId: 456,
+          firstFormValid: true
+        });
+      } else if (selector === orderDetailsSelector) {
+        return of(orderDetailsMock);
+      } else if (selector === personalDataSelector) {
+        return of(personalMockData);
+      }
+      return of(null);
+    });
 
-  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
-  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
+    await TestBed.configureTestingModule({
       declarations: [UBSSubmitOrderComponent],
+      imports: [RouterTestingModule],
       providers: [
-        { provide: Store, useValue: storeMock },
-        { provide: UBSOrderFormService, useClass: FakeShareFormService },
-        { provide: OrderService, useValue: fakeOrderService },
-        { provide: LocalStorageService, useValue: fakeLocalStorageService },
-        { provide: LanguageService, useValue: languageServiceMock }
+        FormBuilder,
+        { provide: Store, useValue: storeSpy },
+        { provide: OrderService, useValue: orderServiceSpy },
+        { provide: UBSOrderFormService, useValue: {} },
+        { provide: ActivatedRoute, useValue: { queryParams: of({ existingOrderId: 1 }) } },
+        { provide: LocalStorageService, useValue: localStorageServiceSpy },
+        { provide: LanguageService, useValue: langServiceSpy },
+        { provide: MatDialog, useValue: dialogSpy },
+        { provide: Router, useValue: spyRouter }
       ]
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UBSSubmitOrderComponent);
     component = fixture.componentInstance;
-    router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
+    store = TestBed.inject(Store) as jasmine.SpyObj<Store>;
+    orderService = TestBed.inject(OrderService) as jasmine.SpyObj<OrderService>;
+    dialog = TestBed.inject(MatDialog) as jasmine.SpyObj<MatDialog>;
+    router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     fixture.detectChanges();
   });
 
@@ -96,37 +78,71 @@ xdescribe('UBSSubmitOrderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('method ngOnInit should invoke method getOrderFormNotifications()', () => {
-    component.isNotification = true;
-    component.ngOnInit();
+  it('should initialize with query params', () => {
+    expect(component.existingOrderId).toBe(1);
   });
 
-  it('method ngOnInit should invoke method takeOrderDetails()', () => {
-    component.isNotification = false;
-    component.ngOnInit();
+  it('should open confirmation dialog and call processOrder on confirmation', () => {
+    const matDialogRef = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+    matDialogRef.afterClosed.and.returnValue(of(true));
+    dialog.open.and.returnValue(matDialogRef);
+    spyOn(component, 'processOrder');
+    component.onCancel();
+
+    expect(dialog.open).toHaveBeenCalledWith(WarningPopUpComponent, jasmine.any(Object));
+    expect(component.processOrder).toHaveBeenCalledWith(false);
   });
 
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    (component as any).destroy = new Subject<boolean>();
-    spyOn((component as any).destroy, 'unsubscribe');
-    component.ngOnDestroy();
-    expect((component as any).destroy.unsubscribe).toHaveBeenCalledTimes(1);
+  it('should redirect to main page on cancellation', () => {
+    const matDialogRef = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+    matDialogRef.afterClosed.and.returnValue(of(false));
+    dialog.open.and.returnValue(matDialogRef);
+    spyOn(component as any, 'redirectToMainPage');
+    component.onCancel();
+
+    expect((component as any).redirectToMainPage).toHaveBeenCalled();
   });
 
-  it('error from subscription should set loadingAnim to false', () => {
+  it('should process existing order successfully', () => {
+    orderService.processExistingOrder.and.returnValue(of({ orderId: 123, link: 'https://' }));
+    component.existingOrderId = 1;
+    component.personalData = personalMockData;
+    component.orderDetails = orderDetailsMock;
+    component.processOrder(true);
+
+    expect(component.isLoadingAnim).toBe(true);
+    expect(orderService.processExistingOrder).toHaveBeenCalled();
+  });
+
+  it('should handle error and redirect on failure', () => {
+    orderService.processExistingOrder.and.returnValue(throwError(() => new Error('Failed')));
+    spyOn(component as any, 'redirectToConfirmPage');
+    component.existingOrderId = 1;
+    component.personalData = personalMockData;
+    component.orderDetails = orderDetailsMock;
+    component.processOrder(true);
+
+    expect(component.isLoadingAnim).toBe(false);
+    expect((component as any).redirectToConfirmPage).toHaveBeenCalled();
+  });
+
+  it('should handle error from processExistingOrder', () => {
     const errorResponse = new HttpErrorResponse({
       error: { code: 'some code', message: 'some message' },
       status: 404
     });
-    fakeOrderService.getOrderUrl.and.returnValue(throwError(errorResponse));
-    fixture.detectChanges();
-    component.processOrder();
-    expect(component.isLoadingAnim).toBe(false);
-    expect(fakeLocalStorageService.setUserPagePayment).toHaveBeenCalledWith(false);
-  });
 
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('value');
+    if (!router.navigate.calls) {
+      spyOn(router, 'navigate');
+    }
+
+    orderService.processExistingOrder.and.returnValue(throwError(() => errorResponse));
+    component.existingOrderId = 1;
+    component.orderDetails = orderDetailsMock;
+    component.processOrder();
+    fixture.detectChanges();
+
+    expect(component.isLoadingAnim).toBeFalse();
+    expect(router.navigate).toHaveBeenCalledWith(['ubs', 'confirm']);
   });
 });

@@ -1,8 +1,4 @@
-$bp-smallest: 320px;
-$bp-phone: 576px;
-$bp-tablet: 768px;
-$bp-desktop: 1024px;
-$bp-largest: 1440px;
+@import 'src/typography/_resp.scss';
 
 .gallery-view-active {
   display: grid;
@@ -30,13 +26,13 @@ hr {
   padding-left: 0;
 }
 
-@media screen and (max-width: 1024px) {
+@include responsivePCFirst(xl) {
   .gallery-view-active {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media screen and (max-width: 991px) {
+@include responsivePCFirst(lg) {
   .last-item {
     display: none;
   }
@@ -46,7 +42,7 @@ hr {
   }
 }
 
-@media screen and (max-width: 576px) {
+@include responsivePCFirst(sm) {
   p {
     font-size: 18px;
     color: var(--secondary-dark-grey);

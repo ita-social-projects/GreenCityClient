@@ -1,8 +1,4 @@
-$bp-smallest: 320px;
-$bp-phone: 576px;
-$bp-tablet: 768px;
-$bp-desktop: 1024px;
-$bp-largest: 1440px;
+@import 'src/typography/_resp.scss';
 
 .word-wrap {
   word-break: break-word;
@@ -208,7 +204,7 @@ $bp-largest: 1440px;
   }
 }
 
-@media screen and (max-width: 1024px) {
+@include responsivePCFirst(xl) {
   .wrapper {
     margin: 0 3%;
   }
@@ -222,7 +218,7 @@ $bp-largest: 1440px;
   }
 }
 
-@media screen and (max-width: 768px) {
+@include responsivePCFirst(md) {
   .wrapper {
     margin: 0 1.8%;
   }
@@ -264,7 +260,7 @@ $bp-largest: 1440px;
   }
 }
 
-@media screen and (max-width: 576px) {
+@include responsivePCFirst(sm) {
   .wrapper {
     margin: 0 2.4%;
   }
@@ -276,7 +272,7 @@ $bp-largest: 1440px;
   }
 }
 
-@media only screen and (max-width: $bp-tablet) {
+@include responsivePCFirst(md) {
   .news-text-container {
     flex-direction: column;
     margin-top: 0;
@@ -293,7 +289,7 @@ $bp-largest: 1440px;
   }
 }
 
-@media screen and (max-width: 401px) {
+@include responsivePCFirst(s) {
   .top-elements {
     flex-direction: column;
     justify-content: center;
@@ -320,7 +316,7 @@ $bp-largest: 1440px;
   }
 }
 
-@media screen and (max-width: 320px) {
+@include responsivePCFirst(xs) {
   .wrapper {
     margin: 0 5%;
   }
@@ -375,9 +371,7 @@ $bp-largest: 1440px;
       max-width: 288px;
     }
   }
-}
 
-@media only screen and (max-width: $bp-smallest) {
   .news-info {
     flex-direction: column;
   }

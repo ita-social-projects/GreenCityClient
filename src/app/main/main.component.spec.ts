@@ -30,7 +30,7 @@ xdescribe('MainComponent', () => {
   storeMock.select.and.returnValue(of({ emplpyees: { emplpyeesPermissions: mockData } }));
 
   const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole']);
-  jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
   const languageServiceMock = jasmine.createSpyObj('LanguageService', [

@@ -1,8 +1,10 @@
+@import 'src/typography/_resp.scss';
+
 .footer {
   width: 100%;
   height: 166px;
   display: flex;
-  padding-left: 80px;
+  padding-left: 40px;
   background-color: var(--ubs-secondary-dark-green);
   font-family: var(--ubs-secondary-font);
 
@@ -45,8 +47,6 @@
       .route-link {
         display: flex;
         font-weight: 600;
-        font-size: 14px;
-        line-height: 12px;
         color: var(--ubs-primary-white);
       }
 
@@ -81,8 +81,10 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
+@include responsiveRange(md, xl) {
   .footer {
+    padding-left: 20px;
+
     &-menu {
       margin: 0;
     }
@@ -93,7 +95,7 @@
   }
 }
 
-@media (min-width: 576px) and (max-width: 768px) {
+@include responsiveRange(sm, md) {
   .footer {
     &-menu {
       margin: 0;
@@ -134,11 +136,12 @@
   }
 }
 
-@media (max-width: 576px) {
+@include responsivePCFirst(sm) {
   .footer {
+    height: 270px;
+    padding-left: 0;
+
     .container-fluid {
-      display: flex;
-      flex-direction: column;
       gap: 23px;
     }
 
@@ -162,19 +165,17 @@
         gap: 12px;
         width: 100%;
         justify-content: space-around;
-
-        li .route-link {
-          max-width: 75px;
-        }
-
-        .pick-up-service {
-          max-width: 60px;
-        }
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 20px;
       }
 
       &_main {
         margin: 0;
         width: 100%;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 20px;
       }
     }
 
@@ -198,12 +199,24 @@
   }
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@include responsiveRange(xs, s) {
   .footer {
-    height: 176px;
+    height: 320px;
+    padding-left: 0;
+
+    &-menu_links {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 0;
+
+      a {
+        font-size: 18px;
+        line-height: 1.5;
+      }
+    }
 
     &-menu_main {
-      flex-direction: column-reverse;
+      flex-direction: column;
       align-items: center;
       gap: 30px;
     }

@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 @mixin text_style($font, $color, $size, $weight) {
   font-family: $font;
   font-size: $size;
@@ -558,13 +560,13 @@ li {
   }
 }
 
-@media screen and (max-width: 768px) {
+@include responsivePCFirst(md) {
   .bag-name .quantity-input-wrapper button {
     width: 10px;
   }
 }
 
-@media screen and (max-width: 575px) {
+@include responsivePCFirst(sm) {
   .quantity-input-wrapper {
     button {
       .mat-icon {
@@ -760,7 +762,7 @@ li {
   }
 }
 
-@media screen and (max-width: 420px) {
+@include responsivePCFirst(s) {
   .label {
     font-size: 12px;
   }
@@ -785,7 +787,7 @@ li {
   }
 }
 
-@media screen and (max-width: 360px) {
+@include responsivePCFirst(xs) {
   .label {
     font-size: 10px;
   }
