@@ -31,3 +31,15 @@ export interface Participant {
   rooms?: any[];
   userStatus?: string;
 }
+
+export interface LocationForChat {
+  id: number;
+  locationStatus: string;
+  regionNameUk: string;
+  regionNameEn: string;
+  latitude: number;
+  longitude: number;
+  nameUk: string;
+  nameEn: string;
+  chat: Chat | null;
+}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Chat, ChatDto } from '../../model/Chat.model';
+import { Chat, ChatDto, LocationForChat } from '../../model/Chat.model';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Message, MessageExtended, MessagesToSave } from '../../model/Message.model';
@@ -14,11 +14,11 @@ import { UserService } from '@global-service/user/user.service';
 })
 export class ChatsService {
   userChatsStream$: BehaviorSubject<Chat[]> = new BehaviorSubject<Chat[]>([]);
-  currentChatsStream$: BehaviorSubject<Chat> = new BehaviorSubject<Chat>(null);
+  currentChatStream$: BehaviorSubject<Chat> = new BehaviorSubject<Chat>(null);
   currentChatPageData$: BehaviorSubject<ChatDto> = new BehaviorSubject<ChatDto>(null);
   currentChatMessagesStream$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   searchedFriendsStream$: BehaviorSubject<FriendModel[]> = new BehaviorSubject<FriendModel[]>([]);
-  locationChats$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  locations$: BehaviorSubject<LocationForChat[]> = new BehaviorSubject([]);
   isChatUpdateStream$: Subject<boolean> = new Subject<boolean>();
   chatsMessages: { [key: string]: MessagesToSave } = {};
   private messagesIsLoading = false;
@@ -34,12 +34,12 @@ export class ChatsService {
     return this.userChatsStream$.getValue();
   }
 
-  get locationChats() {
-    return this.locationChats$.getValue();
+  get locations() {
+    return this.locations$.getValue();
   }
 
   get currentChat() {
-    return this.currentChatsStream$.getValue();
+    return this.currentChatStream$.getValue();
   }
 
   get currentChatMessages() {
@@ -102,19 +102,19 @@ export class ChatsService {
     }
     // If current chat needs to be null
     if (!chat) {
-      this.currentChatsStream$.next(chat);
+      this.currentChatStream$.next(null);
       return;
     }
     // If messages for this chat is already loaded.
     if (this.chatsMessages[chat.id]) {
-      this.currentChatsStream$.next(chat);
+      this.currentChatStream$.next(chat);
       this.currentChatMessagesStream$.next(this.chatsMessages[chat.id].page);
       return;
     }
 
     this.messagesIsLoading = true;
     this.getAllChatMessages(chat.id, 0).subscribe((messages: Messages) => {
-      this.currentChatsStream$.next(chat);
+      this.currentChatStream$.next(chat);
       this.currentChatMessagesStream$.next(messages.page);
       this.chatsMessages[chat.id] = messages;
       this.chatsMessages[chat.id].newMessagesAmount = 0;
@@ -152,8 +152,8 @@ export class ChatsService {
   }
 
   public getLocationsChats(userId: number): void {
-    this.httpClient.get(`${environment.backendChatLink}chat/locations/${userId}`).subscribe((el) => {
-      this.locationChats$.next(el);
+    this.httpClient.get(`${environment.backendChatLink}chat/locations/${userId}`).subscribe((locations: LocationForChat[]) => {
+      this.locations$.next(locations);
     });
   }
 

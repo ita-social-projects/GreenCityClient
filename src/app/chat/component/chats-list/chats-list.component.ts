@@ -43,7 +43,7 @@ export class ChatsListComponent implements OnInit {
     }
 
     if (this.isSupportChat && this.isAdmin) {
-      this.chatService.currentChatsStream$.subscribe((chat) => {
+      this.chatService.currentChatStream$.subscribe((chat) => {
         const isAdminParticipant = chat?.participants?.some((el) => el.id === this.userService.userId);
         this.chatService.isAdminParticipant$.next(isAdminParticipant);
       });
@@ -60,17 +60,17 @@ export class ChatsListComponent implements OnInit {
     return isToday ? 'HH:mm' : 'dd/MM';
   }
 
-  checkChat(chatTarget: any) {
+  checkChat(chatTarget: any): void {
     if (this.isAdmin) {
       return;
     }
-    if (!this.isSupportChat) {
-      const userChat = this.chatService.userChats.find((chat) => chat?.id === chatTarget.friendsChatDto?.chatId);
-      userChat ? this.chatService.setCurrentChat(userChat) : this.socketService.createNewChat(chatTarget.id, false, true);
-    } else {
-      const userChat = this.chatService.locationChats.find((chat) => chat?.id === chatTarget.chatId);
-      chatTarget.chatId ? this.chatService.setCurrentChat(userChat) : this.socketService.createNewChat(chatTarget.id, false, true);
-    }
+
+    const userChat = this.isSupportChat
+      ? chatTarget.chat
+      : this.chatService.userChats.find((chat) => chat?.id === chatTarget.friendsChatDto?.chatId);
+
+    userChat ? this.chatService.setCurrentChat(userChat) : this.socketService.createNewChat(chatTarget.id, false, true);
+
     this.createNewMessageWindow.emit();
   }
 
