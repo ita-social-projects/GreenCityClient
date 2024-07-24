@@ -18,8 +18,6 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   confirmRestorePasswordForm: FormGroup;
   passwordField: AbstractControl;
   confirmPasswordField: AbstractControl;
-  password: FormControl;
-  confirmPassword: FormControl;
   closeBtn = SignInIcons;
   authImages = authImages;
   emailErrorMessageBackEnd: string;
@@ -32,6 +30,14 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   restoreDto: RestoreDto;
   isUbs: boolean;
   isSignInPage: boolean;
+
+  get password(): FormControl {
+    return this.confirmRestorePasswordForm.get('password') as FormControl;
+  }
+
+  get confirmPassword(): FormControl {
+    return this.confirmRestorePasswordForm.get('confirmPassword') as FormControl;
+  }
 
   constructor(
     private router: Router,

@@ -10,8 +10,10 @@ import { orderReducer } from './order.reducer';
 import { friendsReducers } from './friends.reducer';
 import { habitReducer } from './habit.reducer';
 import { ubsUserReducer } from 'src/app/store/reducers/ubs-user.reducer';
+import { authReducer } from 'src/app/store/reducers/auth.reducer';
 
 export const appReducers: ActionReducerMap<IAppState> = {
+  auth: authReducer,
   friend: friendsReducers,
   order: orderReducer,
   router: routerReducer,

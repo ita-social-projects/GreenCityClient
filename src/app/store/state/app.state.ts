@@ -9,8 +9,10 @@ import { IFriendState, initialFriendState } from './friends.state';
 import { initialHabitState } from './habit.state';
 import { HabitInterface as IHabitState } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { initialUbsUserState, IUbsUserState } from 'src/app/store/state/ubs-user.state';
+import { IAuthState, initialAuthState } from 'src/app/store/state/auth.state';
 
 export interface IAppState {
+  auth: IAuthState;
   friend: IFriendState;
   order: IOrderState;
   employees: IEmployeesState;
@@ -24,6 +26,7 @@ export interface IAppState {
 }
 
 export const initialAppState: IAppState = {
+  auth: initialAuthState,
   friend: initialFriendState,
   order: initialOrderState,
   employees: initialEmployeesState,
