@@ -388,6 +388,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         (d) => d.nameEn.startsWith(districtAuto.long_name?.split(`'`)[0]) || d.nameUa === districtAuto.long_name
       );
       this.district.setValue(district ?? '');
+      this.onDistrictSelected();
     });
   }
 
