@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject, iif } from 'rxjs';
+import { iif, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Bag, IProcessOrderResponse, Order, OrderDetails, PersonalData } from '../../models/ubs.interface';
@@ -10,7 +10,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { orderDetailsSelector, orderSelectors, personalDataSelector } from 'src/app/store/selectors/order.selectors';
 import { WarningPopUpComponent } from '@shared/components';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -140,7 +140,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   private getOrder(shouldBePaid: boolean): Order {
-    const order: Order = {
+    return {
       personalData: this.personalData,
       additionalOrders: this.additionalOrders,
       certificates: this.orderDetails.certificates,
@@ -151,8 +151,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       shouldBePaid,
       bags: this.bags.map((bag) => ({ id: bag.id, amount: bag.quantity }))
     };
-
-    return order;
   }
 
   private redirectToConfirmPage(): void {

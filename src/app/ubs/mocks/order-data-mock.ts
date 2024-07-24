@@ -1,4 +1,4 @@
-import { CourierLocations, OrderDetails } from '@ubs/ubs/models/ubs.interface';
+import { CourierLocations, OrderDetails, PersonalData } from '@ubs/ubs/models/ubs.interface';
 import { OrderStatus } from '@ubs/ubs/order-status.enum';
 
 export const ubsOrderServiseMock = {
@@ -144,4 +144,32 @@ export const fakeInputOrderData = {
     senderPhone: '+380977777777',
     senderSurname: 'Kovalushun'
   }
+};
+
+export const personalMockData: PersonalData = {
+  id: 1,
+  ubsUserId: 1,
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'john.doe@example.com',
+  phoneNumber: '+1234567890',
+  addressComment: 'comment',
+  city: 'Lviv',
+  cityEn: 'Lviv',
+  district: 'Central',
+  districtEn: 'Central',
+  street: 'King Danylo',
+  streetEn: 'King Danylo',
+  region: 'Lviv region',
+  regionEn: 'Lviv region',
+  houseCorpus: '1',
+  entranceNumber: '2',
+  houseNumber: '3',
+  longitude: 12.34,
+  latitude: 56.78,
+  isAnotherClient: false,
+  senderEmail: 'sender@example.com',
+  senderFirstName: 'Sender',
+  senderLastName: 'Name',
+  senderPhoneNumber: '+0987654321'
 };
