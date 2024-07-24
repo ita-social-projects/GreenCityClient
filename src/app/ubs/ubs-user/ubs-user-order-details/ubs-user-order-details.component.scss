@@ -216,6 +216,7 @@
     td {
       font-size: 11px;
       padding-top: 14px;
+      line-height: 1.5;
     }
 
     .header_table {
@@ -223,6 +224,10 @@
         font-size: 11px;
       }
     }
+  }
+
+  .header_details {
+    padding-top: 100px;
   }
 
   .order_details {
