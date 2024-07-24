@@ -95,6 +95,7 @@ export class ChatsService {
   }
 
   public setCurrentChat(chat: Chat | null): void {
+    this.messageToEdit$.next(null);
     // If messages are already loading.
     if (this.messagesIsLoading) {
       return;
