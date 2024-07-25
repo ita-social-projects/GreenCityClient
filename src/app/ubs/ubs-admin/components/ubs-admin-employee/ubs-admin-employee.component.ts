@@ -5,7 +5,7 @@ import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.servi
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -49,15 +49,13 @@ export class UbsAdminEmployeeComponent implements OnInit {
   reset = true;
   cities = [];
   regions = [];
-  filteredRegions;
-  filteredCities;
+  filteredRegions = [];
+  filteredCities: Observable<string[]>;
   couriers: Couriers[];
   couriersName: Array<string>;
   positionName: Array<string>;
   filterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
   currentLang: string;
-  selectedTagsList: Array<string> = [];
-  isElementFocused = false;
   selectedCities = [];
   selectedCouriers = [];
   selectedPositions = [];
@@ -72,15 +70,12 @@ export class UbsAdminEmployeeComponent implements OnInit {
   userEmail: string;
   userRoles: string[];
   userAuthorities = [];
-  isThisUserAdmin = false;
   isThisUserCanCreateEmployee = false;
   isThisUserCanEditEmployee = false;
   isThisUserCanDeleteEmployee = false;
   isThisUserCanEditEmployeeAuthorities = false;
   userHasRights = false;
-  sizeForTable = 30;
   search: string;
-  currentPageForTable = 0;
 
   public icons = {
     setting: './assets/img/ubs-tariff/setting.svg',
@@ -154,7 +149,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     });
   }
 
-  definedIsEmployeeHasRights(employeeRight) {
+  definedIsEmployeeHasRights(employeeRight: string[]): void {
     this.userAuthorities = employeeRight;
     this.isThisUserCanCreateEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.add);
     this.isThisUserCanEditEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.edit);
@@ -225,12 +220,11 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.locations$.pipe(skip(1)).subscribe((item: Locations[]) => {
       if (item) {
         this.locations = item;
-        const regions = this.locations
+        this.filteredRegions = this.locations
           .map((element) => {
             return element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLang).map((it) => it.regionName);
           })
           .flat(2);
-        this.filteredRegions = regions;
         this.cities = this.mapCities(this.locations);
         this.filteredCities = this.filterOptions(
           this.city,
@@ -241,7 +235,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     });
   }
 
-  filterOptions(control, array): Array<string> {
+  filterOptions(control, array): Observable<string[]> {
     return control.valueChanges.pipe(
       startWith(''),
       map((value: string) => (value ? this._filter(value, array) : array.slice()))
@@ -601,7 +595,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     return this.selectedRegions.some((it) => it.regionTranslationDtos.some((ob) => ob.regionName === name));
   }
 
-  selectedStates(event) {
+  selectedStates(event: MatAutocompleteSelectedEvent) {
     this.selectedState = [];
     const statusValue = this.employeeStates.find(
       (state) => this.getLangValue(state.nameUa, state.nameEn) === event.option.value.toString()
