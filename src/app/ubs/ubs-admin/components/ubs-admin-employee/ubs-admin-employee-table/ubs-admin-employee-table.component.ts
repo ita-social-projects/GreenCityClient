@@ -16,10 +16,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { FilterData } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { UbsAdminEmployeeEditFormComponent } from 'src/app/ubs/ubs-admin/components/ubs-admin-employee/ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
-import {
-  EmployeeStatus,
-  PopUpsStyles
-} from 'src/app/ubs/ubs-admin/components/ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
+import { EmployeeStatus, PopUpsStyles } from 'src/app/ubs/ubs-admin/components/ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -38,9 +35,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit, OnDestroy {
   search: string;
   searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
   totalPagesForTable: number;
-  tableData: Page[];
   employees: Page[];
-  filteredTableData: Page[] = [];
   firstPageLoad = true;
   reset = true;
   filterDatas: FilterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
@@ -62,8 +57,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit, OnDestroy {
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no',
     style: PopUpsStyles.lightGreen,
-    іsPermissionConfirm: false,
-    isItrefund: false
+    isPermissionConfirm: false,
+    isItRefund: false
   };
 
   public icons = {

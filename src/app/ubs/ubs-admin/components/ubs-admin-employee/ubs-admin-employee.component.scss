@@ -34,7 +34,7 @@
         font-weight: 700;
         font-size: 24px;
         line-height: 32px;
-        letter-spacing: 0.2%;
+        letter-spacing: 0.2px;
       }
     }
 
@@ -202,7 +202,7 @@
   .mat-option:hover:not(.mat-option-disabled) {
     background-color: var(--ubs-primary-light-green) !important;
     font-family: var(--ubs-quaternary-font);
-    font-style: 400;
+    font-weight: 400;
     font-size: 14px;
     line-height: 20px;
     color: var(--ubs-primary-grey);
@@ -269,6 +269,13 @@ input::placeholder {
 
 @media screen and (max-width: 820px) {
   .main-employee-container {
+    .d-flex {
+      flex-direction: column;
+    }
+    .col-item {
+      width: 92dvw;
+    }
+
     .employee-header {
       padding: 10px;
 

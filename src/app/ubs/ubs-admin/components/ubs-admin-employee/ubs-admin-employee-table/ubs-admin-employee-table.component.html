@@ -85,7 +85,7 @@
                 <span class="link">{{ employee.email }}</span>
               </div>
             </div>
-
+            <div class="receiving-location">
             <div class="description-item receiving-station">
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
                 <div>{{ getLangValue(tariff.region.nameUk, tariff.region.nameEn) }}</div>
@@ -125,10 +125,11 @@
                 <div *ngFor="let placeholder of tariff.locations.displayed.length - 1 | repeat" class="region-placeholder"></div>
               </div>
             </div>
+            </div>
 
             <div class="description-item">
               <div class="description-sub-item description-item-text">
-                <div>
+                <div class="status">
                   {{ (employee.employeeStatus === 'ACTIVE' ? 'employees.status.active' : 'employees.status.inactive') | translate }}
                 </div>
               </div>
@@ -184,7 +185,7 @@
               </button>
             </mat-menu>
             <ng-template #deleteIcon>
-              <span
+              <span class="deactivate"
                 *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusActive"
                 (click)="openDeleteDialog(employee, $event)"
               >

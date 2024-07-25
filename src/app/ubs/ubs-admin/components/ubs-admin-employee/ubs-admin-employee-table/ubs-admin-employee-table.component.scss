@@ -151,7 +151,7 @@
 
 .employees-column-names {
   display: grid;
-  grid-template-columns: 94px 1fr 1.5fr 1fr 1fr 1fr 1fr 98px;
+  grid-template-columns: 95px 1fr 1.5fr 1.5fr 1fr 1fr 1fr 98px;
   margin-bottom: 8px;
   height: 24px;
   border-bottom: 1px solid var(--ubs-primary-light-grey);
@@ -281,7 +281,7 @@
         width: 100%;
         font-family: var(--primary-font);
         display: grid;
-        grid-template-columns: 80px 1fr 1.5fr 1fr 1fr 1fr 1fr 36px 36px;
+        grid-template-columns: 75px 1fr 1.5fr 3.5fr 1fr 36px 36px;
 
         .photo {
           flex: none;
@@ -443,6 +443,69 @@
       }
     }
   }
+
+  .main-employee-container {
+    .employee-header {
+      margin: 0;
+    }
+  }
+
+  .receiving-location{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .employees-cards {
+    .mat-expansion-panel {
+      .mat-expansion-panel-header {
+        .mat-expansion-panel-header-title {
+          display: flex;
+          flex-direction: column;
+
+          .photo {
+            position: absolute;
+            left: 20px;
+          }
+
+          .receiving-location,
+          .contacts,
+          .text {
+            padding-left: 80px;
+            gap: 0;
+          }
+
+          .description-item{
+            flex-direction: column;
+          }
+
+          .status {
+            position: absolute;
+            top: 85px;
+            left: 25px;
+          }
+
+          .receiving-location {
+            padding-top: 10px;
+          }
+
+          .toggle-icon-up,
+          .toggle-icon-down {
+            position: absolute;
+            right: 42px;
+          }
+          .deactivate {
+            position: absolute;
+            right: 12px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.receiving-location {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
 }
 
 .toggle-icon-up,
@@ -470,3 +533,4 @@
 .region-placeholder {
   height: 20px;
 }
+

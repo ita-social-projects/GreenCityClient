@@ -1,5 +1,5 @@
-@import './././src/app/ubs/ubs-admin/components/ubs-admin-employee/dialogs';
-@import './././src/app/ubs/ubs-admin/ubs-admin.component';
+@import '../dialogs.scss';
+@import '../../../../ubs-admin/ubs-admin.component.scss';
 
 .add-edit {
   width: 620px;
@@ -287,7 +287,7 @@ label {
   width: 118px;
 }
 
-::-moz-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   border-radius: 20px;
 }
 
@@ -322,11 +322,60 @@ label {
   }
 }
 
-::-moz-scrollbar-thum {
+::-webkit-scrollbar-thumb {
   border-radius: 4px !important;
 }
 
-::-webkit-scrollbar-button,
-::-moz-scrollbar-button {
+::-webkit-scrollbar-button {
   display: none !important;
+}
+
+@media screen and (max-width: 575px) {
+  .filters-block {
+    .icon-style {
+      left: 23px;
+      bottom: 502px;
+    }
+
+    .filter-wrapper{
+      input {
+        padding-left: 26px;
+      }
+    }
+  }
+
+  .add-edit {
+    width: 92vw;
+    padding: 16px;
+
+    .form-group {
+      margin-bottom: 10px;
+
+      input{
+        width: 84vw;
+      }
+    }
+  }
+
+  form {
+    .fields {
+      .private-section {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .button-row {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin: 30px 0 10px;
+
+    .cancelButton,
+    .action-buttons {
+      width: 70vw;
+    }
+  }
 }
