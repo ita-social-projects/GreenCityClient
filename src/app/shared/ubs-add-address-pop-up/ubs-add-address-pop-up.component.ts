@@ -508,7 +508,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.isHouseSelected = !!this.houseNumber.value;
     const isFormInvalidFromProfile = !this.addAddressForm.valid && this.data.addFromProfile;
 
-    return isFormInvalidFromProfile || this.isDisabled || !this.isHouseSelected || !isValueExistsInDistricts;
+    return isFormInvalidFromProfile || this.isDisabled || !this.isHouseSelected || !isValueExistsInDistricts || this.addAddressForm.invalid;
   }
 
   public getLangValue(uaValue, enValue): string {
