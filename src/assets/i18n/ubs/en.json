@@ -8,7 +8,7 @@
     "house-wrong": "Only letters, numbers and hyphen, slash are allowed",
     "corpus-wrong": "Only letters and numbers are allowed",
     "house-number": "Please select a house number",
-    "entrance-wrong": "Only numbers are allowed",
+    "entrance-wrong": "Only letters and numbers are allowed",
     "max-length-street": "The field should contain 1-120 characters",
     "max-length-house": "The field should contain 1-10 characters",
     "max-length-house-corpus": "The field should contain 1-4 characters",
