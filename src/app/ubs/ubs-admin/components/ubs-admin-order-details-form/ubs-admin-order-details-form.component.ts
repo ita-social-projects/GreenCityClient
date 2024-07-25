@@ -259,6 +259,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     }
 
     this.changeOverpayment.emit(this.overpayment);
+    this.orderService.setOverpayment(this.overpayment);
     if (this.overpayment) {
       this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
       this.overpayment = Math.abs(this.overpayment);

@@ -19,7 +19,7 @@
       </div>
     </div>
     <p *ngIf="displayUnpaidAmount()" class="need-to-pay unpaid-amount">
-      {{ 'order-payment.underpayment' | translate }} {{ unPaidAmount | localizedCurrency }}
+      {{ message | translate }} {{ displayOverpayment | localizedCurrency }}
     </p>
     <div class="table-responsive-md col-md-10 pl-0" *ngIf="paymentsArray.length !== 0">
       <table

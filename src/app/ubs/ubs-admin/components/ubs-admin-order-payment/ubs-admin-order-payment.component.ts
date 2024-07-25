@@ -33,6 +33,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   orderId: number;
   overpayment: number;
   paidAmount: number;
+  displayOverpayment: number;
   unPaidAmount: number;
   paymentInfo: IPaymentInfo;
   paymentsArray: IPaymentInfoDto[];
@@ -73,15 +74,16 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   ) {}
 
   ngOnInit() {
+    this.orderService.overpayment$.subscribe((overpayment) => {
+      this.overpayment = this.currentOrderStatus === OrderStatus.CANCELED ? this.paymentInfo.paidAmount : overpayment;
+      this.updateUnpaidAmount();
+      console.log('overpayment change', overpayment, this.overpayment);
+    });
     this.currentOrderStatus = this.orderStatus;
     this.orderId = this.orderInfo.generalOrderInfo.id;
     this.paymentInfo = this.orderInfo.paymentTableInfoDto;
-    this.overpayment = this.currentOrderStatus === OrderStatus.CANCELED ? this.paymentInfo.paidAmount : this.paymentInfo.overpayment;
     this.paymentsArray = this.paymentInfo.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
-    const sumDiscount = this.orderInfo.orderBonusDiscount + this.orderInfo.orderCertificateTotalDiscount;
-    const notPaid = this.orderInfo.orderFullPrice - this.orderInfo.paymentTableInfoDto.paidAmount - sumDiscount;
-    this.unPaidAmount = notPaid > 0 ? notPaid : 0;
     this.setDateInPaymentArray(this.paymentsArray);
     this.positivePaymentsArrayAmount();
   }
@@ -98,6 +100,19 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
         this.overpayment = this.totalPaid;
       }
     }
+  }
+
+  updateUnpaidAmount() {
+    const sumDiscount = this.orderInfo.orderBonusDiscount + this.orderInfo.orderCertificateTotalDiscount;
+    const notPaid = this.orderInfo.orderFullPrice - this.orderInfo.paymentTableInfoDto.paidAmount - sumDiscount;
+    if (this.paidAmount) {
+      this.unPaidAmount = notPaid !== 0 ? notPaid : 0;
+    } else {
+      this.unPaidAmount = notPaid;
+    }
+    this.message = this.orderService.getOverpaymentMsg(this.overpayment);
+    this.displayOverpayment = Math.abs(this.overpayment);
+    console.log(this.displayOverpayment);
   }
 
   formatDate(date: string): string {
@@ -134,7 +149,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   displayUnpaidAmount(): boolean {
-    return this.unPaidAmount && this.currentOrderStatus !== OrderStatus.CANCELED;
+    console.log(this.displayOverpayment, this.currentOrderStatus !== OrderStatus.CANCELED);
+    return this.displayOverpayment && this.currentOrderStatus !== OrderStatus.CANCELED;
   }
 
   setCancelOrderOverpayment(sum: number): void {
@@ -202,6 +218,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
 
     this.recountUnpaidAmount(extraPayment.amount);
     extraPayment.settlementdate = this.formatDate(extraPayment.settlementdate);
+    console.log('CHANGES', this.unPaidAmount);
 
     if (checkPaymentId()) {
       this.paymentsArray = this.paymentsArray.map((payment): IPaymentInfoDto => {

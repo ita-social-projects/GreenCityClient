@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
   UserViolations,
   IOrderHistory,
@@ -21,6 +21,8 @@ import { OrderStatus } from '../../ubs/order-status.enum';
 export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
   private backendLink: string = environment.backendUbsLink;
+  private overpaymentSubject = new BehaviorSubject<number>(0);
+  overpayment$ = this.overpaymentSubject.asObservable();
 
   readonly districts = [
     'Голосіївський',
@@ -232,6 +234,11 @@ export class OrderService {
     }
     return message;
   }
+
+  setOverpayment(value: number): void {
+    this.overpaymentSubject.next(value);
+  }
+
   matchProps(prop: string): number {
     switch (prop) {
       case FormFieldsName.CallManager:
