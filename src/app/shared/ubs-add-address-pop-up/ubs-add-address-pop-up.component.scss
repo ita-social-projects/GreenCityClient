@@ -107,7 +107,7 @@ select {
   }
 
   .buttons {
-    flex-direction: row;
+    flex-direction: column-reverse;
     align-items: stretch;
     flex-wrap: nowrap;
   }
