@@ -1,8 +1,8 @@
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
-import { takeUntil, switchMap } from 'rxjs/operators';
-import { iif, of, Subject, throwError } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
@@ -459,7 +459,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.dialogRef.close();
   }
 
-  public deleteAddress(): void {
+  deleteAddress(): void {
     this.store.dispatch(DeleteAddress({ address: this.addAddressForm.value }));
     this.dialogRef.close('Deleted');
   }
@@ -511,7 +511,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     return isFormInvalidFromProfile || this.isDisabled || !this.isHouseSelected || !isValueExistsInDistricts || this.addAddressForm.invalid;
   }
 
-  public getLangValue(uaValue, enValue): string {
+  getLangValue(uaValue, enValue): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 }
