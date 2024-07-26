@@ -1,26 +1,25 @@
-import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
-import { UserOwnSignIn } from '@global-models/user-own-sign-in';
-import { HttpErrorResponse } from '@angular/common/http';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
-import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
-import { GoogleBtnComponent } from '../google-btn/google-btn.component';
-import { ErrorComponent } from '../error/error.component';
-import { SignInComponent } from './sign-in.component';
+import { UserOwnSignIn } from '@global-models/user-own-sign-in';
+import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { Actions } from '@ngrx/effects';
+import { TranslateModule } from '@ngx-translate/core';
+import { BehaviorSubject, of } from 'rxjs';
+import { ErrorComponent } from '../error/error.component';
+import { GoogleBtnComponent } from '../google-btn/google-btn.component';
+import { SignInComponent } from './sign-in.component';
 
 declare global {
   interface Window {

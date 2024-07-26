@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { AppModule } from './app.module';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AppComponent } from './app.component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -10,6 +10,7 @@ describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
+      providers: [provideMockStore()],
       declarations: [AppComponent]
     }).compileComponents();
   }));
