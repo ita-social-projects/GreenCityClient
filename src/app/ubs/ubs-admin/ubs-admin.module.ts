@@ -97,6 +97,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { UnsavedChangesGuard } from './unsaved-changes-guard.guard';
+import { DeletingProfileReasonPopUpComponent } from 'src/app/ubs/ubs-admin/components/shared/components/deleting-profile-reason-pop-up/deleting-profile-reason-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -163,6 +164,7 @@ import { UnsavedChangesGuard } from './unsaved-changes-guard.guard';
     UbsAdminNotificationEditFormComponent,
     UbsAdminNotificationSettingsComponent,
     ConfirmationDialogComponent,
+    DeletingProfileReasonPopUpComponent,
     TariffSelectorComponent
   ],
   imports: [

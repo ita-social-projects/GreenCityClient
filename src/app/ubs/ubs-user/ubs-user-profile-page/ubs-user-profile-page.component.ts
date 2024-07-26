@@ -10,7 +10,7 @@ import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-pas
 import { ConfirmationDialogComponent } from '../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
-import { take } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { NotificationPlatform } from '../../ubs/notification-platform.enum';
@@ -18,6 +18,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { select, Store } from '@ngrx/store';
 import { GetAddresses } from 'src/app/store/actions/order.actions';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
+import { DeletingProfileReasonPopUpComponent } from 'src/app/ubs/ubs-admin/components/shared/components/deleting-profile-reason-pop-up/deleting-profile-reason-pop-up.component';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -251,10 +252,26 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   openDeleteProfileDialog(): void {
-    this.dialog.open(ConfirmationDialogComponent, {
+    const matDialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: this.dataDeleteProfile,
       hasBackdrop: true
     });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1), filter(Boolean))
+      .subscribe(() => this.openDeleteProfileReasonPopUp());
+  }
+
+  openDeleteProfileReasonPopUp(): void {
+    const matDialogRef = this.dialog.open(DeletingProfileReasonPopUpComponent, {
+      hasBackdrop: true
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1), filter(Boolean))
+      .subscribe((res) => console.log(res));
   }
 
   openDeleteAddressDialog(address): void {

@@ -1,0 +1,63 @@
+.dialog {
+  width: 600px;
+  max-height: 80vh;
+
+  &-content {
+    margin-bottom: 20px;
+  }
+  &-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+.form {
+  &-legend {
+    margin-bottom: 20px;
+  }
+
+  &-fieldset {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-textarea {
+    outline: none;
+    resize: none;
+  }
+
+  &-counter {
+    font-size: 10px;
+    margin-left: auto;
+    color: var(--gray);
+  }
+}
+
+.reason {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  gap: 10px;
+
+  &-radio {
+    accent-color: var(--ubs-primary-black);
+  }
+
+  &-label {
+    margin: 0;
+  }
+}
+
+@media (max-width: 660px) {
+  .dialog {
+    width: 280px;
+  }
+
+  .form {
+    &-legend {
+      font-size: 20px;
+    }
+  }
+}

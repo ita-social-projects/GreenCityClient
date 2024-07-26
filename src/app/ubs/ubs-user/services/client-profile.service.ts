@@ -16,4 +16,8 @@ export class ClientProfileService {
   postDataClientProfile(user: UserProfile) {
     return this.http.put(`${mainUbsLink}/ubs/userProfile/user/update`, user);
   }
+
+  deactivateProfile(id: number, reason: string) {
+    return this.http.put(`${mainUbsLink}/ubs/userProfile/user/deactivate?id=${id}reason=${encodeURIComponent(reason)}`, null);
+  }
 }
