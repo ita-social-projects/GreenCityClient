@@ -34,6 +34,10 @@ export class LangValueDirective implements OnInit, OnDestroy, OnChanges {
   }
 
   updateLangValue() {
-    this.el.nativeElement.textContent = `${this.prefix ?? ''}${this.languageService.getLangValue(this.values.ua, this.values.en)}${this.suffix ?? ''}`;
+    const prefix = this.prefix ?? '';
+    const suffix = this.suffix ?? '';
+    const langValue = this.languageService.getLangValue(this.appLangValue.ua, this.appLangValue.en);
+
+    this.el.nativeElement.textContent = `${prefix}${langValue}${suffix}`;
   }
 }
