@@ -5,7 +5,7 @@
         <div class="header-text">
           <div class="header-title">
             <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
-          <p class="subtitle">{{ 'ubs-client-profile.subtitle' | translate }}</p>
+            <p class="subtitle">{{ 'ubs-client-profile.subtitle' | translate }}</p>
             <div *ngIf="isEditing && !userProfile?.recipientName">
               <div class="alert-data-message">{{ 'ubs-client-profile.alert-data-message' | translate }}</div>
             </div>
@@ -155,17 +155,17 @@
                 <div class="inline">
                   <div class="form-group input-margin localization">
                     <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
-                    <p>{{ getLangValue(address?.region, address?.regionEn) }}</p>
+                    <p [appLangValue]="{ ua: address?.region, en: address?.regionEn }"></p>
                   </div>
                   <div class="form-group">
                     <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
-                    <p>{{ getLangValue(address?.city, address?.cityEn) }}</p>
+                    <p [appLangValue]="{ ua: address?.city, en: address?.cityEn }"></p>
                   </div>
                 </div>
                 <div class="inline">
                   <div class="form-group input-margin localization">
                     <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
-                    <p>{{ getLangValue(address?.street, address?.streetEn) }}</p>
+                    <p [appLangValue]="{ ua: address?.street, en: address?.streetEn }"></p>
                   </div>
                   <div class="form-group input-margin">
                     <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
@@ -183,7 +183,7 @@
                 <div class="inline">
                   <div class="form-group mrgbtn localization">
                     <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
-                    <p>{{ getLangValue(address?.district, address?.districtEn) }}</p>
+                    <p [appLangValue]="{ ua: address?.district, en: address?.districtEn }"></p>
                   </div>
                 </div>
               </div>

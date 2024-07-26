@@ -66,14 +66,6 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
     this.newDate = this.tariffsService.setDate(currentLang);
   }
 
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
-  }
-
-  getLangArrayValue(uaValue: string[], enValue: string[]) {
-    return this.languageService.getLangValue(uaValue, enValue) as string[];
-  }
-
   onCancelClick(): void {
     const matDialog = this.dialog.open(ModalTextComponent, {
       hasBackdrop: true,

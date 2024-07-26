@@ -1,20 +1,19 @@
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
   ViewChild,
-  ViewEncapsulation,
-  AfterViewInit,
-  ElementRef
+  ViewEncapsulation
 } from '@angular/core';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
 
 @Component({
@@ -31,8 +30,6 @@ export class FilterSelectComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() selectedList = new EventEmitter<any>();
   private destroy$: Subject<boolean> = new Subject<boolean>();
   alignFilter = { offset: 15, width: 200 };
-
-  constructor(private langService: LanguageService) {}
 
   ngOnInit(): void {
     if (this.resetAllEvent) {
@@ -61,10 +58,6 @@ export class FilterSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filter.isAllSelected = !notActiveOptions.length;
     this.filter.isAllSelected ? this.selectFilter.options.first.select() : this.selectFilter.options.first.deselect();
     this.selectedList.emit(this.filter);
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy() {

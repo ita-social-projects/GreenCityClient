@@ -281,10 +281,4 @@ describe('UbsMainPageComponent', () => {
     expect(spy).toHaveBeenCalled();
     expect(triggerSpy).toHaveBeenCalled();
   });
-
-  it('should translate with getLangValue', () => {
-    const spy = spyOn((component as any).languageService, 'getLangValue');
-    component.getLangValue('ua', 'en');
-    expect(spy).toHaveBeenCalled();
-  });
 });

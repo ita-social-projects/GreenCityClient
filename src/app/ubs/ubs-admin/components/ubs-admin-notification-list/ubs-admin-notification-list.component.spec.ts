@@ -106,14 +106,6 @@ describe('UbsAdminNotificationListComponent', () => {
     expect(component.elementsArePresent).toBe(component.itemsPerPage < component.totalItems);
   });
 
-  it('should return the correct language value when getLangValue() is called', () => {
-    const uaValue = 'Тест';
-    const enValue = 'Test';
-    const result = component.getLangValue(uaValue, enValue);
-
-    expect(result).toBe(enValue);
-  });
-
   it('should navigate to the correct route when navigateToNotification() is called', () => {
     const navigateSpy = spyOn(router, 'navigate');
     const id = 1;

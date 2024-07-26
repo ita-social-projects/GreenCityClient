@@ -39,8 +39,8 @@
               [value]="eventTimeStatusFilter.nameEn"
               *ngFor="let eventTimeStatusFilter of eventTimeStatusFiltersList"
               (click)="updateListOfFilters(eventTimeStatusFilter)"
+              [appLangValue]="{ ua: eventTimeStatusFilter.nameUa, en: eventTimeStatusFilter.nameEn }"
             >
-              {{ getLangValue(eventTimeStatusFilter.nameUa, eventTimeStatusFilter.nameEn) }}
             </mat-option>
           </mat-select>
         </div>
@@ -57,8 +57,8 @@
               [value]="locationFilter.nameEn"
               *ngFor="let locationFilter of locationFiltersList"
               (click)="updateListOfFilters(locationFilter)"
+              [appLangValue]="{ ua: locationFilter.nameUa, en: locationFilter.nameEn }"
             >
-              {{ getLangValue(locationFilter.nameUa, locationFilter.nameEn) }}
             </mat-option>
           </mat-select>
         </div>
@@ -73,8 +73,8 @@
               [value]="statusFilter.nameEn"
               *ngFor="let statusFilter of statusFiltersList"
               (click)="updateListOfFilters(statusFilter)"
+              [appLangValue]="{ ua: statusFilter.nameUa, en: statusFilter.nameEn }"
             >
-              {{ getLangValue(statusFilter.nameUa, statusFilter.nameEn) }}
             </mat-option>
           </mat-select>
         </div>
@@ -86,7 +86,7 @@
             }}</mat-option>
             <mat-divider></mat-divider>
             <mat-option [value]="typeFilter.nameEn" *ngFor="let typeFilter of typeFiltersList" (click)="updateListOfFilters(typeFilter)">
-              <span>{{ getLangValue(typeFilter.nameUa, typeFilter.nameEn) }}</span>
+              <span [appLangValue]="{ ua: typeFilter.nameUa, en: typeFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
         </div>
@@ -106,7 +106,7 @@
       <div class="active-filter-list">
         <div class="chips">
           <div class="active-filter" *ngFor="let selectedFilter of selectedFilters; let i = index">
-            {{ getLangValue(selectedFilter.nameUa, selectedFilter.nameEn) }}
+            <div [appLangValue]="{ ua: selectedFilter.nameUa, en: selectedFilter.nameEn }"></div>
             <div class="cross-container" (click)="removeItemFromSelectedFiltersList(selectedFilter, i)">
               <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
             </div>

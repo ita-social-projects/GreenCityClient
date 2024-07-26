@@ -234,18 +234,14 @@
   </tbody>
   <tbody *ngIf="!showAllTariff && !isLoading">
     <tr class="selected-card">
+      <td [appLangValue]="{ ua: selectedCard.regionUk, en: selectedCard.regionEn }"></td>
       <td>
-        {{ getLangValue(selectedCard.regionUk, selectedCard.regionEn) }}
-      </td>
-      <td>
-        <div *ngFor="let item of getLangArrayValue(selectedCard.citiesUk, selectedCard.citiesEn)">
+        <div *ngFor="let item of languageService.getLangValue(selectedCard.citiesUk, selectedCard.citiesEn)">
           {{ item }}
         </div>
       </td>
       <td>
-        <div>
-          {{ getLangValue(selectedCard.courierUk, selectedCard.courierEn) }}
-        </div>
+        <div [appLangValue]="{ ua: selectedCard.courierUk, en: selectedCard.courierEn }"></div>
       </td>
       <td>
         <div *ngFor="let item of selectedCard.station">

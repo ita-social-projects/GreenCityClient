@@ -257,10 +257,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     });
   }
 
-  getLangValue(valueUA: string, valueEN: string): string {
-    return this.languageService.getLangValue(valueUA, valueEN) as string;
-  }
-
   openDeleteAddressDialog(address): void {
     const matDialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: this.dataDeleteAddress,

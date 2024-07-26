@@ -264,10 +264,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.getEvents();
   }
 
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
-  }
-
   isUserLoggedRedirect(): void {
     this.isLoggedIn ? this.router.navigate(['/events', 'create-event']) : this.openAuthModalWindow('sign-in');
     this.eventService.setForm(null);

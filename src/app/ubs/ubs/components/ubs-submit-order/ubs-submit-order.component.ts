@@ -165,10 +165,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     document.location.href = url;
   }
 
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
-  }
-
   getFormValues(): boolean {
     return true;
   }

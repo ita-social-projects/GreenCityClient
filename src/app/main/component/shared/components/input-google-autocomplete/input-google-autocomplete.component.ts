@@ -61,7 +61,7 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
       .subscribe(() => {
         if (this.placeId) {
           new google.maps.Geocoder()
-            .geocode({ placeId: this.placeId, language: this.languageService.getLangValue('uk', 'en') as string })
+            .geocode({ placeId: this.placeId, language: this.languageService.getLangValue('uk', 'en') })
             .then((response) => {
               this.inputValue.setValue(response.results[0].formatted_address);
             });
@@ -108,7 +108,7 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
         const request = {
           ...this.autoCompRequest,
           input: `${this.requestPrefix ?? ''}${input}${this.requestSuffix ?? ''}`,
-          language: this.languageService.getLangValue('uk', 'en') as string
+          language: this.languageService.getLangValue('uk', 'en')
         };
 
         this.autocompleteService.getPlacePredictions(request, (predictions: google.maps.places.AutocompletePrediction[]) => {

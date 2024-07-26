@@ -35,10 +35,18 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   @ViewChild('locationInput') input: ElementRef;
 
   locationForm = this.fb.group({
-    region: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
-    englishRegion: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
-    location: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
-    englishLocation: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]]
+    region: new FormControl<string>('', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]),
+    englishRegion: new FormControl<string>('', [
+      Validators.minLength(3),
+      Validators.maxLength(40),
+      Validators.pattern(Patterns.NamePattern)
+    ]),
+    location: new FormControl<string>('', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]),
+    englishLocation: new FormControl<string>('', [
+      Validators.minLength(3),
+      Validators.maxLength(40),
+      Validators.pattern(Patterns.NamePattern)
+    ])
   });
 
   regionOptions = {
@@ -116,20 +124,20 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     }
   ) {}
 
-  get region(): FormControl {
-    return this.locationForm.get('region') as FormControl;
+  get region(): FormControl<string> {
+    return this.locationForm.get('region') as FormControl<string>;
   }
 
-  get englishRegion(): FormControl {
-    return this.locationForm.get('englishRegion') as FormControl;
+  get englishRegion(): FormControl<string> {
+    return this.locationForm.get('englishRegion') as FormControl<string>;
   }
 
-  get location(): FormControl {
-    return this.locationForm.get('location') as FormControl;
+  get location(): FormControl<string> {
+    return this.locationForm.get('location') as FormControl<string>;
   }
 
-  get englishLocation(): FormControl {
-    return this.locationForm.get('englishLocation') as FormControl;
+  get englishLocation(): FormControl<string> {
+    return this.locationForm.get('englishLocation') as FormControl<string>;
   }
 
   ngOnInit(): void {
@@ -196,8 +204,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   addCity(): void {
     if (this.location.value && this.englishLocation.value && !this.cities.includes(this.location.value)) {
-      const uaLocation = this.getLangValue(this.location.value, this.englishLocation.value);
-      const enLocation = this.getLangValue(this.englishLocation.value, this.location.value);
+      const uaLocation = this.langService.getLangValue(this.location.value, this.englishLocation.value);
+      const enLocation = this.langService.getLangValue(this.englishLocation.value, this.location.value);
       const tempItem: LocationItem = {
         location: uaLocation,
         englishLocation: enLocation,
@@ -219,8 +227,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     if (locationValueExist && locationValueChanged) {
       this.editedCityExist = false;
 
-      const uaLocation = this.getLangValue(this.location.value, this.englishLocation.value);
-      const enLocation = this.getLangValue(this.englishLocation.value, this.location.value);
+      const uaLocation = this.langService.getLangValue(this.location.value, this.englishLocation.value);
+      const enLocation = this.langService.getLangValue(this.englishLocation.value, this.location.value);
 
       const tempItem: LocationItem = {
         location: uaLocation,
@@ -256,8 +264,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.regionSelected = true;
 
     if (event) {
-      this.setTranslation(event.place_id, this.region, this.getLangValue(Language.UK, Language.EN));
-      this.setTranslation(event.place_id, this.englishRegion, this.getLangValue(Language.EN, Language.UK));
+      this.setTranslation(event.place_id, this.region, this.langService.getLangValue(Language.UK, Language.EN));
+      this.setTranslation(event.place_id, this.englishRegion, this.langService.getLangValue(Language.EN, Language.UK));
     } else {
       this.region.setValue('');
       this.englishRegion.setValue('');
@@ -292,8 +300,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   onCitySelected(city: GooglePrediction | null): void {
     if (city?.place_id) {
-      this.setTranslation(city.place_id, this.location, this.getLangValue(Language.UK, Language.EN));
-      this.setTranslation(city.place_id, this.englishLocation, this.getLangValue(Language.EN, Language.UK));
+      this.setTranslation(city.place_id, this.location, this.langService.getLangValue(Language.UK, Language.EN));
+      this.setTranslation(city.place_id, this.englishLocation, this.langService.getLangValue(Language.EN, Language.UK));
     } else {
       this.location.setValue('');
       this.englishLocation.setValue('');
@@ -328,8 +336,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   addLocation(): void {
-    const valueUa = this.getLangValue(this.region.value, this.englishRegion.value);
-    const valueEn = this.getLangValue(this.englishRegion.value, this.region.value);
+    const valueUa = this.langService.getLangValue(this.region.value, this.englishRegion.value);
+    const valueEn = this.langService.getLangValue(this.englishRegion.value, this.region.value);
     const enRegion = { languageCode: Language.EN, regionName: valueEn };
     const region = { languageCode: Language.UA, regionName: valueUa };
 
@@ -375,10 +383,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
     event.stopPropagation();
     trigger.openPanel();
-  }
-
-  getLangValue(uaValue, enValue): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   isAddCityDisabled(): boolean {

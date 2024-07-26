@@ -169,9 +169,4 @@ describe('NewsPreviewPageComponent', () => {
     expect(component.attributes).toBeDefined();
     expect(component.onSubmit).toBeDefined();
   });
-
-  it('should return en value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('enValue');
-  });
 });

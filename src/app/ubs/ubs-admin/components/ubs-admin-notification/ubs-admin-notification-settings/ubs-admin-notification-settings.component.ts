@@ -5,7 +5,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { notificationTriggersMock, notificationTriggerTimeMock } from '../../../services/notifications.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-notification-settings',
@@ -27,7 +26,6 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
 
   constructor(
     private fb: FormBuilder,
-    private langService: LanguageService,
     @Inject(MAT_DIALOG_DATA)
     public data: { title: { en: string; ua: string }; trigger: string; time: string; schedule: string },
     public dialogRef: MatDialogRef<UbsAdminNotificationSettingsComponent>,
@@ -69,10 +67,6 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
       time,
       schedule: this.schedule
     });
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   onCancel(): void {

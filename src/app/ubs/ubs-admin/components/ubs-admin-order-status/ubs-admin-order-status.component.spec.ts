@@ -196,9 +196,4 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.ngOnDestroy();
     expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
   });
-
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('value');
-  });
 });

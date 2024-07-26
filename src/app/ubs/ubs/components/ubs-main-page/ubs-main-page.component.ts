@@ -110,7 +110,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     private orderService: OrderService,
     private jwtService: JwtService,
     private cdref: ChangeDetectorRef,
-    private languageService: LanguageService
+    public languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -312,11 +312,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
 
     const ukrDescription = `${nameUk1} об'ємом ${capacity} л.`;
     const engDescription = `With ${nameEng.toLowerCase()} with a volume of ${capacity} l.`;
-    return this.getLangValue(ukrDescription, engDescription);
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
+    return this.languageService.getLangValue(ukrDescription, engDescription);
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {

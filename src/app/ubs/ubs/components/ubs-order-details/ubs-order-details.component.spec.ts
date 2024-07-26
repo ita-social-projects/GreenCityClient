@@ -454,19 +454,6 @@ describe('UBSOrderDetailsComponent', () => {
     });
   });
 
-  it('should initialize location', () => {
-    component.locationId = 1;
-    component.locations = mockCourierLocations;
-    const getLangValueSpy = spyOn(component, 'getLangValue').and.callThrough();
-    component.initLocation();
-    const expectedLocation = 'Kyiv, Kyiv Region';
-    expect(component.currentLocation).toBe(expectedLocation);
-
-    expect(getLangValueSpy.calls.count()).toBe(2);
-    expect(getLangValueSpy.calls.argsFor(0)).toEqual(['Kyiv', 'Kyiv']);
-    expect(getLangValueSpy.calls.argsFor(1)).toEqual(['Kyiv Region', 'Kyiv Region']);
-  });
-
   it('should calculate final sum', () => {
     component.orderSum = 100;
     component.certificateUsed = 10;
@@ -521,11 +508,6 @@ describe('UBSOrderDetailsComponent', () => {
   it('should add order', () => {
     component.addOrder('Order 1');
     expect(component.additionalOrders.controls.length).toBe(2);
-  });
-
-  xit('should get language value', () => {
-    const result = component.getLangValue('Test Value UA', 'Test Value EN');
-    expect(result).toBe('Test Value EN');
   });
 
   it('should open extra packages dialog', () => {

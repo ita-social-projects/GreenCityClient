@@ -1,17 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
-import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
-import { IUserOrderInfo, PaymentStatusEn, OrderStatusEn } from './models/UserOrder.interface';
+import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '../../ubs/models/ubs.interface';
-import { Router } from '@angular/router';
-import { UBSOrderFormService } from '../../ubs/services/ubs-order-form.service';
 import { OrderService } from '../../ubs/services/order.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Store } from '@ngrx/store';
+import { UBSOrderFormService } from '../../ubs/services/ubs-order-form.service';
+import { IUserOrderInfo, OrderStatusEn, PaymentStatusEn } from './models/UserOrder.interface';
+import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
+import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -34,11 +32,9 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     private localStorageService: LocalStorageService,
-    private langService: LanguageService,
     private router: Router,
     public ubsOrderService: UBSOrderFormService,
-    public orderService: OrderService,
-    private store: Store
+    public orderService: OrderService
   ) {}
 
   ngOnInit(): void {
@@ -203,9 +199,5 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   sortingOrdersByData(): void {
     this.orders.sort((a: IUserOrderInfo, b: IUserOrderInfo): number => (a.dateForm < b.dateForm ? 1 : -1));
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 }

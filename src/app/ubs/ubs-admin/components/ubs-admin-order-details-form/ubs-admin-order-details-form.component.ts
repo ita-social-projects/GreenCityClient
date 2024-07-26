@@ -1,10 +1,9 @@
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
-import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
-import { IOrderDetails, IOrderInfo } from '../../models/ubs-admin.interface';
-import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { IOrderDetails, IOrderInfo } from '../../models/ubs-admin.interface';
 import { limitStatus } from '../ubs-admin-tariffs/ubs-tariffs.enum';
 
 @Component({
@@ -57,11 +56,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() isEmployeeCanEditOrder: boolean;
   @Input() updateBonusAccount: number;
 
-  constructor(
-    private fb: FormBuilder,
-    private orderService: OrderService,
-    private langService: LanguageService
-  ) {}
+  constructor(private orderService: OrderService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     const curStatus = changes.orderStatusInfo?.currentValue;
@@ -379,9 +374,5 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     this.isCourierPriceInvalid = this.courierPrice > this.orderDetailsForm.value.orderFullPrice;
     this.emitUbsPrice(this.courierPrice);
     this.calculateFinalSum();
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 }

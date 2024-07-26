@@ -283,8 +283,8 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     component.currentLongitude = 0;
     component.citySelected = true;
     component.currentLang = 'ua';
-    const uaLocation = component.getLangValue(component.location.value, component.englishLocation.value);
-    const enLocation = component.getLangValue(component.englishLocation.value, component.location.value);
+    const uaLocation = languageServiceMock.getLangValue(component.location.value, component.englishLocation.value);
+    const enLocation = languageServiceMock.getLangValue(component.englishLocation.value, component.location.value);
     component.addCity();
     expect(component.selectedCities.length).toBe(1);
     expect(component.location.value).toBe('');
@@ -302,11 +302,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.selectedCities.length).toBe(1);
     expect(component.location.value).toBe('');
     expect(component.englishLocation.value).toBe('');
-  });
-
-  it('should return ua Value by getLangValue', () => {
-    const value = (component as any).getLangValue('uaValue', 'enValue');
-    expect(value).toBe('uaValue');
   });
 
   it('should filter options', () => {

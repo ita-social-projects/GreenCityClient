@@ -55,9 +55,4 @@ describe('TagsSelectComponent', () => {
     check = component.checkMaxLength(false);
     expect(check).toBeTruthy();
   });
-
-  it('should get value by language', () => {
-    const valueByLang = (component as any).getLangValue('fakeTag', 'fakeTagEn');
-    expect(valueByLang).toBe('fakeTag');
-  });
 });

@@ -77,7 +77,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     });
   }
   getAllTags(): Array<string> {
-    return this.langService.getLangValue(this.newsItem.tagsUa, this.newsItem.tags) as string[];
+    return this.langService.getLangValue(this.newsItem.tagsUa, this.newsItem.tags);
   }
 
   checkNewsImage(): string {

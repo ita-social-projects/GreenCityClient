@@ -1395,11 +1395,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
   });
 
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('Назва', 'Title');
-    expect(value).toBe('Назва');
-  });
-
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     const unsubscribe = 'unsubscribe';
     component[unsubscribe] = new Subject<boolean>();

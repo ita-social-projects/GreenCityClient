@@ -1,16 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { TranslateService } from '@ngx-translate/core';
-import { UserNotificationService } from '@global-user/services/user-notification.service';
-import { debounceTime, take, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { NotificationFilter, NotificationModel, NotificationType } from '@global-user/models/notification.model';
-import { FilterApproach } from '@global-user/models/notification.model';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Router } from '@angular/router';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from '@global-service/user/user.service';
+import { FilterApproach, NotificationFilter, NotificationModel, NotificationType } from '@global-user/models/notification.model';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserNotificationService } from '@global-user/services/user-notification.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-notifications',
@@ -84,7 +82,6 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   markAsReadIcon = 'assets/img/comments/mark-read.svg';
 
   constructor(
-    private languageService: LanguageService,
     private localStorageService: LocalStorageService,
     public translate: TranslateService,
     private userNotificationService: UserNotificationService,
@@ -166,10 +163,6 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         this.hasNextPage = data.hasNext;
         this.isLoading = false;
       });
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
   readNotification(event: Event, notification: NotificationModel) {

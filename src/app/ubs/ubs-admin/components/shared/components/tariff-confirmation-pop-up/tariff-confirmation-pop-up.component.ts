@@ -5,7 +5,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalTextComponent } from '../modal-text/modal-text.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffConfirmationPopUpInterface } from 'src/app/ubs/ubs-admin/models/ubs-pop-up.interface';
 
 @Component({
@@ -24,8 +23,7 @@ export class TariffConfirmationPopUpComponent implements OnInit {
     private localeStorageService: LocalStorageService,
     @Inject(MAT_DIALOG_DATA) public modalData: TariffConfirmationPopUpInterface,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<TariffConfirmationPopUpComponent>,
-    public langService: LanguageService
+    public dialogRef: MatDialogRef<TariffConfirmationPopUpComponent>
   ) {}
 
   ngOnInit(): void {
@@ -33,10 +31,6 @@ export class TariffConfirmationPopUpComponent implements OnInit {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   onNoClick(): void {

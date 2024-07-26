@@ -260,10 +260,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     this.eventSuccessfullyAdded();
   }
 
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
-  }
-
   private _checkValidness(key: any, valid: boolean) {
     if (valid) {
       this._invalidFormsMap.delete(key);

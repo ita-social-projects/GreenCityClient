@@ -1,21 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import { FormBuilder } from '@angular/forms';
 
+import { ActivateEmployee, DeleteEmployee, GetEmployees } from 'src/app/store/actions/employee.actions';
+import { modifiedEmployee } from 'src/app/store/selectors/employee';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
-import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
-import { PopUpsStyles, EmployeeStatus } from './employee-models.enum';
-import { DeleteEmployee, GetEmployees, ActivateEmployee } from 'src/app/store/actions/employee.actions';
 import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog-pop-up.component';
-import { UbsAdminEmployeePermissionsFormComponent } from '../ubs-admin-employee-permissions-form/ubs-admin-employee-permissions-form.component';
 import { FilterData } from '../../../models/tariffs.interface';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { modifiedEmployee } from 'src/app/store/selectors/employee';
+import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
+import { UbsAdminEmployeePermissionsFormComponent } from '../ubs-admin-employee-permissions-form/ubs-admin-employee-permissions-form.component';
+import { EmployeeStatus, PopUpsStyles } from './employee-models.enum';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -76,7 +75,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   constructor(
     private ubsAdminEmployeeService: UbsAdminEmployeeService,
-    private languageService: LanguageService,
     private dialog: MatDialog,
     private store: Store<IAppState>,
     public fb: FormBuilder
@@ -203,9 +201,5 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
           this.initSearch();
         }
       });
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 }

@@ -27,6 +27,7 @@ import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
 import { provideMockStore } from '@ngrx/store/testing';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -228,8 +229,9 @@ describe('UbsAdminPricingPageComponent', () => {
   const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', ['getCurrentLanguage']);
   localStorageServiceMock.languageBehaviourSubject = of();
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
+  languageServiceMock.getCurrentLangObs = () => of('ua');
 
   const orderServiceMock = jasmine.createSpyObj('orderServiceMock', ['completedLocation']);
 
@@ -243,7 +245,8 @@ describe('UbsAdminPricingPageComponent', () => {
         UbsAdminTariffsAddTariffServicePopUpComponent,
         FilterListByLangPipe,
         VolumePipe,
-        LocalizedCurrencyPipe
+        LocalizedCurrencyPipe,
+        LangValueDirective
       ],
       imports: [
         OverlayModule,
@@ -585,11 +588,6 @@ describe('UbsAdminPricingPageComponent', () => {
     component.getCheckBoxStatus();
     expect(spy).toHaveBeenCalledTimes(2);
     expect(component.areAllCheckBoxEmpty).toEqual(true);
-  });
-
-  it('should return ua Value by getLangValue', () => {
-    const value = (component as any).getLangValue('uaValue', 'enValue');
-    expect(value).toBe('uaValue');
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
