@@ -42,3 +42,35 @@
     }
   }
 }
+
+@media screen and (max-width: 575px) {
+  .dialog-container {
+    min-width: 100%;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+
+    .controls {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 15px;
+
+      .cancel-button {
+        width: 60vw;
+      }
+    }
+
+    .mat-dialog-actions {
+      margin: 0;
+      .mat-button-base+.mat-button-base, .mat-dialog-actions .mat-mdc-button-base+.mat-mdc-button-base {
+        margin: 0;
+        width: 60vw;
+      }
+    }
+
+    .mat-dialog-title {
+      text-align: center;
+      margin: 20px 50px;
+    }
+  }
+}
