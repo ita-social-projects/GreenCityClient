@@ -6,9 +6,9 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   selector: '[appLangValue]'
 })
 export class LangValueDirective implements OnInit, OnDestroy, OnChanges {
-  @Input('appLangValue') values: { ua: string; en: string } | { ua: string[]; en: string[] };
-  @Input('prefix') prefix: string;
-  @Input('suffix') suffix: string;
+  @Input() appLangValue: { ua: string; en: string } | { ua: string[]; en: string[] };
+  @Input() prefix: string;
+  @Input() suffix: string;
 
   private el: ElementRef = inject(ElementRef);
   private languageService: LanguageService = inject(LanguageService);
