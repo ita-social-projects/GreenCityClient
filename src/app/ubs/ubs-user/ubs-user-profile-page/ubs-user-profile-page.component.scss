@@ -351,6 +351,7 @@ $inputwidth: 260px;
 
     .ubs_profile-header {
       margin: 0;
+
       .header-text {
         flex-direction: column;
 
@@ -361,6 +362,7 @@ $inputwidth: 260px;
           gap: 15px;
         }
       }
+
       .subtitle {
         margin: 0;
         text-align: center;
@@ -398,7 +400,6 @@ $inputwidth: 260px;
       display: flex;
       justify-content: flex-start;
       flex-direction: column;
-      flex-flow: column;
       padding-top: 0;
       gap: 15px;
     }
