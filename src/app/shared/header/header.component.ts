@@ -26,6 +26,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { ChatPopupComponent } from 'src/app/chat/component/chat-popup/chat-popup.component';
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
 import { SocketService } from '@global-service/socket/socket.service';
+import { SignOutAction } from 'src/app/store/actions/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -426,6 +427,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.orderService.cancelUBSwithoutSaving();
       this.userOwnAuthService.getDataFromLocalStorage();
     });
+
+    this.store.dispatch(SignOutAction());
     this.store.dispatch(ResetEmployeePermissions());
     this.store.dispatch(ResetFriends());
   }

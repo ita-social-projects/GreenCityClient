@@ -99,6 +99,10 @@ export class LocalStorageService {
     this.firstNameBehaviourSubject.next(name);
   }
 
+  getFirstName(): string {
+    return localStorage.getItem(this.NAME);
+  }
+
   setFirstSignIn(): void {
     localStorage.setItem('firstSignIn', 'true');
   }

@@ -2,11 +2,20 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ISignInResponse } from '@global-models/auth/sign-in-response.interface';
 import { ISignIn } from '@global-models/auth/sign-in.interface';
+import { JwtService } from '@global-service/jwt/jwt.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
-import { SignInAction, SignInFailureAction, SignInSuccessAction } from 'src/app/store/actions/auth.actions';
+import {
+  GetCurrentUserAction,
+  GetCurrentUserFailureAction,
+  GetCurrentUserSuccessAction,
+  SignInAction,
+  SignInFailureAction,
+  SignInSuccessAction,
+  SignInWithGoogleAction
+} from 'src/app/store/actions/auth.actions';
 import { isUBSSelector, userRoleSelector } from 'src/app/store/selectors/auth.selectors';
 import { IAppState } from 'src/app/store/state/app.state';
 
@@ -18,9 +27,22 @@ export class AuthEffects {
   };
 
   private actions: Actions = inject(Actions);
-  private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
   private store: Store<IAppState> = inject(Store);
+  private authService: AuthService = inject(AuthService);
+  private jwtService: JwtService = inject(JwtService);
+
+  $getCurrentUser = createEffect(() => {
+    return this.actions.pipe(
+      ofType(GetCurrentUserAction),
+      mergeMap(() => {
+        return this.authService.getCurrentUser().pipe(
+          map((response: ISignInResponse) => (response ? GetCurrentUserSuccessAction({ data: response }) : GetCurrentUserFailureAction())),
+          catchError(() => of(GetCurrentUserFailureAction()))
+        );
+      })
+    );
+  });
 
   $signIn = createEffect(() => {
     return this.actions.pipe(
@@ -29,6 +51,18 @@ export class AuthEffects {
         return this.authService.signIn(action.data).pipe(
           map((response: ISignInResponse) => SignInSuccessAction({ data: response })),
           catchError(() => of(SignInFailureAction({ error: this.BACKEND_ERRORS.Unauthorized })))
+        );
+      })
+    );
+  });
+
+  $signInWithGoogle = createEffect(() => {
+    return this.actions.pipe(
+      ofType(SignInWithGoogleAction),
+      mergeMap((action: { token: string }) => {
+        return this.authService.signInWithGoogle(action.token).pipe(
+          map((response: ISignInResponse) => SignInSuccessAction({ data: response })),
+          catchError((error) => of(SignInFailureAction({ error: this.BACKEND_ERRORS[error.message] })))
         );
       })
     );
@@ -61,6 +95,7 @@ export class AuthEffects {
         ofType(SignInSuccessAction),
         tap((action) => {
           this.authService.saveDataToLocalStorage(action.data);
+          this.jwtService.userRole$.next(action.data.userRole);
         })
       );
     },
