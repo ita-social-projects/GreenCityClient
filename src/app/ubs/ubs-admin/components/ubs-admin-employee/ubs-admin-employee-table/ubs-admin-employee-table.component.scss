@@ -450,7 +450,7 @@
     }
   }
 
-  .receiving-location{
+  .receiving-location {
     display: flex;
     flex-direction: row;
   }
@@ -474,7 +474,7 @@
             gap: 0;
           }
 
-          .description-item{
+          .description-item {
             flex-direction: column;
           }
 
@@ -493,6 +493,7 @@
             position: absolute;
             right: 42px;
           }
+
           .deactivate {
             position: absolute;
             right: 12px;
@@ -533,4 +534,3 @@
 .region-placeholder {
   height: 20px;
 }
-
