@@ -14,6 +14,8 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { EventStoreService } from '../../services/event-store.service';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -140,6 +142,10 @@ describe('EventDetailsComponent', () => {
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
+  const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getLangValue', 'getCurrentLangObs']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
+  languageServiceMock.getCurrentLangObs = () => of('ua');
+
   const actionSub: ActionsSubject = new ActionsSubject();
 
   beforeEach(waitForAsync(() => {
@@ -148,6 +154,7 @@ describe('EventDetailsComponent', () => {
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
       declarations: [
         EventDetailsComponent,
+        LangValueDirective,
         mockPipe({ name: 'dateLocalisation' }),
         mockPipe({ name: 'translate' }),
         mockPipe({ name: 'safeHtmlTransform' })
@@ -165,6 +172,7 @@ describe('EventDetailsComponent', () => {
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: BsModalService, useValue: bsModalBsModalServiceMock },
         { provide: MatDialog, useValue: dialogSpyObj },
+        { provide: LanguageService, useValue: languageServiceMock },
         EventStoreService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
