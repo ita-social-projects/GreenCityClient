@@ -1,21 +1,3 @@
-.more-about-bonuses-link {
-  color: var(--ubs-electric-violet);
-  font-weight: 600;
-}
-
-.link-center {
-  display: inline-block;
-  width: 100%;
-  margin-bottom: 40px;
-
-  &::before {
-    content: '*';
-    color: red;
-    left: -6px;
-    font-weight: 900;
-  }
-}
-
 .total-bonuses {
   &-number__amount {
     font-weight: 900;
@@ -60,10 +42,4 @@ td.mat-footer-cell:last-of-type {
 .mat-cell {
   padding: 8px;
   vertical-align: middle;
-}
-
-@media (max-width: 600px) {
-  .link-center {
-    margin-bottom: 16px;
-  }
 }
