@@ -287,10 +287,6 @@ label {
   width: 118px;
 }
 
-::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-}
-
 .filters-block {
   display: flex;
   flex-direction: row;
@@ -337,7 +333,7 @@ label {
       bottom: 502px;
     }
 
-    .filter-wrapper{
+    .filter-wrapper {
       input {
         padding-left: 26px;
       }
@@ -351,7 +347,7 @@ label {
     .form-group {
       margin-bottom: 10px;
 
-      input{
+      input {
         width: 84vw;
       }
     }
