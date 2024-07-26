@@ -36,7 +36,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private localStorageService: LocalStorageService,
-    private langService: LanguageService,
+    public langService: LanguageService,
     private locationService: LocationService,
     private orderService: OrderService
   ) {}

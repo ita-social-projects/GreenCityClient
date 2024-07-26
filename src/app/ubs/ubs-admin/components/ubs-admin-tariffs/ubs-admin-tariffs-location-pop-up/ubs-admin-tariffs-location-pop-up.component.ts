@@ -109,7 +109,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     private tariffsService: TariffsService,
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
-    private langService: LanguageService,
+    public langService: LanguageService,
     private googleScript: GoogleScript,
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog,

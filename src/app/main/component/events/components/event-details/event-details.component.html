@@ -65,9 +65,11 @@
 
           <div class="event-tags-participants">
             <div class="event-tags">
-              <div *ngFor="let tag of event.tags" class="event-tag">
-                {{ eventService.getLangValue(tag.nameUa, tag.nameEn) | uppercase }}
-              </div>
+              <div
+                *ngFor="let tag of event.tags"
+                class="event-tag"
+                [appLangValue]="{ ua: tag.nameUa | uppercase, en: tag.nameEn | uppercase }"
+              ></div>
             </div>
             <div class="event-participants">
               <div *ngIf="attendeesAvatars.length" class="event-participants-avatars">

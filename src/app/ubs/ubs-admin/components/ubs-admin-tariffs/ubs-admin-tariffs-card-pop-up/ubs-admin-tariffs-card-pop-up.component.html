@@ -111,9 +111,9 @@
     </div>
     <div class="list">
       <div *ngFor="let item of selectedCities; let index = index" class="d-flex">
-        <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
+        <div class="itemList" [appLangValue]="{ ua: item.location, en: item.englishLocation }"></div>
         <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteCity(index)" />
-        <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
+        <div class="itemList" [appLangValue]="{ ua: item.englishLocation, en: item.location }"></div>
       </div>
     </div>
   </form>
