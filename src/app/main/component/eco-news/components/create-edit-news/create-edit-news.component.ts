@@ -314,15 +314,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   setActiveFilters(itemToUpdate: EcoNewsModel): void {
-    if (itemToUpdate.tags.length && itemToUpdate.tagsUa.length) {
-      this.filters.forEach((filter) => {
-        itemToUpdate.tagsUa.forEach((tag, index) => {
-          if (filter.nameUa === tag || filter.name === tag) {
-            this.filters[index] = { ...filter, isActive: true };
-          }
-        });
-      });
+    if (!itemToUpdate.tags.length) {
+      return;
     }
+
+    this.filters = this.filters.map((tag) => ({ ...tag, isActive: itemToUpdate.tags.includes(tag.name) }));
   }
 
   tags(): FormArray {
