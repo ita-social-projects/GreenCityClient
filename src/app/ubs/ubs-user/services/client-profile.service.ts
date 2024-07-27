@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { mainUbsLink } from 'src/app/main/links';
+import { mainUbsLink, mainUserLink } from 'src/app/main/links';
 import { UserProfile } from '../../../ubs/ubs-admin/models/ubs-admin.interface';
 
 @Injectable({
@@ -17,7 +17,7 @@ export class ClientProfileService {
     return this.http.put(`${mainUbsLink}/ubs/userProfile/user/update`, user);
   }
 
-  deactivateProfile(id: number, reason: string) {
-    return this.http.put(`${mainUbsLink}/ubs/userProfile/user/deactivate?id=${id}reason=${encodeURIComponent(reason)}`, null);
+  deactivateProfile(reason: string) {
+    return this.http.put(`${mainUserLink}user/deactivate`, { reason });
   }
 }
