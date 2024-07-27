@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { UbsUserGuardGuard } from './ubs/ubs-user/ubs-user-guard.guard';
 import { UbsAdminGuardGuard } from './ubs/ubs-admin/ubs-admin-guard.guard';
+import { IsDevGuard } from 'src/app/shared/guards/is-dev/is-dev.guard';
 
 export const routes: Routes = [
   {
@@ -24,27 +25,33 @@ export const routes: Routes = [
       },
       {
         path: 'about',
-        loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule)
+        loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule),
+        canActivate: [IsDevGuard]
       },
       {
         path: 'places',
-        loadChildren: () => import('./main/component/places/places.module').then((mod) => mod.PlacesModule)
+        loadChildren: () => import('./main/component/places/places.module').then((mod) => mod.PlacesModule),
+        canActivate: [IsDevGuard]
       },
       {
         path: 'news',
-        loadChildren: () => import('./main/component/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule)
+        loadChildren: () => import('./main/component/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule),
+        canActivate: [IsDevGuard]
       },
       {
         path: 'events',
-        loadChildren: () => import('./main/component/events/events.module').then((mod) => mod.EventsModule)
+        loadChildren: () => import('./main/component/events/events.module').then((mod) => mod.EventsModule),
+        canActivate: [IsDevGuard]
       },
       {
         path: 'profile',
-        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule)
+        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule),
+        canActivate: [IsDevGuard]
       },
       {
         path: 'search',
-        component: SearchAllResultsComponent
+        component: SearchAllResultsComponent,
+        canActivate: [IsDevGuard]
       },
       {
         path: 'auth/restore',
@@ -53,7 +60,8 @@ export const routes: Routes = [
       },
       {
         path: 'greenCity',
-        component: HomepageComponent
+        component: HomepageComponent,
+        canActivate: [IsDevGuard]
       }
     ]
   },
