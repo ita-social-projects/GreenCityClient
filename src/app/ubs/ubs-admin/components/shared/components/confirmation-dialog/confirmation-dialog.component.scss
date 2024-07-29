@@ -62,7 +62,9 @@
 
     .mat-dialog-actions {
       margin: 0;
-      .mat-button-base+.mat-button-base, .mat-dialog-actions .mat-mdc-button-base+.mat-mdc-button-base {
+
+      .mat-button-base + .mat-button-base,
+      .mat-dialog-actions .mat-mdc-button-base + .mat-mdc-button-base {
         margin: 0;
         width: 60vw;
       }
