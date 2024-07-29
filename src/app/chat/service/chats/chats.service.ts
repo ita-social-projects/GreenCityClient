@@ -19,7 +19,6 @@ export class ChatsService {
   currentChatMessagesStream$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   searchedFriendsStream$: BehaviorSubject<FriendModel[]> = new BehaviorSubject<FriendModel[]>([]);
   locations$: BehaviorSubject<LocationForChat[]> = new BehaviorSubject([]);
-  isChatUpdateStream$: Subject<boolean> = new Subject<boolean>();
   chatsMessages: { [key: string]: MessagesToSave } = {};
   private messagesIsLoading = false;
   isSupportChat$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -133,7 +132,6 @@ export class ChatsService {
         return !isMessageAlreadyVisible;
       });
       this.chatsMessages[id].page.unshift(...filtredMessages);
-      this.isChatUpdateStream$.next(true);
       this.messagesIsLoading = false;
     });
   }

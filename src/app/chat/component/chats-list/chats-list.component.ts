@@ -1,21 +1,23 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ChatsService } from '../../service/chats/chats.service';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Chat } from '../../model/Chat.model';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Title } from '@angular/platform-browser';
 import { Role } from '@global-models/user/roles.model';
 import { UserService } from '@global-service/user/user.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-chats-list',
   templateUrl: './chats-list.component.html',
   styleUrls: ['./chats-list.component.scss']
 })
-export class ChatsListComponent implements OnInit {
+export class ChatsListComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject();
   public chatIcons = CHAT_ICONS;
   public searchField = '';
   public searchFieldControl = new FormControl();
@@ -36,14 +38,14 @@ export class ChatsListComponent implements OnInit {
     this.isSupportChat = this.chatService.isSupportChat;
     this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
     if (!this.isSupportChat) {
-      this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {
+      this.searchFieldControl.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((newValue) => {
         this.searchField = newValue;
         this.chatService.searchFriends(newValue);
       });
     }
 
     if (this.isSupportChat && this.isAdmin) {
-      this.chatService.currentChatStream$.subscribe((chat) => {
+      this.chatService.currentChatStream$.pipe(takeUntil(this.destroy$)).subscribe((chat) => {
         const isAdminParticipant = chat?.participants?.some((el) => el.id === this.userService.userId);
         this.chatService.isAdminParticipant$.next(isAdminParticipant);
       });
@@ -86,5 +88,10 @@ export class ChatsListComponent implements OnInit {
     this.titleService.setTitle('Pick Up City');
     this.chatService.setCurrentChat(chat);
     this.createNewMessageWindow.emit(chat);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SocketService } from '../../service/socket/socket.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
 import { Role } from '@global-models/user/roles.model';
@@ -45,16 +46,27 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     private factory: ComponentFactoryResolver,
     private socketService: SocketService,
     private dialog: MatDialog,
-    private localeStorageService: LocalStorageService,
+    private localStorageService: LocalStorageService,
     private jwt: JwtService
   ) {}
 
   ngOnInit(): void {
     this.chatsService.isSupportChat$.next(this.isSupportChat);
-    this.userId = this.localeStorageService.getUserId();
-    this.socketService.connect();
+    this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.onDestroy$)).subscribe((id) => {
+      if (id) {
+        this.socketService.connect();
+        this.userId = id;
+        this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
+        this.loadChats();
+      } else {
+        this.socketService.unsubscribeAll();
+      }
+    });
 
-    this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
+    this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());
+  }
+
+  loadChats(): void {
     if (this.isSupportChat && this.isAdmin) {
       this.chatsService.getAllSupportChats();
     }
@@ -66,8 +78,25 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     if (!this.isSupportChat) {
       this.chatsService.getAllUserChats(this.userId);
     }
+  }
 
-    this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());
+  public openAuthModalWindow(): void {
+    this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: 'sign-in'
+      }
+    });
+  }
+
+  handlePanelClick(): void {
+    if (this.userId) {
+      this.isOpen = !this.isOpen;
+    } else {
+      this.openAuthModalWindow();
+    }
   }
 
   public openNewMessageWindow(isEmpty: boolean) {
@@ -92,6 +121,5 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
-    this.socketService.disconnect();
   }
 }

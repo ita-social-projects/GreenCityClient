@@ -37,7 +37,11 @@ export class SocketService {
     this.stompClient = Stomp.over(() => this.socket);
     this.stompClient.connect(
       {},
-      () => this.onConnected(),
+      () => {
+        if (this.stompClient.connected) {
+          this.onConnected();
+        }
+      },
       (error) => this.onError(error)
     );
     this.stompClient.reconnectDelay = 1000;
@@ -164,12 +168,11 @@ export class SocketService {
     });
   }
 
-  disconnect(): void {
+  unsubscribeAll(): void {
     this.subscriptions.forEach((subs) => {
       if (subs) {
         subs.unsubscribe();
       }
     });
-    this.stompClient.disconnect();
   }
 }
