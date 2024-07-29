@@ -16,6 +16,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ChatMessageComponent } from './component/chat-message/chat-message.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ChatMessageComponent } from './component/chat-message/chat-message.comp
       isolate: true
     }),
     CommonModule,
-    MatTabsModule
+    MatTabsModule,
+    SharedModule
   ],
   exports: [ChatPopupComponent]
 })
