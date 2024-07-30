@@ -35,7 +35,7 @@ export class UbsAdminComponent implements OnInit, OnDestroy {
     this.authoritiesSubscription();
   }
 
-  private authoritiesSubscription() {
+  private authoritiesSubscription(): void {
     this.permissions$.pipe(takeUntil(this.destroy)).subscribe((authorities) => {
       this.hasAuthorities = authorities.length > 0;
       this.authorities = authorities;
