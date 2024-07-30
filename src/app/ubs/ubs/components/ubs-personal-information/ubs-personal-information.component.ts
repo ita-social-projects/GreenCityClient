@@ -11,7 +11,7 @@ import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.valid
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { Store, select } from '@ngrx/store';
-import { GetPersonalData, SetPersonalData, GetExistingOrderInfo } from 'src/app/store/actions/order.actions';
+import { GetPersonalData, SetPersonalData, GetExistingOrderInfo, SetSecondFormStatus } from 'src/app/store/actions/order.actions';
 import { addressIdSelector, existingOrderInfoSelector, personalDataSelector } from 'src/app/store/selectors/order.selectors';
 import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
 import { WarningPopUpComponent } from '@shared/components';
@@ -173,6 +173,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         this.senderEmail.setValue(this.email.value, { emitEvent: false });
       }
       this.dispatchPersonalData();
+    });
+
+    this.personalDataForm.statusChanges.pipe(takeUntil(this.$destroy)).subscribe(() => {
+      this.store.dispatch(SetSecondFormStatus({ isValid: this.personalDataForm.valid }));
     });
   }
 

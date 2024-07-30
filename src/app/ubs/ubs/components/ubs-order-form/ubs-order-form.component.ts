@@ -10,6 +10,7 @@ import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { ClearOrderData } from 'src/app/store/actions/order.actions';
+import { isSecondFormValidSelector } from 'src/app/store/selectors/order.selectors';
 
 @Component({
   selector: 'app-ubs-order-form',
@@ -22,6 +23,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   thirdStepForm: FormGroup;
   completed = false;
   isSecondStepDisabled = true;
+  isSecondFormValid$ = this.store.pipe(select(isSecondFormValidSelector));
   private statePersonalData: PersonalData;
   private stateOrderDetails: OrderDetails;
 

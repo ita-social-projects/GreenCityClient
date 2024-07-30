@@ -33,7 +33,8 @@ import {
   SetAddress,
   UpdateAddress,
   DeleteAddress,
-  CreateAddress
+  CreateAddress,
+  SetSecondFormStatus
 } from '../actions/order.actions';
 import { createReducer, on } from '@ngrx/store';
 
@@ -222,16 +223,22 @@ export const orderReducer = createReducer(
       orderDetails: { ...state.orderDetails, certificates: action.certificates }
     };
   }),
-  on(SetFirstFormStatus, (state, action) => {
-    return {
-      ...state,
-      firstFormValid: action.isValid
-    };
-  }),
+  on(SetFirstFormStatus, (state, action) => ({
+    ...state,
+    firstFormValid: action.isValid
+  })),
+  on(SetSecondFormStatus, (state, action) => ({
+    ...state,
+    secondFormValid: action.isValid
+  })),
   on(SetPersonalData, (state, action) => {
+    console.warn('SetPersonalData', action.personalData);
     return {
       ...state,
-      personalData: action.personalData
+      personalData: {
+        ...state.personalData,
+        ...action.personalData
+      }
     };
   }),
   on(SetAdditionalOrders, (state, action) => {
