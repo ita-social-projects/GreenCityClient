@@ -232,7 +232,6 @@ export const orderReducer = createReducer(
     secondFormValid: action.isValid
   })),
   on(SetPersonalData, (state, action) => {
-    console.warn('SetPersonalData', action.personalData);
     return {
       ...state,
       personalData: {
