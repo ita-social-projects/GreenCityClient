@@ -244,4 +244,23 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
       }
     });
   });
+
+  it('should validate service name correctly with special characters at different positions', () => {
+    const specialChars = `!"#$%&'()*+,-./:;<=>?@[]^_\`{|}~`;
+    specialChars.split('').forEach((char) => {
+      const validNames = [`service${char}Name`, `${char}serviceName`, `serviceName${char}`];
+
+      validNames.forEach((name) => {
+        component.addServiceForm.controls.name.setValue(name);
+        component.addServiceForm.controls.nameEng.setValue(name);
+        component.addServiceForm.controls.description.setValue(name);
+        component.addServiceForm.controls.descriptionEng.setValue(name);
+
+        expect(component.addServiceForm.controls.name.valid).toBeTruthy();
+        expect(component.addServiceForm.controls.nameEng.valid).toBeTruthy();
+        expect(component.addServiceForm.controls.description.valid).toBeTruthy();
+        expect(component.addServiceForm.controls.descriptionEng.valid).toBeTruthy();
+      });
+    });
+  });
 });

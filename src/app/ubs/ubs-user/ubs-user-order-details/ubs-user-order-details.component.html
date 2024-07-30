@@ -14,7 +14,7 @@
         <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
         <td>{{ bag.fullPrice }} {{ 'user-orders.details.currency' | translate }}</td>
         <td>{{ bag.count }} {{ 'user-orders.details.pieces' | translate }}</td>
-        <td>{{ bag.totalPrice | currency | localizedCurrency }}</td>
+        <td>{{ bag.totalPrice | localizedCurrency }}</td>
       </tr>
     </ng-container>
     <tr>
@@ -22,23 +22,23 @@
     </tr>
     <tr class="sum_of_order">
       <td colspan="4">{{ 'user-orders.details.order-sum' | translate }}</td>
-      <td>{{ order.orderFullPrice | currency | localizedCurrency }}</td>
+      <td>{{ order.orderFullPrice | localizedCurrency }}</td>
     </tr>
     <tr *ngIf="order.certificate.length" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.certificate' | translate }}</td>
-      <td>-{{ certificatesAmount | currency | localizedCurrency }}</td>
+      <td>-{{ certificatesAmount | localizedCurrency }}</td>
     </tr>
     <tr *ngIf="order.bonuses !== 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.bonuses' | translate }}</td>
-      <td>-{{ order.bonuses | currency | localizedCurrency }}</td>
+      <td>-{{ order.bonuses | localizedCurrency }}</td>
     </tr>
     <tr *ngIf="isPaid(order) || order.paidAmount > 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.paid-amount' | translate }}</td>
-      <td>-{{ order.paidAmount | currency | localizedCurrency }}</td>
+      <td>-{{ order.paidAmount | localizedCurrency }}</td>
     </tr>
     <tr class="sum_to_pay">
       <td colspan="4">{{ 'user-orders.details.amount-due' | translate }}</td>
-      <td>{{ order.amountBeforePayment | currency | localizedCurrency }}</td>
+      <td>{{ order.amountBeforePayment | localizedCurrency }}</td>
     </tr>
   </table>
   <div class="recipient">

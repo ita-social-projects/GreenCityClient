@@ -27,7 +27,7 @@ describe('HabitsGalleryViewComponent', () => {
   fakeHabitAssignService.assignCustomHabit = () => of();
   fakeHabitAssignService.assignHabit = () => of();
 
-  const localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getUserId']);
+  const localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getUserId', 'getCurrentLanguage']);
   localStorageServiceMock.getUserId = () => 1;
 
   const mockActivatedRoute = {

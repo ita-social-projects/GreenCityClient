@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 @mixin text_style($font, $color, $size, $weight) {
   font-family: $font;
   font-size: $size;
@@ -85,7 +87,7 @@ input[type='number'] {
 }
 
 .form {
-  margin-top: 20px;
+  margin-top: 30px;
 
   .labels-box {
     display: flex;
@@ -107,6 +109,7 @@ input[type='number'] {
   margin: 0;
 }
 
+.label-packages,
 .label-total {
   text-align: center;
 }
@@ -114,7 +117,7 @@ input[type='number'] {
 .main-list-item {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   margin-bottom: 16px;
 }
 
@@ -525,7 +528,7 @@ h5 {
     &::placeholder {
       @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-light-grey), 14px, 400);
 
-      margin-bottom: 3rem;
+      margin-bottom: 2.5rem;
     }
   }
 
@@ -557,13 +560,21 @@ li {
   }
 }
 
-@media screen and (max-width: 768px) {
+@include responsivePCFirst(md) {
   .bag-name .quantity-input-wrapper button {
     width: 10px;
   }
 }
 
-@media screen and (max-width: 575px) {
+@include responsivePCFirst(sm) {
+  .quantity-input-wrapper {
+    button {
+      .mat-icon {
+        font-size: 10px;
+      }
+    }
+  }
+
   .mat-horizontal-content-container {
     padding: 0;
   }
@@ -590,6 +601,8 @@ li {
   }
 
   .count {
+    max-width: 17%;
+
     .input {
       text-align: center;
     }
@@ -672,6 +685,7 @@ li {
 
   .validMes {
     text-align: center;
+    line-height: normal;
   }
 
   .messages-container {
@@ -748,13 +762,13 @@ li {
   }
 }
 
-@media screen and (max-width: 420px) {
+@include responsivePCFirst(s) {
   .label {
     font-size: 12px;
   }
 
   .bag-name {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .label-total {
@@ -767,13 +781,13 @@ li {
     }
 
     button {
-      width: 8px;
+      width: 12px;
       font-size: 15px;
     }
   }
 }
 
-@media screen and (max-width: 360px) {
+@include responsivePCFirst(xs) {
   .label {
     font-size: 10px;
   }

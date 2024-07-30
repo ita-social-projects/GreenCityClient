@@ -2,10 +2,9 @@
   display: flex;
   flex-direction: column;
   width: 125px;
-  height: 100%;
   justify-content: end;
   gap: 15px;
-  text-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .chat-btn {

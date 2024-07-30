@@ -5,7 +5,6 @@ import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-a
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-order.component';
-import { UbsAdminGuardGuard } from './ubs-admin-guard.guard';
 import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
 import { UbsAdminCustomersComponent } from './components/ubs-admin-customers/ubs-admin-customers.component';
 import { UbsAdminTariffsLocationDashboardComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-dashboard.component';
@@ -14,18 +13,20 @@ import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-custome
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { UbsAdminNotificationListComponent } from './components/ubs-admin-notification-list/ubs-admin-notification-list.component';
 import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
+import { UnsavedChangesGuard } from './unsaved-changes-guard.guard';
+import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
 
 const ubsAdminRoutes: Routes = [
   {
     path: '',
     component: UbsAdminComponent,
-    canActivate: [UbsAdminGuardGuard],
+    canActivate: [UbsAdminGuard],
     children: [
       { path: 'customers', component: UbsAdminCustomersComponent },
       { path: 'customers/:username', component: UbsAdminCustomerDetailsComponent },
       { path: 'certificates', component: UbsAdminCertificateComponent },
       { path: 'orders', component: UbsAdminTableComponent },
-      { path: 'order/:id', component: UbsAdminOrderComponent },
+      { path: 'order/:id', component: UbsAdminOrderComponent, canDeactivate: [UnsavedChangesGuard] },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
       { path: 'tariffs', component: UbsAdminTariffsLocationDashboardComponent },
       { path: `tariffs/location/:id`, component: UbsAdminTariffsPricingPageComponent },

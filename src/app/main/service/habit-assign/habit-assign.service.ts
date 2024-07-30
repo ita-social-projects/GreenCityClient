@@ -11,7 +11,7 @@ import {
   ResponseInterface,
   ChangesFromCalendarToProgress,
   UpdateHabitDuration,
-  FriendsHabitProggress
+  FriendsHabitProgress
 } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
@@ -49,8 +49,8 @@ export class HabitAssignService implements OnDestroy {
     return this.http.get<HabitAssignInterface>(`${habitAssignLink}/${habitAssignId}?lang=${language}`);
   }
 
-  getFriendsHabitProgress(habitAssignId: number): Observable<FriendsHabitProggress[]> {
-    return this.http.get<FriendsHabitProggress[]>(`${habitAssignLink}/${habitAssignId}/friends/habit-duration-info`);
+  getFriendsHabitProgress(habitAssignId: number): Observable<FriendsHabitProgress[]> {
+    return this.http.get<FriendsHabitProgress[]>(`${habitAssignLink}/${habitAssignId}/friends/habit-duration-info`);
   }
 
   assignHabit(habitId: number): Observable<ResponseInterface> {

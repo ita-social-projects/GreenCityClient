@@ -24,6 +24,7 @@ import { EventsEffects } from './store/effects/ecoEvents.effects';
 import { FriendsEffects } from './store/effects/friends.effects';
 import { OrderEffects } from 'src/app/store/effects/order.effects';
 import { UbsUserEffects } from 'src/app/store/effects/ubs-user.effects';
+import { AuthEffects } from 'src/app/store/effects/auth.effects';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector, languageService: LanguageService) {
   return () =>
@@ -66,6 +67,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     }),
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([
+      AuthEffects,
       EmployeesEffects,
       LocationsEffects,
       BigOrderTableEffects,

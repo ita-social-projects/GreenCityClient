@@ -22,9 +22,6 @@ import { IProcessOrderResponse } from 'src/app/ubs/ubs/models/ubs.interface';
   styleUrls: ['./ubs-user-order-payment-pop-up.component.scss']
 })
 export class UbsUserOrderPaymentPopUpComponent implements OnInit {
-  @ViewChild('liqpayFormContainer', { static: false }) liqpayFormContainer: ElementRef;
-
-  sanitizedLiqpayForm: any;
   private localStorageService: LocalStorageService;
   private ubsOrderFormService: UBSOrderFormService;
   private orderService: OrderService;
@@ -271,7 +268,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
       this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe(
         (response: ResponceOrderFondyModel) => {
           if (response.link) {
-            this.processLiqpay(response);
+            this.processWayForPay(response);
           } else {
             this.redirectionToConfirmPage();
             this.dialogRef.close();
@@ -284,16 +281,11 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     }
   }
 
-  private processLiqpay(response: ResponceOrderFondyModel): void {
+  processWayForPay(response: IProcessOrderResponse): void {
     this.localStorageService.setUbsPaymentOrderId(response.orderId);
-
-    this.sanitizedLiqpayForm = this.sanitizer.bypassSecurityTrustHtml(response.link);
-    setTimeout(() => {
-      const form: HTMLFormElement = this.liqpayFormContainer.nativeElement.querySelector('form');
-      if (form) {
-        form.submit();
-      }
-    });
+    if (response.link) {
+      this.redirectToExternalUrl(response.link);
+    }
   }
 
   orderOptionPayment(event: Event): void {

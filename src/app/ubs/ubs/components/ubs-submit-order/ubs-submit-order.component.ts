@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject, iif } from 'rxjs';
+import { iif, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Bag, IProcessOrderResponse, Order, OrderDetails, PersonalData } from '../../models/ubs.interface';
@@ -10,7 +10,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { orderDetailsSelector, orderSelectors, personalDataSelector } from 'src/app/store/selectors/order.selectors';
 import { WarningPopUpComponent } from '@shared/components';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -23,8 +23,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   @Input() public isNotification: boolean;
   @Input() public orderIdFromNotification: number;
-
-  @ViewChild('liqpayFormContainer', { static: false }) liqpayFormContainer: ElementRef;
 
   paymentForm: FormGroup = this.fb.group({});
 
@@ -43,7 +41,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   existingOrderId: number;
   isShouldBePaid: boolean;
   isFirstFormValid: boolean;
-  sanitizedLiqpayForm: any;
   private $destroy: Subject<void> = new Subject<void>();
 
   popupConfig = {
@@ -115,15 +112,15 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.orderService.processNewOrder(this.getOrder(shouldBePaid))
     )
       .pipe(takeUntil(this.$destroy))
-      .subscribe(
-        (response: IProcessOrderResponse) => {
-          this.processLiqpay(response);
+      .subscribe({
+        next: (response: IProcessOrderResponse) => {
+          this.processWayForPay(response);
         },
-        () => {
+        error: () => {
           this.isLoadingAnim = false;
           this.redirectToConfirmPage();
         }
-      );
+      });
   }
 
   onCancel(): void {
@@ -135,29 +132,15 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .subscribe((isSave) => (isSave ? this.processOrder(false) : this.redirectToMainPage()));
   }
 
-  private processFondy(response: IProcessOrderResponse): void {
+  private processWayForPay(response: IProcessOrderResponse): void {
     this.localStorageService.setUbsPaymentOrderId(response.orderId);
     if (response.link && this.isShouldBePaid) {
       this.redirectToExternalUrl(response.link);
     }
   }
 
-  private processLiqpay(response: IProcessOrderResponse): void {
-    this.localStorageService.setUbsPaymentOrderId(response.orderId);
-
-    if (response.link && this.isShouldBePaid) {
-      this.sanitizedLiqpayForm = this.sanitizer.bypassSecurityTrustHtml(response.link);
-      setTimeout(() => {
-        const form: HTMLFormElement = this.liqpayFormContainer.nativeElement.querySelector('form');
-        if (form) {
-          form.submit();
-        }
-      });
-    }
-  }
-
   private getOrder(shouldBePaid: boolean): Order {
-    const order: Order = {
+    return {
       personalData: this.personalData,
       additionalOrders: this.additionalOrders,
       certificates: this.orderDetails.certificates,
@@ -168,8 +151,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       shouldBePaid,
       bags: this.bags.map((bag) => ({ id: bag.id, amount: bag.quantity }))
     };
-
-    return order;
   }
 
   private redirectToConfirmPage(): void {

@@ -1,7 +1,9 @@
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
   FormBuilder,
+  FormControl,
   FormGroup,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
@@ -9,19 +11,18 @@ import {
   Validator,
   Validators
 } from '@angular/forms';
-import { Component, OnInit, OnDestroy, Input, AfterViewInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
-import { take, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address, CourierLocations, DistrictsDtos, DistrictEnum } from 'src/app/ubs/ubs/models/ubs.interface';
-import { Patterns } from 'src/assets/patterns/patterns';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { select, Store } from '@ngrx/store';
-import { CAddressData } from 'src/app/ubs/ubs/models/ubs.model';
-import { addressAlreadyExistsValidator } from 'src/app/ubs/ubs/validators/address-olready-exists-validator';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
+import { GooglePrediction } from 'src/app/ubs/mocks/google-types';
+import { Address, CourierLocations, DistrictEnum, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
+import { CAddressData } from 'src/app/ubs/ubs/models/ubs.model';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { addressAlreadyExistsValidator } from 'src/app/ubs/ubs/validators/address-olready-exists-validator';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-address-input',
@@ -74,40 +75,40 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     componentRestrictions: { country: 'ua' }
   };
 
-  get region() {
-    return this.addressForm.get('region');
+  get region(): FormControl {
+    return this.addressForm.get('region') as FormControl;
   }
 
-  get district() {
-    return this.addressForm.get('district');
+  get district(): FormControl {
+    return this.addressForm.get('district') as FormControl;
   }
 
-  get city() {
-    return this.addressForm.get('city');
+  get city(): FormControl {
+    return this.addressForm.get('city') as FormControl;
   }
 
-  get street() {
-    return this.addressForm.get('street');
+  get street(): FormControl {
+    return this.addressForm.get('street') as FormControl;
   }
 
-  get houseNumber() {
-    return this.addressForm.get('houseNumber');
+  get houseNumber(): FormControl {
+    return this.addressForm.get('houseNumber') as FormControl;
   }
 
-  get houseCorpus() {
-    return this.addressForm.get('houseCorpus');
+  get houseCorpus(): FormControl {
+    return this.addressForm.get('houseCorpus') as FormControl;
   }
 
-  get entranceNumber() {
-    return this.addressForm.get('entranceNumber');
+  get entranceNumber(): FormControl {
+    return this.addressForm.get('entranceNumber') as FormControl;
   }
 
-  get addressComment() {
-    return this.addressForm.get('addressComment');
+  get addressComment(): FormControl {
+    return this.addressForm.get('addressComment') as FormControl;
   }
 
-  get placeId() {
-    return this.addressForm.get('placeId');
+  get placeId(): FormControl {
+    return this.addressForm.get('placeId') as FormControl;
   }
 
   onChange = (address) => {};
@@ -140,7 +141,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.onTouched = onTouched;
   }
 
-  markAsTouched() {
+  markAsTouched(): void {
     if (!this.isTouched) {
       this.onTouched();
       this.isTouched = true;
@@ -152,6 +153,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.locations = this.localStorageService.getLocations();
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.initForm();
+    this.initListeners();
 
     if (this.edit) {
       if (this.address.addressRegionDistrictList?.length > 1) {
@@ -166,14 +168,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         }));
       }
     }
-
-    this.addressData
-      .getPlaceIdChange()
-      .pipe(takeUntil(this.$destroy))
-      .subscribe((placeId: string) => {
-        this.placeId.setValue(placeId);
-        this.onChange(this.addressData.getValues());
-      });
   }
 
   ngAfterViewInit(): void {
@@ -188,6 +182,31 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
 
     this.cdr.detectChanges();
+  }
+
+  initListeners(): void {
+    this.addressData
+      .getPlaceIdChange()
+      .pipe(takeUntil(this.$destroy))
+      .subscribe((placeId: string) => {
+        this.placeId.setValue(placeId);
+        this.onChange(this.addressData.getValues());
+      });
+
+    this.addressData
+      .getAddressChange()
+      .pipe(takeUntil(this.$destroy))
+      .subscribe((addressData) => {
+        const region = this.currentLanguage === 'ua' ? addressData.region : addressData.regionEn;
+        const city = this.currentLanguage === 'ua' ? addressData.city : addressData.cityEn;
+        const street = this.currentLanguage === 'ua' ? addressData.street : addressData.streetEn;
+        this.region.setValue(region);
+        this.city.setValue(city);
+        this.street.setValue(street);
+
+        this.onChange(this.addressData.getValues());
+        this.cdr.detectChanges();
+      });
   }
 
   initForm(): void {
@@ -369,6 +388,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         (d) => d.nameEn.startsWith(districtAuto.long_name?.split(`'`)[0]) || d.nameUa === districtAuto.long_name
       );
       this.district.setValue(district ?? '');
+      this.onDistrictSelected();
     });
   }
 

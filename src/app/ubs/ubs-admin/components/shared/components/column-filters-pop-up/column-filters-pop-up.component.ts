@@ -10,9 +10,10 @@ import { Subject } from 'rxjs';
 import { LanguageModel } from '@eco-news-models/create-news-interface';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { select, Store } from '@ngrx/store';
-import * as moment from 'moment';
+import moment from 'moment';
 import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
 import { AddFilterMultiAction, AddFiltersAction, RemoveFilter } from 'src/app/store/actions/bigOrderTable.actions';
+import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 
 @Component({
   selector: 'app-column-filters-pop-up',
@@ -88,9 +89,10 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   }
 
   changeColumnFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
+    const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
     checked
-      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value: option.key }, fetchTable: true }))
-      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value: option.key }, fetchTable: true }));
+      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
+      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
   }
 
   onDateChecked(e: MatCheckboxChange, checked: boolean): void {

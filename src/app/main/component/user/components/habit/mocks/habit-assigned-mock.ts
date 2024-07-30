@@ -1,7 +1,7 @@
 import { HabitInterface } from '../models/interfaces/habit.interface';
 import {
   ChangesFromCalendarToProgress,
-  FriendsHabitProggress,
+  FriendsHabitProgress,
   HabitAssignInterface,
   ResponseInterface
 } from '../models/interfaces/habit-assign.interface';
@@ -18,7 +18,10 @@ export const DEFAULTHABIT: HabitInterface = {
     description: 'Default habit description',
     habitItem: '',
     languageCode: 'en',
-    name: 'Default habit'
+    name: 'Default habit',
+    nameUa: '',
+    descriptionUa: '',
+    habitItemUa: ''
   },
   id: 1,
   usersIdWhoCreatedCustomHabit: 33,
@@ -38,7 +41,10 @@ export const CUSTOMHABIT: HabitInterface = {
     description: 'Custom habit description',
     habitItem: 'test',
     languageCode: 'en',
-    name: 'Custom habit'
+    name: 'Custom habit',
+    nameUa: '',
+    descriptionUa: '',
+    habitItemUa: 'test'
   },
   id: 2,
   usersIdWhoCreatedCustomHabit: 50,
@@ -181,7 +187,7 @@ export const CHANGES_FROM_CALENDAR: ChangesFromCalendarToProgress = {
   date: '2024-04-25'
 };
 
-export const FRIENDSHABITPROGESS: FriendsHabitProggress[] = [
+export const FRIENDSHABITPROGESS: FriendsHabitProgress[] = [
   {
     userId: 1,
     duration: 14,

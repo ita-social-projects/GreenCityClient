@@ -87,7 +87,9 @@ export class CAddressData {
   private houseCorpus: string;
   private placeId: string;
   private addressComment = '';
+
   private placeIdChange: Subject<string> = new Subject();
+  private addressChange: Subject<AddressData> = new Subject();
 
   constructor(private languageService: LanguageService) {}
 
@@ -202,6 +204,10 @@ export class CAddressData {
     return this.placeIdChange;
   }
 
+  public getAddressChange(): Subject<AddressData> {
+    return this.addressChange;
+  }
+
   public getValues(): AddressData {
     const addressData: AddressData = {
       searchAddress: this.getSearchAddress(),
@@ -251,32 +257,23 @@ export class CAddressData {
   }
 
   private getSearchAddress(isExactAddress = true): string {
-    const houseNumber = isExactAddress ? `${this.houseNumber}, ` : '';
-    const street = isExactAddress ? `${this.street}, ` : '';
+    const houseNumber = isExactAddress && this.houseNumber ? `${this.houseNumber}, ` : '';
+    const street = isExactAddress ? `${this.languageService.getLangValue(this.street, this.streetEn)}, ` : '';
+
     return this.languageService.getCurrentLanguage() === Language.EN
-      ? `${street}${houseNumber}${this.cityEn}, Ukarine`
-      : `${street}${houseNumber}${this.city}, Україна`;
+      ? `${this.regionEn}, city ${this.cityEn}, ${street}${houseNumber}, Ukraine`
+      : `${this.region}, місто ${this.city}, ${street}${houseNumber}, Україна`;
   }
 
   private setProperties(propertyName: string, prediction: GooglePrediction): void {
-    this.languageService.getCurrentLanguage() === Language.EN
-      ? this.setPropertyEn(propertyName, prediction)
-      : this.setPropertyUk(propertyName, prediction);
-  }
-
-  private setPropertyEn(propertyName: string, prediction: GooglePrediction): void {
     this.translateProperty(propertyName, prediction.place_id, Language.UK);
-    this[propertyName + 'En'] = prediction.structured_formatting.main_text;
-  }
-
-  private setPropertyUk(propertyName: string, prediction: GooglePrediction): void {
-    this[propertyName] = prediction.structured_formatting.main_text;
     this.translateProperty(propertyName + 'En', prediction.place_id, Language.EN);
   }
 
   private translateProperty(propertyName: string, placeId: string, language: Language): void {
     new google.maps.Geocoder().geocode({ placeId, language }).then((response) => {
       this[propertyName] = response.results[0].address_components[0].long_name;
+      this.addressChange.next(this.getValues());
     });
   }
 }

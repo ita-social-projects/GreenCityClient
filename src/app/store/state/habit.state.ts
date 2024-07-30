@@ -6,7 +6,10 @@ export const initialHabitState: HabitInterface = {
     description: '',
     habitItem: null,
     languageCode: '',
-    name: ''
+    name: '',
+    nameUa: '',
+    descriptionUa: '',
+    habitItemUa: undefined
   },
   id: null,
   image: '',

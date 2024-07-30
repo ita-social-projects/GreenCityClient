@@ -10,7 +10,7 @@
         <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
       </div>
       <div class="order-payment-sum">
-        <span class="price">{{ totalPaid | currency | localizedCurrency }}</span>
+        <span class="price">{{ totalPaid | localizedCurrency }}</span>
       </div>
       <div>
         <button *ngIf="isOrderCanBePaid" class="btn button-payment-operations btn-add-payment" (click)="openPopup(false)">
@@ -40,7 +40,7 @@
             <td>{{ payment.settlementdate }}</td>
             <td *ngIf="payment.paymentId" class="paymentId" (click)="openPopup(true, i)">№{{ payment.paymentId }}</td>
             <td *ngIf="!payment.paymentId"></td>
-            <td>{{ payment.amount | currency | localizedCurrency }}</td>
+            <td>{{ payment.amount | localizedCurrency }}</td>
             <td *ngIf="payment.receiptLink">
               <div *ngIf="payment.receiptLink === returnToBonusAccount; else paymentLink">
                 {{ 'user-orders.enroll-bonuses' | translate }}
@@ -58,7 +58,7 @@
         <span class="form__subtitle">{{ 'order-payment.overpayment' | translate }}</span>
       </div>
       <div class="order-overpayment-sum">
-        <span class="price bg-price-none">{{ overpayment | currency | localizedCurrency }}</span>
+        <span class="price bg-price-none">{{ overpayment | localizedCurrency }}</span>
       </div>
       <div>
         <button class="btn button-payment-operations btn-enroll-to-bonus-account" (click)="enrollToBonusAccount(this.overpayment)">

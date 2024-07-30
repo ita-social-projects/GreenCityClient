@@ -23,6 +23,7 @@
         <label for="title-service" class="label">{{ 'order-details.service' | translate }}</label>
         <label for="title-volume" class="label">{{ 'order-details.volume' | translate }}</label>
         <label for="title-cost" class="label">{{ 'order-details.cost' | translate }}</label>
+        <label for="number-of-packages" class="label label-packages">{{ 'order-details.number-of' | translate }}</label>
         <label for="title-sum'" class="label label-total">{{ 'order-details.sum' | translate }}</label>
       </div>
       <div class="main" formGroupName="bags">
@@ -46,7 +47,7 @@
                   max="999"
                   placeholder="0"
                   [unmask]="false"
-                  [imask]="{ mask: servicesMask }"
+                  [imask]="servicesMask"
                   (change)="calculateOrderSum()"
                   (keypress)="checkOnNumber($event)"
                 />
@@ -103,9 +104,9 @@
                 <label class="eco-label">{{ 'order-details.enter-order-num' | translate }}</label>
                 <input
                   id="index{{ i }}"
-                  [imask]="{ mask: SHOP_NUMBER_MASK }"
+                  [imask]="SHOP_NUMBER_MASK"
                   [unmask]="false"
-                  placeholder="XXXXXXXXXX"
+                  placeholder="XXXXXXXX"
                   [formControlName]="i"
                   class="shadow-none form-control my-1 border-input p-2 eco-store-input"
                   type="text"

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
+import { TUserRole } from '@global-models/auth/user-role.type';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +33,8 @@ export class JwtService {
     return JSON.parse(decodedPayload).sub;
   }
 
-  getUserRole(): string {
-    const accessToken = this.localStorageService.getAccessToken();
+  getUserRole(token?: string): TUserRole | null {
+    const accessToken = token ?? this.localStorageService.getAccessToken();
     if (accessToken != null) {
       const payload = accessToken.split('.')[1];
       const decodedPayload = window.atob(payload);

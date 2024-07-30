@@ -14,7 +14,6 @@ export class TableCellTimeComponent implements OnInit {
   @Input() id: number;
   @Input() ordersToChange: number[];
   @Input() isAllChecked: boolean;
-  @Input() doneOrCanceled: boolean;
   @Input() timeOfExport: string;
   @Input() exportDate: string;
 
@@ -36,7 +35,7 @@ export class TableCellTimeComponent implements OnInit {
 
   constructor(private adminTableService: AdminTableService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fromSelect = fromSelect;
     this.toSelect = toSelect;
     this.parseTime_(this.timeOfExport);

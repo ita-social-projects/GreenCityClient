@@ -1,7 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Component({
@@ -9,62 +7,49 @@ import { FileHandle } from '@eco-news-models/create-news-interface';
   templateUrl: './drag-and-drop.component.html',
   styleUrls: ['./drag-and-drop.component.scss']
 })
-export class DragAndDropComponent implements OnInit {
+export class DragAndDropComponent {
   selectedFile: File = null;
   selectedFileUrl: string;
   imageChangedEvent: FileHandle[];
   isCropper = true;
-  files: FileHandle[] = [];
   isWarning = false;
-  private croppedImage: string;
-  @Input() public formData: FormGroup;
-
-  @Output() newFile = new EventEmitter<FileHandle[]>();
-
-  constructor(private createEcoNewsService: CreateEcoNewsService) {}
-
-  ngOnInit() {
-    this.patchImage();
-    this.croppedImage = this.formData.value.image;
-  }
+  croppedImage: ImageCroppedEvent;
+  @Input() file: FileHandle;
+  @Output() newFile = new EventEmitter<FileHandle>();
 
   stopCropping(): void {
-    this.createEcoNewsService.files = this.files;
-    this.files.forEach((item) => (item.url = this.croppedImage));
-    this.isCropper = false;
-    this.newFile.emit(this.files);
-    this.isWarning = false;
+    const changeFile = new File([this.croppedImage.blob], this.file.file.name, { type: 'image/png' });
+
+    const reader = new FileReader();
+    reader.readAsDataURL(changeFile);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+
+      this.file = {
+        url: base64data,
+        file: changeFile
+      };
+      this.isCropper = false;
+      this.newFile.emit(this.file);
+      this.isWarning = false;
+    };
   }
 
   cancelChanges(): void {
-    this.files = [];
-    this.createEcoNewsService.files = [];
+    this.file = null;
     this.isCropper = true;
     this.croppedImage = null;
-  }
-
-  patchImage(): void {
-    const getPreviewImg = this.createEcoNewsService.getFormData();
-    if (this.formData.value.image) {
-      this.isCropper = false;
-      this.isWarning = false;
-      this.files = [{ file: this.formData.value.file, url: this.formData.value.image }];
-    } else if (getPreviewImg) {
-      this.isCropper = false;
-      this.isWarning = false;
-      this.files = [{ file: getPreviewImg.value.file, url: getPreviewImg.value.image }];
-    }
-    if (!this.createEcoNewsService.isBackToEditing && !this.formData.value.image) {
-      this.cancelChanges();
-    }
+    this.selectedFile = null;
+    this.selectedFileUrl = null;
+    this.newFile.emit(this.file);
   }
 
   imageCropped(event: ImageCroppedEvent): void {
-    this.croppedImage = event.base64;
+    this.croppedImage = event;
   }
 
   filesDropped(files: FileHandle[]): void {
-    this.files = files;
+    this.file = files[0];
     this.isCropper = true;
     this.showWarning();
   }
@@ -74,24 +59,21 @@ export class DragAndDropComponent implements OnInit {
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(this.selectedFile);
     reader.onload = (ev) => this.handleFile(ev);
-    this.createEcoNewsService.files = this.files;
   }
 
   private handleFile(event): void {
     const binaryString = event.target.result;
     this.selectedFileUrl = binaryString;
-    this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
+    this.file = { url: this.selectedFileUrl, file: this.selectedFile };
     this.showWarning();
-    this.createEcoNewsService.fileUrl = this.selectedFileUrl;
   }
 
   showWarning(): void {
-    this.files.forEach((item) => {
-      const imageValCondition = (item.file.type === 'image/jpeg' || item.file.type === 'image/png') && item.file.size < 10485760;
-      this.isWarning = !(item && imageValCondition);
-      if (this.isWarning) {
-        this.files.pop();
-      }
-    });
+    this.isWarning = !((this.file.file.type === 'image/jpeg' || this.file.file.type === 'image/png') && this.file.file.size < 10485760);
+    if (this.isWarning) {
+      this.file = null;
+    } else {
+      this.newFile.emit(this.file);
+    }
   }
 }

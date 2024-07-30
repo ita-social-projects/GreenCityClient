@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client';
 import { environment } from '@environment/environment';
 import { CompatClient, IMessage, Stomp, StompSubscription } from '@stomp/stompjs';
 import { Message } from '../../model/Message.model';

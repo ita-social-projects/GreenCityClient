@@ -8,10 +8,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OrderInfoMockedData } from './../../services/orderInfoMock';
-import { IEmployee, INotTakenOutReason } from '../../models/ubs-admin.interface';
 import { of, Subject } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
-import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
+import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 
 class MatDialogMock {
   open() {
@@ -26,14 +25,10 @@ describe('UbsAdminOrderHistoryComponent', () => {
   let fixture: ComponentFixture<UbsAdminOrderHistoryComponent>;
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderHistory']);
   const MatDialogRefMock = { close: () => {} };
-  const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
-
-  const orderNotTakenOutReasonMock: INotTakenOutReason = {
-    description: 'string',
-    images: ['string']
-  };
 
   const OrderInfoMock = OrderInfoMockedData;
+  const cancellationReasonMock = 'User do not want to communicate with us';
+  const cancellationCommentMock = '';
 
   const dialogStub = {
     afterClosed() {
@@ -194,6 +189,24 @@ describe('UbsAdminOrderHistoryComponent', () => {
     component.orderInfo = OrderInfoMock;
     component.openCancelReason();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('openCancelReason should call dialog.open with correct data', () => {
+    const spy = spyOn((component as any).dialog, 'open');
+    component.orderInfo = OrderInfoMock;
+    component.cancellationReason = cancellationReasonMock;
+    component.cancellationComment = cancellationCommentMock;
+    component.openCancelReason();
+    expect(spy).toHaveBeenCalledWith(AddOrderCancellationReasonComponent, {
+      hasBackdrop: true,
+      data: {
+        isHistory: true,
+        orderID: component.orderInfo.generalOrderInfo.id,
+        reason: component.cancellationReason,
+        comment: component.cancellationComment
+      },
+      maxHeight: '100vh'
+    });
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

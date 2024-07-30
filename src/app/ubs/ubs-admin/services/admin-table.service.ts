@@ -5,7 +5,8 @@ import { environment } from '@environment/environment';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import * as moment from 'moment';
+import moment from 'moment';
+import { Observable } from 'rxjs';
 
 const columnMapping: { [key: string]: string } = {
   dateOfExportFrom: 'deliveryDate.from',
@@ -15,7 +16,8 @@ const columnMapping: { [key: string]: string } = {
   responsibleCaller: 'responsibleCallerId',
   responsibleLogicMan: 'responsibleLogicManId',
   city: 'citiesEn',
-  district: 'districtsEn'
+  district: 'districtsEn',
+  region: 'regionEn'
 };
 @Injectable({
   providedIn: 'root'
@@ -66,6 +68,10 @@ export class AdminTableService {
 
   blockOrders(ids: number[]) {
     return this.http.put<IAlertInfo[]>(`${this.url}blockOrders`, ids);
+  }
+
+  unblockOrders(ids: number[]): Observable<number[]> {
+    return this.http.put<number[]>(`${this.url}unblockOrders`, ids);
   }
 
   cancelEdit(ids: number[]) {
