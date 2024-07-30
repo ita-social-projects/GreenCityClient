@@ -5,7 +5,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-import { UbsAdminEmployeeService } from './services/ubs-admin-employee.service';
 import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
@@ -24,8 +23,7 @@ export class UbsAdminComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
     private store: Store<IAppState>,
-    public ubsAdminEmployeeService: UbsAdminEmployeeService,
-    public jwtService: JwtService
+    private jwtService: JwtService
   ) {}
 
   ngOnInit() {
@@ -38,7 +36,7 @@ export class UbsAdminComponent implements OnInit, OnDestroy {
   }
 
   private authoritiesSubscription() {
-    this.permissions$.subscribe((authorities) => {
+    this.permissions$.pipe(takeUntil(this.destroy)).subscribe((authorities) => {
       this.hasAuthorities = authorities.length > 0;
       this.authorities = authorities;
     });
