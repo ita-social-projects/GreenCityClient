@@ -13,8 +13,9 @@ describe('UBSOrderFormComponent ', () => {
   let component: UBSOrderFormComponent;
   let fixture: ComponentFixture<UBSOrderFormComponent>;
 
-  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch', 'pipe']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+  storeMock.pipe.and.returnValue(of());
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
