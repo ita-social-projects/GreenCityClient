@@ -6,7 +6,7 @@ import { NewMessageWindowComponent } from '../new-message-window/new-message-win
 import { ReferenceDirective } from '../../directive/reference/reference.directive';
 import { CommonService } from '../../service/common/common.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { concatMap, takeUntil } from 'rxjs/operators';
 import { SocketService } from '../../service/socket/socket.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
@@ -14,6 +14,8 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { JwtService } from '@global-service/jwt/jwt.service';
 
 import { Role } from '@global-models/user/roles.model';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { LocationForChat } from '../../model/Chat.model';
 
 @Component({
   selector: 'app-chat-popup',
@@ -26,6 +28,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
 
   private onDestroy$ = new Subject();
   private userId: number;
+  private courierUBSName = 'UBS';
   public isAdmin: boolean;
   breakpoint = 575;
 
@@ -47,7 +50,8 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     private socketService: SocketService,
     private dialog: MatDialog,
     private localStorageService: LocalStorageService,
-    private jwt: JwtService
+    private jwt: JwtService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
@@ -72,7 +76,18 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     }
 
     if (this.isSupportChat && !this.isAdmin) {
-      this.chatsService.getLocationsChats(this.userId);
+      this.orderService
+        .getAllActiveCouriers()
+        .pipe(
+          concatMap((data) => {
+            const courierId = data.find((courier) => courier.nameEn.includes(this.courierUBSName)).courierId;
+            return this.chatsService.getLocationsChats(this.userId, courierId);
+          }),
+          takeUntil(this.onDestroy$)
+        )
+        .subscribe((locations: LocationForChat[]) => {
+          this.chatsService.locations$.next(locations);
+        });
     }
 
     if (!this.isSupportChat) {

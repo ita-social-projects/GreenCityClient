@@ -149,10 +149,8 @@ export class ChatsService {
       });
   }
 
-  public getLocationsChats(userId: number): void {
-    this.httpClient.get(`${environment.backendChatLink}chat/locations/${userId}`).subscribe((locations: LocationForChat[]) => {
-      this.locations$.next(locations);
-    });
+  public getLocationsChats(userId: number, courierId: number): Observable<LocationForChat[]> {
+    return this.httpClient.get<LocationForChat[]>(`${environment.backendChatLink}chat/locationsByCourier/${userId}?courierId=${courierId}`);
   }
 
   public addAdminToChat(adminId: number): void {
