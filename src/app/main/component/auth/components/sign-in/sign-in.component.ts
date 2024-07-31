@@ -12,9 +12,10 @@ import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { SignInAction, SignInSuccessAction } from 'src/app/store/actions/auth.actions';
+import { SignInAction, SignInSuccessAction, SignInWithGoogleAction } from 'src/app/store/actions/auth.actions';
 import { errorSelector, isLoadingSelector } from 'src/app/store/selectors/auth.selectors';
 import { googleProvider } from './GoogleOAuthProvider/GoogleOAuthProvider';
+import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 
 declare let google: any;
 @Component({
@@ -28,6 +29,7 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   private store: Store = inject(Store);
   private actions: Actions = inject(Actions);
+  private userOwnSignInService = inject(UserOwnSignInService);
   private destroy$: Subject<void> = new Subject();
 
   isLoading$: Observable<boolean> = this.store.select(isLoadingSelector);
@@ -70,9 +72,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   signInWithGoogle(): void {
     const login = googleProvider.useGoogleLogin({
       flow: 'implicit',
-      onSuccess: (res) => {
-        this.handleGoogleAuth(res.access_token);
-      },
+      onSuccess: (res) => this.store.dispatch(SignInWithGoogleAction({ token: res.access_token, isUBS: this.isUbs })),
       onError: (err) => console.error('Failed to login with google redirect', err)
     });
     login();
@@ -99,17 +99,8 @@ export class SignInComponent implements OnInit, OnDestroy {
       client_id: environment.googleClientId,
       ux_mode: 'popup',
       cancel_on_tap_outside: true,
-      callback: (resp) => this.handleGoogleAuth(resp.credential)
+      callback: (res) => this.store.dispatch(SignInWithGoogleAction({ token: res.credential, isUBS: this.isUbs }))
     });
     gAccounts.id.prompt();
-  }
-
-  private handleGoogleAuth(resp): void {
-    this.googleService
-      .signIn(resp)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.userOwnAuthService.getDataFromLocalStorage();
-      });
   }
 }

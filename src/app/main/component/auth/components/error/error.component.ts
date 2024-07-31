@@ -25,7 +25,7 @@ export class ErrorComponent implements OnInit, OnDestroy {
   errorMessage = '';
 
   ngOnInit(): void {
-    this.control.valueChanges.pipe(takeUntil(this.$destroy)).subscribe(() => {
+    this.control.statusChanges.pipe(takeUntil(this.$destroy)).subscribe(() => {
       if (this.control.valid) {
         this.errorMessage = '';
         return;
@@ -33,6 +33,8 @@ export class ErrorComponent implements OnInit, OnDestroy {
 
       this.errorMessage = this.ERROR_MESSAGE[Object.keys(this.control?.errors)?.[0]]();
     });
+
+    this.errorMessage = this.ERROR_MESSAGE[Object.keys(this.control?.errors)?.[0]]();
   }
 
   ngOnDestroy(): void {

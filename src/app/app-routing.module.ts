@@ -5,9 +5,10 @@ import { SearchAllResultsComponent } from 'src/app/main/component/layout/compone
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { UbsUserGuardGuard } from '@ubs/ubs-user/ubs-user-guard.guard';
 import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
 import { AchievementListComponent } from '@global-user/components';
+import { UbsUserGuard } from '@ubs/ubs-user/ubs-user-guard.guard';
+import { NonAdminGuard } from 'src/app/shared/guards/non-admin.guard';
 
 export const routes: Routes = [
   {
@@ -16,7 +17,8 @@ export const routes: Routes = [
     children: [
       {
         path: 'ubs',
-        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
+        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule),
+        canActivate: [NonAdminGuard]
       },
       {
         path: '',
@@ -25,38 +27,45 @@ export const routes: Routes = [
       },
       {
         path: 'about',
-        loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule)
+        loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule),
+        canActivate: [NonAdminGuard]
       },
       {
         path: 'places',
-        loadChildren: () => import('./main/component/places/places.module').then((mod) => mod.PlacesModule)
+        loadChildren: () => import('./main/component/places/places.module').then((mod) => mod.PlacesModule),
+        canActivate: [NonAdminGuard]
       },
       {
         path: 'news',
-        loadChildren: () => import('./main/component/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule)
+        loadChildren: () => import('./main/component/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule),
+        canActivate: [NonAdminGuard]
       },
       {
         path: 'events',
-        loadChildren: () => import('./main/component/events/events.module').then((mod) => mod.EventsModule)
+        loadChildren: () => import('./main/component/events/events.module').then((mod) => mod.EventsModule),
+        canActivate: [NonAdminGuard]
       },
       {
         path: 'profile',
-        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule)
+        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule),
+        canActivate: [NonAdminGuard]
       },
       {
         path: 'search',
-        component: SearchAllResultsComponent
+        component: SearchAllResultsComponent,
+        canActivate: [NonAdminGuard]
       },
       {
         path: 'auth/restore',
         component: ConfirmRestorePasswordComponent,
-        canActivate: [ConfirmRestorePasswordGuard]
+        canActivate: [ConfirmRestorePasswordGuard, NonAdminGuard]
       },
       {
         path: 'greenCity',
-        component: HomepageComponent
+        component: HomepageComponent,
+        canActivate: [NonAdminGuard]
       },
-      { path: 'achievements', component: AchievementListComponent }
+      { path: 'achievements', component: AchievementListComponent, canActivate: [NonAdminGuard] }
     ]
   },
   {
@@ -67,7 +76,7 @@ export const routes: Routes = [
   {
     path: 'ubs-user',
     loadChildren: () => import('./ubs/ubs-user/ubs-user.module').then((mod) => mod.UbsUserModule),
-    canLoad: [UbsUserGuardGuard]
+    canLoad: [UbsUserGuard]
   },
   {
     path: '**',
