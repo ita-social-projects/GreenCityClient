@@ -86,6 +86,10 @@ export class SocketService {
         });
       }
 
+      if (this.chatsService.isSupportChat && !isAdmin) {
+        this.chatsService.locations.find((el) => el.tariffsId === newUserChat.tariffId).chat = newUserChat;
+      }
+
       if (this.isOpenNewChat) {
         this.chatsService.openCurrentChat(newUserChat.id);
         this.isOpenNewChat = false;

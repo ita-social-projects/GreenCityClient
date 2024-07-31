@@ -41,5 +41,6 @@ export interface LocationForChat {
   longitude: number;
   nameUk: string;
   nameEn: string;
+  tariffsId: number;
   chat: Chat | null;
 }
