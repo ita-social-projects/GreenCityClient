@@ -1,7 +1,7 @@
 import { Language } from 'src/app/main/i18n/Language';
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -19,6 +19,21 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TariffConfirmationPopUpInterface } from 'src/app/ubs/ubs-admin/models/ubs-pop-up.interface';
 
+interface IModalData {
+  edit: boolean;
+  create: boolean;
+  tariffId: number;
+  provideValues: boolean;
+  regionId: number;
+  courierId: number;
+  courierUkrainianName: string;
+  courierEnglishName: string;
+  regionEnglishName: string;
+  selectedStation: string;
+  regionUkrainianName: string;
+  cityNameUk: string;
+  cityNameEn: string;
+}
 @Component({
   selector: 'app-ubs-admin-tariffs-card-pop-up',
   templateUrl: './ubs-admin-tariffs-card-pop-up.component.html',
@@ -26,10 +41,10 @@ import { TariffConfirmationPopUpInterface } from 'src/app/ubs/ubs-admin/models/u
 })
 export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   CardForm = this.fb.group({
-    courierName: ['', Validators.required],
-    station: ['', Validators.required],
-    regionName: ['', Validators.required],
-    city: [{ value: '', disabled: true }, [Validators.maxLength(40), Validators.required]]
+    courierName: new FormControl<string>('', [Validators.required]),
+    station: new FormControl<string>('', [Validators.required]),
+    regionName: new FormControl<string>('', [Validators.required]),
+    city: new FormControl<string>({ value: '', disabled: true }, [Validators.maxLength(40), Validators.required])
   });
   icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
@@ -84,7 +99,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public modalData: any,
+    @Inject(MAT_DIALOG_DATA) public modalData: IModalData,
     private localeStorageService: LocalStorageService,
     private tariffsService: TariffsService,
     private store: Store<IAppState>,
@@ -179,7 +194,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
-        this.couriersName = this.couriers.map((item) => this.getLangValue(item.nameUk, item.nameEn));
+        this.couriersName = this.couriers.map((item) => this.languageService.getLangValue(item.nameUk, item.nameEn));
       });
   }
 
@@ -283,12 +298,12 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   onSelectCourier(event): void {
     const selectedValue = this.couriers.find((ob) => {
-      const name = this.getLangValue(ob.nameUk, ob.nameEn);
+      const name = this.languageService.getLangValue(ob.nameUk, ob.nameEn);
       return name === event.value;
     });
     this.courierEnglishName = selectedValue.nameEn;
     this.courierUkrainianName = selectedValue.nameUk;
-    this.currentCourierNameTranslated = this.getLangValue(selectedValue.nameEn, selectedValue.nameUk);
+    this.currentCourierNameTranslated = this.languageService.getLangValue(selectedValue.nameEn, selectedValue.nameUk);
     this.courierId = selectedValue.courierId;
     this.isCardExist = false;
   }
@@ -349,7 +364,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
     this.regionEnglishName = this.getRegionNameByLanguageCode(selectedValue, Language.EN);
     this.regionUkrainianName = this.getRegionNameByLanguageCode(selectedValue, Language.UA);
-    this.currentRegionTranslated = this.getLangValue(this.regionEnglishName, this.regionUkrainianName);
+    this.currentRegionTranslated = this.languageService.getLangValue(this.regionEnglishName, this.regionUkrainianName);
 
     this.regionId = selectedValue.find((it) => it.regionId).regionId;
     const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === event.value));
@@ -415,10 +430,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       this.selectedCities.push(tempItem);
       this.checkIfLocationUsed();
     }
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
   checkCity(item): boolean {
@@ -504,14 +515,14 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         this.modalData;
 
       this.CardForm.patchValue({
-        courierName: this.getLangValue(courierUkrainianName, courierEnglishName),
-        regionName: this.getLangValue(regionUkrainianName, regionEnglishName),
+        courierName: this.languageService.getLangValue(courierUkrainianName, courierEnglishName),
+        regionName: this.languageService.getLangValue(regionUkrainianName, regionEnglishName),
         station: selectedStation,
-        city: this.getLangValue(cityNameUk, cityNameEn)
+        city: this.languageService.getLangValue(cityNameUk, cityNameEn)
       });
 
-      this.currentCourierNameTranslated = this.getLangValue(courierEnglishName, courierUkrainianName);
-      this.currentRegionTranslated = this.getLangValue(regionEnglishName, regionUkrainianName);
+      this.currentCourierNameTranslated = this.languageService.getLangValue(courierEnglishName, courierUkrainianName);
+      this.currentRegionTranslated = this.languageService.getLangValue(regionEnglishName, regionUkrainianName);
     }
   }
 

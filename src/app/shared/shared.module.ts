@@ -49,6 +49,7 @@ import { AddressInputComponent } from './address-input/address-input.component';
 import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-display.component';
 import { RelativeDatePipe } from './relative-date.pipe';
 import { EditImagePopUpComponent } from './edit-image-pop-up/edit-image-pop-up.component';
+import { LangValueDirective } from './directives/lang-value/lang-value.directive';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { EditImagePopUpComponent } from './edit-image-pop-up/edit-image-pop-up.c
     AddressInputComponent,
     RatingDisplayComponent,
     RelativeDatePipe,
-    EditImagePopUpComponent
+    EditImagePopUpComponent,
+    LangValueDirective
   ],
   imports: [
     CommonModule,
@@ -142,7 +144,8 @@ import { EditImagePopUpComponent } from './edit-image-pop-up/edit-image-pop-up.c
     RemoveLeadingZeroDirective,
     AddressInputComponent,
     RatingDisplayComponent,
-    RelativeDatePipe
+    RelativeDatePipe,
+    LangValueDirective
   ]
 })
 export class SharedModule {}

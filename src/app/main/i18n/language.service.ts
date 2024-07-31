@@ -4,12 +4,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { Language } from './Language';
 import { LanguageId } from '../interface/language-id';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { langValue } from '../interface/langValue';
 import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { userLink } from '../links';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 
+type TLangValue = string | string[];
+
+type TLangValueReturnType<T extends TLangValue> = T extends string ? string : string[];
 @Injectable({
   providedIn: 'root'
 })
@@ -121,8 +123,8 @@ export class LanguageService {
     return this.localStorageService.getCurrentLanguage();
   }
 
-  getLangValue(uaValue: langValue, enValue: langValue): langValue {
-    return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
+  getLangValue<T extends TLangValue>(uaValue: T, enValue: T): TLangValueReturnType<T> {
+    return (this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue) as TLangValueReturnType<T>;
   }
 
   private getLanguageByString(languageString: string) {

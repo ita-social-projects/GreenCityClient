@@ -118,7 +118,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     private fb: FormBuilder,
     private orderService: OrderService,
     private localStorageService: LocalStorageService,
-    private langService: LanguageService,
+    public langService: LanguageService,
     private store: Store,
     private cdr: ChangeDetectorRef
   ) {}
@@ -352,12 +352,13 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     return control.touched && control.invalid;
   }
 
-  getLangValue(uaValue, enValue): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
-  }
-
   districtComparator(option: DistrictsDtos, value: DistrictsDtos): boolean {
     return option?.nameUa === value?.nameUa;
+  }
+
+  getCityPrefix(): string {
+    const cityValue = this.langService.getLangValue('місто', 'city');
+    return `${this.region.value}, ${cityValue}, `;
   }
 
   private getDistrictsForCity(): void {

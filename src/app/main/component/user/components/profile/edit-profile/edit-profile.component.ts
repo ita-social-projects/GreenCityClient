@@ -1,20 +1,19 @@
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { PlaceService } from '@global-service/place/place.service';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
-import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { Coordinates, EditProfileDto, EditProfileModel, UserLocationDto } from '@global-user/models/edit-profile.model';
-import { filter, take } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { FormControl, FormGroup } from '@angular/forms';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { PlaceService } from '@global-service/place/place.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -75,8 +74,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   constructor(
     private injector: Injector,
     public dialog: MatDialog,
-    public router: Router,
-    private langService: LanguageService
+    public router: Router
   ) {
     super(router, dialog);
     this.builder = injector.get(EditProfileFormBuilder);
@@ -137,10 +135,6 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   private initForm(): void {
     this.editProfileForm = this.builder.getProfileForm();
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   getInitialValue(): void {

@@ -11,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Addresses, FilterItem } from '../../models/events.interface';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -102,7 +103,7 @@ describe('EventsListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [EventsListComponent],
+      declarations: [EventsListComponent, LangValueDirective],
       imports: [TranslateModule.forRoot(), NgxPaginationModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule],
       providers: [
         { provide: UserOwnAuthService, useValue: UserOwnAuthServiceMock },

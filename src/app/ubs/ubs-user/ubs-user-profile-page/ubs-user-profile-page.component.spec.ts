@@ -22,6 +22,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { AddressInputComponent } from 'src/app/shared/address-input/address-input.component';
 import { InputGoogleAutocompleteComponent } from '@shared/components/input-google-autocomplete/input-google-autocomplete.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -86,9 +87,10 @@ describe('UbsUserProfilePageComponent', () => {
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
   fakeLocalStorageService.getLocations = () => [];
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLanguage']);
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLanguage', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => valUa;
   languageServiceMock.getCurrentLanguage = () => 'ua';
+  languageServiceMock.getCurrentLangObs = () => of('ua');
 
   const fakeLocationServiceMock = jasmine.createSpyObj('locationService', [
     'getDistrictAuto',
@@ -111,7 +113,7 @@ describe('UbsUserProfilePageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsUserProfilePageComponent, AddressInputComponent, InputGoogleAutocompleteComponent],
+      declarations: [UbsUserProfilePageComponent, AddressInputComponent, InputGoogleAutocompleteComponent, LangValueDirective],
       providers: [
         { provide: MatDialog, useValue: dialogMock },
         { provide: MatDialogRef, useValue: {} },
@@ -331,11 +333,6 @@ describe('UbsUserProfilePageComponent', () => {
         expect(control.valid).toBeTruthy();
       });
     }
-  });
-
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('value');
   });
 
   describe('onSwitchChanged method', () => {

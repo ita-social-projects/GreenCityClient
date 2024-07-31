@@ -16,7 +16,7 @@
     <label for="city">{{ 'personal-info.pop-up-city' | translate }}</label>
     <app-input-google-autocomplete
       formControlName="city"
-      [requestPrefix]="region.value + ', ' + getLangValue('місто, ', 'city, ')"
+      [requestPrefix]="getCityPrefix()"
       [autoCompRequest]="autocompleteCityRequest"
       (predictionSelected)="onCitySelected($event)"
       [isInvalid]="city.invalid"
@@ -91,7 +91,7 @@
       <option
         *ngFor="let districtElem of districtList"
         [ngValue]="districtElem"
-        [label]="getLangValue(districtElem.nameUa, districtElem.nameEn)"
+        [label]="langService.getLangValue(districtElem.nameUa, districtElem.nameEn)"
       ></option>
     </select>
     <div class="validation" *ngIf="district.invalid && district.touched">

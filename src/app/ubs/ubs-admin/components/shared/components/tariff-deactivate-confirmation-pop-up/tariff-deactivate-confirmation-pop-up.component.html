@@ -16,11 +16,11 @@
     <div class="form-block">
       <div class="ua-part">
         <label for="courier" class="label">{{ 'ubs-tariffs.courier' | translate }}</label>
-        <p id="courier" class="text">{{ getLangValue(courierName, courierEnglishName) }}</p>
+        <p id="courier" class="text" [appLangValue]="{ ua: courierName, en: courierEnglishName }"></p>
       </div>
       <div class="en-part">
-        <label for="courierName" class="label">{{ getLangValue(courierLabelEn, courierLabelUa) }}</label>
-        <p id="courierName" class="text">{{ getLangValue(courierEnglishName, courierName) }}</p>
+        <label for="courierName" class="label" [appLangValue]="{ ua: courierLabelEn, en: courierLabelUa }"></label>
+        <p id="courierName" class="text" [appLangValue]="{ ua: courierEnglishName, en: courierName }"></p>
       </div>
     </div>
     <div class="form-block">
@@ -32,21 +32,21 @@
     <div class="form-block">
       <div class="ua-part">
         <label for="region" class="label">{{ 'ubs-tariffs.region' | translate }}</label>
-        <p id="region" class="text">{{ getLangValue(regionName, regionEnglishName) }}</p>
+        <p id="region" class="text" [appLangValue]="{ ua: regionName, en: regionEnglishName }"></p>
       </div>
       <div class="en-part">
-        <label for="regionName" class="label">{{ getLangValue(regionLabelEn, regionLabelUa) }}</label>
-        <p id="regionName" class="text">{{ getLangValue(regionEnglishName, regionName) }}</p>
+        <label for="regionName" class="label" [appLangValue]="{ ua: regionLabelUa, en: regionLabelEn }"></label>
+        <p id="regionName" class="text" [appLangValue]="{ ua: regionEnglishName, en: regionName }"></p>
       </div>
     </div>
     <div class="form-block">
       <div class="ua-part">
         <label for="locationsNames" class="label">{{ 'ubs-tariffs.city' | translate }}</label>
-        <p id="locationsNames" class="text">{{ getLangArrayValue(locationNames, locationEnglishNames) }}</p>
+        <p id="locationsNames" class="text" [appLangValue]="{ ua: locationNames, en: locationEnglishNames }"></p>
       </div>
       <div class="en-part">
-        <label for="locationNames" class="label">{{ getLangValue(cityLabelEn, cityLabelUa) }}</label>
-        <p id="locationNames" class="text">{{ getLangArrayValue(locationEnglishNames, locationNames) }}</p>
+        <label for="locationNames" class="label" [appLangValue]="{ ua: cityLabelEn, en: cityLabelUa }"></label>
+        <p id="locationNames" class="text" [appLangValue]="{ ua: locationEnglishNames, en: locationNames }"></p>
       </div>
     </div>
   </div>

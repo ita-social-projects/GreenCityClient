@@ -55,10 +55,6 @@ export class HabitsGalleryViewComponent implements OnInit {
     this.habit.isCustomHabit ? this.assignCustomHabit() : this.assignStandartHabit();
   }
 
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
-  }
-
   private assignStandartHabit() {
     this.habitAssignService
       .assignHabit(this.habit.id)

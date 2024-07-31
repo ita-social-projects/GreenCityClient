@@ -22,7 +22,7 @@ export class TagFilterComponent implements OnInit {
   }
 
   emitTrueFilterValues(): Array<string> {
-    return this.filters.filter((active) => active.isActive).map((filter) => this.getLangValue(filter.nameUa, filter.name));
+    return this.filters.filter((active) => active.isActive).map((filter) => this.langService.getLangValue(filter.nameUa, filter.name));
   }
 
   emitActiveFilters(): void {
@@ -47,9 +47,5 @@ export class TagFilterComponent implements OnInit {
   private getSessionStorageFilters() {
     const filters = sessionStorage.getItem(this.storageKey);
     return filters !== null ? JSON.parse(filters) : this.tagsListData;
-  }
-
-  getLangValue(valUa: string, valEn: string): string {
-    return this.langService.getLangValue(valUa, valEn) as string;
   }
 }

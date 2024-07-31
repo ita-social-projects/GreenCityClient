@@ -1,13 +1,13 @@
 <div class="address d-flex flex-column">
-  <p>{{ 'personal-info.address-city' | translate }} {{ getLangValue(address.city, address.cityEn) }}</p>
-  <p>{{ getLangValue(address.district, address.districtEn) }}</p>
+  <p [appLangValue]="{ ua: address.city, en: address.cityEn }" [prefix]="('personal-info.address-city' | translate) + ' '"></p>
+  <p [appLangValue]="{ ua: address.district, en: address.districtEn }"></p>
   <p>
-    <span>{{ getLangValue(address.street, address.streetEn) }}</span
-    >, {{ 'personal-info.address-house' | translate }} {{ address.houseNumber }},
+    <span [appLangValue]="{ ua: address.street, en: address.streetEn }"></span>
+    <span>, {{ 'personal-info.address-house' | translate }} {{ address.houseNumber }},</span>
     <ng-template [ngIf]="address.houseCorpus">{{ 'personal-info.address-corp' | translate }} {{ address.houseCorpus }}, </ng-template>
     <ng-template [ngIf]="address.entranceNumber">
       {{ 'personal-info.address-entrance' | translate }} {{ address.entranceNumber }}</ng-template
     >
   </p>
-  <p>{{ getLangValue(address.region, address.regionEn) }}</p>
+  <p [appLangValue]="{ ua: address.region, en: address.regionEn }"></p>
 </div>

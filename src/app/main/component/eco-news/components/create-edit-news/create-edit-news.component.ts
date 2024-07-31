@@ -326,7 +326,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   getTagsList(list: FilterModel[]): void {
-    const selectedTagsList = list.map((el) => this.langService.getLangValue(el.nameUa, el.name) as string);
+    const selectedTagsList = list.map((el) => this.langService.getLangValue(el.nameUa, el.name));
     this.form.setControl('tags', this.fb.array(selectedTagsList));
     this.createEcoNewsService.setTags(list);
   }

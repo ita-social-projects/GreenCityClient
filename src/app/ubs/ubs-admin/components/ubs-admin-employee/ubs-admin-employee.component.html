@@ -47,7 +47,7 @@
         <div class="filtrs-list">
           <div *ngFor="let position of selectedPositions" class="filter-item">
             <div class="remove-item-btn" (click)="removeItem(position, 'position')"></div>
-            <span class="filter-content">{{ getLangValue(position.ukrainianName, position.englishName) }}</span>
+            <span class="filter-content" [appLangValue]="{ ua: position.ukrainianName, en: position.englishName }"></span>
           </div>
         </div>
       </div>
@@ -149,7 +149,7 @@
         <div class="filtrs-list">
           <div class="filter-item" *ngFor="let courier of selectedCouriers">
             <div class="remove-item-btn" (click)="removeItem(courier, 'courier')"></div>
-            <span class="filter-content">{{ getLangValue(courier.ukrainianName, courier.englishName) }}</span>
+            <span class="filter-content" [appLangValue]="{ ua: courier.ukrainianName, en: courier.englishName }"></span>
           </div>
         </div>
       </div>
@@ -168,8 +168,11 @@
           />
           <mat-autocomplete #autoState="matAutocomplete" (optionSelected)="selectedStates($event)">
             <div class="option-wrapper">
-              <mat-option *ngFor="let state of employeeStates" [value]="getLangValue(state.nameUa, state.nameEn)">
-                {{ getLangValue(state.nameUa, state.nameEn) }}
+              <mat-option
+                *ngFor="let state of employeeStates"
+                [value]="languageService.getLangValue(state.nameUa, state.nameEn)"
+                [appLangValue]="{ ua: state.nameUa, en: state.nameEn }"
+              >
               </mat-option>
             </div>
           </mat-autocomplete>
@@ -178,7 +181,7 @@
         <div class="filtrs-list">
           <div class="filter-item" *ngFor="let state of selectedState">
             <div class="remove-item-btn" (click)="removeItem(state, 'state')"></div>
-            <span class="filter-content"> {{ getLangValue(state.nameUa, state.nameEn) }}</span>
+            <span class="filter-content" [appLangValue]="{ ua: state.nameUa, en: state.nameEn }"></span>
           </div>
         </div>
       </div>

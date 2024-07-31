@@ -365,11 +365,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(component.addressDistrictEng.value).toEqual(result);
   });
 
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('value');
-  });
-
   it('should return ua value by getLangControl', () => {
     const value = component.getLangControl(component.addressCity, component.addressCityEng);
     expect(value).toEqual(component.addressCity);

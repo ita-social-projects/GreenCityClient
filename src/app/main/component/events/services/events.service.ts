@@ -124,14 +124,14 @@ export class EventsService implements OnDestroy {
   }
 
   getFormattedAddress(coordinates: LocationResponse): string {
-    return this.getLangValue(
+    return this.langService.getLangValue(
       coordinates?.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUa,
       coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
     );
   }
 
   getFormattedAddressEventsList(coordinates: LocationResponse): string {
-    return this.getLangValue(
+    return this.langService.getLangValue(
       coordinates.streetUa
         ? this.createEventsListAddresses(coordinates, 'Ua')
         : coordinates.formattedAddressUa.split(', ').slice(0, 2).reverse().join(', '),
@@ -139,10 +139,6 @@ export class EventsService implements OnDestroy {
         ? this.createEventsListAddresses(coordinates, 'En')
         : coordinates.formattedAddressEn.split(', ').slice(0, 2).reverse().join(', ')
     );
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   createAddresses(coord: LocationResponse | null, lang: string): string {

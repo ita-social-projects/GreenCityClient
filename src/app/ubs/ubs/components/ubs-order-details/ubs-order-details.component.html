@@ -29,7 +29,7 @@
       <div class="main" formGroupName="bags">
         <ul class="main-box">
           <li *ngFor="let bag of bags" class="main-list-item">
-            <span class="bag-name">{{ getLangValue(bag.name, bag.nameEng) }}</span>
+            <span class="bag-name" [appLangValue]="{ ua: bag.name, en: bag.nameEng }"></span>
             <span class="bag-name">{{ bag.capacity | volume }}</span>
             <span class="bag-name">{{ bag.price | localizedCurrency }}</span>
             <div class="bag-name form-group count">

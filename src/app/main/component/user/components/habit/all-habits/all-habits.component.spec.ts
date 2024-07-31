@@ -238,14 +238,6 @@ describe('AllHabitsComponent', () => {
     expect(routerSpy).toHaveBeenCalledWith(['profile/1/create-habit']);
   });
 
-  it('should return value from langService', () => {
-    const uaValue = 'uaValue';
-    const enValue = 'enValue';
-    spyOn((component as any).langService, 'getLangValue').and.returnValue('result');
-    const result = component.getLangValue(uaValue, enValue);
-    expect(result).toEqual('result');
-  });
-
   it('should navigate to create habit', () => {
     const navigateSpy = spyOn(component.router, 'navigate');
     localStorage.setItem('userId', '123');
@@ -259,13 +251,6 @@ describe('AllHabitsComponent', () => {
     component.resetFilters();
     expect(component.filtersList.every((filter) => !filter.isAllSelected)).toBeTrue();
     expect(component.cleanFilters.next).toHaveBeenCalled();
-  });
-
-  it('should get language value', () => {
-    const getLangValueSpy = spyOn<any>(component, 'getLangValue').and.returnValue('en');
-    const result = component.getLangValue('ua', 'en');
-    expect(getLangValueSpy).toHaveBeenCalledWith('ua', 'en');
-    expect(result).toEqual('en');
   });
 
   it('should reset filters', () => {

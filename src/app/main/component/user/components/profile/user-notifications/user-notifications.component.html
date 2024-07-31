@@ -11,9 +11,8 @@
             [ngClass]="{ 'global-tag-clicked': approach.isSelected }"
             (click)="changefilterApproach(approach.name, $event)"
             (keydown)="changefilterApproach(approach.name, $event)"
-          >
-            {{ getLangValue(approach.nameUa, approach.nameEn) }}
-          </button>
+            [appLangValue]="{ ua: approach.nameUa, en: approach.nameEn }"
+          ></button>
         </div>
       </div>
       <input class="notification-search" type="text" placeholder="{{ 'search.search-all-results.placeholder' | translate }}" />
@@ -27,9 +26,8 @@
         (click)="changeFilter(type, filterApproach.TYPE, $event)"
         (keydown)="changeFilter(type, filterApproach.TYPE, $event)"
         [disabled]="isFilterDisabled"
-      >
-        {{ getLangValue(type.nameUa, type.nameEn) }}
-      </button>
+        [appLangValue]="{ ua: type.nameUa, en: type.nameEn }"
+      ></button>
     </div>
 
     <div *ngIf="checkSelectedFilter(filterApproach.ORIGIN)" class="filter-buttons">

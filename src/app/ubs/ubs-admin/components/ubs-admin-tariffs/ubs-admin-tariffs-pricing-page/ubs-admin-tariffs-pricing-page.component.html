@@ -43,8 +43,8 @@
             <img *ngIf="!isLoadBar1" [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteService(service)" />
           </div>
         </td>
-        <td>{{ getLangValue(service.name, service.nameEng) }}</td>
-        <td>{{ getLangValue(service.description, service.descriptionEng) }}</td>
+        <td [appLangValue]="{ ua: service.name, en: service.nameEng }"></td>
+        <td [appLangValue]="{ ua: service.description, en: service.descriptionEng }"></td>
         <td>{{ servicePrice | localizedCurrency }}</td>
       </tr>
     </table>
@@ -89,9 +89,9 @@
             />
           </div>
         </td>
-        <td>{{ getLangValue(bag.name, bag.nameEng) }}</td>
+        <td [appLangValue]="{ ua: bag.name, en: bag.nameEng }"></td>
         <td>{{ bag.capacity | volume }}</td>
-        <td>{{ getLangValue(bag.description, bag.descriptionEng) }}</td>
+        <td [appLangValue]="{ ua: bag.description, en: bag.descriptionEng }"></td>
         <td>{{ bag.price | localizedCurrency }}</td>
         <td>{{ bag.commission | localizedCurrency }}</td>
         <td>{{ bag.fullPrice | localizedCurrency }}</td>
@@ -197,7 +197,9 @@
                 class="example-margin"
                 [checked]="bag.limitIncluded"
                 (change)="onChecked(bag.id, $event)"
-                >{{ getLangValue(bag.name, bag.nameEng) }} {{ bag.capacity | volume }}
+                [appLangValue]="{ ua: bag.name, en: bag.nameEng }"
+                suffix=" {{ bag.capacity | volume }}"
+              >
               </mat-checkbox>
             </div>
           </div>

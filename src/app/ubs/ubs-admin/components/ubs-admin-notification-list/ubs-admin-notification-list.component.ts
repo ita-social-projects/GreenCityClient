@@ -4,10 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { NotificationsService, notificationStatuses } from '../../services/notifications.service';
-import { NotificationPage, NotificationTemplatesPage } from '../../models/notifications.model';
 import { formatNotificationCron } from 'src/app/shared/cron/cron.service';
+import { NotificationPage, NotificationTemplatesPage } from '../../models/notifications.model';
+import { NotificationsService, notificationStatuses } from '../../services/notifications.service';
 
 @Component({
   selector: 'app-ubs-admin-notification-list',
@@ -34,7 +33,6 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private langService: LanguageService,
     private route: ActivatedRoute,
     private notificationsService: NotificationsService,
     private localStorageService: LocalStorageService
@@ -82,10 +80,6 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
           this.itemsPerPage += 10;
         }
       });
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   navigateToNotification(id: number) {

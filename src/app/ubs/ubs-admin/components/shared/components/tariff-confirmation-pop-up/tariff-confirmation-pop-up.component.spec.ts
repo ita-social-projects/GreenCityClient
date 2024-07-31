@@ -38,15 +38,6 @@ describe('TariffConfirmationPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return language specific value', () => {
-    const uaValue = 'тариф';
-    const enValue = 'tariff';
-    spyOn(component.langService, 'getLangValue').and.returnValue(enValue);
-    const langValue = component.getLangValue(uaValue, enValue);
-    expect(component.langService.getLangValue).toHaveBeenCalled();
-    expect(langValue).toEqual(enValue);
-  });
-
   it('should initialize component variables in ngOnInit', () => {
     const modalData: TariffConfirmationPopUpInterface = {
       title: 'Test Title',

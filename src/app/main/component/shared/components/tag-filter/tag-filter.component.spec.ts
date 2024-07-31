@@ -4,13 +4,16 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TagFilterComponent } from './tag-filter.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FilterModel } from './tag-filter.model';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
+import { of } from 'rxjs';
 
 describe('TagFilterComponent', () => {
   let component: TagFilterComponent;
   let fixture: ComponentFixture<TagFilterComponent>;
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue.and.returnValue('fakeTag');
+  languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
 
   const tagsListDataMock: Array<FilterModel> = [
     { name: 'test', nameUa: 'тест', isActive: false },
@@ -19,7 +22,7 @@ describe('TagFilterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TagFilterComponent],
+      declarations: [TagFilterComponent, LangValueDirective],
       imports: [TranslateModule.forRoot()],
       providers: [{ provide: LanguageService, useValue: languageServiceMock }]
     }).compileComponents();

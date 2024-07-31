@@ -22,7 +22,6 @@ import { ReplaySubject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { DatePipe } from '@angular/common';
 import { EventsService } from '../../../events/services/events.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
@@ -106,7 +105,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   constructor(
     public router: Router,
     private localStorageService: LocalStorageService,
-    private langService: LanguageService,
     private userOwnAuthService: UserOwnAuthService,
     private modalService: BsModalService,
     private dialog: MatDialog,
@@ -326,10 +324,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     if (this.address) {
       return this.eventService.getFormattedAddressEventsList(this.address);
     }
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   changeFavouriteStatus(event?: Event) {
