@@ -31,7 +31,7 @@
     <app-spinner *ngIf="chatsService.messagesIsLoading"></app-spinner>
   </div>
 
-  <form (ngSubmit)="sendMessage()">
+  <form (ngSubmit)="sendMessage()" [ngClass]="{ hidden: isAdmin && (chatsService.isAdminParticipant$ | async) === false }">
     <div>
       <div *ngIf="isEditMode" class="message-hint">
         <img [src]="chatIcons.edit" alt="edit" />
