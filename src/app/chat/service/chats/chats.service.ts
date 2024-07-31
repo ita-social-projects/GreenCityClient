@@ -19,9 +19,8 @@ export class ChatsService {
   currentChatMessagesStream$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   searchedFriendsStream$: BehaviorSubject<FriendModel[]> = new BehaviorSubject<FriendModel[]>([]);
   locations$: BehaviorSubject<LocationForChat[]> = new BehaviorSubject([]);
-  isChatUpdateStream$: Subject<boolean> = new Subject<boolean>();
   chatsMessages: { [key: string]: MessagesToSave } = {};
-  private messagesIsLoading = false;
+  messagesIsLoading = false;
   isSupportChat$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isAdminParticipant$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   messageToEdit$: BehaviorSubject<Message> = new BehaviorSubject<Message>(null);
@@ -79,7 +78,7 @@ export class ChatsService {
       .get<ChatDto>(`${environment.backendChatLink}chat/chats/active?page=${page}&size=${pageSize}`)
       .subscribe((chats: ChatDto) => {
         const previousChats = this.userChatsStream$.getValue();
-        const newChats = chats.page.filter((chat) => !previousChats.find((el) => el.id === chat.id));
+        const newChats = chats.page.filter((chat) => !previousChats?.find((el) => el.id === chat.id));
         const updatedChats = [...previousChats, ...newChats];
         this.currentChatPageData$.next(chats);
         this.userChatsStream$.next(updatedChats);
@@ -133,7 +132,6 @@ export class ChatsService {
         return !isMessageAlreadyVisible;
       });
       this.chatsMessages[id].page.unshift(...filtredMessages);
-      this.isChatUpdateStream$.next(true);
       this.messagesIsLoading = false;
     });
   }

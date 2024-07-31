@@ -55,8 +55,8 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
       }
     });
 
-    this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
-      this.isHaveMessages = messages.length !== 0;
+    this.chatsService.currentChatMessagesStream$.pipe(takeUntil(this.onDestroy$)).subscribe((messages) => {
+      this.isHaveMessages = !!messages?.length;
 
       const chatElem = this.chat?.nativeElement;
       const chatHeight = chatElem?.scrollHeight;

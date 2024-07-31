@@ -28,6 +28,7 @@
       </div>
     </div>
     <div *ngIf="!isHaveMessages">Chat hasn't messages yet</div>
+    <app-spinner *ngIf="chatsService.messagesIsLoading"></app-spinner>
   </div>
 
   <form (ngSubmit)="sendMessage()">
