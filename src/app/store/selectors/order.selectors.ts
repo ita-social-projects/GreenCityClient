@@ -31,6 +31,8 @@ export const pointsUsedSelector = createSelector(orderSelectors, (order) => orde
 
 export const isFirstFormValidSelector = createSelector(orderSelectors, (order) => order.firstFormValid);
 
+export const isSecondFormValidSelector = createSelector(orderSelectors, (order) => order.secondFormValid);
+
 export const isAddressLoadingSelector = createSelector(orderSelectors, (order) => order.isAddressLoading);
 
 export const isOrderDetailsLoadingSelector = createSelector(orderSelectors, (order) => order.isOrderDetailsLoading);

@@ -10,6 +10,7 @@ export enum OrderActions {
   SetCertificates = '[Order] Set Certificates',
   SetCertificateUsed = '[Order] Set Certificate Used',
   SetFirstFormStatus = '[Order] Set First Form Status',
+  SetSecondFormStatus = '[Order] Set Second Form Status',
   SetPersonalData = '[Order] Set Personal Data',
   SetAddress = '[Order] Set Address',
   SetAdditionalOrders = '[Order] Set Additional Orders',
@@ -68,6 +69,7 @@ export const SetPointsUsed = createAction(OrderActions.SetPointsUsed, props<{ po
 export const SetCertificates = createAction(OrderActions.SetCertificates, props<{ certificates: string[] }>());
 export const SetCertificateUsed = createAction(OrderActions.SetCertificateUsed, props<{ certificateUsed: number }>());
 export const SetFirstFormStatus = createAction(OrderActions.SetFirstFormStatus, props<{ isValid: boolean }>());
+export const SetSecondFormStatus = createAction(OrderActions.SetSecondFormStatus, props<{ isValid: boolean }>());
 export const SetPersonalData = createAction(OrderActions.SetPersonalData, props<{ personalData: PersonalData }>());
 export const SetAdditionalOrders = createAction(OrderActions.SetAdditionalOrders, props<{ orders: string[] }>());
 export const SetOrderComment = createAction(OrderActions.SetOrderComment, props<{ comment: string }>());

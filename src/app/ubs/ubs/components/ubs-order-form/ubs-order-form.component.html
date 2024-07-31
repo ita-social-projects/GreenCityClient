@@ -8,7 +8,7 @@
       <ng-template matStepLabel>{{ 'order-form.order-details' | translate }}</ng-template>
       <app-ubs-order-details #firstStep (secondStepDisabledChange)="isSecondStepDisabled = $event"></app-ubs-order-details>
     </mat-step>
-    <mat-step [stepControl]="secondStepForm">
+    <mat-step [stepControl]="secondStepForm" [completed]="isSecondFormValid$ | async">
       <ng-template matStepLabel>{{ 'order-form.personal-data' | translate }}</ng-template>
       <app-ubs-personal-information #secondStep></app-ubs-personal-information>
     </mat-step>
