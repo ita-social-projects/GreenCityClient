@@ -105,16 +105,16 @@ describe('UbsAdminSidebarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('listElenenChangetUtil should called in changeListElementsDependOnPermissions()', () => {
-    const spy = spyOn(component as any, 'listElenenChangetUtil');
+  it('listElementChangedUtil should called in changeListElementsDependOnPermissions()', () => {
+    const spy = spyOn(component as any, 'listElementChangedUtil');
     spyOnProperty(component as any, 'customerViewer', 'get').and.returnValue(false);
     (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith(SideMenuElementsNames.customers);
   });
 
-  it('listElenenChangetUtil should called in changeListElementsDependOnPermissions()', () => {
-    const spy = spyOn(component as any, 'listElenenChangetUtil');
+  it('listElementChangedUtil should called in changeListElementsDependOnPermissions()', () => {
+    const spy = spyOn(component as any, 'listElementChangedUtil');
     spyOnProperty(component as any, 'certificatesViewer', 'get').and.returnValue(false);
     (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
@@ -175,9 +175,9 @@ describe('UbsAdminSidebarComponent', () => {
     expect(spy).toBeTruthy();
   });
 
-  it('listElenenChangetUtil method should call', () => {
+  it('listElementChangedUtil method should call', () => {
     component.listElementsAdmin = listElementsAdmin;
-    (component as any).listElenenChangetUtil(SideMenuElementsNames.customers);
+    (component as any).listElementChangedUtil(SideMenuElementsNames.customers);
     expect(component.listElementsAdmin).toEqual(listElementsAdminMock);
   });
 });

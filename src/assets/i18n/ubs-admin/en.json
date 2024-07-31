@@ -527,6 +527,7 @@
       "inactive": "INACTIVE"
     },
     "permissions": {
+      "no-authorities": "You don't have authorities to view this page",
       "clients": {
         "title": "Clients",
         "see-main-page": "See the main page of the “Client”",
