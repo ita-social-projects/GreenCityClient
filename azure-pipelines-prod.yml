@@ -110,3 +110,4 @@ stages:
                     releaseName: 'client'
                     overrideValues: 'ingress.hostname=www.pick-up.city,deployment.image=skyere/greencity-front:prod-$(Build.BuildId)'
                     arguments: '--debug'
+
