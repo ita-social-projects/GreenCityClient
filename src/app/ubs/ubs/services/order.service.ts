@@ -6,7 +6,6 @@ import {
   CourierLocations,
   ActiveCourierDto,
   DistrictEnum,
-  PersonalData,
   ICertificateResponse,
   OrderDetails,
   DistrictsDtos,
@@ -20,7 +19,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/OrderClientDto';
-import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
+import { ResponceOrderFondyModel } from '@ubs/ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
 import { Store } from '@ngrx/store';
 import { ClearOrderDetails, ClearPersonalData } from 'src/app/store/actions/order.actions';
 import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
@@ -34,7 +33,6 @@ export class OrderService {
   locationSub = new Subject();
   currentAddress = new Subject();
   stateOrderDetails: OrderDetails;
-  statePersonalData: PersonalData;
 
   constructor(
     private http: HttpClient,
@@ -89,7 +87,7 @@ export class OrderService {
   }
 
   processNewOrder(order: Order): Observable<IProcessOrderResponse> {
-    return this.http.post<IProcessOrderResponse>(`${this.url}/processOrder`, order);
+    return this.http.post<IProcessOrderResponse>(`${this.url}/client/processOrder`, order);
   }
 
   processExistingOrder(order: Order, orderId: number): Observable<IProcessOrderResponse> {
