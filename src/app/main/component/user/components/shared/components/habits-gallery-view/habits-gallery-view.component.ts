@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
@@ -6,8 +6,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
-import { starIcons } from 'src/app/main/image-pathes/habits-images';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { habitImages, starIcons } from 'src/app/main/image-pathes/habits-images';
 
 @Component({
   selector: 'app-habits-gallery-view',
@@ -19,11 +18,12 @@ export class HabitsGalleryViewComponent implements OnInit {
 
   whiteStar = starIcons.whiteStar;
   greenStar = starIcons.greenStar;
+  calendarGreen = habitImages.calendarGreen;
+  man = habitImages.man;
   stars = [this.whiteStar, this.whiteStar, this.whiteStar];
   star: number;
 
   private userId: number;
-  private langService = inject(LanguageService);
 
   constructor(
     public router: Router,

@@ -15,7 +15,7 @@ import { typeFiltersData } from '../../../events/models/event-consts';
 import { EventListResponse, LocationResponse, TagDto, TagObj } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
@@ -29,6 +29,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { ofType } from '@ngrx/effects';
 import { WarningPopUpComponent } from '@shared/components';
 import { EventStoreService } from '../../../events/services/event-store.service';
+import { habitImages } from '../../../../image-pathes/habits-images';
 
 @Component({
   selector: 'app-events-list-item',
@@ -47,7 +48,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   itemTags: Array<TagObj>;
   activeTags: Array<TagObj>;
   author: string;
-  isRated: boolean;
   isRegistered: boolean;
   isReadonly = false;
   isPosting: boolean;
@@ -98,9 +98,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     isUbsOrderSubmit: false,
     isHabit: false
   };
-  private readonly subsOnAttendEvent = new Subscription();
-  private readonly subsOnUnAttendEvent = new Subscription();
-  private dialogRef;
+
+  private dialogRef: MatDialogRef<unknown>;
+  defaultImage = habitImages.defaultImage;
 
   constructor(
     public router: Router,
@@ -116,7 +116,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private jwtService: JwtService,
     private actionsSubj: ActionsSubject
   ) {
-    this.subsOnAttendEvent = this.actionsSubj
+    this.actionsSubj
       .pipe(ofType(EventsActions.AddAttenderEcoEventsByIdSuccess), takeUntil(this.destroyed$))
       .subscribe((action: { id: number; type: string }) => {
         if (action.id === this.event.id) {
@@ -124,7 +124,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.subsOnUnAttendEvent = this.actionsSubj
+    this.actionsSubj
       .pipe(ofType(EventsActions.RemoveAttenderEcoEventsById), takeUntil(this.destroyed$))
       .subscribe((action: { id: number; type: string }) => {
         if (action.id === this.event.id) {
