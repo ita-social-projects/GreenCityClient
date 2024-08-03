@@ -211,4 +211,69 @@ describe('EditPhotoPopUpComponent', () => {
     expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalledWith(formData);
     expect(component['openErrorDialog']).toHaveBeenCalled();
   }));
+
+  it('should call transferFile with the first file when filesDropped is called', () => {
+    const mockFileHandle = { file: new File([''], 'filename.png') } as FileHandle;
+    const spy = spyOn(component as any, 'transferFile');
+    component.filesDropped([mockFileHandle]);
+
+    expect(spy).toHaveBeenCalledWith(mockFileHandle.file);
+  });
+
+  it('should not call transferFile when filesDropped is called with an empty array', () => {
+    const spy = spyOn(component as any, 'transferFile');
+    component.filesDropped([]);
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should set selectedFile and read it if no warning is shown', () => {
+    const file = new File([''], 'filename.png');
+    const mockReader = {
+      readAsDataURL: jasmine.createSpy('readAsDataURL'),
+      onload: null as ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null
+    };
+    spyOn(window as any, 'FileReader').and.returnValue(mockReader as unknown as FileReader);
+    spyOn(component as any, 'showWarning').and.returnValue(false);
+    (component as any).transferFile(file);
+
+    expect((component as any).selectedFile).toBe(file);
+    expect(mockReader.readAsDataURL).toHaveBeenCalledWith(file);
+  });
+
+  it('should not set selectedFile if a warning is shown', () => {
+    const file = new File([''], 'filename.png');
+    spyOn(component as any, 'showWarning').and.returnValue(true);
+    (component as any).transferFile(file);
+
+    expect((component as any).selectedFile).toBeNull();
+  });
+
+  it('should set croppedImage with base64 data in imageCropped', () => {
+    const event = { base64: 'croppedImageData' } as ImageCroppedEvent;
+    component.imageCropped(event);
+
+    expect((component as any).croppedImage).toBe('croppedImageData');
+  });
+
+  it('should log an error if blob conversion fails in imageCropped', (done) => {
+    const blob = new Blob(['image data'], { type: 'image/png' });
+    const event = { blob } as ImageCroppedEvent;
+    spyOn(component as any, 'convertBlobToBase64').and.returnValue(Promise.reject('conversion error'));
+    spyOn(console, 'error');
+    component.imageCropped(event);
+
+    setTimeout(() => {
+      expect(console.error).toHaveBeenCalledWith('Failed to convert blob to base64:', 'conversion error');
+      done();
+    }, 0);
+  });
+
+  it('should log an error if no base64 or blob data is available in imageCropped', () => {
+    spyOn(console, 'error');
+    const event = {} as ImageCroppedEvent;
+    component.imageCropped(event);
+
+    expect(console.error).toHaveBeenCalledWith('No base64 or blob data available.');
+  });
 });
