@@ -29,7 +29,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   numberOfFriendsToDisplay = 3;
   lengthOfFriendsNamesList = 15;
   calendarGreen = habitImages.calendarGreen;
-  defaultImage = habitImages.defaultImage;
+  man = habitImages.man;
 
   private destroy$ = new Subject<void>();
   private descriptionType = {
