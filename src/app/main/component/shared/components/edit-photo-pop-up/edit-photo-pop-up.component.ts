@@ -42,28 +42,48 @@ export class EditPhotoPopUpComponent implements OnInit {
   }
 
   onSelectPhoto(event: Event): void {
-    const imageFile = (event.target as HTMLInputElement).files[0];
-    this.transferFile(imageFile);
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.transferFile(input.files[0]);
+    }
   }
 
   filesDropped(files: FileHandle[]): void {
-    const imageFile = files[0].file;
-    this.transferFile(imageFile);
+    if (files.length) {
+      this.transferFile(files[0].file);
+    }
   }
 
   private transferFile(imageFile: File): void {
-    this.isWarning = this.showWarning(imageFile);
-
-    if (!this.isWarning) {
+    if (!this.showWarning(imageFile)) {
       this.selectedFile = imageFile;
       const reader: FileReader = new FileReader();
       reader.readAsDataURL(this.selectedFile);
-      reader.onload = (ev) => this.handleFile(ev);
+      reader.onload = (event: ProgressEvent<FileReader>) => this.handleFile(event);
     }
   }
 
   imageCropped(event: ImageCroppedEvent): void {
-    this.croppedImage = event.base64;
+    if (event.blob) {
+      this.convertBlobToBase64(event.blob)
+        .then((base64) => {
+          this.croppedImage = base64;
+        })
+        .catch((err) => {
+          console.error('Failed to convert to base64:', err);
+        });
+    } else {
+      console.error('No data available.');
+    }
+  }
+
+  private convertBlobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
   }
 
   savePhoto(): void {
@@ -104,11 +124,11 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.avatarImg = this.data.img;
   }
 
-  private handleFile(event: Event): void {
-    this.selectedFileUrl = (event.target as FileReader).result;
-    this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
-    if (!this.isWarning && typeof this.selectedFile !== 'undefined') {
-      this.selectedPhoto = !this.isWarning ? true : this.selectedPhoto;
+  private handleFile(event: ProgressEvent<FileReader>): void {
+    this.selectedFileUrl = event.target?.result;
+    if (this.selectedFile && !this.isWarning) {
+      this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
+      this.selectedPhoto = true;
     }
   }
 
