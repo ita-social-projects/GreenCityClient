@@ -64,16 +64,18 @@ export class EditPhotoPopUpComponent implements OnInit {
   }
 
   imageCropped(event: ImageCroppedEvent): void {
-    if (event.blob) {
+    if (event.base64) {
+      this.croppedImage = event.base64;
+    } else if (event.blob) {
       this.convertBlobToBase64(event.blob)
         .then((base64) => {
           this.croppedImage = base64;
         })
         .catch((err) => {
-          console.error('Failed to convert to base64:', err);
+          console.error('Failed to convert blob to base64:', err);
         });
     } else {
-      console.error('No data available.');
+      console.error('No base64 or blob data available.');
     }
   }
 
