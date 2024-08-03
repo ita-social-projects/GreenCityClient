@@ -8,10 +8,11 @@ import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { userLink } from '../links';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { Observable, of } from 'rxjs';
 
 type TLangValue = string | string[];
-
 type TLangValueReturnType<T extends TLangValue> = T extends string ? string : string[];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -82,8 +83,13 @@ export class LanguageService {
     ]);
   }
 
-  getUserLangValue() {
-    return this.http.get(`${userLink}/lang`, { responseType: 'text' });
+  getUserLangValue(): Observable<string> {
+    const cached = this.getCurrentLanguage();
+    if (cached) {
+      return of(cached);
+    } else {
+      return this.http.get(`${userLink}/lang`, { responseType: 'text' }).pipe(tap((lang) => this.changeCurrentLanguage(lang as Language)));
+    }
   }
 
   private checkLogin() {
@@ -103,12 +109,10 @@ export class LanguageService {
             }
           })
         )
-        .subscribe(
-          () => {},
-          (error) => {
-            this.setBrowserLang();
-          }
-        );
+        .subscribe({
+          next: () => {},
+          error: () => this.setBrowserLang()
+        });
     } else {
       this.setBrowserLang();
     }
@@ -119,7 +123,7 @@ export class LanguageService {
     this.changeCurrentLanguage(language);
   }
 
-  getCurrentLanguage() {
+  getCurrentLanguage(): Language {
     return this.localStorageService.getCurrentLanguage();
   }
 
