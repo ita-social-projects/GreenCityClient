@@ -87,7 +87,7 @@ export class OrderService {
   }
 
   processNewOrder(order: Order): Observable<IProcessOrderResponse> {
-    return this.http.post<IProcessOrderResponse>(`${this.url}/client/processOrder`, order);
+    return this.http.post<IProcessOrderResponse>(`${this.url}/processOrder`, order);
   }
 
   processExistingOrder(order: Order, orderId: number): Observable<IProcessOrderResponse> {
@@ -173,7 +173,7 @@ export class OrderService {
   }
 
   processOrderFondyFromUserOrderList(order: OrderClientDto): Observable<ResponceOrderFondyModel> {
-    return this.http.post<ResponceOrderFondyModel>(`${this.url}/client/processOrderFondy`, order);
+    return this.http.post<ResponceOrderFondyModel>(`${this.url}/client/processOrder`, order);
   }
 
   cancelUBSwithoutSaving(): void {
