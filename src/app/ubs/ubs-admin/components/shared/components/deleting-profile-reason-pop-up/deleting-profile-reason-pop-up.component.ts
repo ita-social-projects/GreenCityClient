@@ -97,6 +97,6 @@ const deleteProfileReasons: Reason[] = [
   {
     id: 4,
     ua: 'Не хочу вказувати',
-    en: "Do'nt want to specify"
+    en: `Don't want to specify`
   }
 ];
