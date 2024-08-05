@@ -15,6 +15,10 @@ export class DragAndDropComponent {
   isWarning = false;
   croppedImage: ImageCroppedEvent;
   @Input() file: FileHandle;
+  @Input() height: number;
+  @Input() isDisabledButton: boolean;
+  @Input() aspectRatio: number;
+  @Input() roundCropper: boolean;
   @Output() newFile = new EventEmitter<FileHandle>();
 
   stopCropping(): void {
@@ -62,8 +66,7 @@ export class DragAndDropComponent {
   }
 
   private handleFile(event): void {
-    const binaryString = event.target.result;
-    this.selectedFileUrl = binaryString;
+    this.selectedFileUrl = event.target.result;
     this.file = { url: this.selectedFileUrl, file: this.selectedFile };
     this.showWarning();
   }

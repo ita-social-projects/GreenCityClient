@@ -3,7 +3,7 @@
 .main-container {
   position: relative;
   width: 600px;
-  height: 350px;
+  height: 550px;
   font-family: var(--tertiary-font);
   display: flex;
   justify-content: center;
@@ -147,7 +147,7 @@
 @include responsiveRange(sm, md) {
   .main-container {
     width: 518px;
-    height: 376px;
+    height: 476px;
   }
 }
 

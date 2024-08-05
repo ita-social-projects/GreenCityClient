@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-photo-pop-up',
@@ -20,7 +20,7 @@ export class EditPhotoPopUpComponent implements OnInit {
   selectedFileUrl: string | ArrayBuffer;
   isNotification: boolean;
   loadingAnim: boolean;
-  private croppedImage: string;
+  private croppedImage: SafeUrl;
   private maxImageSize = 10485760;
   isDragAndDropMenu = false;
 
@@ -63,35 +63,10 @@ export class EditPhotoPopUpComponent implements OnInit {
     }
   }
 
-  imageCropped(event: ImageCroppedEvent): void {
-    if (event.base64) {
-      this.croppedImage = event.base64;
-    } else if (event.blob) {
-      this.convertBlobToBase64(event.blob)
-        .then((base64) => {
-          this.croppedImage = base64;
-        })
-        .catch((err) => {
-          console.error('Failed to convert blob to base64:', err);
-        });
-    } else {
-      console.error('No base64 or blob data available.');
-    }
-  }
-
-  private convertBlobToBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  }
-
   savePhoto(): void {
     this.loadingAnim = true;
     const formData = new FormData();
-    formData.append('base64', this.croppedImage);
+    formData.append('base64', this.croppedImage.toString());
     this.editProfileService.updateProfilePhoto(formData).subscribe({
       next: () => {
         this.loadingAnim = false;
@@ -140,5 +115,9 @@ export class EditPhotoPopUpComponent implements OnInit {
 
   private openErrorDialog(): void {
     this.snackBar.openSnackBar('error');
+  }
+
+  getFile(fileHandle: FileHandle): void {
+    this.croppedImage = fileHandle.url;
   }
 }
