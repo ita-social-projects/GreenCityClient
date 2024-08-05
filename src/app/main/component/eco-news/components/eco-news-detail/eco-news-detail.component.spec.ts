@@ -195,4 +195,58 @@ describe('EcoNewsDetailComponent', () => {
     (component as any).getIsLiked();
     expect(component.isLiked).toBe(true);
   });
+
+  it('should retrieve news by ID and set tags', () => {
+    const id = 3;
+    component.getEcoNewsById(id);
+
+    expect(ecoNewsServ.getEcoNewsById).toHaveBeenCalledWith(id);
+    expect(component.newsItem).toEqual(FIRSTECONEWS);
+  });
+
+  it('should return all tags from news item', () => {
+    const tagsUa = ['Події', 'Освіта'];
+    const tags = ['Events', 'Education'];
+
+    component.newsItem = FIRSTECONEWS;
+    component.getAllTags();
+
+    expect(languageServiceMock.getLangValue).toHaveBeenCalledWith(tagsUa, tags);
+  });
+
+  it('should return imagePath if it is not empty', () => {
+    const imagePath = 'https://example.com/image.jpg';
+    component.newsItem.imagePath = imagePath;
+    const result = component.checkNewsImage();
+
+    expect(result).toBe(imagePath);
+  });
+
+  it('should set news ID from route params', () => {
+    route.snapshot.params = { id: 5 };
+    component['setNewsId']();
+
+    expect((component as any).newsId).toBe(5);
+  });
+
+  it('should call postToggleLike with the correct newsId', () => {
+    component['postToggleLike']();
+
+    expect(ecoNewsServ.postToggleLike).toHaveBeenCalledWith(component.newsId);
+    expect(ecoNewsServ.postToggleLike).toHaveBeenCalledTimes(1);
+  });
+
+  it('should generate correct share links', () => {
+    const shareLinks = (component as any).shareLinks();
+    const currentPage = 'http://example.com%hashcode';
+
+    expect(shareLinks.fb()).toBe(`https://www.facebook.com/sharer/sharer.php?u=${currentPage}`);
+    expect(shareLinks.linkedin()).toBe(`https://www.linkedin.com/sharing/share-offsite/?url=${currentPage}`);
+    expect(shareLinks.twitter()).toBe(`https://twitter.com/share?url=${currentPage}&text=Sample Title&hashtags=tag1,tag2`);
+  });
+
+  it('should set newsId from route params', () => {
+    (component as any).setNewsId();
+    expect(component.newsId).toBe('123');
+  });
 });

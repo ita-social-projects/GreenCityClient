@@ -9,7 +9,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
@@ -34,6 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
+import { CreateEcoNewsAction, NewsActions } from '../../../../../store/actions/ecoNews.actions';
 
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
@@ -417,4 +418,118 @@ describe('CreateEditNewsComponent', () => {
     expect(component.editData).toHaveBeenCalledWith('imageLink');
     expect((component as any).createEcoNewsService.sendImagesData).toHaveBeenCalled();
   });
+
+  // it('should initialize the component for create or edit mode', () => {
+  //   spyOn(component.createEcoNewsService, 'isBackToEditing').and.returnValue(true);
+  //   spyOn(component.createEcoNewsService, 'getNewsId').and.returnValue(15);
+  //   spyOn(component.createEcoNewsService, 'getFormData').and.returnValue({ value: {} });
+  //   spyOn(component, 'setDataForEdit').and.callThrough();
+  //   spyOn(component, 'setDataForCreate').and.callThrough();
+  //   spyOn(component, 'setInitialValues').and.callThrough();
+  //   spyOn(component.createEditNewsFormBuilder, 'getEditForm').and.returnValue({});
+  //
+  //   component.initPageForCreateOrEdit();
+  //
+  //   expect(component.setDataForEdit).toHaveBeenCalled();
+  //   expect(component.setInitialValues).toHaveBeenCalled();
+  //   expect(component.form).toBeTruthy();
+  //   expect(component.newsId).toBe(15);
+  // });
+  //
+  // it('should set data for create mode', () => {
+  //   component.setDataForCreate();
+  //   expect(component.attributes).toEqual(component.config.create);
+  //   expect(component.onSubmit).toBe(component.createNews);
+  // });
+  //
+  // it('should set data for edit mode', () => {
+  //   component.setDataForEdit();
+  //   expect(component.attributes).toEqual(component.config.edit);
+  //   expect(component.onSubmit).toBe(component.editNews);
+  // });
+  //
+  // it('should update newsId from query parameters', () => {
+  //   spyOn(component.route.queryParams, 'subscribe').and.callFake((callback: Function) => {
+  //     callback({ id: 123 });
+  //     return { unsubscribe: () => {} };
+  //   });
+  //
+  //   component.getNewsIdFromQueryParams();
+  //
+  //   expect(component.newsId).toBe(123);
+  // });
+  //
+  // it('should resize textarea height', () => {
+  //   const event = { target: { style: { height: '' }, scrollHeight: 100 } };
+  //   component.autoResize(true, event);
+  //   expect(event.target.style.height).toBe('100px');
+  //
+  //   component.autoResize(false, event);
+  //   expect(event.target.style.height).toBe('48px');
+  // });
+  //
+  // it('should dispatch CreateEcoNewsAction and handle success', () => {
+  //   spyOn(component.store, 'dispatch');
+  //   spyOn(component.actionsSubj, 'pipe').and.returnValue(of(NewsActions.CreateEcoNewsSuccess()));
+  //   spyOn(component.snackBar, 'openSnackBar');
+  //   spyOn(component.router, 'navigate').and.returnValue(Promise.resolve(true));
+  //
+  //   component.sendData('test content');
+  //
+  //   expect(component.store.dispatch).toHaveBeenCalledWith(CreateEcoNewsAction({ value: component.form.value }));
+  //   expect(component.snackBar.openSnackBar).toHaveBeenCalledWith('createEvent');
+  //   expect(component.router.navigate).toHaveBeenCalledWith([component.previousPath]);
+  // });
+  //
+  // it('should handle error when dispatching CreateEcoNewsAction', () => {
+  //   spyOn(component.store, 'dispatch');
+  //   spyOn(component.actionsSubj, 'pipe').and.returnValue(throwError(new Error('error')));
+  //   spyOn(component.snackBar, 'openSnackBar');
+  //
+  //   component.sendData('test content');
+  //
+  //   expect(component.snackBar.openSnackBar).toHaveBeenCalledWith('error', 'error');
+  // });
+  //
+  // it('should call createNews and editData if images exist', () => {
+  //   spyOn(component, 'createNews').and.callThrough();
+  //   spyOn(component.createEcoNewsService, 'sendImagesData').and.returnValue(of(['imageLink']));
+  //   spyOn(component, 'editData');
+  //
+  //   component.createNews();
+  //
+  //   expect(component.createEcoNewsService.sendImagesData).toHaveBeenCalled();
+  //   expect(component.editData).toHaveBeenCalledWith('imageLink');
+  // });
+  //
+  // it('should call createNews and sendData if no images', () => {
+  //   spyOn(component, 'sendData');
+  //   spyOn(component.createEcoNewsService, 'sendImagesData').and.returnValue(of([]));
+  //
+  //   component.createNews();
+  //
+  //   expect(component.sendData).toHaveBeenCalledWith(component.editorHTML);
+  // });
+  //
+  // it('should escape from create page', () => {
+  //   spyOn(component.router, 'navigate').and.returnValue(Promise.resolve(true));
+  //   spyOn(component.allowUserEscape);
+  //
+  //   component.escapeFromCreatePage();
+  //
+  //   expect(component.isPosting).toBeFalse();
+  //   expect(component.allowUserEscape).toHaveBeenCalled();
+  //   expect(component.router.navigate).toHaveBeenCalledWith([component.previousPath]);
+  // });
+  //
+  // it('should call editNews and handle errors correctly', () => {
+  //   spyOn(component, 'editData');
+  //   spyOn(component.createEcoNewsService, 'sendImagesData').and.returnValue(of(['imageLink']));
+  //   spyOn(component.actionsSubj, 'pipe').and.returnValue(of(NewsActions.EditEcoNewsSuccess()));
+  //   spyOn(component.snackBar, 'openSnackBar');
+  //
+  //   component.editNews();
+  //
+  //   expect(component.editData).toHaveBeenCalledWith('imageLink');
+  // });
 });
