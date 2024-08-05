@@ -29,7 +29,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { ofType } from '@ngrx/effects';
 import { WarningPopUpComponent } from '@shared/components';
 import { EventStoreService } from '../../../events/services/event-store.service';
-import { habitImages } from '../../../../image-pathes/habits-images';
+import { habitImages } from 'src/app/main/image-pathes/habits-images';
 
 @Component({
   selector: 'app-events-list-item',

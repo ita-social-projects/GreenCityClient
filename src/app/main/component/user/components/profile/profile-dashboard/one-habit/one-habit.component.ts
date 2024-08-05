@@ -11,7 +11,7 @@ import { HabitAssignInterface } from '@global-user/components/habit/models/inter
 import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
 import { MatDialog } from '@angular/material/dialog';
 import { FriendsListPopUpComponent } from '@global-user/components/shared/components/friends-list-pop-up/friends-list-pop-up.component';
-import { habitImages } from '../../../../../../image-pathes/habits-images';
+import { habitImages } from 'src/app/main/image-pathes/habits-images';
 
 @Component({
   selector: 'app-one-habit',

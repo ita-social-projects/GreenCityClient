@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import {
@@ -136,7 +136,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   bindUserName(): void {
-    this.localStorageService.firstNameBehaviourSubject.subscribe((name) => (this.organizerName = name));
+    this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((name) => (this.organizerName = name));
   }
 
   getAllAttendees(): void {
