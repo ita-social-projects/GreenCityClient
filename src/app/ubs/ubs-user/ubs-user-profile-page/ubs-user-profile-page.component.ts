@@ -8,7 +8,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
@@ -39,6 +39,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
   userForm: FormGroup;
   userProfile: UserProfile;
+  userEmail: string;
   telegramBotURL: string;
   viberBotURL: string;
   errorMessages = [];
@@ -92,6 +93,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.userEmail = this.jwtService.getEmailFromAccessToken();
     this.getUserData();
 
     this.store.dispatch(GetAddresses());
@@ -284,7 +286,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       .pipe(take(1), filter(Boolean))
       .subscribe((res) => {
         this.clientProfileService
-          .deactivateProfile(res.reason)
+          .deactivateProfile(this.userEmail, res.reason)
           .pipe(take(1))
           .subscribe(() => {
             this.signOut();
@@ -301,10 +303,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     });
     this.store.dispatch(ResetEmployeePermissions());
     this.store.dispatch(ResetFriends());
-  }
-
-  getLangValue(valueUA: string, valueEN: string): string {
-    return this.languageService.getLangValue(valueUA, valueEN) as string;
   }
 
   openDeleteAddressDialog(address): void {

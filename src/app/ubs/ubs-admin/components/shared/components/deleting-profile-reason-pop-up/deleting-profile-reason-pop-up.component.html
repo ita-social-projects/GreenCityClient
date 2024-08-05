@@ -6,7 +6,7 @@
         <ng-container *ngFor="let res of reasons; let i = index">
           <div class="reason">
             <input class="reason-radio" formControlName="reason" [id]="res.id" type="radio" name="reason" [value]="res" />
-            <label class="reason-label" [for]="res.id">{{ getLangValue(res.ua, res.en) }}</label>
+            <label class="reason-label" [for]="res.id" [appLangValue]="{ ua: res.ua, en: res.en }">label</label>
           </div>
         </ng-container>
 

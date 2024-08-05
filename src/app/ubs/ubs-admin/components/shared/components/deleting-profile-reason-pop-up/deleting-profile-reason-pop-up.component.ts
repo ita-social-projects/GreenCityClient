@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -11,10 +11,15 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   styleUrls: ['./deleting-profile-reason-pop-up.component.scss']
 })
 export class DeletingProfileReasonPopUpComponent implements OnInit, OnDestroy {
+  private languageService: LanguageService = inject(LanguageService);
+  private fb: FormBuilder = inject(FormBuilder);
+  private dialogRef: MatDialogRef<DeletingProfileReasonPopUpComponent> = inject(MatDialogRef);
+  private $destroy: Subject<void> = new Subject();
+
+  userId: number;
   reasonForm: FormGroup;
   reasons: Reason[] = deleteProfileReasons;
   ownReasonMaxLength = 255;
-  private $destroy: Subject<void> = new Subject();
 
   get reason() {
     return this.reasonForm.controls.reason;
@@ -23,12 +28,6 @@ export class DeletingProfileReasonPopUpComponent implements OnInit, OnDestroy {
   get ownReasonText() {
     return this.reasonForm.controls?.ownReasonText;
   }
-
-  constructor(
-    public dialogRef: MatDialogRef<DeletingProfileReasonPopUpComponent>,
-    private languageService: LanguageService,
-    private fb: FormBuilder
-  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -55,12 +54,11 @@ export class DeletingProfileReasonPopUpComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.dialogRef.close({
-      reason: this.reason.value === 'other' ? this.ownReasonText.value : this.getLangValue(this.reason.value.ua, this.reason.value.en)
+      reason:
+        this.reason.value === 'other'
+          ? this.ownReasonText.value
+          : this.languageService.getLangValue(this.reason.value.ua, this.reason.value.en)
     });
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {

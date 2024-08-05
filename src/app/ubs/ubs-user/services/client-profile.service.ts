@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { mainUbsLink, mainUserLink } from 'src/app/main/links';
 import { UserProfile } from '../../../ubs/ubs-admin/models/ubs-admin.interface';
+import { Observable, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,9 @@ export class ClientProfileService {
     return this.http.put(`${mainUbsLink}/ubs/userProfile/user/update`, user);
   }
 
-  deactivateProfile(reason: string) {
-    return this.http.put(`${mainUserLink}user/deactivate`, { reason });
+  deactivateProfile(email: string, reason: string): Observable<void> {
+    return this.http
+      .get(`${mainUserLink}user/findUuidByEmail`, { params: { email }, responseType: 'text' })
+      .pipe(switchMap((uuid: string) => this.http.put<void>(`${mainUserLink}user/deactivate`, { reason }, { params: { uuid } })));
   }
 }
