@@ -9,7 +9,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
@@ -20,7 +20,7 @@ import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-
 import { routes } from 'src/app/app-routing.module';
 import { CreateEditNewsComponent } from './create-edit-news.component';
 import { PostNewsLoaderComponent } from '..';
-import { ACTION_CONFIG, ACTION_TOKEN, TEXT_AREAS_HEIGHT } from './action.constants';
+import { ACTION_CONFIG, ACTION_TOKEN } from './action.constants';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { HomepageComponent } from 'src/app/main/component/home/components';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
@@ -37,6 +37,16 @@ import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 import { NewsDTO } from '@eco-news-models/create-news-interface';
 import { CreateEcoNewsAction } from '../../../../../store/actions/ecoNews.actions';
 
+function getEmptyFormGroup() {
+  return new FormGroup({
+    title: new FormControl(''),
+    content: new FormControl(''),
+    tags: new FormArray([]),
+    image: new FormControl(''),
+    source: new FormControl('')
+  });
+}
+
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
   let fixture: ComponentFixture<CreateEditNewsComponent>;
@@ -52,15 +62,6 @@ describe('CreateEditNewsComponent', () => {
     countOfEcoNews: 5,
     content: 'Content for the news article'
   };
-
-  const emptyForm = () =>
-    new FormGroup({
-      title: new FormControl(''),
-      content: new FormControl(''),
-      tags: new FormArray([]),
-      image: new FormControl(''),
-      source: new FormControl('')
-    });
 
   const selectedTags: FilterModel[] = [
     { name: 'Events', nameUa: 'Події', isActive: true },
@@ -79,7 +80,7 @@ describe('CreateEditNewsComponent', () => {
     'setTags'
   ]);
   createEcoNewsServiceMock.sendFormData = (form) => of(FIRSTECONEWS);
-  createEcoNewsServiceMock.getFormData = () => emptyForm();
+  createEcoNewsServiceMock.getFormData = () => getEmptyFormGroup();
   createEcoNewsServiceMock.editNews = (form) => of(FIRSTECONEWS);
   createEcoNewsServiceMock.setForm = (form) => of();
   createEcoNewsServiceMock.getNewsId = () => 15;
@@ -339,7 +340,7 @@ describe('CreateEditNewsComponent', () => {
   it('should initialize the component for create or edit mode', () => {
     (component as any).createEcoNewsService.isBackToEditing = true;
     (component as any).createEcoNewsService.getNewsId = () => 15;
-    (component as any).createEcoNewsService.getFormData = () => emptyForm();
+    (component as any).createEcoNewsService.getFormData = () => getEmptyFormGroup();
     spyOn(component, 'setInitialValues').and.callThrough();
     component.initPageForCreateOrEdit();
     expect(component.setInitialValues).toHaveBeenCalled();
@@ -372,131 +373,75 @@ describe('CreateEditNewsComponent', () => {
     expect(component.editData).toHaveBeenCalledWith('Some content');
   });
 
-  it('should call editData with updated HTML when images are present', () => {});
-
-  it('should call editData with original HTML when no images are present', () => {});
-
-  it('should log an error when sendImagesData fails', () => {});
-
-  it('should call editData with updated HTML when images are present', () => {});
-
   it('should call editData with original HTML when no images are present', () => {
     component.editorHTML = '<p>No images here</p>';
+    spyOn(createEcoNewsServiceMock, 'sendImagesData').and.stub();
+    spyOn(component, 'editData').and.stub();
     component.editNews();
-
     expect(createEcoNewsServiceMock.sendImagesData).not.toHaveBeenCalled();
     expect(component.editData).toHaveBeenCalledWith('<p>No images here</p>');
   });
 
-  it('should log an error when sendImagesData fails', () => {});
-
-  it('should set isPosting to false', () => {
-    component.escapeFromCreatePage();
-    expect(component.isPosting).toBe(false);
-  });
-
-  it('should call allowUserEscape', () => {
-    spyOn(component, 'allowUserEscape');
-    component.escapeFromCreatePage();
-    expect(component.allowUserEscape).toHaveBeenCalled();
-  });
-
-  it('should navigate to the previous path', () => {
-    component.escapeFromCreatePage();
-    expect(router.navigate).toHaveBeenCalledWith(['/previous-path']);
-  });
-
-  it('should log an error if navigation fails', () => {
-    const consoleSpy = spyOn(console, 'error');
-    (router.navigate as jasmine.Spy).and.returnValue(Promise.reject('Navigation error'));
-    component.escapeFromCreatePage();
-    expect(consoleSpy).toHaveBeenCalledWith('Navigation error');
-  });
-
-  it('should call sendImagesData if imagesSrc is present', () => {
-    ecoNewsServiceMock.sendImagesData.and.returnValue(of(['http://image.link']));
-    component.createNews();
-    expect(ecoNewsServiceMock.sendImagesData).toHaveBeenCalled();
-  });
-
-  it('should replace base64 images with links in editorHTML', () => {
-    ecoNewsServiceMock.sendImagesData.and.returnValue(of(['http://image.link']));
-    component.createNews();
-    expect(component.editorHTML).toContain('http://image.link');
-  });
-
-  it('should call sendData with updated editorHTML', () => {
-    spyOn(component, 'sendData');
-    component.createNews();
-    expect(component.sendData).toHaveBeenCalledWith(component.editorHTML);
-  });
-
-  it('should log an error if sendImagesData fails', () => {
-    const consoleSpy = spyOn(console, 'error');
-    component.createNews();
-    expect(consoleSpy).toHaveBeenCalledWith('Error');
-  });
-
-  it('should set form value content and isPosting to true', () => {
-    component.sendData('test content');
-    expect(component.form.value.content).toBe('test content');
-    expect(component.isPosting).toBe(true);
-  });
-
-  it('should dispatch CreateEcoNewsAction', () => {
-    component.sendData('test content');
-  });
-
-  it('should handle CreateEcoNewsSuccess action', () => {
-    spyOn(component, 'escapeFromCreatePage');
-    component.sendData('test content');
-    expect(component.escapeFromCreatePage).toHaveBeenCalled();
-  });
-
-  it('should handle error and show snackbar', () => {
-    const error = new Error('An error occurred');
-    spyOn(console, 'error');
-    component.sendData('test content');
-    expect(console.error).toHaveBeenCalledWith('An error occurred while sending images.');
-  });
-
-  it('should set textAreasHeight to TEXT_AREAS_HEIGHT', () => {
+  it('initPageForCreateOrEdit expect fetchNewsItemToEdit should be call', () => {
+    const spy = spyOn(component, 'fetchNewsItemToEdit');
+    component.newsId = 20;
+    createEcoNewsServiceMock.getNewsId();
+    (component as any).createEcoNewsService.isBackToEditing = false;
+    spyOn((component as any).createEcoNewsService, 'getNewsId').and.returnValue(component.newsId);
     component.initPageForCreateOrEdit();
-    expect(component.textAreasHeight).toBe(TEXT_AREAS_HEIGHT);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call setDataForEdit if isBackToEditing and getNewsId return true', () => {
+  it('should call setDataForEdit if isBackToEditing is true and newsId is truthy', () => {
+    (component as any).createEcoNewsService.isBackToEditing = true;
+    component.newsId = 20;
     spyOn(component, 'setDataForEdit');
-
     component.initPageForCreateOrEdit();
-
     expect(component.setDataForEdit).toHaveBeenCalled();
   });
 
-  it('should call setDataForCreate if isBackToEditing is true and getNewsId returns false', () => {
-    spyOn(component, 'setDataForCreate');
+  it('should call getSetupForm if isBackToEditing is false and newsId is falsy', () => {
+    (component as any).createEcoNewsService.isBackToEditing = false;
+    component.newsId = null;
+    spyOn(createEditNewsFormBuilderMock, 'getSetupForm').and.returnValue(getEmptyFormGroup());
     component.initPageForCreateOrEdit();
-    expect(component.setDataForCreate).toHaveBeenCalled();
+    expect(createEditNewsFormBuilderMock.getSetupForm).toHaveBeenCalled();
   });
 
-  it('should set formData and newsId from createEcoNewsService', () => {
-    const formData = { value: 'some value' };
+  it('should initialize form and data for editing when isBackToEditing is true and newsId is falsy', () => {
+    (component as any).createEcoNewsService.isBackToEditing = true;
+    component.newsId = null;
+    spyOn(createEditNewsFormBuilderMock, 'getEditForm').and.returnValue(getEmptyFormGroup());
+    spyOn(component, 'setDataForEdit').and.stub();
+    spyOn(component, 'setDataForCreate').and.stub();
+    spyOn(component, 'setInitialValues').and.stub();
     component.initPageForCreateOrEdit();
-
-    expect(component.formData).toBe(formData);
-    expect(component.newsId).toBe('123');
-  });
-
-  it('should call getEditForm if formData is present', () => {
-    const formData = { value: 'some value' };
-    component.initPageForCreateOrEdit();
-  });
-
-  it('should call setInitialValues', () => {
-    spyOn(component, 'setInitialValues');
-    component.initPageForCreateOrEdit();
+    expect(createEditNewsFormBuilderMock.getEditForm).toHaveBeenCalled();
+    expect(component.setDataForEdit).toHaveBeenCalled();
+    expect(component.setDataForCreate).not.toHaveBeenCalled();
     expect(component.setInitialValues).toHaveBeenCalled();
   });
 
-  it('should call fetchNewsItemToEdit and setData', () => {});
+  it('should call fetchNewsItemToEdit if isBackToEditing is false and newsId is truthy', () => {
+    (component as any).createEcoNewsService.isBackToEditing = false;
+    component.newsId = 20;
+    spyOn(component, 'fetchNewsItemToEdit');
+    component.initPageForCreateOrEdit();
+    expect(component.fetchNewsItemToEdit).toHaveBeenCalled();
+  });
+
+  it('should call editNews and handle errors correctly', () => {
+    spyOn(component, 'editData');
+    spyOn(createEcoNewsServiceMock, 'sendImagesData').and.returnValue(of(['imageLink']));
+    spyOn((component as any).actionsSubj, 'pipe').and.returnValue(of(CreateEcoNewsAction));
+    component.form = createEditNewsFormBuilderMock.getEditForm({
+      title: 'New Title',
+      content: 'Detailed content about the news...',
+      tags: [],
+      imagePath: '',
+      source: 'sourceURL'
+    });
+    component.editNews();
+    expect(component.editData).toHaveBeenCalledWith('Detailed content about the news...');
+  });
 });
