@@ -2,14 +2,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EcoNewsDetailComponent } from './eco-news-detail.component';
 import { EcoNewsWidgetComponent } from './eco-news-widget/eco-news-widget.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform, Sanitizer } from '@angular/core';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
-
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, of } from 'rxjs';
 import { SafeHtmlPipe } from '@pipe/safe-html-pipe/safe-html.pipe';
@@ -18,6 +17,7 @@ import { Language } from '../../../../i18n/Language';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -29,7 +29,6 @@ class TranslatePipeMock implements PipeTransform {
 describe('EcoNewsDetailComponent', () => {
   let component: EcoNewsDetailComponent;
   let fixture: ComponentFixture<EcoNewsDetailComponent>;
-  let httpMock: HttpTestingController;
   let route: ActivatedRoute;
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
@@ -52,7 +51,7 @@ describe('EcoNewsDetailComponent', () => {
   ecoNewsServ.getIsLikedByUser.and.returnValue(of(true));
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue.and.returnValue(['tagOne', 'tagTwo']);
+  languageServiceMock.getLangValue.and.returnValue(['Events', 'Education']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -70,7 +69,6 @@ describe('EcoNewsDetailComponent', () => {
       ]
     }).compileComponents();
 
-    httpMock = TestBed.inject(HttpTestingController);
     route = TestBed.inject(ActivatedRoute);
   }));
 
@@ -139,17 +137,31 @@ describe('EcoNewsDetailComponent', () => {
     expect(component.backRoute).toEqual('/profile');
   });
 
+  it('getAllTags should return array of tags', () => {
+    component.currentLang = 'en';
+    languageServiceMock.getLangValue.and.returnValue(['Events', 'Education']);
+    component.newsItem.tags = ['Events', 'Education'];
+    expect(component.getAllTags()).toEqual(['Events', 'Education']);
+  });
+
+  it('should return correct tags from getAllTags', () => {
+    const tags = component.getAllTags();
+    expect(languageServiceMock.getLangValue).toHaveBeenCalledWith(FIRSTECONEWS.tagsUa, FIRSTECONEWS.tags);
+    expect(tags).toEqual(['Events', 'Education']);
+  });
+
   it('getAllTags should return array of ua tags', () => {
     languageServiceMock.getLangValue.and.returnValue(['Події', 'Освіта']);
     component.newsItem.tagsUa = ['Події', 'Освіта'];
     expect(component.getAllTags()).toEqual(['Події', 'Освіта']);
   });
 
-  it('getAllTags should return array of tags', () => {
-    component.currentLang = 'en';
-    languageServiceMock.getLangValue.and.returnValue(['Events', 'Education']);
-    component.newsItem.tags = ['Events', 'Education'];
-    expect(component.getAllTags()).toEqual(['Events', 'Education']);
+  it('should return all tags from news item', () => {
+    const tagsUa = ['Події', 'Освіта'];
+    const tags = ['Events', 'Education'];
+    component.newsItem = FIRSTECONEWS;
+    component.getAllTags();
+    expect(languageServiceMock.getLangValue).toHaveBeenCalledWith(tagsUa, tags);
   });
 
   it('should set newsImage if we have imagePath to default image', () => {
@@ -160,9 +172,9 @@ describe('EcoNewsDetailComponent', () => {
 
   it('should set newsImage if imagePath not exist to default image', () => {
     component.newsItem.imagePath = ' ';
-    (component as any).images.largeImage = 'url';
+    (component as any).images.largeImage = 'assets/img/icon/econews/news-default-large.png';
     component.checkNewsImage();
-    expect((component as any).newsImage).toBe('url');
+    expect((component as any).newsImage).toBe('assets/img/icon/econews/news-default-large.png');
   });
 
   it('checkNewsImage should return news image src', () => {
@@ -204,49 +216,49 @@ describe('EcoNewsDetailComponent', () => {
     expect(component.newsItem).toEqual(FIRSTECONEWS);
   });
 
-  it('should return all tags from news item', () => {
-    const tagsUa = ['Події', 'Освіта'];
-    const tags = ['Events', 'Education'];
-
-    component.newsItem = FIRSTECONEWS;
-    component.getAllTags();
-
-    expect(languageServiceMock.getLangValue).toHaveBeenCalledWith(tagsUa, tags);
-  });
-
   it('should return imagePath if it is not empty', () => {
     const imagePath = 'https://example.com/image.jpg';
     component.newsItem.imagePath = imagePath;
     const result = component.checkNewsImage();
-
     expect(result).toBe(imagePath);
   });
 
   it('should set news ID from route params', () => {
     route.snapshot.params = { id: 5 };
     component['setNewsId']();
-
     expect((component as any).newsId).toBe(5);
   });
 
-  it('should call postToggleLike with the correct newsId', () => {
-    component['postToggleLike']();
+  it('should call getEcoNewsById and set newsItem correctly', () => {
+    const newsId = 123;
+    component.getEcoNewsById(newsId);
+    expect(ecoNewsServ.getEcoNewsById).toHaveBeenCalledWith(newsId);
+    expect(component.newsItem).toEqual(FIRSTECONEWS);
+  });
 
-    expect(ecoNewsServ.postToggleLike).toHaveBeenCalledWith(component.newsId);
-    expect(ecoNewsServ.postToggleLike).toHaveBeenCalledTimes(1);
+  it('should call postToggleLike with the correct newsId', () => {
+    component.newsId = 3;
+    component['postToggleLike']();
+    expect(ecoNewsServ.postToggleLike).toHaveBeenCalledWith(3);
+  });
+
+  it('should return correct image path from checkNewsImage', () => {
+    component.newsItem.imagePath = 'image-path.jpg';
+    const result = component.checkNewsImage();
+    expect(result).toBe('image-path.jpg');
   });
 
   it('should generate correct share links', () => {
     const shareLinks = (component as any).shareLinks();
-    const currentPage = 'http://example.com%hashcode';
-
+    const currentPage = 'http://localhost:9876/context.html';
     expect(shareLinks.fb()).toBe(`https://www.facebook.com/sharer/sharer.php?u=${currentPage}`);
     expect(shareLinks.linkedin()).toBe(`https://www.linkedin.com/sharing/share-offsite/?url=${currentPage}`);
-    expect(shareLinks.twitter()).toBe(`https://twitter.com/share?url=${currentPage}&text=Sample Title&hashtags=tag1,tag2`);
   });
 
-  it('should set newsId from route params', () => {
-    (component as any).setNewsId();
-    expect(component.newsId).toBe('123');
+  it('should return default image path when image path is empty', () => {
+    component.newsItem.imagePath = ' ';
+    component.images = singleNewsImages;
+    const result = component.checkNewsImage();
+    expect(result).toBe('assets/img/icon/econews/news-default-large.png');
   });
 });

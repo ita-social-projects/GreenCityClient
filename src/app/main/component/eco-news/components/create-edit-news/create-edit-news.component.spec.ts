@@ -9,7 +9,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
@@ -34,24 +34,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
-import { CreateEcoNewsAction, NewsActions } from '../../../../../store/actions/ecoNews.actions';
+import { NewsDTO } from '@eco-news-models/create-news-interface';
 
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
   let fixture: ComponentFixture<CreateEditNewsComponent>;
   let router: Router;
-
   let http: HttpTestingController;
 
-  const validNews = {
-    title: 'newstitle',
-    content: 'contentcontentcontentcontentcontentcontentcontent',
-    tags: ['News'],
-    tagsEn: ['Events', 'Education'],
-    tagsUa: ['Події', 'Освіта'],
-    source: '',
-    image: ''
+  const validNews: NewsDTO = {
+    tags: [{ id: 1, name: 'News', nameUa: 'Новини' }],
+    text: 'Detailed content about the news...',
+    title: 'New Title',
+    source: 'sourceURL',
+    image: 'imageURL',
+    countOfEcoNews: 5,
+    content: 'Content for the news article'
   };
+
   const emptyForm = () =>
     new FormGroup({
       title: new FormControl(''),
@@ -60,11 +60,6 @@ describe('CreateEditNewsComponent', () => {
       image: new FormControl(''),
       source: new FormControl('')
     });
-
-  const tagsArray = [
-    { id: 1, name: 'Events', nameUa: 'Події' },
-    { id: 2, name: 'Education', nameUa: 'Освіта' }
-  ];
 
   const selectedTags: FilterModel[] = [
     { name: 'Events', nameUa: 'Події', isActive: true },
@@ -92,14 +87,13 @@ describe('CreateEditNewsComponent', () => {
   createEcoNewsServiceMock.getTags = () => [];
 
   const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
-  ecoNewsServiceMock.getEcoNewsById = (id) => {
-    of(FIRSTECONEWS);
-  };
+  ecoNewsServiceMock.getEcoNewsById = () => of(FIRSTECONEWS);
 
   const createEditNewsFormBuilderMock: CreateEditNewsFormBuilder = jasmine.createSpyObj('CreateEditNewsFormBuilder', [
     'getSetupForm',
     'getEditForm'
   ]);
+
   createEditNewsFormBuilderMock.getSetupForm = () =>
     new FormGroup({
       title: new FormControl('', [Validators.required, Validators.maxLength(170)]),
@@ -129,6 +123,7 @@ describe('CreateEditNewsComponent', () => {
     'getCurrentLanguage',
     'getUserId'
   ]);
+
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
@@ -204,21 +199,10 @@ describe('CreateEditNewsComponent', () => {
     const spy = spyOn(component, 'setDataForCreate');
     createEcoNewsServiceMock.isBackToEditing = true;
     createEcoNewsServiceMock.getNewsId = () => null;
-
     component.initPageForCreateOrEdit();
     expect(spy).toHaveBeenCalledTimes(1);
-
     createEcoNewsServiceMock.isBackToEditing = false;
     createEcoNewsServiceMock.getNewsId = () => 15;
-  });
-
-  xit('initPageForCreateOrEdit expect fetchNewsItemToEdit should be call', () => {
-    const spy = spyOn(component, 'fetchNewsItemToEdit');
-    component.newsId = 20;
-    createEcoNewsServiceMock.getNewsId();
-
-    component.initPageForCreateOrEdit();
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('setDataForEdit  attributes.title should change ', () => {
@@ -229,7 +213,6 @@ describe('CreateEditNewsComponent', () => {
   it('createNews expect sendData should be called', () => {
     const spy = spyOn(component, 'sendData');
     component.editorHTML = 'data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUA';
-
     component.createNews();
     expect(spy).toHaveBeenCalledWith('image');
   });
@@ -240,28 +223,12 @@ describe('CreateEditNewsComponent', () => {
     expect(spy1).toHaveBeenCalledTimes(1);
   });
 
-  xit('should set empty form after init', () => {
-    const testForm = {
-      title: '',
-      content: '',
-      tags: [],
-      image: '',
-      source: ''
-    };
-    component.ngOnInit();
-    expect(component.form.value).toEqual(testForm);
-  });
-
-  function updateForm(news) {
-    component.form.controls.title.setValue(news.title);
-    component.form.controls.content.setValue(news.content);
-    (component.form.controls.tags as FormArray).push(new FormControl(news.tags[0]));
-    component.form.controls.image.setValue(news.image);
-    component.form.controls.source.setValue(news.source);
-  }
-
   it('isValid should be true when form is valid', fakeAsync(() => {
-    updateForm(validNews);
+    component.form.controls.title.setValue(validNews.title);
+    component.form.controls.content.setValue(validNews.content);
+    (component.form.controls.tags as FormArray).push(new FormControl(validNews.tags[0]));
+    component.form.controls.image.setValue(validNews.image);
+    component.form.controls.source.setValue(validNews.source);
     expect(component.form.valid).toBeTruthy();
   }));
 
@@ -347,38 +314,23 @@ describe('CreateEditNewsComponent', () => {
     expect(newTags).toEqual(selectedTagsList);
   });
 
-  xit('should be a Preview button on the page', () => {
-    const button = fixture.debugElement.query(By.css('.secondary-global-button'));
-    expect(button.nativeElement.innerHTML.trim()).toBe('create-news.preview-button');
-  });
-
-  xit('should be a Publish button on the page', () => {
-    const button = fixture.debugElement.query(By.css('.primary-global-button'));
-    expect(button.nativeElement.innerHTML.trim()).toBe('create-news.publish-button');
-  });
-
   it('should minimum one drag and drop on the page', () => {
     const dragAndDrop = fixture.debugElement.queryAll(By.css('app-drag-and-drop'));
     expect(dragAndDrop.length >= 1).toBeTruthy();
   });
 
   it('should update isLinkOrEmpty based on source value', () => {
-    component.form = new FormGroup({
-      source: new FormControl('')
-    });
+    component.form = new FormGroup({ source: new FormControl('') });
     component.onSourceChange();
     const sourceControl = component.form.get('source');
     sourceControl?.setValue('https://example.com');
-
     expect(component.isLinkOrEmpty).toBeTrue();
   });
 
   it('should navigate to previous path and reset posting state', () => {
     component.isPosting = true;
     (router.navigate as jasmine.Spy).and.returnValue(Promise.resolve(true));
-
     component.escapeFromCreatePage();
-
     expect(component.isPosting).toBeFalse();
     expect(router.navigate).toHaveBeenCalledWith([component.previousPath]);
   });
@@ -387,11 +339,8 @@ describe('CreateEditNewsComponent', () => {
     (component as any).createEcoNewsService.isBackToEditing = true;
     (component as any).createEcoNewsService.getNewsId = () => 15;
     (component as any).createEcoNewsService.getFormData = () => emptyForm();
-
     spyOn(component, 'setInitialValues').and.callThrough();
-
     component.initPageForCreateOrEdit();
-
     expect(component.setInitialValues).toHaveBeenCalled();
     expect(component.form).toBeTruthy();
     expect(component.newsId).toBe(15);
@@ -401,9 +350,7 @@ describe('CreateEditNewsComponent', () => {
     component.editorHTML = 'data:image/png;base64,encodedImage';
     spyOn((component as any).createEcoNewsService, 'sendImagesData').and.returnValue(of(['imageLink']));
     spyOn(component, 'sendData');
-
     component.createNews();
-
     expect((component as any).createEcoNewsService.sendImagesData).toHaveBeenCalled();
     expect(component.sendData).toHaveBeenCalledWith('imageLink');
   });
@@ -412,124 +359,8 @@ describe('CreateEditNewsComponent', () => {
     component.editorHTML = 'data:image/png;base64,encodedImage';
     spyOn((component as any).createEcoNewsService, 'sendImagesData').and.returnValue(of(['imageLink']));
     spyOn(component, 'editData');
-
     component.editNews();
-
     expect(component.editData).toHaveBeenCalledWith('imageLink');
     expect((component as any).createEcoNewsService.sendImagesData).toHaveBeenCalled();
   });
-
-  // it('should initialize the component for create or edit mode', () => {
-  //   spyOn(component.createEcoNewsService, 'isBackToEditing').and.returnValue(true);
-  //   spyOn(component.createEcoNewsService, 'getNewsId').and.returnValue(15);
-  //   spyOn(component.createEcoNewsService, 'getFormData').and.returnValue({ value: {} });
-  //   spyOn(component, 'setDataForEdit').and.callThrough();
-  //   spyOn(component, 'setDataForCreate').and.callThrough();
-  //   spyOn(component, 'setInitialValues').and.callThrough();
-  //   spyOn(component.createEditNewsFormBuilder, 'getEditForm').and.returnValue({});
-  //
-  //   component.initPageForCreateOrEdit();
-  //
-  //   expect(component.setDataForEdit).toHaveBeenCalled();
-  //   expect(component.setInitialValues).toHaveBeenCalled();
-  //   expect(component.form).toBeTruthy();
-  //   expect(component.newsId).toBe(15);
-  // });
-  //
-  // it('should set data for create mode', () => {
-  //   component.setDataForCreate();
-  //   expect(component.attributes).toEqual(component.config.create);
-  //   expect(component.onSubmit).toBe(component.createNews);
-  // });
-  //
-  // it('should set data for edit mode', () => {
-  //   component.setDataForEdit();
-  //   expect(component.attributes).toEqual(component.config.edit);
-  //   expect(component.onSubmit).toBe(component.editNews);
-  // });
-  //
-  // it('should update newsId from query parameters', () => {
-  //   spyOn(component.route.queryParams, 'subscribe').and.callFake((callback: Function) => {
-  //     callback({ id: 123 });
-  //     return { unsubscribe: () => {} };
-  //   });
-  //
-  //   component.getNewsIdFromQueryParams();
-  //
-  //   expect(component.newsId).toBe(123);
-  // });
-  //
-  // it('should resize textarea height', () => {
-  //   const event = { target: { style: { height: '' }, scrollHeight: 100 } };
-  //   component.autoResize(true, event);
-  //   expect(event.target.style.height).toBe('100px');
-  //
-  //   component.autoResize(false, event);
-  //   expect(event.target.style.height).toBe('48px');
-  // });
-  //
-  // it('should dispatch CreateEcoNewsAction and handle success', () => {
-  //   spyOn(component.store, 'dispatch');
-  //   spyOn(component.actionsSubj, 'pipe').and.returnValue(of(NewsActions.CreateEcoNewsSuccess()));
-  //   spyOn(component.snackBar, 'openSnackBar');
-  //   spyOn(component.router, 'navigate').and.returnValue(Promise.resolve(true));
-  //
-  //   component.sendData('test content');
-  //
-  //   expect(component.store.dispatch).toHaveBeenCalledWith(CreateEcoNewsAction({ value: component.form.value }));
-  //   expect(component.snackBar.openSnackBar).toHaveBeenCalledWith('createEvent');
-  //   expect(component.router.navigate).toHaveBeenCalledWith([component.previousPath]);
-  // });
-  //
-  // it('should handle error when dispatching CreateEcoNewsAction', () => {
-  //   spyOn(component.store, 'dispatch');
-  //   spyOn(component.actionsSubj, 'pipe').and.returnValue(throwError(new Error('error')));
-  //   spyOn(component.snackBar, 'openSnackBar');
-  //
-  //   component.sendData('test content');
-  //
-  //   expect(component.snackBar.openSnackBar).toHaveBeenCalledWith('error', 'error');
-  // });
-  //
-  // it('should call createNews and editData if images exist', () => {
-  //   spyOn(component, 'createNews').and.callThrough();
-  //   spyOn(component.createEcoNewsService, 'sendImagesData').and.returnValue(of(['imageLink']));
-  //   spyOn(component, 'editData');
-  //
-  //   component.createNews();
-  //
-  //   expect(component.createEcoNewsService.sendImagesData).toHaveBeenCalled();
-  //   expect(component.editData).toHaveBeenCalledWith('imageLink');
-  // });
-  //
-  // it('should call createNews and sendData if no images', () => {
-  //   spyOn(component, 'sendData');
-  //   spyOn(component.createEcoNewsService, 'sendImagesData').and.returnValue(of([]));
-  //
-  //   component.createNews();
-  //
-  //   expect(component.sendData).toHaveBeenCalledWith(component.editorHTML);
-  // });
-  //
-  // it('should escape from create page', () => {
-  //   spyOn(component.router, 'navigate').and.returnValue(Promise.resolve(true));
-  //   spyOn(component.allowUserEscape);
-  //
-  //   component.escapeFromCreatePage();
-  //
-  //   expect(component.isPosting).toBeFalse();
-  //   expect(component.allowUserEscape).toHaveBeenCalled();
-  //   expect(component.router.navigate).toHaveBeenCalledWith([component.previousPath]);
-  // });
-  //
-  // it('should call editNews and handle errors correctly', () => {
-  //   spyOn(component, 'editData');
-  //   spyOn(component.createEcoNewsService, 'sendImagesData').and.returnValue(of(['imageLink']));
-  //   spyOn(component.actionsSubj, 'pipe').and.returnValue(of(NewsActions.EditEcoNewsSuccess()));
-  //   spyOn(component.snackBar, 'openSnackBar');
-  //
-  //   component.editNews();
-  //
-  //   expect(component.editData).toHaveBeenCalledWith('imageLink');
-  // });
 });
