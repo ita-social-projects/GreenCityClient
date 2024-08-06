@@ -3,6 +3,8 @@ import { IAppState } from 'src/app/store/state/app.state';
 
 export const orderSelectors = (store: IAppState) => store.order;
 
+export const currentStepSelector = createSelector(orderSelectors, (order) => order.currentStep);
+
 export const orderDetailsSelector = createSelector(orderSelectors, (order) => order.orderDetails);
 
 export const personalDataSelector = createSelector(orderSelectors, (order) => order.personalData);
