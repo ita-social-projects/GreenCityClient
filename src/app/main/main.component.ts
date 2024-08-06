@@ -34,9 +34,6 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.isUBS = this.router.url.includes(this.ubsUrl);
     this.localStorageService.setUbsRegistration(this.isUBS);
-    if (!this.localStorageService.getCurrentLanguage()) {
-      this.languageService.setDefaultLanguage();
-    }
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();
     this.uiActionsService.stopScrollingSubject.subscribe((data) => (this.toggle = data));
