@@ -144,12 +144,6 @@ describe('EcoNewsDetailComponent', () => {
     expect(component.getAllTags()).toEqual(['Events', 'Education']);
   });
 
-  it('should return correct tags from getAllTags', () => {
-    const tags = component.getAllTags();
-    expect(languageServiceMock.getLangValue).toHaveBeenCalledWith(FIRSTECONEWS.tagsUa, FIRSTECONEWS.tags);
-    expect(tags).toEqual(['Events', 'Education']);
-  });
-
   it('getAllTags should return array of ua tags', () => {
     languageServiceMock.getLangValue.and.returnValue(['Події', 'Освіта']);
     component.newsItem.tagsUa = ['Події', 'Освіта'];
