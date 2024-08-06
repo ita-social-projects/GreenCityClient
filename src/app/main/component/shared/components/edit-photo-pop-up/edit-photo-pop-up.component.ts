@@ -118,7 +118,7 @@ export class EditPhotoPopUpComponent implements OnInit {
   }
 
   imageCropped(fileHandle: FileHandle): void {
-    if (!fileHandle || !fileHandle.url) {
+    if (!fileHandle?.url) {
       return;
     }
     this.croppedImage = fileHandle.url;
