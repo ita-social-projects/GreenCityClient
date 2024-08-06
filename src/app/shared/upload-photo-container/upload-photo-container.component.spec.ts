@@ -32,7 +32,7 @@ describe('UploadPhotoContainerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should set the cropped image', () => {
+  it('should set the cropped image', () => {
     const event: ImageCroppedEvent = {
       base64: 'base64_image_data',
       width: 100,
@@ -40,6 +40,8 @@ describe('UploadPhotoContainerComponent', () => {
       cropperPosition: { x1: 0, y1: 0, x2: 100, y2: 100 },
       imagePosition: { x1: 0, y1: 0, x2: 100, y2: 100 }
     };
+
+    component.imageCropped(event);
 
     expect((component as any).croppedImage).toBe('base64_image_data');
   });

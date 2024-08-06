@@ -9,7 +9,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { of, throwError } from 'rxjs';
 import { FileHandle } from '@eco-news-models/create-news-interface';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { SafeUrl } from '@angular/platform-browser';
 
 describe('EditPhotoPopUpComponent', () => {
@@ -18,6 +17,9 @@ describe('EditPhotoPopUpComponent', () => {
   let mockDialogRef: jasmine.SpyObj<MatDialogRef<EditPhotoPopUpComponent>>;
   let mockEditProfileService: jasmine.SpyObj<EditProfileService>;
   let mockSnackBar: jasmine.SpyObj<MatSnackBarComponent>;
+  const mockFile: File = new File([''], 'filename.png', { type: 'image/png' });
+  const safeUrl: SafeUrl = 'data:image/png;base64,abc123' as SafeUrl;
+  const fileHandle: FileHandle = { file: mockFile, url: safeUrl };
 
   beforeEach(waitForAsync(() => {
     mockDialogRef = jasmine.createSpyObj(['close']);
@@ -72,10 +74,9 @@ describe('EditPhotoPopUpComponent', () => {
     expect((component as any).transferFile).toHaveBeenCalledWith(files[0].file);
   });
 
-  xit('should set cropped image', () => {
-    const event = { base64: 'croppedImageString' } as ImageCroppedEvent;
-
-    expect((component as any).croppedImage).toBe('croppedImageString');
+  it('should set cropped image', () => {
+    component.imageCropped(fileHandle);
+    expect((component as any).croppedImage).toBe('data:image/png;base64,abc123');
   });
 
   it('should call transferFile on photo select', () => {
@@ -248,28 +249,28 @@ describe('EditPhotoPopUpComponent', () => {
     expect((component as any).selectedFile).toBeNull();
   });
 
-  xit('should set croppedImage with base64 data in imageCropped', () => {
-    const event = { base64: 'croppedImageData' } as ImageCroppedEvent;
-
-    expect((component as any).croppedImage).toBe('croppedImageData');
+  it('should set croppedImage with base64 data in imageCropped', () => {
+    component.imageCropped(fileHandle);
+    expect((component as any).croppedImage).toBe('data:image/png;base64,abc123');
   });
 
-  xit('should log an error if blob conversion fails in imageCropped', (done) => {
+  it('should handle error when converting blob to base64', async () => {
     const blob = new Blob(['image data'], { type: 'image/png' });
-    const event = { blob } as ImageCroppedEvent;
-    spyOn(component as any, 'convertBlobToBase64').and.returnValue(Promise.reject('conversion error'));
-    spyOn(console, 'error');
-
-    setTimeout(() => {
-      expect(console.error).toHaveBeenCalledWith('Failed to convert blob to base64:', 'conversion error');
-      done();
-    }, 0);
+    const file = new File([blob], 'image.png', { type: 'image/png' });
+    const event: FileHandle = { file, url: 'data:image/png;base64,blobData' };
+    component.imageCropped(event);
+    await fixture.whenStable();
   });
 
-  xit('should log an error if no base64 or blob data is available in imageCropped', () => {
-    spyOn(console, 'error');
-    const event = {} as ImageCroppedEvent;
+  it('should not set croppedImage if no url is available in imageCropped', () => {
+    const initialCroppedImage = (component as any).croppedImage;
+    const event = {} as FileHandle;
+    component.imageCropped(event);
+    expect((component as any).croppedImage).toBe(initialCroppedImage);
+  });
 
-    expect(console.error).toHaveBeenCalledWith('No base64 or blob data available.');
+  it('should open error dialog when openErrorDialog is called', () => {
+    (component as any).openErrorDialog();
+    expect(mockSnackBar.openSnackBar).toHaveBeenCalledWith('error');
   });
 });

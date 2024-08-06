@@ -117,7 +117,10 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.snackBar.openSnackBar('error');
   }
 
-  getFile(fileHandle: FileHandle): void {
+  imageCropped(fileHandle: FileHandle): void {
+    if (!fileHandle || !fileHandle.url) {
+      return;
+    }
     this.croppedImage = fileHandle.url;
   }
 }
