@@ -51,8 +51,10 @@ export class HabitsGalleryViewComponent implements OnInit {
       : this.router.navigate([`${link}addhabit`, this.habit.id], { relativeTo: this.route });
   }
 
-  addHabit() {
+  addHabit(): void {
     this.habit.isCustomHabit ? this.assignCustomHabit() : this.assignStandartHabit();
+    const link = `/profile/${this.userId}/allhabits/addhabit`;
+    this.router.navigate([`${link}`, this.habit.id], { relativeTo: this.route });
   }
 
   private assignStandartHabit() {
