@@ -153,6 +153,7 @@
     &__user-info {
       display: flex;
       justify-content: space-between;
+
       @include responsivePCFirst(2xl) {
         flex-direction: column;
       }
