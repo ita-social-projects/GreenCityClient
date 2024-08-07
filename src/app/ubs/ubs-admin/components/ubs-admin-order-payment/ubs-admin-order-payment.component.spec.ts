@@ -34,6 +34,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
   orderServiceMock.getOrderInfo.and.returnValue(of(fakeOrderInfo));
   orderServiceMock.addPaymentBonuses = () => new Observable();
   orderServiceMock.saveOrderIdForRefund = () => new Observable();
+  orderServiceMock.overpayment$ = of(480);
 
   const fakeAmountOfBagsConfirmed: Map<string, number> = new Map();
   fakeAmountOfBagsConfirmed.set('1', 1);
