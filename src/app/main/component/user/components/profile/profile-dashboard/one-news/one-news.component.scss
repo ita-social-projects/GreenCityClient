@@ -21,6 +21,10 @@
         flex-wrap: wrap;
         font-size: 14px;
         color: var(--primary-green);
+
+        .tag-btn {
+          padding-right: 7px;
+        }
       }
 
       .title {
