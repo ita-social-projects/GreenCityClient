@@ -31,15 +31,15 @@ export class HabitsGalleryViewComponent implements OnInit {
     public habitAssignService: HabitAssignService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getStars(this.habit.complexity);
     this.userId = this.localStorageService.getUserId();
   }
 
-  getStars(complexity: number) {
-    for (this.star = 0; this.star < complexity; this.star++) {
-      this.stars[this.star] = this.greenStar;
-    }
+  getStars(complexity: number): void {
+    this.stars = Array(this.stars.length)
+      .fill(this.whiteStar)
+      .map((star, index) => (index < complexity ? this.greenStar : star));
   }
 
   goHabitMore(): void {
@@ -50,10 +50,10 @@ export class HabitsGalleryViewComponent implements OnInit {
   }
 
   addHabit(): void {
-    this.habit.isCustomHabit ? this.assignCustomHabit() : this.assignStandartHabit();
+    this.habit.isCustomHabit ? this.assignCustomHabit() : this.assignStandardHabit();
   }
 
-  private assignStandartHabit() {
+  private assignStandardHabit(): void {
     this.habitAssignService
       .assignHabit(this.habit.id)
       .pipe(take(1))
@@ -67,6 +67,7 @@ export class HabitsGalleryViewComponent implements OnInit {
       defaultShoppingListItems: [],
       duration: this.habit.defaultDuration
     };
+
     this.habitAssignService
       .assignCustomHabit(this.habit.id, [], habitAssignProperties)
       .pipe(take(1))
