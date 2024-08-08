@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
@@ -7,7 +7,6 @@ import { HabitInterface } from '@global-user/components/habit/models/interfaces/
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { starIcons } from 'src/app/main/image-pathes/habits-images';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-habits-gallery-view',
@@ -23,7 +22,6 @@ export class HabitsGalleryViewComponent implements OnInit {
   star: number;
 
   private userId: number;
-  private langService = inject(LanguageService);
 
   constructor(
     public router: Router,
@@ -53,8 +51,6 @@ export class HabitsGalleryViewComponent implements OnInit {
 
   addHabit(): void {
     this.habit.isCustomHabit ? this.assignCustomHabit() : this.assignStandartHabit();
-    const link = `/profile/${this.userId}/allhabits/addhabit`;
-    this.router.navigate([`${link}`, this.habit.id], { relativeTo: this.route });
   }
 
   private assignStandartHabit() {
@@ -66,22 +62,20 @@ export class HabitsGalleryViewComponent implements OnInit {
       });
   }
 
-  private assignCustomHabit() {
-    const defailtItemsIds = [];
-    const friendsIdsList = [];
+  private assignCustomHabit(): void {
     const habitAssignProperties: HabitAssignPropertiesDto = {
-      defaultShoppingListItems: defailtItemsIds,
+      defaultShoppingListItems: [],
       duration: this.habit.defaultDuration
     };
     this.habitAssignService
-      .assignCustomHabit(this.habit.id, friendsIdsList, habitAssignProperties)
+      .assignCustomHabit(this.habit.id, [], habitAssignProperties)
       .pipe(take(1))
       .subscribe(() => {
         this.afterHabitWasChanged();
       });
   }
 
-  private afterHabitWasChanged() {
+  private afterHabitWasChanged(): void {
     this.router.navigate(['profile', this.userId]);
     this.snackBar.openSnackBar('habitAdded');
   }

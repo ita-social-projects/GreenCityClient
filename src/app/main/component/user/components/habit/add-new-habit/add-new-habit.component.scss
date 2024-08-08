@@ -44,7 +44,8 @@
     .habit-info {
       display: flex;
       flex-direction: column;
-      width: 60%;
+      width: 58%;
+      margin-right: 20px;
       word-wrap: break-word;
 
       .header {
@@ -123,7 +124,6 @@
       left: -70px;
 
       .img {
-        width: 500px;
         height: 260px;
         object-fit: cover;
       }
