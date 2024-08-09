@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { ChatPopupComponent } from './component/chat-popup/chat-popup.component';
 import { ChatsListComponent } from './component/chats-list/chats-list.component';
 import { ChatsSearchPipe } from './pipe/chats-search/chats-search.pipe';
@@ -7,16 +6,17 @@ import { NewMessageWindowComponent } from './component/new-message-window/new-me
 import { ReferenceDirective } from './directive/reference/reference.directive';
 import { ChatModalComponent } from './component/chat-modal/chat-modal.component';
 import { CurrentChatComponent } from './component/current-chat/current-chat.component';
-import { ChatComponent } from './component/chat/chat.component';
-import { MessageFromDayPipe } from './pipe/message-from-day/message-from-day.pipe';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { createTranslateLoader } from '../ubs/ubs/ubs-order.module';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ChatMessageComponent } from './component/chat-message/chat-message.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -27,15 +27,11 @@ import { createTranslateLoader } from '../ubs/ubs/ubs-order.module';
     ReferenceDirective,
     ChatModalComponent,
     CurrentChatComponent,
-    ChatComponent,
-    MessageFromDayPipe
+    ChatMessageComponent
   ],
   imports: [
-    BrowserModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     MatDialogModule,
     InfiniteScrollModule,
     PickerModule,
@@ -46,9 +42,15 @@ import { createTranslateLoader } from '../ubs/ubs/ubs-order.module';
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    CommonModule,
+    MatTabsModule,
+    SharedModule
   ],
-  exports: [ChatPopupComponent],
-  providers: [MatDialog]
+  exports: [ChatPopupComponent]
 })
 export class ChatModule {}
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}

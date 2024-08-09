@@ -1257,6 +1257,11 @@
     "btn.no": "Continue editing"
   },
   "chat": {
-    "empty-chat": "Chat hasn’t got any message yet"
+    "empty-chat": "Chat hasn’t got any message yet",
+    "messages": "Messages",
+    "support-chat": "Support-chat",
+    "delete-message-question": "Do you want to remove the message?",
+    "delete-message-confirm": "Yes",
+    "delete-message-cancel": "No"
   }
 }

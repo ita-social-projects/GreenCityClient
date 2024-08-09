@@ -136,7 +136,7 @@ button {
 }
 
 * {
-  font-family: Roboto, sans-serif;
+  font-family: 'Roboto', sans-serif;
   z-index: 1000;
 }
 
@@ -152,6 +152,16 @@ body {
   height: 100%;
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+::ng-deep .custom-dialog-container.chat-dialog-container {
+  height: 80vh;
+  /* stylelint-disable */
+  @media (max-width: 575px) {
+    min-height: 100dvh;
+    max-height: 100dvh;
+  }
+  /* stylelint-enable */
 }
 
 .custom-dialog-container .mat-dialog-container {

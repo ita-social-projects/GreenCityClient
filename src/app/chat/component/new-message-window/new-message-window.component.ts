@@ -1,60 +1,104 @@
-import { Component, OnDestroy, OnInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl, Validators } from '@angular/forms';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { ChatsService } from '../../service/chats/chats.service';
 import { Subject } from 'rxjs';
 import { CommonService } from '../../service/common/common.service';
 import { SocketService } from '../../service/socket/socket.service';
-import { Message } from '../../model/Message.model';
+import { Message, MessageExtended } from '../../model/Message.model';
 import { UserService } from '@global-service/user/user.service';
-import { FriendModel } from '@global-user/models/friend.model';
+import { JwtService } from '@global-service/jwt/jwt.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-message-window',
   templateUrl: './new-message-window.component.html',
   styleUrls: ['./new-message-window.component.scss']
 })
-export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestroy {
   chatIcons = CHAT_ICONS;
-  userSearchField = '';
   private onDestroy$ = new Subject();
-  userSearchControl: FormControl = new FormControl();
   messageControl: FormControl = new FormControl('', [Validators.max(250)]);
   showEmojiPicker = false;
   isHaveMessages = true;
+  isAdmin: boolean;
+  isEditMode: boolean;
+  messageToEdit: Message;
+  currentChatMessages: Observable<MessageExtended[]>;
+  isSupportChat: boolean;
+  currentPath: string;
+  uploadedFile: File;
+  @Input() isModal: boolean;
   @ViewChild('chat') chat: ElementRef;
+  @ViewChild('customInput', { static: true }) customInput: ElementRef;
 
   constructor(
     public chatsService: ChatsService,
     private commonService: CommonService,
     private socketService: SocketService,
-    public userService: UserService
+    public userService: UserService,
+    private jwt: JwtService,
+    public dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.userSearchControl.valueChanges.pipe(debounceTime(500), takeUntil(this.onDestroy$)).subscribe((newInput) => {
-      this.userSearchField = newInput;
-      this.chatsService.searchFriends(newInput);
+    this.currentPath = this.router.url;
+    this.currentChatMessages = this.chatsService.currentChatMessages$;
+    this.chatsService.currentChatStream$.pipe(takeUntil(this.onDestroy$)).subscribe((chat) => {
+      if (chat) {
+        this.socketService.subscribeToUpdateDeleteMessage(chat.id);
+      }
     });
 
-    this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
-      this.isHaveMessages = messages.length !== 0;
+    this.chatsService.currentChatMessagesStream$.pipe(takeUntil(this.onDestroy$)).subscribe((messages) => {
+      this.isHaveMessages = !!messages?.length;
+
+      const chatElem = this.chat?.nativeElement;
+      const chatHeight = chatElem?.scrollHeight;
+      setTimeout(() => {
+        if (chatElem && chatHeight < chatElem.scrollHeight) {
+          chatElem.scrollTop = chatElem.scrollHeight - chatElem.clientHeight;
+        }
+      });
+    });
+    this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
+    this.isSupportChat = this.chatsService.isSupportChat;
+    this.chatsService.messageToEdit$.pipe(takeUntil(this.onDestroy$)).subscribe((message) => {
+      this.isEditMode = !!message;
+      this.uploadedFile = null;
+      if (message) {
+        const { id, roomId, senderId, content } = message;
+        this.messageToEdit = { id, roomId, senderId, content };
+      }
+      this.messageControl.setValue(message ? message.content : '');
+      if (this.customInput) {
+        this.customInput.nativeElement.textContent = message ? message.content : '';
+      }
     });
   }
 
-  ngAfterViewChecked(): void {
-    const element: HTMLElement = this.chat.nativeElement;
-    element.scrollTop = element.scrollHeight;
+  changeValue(event: Event): void {
+    this.messageControl.setValue((event.target as HTMLDivElement).textContent.trim());
+  }
+
+  ngAfterViewInit(): void {
+    const element: HTMLElement = this.chat?.nativeElement;
+    if (element) {
+      element.scrollTop = element.scrollHeight;
+    }
   }
 
   close() {
     this.commonService.newMessageWindowRequireCloseStream$.next(true);
   }
 
-  checkChat(friend: FriendModel) {
-    if (friend.chatId) {
-      const userChat = this.chatsService.userChats.find((chat) => chat.id === friend.chatId);
+  checkChat(friend: any) {
+    if (friend.friendsChatDto.chatExists) {
+      const userChat = this.chatsService.userChats.find((chat) => chat.id === friend.friendsChatDto.chatId);
       this.chatsService.setCurrentChat(userChat);
     } else {
       this.socketService.createNewChat(friend.id, false, true);
@@ -62,16 +106,50 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
   }
 
   sendMessage() {
-    const messageContent = this.messageControl.value.trim();
-    if (messageContent) {
-      const message: Message = {
-        roomId: this.chatsService.currentChat.id,
-        senderId: this.userService.userId,
-        content: this.messageControl.value
-      };
-      this.socketService.sendMessage(message);
-      this.messageControl.setValue('');
+    const message: Message = {
+      roomId: this.chatsService.currentChat.id,
+      senderId: this.userService.userId,
+      content: this.messageControl.value
+    };
+    if (this.uploadedFile) {
+      this.chatsService
+        .sendMessageWithFile(message, this.uploadedFile)
+        .pipe(take(1))
+        .subscribe((data: Message) => {
+          this.uploadedFile = null;
+          this.messageControl.setValue('');
+          this.customInput.nativeElement.textContent = '';
+          const newMessage: Message = data;
+          const messages = this.chatsService.currentChatMessages;
+          if (messages) {
+            messages.push(newMessage);
+            this.chatsService.currentChatMessagesStream$.next([...messages]);
+          }
+        });
+      return;
     }
+
+    if (!this.isEditMode) {
+      this.socketService.sendMessage(message);
+    } else {
+      this.socketService.updateMessage({ ...this.messageToEdit, ...{ content: this.messageControl.value } });
+      this.isEditMode = false;
+      this.messageToEdit = null;
+    }
+
+    this.messageControl.setValue('');
+    this.customInput.nativeElement.textContent = '';
+  }
+
+  fileChanges(event: Event): void {
+    this.uploadedFile = (event.target as HTMLInputElement).files[0];
+    this.isEditMode = false;
+    setTimeout(() => {
+      const element: HTMLElement = this.chat?.nativeElement;
+      if (element) {
+        element.scrollTop = element.scrollHeight;
+      }
+    }, 0);
   }
 
   toggleEmojiPicker() {
@@ -81,9 +159,21 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
   addEmoji(event) {
     const newValue = this.messageControl.value ? this.messageControl.value + event.emoji.native : event.emoji.native;
     this.messageControl.setValue(newValue);
+    this.customInput.nativeElement.textContent = newValue;
+  }
+
+  closeEditMode(): void {
+    this.chatsService.messageToEdit$.next(null);
+    const element: HTMLElement = this.chat?.nativeElement;
+    if (element) {
+      element.scrollTop = element.scrollHeight;
+    }
   }
 
   ngOnDestroy(): void {
+    if (this.socketService.updateDeleteMessageSubs) {
+      this.socketService.updateDeleteMessageSubs.unsubscribe();
+    }
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
   }

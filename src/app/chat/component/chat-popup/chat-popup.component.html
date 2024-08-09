@@ -1,7 +1,7 @@
-<div class="chat-popup">
+<div class="chat-popup" [ngClass]="chatClass" [class.opened]="isOpen">
   <div class="popup-top-panel">
-    <div class="panel-account">
-      <span class="panel-account-title">Messages</span>
+    <div class="panel-account" (click)="handlePanelClick()">
+      <span class="panel-account-title">{{ (isSupportChat ? 'chat.support-chat' : 'chat.messages') | translate }}</span>
     </div>
 
     <div class="panel-buttons">
@@ -10,7 +10,7 @@
       </button>
     </div>
   </div>
-  <app-chats-list [isPopup]="true" (createNewMessageWindow)="openNewMessageWindow(false)"></app-chats-list>
+  <app-chats-list *ngIf="isOpen" [isPopup]="true" (createNewMessageWindow)="openNewMessageWindow(false)"></app-chats-list>
 </div>
 
 <div class="new-msg-container" *appReferenceDirective></div>

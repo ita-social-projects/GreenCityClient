@@ -1,0 +1,144 @@
+@import '../../../chat/chat-styles-reset';
+
+.button-icon {
+  align-self: center;
+  text-wrap: nowrap;
+
+  img {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.attached-file {
+  @include flex(row, flex-start, flex-end);
+
+  column-gap: 5px;
+  padding: 0;
+  width: 100%;
+  margin-bottom: 10px;
+
+  &.own {
+    flex-direction: row-reverse;
+    padding-left: 0;
+  }
+
+  .file-box {
+    max-width: 70px;
+    text-align: center;
+  }
+
+  & > img {
+    width: 50%;
+  }
+
+  .file-icon {
+    width: 20px;
+  }
+
+  button,
+  a {
+    display: block;
+    align-self: center;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  p {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.message-container,
+.attached-file-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.message {
+  @include flex(row, flex-start, flex-end);
+
+  column-gap: 5px;
+  padding: 10px 0;
+  width: 100%;
+
+  & > .logo {
+    height: 25px;
+  }
+
+  &.own {
+    flex-direction: row-reverse;
+
+    & > .logo {
+      display: none;
+    }
+  }
+}
+
+.msg-time-box {
+  display: flex;
+  align-items: end;
+  align-self: flex-start;
+  gap: 5px;
+  max-width: 100%;
+}
+
+.message.own .msg-time-box {
+  align-self: flex-end;
+}
+
+.msg-block {
+  @include flex(row, flex-start, center);
+
+  max-width: 100%;
+  padding: 8px;
+  border-radius: 10px 10px 10px 0;
+  position: relative;
+  box-shadow: 0 0 1px 1px rgb(0 0 0 / 25%);
+  background: var(--primary-green);
+  overflow: hidden;
+  align-self: flex-start;
+  word-break: break-word;
+
+  span {
+    font-size: 14px;
+    font-family: var(--primary-font);
+    color: #fff;
+    overflow-wrap: break-word;
+  }
+}
+
+.msg-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: 60%;
+  min-width: 20%;
+}
+
+.message.own .msg-block {
+  border-radius: 10px 10px 0 10px;
+  background: var(--quaternary-dark-grey);
+  align-self: flex-end;
+}
+
+.msg-time {
+  font-size: 12px;
+  text-overflow: clip;
+}
+
+.editing {
+  background-color: var(--ubs-liberty-green);
+}
+
+.likes-counter {
+  margin-left: 3px;
+  color: var(--quintynary-light-grey);
+}
