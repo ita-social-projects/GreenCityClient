@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GetCurrentUserAction } from 'src/app/store/actions/auth.actions';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { CommonService } from './chat/service/common/common.service';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 export class AppComponent implements OnInit {
   private store: Store = inject(Store);
   private googleScript: GoogleScript = inject(GoogleScript);
+  commoChatSevice: CommonService = inject(CommonService);
 
   offline: boolean;
 

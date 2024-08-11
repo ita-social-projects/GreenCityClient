@@ -63,7 +63,7 @@
           <input id="file-input" type="file" (change)="fileChanges($event)" onclick="this.value=null;" />
         </div>
 
-        <button *ngIf="!isSupportChat" type="button">
+        <button *ngIf="!chatsService.isSupportChat" type="button">
           <img [src]="chatIcons.smile" alt="smile" title="Add emoji" (click)="toggleEmojiPicker()" />
         </button>
       </div>

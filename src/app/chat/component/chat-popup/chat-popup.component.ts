@@ -6,7 +6,7 @@ import { NewMessageWindowComponent } from '../new-message-window/new-message-win
 import { ReferenceDirective } from '../../directive/reference/reference.directive';
 import { CommonService } from '../../service/common/common.service';
 import { Subject } from 'rxjs';
-import { concatMap, takeUntil } from 'rxjs/operators';
+import { concatMap, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { SocketService } from '../../service/socket/socket.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
@@ -15,6 +15,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocationForChat } from '../../model/Chat.model';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-popup',
@@ -28,10 +29,10 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   private userId: number;
   private courierUBSName = 'UBS';
-  isAdmin: boolean;
+  isUbsAdmin: boolean;
   breakpoint = 575;
+  isSupportChat: boolean;
 
-  @Input() isSupportChat: boolean;
   @Input() chatClass: string;
 
   @ViewChild(ReferenceDirective) elementRef: ReferenceDirective;
@@ -50,19 +51,33 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private localStorageService: LocalStorageService,
     private jwt: JwtService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.chatsService.isSupportChat$.next(this.isSupportChat);
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.onDestroy$)).subscribe((id) => {
+      this.userId = id;
+      this.isUbsAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
       if (id) {
         this.socketService.connect();
-        this.userId = id;
-        this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
+        this.router.events
+          .pipe(
+            filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+            map((event) => event.urlAfterRedirects.includes('ubs')),
+            distinctUntilChanged()
+          )
+          .subscribe((isSupportChat) => {
+            this.commonService.newMessageWindowRequireCloseStream$.next(true);
+            this.chatsService.isSupportChat$.next(isSupportChat);
+            this.commonService.isChatVisible$.next(isSupportChat);
+            this.isSupportChat = isSupportChat;
+          });
+
         this.loadChats();
       } else {
         this.socketService.unsubscribeAll();
+        this.isOpen = false;
       }
     });
 
@@ -70,28 +85,25 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   }
 
   loadChats(): void {
-    if (this.isSupportChat && this.isAdmin) {
+    if (this.isUbsAdmin) {
       this.chatsService.getAllSupportChats();
+      return;
     }
 
-    if (this.isSupportChat && !this.isAdmin) {
-      this.orderService
-        .getAllActiveCouriers()
-        .pipe(
-          concatMap((data) => {
-            const courierId = data.find((courier) => courier.nameEn.includes(this.courierUBSName)).courierId;
-            return this.chatsService.getLocationsChats(this.userId, courierId);
-          }),
-          takeUntil(this.onDestroy$)
-        )
-        .subscribe((locations: LocationForChat[]) => {
-          this.chatsService.locations$.next(locations);
-        });
-    }
+    this.orderService
+      .getAllActiveCouriers()
+      .pipe(
+        concatMap((data) => {
+          const courierId = data.find((courier) => courier.nameEn.includes(this.courierUBSName)).courierId;
+          return this.chatsService.getLocationsChats(this.userId, courierId);
+        }),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe((locations: LocationForChat[]) => {
+        this.chatsService.locations$.next(locations);
+      });
 
-    if (!this.isSupportChat) {
-      this.chatsService.getAllUserChats(this.userId);
-    }
+    this.chatsService.getAllUserChats(this.userId);
   }
 
   openAuthModalWindow(): void {
@@ -130,6 +142,10 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     this.commonService.newMessageWindowRequireCloseStream$.next(true);
     this.dialog.closeAll();
     this.dialog.open(ChatModalComponent, this.dialogConfig);
+  }
+
+  hideChat(): void {
+    this.commonService.isChatVisible$.next(false);
   }
 
   ngOnDestroy(): void {

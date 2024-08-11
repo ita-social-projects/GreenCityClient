@@ -4,11 +4,12 @@ import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { Chat } from '../../model/Chat.model';
+import { Chat, LocationForChat } from '../../model/Chat.model';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Title } from '@angular/platform-browser';
 import { UserService } from '@global-service/user/user.service';
 import { Subject } from 'rxjs';
+import { FriendModel } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-chats-list',
@@ -20,8 +21,7 @@ export class ChatsListComponent implements OnInit, OnDestroy {
   chatIcons = CHAT_ICONS;
   searchField = '';
   searchFieldControl = new FormControl();
-  isSupportChat: boolean;
-  isAdmin: boolean;
+  isUbsAdmin: boolean;
   @Input() isPopup: boolean;
   @Output() createNewMessageWindow: EventEmitter<Chat> = new EventEmitter<Chat>();
 
@@ -34,16 +34,15 @@ export class ChatsListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.isSupportChat = this.chatService.isSupportChat;
-    this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
-    if (!this.isSupportChat) {
+    this.isUbsAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
+    if (!this.chatService.isSupportChat) {
       this.searchFieldControl.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((newValue) => {
         this.searchField = newValue;
         this.chatService.searchFriends(newValue);
       });
     }
 
-    if (this.isSupportChat && this.isAdmin) {
+    if (this.chatService.isSupportChat && this.isUbsAdmin) {
       this.chatService.currentChatStream$.pipe(takeUntil(this.destroy$)).subscribe((chat) => {
         const isAdminParticipant = chat?.participants?.some((el) => el.id === this.userService.userId);
         this.chatService.isAdminParticipant$.next(isAdminParticipant);
@@ -61,16 +60,17 @@ export class ChatsListComponent implements OnInit, OnDestroy {
     return isToday ? 'HH:mm' : 'dd/MM';
   }
 
-  checkChat(chatTarget: any): void {
-    if (this.isAdmin) {
+  checkChat(chatTarget: FriendModel | LocationForChat): void {
+    if (this.isUbsAdmin) {
       return;
     }
 
-    const userChat = this.isSupportChat
-      ? chatTarget.chat
-      : this.chatService.userChats.find((chat) => chat?.id === chatTarget.friendsChatDto?.chatId);
+    const userChat = this.chatService.isSupportChat
+      ? (chatTarget as LocationForChat).chat
+      : this.chatService.userChats.find((chat) => chat?.id === (chatTarget as FriendModel).friendsChatDto?.chatId);
 
-    userChat ? this.chatService.setCurrentChat(userChat) : this.socketService.createNewChat(chatTarget.id, false, true);
+    const idForNewChat = this.chatService.isSupportChat ? (chatTarget as LocationForChat).tariffsId : chatTarget.id;
+    userChat ? this.chatService.setCurrentChat(userChat) : this.socketService.createNewChat(idForNewChat, false, true);
 
     this.createNewMessageWindow.emit();
   }

@@ -8,6 +8,9 @@
       <button class="panel-button">
         <img [src]="chatIcons.chat" (click)="openChatModal()" alt="open chat" title="Open chat" />
       </button>
+      <button class="panel-button" type="button" (click)="hideChat()" title="Close">
+        <img [src]="chatIcons.close" alt="hide" />
+      </button>
     </div>
   </div>
   <app-chats-list *ngIf="isOpen" [isPopup]="true" (createNewMessageWindow)="openNewMessageWindow(false)"></app-chats-list>

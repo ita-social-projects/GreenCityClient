@@ -10,13 +10,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class ChatModalComponent implements OnInit {
   chatIcons = CHAT_ICONS;
-  isSupportChat: boolean;
   isMobile: boolean;
   breakpoint = 576;
 
   constructor(
     private dialogRef: MatDialogRef<ChatModalComponent>,
-    private chatsService: ChatsService
+    public chatsService: ChatsService
   ) {}
 
   @HostListener('window:resize', ['$event'])
@@ -25,7 +24,6 @@ export class ChatModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isSupportChat = this.chatsService.isSupportChat;
     this.isMobile = window.innerWidth < this.breakpoint;
   }
 

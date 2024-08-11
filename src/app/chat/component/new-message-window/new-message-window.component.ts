@@ -28,7 +28,6 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   isEditMode: boolean;
   messageToEdit: Message;
   currentChatMessages: Observable<MessageExtended[]>;
-  isSupportChat: boolean;
   currentPath: string;
   uploadedFile: File;
   @Input() isModal: boolean;
@@ -66,7 +65,6 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
       });
     });
     this.isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
-    this.isSupportChat = this.chatsService.isSupportChat;
     this.chatsService.messageToEdit$.pipe(takeUntil(this.onDestroy$)).subscribe((message) => {
       this.isEditMode = !!message;
       this.uploadedFile = null;
