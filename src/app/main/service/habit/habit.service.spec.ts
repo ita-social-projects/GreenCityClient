@@ -24,8 +24,12 @@ describe('HabitService', () => {
 
   let langMock = null;
 
-  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('localStorageService', ['languageBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('localStorageService', [
+    'languageBehaviourSubject',
+    'getAccessToken'
+  ]);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+  (localStorageServiceMock.getAccessToken as jasmine.Spy).and.returnValue('accessToken');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -141,9 +145,11 @@ describe('HabitService', () => {
     const lang = 'en';
     const id = 1;
     const mockResponse = MOCK_CUSTOM_HABIT_RESPONSE;
+
     habitService.changeCustomHabit(habit, lang, id).subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });
+
     const req = httpMock.expectOne(`${habitLink}/update/${id}`);
     expect(req.request.method).toBe('PUT');
     req.flush(mockResponse);
