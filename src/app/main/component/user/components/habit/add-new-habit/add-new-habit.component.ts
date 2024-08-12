@@ -12,7 +12,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { Location } from '@angular/common';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { habitImages, starIcons } from 'src/app/main/image-pathes/habits-images';
+import { habitImages } from 'src/app/main/image-pathes/habits-images';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
@@ -135,7 +135,7 @@ export class AddNewHabitComponent implements OnInit {
   private getRecommendedHabits(page: number, size: number, tags: string[]): void {
     if (this.userId) {
       this.habitService
-        .getHabitsByTagAndLang(page, size, tags, this.currentLang)
+        .getHabitsByTagAndLang(page, size, tags, this.currentLang, true)
         .pipe(take(1))
         .subscribe((data: HabitListInterface) => {
           this.recommendedHabits = data.page;

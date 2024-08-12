@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitLink } from '../../links';
-
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
@@ -52,10 +50,10 @@ export class HabitService {
     return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
-  getHabitsByTagAndLang(page: number, size: number, tags: Array<string>, lang: string, assign: boolean): Observable<HabitListInterface> {
+  getHabitsByTagAndLang(page: number, size: number, tags: Array<string>, lang: string, isAssign: boolean): Observable<HabitListInterface> {
     const sort = 'asc';
     return this.http.get<HabitListInterface>(
-      `${habitLink}/tags/search?lang=${lang}&page=${page}&size=${size}&sort=${sort}&tags=${tags}&excludeAssigned=${assign}`
+      `${habitLink}/tags/search?lang=${lang}&page=${page}&size=${size}&sort=${sort}&tags=${tags}&excludeAssigned=${isAssign}`
     );
   }
 

@@ -99,12 +99,12 @@ describe('HabitService', () => {
   });
 
   it('should return habits by tag and lang', () => {
-    habitService.getHabitsByTagAndLang(1, 1, ['test'], 'en').subscribe((data) => {
+    habitService.getHabitsByTagAndLang(1, 1, ['test'], 'en', false).subscribe((data) => {
       expect(data).not.toBeNull();
       expect(data).toEqual(HABITLIST);
     });
 
-    const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en&page=1&size=1&sort=asc&tags=test`);
+    const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en&page=1&size=1&sort=asc&tags=test&excludeAssigned=false`);
     expect(req.request.method).toBe('GET');
     req.flush(HABITLIST);
   });
