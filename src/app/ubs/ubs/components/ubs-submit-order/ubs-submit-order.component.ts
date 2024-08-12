@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { iif, Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { filter, finalize, take, takeUntil } from 'rxjs/operators';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Bag, IProcessOrderResponse, Order, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
@@ -111,7 +111,12 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.orderService.processExistingOrder(this.getOrder(shouldBePaid), this.existingOrderId),
       this.orderService.processNewOrder(this.getOrder(shouldBePaid))
     )
-      .pipe(takeUntil(this.$destroy))
+      .pipe(
+        takeUntil(this.$destroy),
+        finalize(() => {
+          this.redirectToConfirmPage();
+        })
+      )
       .subscribe({
         next: (response: IProcessOrderResponse) => {
           this.processWayForPay(response);
