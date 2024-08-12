@@ -19,7 +19,14 @@
         </span>
       </div>
       <div class="title">
-        <h2 [appLangValue]="{ ua: habit.habitTranslation.nameUa, en: habit.habitTranslation.name }">habit name</h2>
+        <h2
+          [appLangValue]="{
+            ua: habit.habitTranslation.nameUa ? habit.habitTranslation.nameUa : habit.habitTranslation.name,
+            en: habit.habitTranslation.name
+          }"
+        >
+          habit name
+        </h2>
       </div>
       <div class="acquired">
         <p>{{ 'user.habit.header.aсquired' | translate }} {{ habit.amountAcquiredUsers }} {{ 'user.habit.header.users' | translate }}</p>
