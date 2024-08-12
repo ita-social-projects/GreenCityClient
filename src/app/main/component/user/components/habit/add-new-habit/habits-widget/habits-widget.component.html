@@ -7,7 +7,7 @@
   <div *ngIf="isHabit && recommendedHabits" class="habits-recomended">
     <div class="cards-container">
       <div class="card-box" *ngFor="let habit of recommendedHabits; index as i">
-        <app-habits-gallery-view [habit]="habit" [routerLink]="['/allhabits/addhabit', habit.id]"> </app-habits-gallery-view>
+        <app-habits-gallery-view [habit]="habit"></app-habits-gallery-view>
       </div>
     </div>
   </div>
