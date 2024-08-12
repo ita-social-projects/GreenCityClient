@@ -1,4 +1,4 @@
-<div *ngIf="!(chatService.isSupportChat$ | async)">
+<div *ngIf="!(chatService.isSupportChat$ | async)" class="search-chats">
   <div class="searching-panel" [ngClass]="{ 'searching-panel-in-popup': isPopup }">
     <div class="search">
       <input type="text" [formControl]="searchFieldControl" />

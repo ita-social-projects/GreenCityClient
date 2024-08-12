@@ -31,7 +31,6 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   private courierUBSName = 'UBS';
   isUbsAdmin: boolean;
   breakpoint = 575;
-  isSupportChat: boolean;
 
   @Input() chatClass: string;
 
@@ -44,15 +43,14 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private chatsService: ChatsService,
+    public chatsService: ChatsService,
     private commonService: CommonService,
     private factory: ComponentFactoryResolver,
     private socketService: SocketService,
     private dialog: MatDialog,
     private localStorageService: LocalStorageService,
     private jwt: JwtService,
-    private orderService: OrderService,
-    private router: Router
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
@@ -61,18 +59,6 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
       this.isUbsAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
       if (id) {
         this.socketService.connect();
-        this.router.events
-          .pipe(
-            filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-            map((event) => event.urlAfterRedirects.includes('ubs')),
-            distinctUntilChanged()
-          )
-          .subscribe((isSupportChat) => {
-            this.commonService.newMessageWindowRequireCloseStream$.next(true);
-            this.chatsService.isSupportChat$.next(isSupportChat);
-            this.commonService.isChatVisible$.next(isSupportChat);
-            this.isSupportChat = isSupportChat;
-          });
 
         this.loadChats();
       } else {

@@ -6,6 +6,10 @@
   @include flex(column, center, center);
 }
 
+.search-chats {
+  width: 100%;
+}
+
 .searching-panel {
   padding: 10px;
   column-gap: 15px;
