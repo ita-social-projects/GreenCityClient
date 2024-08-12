@@ -63,7 +63,9 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
         this.loadChats();
       } else {
         this.socketService.unsubscribeAll();
+        this.chatsService.resetData();
         this.isOpen = false;
+        this.commonService.newMessageWindowRequireCloseStream$.next(true);
       }
     });
 

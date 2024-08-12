@@ -196,4 +196,12 @@ export class ChatsService {
   getFile(img: string): Observable<Blob> {
     return this.httpClient.get(img, { responseType: 'blob' });
   }
+
+  resetData(): void {
+    this.userChatsStream$.next([]);
+    this.currentChatStream$.next(null);
+    this.currentChatPageData$.next(null);
+    this.currentChatMessagesStream$.next([]);
+    this.locations$.next([]);
+  }
 }

@@ -2,7 +2,7 @@
   <div class="popup-top-panel">
     <div class="panel-account" (click)="handlePanelClick()">
       <span class="panel-account-title">{{
-        ((chatsService.isSupportChat$ | async) ? 'chat.support-chat' : 'chat.messages') | translate
+        ((chatsService.isSupportChat$ | async) === true ? 'chat.support-chat' : 'chat.messages') | translate
       }}</span>
     </div>
 
