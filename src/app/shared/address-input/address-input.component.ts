@@ -42,6 +42,18 @@ import { Patterns } from 'src/assets/patterns/patterns';
   ]
 })
 export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor, Validator {
+  onUseUserLocation(isUseUserLocation: boolean) {
+    this.isShowMap = isUseUserLocation;
+
+    if (isUseUserLocation) {
+      this.setCurrentLocation();
+    } else {
+      this.resetCity();
+      this.resetStreet();
+      this.resetDistricts();
+      this.resetHouseInfo();
+    }
+  }
   @Input() edit: boolean;
   @Input() address: Address;
   @Input() addFromProfile: boolean;
@@ -52,7 +64,16 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   locations: CourierLocations;
   districtList: DistrictsDtos[];
   addressData: CAddressData;
+  addressCoords: google.maps.LatLng;
   isTouched = false;
+  isShowMap = false;
+
+  mapOptions: google.maps.MapOptions = {
+    center: { lat: 49.8397, lng: 24.0297 },
+    zoom: 8,
+    minZoom: 4,
+    maxZoom: 20
+  };
 
   private buildingPattern = Patterns.numericAndAlphabetic;
   private $destroy: Subject<void> = new Subject();
@@ -172,8 +193,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   ngAfterViewInit(): void {
     if (!this.edit) {
-      this.addFromProfile ? this.region.enable() : this.region.disable();
-      this.region.enabled ? this.city.disable() : this.city.enable();
+      this.region.value ? this.city.enable() : this.city.disable();
       this.street.disable();
       this.houseNumber.disable();
       this.houseCorpus.disable();
@@ -197,12 +217,17 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getAddressChange()
       .pipe(takeUntil(this.$destroy))
       .subscribe((addressData) => {
+        console.warn(addressData);
+
         const region = this.currentLanguage === 'ua' ? addressData.region : addressData.regionEn;
         const city = this.currentLanguage === 'ua' ? addressData.city : addressData.cityEn;
         const street = this.currentLanguage === 'ua' ? addressData.street : addressData.streetEn;
-        this.region.setValue(region);
-        this.city.setValue(city);
-        this.street.setValue(street);
+
+        this.onRegionValueSet(region);
+        this.onCityValueSet(city);
+        this.onStreetValueSet(street);
+        this.district.setValue(this.langService.getLangValue(addressData.district, addressData.districtEn));
+        this.houseNumber.setValue(addressData.houseNumber);
 
         this.onChange(this.addressData.getValues());
         this.cdr.detectChanges();
@@ -259,18 +284,9 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     });
   }
 
-  onRegionSelected(region: any): void {
+  onRegionSelected(region: GooglePrediction): void {
     if (region) {
-      this.region.patchValue(region?.structured_formatting.main_text ?? '');
-      this.addressData.setRegion(region);
-      this.city.enable();
-    } else {
-      this.region.patchValue('');
-      this.addressData.resetRegion();
-
-      this.city.disable();
-      this.street.disable();
-      this.houseNumber.disable();
+      this.addressData.setRegion(region.place_id);
     }
 
     this.resetCity();
@@ -278,49 +294,32 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.resetDistricts();
     this.resetHouseInfo();
 
-    this.OnChangeAndTouched();
+    this.onRegionValueSet(region?.structured_formatting.main_text ?? '');
   }
 
   onCitySelected(city: GooglePrediction): void {
     if (city) {
       this.city.patchValue(city?.structured_formatting.main_text ?? '');
-      this.addressData.setCity(city);
-      this.getDistrictsForCity();
-
-      this.street.enable();
-    } else {
-      this.city.patchValue('');
-      this.addressData.resetCity();
-
-      this.street.disable();
-      this.houseNumber.disable();
+      this.addressData.setCity(city.place_id);
     }
 
     this.resetStreet();
     this.resetDistricts();
     this.resetHouseInfo();
-    this.OnChangeAndTouched();
+
+    this.onCityValueSet(city?.structured_formatting.main_text ?? '');
   }
 
   onStreetSelected(street: GooglePrediction): void {
     if (street) {
-      this.street.patchValue(street.structured_formatting.main_text);
-      this.addressData.setStreet(street);
-      this.fetchDistrictAuto(street.place_id);
-
-      this.houseNumber.enable();
-      this.houseCorpus.enable();
-      this.entranceNumber.enable();
+      this.addressData.setStreet(street.place_id);
     } else {
-      this.street.patchValue('');
       this.addressData.resetStreet();
-
-      this.houseNumber.disable();
-      this.houseCorpus.disable();
-      this.entranceNumber.disable();
     }
+
     this.resetHouseInfo();
-    this.OnChangeAndTouched();
+
+    this.onStreetValueSet(street?.structured_formatting.main_text ?? '');
   }
 
   onDistrictSelected(): void {
@@ -348,6 +347,12 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.OnChangeAndTouched();
   }
 
+  onMapClick($event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) {
+    this.addressCoords = $event.latLng;
+
+    this.addressData.setCoordinates(new google.maps.LatLng(this.addressCoords));
+  }
+
   isErrorMessageShown(control: AbstractControl): boolean {
     return control.touched && control.invalid;
   }
@@ -361,36 +366,59 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     return `${this.region.value}, ${cityValue}, `;
   }
 
-  private getDistrictsForCity(): void {
-    this.orderService
-      .findAllDistricts(this.region.value, this.city.value)
-      .pipe(take(1))
-      .subscribe((districts) => {
-        this.districtList = districts;
-        this.district.enable();
-      });
+  ngOnDestroy(): void {
+    this.$destroy.next();
+    this.$destroy.complete();
   }
 
-  private fetchDistrictAuto(placeId: string): void {
-    new google.maps.Geocoder().geocode({ placeId, language: this.currentLanguage }).then((response) => {
-      const placeDetails = response.results[0];
+  private onRegionValueSet(value: string): void {
+    if (value) {
+      this.region.patchValue(value);
+      this.city.enable();
+    } else {
+      this.region.patchValue('');
+      this.addressData.resetRegion();
 
-      if (!placeDetails) {
-        return;
-      }
+      this.city.disable();
+      this.street.disable();
+      this.houseNumber.disable();
+    }
 
-      const districtAuto = placeDetails.address_components.find((component) => component.types.includes('sublocality'));
+    this.OnChangeAndTouched();
+  }
 
-      if (!districtAuto) {
-        return;
-      }
+  private onCityValueSet(value: string) {
+    if (value) {
+      this.city.patchValue(value);
 
-      const district = this.districtList.find(
-        (d) => d.nameEn.startsWith(districtAuto.long_name?.split(`'`)[0]) || d.nameUa === districtAuto.long_name
-      );
-      this.district.setValue(district ?? '');
-      this.onDistrictSelected();
-    });
+      this.street.enable();
+    } else {
+      this.city.patchValue('');
+      this.addressData.resetCity();
+
+      this.street.disable();
+      this.houseNumber.disable();
+    }
+
+    this.OnChangeAndTouched();
+  }
+
+  private onStreetValueSet(value: string): void {
+    if (value) {
+      this.street.patchValue(value);
+
+      this.houseNumber.enable();
+      this.houseCorpus.enable();
+      this.entranceNumber.enable();
+    } else {
+      this.street.patchValue('');
+
+      this.houseNumber.disable();
+      this.houseCorpus.disable();
+      this.entranceNumber.disable();
+    }
+
+    this.OnChangeAndTouched();
   }
 
   private resetHouseInfo(): void {
@@ -401,9 +429,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   private resetDistricts(): void {
     this.district.reset();
-    this.district.disable();
-    this.addressData.resetDistrict();
-    this.districtList = [];
   }
 
   private resetStreet(): void {
@@ -421,8 +446,16 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.markAsTouched();
   }
 
-  ngOnDestroy(): void {
-    this.$destroy.next();
-    this.$destroy.complete();
+  //Set users current location
+  private setCurrentLocation(): void {
+    navigator.geolocation.getCurrentPosition(
+      (position) => this.handleGeolocationSuccess(position),
+      (error) => console.error(error)
+    );
+  }
+
+  private handleGeolocationSuccess(position: GeolocationPosition): void {
+    this.addressCoords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    this.addressData.setCoordinates(this.addressCoords);
   }
 }
