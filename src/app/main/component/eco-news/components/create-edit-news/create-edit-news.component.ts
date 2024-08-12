@@ -217,8 +217,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         ofType(NewsActions.CreateEcoNewsSuccess),
         takeUntil(this.destroyed$),
         catchError((error: Error) => {
-          this.snackBar.openSnackBar('error', error.message);
-          return throwError(() => new Error('An error occurred while sending images.'));
+          this.snackBar.openSnackBar('snack-bar.error.default');
+          return throwError(() => new Error(error.message));
         })
       )
       .subscribe(() => {
@@ -262,9 +262,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.actionsSubj
       .pipe(
         ofType(NewsActions.EditEcoNewsSuccess),
-        catchError((error) => {
-          this.snackBar.openSnackBar('error', 'Something went wrong. Please reload page or try again later.');
-          return throwError(() => new Error('An error occurred while sending images.'));
+        catchError((error: Error) => {
+          this.snackBar.openSnackBar('snack-bar.error.default');
+          return throwError(() => new Error(error.message));
         })
       )
       .subscribe(() => this.escapeFromCreatePage());
