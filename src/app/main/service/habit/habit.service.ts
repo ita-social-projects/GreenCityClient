@@ -90,7 +90,7 @@ export class HabitService {
       this.imageFile = null;
     }
 
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = this.localStorageService.getAccessToken();
     this.httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
     this.httpOptions.headers.append('Content-Type', 'multipart/form-data');
 
