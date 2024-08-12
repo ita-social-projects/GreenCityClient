@@ -52,10 +52,10 @@ export class HabitService {
     return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
-  getHabitsByTagAndLang(page: number, size: number, tags: Array<string>, language: string): Observable<HabitListInterface> {
+  getHabitsByTagAndLang(page: number, size: number, tags: Array<string>, lang: string, assign: boolean): Observable<HabitListInterface> {
     const sort = 'asc';
     return this.http.get<HabitListInterface>(
-      `${habitLink}/tags/search?lang=${language}&page=${page}&size=${size}&sort=${sort}&tags=${tags}`
+      `${habitLink}/tags/search?lang=${lang}&page=${page}&size=${size}&sort=${sort}&tags=${tags}&excludeAssigned=${assign}`
     );
   }
 
