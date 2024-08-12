@@ -27,13 +27,13 @@
       background-size: 20px;
       font-size: 15px;
       width: 100%;
-      box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 0 2px 1px rgba(0 0 0 25%);
       outline: none;
       border: none;
       padding: 5px 8px 5px 35px;
       transition: all 0.1s linear;
       border-radius: 20px;
-      font-family: 'Roboto', sans-serif;
+      font-family: Roboto, sans-serif;
       color: var(--primary-white);
     }
   }

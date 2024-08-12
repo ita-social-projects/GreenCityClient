@@ -31,6 +31,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   private courierUBSName = 'UBS';
   isUbsAdmin: boolean;
   breakpoint = 575;
+  isSupportChat: boolean;
 
   @Input() chatClass: string;
 
@@ -67,6 +68,10 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
         this.isOpen = false;
         this.commonService.newMessageWindowRequireCloseStream$.next(true);
       }
+    });
+
+    this.chatsService.isSupportChat$.pipe(takeUntil(this.onDestroy$)).subscribe((value) => {
+      this.isSupportChat = value;
     });
 
     this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());

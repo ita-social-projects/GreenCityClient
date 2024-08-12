@@ -1,16 +1,14 @@
 <div class="chat-popup" [ngClass]="chatClass" [class.opened]="isOpen">
   <div class="popup-top-panel">
     <div class="panel-account" (click)="handlePanelClick()">
-      <span class="panel-account-title">{{
-        ((chatsService.isSupportChat$ | async) === true ? 'chat.support-chat' : 'chat.messages') | translate
-      }}</span>
+      <span class="panel-account-title">{{ (isSupportChat ? 'chat.support-chat' : 'chat.messages') | translate }}</span>
     </div>
 
     <div class="panel-buttons">
       <button class="panel-button">
         <img [src]="chatIcons.chat" (click)="openChatModal()" alt="open chat" title="Open chat" />
       </button>
-      <button *ngIf="!(chatsService.isSupportChat$ | async)" class="panel-button" type="button" (click)="hideChat()" title="Close">
+      <button *ngIf="!isSupportChat" class="panel-button" type="button" (click)="hideChat()" title="Close">
         <img [src]="chatIcons.close" alt="hide" />
       </button>
     </div>

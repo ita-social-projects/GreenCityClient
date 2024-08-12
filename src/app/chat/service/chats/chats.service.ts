@@ -18,6 +18,7 @@ export class ChatsService {
   currentChatPageData$: BehaviorSubject<ChatDto> = new BehaviorSubject<ChatDto>(null);
   currentChatMessagesStream$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   searchedFriendsStream$: BehaviorSubject<FriendModel[]> = new BehaviorSubject<FriendModel[]>([]);
+  isChatUpdateStream$: Subject<boolean> = new Subject<boolean>();
   locations$: BehaviorSubject<LocationForChat[]> = new BehaviorSubject([]);
   chatsMessages: { [key: string]: MessagesToSave } = {};
   messagesIsLoading = false;
