@@ -301,11 +301,6 @@ export class CAddressData {
   private translateProperty(propertyName: string, placeId: string, language: Language, ...googleLocalityType: string[]): void {
     new google.maps.Geocoder().geocode({ placeId, language }).then((response) => {
       this[propertyName] = this.findValue(response.results[0], ...googleLocalityType)?.long_name ?? '';
-
-      if (googleLocalityType.includes('route')) {
-        console.warn('route', this[propertyName], response.results[0]);
-      }
-
       this.addressChange.next(this.getValues());
     });
   }
