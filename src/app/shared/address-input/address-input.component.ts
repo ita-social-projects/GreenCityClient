@@ -42,18 +42,6 @@ import { Patterns } from 'src/assets/patterns/patterns';
   ]
 })
 export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor, Validator {
-  onUseUserLocation(isUseUserLocation: boolean) {
-    this.isShowMap = isUseUserLocation;
-
-    if (isUseUserLocation) {
-      this.setCurrentLocation();
-    } else {
-      this.resetCity();
-      this.resetStreet();
-      this.resetDistricts();
-      this.resetHouseInfo();
-    }
-  }
   @Input() edit: boolean;
   @Input() address: Address;
   @Input() addFromProfile: boolean;
@@ -282,6 +270,19 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.addressForm.updateValueAndValidity();
       }
     });
+  }
+
+  onUseUserLocation(isUseUserLocation: boolean) {
+    this.isShowMap = isUseUserLocation;
+
+    if (isUseUserLocation) {
+      this.setCurrentLocation();
+    } else {
+      this.resetCity();
+      this.resetStreet();
+      this.resetDistricts();
+      this.resetHouseInfo();
+    }
   }
 
   onRegionSelected(region: GooglePrediction): void {
