@@ -28,7 +28,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   isEditMode: boolean;
   messageToEdit: Message;
   currentChatMessages: Observable<MessageExtended[]>;
-  currentPath: string;
+  currentPath = '';
   uploadedFile: File;
   @Input() isModal: boolean;
   @ViewChild('chat') chat: ElementRef;

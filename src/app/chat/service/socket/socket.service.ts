@@ -144,8 +144,8 @@ export class SocketService {
     this.stompClient.send('/app/chat/like', {}, JSON.stringify(message));
   }
 
-  createNewChat(ids, isOpen, isOpenInWindow?) {
-    const key = this.chatsService.isSupportChat ? 'locationsIds' : 'participantsIds';
+  createNewChat(ids, isOpen, isOpenInWindow?): void {
+    const key = this.chatsService.isSupportChat ? 'tariffId' : 'participantsIds';
     const newChatInfo = {
       currentUserId: this.userId,
       [key]: ids
