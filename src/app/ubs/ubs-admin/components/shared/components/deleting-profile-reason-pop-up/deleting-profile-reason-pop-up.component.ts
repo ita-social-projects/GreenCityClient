@@ -76,23 +76,23 @@ interface Reason {
 const deleteProfileReasons: Reason[] = [
   {
     id: 0,
-    ua: 'Причина 1',
-    en: 'Reason 1'
+    ua: 'Не актуально',
+    en: 'Not relevant'
   },
   {
     id: 1,
-    ua: 'Причина 2',
-    en: 'Reason 2'
+    ua: 'Багато спаму',
+    en: 'Too much spam'
   },
   {
     id: 2,
-    ua: 'Причина 3',
-    en: 'Reason 3'
+    ua: 'Використовую інший сервіс',
+    en: 'I use another service'
   },
   {
     id: 3,
-    ua: 'Причина 4',
-    en: 'Reason 4'
+    ua: 'Не влаштовують ціни',
+    en: 'Prices are not suitable'
   },
   {
     id: 4,
