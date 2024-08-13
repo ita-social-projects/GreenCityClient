@@ -193,8 +193,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   navigateToEditEvent(): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    // this.localStorageService.setEventForEdit('editEvent', this.event);
-    this.eventStore.setEventAuthorId(this.eventId);
     this.router.navigate(['/events', 'update-event', this.eventId]);
   }
 
