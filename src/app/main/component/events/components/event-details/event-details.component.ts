@@ -302,7 +302,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
 
   private verifyRole(): string {
