@@ -14,6 +14,7 @@ import { singleNewsImages } from '../../../../../image-pathes/single-news-images
 import { HabitsFiltersList } from '../models/habits-filters-list';
 import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
+import { HabitPageable } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 
 @Component({
   selector: 'app-all-habits',
@@ -96,8 +97,9 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   }
 
   private getHabitsByFilters(page: number, size: number, filters: string[]): void {
+    const criteria: HabitPageable = { page, size, lang: this.lang, filters, sort: 'asc' };
     this.habitService
-      .getHabitsByFilters(page, size, this.lang, filters)
+      .getHabitsByFilters(criteria)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
         this.setHabitsList(page, res);

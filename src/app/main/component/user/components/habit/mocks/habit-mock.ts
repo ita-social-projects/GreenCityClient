@@ -4,6 +4,7 @@ import { HabitStatisticsDto } from '@global-models/habit/HabitStatisticsDto';
 import { DayEstimation } from '@global-models/habit/DayEstimation';
 import { AvailableHabitDto } from '@global-models/habit/AvailableHabitDto';
 import { NewHabitDto } from '@global-models/habit/NewHabitDto';
+import { HabitPageable } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 
 export const HABITLIST: HabitListInterface = {
   page: [DEFAULTHABIT, CUSTOMHABIT],
@@ -47,3 +48,9 @@ export const AVAIL_HABIT_ARRAY_MOCK: AvailableHabitDto[] = [
 ];
 
 export const NEW_HABIT_ARRAY_MOCK: NewHabitDto[] = [new NewHabitDto(1), new NewHabitDto(2), new NewHabitDto(3)];
+
+export const CRITERIA_FILTER: HabitPageable = { page: 1, size: 10, lang: 'en', sort: 'asc', filters: ['filter1', 'filter2'] };
+
+export const CRITERIA_TAGS: HabitPageable = { page: 1, size: 1, sort: 'asc', lang: 'en', excludeAssigned: false, tags: ['test'] };
+
+export const CRITERIA: HabitPageable = { page: 1, size: 1, lang: 'en', sort: 'asc' };
