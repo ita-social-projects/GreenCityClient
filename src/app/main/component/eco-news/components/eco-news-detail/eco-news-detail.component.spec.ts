@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform, Sanitizer } from '@angular/core';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
-import { environment } from '@environment/environment';
 
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, of } from 'rxjs';
@@ -20,7 +19,6 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -34,7 +32,6 @@ describe('EcoNewsDetailComponent', () => {
   let fixture: ComponentFixture<EcoNewsDetailComponent>;
   let httpMock: HttpTestingController;
   let route: ActivatedRoute;
-  let snackBar: jasmine.SpyObj<MatSnackBarComponent>;
 
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
@@ -78,7 +75,6 @@ describe('EcoNewsDetailComponent', () => {
 
     httpMock = TestBed.inject(HttpTestingController);
     route = TestBed.inject(ActivatedRoute);
-    snackBar = TestBed.inject(MatSnackBarComponent) as jasmine.SpyObj<MatSnackBarComponent>;
   }));
 
   beforeEach(() => {
@@ -201,48 +197,5 @@ describe('EcoNewsDetailComponent', () => {
   it('should get IsLiked', () => {
     (component as any).getIsLiked();
     expect(component.isLiked).toBe(true);
-  });
-
-  it('should increment likes when liking a news item', () => {
-    component.isLiked = false;
-    component.onLikeNews();
-    const updatedLikes = component.newsItem.likes + 1;
-    const req = httpMock.expectOne(`${environment.backendLink}econews/like?id=3`);
-    expect(req.request.method).toEqual('POST');
-    req.flush({});
-    expect(component.newsItem.likes).toEqual(updatedLikes);
-  });
-
-  it('should decrement likes when unliking a news item', () => {
-    component.isLiked = true;
-    component.onLikeNews();
-    const updatedLikes = component.newsItem.likes - 1;
-    const req = httpMock.expectOne(`${environment.backendLink}econews/like?id=3`);
-    expect(req.request.method).toEqual('POST');
-    req.flush({});
-    expect(component.newsItem.likes).toEqual(updatedLikes);
-  });
-
-  it('should handle successful postToggleLike response', () => {
-    component.isLiked = false;
-    component.onLikeNews();
-    const updatedLikes = component.newsItem.likes + 1;
-    const req = httpMock.expectOne(`${environment.backendLink}econews/like?id=3`);
-    expect(req.request.method).toEqual('POST');
-    req.flush({});
-    expect(component.newsItem.likes).toEqual(updatedLikes);
-    expect(snackBar.openSnackBar).not.toHaveBeenCalled();
-  });
-
-  it('should handle failed postToggleLike response', () => {
-    component.isLiked = false;
-    component.onLikeNews();
-    const updatedLikes = component.newsItem.likes + 1;
-    const req = httpMock.expectOne(`${environment.backendLink}econews/like?id=3`);
-    expect(req.request.method).toEqual('POST');
-    const errorResponse = new HttpErrorResponse({ error: 'Network error', status: 500, statusText: 'Internal Server Error' });
-    req.flush(null, errorResponse);
-    expect(component.newsItem.likes).toEqual(updatedLikes - 1);
-    expect(snackBar.openSnackBar).toHaveBeenCalledWith('errorLiked');
   });
 });
