@@ -114,7 +114,8 @@
         "delete-title": "News will be deleted. Do you want to continue?",
         "delete-yes": "yes",
         "delete-no": "no"
-      }
+      },
+      "likes": "You are no permission for this action"
     },
     "notifications": {
       "title": "Notifications",
