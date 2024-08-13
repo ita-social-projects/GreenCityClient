@@ -205,8 +205,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getAddressChange()
       .pipe(takeUntil(this.$destroy))
       .subscribe((addressData) => {
-        console.warn(addressData);
-
         const region = this.currentLanguage === 'ua' ? addressData.region : addressData.regionEn;
         const city = this.currentLanguage === 'ua' ? addressData.city : addressData.cityEn;
         const street = this.currentLanguage === 'ua' ? addressData.street : addressData.streetEn;
