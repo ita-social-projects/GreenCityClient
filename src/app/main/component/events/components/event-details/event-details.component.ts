@@ -24,7 +24,6 @@ import { EventsListItemModalComponent } from '@shared/components/events-list-ite
 import { ofType } from '@ngrx/effects';
 import { ICONS } from '../../models/event-consts';
 import { WarningPopUpComponent } from '@shared/components';
-import { EventStoreService } from '../../services/event-store.service';
 
 @Component({
   selector: 'app-event-details',
@@ -96,8 +95,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private actionsSubj: ActionsSubject,
     private jwtService: JwtService,
     private snackBar: MatSnackBarComponent,
-    private modalService: BsModalService,
-    private eventStore: EventStoreService
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {
@@ -183,7 +181,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   navigateToEditEvent(): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    this.eventStore.setEventAuthorId(this.eventId);
     this.router.navigate(['/events', 'update-event', this.eventId]);
   }
 
