@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import {
@@ -15,7 +15,7 @@ import {
 import { EventResponse, LocationResponse, PagePreviewDTO } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
@@ -24,8 +24,6 @@ import { EventsListItemModalComponent } from '@shared/components/events-list-ite
 import { ofType } from '@ngrx/effects';
 import { ICONS } from '../../models/event-consts';
 import { WarningPopUpComponent } from '@shared/components';
-import { TranslateService } from '@ngx-translate/core';
-import { EventStoreService } from '../../services/event-store.service';
 
 @Component({
   selector: 'app-event-details',
@@ -52,9 +50,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   locationLink: string;
   locationCoordinates: LocationResponse;
   place: string;
-  addressEn: string;
   images: string[] = [];
-  sliderIndex = 0;
   isPosting: boolean;
   isActive: boolean;
   currentDate = new Date();
@@ -68,7 +64,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   };
   mapDialogData: any;
   address = 'Should be address';
-  maxRating = 5;
   backRoute: string;
   routedFromProfile: boolean;
   isUserCanJoin = false;
@@ -78,7 +73,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   isRegistered: boolean;
   isReadonly = false;
   googleMapLink: string;
-  private dialogRef;
+  private dialogRef: MatDialogRef<WarningPopUpComponent>;
   private cancelationPopupData = {
     popupTitle: 'homepage.events.pop-up-cancelling-event',
     popupConfirm: 'homepage.events.events-popup.cancelling-event-request-btn',
@@ -89,8 +84,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   };
   private userId: number;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  private userNameSub: Subscription;
-  private isOwner: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -102,9 +95,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private actionsSubj: ActionsSubject,
     private jwtService: JwtService,
     private snackBar: MatSnackBarComponent,
-    private modalService: BsModalService,
-    private eventStore: EventStoreService,
-    private translate: TranslateService
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {
@@ -127,7 +118,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.images = this.event.imgArrayToPreview;
 
       this.bindUserName();
-      this.formatDates();
       this.setGoogleMapLink();
     }
   }
@@ -144,9 +134,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   bindUserName(): void {
-    this.userNameSub = this.localStorageService.firstNameBehaviourSubject.subscribe((name) => {
-      this.organizerName = name;
-    });
+    this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((name) => (this.organizerName = name));
   }
 
   getAllAttendees(): void {
@@ -314,18 +302,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
-  }
-
-  private formatDates(): void {
-    // this.event.dates.forEach((date) => {
-    //   if (date.startDate) {
-    //     date.startDate = this.eventService.transformDate(date, 'startDate');
-    //   }
-    //   if (date.finishDate) {
-    //     date.finishDate = this.eventService.transformDate(date, 'finishDate');
-    //   }
-    // });
+    this.destroy.complete();
   }
 
   private verifyRole(): string {

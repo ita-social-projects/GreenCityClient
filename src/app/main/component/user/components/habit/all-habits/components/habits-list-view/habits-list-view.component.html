@@ -4,7 +4,7 @@
       <div class="habit-header-wrp">
         <div class="habit-header">
           <div class="calendar">
-            <img class="calendar-icon" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
+            <img class="calendar-icon" [src]="calendarGreen" alt="calendar" />
             <span class="days">{{ habit.defaultDuration }} days</span>
           </div>
           <div class="tags">
@@ -41,7 +41,7 @@
       </div>
       <div class="habit-picture-wrp">
         <div class="habit-picture">
-          <img [src]="habit.image" (error)="habit.image = 'assets/img/habits/man.svg'" alt="habit" />
+          <img [src]="habit.image" (error)="habit.image = man" alt="habit" />
         </div>
       </div>
     </div>

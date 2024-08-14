@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { starIcons } from 'src/app/main/image-pathes/habits-images';
+import { habitImages, starIcons } from 'src/app/main/image-pathes/habits-images';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -18,6 +18,8 @@ export class HabitsGalleryViewComponent implements OnInit {
 
   whiteStar = starIcons.whiteStar;
   greenStar = starIcons.greenStar;
+  calendarGreen = habitImages.calendarGreen;
+  man = habitImages.man;
   stars = [this.whiteStar, this.whiteStar, this.whiteStar];
   star: number;
 
@@ -31,7 +33,7 @@ export class HabitsGalleryViewComponent implements OnInit {
     public habitAssignService: HabitAssignService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getStars(this.habit.complexity);
     this.userId = this.localStorageService.getUserId();
   }
