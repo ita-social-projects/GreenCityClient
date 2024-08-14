@@ -1,13 +1,12 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { starIcons } from 'src/app/main/image-pathes/habits-images';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-habits-gallery-view',
@@ -23,7 +22,6 @@ export class HabitsGalleryViewComponent implements OnInit {
   star: number;
 
   private userId: number;
-  private langService = inject(LanguageService);
 
   constructor(
     public router: Router,
@@ -33,54 +31,53 @@ export class HabitsGalleryViewComponent implements OnInit {
     public habitAssignService: HabitAssignService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getStars(this.habit.complexity);
     this.userId = this.localStorageService.getUserId();
   }
 
-  getStars(complexity: number) {
-    for (this.star = 0; this.star < complexity; this.star++) {
-      this.stars[this.star] = this.greenStar;
-    }
+  getStars(complexity: number): void {
+    this.stars = Array(this.stars.length)
+      .fill(this.whiteStar)
+      .map((star, index) => (index < complexity ? this.greenStar : star));
   }
 
   goHabitMore(): void {
     const link = `/profile/${this.userId}/allhabits/`;
-    this.habit.assignId
-      ? this.router.navigate([`${link}edithabit`, this.habit.assignId], { relativeTo: this.route })
-      : this.router.navigate([`${link}addhabit`, this.habit.id], { relativeTo: this.route });
+    this.router.navigate(this.habit.assignId ? [`${link}edithabit`, this.habit.assignId] : [`${link}addhabit`, this.habit.id], {
+      relativeTo: this.route
+    });
   }
 
-  addHabit() {
-    this.habit.isCustomHabit ? this.assignCustomHabit() : this.assignStandartHabit();
+  addHabit(): void {
+    this.habit.isCustomHabit ? this.assignCustomHabit() : this.assignStandardHabit();
   }
 
-  private assignStandartHabit() {
-    this.habitAssignService
-      .assignHabit(this.habit.id)
+  private assignStandardHabit(): void {
+    this.assignHabit(() => this.habitAssignService.assignHabit(this.habit.id));
+  }
+
+  private assignCustomHabit(): void {
+    this.assignHabit(() =>
+      this.habitAssignService.assignCustomHabit(this.habit.id, [], {
+        defaultShoppingListItems: [],
+        duration: this.habit.defaultDuration
+      })
+    );
+  }
+
+  private assignHabit<T>(assignHabit: () => Observable<T>): void {
+    let isAssigned = false;
+    assignHabit()
       .pipe(take(1))
-      .subscribe(() => {
-        this.afterHabitWasChanged();
+      .subscribe({
+        next: (): void => {
+          isAssigned = true;
+          this.router.navigate(['profile', this.userId]);
+        },
+        complete: (): void => {
+          this.snackBar.openSnackBar(isAssigned ? 'habitAdded' : 'habitAlreadyAssigned');
+        }
       });
-  }
-
-  private assignCustomHabit() {
-    const defailtItemsIds = [];
-    const friendsIdsList = [];
-    const habitAssignProperties: HabitAssignPropertiesDto = {
-      defaultShoppingListItems: defailtItemsIds,
-      duration: this.habit.defaultDuration
-    };
-    this.habitAssignService
-      .assignCustomHabit(this.habit.id, friendsIdsList, habitAssignProperties)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.afterHabitWasChanged();
-      });
-  }
-
-  private afterHabitWasChanged() {
-    this.router.navigate(['profile', this.userId]);
-    this.snackBar.openSnackBar('habitAdded');
   }
 }

@@ -18,6 +18,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -30,6 +31,7 @@ describe('EcoNewsDetailComponent', () => {
   let component: EcoNewsDetailComponent;
   let fixture: ComponentFixture<EcoNewsDetailComponent>;
   let route: ActivatedRoute;
+
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
@@ -65,7 +67,8 @@ describe('EcoNewsDetailComponent', () => {
         Sanitizer,
         { provide: DomSanitizer, useValue: sanitaizerMock },
         { provide: LocalStorageService, useValue: backLink },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: MatSnackBarComponent, useValue: { openSnackBar: jasmine.createSpy('openSnackBar') } }
       ]
     }).compileComponents();
 
@@ -77,7 +80,7 @@ describe('EcoNewsDetailComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.backRoute = '/news';
-    component.newsItem = FIRSTECONEWS;
+    component.newsItem = { ...FIRSTECONEWS, likes: 1 };
     (component as any).newsId = 3;
     (component as any).newsImage = ' ';
     component.tags = component.getAllTags();

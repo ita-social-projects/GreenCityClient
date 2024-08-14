@@ -11,7 +11,7 @@
   <ng-container *ngIf="!data.isDateFilter; else date">
     <li *ngFor="let option of getOptionsForFiltering()" class="positioing">
       <mat-checkbox
-        [checked]="isFilterChecked(data.columnName, option.key)"
+        [checked]="isFilterChecked(data.columnName, option)"
         (change)="changeColumnFilters($event?.checked, data.columnName, option)"
       >
         {{ option | serverTranslate: data.currentLang }}

@@ -8,10 +8,11 @@ import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { userLink } from '../links';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { Observable } from 'rxjs';
 
 type TLangValue = string | string[];
-
 type TLangValueReturnType<T extends TLangValue> = T extends string ? string : string[];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -82,8 +83,8 @@ export class LanguageService {
     ]);
   }
 
-  getUserLangValue() {
-    return this.http.get(`${userLink}/lang`, { responseType: 'text' });
+  getUserLangValue(): Observable<string> {
+    return this.http.get(`${userLink}/lang`, { responseType: 'text' }).pipe(tap((lang) => this.changeCurrentLanguage(lang as Language)));
   }
 
   private checkLogin() {
@@ -103,12 +104,10 @@ export class LanguageService {
             }
           })
         )
-        .subscribe(
-          () => {},
-          (error) => {
-            this.setBrowserLang();
-          }
-        );
+        .subscribe({
+          next: () => {},
+          error: () => this.setBrowserLang()
+        });
     } else {
       this.setBrowserLang();
     }
@@ -119,7 +118,7 @@ export class LanguageService {
     this.changeCurrentLanguage(language);
   }
 
-  getCurrentLanguage() {
+  getCurrentLanguage(): Language {
     return this.localStorageService.getCurrentLanguage();
   }
 
@@ -132,22 +131,22 @@ export class LanguageService {
     return this.languageMap[language] || this.defaultLanguage;
   }
 
-  getLocalizedMonth(month: number) {
+  getLocalizedMonth(month: number): string {
     return this.monthMap.get(this.getCurrentLanguage())[month];
   }
 
-  changeCurrentLanguage(language: Language) {
+  changeCurrentLanguage(language: Language): void {
     this.localStorageService.setCurrentLanguage(language);
     this.translate.setDefaultLang(language);
     this.translate.use(language);
     this.languageSubj.next(language);
   }
 
-  getCurrentLangObs() {
+  getCurrentLangObs(): Observable<Language> {
     return this.languageSubj.asObservable();
   }
 
-  getLanguageId(language: Language) {
+  getLanguageId(language: Language): number {
     return this.synqLanguageArr.find((res) => res.code === language).id;
   }
 }

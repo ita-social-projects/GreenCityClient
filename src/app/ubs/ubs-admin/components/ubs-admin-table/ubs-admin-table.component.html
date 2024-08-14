@@ -97,7 +97,7 @@
                       <ul class="accordion-list">
                         <li *ngFor="let option of column.values">
                           <mat-checkbox
-                            [checked]="isFilterChecked(column.key, option.key)"
+                            [checked]="isFilterChecked(column.key, option)"
                             (change)="changeFilters($event?.checked, column.key, option)"
                           >
                             {{ option | serverTranslate: currentLang }}

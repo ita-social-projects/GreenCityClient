@@ -1,33 +1,33 @@
 import { Injectable } from '@angular/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
+import { IBigOrderTable, IBigOrderTableParams, IOrdersViewParameters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
+import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import {
-  GetColumnToDisplay,
-  GetColumnToDisplaySuccess,
-  SetColumnToDisplay,
-  SetColumnToDisplaySuccess,
-  GetColumns,
-  GetColumnsSuccess,
-  GetTable,
-  GetTableSuccess,
+  AddFilterMultiAction,
+  AddFiltersAction,
   ChangingOrderData,
   ChangingOrderDataSuccess,
-  ReceivedFailure,
+  ClearFilters,
+  GetColumns,
+  GetColumnsSuccess,
+  GetColumnToDisplay,
+  GetColumnToDisplaySuccess,
+  GetTable,
+  GetTableSuccess,
   LoadFiltersAction,
   LoadFiltersSuccessAction,
-  SaveFiltersAction,
-  AddFiltersAction,
-  AddFilterMultiAction,
+  ReceivedFailure,
   RemoveFilter,
-  ClearFilters
+  SaveFiltersAction,
+  SetColumnToDisplay,
+  SetColumnToDisplaySuccess
 } from '../actions/bigOrderTable.actions';
-import { IBigOrderTable, IBigOrderTableParams, IOrdersViewParameters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
-import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
-import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { select, Store } from '@ngrx/store';
-import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
 
 @Injectable()
 export class BigOrderTableEffects {
@@ -117,6 +117,7 @@ export class BigOrderTableEffects {
         tap(() => this.store.dispatch(SaveFiltersAction())),
         tap((action) => {
           if (action.fetchTable) {
+            this.store.dispatch(GetColumns());
             this.store.dispatch(GetTable({ page: 0, size: 25, columnName: 'id', sortingType: 'DESC', reset: true }));
           }
         })

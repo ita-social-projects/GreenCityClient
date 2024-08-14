@@ -1,5 +1,5 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CHAT_ICONS } from '../../chat-icons';
 import { ChatsService } from '../../service/chats/chats.service';
 import { NewMessageWindowComponent } from '../new-message-window/new-message-window.component';
@@ -33,7 +33,6 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   constructor(
     private chatsService: ChatsService,
     private commonService: CommonService,
-    private factory: ComponentFactoryResolver,
     private socketService: SocketService,
     private dialog: MatDialog,
     private localeStorageService: LocalStorageService,
@@ -51,9 +50,8 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     if (isEmpty) {
       this.chatsService.setCurrentChat(null);
     }
-    const newMsgComponent = this.factory.resolveComponentFactory(NewMessageWindowComponent);
     this.elementRef.containerRef.clear();
-    this.elementRef.containerRef.createComponent(newMsgComponent);
+    this.elementRef.containerRef.createComponent(NewMessageWindowComponent);
   }
 
   private closeNewMessageWindow() {
