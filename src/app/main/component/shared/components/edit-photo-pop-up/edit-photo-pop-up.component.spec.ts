@@ -56,34 +56,6 @@ describe('EditPhotoPopUpComponent', () => {
     expect(component.avatarImg).toBe('avatarUrl');
   });
 
-  it('should handle files dropped', () => {
-    const files: FileHandle[] = [{ file: new File([''], 'test.png'), url: 'testUrl' as SafeUrl }];
-    spyOn(component as any, 'transferFile');
-    component.filesDropped(files);
-
-    expect((component as any).transferFile).toHaveBeenCalledWith(files[0].file);
-  });
-
-  it('should transfer file and set warning', fakeAsync(() => {
-    const file = new File([''], 'test.png');
-    spyOn(component as any, 'showWarning').and.returnValue(false);
-    spyOn(FileReader.prototype, 'readAsDataURL').and.callThrough();
-    (component as any).transferFile(file);
-    tick();
-
-    expect((component as any).showWarning).toHaveBeenCalledWith(file);
-    expect(component.selectedFile).toBe(file);
-    expect(FileReader.prototype.readAsDataURL).toHaveBeenCalledWith(file);
-  }));
-
-  it('should handle files dropped', () => {
-    const files: any[] = [{ file: new File([''], 'test.png'), url: 'testUrl' as SafeUrl }];
-    spyOn<any>(component, 'transferFile');
-    component['filesDropped'](files);
-
-    expect(component['transferFile']).toHaveBeenCalledWith(files[0].file);
-  });
-
   it('should save photo and handle success response', fakeAsync(() => {
     const formData = new FormData();
     formData.append('base64', 'croppedImageString');
@@ -126,15 +98,6 @@ describe('EditPhotoPopUpComponent', () => {
     expect(component.loadingAnim).toBeFalse();
     expect(component.closeEditPhoto).toHaveBeenCalled();
   }));
-
-  it('should not transfer file if warning is shown', () => {
-    const file = new File([''], 'test.png');
-    spyOn(component as any, 'showWarning').and.returnValue(true);
-    (component as any).transferFile(file);
-
-    expect((component as any).showWarning).toHaveBeenCalledWith(file);
-    expect(component.selectedFile).toBeNull();
-  });
 
   it('should delete photo successfully', fakeAsync(() => {
     mockEditProfileService.deleteProfilePhoto.and.returnValue(of({}));
@@ -188,43 +151,6 @@ describe('EditPhotoPopUpComponent', () => {
     expect(component['openErrorDialog']).toHaveBeenCalled();
   }));
 
-  it('should call transferFile with the first file when filesDropped is called', () => {
-    const mockFileHandle = { file: new File([''], 'filename.png') } as FileHandle;
-    const spy = spyOn(component as any, 'transferFile');
-    component.filesDropped([mockFileHandle]);
-
-    expect(spy).toHaveBeenCalledWith(mockFileHandle.file);
-  });
-
-  it('should not call transferFile when filesDropped is called with an empty array', () => {
-    const spy = spyOn(component as any, 'transferFile');
-    component.filesDropped([]);
-
-    expect(spy).not.toHaveBeenCalled();
-  });
-
-  it('should set selectedFile and read it if no warning is shown', () => {
-    const file = new File([''], 'filename.png');
-    const mockReader = {
-      readAsDataURL: jasmine.createSpy('readAsDataURL'),
-      onload: null as ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null
-    };
-    spyOn(window as any, 'FileReader').and.returnValue(mockReader as unknown as FileReader);
-    spyOn(component as any, 'showWarning').and.returnValue(false);
-    (component as any).transferFile(file);
-
-    expect((component as any).selectedFile).toBe(file);
-    expect(mockReader.readAsDataURL).toHaveBeenCalledWith(file);
-  });
-
-  it('should not set selectedFile if a warning is shown', () => {
-    const file = new File([''], 'filename.png');
-    spyOn(component as any, 'showWarning').and.returnValue(true);
-    (component as any).transferFile(file);
-
-    expect((component as any).selectedFile).toBeNull();
-  });
-
   it('should handle error when converting blob to base64', async () => {
     const blob = new Blob(['image data'], { type: 'image/png' });
     const file = new File([blob], 'image.png', { type: 'image/png' });
@@ -252,43 +178,18 @@ describe('EditPhotoPopUpComponent', () => {
     expect(component.avatarImg).toBe(testImg);
   });
 
-  it('should handle filesDropped and call transferFile', () => {
-    spyOn(component as any, 'transferFile');
-    component.filesDropped([fileHandle]);
-    expect((component as any).transferFile).toHaveBeenCalledWith(mockFile);
-  });
-
-  it('should handle showWarning correctly', () => {
-    spyOn(component as any, 'showWarning').and.returnValue(false);
-    const result = (component as any).showWarning(mockFile);
-    expect(result).toBeFalse();
-  });
-
   it('should set croppedImage with base64 data in imageCropped', () => {
     (component as any).croppedImage = mockFile;
     component.imageCropped(fileHandle);
     expect((component as any).croppedImage).toBe(mockFile);
   });
 
-  it('should set croppedImage correctly', () => {
-    const fileHandle: FileHandle = { file: mockFile, url: safeUrl };
-    component.imageCropped(fileHandle);
-    const croppedImage = (component as any).croppedImage;
-    expect(croppedImage).toBeDefined();
-    expect(croppedImage instanceof File).toBeTrue();
-    expect(croppedImage.name).toBe('filename.png');
-    expect(croppedImage.type).toBe('image/png');
-  });
-
   it('should call updateProfilePhoto and handle success', () => {
     mockEditProfileService.updateProfilePhoto.and.returnValue(of([]));
     component.selectedFile = mockFile;
     (component as any).croppedImage = mockFile;
-
     component.savePhoto();
-
     expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalled();
-
     const formData = mockEditProfileService.updateProfilePhoto.calls.mostRecent().args[0] as FormData;
     expect(formData.has('image')).toBeTrue();
 

@@ -16,11 +16,8 @@ export class EditPhotoPopUpComponent implements OnInit {
   isWarning = false;
   selectedPhoto = false;
   selectedFile: File = null;
-  selectedFileUrl: string | ArrayBuffer;
   isNotification: boolean;
   loadingAnim: boolean;
-  private croppedImage: File;
-  private maxImageSize = 10485760;
   isDragAndDropMenu = false;
 
   constructor(
@@ -30,29 +27,13 @@ export class EditPhotoPopUpComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setUserAvatar();
-  }
-
-  filesDropped(files: FileHandle[]): void {
-    if (files.length) {
-      this.transferFile(files[0].file);
-    }
-  }
-
-  private transferFile(imageFile: File): void {
-    if (!this.showWarning(imageFile)) {
-      this.selectedFile = imageFile;
-      const reader: FileReader = new FileReader();
-      reader.readAsDataURL(this.selectedFile);
-      reader.onload = (event: ProgressEvent<FileReader>) => this.handleFile(event);
-    }
   }
 
   savePhoto(): void {
     this.loadingAnim = true;
     const formData = new FormData();
-    this.transferFile(this.croppedImage);
     formData.append('image', this.selectedFile);
     this.editProfileService.updateProfilePhoto(formData).subscribe({
       next: () => {
@@ -84,20 +65,8 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.matDialogRef.close();
   }
 
-  private setUserAvatar() {
+  private setUserAvatar(): void {
     this.avatarImg = this.data.img;
-  }
-
-  private handleFile(event: ProgressEvent<FileReader>): void {
-    this.selectedFileUrl = event.target?.result;
-    if (this.selectedFile && !this.isWarning) {
-      this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
-      this.selectedPhoto = true;
-    }
-  }
-
-  private showWarning(file: File): boolean {
-    return file.size > this.maxImageSize || (file.type !== 'image/jpeg' && file.type !== 'image/png');
   }
 
   private openErrorDialog(): void {
@@ -105,9 +74,9 @@ export class EditPhotoPopUpComponent implements OnInit {
   }
 
   imageCropped(fileHandle: FileHandle): void {
-    if (!fileHandle?.url) {
+    if (!fileHandle?.file) {
       return;
     }
-    this.croppedImage = fileHandle.file;
+    this.selectedFile = fileHandle.file;
   }
 }
