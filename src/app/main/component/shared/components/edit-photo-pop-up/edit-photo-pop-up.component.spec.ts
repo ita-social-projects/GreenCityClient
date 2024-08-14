@@ -56,16 +56,6 @@ describe('EditPhotoPopUpComponent', () => {
     expect(component.avatarImg).toBe('avatarUrl');
   });
 
-  it('should open file window on space or enter key press', () => {
-    const inputElement = document.createElement('input');
-    spyOn(inputElement, 'click');
-    const event = new KeyboardEvent('keydown', { code: 'Space' });
-    Object.defineProperty(event, 'target', { value: inputElement });
-    component.openFilesWindow(event);
-
-    expect(inputElement.click).toHaveBeenCalled();
-  });
-
   it('should handle files dropped', () => {
     const files: FileHandle[] = [{ file: new File([''], 'test.png'), url: 'testUrl' as SafeUrl }];
     spyOn(component as any, 'transferFile');
@@ -77,15 +67,6 @@ describe('EditPhotoPopUpComponent', () => {
   it('should set cropped image', () => {
     component.imageCropped(fileHandle);
     expect((component as any).croppedImage).toBe('data:image/png;base64,abc123');
-  });
-
-  it('should call transferFile on photo select', () => {
-    const file = new File([''], 'test.png');
-    const event = { target: { files: [file] } } as unknown as Event;
-    spyOn(component as any, 'transferFile');
-    component.onSelectPhoto(event);
-
-    expect((component as any).transferFile).toHaveBeenCalledWith(file);
   });
 
   it('should transfer file and set warning', fakeAsync(() => {

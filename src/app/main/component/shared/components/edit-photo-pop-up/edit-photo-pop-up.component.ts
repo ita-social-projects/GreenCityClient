@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-photo-pop-up',
@@ -20,7 +19,7 @@ export class EditPhotoPopUpComponent implements OnInit {
   selectedFileUrl: string | ArrayBuffer;
   isNotification: boolean;
   loadingAnim: boolean;
-  private croppedImage: SafeUrl;
+  private croppedImage: File;
   private maxImageSize = 10485760;
   isDragAndDropMenu = false;
 
@@ -33,19 +32,6 @@ export class EditPhotoPopUpComponent implements OnInit {
 
   ngOnInit() {
     this.setUserAvatar();
-  }
-
-  openFilesWindow(event: KeyboardEvent) {
-    if (event.code === 'Space' || event.code === 'Enter') {
-      (event.target as HTMLInputElement).click();
-    }
-  }
-
-  onSelectPhoto(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      this.transferFile(input.files[0]);
-    }
   }
 
   filesDropped(files: FileHandle[]): void {
@@ -66,7 +52,8 @@ export class EditPhotoPopUpComponent implements OnInit {
   savePhoto(): void {
     this.loadingAnim = true;
     const formData = new FormData();
-    formData.append('base64', this.croppedImage.toString());
+    this.transferFile(this.croppedImage);
+    formData.append('image', this.selectedFile);
     this.editProfileService.updateProfilePhoto(formData).subscribe({
       next: () => {
         this.loadingAnim = false;
@@ -121,6 +108,6 @@ export class EditPhotoPopUpComponent implements OnInit {
     if (!fileHandle?.url) {
       return;
     }
-    this.croppedImage = fileHandle.url;
+    this.croppedImage = fileHandle.file;
   }
 }
