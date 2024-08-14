@@ -1,0 +1,42 @@
+<div class="dialog">
+  <div class="dialog-content">
+    <form [formGroup]="reasonForm" class="form">
+      <fieldset class="form-fieldset">
+        <legend class="form-legend">{{ 'deleting-profile-reason-pop-up.title' | translate }}</legend>
+        <ng-container *ngFor="let res of reasons; let i = index">
+          <div class="reason">
+            <input class="reason-radio" formControlName="reason" [id]="res.id" type="radio" name="reason" [value]="res" />
+            <label class="reason-label" [for]="res.id" [appLangValue]="{ ua: res.ua, en: res.en }">label</label>
+          </div>
+        </ng-container>
+
+        <div class="reason">
+          <input class="reason-radio" formControlName="reason" id="other" type="radio" name="reason" value="other" />
+          <label class="reason-label" for="other">{{ 'deleting-profile-reason-pop-up.reasons.other' | translate }}</label>
+        </div>
+
+        <ng-container *ngIf="reason.value === 'other'">
+          <textarea
+            class="form-textarea"
+            formControlName="ownReasonText"
+            id="own-reason"
+            [placeholder]="'deleting-profile-reason-pop-up.specify-reason' | translate"
+            [maxLength]="ownReasonMaxLength"
+            rows="5"
+          ></textarea>
+          <span class="form-counter">{{ ownReasonText.value.length }}/{{ ownReasonMaxLength }}</span>
+        </ng-container>
+      </fieldset>
+    </form>
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-flat-button class="dialog-cancel" type="button" (click)="onCancel()">
+      {{ 'deleting-profile-reason-pop-up.buttons.cancel' | translate }}
+    </button>
+
+    <button mat-flat-button color="warn" class="dialog-submit" type="submit" [disabled]="reasonForm.invalid" (click)="onSubmit()">
+      {{ 'deleting-profile-reason-pop-up.buttons.delete' | translate }}
+    </button>
+  </div>
+</div>

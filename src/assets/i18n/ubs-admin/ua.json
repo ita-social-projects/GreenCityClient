@@ -1227,5 +1227,16 @@
     "сertificate-field-format": "Поле може містити лише числа в форматі хххх-хххх",
     "duration-field-format": "Поле може містити лише числа в від 1 до 12",
     "discount-field-format": "Поле може містити лише числа в форматі від 1 до 999"
+  },
+  "deleting-profile-reason-pop-up": {
+    "title": "Чому ви йдете?",
+    "buttons": {
+      "cancel": "Скасувати",
+      "delete": "Видалити"
+    },
+    "reasons": {
+      "other": "Інше"
+    },
+    "specify-reason": "Вкажіть причину"
   }
 }
