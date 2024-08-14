@@ -112,10 +112,9 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
         };
 
         this.autocompleteService.getPlacePredictions(request, (predictions: google.maps.places.AutocompletePrediction[]) => {
-          predictions =
-            predictions?.filter((prediction) => !regex.test(prediction.description) && !prediction.terms[0].value.includes('вул.')) ?? [];
+          predictions = predictions?.filter((prediction) => !regex.test(prediction.description));
 
-          this.predictionList = predictions;
+          this.predictionList = this.languageService.getCurrentLanguage() === 'en' ? predictions : this.filterDuplicates(predictions);
         });
       } else {
         this.predictionList = [];
@@ -144,5 +143,11 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private filterDuplicates(predictions: GooglePrediction[]): GooglePrediction[] {
+    return predictions
+      .map((prediction) => ({ ...prediction, description: prediction.description.replace('вул.', 'вулиця') }))
+      .filter((prediction, index, self) => self.findIndex((t) => t.description === prediction.description));
   }
 }
