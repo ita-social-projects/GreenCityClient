@@ -25,7 +25,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
-fdescribe('UbsUserProfilePageComponent', () => {
+describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
     addressDto: [
       {
