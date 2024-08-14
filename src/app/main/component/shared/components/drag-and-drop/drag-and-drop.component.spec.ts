@@ -85,7 +85,7 @@ describe('DragAndDropComponent', () => {
   it('showWarning', () => {
     component.file.file = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
     component.isWarning = true;
-    component.showWarning();
+    (component as any).showWarning();
     expect(component.isWarning).toBeFalsy();
   });
 
