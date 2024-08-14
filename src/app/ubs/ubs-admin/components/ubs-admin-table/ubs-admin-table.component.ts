@@ -1010,7 +1010,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return !!this.allFilters[columnName.toLowerCase().includes('date') ? `${columnName}From` : columnName];
   }
 
-  isFilterChecked(columnName: string, value: string): boolean {
+  isFilterChecked(columnName: string, option: IFilteredColumnValue): boolean {
+    const value = columnsToFilterByName.includes(columnName) ? option.en : option.key;
+
     return (this.allFilters?.[columnName] as string[])?.includes(value);
   }
 
@@ -1059,6 +1061,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   ngOnDestroy() {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
 }

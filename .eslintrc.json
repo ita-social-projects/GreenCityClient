@@ -63,7 +63,7 @@
         "quote-props": ["error", "as-needed"],
         "sort-keys": "off",
         "sort-imports": "off",
-        "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+        "quotes": ["error", "single", { "allowTemplateLiterals": true, "avoidEscape": true }],
         "comma-dangle": ["error", "never"],
         "@angular-eslint/no-conflicting-lifecycle": "error",
         "@angular-eslint/no-host-metadata-property": "error",
