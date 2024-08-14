@@ -235,7 +235,7 @@ describe('EcoNewsDetailComponent', () => {
 
   it('should call postToggleLike with the correct newsId', () => {
     component.newsId = 3;
-    component['postToggleLike']();
+    component['postToggleLike'](3);
     expect(ecoNewsServ.postToggleLike).toHaveBeenCalledWith(3);
   });
 
