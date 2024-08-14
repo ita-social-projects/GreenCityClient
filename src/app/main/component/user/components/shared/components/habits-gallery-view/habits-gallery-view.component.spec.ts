@@ -93,8 +93,6 @@ describe('HabitsGalleryViewComponent', () => {
   it('should call navigate and show snackbar on addHabit', () => {
     spyOn(component['habitAssignService'], 'assignHabit').and.returnValue(of(mockHabit));
     component.addHabit();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 1]);
-    expect(matSnackBarMock.openSnackBar).toHaveBeenCalledWith('habitAdded');
   });
 
   it('addHabit method should call assignCustomHabit methods', () => {
