@@ -64,11 +64,6 @@ describe('EditPhotoPopUpComponent', () => {
     expect((component as any).transferFile).toHaveBeenCalledWith(files[0].file);
   });
 
-  it('should set cropped image', () => {
-    component.imageCropped(fileHandle);
-    expect((component as any).croppedImage).toBe('data:image/png;base64,abc123');
-  });
-
   it('should transfer file and set warning', fakeAsync(() => {
     const file = new File([''], 'test.png');
     spyOn(component as any, 'showWarning').and.returnValue(false);
@@ -230,11 +225,6 @@ describe('EditPhotoPopUpComponent', () => {
     expect((component as any).selectedFile).toBeNull();
   });
 
-  it('should set croppedImage with base64 data in imageCropped', () => {
-    component.imageCropped(fileHandle);
-    expect((component as any).croppedImage).toBe('data:image/png;base64,abc123');
-  });
-
   it('should handle error when converting blob to base64', async () => {
     const blob = new Blob(['image data'], { type: 'image/png' });
     const file = new File([blob], 'image.png', { type: 'image/png' });
@@ -253,5 +243,83 @@ describe('EditPhotoPopUpComponent', () => {
   it('should open error dialog when openErrorDialog is called', () => {
     (component as any).openErrorDialog();
     expect(mockSnackBar.openSnackBar).toHaveBeenCalledWith('error');
+  });
+
+  it('should initialize with user avatar', () => {
+    const testImg = 'test-image-url';
+    component.data = { img: testImg };
+    component.ngOnInit();
+    expect(component.avatarImg).toBe(testImg);
+  });
+
+  it('should handle filesDropped and call transferFile', () => {
+    spyOn(component as any, 'transferFile');
+    component.filesDropped([fileHandle]);
+    expect((component as any).transferFile).toHaveBeenCalledWith(mockFile);
+  });
+
+  it('should handle showWarning correctly', () => {
+    spyOn(component as any, 'showWarning').and.returnValue(false);
+    const result = (component as any).showWarning(mockFile);
+    expect(result).toBeFalse();
+  });
+
+  it('should set croppedImage with base64 data in imageCropped', () => {
+    (component as any).croppedImage = mockFile;
+    component.imageCropped(fileHandle);
+    expect((component as any).croppedImage).toBe(mockFile);
+  });
+
+  it('should set croppedImage correctly', () => {
+    const fileHandle: FileHandle = { file: mockFile, url: safeUrl };
+    component.imageCropped(fileHandle);
+    const croppedImage = (component as any).croppedImage;
+    expect(croppedImage).toBeDefined();
+    expect(croppedImage instanceof File).toBeTrue();
+    expect(croppedImage.name).toBe('filename.png');
+    expect(croppedImage.type).toBe('image/png');
+  });
+
+  it('should call updateProfilePhoto and handle success', () => {
+    mockEditProfileService.updateProfilePhoto.and.returnValue(of([]));
+    component.selectedFile = mockFile;
+    (component as any).croppedImage = mockFile;
+
+    component.savePhoto();
+
+    expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalled();
+
+    const formData = mockEditProfileService.updateProfilePhoto.calls.mostRecent().args[0] as FormData;
+    expect(formData.has('image')).toBeTrue();
+
+    setTimeout(() => {
+      expect(component.loadingAnim).toBeFalse();
+      expect(mockDialogRef.close).toHaveBeenCalled();
+    }, 0);
+  });
+
+  it('should handle error when updating profile photo fails', () => {
+    mockEditProfileService.updateProfilePhoto.and.returnValue(throwError(() => new Error('Upload failed')));
+    component.selectedFile = mockFile;
+    (component as any).croppedImage = mockFile;
+
+    component.savePhoto();
+    expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalled();
+  });
+
+  it('should call deleteProfilePhoto and handle success', () => {
+    mockEditProfileService.deleteProfilePhoto.and.returnValue(of({}));
+    component.deletePhoto();
+    expect(mockEditProfileService.deleteProfilePhoto).toHaveBeenCalled();
+    setTimeout(() => {
+      expect(component.loadingAnim).toBeFalse();
+      expect(mockDialogRef.close).toHaveBeenCalled();
+    }, 0);
+  });
+
+  it('should handle error when deleting profile photo fails', () => {
+    mockEditProfileService.deleteProfilePhoto.and.returnValue(throwError(() => new Error('Delete failed')));
+    component.deletePhoto();
+    expect(mockEditProfileService.deleteProfilePhoto).toHaveBeenCalled();
   });
 });
