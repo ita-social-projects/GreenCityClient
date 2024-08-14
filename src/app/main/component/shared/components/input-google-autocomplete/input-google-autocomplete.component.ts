@@ -147,7 +147,7 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
 
   private filterDuplicates(predictions: GooglePrediction[]): GooglePrediction[] {
     return predictions
-      .map((prediction) => ({ ...prediction, description: prediction.description.replace('вул', 'вулиця') }))
+      .map((prediction) => ({ ...prediction, description: prediction.description.replace('вул.', 'вулиця') }))
       .filter((prediction, index, self) => self.findIndex((t) => t.description === prediction.description));
   }
 }
