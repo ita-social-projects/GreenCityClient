@@ -9,8 +9,10 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { OrderDetails, PersonalData } from '../../models/ubs.interface';
-import { ClearOrderData } from 'src/app/store/actions/order.actions';
-import { isSecondFormValidSelector } from 'src/app/store/selectors/order.selectors';
+import { ClearOrderData, SetCurrentStep } from 'src/app/store/actions/order.actions';
+import { currentStepSelector, isSecondFormValidSelector } from 'src/app/store/selectors/order.selectors';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-order-form',
@@ -24,8 +26,11 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   completed = false;
   isSecondStepDisabled = true;
   isSecondFormValid$ = this.store.pipe(select(isSecondFormValidSelector));
+  currentStep = 0;
+
   private statePersonalData: PersonalData;
   private stateOrderDetails: OrderDetails;
+  private destroy$ = new Subject<void>();
 
   @ViewChild('firstStep') stepOneComponent: UBSOrderDetailsComponent;
   @ViewChild('secondStep') stepTwoComponent: UBSPersonalInformationComponent;
@@ -44,15 +49,25 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
     return true;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.shareFormService.locationId = this.localStorageService.getLocationId();
     this.shareFormService.locations = this.localStorageService.getLocations();
+    this.store.dispatch(SetCurrentStep({ step: 0 }));
+
+    this.store.pipe(select(currentStepSelector), takeUntil(this.destroy$)).subscribe((step: number) => {
+      this.currentStep = step;
+    });
+
     setTimeout(() => {
       this.getOrderDetailsFromState();
     }, 0);
   }
 
-  private getOrderDetailsFromState() {
+  onSelectionChange($event: StepperSelectionEvent): void {
+    this.store.dispatch(SetCurrentStep({ step: $event.selectedIndex }));
+  }
+
+  private getOrderDetailsFromState(): void {
     this.store.pipe(select((state: IAppState): OrderDetails => state.order.orderDetails)).subscribe((stateOrderDetails: OrderDetails) => {
       this.stateOrderDetails = stateOrderDetails;
       if (this.stateOrderDetails) {
@@ -89,7 +104,9 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
     this.shareFormService.isDataSaved = false;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.store.dispatch(ClearOrderData());
     this.saveDataOnLocalStorage();
   }
