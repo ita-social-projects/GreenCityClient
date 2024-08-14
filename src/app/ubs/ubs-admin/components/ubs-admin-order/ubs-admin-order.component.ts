@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, Injector, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, ViewChild, HostListener } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
@@ -25,11 +25,11 @@ import {
   IUserInfo,
   ResponsibleEmployee,
   abilityEditAuthorities,
-  NotTakenOutReasonImages
+  NotTakenOutReasonImages,
+  orderPaymentInfo
 } from '../../models/ubs-admin.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
-import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-admin-order-payment.component';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
@@ -45,9 +45,11 @@ import { UnsavedChangesGuard } from '@ubs/ubs-admin/unsaved-changes-guard.guard'
   styleUrls: ['./ubs-admin-order.component.scss']
 })
 export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentChecked {
-  deleteNumberOrderFromEcoShop = false;
+  deleteNumberOrderFromEcoShop: boolean;
   currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  private isReturnMoney: boolean;
+  private isReturnBonuses: boolean;
   orderForm: FormGroup;
   isDataLoaded = false;
   orderId: number;
@@ -55,7 +57,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   generalInfo: IGeneralOrderInfo;
   userInfo: IUserInfo;
   addressInfo: IAddressExportDetails;
-  paymentInfo: IPaymentInfo;
   totalPaid: number;
   updateBonusAccount: number;
   unPaidAmount: number;
@@ -76,8 +77,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   ubsCourierPrice: number;
   additionalPayment: string;
   isOrderStatusChanged: boolean;
-  private matSnackBar: MatSnackBarComponent;
-  private orderService: OrderService;
   private statuses = [OrderStatus.BROUGHT_IT_HIMSELF, OrderStatus.CANCELED, OrderStatus.FORMED];
   arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   private employeeAuthorities: string[];
@@ -86,6 +85,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   private timeDeliveryTo: string;
   private dateExport: string;
   private receivingStationId: number;
+  private test: any = {};
+  paymentInfo: orderPaymentInfo;
   notTakenOutReasonDescription: string;
   notTakenOutReasonImages: NotTakenOutReasonImages[];
 
@@ -99,17 +100,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     private route: ActivatedRoute,
     private router: Router,
     private changeDetector: ChangeDetectorRef,
-    private injector: Injector,
     private store: Store<IAppState>,
+    private orderService: OrderService,
+    private matSnackBar: MatSnackBarComponent,
     private googleScript: GoogleScript,
     public ubsAdminEmployeeService: UbsAdminEmployeeService,
     public unsavedChangesGuard: UnsavedChangesGuard
-  ) {
-    this.matSnackBar = injector.get<MatSnackBarComponent>(MatSnackBarComponent);
-    this.orderService = injector.get<OrderService>(OrderService);
-  }
-
-  @ViewChild(UbsAdminOrderPaymentComponent) orderPaymentComponent: UbsAdminOrderPaymentComponent;
+  ) {}
 
   ngAfterContentChecked(): void {
     this.changeDetector.detectChanges();
@@ -165,21 +162,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.currentOrderStatus = this.generalInfo.orderStatus;
         this.userInfo = data.userInfoDto;
         this.addressInfo = data.addressExportDetailsDto;
-        this.paymentInfo = data.paymentTableInfoDto;
         this.exportInfo = data.exportDetailsDto;
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
         this.totalPaid = data.paymentTableInfoDto.paidAmount;
         this.unPaidAmount = data.paymentTableInfoDto.unPaidAmount;
         this.overpayment = data.paymentTableInfoDto.overpayment;
         this.currentOrderPrice = data.orderFullPrice;
+        this.paymentInfo = { orderFullPrice: data.orderFullPrice, paymentTableInfoDto: data.paymentTableInfoDto };
         this.setOrderDetails();
         this.initForm();
-        if (submitMode && this.overpayment && this.generalInfo.orderStatus === OrderStatus.DONE) {
-          this.orderPaymentComponent.enrollToBonusAccount(this.overpayment);
-        }
-        if (submitMode && this.currentOrderStatus === OrderStatus.CANCELED) {
-          this.orderPaymentComponent.setCancelOrderOverpayment(this.totalPaid);
-        }
       });
   }
 
@@ -204,7 +195,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     };
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
     this.isStatus = this.generalInfo.orderStatus === OrderStatus.CANCELED;
-    const paymentBonusAccount = this.paymentInfo.paymentInfoDtos.filter(
+    const paymentBonusAccount = this.paymentInfo.paymentTableInfoDto.paymentInfoDtos.filter(
       (paymentItem) => paymentItem.receiptLink === PaymentEnrollment.receiptLink
     );
     if (paymentBonusAccount.length) {
@@ -298,7 +289,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         ],
         addressDistrict: [{ value: this.addressInfo.addressDistrict, disabled: this.isStatus }],
         addressDistrictEng: [{ value: this.addressInfo.addressDistrictEng, disabled: this.isStatus }],
-        addressRegionDistrictList: [this.addressInfo.addressRegionDistrictList]
+        addressRegionDistrictList: [this.addressInfo.addressRegionDistrictList],
+        lng: [0],
+        lat: [0]
       }),
       exportDetailsDto: this.fb.group({
         dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],
@@ -403,17 +396,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.orderForm.markAsDirty();
   }
 
-  onPaymentUpdate(sum: number): void {
-    this.totalPaid = sum;
+  onIsReturnMoneyChange(event: boolean) {
+    this.isReturnMoney = event;
   }
 
-  onPaymentToBonusAccount(sum: number): void {
-    this.updateBonusAccount = sum;
+  onIsReturnBonusesChange(event: boolean) {
+    this.isReturnBonuses = event;
   }
 
-  changeOverpayment(sum: number): void {
-    this.overpayment = sum;
-  }
   onChangeCurrentPrice(sum: number) {
     this.currentOrderPrice = sum;
   }
@@ -429,6 +419,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   onCancelReason(message) {
     this.cancelReason = message.reason;
     this.cancelComment = message.comment;
+  }
+
+  onPaymentInfoChanged(paymentObject): void {
+    this.paymentInfo = { ...paymentObject };
   }
 
   setMinOrder(flag) {
@@ -517,10 +511,24 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.deleteNumberOrderFromEcoShop = false;
       }
     }
-    changedValues.ubsCourierPrice = this.ubsCourierPrice;
-    changedValues.writeOffStationSum = this.writeOffStationSum;
-    changedValues.cancellationComment = this.cancelComment;
-    changedValues.cancellationReason = this.cancelReason;
+    if (this.ubsCourierPrice) {
+      changedValues.ubsCourierPrice = this.ubsCourierPrice;
+    }
+    if (this.writeOffStationSum) {
+      changedValues.writeOffStationSum = this.writeOffStationSum;
+    }
+    if (this.cancelComment) {
+      changedValues.cancelComment = this.cancelComment;
+    }
+    if (this.cancelReason) {
+      changedValues.cancelReason = this.cancelReason;
+    }
+    if (this.isReturnMoney) {
+      changedValues.isReturnMoney = this.isReturnMoney;
+    }
+    if (this.isReturnBonuses) {
+      changedValues.isReturnBonuses = this.isReturnBonuses;
+    }
 
     if (changedValues.responsiblePersonsForm) {
       const arrEmployees: IUpdateResponsibleEmployee[] = [];
@@ -540,7 +548,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
 
     this.addIdForUserAndAdress(changedValues);
-
+    if (changedValues.addressExportDetailsDto) {
+      console.log(this.orderForm.value);
+      changedValues.addressExportDetailsDto.addressStreet = this.orderForm.value.addressExportDetailsDto.addressStreet;
+      changedValues.addressExportDetailsDto.addressStreetEng = this.orderForm.value.addressExportDetailsDto.addressStreetEng;
+      changedValues.addressExportDetailsDto.lng = this.orderForm.value.addressExportDetailsDto.lng;
+      changedValues.addressExportDetailsDto.lat = this.orderForm.value.addressExportDetailsDto.lat;
+    }
+    console.log(changedValues);
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues, this.notTakenOutReasonImages)
       .pipe(takeUntil(this.destroy$))

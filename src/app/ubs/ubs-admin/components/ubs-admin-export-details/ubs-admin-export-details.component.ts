@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef, AfterViewInit, OnChanges } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IExportDetails } from '../../models/ubs-admin.interface';
@@ -11,7 +11,7 @@ import { OrderService } from '../../services/order.service';
   templateUrl: './ubs-admin-export-details.component.html',
   styleUrls: ['./ubs-admin-export-details.component.scss']
 })
-export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() exportInfo: IExportDetails;
   @Input() exportDetailsDto: FormGroup;
   @Input() orderStatus: string;
@@ -38,30 +38,33 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
     public orderService: OrderService
   ) {}
 
-  ngAfterViewChecked(): void {
+  ngOnChanges(): void {
     const isFormRequired = !this.orderService.isStatusInArray(this.orderStatus, this.statuses);
     const everyFieldFilled = Object.keys(this.exportDetailsDto.controls).every((key) => !!this.exportDetailsDto.get(key).value);
     const someFieldFilled = Object.keys(this.exportDetailsDto.controls).some((key) => !!this.exportDetailsDto.get(key).value);
-    const hasNotValidFields = (everyFieldFilled && !someFieldFilled) || (!everyFieldFilled && someFieldFilled);
+    const hasNotValidFields = everyFieldFilled !== someFieldFilled;
 
     Object.keys(this.exportDetailsDto.controls).forEach((controlName) => {
       if ((hasNotValidFields || isFormRequired) && this.orderStatus !== OrderStatus.FORMED) {
         this.exportDetailsDto.get(controlName).setValidators(Validators.required);
         this.exportDetailsDto.setErrors({ incorrect: true });
-      } else {
-        this.exportDetailsDto.setErrors(null);
-        this.exportDetailsDto.get(controlName).setErrors(null);
-        this.exportDetailsDto.get(controlName).clearValidators();
+        this.exportDetailsDto.get(controlName).updateValueAndValidity({ onlySelf: true });
+        this.exportDetailsDto.updateValueAndValidity();
       }
-      this.exportDetailsDto.get(controlName).updateValueAndValidity({ onlySelf: true });
-      this.exportDetailsDto.updateValueAndValidity();
+      // else {
+      //   this.exportDetailsDto.setErrors(null);
+      //   this.exportDetailsDto.get(controlName).setErrors(null);
+      //   this.exportDetailsDto.get(controlName).clearValidators();
+      // }
+      // this.exportDetailsDto.get(controlName).updateValueAndValidity({ onlySelf: true });
+      // this.exportDetailsDto.updateValueAndValidity();
     });
 
     if (this.orderStatus === OrderStatus.CANCELED || this.orderStatus === OrderStatus.DONE) {
       this.isOrderStatusCancelOrDone = true;
     }
 
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
   }
 
   ngOnInit(): void {
@@ -78,7 +81,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
     this.pageOpen = !this.pageOpen;
   }
 
-  isFormRequired(): boolean {
+  get isFormRequired(): boolean {
     const isNotOpen = !this.pageOpen;
     const isNotValid = !this.exportDetailsDto.valid;
     const isNotCancelOrDone = !this.isOrderStatusCancelOrDone;
@@ -114,8 +117,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   }
 
   initTime(): void {
-    this.currentHour = Date.now().toString();
-    this.currentHour = formatDate(this.currentHour, 'HH:mm', 'en-US');
+    this.currentHour = formatDate(Date.now().toString(), 'HH:mm', 'en-US');
   }
 
   isTimeValid(): boolean {

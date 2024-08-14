@@ -10,7 +10,7 @@
         <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
       </div>
       <div class="order-payment-sum">
-        <span class="price">{{ totalPaid | localizedCurrency }}</span>
+        <span class="price">{{ paidAmount | localizedCurrency }}</span>
       </div>
       <div>
         <button *ngIf="isOrderCanBePaid" class="btn button-payment-operations btn-add-payment" (click)="openPopup(false)">
@@ -61,15 +61,10 @@
         <span class="price bg-price-none">{{ overpayment | localizedCurrency }}</span>
       </div>
       <div>
-        <button class="btn button-payment-operations btn-enroll-to-bonus-account" (click)="enrollToBonusAccount(this.overpayment)">
+        <button class="btn button-payment-operations btn-enroll-to-bonus-account" (click)="enrollToBonusAccount()">
           {{ 'order-payment.enroll-on-bonus-account' | translate }}
         </button>
-        <button
-          *ngIf="isEmployeeCanEditOrder"
-          [disabled]="isMoneyReturning"
-          class="btn button-payment-operations btn-return-money"
-          (click)="returnMoney(orderId)"
-        >
+        <button *ngIf="isEmployeeCanEditOrder" class="btn button-payment-operations btn-return-money" (click)="returnMoney()">
           {{ 'order-payment.return-money' | translate }}
         </button>
       </div>

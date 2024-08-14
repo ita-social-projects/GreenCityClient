@@ -229,6 +229,10 @@ export interface IAddressExportDetails {
   addressRegionDistrictList: DistrictsDtos[];
 }
 
+export interface orderPaymentInfo {
+  orderFullPrice: number;
+  paymentTableInfoDto: IPaymentInfo;
+}
 export interface IPaymentInfo {
   overpayment: number;
   paidAmount: number;

@@ -1,7 +1,7 @@
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
-import { IOrderDetails, IOrderInfo } from '../../models/ubs-admin.interface';
+import { IOrderDetails, IOrderInfo, IPaymentInfo, orderPaymentInfo } from '../../models/ubs-admin.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -30,7 +30,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   showUbsCourier = false;
   limitMsg;
   limitAmount;
-  isOrderCancelledAfterFormed = false;
   courierPrice: number;
   writeoffAtStationSum: number;
   isOrderCancelled = false;
@@ -40,15 +39,15 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   isOrderDone = false;
   isOrderNotTakenOut = false;
   isDisabledWriteOffStation = false;
-
+  sumOrder: number;
   @Output() deleteNumberOrderFromEcoShopChanged = new EventEmitter<boolean>();
-  @Output() changeOverpayment = new EventEmitter<number>();
   @Output() checkMinOrder = new EventEmitter<boolean>();
   @Output() changeCurrentPrice = new EventEmitter<number>();
   @Output() changeUbsCourierPrice = new EventEmitter<number>();
   @Output() changeWriteoffAtStationSum = new EventEmitter<number>();
   @Output() orderStatusChanged = new EventEmitter<boolean>();
-
+  @Output() paymentInfoChanged = new EventEmitter<orderPaymentInfo>();
+  @Input() isOrderCancelledAfterFormed: boolean;
   @Input() orderDetailsOriginal: IOrderDetails;
   @Input() orderDetailsForm: FormGroup;
   @Input() orderStatusInfo;
@@ -56,9 +55,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() orderInfo: IOrderInfo;
   @Input() isEmployeeCanEditOrder: boolean;
   @Input() updateBonusAccount: number;
+  @Input() paymentInfo: orderPaymentInfo;
 
   constructor(
-    private fb: FormBuilder,
     private orderService: OrderService,
     private langService: LanguageService
   ) {}
@@ -83,11 +82,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.emitUbsPrice(this.courierPrice);
     }
 
-    if (changes.totalPaid) {
-      this.isOrderPaid = changes.totalPaid.currentValue !== 0;
-      this.updateOverpayment(changes.totalPaid.currentValue - changes.totalPaid.previousValue);
-    }
-
     if (changes.orderDetailsForm) {
       this.resetOrderDetails();
     }
@@ -105,6 +99,10 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     if (this.orderInfo.generalOrderInfo.orderPaymentStatus !== PaymnetStatus.UNPAID) {
       this.orderDetailsForm.get('certificates').disable();
     }
+  }
+
+  plusSum(sum): number {
+    return Math.abs(sum);
   }
 
   showWriteOffStationField(): boolean {
@@ -201,12 +199,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual + bonusesAndCert + this.courierPrice;
     }
 
-    for (const type in this.bagsInfo.finalSum) {
-      if (this.bagsInfo.finalSum[type] < 0) {
-        this.bagsInfo.finalSum[type] = 0;
-      }
-    }
-
     this.calculateOverpayment();
     this.setFinalFullPrice();
   }
@@ -248,33 +240,29 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   private calculateOverpayment() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
-    let priceWithoutCertificate = this.bagsInfo?.sum[bagType] - this.orderDetails.certificateDiscount;
-    priceWithoutCertificate = Math.max(priceWithoutCertificate, 0);
+    const newSum = this.bagsInfo?.finalSum[bagType];
+    const overpayment = this.paymentInfo.paymentTableInfoDto.paidAmount - newSum ?? 0;
+    const unPaid = newSum - this.paymentInfo.paymentTableInfoDto.paidAmount ?? 0;
 
-    const usedBonuses = this.isOrderCancelled ? 0 : this.orderDetails.bonuses;
+    this.overpayment = overpayment ?? -unPaid;
+    const isChanged =
+      overpayment !== this.paymentInfo.paymentTableInfoDto.overpayment ||
+      unPaid !== this.paymentInfo.paymentTableInfoDto.unPaidAmount ||
+      newSum !== this.paymentInfo.orderFullPrice;
 
-    const baseSumOfOrder = usedBonuses + this.orderDetails.paidAmount + this.orderDetails.certificateDiscount;
-
-    if (this.isOrderBroughtByHimself) {
-      this.overpayment = baseSumOfOrder - this.writeoffAtStationSum;
-    } else if (this.showUbsCourier) {
-      this.overpayment = usedBonuses - priceWithoutCertificate - this.courierPrice;
-    } else {
-      this.overpayment = usedBonuses + this.orderDetails.paidAmount - priceWithoutCertificate;
+    if (isChanged) {
+      this.paymentInfoChanged.emit({
+        paymentTableInfoDto: { ...this.paymentInfo.paymentTableInfoDto, overpayment: overpayment, unPaidAmount: unPaid },
+        orderFullPrice: newSum
+      });
     }
-
-    this.changeOverpayment.emit(this.overpayment);
-    if (this.overpayment) {
-      this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
-      this.overpayment = Math.abs(this.overpayment);
+    for (const type in this.bagsInfo.finalSum) {
+      if (this.bagsInfo.finalSum[type] < 0) {
+        this.bagsInfo.finalSum[type] = 0;
+      }
     }
-  }
-
-  private updateOverpayment(sum: number): void {
-    this.overpayment += sum;
     this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
   }
-
   private setFinalFullPrice() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
     this.orderDetailsForm.controls.orderFullPrice.setValue(this.bagsInfo.finalSum[bagType]);
@@ -346,8 +334,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   getStoreOrderNumbers() {
-    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
-    return arr.controls;
+    return (this.orderDetailsForm.controls.storeOrderNumbers as FormArray).controls;
   }
 
   checkMaxOrdersFromShop(): boolean {
@@ -362,8 +349,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   deleteOrder(index: number): void {
-    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
-    arr.removeAt(index);
+    (this.orderDetailsForm.controls.storeOrderNumbers as FormArray).removeAt(index);
     this.orderDetailsForm.markAsDirty();
     this.deleteNumberOrderFromEcoShopChanged.emit(true);
   }

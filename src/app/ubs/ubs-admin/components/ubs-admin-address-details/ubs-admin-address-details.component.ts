@@ -226,6 +226,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
     this.setValueOfStreet(selectedStreet, this.addressStreet, Language.UK);
     this.setValueOfStreet(selectedStreet, this.addressStreetEng, Language.EN);
+    this.setLngLat();
   }
 
   setValueOfStreet(selectedStreet: GooglePrediction, abstractControl: AbstractControl, lang: string): void {
@@ -284,6 +285,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   onHouseSelected(): void {
     this.isHouseSelected = true;
+    this.setLngLat();
   }
 
   checkHouseInput(): void {
@@ -303,5 +305,19 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();
+  }
+
+  setLngLat(): void {
+    const address = `${this.addressStreet.value}, ${this.addressHouseNumber.value}, ${this.addressCity.value}, ${this.addressRegion.value}`;
+
+    new google.maps.Geocoder().geocode({ address }, (results, status) => {
+      if (status === google.maps.GeocoderStatus.OK) {
+        const location = results[0].geometry.location;
+        this.addressExportDetailsDto.patchValue({
+          lng: location.lng(),
+          lat: location.lat()
+        });
+      }
+    });
   }
 }
