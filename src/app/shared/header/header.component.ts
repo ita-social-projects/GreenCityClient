@@ -14,11 +14,11 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { LanguageModel } from '../../main/component/layout/components/models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
-import { Subject, interval } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { UbsPickUpServicePopUpComponent } from '../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
+import { UbsPickUpServicePopUpComponent } from '@ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
@@ -182,31 +182,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private initLanguage(): void {
-    if (this.isLoggedIn) {
-      this.languageService
-        .getUserLangValue()
-        .pipe(takeUntil(this.destroySub))
-        .subscribe({
-          next: (lang) => {
-            if (lang) {
-              this.setCurrentLanguage(lang);
-            }
-          },
-          error: () => {
-            this.setCurrentLanguage(this.languageService.getCurrentLanguage());
-          }
-        });
-    } else {
-      this.setCurrentLanguage(this.languageService.getCurrentLanguage());
-    }
+    const language = this.languageService.getCurrentLanguage();
+    this.setCurrentLanguage(this.isLoggedIn ? language : Language.UA);
   }
 
-  private setCurrentLanguage(language: string): void {
-    if (!language) {
-      language = 'en';
-    }
+  private setCurrentLanguage(language: Language): void {
     this.currentLanguage = language;
-    this.languageService.changeCurrentLanguage(language.toLowerCase() as Language);
+    this.languageService.changeCurrentLanguage(language);
     this.setLangArr();
   }
 
@@ -268,7 +250,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  changeCurrentLanguage(language, index: number): void {
+  changeCurrentLanguage(language: string, index: number): void {
     this.languageService.changeCurrentLanguage(language.toLowerCase() as Language);
     const temporary = this.arrayLang[0].lang;
     this.arrayLang[0].lang = language;

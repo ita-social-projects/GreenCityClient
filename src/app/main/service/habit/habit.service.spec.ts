@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { HabitService } from './habit.service';
 import { environment } from '@environment/environment';
 import { CUSTOMHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
-import { HABITLIST } from '@global-user/components/habit/mocks/habit-mock';
+import { CRITERIA, CRITERIA_FILTER, CRITERIA_TAGS, HABITLIST } from '@global-user/components/habit/mocks/habit-mock';
 import {
   MOCK_CUSTOM_HABIT,
   MOCK_CUSTOM_HABIT_RESPONSE,
@@ -14,7 +14,8 @@ import {
   SHOPLIST
 } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { TAGLIST } from '@global-user/components/habit/mocks/tags-list-mock';
-import { HttpResponse } from '@angular/common/http';
+import { HttpParams, HttpResponse } from '@angular/common/http';
+import { HabitPageable } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 
 describe('HabitService', () => {
   const habitLink = `${environment.backendLink}habit`;
@@ -24,8 +25,12 @@ describe('HabitService', () => {
 
   let langMock = null;
 
-  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('localStorageService', ['languageBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('localStorageService', [
+    'languageBehaviourSubject',
+    'getAccessToken'
+  ]);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+  (localStorageServiceMock.getAccessToken as jasmine.Spy).and.returnValue('accessToken');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,25 +104,39 @@ describe('HabitService', () => {
   });
 
   it('should return habits by tag and lang', () => {
-    habitService.getHabitsByTagAndLang(1, 1, ['test'], 'en').subscribe((data) => {
+    const params = new HttpParams()
+      .set('page', CRITERIA_TAGS.page.toString())
+      .set('size', CRITERIA_TAGS.size.toString())
+      .set('sort', CRITERIA_TAGS.sort)
+      .set('lang', CRITERIA_TAGS.lang)
+      .set('excludeAssigned', CRITERIA_TAGS.excludeAssigned.toString())
+      .set('tags', CRITERIA_TAGS.tags.join(','));
+
+    const expectedUrl = `${habitLink}/tags/search?${params.toString()}`;
+
+    habitService.getHabitsByTagAndLang(CRITERIA_TAGS).subscribe((data) => {
       expect(data).not.toBeNull();
       expect(data).toEqual(HABITLIST);
     });
 
-    const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en&page=1&size=1&sort=asc&tags=test`);
+    const req = httpMock.expectOne(expectedUrl);
     expect(req.request.method).toBe('GET');
     req.flush(HABITLIST);
   });
 
   it('should return an Observable HabitListInterface', () => {
-    const filters = ['filter1', 'filter2'];
-    const page = 1;
-    const size = 10;
-    const language = 'en';
-    habitService.getHabitsByFilters(page, size, language, filters).subscribe((habits) => {
+    const params = new HttpParams()
+      .set('page', CRITERIA_FILTER.page.toString())
+      .set('size', CRITERIA_FILTER.size.toString())
+      .set('lang', CRITERIA_FILTER.lang)
+      .set('sort', CRITERIA_FILTER.sort)
+      .set('filters', CRITERIA_FILTER.filters.join(','));
+    const expectedUrl = `${habitLink}/search?${params.toString()}`;
+
+    habitService.getHabitsByFilters(CRITERIA_FILTER).subscribe((habits) => {
       expect(habits).toEqual(MOCK_HABITS);
     });
-    const req = httpMock.expectOne(`${habitLink}/search?lang=${language}&page=${page}&size=${size}&sort=asc&${filters.join('&')}`);
+    const req = httpMock.expectOne(expectedUrl);
     expect(req.request.method).toBe('GET');
     req.flush(MOCK_HABITS);
   });
@@ -141,9 +160,11 @@ describe('HabitService', () => {
     const lang = 'en';
     const id = 1;
     const mockResponse = MOCK_CUSTOM_HABIT_RESPONSE;
+
     habitService.changeCustomHabit(habit, lang, id).subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });
+
     const req = httpMock.expectOne(`${habitLink}/update/${id}`);
     expect(req.request.method).toBe('PUT');
     req.flush(mockResponse);
@@ -162,13 +183,41 @@ describe('HabitService', () => {
 
   it('should delete custom habit', () => {
     const id = CUSTOMHABIT.id;
-
     habitService.deleteCustomHabit(id).subscribe();
-
     const req = httpMock.expectOne(`${habitLink}/delete/${id}`);
-
     req.flush(new HttpResponse({ status: 200 }));
+
     expect(req.request.method).toBe('DELETE');
     httpMock.verify();
+  });
+
+  it('should correctly transform HabitPageable to HttpParams', () => {
+    const params = habitService['getHttpParams'](CRITERIA_FILTER);
+    const expectedParams = new HttpParams()
+      .set('page', '1')
+      .set('size', '10')
+      .set('lang', 'en')
+      .set('sort', 'asc')
+      .set('filters', 'filter1,filter2');
+    expect(params.toString()).toBe(expectedParams.toString());
+  });
+
+  it('should handle null and undefined values', () => {
+    const criteria: HabitPageable = {
+      page: 1,
+      size: null,
+      lang: undefined,
+      filters: ['filter1'],
+      sort: 'asc'
+    };
+    const params = habitService['getHttpParams'](criteria);
+    const expectedParams = new HttpParams().set('page', '1').set('filters', 'filter1').set('sort', 'asc');
+    expect(params.toString()).toBe(expectedParams.toString());
+  });
+
+  it('should handle empty arrays correctly', () => {
+    const params = habitService['getHttpParams'](CRITERIA);
+    const expectedParams = new HttpParams().set('page', '1').set('size', '1').set('lang', 'en').set('sort', 'asc');
+    expect(params.toString()).toBe(expectedParams.toString());
   });
 });

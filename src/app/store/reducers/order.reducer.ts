@@ -34,12 +34,17 @@ import {
   UpdateAddress,
   DeleteAddress,
   CreateAddress,
-  SetSecondFormStatus
+  SetSecondFormStatus,
+  SetCurrentStep
 } from '../actions/order.actions';
 import { createReducer, on } from '@ngrx/store';
 
 export const orderReducer = createReducer(
   initialOrderState,
+  on(SetCurrentStep, (state, action) => ({
+    ...state,
+    currentStep: action.step
+  })),
   on(SetBags, (state, action) => {
     const newBagVal = state.orderDetails.bags.map((item) => ({
       ...item,

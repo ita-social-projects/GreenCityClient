@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil, catchError, take } from 'rxjs/operators';
+import { takeUntil, catchError } from 'rxjs/operators';
 import { FileHandle, QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError } from 'rxjs';
@@ -216,9 +216,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       .pipe(
         ofType(NewsActions.CreateEcoNewsSuccess),
         takeUntil(this.destroyed$),
-        catchError((err) => {
-          this.snackBar.openSnackBar('error');
-          return throwError(err);
+        catchError((error: Error) => {
+          this.snackBar.openSnackBar('snack-bar.error.default');
+          return throwError(() => new Error(error.message));
         })
       )
       .subscribe(() => {
@@ -231,16 +231,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     const imagesSrc = checkImages(this.editorHTML);
     if (imagesSrc) {
       const imgFiles = imagesSrc.map((base64) => dataURLtoFile(base64));
-      this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
-        (response) => {
-          const findBase64Regex = Patterns.Base64Regex;
-          response.forEach((link) => {
-            this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
-          });
+      this.createEcoNewsService.sendImagesData(imgFiles).subscribe({
+        next: (response) => {
+          response.forEach((link) => (this.editorHTML = this.editorHTML.replace(Patterns.Base64Regex, link)));
           this.sendData(this.editorHTML);
         },
-        (err) => console.error(err)
-      );
+        error: (err) => console.error(err)
+      });
     } else {
       this.sendData(this.editorHTML);
     }
@@ -265,9 +262,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.actionsSubj
       .pipe(
         ofType(NewsActions.EditEcoNewsSuccess),
-        catchError((error) => {
-          this.snackBar.openSnackBar('Something went wrong. Please reload page or try again later.');
-          return throwError(error);
+        catchError((error: Error) => {
+          this.snackBar.openSnackBar('snack-bar.error.default');
+          return throwError(() => new Error(error.message));
         })
       )
       .subscribe(() => this.escapeFromCreatePage());
@@ -281,17 +278,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
     if (imagesSrc) {
       const imgFiles = imagesSrc.map((base64) => dataURLtoFile(base64));
-
-      this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
-        (response) => {
-          const findBase64Regex = Patterns.Base64Regex;
-          response.forEach((link) => {
-            this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
-          });
+      this.createEcoNewsService.sendImagesData(imgFiles).subscribe({
+        next: (response) => {
+          response.forEach((link) => (this.editorHTML = this.editorHTML.replace(Patterns.Base64Regex, link)));
           this.editData(this.editorHTML);
         },
-        (err) => console.error(err)
-      );
+        error: (err) => console.error(err)
+      });
     } else {
       this.editData(this.editorHTML);
     }
@@ -306,10 +299,14 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         this.setActiveFilters(item);
         this.onSourceChange();
         this.setInitialValues();
-        this.imageService.createFileHandle(item.imagePath, 'image/jpeg').subscribe((fileHandle: FileHandle) => {
-          this.createEcoNewsService.file = fileHandle;
-          this.imageFile = fileHandle;
-        });
+        if (item.imagePath) {
+          this.imageService.createFileHandle(item.imagePath, 'image/jpeg').subscribe((fileHandle: FileHandle) => {
+            this.createEcoNewsService.file = fileHandle;
+            this.imageFile = fileHandle;
+          });
+        } else {
+          console.error('ImagePath is null or undefined');
+        }
       });
   }
 

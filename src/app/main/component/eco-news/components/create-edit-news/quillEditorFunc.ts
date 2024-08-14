@@ -9,7 +9,7 @@ export const checkImages = (editorContent: string) => {
   }
 };
 
-export const dataURLtoFile = (dataUrl) => {
+export const dataURLtoFile = (dataUrl: string): File => {
   const arr = dataUrl.split(',');
   const mime = arr[0].match(/:(.*?);/)[1];
   const filename = `image.${mime.split('/')[1]}`;

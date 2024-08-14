@@ -42,7 +42,7 @@
         <div class="left-side">
           <div class="event-title">{{ event.title }}</div>
           <div class="date-author">
-            <div>{{ event.dates[0].startDate | dateLocalisation }}</div>
+            <div>{{ event.dates[0]['startDate'] | dateLocalisation }}</div>
             <div>|</div>
             <div>{{ 'homepage.events.author' | translate }} {{ organizerName }}</div>
           </div>
@@ -92,19 +92,19 @@
                   <img [src]="icons.clock" alt="" />
                 </div>
                 <div *ngIf="event.dates.length === 1; else multipleDays" class="event-date-content">
-                  <div class="event-duration">{{ event.dates[0].startDate | dateLocalisation }}</div>
+                  <div class="event-duration">{{ event.dates[0]['startDate'] | dateLocalisation }}</div>
                   <div>|</div>
-                  <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
+                  <div>{{ event.dates[0]['startDate'] | date: 'hh:mm a' }}</div>
                 </div>
                 <ng-template #multipleDays>
                   <div class="event-date-content">
                     <div class="event-duration">
-                      {{ event.dates[0].startDate | dateLocalisation }}
+                      {{ event.dates[0]['startDate'] | dateLocalisation }}
                       &nbsp;-&nbsp;
-                      {{ event.dates[event.dates.length - 1].finishDate | dateLocalisation }}
+                      {{ event.dates[event.dates.length - 1]['finishDate'] | dateLocalisation }}
                     </div>
                     <div>|</div>
-                    <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
+                    <div>{{ event.dates[0]['startDate'] | date: 'hh:mm a' }}</div>
                     <div class="event-info-days">
                       <app-event-schedule-overlay [days]="event.dates"></app-event-schedule-overlay>
                     </div>

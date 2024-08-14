@@ -134,10 +134,10 @@ export class EventsService implements OnDestroy {
     return this.langService.getLangValue(
       coordinates.streetUa
         ? this.createEventsListAddresses(coordinates, 'Ua')
-        : coordinates.formattedAddressUa.split(', ').slice(0, 2).reverse().join(', '),
+        : coordinates.formattedAddressUa?.split(', ').slice(0, 2).reverse().join(', ') || '',
       coordinates.streetEn
         ? this.createEventsListAddresses(coordinates, 'En')
-        : coordinates.formattedAddressEn.split(', ').slice(0, 2).reverse().join(', ')
+        : coordinates.formattedAddressEn?.split(', ').slice(0, 2).reverse().join(', ') || ''
     );
   }
 

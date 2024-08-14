@@ -114,7 +114,8 @@
         "delete-title": "News will be deleted. Do you want to continue?",
         "delete-yes": "yes",
         "delete-no": "no"
-      }
+      },
+      "likes": "You don't have permission for this action"
     },
     "notifications": {
       "title": "Notifications",
@@ -849,6 +850,7 @@
         "habit-acquired": "You have successfully acquire habit",
         "habit-was-deleted": "You have successfully deleted habit from your list",
         "custom-habit-was-deleted": "You have successfully deleted habit",
+        "habit-already-assigned": "You already have assigned this habit",
         "reset-filters": "Reset all",
         "habits-popup": {
           "title": "All created content will be lost.",
