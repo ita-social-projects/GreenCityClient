@@ -49,7 +49,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
     return true;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.shareFormService.locationId = this.localStorageService.getLocationId();
     this.shareFormService.locations = this.localStorageService.getLocations();
     this.store.dispatch(SetCurrentStep({ step: 0 }));
@@ -63,11 +63,11 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
     }, 0);
   }
 
-  onSelectionChange($event: StepperSelectionEvent) {
+  onSelectionChange($event: StepperSelectionEvent): void {
     this.store.dispatch(SetCurrentStep({ step: $event.selectedIndex }));
   }
 
-  private getOrderDetailsFromState() {
+  private getOrderDetailsFromState(): void {
     this.store.pipe(select((state: IAppState): OrderDetails => state.order.orderDetails)).subscribe((stateOrderDetails: OrderDetails) => {
       this.stateOrderDetails = stateOrderDetails;
       if (this.stateOrderDetails) {
@@ -104,7 +104,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
     this.shareFormService.isDataSaved = false;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
     this.store.dispatch(ClearOrderData());
