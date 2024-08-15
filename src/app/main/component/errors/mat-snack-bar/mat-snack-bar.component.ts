@@ -63,6 +63,7 @@ export class MatSnackBarComponent {
     tooLongInput: { classname: SnackbarClassName.error, key: 'user.habit.to-do.too-long-input' },
     ratedEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.rating-send' },
     addFriend: { classname: SnackbarClassName.success, key: 'snack-bar.success.add-friend' },
+    friendValidation: { classname: SnackbarClassName.error, key: 'snack-bar.error.friend-request' },
     cancelRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.cancel-request' },
     jointEventRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.joint-event-request' },
     errorImageTypeSize: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-type-and-size' },
