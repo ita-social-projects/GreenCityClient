@@ -52,12 +52,12 @@ export class HabitService {
 
   getHabitsByTagAndLang(criteria: HabitPageable): Observable<HabitListInterface> {
     const params = this.getHttpParams(criteria);
-    return this.http.get<HabitListInterface>(`${habitLink}/tags/search`, { params });
+    return this.http.get<HabitListInterface>(`${habitLink}/tags/search?lang=${this.language}`, { params });
   }
 
   getHabitsByFilters(criteria: HabitPageable): Observable<HabitListInterface> {
     const params = this.getHttpParams(criteria);
-    return this.http.get<HabitListInterface>(`${habitLink}/search`, { params });
+    return this.http.get<HabitListInterface>(`${habitLink}/search?lang=${this.language}`, { params });
   }
 
   addCustomHabit(habit: CustomHabit, lang: string): Observable<CustomHabitDtoRequest> {
@@ -80,11 +80,16 @@ export class HabitService {
 
   private getHttpParams(criteria: HabitPageable): HttpParams {
     let params = new HttpParams();
-    Object.entries(criteria)
-      .filter(([_, value]) => value !== null && value !== undefined)
-      .forEach(([key, value]) => {
-        params = Array.isArray(value) ? params.set(key, value.join(',')) : params.set(key, value.toString());
+    if (criteria.filters && Array.isArray(criteria.filters)) {
+      criteria.filters.forEach((filter) => {
+        if (filter === 'isCustomHabit=true' || filter === 'isCustomHabit=false') {
+          const [key, value] = filter.split('=');
+          params = params.append(key, value);
+        } else {
+          params = params.append('filters', filter);
+        }
       });
+    }
     return params;
   }
 
