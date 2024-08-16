@@ -40,6 +40,7 @@ describe('UploadPhotoContainerComponent', () => {
       cropperPosition: { x1: 0, y1: 0, x2: 100, y2: 100 },
       imagePosition: { x1: 0, y1: 0, x2: 100, y2: 100 }
     };
+
     component.imageCropped(event);
 
     expect((component as any).croppedImage).toBe('base64_image_data');
