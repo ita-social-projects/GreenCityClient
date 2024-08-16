@@ -210,7 +210,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.eventTimeStatusOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedEventTimeStatusFiltersList = [];
         break;
@@ -219,7 +219,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.locationOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedLocationFiltersList = [];
         break;
@@ -228,7 +228,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.statusOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedStatusFiltersList = [];
         break;
@@ -237,11 +237,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.typeOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedTypeFiltersList = [];
         break;
     }
+
     this.cleanEventList();
     this.getEvents();
   }
@@ -253,7 +254,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.selectedStatusFiltersList = [];
     this.selectedTypeFiltersList = [];
     [this.eventTimeStatusOptionList, this.statusOptionList, this.locationOptionList, this.typeOptionList].forEach((optionList) => {
-      this.unselectCheckboxesInList(optionList);
+      this.unselectCheckbox(optionList);
     });
     this.cleanEventList();
     this.getEvents();
@@ -321,19 +322,20 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private unselectCheckbox(checkboxList: MatSelect, optionName: string): void {
-    const option = checkboxList.options.find((option: MatOption) => option.value === optionName);
-    if (option) {
-      option.deselect();
+  private unselectCheckbox(checkboxList: MatSelect, optionName?: string): void {
+    const control = checkboxList.ngControl?.control;
+    if (!control) {
+      return;
     }
-  }
-
-  private unselectCheckboxesInList(checkboxList: MatSelect): void {
-    checkboxList.options?.forEach((option) => {
-      if (option.selected) {
-        option.deselect();
+    if (optionName) {
+      const optionToUnselect = checkboxList.options.toArray().find((option: MatOption) => option.value === optionName);
+      if (optionToUnselect) {
+        const currentValue = control.value || [];
+        control.setValue(currentValue.filter((value) => value !== optionToUnselect.value));
       }
-    });
+    } else {
+      control.setValue([]);
+    }
   }
 
   private cleanEventList(): void {

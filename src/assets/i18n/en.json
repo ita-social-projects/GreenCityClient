@@ -141,7 +141,7 @@
       "delete-no": "No",
       "filter-title": "Filter",
       "filter-location": "Location",
-      "filter-location-аny-location": "(Select All)",
+      "filter-location-аny-location": "Select All",
       "filter-status": "Status",
       "filter-status-аny-status": "Any status",
       "filter-type": "Type",

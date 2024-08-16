@@ -244,7 +244,7 @@ describe('EventsListComponent', () => {
     component.selectedLocationFiltersList = ['Kyiv', 'Lviv'];
     component.locationOptionList = [{ value: 'Kyiv' }, { value: 'Lviv' }] as any;
 
-    spyOn(component as any, 'unselectCheckboxesInList').and.callThrough();
+    spyOn(component as any, 'unselectCheckbox').and.callThrough();
     spyOn(component as any, 'updateSelectedFiltersList').and.callThrough();
     spyOn(component as any, 'cleanEventList').and.callThrough();
     spyOn(component as any, 'getEvents').and.callThrough();
@@ -252,7 +252,7 @@ describe('EventsListComponent', () => {
     component.unselectAllFiltersInType(type);
 
     expect(component.selectedLocationFiltersList).toEqual([]);
-    expect(component['unselectCheckboxesInList']).toHaveBeenCalled();
+    expect(component['unselectCheckbox']).toHaveBeenCalled();
     expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Kyiv');
     expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Lviv');
     expect(component['cleanEventList']).toHaveBeenCalled();
@@ -366,7 +366,7 @@ describe('EventsListComponent', () => {
     component.selectedEventTimeStatusFiltersList = ['Upcoming', 'Past'];
 
     spyOn(component as any, 'updateSelectedFiltersList').and.callThrough();
-    spyOn(component as any, 'unselectCheckboxesInList').and.callThrough();
+    spyOn(component as any, 'unselectCheckbox').and.callThrough();
     spyOn(component as any, 'cleanEventList').and.callThrough();
     spyOn(component as any, 'getEvents').and.callThrough();
 
@@ -374,7 +374,7 @@ describe('EventsListComponent', () => {
 
     expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Upcoming');
     expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Past');
-    expect(component['unselectCheckboxesInList']).toHaveBeenCalled();
+    expect(component['unselectCheckbox']).toHaveBeenCalled();
     expect(component['cleanEventList']).toHaveBeenCalled();
     expect(component['getEvents']).toHaveBeenCalled();
     expect(component.selectedEventTimeStatusFiltersList).toEqual([]);
