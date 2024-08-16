@@ -1,38 +1,37 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { DatePipe } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HabitService } from '@global-service/habit/habit.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { of, Subject, BehaviorSubject } from 'rxjs';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Language } from 'src/app/main/i18n/Language';
-import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { TodoStatus } from '../models/todo-status.enum';
-import { provideMockStore } from '@ngrx/store/testing';
-import { TagsSelectComponent } from '@shared/components/tags-select/tags-select.component';
-import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-drop.component';
-import { SelectImagesComponent } from '@shared/components/select-images/select-images.component';
-import { HabitProgressComponent } from '@global-user/components/habit/add-new-habit/habit-progress/habit-progress.component';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitService } from '@global-service/habit/habit.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { HabitCalendarComponent } from '@global-user/components/habit/add-new-habit/habit-calendar/habit-calendar.component';
 import { HabitDurationComponent } from '@global-user/components/habit/add-new-habit/habit-duration/habit-duration.component';
 import { HabitEditShoppingListComponent } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
 import { HabitInviteFriendsComponent } from '@global-user/components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
-import { DatePipe } from '@angular/common';
-import { EditorChangeContent, QuillModule } from 'ngx-quill';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HabitProgressComponent } from '@global-user/components/habit/add-new-habit/habit-progress/habit-progress.component';
 import { CalendarWeekComponent } from '@global-user/components/profile/calendar/calendar-week/calendar-week.component';
-import { HabitCalendarComponent } from '@global-user/components/habit/add-new-habit/habit-calendar/habit-calendar.component';
-import { MatSliderModule } from '@angular/material/slider';
-import { FileHandle } from '@eco-news-models/create-news-interface';
-import { DomSanitizer } from '@angular/platform-browser';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ShoppingList } from '@global-user/models/shoppinglist.interface';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { provideMockStore } from '@ngrx/store/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-drop.component';
+import { SelectImagesComponent } from '@shared/components/select-images/select-images.component';
+import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
+import { TagsSelectComponent } from '@shared/components/tags-select/tags-select.component';
+import { EditorChangeContent, QuillModule } from 'ngx-quill';
+import { BehaviorSubject, of, Subject } from 'rxjs';
+import { Language } from 'src/app/main/i18n/Language';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
+import { TodoStatus } from '../models/todo-status.enum';
+import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
@@ -86,7 +85,8 @@ describe('AddEditCustomHabitComponent', () => {
         HabitEditShoppingListComponent,
         HabitInviteFriendsComponent,
         HabitProgressComponent,
-        SelectImagesComponent
+        SelectImagesComponent,
+        LangValueDirective
       ],
       imports: [
         NgbModule,

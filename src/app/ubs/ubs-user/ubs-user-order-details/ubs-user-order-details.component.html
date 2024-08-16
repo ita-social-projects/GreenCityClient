@@ -10,7 +10,7 @@
     </tr>
     <ng-container *ngFor="let bag of order.bags">
       <tr class="data_table">
-        <td>{{ getLangValue(bag.service, bag.serviceEng) }}</td>
+        <td [appLangValue]="{ ua: bag.service, en: bag.serviceEng }"></td>
         <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
         <td>{{ bag.fullPrice }} {{ 'user-orders.details.currency' | translate }}</td>
         <td>{{ bag.count }} {{ 'user-orders.details.pieces' | translate }}</td>
@@ -66,18 +66,19 @@
     </ol>
     <ol class="recipient">
       <h6 class="bold_text">{{ 'user-orders.details.export-address' | translate }}</h6>
-      <li>{{ getLangValue('м. ', '') }}{{ getLangValue(order.address.addressCity, order.address.addressCityEng) }}</li>
+      <li [appLangValue]="{ ua: 'м. ' + order.address.addressCity, en: order.address.addressCityEng }"></li>
       <li>
-        <span>{{ getLangValue(order.address.addressStreet, order.address.addressStreetEng) }}, </span>
+        <span [appLangValue]="{ ua: order.address.addressStreet, en: order.address.addressStreetEng }" suffix=", "></span>
         <span>{{ order.address.houseNumber }},</span><br />
         <span>{{ 'user-orders.details.block-number' | translate }} {{ order.address.houseCorpus || '-' }}</span
         ><br />
         <span>{{ 'user-orders.details.entrance' | translate }} {{ order.address.entranceNumber || '-' }}</span
         ><br />
-        <span>
-          {{ 'user-orders.details.district' | translate }}
-          {{ getLangValue(order.address.addressDistinct || '-', order.address.addressDistinctEng || '-') }}</span
+        <span
+          [appLangValue]="{ ua: order.address.addressDistinct || '-', en: order.address.addressDistinctEng || '-' }"
+          [prefix]="'user-orders.details.district' | translate"
         >
+        </span>
       </li>
     </ol>
     <ol class="recipient" *ngIf="order.address.addressComment !== ''">

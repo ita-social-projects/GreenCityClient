@@ -12,7 +12,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 describe('ConfirmRestorePasswordComponent', () => {
@@ -50,6 +50,7 @@ describe('ConfirmRestorePasswordComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
+        MatDialog,
         { provide: ChangePasswordService, useValue: ChangePasswordServiceStub },
         { provide: MatDialogRef, useValue: MatDialogRefMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock }

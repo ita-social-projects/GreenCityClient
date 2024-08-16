@@ -63,16 +63,6 @@ describe('UbsAdminNotificationSettingsComponent', () => {
     expect(component.schedule).toBe(cron);
   });
 
-  it('should return the correct language value when getLangValue is called', () => {
-    const uaValue = 'Ukrainian Value';
-    const enValue = 'English Value';
-    (component as any).langService.getLangValue.and.returnValue(enValue);
-
-    const result = component.getLangValue(uaValue, enValue);
-    expect(result).toBe(enValue);
-    expect((component as any).langService.getLangValue).toHaveBeenCalledWith(uaValue, enValue);
-  });
-
   it('should close the dialog without data when onCancel is called', () => {
     component.onCancel();
     expect(matDialogRefMock.close).toHaveBeenCalled();

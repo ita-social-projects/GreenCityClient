@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '@environment/environment';
-
 import { EcoNewsService } from './eco-news.service';
 
 describe('EcoNewsService', () => {
@@ -101,14 +100,15 @@ describe('EcoNewsService', () => {
     req.flush(newsMock);
   });
 
-  it('should post toggle Like', () => {
+  it('should get from isLikedByUser', () => {
+    const isLikedByUser = true;
     service.getIsLikedByUser(13578).subscribe((data) => {
       newsMock.likes = 1;
-      expect(data).toBe(newsMock);
+      expect(data).toBe(isLikedByUser);
     });
 
     const req = httpTestingController.expectOne(`${environment.backendLink}econews/isLikedByUser?econewsId=13578`);
     expect(req.request.method).toEqual('GET');
-    req.flush(newsMock);
+    req.flush(isLikedByUser);
   });
 });

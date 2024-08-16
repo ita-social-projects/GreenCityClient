@@ -81,7 +81,7 @@
             <input
               matInput
               type="text"
-              [ngModel]="this.getLangValue(locationToShow?.nameUk, locationToShow?.nameEn)"
+              [ngModel]="this.languageService.getLangValue(locationToShow?.nameUk, locationToShow?.nameEn)"
               class="location-to-show"
               [matAutocomplete]="auto"
               #autocompleteTrigger="matAutocompleteTrigger"
@@ -91,10 +91,10 @@
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option
                 *ngFor="let location of locationsToShowBags"
-                [value]="getLangValue(location?.nameUk, location?.nameEn)"
+                [value]="this.languageService.getLangValue(location?.nameUk, location?.nameEn)"
                 (click)="getBags(location.locationId)"
+                [appLangValue]="{ ua: location.nameUk, en: location.nameEn }"
               >
-                {{ getLangValue(location.nameUk, location.nameEn) }}
               </mat-option>
             </mat-autocomplete>
             <img
@@ -113,7 +113,7 @@
             <div>{{ getElementDescription(elemPrice.name, elemPrice.nameEng, elemPrice.capacity) }}</div>
           </div>
           <div class="header-price">
-            <div class="price">{{ getLangValue(elemPrice.price.toString() + ' грн', elemPrice.price.toString() + ' UAH') }}</div>
+            <div class="price" [appLangValue]="{ ua: elemPrice.price.toString() + ' грн', en: elemPrice.price.toString() + ' UAH' }"></div>
             <div>{{ perPackageTitle | translate }}</div>
           </div>
         </div>

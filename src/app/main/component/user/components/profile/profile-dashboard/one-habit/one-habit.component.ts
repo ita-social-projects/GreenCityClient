@@ -11,6 +11,7 @@ import { HabitAssignInterface } from '@global-user/components/habit/models/inter
 import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
 import { MatDialog } from '@angular/material/dialog';
 import { FriendsListPopUpComponent } from '@global-user/components/shared/components/friends-list-pop-up/friends-list-pop-up.component';
+import { habitImages } from 'src/app/main/image-pathes/habits-images';
 
 @Component({
   selector: 'app-one-habit',
@@ -27,6 +28,9 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   friends: FriendProfilePicturesArrayModel[] = [];
   numberOfFriendsToDisplay = 3;
   lengthOfFriendsNamesList = 15;
+  calendarGreen = habitImages.calendarGreen;
+  man = habitImages.man;
+
   private destroy$ = new Subject<void>();
   private descriptionType = {
     acquired: () => {

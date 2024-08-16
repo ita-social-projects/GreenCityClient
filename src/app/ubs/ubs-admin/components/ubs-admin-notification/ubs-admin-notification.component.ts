@@ -9,7 +9,6 @@ import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 import { NotificationTemplate, NotificationTemplateUpdate } from '../../models/notifications.model';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { NotificationsService, notificationTriggerTimeMock, notificationTriggersMock } from '../../services/notifications.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Store } from '@ngrx/store';
@@ -46,7 +45,6 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   constructor(
     private notificationsService: NotificationsService,
     private localStorageService: LocalStorageService,
-    private langService: LanguageService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
@@ -235,10 +233,6 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       .updateNotificationTemplate(this.notificationId, this.mapNotification(this.notification))
       .pipe(takeUntil(this.destroy))
       .subscribe(() => this.snackBar.openSnackBar('updatedNotification'));
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   mapNotification(notification: NotificationTemplate): NotificationTemplateUpdate {

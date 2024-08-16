@@ -6,9 +6,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header.component';
-import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from '@global-service/user/user.service';
 import { AchievementService } from '@global-service/achievement/achievement.service';
@@ -16,11 +15,9 @@ import { HabitStatisticService } from '@global-service/habit-statistic/habit-sta
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { SearchService } from '@global-service/search/search.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-// import { DropdownModule } from 'angular-bootstrap-md';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IAppState } from 'src/app/store/state/app.state';
+import { provideMockStore } from '@ngrx/store/testing';
 import { SocketService } from '@global-service/socket/socket.service';
 
 class MatDialogMock {
@@ -60,7 +57,7 @@ describe('HeaderComponent', () => {
   localStorageServiceMock.setUbsRegistration = () => true;
 
   const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
-  jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
   const userServiceMock: UserService = jasmine.createSpyObj('UserService', ['onLogout']);
@@ -113,7 +110,6 @@ describe('HeaderComponent', () => {
         TranslateModule.forRoot(),
         MatDialogModule,
         HttpClientTestingModule,
-        // DropdownModule,
         NoopAnimationsModule
       ],
       providers: [
@@ -210,7 +206,7 @@ describe('HeaderComponent', () => {
     });
 
     it('should call getUserLangValue when isLoggedIn is true', () => {
-      const spy = spyOn((component as any).languageService, 'getUserLangValue').and.returnValue(of(mockLang));
+      const spy = spyOn((component as any).languageService, 'getCurrentLanguage').and.returnValue(of(mockLang));
       component.isLoggedIn = true;
       (component as any).initLanguage();
       expect(spy).toHaveBeenCalled();

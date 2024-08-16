@@ -15,24 +15,16 @@ export class DragAndDropComponent {
   isWarning = false;
   croppedImage: ImageCroppedEvent;
   @Input() file: FileHandle;
+  @Input() height: number;
+  @Input() isDisabledButton: boolean;
+  @Input() aspectRatio: number;
+  @Input() roundCropper: boolean;
   @Output() newFile = new EventEmitter<FileHandle>();
 
   stopCropping(): void {
-    const changeFile = new File([this.croppedImage.blob], this.file.file.name, { type: 'image/png' });
-
-    const reader = new FileReader();
-    reader.readAsDataURL(changeFile);
-    reader.onloadend = () => {
-      const base64data = reader.result;
-
-      this.file = {
-        url: base64data,
-        file: changeFile
-      };
-      this.isCropper = false;
-      this.newFile.emit(this.file);
-      this.isWarning = false;
-    };
+    this.autoCropping();
+    this.isCropper = false;
+    this.isWarning = false;
   }
 
   cancelChanges(): void {
@@ -46,6 +38,9 @@ export class DragAndDropComponent {
 
   imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event;
+    if (this.isDisabledButton) {
+      this.autoCropping();
+    }
   }
 
   filesDropped(files: FileHandle[]): void {
@@ -61,14 +56,31 @@ export class DragAndDropComponent {
     reader.onload = (ev) => this.handleFile(ev);
   }
 
+  private autoCropping() {
+    const changeFile = new File([this.croppedImage.blob], this.file.file.name, { type: 'image/png' });
+
+    const reader = new FileReader();
+    reader.readAsDataURL(changeFile);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+
+      const file = {
+        url: base64data,
+        file: changeFile
+      };
+      if (!this.isDisabledButton) {
+        this.file = { ...file };
+      }
+      this.newFile.emit(file);
+    };
+  }
   private handleFile(event): void {
-    const binaryString = event.target.result;
-    this.selectedFileUrl = binaryString;
+    this.selectedFileUrl = event.target.result;
     this.file = { url: this.selectedFileUrl, file: this.selectedFile };
     this.showWarning();
   }
 
-  showWarning(): void {
+  private showWarning(): void {
     this.isWarning = !((this.file.file.type === 'image/jpeg' || this.file.file.type === 'image/png') && this.file.file.size < 10485760);
     if (this.isWarning) {
       this.file = null;

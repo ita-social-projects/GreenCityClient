@@ -3,6 +3,8 @@ import { IAppState } from 'src/app/store/state/app.state';
 
 export const orderSelectors = (store: IAppState) => store.order;
 
+export const currentStepSelector = createSelector(orderSelectors, (order) => order.currentStep);
+
 export const orderDetailsSelector = createSelector(orderSelectors, (order) => order.orderDetails);
 
 export const personalDataSelector = createSelector(orderSelectors, (order) => order.personalData);
@@ -30,6 +32,8 @@ export const certificateUsedSelector = createSelector(orderSelectors, (order) =>
 export const pointsUsedSelector = createSelector(orderSelectors, (order) => order.pointsUsed);
 
 export const isFirstFormValidSelector = createSelector(orderSelectors, (order) => order.firstFormValid);
+
+export const isSecondFormValidSelector = createSelector(orderSelectors, (order) => order.secondFormValid);
 
 export const isAddressLoadingSelector = createSelector(orderSelectors, (order) => order.isAddressLoading);
 

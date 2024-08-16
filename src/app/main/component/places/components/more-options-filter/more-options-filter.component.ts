@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DistanceFilter, MoreOptionsFormValue } from '../../models/more-options-filter.model';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { DistanceFilter, MoreOptionsFormValue } from '../../models/more-options-filter.model';
 import { baseFiltersForPlaces, servicesFiltersForPlaces } from '../../models/places-consts';
 
 @Component({
@@ -40,8 +39,6 @@ export class MoreOptionsFilterComponent implements OnInit, OnChanges {
 
   private suppressNextEmit = false;
 
-  constructor(private langService: LanguageService) {}
-
   ngOnInit(): void {
     this.filtersForm.valueChanges.subscribe((formValue: MoreOptionsFormValue) => {
       if (this.suppressNextEmit) {
@@ -67,9 +64,5 @@ export class MoreOptionsFilterComponent implements OnInit, OnChanges {
     const isBaseFilter: boolean = Object.values(formValue.baseFilters).includes(true);
     const isServicesFilter: boolean = Object.values(formValue.servicesFilters).includes(true);
     this.isActiveFilter = isBaseFilter || isServicesFilter || formValue.distance.isActive;
-  }
-
-  getLangValue(valUa: string, valEn: string): string {
-    return this.langService.getLangValue(valUa, valEn) as string;
   }
 }

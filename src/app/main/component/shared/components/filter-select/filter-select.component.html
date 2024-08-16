@@ -3,8 +3,12 @@
   <mat-select #selectFilter panelClass="green-city-select" [multiple]="true">
     <mat-option [value]="0" (click)="toggleAllSelection()">{{ filter.selectAllOption | translate }}</mat-option>
     <mat-divider></mat-divider>
-    <mat-option *ngFor="let option of filter.options" [value]="option" (click)="updateSelectedFilters(option)">
-      {{ getLangValue(option.nameUa, option.name) }}
+    <mat-option
+      *ngFor="let option of filter.options"
+      [value]="option"
+      (click)="updateSelectedFilters(option)"
+      [appLangValue]="{ ua: option.nameUa, en: option.name }"
+    >
     </mat-option>
   </mat-select>
 </div>

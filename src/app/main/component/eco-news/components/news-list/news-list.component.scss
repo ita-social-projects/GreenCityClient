@@ -1,8 +1,4 @@
-$bp-smallest: 575px;
-$bp-phone: 767px;
-$bp-tablet: 1023px;
-$bp-notebook: 1199px;
-$bp-desktop: 1439px;
+@import 'src/typography/_resp.scss';
 
 .cont {
   width: 100%;
@@ -83,7 +79,7 @@ div hr {
   white-space: nowrap;
 }
 
-@media screen and (max-width: 1199px) {
+@include responsivePCFirst(2xl) {
   .wrapper {
     margin: 0 3%;
   }
@@ -93,7 +89,7 @@ div hr {
   }
 }
 
-@media screen and (max-width: 1023px) {
+@include responsivePCFirst(xl) {
   .wrapper {
     margin: 0 2.43%;
   }
@@ -103,7 +99,7 @@ div hr {
   }
 }
 
-@media screen and (max-width: 767px) {
+@include responsivePCFirst(md) {
   .wrapper {
     margin: 0 1.95%;
   }
@@ -113,7 +109,7 @@ div hr {
   }
 }
 
-@media screen and (max-width: 575px) {
+@include responsivePCFirst(sm) {
   .wrapper {
     margin: 0 2.4%;
   }

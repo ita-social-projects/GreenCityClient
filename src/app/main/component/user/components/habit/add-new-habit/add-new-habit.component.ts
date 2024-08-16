@@ -12,7 +12,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { Location } from '@angular/common';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { habitImages, starIcons } from 'src/app/main/image-pathes/habits-images';
+import { habitImages } from 'src/app/main/image-pathes/habits-images';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
@@ -25,6 +25,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { STAR_IMAGES } from '../const/data.const';
+import { HabitPageable } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -96,7 +97,6 @@ export class AddNewHabitComponent implements OnInit {
         this.habitAssignId = Number(params.habitAssignId);
       }
     });
-    this.checkIfAssigned();
     this.getRecommendedNews(this.page, this.size);
     this.userFriendsService.addedFriends.length = 0;
   }
@@ -133,9 +133,10 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private getRecommendedHabits(page: number, size: number, tags: string[]): void {
+    const criteria: HabitPageable = { page, size, lang: this.currentLang, tags, sort: 'asc', excludeAssigned: true };
     if (this.userId) {
       this.habitService
-        .getHabitsByTagAndLang(page, size, tags, this.currentLang)
+        .getHabitsByTagAndLang(criteria)
         .pipe(take(1))
         .subscribe((data: HabitListInterface) => {
           this.recommendedHabits = data.page;
@@ -243,6 +244,7 @@ export class AddNewHabitComponent implements OnInit {
       .subscribe((res: AllShoppingLists) => {
         res.customShoppingListItemDto?.forEach((item) => (item.custom = true));
         this.initialShoppingList = [...res.customShoppingListItemDto, ...res.userShoppingListItemDto];
+        this.getList(this.initialShoppingList);
       });
   }
 

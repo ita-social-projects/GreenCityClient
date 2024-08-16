@@ -36,7 +36,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private localStorageService: LocalStorageService,
-    private langService: LanguageService,
+    public langService: LanguageService,
     private locationService: LocationService,
     private orderService: OrderService
   ) {}
@@ -265,12 +265,12 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     this.housePredictionList = null;
     this.isHouseSelected = false;
     const houseValue = this.addressHouseNumber.value.toLowerCase();
-    const streetName = this.getLangValue(this.addressStreet.value, this.addressStreetEng.value);
-    const cityName = this.getLangValue(this.addressCity.value, this.addressCityEng.value);
+    const streetName = this.langService.getLangValue(this.addressStreet.value, this.addressStreetEng.value) as string;
+    const cityName = this.langService.getLangValue(this.addressCity.value, this.addressCityEng.value) as string;
     if (cityName && streetName && houseValue) {
       this.addressHouseNumber.setValue(houseValue);
       const searchAddress = this.locationService.getSearchAddress(cityName, streetName, houseValue);
-      this.inputHouse(searchAddress, this.getLangValue(Language.UK, Language.EN));
+      this.inputHouse(searchAddress, this.langService.getLangValue(Language.UK, Language.EN));
     }
   }
 
@@ -294,12 +294,8 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
-  }
-
   getLangControl(uaControl: AbstractControl, enControl: AbstractControl): AbstractControl {
-    return this.langService.getLangValue(uaControl, enControl) as AbstractControl;
+    return this.localStorageService.getCurrentLanguage() === Language.UA ? uaControl : enControl;
   }
 
   ngOnDestroy(): void {

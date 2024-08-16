@@ -77,11 +77,11 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   editForm(): void {
     this.addTariffServiceForm = this.fb.group({
-      name: new FormControl(this.getLangValue(this.receivedData.bagData.name, this.receivedData.bagData.nameEng), [
+      name: new FormControl(this.languageService.getLangValue(this.receivedData.bagData.name, this.receivedData.bagData.nameEng), [
         Validators.required,
         Validators.maxLength(30)
       ]),
-      nameEng: new FormControl(this.getLangValue(this.receivedData.bagData.nameEng, this.receivedData.bagData.name), [
+      nameEng: new FormControl(this.languageService.getLangValue(this.receivedData.bagData.nameEng, this.receivedData.bagData.name), [
         Validators.required,
         Validators.maxLength(30)
       ]),
@@ -92,19 +92,15 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       ]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
-      description: new FormControl(this.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng), [
-        Validators.required,
-        Validators.maxLength(255)
-      ]),
-      descriptionEng: new FormControl(this.getLangValue(this.receivedData.bagData.descriptionEng, this.receivedData.bagData.description), [
-        Validators.required,
-        Validators.maxLength(255)
-      ])
+      description: new FormControl(
+        this.languageService.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng),
+        [Validators.required, Validators.maxLength(255)]
+      ),
+      descriptionEng: new FormControl(
+        this.languageService.getLangValue(this.receivedData.bagData.descriptionEng, this.receivedData.bagData.description),
+        [Validators.required, Validators.maxLength(255)]
+      )
     });
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
   getControl(control: string): FormControl {
@@ -147,13 +143,13 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     const langCode = receivedData.bagData.languageCode;
     const { name, nameEng, capacity, price, commission, description, descriptionEng } = this.addTariffServiceForm.getRawValue();
     this.tariffService = {
-      name: this.getLangValue(name, nameEng),
-      nameEng: this.getLangValue(nameEng, name),
+      name: this.languageService.getLangValue(name, nameEng) as string,
+      nameEng: this.languageService.getLangValue(nameEng, name) as string,
       price,
       capacity,
       commission,
-      description: this.getLangValue(description, descriptionEng),
-      descriptionEng: this.getLangValue(descriptionEng, description),
+      description: this.languageService.getLangValue(description, descriptionEng) as string,
+      descriptionEng: this.languageService.getLangValue(descriptionEng, description) as string,
       langCode
     };
 
@@ -171,13 +167,13 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     if (this.receivedData.bagData) {
       const { name, nameEng, price, capacity, commission, description, descriptionEng } = this.receivedData.bagData;
       this.addTariffServiceForm.patchValue({
-        name: this.getLangValue(name, nameEng),
-        nameEng: this.getLangValue(nameEng, name),
+        name: this.languageService.getLangValue(name, nameEng),
+        nameEng: this.languageService.getLangValue(nameEng, name),
         price,
         capacity,
         commission,
-        description: this.getLangValue(description, descriptionEng),
-        descriptionEng: this.getLangValue(descriptionEng, description)
+        description: this.languageService.getLangValue(description, descriptionEng),
+        descriptionEng: this.languageService.getLangValue(descriptionEng, description)
       });
     }
   }

@@ -1,3 +1,6 @@
-<app-ubs-base-sidebar [listElements]="listElementsAdmin" [listElementsMobile]="listElementsAdmin">
+<app-ubs-base-sidebar *ngIf="hasAuthorities" [listElements]="listElementsAdmin" [listElementsMobile]="listElementsAdmin">
   <router-outlet></router-outlet>
 </app-ubs-base-sidebar>
+<div class="wrapper" *ngIf="!hasAuthorities">
+  <h1>{{ 'employees.permissions.no-authorities' | translate }}</h1>
+</div>

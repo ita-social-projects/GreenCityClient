@@ -1,23 +1,30 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
-import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
-import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
-import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
-import { ConfirmationDialogComponent } from '../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
-import { take } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { NotificationPlatform } from '../../ubs/notification-platform.enum';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { filter, take, tap } from 'rxjs/operators';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
+import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
+import { ResetFriends } from 'src/app/store/actions/friends.actions';
 import { GetAddresses } from 'src/app/store/actions/order.actions';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
+import { DeletingProfileReasonPopUpComponent } from 'src/app/ubs/ubs-admin/components/shared/components/deleting-profile-reason-pop-up/deleting-profile-reason-pop-up.component';
+import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { ConfirmationDialogComponent } from '../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { NotificationPlatform } from '../../ubs/notification-platform.enum';
+import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -25,8 +32,14 @@ import { addressesSelector } from 'src/app/store/selectors/order.selectors';
   styleUrls: ['./ubs-user-profile-page.component.scss']
 })
 export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
+  private jwtService: JwtService = inject(JwtService);
+  private router: Router = inject(Router);
+  private userOwnAuthService: UserOwnAuthService = inject(UserOwnAuthService);
+  private localeStorageService: LocalStorageService = inject(LocalStorageService);
+
   userForm: FormGroup;
   userProfile: UserProfile;
+  userEmail: string;
   telegramBotURL: string;
   viberBotURL: string;
   errorMessages = [];
@@ -80,6 +93,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.userEmail = this.jwtService.getEmailFromAccessToken();
     this.getUserData();
 
     this.store.dispatch(GetAddresses());
@@ -251,14 +265,44 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   openDeleteProfileDialog(): void {
-    this.dialog.open(ConfirmationDialogComponent, {
+    const matDialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: this.dataDeleteProfile,
       hasBackdrop: true
     });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1), filter(Boolean))
+      .subscribe(() => this.openDeleteProfileReasonPopUp());
   }
 
-  getLangValue(valueUA: string, valueEN: string): string {
-    return this.languageService.getLangValue(valueUA, valueEN) as string;
+  openDeleteProfileReasonPopUp(): void {
+    const matDialogRef = this.dialog.open(DeletingProfileReasonPopUpComponent, {
+      hasBackdrop: true
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1), filter(Boolean))
+      .subscribe((res) => {
+        this.clientProfileService
+          .deactivateProfile(this.userEmail, res.reason)
+          .pipe(take(1))
+          .subscribe(() => {
+            this.signOut();
+          });
+      });
+  }
+
+  signOut(): void {
+    this.jwtService.userRole$.next('');
+
+    this.router.navigateByUrl('/').then((isRedirected: boolean) => {
+      this.userOwnAuthService.isLoginUserSubject.next(false);
+      this.localeStorageService.clear();
+    });
+    this.store.dispatch(ResetEmployeePermissions());
+    this.store.dispatch(ResetFriends());
   }
 
   openDeleteAddressDialog(address): void {

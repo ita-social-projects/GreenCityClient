@@ -92,7 +92,7 @@
             formControlName="location"
             [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location' | translate"
             [autoCompRequest]="cityOptions"
-            [requestPrefix]="region.value + ', ' + getLangValue('місто ', 'city ')"
+            [requestPrefix]="region.value + ', ' + langService.getLangValue('місто ', 'city ')"
             (keyup.enter)="data.edit ? addEditedCity() : addCity()"
             (predictionSelected)="onCitySelected($event)"
           >
@@ -132,18 +132,18 @@
     <div class="mb-2">
       <div *ngFor="let item of selectedCities; let index = index">
         <div class="d-flex">
-          <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
+          <div class="itemList" [appLangValue]="{ ua: item.location, en: item.englishLocation }"></div>
           <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteCity(index)" />
-          <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
+          <div class="itemList" [appLangValue]="{ ua: item.englishLocation, en: item.location }"></div>
         </div>
       </div>
     </div>
     <div class="mb-2">
       <div *ngFor="let item of editedCities; let index = index">
         <div class="d-flex">
-          <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
+          <div class="itemList" [appLangValue]="{ ua: item.location, en: item.englishLocation }"></div>
           <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteEditedCity(index)" />
-          <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
+          <div class="itemList" [appLangValue]="{ ua: item.englishLocation, en: item.location }"></div>
         </div>
       </div>
     </div>

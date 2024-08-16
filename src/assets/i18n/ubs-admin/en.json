@@ -527,6 +527,7 @@
       "inactive": "INACTIVE"
     },
     "permissions": {
+      "no-authorities": "You don't have authorities to view this page",
       "clients": {
         "title": "Clients",
         "see-main-page": "See the main page of the “Client”",
@@ -1230,5 +1231,16 @@
     "сertificate-field-format": "The field can contain only numbers in format хххх-хххх",
     "duration-field-format": "The field can contain only numbers from 1 to 12",
     "discount-field-format": "The field can contain only numbers in format from 1 to 999"
+  },
+  "deleting-profile-reason-pop-up": {
+    "title": "Why are you leaving?",
+    "buttons": {
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
+    "reasons": {
+      "other": "Other"
+    },
+    "specify-reason": "Specify the reason"
   }
 }

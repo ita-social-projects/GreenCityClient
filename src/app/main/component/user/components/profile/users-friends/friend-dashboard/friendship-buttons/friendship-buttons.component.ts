@@ -69,6 +69,7 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
   ) {}
 
   ngOnInit(): void {
+    this.socketService.connect();
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((id) => {
       this.currentUserId = id;
       this.updateConditions();

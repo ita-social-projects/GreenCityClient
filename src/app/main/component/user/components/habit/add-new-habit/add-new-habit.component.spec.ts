@@ -24,6 +24,7 @@ import { HabitAcquireConfirm } from '../models/habit-warnings';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TodoStatus } from '../models/todo-status.enum';
+import { HabitInterface, HabitTranslationInterface } from '../models/interfaces/habit.interface';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -123,6 +124,7 @@ describe('AddNewHabitComponent', () => {
     fixture = TestBed.createComponent(AddNewHabitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.habitResponse = { habitTranslation: { name: 'fake-name' } as HabitTranslationInterface } as HabitInterface;
   });
 
   afterEach(() => {

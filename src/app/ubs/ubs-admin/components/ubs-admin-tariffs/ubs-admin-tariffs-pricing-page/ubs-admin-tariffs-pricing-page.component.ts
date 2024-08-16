@@ -427,7 +427,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       title: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-title',
       text: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text1',
       text2: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text2',
-      bagName: this.getLangValue(bag.name, bag.nameEng),
+      bagName: this.langService.getLangValue(bag.name, bag.nameEng),
       action: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-action',
       isTariffForService: true,
       bagId: bag.id
@@ -447,7 +447,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       title: 'ubs-tariffs-pricing-page-delete-service.delete-service-title',
       text: 'ubs-tariffs-pricing-page-delete-service.delete-service-text1',
       text2: 'ubs-tariffs-pricing-page-delete-service.delete-service-text2',
-      serviceName: this.getLangValue(service.name, service.nameEng),
+      serviceName: this.langService.getLangValue(service.name, service.nameEng),
       action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action',
       isService: true,
       serviceId: this.service.id
@@ -554,10 +554,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     if (value) {
       this.saveBTNClicked = false;
     }
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {

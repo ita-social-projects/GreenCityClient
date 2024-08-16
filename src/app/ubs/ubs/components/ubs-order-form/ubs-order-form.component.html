@@ -1,6 +1,6 @@
 <div class="container ubs-container">
   <h1 class="h1 text-center form-title">{{ 'order-form.ubs-courier' | translate }}</h1>
-  <mat-horizontal-stepper linear>
+  <mat-horizontal-stepper linear (selectionChange)="onSelectionChange($event)" [(selectedIndex)]="currentStep">
     <ng-template matStepperIcon="edit">
       <mat-icon class="text-light">check</mat-icon>
     </ng-template>
@@ -8,7 +8,7 @@
       <ng-template matStepLabel>{{ 'order-form.order-details' | translate }}</ng-template>
       <app-ubs-order-details #firstStep (secondStepDisabledChange)="isSecondStepDisabled = $event"></app-ubs-order-details>
     </mat-step>
-    <mat-step [stepControl]="secondStepForm">
+    <mat-step [stepControl]="secondStepForm" [completed]="isSecondFormValid$ | async">
       <ng-template matStepLabel>{{ 'order-form.personal-data' | translate }}</ng-template>
       <app-ubs-personal-information #secondStep></app-ubs-personal-information>
     </mat-step>

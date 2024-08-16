@@ -3,6 +3,7 @@ import { PersonalData, OrderDetails, CourierLocations, Address } from 'src/app/u
 import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
 
 export interface IOrderState {
+  currentStep: number;
   orderDetails: OrderDetails | null;
   courierLocations: CourierLocations | null;
   UBSCourierId: number | null;
@@ -14,6 +15,7 @@ export interface IOrderState {
   pointsUsed: number;
   isOrderDetailsLoading: boolean;
   firstFormValid: boolean;
+  secondFormValid: boolean;
   existingOrderInfo: IUserOrderInfo | null;
   personalData: PersonalData | null;
   isAddressLoading: boolean;
@@ -23,6 +25,7 @@ export interface IOrderState {
 }
 
 export const initialOrderState: IOrderState = {
+  currentStep: 0,
   orderDetails: null,
   courierLocations: null,
   UBSCourierId: null,
@@ -35,6 +38,7 @@ export const initialOrderState: IOrderState = {
   isOrderDetailsLoading: false,
   existingOrderInfo: null,
   firstFormValid: false,
+  secondFormValid: false,
   personalData: null,
   isAddressLoading: false,
   addresses: [],

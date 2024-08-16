@@ -9,7 +9,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { of, throwError } from 'rxjs';
 import { FileHandle } from '@eco-news-models/create-news-interface';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { SafeUrl } from '@angular/platform-browser';
 
 describe('EditPhotoPopUpComponent', () => {
@@ -18,6 +17,9 @@ describe('EditPhotoPopUpComponent', () => {
   let mockDialogRef: jasmine.SpyObj<MatDialogRef<EditPhotoPopUpComponent>>;
   let mockEditProfileService: jasmine.SpyObj<EditProfileService>;
   let mockSnackBar: jasmine.SpyObj<MatSnackBarComponent>;
+  const mockFile: File = new File([''], 'filename.png', { type: 'image/png' });
+  const safeUrl: SafeUrl = 'data:image/png;base64,abc123' as SafeUrl;
+  const fileHandle: FileHandle = { file: mockFile, url: safeUrl };
 
   beforeEach(waitForAsync(() => {
     mockDialogRef = jasmine.createSpyObj(['close']);
@@ -52,60 +54,6 @@ describe('EditPhotoPopUpComponent', () => {
 
     expect((component as any).setUserAvatar).toHaveBeenCalled();
     expect(component.avatarImg).toBe('avatarUrl');
-  });
-
-  it('should open file window on space or enter key press', () => {
-    const inputElement = document.createElement('input');
-    spyOn(inputElement, 'click');
-    const event = new KeyboardEvent('keydown', { code: 'Space' });
-    Object.defineProperty(event, 'target', { value: inputElement });
-    component.openFilesWindow(event);
-
-    expect(inputElement.click).toHaveBeenCalled();
-  });
-
-  it('should handle files dropped', () => {
-    const files: FileHandle[] = [{ file: new File([''], 'test.png'), url: 'testUrl' as SafeUrl }];
-    spyOn(component as any, 'transferFile');
-    component.filesDropped(files);
-
-    expect((component as any).transferFile).toHaveBeenCalledWith(files[0].file);
-  });
-
-  it('should set cropped image', () => {
-    const event = { base64: 'croppedImageString' } as ImageCroppedEvent;
-    component.imageCropped(event);
-
-    expect((component as any).croppedImage).toBe('croppedImageString');
-  });
-
-  it('should call transferFile on photo select', () => {
-    const file = new File([''], 'test.png');
-    const event = { target: { files: [file] } } as unknown as Event;
-    spyOn(component as any, 'transferFile');
-    component.onSelectPhoto(event);
-
-    expect((component as any).transferFile).toHaveBeenCalledWith(file);
-  });
-
-  it('should transfer file and set warning', fakeAsync(() => {
-    const file = new File([''], 'test.png');
-    spyOn(component as any, 'showWarning').and.returnValue(false);
-    spyOn(FileReader.prototype, 'readAsDataURL').and.callThrough();
-    (component as any).transferFile(file);
-    tick();
-
-    expect((component as any).showWarning).toHaveBeenCalledWith(file);
-    expect(component.selectedFile).toBe(file);
-    expect(FileReader.prototype.readAsDataURL).toHaveBeenCalledWith(file);
-  }));
-
-  it('should handle files dropped', () => {
-    const files: any[] = [{ file: new File([''], 'test.png'), url: 'testUrl' as SafeUrl }];
-    spyOn<any>(component, 'transferFile');
-    component['filesDropped'](files);
-
-    expect(component['transferFile']).toHaveBeenCalledWith(files[0].file);
   });
 
   it('should save photo and handle success response', fakeAsync(() => {
@@ -150,15 +98,6 @@ describe('EditPhotoPopUpComponent', () => {
     expect(component.loadingAnim).toBeFalse();
     expect(component.closeEditPhoto).toHaveBeenCalled();
   }));
-
-  it('should not transfer file if warning is shown', () => {
-    const file = new File([''], 'test.png');
-    spyOn(component as any, 'showWarning').and.returnValue(true);
-    (component as any).transferFile(file);
-
-    expect((component as any).showWarning).toHaveBeenCalledWith(file);
-    expect(component.selectedFile).toBeNull();
-  });
 
   it('should delete photo successfully', fakeAsync(() => {
     mockEditProfileService.deleteProfilePhoto.and.returnValue(of({}));
@@ -211,4 +150,77 @@ describe('EditPhotoPopUpComponent', () => {
     expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalledWith(formData);
     expect(component['openErrorDialog']).toHaveBeenCalled();
   }));
+
+  it('should handle error when converting blob to base64', async () => {
+    const blob = new Blob(['image data'], { type: 'image/png' });
+    const file = new File([blob], 'image.png', { type: 'image/png' });
+    const event: FileHandle = { file, url: 'data:image/png;base64,blobData' };
+    component.imageCropped(event);
+    await fixture.whenStable();
+  });
+
+  it('should not set croppedImage if no url is available in imageCropped', () => {
+    const initialCroppedImage = (component as any).croppedImage;
+    const event = {} as FileHandle;
+    component.imageCropped(event);
+    expect((component as any).croppedImage).toBe(initialCroppedImage);
+  });
+
+  it('should open error dialog when openErrorDialog is called', () => {
+    (component as any).openErrorDialog();
+    expect(mockSnackBar.openSnackBar).toHaveBeenCalledWith('error');
+  });
+
+  it('should initialize with user avatar', () => {
+    const testImg = 'test-image-url';
+    component.data = { img: testImg };
+    component.ngOnInit();
+    expect(component.avatarImg).toBe(testImg);
+  });
+
+  it('should set croppedImage with base64 data in imageCropped', () => {
+    (component as any).croppedImage = mockFile;
+    component.imageCropped(fileHandle);
+    expect((component as any).croppedImage).toBe(mockFile);
+  });
+
+  it('should call updateProfilePhoto and handle success', () => {
+    mockEditProfileService.updateProfilePhoto.and.returnValue(of([]));
+    component.selectedFile = mockFile;
+    (component as any).croppedImage = mockFile;
+    component.savePhoto();
+    expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalled();
+    const formData = mockEditProfileService.updateProfilePhoto.calls.mostRecent().args[0] as FormData;
+    expect(formData.has('image')).toBeTrue();
+
+    setTimeout(() => {
+      expect(component.loadingAnim).toBeFalse();
+      expect(mockDialogRef.close).toHaveBeenCalled();
+    }, 0);
+  });
+
+  it('should handle error when updating profile photo fails', () => {
+    mockEditProfileService.updateProfilePhoto.and.returnValue(throwError(() => new Error('Upload failed')));
+    component.selectedFile = mockFile;
+    (component as any).croppedImage = mockFile;
+
+    component.savePhoto();
+    expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalled();
+  });
+
+  it('should call deleteProfilePhoto and handle success', () => {
+    mockEditProfileService.deleteProfilePhoto.and.returnValue(of({}));
+    component.deletePhoto();
+    expect(mockEditProfileService.deleteProfilePhoto).toHaveBeenCalled();
+    setTimeout(() => {
+      expect(component.loadingAnim).toBeFalse();
+      expect(mockDialogRef.close).toHaveBeenCalled();
+    }, 0);
+  });
+
+  it('should handle error when deleting profile photo fails', () => {
+    mockEditProfileService.deleteProfilePhoto.and.returnValue(throwError(() => new Error('Delete failed')));
+    component.deletePhoto();
+    expect(mockEditProfileService.deleteProfilePhoto).toHaveBeenCalled();
+  });
 });

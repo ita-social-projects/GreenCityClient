@@ -33,12 +33,18 @@ import {
   SetAddress,
   UpdateAddress,
   DeleteAddress,
-  CreateAddress
+  CreateAddress,
+  SetSecondFormStatus,
+  SetCurrentStep
 } from '../actions/order.actions';
 import { createReducer, on } from '@ngrx/store';
 
 export const orderReducer = createReducer(
   initialOrderState,
+  on(SetCurrentStep, (state, action) => ({
+    ...state,
+    currentStep: action.step
+  })),
   on(SetBags, (state, action) => {
     const newBagVal = state.orderDetails.bags.map((item) => ({
       ...item,
@@ -222,16 +228,21 @@ export const orderReducer = createReducer(
       orderDetails: { ...state.orderDetails, certificates: action.certificates }
     };
   }),
-  on(SetFirstFormStatus, (state, action) => {
-    return {
-      ...state,
-      firstFormValid: action.isValid
-    };
-  }),
+  on(SetFirstFormStatus, (state, action) => ({
+    ...state,
+    firstFormValid: action.isValid
+  })),
+  on(SetSecondFormStatus, (state, action) => ({
+    ...state,
+    secondFormValid: action.isValid
+  })),
   on(SetPersonalData, (state, action) => {
     return {
       ...state,
-      personalData: action.personalData
+      personalData: {
+        ...state.personalData,
+        ...action.personalData
+      }
     };
   }),
   on(SetAdditionalOrders, (state, action) => {

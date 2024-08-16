@@ -17,7 +17,7 @@
   </div>
 
   <div class="image-container">
-    <img class="event-image" src="{{ event.titleImage }}" onerror="this.src='assets/img/events/default-image.png'" alt="event" />
+    <img class="event-image" [src]="event.titleImage" (error)="event.titleImage = defaultImage" alt="event" />
   </div>
 
   <div class="content">
@@ -25,7 +25,7 @@
       <ul class="ul-eco-buttons" aria-label="filter by items">
         <li *ngFor="let tag of activeTags">
           <a role="button" class="tag" tabindex="0">
-            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
+            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }" [appLangValue]="{ ua: tag.nameUa, en: tag.nameEn }"></span>
             <span
               class="tag-divider"
               *ngIf="activeTags.length > 1"
@@ -103,12 +103,7 @@
 <div *ngIf="isUserAssignList">
   <div class="event-assign">
     <div class="event-assign__image-container">
-      <img
-        class="event-assign__image-container-image"
-        src="{{ event.titleImage }}"
-        onerror="this.src='assets/img/events/default-image.png'"
-        alt="event"
-      />
+      <img class="event-assign__image-container-image" [src]="event.titleImage" (error)="event.titleImage = defaultImage" alt="event" />
       <div class="event-assign__image-container__participants" *ngIf="attendees.length">
         <div class="event-assign__image-container__participants__avatars">
           <div class="event-assign__image-container__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice: 0 : 2">
@@ -149,10 +144,10 @@
         </div>
         <div *ngIf="address && !isOnline" class="event-assign__content__address-container">
           <span class="place"></span>
-          <p>
-            {{ getLangValue(address.cityUa, address.cityEn) }}, {{ getLangValue(address.streetUa, address.streetEn) }},
-            {{ address.houseNumber }}
-          </p>
+          <p
+            [appLangValue]="{ ua: address.cityUa + ', ' + address.streetUa, en: address.cityEn + ', ' + address.streetEn }"
+            [suffix]="', ' + address.houseNumber"
+          ></p>
         </div>
       </div>
 

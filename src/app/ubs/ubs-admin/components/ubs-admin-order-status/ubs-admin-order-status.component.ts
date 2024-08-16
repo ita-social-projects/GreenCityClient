@@ -7,7 +7,6 @@ import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderStatus, PaymnetStatus, CancellationReason } from 'src/app/ubs/ubs/order-status.enum';
 import { OrderStatusEn, PaymentStatusEn } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
 
@@ -31,8 +30,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
   constructor(
     public orderService: OrderService,
-    private dialog: MatDialog,
-    private langService: LanguageService
+    private dialog: MatDialog
   ) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -92,7 +90,8 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     this.dialog
       .open(AddOrderCancellationReasonComponent, {
         hasBackdrop: true,
-        data: { isHistory: this.isHistory }
+        data: { isHistory: this.isHistory },
+        maxHeight: '100vh'
       })
       .afterClosed()
       .pipe(take(1))
@@ -187,10 +186,6 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
       // TODO: ADD PAYMENT_REFUNDED CASE THEN IT WILL BE IMPLEMENTED
     }
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {

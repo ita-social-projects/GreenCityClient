@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -66,7 +66,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     public habitAssignService: HabitAssignService,
     private store: Store,
     private eventService: EventsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -108,9 +109,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   onCheckboxChange(EventTypeChecked?: string) {
     if (EventTypeChecked === EventType.ONLINE) {
-      this.isOfflineChecked = false; // Uncheck checkbox2 when checkbox1 is checked
+      this.isOfflineChecked = false;
     } else {
-      this.isOnlineChecked = false; // Uncheck checkbox1 when checkbox2 is checked
+      this.isOnlineChecked = false;
     }
 
     if (this.isOnlineChecked) {
@@ -148,6 +149,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         this.eventsList = res.page;
         this.totalEvents = res.totalElements;
         this.hasNextPageOfEvents = res.hasNext;
+        this.cdr.detectChanges();
       });
   }
 

@@ -38,6 +38,7 @@ export class MatSnackBarComponent {
     cafeNotificationsBreakTime: { classname: SnackbarClassName.error, key: 'update-cafe.notifications.breakTime' },
     cafeNotificationsPhotoUpload: { classname: SnackbarClassName.error, key: 'update-cafe.notifications.photoUpload' },
     habitDeleted: { classname: SnackbarClassName.error, key: 'user.habit.all-habits.habit-was-deleted' },
+    habitAlreadyAssigned: { classname: SnackbarClassName.error, key: 'user.habit.all-habits.habit-already-assigned' },
     customHabitDeleted: { classname: SnackbarClassName.error, key: 'user.habit.all-habits.custom-habit-was-deleted' },
     habitAdded: { classname: SnackbarClassName.success, key: 'user.habit.all-habits.new-habit-added' },
     habitDidNotGiveUp: { classname: SnackbarClassName.success, key: 'user.habit.all-habits.habit-did-not-give-up' },
@@ -69,7 +70,8 @@ export class MatSnackBarComponent {
     errorImageSize: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-size' },
     errorMaxPhotos: { classname: SnackbarClassName.error, key: 'user.photo-upload.you-can-upload-max-photos-event' },
     errorMinPhoto: { classname: SnackbarClassName.error, key: 'create-event.min-photo-error' },
-    errorUpdateProfile: { classname: SnackbarClassName.error, key: 'user.user-setting.profile-update-error-name' }
+    errorUpdateProfile: { classname: SnackbarClassName.error, key: 'user.user-setting.profile-update-error-name' },
+    errorLiked: { classname: SnackbarClassName.error, key: 'homepage.eco-news.likes' }
   };
 
   constructor(

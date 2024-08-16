@@ -141,11 +141,6 @@ describe('UbsAdminNotificationComponent', () => {
     return cont.query(By.css(buttons[name]));
   };
 
-  it('should return en value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('enValue');
-  });
-
   it('`cancel` button should navigate user to notification list', async () => {
     const navigateSpy = spyOn(routerMock, 'navigate');
     getButton('cancel').triggerEventHandler('click', null);

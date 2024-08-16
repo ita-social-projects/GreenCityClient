@@ -23,7 +23,7 @@
         tabindex="0"
       />
       <div *ngIf="emailControl.invalid && emailControl.touched" class="error-message" id="email-err-msg" role="alert">
-        <app-error [formElement]="emailControl" [emailFieldValue]="emailFieldValue" [controlName]="'email'"></app-error>
+        <app-error [control]="email"></app-error>
       </div>
       <div *ngIf="emailErrorMessageBackEnd" class="error-message error-message-show">
         {{ getEmailError() | translate }}
@@ -44,7 +44,7 @@
         tabindex="0"
       />
       <div *ngIf="firstNameControl.invalid && firstNameControl.touched" class="error-message" id="firstname-err-msg" role="alert">
-        <app-error [formElement]="firstNameControl" [nameFieldValue]="nameFieldValue" [controlName]="'firstName'"></app-error>
+        <app-error [control]="firstName"></app-error>
       </div>
       <div *ngIf="firstNameErrorMessageBackEnd" class="error-message error-message-show">
         {{ 'user.auth.sign-up.user-name-size' | translate }}
@@ -110,11 +110,7 @@
         />
       </div>
       <div *ngIf="passwordControlConfirm.invalid && passwordControlConfirm.touched" class="error-message" id="confirm-err-msg" tabindex="0">
-        <app-error
-          [formElement]="passwordControlConfirm"
-          [passwordConfirmFieldValue]="passwordConfirmFieldValue"
-          [controlName]="'repeatPassword'"
-        ></app-error>
+        <app-error [control]="confirmPassword"></app-error>
       </div>
       <div *ngIf="passwordErrorMessageBackEnd" class="error-message error-message-show">
         {{ 'user.auth.sign-up.password-symbols-error' | translate }}

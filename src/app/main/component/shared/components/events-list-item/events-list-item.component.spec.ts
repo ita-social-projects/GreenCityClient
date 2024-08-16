@@ -22,6 +22,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { EventStoreService } from '../../../events/services/event-store.service';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 
 @Injectable()
 class TranslationServiceStub {
@@ -177,8 +178,9 @@ describe('EventsListItemComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
+  languageServiceMock.getCurrentLangObs = () => of('ua');
 
   const MockData = {
     eventState: {},
@@ -211,7 +213,7 @@ describe('EventsListItemComponent', () => {
     const dialogSpyObj = jasmine.createSpyObj('MatDialog', ['open']);
 
     TestBed.configureTestingModule({
-      declarations: [EventsListItemComponent, DatePipeMock, MaxTextLengthPipe],
+      declarations: [EventsListItemComponent, DatePipeMock, MaxTextLengthPipe, LangValueDirective],
       providers: [
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: Store, useValue: storeMock },
@@ -269,11 +271,6 @@ describe('EventsListItemComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('value');
   });
 
   xit('should update button name after success attention for event', () => {

@@ -1,8 +1,4 @@
-$bp-smallest: 576px;
-$bp-phone: 768px;
-$bp-tablet: 1024px;
-$bp-notebook: 1200px;
-$bp-desktop: 1440px;
+@import 'src/typography/_resp.scss';
 
 p,
 div {
@@ -123,7 +119,7 @@ div {
   color: var(--quaternary-dark-grey);
 }
 
-@media (min-width: $bp-phone) {
+@include responsiveMobileFirst(md) {
   .eco-news_list-img {
     display: block;
     object-fit: cover;
@@ -145,7 +141,7 @@ div {
   }
 }
 
-@media (min-width: $bp-tablet) {
+@include responsiveMobileFirst(xl) {
   .eco-news_list-view-wrp {
     height: 204px;
     width: 960px;
@@ -154,7 +150,7 @@ div {
   }
 }
 
-@media (min-width: $bp-notebook) {
+@include responsiveMobileFirst(2xl) {
   .eco-news_list-view-wrp {
     width: 1140px;
   }

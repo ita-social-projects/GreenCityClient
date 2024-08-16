@@ -13,6 +13,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { of } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 
 describe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
@@ -51,15 +52,16 @@ describe('UbsUserOrdersListComponent', () => {
   ];
   const fakePoints = 111;
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue.and.returnValue('fakeValue');
+  languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsUserOrdersListComponent, LocalizedCurrencyPipe],
+      declarations: [UbsUserOrdersListComponent, LocalizedCurrencyPipe, LangValueDirective],
       imports: [
         MatDialogModule,
         MatExpansionModule,
@@ -95,11 +97,6 @@ describe('UbsUserOrdersListComponent', () => {
     const sortingOrdersByDataSpy = spyOn(component, 'sortingOrdersByData');
     component.ngOnInit();
     expect(sortingOrdersByDataSpy).toHaveBeenCalled();
-  });
-
-  it('should set value from lang service', () => {
-    const value = component.getLangValue('fakeValue', 'fakeValueEn');
-    expect(value).toBe('fakeValue');
   });
 
   describe('isOrderUnpaid', () => {

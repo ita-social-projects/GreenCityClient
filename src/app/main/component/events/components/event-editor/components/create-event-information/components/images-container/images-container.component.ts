@@ -83,7 +83,8 @@ export class ImagesContainerComponent implements OnInit {
       data: { index, image, aspectRatio: 16 / 9 },
       hasBackdrop: true,
       closeOnNavigation: true,
-      disableClose: true
+      disableClose: true,
+      maxHeight: '100vh'
     });
 
     dialogRef

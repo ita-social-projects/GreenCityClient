@@ -169,7 +169,7 @@
     min-height: 204px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    object-fit: fill;
+    object-fit: cover;
   }
 
   .event-title {
@@ -193,6 +193,9 @@
   line-height: 28px;
   font-weight: 700;
   margin: 8px 0 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .main-container {

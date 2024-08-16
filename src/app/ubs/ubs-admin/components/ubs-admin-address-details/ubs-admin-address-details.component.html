@@ -12,7 +12,7 @@
             <label for="region">{{ 'address-details.region' | translate }}</label>
             <input
               type="text"
-              [formControlName]="getLangValue('addressRegion', 'addressRegionEng')"
+              [formControlName]="langService.getLangValue('addressRegion', 'addressRegionEng')"
               class="form-control shadow-none placeholder-positioning"
               id="region"
               [readOnly]="true"
@@ -23,7 +23,7 @@
             <input
               type="text"
               (keyup)="setPredictCities()"
-              [formControlName]="getLangValue('addressCity', 'addressCityEng')"
+              [formControlName]="langService.getLangValue('addressCity', 'addressCityEng')"
               class="form-control"
               [readonly]="isStatus || !isEmployeeCanEditOrder"
               id="city"
@@ -59,7 +59,7 @@
               class="form-control"
               placeholder="{{ 'address-details.street' | translate }}"
               [readonly]="isStatus || !isEmployeeCanEditOrder"
-              [formControlName]="getLangValue('addressStreet', 'addressStreetEng')"
+              [formControlName]="langService.getLangValue('addressStreet', 'addressStreetEng')"
               [matAutocomplete]="autoStreet"
               (keyup)="setPredictStreets()"
             />
@@ -142,13 +142,15 @@
         <div class="form-group district">
           <label for="district">{{ 'address-details.district' | translate }}</label>
           <select
-            [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
+            [formControlName]="langService.getLangValue('addressDistrict', 'addressDistrictEng')"
             [ngClass]="isEmployeeCanEditOrder ? 'shadow-none form-control' : 'shadow-none form-control readonly'"
             (change)="onDistrictSelected()"
           >
-            <option *ngFor="let district of districts" [ngValue]="getLangValue(district.nameUa, district.nameEn)">
-              {{ getLangValue(district.nameUa, district.nameEn) }}
-            </option>
+            <option
+              *ngFor="let district of districts"
+              [ngValue]="langService.getLangValue(district.nameUa, district.nameEn)"
+              [appLangValue]="{ ua: district.nameUa, en: district.nameEn }"
+            ></option>
           </select>
 
           <div

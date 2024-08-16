@@ -113,7 +113,8 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.openPopup();
     expect((component as any).dialog.open).toHaveBeenCalledWith(AddOrderCancellationReasonComponent, {
       hasBackdrop: true,
-      data
+      data,
+      maxHeight: '100vh'
     });
   });
 
@@ -194,10 +195,5 @@ describe('UbsAdminOrderStatusComponent', () => {
     spyOn((component as any).destroy$, 'complete');
     component.ngOnDestroy();
     expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
-  });
-
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('value');
   });
 });

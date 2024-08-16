@@ -108,7 +108,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
     private translate: TranslateService,
-    private languageService: LanguageService,
+    public languageService: LanguageService,
     private changeDetectorRef: ChangeDetectorRef,
     private googleScript: GoogleScript
   ) {}
@@ -354,7 +354,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     const selectedCityName = this.getSelectedCityName(selectedCity, Language.UA);
     const selectedCityEnglishName = this.getSelectedCityName(selectedCity, Language.EN);
     const tempItem = {
-      name: this.getLangValue(selectedCityName, selectedCityEnglishName),
+      name: this.languageService.getLangValue(selectedCityName, selectedCityEnglishName),
       id: selectedCityId,
       englishName: selectedCityEnglishName,
       ukrainianName: selectedCityName
@@ -369,7 +369,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   translateSelectedCity() {
     this.selectedCities.forEach((city) => {
-      city.name = this.getLangValue(city.ukrainianName, city.englishName);
+      city.name = this.languageService.getLangValue(city.ukrainianName, city.englishName);
     });
   }
 
@@ -449,7 +449,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     const selectedCityName = this.getSelectedCityName(city, Language.UA);
     const selectedCityEnglishName = this.getSelectedCityName(city, Language.EN);
     return {
-      name: this.getLangValue(selectedCityName, selectedCityEnglishName),
+      name: this.languageService.getLangValue(selectedCityName, selectedCityEnglishName),
       id: city.id,
       englishName: selectedCityEnglishName,
       ukrainianName: selectedCityName
@@ -482,7 +482,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       Object.assign(this.filterData, { courier: '' });
     } else {
       const selectedValue = this.couriers.find((ob) => {
-        const searchingFilter = this.getLangValue(ob.nameUk, ob.nameEn);
+        const searchingFilter = this.languageService.getLangValue(ob.nameUk, ob.nameEn);
         return searchingFilter === event.value;
       });
       this.courierNameEng = selectedValue.nameEn;
@@ -552,7 +552,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
-        this.couriersName = this.couriers.map((el) => this.getLangValue(el.nameUk, el.nameEn));
+        this.couriersName = this.couriers.map((el) => this.languageService.getLangValue(el.nameUk, el.nameEn));
       });
   }
 
@@ -641,8 +641,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       this.region.setValue(firstSuitableRegion);
       this.regionSelected({ option: { value: firstSuitableRegion } });
     } else {
-      this.region.setValue(this.getLangValue(TariffRegionAll.ua, TariffRegionAll.en));
-      this.regionSelected({ option: { value: this.getLangValue(TariffRegionAll.ua, TariffRegionAll.en) } });
+      this.region.setValue(this.languageService.getLangValue(TariffRegionAll.ua, TariffRegionAll.en));
+      this.regionSelected({ option: { value: this.languageService.getLangValue(TariffRegionAll.ua, TariffRegionAll.en) } });
     }
   }
 
@@ -973,14 +973,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         create: true
       }
     });
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
-  }
-
-  getLangArrayValue(uaValue: string[], enValue: string[]) {
-    return this.languageService.getLangValue(uaValue, enValue) as string[];
   }
 
   ngOnDestroy(): void {

@@ -35,8 +35,14 @@
         </div>
       </div>
       <div class="translation">
-        <label for="selected-name" class="label">{{ getLangValue(courierLabelEn, courierLabelUa) }}</label>
-        <p id="selected-name" class="text">{{ selectedValue ? getLangValue(selectedValue.nameEn, selectedValue.nameUk) : '' }}</p>
+        <label for="selected-name" class="label" [appLangValue]="{ ua: courierLabelEn, en: courierLabelUa }"></label>
+        <p *ngIf="selectedValue" id="selected-name" class="text"></p>
+        <p
+          *ngIf="!selectedValue"
+          id="selected-name"
+          class="text"
+          [appLangValue]="{ ua: selectedValue.nameEn, en: selectedValue.nameUk }"
+        ></p>
       </div>
     </div>
     <!-- Station -->
@@ -96,18 +102,23 @@
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion, false)" />
         <div class="list">
           <div *ngFor="let item of selectedRegions; let index = index" class="d-flex selected-element">
-            <div class="itemList">{{ getLangValue(item.nameUa, item.name) }}</div>
+            <div class="itemList" [appLangValue]="{ ua: item.nameUa, en: item.name }"></div>
             <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteRegion(index)" />
           </div>
         </div>
       </div>
       <div class="translation">
-        <label for="select-count" class="label">{{ getLangValue(regionLabelEn, regionLabelUa) }}</label>
-        <div id="select-count" class="select-count" *ngIf="selectedRegions.length">
-          {{ selectedRegions.length }} {{ getLangValue(placeholderSelectedEn, placeholderSelectedUa) }}
-        </div>
+        <label for="select-count" class="label" [appLangValue]="{ ua: regionLabelEn, en: regionLabelUa }"></label>
+        <div
+          id="select-count"
+          class="select-count"
+          *ngIf="selectedRegions.length"
+          [prefix]="selectedRegions.length + ' '"
+          [appLangValue]="{ ua: placeholderSelectedEn, en: placeholderSelectedUa }"
+        ></div>
         <div *ngFor="let item of selectedRegions">
-          <p class="text">{{ selectedRegions.length ? getLangValue(item.name, item.nameUa) : '' }}</p>
+          <p *ngIf="selectedRegions.length" class="text"></p>
+          <p *ngIf="!selectedRegions.length" class="text" [appLangValue]="{ ua: item.name, en: item.nameUa }"></p>
         </div>
       </div>
     </div>
@@ -137,18 +148,23 @@
         />
         <div class="list">
           <div *ngFor="let item of selectedCities; let index = index" class="d-flex selected-element">
-            <div class="itemList">{{ getLangValue(item.nameUa, item.name) }}</div>
+            <div class="itemList" [appLangValue]="{ ua: item.nameUa, en: item.name }"></div>
             <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteCity(index)" />
           </div>
         </div>
       </div>
       <div class="translation">
-        <label for="selected-cities" class="label">{{ getLangValue(cityLabelEn, cityLabelUa) }}</label>
-        <div id="selected-cities" class="select-count" *ngIf="selectedCities.length">
-          {{ selectedCities.length }} {{ getLangValue(placeholderSelectedEn, placeholderSelectedUa) }}
-        </div>
+        <label for="selected-cities" class="label" [appLangValue]="{ ua: cityLabelEn, en: cityLabelUa }"></label>
+        <div
+          id="selected-cities"
+          class="select-count"
+          *ngIf="selectedCities.length"
+          [prefix]="selectedCities.length + ' '"
+          [appLangValue]="{ ua: placeholderSelectedEn, en: placeholderSelectedUa }"
+        ></div>
         <div *ngFor="let item of selectedCities">
-          <p class="text">{{ selectedCities.length ? getLangValue(item.name, item.nameUa) : '' }}</p>
+          <p *ngIf="selectedCities.length" class="text"></p>
+          <p *ngIf="!selectedCities.length" class="text" [appLangValue]="{ ua: item.name, en: item.nameUa }"></p>
         </div>
       </div>
     </div>

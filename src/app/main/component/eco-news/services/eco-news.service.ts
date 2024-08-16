@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Observer, ReplaySubject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { EcoNewsModel } from '../models/eco-news-model';
-import { TagInterface } from '../../shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { EcoNewsDto } from '../models/eco-news-dto';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -14,7 +13,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 export class EcoNewsService implements OnDestroy {
   private backEnd = environment.backendLink;
   private language: string;
-  private tagsType = 'ECO_NEWS';
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(
@@ -57,15 +55,11 @@ export class EcoNewsService implements OnDestroy {
     return this.http.get<EcoNewsModel[]>(`${this.backEnd}econews/recommended?openedEcoNewsId=${id}`);
   }
 
-  getIsLikedByUser(econewsId) {
-    return this.http.get(`${this.backEnd}econews/isLikedByUser`, {
-      params: {
-        econewsId
-      }
-    });
+  getIsLikedByUser(econewsId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.backEnd}econews/isLikedByUser`, { params: { econewsId } });
   }
 
-  postToggleLike(id: number) {
+  postToggleLike(id: number): Observable<any> {
     return this.http.post(`${this.backEnd}econews/like?id=${id}`, {});
   }
 

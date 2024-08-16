@@ -22,6 +22,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { AddressInputComponent } from 'src/app/shared/address-input/address-input.component';
 import { InputGoogleAutocompleteComponent } from '@shared/components/input-google-autocomplete/input-google-autocomplete.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -80,15 +82,20 @@ describe('UbsUserProfilePageComponent', () => {
   const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
     'languageBehaviourSubject',
-    'getLocations'
+    'getLocations',
+    'getAccessToken',
+    'getUserId'
   ]);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
   fakeLocalStorageService.getLocations = () => [];
+  fakeLocalStorageService.getAccessToken = () => 'token';
+  fakeLocalStorageService.getUserId = () => 1;
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLanguage']);
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLanguage', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => valUa;
   languageServiceMock.getCurrentLanguage = () => 'ua';
+  languageServiceMock.getCurrentLangObs = () => of('ua');
 
   const fakeLocationServiceMock = jasmine.createSpyObj('locationService', [
     'getDistrictAuto',
@@ -107,11 +114,15 @@ describe('UbsUserProfilePageComponent', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 
+  const jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
+  jwtServiceMock.getUserRole = () => 'fakeRole';
+  jwtServiceMock.getEmailFromAccessToken = () => 'fakeEmail';
+
   const initialState = { order: { ubsOrderServiseMock } };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsUserProfilePageComponent, AddressInputComponent, InputGoogleAutocompleteComponent],
+      declarations: [UbsUserProfilePageComponent, AddressInputComponent, InputGoogleAutocompleteComponent, LangValueDirective],
       providers: [
         { provide: MatDialog, useValue: dialogMock },
         { provide: MatDialogRef, useValue: {} },
@@ -120,6 +131,7 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: LocationService, useValue: fakeLocationServiceMock },
+        { provide: JwtService, useValue: jwtServiceMock },
         provideMockStore({ initialState })
       ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, HttpClientTestingModule, MatAutocompleteModule],
@@ -331,11 +343,6 @@ describe('UbsUserProfilePageComponent', () => {
         expect(control.valid).toBeTruthy();
       });
     }
-  });
-
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('value');
   });
 
   describe('onSwitchChanged method', () => {

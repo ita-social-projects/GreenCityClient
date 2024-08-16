@@ -313,9 +313,4 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     expect(spy).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
   });
-
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('value');
-  });
 });

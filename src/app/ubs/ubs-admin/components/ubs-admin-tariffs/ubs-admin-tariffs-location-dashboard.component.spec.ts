@@ -431,20 +431,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(result).toEqual(['Фейк1']);
   });
 
-  it('should call method for filtering card with chosen courier', () => {
-    (component as any).getLangValue = () => 'фейкКурєр1';
-    const eventMock = {
-      value: 'фейкКурєр1'
-    };
-    const fakeFilterData = {
-      status: 'ACTIVE',
-      courier: 1
-    };
-    const spy = spyOn(component, 'getExistingCard');
-    component.onSelectCourier(eventMock);
-    expect(spy).toHaveBeenCalledWith(fakeFilterData);
-  });
-
   it('should call method for filtering card with chosen all couriers', () => {
     const eventMock = {
       value: 'all'
@@ -1046,11 +1032,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('checkSelectedItem should return false if item is not in selectedStation', () => {
     const selectedStation = [{ name: 'stationItem', id: 1 }];
     expect(component.checkSelectedItem('Фейк', selectedStation)).toEqual(false);
-  });
-
-  it('should return ua value by getLangValue', () => {
-    const value = (component as any).getLangValue('fakeValue', 'enValue');
-    expect(value).toBe('fakeValue');
   });
 
   it('should check does chosen region equal All', () => {

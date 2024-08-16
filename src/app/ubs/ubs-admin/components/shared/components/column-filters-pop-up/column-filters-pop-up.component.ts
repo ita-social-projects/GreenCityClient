@@ -122,7 +122,9 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     );
   }
 
-  isFilterChecked(columnName: string, value: string): boolean {
+  isFilterChecked(columnName: string, option: IFilteredColumnValue): boolean {
+    const value = columnsToFilterByName.includes(columnName) ? option.en : option.key;
+
     return (this.allFilters?.[columnName] as string[])?.includes(value);
   }
 

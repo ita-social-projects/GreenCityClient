@@ -8,11 +8,13 @@ import { CommonModule } from '@angular/common';
 import { UserProfileImageComponent } from './components/user-profile-image/user-profile-image.component';
 import { CustomTooltipDirective } from './directives/custom-tooltip.directive';
 import { FriendsListPopUpComponent } from './components/friends-list-pop-up/friends-list-pop-up.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [HabitsGalleryViewComponent, UserProfileImageComponent, CustomTooltipDirective, FriendsListPopUpComponent],
   imports: [
     CommonModule,
+    SharedModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

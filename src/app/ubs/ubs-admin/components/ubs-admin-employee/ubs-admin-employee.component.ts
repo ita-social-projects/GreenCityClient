@@ -15,7 +15,6 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { TariffsService } from '../../services/tariffs.service';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
 import {
   selectOptions,
@@ -103,7 +102,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
     private translate: TranslateService,
-    private languageService: LanguageService,
+    public languageService: LanguageService,
     private store: Store<IAppState>
   ) {}
 
@@ -203,7 +202,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
         (roles) => {
           this.employeePositions = roles;
           this.positionName = this.employeePositions.map((position: EmployeePositions) =>
-            this.getLangValue(position.name, position.nameEn)
+            this.languageService.getLangValue(position.name, position.nameEn)
           );
         },
         (error) => console.error('Observer for role got an error: ' + error)
@@ -271,12 +270,8 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   translateSelectedCity() {
     this.selectedCities.forEach((city) => {
-      city.name = this.getLangValue(city.ukrainianName, city.englishName);
+      city.name = this.languageService.getLangValue(city.ukrainianName, city.englishName);
     });
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
   animationUtil(trigger: MatAutocompleteTrigger): void {
@@ -291,7 +286,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
-        this.couriersName = this.couriers.map((el) => this.getLangValue(el.nameUk, el.nameEn));
+        this.couriersName = this.couriers.map((el) => this.languageService.getLangValue(el.nameUk, el.nameEn));
       });
   }
 
@@ -418,7 +413,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   transformPositionToSelectedPosition(position: any) {
     return {
-      name: this.getLangValue(position.name, position.nameEn),
+      name: this.languageService.getLangValue(position.name, position.nameEn),
       id: position.id,
       englishName: position.nameEn,
       ukrainianName: position.name
@@ -429,7 +424,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     const selectedCityName = this.getSelectedCityName(city, 'ua');
     const selectedCityEnglishName = this.getSelectedCityName(city, 'en');
     return {
-      name: this.getLangValue(selectedCityName, selectedCityEnglishName),
+      name: this.languageService.getLangValue(selectedCityName, selectedCityEnglishName),
       id: city.id,
       englishName: selectedCityEnglishName,
       ukrainianName: selectedCityName
@@ -438,7 +433,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   transformCourierToSelectedCourier(courier: Couriers) {
     return {
-      name: this.getLangValue(courier.nameUk, courier.nameEn),
+      name: this.languageService.getLangValue(courier.nameUk, courier.nameEn),
       id: courier.courierId,
       englishName: courier.nameEn,
       ukrainianName: courier.nameUk
@@ -505,20 +500,20 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   selectPosition(event: MatAutocompleteSelectedEvent): void {
     const newValue = event.option.viewValue;
-    const selectedValue = this.employeePositions.find((ob) => this.getLangValue(ob.name, ob.nameEn) === newValue);
+    const selectedValue = this.employeePositions.find((ob) => this.languageService.getLangValue(ob.name, ob.nameEn) === newValue);
     const positionNameUk = selectedValue.name;
     const positionNameEng = selectedValue.nameEn;
     const positionId = selectedValue.id;
 
     const tempItem = {
-      name: this.getLangValue(positionNameUk, positionNameEng),
+      name: this.languageService.getLangValue(positionNameUk, positionNameEng),
       id: positionId,
       englishName: positionNameEng,
       ukrainianName: positionNameUk
     };
-    if (this.selectedPositions.map((it) => this.getLangValue(it.ukrainianName, it.englishName)).includes(newValue)) {
+    if (this.selectedPositions.map((it) => this.languageService.getLangValue(it.ukrainianName, it.englishName)).includes(newValue)) {
       this.selectedPositions = this.selectedPositions.filter(
-        (item) => this.getLangValue(item.ukrainianName, item.englishName) !== newValue
+        (item) => this.languageService.getLangValue(item.ukrainianName, item.englishName) !== newValue
       );
     } else {
       this.selectedPositions.push(tempItem);
@@ -528,13 +523,13 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   selectCourier(event: MatAutocompleteSelectedEvent): void {
     const newValue = event.option.viewValue;
-    const selectedValue = this.couriers.find((ob) => this.getLangValue(ob.nameUk, ob.nameEn) === newValue);
+    const selectedValue = this.couriers.find((ob) => this.languageService.getLangValue(ob.nameUk, ob.nameEn) === newValue);
     const courierNameUk = selectedValue.nameUk;
     const courierNameEng = selectedValue.nameEn;
     const courierId = selectedValue.courierId;
 
     const tempItem = {
-      name: this.getLangValue(courierNameUk, courierNameEng),
+      name: this.languageService.getLangValue(courierNameUk, courierNameEng),
       id: courierId,
       englishName: courierNameEng,
       ukrainianName: courierNameUk
@@ -567,7 +562,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       .map((it) => it.locationName)
       .join();
     const tempItem = {
-      name: this.getLangValue(selectedCityName, selectedCityEnglishName),
+      name: this.languageService.getLangValue(selectedCityName, selectedCityEnglishName),
       id: selectedCityId,
       englishName: selectedCityEnglishName,
       ukrainianName: selectedCityName
@@ -598,7 +593,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   selectedStates(event) {
     this.selectedState = [];
     const statusValue = this.employeeStates.find(
-      (state) => this.getLangValue(state.nameUa, state.nameEn) === event.option.value.toString()
+      (state) => this.languageService.getLangValue(state.nameUa, state.nameEn) === event.option.value.toString()
     );
     let selectedStatus = '';
     switch (statusValue.nameEn) {
@@ -649,7 +644,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   getRegionName(region: Locations): string {
     const selectedRegionName = this.getSelectedRegionName(region, 'ua');
     const selectedRegionEnglishName = this.getSelectedRegionName(region, 'en');
-    return this.getLangValue(selectedRegionName, selectedRegionEnglishName);
+    return this.languageService.getLangValue(selectedRegionName, selectedRegionEnglishName) as string;
   }
 
   addItem(event: any, option: string): void {

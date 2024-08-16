@@ -99,6 +99,10 @@ export class LocalStorageService {
     this.firstNameBehaviourSubject.next(name);
   }
 
+  getFirstName(): string {
+    return localStorage.getItem(this.NAME);
+  }
+
   setFirstSignIn(): void {
     localStorage.setItem('firstSignIn', 'true');
   }
@@ -111,7 +115,7 @@ export class LocalStorageService {
     return localStorage.getItem('firstSignIn') === 'true';
   }
 
-  setCurrentLanguage(language: Language) {
+  setCurrentLanguage(language: Language): void {
     localStorage.setItem('language', language);
     this.languageSubject.next(language);
     this.languageBehaviourSubject.next(language);

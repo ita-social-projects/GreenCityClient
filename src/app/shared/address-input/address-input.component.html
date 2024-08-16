@@ -1,4 +1,8 @@
-<form [formGroup]="addressForm" class="row adress">
+<form *ngIf="addressForm" [formGroup]="addressForm" class="row adress">
+  <div class="map-check">
+    <mat-checkbox (change)="onUseUserLocation($event.checked)"> {{ 'personal-info.pop-up-map-check' | translate }}</mat-checkbox>
+  </div>
+
   <div class="col-md-6 col-sm-6 form-group">
     <label for="region">{{ 'personal-info.pop-up-region' | translate }}</label>
     <app-input-google-autocomplete
@@ -16,7 +20,7 @@
     <label for="city">{{ 'personal-info.pop-up-city' | translate }}</label>
     <app-input-google-autocomplete
       formControlName="city"
-      [requestPrefix]="region.value + ', ' + getLangValue('місто, ', 'city, ')"
+      [requestPrefix]="getCityPrefix()"
       [autoCompRequest]="autocompleteCityRequest"
       (predictionSelected)="onCitySelected($event)"
       [isInvalid]="city.invalid"
@@ -29,8 +33,8 @@
   <div class="col-lg-6 col-md-12 col-sm-12 form-group">
     <label for="street">{{ 'personal-info.pop-up-street' | translate }}</label>
     <app-input-google-autocomplete
-      [formControlName]="'street'"
-      [requestPrefix]="city.value + ', '"
+      formControlName="street"
+      [requestPrefix]="region.value + ', ' + this.langService.getLangValue('місто ', 'city ') + city.value + ', '"
       [autoCompRequest]="autocompleteStreetRequest"
       (predictionSelected)="onStreetSelected($event)"
       [isInvalid]="street.invalid"
@@ -87,13 +91,7 @@
 
   <div class="col-md-6 col-sm-6 form-group">
     <label for="district">{{ 'personal-info.pop-up-district' | translate }}</label>
-    <select class="shadow-none form-control" formControlName="district" [compareWith]="districtComparator" (change)="onDistrictSelected()">
-      <option
-        *ngFor="let districtElem of districtList"
-        [ngValue]="districtElem"
-        [label]="getLangValue(districtElem.nameUa, districtElem.nameEn)"
-      ></option>
-    </select>
+    <input id="entranceNumber" formControlName="district" type="text" class="shadow-none form-control" />
     <div class="validation" *ngIf="district.invalid && district.touched">
       <app-ubs-input-error [formElement]="district"></app-ubs-input-error>
     </div>
@@ -111,6 +109,12 @@
     <div class="validation" *ngIf="addressComment.invalid && addressComment.touched">
       <app-ubs-input-error [formElement]="addressComment"></app-ubs-input-error>
     </div>
+  </div>
+
+  <div *ngIf="isShowMap" class="map-container">
+    <google-map (mapClick)="onMapClick($event)" [options]="mapOptions" [width]="'100%'" height="410px">
+      <map-marker *ngIf="addressCoords" [position]="addressCoords" />
+    </google-map>
   </div>
 </form>
 <div class="address-exists" *ngIf="addressForm?.errors?.addressAlreadyExists && addressForm?.touched">

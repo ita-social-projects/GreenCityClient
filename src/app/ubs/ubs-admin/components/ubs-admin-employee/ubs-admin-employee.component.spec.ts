@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 
 describe('UbsAdminEmployeeComponent', () => {
   let component: UbsAdminEmployeeComponent;
@@ -161,7 +162,7 @@ describe('UbsAdminEmployeeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminEmployeeComponent, MatAutocomplete],
+      declarations: [UbsAdminEmployeeComponent, MatAutocomplete, LangValueDirective],
       imports: [
         TranslateModule.forRoot(),
         HttpClientTestingModule,
@@ -342,11 +343,6 @@ describe('UbsAdminEmployeeComponent', () => {
     component.addItem(eventMock as any, option);
     expect(component.selectedCouriers.length).toEqual(0);
     expect(component.courier.value).toEqual('');
-  });
-
-  it('should return value by getLangValue', () => {
-    const value = (component as any).getLangValue('value', 'enValue');
-    expect(value).toBe('value');
   });
 
   it('should call method for selecting one city', () => {
@@ -737,11 +733,6 @@ describe('UbsAdminEmployeeComponent', () => {
       englishName: 'Test 11',
       ukrainianName: 'Тест 11'
     });
-  });
-
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('value');
   });
 
   it('should applyFilter()', () => {

@@ -298,7 +298,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     }
 
     const region = this.locations.regionDto;
-    this.currentLocation = this.getLangValue(location.nameUk, location.nameEn) + ', ' + this.getLangValue(region.nameUk, region.nameEn);
+    this.currentLocation =
+      this.langService.getLangValue(location.nameUk, location.nameEn) + ', ' + this.langService.getLangValue(region.nameUk, region.nameEn);
   }
 
   changeQuantity(id: number, value: number): void {
@@ -367,10 +368,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   getFormValues(): boolean {
     return this.orderSum > 0;
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   openLocationDialog(): void {

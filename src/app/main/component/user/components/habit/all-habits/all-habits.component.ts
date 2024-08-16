@@ -1,20 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HabitService } from '@global-service/habit/habit.service';
-import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
-import { singleNewsImages } from '../../../../../image-pathes/single-news-images';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { Router } from '@angular/router';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitService } from '@global-service/habit/habit.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { singleNewsImages } from '../../../../../image-pathes/single-news-images';
 import { HabitsFiltersList } from '../models/habits-filters-list';
+import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
+import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
+import { HabitPageable } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 
 @Component({
   selector: 'app-all-habits',
@@ -45,7 +45,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     private habitService: HabitService,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
-    private langService: LanguageService,
     public profileService: ProfileService,
     public habitAssignService: HabitAssignService,
     public router: Router
@@ -98,8 +97,9 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   }
 
   private getHabitsByFilters(page: number, size: number, filters: string[]): void {
+    const criteria: HabitPageable = { page, size, lang: this.lang, filters, sort: 'asc' };
     this.habitService
-      .getHabitsByFilters(page, size, this.lang, filters)
+      .getHabitsByFilters(criteria)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
         this.setHabitsList(page, res);
@@ -187,10 +187,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   goToCreateHabit(): void {
     const userId = localStorage.getItem('userId');
     this.router.navigate([`profile/${userId}/create-habit`]);
-  }
-
-  getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {
