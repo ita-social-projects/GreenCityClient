@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventsListComponent } from './events-list.component';
-
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -12,6 +11,8 @@ import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Addresses, FilterItem } from '../../models/events.interface';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
+import { MatSelect } from '@angular/material/select';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -87,6 +88,12 @@ describe('EventsListComponent', () => {
     totalPages: 0,
     pageNumber: 0,
     error: null
+  };
+
+  const createMockMatSelect = (options: { value: string }[]): MatSelect => {
+    return {
+      options: options.map((opt) => jasmine.createSpyObj('MatOption', ['deselect'], { value: opt.value }))
+    } as unknown as MatSelect;
   };
 
   const UserOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage', 'credentialDataSubject']);
@@ -209,5 +216,190 @@ describe('EventsListComponent', () => {
     ];
     component.resetAllFilters();
     expect(component.selectedFilters.length).toEqual(0);
+  });
+
+  it('should return unique locations including Online', () => {
+    const result = component.getUniqueLocations(addressesMock);
+    expect(result).toContain({ type: 'location', nameEn: 'Online', nameUa: 'Онлайн' });
+    expect(result).toContain({ type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' });
+    expect(result).toContain({ type: 'location', nameEn: 'Lviv', nameUa: 'Львів' });
+  });
+
+  it('should remove item from selected filters list', () => {
+    const filter: FilterItem = { type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' };
+    component.selectedFilters = [filter];
+    const index = 0;
+
+    spyOn(component as any, 'updateSelectedFiltersList').and.callThrough();
+    spyOn(component as any, 'updateListOfFilters').and.callThrough();
+
+    component.removeItemFromSelectedFiltersList(filter, index);
+
+    expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Kyiv', index);
+    expect(component['updateListOfFilters']).toHaveBeenCalledWith(filter);
+  });
+
+  it('should unselect all filters in type correctly', () => {
+    const type = 'location';
+    component.selectedLocationFiltersList = ['Kyiv', 'Lviv'];
+    component.locationOptionList = [{ value: 'Kyiv' }, { value: 'Lviv' }] as any;
+
+    spyOn(component as any, 'unselectCheckboxesInList').and.callThrough();
+    spyOn(component as any, 'updateSelectedFiltersList').and.callThrough();
+    spyOn(component as any, 'cleanEventList').and.callThrough();
+    spyOn(component as any, 'getEvents').and.callThrough();
+
+    component.unselectAllFiltersInType(type);
+
+    expect(component.selectedLocationFiltersList).toEqual([]);
+    expect(component['unselectCheckboxesInList']).toHaveBeenCalled();
+    expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Kyiv');
+    expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Lviv');
+    expect(component['cleanEventList']).toHaveBeenCalled();
+    expect(component['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should toggle bookmarkSelected and call appropriate methods', () => {
+    spyOn(component as any, 'getUserFavoriteEvents').and.callThrough();
+    spyOn(component as any, 'cleanEventList').and.callThrough();
+    spyOn(component as any, 'getEvents').and.callThrough();
+
+    component.showSelectedEvents();
+    expect(component.bookmarkSelected).toBeTrue();
+    expect(component['cleanEventList']).toHaveBeenCalled();
+    expect(component['getUserFavoriteEvents']).toHaveBeenCalled();
+
+    component.showSelectedEvents();
+    expect(component.bookmarkSelected).toBeFalse();
+    expect(component['cleanEventList']).toHaveBeenCalledTimes(2);
+    expect(component['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should update the event time status filter list correctly', () => {
+    const filter: FilterItem = { type: 'eventTimeStatus', nameEn: 'Upcoming', nameUa: 'Найближчий' };
+    component.selectedEventTimeStatusFiltersList = ['Upcoming'];
+    component.selectedFilters = [filter];
+    component.eventTimeStatusOptionList = createMockMatSelect([{ value: 'Upcoming' }, { value: 'Past' }]);
+    spyOn(component as any, 'unselectCheckbox').and.callThrough();
+    spyOn(component as any, 'updateSelectedFiltersList').and.callThrough();
+    spyOn(component as any, 'cleanEventList').and.callThrough();
+    spyOn(component as any, 'getEvents').and.callThrough();
+
+    component.updateListOfFilters(filter);
+
+    expect(component.selectedEventTimeStatusFiltersList).not.toContain('Upcoming');
+    expect(component.selectedFilters).not.toContain(filter);
+    expect(component['unselectCheckbox']).toHaveBeenCalledWith(component.eventTimeStatusOptionList, 'Upcoming');
+    expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Upcoming');
+    expect(component['cleanEventList']).toHaveBeenCalled();
+    expect(component['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should update the location filter list correctly', () => {
+    const filter: FilterItem = { type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' };
+    component.selectedLocationFiltersList = ['Kyiv'];
+    component.selectedFilters = [filter];
+
+    component.locationOptionList = createMockMatSelect([{ value: 'Kyiv' }, { value: 'Lviv' }]);
+
+    spyOn(component as any, 'unselectCheckbox').and.callThrough();
+    spyOn(component as any, 'updateSelectedFiltersList').and.callThrough();
+    spyOn(component as any, 'cleanEventList').and.callThrough();
+    spyOn(component as any, 'getEvents').and.callThrough();
+
+    component.updateListOfFilters(filter);
+
+    expect(component.selectedLocationFiltersList).not.toContain('Kyiv');
+    expect(component.selectedFilters).not.toContain(filter);
+    expect(component['unselectCheckbox']).toHaveBeenCalledWith(component.locationOptionList, 'Kyiv');
+    expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Kyiv');
+    expect(component['cleanEventList']).toHaveBeenCalled();
+    expect(component['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should update the status filter list correctly', () => {
+    const filter: FilterItem = { type: 'status', nameEn: 'Active', nameUa: 'Активний' };
+    component.selectedStatusFiltersList = ['Active'];
+    component.selectedFilters = [filter];
+
+    component.statusOptionList = createMockMatSelect([{ value: 'Active' }, { value: 'Inactive' }]);
+
+    spyOn(component as any, 'unselectCheckbox').and.callThrough();
+    spyOn(component as any, 'updateSelectedFiltersList').and.callThrough();
+    spyOn(component as any, 'cleanEventList').and.callThrough();
+    spyOn(component as any, 'getEvents').and.callThrough();
+
+    component.updateListOfFilters(filter);
+
+    expect(component.selectedStatusFiltersList).not.toContain('Active');
+    expect(component.selectedFilters).not.toContain(filter);
+    expect(component['unselectCheckbox']).toHaveBeenCalledWith(component.statusOptionList, 'Active');
+    expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Active');
+    expect(component['cleanEventList']).toHaveBeenCalled();
+    expect(component['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should update the type filter list correctly', () => {
+    const filter: FilterItem = { type: 'type', nameEn: 'Workshop', nameUa: 'Майстер-клас' };
+    component.selectedTypeFiltersList = ['Workshop'];
+    component.selectedFilters = [filter];
+
+    component.typeOptionList = createMockMatSelect([{ value: 'Workshop' }, { value: 'Seminar' }]);
+
+    spyOn(component as any, 'unselectCheckbox').and.callThrough();
+    spyOn(component as any, 'updateSelectedFiltersList').and.callThrough();
+    spyOn(component as any, 'cleanEventList').and.callThrough();
+    spyOn(component as any, 'getEvents').and.callThrough();
+
+    component.updateListOfFilters(filter);
+
+    expect(component.selectedTypeFiltersList).not.toContain('Workshop');
+    expect(component.selectedFilters).not.toContain(filter);
+    expect(component['unselectCheckbox']).toHaveBeenCalledWith(component.typeOptionList, 'Workshop');
+    expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Workshop');
+    expect(component['cleanEventList']).toHaveBeenCalled();
+    expect(component['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should unselect all filters of a type', () => {
+    const filterType = 'eventTimeStatus';
+    component.selectedEventTimeStatusFiltersList = ['Upcoming', 'Past'];
+
+    spyOn(component as any, 'updateSelectedFiltersList').and.callThrough();
+    spyOn(component as any, 'unselectCheckboxesInList').and.callThrough();
+    spyOn(component as any, 'cleanEventList').and.callThrough();
+    spyOn(component as any, 'getEvents').and.callThrough();
+
+    component.unselectAllFiltersInType(filterType);
+
+    expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Upcoming');
+    expect(component['updateSelectedFiltersList']).toHaveBeenCalledWith('Past');
+    expect(component['unselectCheckboxesInList']).toHaveBeenCalled();
+    expect(component['cleanEventList']).toHaveBeenCalled();
+    expect(component['getEvents']).toHaveBeenCalled();
+    expect(component.selectedEventTimeStatusFiltersList).toEqual([]);
+  });
+
+  it('should open auth modal with correct page name', () => {
+    component.openAuthModalWindow('sign-up');
+
+    expect(matDialogService.open).toHaveBeenCalledWith(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: 'sign-up'
+      }
+    });
+  });
+
+  it('should set isGalleryView to true for gallery view mode', () => {
+    component.changeViewMode('gallery');
+    expect(component.isGalleryView).toBeTrue();
+  });
+
+  it('should set isGalleryView to false for list view mode', () => {
+    component.changeViewMode('list');
+    expect(component.isGalleryView).toBeFalse();
   });
 });
