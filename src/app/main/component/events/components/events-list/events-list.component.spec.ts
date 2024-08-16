@@ -166,6 +166,7 @@ describe('EventsListComponent', () => {
 
   it('should return unique locations', () => {
     const expectedLocations: FilterItem[] = [
+      { type: 'location', nameEn: 'Online', nameUa: 'Онлайн' },
       { type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' },
       { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' },
       { type: 'location', nameEn: 'Ternopil', nameUa: 'Тернопіль' }

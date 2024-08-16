@@ -322,7 +322,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private unselectCheckbox(checkboxList: MatSelect, optionName: string): void {
-    checkboxList.options.find((option: MatOption) => option.value === optionName).deselect();
+    const option = checkboxList.options.find((option: MatOption) => option.value === optionName);
+    if (option) {
+      option.deselect();
+    }
   }
 
   private unselectCheckboxesInList(checkboxList: MatSelect): void {
@@ -357,14 +360,5 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.userId = data.userId;
       this.statusFiltersList = this.userId ? statusFiltersData : statusFiltersData.slice(0, 2);
     });
-  }
-
-  toggleFilterSelection($event: MouseEvent, locationFilter: FilterItem) {
-    $event.stopPropagation();
-    this.updateListOfFilters(locationFilter);
-  }
-
-  isFilterSelected(locationFilter: FilterItem): boolean {
-    return this.selectedFilters.some((filter: FilterItem) => filter.nameEn === locationFilter.nameEn);
   }
 }
