@@ -53,12 +53,13 @@
               >{{ 'homepage.events.filter-location-аny-location' | translate }}</mat-option
             >
             <mat-divider></mat-divider>
-            <mat-option
-              [value]="locationFilter.nameEn"
-              *ngFor="let locationFilter of locationFiltersList"
-              (click)="updateListOfFilters(locationFilter)"
-              [appLangValue]="{ ua: locationFilter.nameUa, en: locationFilter.nameEn }"
-            >
+            <mat-option *ngFor="let locationFilter of locationFiltersList">
+              <mat-checkbox
+                [checked]="isFilterSelected(locationFilter)"
+                (click)="toggleFilterSelection($event, locationFilter)"
+                [appLangValue]="{ ua: locationFilter.nameUa, en: locationFilter.nameEn }"
+              >
+              </mat-checkbox>
             </mat-option>
           </mat-select>
         </div>

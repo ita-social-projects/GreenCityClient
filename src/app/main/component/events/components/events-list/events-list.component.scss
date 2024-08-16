@@ -405,7 +405,9 @@ p {
   color: unset;
 }
 
-::ng-deep .mat-option-pseudo-checkbox.mat-pseudo-checkbox-checked {
+::ng-deep .mat-option-pseudo-checkbox.mat-pseudo-checkbox-checked,
+::ng-deep .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+::ng-deep .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
   background-color: var(--primary-green) !important;
 }
 
