@@ -52,12 +52,12 @@ export class HabitService {
 
   getHabitsByTagAndLang(criteria: HabitPageable): Observable<HabitListInterface> {
     const params = this.getHttpParams(criteria);
-    return this.http.get<HabitListInterface>(`${habitLink}/tags/search?lang=${this.language}`, { params });
+    return this.http.get<HabitListInterface>(`${habitLink}/tags/search`, { params });
   }
 
   getHabitsByFilters(criteria: HabitPageable): Observable<HabitListInterface> {
     const params = this.getHttpParams(criteria);
-    return this.http.get<HabitListInterface>(`${habitLink}/search?lang=${this.language}`, { params });
+    return this.http.get<HabitListInterface>(`${habitLink}/search`, { params });
   }
 
   addCustomHabit(habit: CustomHabit, lang: string): Observable<CustomHabitDtoRequest> {
@@ -80,15 +80,38 @@ export class HabitService {
 
   private getHttpParams(criteria: HabitPageable): HttpParams {
     let params = new HttpParams();
+    params = criteria.lang ? params.set('lang', criteria.lang) : params.set('lang', this.language);
+    params = criteria.page ? params.set('page', criteria.page.toString()) : params.set('page', '0');
+    params = criteria.size ? params.set('size', criteria.size.toString()) : params.set('size', '6');
+    params = criteria.sort ? params.set('sort', criteria.sort) : params.set('sort', 'asc');
+    if (criteria.excludeAssigned !== undefined) {
+      params = params.set('excludeAssigned', criteria.excludeAssigned.toString());
+    }
     if (criteria.filters && Array.isArray(criteria.filters)) {
+      let isCustomHabitFilter: string | null = null;
+      const otherFilters: string[] = [];
+
       criteria.filters.forEach((filter) => {
-        if (filter === 'isCustomHabit=true' || filter === 'isCustomHabit=false') {
-          const [key, value] = filter.split('=');
-          params = params.append(key, value);
-        } else {
-          params = params.append('filters', filter);
-        }
+        const parts = filter.split(',');
+        parts.forEach((part) => {
+          if (part.startsWith('isCustomHabit=')) {
+            isCustomHabitFilter = part;
+          } else {
+            otherFilters.push(part);
+          }
+        });
       });
+
+      if (otherFilters.length > 0) {
+        params = params.set('filters', otherFilters.join(','));
+      }
+      if (isCustomHabitFilter) {
+        const [key, value] = isCustomHabitFilter.split('=');
+        params = params.set(key, value);
+      }
+    }
+    if (criteria.tags && Array.isArray(criteria.tags) && criteria.tags.length > 0) {
+      params = params.set('tags', criteria.tags.join(','));
     }
     return params;
   }
