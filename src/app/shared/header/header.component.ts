@@ -388,13 +388,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   openChatPopUp() {
     this.commonChatService.isChatVisible$.next(true);
-    const dialogConfig = {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: ['custom-dialog-container', 'chat-dialog-container']
-    };
-    const matDialogRef = this.dialog.open(ChatModalComponent, dialogConfig);
   }
 
   signOut(): void {

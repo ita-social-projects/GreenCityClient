@@ -42,7 +42,7 @@ describe('ChatModalComponent', () => {
   });
 
   it('should set isMobile property', () => {
-    spyOnProperty(window as any, 'innerWidth', 'get').and.returnValue(760);
+    (window as any).innerWidth = 760;
     expect(component.isMobile).toBeFalsy();
   });
 
