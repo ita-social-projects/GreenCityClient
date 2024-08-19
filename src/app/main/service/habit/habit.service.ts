@@ -50,14 +50,9 @@ export class HabitService {
     return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
-  getHabitsByTagAndLang(criteria: HabitPageable): Observable<HabitListInterface> {
-    const params = this.getHttpParams(criteria);
-    return this.http.get<HabitListInterface>(`${habitLink}/tags/search`, { params });
-  }
-
   getHabitsByFilters(criteria: HabitPageable): Observable<HabitListInterface> {
     const params = this.getHttpParams(criteria);
-    return this.http.get<HabitListInterface>(`${habitLink}/search`, { params });
+    return this.http.get<HabitListInterface>(`${habitLink}/search?${params}`);
   }
 
   addCustomHabit(habit: CustomHabit, lang: string): Observable<CustomHabitDtoRequest> {
@@ -78,42 +73,53 @@ export class HabitService {
     return this.http.delete<CustomHabitDtoRequest>(`${habitLink}/delete/${id}`);
   }
 
-  private getHttpParams(criteria: HabitPageable): HttpParams {
+  private getHttpParams(criteria: HabitPageable): string {
     let params = new HttpParams();
     params = criteria.lang ? params.set('lang', criteria.lang) : params.set('lang', this.language);
     params = criteria.page ? params.set('page', criteria.page.toString()) : params.set('page', '0');
     params = criteria.size ? params.set('size', criteria.size.toString()) : params.set('size', '6');
     params = criteria.sort ? params.set('sort', criteria.sort) : params.set('sort', 'asc');
+
     if (criteria.excludeAssigned !== undefined) {
       params = params.set('excludeAssigned', criteria.excludeAssigned.toString());
     }
+
     if (criteria.filters && Array.isArray(criteria.filters)) {
       let isCustomHabitFilter: string | null = null;
-      const otherFilters: string[] = [];
+      let complexitiesFilter: string | null = null;
+      let tagsFilter: string | null = null;
 
       criteria.filters.forEach((filter) => {
         const parts = filter.split(',');
         parts.forEach((part) => {
           if (part.startsWith('isCustomHabit=')) {
             isCustomHabitFilter = part;
-          } else {
-            otherFilters.push(part);
+          } else if (part.startsWith('complexities=')) {
+            complexitiesFilter = part;
+          } else if (part.startsWith('tags=')) {
+            tagsFilter = part;
           }
         });
       });
-
-      if (otherFilters.length > 0) {
-        params = params.set('filters', otherFilters.join(','));
-      }
       if (isCustomHabitFilter) {
         const [key, value] = isCustomHabitFilter.split('=');
         params = params.set(key, value);
       }
+      if (complexitiesFilter) {
+        const [key, value] = complexitiesFilter.split('=');
+        params = params.set(key, value);
+      }
+      if (tagsFilter) {
+        const [key, value] = tagsFilter.split('=');
+        params = params.set(key, value);
+      }
     }
     if (criteria.tags && Array.isArray(criteria.tags) && criteria.tags.length > 0) {
-      params = params.set('tags', criteria.tags.join(','));
+      const tags = criteria.tags.join(',');
+      params = params.set('tags', tags);
     }
-    return params;
+
+    return params.toString().replace(/%252C/g, ',');
   }
 
   private prepareCustomHabitRequest(habit: CustomHabit, lang: string): FormData {

@@ -119,9 +119,9 @@ describe('HabitService', () => {
       .set('excludeAssigned', CRITERIA_TAGS.excludeAssigned.toString())
       .set('tags', CRITERIA_TAGS.tags.join(','));
 
-    const expectedUrl = `${habitLink}/tags/search?${params.toString()}`;
+    const expectedUrl = `${habitLink}/search?${params}`;
 
-    habitService.getHabitsByTagAndLang(CRITERIA_TAGS).subscribe((data) => {
+    habitService.getHabitsByFilters(CRITERIA_TAGS).subscribe((data) => {
       expect(data).not.toBeNull();
       expect(data).toEqual(HABITLIST);
     });
@@ -135,8 +135,7 @@ describe('HabitService', () => {
       .set('lang', CRITERIA_FILTER.lang)
       .set('page', CRITERIA_FILTER.page.toString())
       .set('size', CRITERIA_FILTER.size.toString())
-      .set('sort', CRITERIA_FILTER.sort)
-      .set('filters', CRITERIA_FILTER.filters.join(','));
+      .set('sort', CRITERIA_FILTER.sort);
     const expectedUrl = `${habitLink}/search?${params.toString()}`;
 
     habitService.getHabitsByFilters(CRITERIA_FILTER).subscribe((habits) => {
@@ -199,12 +198,7 @@ describe('HabitService', () => {
 
   it('should correctly transform HabitPageable to HttpParams', () => {
     const params = habitService['getHttpParams'](CRITERIA_FILTER);
-    const expectedParams = new HttpParams()
-      .set('lang', 'en')
-      .set('page', '1')
-      .set('size', '10')
-      .set('sort', 'asc')
-      .set('filters', 'filter1,filter2');
+    const expectedParams = new HttpParams().set('lang', 'en').set('page', '1').set('size', '10').set('sort', 'asc');
     expect(params.toString()).toBe(expectedParams.toString());
   });
 
@@ -213,16 +207,11 @@ describe('HabitService', () => {
       page: 1,
       size: null,
       lang: undefined,
-      filters: ['filter1'],
+      filters: [''],
       sort: 'asc'
     };
     const params = habitService['getHttpParams'](criteria);
-    const expectedParams = new HttpParams()
-      .set('lang', 'en')
-      .set('page', '1')
-      .set('size', '6')
-      .set('sort', 'asc')
-      .set('filters', 'filter1');
+    const expectedParams = new HttpParams().set('lang', 'en').set('page', '1').set('size', '6').set('sort', 'asc');
     expect(params.toString()).toBe(expectedParams.toString());
   });
 
@@ -250,7 +239,6 @@ describe('HabitService', () => {
       .set('size', '10')
       .set('sort', 'asc')
       .set('excludeAssigned', 'false')
-      .set('filters', 'filter1')
       .set('isCustomHabit', 'true')
       .set('tags', 'tag1');
     const expectedUrl = `${habitLink}/search?${params.toString()}`;
@@ -281,7 +269,6 @@ describe('HabitService', () => {
       .set('size', '10')
       .set('sort', 'asc')
       .set('excludeAssigned', 'false')
-      .set('filters', 'filter2')
       .set('isCustomHabit', 'false')
       .set('tags', 'tag2');
 
@@ -311,13 +298,14 @@ describe('HabitService', () => {
       .set('size', '10')
       .set('sort', 'asc')
       .set('excludeAssigned', 'false')
-      .set('filters', 'filter3')
       .set('tags', 'tag3');
 
     const expectedUrl = `${habitLink}/search?${params.toString()}`;
     expect(params.toString()).toBe(expectedParams.toString());
     makeCall(habitService, criteria);
-    const req = httpMock.expectOne((request) => request.urlWithParams === expectedUrl);
+    const req = httpMock.expectOne((request) => {
+      return request.urlWithParams === expectedUrl;
+    });
     expect(req.request.method).toBe('GET');
     req.flush(HABITLIST);
   });
@@ -329,23 +317,63 @@ describe('HabitService', () => {
       size: 10,
       sort: 'asc',
       excludeAssigned: false,
-      filters: ['filter4'],
-      tags: ['tag4']
+      filters: ['complexities=1,2'],
+      tags: ['Testing', 'Reusable']
+    };
+
+    const params = habitService['getHttpParams'](criteria);
+    const expectedUrl = `${habitLink}/search?${params}`;
+
+    makeCall(habitService, criteria);
+    const req = httpMock.expectOne((request) => {
+      return request.urlWithParams === expectedUrl;
+    });
+    expect(req.request.method).toBe('GET');
+    req.flush(HABITLIST);
+  });
+
+  it('should handle default parameters', () => {
+    const criteria: HabitPageable = {};
+    const params = habitService['getHttpParams'](criteria);
+    const expectedParams = new HttpParams().set('lang', 'en').set('page', '0').set('size', '6').set('sort', 'asc');
+
+    expect(params.toString()).toBe(expectedParams.toString());
+    const expectedUrl = `${habitLink}/search?${expectedParams.toString()}`;
+    makeCall(habitService, criteria);
+    const req = httpMock.expectOne((request) => {
+      return request.urlWithParams === expectedUrl;
+    });
+    expect(req.request.method).toBe('GET');
+    req.flush(HABITLIST);
+  });
+
+  it('should include all parameters when provided', () => {
+    const criteria: HabitPageable = {
+      lang: 'en',
+      page: 1,
+      size: 10,
+      sort: 'desc',
+      excludeAssigned: true,
+      filters: ['isCustomHabit=true', 'complexities=1,2'],
+      tags: ['Testing', 'Reusable']
     };
     const params = habitService['getHttpParams'](criteria);
     const expectedParams = new HttpParams()
       .set('lang', 'en')
       .set('page', '1')
       .set('size', '10')
-      .set('sort', 'asc')
-      .set('excludeAssigned', 'false')
-      .set('filters', 'filter4')
-      .set('tags', 'tag4');
+      .set('sort', 'desc')
+      .set('excludeAssigned', 'true')
+      .set('isCustomHabit', 'true')
+      .set('complexities', '1')
+      .set('tags', 'Testing,Reusable');
 
+    const expectedUrl = `${habitLink}/search?${expectedParams.toString()}`;
     expect(params.toString()).toBe(expectedParams.toString());
-    const expectedUrl = `${habitLink}/search?${params.toString()}`;
     makeCall(habitService, criteria);
-    const req = httpMock.expectOne((request) => request.urlWithParams === expectedUrl);
+    const req = httpMock.expectOne((request) => {
+      return request.urlWithParams === expectedUrl;
+    });
     expect(req.request.method).toBe('GET');
     req.flush(HABITLIST);
   });
