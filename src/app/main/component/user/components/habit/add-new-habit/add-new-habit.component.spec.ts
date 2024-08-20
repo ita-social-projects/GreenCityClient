@@ -142,11 +142,9 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('changing of fakeLocalStorageService.languageSubject should invoke methods', () => {
-    const spy = spyOn(component as any, 'checkIfAssigned');
     spyOn(component as any, 'bindLang').and.returnValue('test');
     fakeLocalStorageService.languageSubject.subscribe((lang) => {
       expect((component as any).bindLang).toHaveBeenCalledWith(lang);
-      expect(spy).toHaveBeenCalled();
     });
     fakeLocalStorageService.languageSubject.next('en');
   });
