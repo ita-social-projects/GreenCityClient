@@ -7,7 +7,7 @@ import { finalize, takeUntil, take } from 'rxjs/operators';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { calendarImage } from './calendar-image';
 import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
-import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
+import { HabitPopupInterface, HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { ItemClass } from './CalendarItemStyleClasses';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
@@ -161,11 +161,13 @@ export class CalendarBaseComponent implements OnDestroy {
   }
 
   isCurrentDayActive(): void {
-    this.calendarDay.forEach(
-      (el) =>
-        (el.isCurrentDayActive =
-          el.date.getDate() === el.numberOfDate && el.date.getMonth() === el.month && el.date.getFullYear() === el.year)
-    );
+    this.calendarDay.forEach((el) => {
+      const date = this.getDate(el);
+      const dayOfMonth = date.getDate();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      el.isCurrentDayActive = dayOfMonth === el.numberOfDate && month === el.month && year === el.year;
+    });
   }
 
   markCurrentDayOfWeek(): void {
@@ -195,7 +197,7 @@ export class CalendarBaseComponent implements OnDestroy {
     this.getUserHabits(true, this.calendarDay);
   }
 
-  buildMonthCalendar(months): void {
+  buildMonthCalendar(months: string[]): void {
     this.yearData = this.currentYear;
     this.monthsCalendar = months;
     this.isActiveMonth();
@@ -216,7 +218,7 @@ export class CalendarBaseComponent implements OnDestroy {
     this.yearData = this.yearData + 1;
   }
 
-  buildSelectedMonthCalendar(month): void {
+  buildSelectedMonthCalendar(month: string): void {
     this.monthView = true;
     this.currentMonth = this.monthsShort.indexOf(month);
     this.currentYear = this.yearData;
@@ -225,7 +227,7 @@ export class CalendarBaseComponent implements OnDestroy {
     this.getUserHabits(true, this.calendarDay);
   }
 
-  formatDate(isMonthCalendar: boolean, dayItem) {
+  formatDate(isMonthCalendar: boolean, dayItem: BaseCalendar): string {
     if (isMonthCalendar) {
       return `${dayItem.year}-${dayItem.month + 1 < 10 ? '0' + (dayItem.month + 1) : dayItem.month + 1}-${
         dayItem.numberOfDate < 10 ? '0' + dayItem.numberOfDate : dayItem.numberOfDate
@@ -237,7 +239,7 @@ export class CalendarBaseComponent implements OnDestroy {
     }
   }
 
-  getHabitsForDay(habitsList: HabitsForDateInterface[], date: string) {
+  getHabitsForDay(habitsList: HabitsForDateInterface[], date: string): HabitsForDateInterface {
     return habitsList.find((list) => list.enrollDate === date);
   }
 
@@ -270,24 +272,17 @@ export class CalendarBaseComponent implements OnDestroy {
       });
   }
 
-  isCheckedAllHabits(habitsForDay: any[] = []): boolean {
+  isCheckedAllHabits(habitsForDay: HabitPopupInterface[] = []): boolean {
     return !habitsForDay.find((habit) => !habit.enrolled);
   }
 
-  chooseDisplayClass(dayItem) {
+  chooseDisplayClass(dayItem: CalendarInterface): ItemClass {
+    const date = this.getDate(dayItem);
     if (dayItem.isCurrentDayActive) {
       return ItemClass.CURRENT;
-    } else if (
-      dayItem.hasHabitsInProgress &&
-      dayItem.numberOfDate < dayItem.date.getDate() - this.daysCanEditHabits &&
-      dayItem.areHabitsDone
-    ) {
+    } else if (dayItem.hasHabitsInProgress && dayItem.numberOfDate < date.getDate() - this.daysCanEditHabits && dayItem.areHabitsDone) {
       return ItemClass.ENROLLEDPAST;
-    } else if (
-      dayItem.hasHabitsInProgress &&
-      dayItem.numberOfDate < dayItem.date.getDate() - this.daysCanEditHabits &&
-      !dayItem.areHabitsDone
-    ) {
+    } else if (dayItem.hasHabitsInProgress && dayItem.numberOfDate < date.getDate() - this.daysCanEditHabits && !dayItem.areHabitsDone) {
       return ItemClass.UNENROLLEDPAST;
     } else if (dayItem.hasHabitsInProgress && dayItem.areHabitsDone) {
       return ItemClass.ENROLLED;
@@ -296,7 +291,15 @@ export class CalendarBaseComponent implements OnDestroy {
     }
   }
 
-  checkHabitListEditable(isMonthCalendar, dayItem: CalendarInterface) {
+  private getDate(day: CalendarInterface): Date {
+    if (day.date instanceof Date && !isNaN(day.date.getTime())) {
+      return day.date;
+    }
+    const parsedDate = new Date(day.date);
+    return !isNaN(parsedDate.getTime()) ? parsedDate : new Date(day.year, day.month, day.numberOfDate);
+  }
+
+  checkHabitListEditable(isMonthCalendar: boolean, dayItem: CalendarInterface) {
     this.selectedDay = isMonthCalendar ? new Date(dayItem.year, dayItem.month, Number(dayItem.numberOfDate)) : dayItem.date;
     this.isHabitListEditable = false;
     const currentDate: Date = new Date();
@@ -309,7 +312,7 @@ export class CalendarBaseComponent implements OnDestroy {
     return !!dayItem.hasHabitsInProgress;
   }
 
-  openDialogDayHabits(event, isMonthCalendar, dayItem: CalendarInterface) {
+  openDialogDayHabits(event, isMonthCalendar: boolean, dayItem: CalendarInterface) {
     const dateForHabitPopup = `${dayItem.year}-${dayItem.month + 1}-${dayItem.numberOfDate}`;
     if (dayItem.numberOfDate) {
       this.habitAssignService.habitDate = new Date(dateForHabitPopup);
@@ -326,7 +329,7 @@ export class CalendarBaseComponent implements OnDestroy {
       width: 320
     };
     const dialogHeight = dayHabits.habitAssigns.length * dialogBoxSize.habitLineHeight + dialogBoxSize.headerHeight;
-    let space;
+    let space: number;
     this.breakpointObserver.observe([`(max-width: ${Breakpoints.pcLow}px)`]).subscribe((result: BreakpointState) => {
       space = result.matches ? 20 : 40;
     });
@@ -377,20 +380,17 @@ export class CalendarBaseComponent implements OnDestroy {
       });
   }
 
-  sendEnrollRequest(changedList: any[] = [], date: any) {
-    if (!Array.isArray(changedList)) {
-      return;
-    }
-
-    this.getHabitsForDay(this.userHabitsListByPeriod, date).habitAssigns.forEach((habit: any) => {
+  sendEnrollRequest(changedList: HabitPopupInterface[], date: string) {
+    const habitsForSelectedDay = this.getHabitsForDay(this.userHabitsListByPeriod, date).habitAssigns;
+    habitsForSelectedDay.forEach((habit) => {
       const baseHabit = changedList.find((list) => list.habitAssignId === habit.habitAssignId);
-      if (baseHabit && habit.enrolled !== baseHabit.enrolled) {
+      if (habit.enrolled !== baseHabit.enrolled) {
         habit.enrolled ? this.unEnrollHabit(habit, date) : this.enrollHabit(habit, date);
       }
     });
   }
 
-  enrollHabit(habit, date) {
+  enrollHabit(habit: HabitPopupInterface, date: string): void {
     this.checkAnswer = true;
     this.habitAssignService
       .enrollByHabit(habit.habitAssignId, date)
@@ -404,7 +404,7 @@ export class CalendarBaseComponent implements OnDestroy {
       });
   }
 
-  unEnrollHabit(habit, date) {
+  unEnrollHabit(habit: HabitPopupInterface, date: string): void {
     this.checkAnswer = true;
     this.habitAssignService
       .unenrollByHabit(habit.habitAssignId, date)

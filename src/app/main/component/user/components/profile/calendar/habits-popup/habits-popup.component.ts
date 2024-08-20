@@ -67,7 +67,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   }
 
   closePopup(): void {
-    if (this.dialogRef && !this.dialogRef.close) {
+    if (this.dialogRef) {
       this.dialogRef
         .beforeClosed()
         .pipe(takeUntil(this.destroy))

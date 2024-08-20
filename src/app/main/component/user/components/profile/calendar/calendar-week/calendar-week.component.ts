@@ -59,7 +59,9 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
         isCurrent,
         hasHabitsInProgress: false,
         areHabitsDone: false,
-        numberOfDate: date.getDate()
+        numberOfDate: date.getDate(),
+        month: date.getMonth(),
+        year: date.getFullYear()
       });
     }
   }

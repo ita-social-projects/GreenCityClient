@@ -4,10 +4,9 @@ import { CalendarBaseComponent } from '@shared/components';
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ItemClass } from './CalendarItemStyleClasses';
-import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
+import { calendarDay, calendarMock, habitMock, habitMockFalse, habitsList } from '@assets/mocks/habit/mock-habit-calendar';
 
 @Injectable()
 class TranslationServiceStub {
@@ -18,9 +17,6 @@ class TranslationServiceStub {
 describe('CalendarBaseComponent', () => {
   let component: CalendarBaseComponent;
   let fixture: ComponentFixture<CalendarBaseComponent>;
-  let calendarMock: CalendarInterface;
-  let habitsList: HabitsForDateInterface[];
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, MatDialogModule],
@@ -35,146 +31,13 @@ describe('CalendarBaseComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CalendarBaseComponent);
     component = fixture.componentInstance;
-    habitsList = [
-      {
-        habitAssigns: [
-          {
-            enrolled: true,
-            habitDescription: 'Description 1',
-            habitAssignId: 1,
-            habitName: 'Habit 1'
-          }
-        ],
-        enrollDate: '2024-01-01'
-      },
-      {
-        habitAssigns: [
-          {
-            enrolled: false,
-            habitDescription: 'Description 2',
-            habitAssignId: 2,
-            habitName: 'Habit 2'
-          }
-        ],
-        enrollDate: '2024-01-02'
-      },
-      {
-        habitAssigns: [
-          {
-            enrolled: true,
-            habitDescription: 'Description 3',
-            habitAssignId: 3,
-            habitName: 'Habit 3'
-          }
-        ],
-        enrollDate: '2024-01-03'
-      }
-    ] as HabitsForDateInterface[];
     component.currentYear = 2020;
     component.currentMonth = 7;
     component.currentDayName = 'monday';
     component.yearData = 3;
     component.months = ['jan', 'feb', 'mar'];
     component.monthsShort = ['june', 'september', 'november'];
-    component.calendarDay = [
-      {
-        numberOfDate: new Date().getDate(),
-        date: new Date(),
-        month: 5,
-        year: 2021,
-        firstDay: 1,
-        totalDaysInMonth: 30,
-        dayName: 'test',
-        hasHabitsInProgress: true,
-        areHabitsDone: false,
-        isCurrentDayActive: undefined
-      },
-      {
-        numberOfDate: 2,
-        date: new Date(),
-        month: 5,
-        year: 2021,
-        firstDay: 1,
-        totalDaysInMonth: 30,
-        dayName: 'test',
-        hasHabitsInProgress: true,
-        areHabitsDone: false,
-        isCurrentDayActive: undefined
-      },
-      {
-        numberOfDate: 8,
-        date: new Date(),
-        month: 5,
-        year: 2020,
-        firstDay: 1,
-        totalDaysInMonth: 30,
-        dayName: 'test',
-        hasHabitsInProgress: true,
-        areHabitsDone: false,
-        isCurrentDayActive: undefined
-      },
-      {
-        numberOfDate: 4,
-        date: new Date(),
-        month: 8,
-        year: 2021,
-        firstDay: 1,
-        totalDaysInMonth: 30,
-        dayName: 'test',
-        hasHabitsInProgress: true,
-        areHabitsDone: false,
-        isCurrentDayActive: undefined
-      },
-      {
-        numberOfDate: 8,
-        date: new Date(),
-        month: 5,
-        year: 2021,
-        firstDay: 1,
-        totalDaysInMonth: 30,
-        dayName: 'test',
-        hasHabitsInProgress: true,
-        areHabitsDone: false,
-        isCurrentDayActive: true
-      },
-      {
-        numberOfDate: 8,
-        date: new Date('26.06.2023'),
-        month: 5,
-        year: 2023,
-        firstDay: 1,
-        totalDaysInMonth: 31,
-        dayName: 'test',
-        hasHabitsInProgress: true,
-        areHabitsDone: true,
-        isCurrentDayActive: undefined
-      },
-      {
-        numberOfDate: 8,
-        date: new Date('26 Jun 2023'),
-        month: 5,
-        year: 2023,
-        firstDay: 1,
-        totalDaysInMonth: 31,
-        dayName: 'test',
-        hasHabitsInProgress: true,
-        areHabitsDone: false,
-        isCurrentDayActive: undefined
-      }
-    ];
-
-    calendarMock = {
-      numberOfDate: 11,
-      date: new Date(),
-      month: 0,
-      year: 2020,
-      firstDay: 1,
-      totalDaysInMonth: 30,
-      dayName: 'test',
-      hasHabitsInProgress: true,
-      areHabitsDone: false,
-      isCurrentDayActive: false
-    };
+    component.calendarDay = calendarDay;
 
     fixture.detectChanges();
   });
@@ -185,28 +48,11 @@ describe('CalendarBaseComponent', () => {
 
   describe('isCheckedAllHabits', () => {
     it('should return true if all habits are checked', () => {
-      const habitMock = [
-        {
-          enrolled: true,
-          habitDescription: 'test',
-          habitAssignId: 0,
-          habitName: 'test'
-        }
-      ];
-
       expect(component.isCheckedAllHabits(habitMock)).toEqual(true);
     });
 
     it('should return false if all habits are not checked', () => {
-      const habitMock = [
-        {
-          enrolled: false,
-          habitDescription: 'test',
-          habitAssignId: 0,
-          habitName: 'test'
-        }
-      ];
-      expect(component.isCheckedAllHabits(habitMock)).toEqual(false);
+      expect(component.isCheckedAllHabits(habitMockFalse)).toEqual(false);
     });
   });
 
@@ -232,9 +78,9 @@ describe('CalendarBaseComponent', () => {
     expect(component.allAssignedHabits).toEqual(assignedHabits);
   });
 
-  it('shoul choose display class', () => {
+  it('should choose display class', () => {
     expect(component.chooseDisplayClass(component.calendarDay[4])).toBe(ItemClass.CURRENT);
-    expect(component.chooseDisplayClass(component.calendarDay[5])).toBe(ItemClass.ENROLLED);
+    expect(component.chooseDisplayClass(component.calendarDay[5])).toBe(ItemClass.ENROLLEDPAST);
     expect(component.chooseDisplayClass(component.calendarDay[6])).toBe(ItemClass.UNENROLLEDPAST);
   });
 
@@ -272,9 +118,12 @@ describe('CalendarBaseComponent', () => {
   });
 
   it('should return calendarMock with enrollDate: 22', () => {
-    const result = component.getHabitsForDay(habitsList, '22');
-    const expected: HabitsForDateInterface = { enrollDate: '22', habitAssigns: [] };
-    expect(result).toEqual(expected);
+    const date = '2024-01-02';
+    const result = component.getHabitsForDay(habitsList, date);
+    expect(result).toEqual({
+      enrollDate: '2024-01-02',
+      habitAssigns: [{ enrolled: false, habitDescription: 'Description 2', habitAssignId: 2, habitName: 'Habit 2' }]
+    });
   });
 
   it('should return 31 day in month', () => {
@@ -294,7 +143,7 @@ describe('CalendarBaseComponent', () => {
     component.markCurrentDayOfWeek();
 
     (component as any).calendarDay[4].date = { getMonth: () => 5, getFullYear: () => 2021 };
-    expect(component.currentDayName).toEqual('monday');
+    expect(component.currentDayName).toEqual('Tue');
   });
 
   describe('nextMonth', () => {
@@ -342,7 +191,7 @@ describe('CalendarBaseComponent', () => {
   });
 
   it('monthView should return true, currentYear should be equal to yearData', () => {
-    component.buildSelectedMonthCalendar(component.months);
+    component.buildSelectedMonthCalendar(component.months[0]);
     expect(component.monthView).toBeTruthy();
     expect(component.currentYear).toEqual(component.yearData);
     expect(component.currentMonth).toEqual(component.monthsShort.indexOf(component.months[0]));

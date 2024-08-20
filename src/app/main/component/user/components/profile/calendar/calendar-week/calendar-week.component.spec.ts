@@ -33,7 +33,9 @@ describe('CalendarWeekComponent', () => {
       isCurrent: true,
       hasHabitsInProgress: true,
       areHabitsDone: true,
-      numberOfDate: 1
+      numberOfDate: 1,
+      month: 1,
+      year: 2001
     };
     component.currentDate = new Date('Sun Jul 02 2023 00:00:00 GMT+0300');
     component.weekDates = [];
