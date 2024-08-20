@@ -1,4 +1,3 @@
-import { ChatModule } from './../chat/chat.module';
 import { ConfirmRestorePasswordGuard } from './service/route-guards/confirm-restore-password.guard';
 import { MainComponent } from './main.component';
 import { NgModule } from '@angular/core';
@@ -39,8 +38,7 @@ import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/ed
     DragDropModule,
     NgxPaginationModule,
     MaterialModule,
-    SharedModule,
-    ChatModule
+    SharedModule
   ],
   providers: [
     {

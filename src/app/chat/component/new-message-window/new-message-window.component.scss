@@ -1,19 +1,46 @@
 @import '../../../chat/chat-styles-reset';
 
 :host {
-  position: fixed;
-  right: 460px;
+  width: 100%;
+  height: 100%;
+}
+
+.message-window {
   width: 250px;
+  position: fixed;
+  bottom: 0;
+  right: 330px;
+  z-index: 100;
+}
+
+@media (max-width: 576px) {
+  .message-window {
+    right: 4px;
+
+    &.chat-user {
+      bottom: 61px;
+    }
+
+    &.chat-admin {
+      bottom: 121px;
+    }
+  }
+}
+
+.chat {
+  width: 100%;
+  height: 200px;
+  flex: 1;
+  overflow-y: scroll;
 }
 
 .new-message-window {
-  width: 250px;
   box-sizing: border-box;
   box-shadow: 0 0 2px 1px rgb(0 0 0 / 25%);
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   background: var(--primary-white);
-  z-index: 1000;
+  z-index: 100;
 }
 
 .new-msg-title {
@@ -67,36 +94,6 @@
   }
 }
 
-.chat {
-  width: 100%;
-  height: 270px;
-  flex: 1;
-  overflow-y: scroll;
-
-  .emptyChatText {
-    color: var(--greyscale-07, #444e55);
-    font-family: Roboto, sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 16px;
-    position: relative;
-    top: 190px;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .emptyChatPic {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
-}
-
 .chat-days-separate-line {
   margin: 15px 0;
   width: 100%;
@@ -134,10 +131,22 @@
   }
 }
 
+.join-chat {
+  @include flex(row, center, center);
+
+  width: 100%;
+  height: 40px;
+  background: var(--quaternary-dark-grey);
+
+  button {
+    background: var(--primary-white);
+  }
+}
+
 .message-sender {
   @include flex(row, space-between, center);
 
-  padding: 10px;
+  padding: 5px 10px;
   background: var(--quaternary-dark-grey);
 
   img {
@@ -155,15 +164,22 @@
     &:hover {
       background: var(--quaternary-grey);
     }
+
+    &:disabled:hover {
+      cursor: unset;
+      background: var(--quaternary-dark-grey);
+    }
   }
 
-  input {
+  div[role='textbox'] {
     width: 100%;
     border: none;
     font-size: 15px;
     margin: 0 10px;
     background: var(--quaternary-dark-grey);
     color: var(--primary-white);
+    overflow: auto;
+    max-height: 80px;
 
     &:focus {
       outline: 0;
@@ -171,54 +187,74 @@
   }
 }
 
-.message {
-  @include flex(row, flex-start, flex-end);
+.message-hint {
+  position: relative;
+  padding: 4px;
+  border: 1px solid grey;
+  font-size: 13px;
+  font-style: italic;
+  overflow: hidden;
 
-  column-gap: 10px;
-  padding: 10px;
-  width: 100%;
+  .message-content {
+    max-height: 35px;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cancel-editing {
+    position: absolute;
+    top: -2px;
+    right: 0;
+  }
 
   img {
-    height: 25px;
-  }
-
-  &.own {
-    justify-content: flex-end;
-
-    img {
-      display: none;
-    }
+    width: 12px;
+    height: 12px;
   }
 }
 
-.msg-block {
-  @include flex(row, flex-start, center);
+.attached-file {
+  @include flex(row, flex-start, flex-end);
 
-  max-width: 45%;
-  padding: 8px;
-  border-radius: 10px 10px 10px 0;
-  position: relative;
-  box-shadow: 0 0 1px 1px rgb(0 0 0 / 25%);
-  background: var(--primary-green);
+  column-gap: 5px;
+  padding: 10px 0;
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 0;
+  border-top: 1px solid grey;
 
-  span {
-    font-size: 14px;
-    font-family: var(--primary-font);
-    color: #fff;
-    overflow-wrap: break-word;
-    width: 100%;
+  .file-box {
+    max-width: 70px;
+    text-align: center;
+  }
+
+  .file-icon {
+    width: 20px;
+  }
+
+  .calcel-file {
+    display: block;
+    align-self: flex-start;
+  }
+
+  .calcel-file > img {
+    width: 16px;
+    height: 16px;
+  }
+
+  p {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
-.message.own .msg-block {
-  justify-content: flex-end;
-  border-radius: 10px 10px 0;
-  background: var(--quaternary-dark-grey);
-}
-
-.msg-time {
-  font-size: 12px;
-  text-overflow: clip;
+.uploaded-image {
+  height: 46px;
+  margin-right: 35px;
+  border-radius: 8px;
 }
 
 .emoji-mart {
@@ -236,4 +272,29 @@
   @include flex(row, space-between, center);
 
   column-gap: 10px;
+}
+
+.file-upload label:hover {
+  cursor: pointer;
+}
+
+.file-upload input[type='file'] {
+  display: none;
+}
+
+.current-chat {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .chat {
+    width: 100%;
+    overflow-y: scroll;
+    align-content: end;
+    flex-grow: 1;
+  }
+}
+
+.hidden {
+  display: none;
 }

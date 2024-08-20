@@ -1296,6 +1296,11 @@
     "btn.no": "Продовжити редагування"
   },
   "chat": {
-    "empty-chat": "В чаті нема повідомлень"
+    "empty-chat": "В чаті нема повідомлень",
+    "messages": "Повідомлення",
+    "support-chat": "Чат підтримки",
+    "delete-message-question": "Ви дійсно бажаєте видалити повідомлення?",
+    "delete-message-confirm": "Так",
+    "delete-message-cancel": "Ні"
   }
 }

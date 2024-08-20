@@ -279,6 +279,18 @@ describe('HeaderComponent', () => {
       expect(spy).toHaveBeenCalled();
       expect(cancelUBSwithoutSavingSpy).toHaveBeenCalled();
     }));
+
+    it('should make chat visible', fakeAsync(() => {
+      const spy = spyOn(component, 'openChatPopUp');
+      component.isAllSearchOpen = false;
+      component.isUBS = false;
+      component.isLoggedIn = true;
+      fixture.detectChanges();
+      fixture.debugElement.nativeElement.querySelector('.chat-icon').click();
+      tick();
+      expect(spy).toHaveBeenCalled();
+      expect((component as any).commonChatService.isChatVisible$.getValue()).toBeTruthy();
+    }));
   });
 
   describe('getHeaderClass', () => {
