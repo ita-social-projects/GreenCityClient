@@ -69,12 +69,6 @@ describe('ColumnFiltersPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should invoke setPopupPosUnderButton method', () => {
-    const spy = spyOn(component, 'ngOnInit').and.returnValue();
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('outside click should close popup', fakeAsync(() => {
     component.isPopupOpened = true;
     fixture.detectChanges();
@@ -82,15 +76,15 @@ describe('ColumnFiltersPopUpComponent', () => {
     expect(fakeDialog.close).toHaveBeenCalled();
   }));
 
-  it('method setPopupPosUnderButton should should set size anp pos', () => {
+  it('method setPopupPosUnderButton should set size anp pos', () => {
     (component as any).setPopupPosUnderButton();
     expect(fakeDialog.updatePosition).toHaveBeenCalled();
     expect(fakeDialog.updateSize).toHaveBeenCalled();
   });
 
   it('method getOptionsForFiltering should return options', () => {
-    const options = component.getOptionsForFiltering();
-    expect(options).toEqual(fakeAdminTableService.columnsForFiltering[0].values);
+    component.getOptionsForFiltering();
+    expect(component.filteredValues).toEqual(fakeAdminTableService.columnsForFiltering[0].values);
   });
 
   it('method getColumnsForFiltering should return columnsForFiltering from service', () => {
