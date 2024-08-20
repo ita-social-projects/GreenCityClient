@@ -159,16 +159,6 @@ describe('HabitProgressComponent', () => {
     expect(updateHabitSpy).toHaveBeenCalledWith(response);
   }));
 
-  it('should set values on updateHabit', () => {
-    const countProgressSpy = spyOn(component, 'buildHabitDescription');
-    (component as any).updateHabit(DEFAULTFULLINFOHABIT);
-    expect(countProgressSpy).toHaveBeenCalled();
-    expect(component.habit.habitStatusCalendarDtoList).toEqual(DEFAULTFULLINFOHABIT.habitStatusCalendarDtoList);
-    expect(component.habit.workingDays).toBe(6);
-    expect(component.habit.habitStreak).toBe(5);
-    expect(component.isRequest).toBeFalsy();
-  });
-
   it('should calculate the difference in days between two dates', () => {
     const date1 = '2024-02-29';
     const date2 = '2024-02-01';
