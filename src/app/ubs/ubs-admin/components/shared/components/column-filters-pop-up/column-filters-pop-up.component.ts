@@ -5,8 +5,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IFilteredColumn, IFilteredColumnValue, IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { DateAdapter } from '@angular/material/core';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { iif, Subject } from 'rxjs';
 import { LanguageModel } from '@eco-news-models/create-news-interface';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { select, Store } from '@ngrx/store';
@@ -27,6 +27,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   dateFrom: Date;
   dateTo: Date;
   dateChecked: boolean;
+  filteredValues: IFilteredColumnValue[] = [];
 
   isPopupOpened = false;
 
@@ -51,6 +52,8 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     });
     this.setPopupPosUnderButton();
     this.initListeners();
+
+    this.getOptionsForFiltering();
   }
 
   initListeners(): void {
@@ -91,8 +94,8 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   changeColumnFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
     checked
-      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
-      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
+      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: false }))
+      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: false }));
   }
 
   onDateChecked(e: MatCheckboxChange, checked: boolean): void {
@@ -128,9 +131,17 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     return (this.allFilters?.[columnName] as string[])?.includes(value);
   }
 
-  getOptionsForFiltering(): IFilteredColumnValue[] {
-    const columnsForFiltering = this.getColumnsForFiltering();
-    return columnsForFiltering.find((column) => column.key === this.data.columnName).values;
+  getOptionsForFiltering(): void {
+    if (['city', 'district'].includes(this.data.columnName)) {
+      iif(() => this.data.columnName === 'city', this.adminTableService.getCityList(), this.adminTableService.getDistrictList())
+        .pipe(take(1))
+        .subscribe((values) => {
+          this.filteredValues = values;
+        });
+    } else {
+      const columnsForFiltering = this.getColumnsForFiltering();
+      this.filteredValues = columnsForFiltering.find((column) => column.key === this.data.columnName).values;
+    }
   }
 
   getColumnsForFiltering(): IFilteredColumn[] {

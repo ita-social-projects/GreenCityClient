@@ -5,5 +5,4 @@ export const bigOrderTableSelector = (store: IAppState) => store.bigOrderTable;
 
 export const filtersSelector = createSelector(bigOrderTableSelector, (ubsUser) => ubsUser.filters);
 
-export const isFiltersAppliedSelector = createSelector(bigOrderTableSelector, (ubsUser) => ubsUser.isFiltersApplied);
-export const isNoFiltersAppliedSelector = createSelector(bigOrderTableSelector, (ubsUser) => !ubsUser.isFiltersApplied);
+export const appliedFiltersSelector = createSelector(bigOrderTableSelector, (ubsUser) => ubsUser.appliedFilters);

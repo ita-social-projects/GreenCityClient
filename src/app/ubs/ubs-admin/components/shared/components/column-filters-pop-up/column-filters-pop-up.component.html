@@ -9,7 +9,7 @@
   </div>
 
   <ng-container *ngIf="!data.isDateFilter; else date">
-    <li *ngFor="let option of getOptionsForFiltering()" class="positioing">
+    <li *ngFor="let option of filteredValues" class="positioing">
       <mat-checkbox
         [checked]="isFilterChecked(data.columnName, option)"
         (change)="changeColumnFilters($event?.checked, data.columnName, option)"

@@ -6,7 +6,7 @@ import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters } from 
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import moment from 'moment';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 const columnMapping: { [key: string]: string } = {
   dateOfExportFrom: 'deliveryDate.from',
@@ -81,11 +81,26 @@ export class AdminTableService {
     return this.http.get<IBigOrderTable>(BASE_QUERY, { params });
   }
 
-  getColumns() {
+  getColumns(): Observable<any> {
+    return this.http.get(`${this.url}tableParams`);
+  }
+
+  getCityList(): Observable<Array<IFilteredColumnValue>> {
     let regions = this.localStorageService.getFilters()?.region ?? [];
     regions = Array.isArray(regions) ? regions?.map((region) => this.BACKEND_REGION[region.toLowerCase()] ?? '').filter(Boolean) : [];
 
-    return this.http.get(`${this.url}tableParams`, { params: { region: regions } });
+    return this.http
+      .get<{ cityEn: string; city: string }[]>(`${this.url}city-list`, { params: { regions } })
+      .pipe(map((cities) => cities.map((city) => ({ ua: city.city, en: city.cityEn, filtered: false }))));
+  }
+
+  getDistrictList(): Observable<Array<IFilteredColumnValue>> {
+    let cities = this.localStorageService.getFilters()?.city ?? [];
+    cities = Array.isArray(cities) ? cities?.filter(Boolean) : [];
+
+    return this.http
+      .get<{ district: string; districtEn: string }[]>(`${this.url}districts-list`, { params: { cities } })
+      .pipe(map((districts) => districts.map((city) => ({ ua: city.district, en: city.districtEn, filtered: false }))));
   }
 
   postData(orderIdsList: number[], columnName: string, newValue: string) {

@@ -253,7 +253,7 @@
       </mat-header-cell>
       <mat-cell
         *matCellDef="let row"
-        [ngClass]="{ highlighted: checkForCheckedBoxes(column.title.key) && isFiltersApplied$ | async }"
+        [ngClass]="{ highlighted: checkForCheckedBoxes(column.title.key) && (appliedFilters$ | async).includes(column.title.key) }"
         (mousedown)="onResizeColumn($event, i)"
       >
         <app-table-cell-readonly
@@ -327,7 +327,7 @@
     <mat-header-row *matHeaderRowDef="displayedColumns" #tableHeaderRow class="tableHeaderRow"></mat-header-row>
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
-      [ngClass]="{ highlighted: selection.isSelected(row) && isFiltersApplied$ | async }"
+      [ngClass]="{ highlighted: selection.isSelected(row) && (appliedFilters$ | async).includes(row) }"
       [ngStyle]="{ 'background-color': isStatus(row) }"
     ></mat-row>
   </table>

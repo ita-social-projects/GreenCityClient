@@ -32,7 +32,7 @@ export const bigOrderTableReducer = createReducer(
     const prevContent = action.reset ? [] : state.bigOrderTable?.content ?? [];
     return {
       ...state,
-      isFiltersApplied: true,
+      appliedFilters: (Object.keys(state.filters) ?? []).filter((key) => state.filters[key]),
       bigOrderTable: {
         ...action.bigOrderTable,
         content: [...prevContent, ...action.bigOrderTable.content]
@@ -78,7 +78,6 @@ export const bigOrderTableReducer = createReducer(
 
   on(AddFiltersAction, (state, action) => ({
     ...state,
-    isFiltersApplied: false,
     filters: { ...state.filters, ...action.filters }
   })),
 

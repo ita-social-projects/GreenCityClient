@@ -1,31 +1,18 @@
-import { ColumnFiltersPopUpComponent } from '../shared/components/column-filters-pop-up/column-filters-pop-up.component';
-import {
-  IBigOrderTable,
-  IBigOrderTableParams,
-  IColumnDTO,
-  IDateFilters,
-  IFilteredColumn,
-  IFilteredColumnValue,
-  IFilters,
-  IOrdersViewParameters
-} from '../../models/ubs-admin.interface';
-import { TableHeightService } from '../../services/table-height.service';
-import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { nonSortableColumns } from '../../models/non-sortable-columns.model';
-import { AdminTableService } from '../../services/admin-table.service';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { debounceTime, filter, take, takeUntil } from 'rxjs/operators';
-import { Subject, timer } from 'rxjs';
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { DateAdapter } from '@angular/material/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { select, Store } from '@ngrx/store';
-import { IAppState } from 'src/app/store/state/app.state';
+import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
+import { Subject, timer } from 'rxjs';
+import { debounceTime, filter, take, takeUntil } from 'rxjs/operators';
+import { MouseEvents } from 'src/app/shared/mouse-events';
 import {
   AddFilterMultiAction,
   AddFiltersAction,
@@ -37,14 +24,27 @@ import {
   RemoveFilter,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
-import { MouseEvents } from 'src/app/shared/mouse-events';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
+import { appliedFiltersSelector, filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
+import { IAppState } from 'src/app/store/state/app.state';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
-import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
-import { filtersSelector, isFiltersAppliedSelector, isNoFiltersAppliedSelector } from 'src/app/store/selectors/big-order-table.selectors';
+import { IAlertInfo, IEditCell } from '../../models/edit-cell.model';
+import { nonSortableColumns } from '../../models/non-sortable-columns.model';
+import {
+  IBigOrderTable,
+  IBigOrderTableParams,
+  IColumnDTO,
+  IDateFilters,
+  IFilteredColumn,
+  IFilteredColumnValue,
+  IFilters,
+  IOrdersViewParameters
+} from '../../models/ubs-admin.interface';
+import { AdminTableService } from '../../services/admin-table.service';
+import { TableHeightService } from '../../services/table-height.service';
+import { TableColorKeys, TableKeys } from '../../services/table-keys.enum';
+import { ColumnFiltersPopUpComponent } from '../shared/components/column-filters-pop-up/column-filters-pop-up.component';
 import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
-import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
+import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -117,7 +117,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
   ordersViewParameters$ = this.store.select((state: IAppState): IOrdersViewParameters => state.bigOrderTable.ordersViewParameters);
-  isFiltersApplied$ = this.store.select(isFiltersAppliedSelector);
+  appliedFilters$ = this.store.select(appliedFiltersSelector);
 
   constructor(
     private store: Store<IAppState>,

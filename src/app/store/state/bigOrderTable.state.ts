@@ -5,7 +5,7 @@ export interface IBigOrderTableState {
   bigOrderTableParams: IBigOrderTableParams;
   ordersViewParameters: IOrdersViewParameters;
   filters: IFilters | null;
-  isFiltersApplied: boolean;
+  appliedFilters: Array<string>;
   error: string | null;
 }
 
@@ -15,5 +15,5 @@ export const initialBigOrderTableState: IBigOrderTableState = {
   ordersViewParameters: null,
   error: null,
   filters: null,
-  isFiltersApplied: false
+  appliedFilters: []
 };

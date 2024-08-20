@@ -117,7 +117,6 @@ export class BigOrderTableEffects {
         tap(() => this.store.dispatch(SaveFiltersAction())),
         tap((action) => {
           if (action.fetchTable) {
-            this.store.dispatch(GetColumns());
             this.store.dispatch(GetTable({ page: 0, size: 25, columnName: 'id', sortingType: 'DESC', reset: true }));
           }
         })
