@@ -15,6 +15,7 @@ import { UbsAdminNotificationListComponent } from './components/ubs-admin-notifi
 import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
 import { UnsavedChangesGuard } from './unsaved-changes-guard.guard';
 import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
+import { UbsAdminEditUserAgreementComponent } from '@ubs/ubs-admin/components/ubs-admin-edit-user-agreement/ubs-admin-edit-user-agreement.component';
 
 const ubsAdminRoutes: Routes = [
   {
@@ -33,7 +34,8 @@ const ubsAdminRoutes: Routes = [
       { path: `customerOrders/:id`, component: UbsAdminCustomerOrdersComponent },
       { path: `customerViolations/:id`, component: UbsAdminCustomerViolationsComponent },
       { path: 'notifications', component: UbsAdminNotificationListComponent },
-      { path: 'notification/:id', component: UbsAdminNotificationComponent }
+      { path: 'notification/:id', component: UbsAdminNotificationComponent },
+      { path: 'user-agreement', component: UbsAdminEditUserAgreementComponent }
     ]
   }
 ];

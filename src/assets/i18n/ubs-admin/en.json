@@ -609,7 +609,8 @@
     "employees": "Employees",
     "bonuses": "Bonuses",
     "tariffs": "Tariffs",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "user-agreement": "User agreement"
   },
   "ubs-employee": {
     "add-employee": "Add employee",
@@ -1231,6 +1232,21 @@
     "сertificate-field-format": "The field can contain only numbers in format хххх-хххх",
     "duration-field-format": "The field can contain only numbers from 1 to 12",
     "discount-field-format": "The field can contain only numbers in format from 1 to 999"
+  },
+  "ubs-user-agreement": {
+    "edit": "Edit user agreement",
+    "author": "Author",
+    "select-version": "Select version",
+    "date": "Last modified",
+    "confirm-version-change": "Confirm loading another version of the document",
+    "changes-will-be-lost": "Are you sure you want to load another version? Current changes will be lost",
+    "confirm-save": "Confirm saving changes",
+    "save-changes": "Are you sure you want to save changes? Changes will be saved for all users",
+    "btn": {
+      "back": "Back",
+      "confirm": "Confirm",
+      "save": "Save"
+    }
   },
   "deleting-profile-reason-pop-up": {
     "title": "Why are you leaving?",
