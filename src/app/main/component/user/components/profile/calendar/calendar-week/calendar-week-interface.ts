@@ -3,6 +3,7 @@ export interface CalendarWeekInterface extends BaseCalendar {
 }
 
 export interface BaseCalendar {
+  numberOfDate: number;
   date: Date;
   dayName: string;
   hasHabitsInProgress: boolean;

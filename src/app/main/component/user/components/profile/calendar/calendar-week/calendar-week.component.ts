@@ -58,7 +58,8 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
         dayName: this.language ? this.setDayName(date) : '',
         isCurrent,
         hasHabitsInProgress: false,
-        areHabitsDone: false
+        areHabitsDone: false,
+        numberOfDate: date.getDate()
       });
     }
   }

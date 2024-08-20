@@ -42,11 +42,11 @@ import {
   PersonalPhotoComponent,
   SocialNetworksComponent
 } from './components';
-import { ShowFirstNLettersPipe } from '../../pipe/show-first-n-letters/show-first-n-letters.pipe';
-import { ShowFirstNPipe } from '../../pipe/show-first-n-pipe/show-first-n.pipe';
-import { UncheckedFirstPipe } from '../../pipe/unchecked-first-pipe/unchecked-first.pipe';
-import { AlphabeticalPipePipe } from '../../pipe/alphabetical-pipe/alphabetical-pipe.pipe';
-import { SharedMainModule } from '../shared/shared-main.module';
+import { ShowFirstNLettersPipe } from '@pipe/show-first-n-letters/show-first-n-letters.pipe';
+import { ShowFirstNPipe } from '@pipe/show-first-n-pipe/show-first-n.pipe';
+import { UncheckedFirstPipe } from '@pipe/unchecked-first-pipe/unchecked-first.pipe';
+import { AlphabeticalPipePipe } from '@pipe/alphabetical-pipe/alphabetical-pipe.pipe';
+import { SharedMainModule } from '@shared/shared-main.module';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 import { FirstStringWordPipe } from '@pipe/first-string-word/first-string-word.pipe';
@@ -61,7 +61,6 @@ import { HabitProgressComponent } from './components/habit/add-new-habit/habit-p
 import { HabitInviteFriendsComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
 import { HabitDurationComponent } from './components/habit/add-new-habit/habit-duration/habit-duration.component';
 import { HabitEditShoppingListComponent } from './components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
-import { HabitCalendarComponent } from './components/habit/add-new-habit/habit-calendar/habit-calendar.component';
 import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
 import { GradientDirective } from './components/habit/add-new-habit/habit-duration/gradient.directive';
 import { FriendDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-dashboard.component';
@@ -70,7 +69,6 @@ import { RecommendedFriendsComponent } from './components/profile/users-friends/
 import { FriendItemComponent } from './components/profile/users-friends/friend-dashboard/friend-item/friend-item.component';
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-// import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends-pop-up/habit-invite-friends-pop-up.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { OneNewsComponent } from './components/profile/profile-dashboard/one-news/one-news.component';
@@ -141,7 +139,6 @@ import { FriendshipButtonsComponent } from './components/profile/users-friends/f
     HabitInviteFriendsComponent,
     HabitDurationComponent,
     HabitEditShoppingListComponent,
-    HabitCalendarComponent,
     GradientDirective,
     FriendDashboardComponent,
     AllFriendsComponent,

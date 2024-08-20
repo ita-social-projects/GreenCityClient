@@ -66,11 +66,13 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     this.today = this.formatSelectedDate().toString();
   }
 
-  closePopup() {
-    this.dialogRef
-      .beforeClosed()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => this.dialogRef.close(this.popupHabits));
+  closePopup(): void {
+    if (this.dialogRef && !this.dialogRef.close) {
+      this.dialogRef
+        .beforeClosed()
+        .pipe(takeUntil(this.destroy))
+        .subscribe(() => this.dialogRef.close(this.popupHabits));
+    }
   }
 
   formatSelectedDate(dateString?: string) {
@@ -184,7 +186,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     }
   }
 
-  showTooltip(habit) {
+  showTooltip(habit: HabitPopupInterface): boolean {
     return habit.habitName.length < this.trimWidth;
   }
 }

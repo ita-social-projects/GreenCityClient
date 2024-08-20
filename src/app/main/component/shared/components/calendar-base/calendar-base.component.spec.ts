@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
-import { CalendarBaseComponent } from './calendar-base.component';
+import { CalendarBaseComponent } from '@shared/components';
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ItemClass } from './CalendarItemStyleClasses';
+import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 
 @Injectable()
 class TranslationServiceStub {
-  public getTranslation = new EventEmitter<any>();
   public onDefaultLangChange = new EventEmitter<any>();
-  public getDefaultLang = new EventEmitter<any>();
   public unsubscribe = new EventEmitter<any>();
 }
 
@@ -20,8 +19,7 @@ describe('CalendarBaseComponent', () => {
   let component: CalendarBaseComponent;
   let fixture: ComponentFixture<CalendarBaseComponent>;
   let calendarMock: CalendarInterface;
-  let isMonthCalendar: boolean;
-  let habitsList: any;
+  let habitsList: HabitsForDateInterface[];
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -38,17 +36,46 @@ describe('CalendarBaseComponent', () => {
     fixture = TestBed.createComponent(CalendarBaseComponent);
     component = fixture.componentInstance;
     habitsList = [
-      { list: 'one', enrollDate: 11 },
-      { list: 'two', enrollDate: 22 },
-      { list: 'three', enrollDate: 33 }
-    ];
+      {
+        habitAssigns: [
+          {
+            enrolled: true,
+            habitDescription: 'Description 1',
+            habitAssignId: 1,
+            habitName: 'Habit 1'
+          }
+        ],
+        enrollDate: '2024-01-01'
+      },
+      {
+        habitAssigns: [
+          {
+            enrolled: false,
+            habitDescription: 'Description 2',
+            habitAssignId: 2,
+            habitName: 'Habit 2'
+          }
+        ],
+        enrollDate: '2024-01-02'
+      },
+      {
+        habitAssigns: [
+          {
+            enrolled: true,
+            habitDescription: 'Description 3',
+            habitAssignId: 3,
+            habitName: 'Habit 3'
+          }
+        ],
+        enrollDate: '2024-01-03'
+      }
+    ] as HabitsForDateInterface[];
     component.currentYear = 2020;
     component.currentMonth = 7;
     component.currentDayName = 'monday';
     component.yearData = 3;
     component.months = ['jan', 'feb', 'mar'];
     component.monthsShort = ['june', 'september', 'november'];
-    isMonthCalendar = true;
     component.calendarDay = [
       {
         numberOfDate: new Date().getDate(),
@@ -245,8 +272,9 @@ describe('CalendarBaseComponent', () => {
   });
 
   it('should return calendarMock with enrollDate: 22', () => {
-    const result = component.getHabitsForDay(habitsList, 22);
-    expect(result).toEqual({ list: 'two', enrollDate: 22 });
+    const result = component.getHabitsForDay(habitsList, '22');
+    const expected: HabitsForDateInterface = { enrollDate: '22', habitAssigns: [] };
+    expect(result).toEqual(expected);
   });
 
   it('should return 31 day in month', () => {

@@ -35,29 +35,23 @@ import { HabitPageable } from '@global-user/components/habit/models/interfaces/c
 export class AddNewHabitComponent implements OnInit {
   assignedHabit: HabitAssignInterface;
   habitResponse: HabitInterface;
-
   recommendedHabits: HabitInterface[];
   recommendedNews: EcoNewsModel[];
-
   newDuration = 7;
   initialDuration: number;
   initialShoppingList: ShoppingList[] = [];
   standardShopList: ShoppingList[] = [];
   customShopList: ShoppingList[] = [];
   friendsIdsList: number[] = [];
-
   isAcquired = false;
   isEditing = false;
   isCustom = false;
   canAcquire = false;
   setStatus = HabitStatus.ACQUIRED;
-
   stars = [STAR_IMAGES.WHITE, STAR_IMAGES.WHITE, STAR_IMAGES.WHITE];
-
   habitImage: string;
   defaultImage = habitImages.defaultImage;
   star: number;
-
   private habitId: number;
   habitAssignId: number;
   userId: number;
@@ -191,6 +185,10 @@ export class AddNewHabitComponent implements OnInit {
     const isHabitWasEdited = this.initialDuration !== this.newDuration || this.standardShopList || this.customShopList;
     if (isHabitWasEdited) {
       const dialogRef = this.getOpenDialog(HabitLeavePage, false);
+      if (!dialogRef) {
+        return;
+      }
+
       dialogRef
         .afterClosed()
         .pipe(take(1))
@@ -373,7 +371,7 @@ export class AddNewHabitComponent implements OnInit {
         popupConfirm: dialogConfig.confirm,
         popupCancel: dialogConfig.cancel,
         isHabit: isHabitNameNeeded,
-        habitName: this.habitResponse.habitTranslation.name
+        habitName: this.habitResponse?.habitTranslation?.name
       }
     });
   }

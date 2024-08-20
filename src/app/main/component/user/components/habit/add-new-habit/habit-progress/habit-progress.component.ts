@@ -27,8 +27,6 @@ export class HabitProgressComponent implements OnChanges, OnInit {
   indicator: number;
   isRequest = false;
   currentDate: string;
-  showPhoto: boolean;
-  daysCounter: number;
   habitMark: string;
   heightThumbLabel = 4;
   isHidden = false;

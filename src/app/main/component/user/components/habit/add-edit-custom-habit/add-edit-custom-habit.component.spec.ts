@@ -12,7 +12,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HabitCalendarComponent } from '@global-user/components/habit/add-new-habit/habit-calendar/habit-calendar.component';
 import { HabitDurationComponent } from '@global-user/components/habit/add-new-habit/habit-duration/habit-duration.component';
 import { HabitEditShoppingListComponent } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/habit-edit-shopping-list.component';
 import { HabitInviteFriendsComponent } from '@global-user/components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
@@ -32,6 +31,7 @@ import { Language } from 'src/app/main/i18n/Language';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { TodoStatus } from '../models/todo-status.enum';
 import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';
+import { CalendarComponent } from '@global-user/components';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
@@ -81,7 +81,7 @@ describe('AddEditCustomHabitComponent', () => {
         DragAndDropComponent,
         HabitDurationComponent,
         CalendarWeekComponent,
-        HabitCalendarComponent,
+        CalendarComponent,
         HabitEditShoppingListComponent,
         HabitInviteFriendsComponent,
         HabitProgressComponent,

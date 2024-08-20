@@ -8,7 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CalendarWeekInterface } from './calendar-week-interface';
 import { Language } from 'src/app/main/i18n/Language';
 
-describe('HabitCalendarComponent', () => {
+describe('CalendarWeekComponent', () => {
   let component: CalendarWeekComponent;
   let fixture: ComponentFixture<CalendarWeekComponent>;
   let day: CalendarWeekInterface;
@@ -32,7 +32,8 @@ describe('HabitCalendarComponent', () => {
       dayName: 'test',
       isCurrent: true,
       hasHabitsInProgress: true,
-      areHabitsDone: true
+      areHabitsDone: true,
+      numberOfDate: 1
     };
     component.currentDate = new Date('Sun Jul 02 2023 00:00:00 GMT+0300');
     component.weekDates = [];
@@ -44,11 +45,11 @@ describe('HabitCalendarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should find first week date', () => {
+  it('should find first week date', () => {
     expect((component as any).getFirstWeekDate()).toEqual(new Date('Mon Jun 26 2023 00:00:00 GMT+0300'));
   });
 
-  xit('should find first week date', () => {
+  it('should find first week date', () => {
     component.currentDate = new Date('Mon Jul 03 2023 00:00:00 GMT+0300');
     fixture.detectChanges();
     expect((component as any).getFirstWeekDate()).toEqual(new Date('Mon Jul 03 2023 00:00:00 GMT+0300'));
