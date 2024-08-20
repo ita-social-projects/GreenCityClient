@@ -57,7 +57,7 @@ export class UbsAdminEditUserAgreementComponent implements OnInit {
     this.languages.forEach((lang) => {
       this.userAgreementForm.addControl(
         `userAgreement${lang}`,
-        new FormControl<string>('', [Validators.required, Validators.maxLength(10000)])
+        new FormControl<string>('', [Validators.required, Validators.maxLength(64365)])
       );
     });
   }
