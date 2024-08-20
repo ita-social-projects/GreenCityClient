@@ -68,7 +68,7 @@ export class CalendarBaseComponent implements OnDestroy {
     public breakpointObserver: BreakpointObserver
   ) {}
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.langChangeSub) {
       this.langChangeSub.unsubscribe();
     }
@@ -91,17 +91,16 @@ export class CalendarBaseComponent implements OnDestroy {
   subscribeToLangChange(): void {
     this.langChangeSub = this.translate.onDefaultLangChange.subscribe((res) => {
       setTimeout(() => {
-        const translations = res.translations.profile.calendar;
-        this.setDate(translations);
+        this.setDate(res.translations.profile.calendar);
         this.getUserHabits(true, this.calendarDay);
       }, 0);
     });
   }
 
-  private setDate(translations) {
-    this.daysName = translations.days;
-    this.months = translations.months;
-    this.monthsShort = translations.monthsShort;
+  private setDate(date): void {
+    this.daysName = date.days;
+    this.months = date.months;
+    this.monthsShort = date.monthsShort;
     this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
     this.markCurrentDayOfWeek();
     this.buildMonthCalendar(this.monthsShort);
@@ -113,8 +112,7 @@ export class CalendarBaseComponent implements OnDestroy {
       lang = 'en';
     }
     this.defaultTranslateSub = this.translate.getTranslation(lang).subscribe((res) => {
-      const translations = res.profile.calendar;
-      this.setDate(translations);
+      this.setDate(res.profile.calendar);
     });
   }
 
@@ -344,27 +342,26 @@ export class CalendarBaseComponent implements OnDestroy {
       top: verticalPosition + 'px',
       left: horisontalPositioning + 'px'
     };
-    const dayHabitsSortedByDate = dayHabits.habitAssigns.sort((a, b) => {
-      const createDateTime = (habit) => {
-        const dataString = this.allAssignedHabits?.filter((el) => el.id === habit.habitAssignId)[0].createDateTime;
-        return new Date(dataString).getTime();
-      };
-      return createDateTime(b) - createDateTime(a);
-    });
+
+    const createDateTime = (habit: HabitPopupInterface) => {
+      const dataString = this.allAssignedHabits?.find((el) => el.id === habit.habitAssignId)?.createDateTime;
+      return new Date(dataString).getTime();
+    };
+
     dialogConfig.data = {
       habitsCalendarSelectedDate: this.formatDate(isMonthCalendar, dayItem),
       isHabitListEditable: this.isHabitListEditable,
-      habits: dayHabitsSortedByDate
+      habits: [...dayHabits.habitAssigns].sort((a, b) => createDateTime(b) - createDateTime(a))
     };
-    const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
-    dialogRef
+
+    this.dialog
+      .open(HabitsPopupComponent, dialogConfig)
       .afterClosed()
       .pipe(takeUntil(this.destroySub))
       .subscribe((changedList) => {
         if (!changedList) {
           changedList = [];
         }
-
         this.sendEnrollRequest(changedList, dayHabits.enrollDate);
         this.isCheckedHabits = this.isCheckedAllHabits(changedList);
         this.currentDayItem = dayItem;

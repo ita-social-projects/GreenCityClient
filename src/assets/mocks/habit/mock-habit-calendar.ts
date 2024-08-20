@@ -1,5 +1,6 @@
 import { HabitPopupInterface, HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
+import { BaseCalendar } from '@global-user/components/profile/calendar/calendar-week/calendar-week-interface';
 
 export const mockPopupHabits: HabitPopupInterface[] = [
   {
@@ -164,7 +165,7 @@ export const calendarDay = [
 
 export const calendarMock: CalendarInterface = {
   numberOfDate: 11,
-  date: new Date(),
+  date: new Date('26 Jun 2024'),
   month: 0,
   year: 2020,
   firstDay: 1,
@@ -174,3 +175,22 @@ export const calendarMock: CalendarInterface = {
   areHabitsDone: false,
   isCurrentDayActive: false
 };
+
+export const baseDays = [
+  {
+    numberOfDate: 1,
+    year: 2020,
+    month: 7,
+    date: new Date(),
+    hasHabitsInProgress: false,
+    areHabitsDone: false
+  },
+  {
+    numberOfDate: 2,
+    year: 2020,
+    month: 7,
+    date: new Date(),
+    hasHabitsInProgress: false,
+    areHabitsDone: false
+  }
+] as BaseCalendar[];

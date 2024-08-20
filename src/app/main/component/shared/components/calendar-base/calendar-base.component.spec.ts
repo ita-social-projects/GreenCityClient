@@ -6,7 +6,10 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ItemClass } from './CalendarItemStyleClasses';
-import { calendarDay, calendarMock, habitMock, habitMockFalse, habitsList } from '@assets/mocks/habit/mock-habit-calendar';
+import { calendarDay, calendarMock, habitMock, habitMockFalse, habitsList, mockPopupHabits } from '@assets/mocks/habit/mock-habit-calendar';
+import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
+import { BaseCalendar } from '@global-user/components/profile/calendar/calendar-week/calendar-week-interface';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 
 @Injectable()
 class TranslationServiceStub {
@@ -17,13 +20,26 @@ class TranslationServiceStub {
 describe('CalendarBaseComponent', () => {
   let component: CalendarBaseComponent;
   let fixture: ComponentFixture<CalendarBaseComponent>;
+  let habitAssignServiceMock: jasmine.SpyObj<HabitAssignService>;
+
   beforeEach(waitForAsync(() => {
+    habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', [
+      'getAssignHabitsByPeriod',
+      'getHabitDate',
+      'habitDate',
+      'mapOfArrayOfAllDate'
+    ]);
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, MatDialogModule],
       declarations: [CalendarBaseComponent],
       providers: [
         { provide: TranslateService, useClass: TranslationServiceStub },
-        { provide: LanguageService, useValue: { getCurrentLanguage: () => {} } }
+        {
+          provide: LanguageService,
+          useValue: {
+            getCurrentLanguage: () => {}
+          }
+        }
       ]
     }).compileComponents();
   }));
@@ -70,7 +86,12 @@ describe('CalendarBaseComponent', () => {
   });
 
   it('should get all users assigned habits', () => {
-    const assignedHabits = [{ id: 400, createDateTime: new Date('2023-06-29T20:05:20.271836Z') }];
+    const assignedHabits = [
+      {
+        id: 400,
+        createDateTime: new Date('2023-06-29T20:05:20.271836Z')
+      }
+    ];
     spyOn(component, 'getAllAssignedHabbits').and.callFake(() => {
       component.allAssignedHabits = assignedHabits;
     });
@@ -122,7 +143,14 @@ describe('CalendarBaseComponent', () => {
     const result = component.getHabitsForDay(habitsList, date);
     expect(result).toEqual({
       enrollDate: '2024-01-02',
-      habitAssigns: [{ enrolled: false, habitDescription: 'Description 2', habitAssignId: 2, habitName: 'Habit 2' }]
+      habitAssigns: [
+        {
+          enrolled: false,
+          habitDescription: 'Description 2',
+          habitAssignId: 2,
+          habitName: 'Habit 2'
+        }
+      ]
     });
   });
 
@@ -142,7 +170,10 @@ describe('CalendarBaseComponent', () => {
   it('should return current day of week', () => {
     component.markCurrentDayOfWeek();
 
-    (component as any).calendarDay[4].date = { getMonth: () => 5, getFullYear: () => 2021 };
+    (component as any).calendarDay[4].date = {
+      getMonth: () => 5,
+      getFullYear: () => 2021
+    };
     expect(component.currentDayName).toEqual('Tue');
   });
 
@@ -195,6 +226,52 @@ describe('CalendarBaseComponent', () => {
     expect(component.monthView).toBeTruthy();
     expect(component.currentYear).toEqual(component.yearData);
     expect(component.currentMonth).toEqual(component.monthsShort.indexOf(component.months[0]));
+  });
+
+  it('should return true if all habits are checked', () => {
+    const result = component.isCheckedAllHabits(mockPopupHabits);
+    expect(result).toBe(false);
+  });
+
+  it('should return false if not all habits are checked', () => {
+    const result = component.isCheckedAllHabits(mockPopupHabits);
+    expect(result).toBe(false);
+  });
+
+  it('should correctly calculate whether habit list is editable', () => {
+    const dayItem = {
+      year: 2020,
+      month: 7,
+      numberOfDate: 1,
+      date: new Date()
+    } as CalendarInterface;
+    component.daysCanEditHabits = 5;
+    spyOn(Date.prototype, 'setHours').and.callFake(function () {
+      return 1;
+    });
+    component.checkHabitListEditable(true, dayItem);
+    expect(component.isHabitListEditable).toBe(false);
+  });
+
+  it('should return true if popup can be opened', () => {
+    const dayItem = { hasHabitsInProgress: true } as BaseCalendar;
+    const result = component.checkCanOpenPopup(dayItem);
+    expect(result).toBe(true);
+  });
+
+  it('should correctly calculate whether habit list is editable', () => {
+    component.daysCanEditHabits = 5;
+    spyOn(Date.prototype, 'setHours').and.callFake(function () {
+      return 1;
+    });
+    component.checkHabitListEditable(true, calendarMock);
+    expect(component.isHabitListEditable).toBe(false);
+  });
+
+  it('should return true if popup can be opened', () => {
+    const dayItem: BaseCalendar = { hasHabitsInProgress: true } as BaseCalendar;
+    const result = component.checkCanOpenPopup(dayItem);
+    expect(result).toBe(true);
   });
 
   afterEach(() => {
