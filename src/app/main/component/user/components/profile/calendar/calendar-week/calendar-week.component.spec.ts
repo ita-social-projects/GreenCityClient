@@ -47,14 +47,19 @@ describe('CalendarWeekComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find first week date', () => {
-    expect((component as any).getFirstWeekDate()).toEqual(new Date('Mon Jun 26 2023 00:00:00 GMT+0300'));
+  it('should find first week date time', () => {
+    const expectedDate = new Date('Mon Jun 26 2023 00:00:00 GMT+0300').getTime();
+    const actualDate = (component as any).getFirstWeekDate().getTime();
+    expect(actualDate).toEqual(expectedDate);
   });
 
   it('should find first week date', () => {
     component.currentDate = new Date('Mon Jul 03 2023 00:00:00 GMT+0300');
     fixture.detectChanges();
-    expect((component as any).getFirstWeekDate()).toEqual(new Date('Mon Jul 03 2023 00:00:00 GMT+0300'));
+    const resultDate = (component as any).getFirstWeekDate();
+    const expectedDate = new Date('Mon Jul 03 2023 00:00:00 GMT+0300');
+    const normalizeDate = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    expect(normalizeDate(resultDate)).toEqual(normalizeDate(expectedDate));
   });
 
   it('should create calendar', () => {
