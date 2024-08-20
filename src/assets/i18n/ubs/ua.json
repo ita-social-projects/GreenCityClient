@@ -390,7 +390,8 @@
     "lower-nav-bar": {
       "about-us": "Про сервіс",
       "sorting-rules": "Правила сортування",
-      "eco-shop": "Екомагазин"
+      "eco-shop": "Екомагазин",
+      "user-agreement": "Угода користувача"
     },
     "auth": {
       "sign-in": {

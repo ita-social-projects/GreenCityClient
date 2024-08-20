@@ -12,7 +12,11 @@
             'user.lower-nav-bar.about-us' | translate
           }}</a>
           <li *ngFor="let link of ubsNavLinks" role="listitem">
-            <a [href]="link.route" target="_blank" rel="noopener" class="route-link">
+            <a *ngIf="link.url" [href]="link.route" target="_blank" rel="noopener" class="route-link">
+              {{ link.name | translate }}
+            </a>
+
+            <a *ngIf="!link.url" [routerLink]="link.route" rel="noopener" class="route-link">
               {{ link.name | translate }}
             </a>
           </li>
