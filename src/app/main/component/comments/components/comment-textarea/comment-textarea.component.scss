@@ -17,7 +17,7 @@
     background-color: var(--primary-white);
     overflow: auto;
 
-    &.focused {
+    &:focus {
       border: 2px solid var(--primary-green);
     }
 
@@ -30,16 +30,17 @@
     }
   }
 
-  .dropdown {
+  .dropdown-trigger {
     position: absolute;
     width: 320px;
     max-height: 185px;
     border-radius: 5px;
-    box-shadow: 1px 4px 8px 0 var(--shadow-dark-grey);
+    // box-shadow: 1px 4px 8px 0 var(--shadow-dark-grey);
     border: 1px var(--quintynary-light-grey);
     background-color: var(--ubs-button-light-grey);
     overflow: hidden;
     overflow-y: auto;
+    visibility: hidden;
   }
 
   .user-name {
@@ -55,7 +56,7 @@
     height: 60px;
   }
 
-  ::ng-deep .mat-option-text {
+  ::ng-deep .mdc-list-item__primary-text {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -73,5 +74,20 @@
   * {
     scrollbar-width: thin;
     scrollbar-color: #888 #f1f1f1;
+  }
+}
+::ng-deep .mat-menu {
+  max-height: 300px;
+  width: 300px;
+
+  .mat-mdc-menu-content {
+    height: 100%;
+    overflow-y: scroll;
+
+    .mat-mdc-menu-item-text {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
   }
 }

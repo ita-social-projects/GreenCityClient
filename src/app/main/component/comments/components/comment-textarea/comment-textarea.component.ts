@@ -35,17 +35,15 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
 
   content: FormControl = new FormControl('', [Validators.required, this.innerHtmlMaxLengthValidator(8000)]);
   suggestedUsers: TaggedUser[] = [];
-  isDropdownVisible: boolean;
   cursorPosition: {
     top: number;
     left: number;
   };
-  isTextareaFocused: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   @ViewChild('commentTextarea') commentTextarea: ElementRef;
-  @ViewChild('dropdown', { read: ElementRef, static: false }) dropdown: ElementRef;
-  @ViewChildren(MatOption) options: QueryList<MatOption>;
+  @ViewChild('dropdown') dropdown;
+  @ViewChild('menuTrigger') menuTrigger;
 
   @Output() commentText = new EventEmitter<{ text: string; innerHTML: string }>();
   @Input() commentTextToEdit: string;
@@ -68,9 +66,11 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
       .subscribe((data: TaggedUser[]) => {
         if (data.length) {
           this.suggestedUsers = data.filter((el) => el.userName.toLowerCase().includes(this.searchQuery.toLowerCase()));
+          this.menuTrigger.openMenu();
+          this.dropdown.focusFirstItem();
         } else {
+          this.menuTrigger.closeMenu();
           this.suggestedUsers = [];
-          this.isDropdownVisible = false;
         }
       });
   }
@@ -84,7 +84,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
         takeUntil(this.destroy$),
         debounceTime(300),
         tap(() => {
-          this.isDropdownVisible = false;
+          this.menuTrigger.closeMenu();
           this.suggestedUsers = [];
           this.content.setValue(this.commentTextarea.nativeElement.textContent);
           this.emitCommentText();
@@ -98,9 +98,8 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
         this.searchQuery = textBeforeCaret.slice(this.lastTagCharIndex + 1);
         this.updateCursorPosition();
 
-        if (this.lastTagCharIndex !== -1 && !this.searchQuery.includes(' ')) {
+        if (this.lastTagCharIndex !== -1 && !this.searchQuery.includes(' ') && this.searchQuery.length) {
           this.sendSocketMessage(this.searchQuery);
-          this.isDropdownVisible = true;
         }
       });
   }
@@ -112,71 +111,27 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   }
 
   onCommentTextareaFocus(): void {
-    this.isTextareaFocused = true;
-  }
-
-  onCommentTextareaBlur(event: FocusEvent): void {
-    this.isTextareaFocused = false;
-    this.isDropdownVisible = event.relatedTarget instanceof HTMLElement && event.relatedTarget.classList.contains('mat-option');
+    const range = document.createRange();
+    const nodeAmount = this.commentTextarea.nativeElement.childNodes.length;
+    range.setStartAfter(this.commentTextarea.nativeElement.childNodes[nodeAmount - 1]);
+    range.setEndAfter(this.commentTextarea.nativeElement.childNodes[nodeAmount - 1]);
+    range.collapse(false);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
   }
 
   onDropdownBlur(event: FocusEvent): void {
-    this.isDropdownVisible = event.relatedTarget instanceof HTMLElement && event.relatedTarget.classList.contains('mat-option');
-    this.isTextareaFocused =
-      (event.relatedTarget instanceof HTMLElement && event.relatedTarget.classList.contains('mat-option')) ||
-      event.relatedTarget === this.commentTextarea.nativeElement;
-    document.body.style.overflow = this.isDropdownVisible ? 'hidden' : 'auto';
-  }
-
-  onDropdownKeyDown(event: KeyboardEvent): void {
-    event.preventDefault();
-    document.body.style.overflow = 'hidden';
-
-    if (this.options.length === 0 || !this.isDropdownVisible) {
-      return;
-    }
-
-    const activeElement = document.activeElement as HTMLElement;
-    let currentIndex = this.options.toArray().findIndex((option) => option._getHostElement() === activeElement);
-
-    switch (event.key) {
-      case 'ArrowUp':
-        currentIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
-        this.setFocusOnOption(currentIndex);
-        break;
-      case 'ArrowDown':
-        currentIndex = currentIndex === this.options.length - 1 ? currentIndex : currentIndex + 1;
-        this.setFocusOnOption(currentIndex);
-        break;
-      case 'Escape':
-      case 'Backspace': {
-        this.isDropdownVisible = false;
-        this.setFocusCommentTextarea();
-        break;
-      }
-
-      case 'Enter':
-        this.selectSuggestion(this.suggestedUsers[currentIndex]);
-        break;
-    }
-  }
-
-  private setFocusOnOption(index: number): void {
-    if (this.options.toArray()[index]) {
-      this.options.toArray()[index].focus();
-    }
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(this.range);
   }
 
   onCommentKeyDown(event: KeyboardEvent): void {
-    if (this.isDropdownVisible && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
-      this.dropdown.nativeElement.firstChild.focus();
-      this.isTextareaFocused = true;
-    }
     if (event.key === 'Enter') {
       event.preventDefault();
     }
   }
-
   onPaste(event: ClipboardEvent): void {
     event.preventDefault();
     const text = event.clipboardData?.getData('text/plain');
@@ -238,19 +193,21 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   }
 
   setFocusCommentTextarea(): void {
-    this.commentTextarea.nativeElement.focus();
     const selection = window.getSelection();
     const range = document.createRange();
-    range.selectNodeContents(this.commentTextarea.nativeElement);
-    range.collapse(false);
+    const length = this.commentTextarea.nativeElement.childNodes.length;
+    range.collapse(true);
+    range.setStartAfter(this.commentTextarea.nativeElement.childNodes[length - 1]);
+    range.setEndAfter(this.commentTextarea.nativeElement.childNodes[length - 1]);
+
     selection.removeAllRanges();
     selection.addRange(range);
   }
 
   selectSuggestion(user: TaggedUser): void {
     const tagChar = this.range.startContainer.textContent[this.lastTagCharIndex];
-    this.isDropdownVisible = false;
-    this.isTextareaFocused = true;
+
+    this.menuTrigger.closeMenu();
     this.removeSearchQuery();
     this.insertNodeAtCursor(user, tagChar);
     this.content.setValue(this.commentTextarea.nativeElement.textContent);
