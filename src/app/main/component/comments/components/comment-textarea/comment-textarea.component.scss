@@ -35,7 +35,6 @@
     width: 320px;
     max-height: 185px;
     border-radius: 5px;
-    // box-shadow: 1px 4px 8px 0 var(--shadow-dark-grey);
     border: 1px var(--quintynary-light-grey);
     background-color: var(--ubs-button-light-grey);
     overflow: hidden;
@@ -76,6 +75,7 @@
     scrollbar-color: #888 #f1f1f1;
   }
 }
+
 ::ng-deep .mat-menu {
   max-height: 300px;
   width: 300px;
