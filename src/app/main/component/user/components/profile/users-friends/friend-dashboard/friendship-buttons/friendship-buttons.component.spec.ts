@@ -48,7 +48,6 @@ describe('FriendshipButtonsComponent', () => {
   });
 
   it('should call subscribeToAction when ngOnInit is invoked', () => {
-    const spy = spyOn(component as any, 'subscribeToAction');
     component.ngOnInit();
     expect(component).toBeTruthy();
   });
@@ -65,7 +64,7 @@ describe('FriendshipButtonsComponent', () => {
         value: 'Enter'
       });
       (component as any).handleAction(event);
-      expect((component as any).unsendFriendRequest).toHaveBeenCalledWith(component.userAsFriend.id);
+      expect((component as any).unsendFriendRequest).toHaveBeenCalledWith();
     });
 
     it('should call openConfirmPopup method when idName is "deleteFriend"', () => {

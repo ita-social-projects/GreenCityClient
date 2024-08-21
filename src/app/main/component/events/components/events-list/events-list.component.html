@@ -30,7 +30,7 @@
       <div class="filter-list">
         <div class="dropdown" (click)="timeFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.time' | translate }}</mat-label>
-          <mat-select #timeFilter [formControl]="eventTimeStatusFilterControl" multiple>
+          <mat-select #timeFilter [formControl]="eventTimeStatusFilterControl" [multiple]="true">
             <mat-option [value]="'homepage.events.time-any-time' | translate" (click)="unselectAllFiltersInType('eventTimeStatus')">
               {{ 'homepage.events.time-any-time' | translate }}
             </mat-option>
@@ -46,25 +46,21 @@
         </div>
         <div class="dropdown" (click)="locationFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
-          <mat-select #locationFilter [formControl]="locationFilterControl" multiple>
+          <mat-select #locationFilter [formControl]="locationFilterControl" [multiple]="true">
             <mat-option
               [value]="'homepage.events.filter-location-аny-location' | translate"
               (click)="unselectAllFiltersInType('location')"
               >{{ 'homepage.events.filter-location-аny-location' | translate }}</mat-option
             >
             <mat-divider></mat-divider>
-            <mat-option
-              [value]="locationFilter.nameEn"
-              *ngFor="let locationFilter of locationFiltersList"
-              (click)="updateListOfFilters(locationFilter)"
-              [appLangValue]="{ ua: locationFilter.nameUa, en: locationFilter.nameEn }"
-            >
+            <mat-option *ngFor="let locationFilter of locationFiltersList" (click)="updateListOfFilters(locationFilter)">
+              <span [appLangValue]="{ ua: locationFilter.nameUa, en: locationFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
         </div>
         <div class="dropdown" (click)="statusFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
-          <mat-select #statusFilter [formControl]="statusFilterControl" multiple>
+          <mat-select #statusFilter [formControl]="statusFilterControl" [multiple]="true">
             <mat-option [value]="'homepage.events.filter-status-аny-status' | translate" (click)="unselectAllFiltersInType('status')">{{
               'homepage.events.filter-status-аny-status' | translate
             }}</mat-option>
@@ -80,7 +76,7 @@
         </div>
         <div class="dropdown" (click)="typeFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-type' | translate }}</mat-label>
-          <mat-select #typeFilter [formControl]="typeFilterControl" multiple>
+          <mat-select #typeFilter [formControl]="typeFilterControl" [multiple]="true">
             <mat-option [value]="'homepage.events.filter-аny-type' | translate" (click)="unselectAllFiltersInType('type')">{{
               'homepage.events.filter-аny-type' | translate
             }}</mat-option>

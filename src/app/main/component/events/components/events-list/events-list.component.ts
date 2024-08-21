@@ -1,4 +1,4 @@
-import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Addresses, EventFilterCriteriaInterface, EventListResponse, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { statusFiltersData, timeStatusFiltersData, typeFiltersData } from '../../models/event-consts';
-import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -35,7 +34,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
   eventsList: EventListResponse[] = [];
-
   isLoggedIn: string;
   selectedEventTimeStatusFiltersList: string[] = [];
   selectedLocationFiltersList: string[] = [];
@@ -59,19 +57,15 @@ export class EventsListComponent implements OnInit, OnDestroy {
   private page = 0;
   private eventsPerPage = 6;
   private searchResultSubscription: Subscription;
-  private dialog: MatDialog;
 
   constructor(
     private store: Store,
     private userOwnAuthService: UserOwnAuthService,
-    private languageService: LanguageService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private injector: Injector,
-    private eventService: EventsService
-  ) {
-    this.dialog = injector.get(MatDialog);
-  }
+    private eventService: EventsService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.localStorageService.setEditMode('canUserEdit', false);
@@ -131,7 +125,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   getUniqueLocations(addresses: Array<Addresses>): FilterItem[] {
     const uniqueLocationsName = new Set<string>();
-    const uniqueLocations: FilterItem[] = [];
+    const uniqueLocations: FilterItem[] = [{ type: 'location', nameEn: 'Online', nameUa: 'Онлайн' }];
     addresses.forEach((address: Addresses) => {
       if (address.cityEn && address.cityUa) {
         if (!uniqueLocationsName.has(address.cityEn) && !uniqueLocationsName.has(address.cityUa)) {
@@ -141,6 +135,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
         }
       }
     });
+
     return uniqueLocations;
   }
 
@@ -215,7 +210,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.eventTimeStatusOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedEventTimeStatusFiltersList = [];
         break;
@@ -224,7 +219,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.locationOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedLocationFiltersList = [];
         break;
@@ -233,7 +228,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.statusOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedStatusFiltersList = [];
         break;
@@ -242,11 +237,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.typeOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedTypeFiltersList = [];
         break;
     }
+
     this.cleanEventList();
     this.getEvents();
   }
@@ -258,7 +254,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.selectedStatusFiltersList = [];
     this.selectedTypeFiltersList = [];
     [this.eventTimeStatusOptionList, this.statusOptionList, this.locationOptionList, this.typeOptionList].forEach((optionList) => {
-      this.unselectCheckboxesInList(optionList);
+      this.unselectCheckbox(optionList);
     });
     this.cleanEventList();
     this.getEvents();
@@ -326,16 +322,20 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private unselectCheckbox(checkboxList: MatSelect, optionName: string): void {
-    checkboxList.options.find((option: MatOption) => option.value === optionName).deselect();
-  }
-
-  private unselectCheckboxesInList(checkboxList: MatSelect): void {
-    checkboxList.options?.forEach((option) => {
-      if (option.selected) {
-        option.deselect();
+  private unselectCheckbox(checkboxList: MatSelect, optionName?: string): void {
+    const control = checkboxList.ngControl?.control;
+    if (!control) {
+      return;
+    }
+    if (optionName) {
+      const optionToUnselect = checkboxList.options.toArray().find((option: MatOption) => option.value === optionName);
+      if (optionToUnselect) {
+        const currentValue = control.value || [];
+        control.setValue(currentValue.filter((value) => value !== optionToUnselect.value));
       }
-    });
+    } else {
+      control.setValue([]);
+    }
   }
 
   private cleanEventList(): void {

@@ -130,7 +130,7 @@ export class AddNewHabitComponent implements OnInit {
     const criteria: HabitPageable = { page, size, lang: this.currentLang, tags, sort: 'asc', excludeAssigned: true };
     if (this.userId) {
       this.habitService
-        .getHabitsByTagAndLang(criteria)
+        .getHabitsByFilters(criteria)
         .pipe(take(1))
         .subscribe((data: HabitListInterface) => {
           this.recommendedHabits = data.page;
@@ -370,7 +370,7 @@ export class AddNewHabitComponent implements OnInit {
         popupConfirm: dialogConfig.confirm,
         popupCancel: dialogConfig.cancel,
         isHabit: isHabitNameNeeded,
-        habitName: this.habitResponse?.habitTranslation?.name
+        habitName: this.habitResponse?.habitTranslation?.name || ''
       }
     });
   }

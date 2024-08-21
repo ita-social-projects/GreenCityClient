@@ -25,6 +25,7 @@ import { FriendsEffects } from './store/effects/friends.effects';
 import { OrderEffects } from 'src/app/store/effects/order.effects';
 import { UbsUserEffects } from 'src/app/store/effects/ubs-user.effects';
 import { AuthEffects } from 'src/app/store/effects/auth.effects';
+import { ChatModule } from './chat/chat.module';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector, languageService: LanguageService) {
   return () =>
@@ -58,6 +59,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     MainModule,
     UbsModule,
     HttpClientModule,
+    ChatModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

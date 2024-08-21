@@ -8,17 +8,16 @@
 .chats {
   height: 100%;
   width: 300px;
-  max-height: 625px;
 
-  @include flex(column, center, center);
+  @include flex(column, flex-start, center);
 }
 
 .close-modal-button {
   font-size: 45px;
   cursor: pointer;
   position: absolute;
-  top: -15px;
-  right: 10px;
+  top: -23px;
+  right: 5px;
   z-index: 1500;
 }
 
@@ -60,4 +59,13 @@
   position: relative;
 
   @include flex(row, center, flex-start);
+
+  .mat-tab-group {
+    width: 100%;
+    height: 100%;
+  }
+
+  ::ng-deep .mat-tab-body-wrapper {
+    height: 100%;
+  }
 }

@@ -119,7 +119,6 @@ xdescribe('InputGoogleAutocompleteComponent', () => {
     fixture.detectChanges();
     tick(500);
     flush();
-    console.log(component.predictionList);
 
     expect(component.predictionList.length).toBe(1);
     expect(component.predictionList[0].description).toBe('Place 4');

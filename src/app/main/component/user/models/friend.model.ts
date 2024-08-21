@@ -13,6 +13,7 @@ export interface FriendModel {
   requesterId: number | null;
   chatId?: number;
   isOnline?: boolean;
+  friendsChatDto?: { chatId?: number };
 }
 
 export type FriendStatus = 'FRIEND' | 'REQUEST' | 'REJECTED' | null;
