@@ -12,6 +12,7 @@ import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { CommentTextareaComponent } from '../comment-textarea/comment-textarea.component';
 import { PlaceholderForDivDirective } from '../../directives/placeholder-for-div.directive';
 import { SocketService } from '@global-service/socket/socket.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 const COMMENT_MOCK = {
   author: {
@@ -64,7 +65,7 @@ describe('AddCommentComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AddCommentComponent, UserProfileImageComponent, CommentTextareaComponent, PlaceholderForDivDirective],
-      imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule, MatMenuModule],
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },
         { provide: CommentsService, useValue: commentsServiceMock },
