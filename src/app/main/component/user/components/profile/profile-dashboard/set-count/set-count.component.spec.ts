@@ -17,7 +17,6 @@ describe('SetCountComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SetCountComponent);
     component = fixture.componentInstance;
-    component.tabName = 'habits';
     fixture.detectChanges();
   });
 

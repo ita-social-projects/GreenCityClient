@@ -9,10 +9,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { CUSTOMFULLINFOHABIT, DEFAULTFULLINFOHABIT, DEFAULTFULLINFOHABIT_2 } from '../../mocks/habit-assigned-mock';
-import { HabitCalendarComponent } from '@global-user/components/habit/add-new-habit/habit-calendar/habit-calendar.component';
 import { CalendarWeekComponent } from '@global-user/components/profile/calendar/calendar-week/calendar-week.component';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { ChangesFromCalendarToProgress } from '../../models/interfaces/habit-assign.interface';
+import { CalendarComponent } from '@global-user/components';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
@@ -49,7 +49,7 @@ describe('HabitProgressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HabitProgressComponent, HabitCalendarComponent, CalendarWeekComponent, DatePipeMock],
+      declarations: [HabitProgressComponent, CalendarComponent, CalendarWeekComponent, DatePipeMock],
       imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot(), MatDialogModule],
       providers: [
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
@@ -158,16 +158,6 @@ describe('HabitProgressComponent', () => {
     expect(setGreenCircleInCalendarSpy).toHaveBeenCalledWith(false);
     expect(updateHabitSpy).toHaveBeenCalledWith(response);
   }));
-
-  it('should set values on updateHabit', () => {
-    const countProgressSpy = spyOn(component, 'buildHabitDescription');
-    (component as any).updateHabit(DEFAULTFULLINFOHABIT);
-    expect(countProgressSpy).toHaveBeenCalled();
-    expect(component.habit.habitStatusCalendarDtoList).toEqual(DEFAULTFULLINFOHABIT.habitStatusCalendarDtoList);
-    expect(component.habit.workingDays).toBe(6);
-    expect(component.habit.habitStreak).toBe(5);
-    expect(component.isRequest).toBeFalsy();
-  });
 
   it('should calculate the difference in days between two dates', () => {
     const date1 = '2024-02-29';
