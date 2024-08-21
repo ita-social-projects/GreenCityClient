@@ -35,6 +35,7 @@ import { UbsMainPageSpinnerComponent } from './components/ubs-main-page-spinner/
 import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 import { UbsOrderAddressComponent } from './components/ubs-personal-information/ubs-order-address/ubs-order-address.component';
 import { ValidateAddressDirective } from 'src/app/ubs/ubs/directives/validate-address/validate-address.directive';
+import { UbsUserAgreementComponent } from './components/ubs-user-agreement/ubs-user-agreement.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { ValidateAddressDirective } from 'src/app/ubs/ubs/directives/validate-ad
     UbsMainPageSpinnerComponent,
     UbsPickUpServicePopUpComponent,
     UbsOrderAddressComponent,
-    ValidateAddressDirective
+    ValidateAddressDirective,
+    UbsUserAgreementComponent
   ],
   imports: [
     MatAutocompleteModule,

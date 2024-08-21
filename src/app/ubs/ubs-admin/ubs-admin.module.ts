@@ -98,6 +98,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { UnsavedChangesGuard } from './unsaved-changes-guard.guard';
 import { DeletingProfileReasonPopUpComponent } from 'src/app/ubs/ubs-admin/components/shared/components/deleting-profile-reason-pop-up/deleting-profile-reason-pop-up.component';
+import { UbsAdminEditUserAgreementComponent } from './components/ubs-admin-edit-user-agreement/ubs-admin-edit-user-agreement.component';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -165,7 +167,8 @@ import { DeletingProfileReasonPopUpComponent } from 'src/app/ubs/ubs-admin/compo
     UbsAdminNotificationSettingsComponent,
     ConfirmationDialogComponent,
     DeletingProfileReasonPopUpComponent,
-    TariffSelectorComponent
+    TariffSelectorComponent,
+    UbsAdminEditUserAgreementComponent
   ],
   imports: [
     CommonModule,
@@ -206,7 +209,8 @@ import { DeletingProfileReasonPopUpComponent } from 'src/app/ubs/ubs-admin/compo
     MatExpansionModule,
     CdkAccordionModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    QuillModule.forRoot()
   ],
   providers: [
     AdminCertificateService,
