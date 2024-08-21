@@ -60,9 +60,9 @@ describe('AddNewHabitComponent', () => {
   fakeHabitAssignService.assignHabit = () => of();
   fakeHabitAssignService.updateHabit = () => of();
 
-  const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService', ['getHabitById', 'getHabitsByTagAndLang']);
+  const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService', ['getHabitById', 'getHabitsByFilters']);
   fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
-  fakeHabitService.getHabitsByTagAndLang = () => of(HABITLIST);
+  fakeHabitService.getHabitsByFilters = () => of(HABITLIST);
 
   const fakeLocalStorageService: LocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', { getCurrentLanguage: () => 'ua' });
   fakeLocalStorageService.setEditMode = (key: string, permission: boolean) => {
