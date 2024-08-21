@@ -2,7 +2,6 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-
 import { FriendStatusValues, UserDataAsFriend } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { ofType } from '@ngrx/effects';
@@ -30,7 +29,6 @@ import {
 export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy {
   private destroy$ = new Subject();
   currentUserId: number;
-  profileUserId: number;
   canAddFriend: boolean;
   canDeleteFriend: boolean;
   canCancelRequest: boolean;
@@ -120,10 +118,10 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
     const target = event.target as HTMLElement;
     switch (target.id) {
       case 'addFriend':
-        this.addFriend(this.userAsFriend.id);
+        this.addFriend();
         break;
       case 'cancelRequest':
-        this.unsendFriendRequest(this.userAsFriend.id);
+        this.unsendFriendRequest();
         break;
       case 'deleteFriend':
         this.openConfirmPopup();
@@ -145,24 +143,25 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  private addFriend(id: number): void {
+  private addFriend(): void {
+    let isSend = false;
     this.userFriendsService
       .addFriend(this.userAsFriend.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.snackBar.openSnackBar('addFriend');
+          isSend = true;
           this.userAsFriend.friendStatus = FriendStatusValues.REQUEST;
           this.userAsFriend.requesterId = this.currentUserId;
           this.updateConditions();
         },
-        error: (err) => console.error(err.message)
+        complete: () => this.snackBar.openSnackBar(isSend ? 'addFriend' : 'friendValidation')
       });
   }
 
-  private unsendFriendRequest(id: number): void {
+  private unsendFriendRequest(): void {
     this.userFriendsService
-      .unsendFriendRequest(id)
+      .unsendFriendRequest(this.userAsFriend.id)
       .pipe(take(1))
       .subscribe(() => {
         this.snackBar.openSnackBar('cancelRequest');
