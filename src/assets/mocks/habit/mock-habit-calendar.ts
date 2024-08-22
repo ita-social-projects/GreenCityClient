@@ -2,6 +2,18 @@ import { HabitPopupInterface, HabitsForDateInterface } from '@global-user/compon
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { BaseCalendar } from '@global-user/components/profile/calendar/calendar-week/calendar-week-interface';
 
+export const mockHabits = {
+  id: 1,
+  status: 'INPROGRESS',
+  userId: 10,
+  duration: 20,
+  workingDays: 2,
+  habitStreak: 10,
+  habit: {
+    shoppingListItems: [{ id: 1, status: 'INPROGRESS', text: 'text', selected: true, custom: true }]
+  }
+};
+
 export const mockPopupHabits: HabitPopupInterface[] = [
   {
     enrolled: false,

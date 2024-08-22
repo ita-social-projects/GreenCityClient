@@ -16,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -86,12 +87,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.initGetUserEvents();
     this.dispatchNews(true);
     this.getUserLocation();
-
     this.localStorageService.setCurentPage('previousPage', '/profile');
-
     this.route.params.subscribe((params) => {
       const tabId = +params?.tabId;
-
       if (!isNaN(tabId)) {
         this.selectedIndex = tabId;
       }
@@ -143,7 +141,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   initGetUserEvents(eventType?: string): void {
     this.eventService
-      .getAllUserEvents(0, this.eventsPerPage, this.userLatitude, this.userLongitude, eventType)
+      .getEvents(this.getHttpParams(0, eventType))
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
         this.eventsList = res.page;
@@ -151,6 +149,18 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         this.hasNextPageOfEvents = res.hasNext;
         this.cdr.detectChanges();
       });
+  }
+
+  private getHttpParams(page: number, eventType?: string): HttpParams {
+    let params = new HttpParams()
+      .append('page', page.toString())
+      .append('size', this.eventsPerPage.toString())
+      .append('userLatitude', this.userLatitude.toString())
+      .append('userLongitude', this.userLongitude.toString());
+    if (eventType) {
+      params = params.append('eventType', eventType);
+    }
+    return params;
   }
 
   getUserFavouriteEvents(): void {
@@ -173,7 +183,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   getUserEvents(): void {
     if (this.eventsPage !== undefined && this.hasNextPageOfEvents) {
       this.eventService
-        .getAllUserEvents(this.eventsPage, this.eventsPerPage, this.userLatitude, this.userLongitude, this.eventType)
+        .getEvents(this.getHttpParams(this.eventsPage, this.eventType))
         .pipe(take(1))
         .subscribe((res: EventResponseDto) => {
           this.eventsList.push(...res.page);
