@@ -145,7 +145,7 @@ export class SocketService {
   }
 
   createNewChat(ids, isOpen, isOpenInWindow?): void {
-    const key = this.chatsService.isSupportChat ? 'tariffId' : 'participantsIds';
+    const key = this.chatsService.isSupportChat ? 'tariffId' : 'participantId';
     const newChatInfo = {
       currentUserId: this.userId,
       [key]: ids
