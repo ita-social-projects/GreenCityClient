@@ -168,6 +168,8 @@ export class SocketService {
       if (data.headers.delete) {
         const updatedMessages = this.chatsService.currentChatMessages.filter((el) => el.id !== message.id);
         this.chatsService.currentChatMessagesStream$.next(updatedMessages);
+        const chatsMessages = this.chatsService.chatsMessages[roomId].page.filter((el) => el.id !== message.id);
+        this.chatsService.chatsMessages[roomId].page = chatsMessages;
       }
     });
   }
