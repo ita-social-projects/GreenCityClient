@@ -4,20 +4,26 @@ import { environment } from '@environment/environment';
 @Injectable({ providedIn: 'root' })
 export class GoogleScript {
   apiMapKey = environment.apiMapKey;
-  url = `https://maps.googleapis.com/maps/api/js?key=${this.apiMapKey}&callback=initMap&libraries=places`;
 
-  load(lang: string): void {
+  private languageDict = {
+    ua: 'uk',
+    en: 'en'
+  };
+
+  load(language: string): void {
     const googleScript: HTMLScriptElement = document.querySelector('#googleMaps');
+    const url = this.getUrl({ key: this.apiMapKey, language });
 
     if (googleScript) {
-      googleScript.src = this.url;
+      googleScript.src = url;
     }
+
     if (!googleScript) {
       this.initMap();
       const google = document.createElement('script');
       google.type = 'text/javascript';
       google.id = 'googleMaps';
-      google.setAttribute('src', this.url);
+      google.setAttribute('src', url);
       document.getElementsByTagName('head')[0].appendChild(google);
     }
   }
@@ -28,5 +34,10 @@ export class GoogleScript {
     script.id = 'initMap';
     script.innerHTML = `function initMap() {}`;
     document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  private getUrl({ key, language }: { key: string; language: string }): string {
+    const mappedLanguage = this.languageDict[language] ?? language;
+    return `https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap&libraries=places&language=${mappedLanguage}`;
   }
 }
