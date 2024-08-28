@@ -145,7 +145,7 @@ export class SocketService {
   }
 
   createNewChat(ids, isOpen, isOpenInWindow?): void {
-    const key = this.chatsService.isSupportChat ? 'tariffId' : 'participantsIds';
+    const key = this.chatsService.isSupportChat ? 'tariffId' : 'participantId';
     const newChatInfo = {
       currentUserId: this.userId,
       [key]: ids
@@ -168,6 +168,8 @@ export class SocketService {
       if (data.headers.delete) {
         const updatedMessages = this.chatsService.currentChatMessages.filter((el) => el.id !== message.id);
         this.chatsService.currentChatMessagesStream$.next(updatedMessages);
+        const chatsMessages = this.chatsService.chatsMessages[roomId].page.filter((el) => el.id !== message.id);
+        this.chatsService.chatsMessages[roomId].page = chatsMessages;
       }
     });
   }
