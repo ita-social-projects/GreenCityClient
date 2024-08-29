@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ContentChange } from 'ngx-quill';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { quillConfig } from '../../quillEditorFunc';
-
 import { EVENT_LOCALE, EventLocaleKeys } from '../../../../models/event-consts';
 import { EventInformation, EventInformationGroup, FormCollectionEmitter, ImagesContainer } from '../../../../models/events.interface';
 import { Router } from '@angular/router';
@@ -20,8 +18,9 @@ export class CreateEventInformationComponent implements OnInit {
   @Input() formInput: EventInformation;
   isQuillUnfilled = false;
   quillLength = 0;
-  quillModules = null;
-  imgArray: string[] = [];
+  quillModules = quillConfig;
+  minLength = 20;
+  maxLength = 63206;
   eventInfForm: FormGroup<EventInformationGroup> = this.fb.nonNullable.group({
     title: ['', [Validators.required, Validators.maxLength(70)]],
     duration: [1, Validators.required],
@@ -70,9 +69,22 @@ export class CreateEventInformationComponent implements OnInit {
   }
 
   quillContentChanged(content: ContentChange) {
-    this.quillLength = content.text.length - 1;
-    this.isQuillUnfilled = this.quillLength < 20;
+    this.quillLength = content.text.length;
+    this.isQuillUnfilled = this.quillLength < this.minLength || this.quillLength > this.maxLength;
     this.eventInfForm.get('description').setValue(content.text.trimEnd());
+  }
+
+  get getQuillLabel(): string {
+    if (this.quillLength < 1) {
+      return `${this.getLocale('quillDefault')}`;
+    }
+    if (this.quillLength < this.minLength) {
+      return `${this.getLocale('quillError')} ${this.minLength - this.quillLength + 1}`;
+    }
+    if (this.quillLength > this.maxLength) {
+      return `${this.getLocale('quillValid')} ${this.quillLength - this.maxLength}`;
+    }
+    return `${this.getLocale('quillValid')} ${this.maxLength - this.quillLength}`;
   }
 
   getLocale(localeKey: EventLocaleKeys): string {

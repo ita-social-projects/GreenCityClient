@@ -98,6 +98,14 @@ export const EVENT_LOCALE = {
     ua: 'Недостатньо символів. Залишилось: ',
     en: 'Not enough characters. Left: '
   },
+  quillValid: {
+    ua: 'Має бути не менше 20 і не більше 63206 символів. Залишилось: ',
+    en: 'Must be minimum 20 and maximum 63206 symbols. Left: '
+  },
+  quillDefault: {
+    ua: ' ',
+    en: ' '
+  },
   eventTypeOptions: [
     { en: 'Closed', ua: 'Закрита' },
     { en: 'Open', ua: 'Відкрита' }
