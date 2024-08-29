@@ -6,6 +6,16 @@ export function timeValidator(upperTimeLimit: string): ValidatorFn {
     const startTime = form.get('startTime')?.value;
     const endTime = form.get('endTime')?.value;
 
+    if (!startTime) {
+      form.get('startTime')?.setErrors({ required: true });
+      return { required: true };
+    }
+
+    if (!endTime) {
+      form.get('endTime')?.setErrors({ required: true });
+      return { required: true };
+    }
+
     const startTValid = regex.test(startTime);
     const endTValid = regex.test(endTime);
 

@@ -38,6 +38,7 @@
           {{ time }}
         </mat-option>
       </mat-autocomplete>
+      <mat-error *ngIf="form.get('endTime')?.hasError('required')">{{ 'create-event.date-required' | translate }}</mat-error>
     </mat-form-field>
   </div>
 

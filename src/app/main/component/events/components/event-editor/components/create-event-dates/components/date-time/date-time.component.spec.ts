@@ -11,6 +11,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 describe('DateTimeComponent', () => {
   let component: DateTimeComponent;
@@ -28,8 +29,10 @@ describe('DateTimeComponent', () => {
         MatAutocompleteModule,
         MatCheckboxModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        ReactiveFormsModule
       ],
+      providers: [FormBuilder],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
@@ -41,5 +44,22 @@ describe('DateTimeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('should show error when start date is empty', () => {
+    component.form.get('startTime')?.setValue('');
+    component.form.get('endTime')?.setValue('23:59');
+    fixture.detectChanges();
+
+    const startTimeErrors = component.form.get('startTime')?.errors || {};
+    expect(startTimeErrors['required']).toBeTruthy();
+  });
+
+  it('should show error when end date is empty', () => {
+    component.form.get('startTime')?.setValue('00:00');
+    component.form.get('endTime')?.setValue('');
+    fixture.detectChanges();
+
+    const endTimeErrors = component.form.get('endTime')?.errors || {};
+    expect(endTimeErrors['required']).toBeTruthy();
   });
 });
