@@ -286,6 +286,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private searchEventsByTitle(searchTitle: string): void {
+    if (this.searchResultSubscription) {
+      this.searchResultSubscription.unsubscribe();
+    }
+
     const eventListFilterCriterias = this.createEventListFilterCriteriasObject();
     this.searchResultSubscription = this.eventService
       .getEvents(this.page, this.eventsPerPage, eventListFilterCriterias, searchTitle)
