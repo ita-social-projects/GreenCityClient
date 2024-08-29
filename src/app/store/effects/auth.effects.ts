@@ -22,7 +22,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 @Injectable()
 export class AuthEffects {
   private readonly BACKEND_ERRORS = {
-    Unauthorized: 'user.auth.sign-in.account-has-been-deleted',
+    Unauthorized: 'user.auth.sign-in.bad-email-or-password',
     'You should verify the email first, check your email box!': 'user.auth.sign-in.not-verified-email'
   };
 
