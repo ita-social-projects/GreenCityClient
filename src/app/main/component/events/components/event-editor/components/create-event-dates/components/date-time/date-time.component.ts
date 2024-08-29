@@ -16,19 +16,34 @@ import { DateTime, DateTimeGroup, FormEmitter } from '../../../../../../models/e
 export class DateTimeComponent implements OnInit, OnDestroy {
   @Input({ required: true }) dayNumber: number;
   @Input({ required: true }) sharedKey: number;
-  @Input() formDisabled: boolean;
+  @Input() set formDisabled(value: boolean) {
+    this._formDisabled = value;
+    if (this.form) {
+      if (value) {
+        this.form.disable();
+      } else {
+        this.form.enable();
+      }
+    }
+  }
+  get formDisabled(): boolean {
+    return this._formDisabled;
+  }
+  private _formDisabled: boolean = false;
+
   @Input() formInput: DateTime;
   today: Date = new Date();
   dateFilterBind = this._dateFilter.bind(this);
   startOptionsArr: string[];
   endOptionsArr: string[];
-  // we will attach this validator later in code { validators: timeValidator(this._timeArr[this._upperTimeLimit]) }
+
   form: FormGroup<DateTimeGroup> = this.fb.nonNullable.group({
-    date: [this.today, Validators.required],
-    startTime: ['', Validators.required],
-    endTime: ['', Validators.required],
+    date: [{ value: this.today, disabled: this.formDisabled }, Validators.required],
+    startTime: [{ value: '', disabled: this.formDisabled }, Validators.required],
+    endTime: [{ value: '', disabled: this.formDisabled }, Validators.required],
     allDay: [false]
   });
+
   @Output() destroy = new EventEmitter<any>();
   @Output() formEmitter: EventEmitter<FormEmitter<DateTime>> = new EventEmitter<FormEmitter<DateTime>>();
   private _timeArr: string[] = [];
@@ -109,15 +124,18 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     this._checkedAllDay = !this._checkedAllDay;
     const startTime = this.startTime;
     const endTime = this.endTime;
-    [startTime, endTime].forEach((control) => control[this._checkedAllDay ? 'disable' : 'enable']());
-    // IF toggle true disable forms and memorize last values
+
     if (this._checkedAllDay) {
       this._lastTimeValues = [startTime.value, endTime.value];
+      startTime.disable();
+      endTime.disable();
       this.form.patchValue({
         startTime: this._timeArr[0],
         endTime: this._timeArr[this._lowerTimeLimit - 1]
       });
     } else {
+      startTime.enable();
+      endTime.enable();
       this.form.patchValue({
         startTime: this._lastTimeValues[0],
         endTime: this._lastTimeValues[1]
