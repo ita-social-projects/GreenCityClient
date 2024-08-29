@@ -36,6 +36,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   dateFilterBind = this._dateFilter.bind(this);
   startOptionsArr: string[];
   endOptionsArr: string[];
+  // we will attach this validator later in code { validators: timeValidator(this._timeArr[this._upperTimeLimit]) }
 
   form: FormGroup<DateTimeGroup> = this.fb.nonNullable.group({
     date: [{ value: this.today, disabled: this.formDisabled }, Validators.required],
