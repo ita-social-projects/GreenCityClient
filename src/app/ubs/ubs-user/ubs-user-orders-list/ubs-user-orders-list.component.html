@@ -23,13 +23,13 @@
           <div class="mobile_list">
             <div class="mobile mobile_list-date">{{ 'user-orders.order-date' | translate }}</div>
             <mat-panel-description class="order_list-date table-data">
-              {{ order.dateForm | date: 'dd-MM-yyyy' }}
+              {{ order.dateForm | localizedDate | date: 'dd-MM-yyyy' }}
             </mat-panel-description>
           </div>
           <div class="mobile_list">
             <div class="mobile mobile_list-paymentDate">{{ 'user-orders.payment-date' | translate }}</div>
             <mat-panel-description class="order_list-paymentDate table-data">
-              {{ order.datePaid | date: 'dd-MM-yyyy' }}
+              {{ order.datePaid | localizedDate | date: 'dd-MM-yyyy' }}
             </mat-panel-description>
           </div>
           <div class="mobile_list">
