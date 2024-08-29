@@ -124,7 +124,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     this._checkedAllDay = !this._checkedAllDay;
     const startTime = this.startTime;
     const endTime = this.endTime;
-
+    // IF toggle true disable forms and memorize last values
     if (this._checkedAllDay) {
       this._lastTimeValues = [startTime.value, endTime.value];
       startTime.disable();
