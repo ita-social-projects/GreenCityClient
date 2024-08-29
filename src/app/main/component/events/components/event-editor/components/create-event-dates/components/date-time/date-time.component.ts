@@ -109,10 +109,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     }
   }
 
-  onInputChange(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const inputValue = inputElement.value.trim();
-
+  validateDate(inputValue: string) {
     this.isDateCorrect = true;
     this.isDateInThePast = false;
     this.isDateEmpty = false;
@@ -144,6 +141,12 @@ export class DateTimeComponent implements OnInit, OnDestroy {
         this.isDateInThePast = false;
       }
     }
+  }
+
+  onInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value.trim();
+    this.validateDate(inputValue);
   }
 
   toggleAllDay(): void {
