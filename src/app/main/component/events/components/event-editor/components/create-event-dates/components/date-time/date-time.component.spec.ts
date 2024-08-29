@@ -62,4 +62,44 @@ describe('DateTimeComponent', () => {
     const endTimeErrors = component.form.get('endTime')?.errors || {};
     expect(endTimeErrors['required']).toBeTruthy();
   });
+  
+  it('should show error when startTime has an invalid format', () => {
+    component.form.get('startTime')?.setValue('25:00');
+    component.form.get('endTime')?.setValue('23:59');
+    fixture.detectChanges();
+
+    const startTimeErrors = component.form.get('startTime')?.errors || {};
+    expect(startTimeErrors['invalidTimeFormat']).toBeTruthy();
+  });
+
+  it('should show error when endTime has an invalid format', () => {
+    component.form.get('startTime')?.setValue('23:00');
+    component.form.get('endTime')?.setValue('99:99');
+    fixture.detectChanges();
+
+    const endTimeErrors = component.form.get('endTime')?.errors || {};
+    expect(endTimeErrors['invalidTimeFormat']).toBeTruthy();
+  });
+  
+  it('should show error when startTime is greater than or equal to endTime', () => {
+    component.form.get('startTime')?.setValue('23:00');
+    component.form.get('endTime')?.setValue('22:00');
+    fixture.detectChanges();
+
+    const startTimeErrors = component.form.get('startTime')?.errors || {};
+    const endTimeErrors = component.form.get('endTime')?.errors || {};
+    expect(startTimeErrors['invalidTime']).toBeTruthy();
+    expect(endTimeErrors['invalidTime']).toBeTruthy();
+  });
+  
+  it('should not show errors when startTime and endTime are valid and within range', () => {
+    component.form.get('startTime')?.setValue('07:00');
+    component.form.get('endTime')?.setValue('08:00');
+    fixture.detectChanges();
+
+    const startTimeErrors = component.form.get('startTime')?.errors;
+    const endTimeErrors = component.form.get('endTime')?.errors;
+    expect(startTimeErrors).toBeNull();
+    expect(endTimeErrors).toBeNull();
+  });
 });
