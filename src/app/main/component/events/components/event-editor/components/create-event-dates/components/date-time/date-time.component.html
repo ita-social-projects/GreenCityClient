@@ -10,10 +10,13 @@
       formControlName="date"
       matInput
       ngDefaultControl
+      (input)="onInputChange($event)"
     />
     <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
-    <mat-error>{{ 'create-event.date-error' | translate }}</mat-error>
+    <mat-error *ngIf="isDateInThePast">{{ 'create-event.date-error' | translate }}</mat-error>
+    <mat-error *ngIf="!isDateCorrect">{{ 'create-event.date-error-format' | translate }}</mat-error>
+    <mat-error *ngIf="isDateEmpty">{{ 'create-event.date-error-required' | translate }}</mat-error>
     <mat-hint>MMDDYYYY</mat-hint>
   </mat-form-field>
 
@@ -39,16 +42,6 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-  </div>
-
-  <div *ngIf="form?.invalid && form?.touched" class="date-error">
-    <app-input-error
-      [formElement]="endTime && startTime"
-      [isEvent]="true"
-      [date]="endTime.invalid"
-      [numberDate]="date.invalid"
-      [isStartEventError]="startTime.invalid"
-    ></app-input-error>
   </div>
 
   <mat-checkbox (change)="toggleAllDay()" class="mr-2" color="primary" formControlName="allDay"

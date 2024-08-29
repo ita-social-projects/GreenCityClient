@@ -41,6 +41,10 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   private _lastTimeValues: string[] = [];
   private _key = Symbol('dateKey');
 
+  isDateCorrect = true;
+  isDateInThePast = false;
+  isDateEmpty = false;
+
   constructor(
     private fb: FormBuilder,
     private bridge: FormBridgeService,
@@ -102,6 +106,43 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     this.destroy.emit(this._key);
     if (this.dayNumber === 0) {
       this.bridge.resetSubjects();
+    }
+  }
+
+  onInputChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value.trim();
+
+    this.isDateCorrect = true;
+    this.isDateInThePast = false;
+    this.isDateEmpty = false;
+
+    // Check if the input is empty
+    if (!inputValue) {
+      this.isDateEmpty = true;
+      this.isDateCorrect = true;
+    }
+    // Check if the input is a valid date
+    else if (isNaN(Date.parse(inputValue))) {
+      this.isDateCorrect = false;
+      this.isDateInThePast = false;
+      this.isDateEmpty = false;
+    }
+    // Check if the date is in the past
+    else {
+      const inputDate = new Date(inputValue);
+      const currentDate = new Date();
+
+      inputDate.setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0);
+
+      if (inputDate < currentDate) {
+        this.isDateCorrect = true;
+        this.isDateInThePast = true;
+      } else {
+        this.isDateCorrect = true;
+        this.isDateInThePast = false;
+      }
     }
   }
 
