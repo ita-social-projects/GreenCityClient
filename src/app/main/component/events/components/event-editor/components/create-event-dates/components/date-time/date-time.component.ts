@@ -37,14 +37,12 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   startOptionsArr: string[];
   endOptionsArr: string[];
   // we will attach this validator later in code { validators: timeValidator(this._timeArr[this._upperTimeLimit]) }
-
   form: FormGroup<DateTimeGroup> = this.fb.nonNullable.group({
     date: [{ value: this.today, disabled: this.formDisabled }, Validators.required],
     startTime: [{ value: '', disabled: this.formDisabled }, Validators.required],
     endTime: [{ value: '', disabled: this.formDisabled }, Validators.required],
     allDay: [false]
   });
-
   @Output() destroy = new EventEmitter<any>();
   @Output() formEmitter: EventEmitter<FormEmitter<DateTime>> = new EventEmitter<FormEmitter<DateTime>>();
   private _timeArr: string[] = [];
