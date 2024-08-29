@@ -29,7 +29,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   get formDisabled(): boolean {
     return this._formDisabled;
   }
-  private _formDisabled: boolean = false;
+  private _formDisabled = false;
 
   @Input() formInput: DateTime;
   today: Date = new Date();
