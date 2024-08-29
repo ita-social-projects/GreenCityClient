@@ -114,32 +114,60 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     this.isDateInThePast = false;
     this.isDateEmpty = false;
 
-    // Check if the input is empty
     if (!inputValue) {
       this.isDateEmpty = true;
       this.isDateCorrect = true;
+
+      return;
     }
-    // Check if the input is a valid date
-    else if (isNaN(Date.parse(inputValue))) {
+
+    let delimiter = null;
+    if (inputValue.includes('/')) {
+      delimiter = '/';
+    } else if (inputValue.includes('.')) {
+      delimiter = '.';
+    }
+    if (!delimiter) {
       this.isDateCorrect = false;
       this.isDateInThePast = false;
       this.isDateEmpty = false;
+
+      return;
     }
-    // Check if the date is in the past
-    else {
-      const inputDate = new Date(inputValue);
-      const currentDate = new Date();
 
-      inputDate.setHours(0, 0, 0, 0);
-      currentDate.setHours(0, 0, 0, 0);
+    const dateParts = inputValue.split(delimiter);
+    if (dateParts.length !== 3) {
+      this.isDateCorrect = false;
+      this.isDateInThePast = false;
+      this.isDateEmpty = false;
 
-      if (inputDate < currentDate) {
-        this.isDateCorrect = true;
-        this.isDateInThePast = true;
-      } else {
-        this.isDateCorrect = true;
-        this.isDateInThePast = false;
-      }
+      return;
+    }
+
+    const day = parseInt(dateParts[0], 10);
+    const month = parseInt(dateParts[1], 10) - 1;
+    const year = parseInt(dateParts[2], 10);
+    const inputDate = new Date(year, month, day);
+
+    // Check if the date is valid
+    if (inputDate.getFullYear() !== year || inputDate.getMonth() !== month || inputDate.getDate() !== day) {
+      this.isDateCorrect = false;
+      this.isDateInThePast = false;
+      this.isDateEmpty = false;
+
+      return;
+    }
+
+    const currentDate = new Date();
+    inputDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+
+    if (inputDate < currentDate) {
+      this.isDateCorrect = true;
+      this.isDateInThePast = true;
+    } else {
+      this.isDateCorrect = true;
+      this.isDateInThePast = false;
     }
   }
 
