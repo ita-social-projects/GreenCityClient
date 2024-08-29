@@ -81,6 +81,7 @@ describe('DateTimeComponent', () => {
     const endTimeErrors = component.form.get('endTime')?.errors || {};
     expect(endTimeErrors['invalidTimeFormat']).toBeTruthy();
   });
+
   it('should show error when startTime is greater than or equal to endTime', () => {
     component.form.get('startTime')?.setValue('23:00');
     component.form.get('endTime')?.setValue('22:00');
@@ -91,6 +92,7 @@ describe('DateTimeComponent', () => {
     expect(startTimeErrors['invalidTime']).toBeTruthy();
     expect(endTimeErrors['invalidTime']).toBeTruthy();
   });
+
   it('should not show errors when startTime and endTime are valid and within range', () => {
     component.form.get('startTime')?.setValue('07:00');
     component.form.get('endTime')?.setValue('08:00');
