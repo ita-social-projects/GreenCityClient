@@ -87,12 +87,6 @@ form label {
   }
 }
 
-.title-description {
-  max-width: 58%;
-  word-break: break-word;
-  white-space: normal;
-}
-
 .wrapper {
   display: grid;
   grid-template: auto auto auto / 652px auto;
@@ -198,6 +192,20 @@ textarea.ng-invalid.ng-dirty + p {
   border: 1px solid red;
 }
 
+.title-description {
+  max-width: 58%;
+  word-break: break-word;
+  white-space: normal;
+
+  @media screen and (max-width: 1023px) {
+    max-width: 75%;
+  }
+
+  @media screen and (max-width: 767px) {
+    max-width: 100%;
+  }
+}
+
 @media screen and (max-width: 1439px) {
   .box {
     width: 960px;
@@ -223,11 +231,6 @@ textarea.ng-invalid.ng-dirty + p {
       'image'
       'source';
   }
-
-  .title-description {
-    max-width: 75%;
-    white-space: normal;
-  }
 }
 
 @media screen and (max-width: 767px) {
@@ -240,11 +243,6 @@ textarea.ng-invalid.ng-dirty + p {
       font-size: 24px;
       line-height: 32px;
     }
-  }
-
-  .title-description {
-    max-width: 100%;
-    white-space: normal;
   }
 }
 
