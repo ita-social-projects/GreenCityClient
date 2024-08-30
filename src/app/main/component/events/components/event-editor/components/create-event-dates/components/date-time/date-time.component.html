@@ -17,7 +17,7 @@
     <mat-error *ngIf="isDateInThePast">{{ 'create-event.date-error' | translate }}</mat-error>
     <mat-error *ngIf="!isDateCorrect">{{ 'create-event.date-error-format' | translate }}</mat-error>
     <mat-error *ngIf="isDateEmpty">{{ 'create-event.date-error-required' | translate }}</mat-error>
-    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-hint>DD/MM/YYYY</mat-hint>
   </mat-form-field>
 
   <div class="time">
