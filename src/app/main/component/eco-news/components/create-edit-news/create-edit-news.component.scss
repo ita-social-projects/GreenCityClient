@@ -192,6 +192,14 @@ textarea.ng-invalid.ng-dirty + p {
   border: 1px solid red;
 }
 
+.quill-counter {
+  font-size: 12px;
+}
+
+.quill-valid {
+  color: var(--quaternary-grey);
+}
+
 @media screen and (max-width: 1439px) {
   .box {
     width: 960px;

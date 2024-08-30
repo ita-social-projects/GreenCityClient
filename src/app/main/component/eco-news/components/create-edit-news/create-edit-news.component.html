@@ -70,12 +70,23 @@
             </p>
           </div>
           <quill-editor
-            minlength="20"
+            [maxLength]="maxLength"
+            [minLength]="minLength"
             [modules]="quillModules"
             formControlName="content"
             placeholder="{{ 'create-news.content-placeholder' | translate }}"
+            (onContentChanged)="quillContentChanged($event)"
             (onEditorChanged)="changedEditor($event)"
           ></quill-editor>
+          <p
+            [ngClass]="{
+              warning: isQuillUnfilled || quillLength > maxLength,
+              'quill-valid': !isQuillUnfilled && quillLength <= maxLength
+            }"
+            class="quill-counter"
+          >
+            {{ quillLabel }}
+          </p>
         </div>
         <div class="date">
           <p>
