@@ -90,6 +90,7 @@ form label {
 .title-description {
   max-width: 58%;
   word-break: break-word;
+  white-space: normal;
 }
 
 .wrapper {
@@ -221,6 +222,11 @@ textarea.ng-invalid.ng-dirty + p {
       'tags'
       'image'
       'source';
+  }
+
+  .title-description {
+    max-width: 75%;
+    white-space: normal;
   }
 }
 
