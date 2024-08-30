@@ -61,23 +61,27 @@ describe('DateTimeComponent', () => {
     it('should set isDateInThePast to true when input date is in the past', () => {
       const pastDate = new Date();
       pastDate.setDate(pastDate.getDate() - 1); // Set to one day in the past
-      component.validateDate(pastDate.toISOString().split('T')[0]);
+      const pastDateString = pastDate.getMonth() + 1 + '/' + pastDate.getDate() + '/' + pastDate.getFullYear();
+      component.validateDate(pastDateString);
       expect(component.isDateCorrect).toBeTrue();
       expect(component.isDateInThePast).toBeTrue();
       expect(component.isDateEmpty).toBeFalse();
     });
 
     it('should set isDateInThePast to false when input date is today or in the future', () => {
+      // Testing with tomorrow's date
       const futureDate = new Date();
       futureDate.setDate(futureDate.getDate() + 1); // Set to one day in the future
-      component.validateDate(futureDate.toISOString().split('T')[0]);
+      const futureDateString = futureDate.getMonth() + 1 + '/' + futureDate.getDate() + '/' + futureDate.getFullYear();
+      component.validateDate(futureDateString);
       expect(component.isDateCorrect).toBeTrue();
       expect(component.isDateInThePast).toBeFalse();
       expect(component.isDateEmpty).toBeFalse();
 
       // Testing with today's date
       const todayDate = new Date();
-      component.validateDate(todayDate.toISOString().split('T')[0]);
+      const todayDateString = todayDate.getMonth() + 1 + '/' + todayDate.getDate() + '/' + todayDate.getFullYear();
+      component.validateDate(todayDateString);
       expect(component.isDateCorrect).toBeTrue();
       expect(component.isDateInThePast).toBeFalse();
       expect(component.isDateEmpty).toBeFalse();

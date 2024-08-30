@@ -144,8 +144,8 @@ export class DateTimeComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const day = parseInt(dateParts[0], 10);
-    const month = parseInt(dateParts[1], 10) - 1;
+    const day = parseInt(dateParts[1], 10);
+    const month = parseInt(dateParts[0], 10) - 1;
     const year = parseInt(dateParts[2], 10);
     const inputDate = new Date(year, month, day);
 
