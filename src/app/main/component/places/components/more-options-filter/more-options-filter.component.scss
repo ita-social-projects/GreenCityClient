@@ -11,6 +11,10 @@
   overflow: auto;
 }
 
-.custom-chip.global-tag.global-tag-clicked {
-  margin-top: 4px;
+.custom-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4.6px; 
 }
+
