@@ -71,15 +71,11 @@
       placeholder="{{ 'create-event.content-placeholder' | translate }}"
     >
     </quill-editor>
-
     <p
-      [ngClass]="{
-        'quill-error': isQuillUnfilled || quillLength > maxLength,
-        'quill-valid': !isQuillUnfilled && quillLength <= maxLength
-      }"
+      [ngClass]="{ 'quill-error': isQuillUnfilled || quillLength > maxLength, 'quill-valid': !isQuillUnfilled && quillLength <= maxLength }"
       class="quill-counter"
     >
-      {{ getQuillLabel }}
+      {{ quillLabel }}
     </p>
   </div>
   <div class="images" style="width: 100%">

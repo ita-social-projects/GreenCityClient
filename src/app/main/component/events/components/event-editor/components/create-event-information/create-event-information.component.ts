@@ -74,7 +74,7 @@ export class CreateEventInformationComponent implements OnInit {
     this.eventInfForm.get('description').setValue(content.text.trimEnd());
   }
 
-  get getQuillLabel(): string {
+  get quillLabel(): string {
     if (this.quillLength < 1) {
       return `${this.getLocale('quillDefault')}`;
     }
