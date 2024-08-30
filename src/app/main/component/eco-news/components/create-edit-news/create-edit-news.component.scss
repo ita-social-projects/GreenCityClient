@@ -87,6 +87,11 @@ form label {
   }
 }
 
+.title-description {
+  max-width: 58%;
+  word-break: break-word;
+}
+
 .wrapper {
   display: grid;
   grid-template: auto auto auto / 652px auto;
@@ -229,6 +234,11 @@ textarea.ng-invalid.ng-dirty + p {
       font-size: 24px;
       line-height: 32px;
     }
+  }
+
+  .title-description {
+    max-width: 100%;
+    white-space: normal;
   }
 }
 
