@@ -10,6 +10,7 @@ import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-r
 import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('UbsAdminOrderStatusComponent', () => {
   let component: UbsAdminOrderStatusComponent;
@@ -50,7 +51,7 @@ describe('UbsAdminOrderStatusComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminOrderStatusComponent],
-      imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NoopAnimationsModule],
+      imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NoopAnimationsModule, SharedModule],
       providers: [
         { provide: OrderService, useValue: OrderServiceFake },
         { provide: MatDialog, useValue: matDialogMock },
