@@ -1,3 +1,8 @@
+:host {
+  display: flex;
+  align-items: center;
+}
+
 .checkbox {
   display: block;
 }
@@ -10,11 +15,3 @@
   height: 180px;
   overflow: auto;
 }
-
-.custom-chip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 4.6px; 
-}
-
