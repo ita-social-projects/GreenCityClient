@@ -91,7 +91,7 @@ export class CreateEventInformationComponent implements OnInit {
     return EVENT_LOCALE[localeKey][this.localStorageService.getCurrentLanguage()];
   }
 
-  setImagesUrlArray(value: ImagesContainer[]) {
+  setImagesUrlArray(value: ImagesContainer[]): void {
     this.eventInfForm.controls.images.setValue(value);
   }
 }
