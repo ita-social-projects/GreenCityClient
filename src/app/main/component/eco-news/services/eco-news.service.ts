@@ -23,15 +23,15 @@ export class EcoNewsService implements OnDestroy {
   }
 
   getEcoNewsListByPage(page: number, quantity: number) {
-    return this.http.get(`${this.backEnd}econews?page=${page}&size=${quantity}`);
+    return this.http.get(`${this.backEnd}eco-news?page=${page}&size=${quantity}`);
   }
 
-  getEcoNewsListByAutorId(page: number, quantity: number) {
-    return this.http.get(`${this.backEnd}econews/byUserPage?page=${page}&size=${quantity}`);
+  getEcoNewsListByAutorId(authorId: number, page: number, quantity: number) {
+    return this.http.get(`${this.backEnd}eco-news/?author-id=${authorId}&page=${page}&size=${quantity}`);
   }
 
   getNewsListByTags(page: number, quantity: number, tags: Array<string>) {
-    return this.http.get(`${this.backEnd}econews/tags?page=${page}&size=${quantity}&tags=${tags}`);
+    return this.http.get(`${this.backEnd}eco-news/tags?page=${page}&size=${quantity}&tags=${tags}`);
   }
 
   getNewsList(): Observable<any> {
@@ -39,7 +39,7 @@ export class EcoNewsService implements OnDestroy {
     headers.set('Content-type', 'application/json');
     return new Observable((observer: Observer<any>) => {
       this.http
-        .get<EcoNewsDto>(`${this.backEnd}econews`)
+        .get<EcoNewsDto>(`${this.backEnd}eco-news`)
         .pipe(take(1))
         .subscribe((newsDto: EcoNewsDto) => {
           observer.next(newsDto);
@@ -48,23 +48,23 @@ export class EcoNewsService implements OnDestroy {
   }
 
   getEcoNewsById(id: number): Observable<EcoNewsModel> {
-    return this.http.get<EcoNewsModel>(`${this.backEnd}econews/${id}?lang=${this.language}`);
+    return this.http.get<EcoNewsModel>(`${this.backEnd}eco-news/${id}?lang=${this.language}`);
   }
 
   getRecommendedNews(id: number): Observable<EcoNewsModel[]> {
-    return this.http.get<EcoNewsModel[]>(`${this.backEnd}econews/recommended?openedEcoNewsId=${id}`);
+    return this.http.get<EcoNewsModel[]>(`${this.backEnd}eco-news/${id}/recomended`);
   }
 
-  getIsLikedByUser(econewsId: number): Observable<boolean> {
-    return this.http.get<boolean>(`${this.backEnd}econews/isLikedByUser`, { params: { econewsId } });
+  getIsLikedByUser(econewsId: number, userId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.backEnd}eco-news/${econewsId}/likes/${userId}`);
   }
 
   postToggleLike(id: number): Observable<any> {
-    return this.http.post(`${this.backEnd}econews/like?id=${id}`, {});
+    return this.http.post(`${this.backEnd}eco-news/${id}/likes`, {});
   }
 
   deleteNews(id: number): Observable<any> {
-    return this.http.delete(`${this.backEnd}econews/${id}`);
+    return this.http.delete(`${this.backEnd}eco-news/${id}`);
   }
 
   ngOnDestroy(): void {
