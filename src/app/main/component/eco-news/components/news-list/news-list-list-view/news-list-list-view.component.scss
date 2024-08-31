@@ -52,7 +52,7 @@ div {
     font-weight: 700;
     font-size: 20px;
     line-height: 32px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     color: var(--freinacht-black);
     overflow: hidden;
     word-break: break-all;
@@ -117,16 +117,13 @@ div {
 
 .eco-news_list-content-text {
   font-size: 14px;
-  // line-height: 32px;
   height: 100%;
   font-family: var(--primary-font);
   color: var(--quaternary-dark-grey);
-
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   box-orient: vertical;
-  /* For older Firefox versions */
   text-overflow: ellipsis;
 
   &.one-row {
