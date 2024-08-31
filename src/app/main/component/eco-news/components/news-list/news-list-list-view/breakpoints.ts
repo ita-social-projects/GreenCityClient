@@ -1,23 +1,8 @@
 export const possibleDescHeight = {
-  smallHeight: {
-    26: 'one-row',
-    52: 'd-none',
-    72: 'd-none',
-    78: 'one-row',
-    96: 'd-none',
-    100: 'one-row',
-    104: 'd-none'
-  },
-  bigHeight: {
-    24: 'tree-row',
-    26: 'tree-row',
-    48: 'two-row',
-    52: 'two-row',
-    72: 'one-row',
-    78: 'one-row',
-    96: 'one-row',
-    100: 'one-row'
-  }
+  32: 'tree-row',
+  64: 'two-row',
+  96: 'one-row',
+  128: 'hide'
 };
 
 export const possibleTitleHeight = {

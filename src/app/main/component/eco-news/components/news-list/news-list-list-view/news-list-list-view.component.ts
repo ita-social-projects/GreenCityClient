@@ -97,7 +97,7 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
   }
 
   private getHeightOfDesc(titleHeight: number): string {
-    const result = possibleDescHeight[this.getDomWidth()][titleHeight];
+    const result = possibleDescHeight[titleHeight];
     const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'tree-row';
     const midTitleHeight = titleHeight > 52 ? 'one-row' : smallTitleHeight;
     return result || midTitleHeight;
