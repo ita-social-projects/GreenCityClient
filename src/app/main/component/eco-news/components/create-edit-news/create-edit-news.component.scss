@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 ::ng-deep {
   .ql-container {
     min-height: 200px;
@@ -197,11 +199,15 @@ textarea.ng-invalid.ng-dirty + p {
   word-break: break-word;
   white-space: normal;
 
-  @media screen and (max-width: 1023px) {
+  @include responsivePCFirst(3xl){
+   max-width:58%;
+  }
+
+  @include responsivePCFirst(xl) {
     max-width: 75%;
   }
 
-  @media screen and (max-width: 767px) {
+  @include responsivePCFirst(md) {
     max-width: 100%;
   }
 }
