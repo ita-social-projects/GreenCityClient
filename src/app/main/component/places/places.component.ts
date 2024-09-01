@@ -45,8 +45,6 @@ export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly tagFilterStorageKey = 'placesTagFilter';
   readonly moreOptionsStorageKey = 'moreOptionsFilter';
   placesList: Array<AllAboutPlace>;
-  mapHeight = 0;
-  mapWidth = 0;
 
   @ViewChild('drawer') drawer: MatDrawer;
   @ViewChild('map', { static: false }) mapElement: ElementRef;
