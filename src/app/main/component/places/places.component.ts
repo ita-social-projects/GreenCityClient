@@ -18,7 +18,6 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from './models/places-consts';
-import { After } from 'v8';
 
 @Component({
   selector: 'app-places',
