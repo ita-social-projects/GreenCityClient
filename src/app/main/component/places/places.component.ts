@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Renderer2 } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
@@ -67,11 +67,12 @@ export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
     private filterPlaceService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
     private dialog: MatDialog,
-    private userOwnAuthService: UserOwnAuthService
+    private userOwnAuthService: UserOwnAuthService,
+    private renderer: Renderer2
   ) {}
 
   ngAfterViewInit(): void {
-    this.calculateMapWidthAndHeight();
+    this.modifyMapContainer();
   }
 
   ngOnInit() {
@@ -340,9 +341,13 @@ export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  private calculateMapWidthAndHeight(): void {
-    this.mapHeight = this.mapElement.nativeElement.offsetHeight;
-    this.mapWidth = this.mapElement.nativeElement.offsetWidth;
+  modifyMapContainer() {
+    const mapContainer = this.mapElement.nativeElement.querySelector('.map-container');
+    alert(mapContainer);
+    if (mapContainer) {
+      this.renderer.setStyle(mapContainer, 'width', '100%');
+      this.renderer.setStyle(mapContainer, 'height', '100%');
+    }
   }
 
   ngOnDestroy(): void {
