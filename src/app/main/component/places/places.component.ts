@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
@@ -18,13 +18,14 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from './models/places-consts';
+import { After } from 'v8';
 
 @Component({
   selector: 'app-places',
   templateUrl: './places.component.html',
   styleUrls: ['./places.component.scss']
 })
-export class PlacesComponent implements OnInit, OnDestroy {
+export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
   position: any = {};
   zoom = 13;
   tagList: FilterModel[] = tagsListPlacesData;
@@ -45,8 +46,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
   readonly tagFilterStorageKey = 'placesTagFilter';
   readonly moreOptionsStorageKey = 'moreOptionsFilter';
   placesList: Array<AllAboutPlace>;
+  mapHeight = 0;
+  mapWidth = 0;
 
   @ViewChild('drawer') drawer: MatDrawer;
+  @ViewChild('map', { static: false }) mapElement: ElementRef;
 
   private map: any;
   private googlePlacesService: google.maps.places.PlacesService;
@@ -65,6 +69,10 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private userOwnAuthService: UserOwnAuthService
   ) {}
+
+  ngAfterViewInit(): void {
+    this.calculateMapWidthAndHeight();
+  }
 
   ngOnInit() {
     this.checkUserSingIn();
@@ -330,6 +338,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
           });
         }
       });
+  }
+
+  private calculateMapWidthAndHeight(): void {
+    this.mapHeight = this.mapElement.nativeElement.offsetHeight;
+    this.mapWidth = this.mapElement.nativeElement.offsetWidth;
   }
 
   ngOnDestroy(): void {
