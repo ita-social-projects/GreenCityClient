@@ -44,8 +44,9 @@ export class CreateEcoNewsService {
   }
 
   editNews(form): Observable<EcoNewsModel> {
+    const newsId = form.get('id')?.value;
+
     const body: NewsDTO = {
-      id: form.id,
       tags: form.tags,
       content: form.content,
       title: form.title,
@@ -60,7 +61,7 @@ export class CreateEcoNewsService {
     this.appendImageToFormData(formData);
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
 
-    return this.http.put<EcoNewsModel>(environment.backendLink + `eco-news/${form.id}`, formData, this.httpOptions);
+    return this.http.put<EcoNewsModel>(environment.backendLink + `eco-news/${newsId}`, formData, this.httpOptions);
   }
 
   setForm(form: FormGroup): void {

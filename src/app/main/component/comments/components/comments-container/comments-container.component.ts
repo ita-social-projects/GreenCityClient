@@ -84,7 +84,7 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
         this.totalElements = data;
         if (data) {
           this.commentsService
-            .getActiveCommentsByPage(this.entityId, this.config.currentPage - 1, this.config.itemsPerPage)
+            .getActiveCommentsByPage(this.entityId, this.comment.status, this.config.currentPage - 1, this.config.itemsPerPage)
             .pipe(take(1))
             .subscribe((list: CommentsModel) => {
               this.elementsList = list.page;
@@ -98,14 +98,20 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
 
   private getReplies(): void {
     this.commentsService
-      .getRepliesAmount(this.comment.id)
+      .getRepliesAmount(this.entityId, this.comment.id)
       .pipe(take(1))
       .subscribe((data: number) => {
         this.repliesCounter.emit(data);
         if (this.comment.showAllRelies) {
           if (data) {
             this.commentsService
-              .getActiveRepliesByPage(this.comment.id, this.config.currentPage - 1, this.config.itemsPerPage)
+              .getActiveRepliesByPage(
+                this.entityId,
+                this.comment.id,
+                this.comment.status,
+                this.config.currentPage - 1,
+                this.config.itemsPerPage
+              )
               .subscribe((list: CommentsModel) => {
                 this.elementsList = list.page;
                 this.setData(list);

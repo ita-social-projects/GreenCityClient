@@ -107,7 +107,6 @@ describe('EcoNewsService', () => {
       expect(data).toBe(isLikedByUser);
     });
 
-    // const req = httpTestingController.expectOne(`${environment.backendLink}eco-news/isLikedByUser?econewsId=13578`);
     const req = httpTestingController.expectOne(`${environment.backendLink}eco-news/13578/likes/1`);
     expect(req.request.method).toEqual('GET');
     req.flush(isLikedByUser);
