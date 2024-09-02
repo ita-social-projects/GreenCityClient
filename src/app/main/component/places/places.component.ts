@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
@@ -24,7 +24,7 @@ import { tagsListPlacesData } from './models/places-consts';
   templateUrl: './places.component.html',
   styleUrls: ['./places.component.scss']
 })
-export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PlacesComponent implements OnInit, OnDestroy {
   position: any = {};
   zoom = 13;
   tagList: FilterModel[] = tagsListPlacesData;
@@ -47,7 +47,6 @@ export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
   placesList: Array<AllAboutPlace>;
 
   @ViewChild('drawer') drawer: MatDrawer;
-  @ViewChild('map', { static: false }) mapElement: ElementRef;
 
   private map: any;
   private googlePlacesService: google.maps.places.PlacesService;
@@ -64,13 +63,8 @@ export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
     private filterPlaceService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
     private dialog: MatDialog,
-    private userOwnAuthService: UserOwnAuthService,
-    private renderer: Renderer2
+    private userOwnAuthService: UserOwnAuthService
   ) {}
-
-  ngAfterViewInit(): void {
-    this.modifyMapContainer();
-  }
 
   ngOnInit() {
     this.checkUserSingIn();
@@ -336,14 +330,6 @@ export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
           });
         }
       });
-  }
-
-  modifyMapContainer(): void {
-    const mapContainer = this.mapElement.nativeElement.querySelector('.map-container');
-    if (mapContainer) {
-      this.renderer.setStyle(mapContainer, 'width', '100%');
-      this.renderer.setStyle(mapContainer, 'height', '100%');
-    }
   }
 
   ngOnDestroy(): void {
