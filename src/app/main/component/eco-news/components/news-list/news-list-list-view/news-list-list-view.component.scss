@@ -120,11 +120,10 @@ div {
   height: 100%;
   font-family: var(--primary-font);
   color: var(--quaternary-dark-grey);
+  display: block;
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  box-orient: vertical;
   text-overflow: ellipsis;
+  display: -webkit-box;
 
   &.one-row {
     -webkit-line-clamp: 1;
