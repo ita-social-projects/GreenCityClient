@@ -27,7 +27,7 @@ export class EcoNewsService implements OnDestroy {
   }
 
   getEcoNewsListByAutorId(authorId: number, page: number, quantity: number) {
-    return this.http.get(`${this.backEnd}eco-news/?author-id=${authorId}&page=${page}&size=${quantity}`);
+    return this.http.get(`${this.backEnd}eco-news?author-id=${authorId}&page=${page}&size=${quantity}`);
   }
 
   getNewsListByTags(page: number, quantity: number, tags: Array<string>) {

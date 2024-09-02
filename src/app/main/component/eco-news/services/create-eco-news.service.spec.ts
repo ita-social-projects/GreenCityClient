@@ -80,7 +80,6 @@ describe('CreateEcoNewsService', () => {
       expect(newsData.tags[0]).toEqual('News');
     });
 
-    // const req = httpTestingController.expectOne(environment.backendLink + 'econews/update');
     const req = httpTestingController.expectOne(environment.backendLink + `eco-news/123`);
     expect(req.request.method).toEqual('PUT');
     req.flush(form.value);
