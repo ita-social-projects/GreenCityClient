@@ -338,7 +338,7 @@ export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  modifyMapContainer() {
+  modifyMapContainer(): void {
     const mapContainer = this.mapElement.nativeElement.querySelector('.map-container');
     if (mapContainer) {
       this.renderer.setStyle(mapContainer, 'width', '100%');
