@@ -1,12 +1,96 @@
+$slider-box-size: 28px;
+$slider-control-size: 20px;
+$slider-border-color: #64727D;
+$slider-color: #336B4C;
+$font-family: Lato, sans-serif;
+
+@mixin flex-options($direction: row, $justify: center, $align: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
 .checkbox {
   display: block;
 }
 
 .content {
-  padding: 20px;
+  padding: 10px 30px 20px 10px;
+}
+
+.slider-wrapper {
+  @include flex-options();
+  width: 260px;
+  height: 30px;
+  gap: 3px;
+}
+
+.slider-label-box, 
+.slider-control-box {
+  @include flex-options();
+  width: $slider-box-size; 
+  height: 24px;
+  padding: 0.5em;
+  border: 1px solid $slider-border-color;
+  text-align: center;
+  line-height: 1;
+}
+
+.slider-control-box {
+  width: $slider-control-size;
+  height: $slider-control-size;
+  color: $slider-color;
+  font-family: $font-family;
+  font-weight: 700;
+}
+
+.slider-control-container {
+  @include flex-options();
+  position: relative;
+  margin: 0;
+}
+
+.border-box {
+  width: $slider-control-size;
+  height: 22px;
+  position: absolute;
+  color: $slider-color;
+  font-family: $font-family;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1;
+}
+
+.custom-slider {
+  margin: 0;
+
+  .mat-slider-thumb {
+    width: 16px;
+    height: 16px;
+    box-shadow: 0px 2px 4px 0px #60706B40;
+    transition: transform 300ms ease-out;
+
+    &:active {
+      transform: scale(1.2);
+    }
+  }
+
+  .mat-slider-track-fill {
+    background-color: #13AA57;
+    height: 4px;
+    border-radius: 2px;
+  }
 }
 
 .services-group {
   height: 180px;
   overflow: auto;
+}
+
+.checkbox-group {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
