@@ -135,9 +135,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   }
 
   onCommentKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+    if (event.key === 'Enter' || event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
     }
   }
