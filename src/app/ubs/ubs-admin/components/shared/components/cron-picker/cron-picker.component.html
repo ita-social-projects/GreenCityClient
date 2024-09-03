@@ -10,22 +10,24 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div formGroupName="time" class="panel select-time">
-        <mat-form-field>
+        <mat-form-field appearance="fill">
           <mat-label>{{ 'cron-picker.labels.hour' | translate }}</mat-label>
-          <mat-select formControlName="hour">
-            <mat-option *ngFor="let hour of hours" [value]="hour">
+          <input type="text" matInput [matAutocomplete]="autoHour" formControlName="hour" />
+          <mat-autocomplete #autoHour="matAutocomplete">
+            <mat-option *ngFor="let hour of filteredHours | async" [value]="hour">
               {{ hour }}
             </mat-option>
-          </mat-select>
+          </mat-autocomplete>
         </mat-form-field>
         &nbsp;:&nbsp;
-        <mat-form-field>
+        <mat-form-field appearance="fill">
           <mat-label>{{ 'cron-picker.labels.min' | translate }}</mat-label>
-          <mat-select formControlName="min">
-            <mat-option *ngFor="let min of minutes" [value]="min">
+          <input type="text" matInput [matAutocomplete]="autoMin" formControlName="min" />
+          <mat-autocomplete #autoMin="matAutocomplete">
+            <mat-option *ngFor="let min of filteredMinutes | async" [value]="min">
               {{ min }}
             </mat-option>
-          </mat-select>
+          </mat-autocomplete>
         </mat-form-field>
       </div>
     </mat-expansion-panel>

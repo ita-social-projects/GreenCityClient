@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CronService } from 'src/app/shared/cron/cron.service';
-
+import { MatAutocomplete } from '@angular/material/autocomplete';
+import { startWith, map } from 'rxjs/operators';
 const range = (from: number, to: number) => new Array(to - from).fill(0).map((_, idx) => from + idx);
 const compareObjects = (obj1: any, obj2: any) => JSON.stringify(obj1) === JSON.stringify(obj2);
 
@@ -17,12 +18,19 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() schedule = '';
   @Output() scheduleSelected = new EventEmitter<string>();
 
+  @ViewChild('autoHour', { static: true }) autoHour!: MatAutocomplete;
+  @ViewChild('autoMin', { static: true }) autoMin!: MatAutocomplete;
+
   form: FormGroup;
   private destroy = new Subject<void>();
   lang = 'en';
 
-  minutes = range(0, 60);
-  hours = range(0, 24);
+  hours: string[] = Array.from({ length: 24 }, (_, i) => this.padZero(i));
+  minutes: string[] = Array.from({ length: 60 }, (_, i) => this.padZero(i));
+  filteredHours!: Observable<string[]>;
+  filteredMinutes!: Observable<string[]>;
+  private openAutocomplete: MatAutocomplete | null = null;
+
   daysOfWeek = range(1, 8);
   days = range(1, 32);
   months = range(1, 13);
@@ -41,8 +49,8 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   ) {
     this.form = this.fb.group({
       time: this.fb.group({
-        min: [0],
-        hour: [0]
+        min: [''],
+        hour: ['']
       }),
       day: this.fb.group(
         {
@@ -88,6 +96,16 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
       this.setDescription();
     });
     this.setDescription();
+
+    this.filteredHours = this.form.get('time.hour').valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value, this.hours))
+    );
+
+    this.filteredMinutes = this.form.get('time.min').valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value, this.minutes))
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -112,6 +130,15 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     const params = this.getCronParams();
     const cron = `${params.min} ${params.hour} ${params.dayOfMonth} ${params.month} ${params.dayOfWeek}`;
     this.scheduleSelected.emit(cron);
+  }
+
+  private _filter(value: string, options: string[]): string[] {
+    const filterValue = value.toString().toLowerCase();
+    return options.filter((option) => option.toLowerCase().includes(filterValue));
+  }
+
+  private padZero(num: number): string {
+    return num.toString().padStart(2, '0');
   }
 
   private mapScheduleToFormValue(cron: string): any {
