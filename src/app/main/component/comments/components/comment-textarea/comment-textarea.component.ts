@@ -91,9 +91,12 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
         }),
         filter(() => {
           this.getSelectionStart();
-          const textBeforeCaret = this.range.startContainer.textContent.slice(0, this.range.startOffset);
-          this.lastTagCharIndex = Math.max(textBeforeCaret.lastIndexOf('@'), textBeforeCaret.lastIndexOf('#'));
-          return this.lastTagCharIndex !== -1;
+          if (this.range && this.range.startContainer) {
+            const textBeforeCaret = this.range.startContainer.textContent.slice(0, this.range.startOffset);
+            this.lastTagCharIndex = Math.max(textBeforeCaret.lastIndexOf('@'), textBeforeCaret.lastIndexOf('#'));
+            return this.lastTagCharIndex !== -1;
+          }
+          return false;
         })
       )
       .subscribe(() => {
