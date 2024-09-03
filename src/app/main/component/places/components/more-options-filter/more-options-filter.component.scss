@@ -16,7 +16,7 @@ $font-family: lato, sans-serif;
 }
 
 .content {
-  padding: 10px 30px 20px 10px;
+  padding: 20px;
 }
 
 .slider-wrapper {
@@ -66,34 +66,11 @@ $font-family: lato, sans-serif;
   line-height: 1;
 }
 
-.custom-slider {
-  margin: 0;
-
-  .mat-slider-thumb {
-    width: 16px;
-    height: 16px;
-    box-shadow: 0 2px 4px 0 #60706b40;
-    transition: transform 300ms ease-out;
-
-    &:active {
-      transform: scale(1.2);
-    }
-  }
-
-  .mat-slider-track-fill {
-    background-color: #13aa57;
-    height: 4px;
-    border-radius: 2px;
-  }
+.distance-slider{
+  margin:0;
 }
 
 .services-group {
   height: 180px;
   overflow: auto;
-}
-
-.checkbox-group {
-  position: absolute;
-  bottom: 0;
-  right: 0;
 }
