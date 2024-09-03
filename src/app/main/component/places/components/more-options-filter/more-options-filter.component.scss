@@ -1,8 +1,8 @@
 $slider-box-size: 28px;
 $slider-control-size: 20px;
-$slider-border-color: #64727D;
-$slider-color: #336B4C;
-$font-family: Lato, sans-serif;
+$slider-border-color: #64727d;
+$slider-color: #336b4c;
+$font-family: lato, sans-serif;
 
 @mixin flex-options($direction: row, $justify: center, $align: center) {
   display: flex;
@@ -26,10 +26,10 @@ $font-family: Lato, sans-serif;
   gap: 3px;
 }
 
-.slider-label-box, 
+.slider-label-box,
 .slider-control-box {
   @include flex-options();
-  width: $slider-box-size; 
+  width: $slider-box-size;
   height: 24px;
   padding: 0.5em;
   border: 1px solid $slider-border-color;
@@ -69,7 +69,7 @@ $font-family: Lato, sans-serif;
   .mat-slider-thumb {
     width: 16px;
     height: 16px;
-    box-shadow: 0px 2px 4px 0px #60706B40;
+    box-shadow: 0px 2px 4px 0px #60706b40;
     transition: transform 300ms ease-out;
 
     &:active {
@@ -78,7 +78,7 @@ $font-family: Lato, sans-serif;
   }
 
   .mat-slider-track-fill {
-    background-color: #13AA57;
+    background-color: #13aa57;
     height: 4px;
     border-radius: 2px;
   }
