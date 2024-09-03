@@ -21,6 +21,7 @@ $font-family: lato, sans-serif;
 
 .slider-wrapper {
   @include flex-options();
+
   width: 260px;
   height: 30px;
   gap: 3px;
@@ -29,6 +30,7 @@ $font-family: lato, sans-serif;
 .slider-label-box,
 .slider-control-box {
   @include flex-options();
+
   width: $slider-box-size;
   height: 24px;
   padding: 0.5em;
@@ -47,6 +49,7 @@ $font-family: lato, sans-serif;
 
 .slider-control-container {
   @include flex-options();
+
   position: relative;
   margin: 0;
 }
@@ -69,7 +72,7 @@ $font-family: lato, sans-serif;
   .mat-slider-thumb {
     width: 16px;
     height: 16px;
-    box-shadow: 0px 2px 4px 0px #60706b40;
+    box-shadow: 0 2px 4px 0 #60706b40;
     transition: transform 300ms ease-out;
 
     &:active {
