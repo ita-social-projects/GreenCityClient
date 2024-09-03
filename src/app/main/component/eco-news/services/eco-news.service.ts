@@ -31,7 +31,7 @@ export class EcoNewsService implements OnDestroy {
   }
 
   getNewsListByTags(page: number, quantity: number, tags: Array<string>) {
-    return this.http.get(`${this.backEnd}eco-news/tags?page=${page}&size=${quantity}&tags=${tags}`);
+    return this.http.get(`${this.backEnd}eco-news?tags=${tags}&page=${page}&size=${quantity}`);
   }
 
   getNewsList(): Observable<any> {
@@ -52,7 +52,7 @@ export class EcoNewsService implements OnDestroy {
   }
 
   getRecommendedNews(id: number): Observable<EcoNewsModel[]> {
-    return this.http.get<EcoNewsModel[]>(`${this.backEnd}eco-news/${id}/recomended`);
+    return this.http.get<EcoNewsModel[]>(`${this.backEnd}eco-news/${id}/recommended`);
   }
 
   getIsLikedByUser(econewsId: number, userId: number): Observable<boolean> {

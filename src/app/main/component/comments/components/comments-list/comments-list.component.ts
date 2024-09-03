@@ -52,6 +52,8 @@ export class CommentsListComponent {
   ) {}
 
   deleteComment($event): void {
+    console.log('comments-list.component:');
+    console.log(this.entityId);
     this.changedList.emit($event);
   }
 

@@ -76,7 +76,7 @@ describe('CreateEcoNewsService', () => {
   });
 
   it('should make PUT request', () => {
-    service.editNews(form).subscribe((newsData) => {
+    service.editNews(form.value).subscribe((newsData) => {
       expect(newsData.tags[0]).toEqual('News');
     });
 

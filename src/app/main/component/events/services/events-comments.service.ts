@@ -24,7 +24,7 @@ export class EventsCommentsService implements CommentsService {
     return this.http.post<EventsAddedCommentDTO>(`${this.backEnd}events/comments/${entityId}`, body);
   }
 
-  getActiveCommentsByPage(entityId: number, status: string, page: number, size: number): Observable<CommentsModel> {
+  getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<CommentsModel> {
     return this.http.get<EventsCommentsModel>(`${this.backEnd}events/comments/active?eventId=${entityId}&page=${page}&size=${size}`);
   }
 
@@ -32,7 +32,7 @@ export class EventsCommentsService implements CommentsService {
     return this.http.get<number>(`${this.backEnd}events/comments/count/${entityId}`);
   }
 
-  getActiveRepliesByPage(entityId: number, id: number, status: string, page: number, size: number): Observable<CommentsModel> {
+  getActiveRepliesByPage(entityId: number, id: number, page: number, size: number): Observable<CommentsModel> {
     return this.http.get<EventsCommentsModel>(`${this.backEnd}events/comments/replies/active/${id}?page=${page}&size=${size}`);
   }
 

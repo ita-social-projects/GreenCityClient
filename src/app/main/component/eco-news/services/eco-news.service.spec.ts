@@ -55,7 +55,7 @@ describe('EcoNewsService', () => {
       expect(data).toBe(newsMock);
     });
 
-    const req = httpTestingController.expectOne(`${environment.backendLink}eco-news/tags?page=0&size=5&tags=${tagMock}`);
+    const req = httpTestingController.expectOne(`${environment.backendLink}eco-news?tags=${tagMock}&page=0&size=5`);
     expect(req.request.method).toEqual('GET');
     req.flush(newsMock);
   });
@@ -85,7 +85,7 @@ describe('EcoNewsService', () => {
       expect(data).toBeDefined();
     });
 
-    const req = httpTestingController.expectOne(`${environment.backendLink}eco-news/13578/recomended`);
+    const req = httpTestingController.expectOne(`${environment.backendLink}eco-news/13578/recommended`);
     expect(req.request.method).toEqual('GET');
   });
 

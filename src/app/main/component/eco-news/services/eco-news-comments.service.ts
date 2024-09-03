@@ -24,17 +24,19 @@ export class EcoNewsCommentsService implements CommentsService {
     return this.http.post<EcoNewsAddedCommentDTO>(`${this.backEnd}eco-news/${entityId}/comments`, body);
   }
 
-  getActiveCommentsByPage(entityId: number, status: string, page: number, size: number): Observable<CommentsModel> {
-    return this.http.get<EcoNewsCommentsModel>(`${this.backEnd}eco-news/${entityId}/comments?statuses=${status}&page=${page}&size=${size}`);
+  getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<CommentsModel> {
+    return this.http.get<EcoNewsCommentsModel>(
+      `${this.backEnd}eco-news/${entityId}/comments?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`
+    );
   }
 
   getCommentsCount(entityId: number): Observable<number> {
     return this.http.get<number>(`${this.backEnd}eco-news/${entityId}/comments/count`);
   }
 
-  getActiveRepliesByPage(entityId: number, id: number, status: string, page: number, size: number): Observable<CommentsModel> {
+  getActiveRepliesByPage(entityId: number, id: number, page: number, size: number): Observable<CommentsModel> {
     return this.http.get<EcoNewsCommentsModel>(
-      `${this.backEnd}eco-news/${entityId}/comments/${id}/replies?statuses=${status}&page=${page}&size=${size}`
+      `${this.backEnd}eco-news/${entityId}/comments/${id}/replies?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`
     );
   }
 
@@ -62,6 +64,6 @@ export class EcoNewsCommentsService implements CommentsService {
   }
 
   editComment(entityId: number, id: number, text: string): Observable<void> {
-    return this.http.patch<void>(`${this.backEnd}eco-news/${entityId}/comments/${id}`, text);
+    return this.http.put<void>(`${this.backEnd}eco-news/${entityId}/comments/${id}`, text);
   }
 }

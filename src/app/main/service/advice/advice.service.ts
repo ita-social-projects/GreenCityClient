@@ -12,6 +12,6 @@ export class AdviceService {
   constructor(private http: HttpClient) {}
 
   getAdvice(id: number, language: Language): Observable<AdviceDto> {
-    return this.http.get<AdviceDto>(`${adviceRandomLink}?habit-id=${id}?language=` + language);
+    return this.http.get<AdviceDto>(`${adviceRandomLink}?habit-id=${id}&language=` + language);
   }
 }

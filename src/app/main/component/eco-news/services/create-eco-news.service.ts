@@ -44,9 +44,10 @@ export class CreateEcoNewsService {
   }
 
   editNews(form): Observable<EcoNewsModel> {
-    const newsId = form.get('id')?.value;
+    const newsId = form.id;
 
     const body: NewsDTO = {
+      id: form.id,
       tags: form.tags,
       content: form.content,
       title: form.title,

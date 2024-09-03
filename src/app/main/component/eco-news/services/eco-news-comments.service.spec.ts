@@ -84,11 +84,11 @@ describe('EcoNewsCommentsService', () => {
       text: 'some cool content!'
     };
 
-    service.getActiveCommentsByPage(1, 'ORIGINAL', 3, 2).subscribe((commentData: any) => {
+    service.getActiveCommentsByPage(1, 3, 2).subscribe((commentData: any) => {
       expect(commentData).toEqual(commentBody);
     });
 
-    const req = httpTestingController.expectOne(`${url}eco-news/1/comments?statuses=ORIGINAL&page=3&size=2`);
+    const req = httpTestingController.expectOne(`${url}eco-news/1/comments?statuses=ORIGINAL,EDITED&page=3&size=2`);
     expect(req.request.method).toEqual('GET');
     req.flush(commentBody);
   });
@@ -127,11 +127,11 @@ describe('EcoNewsCommentsService', () => {
       totalPages: 0
     };
 
-    service.getActiveRepliesByPage(1, 2, 'ORIGINAL', 3, 4).subscribe((commentData: any) => {
+    service.getActiveRepliesByPage(1, 2, 3, 4).subscribe((commentData: any) => {
       expect(commentData).toEqual(commentBody);
     });
 
-    const req = httpTestingController.expectOne(`${url}eco-news/1/comments/2/replies?statuses=ORIGINAL&page=3&size=4`);
+    const req = httpTestingController.expectOne(`${url}eco-news/1/comments/2/replies?statuses=ORIGINAL,EDITED&page=3&size=4`);
     expect(req.request.method).toEqual('GET');
     req.flush(commentBody);
   });
@@ -178,13 +178,13 @@ describe('EcoNewsCommentsService', () => {
     req.flush({});
   });
 
-  it('should make PATCH request to edit comment', () => {
+  it('should make PUT request to edit comment', () => {
     service.editComment(1, 2, commentText).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 
     const req = httpTestingController.expectOne(`${url}eco-news/1/comments/2`);
-    expect(req.request.method).toEqual('PATCH');
+    expect(req.request.method).toEqual('PUT');
     expect(req.request.body).toEqual(commentText);
     req.flush({});
   });
