@@ -89,16 +89,19 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
           this.content.setValue(this.commentTextarea.nativeElement.textContent);
           this.emitCommentText();
         }),
-        filter((el: InputEvent) => !!el.data)
+        filter(() => {
+          this.getSelectionStart();
+          const textBeforeCaret = this.range.startContainer.textContent.slice(0, this.range.startOffset);
+          this.lastTagCharIndex = Math.max(textBeforeCaret.lastIndexOf('@'), textBeforeCaret.lastIndexOf('#'));
+          return this.lastTagCharIndex !== -1;
+        })
       )
       .subscribe(() => {
-        this.getSelectionStart();
         const textBeforeCaret = this.range.startContainer.textContent.slice(0, this.range.startOffset);
-        this.lastTagCharIndex = Math.max(...[...this.charToTagUsers].map((char) => textBeforeCaret.lastIndexOf(char)));
         this.searchQuery = textBeforeCaret.slice(this.lastTagCharIndex + 1);
         this.updateCursorPosition();
 
-        if (this.lastTagCharIndex !== -1 && !this.searchQuery.includes(' ') && this.searchQuery.length) {
+        if (!this.searchQuery.includes(' ')) {
           this.sendSocketMessage(this.searchQuery);
         }
       });
