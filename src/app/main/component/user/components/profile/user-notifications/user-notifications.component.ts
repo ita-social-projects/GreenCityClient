@@ -191,6 +191,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
 
   deleteNotification(event: Event, notification: NotificationModel): void {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
+      this.readNotification(event, notification);
       event.stopPropagation();
       this.userNotificationService
         .deleteNotification(notification.notificationId)
