@@ -72,7 +72,8 @@ export class MatSnackBarComponent {
     errorMaxPhotos: { classname: SnackbarClassName.error, key: 'user.photo-upload.you-can-upload-max-photos-event' },
     errorMinPhoto: { classname: SnackbarClassName.error, key: 'create-event.min-photo-error' },
     errorUpdateProfile: { classname: SnackbarClassName.error, key: 'user.user-setting.profile-update-error-name' },
-    errorLiked: { classname: SnackbarClassName.error, key: 'homepage.eco-news.likes' }
+    errorLiked: { classname: SnackbarClassName.error, key: 'homepage.eco-news.likes' },
+    errorNotFound: { classname: SnackbarClassName.error, key: 'homepage.eco-news.not-found' }
   };
 
   constructor(

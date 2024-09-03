@@ -1,6 +1,6 @@
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
@@ -51,7 +51,8 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     private langService: LanguageService,
     private snackBar: MatSnackBarComponent,
     private dialog: MatDialog,
-    private store: Store
+    private store: Store,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -73,9 +74,20 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   getEcoNewsById(id: number): void {
-    this.ecoNewsService.getEcoNewsById(id).subscribe((res: EcoNewsModel) => {
-      this.newsItem = res;
-      this.tags = this.getAllTags();
+    this.ecoNewsService.getEcoNewsById(id).subscribe({
+      next: (res: EcoNewsModel) => {
+        if (res) {
+          this.newsItem = res;
+          this.tags = this.getAllTags();
+        } else {
+          this.snackBar.openSnackBar('errorNotFound');
+          this.router.navigate(['/news']);
+        }
+      },
+      error: () => {
+        this.snackBar.openSnackBar('errorNotFound');
+        this.router.navigate(['/news']);
+      }
     });
   }
 
