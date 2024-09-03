@@ -13,9 +13,9 @@
 }
 
 .author-name {
-  font-family: var(--secondary-font);
+  font-family: var(--tertiary-font);
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 18px;
   line-height: 28px;
   color: var(--secondary-dark-grey);
@@ -24,7 +24,7 @@
 
 .comment-date {
   color: var(--secondary-grey);
-  font-family: var(--primary-font);
+  font-family: var(--tertiary-font);
   font-size: 12px;
   line-height: 16px;
   display: flex;
@@ -62,7 +62,7 @@
 
 .comment-main-text {
   margin-left: 73px;
-  font-family: var(--primary-font);
+  font-family: var(--tertiary-font);
   font-size: 16px;
   line-height: 24px;
   margin-bottom: -10px;
