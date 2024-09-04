@@ -238,8 +238,11 @@ textarea.ng-invalid.ng-dirty + p {
 
   .wrapper {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto;
+    grid-template:
+      'title' auto
+      'tags' auto
+      'image' auto
+      'source' auto / 1fr;
     grid-template-areas:
       'title'
       'tags'
