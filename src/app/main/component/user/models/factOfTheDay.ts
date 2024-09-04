@@ -1,4 +1,4 @@
-export interface CardModel {
+export interface FactOfTheDay {
   id: number;
   content: string;
 }
