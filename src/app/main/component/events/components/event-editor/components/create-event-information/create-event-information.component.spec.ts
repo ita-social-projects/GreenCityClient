@@ -85,7 +85,7 @@ describe('CreateEventInformationComponent', () => {
   it('should return quillDefault if quillLength is less than 1', () => {
     component.quillLength = 0;
     localStorageServiceSpy.getCurrentLanguage.and.returnValue(Language.EN);
-    expect(component.quillLabel).toBe(' ');
+    expect(component.quillLabel).toBe('');
   });
 
   it('should return quillError if quillLength is less than minLength', () => {
