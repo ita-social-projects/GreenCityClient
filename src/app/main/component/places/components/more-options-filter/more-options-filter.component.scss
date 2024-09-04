@@ -1,7 +1,4 @@
-$slider-box-size: 28px;
 $slider-control-size: 20px;
-$slider-border-color: #64727d;
-$slider-color: #336b4c;
 $font-family: lato, sans-serif;
 
 @mixin flex-options($direction: row, $justify: center, $align: center) {
@@ -31,10 +28,10 @@ $font-family: lato, sans-serif;
 .slider-control-box {
   @include flex-options();
 
-  width: $slider-box-size;
+  width: 28px;
   height: 24px;
   padding: 0.5em;
-  border: 1px solid $slider-border-color;
+  border: 1px solid #64727d;
   text-align: center;
   line-height: 1;
 }
@@ -42,7 +39,7 @@ $font-family: lato, sans-serif;
 .slider-control-box {
   width: $slider-control-size;
   height: $slider-control-size;
-  color: $slider-color;
+  color: #336b4c;
   font-family: $font-family;
   font-weight: 700;
 }
@@ -58,7 +55,7 @@ $font-family: lato, sans-serif;
   width: $slider-control-size;
   height: 22px;
   position: absolute;
-  color: $slider-color;
+  color: #336b4c;
   font-family: $font-family;
   font-size: 20px;
   font-weight: 700;
@@ -66,8 +63,8 @@ $font-family: lato, sans-serif;
   line-height: 1;
 }
 
-.distance-slider{
-  margin:0;
+.distance-slider {
+  margin: 0;
 }
 
 .services-group {
