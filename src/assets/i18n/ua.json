@@ -1,7 +1,7 @@
 {
   "top-bar": {
     "text-before": "Привіт! Це трекер еко-звичок. ",
-    "sign-up": "Зареєструватись ",
+    "sign-up": "Зареєструватися ",
     "text-within": "щоб створити власний ",
     "or": "або ",
     "sign-in": "Увійти",
@@ -452,7 +452,7 @@
         "bad-email-or-password": "Введено невірний email або пароль",
         "fill-all-red-fields": "Будь ласка заповніть всі обов'язкові поля",
         "sign-in": "Увійти",
-        "sign-up": "Зареєструватись",
+        "sign-up": "Зареєструватися",
         "sign-in-with-google": "Увійти через Google",
         "forgot-password": "Забули пароль?",
         "account-has-been-deleted": "Ваш аккаунт було видалено, будь ласка зв'яжіться з нами щоб відновити його",
@@ -487,9 +487,9 @@
         "password-match-is-empty": "Будь ласка введіть спершу пароль!",
         "password-confirm": "Повторіть пароль",
         "password-confirm-is-required": "Введіть пароль ще раз",
-        "submit": "Зареєструватись",
+        "submit": "Зареєструватися",
         "or": "або",
-        "submit-with-google": "Зареєструватись через Google",
+        "submit-with-google": "Зареєструватися через Google",
         "haveyou-account": "Вже маєте акаунт?",
         "enter": "Увійти"
       },
@@ -1211,7 +1211,7 @@
     "btn-close": "Закрити",
     "btn-cancel-rate": "Скасувати",
     "btn-save": "Зберегти",
-    "btn-register": "Зареєструватись",
+    "btn-register": "Зареєструватися",
     "text-1": "Може бути краще",
     "text-2": "Добре",
     "text-3": "Хороша робота!",
