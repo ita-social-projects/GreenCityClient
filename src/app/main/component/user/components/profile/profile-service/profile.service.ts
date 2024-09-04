@@ -41,7 +41,7 @@ export class ProfileService {
     this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
   }
 
-  getFactsOfTheDay(): Observable<CardModel> {
+  getRandomFactOfTheDay(): Observable<CardModel> {
     const currentLang = this.languageService.getCurrentLanguage();
     return this.http.get<CardModel>(`${mainLink}fact-of-the-day/random?lang=${currentLang}`);
   }
