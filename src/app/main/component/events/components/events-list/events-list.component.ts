@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Addresses, EventFilterCriteriaInterface, EventListResponse, FilterItem } from '../../models/events.interface';
+import { Addresses, EventListResponse, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -15,6 +15,7 @@ import { MatSelect } from '@angular/material/select';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
 import { MatOption } from '@angular/material/core';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-events-list',
@@ -286,19 +287,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private searchEventsByTitle(searchTitle: string): void {
-    const eventListFilterCriterias = this.createEventListFilterCriteriasObject();
-    this.searchResultSubscription = this.eventService
-      .getEvents(this.page, this.eventsPerPage, eventListFilterCriterias, searchTitle)
-      .subscribe((res) => {
-        this.isLoading = false;
-        if (res.page.length > 0) {
-          this.countOfEvents = res.totalElements;
-          this.eventsList.push(...res.page);
-          this.hasNextPage = res.hasNext;
-        } else {
-          this.noEventsMatch = true;
-        }
-      });
+    this.searchResultSubscription = this.eventService.getEvents(this.getEventsHttpParams(searchTitle)).subscribe((res) => {
+      this.isLoading = false;
+      if (res.page.length > 0) {
+        this.countOfEvents = res.totalElements;
+        this.eventsList.push(...res.page);
+        this.hasNextPage = res.hasNext;
+      } else {
+        this.noEventsMatch = true;
+      }
+    });
   }
 
   private getUserFavoriteEvents(): void {
@@ -347,13 +345,28 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.countOfEvents = 0;
   }
 
-  private createEventListFilterCriteriasObject(): EventFilterCriteriaInterface {
-    return {
-      eventTime: [...this.selectedEventTimeStatusFiltersList],
-      cities: [...this.selectedLocationFiltersList],
-      statuses: [...this.selectedStatusFiltersList],
-      tags: [...this.selectedTypeFiltersList]
-    };
+  private getEventsHttpParams(title: string): HttpParams {
+    let params = new HttpParams().append('page', this.page.toString()).append('size', this.eventsPerPage.toString());
+
+    const paramsToAdd = [
+      this.appendIfNotEmpty('title', title),
+      this.appendIfNotEmpty('eventType', this.selectedLocationFiltersList.find((city) => city === 'Online') || ''),
+      this.appendIfNotEmpty(
+        'cities',
+        this.selectedLocationFiltersList.filter((city) => city !== 'Online')
+      ),
+      this.appendIfNotEmpty('eventTime', this.selectedEventTimeStatusFiltersList),
+      this.appendIfNotEmpty('statuses', this.selectedStatusFiltersList),
+      this.appendIfNotEmpty('tags', this.selectedTypeFiltersList)
+    ];
+
+    paramsToAdd.filter((param) => param !== null).forEach((param) => (params = params.append(param.key, param.value)));
+    return params;
+  }
+
+  private appendIfNotEmpty(key: string, value: string | string[]): { key: string; value: string } | null {
+    const formattedValue = (Array.isArray(value) ? value.join(',') : value)?.toUpperCase() || '';
+    return formattedValue ? { key, value: formattedValue } : null;
   }
 
   private checkUserSingIn(): void {
