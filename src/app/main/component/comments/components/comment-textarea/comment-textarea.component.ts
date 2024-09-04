@@ -67,7 +67,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
         if (data.length) {
           this.suggestedUsers = data.filter((el) => el.userName.toLowerCase().includes(this.searchQuery.toLowerCase()));
           this.menuTrigger.openMenu();
-          this.dropdown.focusFirstItem();
+          this.refocusTextarea();
         } else {
           this.menuTrigger.closeMenu();
           this.suggestedUsers = [];
@@ -116,6 +116,12 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     }
   }
 
+  refocusTextarea(): void {
+    setTimeout(() => {
+      this.commentTextarea.nativeElement.focus();
+    }, 0);
+  }
+
   onCommentTextareaFocus(): void {
     const range = document.createRange();
     const nodeAmount = this.commentTextarea.nativeElement.childNodes.length;
@@ -131,13 +137,15 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     const sel = window.getSelection();
     sel.removeAllRanges();
     sel.addRange(this.range);
+    this.refocusTextarea();
   }
 
   onCommentKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' || event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
     }
   }
+
   onPaste(event: ClipboardEvent): void {
     event.preventDefault();
     const text = event.clipboardData?.getData('text/plain');
@@ -216,8 +224,10 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     this.menuTrigger.closeMenu();
     this.removeSearchQuery();
     this.insertNodeAtCursor(user, tagChar);
+    this.setFocusCommentTextarea();
     this.content.setValue(this.commentTextarea.nativeElement.textContent);
     this.emitCommentText();
+    this.refocusTextarea();
   }
 
   private emitCommentText(): void {
