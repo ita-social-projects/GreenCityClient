@@ -4,7 +4,6 @@ import { CommentsDTO } from '../../models/comments-model';
 import { WarningPopUpComponent } from '@shared/components/warning-pop-up/warning-pop-up.component';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { CommentsModule } from '../../comments.module';
 
 @Component({
   selector: 'app-delete-comment',
@@ -41,7 +40,6 @@ export class DeleteCommentComponent {
       .pipe(take(1))
       .subscribe((confirm) => {
         if (confirm) {
-          console.log(this.element.id);
           this.commentsService
             .deleteComments(this.entityId, this.element.id)
             .pipe(take(1))
