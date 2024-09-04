@@ -482,6 +482,8 @@
       "amount-due": "Amount due:",
       "services-amount": "Amount of services provided:",
       "paid-amount": "Paid:",
+      "refunded-bonuses": "Refunded bonuses:",
+      "refunded-money": "Refunded money:",
       "delivery": "Delivery of orders from the Eco-store",
       "order-number": "Numbers of your orders:",
       "recipient": "Sender",
