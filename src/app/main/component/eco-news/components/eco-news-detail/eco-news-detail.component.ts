@@ -151,7 +151,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   private getIsLiked(): void {
     this.ecoNewsService
-      .getIsLikedByUser(this.newsId)
+      .getIsLikedByUser(this.newsId, this.userId)
       .pipe(take(1))
       .subscribe((val: boolean) => {
         this.isLiked = val;

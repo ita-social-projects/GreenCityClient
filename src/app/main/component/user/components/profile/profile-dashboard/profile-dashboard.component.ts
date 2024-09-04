@@ -187,6 +187,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     if (this.currentPage !== undefined && this.hasNext) {
       this.store.dispatch(
         GetEcoNewsByAuthorAction({
+          authorId: this.userId,
           currentPage: this.currentPage,
           numberOfNews: this.newsCount,
           reset: res

@@ -46,7 +46,7 @@ export const GetEcoNewsByPageSuccessAction = createAction(
 
 export const GetEcoNewsByAuthorAction = createAction(
   NewsActions.GetEcoNewsByAuthor,
-  props<{ currentPage: number; numberOfNews: number; reset: boolean }>()
+  props<{ authorId: number; currentPage: number; numberOfNews: number; reset: boolean }>()
 );
 
 export const GetEcoNewsByAuthorSuccessAction = createAction(

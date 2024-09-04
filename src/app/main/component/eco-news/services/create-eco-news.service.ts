@@ -60,7 +60,7 @@ export class CreateEcoNewsService {
     this.appendImageToFormData(formData);
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
 
-    return this.http.put<EcoNewsModel>(environment.backendLink + 'econews/update', formData, this.httpOptions);
+    return this.http.put<EcoNewsModel>(environment.backendLink + `eco-news/${form.id}`, formData, this.httpOptions);
   }
 
   setForm(form: FormGroup): void {
@@ -87,7 +87,7 @@ export class CreateEcoNewsService {
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
 
     this.appendImageToFormData(formData);
-    return this.http.post<EcoNewsModel>(`${this.url}econews`, formData, this.httpOptions);
+    return this.http.post<EcoNewsModel>(`${this.url}eco-news`, formData, this.httpOptions);
   }
 
   sendImagesData(imagesFilesArr: File[]): Observable<[string]> {
@@ -105,7 +105,7 @@ export class CreateEcoNewsService {
     };
     httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
     httpOptions.headers.append('Content-Type', 'multipart/form-data');
-    return this.http.post<any>(environment.backendLink + 'econews/uploadImages', formData, httpOptions);
+    return this.http.post<any>(environment.backendLink + 'eco-news/files', formData, httpOptions);
   }
 
   private appendImageToFormData(formData: FormData): void {
