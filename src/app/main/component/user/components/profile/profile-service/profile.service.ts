@@ -43,7 +43,7 @@ export class ProfileService {
 
   getFactsOfTheDay(): Observable<CardModel> {
     const currentLang = this.languageService.getCurrentLanguage();
-    return this.http.get<CardModel>(`${mainLink}factoftheday/?lang=${currentLang}`);
+    return this.http.get<CardModel>(`${mainLink}fact-of-the-day/random?lang=${currentLang}`);
   }
 
   getUserInfo(): Observable<EditProfileModel> {
