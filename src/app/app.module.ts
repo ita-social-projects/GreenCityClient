@@ -32,8 +32,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     new Promise<any>((resolve: any) => {
       const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
       locationInitialized.then(() => {
-        const currentLanguage = languageService.getCurrentLanguage();
-        if (!currentLanguage) {
+        if (!languageService.getCurrentLanguage()) {
           languageService.setDefaultLanguage();
         }
 
