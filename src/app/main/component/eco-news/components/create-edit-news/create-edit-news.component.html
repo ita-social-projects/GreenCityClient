@@ -3,7 +3,9 @@
   <div class="box" *ngIf="!isPosting">
     <div class="title">
       <h2 class="title-header">{{ attributes.title | translate }}</h2>
-      <p class="title-description">{{ 'create-news.form-description' | translate }}</p>
+      <div class="title-description-wrapper">
+        <p class="title-description">{{ 'create-news.form-description' | translate }}</p>
+      </div>
     </div>
     <div class="form-container" *ngIf="form">
       <form [formGroup]="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
