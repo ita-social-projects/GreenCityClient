@@ -13,6 +13,7 @@ import { Addresses, FilterItem } from '../../models/events.interface';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { MatSelect } from '@angular/material/select';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { testCases } from '@assets/mocks/events/mock-events';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -401,5 +402,28 @@ describe('EventsListComponent', () => {
   it('should set isGalleryView to false for list view mode', () => {
     component.changeViewMode('list');
     expect(component.isGalleryView).toBeFalse();
+  });
+
+  testCases.forEach((testCase, index) => {
+    it(`should generate correct HttpParams for test case ${index + 1}`, () => {
+      (component as any).page = 0;
+      (component as any).eventsPerPage = 10;
+      component.selectedLocationFiltersList = testCase.selectedLocationFiltersList;
+      component.selectedEventTimeStatusFiltersList = testCase.selectedEventTimeStatusFiltersList;
+      component.selectedStatusFiltersList = testCase.selectedStatusFiltersList;
+      component.selectedTypeFiltersList = testCase.selectedTypeFiltersList;
+
+      const generatedParams = (component as any).getEventsHttpParams(testCase.title);
+      const generatedParamsMap = new Map<string, string>();
+      generatedParams.keys().forEach((key) => {
+        generatedParamsMap.set(key, generatedParams.get(key));
+      });
+
+      const expectedParamsMap = new Map<string, string>();
+      testCase.expectedParams.keys().forEach((key) => {
+        expectedParamsMap.set(key, testCase.expectedParams.get(key));
+      });
+      expect(generatedParamsMap).toEqual(expectedParamsMap);
+    });
   });
 });

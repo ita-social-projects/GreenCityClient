@@ -30,6 +30,8 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
 
   isPopupOpened = false;
 
+  selectedFiltersCount = 0;
+
   private allFilters: IFilters;
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -90,9 +92,12 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
 
   changeColumnFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
+
     checked
       ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
       : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
+
+    this.selectedFiltersCount = (this.allFilters?.[this.data.columnName] as string[]).length;
   }
 
   onDateChecked(e: MatCheckboxChange, checked: boolean): void {

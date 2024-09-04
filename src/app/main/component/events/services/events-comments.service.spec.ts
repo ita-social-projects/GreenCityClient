@@ -127,7 +127,7 @@ describe('EventsCommentsService', () => {
       totalPages: 0
     };
 
-    service.getActiveRepliesByPage(1, 2, 3).subscribe((commentData: any) => {
+    service.getActiveRepliesByPage(1, 1, 2, 3).subscribe((commentData: any) => {
       expect(commentData).toEqual(commentBody);
     });
 
@@ -179,7 +179,7 @@ describe('EventsCommentsService', () => {
   });
 
   it('should make PATCH request to edit comment', () => {
-    service.editComment(1, commentText).subscribe((commentData: any) => {
+    service.editComment(1, 1, commentText).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 

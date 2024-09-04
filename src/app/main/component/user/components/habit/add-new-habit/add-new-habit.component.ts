@@ -328,6 +328,20 @@ export class AddNewHabitComponent implements OnInit {
       });
   }
 
+  goToAllHabits(): void {
+    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+  }
+
+  deleteHabit(): void {
+    this.habitService
+      .deleteCustomHabit(this.habitId)
+      .pipe(take(1))
+      .subscribe((res) => {
+        this.goToAllHabits();
+        this.snackBar.openSnackBar('habitDeleted');
+      });
+  }
+
   private convertShopLists(): void {
     this.customShopList?.forEach((el) => {
       delete el.custom;

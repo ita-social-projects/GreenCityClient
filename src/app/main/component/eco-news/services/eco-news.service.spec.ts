@@ -44,7 +44,7 @@ describe('EcoNewsService', () => {
       expect(data).toBe(newsMock);
     });
 
-    const req = httpTestingController.expectOne(`${environment.backendLink}econews?page=0&size=5`);
+    const req = httpTestingController.expectOne(`${environment.backendLink}eco-news?page=0&size=5`);
     expect(req.request.method).toEqual('GET');
     req.flush(newsMock);
   });
@@ -55,7 +55,7 @@ describe('EcoNewsService', () => {
       expect(data).toBe(newsMock);
     });
 
-    const req = httpTestingController.expectOne(`${environment.backendLink}econews/tags?page=0&size=5&tags=${tagMock}`);
+    const req = httpTestingController.expectOne(`${environment.backendLink}eco-news?tags=${tagMock}&page=0&size=5`);
     expect(req.request.method).toEqual('GET');
     req.flush(newsMock);
   });
@@ -66,7 +66,7 @@ describe('EcoNewsService', () => {
       expect(data).toBe(arr);
     });
 
-    const req = httpTestingController.expectOne(`${environment.backendLink}econews`);
+    const req = httpTestingController.expectOne(`${environment.backendLink}eco-news`);
     expect(req.request.method).toEqual('GET');
     req.flush(arr);
   });
@@ -76,7 +76,7 @@ describe('EcoNewsService', () => {
       expect(data).toBeDefined();
     });
 
-    const req = httpTestingController.expectOne(`${environment.backendLink}econews/13578?lang=en`);
+    const req = httpTestingController.expectOne(`${environment.backendLink}eco-news/13578?lang=en`);
     expect(req.request.method).toEqual('GET');
   });
 
@@ -85,7 +85,7 @@ describe('EcoNewsService', () => {
       expect(data).toBeDefined();
     });
 
-    const req = httpTestingController.expectOne(`${environment.backendLink}econews/recommended?openedEcoNewsId=13578`);
+    const req = httpTestingController.expectOne(`${environment.backendLink}eco-news/13578/recommended`);
     expect(req.request.method).toEqual('GET');
   });
 
@@ -95,19 +95,19 @@ describe('EcoNewsService', () => {
       expect(data).toBe(newsMock);
     });
 
-    const req = httpTestingController.expectOne(`${environment.backendLink}econews/like?id=13578`);
+    const req = httpTestingController.expectOne(`${environment.backendLink}eco-news/13578/likes`);
     expect(req.request.method).toEqual('POST');
     req.flush(newsMock);
   });
 
   it('should get from isLikedByUser', () => {
     const isLikedByUser = true;
-    service.getIsLikedByUser(13578).subscribe((data) => {
+    service.getIsLikedByUser(13578, 1).subscribe((data) => {
       newsMock.likes = 1;
       expect(data).toBe(isLikedByUser);
     });
 
-    const req = httpTestingController.expectOne(`${environment.backendLink}econews/isLikedByUser?econewsId=13578`);
+    const req = httpTestingController.expectOne(`${environment.backendLink}eco-news/13578/likes/1`);
     expect(req.request.method).toEqual('GET');
     req.flush(isLikedByUser);
   });

@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed, async, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileDashboardComponent } from '@global-user/components';
-
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -11,10 +10,11 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { EventResponse, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
+import { mockEvent, mockFavouriteEvents, mockHabitAssign } from '@assets/mocks/events/mock-events';
+import { mockHabits } from '@assets/mocks/habit/mock-habit-calendar';
 
 describe('ProfileDashboardComponent', () => {
   let component: ProfileDashboardComponent;
@@ -25,7 +25,7 @@ describe('ProfileDashboardComponent', () => {
 
   const LocalStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getUserId', 'languageBehaviourSubject', 'setCurentPage']);
   LocalStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
-  LocalStorageServiceMock.setCurentPage = () => of('previousPage', '/profile');
+  LocalStorageServiceMock.setCurrentPage = () => of('previousPage', '/profile');
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () =>
@@ -37,194 +37,13 @@ describe('ProfileDashboardComponent', () => {
       ecoNewsByAuthor: true
     });
 
-  const MockHabits = {
-    id: 1,
-    status: 'INPROGRESS',
-    userId: 10,
-    duration: 20,
-    workingDays: 2,
-    habitStreak: 10,
-    habit: {
-      shoppingListItems: [{ id: 1, status: 'INPROGRESS', text: 'text', selected: true, custom: true }]
-    }
-  };
-
-  const MockResult: EventResponseDto = {
-    currentPage: 0,
-    first: true,
-    hasNext: true,
-    hasPrevious: false,
-    last: false,
-    number: 0,
-    page: [
-      {
-        additionalImages: [],
-        creationDate: '2022-05-31',
-        dates: [
-          {
-            coordinates: {
-              latitude: 1,
-              longitude: 1,
-              cityEn: 'Lviv',
-              cityUa: 'Львів',
-              countryEn: 'Ukraine',
-              countryUa: 'Україна',
-              houseNumber: '55',
-              regionEn: 'Lvivska oblast',
-              regionUa: 'Львівська область',
-              streetEn: 'Svobody Ave',
-              streetUa: 'Свободи',
-              formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-              formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
-            },
-            event: null,
-            finishDate: '2022-06-29T04:00:00Z',
-            id: null,
-            onlineLink: 'http',
-            startDate: '2022-06-29T04:00:00Z'
-          }
-        ],
-        description: 'description',
-        id: 95,
-        open: true,
-        organizer: {
-          id: 12,
-          name: 'username',
-          organizerRating: 4
-        },
-        tags: [
-          {
-            id: 1,
-            nameUa: 'Укр тег',
-            nameEn: 'Eng Tag'
-          }
-        ],
-        title: 'title',
-        titleImage: 'image title',
-        isSubscribed: true,
-        isFavorite: false,
-        likes: 8,
-        countComments: 9,
-        isRelevant: true,
-        isOrganizedByFriend: false,
-        eventRate: 0
-      }
-    ],
-    totalElements: 12,
-    totalPages: 1
-  };
-
-  const mockFavouriteEvents: EventResponse[] = [
-    {
-      additionalImages: [],
-      creationDate: '2022-05-31',
-      dates: [
-        {
-          coordinates: {
-            latitude: 1,
-            longitude: 1,
-            cityEn: 'Lviv',
-            cityUa: 'Львів',
-            countryEn: 'Ukraine',
-            countryUa: 'Україна',
-            houseNumber: '55',
-            regionEn: 'Lvivska oblast',
-            regionUa: 'Львівська область',
-            streetEn: 'Svobody Ave',
-            streetUa: 'Свободи',
-            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
-          },
-          event: null,
-          finishDate: '2022-06-29T04:00:00Z',
-          id: null,
-          onlineLink: 'http',
-          startDate: '2022-06-29T04:00:00Z'
-        }
-      ],
-      description: 'description',
-      id: 96,
-      open: true,
-      organizer: {
-        id: 12,
-        name: 'username',
-        organizerRating: 3
-      },
-      tags: [
-        {
-          id: 1,
-          nameUa: 'Укр тег',
-          nameEn: 'Eng Tag'
-        }
-      ],
-      title: 'title',
-      titleImage: 'image title',
-      isSubscribed: true,
-      isFavorite: true,
-      likes: 8,
-      countComments: 9,
-      isRelevant: true,
-      isOrganizedByFriend: false,
-      eventRate: 0
-    },
-    {
-      additionalImages: [],
-      creationDate: '2022-05-31',
-      dates: [
-        {
-          coordinates: {
-            latitude: 1,
-            longitude: 1,
-            cityEn: 'Lviv',
-            cityUa: 'Львів',
-            countryEn: 'Ukraine',
-            countryUa: 'Україна',
-            houseNumber: '55',
-            regionEn: 'Lvivska oblast',
-            regionUa: 'Львівська область',
-            streetEn: 'Svobody Ave',
-            streetUa: 'Свободи',
-            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
-          },
-          event: null,
-          finishDate: '2022-06-29T04:00:00Z',
-          id: null,
-          onlineLink: 'http',
-          startDate: '2022-06-29T04:00:00Z'
-        }
-      ],
-      description: 'description',
-      id: 14,
-      open: true,
-      organizer: {
-        id: 12,
-        name: 'username',
-        organizerRating: 3
-      },
-      tags: [
-        {
-          id: 1,
-          nameUa: 'Укр тег',
-          nameEn: 'Eng Tag'
-        }
-      ],
-      title: 'title',
-      titleImage: 'image title',
-      isSubscribed: true,
-      isFavorite: true,
-      likes: 8,
-      countComments: 9,
-      isRelevant: true,
-      isOrganizedByFriend: false,
-      eventRate: 0
-    }
-  ];
-
-  const eventsServiceMock = jasmine.createSpyObj('EventsService', ['getAllUserEvents', 'getUserFavoriteEvents']);
-  eventsServiceMock.getAllUserEvents = () => of(MockResult);
+  const eventsServiceMock = jasmine.createSpyObj('EventsService', ['getEvents', 'getUserFavoriteEvents']);
+  eventsServiceMock.getEvents = () => of(mockEvent);
 
   beforeEach(waitForAsync(() => {
+    const httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    httpClientSpy.get.and.returnValue(of(mockFavouriteEvents));
+
     TestBed.configureTestingModule({
       declarations: [ProfileDashboardComponent],
       imports: [
@@ -308,15 +127,14 @@ describe('ProfileDashboardComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('Should call getAllUserEvents method before subscribe', waitForAsync(() => {
-    component.userId = 12;
-    const spy1 = spyOn(eventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
-    const spy2 = spyOn(eventsServiceMock.getAllUserEvents(), 'subscribe');
+  it('should call getHttpParams method and getEvents method', waitForAsync(() => {
+    const getHttpParamsSpy = spyOn<any>(component, 'getHttpParams').and.callThrough();
+    const getEventsSpy = spyOn(eventsServiceMock, 'getEvents').and.returnValue(of(mockEvent));
     component.initGetUserEvents();
-    expect(spy1).toHaveBeenCalledBefore(spy2);
-    expect(spy2).toHaveBeenCalled();
-    expect(component.eventsList).toEqual(MockResult.page);
-    expect(component.totalEvents).toEqual(MockResult.totalElements);
+    expect(getHttpParamsSpy).toHaveBeenCalled();
+    expect(getEventsSpy).toHaveBeenCalled();
+    expect(component.eventsList).toEqual(mockEvent.page);
+    expect(component.totalEvents).toEqual(mockEvent.totalElements);
   }));
 
   it('dispatchNews expect store.dispatch have been called', () => {
@@ -339,18 +157,17 @@ describe('ProfileDashboardComponent', () => {
   });
 
   it('executeRequests habitsInProgress.duration to be 20', () => {
-    MockHabits.status = 'INPROGRESS';
-    HabitAssignServiceMock.getAssignedHabits = () => of([MockHabits]);
+    mockHabits.status = 'INPROGRESS';
+    HabitAssignServiceMock.getAssignedHabits = () => of([mockHabits]);
     component.executeRequests();
     expect(HabitAssignServiceMock.habitsInProgress[0].duration).toBe(20);
   });
 
   it('executeRequests habitsAcquired to be 2', () => {
     const spy = spyOn(component, 'setHabitsForView');
-    MockHabits.status = 'ACQUIRED';
-    HabitAssignServiceMock.getAssignedHabits = () => of([MockHabits]);
+    mockHabits.status = 'ACQUIRED';
+    HabitAssignServiceMock.getAssignedHabits = () => of([mockHabits]);
     component.executeRequests();
-
     expect(component.habitsAcquired[0].workingDays).toBe(2);
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -383,10 +200,7 @@ describe('ProfileDashboardComponent', () => {
   });
 
   it('sortHabitsData', () => {
-    const res = (component as any).sortHabitsData([
-      { habit: { id: 2 }, createDateTime: '2023-03-20T04:00:00Z' },
-      { habit: { id: 4 }, createDateTime: '2023-03-22T04:00:00Z' }
-    ]);
+    const res = (component as any).sortHabitsData(mockHabitAssign);
     expect(res[0].habit.id).toBe(4);
     expect(res[1].habit.id).toBe(2);
   });
@@ -397,13 +211,13 @@ describe('ProfileDashboardComponent', () => {
     expect(component.isActiveNewsScroll).toBe(true);
   });
 
-  it('getUserEvents should call service', async(() => {
-    const spy = spyOn(eventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
+  it('getUserEvents should call service', waitForAsync(() => {
+    const spy = spyOn(eventsServiceMock, 'getEvents').and.returnValue(of(mockEvent));
     component.eventsPage = 0;
     component.getUserEvents();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.eventsPage).toBe(1);
-    expect(component.eventsList).toEqual(MockResult.page);
+    expect(component.eventsList).toEqual(mockEvent.page);
   }));
 
   it('onScroll', () => {
@@ -434,9 +248,33 @@ describe('ProfileDashboardComponent', () => {
   });
 
   it('should call getUserFavoriteEvents and set favouriteEvents when getUserFavouriteEvents is called', () => {
-    eventsServiceMock.getUserFavoriteEvents.and.returnValue(of(MockResult));
+    eventsServiceMock.getUserFavoriteEvents.and.returnValue(of(mockEvent));
     component.getUserFavouriteEvents();
     expect(eventsServiceMock.getUserFavoriteEvents).toHaveBeenCalledWith(0, component.eventsPerPage);
-    expect(component.favouriteEvents).toEqual(MockResult.page);
+    expect(component.favouriteEvents).toEqual(mockEvent.page);
+  });
+
+  it('should return correct HttpParams for getHttpParams method', () => {
+    const page = 1;
+    const eventType = 'ONLINE';
+    const expectedParams = new HttpParams()
+      .append('page', page.toString())
+      .append('size', component.eventsPerPage.toString())
+      .append('userLatitude', component.userLatitude.toString())
+      .append('userLongitude', component.userLongitude.toString())
+      .append('eventType', eventType);
+    const resultParams = (component as any).getHttpParams(page, eventType);
+    expect(resultParams.toString()).toEqual(expectedParams.toString());
+  });
+
+  it('should return correct HttpParams without eventType', () => {
+    const page = 1;
+    const expectedParams = new HttpParams()
+      .append('page', page.toString())
+      .append('size', component.eventsPerPage.toString())
+      .append('userLatitude', component.userLatitude.toString())
+      .append('userLongitude', component.userLongitude.toString());
+    const resultParams = (component as any).getHttpParams(page);
+    expect(resultParams.toString()).toEqual(expectedParams.toString());
   });
 });

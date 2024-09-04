@@ -39,8 +39,7 @@
               [value]="eventTimeStatusFilter.nameEn"
               *ngFor="let eventTimeStatusFilter of eventTimeStatusFiltersList"
               (click)="updateListOfFilters(eventTimeStatusFilter)"
-              [appLangValue]="{ ua: eventTimeStatusFilter.nameUa, en: eventTimeStatusFilter.nameEn }"
-            >
+              ><span [appLangValue]="{ ua: eventTimeStatusFilter.nameUa, en: eventTimeStatusFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
         </div>
@@ -69,8 +68,7 @@
               [value]="statusFilter.nameEn"
               *ngFor="let statusFilter of statusFiltersList"
               (click)="updateListOfFilters(statusFilter)"
-              [appLangValue]="{ ua: statusFilter.nameUa, en: statusFilter.nameEn }"
-            >
+              ><span [appLangValue]="{ ua: statusFilter.nameUa, en: statusFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
         </div>

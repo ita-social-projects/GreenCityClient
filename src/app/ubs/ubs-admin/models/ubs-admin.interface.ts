@@ -45,6 +45,8 @@ export interface Tariff {
   region: TariffItem;
   locationsDtos: TariffItem[];
   courier: TariffItem;
+  hasChat: boolean;
+  selected?: boolean;
 }
 
 export interface TariffItem {
@@ -78,6 +80,7 @@ export interface TariffForEmployee {
   location: TariffForEmployeeItem[];
   courier: TariffForEmployeeItem;
   selected?: boolean;
+  hasChat?: boolean;
   locations: any[];
 }
 export interface TariffForEmployeeItem {
@@ -87,12 +90,12 @@ export interface TariffForEmployeeItem {
 
 export interface EmployeeDataToSend {
   employeeDto: EmployeeDto;
-  tariffId: number[];
+  tariffs: { tariffId: number; hasChat: boolean }[];
 }
 
 export interface EmployeeDataResponse {
   employeeDto: EmployeeDto;
-  tariffs: Tariff[];
+  tariffs: { tariffId: number; hasChat: boolean }[];
 }
 
 export interface EmployeeDto {

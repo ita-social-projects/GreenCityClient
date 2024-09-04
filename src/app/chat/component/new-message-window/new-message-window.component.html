@@ -68,7 +68,11 @@
         </button>
       </div>
       <div role="textbox" contenteditable type="text" placeholder="Type something..." #customInput (input)="changeValue($event)"></div>
-      <button class="send-button" type="submit" [disabled]="(!messageControl.value && !uploadedFile) || !chatsService.currentChat">
+      <button
+        class="send-button"
+        type="submit"
+        [disabled]="(!messageControl.value && !uploadedFile) || !chatsService.currentChat || isMessageSending"
+      >
         <img [src]="chatIcons.send" alt="send" title="Send mail" />
       </button>
     </div>
