@@ -10,8 +10,8 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div formGroupName="time" class="panel select-time">
-        <mat-form-field appearance="fill">
-          <mat-label>{{ 'cron-picker.labels.hour' | translate }}</mat-label>
+        <mat-label>{{ 'cron-picker.labels.hour' | translate }}</mat-label>
+        <mat-form-field>
           <input type="text" matInput [matAutocomplete]="autoHour" formControlName="hour" />
           <mat-autocomplete #autoHour="matAutocomplete">
             <mat-option *ngFor="let hour of filteredHours | async" [value]="hour">
@@ -19,9 +19,10 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-        &nbsp;:&nbsp;
+        <mat-error *ngIf="hourError">{{ 'cron-picker.errors.hour-error' | translate }}</mat-error>
+        <div>&nbsp;:&nbsp;</div>
+        <mat-label>{{ 'cron-picker.labels.min' | translate }}</mat-label>
         <mat-form-field appearance="fill">
-          <mat-label>{{ 'cron-picker.labels.min' | translate }}</mat-label>
           <input type="text" matInput [matAutocomplete]="autoMin" formControlName="min" />
           <mat-autocomplete #autoMin="matAutocomplete">
             <mat-option *ngFor="let min of filteredMinutes | async" [value]="min">
@@ -29,6 +30,7 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+        <mat-error *ngIf="minError">{{ 'cron-picker.errors.minute-error' | translate }}</mat-error>
       </div>
     </mat-expansion-panel>
     <mat-expansion-panel>
@@ -78,7 +80,6 @@
           <mat-radio-button value="every-month">{{ 'cron-picker.labels.every-month' | translate }}</mat-radio-button>
           <mat-radio-button value="months">
             <div class="select-months">
-              <!-- Error appearance="outline" -->
               <mat-button-toggle-group appearance="standard" formControlName="months" aria-label="Months" multiple>
                 <mat-button-toggle disableRipple *ngFor="let month of months" [value]="month">
                   {{ 'cron-picker.months.' + monthsAliases[month - 1] | translate }}

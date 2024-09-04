@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { CronService } from 'src/app/shared/cron/cron.service';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { startWith, map } from 'rxjs/operators';
+import { min } from 'moment';
 const range = (from: number, to: number) => new Array(to - from).fill(0).map((_, idx) => from + idx);
 const compareObjects = (obj1: any, obj2: any) => JSON.stringify(obj1) === JSON.stringify(obj2);
 
@@ -29,7 +30,6 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   minutes: string[] = Array.from({ length: 60 }, (_, i) => this.padZero(i));
   filteredHours!: Observable<string[]>;
   filteredMinutes!: Observable<string[]>;
-  private openAutocomplete: MatAutocomplete | null = null;
 
   daysOfWeek = range(1, 8);
   days = range(1, 32);
@@ -42,16 +42,22 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     month: ''
   };
 
+  hourError = false;
+  minError = false;
+
   constructor(
     private fb: FormBuilder,
     private localStorageService: LocalStorageService,
     private cronService: CronService
   ) {
     this.form = this.fb.group({
-      time: this.fb.group({
-        min: [''],
-        hour: ['']
-      }),
+      time: this.fb.group(
+        {
+          min: [this.padZero(new Date().getMinutes())],
+          hour: [this.padZero(new Date().getHours())]
+        },
+        { validators: [this.timeValidator] }
+      ),
       day: this.fb.group(
         {
           type: ['every-day'],
@@ -74,6 +80,23 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+  private timeValidator(control: AbstractControl): null | { [error: string]: boolean } {
+    const hour = control.get('hour')?.value;
+    const minute = control.get('min')?.value;
+
+    const errors: any = {};
+
+    if (hour < 0 || hour > 23) {
+      errors.invalidHour = true;
+    }
+
+    if (minute < 0 || minute > 59) {
+      errors.invalidMinute = true;
+    }
+
+    return Object.keys(errors).length ? errors : null;
+  }
+
   private dayValidator(control: AbstractControl): null | { [error: string]: boolean } {
     const output = {
       'every-day': null,
@@ -92,6 +115,41 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
+    if (this.schedule) {
+      try {
+        const { min, hour } = this.cronService.parse(this.schedule);
+        this.form.patchValue({
+          time: {
+            min: this.padZero(min.value || min.value[0]),
+            hour: this.padZero(hour.value || hour.value[0])
+          }
+        });
+      } catch (error) {
+        console.error(`Error while parsing cron-picker input during initialization. ${error}`);
+      }
+
+      this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
+        this.setDescription();
+      });
+      this.setDescription();
+
+      this.filteredHours = this.form.get('time.hour').valueChanges.pipe(
+        startWith(''),
+        map((value) => this._filter(value, this.hours))
+      );
+
+      this.filteredMinutes = this.form.get('time.min').valueChanges.pipe(
+        startWith(''),
+        map((value) => this._filter(value, this.minutes))
+      );
+    }
+
+    this.form.get('time')?.statusChanges.subscribe((status) => {
+      const errors = this.form.get('time')?.errors;
+      this.hourError = !!errors?.invalidHour;
+      this.minError = !!errors?.invalidMinute;
+    });
+
     this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.setDescription();
     });
