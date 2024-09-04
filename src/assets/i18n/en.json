@@ -115,7 +115,8 @@
         "delete-yes": "yes",
         "delete-no": "no"
       },
-      "likes": "You don't have permission for this action"
+      "likes": "You don't have permission for this action",
+      "not-found": "The Eco-news was not found"
     },
     "notifications": {
       "title": "Notifications",
