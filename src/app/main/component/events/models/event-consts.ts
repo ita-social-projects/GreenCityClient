@@ -103,8 +103,8 @@ export const EVENT_LOCALE = {
     en: 'Left characters: '
   },
   quillDefault: {
-    ua: ' ',
-    en: ' '
+    ua: '',
+    en: ''
   },
   eventTypeOptions: [
     { en: 'Closed', ua: 'Закрита' },
