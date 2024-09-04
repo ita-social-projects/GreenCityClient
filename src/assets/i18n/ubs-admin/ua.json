@@ -638,7 +638,9 @@
       "region": "Область",
       "city": "Місто",
       "station": "Станція",
-      "courier": "Кур'єр"
+      "courier": "Кур'єр",
+      "chat": "Чат",
+      "tariff": "Тариф"
     },
     "tariffs-selector": {
       "title": "Додати тарифи",
@@ -889,7 +891,7 @@
         "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
         "bad-email-or-password": "Неправильна пошта або пароль",
         "sign-in": "Увійти",
-        "sign-up": "Зареєструватись",
+        "sign-up": "Зареєструватися",
         "sign-in-with-google": "Увійти через Google",
         "forgot-password": "Забули пароль?",
         "havenot-account": "Досі немає аккаунту?",
@@ -932,7 +934,7 @@
     "message": "Заповніть,будь ласка, всі обов'язкові поля"
   },
   "top-bar": {
-    "sign-up": "Зареєструватись ",
+    "sign-up": "Зареєструватися",
     "sign-in": "Увійти"
   },
   "ubs-messages": {

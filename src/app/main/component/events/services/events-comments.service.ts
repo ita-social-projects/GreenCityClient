@@ -32,7 +32,7 @@ export class EventsCommentsService implements CommentsService {
     return this.http.get<number>(`${this.backEnd}events/comments/count/${entityId}`);
   }
 
-  getActiveRepliesByPage(id: number, page: number, size: number): Observable<CommentsModel> {
+  getActiveRepliesByPage(entityId: number, id: number, page: number, size: number): Observable<CommentsModel> {
     return this.http.get<EventsCommentsModel>(`${this.backEnd}events/comments/replies/active/${id}?page=${page}&size=${size}`);
   }
 
@@ -59,7 +59,7 @@ export class EventsCommentsService implements CommentsService {
     return this.http.post<void>(`${this.backEnd}events/comments/like?commentId=${id}`, {});
   }
 
-  editComment(id: number, text: string): Observable<void> {
+  editComment(entityId: number, id: number, text: string): Observable<void> {
     return this.http.patch<void>(`${this.backEnd}events/comments?id=${id}`, text);
   }
 }

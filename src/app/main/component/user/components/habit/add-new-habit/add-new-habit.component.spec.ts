@@ -25,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TodoStatus } from '../models/todo-status.enum';
 import { HabitInterface, HabitTranslationInterface } from '../models/interfaces/habit.interface';
+import { MOCK_CUSTOM_HABIT_RESPONSE } from '../mocks/habit-mock';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -60,9 +61,14 @@ describe('AddNewHabitComponent', () => {
   fakeHabitAssignService.assignHabit = () => of();
   fakeHabitAssignService.updateHabit = () => of();
 
-  const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService', ['getHabitById', 'getHabitsByFilters']);
+  const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService', [
+    'getHabitById',
+    'getHabitsByFilters',
+    'deleteCustomHabit'
+  ]);
   fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
   fakeHabitService.getHabitsByFilters = () => of(HABITLIST);
+  fakeHabitService.deleteCustomHabit = () => of(MOCK_CUSTOM_HABIT_RESPONSE);
 
   const fakeLocalStorageService: LocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', { getCurrentLanguage: () => 'ua' });
   fakeLocalStorageService.setEditMode = (key: string, permission: boolean) => {
@@ -251,6 +257,12 @@ describe('AddNewHabitComponent', () => {
     expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 2]);
   });
 
+  it('goToAllHabits method should navigate to all habits page', () => {
+    (component as any).userId = 2;
+    component.goToAllHabits();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/profile/2/allhabits']);
+  });
+
   it('should call go to profile and snackbar on afterHabitWasChanged', () => {
     const spyGoProfile = spyOn(component, 'goToProfile');
     const spySnackBar = spyOn(matSnackBarMock, 'openSnackBar');
@@ -368,5 +380,11 @@ describe('AddNewHabitComponent', () => {
     component.getList(shoppingListItems);
     expect(component.customShopList).toEqual(shoppingListItems.filter((item) => item.custom));
     expect(component.standardShopList).toEqual(shoppingListItems.filter((item) => !item.custom));
+  });
+
+  it('should navigate to all habits after habit has been deleted', () => {
+    (component as any).userId = 2;
+    component.deleteHabit();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/profile/2/allhabits']);
   });
 });

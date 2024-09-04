@@ -1,5 +1,5 @@
 <ng-container class="dropdown-menu">
-  <div class="btn-group">
+  <div class="btn-group" *ngIf="selectedFiltersCount">
     <button type="button" class="btn filter-btn" [mat-dialog-close]="['clear', data.columnName]">
       {{ 'ubs-tables.clear-filters' | translate }}
     </button>
