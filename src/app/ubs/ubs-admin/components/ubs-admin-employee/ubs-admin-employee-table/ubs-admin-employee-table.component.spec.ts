@@ -70,7 +70,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
             id: 1,
             nameEn: 'UBS',
             nameUk: 'УБС'
-          }
+          },
+          hasChat: true
         },
         {
           id: 2,
@@ -90,7 +91,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
             id: 1,
             nameEn: 'UBS',
             nameUk: 'УБС'
-          }
+          },
+          hasChat: false
         }
       ]
     },
@@ -121,7 +123,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
             id: 1,
             nameEn: 'UBS',
             nameUk: 'УБС'
-          }
+          },
+          hasChat: true
         }
       ]
     }

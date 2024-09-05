@@ -69,8 +69,13 @@
       </div>
     </div>
     <div *ngIf="!isEditing" class="add-habit-container">
-      <button class="tertiary-global-button habit-btn" type="button" (click)="goToProfile()">
-        {{ 'user.habit.btn.cancel' | translate }}
+      <button
+        class="tertiary-global-button habit-btn"
+        type="button"
+        *ngIf="wasCustomHabitCreatedByUser && !habitResponse.amountAcquiredUsers"
+        (click)="deleteHabit()"
+      >
+        {{ 'user.habit.btn.delete' | translate }}
       </button>
       <button class="primary-global-button habit-btn" type="button" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
