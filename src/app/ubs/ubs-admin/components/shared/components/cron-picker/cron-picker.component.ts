@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { CronService } from 'src/app/shared/cron/cron.service';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { startWith, map } from 'rxjs/operators';
-import { min } from 'moment';
+
 const range = (from: number, to: number) => new Array(to - from).fill(0).map((_, idx) => from + idx);
 const compareObjects = (obj1: any, obj2: any) => JSON.stringify(obj1) === JSON.stringify(obj2);
 
@@ -195,7 +195,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     return options.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
-  private padZero(num: number): string {
+  public padZero(num: number): string {
     return num.toString().padStart(2, '0');
   }
 

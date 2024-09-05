@@ -46,6 +46,10 @@
     }
   }
 
+  .error {
+    color: var(--error-ligh-red);
+  }
+
   .controls {
     padding: 10px 0;
     display: flex;

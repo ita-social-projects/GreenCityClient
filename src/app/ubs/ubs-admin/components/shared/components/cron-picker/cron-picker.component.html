@@ -11,26 +11,27 @@
       </mat-expansion-panel-header>
       <div formGroupName="time" class="panel select-time">
         <mat-label>{{ 'cron-picker.labels.hour' | translate }}</mat-label>
-        <mat-form-field>
-          <input type="text" matInput [matAutocomplete]="autoHour" formControlName="hour" />
+        <mat-form-field appearance="fill">
+          <input matInput [matAutocomplete]="autoHour" formControlName="hour" />
           <mat-autocomplete #autoHour="matAutocomplete">
             <mat-option *ngFor="let hour of filteredHours | async" [value]="hour">
               {{ hour }}
             </mat-option>
           </mat-autocomplete>
+          <mat-hint class="error" *ngIf="hourError">{{ 'cron-picker.errors.hour-error' | translate }}</mat-hint>
         </mat-form-field>
-        <mat-error *ngIf="hourError">{{ 'cron-picker.errors.hour-error' | translate }}</mat-error>
         <div>&nbsp;:&nbsp;</div>
+
         <mat-label>{{ 'cron-picker.labels.min' | translate }}</mat-label>
         <mat-form-field appearance="fill">
-          <input type="text" matInput [matAutocomplete]="autoMin" formControlName="min" />
+          <input matInput [matAutocomplete]="autoMin" formControlName="min" />
           <mat-autocomplete #autoMin="matAutocomplete">
             <mat-option *ngFor="let min of filteredMinutes | async" [value]="min">
               {{ min }}
             </mat-option>
           </mat-autocomplete>
+          <mat-hint class="error" *ngIf="minError">{{ 'cron-picker.errors.minute-error' | translate }}</mat-hint>
         </mat-form-field>
-        <mat-error *ngIf="minError">{{ 'cron-picker.errors.minute-error' | translate }}</mat-error>
       </div>
     </mat-expansion-panel>
     <mat-expansion-panel>
