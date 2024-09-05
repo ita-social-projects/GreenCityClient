@@ -10,27 +10,30 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div formGroupName="time" class="panel select-time">
-        <mat-label>{{ 'cron-picker.labels.hour' | translate }}</mat-label>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline" [ngClass]="{ 'input-error': form.get('time').hasError('invalidHour') }">
+          <mat-label class="time-label">{{ 'cron-picker.labels.hour' | translate }}</mat-label>
           <input matInput [matAutocomplete]="autoHour" formControlName="hour" />
           <mat-autocomplete #autoHour="matAutocomplete">
             <mat-option *ngFor="let hour of filteredHours | async" [value]="hour">
               {{ hour }}
             </mat-option>
           </mat-autocomplete>
-          <mat-hint class="error" *ngIf="hourError">{{ 'cron-picker.errors.hour-error' | translate }}</mat-hint>
+          <mat-hint class="error" *ngIf="form.get('time').hasError('invalidHour')">{{
+            'cron-picker.errors.hour-error' | translate
+          }}</mat-hint>
         </mat-form-field>
         <div>&nbsp;:&nbsp;</div>
-
-        <mat-label>{{ 'cron-picker.labels.min' | translate }}</mat-label>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
+          <mat-label class="time-label">{{ 'cron-picker.labels.min' | translate }}</mat-label>
           <input matInput [matAutocomplete]="autoMin" formControlName="min" />
           <mat-autocomplete #autoMin="matAutocomplete">
             <mat-option *ngFor="let min of filteredMinutes | async" [value]="min">
               {{ min }}
             </mat-option>
           </mat-autocomplete>
-          <mat-hint class="error" *ngIf="minError">{{ 'cron-picker.errors.minute-error' | translate }}</mat-hint>
+          <mat-hint class="error" *ngIf="form.get('time').hasError('invalidMinutes')">{{
+            'cron-picker.errors.minute-error' | translate
+          }}</mat-hint>
         </mat-form-field>
       </div>
     </mat-expansion-panel>

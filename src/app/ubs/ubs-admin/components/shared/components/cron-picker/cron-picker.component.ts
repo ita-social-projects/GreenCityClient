@@ -42,9 +42,6 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     month: ''
   };
 
-  hourError = false;
-  minError = false;
-
   constructor(
     private fb: FormBuilder,
     private localStorageService: LocalStorageService,
@@ -93,7 +90,6 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     if (minute < 0 || minute > 59) {
       errors.invalidMinute = true;
     }
-
     return Object.keys(errors).length ? errors : null;
   }
 
@@ -144,12 +140,6 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
       );
     }
 
-    this.form.get('time')?.statusChanges.subscribe((status) => {
-      const errors = this.form.get('time')?.errors;
-      this.hourError = !!errors?.invalidHour;
-      this.minError = !!errors?.invalidMinute;
-    });
-
     this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.setDescription();
     });
@@ -195,7 +185,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     return options.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
-  public padZero(num: number): string {
+  padZero(num: number): string {
     return num.toString().padStart(2, '0');
   }
 
