@@ -158,7 +158,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
   getOrderInfo(orderId: number): void {
     this.orderService
-      .getIsOrderCanceledAfterFormed(orderId)
+      .getIsOrderCancelledAfterFormed(orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: boolean) => {
         this.isOrderCancelledAfterFormed = data;
