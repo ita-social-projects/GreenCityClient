@@ -43,7 +43,6 @@ export class AddCommentComponent implements OnInit {
   }
 
   setContent(data: { text: string; innerHTML: string }) {
-    alert(data.text);
     this.addCommentForm.controls.content.setValue(data.text);
     this.commentHtml = data.innerHTML;
   }
