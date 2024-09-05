@@ -34,12 +34,14 @@ export class UserProfileImageComponent implements OnChanges {
   }
 
   getDefaultProfileImg(): string {
-    return this.firstName
-      ? this.firstName
-          .split(' ')
-          .map((n) => n[0])
-          .join('')
-          .toUpperCase()
-      : '';
+    let initials = '';
+    if (this.firstName) {
+      initials = this.firstName
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .toUpperCase();
+    }
+    return initials;
   }
 }
