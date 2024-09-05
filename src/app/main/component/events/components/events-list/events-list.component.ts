@@ -300,7 +300,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private getUserFavoriteEvents(): void {
-    this.eventService.getUserFavoriteEvents(this.page, this.eventsPerPage).subscribe((res) => {
+    this.eventService.getUserFavoriteEvents(this.page, this.eventsPerPage, this.userId).subscribe((res) => {
       this.isLoading = false;
       this.eventsList.push(...res.page);
       this.page++;
@@ -350,12 +350,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
     const paramsToAdd = [
       this.appendIfNotEmpty('title', title),
-      this.appendIfNotEmpty('eventType', this.selectedLocationFiltersList.find((city) => city === 'Online') || ''),
+      this.appendIfNotEmpty('type', this.selectedLocationFiltersList.find((city) => city === 'Online') || ''),
       this.appendIfNotEmpty(
         'cities',
         this.selectedLocationFiltersList.filter((city) => city !== 'Online')
       ),
-      this.appendIfNotEmpty('eventTime', this.selectedEventTimeStatusFiltersList),
+      this.appendIfNotEmpty('time', this.selectedEventTimeStatusFiltersList),
       this.appendIfNotEmpty('statuses', this.selectedStatusFiltersList),
       this.appendIfNotEmpty('tags', this.selectedTypeFiltersList)
     ];
