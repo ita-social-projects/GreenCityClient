@@ -19,8 +19,8 @@ export class GoogleScript {
       google.async = true;
       google.defer = true;
       google.src = this.url;
-      googleScript.onerror = () => console.error('Google Maps script could not be loaded.');
-      document.head.appendChild(googleScript);
+      google.onerror = () => console.error('Google Maps script could not be loaded.');
+      document.head.appendChild(google);
     }
   }
 
