@@ -7,6 +7,8 @@ import { CommentsDTO } from '../../models/comments-model';
   styleUrls: ['./reply-comment.component.scss']
 })
 export class ReplyCommentComponent {
+  @Input() public isAddingReply: boolean;
+
   @Input() currentComment: CommentsDTO;
   @Input() repliedComment: { comment: CommentsDTO; isAdd: boolean };
 
