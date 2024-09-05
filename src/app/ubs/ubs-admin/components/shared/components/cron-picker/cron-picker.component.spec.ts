@@ -296,4 +296,20 @@ describe('CronPickerComponent', () => {
       expect(await toggle.isChecked()).toBe(true);
     }
   });
+  describe('padZero', () => {
+    it('should add a leading zero to single-digit numbers', () => {
+      const result = component.padZero(5);
+      expect(result).toBe('05');
+    });
+
+    it('should not add a leading zero to two-digit numbers', () => {
+      const result = component.padZero(12);
+      expect(result).toBe('12');
+    });
+
+    it('should handle zero correctly', () => {
+      const result = component.padZero(0);
+      expect(result).toBe('00');
+    });
+  });
 });
