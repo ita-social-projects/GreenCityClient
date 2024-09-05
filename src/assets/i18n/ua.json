@@ -859,7 +859,7 @@
         "habit-acquired": "Ви успішно набули звичку",
         "habit-was-deleted": "Ви успішно видалили звичку зі списку",
         "custom-habit-was-deleted": "Ви успішно видалили звичку",
-        "habit-already-assigned": "Ви вже додали цю звичку",
+        "habit-limit-reached": "Ви можете мати лише 6 звичок у прогресі",
         "reset-filters": "Очистити",
         "habits-popup": {
           "title": "Внесені зміни будуть втрачені.",

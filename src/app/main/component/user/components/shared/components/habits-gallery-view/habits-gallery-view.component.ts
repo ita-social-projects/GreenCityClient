@@ -78,7 +78,7 @@ export class HabitsGalleryViewComponent implements OnInit {
           this.router.navigate(['profile', this.userId]);
         },
         complete: (): void => {
-          this.snackBar.openSnackBar(isAssigned ? 'habitAdded' : 'habitAlreadyAssigned');
+          this.snackBar.openSnackBar(isAssigned ? 'habitAdded' : 'habitLimitReached');
         }
       });
   }
