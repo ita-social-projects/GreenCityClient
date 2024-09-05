@@ -11,14 +11,16 @@ export class GoogleScript {
 
     if (googleScript) {
       googleScript.src = this.url;
-    }
-    if (!googleScript) {
+    } else {
       this.initMap();
       const google = document.createElement('script');
       google.type = 'text/javascript';
       google.id = 'googleMaps';
-      google.setAttribute('src', this.url);
-      document.getElementsByTagName('head')[0].appendChild(google);
+      google.async = true;
+      google.defer = true;
+      google.src = this.url;
+      googleScript.onerror = () => console.error('Google Maps script could not be loaded.');
+      document.head.appendChild(googleScript);
     }
   }
 
@@ -27,6 +29,6 @@ export class GoogleScript {
     script.type = 'text/javascript';
     script.id = 'initMap';
     script.innerHTML = `function initMap() {}`;
-    document.getElementsByTagName('head')[0].appendChild(script);
+    document.head.appendChild(script);
   }
 }

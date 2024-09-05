@@ -130,7 +130,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   setGoogleMapLink(): void {
     const coords = this.event.dates[0].coordinates;
-    this.googleMapLink = `https://www.google.com.ua/maps/@${coords.latitude},${coords.longitude}`;
+    this.googleMapLink = `https://www.google.com.ua/maps/@${coords.longitude},${coords.latitude}`;
   }
 
   bindUserName(): void {
