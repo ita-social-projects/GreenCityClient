@@ -4,7 +4,22 @@
     [ngClass]="{ 'reply-active': this.repliedComment?.isAdd && this.repliedComment?.comment.id === this.currentComment.id }"
     (click)="writeReply()"
   >
-    <img [src]="commentsImages.reply" class="btn-img" aria-hidden="true" alt="reply" #reply />
+    <img
+      *ngIf="this.repliedComment?.isAdd && this.repliedComment?.comment.id === this.currentComment.id"
+      src="{{ commentsImages.replying }}"
+      class="btn-img"
+      aria-hidden="true"
+      alt="reply"
+      #reply
+    />
+    <img
+      *ngIf="!this.repliedComment?.isAdd || this.repliedComment?.comment.id !== this.currentComment.id"
+      src="{{ commentsImages.reply }}"
+      class="btn-img"
+      aria-hidden="true"
+      alt="reply"
+      #reply
+    />
     <span class="d-none d-sm-block btn-text">
       {{ 'homepage.eco-news.comment.btn.reply' | translate }}
     </span>

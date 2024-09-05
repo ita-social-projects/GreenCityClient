@@ -23,8 +23,5 @@ export class ReplyCommentComponent {
     if (this.repliedComment && this.repliedComment.comment.id !== this.currentComment.id) {
       this.repliedComment.isAdd = false;
     }
-
-    const imgName = this.repliedComment?.isAdd && this.repliedComment.comment.id === this.currentComment.id ? 'reply' : 'replying';
-    this.reply.nativeElement.srcset = this.commentsImages[imgName];
   }
 }
