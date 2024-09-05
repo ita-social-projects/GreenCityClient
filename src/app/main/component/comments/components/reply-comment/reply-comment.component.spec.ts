@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ReplyCommentComponent } from './reply-comment.component';
-import { CommentsDTO } from '../../models/comments-model';
 
 describe('ReplyCommentComponent', () => {
   let component: ReplyCommentComponent;
@@ -18,7 +17,6 @@ describe('ReplyCommentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplyCommentComponent);
     component = fixture.componentInstance;
-
     fixture.detectChanges();
   });
 
