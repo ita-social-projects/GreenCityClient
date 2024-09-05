@@ -167,8 +167,8 @@ export class CAddressData {
     this.resetPlaceId();
   }
 
-  getDistrict(): DistrictsDtos | null {
-    return this.district && this.districtEn ? { nameUa: this.district, nameEn: this.districtEn } : null;
+  getDistrict(): string {
+    return this.languageService.getLangValue(this.district, this.districtEn);
   }
 
   setDistrict(place_id: string): void {

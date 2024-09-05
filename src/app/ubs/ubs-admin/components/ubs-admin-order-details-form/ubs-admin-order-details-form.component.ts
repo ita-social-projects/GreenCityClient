@@ -71,7 +71,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
     this.isDisabledWriteOffStation = !prevStatus?.key && curStatus?.key === OrderStatus.BROUGHT_IT_HIMSELF;
 
-    if (curStatus?.key === OrderStatus.CANCELED && prevStatus?.key === OrderStatus.FORMED) {
+    if ((curStatus?.key === OrderStatus.CANCELED && prevStatus?.key === OrderStatus.FORMED) || this.isOrderCancelledAfterFormed) {
       this.isOrderCancelledAfterFormed = true;
       this.emitChangedStatus();
       this.courierPrice = 0;
@@ -237,8 +237,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   private calculateOverpayment() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
     const newSum = this.bagsInfo?.finalSum[bagType];
-    const overpayment = this.paymentInfo.paymentTableInfoDto.paidAmount - newSum ?? 0;
-    const unPaid = newSum - this.paymentInfo.paymentTableInfoDto.paidAmount ?? 0;
+    const overpayment = Math.max(this.paymentInfo.paymentTableInfoDto.paidAmount - newSum, 0);
+    const unPaid = Math.max(newSum - this.paymentInfo.paymentTableInfoDto.paidAmount, 0);
 
     this.overpayment = overpayment ?? -unPaid;
     const isChanged =

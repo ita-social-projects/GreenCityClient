@@ -107,7 +107,7 @@ export interface EmployeeDto {
 export interface IOrderInfo {
   generalOrderInfo: IGeneralOrderInfo;
   userInfoDto: IUserInfo;
-  addressExportDetailsDto: IAddressExportDetails;
+  addressExportDetailsDto: Address;
   addressComment: string;
   amountOfBagsConfirmed: Map<string, number>;
   amountOfBagsExported: Map<string, number>;
@@ -130,6 +130,13 @@ export interface IOrderInfo {
   employeePositionDtoRequest: IResponsiblePersons;
   writeOffStationSum: number;
   updateResponsibleEmployeeDto?: IEmployeePositions[];
+  isOrderCancelledAfterFormed: boolean;
+}
+
+export interface ReturnMoneyOrBonuses {
+  isReturnMoney: boolean;
+  isReturnBonuses: boolean;
+  amount: number;
 }
 
 export interface IEmployeePositions {

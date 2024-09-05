@@ -32,16 +32,12 @@
           [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
         >
         </app-ubs-admin-order-client-info>
-        <app-ubs-admin-address-details
-          [addressExportDetailsDto]="getFormGroup('addressExportDetailsDto')"
-          [addressComment]="orderInfo.addressComment"
-          [generalInfo]="generalInfo"
-          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
-        >
+        <app-ubs-admin-address-details [address]="addressInfo" [addressExportDetailsDto]="addressExportDetailsDto">
         </app-ubs-admin-address-details>
         <app-ubs-admin-order-details-form
           [orderDetailsForm]="getFormGroup('orderDetailsForm')"
           [orderDetailsOriginal]="orderDetails"
+          [isOrderCancelledAfterFormed]="isOrderCancelledAfterFormed"
           [orderStatusInfo]="orderStatusInfo"
           [orderInfo]="orderInfo"
           [totalPaid]="totalPaid"
@@ -63,8 +59,7 @@
           [paymentInfo]="paymentInfo"
           (paymentInfoChanged)="onPaymentInfoChanged($event)"
           (newPaymentStatus)="onUpdatePaymentStatus($event)"
-          (isReturnMoneyChange)="onIsReturnMoneyChange($event)"
-          (isReturnBonusesChange)="onIsReturnBonusesChange($event)"
+          (returnMoneyOrBonusesChange)="onReturnMoneyOrBonusesChange($event)"
         ></app-ubs-admin-order-payment>
         <app-ubs-admin-export-details
           [exportDetailsDto]="getFormGroup('exportDetailsDto')"
@@ -95,7 +90,7 @@
           >
             {{ 'order-edit.btn.cancel' | translate }}
           </button>
-          <button type="submit" class="save-button" (click)="onSubmit()">
+          <button [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder" type="submit" class="save-button" (click)="onSubmit()">
             {{ 'order-edit.btn.save' | translate }}
             <span class="inform-window" *ngIf="!orderForm.valid">
               {{ 'information-window.message' | translate }}

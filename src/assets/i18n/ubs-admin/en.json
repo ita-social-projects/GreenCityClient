@@ -122,7 +122,9 @@
   "return-payment": {
     "message": "Do you really want a refund?",
     "accept-refund-application": "Your application has been accepted. Our manager will contact you later.",
-    "error-refund-application": "Something went wrong. Your application has not been accepted. Please, try create it later."
+    "error-refund-application": "Something went wrong. Your application has not been accepted. Please, try create it later.",
+    "reqeust-return-bonuses": "The funds will be credited to the bonus account after saving the changes",
+    "reqeust-return-money": "The funds will be credited to the client's account after saving the changes"
   },
   "add-payment": {
     "title": "Add a payment document",

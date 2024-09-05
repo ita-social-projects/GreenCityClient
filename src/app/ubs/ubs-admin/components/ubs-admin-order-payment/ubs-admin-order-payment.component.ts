@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ChangingOrderPaymentStatus } from 'src/app/store/actions/bigOrderTable.actions';
-import { IPaymentInfoDto, IOrderInfo, PaymentDetails, orderPaymentInfo } from '../../models/ubs-admin.interface';
+import { IPaymentInfoDto, IOrderInfo, PaymentDetails, orderPaymentInfo, ReturnMoneyOrBonuses } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -23,8 +23,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   @Input() isEmployeeCanEditOrder: boolean;
   @Input() paymentInfo: orderPaymentInfo;
   @Output() newPaymentStatus = new EventEmitter<string>();
-  @Output() isReturnMoneyChange = new EventEmitter<boolean>();
-  @Output() isReturnBonusesChange = new EventEmitter<boolean>();
+  @Output() returnMoneyOrBonusesChange = new EventEmitter<ReturnMoneyOrBonuses>();
   @Output() paymentInfoChanged = new EventEmitter<orderPaymentInfo>();
   actualPrice: number;
   isStatusForReturnMoneyOrPaid: boolean;
@@ -35,6 +34,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   paymentsArray: IPaymentInfoDto[];
   paymentsIdArray: string[] = [];
   currentOrderStatus: string;
+  returnMoneyOrBonuses: ReturnMoneyOrBonuses;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   isRefundApplicationCreate = false;
   private returnMoneyDialogDate = {
@@ -44,23 +44,9 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     style: PopUpsStyles.green
   };
 
-  private refundApplicationDialogDate = {
-    popupTitle: 'return-payment.accept-refund-application',
-    popupConfirm: 'employees.btn.yes',
-    popupCancel: 'employees.btn.no',
-    style: PopUpsStyles.green,
-    isItrefund: true,
-    іsPermissionConfirm: true
-  };
-
-  private refundApplicationErrorDialogDate = {
-    popupTitle: 'return-payment.error-refund-application',
-    popupConfirm: 'employees.btn.yes',
-    popupCancel: 'employees.btn.no',
-    style: PopUpsStyles.green,
-    isItrefund: true,
-    іsPermissionConfirm: true
-  };
+  get isBroughtItHimSelf(): boolean {
+    return this.currentOrderStatus === OrderStatus.BROUGHT_IT_HIMSELF;
+  }
 
   constructor(
     private orderService: OrderService,
@@ -81,17 +67,17 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       this.paidAmount = this.paymentInfo.paymentTableInfoDto.paidAmount;
       this.unPaidAmount = this.paymentInfo.paymentTableInfoDto.unPaidAmount;
       this.actualPrice = this.paymentInfo.orderFullPrice;
-      console.log(this.overpayment, this.paymentInfo.paymentTableInfoDto);
     }
 
     if (changes.orderStatus) {
       this.currentOrderStatus = changes.orderStatus.currentValue;
       this.isStatusForReturnMoneyOrPaid =
-        this.currentOrderStatus === OrderStatus.CANCELED ||
-        this.currentOrderStatus === OrderStatus.DONE ||
-        this.currentOrderStatus === OrderStatus.BROUGHT_IT_HIMSELF;
+        this.currentOrderStatus === OrderStatus.CANCELED || this.currentOrderStatus === OrderStatus.DONE || this.isBroughtItHimSelf;
       if (this.currentOrderStatus === OrderStatus.CANCELED) {
         this.overpayment = this.paidAmount;
+      }
+      if (this.currentOrderStatus === OrderStatus.BROUGHT_IT_HIMSELF) {
+        this.returnMoneyOrBonuses = { ...this.returnMoneyOrBonuses, amount: 0 };
       }
     }
   }
@@ -133,27 +119,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   enrollToBonusAccount(): void {
-    const currentDate: string = this.getStringDate(new Date());
-    const paymentDetails: IPaymentInfoDto = {
-      id: null,
-      comment: null,
-      settlementdate: currentDate,
-      amount: this.overpayment,
-      paymentId: null,
-      receiptLink: 'Enrollment to the bonus account',
-      currentDate: currentDate
-    };
-    this.isReturnBonusesChange.emit(true);
-    this.paymentsArray.push(paymentDetails);
-    this.paymentInfoChanged.emit({
-      ...this.paymentInfo,
-      paymentTableInfoDto: {
-        overpayment: 0,
-        paymentInfoDtos: [...this.paymentsArray],
-        paidAmount: this.paidAmount - this.overpayment,
-        unPaidAmount: 0
-      }
-    });
+    this.moneyOrBonuses(false);
   }
 
   returnMoney(): void {
@@ -169,29 +135,33 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          const currentDate: string = this.getStringDate(new Date());
-          const paymentDetails: IPaymentInfoDto = {
-            id: null,
-            comment: null,
-            settlementdate: currentDate,
-            amount: this.overpayment,
-            paymentId: null,
-            receiptLink: 'Enrollment to the bonus account',
-            currentDate: currentDate
-          };
-          this.isReturnMoneyChange.emit(true);
-          this.paymentsArray.push(paymentDetails);
-          this.paymentInfoChanged.emit({
-            ...this.paymentInfo,
-            paymentTableInfoDto: {
-              overpayment: 0,
-              paymentInfoDtos: [...this.paymentsArray],
-              paidAmount: this.paidAmount - this.overpayment,
-              unPaidAmount: 0
-            }
-          });
+          this.moneyOrBonuses(true);
         }
       });
+  }
+
+  private moneyOrBonuses(isMoney: boolean): void {
+    const currentDate: string = this.getStringDate(new Date());
+    const paymentDetails: IPaymentInfoDto = {
+      id: null,
+      comment: null,
+      settlementdate: currentDate.replace('-', '.'),
+      amount: this.isBroughtItHimSelf ? this.returnMoneyOrBonuses.amount : this.overpayment,
+      paymentId: null,
+      receiptLink: `return-payment.${[isMoney ? 'reqeust-return-money' : 'reqeust-return-bonuses']}`,
+      currentDate: currentDate
+    };
+    this.paymentsArray.push(paymentDetails);
+    this.paymentInfoChanged.emit({
+      ...this.paymentInfo,
+      paymentTableInfoDto: {
+        overpayment: this.isBroughtItHimSelf ? this.overpayment - this.returnMoneyOrBonuses.amount : this.overpayment,
+        paymentInfoDtos: [...this.paymentsArray],
+        paidAmount: this.isBroughtItHimSelf ? this.paidAmount - this.returnMoneyOrBonuses.amount : this.paidAmount - this.overpayment,
+        unPaidAmount: 0
+      }
+    });
+    this.returnMoneyOrBonusesChange.emit({ ...this.returnMoneyOrBonuses, [isMoney ? 'isReturnMoney' : 'isReturnBonuses']: true });
   }
 
   private postDataItem(orderId: number, newValue: string): void {
@@ -232,8 +202,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     return !this.isStatusForReturnMoneyOrPaid && this.isEmployeeCanEditOrder;
   }
 
-  get returnToBonusAccount(): string {
-    return PaymentEnrollment.receiptLink;
+  isReturnPaymentLink(paymentLink): boolean {
+    return paymentLink === PaymentEnrollment.bonuses || paymentLink === PaymentEnrollment.money;
   }
 
   ngOnDestroy(): void {

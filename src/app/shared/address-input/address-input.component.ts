@@ -46,11 +46,10 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   @Input() address: Address;
   @Input() addFromProfile: boolean;
   @Input() isShowCommentInput = true;
-
+  @Input() isFromAdminPage: boolean;
   addressForm: FormGroup;
   currentLanguage: string;
   locations: CourierLocations;
-  districtList: DistrictsDtos[];
   addressData: CAddressData;
   addressCoords: google.maps.LatLng;
   isTouched = false;
@@ -163,20 +162,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.initForm();
     this.initListeners();
-
-    if (this.edit) {
-      if (this.address.addressRegionDistrictList?.length > 1) {
-        this.districtList = this.address.addressRegionDistrictList.map((item) => ({
-          nameUa: item.nameUa + DistrictEnum.UA,
-          nameEn: item.nameEn + DistrictEnum.EN
-        }));
-      } else if (this.address.addressRegionDistrictList) {
-        this.districtList = this.address.addressRegionDistrictList.map((item) => ({
-          nameUa: item.nameUa,
-          nameEn: item.nameEn
-        }));
-      }
-    }
   }
 
   ngAfterViewInit(): void {
@@ -188,7 +173,10 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.entranceNumber.disable();
       this.district.disable();
     }
-
+    if (this.isFromAdminPage) {
+      this.addressComment.disable();
+      this.region.disable();
+    }
     this.cdr.detectChanges();
   }
 
@@ -226,10 +214,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
 
     const region = this.addressData.getRegion(this.langService.getCurrentLanguage());
-
-    if (this.edit) {
-      this.districtList = [this.addressData.getDistrict()];
-    }
 
     this.addressForm = this.fb.group({
       region: [region ?? '', Validators.required],
@@ -441,6 +425,10 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   private OnChangeAndTouched(): void {
+    if (this.isFromAdminPage) {
+      this.addressComment.disable();
+      this.region.disable();
+    }
     this.onChange(this.addressData.getValues());
     this.markAsTouched();
   }

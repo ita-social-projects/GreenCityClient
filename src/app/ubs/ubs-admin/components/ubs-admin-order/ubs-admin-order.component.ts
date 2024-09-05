@@ -26,7 +26,8 @@ import {
   ResponsibleEmployee,
   abilityEditAuthorities,
   NotTakenOutReasonImages,
-  orderPaymentInfo
+  orderPaymentInfo,
+  ReturnMoneyOrBonuses
 } from '../../models/ubs-admin.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
@@ -38,6 +39,7 @@ import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.servi
 import { AdminTableService } from '../../services/admin-table.service';
 import { TableKeys } from '../../services/table-keys.enum';
 import { UnsavedChangesGuard } from '@ubs/ubs-admin/unsaved-changes-guard.guard';
+import { Address } from '@ubs/ubs/models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -48,15 +50,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   deleteNumberOrderFromEcoShop: boolean;
   currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  private isReturnMoney: boolean;
-  private isReturnBonuses: boolean;
+  isOrderCancelledAfterFormed: boolean;
   orderForm: FormGroup;
   isDataLoaded = false;
   orderId: number;
   orderInfo: IOrderInfo;
   generalInfo: IGeneralOrderInfo;
   userInfo: IUserInfo;
-  addressInfo: IAddressExportDetails;
+  addressInfo: Address;
   totalPaid: number;
   updateBonusAccount: number;
   unPaidAmount: number;
@@ -85,12 +86,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   private timeDeliveryTo: string;
   private dateExport: string;
   private receivingStationId: number;
-  private test: any = {};
   paymentInfo: orderPaymentInfo;
   notTakenOutReasonDescription: string;
   notTakenOutReasonImages: NotTakenOutReasonImages[];
 
   permissions$ = this.store.select((state): Array<string> => state.employees?.employeesPermissions);
+  private returnMoneyOrBonuses: ReturnMoneyOrBonuses;
+  get addressExportDetailsDto() {
+    return this.orderForm.controls.addressExportDetailsDto as FormControl;
+  }
   constructor(
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
@@ -121,7 +125,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.route.params.subscribe((params: Params) => {
       this.orderId = +params.id;
     });
-    this.getOrderInfo(this.orderId, false);
+    this.getOrderInfo(this.orderId);
     this.authoritiesSubscription();
   }
 
@@ -152,7 +156,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.notTakenOutReasonImages = value.images;
   }
 
-  getOrderInfo(orderId: number, submitMode: boolean): void {
+  getOrderInfo(orderId: number): void {
+    this.orderService
+      .getIsOrderCanceledAfterFormed(orderId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: boolean) => {
+        this.isOrderCancelledAfterFormed = data;
+      });
     this.orderService
       .getOrderInfo(orderId)
       .pipe(takeUntil(this.destroy$))
@@ -162,6 +172,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.currentOrderStatus = this.generalInfo.orderStatus;
         this.userInfo = data.userInfoDto;
         this.addressInfo = data.addressExportDetailsDto;
+        this.addressInfo.addressComment = data.addressComment;
         this.exportInfo = data.exportDetailsDto;
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
         this.totalPaid = data.paymentTableInfoDto.paidAmount;
@@ -195,15 +206,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     };
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
     this.isStatus = this.generalInfo.orderStatus === OrderStatus.CANCELED;
-    const paymentBonusAccount = this.paymentInfo.paymentTableInfoDto.paymentInfoDtos.filter(
-      (paymentItem) => paymentItem.receiptLink === PaymentEnrollment.receiptLink
-    );
-    if (paymentBonusAccount.length) {
-      this.updateBonusAccount = paymentBonusAccount.reduce(
-        (accumulator, currentPaymentBonusValue) => accumulator + Math.abs(currentPaymentBonusValue.amount),
-        0
-      );
-    }
   }
 
   private setPreviousBagsIfEmpty(status): void {
@@ -256,43 +258,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         ]),
         recipientEmail: new FormControl(this.userInfo.recipientEmail, [Validators.pattern(Patterns.ubsMailPattern)])
       }),
-      addressExportDetailsDto: this.fb.group({
-        addressRegion: [{ value: this.addressInfo.addressRegion, disabled: this.isStatus }, Validators.required],
-        addressRegionEng: [{ value: this.addressInfo.addressRegionEng, disabled: this.isStatus }, Validators.required],
-        addressCity: [
-          this.addressInfo.addressCity,
-          [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
-        ],
-        addressCityEng: [
-          this.addressInfo.addressCityEng,
-          [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
-        ],
-        addressStreet: [
-          this.addressInfo.addressStreet,
-          [Validators.required, Validators.minLength(1), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
-        ],
-        addressStreetEng: [
-          this.addressInfo.addressStreetEng,
-          [Validators.required, Validators.minLength(1), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
-        ],
-        addressHouseNumber: [
-          this.addressInfo.addressHouseNumber,
-          [Validators.required, Validators.maxLength(10), Validators.pattern(Patterns.numericAndAlphabetic)]
-        ],
-        addressHouseCorpus: [
-          this.addressInfo.addressHouseCorpus,
-          [Validators.maxLength(4), Validators.pattern(Patterns.numericAndAlphabetic)]
-        ],
-        addressEntranceNumber: [
-          this.addressInfo.addressEntranceNumber,
-          [Validators.maxLength(2), Validators.pattern(Patterns.numericAndAlphabetic)]
-        ],
-        addressDistrict: [{ value: this.addressInfo.addressDistrict, disabled: this.isStatus }],
-        addressDistrictEng: [{ value: this.addressInfo.addressDistrictEng, disabled: this.isStatus }],
-        addressRegionDistrictList: [this.addressInfo.addressRegionDistrictList],
-        lng: [0],
-        lat: [0]
-      }),
+      addressExportDetailsDto: [''],
       exportDetailsDto: this.fb.group({
         dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],
         timeDeliveryFrom: [this.parseTimeToStr(this.exportInfo.timeDeliveryFrom)],
@@ -396,12 +362,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.orderForm.markAsDirty();
   }
 
-  onIsReturnMoneyChange(event: boolean) {
-    this.isReturnMoney = event;
-  }
-
-  onIsReturnBonusesChange(event: boolean) {
-    this.isReturnBonuses = event;
+  onReturnMoneyOrBonusesChange(data: ReturnMoneyOrBonuses) {
+    this.returnMoneyOrBonuses = data;
   }
 
   onChangeCurrentPrice(sum: number) {
@@ -441,7 +403,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   addIdForUserAndAdress(order: FormGroup): void {
-    const addressId = 'addressId';
+    const addressId = 'id';
     const recipientId = 'recipientId';
     const keyUserInfo = 'userInfoDto';
     const keyAddressExportDetails = 'addressExportDetailsDto';
@@ -451,7 +413,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
 
     if (Object.prototype.hasOwnProperty.call(order, keyAddressExportDetails)) {
-      order[keyAddressExportDetails][addressId] = this.addressInfo.addressId;
+      order[keyAddressExportDetails][addressId] = this.addressInfo.id;
     }
   }
 
@@ -523,11 +485,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     if (this.cancelReason) {
       changedValues.cancelReason = this.cancelReason;
     }
-    if (this.isReturnMoney) {
-      changedValues.isReturnMoney = this.isReturnMoney;
-    }
-    if (this.isReturnBonuses) {
-      changedValues.isReturnBonuses = this.isReturnBonuses;
+    if (this.returnMoneyOrBonuses?.isReturnBonuses || this.returnMoneyOrBonuses?.isReturnMoney) {
+      changedValues.RefundDto = this.returnMoneyOrBonuses;
     }
 
     if (changedValues.responsiblePersonsForm) {
@@ -548,21 +507,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
 
     this.addIdForUserAndAdress(changedValues);
-    if (changedValues.addressExportDetailsDto) {
-      console.log(this.orderForm.value);
-      changedValues.addressExportDetailsDto.addressStreet = this.orderForm.value.addressExportDetailsDto.addressStreet;
-      changedValues.addressExportDetailsDto.addressStreetEng = this.orderForm.value.addressExportDetailsDto.addressStreetEng;
-      changedValues.addressExportDetailsDto.lng = this.orderForm.value.addressExportDetailsDto.lng;
-      changedValues.addressExportDetailsDto.lat = this.orderForm.value.addressExportDetailsDto.lat;
-    }
-    console.log(changedValues);
+
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues, this.notTakenOutReasonImages)
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
         this.matSnackBar.openSnackBar(response.ok ? 'changesSaved' : 'error');
         if (response.ok) {
-          this.getOrderInfo(this.orderId, true);
+          this.getOrderInfo(this.orderId);
           if (changedValues?.generalOrderInfo) {
             Object.keys(changedValues?.generalOrderInfo).forEach((key: string) => {
               if (changedValues.generalOrderInfo[key]) {
