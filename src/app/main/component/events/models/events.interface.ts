@@ -55,7 +55,7 @@ export interface EventInformation {
 
 export interface EventAttender {
   name: string;
-  imagePath: number;
+  imagePath: string;
 }
 
 export type EventInformationGroup = FormControllers<EventInformation>;

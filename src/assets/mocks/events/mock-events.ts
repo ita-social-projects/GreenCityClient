@@ -1,4 +1,4 @@
-import { EventResponse, EventResponseDto } from '../../../app/main/component/events/models/events.interface';
+import { Addresses, EventAttender, EventResponse, EventResponseDto } from '../../../app/main/component/events/models/events.interface';
 import { HttpParams } from '@angular/common/http';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
@@ -355,3 +355,77 @@ export const mockEventResponse: EventResponseDto = {
   totalElements: 1,
   totalPages: 1
 };
+
+export const addressesMock: Array<Addresses> = [
+  {
+    latitude: 50.4911190426373,
+    longitude: 30.38957457031249,
+    streetEn: 'Stetsenka Street',
+    streetUa: 'вулиця Стеценка',
+    houseNumber: '20',
+    cityEn: 'Kyiv',
+    cityUa: 'Київ',
+    regionEn: 'Kyiv',
+    regionUa: 'місто Київ',
+    countryEn: 'Ukraine',
+    countryUa: 'Україна',
+    formattedAddressEn: 'Stetsenka St, 20, Kyiv, Ukraine, 02000',
+    formattedAddressUa: 'вулиця Стеценка, 20, Київ, Україна, 02000'
+  },
+  {
+    latitude: 49.8555208,
+    longitude: 24.0340401,
+    streetEn: 'Zavodska Street',
+    streetUa: 'вулиця Заводська',
+    houseNumber: '31',
+    cityEn: 'Lviv',
+    cityUa: 'Львів',
+    regionEn: 'Lvivska oblast',
+    regionUa: 'Львівська область',
+    countryEn: 'Ukraine',
+    countryUa: 'Україна',
+    formattedAddressEn: 'Zavodska St, 31, Lviv, Lvivska oblast, Ukraine, 79000',
+    formattedAddressUa: 'вулиця Заводська, 31, Львів, Львівська область, Україна, 79000'
+  },
+  {
+    latitude: 49.7998806,
+    longitude: 23.9901827,
+    streetEn: 'Ivana Puliuia Street',
+    streetUa: 'вулиця Івана Пулюя',
+    houseNumber: '31',
+    cityEn: 'Lviv',
+    cityUa: 'Львів',
+    regionEn: 'Lvivska oblast',
+    regionUa: 'Львівська область',
+    countryEn: 'Ukraine',
+    countryUa: 'Україна',
+    formattedAddressEn: `Ivana Puliuia St, 38, L'viv, L'vivs'ka oblast, Ukraine, 79000`,
+    formattedAddressUa: 'вулиця Івана Пулюя, 38, Львів, Львівська область, Україна, 79000'
+  },
+  {
+    latitude: 49.550731,
+    longitude: 25.61935,
+    streetEn: 'Stepana Bandery Avenue',
+    streetUa: 'проспект Степана Бандери',
+    houseNumber: '58',
+    cityEn: 'Ternopil',
+    cityUa: 'Тернопіль',
+    regionEn: `Ternopil's'ka oblas`,
+    regionUa: 'Тернопільська область',
+    countryEn: 'Ukraine',
+    countryUa: 'Україна',
+    formattedAddressEn: `Stepana Bandery Ave, 58, Ternopil, Ternopil's'ka oblast, Ukraine, 46000`,
+    formattedAddressUa: 'проспект Степана Бандери, 58, Тернопіль, Тернопільська область, Україна, 46000'
+  }
+];
+
+export const eventStateMock = {
+  eventState: {},
+  eventsList: [],
+  visitedPages: [],
+  totalPages: 0,
+  pageNumber: 0,
+  error: null
+};
+
+export const mockAttendees: EventAttender[] = [{ name: 'Stetsenka Street', imagePath: 'http://example.com/image.jpg' }];

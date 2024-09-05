@@ -4,7 +4,14 @@ import { EventsService } from 'src/app/main/component/events/services/events.ser
 import { environment } from '@environment/environment';
 import { EventResponseDto } from '../models/events.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { mockEventResponse, mockHttpParams, mockParams } from '@assets/mocks/events/mock-events';
+import {
+  addressesMock,
+  mockAttendees,
+  mockEventResponse,
+  mockFavouriteEvents,
+  mockHttpParams,
+  mockParams
+} from '@assets/mocks/events/mock-events';
 
 describe('EventsService', () => {
   let service: EventsService;
@@ -160,5 +167,92 @@ describe('EventsService', () => {
 
     const req = httpTestingController.expectOne(`${url}events/156/favorites`);
     expect(req.request.method).toEqual('DELETE');
+  });
+
+  it('should make GET request to get event by id', () => {
+    service.getEventById(156).subscribe((event) => {
+      expect(event).toEqual(mockFavouriteEvents[0]);
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/156`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(mockFavouriteEvents[0]);
+  });
+
+  it('should make DELETE request to delete event by id', () => {
+    service.deleteEvent(156).subscribe((response) => {
+      expect(response).toBeNull();
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/156`);
+    expect(req.request.method).toEqual('DELETE');
+    req.flush(null);
+  });
+
+  it('should make POST request to rate event', () => {
+    const mockResponse = { success: true };
+
+    service.rateEvent(156, 5).subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/156/rating/5`);
+    expect(req.request.method).toEqual('POST');
+    req.flush(mockResponse);
+  });
+
+  it('should make POST request to add attender to an event', () => {
+    const mockResponse = { success: true };
+
+    service.addAttender(156).subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/156/attenders`);
+    expect(req.request.method).toEqual('POST');
+    req.flush(mockResponse);
+  });
+
+  it('should make DELETE request to remove attender from an event', () => {
+    service.removeAttender(156).subscribe((response) => {
+      expect(response).toBeNull();
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/156/attenders`);
+    expect(req.request.method).toEqual('DELETE');
+    req.flush(null);
+  });
+
+  it('should make GET request to get all attendees of an event', () => {
+    service.getAllAttendees(156).subscribe((attendees) => {
+      expect(attendees).toEqual(mockAttendees);
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/156/attenders`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(mockAttendees);
+  });
+
+  it('should make GET request to get all addresses', () => {
+    service.getAddresses().subscribe((addresses) => {
+      expect(addresses).toEqual(addressesMock);
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/addresses`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(addressesMock);
+  });
+
+  it('should make GET request to get image as file', () => {
+    const mockBlob = new Blob(['sample image'], { type: 'image/jpeg' });
+
+    service.getImageAsFile('http://example.com/sample.jpg').subscribe((blob) => {
+      expect(blob).toEqual(mockBlob);
+    });
+
+    const req = httpTestingController.expectOne('http://example.com/sample.jpg');
+    expect(req.request.method).toEqual('GET');
+    expect(req.request.responseType).toEqual('blob');
+    req.flush(mockBlob);
   });
 });
