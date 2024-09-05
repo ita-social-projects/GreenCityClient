@@ -41,7 +41,7 @@
   <div class="event-type-wrapper">
     <p>{{ 'create-event.event-type' | translate }}</p>
     <mat-form-field appearance="outline" class="mr-2">
-      <mat-select formControlName="open" required>
+      <mat-select formControlName="open" [required]="true">
         <mat-option *ngFor="let type of EVENT_LOCALE.eventTypeOptions; index as i" [value]="!!i">
           {{ type[localStorageService.getCurrentLanguage()] }}
         </mat-option>
@@ -49,7 +49,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>{{ 'create-event.invite' | translate }}</mat-label>
-      <mat-select required>
+      <mat-select [required]="true">
         <mat-option value="All"> {{ 'create-event.all' | translate }}</mat-option>
         <mat-option value="Friends"> {{ 'create-event.friends' | translate }}</mat-option>
       </mat-select>
@@ -62,8 +62,8 @@
     </span>
     <quill-editor
       (onContentChanged)="quillContentChanged($event)"
-      [maxLength]="63206"
-      [minLength]="20"
+      [maxLength]="maxLength"
+      [minLength]="minLength"
       [modules]="quillModules"
       [styles]="{ minHeight: '120px', maxHeight: '300px' }"
       formControlName="editorText"
@@ -71,8 +71,11 @@
       placeholder="{{ 'create-event.content-placeholder' | translate }}"
     >
     </quill-editor>
-    <p [ngClass]="!isQuillUnfilled ? 'invisible' : 'visible'" class="quill-error">
-      {{ getLocale('quillError') + (20 - quillLength) }}
+    <p
+      [ngClass]="{ 'quill-error': isQuillUnfilled || quillLength > maxLength, 'quill-valid': !isQuillUnfilled && quillLength <= maxLength }"
+      class="quill-counter"
+    >
+      {{ quillLabel }}
     </p>
   </div>
   <div class="images" style="width: 100%">

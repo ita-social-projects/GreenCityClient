@@ -194,13 +194,21 @@ textarea.ng-invalid.ng-dirty + p {
   border: 1px solid red;
 }
 
+.quill-counter {
+  font-size: 12px;
+}
+
+.quill-valid {
+  color: var(--quaternary-grey);
+}
+
 .title-description-wrapper .title-description {
   max-width: 58%;
   word-break: break-word;
   white-space: normal;
 
-  @include responsivePCFirst(3xl){
-   max-width:58%;
+  @include responsivePCFirst(3xl) {
+    max-width: 58%;
   }
 
   @include responsivePCFirst(xl) {
@@ -212,7 +220,7 @@ textarea.ng-invalid.ng-dirty + p {
   }
 }
 
-@media screen and (max-width: 1439px) {
+@include responsivePCFirst(3xl) {
   .box {
     width: 960px;
   }
@@ -223,14 +231,18 @@ textarea.ng-invalid.ng-dirty + p {
   }
 }
 
-@media screen and (max-width: 1023px) {
+@include responsivePCFirst(xl) {
   .box {
     width: 740px;
   }
 
   .wrapper {
     display: grid;
-    grid-template: repeat(4 auto) / 1fr;
+    grid-template:
+      'title' auto
+      'tags' auto
+      'image' auto
+      'source' auto / 1fr;
     grid-template-areas:
       'title'
       'tags'
@@ -239,7 +251,7 @@ textarea.ng-invalid.ng-dirty + p {
   }
 }
 
-@media screen and (max-width: 767px) {
+@include responsivePCFirst(md) {
   .box {
     width: 548px;
   }
@@ -252,7 +264,7 @@ textarea.ng-invalid.ng-dirty + p {
   }
 }
 
-@media screen and (max-width: 575px) {
+@include responsivePCFirst(sm) {
   .box {
     width: 288px;
   }

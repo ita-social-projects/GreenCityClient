@@ -61,6 +61,14 @@ quill-editor {
   }
 }
 
+.quill-counter {
+  font-size: 12px;
+}
+
 .quill-error {
   color: var(--error-red);
+}
+
+.quill-valid {
+  color: var(--quaternary-grey);
 }
