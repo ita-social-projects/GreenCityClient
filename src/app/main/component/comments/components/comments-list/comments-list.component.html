@@ -79,6 +79,8 @@
     <app-reply-comment
       (click)="showElements(comment.id, 'showRelyButton')"
       [isAddingReply]="isAddingReply"
+      [currentComment]="comment"
+      [repliedComment]="repliedComment"
       *ngIf="isLoggedIn && !comment.isEdit && dataType === types.commentType"
     >
     </app-reply-comment>

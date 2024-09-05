@@ -100,6 +100,11 @@ export class CommentsListComponent {
     }
   }
 
+  repliedComment: {
+    comment: CommentsDTO;
+    isAdd: boolean;
+  };
+
   showElements(id: number, key: 'isEdit' | 'showAllRelies' | 'showRelyButton'): void {
     if (key !== 'showAllRelies') {
       this.updateContentControl(id);
@@ -107,6 +112,8 @@ export class CommentsListComponent {
 
     if (key === 'showRelyButton') {
       this.isAddingReply = !this.isAddingReply;
+
+      this.repliedComment = { comment: this.elementsList.find((comment) => comment.id === id), isAdd: !this.repliedComment?.isAdd };
     }
 
     this.elementsList = this.elementsList.map((item) => {
