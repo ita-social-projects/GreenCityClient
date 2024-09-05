@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SecurityContext, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
@@ -26,7 +26,7 @@ export class UserProfileImageComponent implements OnChanges {
     const validUrlPattern = /^https?:\/\/[^\s/$.?#].\S*$/;
     const cleanedUrl = url.replace(/[[\]"']/g, '').trim();
     if (validUrlPattern.test(cleanedUrl)) {
-      return this.sanitizer.bypassSecurityTrustUrl(cleanedUrl);
+      return this.sanitizer.sanitize(SecurityContext.URL, cleanedUrl) as SafeUrl;
     } else {
       console.error('Invalid URL:', cleanedUrl);
       return null;
