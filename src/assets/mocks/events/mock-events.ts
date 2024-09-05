@@ -419,6 +419,36 @@ export const addressesMock: Array<Addresses> = [
   }
 ];
 
+export const eventMock = {
+  additionalImages: [],
+  dates: [
+    {
+      coordinates: {
+        addressEn: 'Address',
+        addressUa: 'Адрес',
+        latitude: 3,
+        longitude: 4
+      },
+      event: 'test',
+      finishDate: '2023-02-14',
+      id: 1,
+      onlineLink: 'https://test',
+      startDate: '2023-04-12'
+    }
+  ],
+  description: 'description',
+  id: 1,
+  open: true,
+  organizer: {
+    id: 1111,
+    name: 'John'
+  },
+  tags: [{ nameEn: 'Environmental', nameUa: 'Екологічний', id: 1 }],
+  title: 'title',
+  titleImage: '',
+  isSubscribed: true
+};
+
 export const eventStateMock = {
   eventState: {},
   eventsList: [],
