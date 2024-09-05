@@ -1,26 +1,45 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-profile-image',
   templateUrl: './user-profile-image.component.html',
   styleUrls: ['./user-profile-image.component.scss']
 })
-export class UserProfileImageComponent {
+export class UserProfileImageComponent implements OnChanges {
   @Input() firstName: string;
-  @Input() imgPath;
-  @Input() isOnline;
+  @Input() imgPath: string;
+  @Input() isOnline: boolean;
   @Input() additionalImgClass = '';
 
-  getDefaultProfileImg(): string {
-    let initials = '';
+  sanitizedImgPath: SafeUrl | null = null;
 
-    if (this.firstName) {
-      initials = this.firstName
-        .split(' ')
-        .map((n) => n[0])
-        .join('')
-        .toUpperCase();
+  constructor(private sanitizer: DomSanitizer) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['imgPath'] && this.imgPath) {
+      this.sanitizedImgPath = this.sanitizeUrl(this.imgPath);
     }
-    return initials;
+  }
+
+  sanitizeUrl(url: string): SafeUrl | null {
+    const validUrlPattern = /^https?:\/\/[^\s/$.?#].\S*$/;
+    const cleanedUrl = url.replace(/[[\]"']/g, '').trim();
+    if (validUrlPattern.test(cleanedUrl)) {
+      return this.sanitizer.bypassSecurityTrustUrl(cleanedUrl);
+    } else {
+      console.error('Invalid URL:', cleanedUrl);
+      return null;
+    }
+  }
+
+  getDefaultProfileImg(): string {
+    return this.firstName
+      ? this.firstName
+          .split(' ')
+          .map((n) => n[0])
+          .join('')
+          .toUpperCase()
+      : '';
   }
 }
