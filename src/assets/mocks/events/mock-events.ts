@@ -15,9 +15,9 @@ export const testCases = [
       .append('page', '0')
       .append('size', '10')
       .append('title', 'EVENT1')
-      .append('eventType', 'ONLINE')
+      .append('type', 'ONLINE')
       .append('cities', 'CITY1')
-      .append('eventTime', '2024-08-22')
+      .append('time', '2024-08-22')
       .append('statuses', 'ACTIVE')
       .append('tags', 'TAG1')
   },
@@ -40,7 +40,7 @@ export const testCases = [
     selectedEventTimeStatusFiltersList: [],
     selectedStatusFiltersList: ['inactive'],
     selectedTypeFiltersList: [],
-    expectedParams: new HttpParams().append('page', '0').append('size', '10').append('eventType', 'ONLINE').append('statuses', 'INACTIVE')
+    expectedParams: new HttpParams().append('page', '0').append('size', '10').append('type', 'ONLINE').append('statuses', 'INACTIVE')
   },
   {
     title: '',
@@ -48,7 +48,7 @@ export const testCases = [
     selectedEventTimeStatusFiltersList: ['2024-08-22'],
     selectedStatusFiltersList: [],
     selectedTypeFiltersList: [],
-    expectedParams: new HttpParams().append('page', '0').append('size', '10').append('eventTime', '2024-08-22')
+    expectedParams: new HttpParams().append('page', '0').append('size', '10').append('time', '2024-08-22')
   },
   {
     title: 'Event5',
@@ -60,7 +60,7 @@ export const testCases = [
       .append('page', '0')
       .append('size', '10')
       .append('title', 'EVENT5')
-      .append('eventType', 'ONLINE')
+      .append('type', 'ONLINE')
       .append('cities', 'CITY3')
       .append('statuses', 'ACTIVE')
   },
@@ -74,28 +74,22 @@ export const testCases = [
   }
 ];
 
-export const mockParams = new HttpParams()
-  .set('page', '0')
-  .set('size', '1')
-  .set('userLatitude', '50.58')
-  .set('userLongitude', '42.38')
-  .set('eventType', 'ONLINE');
+export const mockParams = new HttpParams().append('page', '0').append('size', '1').append('type', 'ONLINE');
 
 export const mockHttpParams = new HttpParams()
   .append('page', '0')
   .append('size', '10')
   .append('cities', 'City')
   .append('tags', 'Tag')
-  .append('eventTime', '2024-08-22')
-  .append('statuses', 'active')
-  .append('userLatitude', '12.34')
-  .append('userLongitude', '56.78')
-  .append('eventType', 'ONLINE');
+  .append('time', '2024-08-22')
+  .append('statuses', 'CREATED')
+  .append('userId', '1')
+  .append('type', 'ONLINE');
 
 export const mockHabitAssign: HabitAssignInterface[] = [
   {
     id: 1,
-    status: 'ACTIVE' as HabitStatus,
+    status: 'CREATED' as HabitStatus,
     createDateTime: new Date('2023-03-20T04:00:00Z'),
     habit: { id: 2 } as HabitInterface,
     complexity: 1,
@@ -110,7 +104,7 @@ export const mockHabitAssign: HabitAssignInterface[] = [
   },
   {
     id: 2,
-    status: 'ACTIVE' as HabitStatus,
+    status: 'CREATED' as HabitStatus,
     createDateTime: new Date('2023-03-22T04:00:00Z'),
     habit: { id: 4 } as HabitInterface,
     complexity: 1,

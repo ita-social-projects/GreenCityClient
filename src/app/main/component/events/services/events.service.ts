@@ -40,7 +40,7 @@ export class EventsService implements OnDestroy {
   }
 
   editEvent(formData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.backEnd}events/}`, formData);
+    return this.http.put<any>(`${this.backEnd}events/`, formData);
   }
 
   getEvents(requestParams: HttpParams): Observable<EventResponseDto> {
@@ -56,7 +56,7 @@ export class EventsService implements OnDestroy {
   }
 
   getUserFavoriteEvents(page: number, quantity: number, userId: number): Observable<EventResponseDto> {
-    return this.http.get<EventResponseDto>(`${this.backEnd}events?statuses=SAVED&user-id=${userId}&page=${page}&size=${quantity}`);
+    return this.http.get<EventResponseDto>(`${this.backEnd}events?page=${page}&size=${quantity}&statuses=SAVED&user-id=${userId}`);
   }
 
   getEventById(id: number): Observable<EventResponse> {

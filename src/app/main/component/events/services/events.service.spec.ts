@@ -38,7 +38,7 @@ describe('EventsService', () => {
       expect(event).toEqual(mockEventResponse);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/create`);
+    const req = httpTestingController.expectOne(`${url}events/`);
     expect(req.request.method).toEqual('POST');
     req.flush(mockEventResponse);
   });
@@ -48,7 +48,7 @@ describe('EventsService', () => {
       expect(event).toEqual(mockEventResponse);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/update`);
+    const req = httpTestingController.expectOne(`${url}events/`);
     expect(req.request.method).toEqual('PUT');
     req.flush(mockEventResponse);
   });
@@ -57,9 +57,7 @@ describe('EventsService', () => {
     service.getEvents(mockHttpParams).subscribe((event: EventResponseDto) => {
       expect(event).toEqual(mockEventResponse);
     });
-    const expected =
-      `${url}events?page=0&size=10&cities=City&tags=Tag&eventTime=2024-08-22` +
-      `&statuses=active&userLatitude=12.34&userLongitude=56.78&eventType=ONLINE`;
+    const expected = `${url}events?page=0&size=10&cities=City&tags=Tag&time=2024-08-22&statuses=CREATED&userId=1&type=ONLINE`;
     const req = httpTestingController.expectOne(expected);
     expect(req.request.method).toEqual('GET');
     req.flush(mockEventResponse);
@@ -69,8 +67,7 @@ describe('EventsService', () => {
     service.getEvents(mockParams).subscribe((event: EventResponseDto) => {
       expect(event).toEqual(mockEventResponse);
     });
-
-    const req = httpTestingController.expectOne(`${url}events?page=0&size=1&userLatitude=50.58&userLongitude=42.38&eventType=ONLINE`);
+    const req = httpTestingController.expectOne(`${url}events?page=0&size=1&type=ONLINE`);
     expect(req.request.method).toEqual('GET');
     req.flush(mockEventResponse);
   });
@@ -79,7 +76,7 @@ describe('EventsService', () => {
     service.getEventById(156).subscribe((event: any) => {
       expect(event).toEqual(mockEventResponse);
     });
-    const req = httpTestingController.expectOne(`${url}events/event/156`);
+    const req = httpTestingController.expectOne(`${url}events/156`);
     expect(req.request.method).toEqual('GET');
     req.flush(mockEventResponse);
   });
@@ -88,7 +85,7 @@ describe('EventsService', () => {
     service.deleteEvent(156).subscribe((event: any) => {
       expect(event).toEqual(mockEventResponse);
     });
-    const req = httpTestingController.expectOne(`${url}events/delete/156`);
+    const req = httpTestingController.expectOne(`${url}events/156`);
     expect(req.request.method).toEqual('DELETE');
     req.flush(mockEventResponse);
   });
@@ -97,7 +94,7 @@ describe('EventsService', () => {
     service.rateEvent(156, 5).subscribe((event: any) => {
       expect(event).toEqual(mockEventResponse);
     });
-    const req = httpTestingController.expectOne(`${url}events/rateEvent/156/5`);
+    const req = httpTestingController.expectOne(`${url}events/156/rating/5`);
     expect(req.request.method).toEqual('POST');
     req.flush(mockEventResponse);
   });
@@ -106,7 +103,7 @@ describe('EventsService', () => {
     service.addAttender(156).subscribe((event: any) => {
       expect(event).toEqual(mockEventResponse);
     });
-    const req = httpTestingController.expectOne(`${url}events/addAttender/156`);
+    const req = httpTestingController.expectOne(`${url}events/156/attenders`);
     expect(req.request.method).toEqual('POST');
     req.flush(mockEventResponse);
   });
@@ -115,7 +112,7 @@ describe('EventsService', () => {
     service.removeAttender(156).subscribe((event: any) => {
       expect(event).toEqual(mockEventResponse);
     });
-    const req = httpTestingController.expectOne(`${url}events/removeAttender/156`);
+    const req = httpTestingController.expectOne(`${url}events/156/attenders`);
     expect(req.request.method).toEqual('DELETE');
     req.flush(mockEventResponse);
   });
@@ -146,7 +143,7 @@ describe('EventsService', () => {
       }
     });
 
-    const req = httpTestingController.expectOne(`${url}events/addToFavorites/156`);
+    const req = httpTestingController.expectOne(`${url}events/156/favorites`);
     expect(req.request.method).toEqual('POST');
   });
 
@@ -161,7 +158,7 @@ describe('EventsService', () => {
       }
     });
 
-    const req = httpTestingController.expectOne(`${url}events/removeFromFavorites/156`);
+    const req = httpTestingController.expectOne(`${url}events/156/favorites`);
     expect(req.request.method).toEqual('DELETE');
   });
 });
