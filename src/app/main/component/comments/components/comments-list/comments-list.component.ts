@@ -42,6 +42,10 @@ export class CommentsListComponent {
     }
   };
   isAddingReply = false;
+  repliedComment: {
+    comment: CommentsDTO;
+    isAdd: boolean;
+  } | null = null;
   private isAdmin = this.jwtService.getUserRole() === 'ROLE_ADMIN';
 
   constructor(
@@ -99,11 +103,6 @@ export class CommentsListComponent {
       this.router.navigate(['profile', this.userId, 'users', userName, userId]);
     }
   }
-
-  repliedComment: {
-    comment: CommentsDTO;
-    isAdd: boolean;
-  };
 
   showElements(id: number, key: 'isEdit' | 'showAllRelies' | 'showRelyButton'): void {
     if (key !== 'showAllRelies') {
