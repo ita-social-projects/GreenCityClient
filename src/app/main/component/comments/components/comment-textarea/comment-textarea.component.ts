@@ -64,7 +64,9 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
       .onMessage(this.socketService.connection.greenCity, `/topic/${this.userId}/searchUsers`)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: TaggedUser[]) => {
-        if (data.length) {
+        const textContent = this.getTextContent();
+        const hasTagCharacter = this.hasTagCharacter(textContent);
+        if (data.length && hasTagCharacter) {
           this.suggestedUsers = data.filter((el) => el.userName.toLowerCase().includes(this.searchQuery.toLowerCase()));
           this.menuTrigger.openMenu();
           this.refocusTextarea();
@@ -84,10 +86,15 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
         takeUntil(this.destroy$),
         debounceTime(300),
         tap(() => {
-          this.menuTrigger.closeMenu();
-          this.suggestedUsers = [];
           this.content.setValue(this.commentTextarea.nativeElement.textContent);
           this.emitCommentText();
+          const textContent = this.getTextContent();
+          const hasTagCharacter = this.hasTagCharacter(textContent);
+          if (!hasTagCharacter) {
+            this.menuTrigger.closeMenu();
+            this.suggestedUsers = [];
+            return;
+          }
         }),
         filter(() => {
           this.getSelectionStart();
@@ -106,6 +113,9 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
 
         if (!this.searchQuery.includes(' ')) {
           this.sendSocketMessage(this.searchQuery);
+        } else {
+          this.menuTrigger.closeMenu();
+          this.suggestedUsers = [];
         }
       });
   }
@@ -114,6 +124,14 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     if (changes.commentHtml?.currentValue === '') {
       this.commentTextarea.nativeElement.innerHTML = '';
     }
+  }
+
+  private getTextContent(): string {
+    return this.commentTextarea.nativeElement.textContent;
+  }
+
+  private hasTagCharacter(text: string): boolean {
+    return this.charToTagUsers.some((char) => text.includes(char));
   }
 
   refocusTextarea(): void {
