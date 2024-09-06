@@ -255,4 +255,104 @@ describe('EventsService', () => {
     expect(req.request.responseType).toEqual('blob');
     req.flush(mockBlob);
   });
+
+  it('should handle delete event error', () => {
+    const eventId = 1;
+
+    service.deleteEvent(eventId).subscribe({
+      next: () => fail('Expected error'),
+      error: (error) => expect(error.status).toBe(500)
+    });
+
+    const req = httpTestingController.expectOne(`${service['backEnd']}events/${eventId}`);
+    req.flush('Delete failed', { status: 500, statusText: 'Server Error' });
+  });
+
+  it('should handle rate event error', () => {
+    const eventId = 1;
+    const grade = 5;
+
+    service.rateEvent(eventId, grade).subscribe({
+      next: () => fail('Expected error'),
+      error: (error) => expect(error.status).toBe(500)
+    });
+
+    const req = httpTestingController.expectOne(`${service['backEnd']}events/${eventId}/rating/${grade}`);
+    req.flush('Rate failed', { status: 500, statusText: 'Server Error' });
+  });
+
+  it('should handle add attender error', () => {
+    const eventId = 1;
+
+    service.addAttender(eventId).subscribe({
+      next: () => fail('Expected error'),
+      error: (error) => expect(error.status).toBe(500)
+    });
+
+    const req = httpTestingController.expectOne(`${service['backEnd']}events/${eventId}/attenders`);
+    req.flush('Add attender failed', { status: 500, statusText: 'Server Error' });
+  });
+
+  it('should handle remove attender error', () => {
+    const eventId = 1;
+
+    service.removeAttender(eventId).subscribe({
+      next: () => fail('Expected error'),
+      error: (error) => expect(error.status).toBe(500)
+    });
+
+    const req = httpTestingController.expectOne(`${service['backEnd']}events/${eventId}/attenders`);
+    req.flush('Remove attender failed', { status: 500, statusText: 'Server Error' });
+  });
+
+  it('should get all attendees', () => {
+    const eventId = 1;
+
+    service.getAllAttendees(eventId).subscribe({
+      next: (attendees) => expect(attendees).toEqual(mockAttendees),
+      error: fail
+    });
+
+    const req = httpTestingController.expectOne(`${service['backEnd']}events/${eventId}/attenders`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockAttendees);
+  });
+
+  it('should handle get all attendees error', () => {
+    const eventId = 1;
+
+    service.getAllAttendees(eventId).subscribe({
+      next: () => fail('Expected error'),
+      error: (error) => expect(error.status).toBe(500)
+    });
+
+    const req = httpTestingController.expectOne(`${service['backEnd']}events/${eventId}/attenders`);
+    req.flush('Get attendees failed', { status: 500, statusText: 'Server Error' });
+  });
+
+  it('should get addresses successfully', () => {
+    service.getAddresses().subscribe({
+      next: (addresses) => {
+        expect(addresses).toEqual(addressesMock);
+      },
+      error: fail
+    });
+
+    const req = httpTestingController.expectOne(`${service['backEnd']}events/addresses`);
+    expect(req.request.method).toBe('GET');
+    req.flush(addressesMock);
+  });
+
+  it('should handle error when getting addresses', () => {
+    service.getAddresses().subscribe({
+      next: () => fail('Expected an error'),
+      error: (error) => {
+        expect(error.status).toBe(500);
+        expect(error.statusText).toBe('Server Error');
+      }
+    });
+
+    const req = httpTestingController.expectOne(`${service['backEnd']}events/addresses`);
+    req.flush('Failed to load addresses', { status: 500, statusText: 'Server Error' });
+  });
 });
