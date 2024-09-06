@@ -47,7 +47,7 @@ form {
 
 .input-wrapper {
   height: 36px;
-  border: 1px solid var(--ubs-cool-grey);
+  border: 1px solid var(--ubs-primary-light-grey);
   border-radius: 4px;
   margin-right: 16px;
   position: relative;
@@ -58,7 +58,6 @@ form {
   border-radius: 4px;
   margin-right: 16px;
   position: relative;
-  font-family: var(--primary-font);
 }
 
 .input-wrapper input {
@@ -68,20 +67,26 @@ form {
   height: 100%;
   background: transparent;
   border: none;
-  color: var(--ubs-quaternary-dark-grey);
+  color: var(--ubs-primary-light-grey);
   text-overflow: ellipsis;
 }
 
 .input-wrapper input::placeholder,
-:host::ng-deep .mat-select-placeholder,
-:host::ng-deep .mat-select-value {
+:host::ng-deep .mat-select-placeholder {
   color: var(--ubs-primary-light-grey);
   font-size: 14px;
+  font-family: var(--ubs-quaternary-font);
+}
+
+:host::ng-deep .mat-select-value {
+  font-size: 14px;
+  font-family: var(--ubs-quaternary-font);
 }
 
 .input-wrapper input.region {
   color: var(--ubs-quaternary-dark-grey);
   font-size: 14px;
+  font-family: var(--ubs-quaternary-font);
 
   &-not-existing {
     border: 1px solid var(--error-ligh-red);
@@ -92,18 +97,15 @@ form {
 .input-wrapper input.station,
 .input-wrapper input.region {
   padding: 0 56px 0 15px;
-  font-size: medium;
 }
 
 .courier-select {
   padding: 5px 40px 0 15px;
-  font-size: medium;
 }
 
 .state-select {
   text-overflow: ellipsis;
   padding: 5px 34px 0 15px;
-  font-size: medium;
 }
 
 .col-item {
