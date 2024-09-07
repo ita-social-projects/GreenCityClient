@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators } from
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Observable } from 'rxjs';
 import { CronService } from 'src/app/shared/cron/cron.service';
-import { MatAutocomplete } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { startWith, map, takeUntil } from 'rxjs/operators';
 
 const range = (from: number, to: number) => new Array(to - from).fill(0).map((_, idx) => from + idx);
@@ -18,8 +18,8 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() schedule = '';
   @Output() scheduleSelected = new EventEmitter<string>();
 
-  @ViewChild('autoHour', { static: true }) autoHour!: MatAutocomplete;
-  @ViewChild('autoMin', { static: true }) autoMin!: MatAutocomplete;
+  @ViewChild('autoHour', { static: false }) autoHour!: MatAutocomplete;
+  @ViewChild('autoMin', { static: false }) autoMin!: MatAutocomplete;
 
   form: FormGroup;
   private destroy = new Subject<void>();
@@ -27,8 +27,9 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
 
   hours: string[] = Array.from({ length: 24 }, (_, i) => this.padZero(i));
   minutes: string[] = Array.from({ length: 60 }, (_, i) => this.padZero(i));
-  filteredHours!: Observable<string[]>;
-  filteredMinutes!: Observable<string[]>;
+
+  hourFiltered!: Observable<string[]>;
+  minFiltered!: Observable<string[]>;
 
   daysOfWeek = range(1, 8);
   days = range(1, 32);
@@ -49,12 +50,8 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     this.form = this.fb.group({
       time: this.fb.group(
         {
-          // min: new FormControl(this.padZero(new Date().getMinutes())),  // No validators temporarily
-          // hour: new FormControl(this.padZero(new Date().getHours()))
-          // min: [this.padZero(new Date().getMinutes())],
-          // hour: [this.padZero(new Date().getHours())]
           min: new FormControl(this.padZero(new Date().getMinutes()), [Validators.pattern(/^[0-5][0-9]$/)]),
-          hour: new FormControl(this.padZero(new Date().getHours()), [Validators.pattern(/^[0-2][0-9]$/)])
+          hour: new FormControl(this.padZero(new Date().getHours()), [Validators.pattern(/^[0-2][0-9]$/), this.hourValidator])
         },
         { validators: [this.timeValidator] }
       ),
@@ -80,14 +77,24 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+  private hourValidator(control: FormControl) {
+    const value = parseInt(control.value, 10);
+    if (isNaN(value) || value < 0 || value >= 25) {
+      return { invalidHour: true };
+    }
+    return null;
+  }
+
   private timeValidator(control: AbstractControl): null | { [error: string]: boolean } {
     const hour = control.get('hour')?.value;
     const min = control.get('min')?.value;
+    console.log(hour, min);
     if (!hour || !min) {
       return null;
     }
-    const hourValid = /^[0-2][0-9]$/.test(hour);
+    const hourValid = /^[0-2][0-9]$/.test(hour) && hour < 25;
     const minValid = /^[0-5][0-9]$/.test(min);
+
     if (hourValid && minValid) {
       return null;
     } else {
@@ -134,10 +141,8 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     if (this.schedule) {
       this.initializeForm();
-      this.setupFormValueChanges();
-      this.setupFilteredValues('time.hour', this.hours);
-      this.setupFilteredValues('time.min', this.minutes);
     }
+    this.setupFormValueChanges();
   }
 
   private initializeForm() {
@@ -152,19 +157,26 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private setupFormValueChanges() {
+    this.setDescription();
+
     this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.setDescription();
     });
+
+    this.setupFilteredValues('hour', this.hours);
+    this.setupFilteredValues('min', this.minutes);
   }
 
   private setupFilteredValues(controlName: string, options: string[]): void {
-    this[`${controlName}Filtered`] = this.form.get(controlName)?.valueChanges.pipe(
+    this[`${controlName}Filtered`] = this.form.get(`time.${controlName}`)?.valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value, options))
     );
   }
+
   private _filter(value: string, list: string[]): string[] {
     const filterValue = value.toLowerCase();
+    console.log('Filtering:', filterValue, list); // Debugging
     return list.filter((option) => option.toLowerCase().includes(filterValue));
   }
 

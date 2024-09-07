@@ -10,12 +10,11 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div formGroupName="time" class="panel select-time">
-        <mat-form-field appearance="outline" [ngClass]="{ 'input-error': form.get('time').hasError('invalidHour') }">
+        <mat-form-field appearance="outline">
           <mat-label class="time-label">{{ 'cron-picker.labels.hour' | translate }}</mat-label>
-          <!-- <input matInput [matAutocomplete]="autoHour" formControlName="hour" /> -->
-          <input matInput [formControl]="getFormControl('hour')" [matAutocomplete]="autoHour" />
-          <mat-autocomplete requireSelection #autoHour="matAutocomplete">
-            <mat-option *ngFor="let hour of filteredHours | async" [value]="hour">
+          <input matInput formControlName="hour" [matAutocomplete]="autoHour" />
+          <mat-autocomplete #autoHour="matAutocomplete">
+            <mat-option *ngFor="let hour of hourFiltered | async" [value]="hour">
               {{ hour }}
             </mat-option>
           </mat-autocomplete>
@@ -26,11 +25,9 @@
         <div>&nbsp;:&nbsp;</div>
         <mat-form-field appearance="outline">
           <mat-label class="time-label">{{ 'cron-picker.labels.min' | translate }}</mat-label>
-          <!-- <input matInput [matAutocomplete]="autoMin" formControlName="min" /> -->
-          <input matInput [formControl]="getFormControl('min')" [matAutocomplete]="autoMin" />
-
+          <input matInput formControlName="min" [matAutocomplete]="autoMin" />
           <mat-autocomplete #autoMin="matAutocomplete">
-            <mat-option *ngFor="let min of filteredMinutes | async" [value]="min">
+            <mat-option *ngFor="let min of minFiltered | async" [value]="min">
               {{ min }}
             </mat-option>
           </mat-autocomplete>
