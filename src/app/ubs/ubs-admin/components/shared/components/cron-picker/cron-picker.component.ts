@@ -185,13 +185,8 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     );
   }
 
-  // private _filter(value: string, list: string[]): string[] {
-  //   const filterValue = value.toLowerCase();
-  //   return list.filter((option) => option.toLowerCase().includes(filterValue));
-  // }
-
   private _filter(value: string, list: string[]): string[] {
-    const filterValue = value.toString().toLowerCase(); // Ensure value is a string
+    const filterValue = value.toString().toLowerCase();
     return list.filter((option) => option.toLowerCase().includes(filterValue));
   }
 

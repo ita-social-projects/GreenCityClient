@@ -18,9 +18,6 @@
               {{ hour }}
             </mat-option>
           </mat-autocomplete>
-          <!-- <mat-error *ngIf="form.value.time.hour?.hasError('required')">
-            {{ 'required' }}
-          </mat-error> -->
           <mat-error *ngIf="checkForErrorsIn('hour')">
             {{ checkForErrorsIn('hour') | translate }}
           </mat-error>
@@ -34,9 +31,6 @@
               {{ min }}
             </mat-option>
           </mat-autocomplete>
-          <!-- <mat-error *ngIf="form.value.time.min?.hasError('required')">
-            {{ 'required' }}
-          </mat-error> -->
           <mat-error *ngIf="checkForErrorsIn('min')">
             {{ checkForErrorsIn('min') | translate }}
           </mat-error>
