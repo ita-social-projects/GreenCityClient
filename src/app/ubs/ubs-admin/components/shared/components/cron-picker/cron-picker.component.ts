@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Observable } from 'rxjs';
 import { CronService } from 'src/app/shared/cron/cron.service';
@@ -49,8 +49,12 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     this.form = this.fb.group({
       time: this.fb.group(
         {
-          min: [this.padZero(new Date().getMinutes())],
-          hour: [this.padZero(new Date().getHours())]
+          // min: new FormControl(this.padZero(new Date().getMinutes())),  // No validators temporarily
+          // hour: new FormControl(this.padZero(new Date().getHours()))
+          // min: [this.padZero(new Date().getMinutes())],
+          // hour: [this.padZero(new Date().getHours())]
+          min: new FormControl(this.padZero(new Date().getMinutes()), [Validators.pattern(/^[0-5][0-9]$/)]),
+          hour: new FormControl(this.padZero(new Date().getHours()), [Validators.pattern(/^[0-2][0-9]$/)])
         },
         { validators: [this.timeValidator] }
       ),
@@ -78,18 +82,36 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
 
   private timeValidator(control: AbstractControl): null | { [error: string]: boolean } {
     const hour = control.get('hour')?.value;
-    const minute = control.get('min')?.value;
-
-    const errors: any = {};
-
-    if (hour < 0 || hour > 23) {
-      errors.invalidHour = true;
+    const min = control.get('min')?.value;
+    if (!hour || !min) {
+      return null;
     }
-
-    if (minute < 0 || minute > 59) {
-      errors.invalidMinute = true;
+    const hourValid = /^[0-2][0-9]$/.test(hour);
+    const minValid = /^[0-5][0-9]$/.test(min);
+    if (hourValid && minValid) {
+      return null;
+    } else {
+      return { invalidHourMin: true };
     }
-    return Object.keys(errors).length ? errors : null;
+  }
+
+  private isFormControl(control: AbstractControl): control is FormControl {
+    return control instanceof FormControl;
+  }
+
+  getFormControl(controlName: string): FormControl | null {
+    const control = this.form.get(`time.${controlName}`);
+    return this.isFormControl(control) ? control : null;
+  }
+
+  checkForErrorsIn(controlName: string): string | null {
+    const control = this.form.get(`time.${controlName}`);
+    if (control?.errors) {
+      if (control.errors.invalidHourMin) {
+        return controlName === 'hour' ? 'cron-picker.errors.hour-error' : 'cron-picker.errors.minute-error';
+      }
+    }
+    return null;
   }
 
   private dayValidator(control: AbstractControl): null | { [error: string]: boolean } {
@@ -111,48 +133,39 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     if (this.schedule) {
-      try {
-        const { min, hour } = this.cronService.parse(this.schedule);
-        this.form.patchValue({
-          time: {
-            min: this.padZero(min.value || min.value[0]),
-            hour: this.padZero(hour.value || hour.value[0])
-          }
-        });
-      } catch (error) {
-        console.error(`Error while parsing cron-picker input during initialization. ${error}`);
-      }
-
-      this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
-        this.setDescription();
-      });
-      this.setDescription();
-
-      this.filteredHours = this.form.get('time.hour').valueChanges.pipe(
-        startWith(''),
-        map((value) => this._filter(value, this.hours))
-      );
-
-      this.filteredMinutes = this.form.get('time.min').valueChanges.pipe(
-        startWith(''),
-        map((value) => this._filter(value, this.minutes))
-      );
+      this.initializeForm();
+      this.setupFormValueChanges();
+      this.setupFilteredValues('time.hour', this.hours);
+      this.setupFilteredValues('time.min', this.minutes);
     }
+  }
 
+  private initializeForm() {
+    const { min, hour } = this.cronService.parse(this.schedule);
+    this.form.patchValue({
+      time: {
+        min: this.padZero(min.value || min.value[0]),
+        hour: this.padZero(hour.value || hour.value[0])
+      }
+    });
+    this.setDescription();
+  }
+
+  private setupFormValueChanges() {
     this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.setDescription();
     });
-    this.setDescription();
+  }
 
-    this.filteredHours = this.form.get('time.hour').valueChanges.pipe(
+  private setupFilteredValues(controlName: string, options: string[]): void {
+    this[`${controlName}Filtered`] = this.form.get(controlName)?.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filter(value, this.hours))
+      map((value) => this._filter(value, options))
     );
-
-    this.filteredMinutes = this.form.get('time.min').valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value, this.minutes))
-    );
+  }
+  private _filter(value: string, list: string[]): string[] {
+    const filterValue = value.toLowerCase();
+    return list.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -177,11 +190,6 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     const params = this.getCronParams();
     const cron = `${params.min} ${params.hour} ${params.dayOfMonth} ${params.month} ${params.dayOfWeek}`;
     this.scheduleSelected.emit(cron);
-  }
-
-  private _filter(value: string, options: string[]): string[] {
-    const filterValue = value.toString().toLowerCase();
-    return options.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
   padZero(num: number): string {
