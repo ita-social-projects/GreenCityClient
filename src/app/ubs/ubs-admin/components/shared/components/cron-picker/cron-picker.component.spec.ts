@@ -21,6 +21,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
+import { FormControl } from '@angular/forms';
 
 describe('CronPickerComponent', () => {
   let component: CronPickerComponent;
@@ -122,6 +123,9 @@ describe('CronPickerComponent', () => {
   xit('correct options are selected by default', async () => {
     const { hourSelect, minSelect, dayTypeRadioGroup, dayOfWeekToggles, dayOfMonthToggles, monthTypeRadioGroup, monthsToggles } =
       await getAllElements();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(await hourSelect.getValue()).toBe(component.padZero(new Date().getHours()));
     expect(await minSelect.getValue()).toBe(component.padZero(new Date().getMinutes()));
@@ -279,7 +283,10 @@ describe('CronPickerComponent', () => {
     component.ngOnChanges({
       schedule: { previousValue: '', currentValue: '17 14 4-7 1,2 *', firstChange: true, isFirstChange: () => true }
     });
+
     fixture.detectChanges();
+    await fixture.whenStable();
+
     const { hourSelect, minSelect, dayTypeRadioGroup, dayOfWeekToggles, dayOfMonthToggles, monthTypeRadioGroup, monthsToggles } =
       await getAllElements();
     expect(await hourSelect.getValue()).toBe(hour);
@@ -296,6 +303,7 @@ describe('CronPickerComponent', () => {
       expect(await toggle.isChecked()).toBe(true);
     }
   });
+
   describe('padZero', () => {
     it('should add a leading zero to single-digit numbers', () => {
       const result = component.padZero(5);
@@ -310,6 +318,73 @@ describe('CronPickerComponent', () => {
     it('should handle zero correctly', () => {
       const result = component.padZero(0);
       expect(result).toBe('00');
+    });
+  });
+
+  describe('Form Control Methods', () => {
+    it('should get the FormControl for hour', () => {
+      const control = component.getFormControl('hour');
+      expect(control).toBeTruthy();
+      expect(control instanceof FormControl).toBe(true);
+    });
+
+    it('should get the FormControl for min', () => {
+      const control = component.getFormControl('min');
+      expect(control).toBeTruthy();
+      expect(control instanceof FormControl).toBe(true);
+    });
+
+    it('should return null for invalid control name', () => {
+      const control = component.getFormControl('invalidControl');
+      expect(control).toBeNull();
+    });
+
+    it('should return the correct error message for hour control', () => {
+      const control = component.form.get('time.hour');
+      control.setValue('');
+      control.markAsTouched();
+      const error = component.checkForErrorsIn('hour');
+      expect(error).toBe('cron-picker.errors.hour-required');
+    });
+
+    it('should return the correct error message for min control', () => {
+      const control = component.form.get('time.min');
+      control.setValue('');
+      control.markAsTouched();
+      const error = component.checkForErrorsIn('min');
+      expect(error).toBe('cron-picker.errors.minute-required');
+    });
+
+    it('should return the correct error message for invalid hour control', () => {
+      const control = component.form.get('time.hour');
+      control.setValue('35');
+      control.markAsTouched();
+      const error = component.checkForErrorsIn('hour');
+      expect(error).toBe('cron-picker.errors.hour-error');
+    });
+
+    it('should return the correct error message for invalid min control', () => {
+      const control = component.form.get('time.min');
+      control.setValue('60');
+      control.markAsTouched();
+      const error = component.checkForErrorsIn('min');
+      expect(error).toBe('cron-picker.errors.minute-error');
+    });
+
+    it('should return null for valid hour control', () => {
+      const control = component.form.get('time.hour');
+      control.setValue('10');
+      control.markAsTouched();
+      const error = component.checkForErrorsIn('hour');
+      expect(error).toBeNull();
+    });
+
+    it('should return null for valid min control', () => {
+      const control = component.form.get('time.min');
+      control.setValue('30');
+      control.markAsTouched();
+      const error = component.checkForErrorsIn('min');
+      expect(error).toBeNull();
     });
   });
 });
