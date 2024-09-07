@@ -1109,8 +1109,10 @@
       "at-least-one-day-of-week": "Виберіть хоча б один день тижня",
       "at-least-one-day-of-month": "Виберіть хоча б один день місяця",
       "at-least-one-month": "Виберіть хоча б один місяць",
-      "hour-error": "Година поза межами",
-      "minute-error": "Хвилина поза межами"
+      "hour-error": "Година вказана неправильно",
+      "minute-error": "Хвилина вказана неправильно",
+      "hour-required": "Година обов'язкова",
+      "minute-required": "Хвилина обов'язкова"
     },
     "days-of-week": {
       "MON": "Пн",

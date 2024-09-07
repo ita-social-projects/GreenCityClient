@@ -50,8 +50,12 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     this.form = this.fb.group({
       time: this.fb.group(
         {
-          min: new FormControl(this.padZero(new Date().getMinutes()), [Validators.pattern(/^[0-5][0-9]$/)]),
-          hour: new FormControl(this.padZero(new Date().getHours()), [Validators.pattern(/^[0-2][0-9]$/), this.hourValidator])
+          min: new FormControl(this.padZero(new Date().getMinutes()), [Validators.required, Validators.pattern(/^[0-5][0-9]$/)]),
+          hour: new FormControl(this.padZero(new Date().getHours()), [
+            Validators.required,
+            Validators.pattern(/^[0-2][0-9]$/),
+            this.hourValidator
+          ])
         },
         { validators: [this.timeValidator] }
       ),
@@ -88,7 +92,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   private timeValidator(control: AbstractControl): null | { [error: string]: boolean } {
     const hour = control.get('hour')?.value;
     const min = control.get('min')?.value;
-    console.log(hour, min);
+
     if (!hour || !min) {
       return null;
     }
@@ -113,7 +117,14 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
 
   checkForErrorsIn(controlName: string): string | null {
     const control = this.form.get(`time.${controlName}`);
+
     if (control?.errors) {
+      if (control.errors.required) {
+        return controlName === 'hour' ? 'cron-picker.errors.hour-required' : 'cron-picker.errors.minute-required';
+      }
+      if (control.errors.pattern) {
+        return controlName === 'hour' ? 'cron-picker.errors.hour-error' : 'cron-picker.errors.minute-error';
+      }
       if (control.errors.invalidHourMin) {
         return controlName === 'hour' ? 'cron-picker.errors.hour-error' : 'cron-picker.errors.minute-error';
       }
@@ -174,9 +185,13 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     );
   }
 
+  // private _filter(value: string, list: string[]): string[] {
+  //   const filterValue = value.toLowerCase();
+  //   return list.filter((option) => option.toLowerCase().includes(filterValue));
+  // }
+
   private _filter(value: string, list: string[]): string[] {
-    const filterValue = value.toLowerCase();
-    console.log('Filtering:', filterValue, list); // Debugging
+    const filterValue = value.toString().toLowerCase(); // Ensure value is a string
     return list.filter((option) => option.toLowerCase().includes(filterValue));
   }
 

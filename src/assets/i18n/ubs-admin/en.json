@@ -1111,8 +1111,10 @@
       "at-least-one-day-of-week": "At least one day of week should be selected",
       "at-least-one-day-of-month": "At least one day of month should be selected",
       "at-least-one-month": "At least one month should be selected",
-      "hour-error": "Hour out of range",
-      "minute-error": "Minute out of range"
+      "hour-error": "Hour is incorrect",
+      "minute-error": "Minute is incorrect",
+      "hour-required": "Hour is required",
+      "minute-required": "Minute is required"
     },
     "days-of-week": {
       "MON": "Mon",
