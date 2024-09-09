@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators } from
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Observable } from 'rxjs';
 import { CronService } from 'src/app/shared/cron/cron.service';
-import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocomplete } from '@angular/material/autocomplete';
 import { startWith, map, takeUntil } from 'rxjs/operators';
 
 const range = (from: number, to: number) => new Array(to - from).fill(0).map((_, idx) => from + idx);
@@ -50,10 +50,10 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     this.form = this.fb.group({
       time: this.fb.group(
         {
-          min: new FormControl(this.padZero(new Date().getMinutes()), [Validators.required, Validators.pattern(/^[0-5][0-9]$/)]),
+          min: new FormControl(this.padZero(new Date().getMinutes()), [Validators.required, Validators.pattern(/^[0-5]\d$/)]),
           hour: new FormControl(this.padZero(new Date().getHours()), [
             Validators.required,
-            Validators.pattern(/^[0-2][0-9]$/),
+            Validators.pattern(/^[0-2]\d$/),
             this.hourValidator
           ])
         },
@@ -122,10 +122,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
       if (control.errors.required) {
         return controlName === 'hour' ? 'cron-picker.errors.hour-required' : 'cron-picker.errors.minute-required';
       }
-      if (control.errors.pattern) {
-        return controlName === 'hour' ? 'cron-picker.errors.hour-error' : 'cron-picker.errors.minute-error';
-      }
-      if (control.errors.invalidHourMin) {
+      if (control.errors.pattern || control.errors.invalidHourMin) {
         return controlName === 'hour' ? 'cron-picker.errors.hour-error' : 'cron-picker.errors.minute-error';
       }
     }
