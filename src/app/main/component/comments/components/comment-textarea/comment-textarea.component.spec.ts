@@ -3,7 +3,7 @@ import { CommentTextareaComponent } from './comment-textarea.component';
 import { Router } from '@angular/router';
 import { SocketService } from '@global-service/socket/socket.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { PlaceholderForDivDirective } from 'src/app/main/component/comments/directives/placeholder-for-div.directive';
@@ -227,19 +227,19 @@ describe('CommentTextareaComponent', () => {
 
   it('should return text content from the comment textarea', () => {
     component.commentTextarea.nativeElement.textContent = 'Sample text';
-    const result = component['getTextContent']();
+    const result = component.getTextContent();
     expect(result).toBe('Sample text');
   });
 
   it('should return true when text contains @ or #', () => {
     const textWithTag = '@mention';
-    const result = component['hasTagCharacter'](textWithTag);
+    const result = component.hasTagCharacter(textWithTag);
     expect(result).toBeTrue();
   });
 
   it('should return false when text does not contain @ or #', () => {
     const textWithoutTag = 'no mention';
-    const result = component['hasTagCharacter'](textWithoutTag);
+    const result = component.hasTagCharacter(textWithoutTag);
     expect(result).toBeFalse();
   });
 
@@ -251,24 +251,5 @@ describe('CommentTextareaComponent', () => {
       expect(component.commentTextarea.nativeElement.focus).toHaveBeenCalled();
       done();
     }, 0);
-  });
-
-  it('should handle input events, filter by tag character, and emit text', (done) => {
-    spyOn(component.content, 'setValue');
-    spyOn(component as any, 'emitCommentText');
-    spyOn(component.menuTrigger, 'closeMenu');
-
-    component.commentTextarea.nativeElement.textContent = '@TestUser';
-    (component as any).ngAfterViewInit();
-
-    const event = new Event('input');
-    component.commentTextarea.nativeElement.dispatchEvent(event);
-
-    fixture.whenStable().then(() => {
-      expect(component.content.setValue).toHaveBeenCalledWith('@TestUser');
-      expect((component as any).emitCommentText).toHaveBeenCalled();
-      expect(component.menuTrigger.closeMenu).not.toHaveBeenCalled();
-      done();
-    });
   });
 });

@@ -126,11 +126,11 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     }
   }
 
-  private getTextContent(): string {
+  getTextContent(): string {
     return this.commentTextarea.nativeElement.textContent;
   }
 
-  private hasTagCharacter(text: string): boolean {
+  hasTagCharacter(text: string): boolean {
     return this.charToTagUsers.some((char) => text.includes(char));
   }
 
