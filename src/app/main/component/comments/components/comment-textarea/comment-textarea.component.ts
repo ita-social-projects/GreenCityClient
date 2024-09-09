@@ -64,9 +64,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
       .onMessage(this.socketService.connection.greenCity, `/topic/${this.userId}/searchUsers`)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: TaggedUser[]) => {
-        const textContent = this.getTextContent();
-        const hasTagCharacter = this.hasTagCharacter(textContent);
-        if (data.length && hasTagCharacter) {
+        if (data.length) {
           this.suggestedUsers = data.filter((el) => el.userName.toLowerCase().includes(this.searchQuery.toLowerCase()));
           this.menuTrigger.openMenu();
           this.refocusTextarea();
@@ -88,8 +86,8 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
         tap(() => {
           this.content.setValue(this.commentTextarea.nativeElement.textContent);
           this.emitCommentText();
-          const textContent = this.getTextContent();
-          const hasTagCharacter = this.hasTagCharacter(textContent);
+          const textContent = this.commentTextarea.nativeElement.textContent;
+          const hasTagCharacter = this.charToTagUsers.some((char) => textContent.includes(char));
           if (!hasTagCharacter) {
             this.menuTrigger.closeMenu();
             this.suggestedUsers = [];
@@ -124,14 +122,6 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     if (changes.commentHtml?.currentValue === '') {
       this.commentTextarea.nativeElement.innerHTML = '';
     }
-  }
-
-  getTextContent(): string {
-    return this.commentTextarea.nativeElement.textContent;
-  }
-
-  hasTagCharacter(text: string): boolean {
-    return this.charToTagUsers.some((char) => text.includes(char));
   }
 
   refocusTextarea(): void {

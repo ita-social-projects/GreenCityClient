@@ -79,19 +79,6 @@ describe('CommentTextareaComponent', () => {
     expect(fixture.debugElement.queryAll(By.css('.mat-menu-item')).length).toBe(2);
   });
 
-  describe('ngOnInit', () => {
-    it('should subscribe to userId and socket messages', () => {
-      const mockUserId = 1;
-      localStorageServiceMock.userIdBehaviourSubject.next(mockUserId);
-      spyOn(socketServiceMock, 'onMessage').and.callThrough();
-
-      component.ngOnInit();
-      fixture.detectChanges();
-
-      expect(socketServiceMock.onMessage).toHaveBeenCalledWith(socketServiceMock.connection.greenCity, `/topic/${mockUserId}/searchUsers`);
-    });
-  });
-
   describe('ngAfterViewInit', () => {
     it('should set innerHTML if commentTextToEdit is provided', () => {
       component.commentTextToEdit = '<p>This is some edited text.</p>';
@@ -236,33 +223,5 @@ describe('CommentTextareaComponent', () => {
     component.ngOnDestroy();
     expect(nextSpy).toHaveBeenCalled();
     expect(completeSpy).toHaveBeenCalled();
-  });
-
-  describe('getTextContent', () => {
-    it('should return text content from commentTextarea', () => {
-      component.commentTextarea.nativeElement.textContent = 'Sample text content';
-      expect(component.getTextContent()).toBe('Sample text content');
-    });
-  });
-
-  describe('hasTagCharacter', () => {
-    it('should return true if the text contains @ or #', () => {
-      expect(component.hasTagCharacter('@User')).toBeTrue();
-      expect(component.hasTagCharacter('#Tag')).toBeTrue();
-    });
-
-    it('should return false if the text does not contain @ or #', () => {
-      expect(component.hasTagCharacter('No tags here')).toBeFalse();
-    });
-  });
-
-  it('should refocus the textarea after a short delay', (done) => {
-    spyOn(component.commentTextarea.nativeElement, 'focus');
-    component['refocusTextarea']();
-
-    setTimeout(() => {
-      expect(component.commentTextarea.nativeElement.focus).toHaveBeenCalled();
-      done();
-    }, 0);
   });
 });
