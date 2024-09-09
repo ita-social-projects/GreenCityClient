@@ -91,7 +91,6 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
           if (!hasTagCharacter) {
             this.menuTrigger.closeMenu();
             this.suggestedUsers = [];
-            return;
           }
         }),
         filter(() => {
