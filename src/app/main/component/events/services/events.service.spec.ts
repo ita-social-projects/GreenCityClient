@@ -18,6 +18,7 @@ describe('EventsService', () => {
   let httpTestingController: HttpTestingController;
   const url = environment.backendLink;
   const formData = new FormData();
+  formData.set('id', '1');
 
   beforeEach(() =>
     TestBed.configureTestingModule({
@@ -55,7 +56,7 @@ describe('EventsService', () => {
       expect(event).toEqual(mockEventResponse);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/`);
+    const req = httpTestingController.expectOne(`${url}events/1`);
     expect(req.request.method).toEqual('PUT');
     req.flush(mockEventResponse);
   });
