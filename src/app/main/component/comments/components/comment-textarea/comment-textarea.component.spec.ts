@@ -79,6 +79,19 @@ describe('CommentTextareaComponent', () => {
     expect(fixture.debugElement.queryAll(By.css('.mat-menu-item')).length).toBe(2);
   });
 
+  describe('ngOnInit', () => {
+    it('should subscribe to userId and socket messages', () => {
+      const mockUserId = 1;
+      localStorageServiceMock.userIdBehaviourSubject.next(mockUserId);
+      spyOn(socketServiceMock, 'onMessage').and.callThrough();
+
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      expect(socketServiceMock.onMessage).toHaveBeenCalledWith(socketServiceMock.connection.greenCity, `/topic/${mockUserId}/searchUsers`);
+    });
+  });
+
   describe('ngAfterViewInit', () => {
     it('should set innerHTML if commentTextToEdit is provided', () => {
       component.commentTextToEdit = '<p>This is some edited text.</p>';
@@ -225,22 +238,22 @@ describe('CommentTextareaComponent', () => {
     expect(completeSpy).toHaveBeenCalled();
   });
 
-  it('should return text content from the comment textarea', () => {
-    component.commentTextarea.nativeElement.textContent = 'Sample text';
-    const result = component.getTextContent();
-    expect(result).toBe('Sample text');
+  describe('getTextContent', () => {
+    it('should return text content from commentTextarea', () => {
+      component.commentTextarea.nativeElement.textContent = 'Sample text content';
+      expect(component.getTextContent()).toBe('Sample text content');
+    });
   });
 
-  it('should return true when text contains @ or #', () => {
-    const textWithTag = '@mention';
-    const result = component.hasTagCharacter(textWithTag);
-    expect(result).toBeTrue();
-  });
+  describe('hasTagCharacter', () => {
+    it('should return true if the text contains @ or #', () => {
+      expect(component.hasTagCharacter('@User')).toBeTrue();
+      expect(component.hasTagCharacter('#Tag')).toBeTrue();
+    });
 
-  it('should return false when text does not contain @ or #', () => {
-    const textWithoutTag = 'no mention';
-    const result = component.hasTagCharacter(textWithoutTag);
-    expect(result).toBeFalse();
+    it('should return false if the text does not contain @ or #', () => {
+      expect(component.hasTagCharacter('No tags here')).toBeFalse();
+    });
   });
 
   it('should refocus the textarea after a short delay', (done) => {
