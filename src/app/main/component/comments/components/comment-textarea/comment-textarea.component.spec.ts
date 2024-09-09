@@ -3,7 +3,7 @@ import { CommentTextareaComponent } from './comment-textarea.component';
 import { Router } from '@angular/router';
 import { SocketService } from '@global-service/socket/socket.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { PlaceholderForDivDirective } from 'src/app/main/component/comments/directives/placeholder-for-div.directive';
@@ -225,27 +225,27 @@ describe('CommentTextareaComponent', () => {
     expect(completeSpy).toHaveBeenCalled();
   });
 
-  it('should return the correct text content', () => {
-    component.commentTextarea.nativeElement.innerHTML = 'Test content';
-    const textContent = (component as any).getTextContent();
-    expect(textContent).toBe('Test content');
+  it('should return text content from the comment textarea', () => {
+    component.commentTextarea.nativeElement.textContent = 'Sample text';
+    const result = component['getTextContent']();
+    expect(result).toBe('Sample text');
   });
 
-  it('should return true if text contains @ or #', () => {
-    const text = '@mention someone';
-    const hasTag = (component as any).hasTagCharacter(text);
-    expect(hasTag).toBeTrue();
+  it('should return true when text contains @ or #', () => {
+    const textWithTag = '@mention';
+    const result = component['hasTagCharacter'](textWithTag);
+    expect(result).toBeTrue();
   });
 
-  it('should return false if text does not contain @ or #', () => {
-    const text = 'no mention';
-    const hasTag = (component as any).hasTagCharacter(text);
-    expect(hasTag).toBeFalse();
+  it('should return false when text does not contain @ or #', () => {
+    const textWithoutTag = 'no mention';
+    const result = component['hasTagCharacter'](textWithoutTag);
+    expect(result).toBeFalse();
   });
 
   it('should refocus the textarea after a short delay', (done) => {
     spyOn(component.commentTextarea.nativeElement, 'focus');
-    (component as any).refocusTextarea();
+    component['refocusTextarea']();
 
     setTimeout(() => {
       expect(component.commentTextarea.nativeElement.focus).toHaveBeenCalled();
