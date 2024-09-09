@@ -224,4 +224,51 @@ describe('CommentTextareaComponent', () => {
     expect(nextSpy).toHaveBeenCalled();
     expect(completeSpy).toHaveBeenCalled();
   });
+
+  it('should return the correct text content', () => {
+    component.commentTextarea.nativeElement.innerHTML = 'Test content';
+    const textContent = (component as any).getTextContent();
+    expect(textContent).toBe('Test content');
+  });
+
+  it('should return true if text contains @ or #', () => {
+    const text = '@mention someone';
+    const hasTag = (component as any).hasTagCharacter(text);
+    expect(hasTag).toBeTrue();
+  });
+
+  it('should return false if text does not contain @ or #', () => {
+    const text = 'no mention';
+    const hasTag = (component as any).hasTagCharacter(text);
+    expect(hasTag).toBeFalse();
+  });
+
+  it('should refocus the textarea after a short delay', (done) => {
+    spyOn(component.commentTextarea.nativeElement, 'focus');
+    (component as any).refocusTextarea();
+
+    setTimeout(() => {
+      expect(component.commentTextarea.nativeElement.focus).toHaveBeenCalled();
+      done();
+    }, 0);
+  });
+
+  it('should handle input events, filter by tag character, and emit text', (done) => {
+    spyOn(component.content, 'setValue');
+    spyOn(component as any, 'emitCommentText');
+    spyOn(component.menuTrigger, 'closeMenu');
+
+    component.commentTextarea.nativeElement.textContent = '@TestUser';
+    (component as any).ngAfterViewInit();
+
+    const event = new Event('input');
+    component.commentTextarea.nativeElement.dispatchEvent(event);
+
+    fixture.whenStable().then(() => {
+      expect(component.content.setValue).toHaveBeenCalledWith('@TestUser');
+      expect((component as any).emitCommentText).toHaveBeenCalled();
+      expect(component.menuTrigger.closeMenu).not.toHaveBeenCalled();
+      done();
+    });
+  });
 });
