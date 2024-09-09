@@ -41,18 +41,13 @@ export class EcoNewsCommentsService implements CommentsService {
   }
 
   deleteComments(entityId: number, id: number) {
-    return this.http.delete<object>(`${this.backEnd}eco-news/${entityId}/comments/${id}`, { observe: 'response' }).pipe(
-      map((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          return true;
-        }
-        return false;
-      })
-    );
+    return this.http
+      .delete<object>(`${this.backEnd}eco-news/${entityId}/comments/${id}`, { observe: 'response' })
+      .pipe(map((response) => response.status >= 200 && response.status < 300));
   }
 
-  getCommentLikes(id: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}eco-news/comments/count/likes?id=${id}`);
+  getCommentLikes(entityId: number, id: number): Observable<number> {
+    return this.http.get<number>(`${this.backEnd}eco-news/${entityId}/comments/${id}/likes/count`);
   }
 
   getRepliesAmount(entityId: number, id: number): Observable<number> {

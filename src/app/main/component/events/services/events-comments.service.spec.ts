@@ -46,12 +46,12 @@ describe('EventsCommentsService', () => {
       expect(commentData).toEqual(commentBody);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/comments/1`);
+    const req = httpTestingController.expectOne(`${url}events/1/comments`);
     expect(req.request.method).toEqual('POST');
     req.flush(commentBody);
   });
 
-  it('should set id 0 if nothing wasnt send in parameters', () => {
+  it('should set id 0 if nothing was not send in parameters', () => {
     const commentBody: any = {
       author: {
         id: 1,
@@ -67,7 +67,7 @@ describe('EventsCommentsService', () => {
       expect(commentData).toEqual(commentBody);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/comments/1`);
+    const req = httpTestingController.expectOne(`${url}events/1/comments`);
     expect(req.request.method).toEqual('POST');
     req.flush(commentBody);
   });
@@ -88,9 +88,10 @@ describe('EventsCommentsService', () => {
       expect(commentData).toEqual(commentBody);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/comments/active?eventId=1&page=3&size=2`);
+    const req = httpTestingController.expectOne(`${url}events/1/comments?statuses=ORIGINAL,EDITED&page=3&size=2`);
     expect(req.request.method).toEqual('GET');
     req.flush(commentBody);
+    httpTestingController.verify();
   });
 
   it('should make GET request to get comments count', () => {
@@ -99,7 +100,7 @@ describe('EventsCommentsService', () => {
       expect(commentData).toEqual(commentCount);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/comments/count/1`);
+    const req = httpTestingController.expectOne(`${url}events/1/comments/count`);
     expect(req.request.method).toEqual('GET');
     req.flush(commentCount);
   });
@@ -131,60 +132,60 @@ describe('EventsCommentsService', () => {
       expect(commentData).toEqual(commentBody);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/comments/replies/active/1?page=2&size=3`);
+    const req = httpTestingController.expectOne(`${url}events/1/comments/1/replies?statuses=ORIGINAL,EDITED&page=2&size=3`);
     expect(req.request.method).toEqual('GET');
     req.flush(commentBody);
   });
 
   it('should make DELETE request to deleteComments', () => {
-    service.deleteComments(1).subscribe((deleted) => {
+    service.deleteComments(1, 1).subscribe((deleted) => {
       expect(deleted).toBe(true);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/comments/1`);
+    const req = httpTestingController.expectOne(`${url}events/1/comments/1`);
     expect(req.request.method).toEqual('DELETE');
     req.flush({});
   });
 
   it('should make GET request to get comment likes', () => {
     const commentLikes = 5;
-    service.getCommentLikes(1).subscribe((commentData: number) => {
+    service.getCommentLikes(1, 1).subscribe((commentData: number) => {
       expect(commentData).toEqual(commentLikes);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/comments/likes/count/commentId=1`);
+    const req = httpTestingController.expectOne(`${url}events/1/comments/1/likes/count`);
     expect(req.request.method).toEqual('GET');
     req.flush(commentLikes);
   });
 
   it('should make GET request to get replies amount', () => {
     const commentReplies = 5;
-    service.getRepliesAmount(1).subscribe((commentData: number) => {
+    service.getRepliesAmount(1, 1).subscribe((commentData: number) => {
       expect(commentData).toEqual(commentReplies);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/comments/replies/active/count/1`);
+    const req = httpTestingController.expectOne(`${url}events/1/comments/1/replies/count`);
     expect(req.request.method).toEqual('GET');
     req.flush(commentReplies);
   });
 
   it('should make POST request to post Like', () => {
-    service.postLike(1).subscribe((commentData: any) => {
+    service.postLike(1, 1).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 
-    const req = httpTestingController.expectOne(`${url}events/comments/like?commentId=1`);
+    const req = httpTestingController.expectOne(`${url}events/1/comments/1/likes`);
     expect(req.request.method).toEqual('POST');
     req.flush({});
   });
 
-  it('should make PATCH request to edit comment', () => {
+  it('should make PUT request to edit comment', () => {
     service.editComment(1, 1, commentText).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 
-    const req = httpTestingController.expectOne(`${url}events/comments?id=1`);
-    expect(req.request.method).toEqual('PATCH');
+    const req = httpTestingController.expectOne(`${url}events/1/comments/1`);
+    expect(req.request.method).toEqual('PUT');
     expect(req.request.body).toEqual(commentText);
     req.flush({});
   });
