@@ -40,7 +40,7 @@ export class EventsService implements OnDestroy {
   }
 
   editEvent(formData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.backEnd}events/`, formData);
+    return this.http.put<any>(`${this.backEnd}events/${formData.get('id')}`, formData);
   }
 
   getEvents(requestParams: HttpParams): Observable<EventResponseDto> {
