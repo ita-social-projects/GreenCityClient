@@ -18,11 +18,7 @@
     margin: 8px 19px;
     color: var(--ubs-primary-grey);
   }
-
-  .notification {
-    width: 295px;
-  }
-
+  
   .to-notifications {
     display: block;
     cursor: pointer;
@@ -50,7 +46,8 @@
 
   .notification {
     margin: 0;
-
+    width: 295px;
+  
     &-unread {
       background-color: var(--ubs-primary-liberty-green);
     }
@@ -93,7 +90,7 @@
       &-header {
         min-height: 80px !important;
         height: unset !important;
-        padding: 5px 0px;
+        padding: 5px 0;
         display: block;
 
         & .mat-content {
