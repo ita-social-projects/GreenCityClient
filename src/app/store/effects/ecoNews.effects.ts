@@ -60,8 +60,8 @@ export class NewsEffects {
   getEcoNewsListByAutorId = createEffect(() =>
     this.actions.pipe(
       ofType(GetEcoNewsByAuthorAction),
-      mergeMap((actions: { currentPage: number; numberOfNews: number; reset: boolean }) =>
-        this.newsService.getEcoNewsListByAutorId(actions.currentPage, actions.numberOfNews).pipe(
+      mergeMap((actions: { authorId: number; currentPage: number; numberOfNews: number; reset: boolean }) =>
+        this.newsService.getEcoNewsListByAutorId(actions.authorId, actions.currentPage, actions.numberOfNews).pipe(
           map((ecoNews: EcoNewsDto) => GetEcoNewsByAuthorSuccessAction({ ecoNews, reset: actions.reset })),
           catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
         )

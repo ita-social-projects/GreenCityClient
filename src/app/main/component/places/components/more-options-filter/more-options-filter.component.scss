@@ -1,9 +1,75 @@
+$slider-control-size: 20px;
+$font-family: lato, sans-serif;
+
+@mixin flex-options($direction: row, $justify: center, $align: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+:host {
+  display: flex;
+  align-items: center;
+}
+
 .checkbox {
   display: block;
 }
 
 .content {
   padding: 20px;
+}
+
+.slider-wrapper {
+  @include flex-options();
+
+  width: 260px;
+  height: 30px;
+  gap: 3px;
+}
+
+.slider-label-box,
+.slider-control-box {
+  @include flex-options();
+
+  width: 28px;
+  height: 24px;
+  padding: 0.5em;
+  border: 1px solid #64727d;
+  text-align: center;
+  line-height: 1;
+}
+
+.slider-control-box {
+  width: $slider-control-size;
+  height: $slider-control-size;
+  color: #336b4c;
+  font-family: $font-family;
+  font-weight: 700;
+}
+
+.slider-control-container {
+  @include flex-options();
+
+  position: relative;
+  margin: 0;
+}
+
+.border-box {
+  width: $slider-control-size;
+  height: 22px;
+  position: absolute;
+  color: #336b4c;
+  font-family: $font-family;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1;
+}
+
+.distance-slider {
+  margin: 0;
 }
 
 .services-group {
