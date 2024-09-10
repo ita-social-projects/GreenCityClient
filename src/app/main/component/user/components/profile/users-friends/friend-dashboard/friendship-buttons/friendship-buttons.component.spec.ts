@@ -103,14 +103,14 @@ describe('FriendshipButtonsComponent', () => {
       expect((component as any).store.dispatch).toHaveBeenCalledWith(AcceptRequest({ id: component.userAsFriend.id }));
     });
 
-    it('should call onCreateChat method when idName is "createChatButton"', () => {
-      spyOn(component as any, 'onCreateChat');
+    it('should call onOpenChat method when idName is "createChatButton"', () => {
+      spyOn(component as any, 'onOpenChat');
       const event = new Event('click');
       Object.defineProperty(event, 'target', {
         value: { id: 'createChatButton' }
       });
       (component as any).handleAction(event);
-      expect((component as any).onCreateChat).toHaveBeenCalled();
+      expect((component as any).onOpenChat).toHaveBeenCalled();
     });
 
     it('should call onOpenChat method when idName is "openChatButton"', () => {
@@ -152,7 +152,6 @@ describe('FriendshipButtonsComponent', () => {
       spyOn(component as any, 'unsendFriendRequest');
       spyOn(component as any, 'openConfirmPopup');
       spyOn((component as any as any).store, 'dispatch');
-      spyOn(component as any as any, 'onCreateChat');
       spyOn(component as any as any, 'onOpenChat');
 
       const event = new Event('click');
@@ -162,7 +161,6 @@ describe('FriendshipButtonsComponent', () => {
       expect((component as any).unsendFriendRequest).not.toHaveBeenCalled();
       expect((component as any).openConfirmPopup).not.toHaveBeenCalled();
       expect((component as any).store.dispatch).not.toHaveBeenCalled();
-      expect((component as any).onCreateChat).not.toHaveBeenCalled();
       expect((component as any).onOpenChat).not.toHaveBeenCalled();
     });
   });
