@@ -248,6 +248,49 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.getEvents();
   }
 
+  toggleAllOptions(filterType: string, select: MatSelect): void {
+    const control = select.ngControl?.control;
+    if (!control) {
+      return;
+    }
+
+    const allOptions = select.options.toArray();
+    const firstOption = allOptions[0]?.value;
+    const firstSelected = firstOption ? (control.value || []).includes(firstOption) : false;
+    control.setValue(firstSelected ? [] : allOptions.map((option) => option.value));
+
+    switch (filterType) {
+      case 'eventTimeStatus':
+        this.toggleAll(this.eventTimeStatusOptionList, this.selectedEventTimeStatusFiltersList);
+        break;
+      case 'location':
+        this.toggleAll(this.locationOptionList, this.selectedLocationFiltersList);
+        break;
+      case 'status':
+        this.toggleAll(this.statusOptionList, this.selectedStatusFiltersList);
+        break;
+      case 'type':
+        this.toggleAll(this.typeOptionList, this.selectedTypeFiltersList);
+        break;
+    }
+
+    this.cleanEventList();
+    this.getEvents();
+  }
+
+  private toggleAll(select: MatSelect, selectedList: string[]): void {
+    const control = select.ngControl?.control;
+    const options = select.options.toArray();
+    const currentValue = control.value || [];
+    if (options.every((option) => currentValue.includes(option.value))) {
+      control.setValue([]);
+      selectedList.length = 0;
+    } else {
+      control.setValue(options.map((option) => option.value));
+      selectedList.splice(0, selectedList.length, ...options.map((option) => option.value));
+    }
+  }
+
   resetAllFilters(): void {
     this.selectedFilters = [];
     this.selectedEventTimeStatusFiltersList = [];
