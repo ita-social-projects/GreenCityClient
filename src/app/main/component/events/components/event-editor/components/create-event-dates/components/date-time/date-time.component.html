@@ -1,26 +1,18 @@
-<div [formGroup]="form" class="date-time">
+<div [formGroup]="dayForm" class="date-time">
   <span class="day">{{ dayNumber + 1 }} {{ 'create-event.day' | translate }}</span>
   <mat-form-field appearance="outline" class="date">
     <mat-label>{{ 'create-event.choose-date' | translate }}</mat-label>
-    <input
-      [matDatepickerFilter]="dateFilterBind"
-      [matDatepicker]="picker"
-      [min]="today"
-      autocomplete="false"
-      formControlName="date"
-      matInput
-      ngDefaultControl
-    />
+    <input #dateRef formControlName="date" [matDatepicker]="picker" [min]="minDate" [max]="maxDate" autocomplete="false" matInput />
     <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
     <mat-error>{{ 'create-event.date-error' | translate }}</mat-error>
-    <mat-hint>MMDDYYYY</mat-hint>
+    <mat-hint>{{ dateFormat }}</mat-hint>
   </mat-form-field>
 
   <div class="time">
     <mat-form-field appearance="outline" class="time-item">
       <mat-label>{{ 'create-event.set-start-time' | translate }}</mat-label>
-      <input [matAutocomplete]="startOptions" formControlName="startTime" matInput maxlength="5" />
+      <input #startTimeRef [matAutocomplete]="startOptions" formControlName="startTime" matInput maxlength="5" [readonly]="allDay.value" />
       <mat-autocomplete #startOptions="matAutocomplete">
         <mat-option *ngFor="let time of startOptionsArr" [value]="time">
           {{ time }}
@@ -32,7 +24,7 @@
 
     <mat-form-field appearance="outline" class="time-item">
       <mat-label>{{ 'create-event.set-end-time' | translate }}</mat-label>
-      <input [matAutocomplete]="endOptions" formControlName="endTime" matInput maxlength="5" />
+      <input #endTimeRef [matAutocomplete]="endOptions" formControlName="endTime" matInput maxlength="5" [readonly]="allDay.value" />
       <mat-autocomplete #endOptions="matAutocomplete">
         <mat-option *ngFor="let time of endOptionsArr" [value]="time">
           {{ time }}
@@ -41,7 +33,7 @@
     </mat-form-field>
   </div>
 
-  <div *ngIf="form?.invalid && form?.touched" class="date-error">
+  <div *ngIf="dayForm?.invalid && dayForm?.touched" class="date-error">
     <app-input-error
       [formElement]="endTime && startTime"
       [isEvent]="true"

@@ -35,7 +35,7 @@ export interface PlaceOnline {
 }
 
 export type PlaceOnlineGroup = FormControllers<PlaceOnline>;
-export type DateInformation = { dateTime: DateTime; placeOnline: PlaceOnline; pastDate?: boolean };
+export type DateInformation = { day: DateTime; placeOnline: PlaceOnline; pastDate?: boolean };
 
 export interface ImagesContainer {
   file: File;

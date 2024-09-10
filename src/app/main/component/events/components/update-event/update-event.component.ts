@@ -93,10 +93,10 @@ export class UpdateEventComponent implements OnInit {
   }
 
   private _transformDatesToForm(form: EventDatesResponse[]): DateInformation[] {
-    // let allPlace = true;
-    // let allLink = true;
-    // const address = form[0].coordinates?.formattedAddressEn;
-    // const link = form[0].onlineLink;
+    let allPlace = true;
+    let allLink = true;
+    const address = form[0].coordinates?.formattedAddressEn;
+    const link = form[0].onlineLink;
     return form.map((value) => {
       const { finishDate, startDate, onlineLink, coordinates } = value;
       const _startDate = new Date(startDate);
@@ -113,10 +113,10 @@ export class UpdateEventComponent implements OnInit {
 
       const place = this.languageService.getCurrentLanguage() === 'ua' ? coordinates?.formattedAddressUa : coordinates?.formattedAddressEn;
 
-      // allPlace &&= address === coordinates?.formattedAddressEn ?? false;
-      // allLink &&= link === onlineLink;
+      allPlace &&= address === coordinates?.formattedAddressEn ?? false;
+      allLink &&= link === onlineLink;
       return {
-        dateTime: { startTime: formattedStartTime, date: _startDate, endTime: formattedEndTime, allDay: false },
+        day: { startTime: formattedStartTime, date: _startDate, endTime: formattedEndTime, allDay: false },
         placeOnline: {
           appliedPlaceForAll: false,
           appliedLinkForAll: false,

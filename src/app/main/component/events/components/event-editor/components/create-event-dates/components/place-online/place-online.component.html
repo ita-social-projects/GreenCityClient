@@ -30,7 +30,7 @@
       <mat-checkbox
         (change)="toggleForAllLocations()"
         *ngIf="dayNumber === 0 && !formDisabled"
-        [checked]="appliedForAllLocations"
+        [checked]="appliedPlaceForAll.value"
         [color]="'primary'"
         class="apply-location-checkbox"
       >
@@ -38,7 +38,7 @@
       </mat-checkbox>
     </div>
 
-    <div *ngIf="!isMapDisabled && !formDisabled" class="map-container">
+    <div *ngIf="!isPlaceDisabled && !formDisabled" class="map-container">
       <google-map (mapClick)="mapClick($event)" [options]="mapOptions" [width]="'100%'" height="410px">
         <map-marker [position]="mapMarkerCoords" />
       </google-map>
@@ -55,7 +55,7 @@
     <mat-checkbox
       (change)="toggleForAllLink()"
       *ngIf="this.dayNumber === 0"
-      [checked]="this.appliedForAllLink"
+      [checked]="this.appliedLinkForAll.value"
       class="apply-location-checkbox"
       color="primary"
     >

@@ -5,6 +5,7 @@ import { environment } from '@environment/environment';
 import {
   Addresses,
   EventFilterCriteriaInterface,
+  EventForm,
   EventResponse,
   EventResponseDto,
   LocationResponse,
@@ -17,15 +18,74 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 })
 export class EventsService implements OnDestroy {
   currentForm: PagePreviewDTO | EventResponse;
+  private eventPreview: PagePreviewDTO;
+  private event: EventForm;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private divider = `, `;
+  private isFromCreateEvent: boolean;
 
   constructor(
     private http: HttpClient,
     private langService: LanguageService
   ) {}
 
+  setEvent(event: EventForm): void {
+    this.event = event;
+    this.eventPreview = this.convertEventToPreview(event);
+  }
+
+  setIsFromCreateEvent(value: boolean): void {
+    this.isFromCreateEvent = value;
+  }
+
+  getIsFromCreateEvent(): boolean {
+    return this.isFromCreateEvent;
+  }
+  private convertEventToPreview(event: EventForm): PagePreviewDTO {
+    const { eventInformation, dateInformation } = event;
+
+    return {
+      title: eventInformation.title,
+      description: eventInformation.description,
+      eventDuration: eventInformation.duration,
+      open: eventInformation.open,
+      editorText: eventInformation.editorText,
+      dates: dateInformation.map((dateInfo) => {
+        const startDate = new Date(dateInfo.day.date);
+        startDate.setHours(parseInt(dateInfo.day.startTime.split(':')[0], 10), parseInt(dateInfo.day.startTime.split(':')[1], 10));
+
+        const finishDate = new Date(dateInfo.day.date);
+        finishDate.setHours(parseInt(dateInfo.day.endTime.split(':')[0], 10), parseInt(dateInfo.day.endTime.split(':')[1], 10));
+
+        return {
+          startDate: startDate.toISOString(),
+          finishDate: finishDate.toISOString(),
+          onlineLink: dateInfo.placeOnline.onlineLink,
+          place: dateInfo.placeOnline.place,
+          coordinates: dateInfo.placeOnline.coordinates
+            ? {
+                latitude: dateInfo.placeOnline.coordinates.lat,
+                longitude: dateInfo.placeOnline.coordinates.lng
+              }
+            : undefined
+        };
+      }),
+      tags: eventInformation.tags,
+      imgArray: eventInformation.images.map((image) => image.url),
+      imgArrayToPreview: eventInformation.images.filter((image) => image.main).map((image) => image.url),
+      location: dateInformation
+        .map((dateInfo) => dateInfo.placeOnline.place)
+        .filter((place) => place)
+        .join(', ')
+    };
+  }
+  getEventPriview(): PagePreviewDTO {
+    return this.eventPreview;
+  }
+  getEvent(): EventForm {
+    return this.event;
+  }
   getAddresses(): Observable<Addresses[]> {
     return this.http.get<Addresses[]>(`${this.backEnd}events/addresses`);
   }
@@ -39,7 +99,7 @@ export class EventsService implements OnDestroy {
   }
 
   getForm(): PagePreviewDTO | EventResponse {
-    return this.currentForm;
+    return this.eventPreview;
   }
 
   createEvent(formData: FormData): Observable<any> {
@@ -47,8 +107,6 @@ export class EventsService implements OnDestroy {
   }
 
   editEvent(formData: FormData): Observable<any> {
-    console.log('formData', formData);
-
     return this.http.put<any>(`${this.backEnd}events/update`, formData);
   }
 

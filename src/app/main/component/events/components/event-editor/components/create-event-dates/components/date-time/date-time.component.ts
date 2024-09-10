@@ -1,142 +1,179 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { startWith, tap } from 'rxjs/operators';
-import { combineLatest, Subscription } from 'rxjs';
-import { FormBridgeService } from '../../../../../../services/form-bridge.service';
-import { timeValidator } from './validator/timeValidator';
-import { LanguageService } from '../../../../../../../../i18n/language.service';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  Input,
+  OnInit,
+  Renderer2,
+  signal,
+  ViewChild
+} from '@angular/core';
+import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
-import { DateTime, DateTimeGroup, FormEmitter } from '../../../../../../models/events.interface';
+import { LanguageService } from '../../../../../../../../i18n/language.service';
+import { IMask } from 'angular-imask';
+import moment from 'moment';
 
 @Component({
   selector: 'app-date-time',
   templateUrl: './date-time.component.html',
   styleUrls: ['./date-time.component.scss']
 })
-export class DateTimeComponent implements OnInit, OnDestroy {
-  @Input({ required: true }) dayNumber: number;
-  @Input({ required: true }) sharedKey: number;
-  @Input() formDisabled: boolean;
-  @Input() formInput: DateTime;
-  today: Date = new Date();
-  dateFilterBind = this._dateFilter.bind(this);
+export class DateTimeComponent implements OnInit, AfterViewInit {
+  @Input() daysForm: FormArray;
+  @Input() dayNumber: number;
+  @Input() dayFormGroup: AbstractControl;
+  dayForm: FormGroup;
   startOptionsArr: string[];
   endOptionsArr: string[];
-  // we will attach this validator later in code { validators: timeValidator(this._timeArr[this._upperTimeLimit]) }
-  form: FormGroup<DateTimeGroup> = this.fb.nonNullable.group({
-    date: [this.today, Validators.required],
-    startTime: ['', Validators.required],
-    endTime: ['', Validators.required],
-    allDay: [false]
-  });
-  @Output() destroy = new EventEmitter<any>();
-  @Output() formEmitter: EventEmitter<FormEmitter<DateTime>> = new EventEmitter<FormEmitter<DateTime>>();
+  dateFormat: string;
+  private prevStartLength: number;
+  private prevEndLength: number;
   private _timeArr: string[] = [];
   private _upperTimeLimit = 0;
-  private _lowerTimeLimit: number = this._timeArr.length - 1;
-  private _subscriptions: Subscription[] = [];
-  private _indexStartTime: number;
-  private _indexEndTime: number;
-  private _checkedAllDay = false;
-  private _lastTimeValues: string[] = [];
-  private _key = Symbol('dateKey');
+  private prevTimeValue: Array<string>;
+  private initialStartTime: string;
+  test = '00:00';
+  timeMask = {
+    mask: 'HH:MM',
+    blocks: {
+      HH: {
+        mask: IMask.MaskedRange,
+        from: 0,
+        to: 23,
+        maxLength: 2
+      },
+      MM: {
+        mask: IMask.MaskedRange,
+        from: 0,
+        to: 59,
+        maxLength: 2
+      }
+    }
+  };
+  dateMask = {
+    mask: 'd/`m/`YY',
+    blocks: {
+      d: {
+        mask: IMask.MaskedRange,
+        from: 1,
+        to: 31,
+        maxLength: 2
+      },
+      m: {
+        mask: IMask.MaskedRange,
+        from: 1,
+        to: 12,
+        maxLength: 2
+      },
+      Y: {
+        mask: IMask.MaskedRange,
+        from: 1900,
+        to: 9999,
+        maxLength: 4
+      }
+    }
+  };
 
+  @ViewChild('dateRef') dateRef: ElementRef;
+  @ViewChild('startTimeRef') startTimeRef: ElementRef;
+  @ViewChild('endTimeRef') endTimeRef: ElementRef;
+
+  mask = IMask.InputMask<any>;
   constructor(
-    private fb: FormBuilder,
-    private bridge: FormBridgeService,
     private ls: LanguageService,
     private adapter: DateAdapter<any>
   ) {}
 
   get date() {
-    return this.form.get('date');
+    return this.dayForm.get('date');
   }
 
   get startTime() {
-    return this.form.get('startTime');
+    return this.dayForm.get('startTime');
   }
 
   get endTime() {
-    return this.form.get('endTime');
+    return this.dayForm.get('endTime');
   }
 
   get allDay() {
-    return this.form.get('allDay');
+    return this.dayForm.get('allDay');
   }
 
-  ngOnInit() {
-    this.today = this._setDay(this.dayNumber);
-    this._fillTimeArray();
-    this._subscribeToFormChanges();
-    this._subscribeToFormStatus();
-    const initialStartTime = this._initialStartTime();
-    this._upperTimeLimit = this._timeArr.indexOf(initialStartTime);
-    this.form.patchValue(
-      {
-        date: this.today,
-        startTime: initialStartTime
-      },
-      { emitEvent: true }
-    );
-    this.bridge.changeDay(this.dayNumber, this.today);
-    this._updateTimeIndex(initialStartTime, this.endTime.value);
+  get minDate() {
+    return this.dayForm.get('minDate').value;
+  }
 
-    if (this.formInput) {
-      this.form.setValue(this.formInput);
-      if (this.formInput.allDay) {
-        this.toggleAllDay();
-      }
-      if (this.formDisabled) {
-        this.form.disable();
-      }
-    }
+  get maxDate() {
+    return this.dayForm.get('maxDate').value;
+  }
+  ngOnInit() {
+    this.dayForm = this.dayFormGroup.get('day') as FormGroup;
+    this._fillTimeArray();
+    this.initialStartTime = this._initialStartTime();
+    this._upperTimeLimit = this._timeArr.indexOf(this.initialStartTime);
+    this._setArrTime();
     this.ls.getCurrentLangObs().subscribe((lang) => {
       const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
+      this.dateFormat = lang !== 'ua' ? 'MMDDYYYY' : 'DDMMYYYY';
       this.adapter.setLocale(locale);
+    });
+    this.date.valueChanges.subscribe((value) => {
+      //todo: change input on inputs(day, mounth, year)
+      console.log(moment(value).format('YYYY-MM-DD'));
+      this._updateNeighboringDates();
+    });
+    this.startTime.valueChanges.subscribe((value: string) => {
+      this._handleTimeChange(value, 'start');
+      console.log(this.startTime);
+    });
+
+    this.endTime.valueChanges.subscribe((value: string) => {
+      this._handleTimeChange(value, 'end');
     });
   }
 
-  ngOnDestroy() {
-    this._subscriptions.forEach((subscription) => subscription.unsubscribe());
-    this.bridge.deleteRecordFromDayMap(this.dayNumber);
-    this.destroy.emit(this._key);
-    if (this.dayNumber === 0) {
-      this.bridge.resetSubjects();
+  ngAfterViewInit() {
+    IMask(this.dateRef.nativeElement, this.dateMask);
+    IMask(this.startTimeRef.nativeElement, this.timeMask);
+    IMask(this.endTimeRef.nativeElement, this.timeMask);
+  }
+
+  private _updateNeighboringDates(): void {
+    if (this.dayNumber > 0) {
+      const prevFormGroup = this.daysForm.at(this.dayNumber - 1) as FormGroup;
+      const prevDayComponent = prevFormGroup.get('day');
+      if (prevDayComponent) {
+        prevDayComponent.patchValue({
+          maxDate: new Date(this.date.value.getTime() - 24 * 60 * 60 * 1000)
+        });
+      }
+    }
+
+    if (this.dayNumber < this.daysForm.length - 1) {
+      const nextFormGroup = this.daysForm.at(this.dayNumber + 1) as FormGroup;
+      const nextDayComponent = nextFormGroup.get('day');
+      if (nextDayComponent) {
+        nextDayComponent.patchValue({
+          minDate: new Date(this.date.value.getTime() + 24 * 60 * 60 * 1000)
+        });
+      }
     }
   }
 
   toggleAllDay(): void {
-    this._checkedAllDay = !this._checkedAllDay;
-    const startTime = this.startTime;
-    const endTime = this.endTime;
-    [startTime, endTime].forEach((control) => control[this._checkedAllDay ? 'disable' : 'enable']());
-    // IF toggle true disable forms and memorize last values
-    if (this._checkedAllDay) {
-      this._lastTimeValues = [startTime.value, endTime.value];
-      this.form.patchValue({
-        startTime: this._timeArr[0],
-        endTime: this._timeArr[this._lowerTimeLimit - 1]
-      });
+    if (this.allDay.value) {
+      this.prevTimeValue = [this.startTime.value, this.endTime.value];
+      this.startTime.setValue(this.startOptionsArr[0]);
+      this.endTime.setValue(this.endOptionsArr[this.endOptionsArr.length - 1]);
     } else {
-      this.form.patchValue({
-        startTime: this._lastTimeValues[0],
-        endTime: this._lastTimeValues[1]
-      });
+      this.startTime.setValue(this.prevTimeValue[0]);
+      this.endTime.setValue(this.prevTimeValue[1]);
     }
-  }
-
-  private _emitForm(form: DateTime, valid: boolean) {
-    this.formEmitter.emit({ key: this._key, valid, form, sharedKey: this.sharedKey, formKey: 'dateTime' });
-  }
-
-  private _subscribeToFormStatus() {
-    this.form.statusChanges.subscribe((status) => {
-      if (status === 'VALID') {
-        this._emitForm(this.form.getRawValue(), true);
-      } else {
-        this._emitForm(undefined, false);
-      }
-    });
   }
 
   private _fillTimeArray(): void {
@@ -151,132 +188,76 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     }
     timeArr.push('23:59');
     this._timeArr = timeArr;
-    this._lowerTimeLimit = this._timeArr.length;
   }
 
-  private _setDay(n: number) {
-    const day = this.bridge.getDayFromMap(n - 1);
-    if (day) {
-      const currentDay = day.getDate();
-      const newDate = new Date(day.getTime());
-      // Create a copy to avoid modifying the original
-      newDate.setDate(currentDay + 1);
-      return newDate;
-    }
-    const f = new Date();
-    f.setHours(0, 0, 0, 0);
-    return f;
-  }
-
-  private _subscribeToFormChanges() {
-    const startTime$ = this.startTime.valueChanges.pipe(
-      startWith(''),
-      tap(() => this._checkForColumn('startTime'))
-    );
-
-    const endTime$ = this.endTime.valueChanges.pipe(
-      startWith(''),
-      tap(() => this._checkForColumn('endTime'))
-    );
-
-    const date$ = this.date.valueChanges.pipe(
-      startWith(this.today),
-      tap((value) => {
-        this.bridge.changeDay(this.dayNumber, value);
-        const isCurrentDate = this._checkIsCurrentDate(value);
-        if (isCurrentDate) {
-          this._upperTimeLimit = this._timeArr.indexOf(this._initialStartTime());
-          this.allDay.disable({ emitEvent: false });
-        } else {
-          this._upperTimeLimit = 0;
-          this.allDay.enable({ emitEvent: false });
-        }
-      })
-    );
-
-    const allDay$ = this.allDay.valueChanges.pipe(startWith(false));
-    const formChanges$ = combineLatest([startTime$, endTime$, date$, allDay$]);
-    const subscription = formChanges$.subscribe(([startTime, endTime, _, allDay]) => {
-      if (allDay) {
-        return;
+  private _handleTimeChange(value: string, type: 'start' | 'end'): void {
+    if (Number(value[value.length - 1]) || value[2] === ':') {
+      const initialStartTime = Number(this.initialStartTime.replace(':', ''));
+      const numberValue = Number(value.replace(':', ''));
+      const startTime = this.startTime.value ? Number(this.startTime.value.replace(':', '')) : null;
+      const endTime = this.endTime.value ? Number(this.endTime.value.replace(':', '')) : null;
+      if (value.length === 2 && !value.includes(':') && value.length >= (type === 'start' ? this.prevStartLength : this.prevEndLength)) {
+        value += ':';
+        const control = type === 'start' ? this.startTime : this.endTime;
+        control.setValue(value, { emitEvent: false });
       }
-      this._updateTimeIndex(startTime, endTime);
-      this.startOptionsArr = this._filterAutoOptions(startTime, this._upperTimeLimit, this._indexEndTime);
-      this.endOptionsArr = this._filterAutoOptions(endTime, this._indexStartTime, this._lowerTimeLimit);
-      this.form.setValidators(timeValidator(this._timeArr[this._upperTimeLimit]));
-    });
 
-    this._subscriptions.push(subscription);
-  }
+      if (type === 'start') {
+        this.prevStartLength = value.length;
+      } else {
+        this.prevEndLength = value.length;
+      }
 
-  private _checkForColumn(controller: 'startTime' | 'endTime') {
-    let value = this.form.controls[controller].value;
-    if (value.length === 3 && value.indexOf(':') === -1) {
-      value = value.slice(0, 2) + ':' + value.slice(2);
-      this.form.patchValue({ [controller]: value }, { emitEvent: false });
-    }
-  }
+      if (value.length === 5) {
+        if (type === 'start') {
+          if (numberValue >= initialStartTime && (endTime === null || numberValue < endTime)) {
+            this.endOptionsArr = this._timeArr.slice(this._timeArr.indexOf(value) + 1);
+          } else {
+            this.startTime.setValue('', { emitEvent: false });
+          }
+        } else {
+          if (numberValue > initialStartTime && (startTime === null || numberValue > startTime)) {
+            this.startOptionsArr = this._timeArr.slice(this._timeArr.indexOf(this.initialStartTime), this._timeArr.indexOf(value));
+          } else {
+            this.endTime.setValue('', { emitEvent: false });
+          }
+        }
+      } else {
+        if (type === 'start') {
+          this.startOptionsArr = this._timeArr.filter((option) => {
+            const optionTime = Number(option.replace(':', ''));
+            return (option.startsWith(value) || !startTime) && optionTime >= initialStartTime && (!endTime || optionTime < endTime);
+          });
+        } else {
+          this.endOptionsArr = this._timeArr.filter((option) => {
+            const optionTime = Number(option.replace(':', ''));
+            return (option.startsWith(value) || !endTime) && optionTime >= initialStartTime && (!startTime || optionTime > startTime);
+          });
+        }
+      }
 
-  private _dateFilter(date: Date | null): boolean {
-    if (!date) {
-      return false; // Handle invalid dates
-    }
-    const dateTime = date.getTime();
-    let prevDate: Date | undefined;
-    for (let i = this.dayNumber - 1; i >= 0 && !prevDate; i--) {
-      prevDate = this.bridge.getDayFromMap(i);
-    }
-    let nextDate: Date | undefined;
-    for (let i = this.dayNumber + 1; i <= this.bridge.getDaysLength() && !nextDate; i++) {
-      nextDate = this.bridge.getDayFromMap(i);
-    }
-    if (prevDate && nextDate) {
-      return prevDate.getTime() < dateTime && nextDate.getTime() > dateTime;
-    }
-    if (prevDate && !nextDate) {
-      return prevDate.getTime() < dateTime;
-    }
-    if (!nextDate) {
-      return this.today.getTime() <= dateTime;
-    }
-    if (nextDate) {
-      return this.today.getTime() <= dateTime && nextDate.getTime() > dateTime;
+      if (!startTime && !endTime) {
+        this._setArrTime();
+      }
     }
   }
-
-  private _updateTimeIndex(startTime: string, endTime: string): void {
-    if (this._timeArr.indexOf(endTime) < 0) {
-      this._indexEndTime = this._lowerTimeLimit - 1;
-    } else {
-      this._indexEndTime = this._timeArr.indexOf(endTime);
-    }
-
-    if (this._timeArr.slice(this._upperTimeLimit).indexOf(startTime) < 0) {
-      this._indexStartTime = this._upperTimeLimit + 1;
-    } else {
-      this._indexStartTime = this._timeArr.indexOf(startTime) + 1;
-    }
-  }
-
-  private _filterAutoOptions(value: string, startPosition: number, endPosition: number) {
-    const filtered = this._timeArr.slice(startPosition, endPosition).filter((time) => time.includes(value));
-    return filtered.length >= 2 ? filtered : this._timeArr.slice(startPosition, endPosition);
+  private _setArrTime(): void {
+    this.startOptionsArr = this._timeArr.slice(this._upperTimeLimit, this._timeArr.length - 1);
+    this.endOptionsArr = this._timeArr.slice(this._upperTimeLimit + 1);
   }
 
   private _initialStartTime(): string {
     const today = new Date();
-    const currentHour = today.getHours();
-    const currentMinute = today.getMinutes();
-    if (currentMinute - 20 < 0) {
-      return `${currentHour > 9 ? currentHour : '0' + currentHour}:30`;
+    if (this.dayForm.value.date.getDate() === today.getDate()) {
+      const currentHour = today.getHours();
+      const currentMinute = today.getMinutes();
+      if (currentMinute - 20 < 0) {
+        return `${currentHour > 9 ? currentHour : '0' + currentHour}:30`;
+      }
+      const nextHour = currentHour + 1;
+      return `${nextHour > 9 ? nextHour : '0' + nextHour}:00`;
+    } else {
+      return '00:00';
     }
-    const nextHour = currentHour + 1;
-    return `${nextHour > 9 ? nextHour : '0' + nextHour}:00`;
-  }
-
-  private _checkIsCurrentDate(value: Date): boolean {
-    const curDay = new Date().toDateString();
-    const selectDay = new Date(value).toDateString();
-    return curDay === selectDay;
   }
 }

@@ -1,13 +1,9 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { dateFormValidator } from './validators/dateFormValidator';
-import { DefaultCoordinates } from '../../../../../../models/event-consts';
-import { Subscription } from 'rxjs';
+import { AbstractControl, FormArray, FormGroup, Validators } from '@angular/forms';
 import { GeocoderService } from '@global-service/geocoder/geocoder.service';
-import { FormBridgeService } from '../../../../../../services/form-bridge.service';
 import { Patterns } from '@assets/patterns/patterns';
-import { FormEmitter, PlaceOnline, PlaceOnlineGroup } from '../../../../../../models/events.interface';
+import { PlaceOnlineGroup } from '../../../../../../models/events.interface';
 
 @Component({
   selector: 'app-place-online',
@@ -15,50 +11,27 @@ import { FormEmitter, PlaceOnline, PlaceOnlineGroup } from '../../../../../../mo
   styleUrls: ['./place-online.component.scss'],
   providers: []
 })
-export class PlaceOnlineComponent implements OnInit, OnDestroy {
+export class PlaceOnlineComponent implements OnInit {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
   @ViewChild('placesRef') placesRef: ElementRef;
 
-  isPlaceSelected = false;
-  isOnline = false;
-  isPlaceDisabled = false;
+  isPlaceSelected: boolean;
+  isOnline: boolean;
+  isPlaceDisabled: boolean;
   isLinkDisabled: boolean;
-  isMapDisabled: boolean;
-  appliedForAllLocations = false;
-  @Input() formDisabled: boolean;
-  @Input() formInput: PlaceOnline;
+  mapMarkerCoords: google.maps.LatLngLiteral;
+  @Input() daysForm: FormArray;
   @Input() dayNumber: number;
-  mapMarkerCoords: google.maps.LatLngLiteral = { lng: null, lat: null };
-
-  appliedForAllLink = false;
-  // FORM
-  formGroup: FormGroup<PlaceOnlineGroup> = this.fb.nonNullable.group(
-    {
-      coordinates: new FormControl({ lat: DefaultCoordinates.LATITUDE, lng: DefaultCoordinates.LONGITUDE }),
-      onlineLink: new FormControl(''),
-      place: new FormControl(''),
-      appliedLinkForAll: [false],
-      appliedPlaceForAll: [false]
-    },
-    { validators: dateFormValidator() }
-  );
-  mapOptions: google.maps.MapOptions = {
-    center: this.coordinates.value,
-    zoom: 8,
-    gestureHandling: 'greedy',
-    minZoom: 4,
-    maxZoom: 20
-  };
-  @Output() destroy = new EventEmitter<any>();
-  @Output() formEmitter: EventEmitter<FormEmitter<PlaceOnline>> = new EventEmitter<FormEmitter<PlaceOnline>>();
-  @Input() sharedKey: number;
+  @Input() dayFormGroup: AbstractControl;
+  @Input() formDisabled: boolean;
+  formGroup: FormGroup<PlaceOnlineGroup>;
+  mapOptions: google.maps.MapOptions;
 
   private _autocomplete: google.maps.places.Autocomplete;
   private _regionOptions: google.maps.places.AutocompleteOptions = {
     types: ['address'],
     componentRestrictions: { country: 'UA' }
   };
-  private _subscriptions: Subscription[] = [];
   private _lastLocation: { coordinates: google.maps.LatLngLiteral; place: string } = {
     coordinates: null,
     place: ''
@@ -67,8 +40,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
 
   constructor(
     private geocoderService: GeocoderService,
-    private bridge: FormBridgeService,
-    private fb: FormBuilder
+    private cdr: ChangeDetectorRef
   ) {}
 
   get coordinates() {
@@ -83,47 +55,110 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     return this.formGroup.controls.place;
   }
 
+  get appliedLinkForAll() {
+    return this.formGroup.controls.appliedLinkForAll;
+  }
+
+  get appliedPlaceForAll() {
+    return this.formGroup.controls.appliedPlaceForAll;
+  }
+
   toggleForAllLink() {
-    this.appliedForAllLink = !this.appliedForAllLink;
-    if (!this.appliedForAllLink) {
-      this.bridge.setLinkForAll('');
-      return;
-    }
-    this.bridge.setLinkForAll(this.link.value);
-    this.formGroup.patchValue({ appliedLinkForAll: this.appliedForAllLink });
-    this.formGroup.updateValueAndValidity();
+    const isApplied = !this.appliedLinkForAll.value;
+    this.applyLinkToAllDays(isApplied ? this.link.value : '', isApplied);
+    this.appliedLinkForAll.setValue(isApplied);
   }
 
   toggleForAllLocations(): void {
-    this.appliedForAllLocations = !this.appliedForAllLocations;
-    if (!this.appliedForAllLocations) {
-      this.bridge.setLocationForAll({ place: '', coords: null });
-      return;
-    }
-    this.bridge.setLocationForAll({ place: this.place.value, coords: this.coordinates.value });
-    this.formGroup.patchValue({ appliedPlaceForAll: this.appliedForAllLocations });
-    this.formGroup.updateValueAndValidity();
+    const isApplied = !this.appliedPlaceForAll.value;
+    this.applyLocationToAllDays(
+      isApplied ? this.coordinates.value : { lat: null, lng: null },
+      isApplied ? this.place.value : '',
+      isApplied
+    );
+    this.appliedPlaceForAll.setValue(isApplied);
   }
 
   ngOnInit(): void {
-    // FORM BLOCK START
-    this._subscribeToFormStatus();
-    if (this.dayNumber > 0) {
-      this._subscribeToLocationChanges();
-      this._subscribeToLinkChanges();
-    }
-    if (this.formInput) {
-      this._initializeForm(this.formInput);
-    } else {
-      this._emitForm(undefined, false);
+    this.formGroup = this.dayFormGroup.get('placeOnline') as FormGroup;
+    this.isOnline = !!this.link.value;
+    this.isPlaceSelected = !!this.place.value;
+    this.mapOptions = {
+      center: this.coordinates.value,
+      zoom: 8,
+      gestureHandling: 'greedy',
+      minZoom: 4,
+      maxZoom: 20
+    };
+    this.mapMarkerCoords = this.coordinates.value;
+
+    if (this.dayNumber !== 0) {
+      const firstDay = this.daysForm.value[0].placeOnline;
+      this.applyInitialSettings(firstDay);
+      this.subscribeToFormChanges();
     }
 
-    // FORM BLOCK END
+    this.daysForm.controls[0].get('placeOnline').valueChanges.subscribe((value) => {
+      if (this.appliedPlaceForAll.value) {
+        this.applyLocationToAllDays(value.coordinates, value.place, true);
+      }
+      if (this.appliedLinkForAll.value) {
+        this.applyLinkToAllDays(value.onlineLink, true);
+      }
+    });
   }
 
-  ngOnDestroy(): void {
-    this._subscriptions.forEach((subscription) => subscription.unsubscribe());
-    this.destroy.emit(this._key);
+  applyInitialSettings(firstDay: any): void {
+    this.isOnline = firstDay.appliedLinkForAll;
+    this.isLinkDisabled = firstDay.appliedLinkForAll;
+    this.link[firstDay.appliedLinkForAll ? 'disable' : 'enable']();
+
+    this.isPlaceDisabled = firstDay.appliedPlaceForAll;
+    this.isPlaceSelected = firstDay.appliedPlaceForAll;
+    this.place[firstDay.appliedPlaceForAll ? 'disable' : 'enable']();
+
+    if (firstDay.appliedLinkForAll) {
+      this.formGroup.patchValue({
+        appliedLinkForAll: true,
+        onlineLink: firstDay.onlineLink
+      });
+    }
+
+    if (firstDay.appliedPlaceForAll) {
+      this.formGroup.patchValue({
+        appliedPlaceForAll: true,
+        coordinates: firstDay.coordinates,
+        place: firstDay.place
+      });
+    }
+  }
+
+  subscribeToFormChanges(): void {
+    this.appliedLinkForAll.valueChanges.subscribe((data) => {
+      this.isOnline = data;
+      this.isLinkDisabled = data;
+      this.link[data ? 'disable' : 'enable']();
+    });
+
+    this.appliedPlaceForAll.valueChanges.subscribe((data) => {
+      this.isPlaceDisabled = data;
+      this.isPlaceSelected = data;
+      this.place[data ? 'disable' : 'enable']();
+    });
+  }
+
+  applyLocationToAllDays(coordinates: google.maps.LatLngLiteral, place: string, is: boolean): void {
+    this.daysForm.controls.slice(1).forEach((control) => {
+      control.get('placeOnline').patchValue({ coordinates, place, appliedPlaceForAll: is });
+      control.get('placeOnline').updateValueAndValidity();
+    });
+  }
+
+  applyLinkToAllDays(link: string, is: boolean): void {
+    this.daysForm.controls.slice(1).forEach((control) => {
+      control.get('placeOnline').patchValue({ onlineLink: link, appliedLinkForAll: is });
+      control.get('placeOnline').updateValueAndValidity();
+    });
   }
 
   toggleOnline(): void {
@@ -159,7 +194,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
       }, 0);
     } else {
       this.formGroup.controls.place.clearValidators();
-      if (this.appliedForAllLocations) {
+      if (this.appliedPlaceForAll) {
         this.toggleForAllLocations();
       }
       this._autocomplete.unbindAll();
@@ -173,106 +208,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   mapClick(event: google.maps.MapMouseEvent): void {
     const coords = event.latLng.toJSON();
     this.updateMapAndLocation(coords);
-  }
-
-  private _initializeForm(form: PlaceOnline) {
-    this.formGroup.setValue(form);
-    const { place, onlineLink, coordinates } = form;
-    if (place) {
-      this._lastLocation = { coordinates, place };
-      if (this.dayNumber === 0) {
-        this.toggleLocation();
-        if (form.appliedPlaceForAll) {
-          this.toggleForAllLocations();
-        }
-      } else {
-        if (!this.appliedForAllLocations) {
-          this.toggleLocation();
-        }
-      }
-    }
-    if (onlineLink) {
-      if (this.dayNumber === 0) {
-        this.toggleOnline();
-        if (form.appliedLinkForAll) {
-          this.toggleForAllLink();
-        }
-      } else {
-        if (!this.appliedForAllLink) {
-          this.toggleOnline();
-        }
-      }
-    }
-    if (this.formDisabled) {
-      this.formGroup.disable();
-    }
-  }
-
-  private _subscribeToLinkChanges() {
-    const s = this.bridge.$linkUpdate().subscribe((value) => {
-      if (value) {
-        this.appliedForAllLink = true;
-        this.isLinkDisabled = true;
-        this.isOnline = true;
-        this.link.disable();
-        this.formGroup.patchValue({ onlineLink: value });
-      } else {
-        this.appliedForAllLink = false;
-        this.isLinkDisabled = false;
-        this.isOnline = false;
-        this.link.enable();
-        this.formGroup.patchValue({ onlineLink: '' });
-      }
-    });
-    this._subscriptions.push(s);
-  }
-
-  private _subscribeToLocationChanges() {
-    const sub = this.bridge.$locationUpdate().subscribe((update) => {
-      if (update.place) {
-        this.appliedForAllLocations = true;
-        this.isMapDisabled = true;
-        this.isPlaceSelected = true;
-        this.isPlaceDisabled = true;
-        this.place.disable();
-        this.formGroup.patchValue({ coordinates: update.coords, place: update.place });
-      } else {
-        this.appliedForAllLocations = false;
-        this.isMapDisabled = false;
-        this.isPlaceDisabled = false;
-        this.isPlaceSelected = false;
-        this.place.enable();
-        this.formGroup.patchValue({ coordinates: update.coords, place: update.place });
-      }
-    });
-    this._subscriptions.push(sub);
-  }
-
-  private _emitForm(form: PlaceOnline, valid: boolean) {
-    this.formEmitter.emit({ key: this._key, valid, form, sharedKey: this.sharedKey, formKey: 'placeOnline' });
-  }
-
-  private _subscribeToFormStatus() {
-    const sub = this.formGroup.statusChanges.subscribe((status) => {
-      if (status !== 'INVALID') {
-        this._emitForm(this.formGroup.getRawValue(), true);
-      } else {
-        this._emitForm(undefined, false);
-      }
-    });
-
-    const sub1 = this.link.statusChanges.subscribe((status) => {
-      if (this.appliedForAllLink) {
-        if (status === 'VALID') {
-          {
-            this.bridge.setLinkForAll(this.link.value);
-          }
-        }
-      }
-    });
-
-    this._subscriptions.push(sub);
-    this._subscriptions.push(sub1);
   }
 
   private _setPlaceAutocomplete(): void {
@@ -331,9 +266,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
         place: address
       });
       this._lastLocation = { coordinates: latLngLiteral, place: address };
-      if (this.appliedForAllLocations) {
-        this.bridge.setLocationForAll({ place: address, coords: latLngLiteral });
-      }
     });
   }
 }
