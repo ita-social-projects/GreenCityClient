@@ -31,23 +31,26 @@ export class SocketService {
     private jwt: JwtService,
     private titleService: Title
   ) {}
-  connect() {
+
+  connect(): void {
     this.userId = this.localStorageService.getUserId();
     this.socket = new SockJS(this.backendSocketLink);
     this.stompClient = Stomp.over(() => this.socket);
-    this.stompClient.connect(
-      {},
-      () => {
-        if (this.stompClient.connected) {
-          this.onConnected();
-        }
-      },
-      (error) => this.onError(error)
-    );
-    this.stompClient.reconnectDelay = 1000;
+    if (!this.stompClient.connected) {
+      this.stompClient.connect(
+        {},
+        () => {
+          if (this.stompClient.connected) {
+            this.onConnected();
+          }
+        },
+        (error) => this.onError(error)
+      );
+      this.stompClient.reconnectDelay = 1000;
+    }
   }
 
-  private onConnected() {
+  private onConnected(): void {
     const isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
 
     const messagesSubs = this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
@@ -175,6 +178,8 @@ export class SocketService {
   }
 
   unsubscribeAll(): void {
+    this.stompClient.disconnect();
+    this.socket.close();
     this.subscriptions.forEach((subs) => {
       if (subs) {
         subs.unsubscribe();

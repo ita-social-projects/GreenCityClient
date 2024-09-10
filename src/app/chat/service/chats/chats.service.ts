@@ -6,8 +6,9 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Message, MessageExtended, MessagesToSave } from '../../model/Message.model';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { Messages } from './../../model/Message.model';
-import { map } from 'rxjs/operators';
+import { concatMap, map } from 'rxjs/operators';
 import { UserService } from '@global-service/user/user.service';
+import { OrderService } from '@ubs/ubs/services/order.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,8 @@ export class ChatsService {
 
   constructor(
     private httpClient: HttpClient,
-    public userService: UserService
+    public userService: UserService,
+    private orderService: OrderService
   ) {}
 
   get userChats() {
@@ -196,6 +198,27 @@ export class ChatsService {
 
   getFile(img: string): Observable<Blob> {
     return this.httpClient.get(img, { responseType: 'blob' });
+  }
+
+  loadChats(userId: number, isUbsAdmin?: boolean): void {
+    if (isUbsAdmin) {
+      this.getAllSupportChats();
+      return;
+    }
+
+    this.orderService
+      .getAllActiveCouriers()
+      .pipe(
+        concatMap((data) => {
+          const courierId = data.find((courier) => courier.nameEn.includes('UBS')).courierId;
+          return this.getLocationsChats(userId, courierId);
+        })
+      )
+      .subscribe((locations: LocationForChat[]) => {
+        this.locations$.next(locations);
+      });
+
+    this.getAllUserChats(userId);
   }
 
   resetData(): void {
