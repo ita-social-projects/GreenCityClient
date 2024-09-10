@@ -1247,7 +1247,10 @@
     "use-greencity-pics": "Use Greencity pictures",
     "created-event": "You have successfully added a new event",
     "updated-event": "You have successfully updated an event",
-    "min-photo-error": "1 image minimum"
+    "min-photo-error": "1 image minimum",
+    "choose-day": "Day",
+    "choose-month": "Month",
+    "choose-year": "Year"
   },
   "input-error": {
     "required": "This field is required",
