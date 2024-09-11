@@ -29,6 +29,8 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
   private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
   private sidebarChangeBreakpoint: number;
+  private destroy$ = new Subject();
+
   isAdmin = false;
   destroy: Subject<boolean> = new Subject<boolean>();
   @Input() public listElements: listElements[] = [];
@@ -122,7 +124,7 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   }
 
   ngOnDestroy() {
-    this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

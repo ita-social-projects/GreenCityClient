@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
@@ -31,7 +31,8 @@ import { Language } from 'src/app/main/i18n/Language';
   templateUrl: './ubs-admin-employee.component.html',
   styleUrls: ['./ubs-admin-employee.component.scss']
 })
-export class UbsAdminEmployeeComponent implements OnInit {
+export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject();
   @Input() locationCard: Locations;
 
   employeePositions: EmployeePositions[];
@@ -139,6 +140,11 @@ export class UbsAdminEmployeeComponent implements OnInit {
         this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
         this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   addNewFilters(data: FilterData) {
