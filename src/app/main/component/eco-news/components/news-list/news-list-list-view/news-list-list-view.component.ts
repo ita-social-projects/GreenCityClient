@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { TranslateService } from '@ngx-translate/core';
-import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
+import { possibleDescHeight } from './breakpoints';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -74,10 +74,8 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
   checkHeightOfTittle(): void {
     const titleHeightOfElement = this.titleHeight.nativeElement.offsetHeight;
     const descClass = this.getHeightOfDesc(titleHeightOfElement);
-    const titleClass = this.getHeightOfTitle(titleHeightOfElement);
 
     this.renderer.addClass(this.textHeight.nativeElement, descClass);
-    this.renderer.addClass(this.titleHeight.nativeElement, titleClass);
   }
 
   checkNewsImage(): string {
@@ -97,17 +95,8 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
   }
 
   private getHeightOfDesc(titleHeight: number): string {
-    const result = possibleDescHeight[this.getDomWidth()][titleHeight];
-    const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'tree-row';
-    const midTitleHeight = titleHeight > 52 ? 'one-row' : smallTitleHeight;
-    return result || midTitleHeight;
-  }
-
-  private getHeightOfTitle(titleHeight: number): string {
-    const result = possibleTitleHeight[this.getDomWidth()][titleHeight];
-    const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'one-row';
-    const midTitleHeight = titleHeight > 52 ? 'tree-row' : smallTitleHeight;
-    return result || midTitleHeight;
+    const result = possibleDescHeight[titleHeight];
+    return result;
   }
 
   ngOnDestroy() {
