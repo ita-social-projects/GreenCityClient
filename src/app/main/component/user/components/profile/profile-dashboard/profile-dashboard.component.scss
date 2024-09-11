@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 p {
   margin: 0;
 }
@@ -68,11 +70,6 @@ a {
   .body {
     display: grid;
     grid-template-columns: 1fr;
-  }
-
-  .acquired {
-    margin-top: 40px;
-    margin-bottom: 32px;
   }
 
   .btn-view-more {
@@ -244,7 +241,7 @@ a {
   }
 }
 
-@media (min-width: 576px) {
+@include responsivePCFirst(sm) {
   .main {
     .menu {
       .tab {
@@ -260,10 +257,6 @@ a {
     .header {
       font-size: 16px;
       line-height: 24px;
-    }
-
-    .acquired {
-      margin-top: 32px;
     }
   }
 }
