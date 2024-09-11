@@ -46,7 +46,7 @@ describe('EventsService', () => {
       expect(event).toEqual(mockEventResponse);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/`);
+    const req = httpTestingController.expectOne(`${url}events`);
     expect(req.request.method).toEqual('POST');
     req.flush(mockEventResponse);
   });
