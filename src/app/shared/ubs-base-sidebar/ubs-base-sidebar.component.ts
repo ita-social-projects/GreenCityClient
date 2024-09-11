@@ -24,15 +24,14 @@ import { listElements } from '../interface/ubs-base-sidebar-interface';
   styleUrls: ['./ubs-base-sidebar.component.scss']
 })
 export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
-  destroySub: Subject<boolean> = new Subject<boolean>();
+  // destroySub: Subject<boolean> = new Subject<boolean>();
   readonly bellsNoneNotification = 'assets/img/sidebarIcons/none_notification_Bell.svg';
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
   private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
   private sidebarChangeBreakpoint: number;
-  private destroy$ = new Subject();
 
   isAdmin = false;
-  destroy: Subject<boolean> = new Subject<boolean>();
+  destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() public listElements: listElements[] = [];
   @Input() public listElementsMobile: listElements[] = [];
   @ViewChild('drawer') drawer: MatDrawer;
@@ -89,11 +88,11 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   }
 
   getCountOfUnreadNotification() {
-    this.jwtService.userRole$.pipe(takeUntil(this.destroySub)).subscribe((userRole) => {
+    this.jwtService.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
       if (userRole !== this.adminRoleValue) {
         this.serviceUserMessages
           .getCountUnreadNotification()
-          .pipe(takeUntil(this.destroy))
+          .pipe(takeUntil(this.destroy$))
           .subscribe((response) => {
             this.serviceUserMessages.countOfNoReadeMessages = response;
           });

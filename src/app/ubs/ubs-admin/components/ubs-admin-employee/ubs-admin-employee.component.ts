@@ -32,7 +32,7 @@ import { Language } from 'src/app/main/i18n/Language';
   styleUrls: ['./ubs-admin-employee.component.scss']
 })
 export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject();
+  // private destroy$ = new Subject();
   @Input() locationCard: Locations;
 
   employeePositions: EmployeePositions[];
@@ -93,7 +93,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   searchForm: FormGroup;
-  private destroy: Subject<boolean> = new Subject<boolean>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   constructor(
@@ -108,7 +108,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang: string) => {
       this.currentLang = lang;
     });
     this.definitionUserAuthorities();
@@ -117,7 +117,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     this.getContacts();
     this.getLocations();
     this.getCouriers();
-    this.region.valueChanges.pipe(takeUntil(this.destroy)).subscribe((value) => {
+    this.region.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.regionSelectedSub(value);
       this.checkRegionValue();
       this.selectedCities = [];
@@ -129,7 +129,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
     this.languageService
       .getCurrentLangObs()
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((i) => {
         this.getLocations();
         this.getCouriers();
@@ -203,7 +203,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   getPositions(): void {
     this.ubsAdminEmployeeService
       .getAllPositions()
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         (roles) => {
           this.employeePositions = roles;
@@ -289,7 +289,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   getCouriers(): void {
     this.tariffsService
       .getCouriers()
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
         this.couriersName = this.couriers.map((el) => this.languageService.getLangValue(el.nameUk, el.nameEn));
