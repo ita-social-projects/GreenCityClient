@@ -14,7 +14,6 @@
   max-width: 960px;
   background-color: white;
   border-radius: 4px;
-  overflow: auto;
 
   .left-side {
     width: 480px;
@@ -33,24 +32,23 @@
 
   .right-side {
     width: 480px;
-    max-height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 24px;
     box-sizing: border-box;
     overflow: hidden;
 
     .close-modal-window {
       display: flex;
       justify-content: flex-end;
-      margin: 26px 0 22px 98%;
-      width: min-content;
+      width: 100%;
       padding: 5px;
     }
 
     .cross-btn {
-      width: 12px;
-      height: 12px;
+      width: 16px;
+      height: 16px;
     }
 
     div {
