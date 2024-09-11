@@ -9,7 +9,7 @@
     &-empty {
       width: 335px;
       min-height: 228px;
-      max-height: auto;
+      max-height: max-content;
     }
   }
 
@@ -66,7 +66,7 @@
       min-height: 156px;
       width: 100%;
       padding-top: 24px;
-      background: no-repeat 130px 55px/80px url('/src/assets/img/bell.png');
+      background: no-repeat 130px 55px/80px url('/assets/img/bell.png');
     }
 
     .list-wrapper {
@@ -117,7 +117,7 @@
     }
 
     .notification.mat-expanded .notification-header-content {
-      white-space: wrap;
+      white-space: pre-wrap;
       overflow: visible;
     }
   }
