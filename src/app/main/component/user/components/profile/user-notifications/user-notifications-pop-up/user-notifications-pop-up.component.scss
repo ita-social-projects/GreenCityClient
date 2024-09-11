@@ -16,11 +16,16 @@
   .heading,
   .to-notifications {
     margin: 8px 19px;
+    color: var(--ubs-primary-grey);
   }
-
+  
   .to-notifications {
     display: block;
     cursor: pointer;
+  }
+
+  .separator-line {
+    border-top: 1px solid var(--ubs-primary-grey);
   }
 
   .no-notifications {
@@ -33,13 +38,16 @@
   .list-wrapper {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 13px;
-    padding: 23px 33px;
+    padding: 23px 3px;
   }
 
   .notification {
+    width: 295px;
     margin: 0;
-
+    
     &-unread {
       background-color: var(--ubs-primary-liberty-green);
     }
@@ -82,7 +90,7 @@
       &-header {
         min-height: 80px !important;
         height: unset !important;
-        padding: 7px 12px;
+        padding: 5px 0;
         display: block;
 
         & .mat-content {

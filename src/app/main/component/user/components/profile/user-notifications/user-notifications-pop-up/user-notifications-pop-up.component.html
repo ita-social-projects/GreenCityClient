@@ -1,6 +1,7 @@
 <div class="notification-popup-wrapper">
   <div [ngClass]="notifications.length ? 'pop-up-container' : 'pop-up-container-empty'" aria-label="user-notification">
     <h5 class="heading body-2">{{ 'homepage.notifications.title' | translate }}</h5>
+    <div class="separator-line"></div>
 
     <div *ngIf="!notifications.length && !isLoading" class="no-notifications d-flex justify-content-center">
       <p class="body-2 text-center">{{ 'homepage.notifications.no-new-notifications' | translate }}</p>
@@ -29,6 +30,7 @@
         </mat-expansion-panel>
       </mat-accordion>
     </div>
+    <div class="separator-line"></div>
     <span class="to-notifications body-2" (click)="openAll()">{{ 'homepage.notifications.all-notifications' | translate }}</span>
   </div>
 </div>
