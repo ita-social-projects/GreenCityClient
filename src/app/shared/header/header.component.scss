@@ -14,7 +14,7 @@ $ubs-header-height: 86px;
   backdrop-filter: blur(7px);
 }
 
-::ng-deep .dialog-notification .mat-dialog-container {
+::ng-deep .dialog-notification .mat-mdc-dialog-surface {
   padding: 0;
 }
 

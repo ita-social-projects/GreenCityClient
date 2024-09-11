@@ -238,10 +238,10 @@
               <mat-icon (click)="openColumnFilterPopup($event, column)">filter_list</mat-icon>
             </ng-container>
             <ng-container *ngIf="!nonSortableColumns.includes(column.title.key)">
-              <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
+              <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
                 arrow_downward
               </mat-icon>
-              <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
+              <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
                 arrow_upward
               </mat-icon>
             </ng-container>
