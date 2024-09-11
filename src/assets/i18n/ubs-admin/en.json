@@ -223,7 +223,6 @@
     "date": "Date",
     "added": "Added"
   },
-
   "order-not-taken-out": {
     "title": "Add the reason for not taken out order",
     "label-reason": "Describe what happened",
@@ -243,12 +242,10 @@
     "date": "Date",
     "added": "Added"
   },
-
   "order-not-taken-out-reason": {
     "title": "The reason for not taken out order N ",
     "label-reason": "Courier's comment"
   },
-
   "address-details": {
     "title": "Waste export address",
     "district": "District",
@@ -484,6 +481,8 @@
       "amount-due": "Amount due:",
       "services-amount": "Amount of services provided:",
       "paid-amount": "Paid:",
+      "refunded-bonuses": "Refunded bonuses:",
+      "refunded-money": "Refunded money:",
       "delivery": "Delivery of orders from the Eco-store",
       "order-number": "Numbers of your orders:",
       "recipient": "Sender",
@@ -611,7 +610,8 @@
     "employees": "Employees",
     "bonuses": "Bonuses",
     "tariffs": "Tariffs",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "user-agreement": "User agreement"
   },
   "ubs-employee": {
     "add-employee": "Add employee",
@@ -642,7 +642,9 @@
       "region": "Region",
       "city": "City",
       "station": "Station",
-      "courier": "Courier"
+      "courier": "Courier",
+      "chat": "Chat",
+      "tariff": "Tariff"
     },
     "tariffs-selector": {
       "title": "Add tariffs",
@@ -763,7 +765,6 @@
     "delete-service-text1": "Are you sure you want to deactivate service \"",
     "delete-service-text2": "{{serviceName}}\"?  Information about this service will be hidden from customers."
   },
-
   "ubs-tariffs-add-location-pop-up": {
     "title": "Add location",
     "edit-title": "Edit location",
@@ -1115,7 +1116,11 @@
     "errors": {
       "at-least-one-day-of-week": "At least one day of week should be selected",
       "at-least-one-day-of-month": "At least one day of month should be selected",
-      "at-least-one-month": "At least one month should be selected"
+      "at-least-one-month": "At least one month should be selected",
+      "hour-error": "Hour is incorrect",
+      "minute-error": "Minute is incorrect",
+      "hour-required": "Hour is required",
+      "minute-required": "Minute is required"
     },
     "days-of-week": {
       "MON": "Mon",
@@ -1208,7 +1213,6 @@
         "item_1": "When ordering the service, indicate that you plan to give the courier free extrapositions, and indicate their number.",
         "item_2": "Fold each type of packaging separately. A mix of these wastes in one bag/box will not be picked up by the courier. Tie each bag tightly."
       },
-
       "minimum-volume": {
         "title": "Minimum volume for export:",
         "li_1": "2 packages of 120 l in Kyiv",
@@ -1233,6 +1237,21 @@
     "сertificate-field-format": "The field can contain only numbers in format хххх-хххх",
     "duration-field-format": "The field can contain only numbers from 1 to 12",
     "discount-field-format": "The field can contain only numbers in format from 1 to 999"
+  },
+  "ubs-user-agreement": {
+    "edit": "Edit user agreement",
+    "author": "Author",
+    "select-version": "Select version",
+    "date": "Last modified",
+    "confirm-version-change": "Confirm loading another version of the document",
+    "changes-will-be-lost": "Are you sure you want to load another version? Current changes will be lost",
+    "confirm-save": "Confirm saving changes",
+    "save-changes": "Are you sure you want to save changes? Changes will be saved for all users",
+    "btn": {
+      "back": "Back",
+      "confirm": "Confirm",
+      "save": "Save"
+    }
   },
   "deleting-profile-reason-pop-up": {
     "title": "Why are you leaving?",

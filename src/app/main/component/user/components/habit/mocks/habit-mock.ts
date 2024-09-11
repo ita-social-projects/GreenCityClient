@@ -5,6 +5,9 @@ import { DayEstimation } from '@global-models/habit/DayEstimation';
 import { AvailableHabitDto } from '@global-models/habit/AvailableHabitDto';
 import { NewHabitDto } from '@global-models/habit/NewHabitDto';
 import { HabitPageable } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
+import { CustomHabit } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
+import { CustomHabitDtoRequest } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
+import { TodoStatus } from '../models/todo-status.enum';
 
 export const HABITLIST: HabitListInterface = {
   page: [DEFAULTHABIT, CUSTOMHABIT],
@@ -46,6 +49,41 @@ export const AVAIL_HABIT_ARRAY_MOCK: AvailableHabitDto[] = [
     description: 'description3'
   }
 ];
+
+export const MOCK_CUSTOM_HABIT: CustomHabit = {
+  title: 'testTitle',
+  description: 'testDescription',
+  complexity: 1,
+  duration: 30,
+  tagIds: [1, 2],
+  image: 'testImage',
+  shopList: [
+    {
+      id: 2,
+      text: 'Collapsible Silicone Water Bottle',
+      status: TodoStatus.inprogress
+    }
+  ]
+};
+
+export const MOCK_CUSTOM_HABIT_RESPONSE: CustomHabitDtoRequest = {
+  habitTranslations: [
+    {
+      name: MOCK_CUSTOM_HABIT.title,
+      description: MOCK_CUSTOM_HABIT.description,
+      habitItem: 'testHabitItem',
+      languageCode: 'en',
+      nameUa: MOCK_CUSTOM_HABIT.title,
+      descriptionUa: MOCK_CUSTOM_HABIT.description,
+      habitItemUa: 'testHabitItem'
+    }
+  ],
+  complexity: MOCK_CUSTOM_HABIT.complexity,
+  defaultDuration: MOCK_CUSTOM_HABIT.duration,
+  image: MOCK_CUSTOM_HABIT.image,
+  tagIds: MOCK_CUSTOM_HABIT.tagIds,
+  customShoppingListItemDto: MOCK_CUSTOM_HABIT.shopList
+};
 
 export const NEW_HABIT_ARRAY_MOCK: NewHabitDto[] = [new NewHabitDto(1), new NewHabitDto(2), new NewHabitDto(3)];
 

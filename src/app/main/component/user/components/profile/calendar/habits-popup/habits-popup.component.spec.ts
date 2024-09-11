@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
-import { HabitPopupInterface } from '../habit-popup-interface';
-
 import { HabitsPopupComponent } from './habits-popup.component';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -11,6 +9,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { DatePipe } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { mockData, mockPopupHabits } from '@assets/mocks/habit/mock-habit-calendar';
+import { HABITSASSIGNEDLIST, HABITSFORDATE } from '@global-user/components/habit/mocks/habit-assigned-mock';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
@@ -22,33 +22,13 @@ class DatePipeMock implements PipeTransform {
 describe('HabitsPopupComponent', () => {
   let component: HabitsPopupComponent;
   let fixture: ComponentFixture<HabitsPopupComponent>;
-
-  const mockPopupHabits: HabitPopupInterface[] = [
-    {
-      enrolled: false,
-      habitDescription: 'Eating local food is good for air quality and reducing environmental emissions!',
-      habitAssignId: 503,
-      habitName: 'Buy local products'
-    },
-    {
-      enrolled: true,
-      habitDescription: 'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia',
-      habitAssignId: 506,
-      habitName: 'Use less transport'
-    }
-  ];
-  const mockData = {
-    habitsCalendarSelectedDate: '2022-02-20',
-    isHabitListEditable: true,
-    habits: mockPopupHabits
-  };
-
   const habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', ['assignHabit', 'mapOfArrayOfAllDate', 'habitDate']);
-  habitAssignServiceMock.assignHabit = () => new Observable();
+  habitAssignServiceMock.assignHabit.and.returnValue(new Observable());
   habitAssignServiceMock.habitDate = new Date('2023-04-11');
   habitAssignServiceMock.habitDate.getDate = () => 11;
+  habitAssignServiceMock.mapOfArrayOfAllDate = new Map();
   habitAssignServiceMock.mapOfArrayOfAllDate.has = () => true;
-  habitAssignServiceMock.mapOfArrayOfAllDate.get = () => ['Tue Apr 11 2023 12:00:00 GMT+0300 (за східноєвропейським літнім часом)'];
+  habitAssignServiceMock.mapOfArrayOfAllDate.get = () => [new Date('2023-04-11')];
   habitAssignServiceMock.mapOfArrayOfAllDate.set = () => '';
 
   const dialogRefMock = jasmine.createSpyObj('dialogRef', ['close', 'beforeClosed']);
@@ -218,5 +198,47 @@ describe('HabitsPopupComponent', () => {
       expect(setHabitStreakSpy).toHaveBeenCalled();
       expect(component.arrayOfDate).toEqual([]);
     });
+  });
+
+  it('should close popup and pass data', () => {
+    component.popupHabits = HABITSFORDATE[0].habitAssigns;
+    component.closePopup();
+    expect(dialogRefMock.close).toHaveBeenCalledWith(component.popupHabits);
+  });
+
+  it('should format selected date with default date', () => {
+    const result = component.formatSelectedDate();
+    const expected = new Date().toLocaleDateString('uk', { month: 'long' }) + ' ' + new Date().getDate() + ', ' + new Date().getFullYear();
+    expect(result.toLowerCase()).toEqual(expected);
+  });
+
+  it('should format selected date with provided date string', () => {
+    const dateStr = '2023-06-26';
+    component.language = 'en';
+    const result = component.formatSelectedDate(dateStr);
+    const expected = 'June 26, 2023';
+    expect(result).toEqual(expected);
+  });
+
+  it('should format selected date with provided date string in Ukrainian', () => {
+    const dateStr = '2023-06-26';
+    component.language = 'ua';
+    const result = component.formatSelectedDate(dateStr);
+    const expected = 'Червень 26, 2023';
+    expect(result).toEqual(expected);
+  });
+
+  it('should handle the case where habit is not in view but is in progress', () => {
+    habitAssignServiceMock.habitsInProgressToView = [];
+    habitAssignServiceMock.habitsInProgress = HABITSASSIGNEDLIST;
+    component.setWorkingDaysForVisibleHabit(true, 1);
+    expect(component.habitAssignService.habitsInProgress[0].workingDays).toBe(7);
+  });
+
+  it('should handle the case where habit is not in view and not in progress', () => {
+    habitAssignServiceMock.habitsInProgressToView = [];
+    habitAssignServiceMock.habitsInProgress = [];
+    component.setWorkingDaysForVisibleHabit(true, 1);
+    expect(component.habitAssignService.habitsInProgress.length).toBe(0);
   });
 });

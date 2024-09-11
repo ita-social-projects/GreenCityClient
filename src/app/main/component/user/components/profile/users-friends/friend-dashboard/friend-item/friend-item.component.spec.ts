@@ -28,13 +28,17 @@ describe('FriendItemComponent', () => {
     'languageBehaviourSubject',
     'getCurrentLanguage',
     'getUserId',
-    'userIdBehaviourSubject'
+    'userIdBehaviourSubject',
+    'getAccessToken'
   ]);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
   localStorageServiceMock.getUserId = () => 1;
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1);
+  localStorageServiceMock.getAccessToken = () => {
+    123;
+  };
 
   const onlineStatusMock = jasmine.createSpyObj('UserOnlineStatusService', ['checkIsOnline']);
   onlineStatusMock.checkIsOnline = () => true;

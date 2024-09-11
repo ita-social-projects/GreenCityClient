@@ -25,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TodoStatus } from '../models/todo-status.enum';
 import { HabitInterface, HabitTranslationInterface } from '../models/interfaces/habit.interface';
+import { MOCK_CUSTOM_HABIT_RESPONSE } from '../mocks/habit-mock';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -60,9 +61,14 @@ describe('AddNewHabitComponent', () => {
   fakeHabitAssignService.assignHabit = () => of();
   fakeHabitAssignService.updateHabit = () => of();
 
-  const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService', ['getHabitById', 'getHabitsByTagAndLang']);
+  const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService', [
+    'getHabitById',
+    'getHabitsByFilters',
+    'deleteCustomHabit'
+  ]);
   fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
-  fakeHabitService.getHabitsByTagAndLang = () => of(HABITLIST);
+  fakeHabitService.getHabitsByFilters = () => of(HABITLIST);
+  fakeHabitService.deleteCustomHabit = () => of(MOCK_CUSTOM_HABIT_RESPONSE);
 
   const fakeLocalStorageService: LocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', { getCurrentLanguage: () => 'ua' });
   fakeLocalStorageService.setEditMode = (key: string, permission: boolean) => {
@@ -142,11 +148,9 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('changing of fakeLocalStorageService.languageSubject should invoke methods', () => {
-    const spy = spyOn(component as any, 'checkIfAssigned');
     spyOn(component as any, 'bindLang').and.returnValue('test');
     fakeLocalStorageService.languageSubject.subscribe((lang) => {
       expect((component as any).bindLang).toHaveBeenCalledWith(lang);
-      expect(spy).toHaveBeenCalled();
     });
     fakeLocalStorageService.languageSubject.next('en');
   });
@@ -251,6 +255,12 @@ describe('AddNewHabitComponent', () => {
     (component as any).userId = 2;
     component.goToProfile();
     expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 2]);
+  });
+
+  it('goToAllHabits method should navigate to all habits page', () => {
+    (component as any).userId = 2;
+    component.goToAllHabits();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/profile/2/allhabits']);
   });
 
   it('should call go to profile and snackbar on afterHabitWasChanged', () => {
@@ -370,5 +380,11 @@ describe('AddNewHabitComponent', () => {
     component.getList(shoppingListItems);
     expect(component.customShopList).toEqual(shoppingListItems.filter((item) => item.custom));
     expect(component.standardShopList).toEqual(shoppingListItems.filter((item) => !item.custom));
+  });
+
+  it('should navigate to all habits after habit has been deleted', () => {
+    (component as any).userId = 2;
+    component.deleteHabit();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/profile/2/allhabits']);
   });
 });

@@ -3,3 +3,5 @@
 </div>
 
 <router-outlet></router-outlet>
+
+<app-chat-popup *ngIf="commonChatSevice.isChatVisible$ | async"></app-chat-popup>

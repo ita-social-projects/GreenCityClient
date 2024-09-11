@@ -1,5 +1,5 @@
-import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Addresses, EventFilterCriteriaInterface, EventListResponse, FilterItem } from '../../models/events.interface';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Addresses, EventListResponse, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { statusFiltersData, timeStatusFiltersData, typeFiltersData } from '../../models/event-consts';
-import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,6 +15,7 @@ import { MatSelect } from '@angular/material/select';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
 import { MatOption } from '@angular/material/core';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-events-list',
@@ -35,7 +35,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
   eventsList: EventListResponse[] = [];
-
   isLoggedIn: string;
   selectedEventTimeStatusFiltersList: string[] = [];
   selectedLocationFiltersList: string[] = [];
@@ -59,19 +58,15 @@ export class EventsListComponent implements OnInit, OnDestroy {
   private page = 0;
   private eventsPerPage = 6;
   private searchResultSubscription: Subscription;
-  private dialog: MatDialog;
 
   constructor(
     private store: Store,
     private userOwnAuthService: UserOwnAuthService,
-    private languageService: LanguageService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private injector: Injector,
-    private eventService: EventsService
-  ) {
-    this.dialog = injector.get(MatDialog);
-  }
+    private eventService: EventsService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.localStorageService.setEditMode('canUserEdit', false);
@@ -131,7 +126,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   getUniqueLocations(addresses: Array<Addresses>): FilterItem[] {
     const uniqueLocationsName = new Set<string>();
-    const uniqueLocations: FilterItem[] = [];
+    const uniqueLocations: FilterItem[] = [{ type: 'location', nameEn: 'Online', nameUa: 'Онлайн' }];
     addresses.forEach((address: Addresses) => {
       if (address.cityEn && address.cityUa) {
         if (!uniqueLocationsName.has(address.cityEn) && !uniqueLocationsName.has(address.cityUa)) {
@@ -141,6 +136,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
         }
       }
     });
+
     return uniqueLocations;
   }
 
@@ -215,7 +211,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.eventTimeStatusOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedEventTimeStatusFiltersList = [];
         break;
@@ -224,7 +220,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.locationOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedLocationFiltersList = [];
         break;
@@ -233,7 +229,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.statusOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedStatusFiltersList = [];
         break;
@@ -242,13 +238,57 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.typeOptionList].forEach((optionList) => {
-          this.unselectCheckboxesInList(optionList);
+          this.unselectCheckbox(optionList);
         });
         this.selectedTypeFiltersList = [];
         break;
     }
+
     this.cleanEventList();
     this.getEvents();
+  }
+
+  toggleAllOptions(filterType: string, select: MatSelect): void {
+    const control = select.ngControl?.control;
+    if (!control) {
+      return;
+    }
+
+    const allOptions = select.options.toArray();
+    const firstOption = allOptions[0]?.value;
+    const firstSelected = firstOption ? (control.value || []).includes(firstOption) : false;
+    control.setValue(firstSelected ? [] : allOptions.map((option) => option.value));
+
+    switch (filterType) {
+      case 'eventTimeStatus':
+        this.toggleAll(this.eventTimeStatusOptionList, this.selectedEventTimeStatusFiltersList);
+        break;
+      case 'location':
+        this.toggleAll(this.locationOptionList, this.selectedLocationFiltersList);
+        break;
+      case 'status':
+        this.toggleAll(this.statusOptionList, this.selectedStatusFiltersList);
+        break;
+      case 'type':
+        this.toggleAll(this.typeOptionList, this.selectedTypeFiltersList);
+        break;
+    }
+
+    this.cleanEventList();
+    this.getEvents();
+  }
+
+  private toggleAll(select: MatSelect, selectedList: string[]): void {
+    const control = select.ngControl?.control;
+    const options = select.options.toArray();
+    const currentValue = control.value || [];
+    if (options.every((option) => currentValue.includes(option.value))) {
+      control.setValue([]);
+      selectedList.length = 0;
+    } else {
+      control.setValue(options.map((option) => option.value));
+      selectedList.splice(0, selectedList.length, ...options.map((option) => option.value));
+    }
   }
 
   resetAllFilters(): void {
@@ -258,7 +298,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.selectedStatusFiltersList = [];
     this.selectedTypeFiltersList = [];
     [this.eventTimeStatusOptionList, this.statusOptionList, this.locationOptionList, this.typeOptionList].forEach((optionList) => {
-      this.unselectCheckboxesInList(optionList);
+      this.unselectCheckbox(optionList);
     });
     this.cleanEventList();
     this.getEvents();
@@ -290,19 +330,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private searchEventsByTitle(searchTitle: string): void {
-    const eventListFilterCriterias = this.createEventListFilterCriteriasObject();
-    this.searchResultSubscription = this.eventService
-      .getEvents(this.page, this.eventsPerPage, eventListFilterCriterias, searchTitle)
-      .subscribe((res) => {
-        this.isLoading = false;
-        if (res.page.length > 0) {
-          this.countOfEvents = res.totalElements;
-          this.eventsList.push(...res.page);
-          this.hasNextPage = res.hasNext;
-        } else {
-          this.noEventsMatch = true;
-        }
-      });
+    this.searchResultSubscription = this.eventService.getEvents(this.getEventsHttpParams(searchTitle)).subscribe((res) => {
+      this.isLoading = false;
+      if (res.page.length > 0) {
+        this.countOfEvents = res.totalElements;
+        this.eventsList.push(...res.page);
+        this.hasNextPage = res.hasNext;
+      } else {
+        this.noEventsMatch = true;
+      }
+    });
   }
 
   private getUserFavoriteEvents(): void {
@@ -326,16 +363,20 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private unselectCheckbox(checkboxList: MatSelect, optionName: string): void {
-    checkboxList.options.find((option: MatOption) => option.value === optionName).deselect();
-  }
-
-  private unselectCheckboxesInList(checkboxList: MatSelect): void {
-    checkboxList.options?.forEach((option) => {
-      if (option.selected) {
-        option.deselect();
+  private unselectCheckbox(checkboxList: MatSelect, optionName?: string): void {
+    const control = checkboxList.ngControl?.control;
+    if (!control) {
+      return;
+    }
+    if (optionName) {
+      const optionToUnselect = checkboxList.options.toArray().find((option: MatOption) => option.value === optionName);
+      if (optionToUnselect) {
+        const currentValue = control.value || [];
+        control.setValue(currentValue.filter((value) => value !== optionToUnselect.value));
       }
-    });
+    } else {
+      control.setValue([]);
+    }
   }
 
   private cleanEventList(): void {
@@ -347,13 +388,28 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.countOfEvents = 0;
   }
 
-  private createEventListFilterCriteriasObject(): EventFilterCriteriaInterface {
-    return {
-      eventTime: [...this.selectedEventTimeStatusFiltersList],
-      cities: [...this.selectedLocationFiltersList],
-      statuses: [...this.selectedStatusFiltersList],
-      tags: [...this.selectedTypeFiltersList]
-    };
+  private getEventsHttpParams(title: string): HttpParams {
+    let params = new HttpParams().append('page', this.page.toString()).append('size', this.eventsPerPage.toString());
+
+    const paramsToAdd = [
+      this.appendIfNotEmpty('title', title),
+      this.appendIfNotEmpty('eventType', this.selectedLocationFiltersList.find((city) => city === 'Online') || ''),
+      this.appendIfNotEmpty(
+        'cities',
+        this.selectedLocationFiltersList.filter((city) => city !== 'Online')
+      ),
+      this.appendIfNotEmpty('eventTime', this.selectedEventTimeStatusFiltersList),
+      this.appendIfNotEmpty('statuses', this.selectedStatusFiltersList),
+      this.appendIfNotEmpty('tags', this.selectedTypeFiltersList)
+    ];
+
+    paramsToAdd.filter((param) => param !== null).forEach((param) => (params = params.append(param.key, param.value)));
+    return params;
+  }
+
+  private appendIfNotEmpty(key: string, value: string | string[]): { key: string; value: string } | null {
+    const formattedValue = (Array.isArray(value) ? value.join(',') : value)?.toUpperCase() || '';
+    return formattedValue ? { key, value: formattedValue } : null;
   }
 
   private checkUserSingIn(): void {

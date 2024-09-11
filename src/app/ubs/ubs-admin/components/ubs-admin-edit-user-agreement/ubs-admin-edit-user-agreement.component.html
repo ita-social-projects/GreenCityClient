@@ -1,0 +1,40 @@
+<div class="page" *ngIf="!isLoading; else spinner">
+  <div class="page-top-bar">
+    <h5 class="page-title">{{ 'ubs-user-agreement.edit' | translate }}</h5>
+  </div>
+
+  <div class="page-controls">
+    <div class="page-version">
+      <div class="version-field">
+        <label for="version">{{ 'ubs-user-agreement.select-version' | translate }}:</label>
+        <select class="version-select" name="version" id="version" (change)="onVersionSelect($event)" [(ngModel)]="selectedVersion">
+          <option *ngFor="let version of versions; let i = index" [value]="version">
+            {{ i === 0 ? version + ' (latest)' : version }}
+          </option>
+        </select>
+      </div>
+
+      <div class="version-current">
+        <span class="version-author">{{ 'ubs-user-agreement.author' | translate }}: {{ author }}</span>
+        <span class="version-date">{{ 'ubs-user-agreement.date' | translate }}: {{ date | date: 'dd/MM/yyyy, HH:mm' }}</span>
+      </div>
+    </div>
+
+    <button class="btn page-btn" (click)="onSave()" [disabled]="userAgreementForm.pristine || userAgreementForm.invalid">
+      {{ 'ubs-user-agreement.btn.save' | translate }}
+    </button>
+  </div>
+
+  <div class="page-content">
+    <form [formGroup]="userAgreementForm">
+      <fieldset class="agreement" *ngFor="let lang of languages">
+        <span class="agreement-lang">{{ lang }}:</span>
+        <quill-editor minlength="20" [modules]="quillModules" [formControlName]="'userAgreement' + lang"></quill-editor>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+<ng-template class="spinner" #spinner>
+  <app-spinner></app-spinner>
+</ng-template>

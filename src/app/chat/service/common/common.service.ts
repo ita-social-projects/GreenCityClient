@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
   newMessageWindowRequireCloseStream$: Subject<boolean> = new Subject<boolean>();
+  isChatVisible$ = new BehaviorSubject<boolean>(true);
 }

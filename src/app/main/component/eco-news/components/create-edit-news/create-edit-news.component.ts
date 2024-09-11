@@ -15,7 +15,7 @@ import { ActionInterface } from '../../models/action.interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { ContentChange, EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
@@ -27,6 +27,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
 import { ImageService } from '@global-service/image/image.service';
+import { EVENT_LOCALE, EventLocaleKeys } from '../../../events/models/event-consts';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -95,7 +96,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   private route: ActivatedRoute;
   private localStorageService: LocalStorageService;
   private snackBar: MatSnackBarComponent;
-  quillModules = {};
+  quillModules = quillConfig;
+  isQuillUnfilled = false;
+  quillLength = 0;
+  minLength = 20;
+  maxLength = 63206;
   blurred = false;
   focused = false;
   editorText = '';
@@ -344,6 +349,29 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       this.editorText = event.text;
       this.editorHTML = event.html;
     }
+  }
+
+  get quillLabel(): string {
+    if (this.quillLength < 1) {
+      return `${this.getLocale('quillDefault')}`;
+    }
+    if (this.quillLength < this.minLength) {
+      return `${this.getLocale('quillError')} ${this.minLength - this.quillLength}`;
+    }
+    if (this.quillLength > this.maxLength) {
+      return `${this.getLocale('quillValid')} ${this.quillLength - this.maxLength}`;
+    }
+    return `${this.getLocale('quillValid')} ${this.maxLength - this.quillLength}`;
+  }
+
+  getLocale(localeKey: EventLocaleKeys): string {
+    return EVENT_LOCALE[localeKey][this.localStorageService.getCurrentLanguage()];
+  }
+
+  quillContentChanged(content: ContentChange): void {
+    this.quillLength = content.text.length - 1;
+    this.isQuillUnfilled = this.quillLength < 20;
+    this.form.get('description').setValue(content.text.trimEnd());
   }
 
   ngOnDestroy() {

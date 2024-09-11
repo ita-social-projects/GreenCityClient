@@ -28,7 +28,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   arrayOfDate: Array<HabitStatusCalendarListInterface>;
   trimWidth = 30;
   destroy = new Subject<void>();
-  arrayOfDay: any;
+  arrayOfDay: Date[];
   habitStreak = 0;
   currentDate: Date;
   currentPage: 'editHabit' | 'createHabit' | 'profileHabits';
@@ -66,11 +66,13 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     this.today = this.formatSelectedDate().toString();
   }
 
-  closePopup() {
-    this.dialogRef
-      .beforeClosed()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => this.dialogRef.close(this.popupHabits));
+  closePopup(): void {
+    if (this.dialogRef) {
+      this.dialogRef
+        .beforeClosed()
+        .pipe(takeUntil(this.destroy))
+        .subscribe(() => this.dialogRef.close(this.popupHabits));
+    }
   }
 
   formatSelectedDate(dateString?: string) {
@@ -82,13 +84,13 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     return `${month} ${day}, ${year}`;
   }
 
-  setWorkingDaysForVisibleHabit(enrolled: boolean, id) {
+  setWorkingDaysForVisibleHabit(enrolled: boolean, id: number) {
     const valueHabitsInProgressToView = this.habitAssignService.habitsInProgressToView.find((item) => item.id === id);
     const valueHabitsInProgress = this.habitAssignService.habitsInProgress.find((item) => item.id === id);
     if (valueHabitsInProgressToView !== undefined) {
       enrolled ? valueHabitsInProgressToView.workingDays++ : valueHabitsInProgressToView.workingDays--;
       this.habitAssignService.habitsInProgressToView = this.habitAssignService.habitsInProgressToView.map((obj) => ({ ...obj }));
-    } else {
+    } else if (valueHabitsInProgress !== undefined) {
       enrolled ? valueHabitsInProgress.workingDays++ : valueHabitsInProgress.workingDays--;
       this.habitAssignService.habitsInProgress = this.habitAssignService.habitsInProgress.map((obj) => ({ ...obj }));
     }
@@ -103,7 +105,9 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
       this.arrayOfDay = array.map((item) => new Date(item.enrollDate));
       this.habitAssignService.mapOfArrayOfAllDate.set(id, this.arrayOfDay);
     }
-    this.arrayOfDay = this.habitAssignService.mapOfArrayOfAllDate.get(id);
+
+    this.arrayOfDay = this.habitAssignService.mapOfArrayOfAllDate.get(id) || [];
+    this.arrayOfDay = this.arrayOfDay.map((date) => new Date(date));
     const dataExistArray = this.arrayOfDay.some((item) => item.getDate() === this.habitAssignService.habitDate.getDate());
     if (isEnrolled && !dataExistArray) {
       this.arrayOfDay.push(this.habitAssignService.habitDate);
@@ -113,6 +117,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     this.sortByDueDate();
     this.habitAssignService.mapOfArrayOfAllDate.set(id, this.arrayOfDay);
     this.currentDate = new Date();
+    this.habitStreak = 0;
     for (const value of this.arrayOfDay) {
       if (this.currentDate.getDate() !== value.getDate()) {
         break;
@@ -184,7 +189,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     }
   }
 
-  showTooltip(habit) {
+  showTooltip(habit: HabitPopupInterface): boolean {
     return habit.habitName.length < this.trimWidth;
   }
 }

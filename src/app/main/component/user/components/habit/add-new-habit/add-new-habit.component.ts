@@ -35,39 +35,33 @@ import { HabitPageable } from '@global-user/components/habit/models/interfaces/c
 export class AddNewHabitComponent implements OnInit {
   assignedHabit: HabitAssignInterface;
   habitResponse: HabitInterface;
-
   recommendedHabits: HabitInterface[];
   recommendedNews: EcoNewsModel[];
-
-  newDuration = 7;
-  initialDuration: number;
   initialShoppingList: ShoppingList[] = [];
   standardShopList: ShoppingList[] = [];
   customShopList: ShoppingList[] = [];
   friendsIdsList: number[] = [];
-
-  isAcquired = false;
-  isEditing = false;
-  isCustom = false;
-  canAcquire = false;
-  setStatus = HabitStatus.ACQUIRED;
-
-  stars = [STAR_IMAGES.WHITE, STAR_IMAGES.WHITE, STAR_IMAGES.WHITE];
-
-  habitImage: string;
-  defaultImage = habitImages.defaultImage;
-  star: number;
-
-  private habitId: number;
+  newDuration = 7;
+  initialDuration: number;
   habitAssignId: number;
   userId: number;
+  star: number;
+  habitImage: string;
+  isCustom = false;
+  isEditing = false;
+  canAcquire = false;
+  isAcquired = false;
   wasCustomHabitCreatedByUser = false;
-  private currentLang: string;
+  setStatus = HabitStatus.ACQUIRED;
+  defaultImage = habitImages.defaultImage;
+  images = singleNewsImages;
+  stars = [STAR_IMAGES.WHITE, STAR_IMAGES.WHITE, STAR_IMAGES.WHITE];
   private enoughToAcquire = 80;
+  private isCustomHabit = false;
+  private currentLang: string;
+  private habitId: number;
   private page = 0;
   private size = 3;
-  private isCustomHabit = false;
-  images = singleNewsImages;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -97,6 +91,7 @@ export class AddNewHabitComponent implements OnInit {
         this.habitAssignId = Number(params.habitAssignId);
       }
     });
+    this.checkIfAssigned();
     this.getRecommendedNews(this.page, this.size);
     this.userFriendsService.addedFriends.length = 0;
   }
@@ -109,7 +104,6 @@ export class AddNewHabitComponent implements OnInit {
   private subscribeToLangChange(): void {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang: string) => {
       this.bindLang(lang);
-      this.checkIfAssigned();
     });
   }
 
@@ -136,7 +130,7 @@ export class AddNewHabitComponent implements OnInit {
     const criteria: HabitPageable = { page, size, lang: this.currentLang, tags, sort: 'asc', excludeAssigned: true };
     if (this.userId) {
       this.habitService
-        .getHabitsByTagAndLang(criteria)
+        .getHabitsByFilters(criteria)
         .pipe(take(1))
         .subscribe((data: HabitListInterface) => {
           this.recommendedHabits = data.page;
@@ -191,6 +185,9 @@ export class AddNewHabitComponent implements OnInit {
     const isHabitWasEdited = this.initialDuration !== this.newDuration || this.standardShopList || this.customShopList;
     if (isHabitWasEdited) {
       const dialogRef = this.getOpenDialog(HabitLeavePage, false);
+      if (!dialogRef) {
+        return;
+      }
       dialogRef
         .afterClosed()
         .pipe(take(1))
@@ -331,6 +328,20 @@ export class AddNewHabitComponent implements OnInit {
       });
   }
 
+  goToAllHabits(): void {
+    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+  }
+
+  deleteHabit(): void {
+    this.habitService
+      .deleteCustomHabit(this.habitId)
+      .pipe(take(1))
+      .subscribe((res) => {
+        this.goToAllHabits();
+        this.snackBar.openSnackBar('habitDeleted');
+      });
+  }
+
   private convertShopLists(): void {
     this.customShopList?.forEach((el) => {
       delete el.custom;
@@ -373,7 +384,7 @@ export class AddNewHabitComponent implements OnInit {
         popupConfirm: dialogConfig.confirm,
         popupCancel: dialogConfig.cancel,
         isHabit: isHabitNameNeeded,
-        habitName: this.habitResponse.habitTranslation.name
+        habitName: this.habitResponse?.habitTranslation?.name || ''
       }
     });
   }

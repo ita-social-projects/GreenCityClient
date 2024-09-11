@@ -1,25 +1,59 @@
-<div class="searching-panel" [ngClass]="{ 'searching-panel-in-popup': isPopup }">
-  <div class="search">
-    <input type="text" [formControl]="searchFieldControl" />
-  </div>
-</div>
-<div class="chats">
-  <div *ngIf="searchField; else chats" class="search-container">
-    <div class="chat" *ngFor="let friend of chatService.searchedFriendsStream$ | async" (click)="checkChat(friend)">
-      <img [src]="chatIcons.userLogo" alt="user-logo" />
-      <span class="chat-name">{{ friend.name }}</span>
+<div *ngIf="(chatService.isSupportChat$ | async) === false" class="search-chats">
+  <div class="searching-panel" [ngClass]="{ 'searching-panel-in-popup': isPopup }">
+    <div class="search">
+      <input type="text" [formControl]="searchFieldControl" />
     </div>
   </div>
-  <ng-template #chats>
-    <div class="chat" *ngFor="let chat of chatService.userChatsStream$ | async" (click)="openNewMessageWindow(chat)">
-      <img [src]="chatIcons.userLogo" alt="user logo" />
-      <div class="chat-text">
-        <span class="chat-name">{{ chat.name }}</span>
-        <div *ngIf="chat.lastMessage" class="chat-last-message">
-          <span class="chat-lm-text">{{ chat.lastMessage }}</span>
-          <span class="chat-lm-date">{{ chat.lastMessageDate | date: messageDateTreat(chat.lastMessageDate) }}</span>
-        </div>
+  <div class="chats">
+    <div *ngIf="searchField; else chats" class="search-container">
+      <div class="chat" *ngFor="let friend of chatService.searchedFriendsStream$ | async" (click)="checkChat(friend)">
+        <img [src]="chatIcons.userLogo" class="user-logo" alt="user-logo" />
+        <span class="chat-name">{{ friend.name }}</span>
       </div>
     </div>
-  </ng-template>
+    <ng-template #chats>
+      <div class="chat" *ngFor="let chat of chatService.userChatsStream$ | async" (click)="openNewMessageWindow(chat)">
+        <img [src]="chatIcons.userLogo" class="user-logo" alt="user logo" />
+        <div class="chat-text">
+          <span class="chat-name">{{ chat.name }}</span>
+          <div *ngIf="chat.lastMessage" class="chat-last-message">
+            <span class="chat-lm-text">{{ chat.lastMessage }}</span>
+            <span class="chat-lm-date">{{ chat.lastMessageDateTime | date: messageDateTreat(chat.lastMessageDateTime) }}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<div *ngIf="!isUbsAdmin && chatService.isSupportChat$ | async" class="chats">
+  <div class="chat" *ngFor="let location of chatService.locations$ | async" (click)="checkChat(location)">
+    <img [src]="chatIcons.supportChatLogo" alt="user-logo" />
+    <span class="chat-name">{{ location.nameEn }}</span>
+  </div>
+</div>
+
+<div
+  *ngIf="isUbsAdmin && chatService.isSupportChat$ | async"
+  class="chats"
+  infiniteScroll
+  [infiniteScrollThrottle]="300"
+  (scrolled)="onScroll()"
+  [scrollWindow]="false"
+>
+  <div class="chat" *ngFor="let chat of chatService.userChatsStream$ | async" (click)="openNewMessageWindow(chat)">
+    <img [src]="chatIcons.userLogo" class="user-logo" alt="user logo" />
+    <div class="chat-text">
+      <span class="chat-name">{{ chat.name }}</span>
+      <div class="chat-info">
+        <span class="user-id">user-id {{ chat.ownerId }} ,</span>
+        <span class="tarrif-id"> tarrif-id {{ chat.tariffId }}</span>
+      </div>
+      <div *ngIf="chat.lastMessage" class="chat-last-message">
+        <span class="chat-lm-text">{{ chat.lastMessage }}</span>
+        <span class="chat-lm-date">{{ chat.lastMessageDateTime | date: messageDateTreat(chat.lastMessageDateTime) }}</span>
+      </div>
+    </div>
+    <img *ngIf="chat.amountUnreadMessages" class="message-notification" src="/assets/img/chat/message.svg" alt="new message" />
+  </div>
 </div>

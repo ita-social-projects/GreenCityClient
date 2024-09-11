@@ -1,21 +1,19 @@
-import { HabitCalendarComponent } from './habit-calendar.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CalendarBaseComponent } from '@shared/components';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from '../../../../../i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
-import { By } from '@angular/platform-browser';
-import { fakeAsync, tick } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { CalendarComponent } from '@global-user/components';
 
-xdescribe('HabitCalendarComponent', () => {
-  let component: HabitCalendarComponent;
-  let fixture: ComponentFixture<HabitCalendarComponent>;
+describe('CalendarComponent', () => {
+  let component: CalendarComponent;
+  let fixture: ComponentFixture<CalendarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HabitCalendarComponent, CalendarBaseComponent],
+      declarations: [CalendarComponent, CalendarBaseComponent],
       imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [{ provide: LanguageService, useValue: {} }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -23,7 +21,7 @@ xdescribe('HabitCalendarComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HabitCalendarComponent);
+    fixture = TestBed.createComponent(CalendarComponent);
     component = fixture.componentInstance;
     component.calendarDay = [
       {
@@ -43,7 +41,7 @@ xdescribe('HabitCalendarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create HabitCalendarComponent', () => {
+  it('should create CalendarComponent', () => {
     expect(component).toBeTruthy();
   });
 
@@ -58,14 +56,4 @@ xdescribe('HabitCalendarComponent', () => {
     expect(component.buildCalendar).toHaveBeenCalled();
     expect(component.getUserHabits).toHaveBeenCalledWith(true, component.calendarDay);
   });
-
-  it('should show habits after clicking on day item', fakeAsync(() => {
-    const spy = spyOn(component, 'showHabits');
-    fixture.detectChanges();
-    const dayEl = fixture.debugElement.query(By.css('.calendar-grid-day'));
-    dayEl.triggerEventHandler('click', null);
-    tick();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalled();
-  }));
 });

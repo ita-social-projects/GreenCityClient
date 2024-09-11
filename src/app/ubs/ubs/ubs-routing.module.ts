@@ -11,6 +11,7 @@ import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confir
 import { UBSOrderDetailsComponent } from './components/ubs-order-details/ubs-order-details.component';
 import { PreventNavigationBackGuard } from 'src/app/shared/guards/prevent-navigation-back.guard';
 import { stepperGuard } from 'src/app/shared/guards/stepper/stepper.guard';
+import { UbsUserAgreementComponent } from '@ubs/ubs/components/ubs-user-agreement/ubs-user-agreement.component';
 
 const ubsRoutes: Routes = [
   {
@@ -27,7 +28,8 @@ const ubsRoutes: Routes = [
       { path: 'confirm', component: UbsConfirmPageComponent, canActivate: [AuthPageGuardService] },
       { path: `notification/confirm/:orderId`, component: UbsSubmitOrderNotificationComponent, canActivate: [AuthPageGuardService] },
       { path: 'auth/restore', component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard] },
-      { path: 'ubs/order/:isThisExistingOrder', component: UBSOrderDetailsComponent }
+      { path: 'ubs/order/:isThisExistingOrder', component: UBSOrderDetailsComponent },
+      { path: 'user-agreement', component: UbsUserAgreementComponent }
     ]
   }
 ];

@@ -8,14 +8,14 @@ export class CategoryService {
   private readonly apiUrl: string;
 
   constructor(private http: HttpClient) {
-    this.apiUrl = `${mainLink}` + '/category';
+    this.apiUrl = `${mainLink}` + '/categories';
   }
 
   save(category: CategoryDto) {
-    return this.http.post(`${mainLink}category`, category);
+    return this.http.post(`${mainLink}categories`, category);
   }
 
   findAllCategory(): any {
-    return this.http.get<CategoryDto[]>(`${mainLink}category`);
+    return this.http.get<CategoryDto[]>(`${mainLink}categories`);
   }
 }

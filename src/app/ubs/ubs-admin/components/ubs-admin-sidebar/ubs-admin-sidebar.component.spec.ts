@@ -65,6 +65,11 @@ describe('UbsAdminSidebarComponent', () => {
       link: 'assets/img/sidebarIcons/none_notification_Bell.svg',
       name: 'ubs-sidebar.notifications',
       routerLink: 'notifications'
+    },
+    {
+      link: 'assets/img/sidebarIcons/user_icon.svg',
+      name: 'ubs-sidebar.user-agreement',
+      routerLink: 'user-agreement'
     }
   ];
 

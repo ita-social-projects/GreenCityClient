@@ -16,9 +16,16 @@ export class SetCountComponent {
     news: ['profile.dashboard.news.news-at-1', 'profile.dashboard.news.news-at-2-3-4', 'profile.dashboard.news.news-at-all']
   };
 
-  constructor(public translate: TranslateService, private wordDeclensionService: WordDeclensionService) {}
+  constructor(
+    public translate: TranslateService,
+    private wordDeclensionService: WordDeclensionService
+  ) {}
 
   setWordDeclension(count: string): string {
     return this.wordDeclensionService.setWordDeclension(count);
+  }
+
+  getLocalizationKeys() {
+    return this.localizationSet[this.tabName] || this.localizationSet['habits'];
   }
 }

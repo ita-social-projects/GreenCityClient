@@ -127,7 +127,7 @@ describe('EventsCommentsService', () => {
       totalPages: 0
     };
 
-    service.getActiveRepliesByPage(1, 2, 3).subscribe((commentData: any) => {
+    service.getActiveRepliesByPage(1, 1, 2, 3).subscribe((commentData: any) => {
       expect(commentData).toEqual(commentBody);
     });
 
@@ -137,7 +137,7 @@ describe('EventsCommentsService', () => {
   });
 
   it('should make DELETE request to deleteComments', () => {
-    service.deleteComments(1).subscribe((deleted) => {
+    service.deleteComments(1, 1).subscribe((deleted) => {
       expect(deleted).toBe(true);
     });
 
@@ -159,7 +159,7 @@ describe('EventsCommentsService', () => {
 
   it('should make GET request to get replies amount', () => {
     const commentReplies = 5;
-    service.getRepliesAmount(1).subscribe((commentData: number) => {
+    service.getRepliesAmount(1, 1).subscribe((commentData: number) => {
       expect(commentData).toEqual(commentReplies);
     });
 
@@ -169,7 +169,7 @@ describe('EventsCommentsService', () => {
   });
 
   it('should make POST request to post Like', () => {
-    service.postLike(1).subscribe((commentData: any) => {
+    service.postLike(1, 1).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 
@@ -179,7 +179,7 @@ describe('EventsCommentsService', () => {
   });
 
   it('should make PATCH request to edit comment', () => {
-    service.editComment(1, commentText).subscribe((commentData: any) => {
+    service.editComment(1, 1, commentText).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 
