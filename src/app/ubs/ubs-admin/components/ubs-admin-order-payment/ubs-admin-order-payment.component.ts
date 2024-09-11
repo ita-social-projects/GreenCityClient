@@ -103,7 +103,10 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   isOverpaymentReturnAvailable(): boolean {
-    return this.overpayment && this.isStatusForReturnMoneyOrPaid;
+    return (
+      (this.overpayment && this.isStatusForReturnMoneyOrPaid) ||
+      (this.currentOrderStatus === OrderStatus.BROUGHT_IT_HIMSELF && !!this.paidAmount)
+    );
   }
 
   setOverpayment(overpayment: number): void {
