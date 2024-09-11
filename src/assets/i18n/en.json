@@ -1250,7 +1250,21 @@
     "min-photo-error": "1 image minimum",
     "choose-day": "Day",
     "choose-month": "Month",
-    "choose-year": "Year"
+    "choose-year": "Year",
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
   },
   "input-error": {
     "required": "This field is required",

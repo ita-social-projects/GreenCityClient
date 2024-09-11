@@ -20,7 +20,6 @@ export interface DateTime {
   endTime: string;
   allDay: boolean;
 }
-
 export type DateTimeGroup = FormControllers<DateTime>;
 
 export interface PlaceOnline {

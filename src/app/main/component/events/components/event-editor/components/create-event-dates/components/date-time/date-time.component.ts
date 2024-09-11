@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { startWith, tap } from 'rxjs/operators';
 import { combineLatest, Subscription } from 'rxjs';
 import { FormBridgeService } from '../../../../../../services/form-bridge.service';
@@ -23,12 +23,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   startOptionsArr: string[];
   endOptionsArr: string[];
   // we will attach this validator later in code { validators: timeValidator(this._timeArr[this._upperTimeLimit]) }
-  form: FormGroup<DateTimeGroup> = this.fb.nonNullable.group({
-    date: [this.today, Validators.required],
-    startTime: ['', Validators.required],
-    endTime: ['', Validators.required],
-    allDay: [false]
-  });
+
   @Output() destroy = new EventEmitter<any>();
   @Output() formEmitter: EventEmitter<FormEmitter<DateTime>> = new EventEmitter<FormEmitter<DateTime>>();
   private _timeArr: string[] = [];
@@ -41,23 +36,26 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   private _lastTimeValues: string[] = [];
   private _key = Symbol('dateKey');
 
-  isDateCorrect = true;
-  isDateInThePast = false;
-  isDateEmpty = false;
+  // isDateCorrect = true;
+  // isDateInThePast = false;
+  // isDateEmpty = false;
+
+  form: FormGroup;
+  dateGroup: FormGroup;
 
   months = [
-    { value: 0, label: 'January' },
-    { value: 1, label: 'February' },
-    { value: 2, label: 'March' },
-    { value: 3, label: 'April' },
-    { value: 4, label: 'May' },
-    { value: 5, label: 'June' },
-    { value: 6, label: 'July' },
-    { value: 7, label: 'August' },
-    { value: 8, label: 'September' },
-    { value: 9, label: 'October' },
-    { value: 10, label: 'November' },
-    { value: 11, label: 'December' }
+    { value: 0, label: 'january' },
+    { value: 1, label: 'february' },
+    { value: 2, label: 'march' },
+    { value: 3, label: 'april' },
+    { value: 4, label: 'may' },
+    { value: 5, label: 'june' },
+    { value: 6, label: 'july' },
+    { value: 7, label: 'august' },
+    { value: 8, label: 'september' },
+    { value: 9, label: 'october' },
+    { value: 10, label: 'november' },
+    { value: 11, label: 'december' }
   ];
 
   minYear = this.today.getFullYear();
@@ -68,7 +66,25 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     private bridge: FormBridgeService,
     private ls: LanguageService,
     private adapter: DateAdapter<any>
-  ) {}
+  ) {
+    // Main form
+    this.form = this.fb.group({
+      date: [this.today, Validators.required],
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required],
+      allDay: [false]
+    });
+
+    // Separate form for day, month, and year
+    this.dateGroup = this.fb.group(
+      {
+        day: [this.today.getDate(), [Validators.required, Validators.min(1), Validators.max(31)]],
+        month: [this.today.getMonth(), Validators.required], // Months are zero-indexed, so add 1
+        year: [this.today.getFullYear(), [Validators.required, Validators.min(this.minYear), Validators.max(this.maxYear)]]
+      },
+      { validators: [this.dateValidator] }
+    );
+  }
 
   get date() {
     return this.form.get('date');
@@ -116,6 +132,19 @@ export class DateTimeComponent implements OnInit, OnDestroy {
       const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
       this.adapter.setLocale(locale);
     });
+
+    this.dateGroup.valueChanges.subscribe((dateParts) => {
+      this.syncDatePartsToMainDate();
+    });
+
+    this.form.get('date')?.valueChanges.subscribe((selectedDate: Date) => {
+      if (selectedDate) {
+        const day = selectedDate.getDate();
+        const month = selectedDate.getMonth();
+        const year = selectedDate.getFullYear();
+        this.dateGroup.patchValue({ day, month, year });
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -145,6 +174,36 @@ export class DateTimeComponent implements OnInit, OnDestroy {
         endTime: this._lastTimeValues[1]
       });
     }
+  }
+
+  private dateValidator(control: AbstractControl): null | { [error: string]: boolean } {
+    const day = control.get('day')?.value;
+    const month = control.get('month')?.value;
+    const year = control.get('year')?.value;
+
+    if (day && month !== undefined && year) {
+      const date = new Date(year, month, day);
+      const today = new Date();
+
+      // Set time to midnight for comparison
+      today.setHours(0, 0, 0, 0);
+      date.setHours(0, 0, 0, 0);
+
+      // Check if the constructed date matches the input values and is not in the past
+      if (date.getFullYear() === year && date.getMonth() === month && date.getDate() === day && date >= today) {
+        return null; // Valid date
+      }
+    }
+    return { invalidDate: true }; // Invalid date
+  }
+
+  syncDatePartsToMainDate() {
+    const day = this.dateGroup.get('day')?.value;
+    const month = this.dateGroup.get('month')?.value;
+    const year = this.dateGroup.get('year')?.value;
+
+    const newDate = new Date(year, month, day);
+    this.form.patchValue({ date: newDate });
   }
 
   private _emitForm(form: DateTime, valid: boolean) {
