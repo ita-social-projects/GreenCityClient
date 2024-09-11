@@ -426,4 +426,89 @@ describe('EventsListComponent', () => {
       expect(generatedParamsMap).toEqual(expectedParamsMap);
     });
   });
+
+  it('should clear selected filters for eventTimeStatus', () => {
+    component.unselectAllFiltersInType('eventTimeStatus');
+    expect(component.selectedEventTimeStatusFiltersList).toEqual([]);
+  });
+
+  it('should clear selected filters for location', () => {
+    component.unselectAllFiltersInType('location');
+    expect(component.selectedLocationFiltersList).toEqual([]);
+  });
+
+  it('should clear selected filters for status', () => {
+    component.unselectAllFiltersInType('status');
+    expect(component.selectedStatusFiltersList).toEqual([]);
+  });
+
+  it('should clear selected filters for type', () => {
+    component.unselectAllFiltersInType('type');
+    expect(component.selectedTypeFiltersList).toEqual([]);
+  });
+
+  it('should reset all filter lists and unselect all checkboxes', () => {
+    component.resetAllFilters();
+    expect(component.selectedFilters).toEqual([]);
+    expect(component.selectedEventTimeStatusFiltersList).toEqual([]);
+    expect(component.selectedLocationFiltersList).toEqual([]);
+    expect(component.selectedStatusFiltersList).toEqual([]);
+    expect(component.selectedTypeFiltersList).toEqual([]);
+  });
+
+  it('should unselect all filters for eventTimeStatus and clear the list', () => {
+    component.selectedEventTimeStatusFiltersList = ['option1', 'option2'];
+    spyOn(component as any, 'updateSelectedFiltersList');
+    spyOn(component as any, 'unselectCheckbox');
+    spyOn(component as any, 'cleanEventList');
+    spyOn(component as any, 'getEvents');
+    (component as any)['unselectAllFiltersInType']('eventTimeStatus');
+
+    expect(component.selectedEventTimeStatusFiltersList).toEqual([]);
+    expect((component as any)['unselectCheckbox']).toHaveBeenCalledWith(component.eventTimeStatusOptionList);
+    expect((component as any)['cleanEventList']).toHaveBeenCalled();
+    expect((component as any)['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should unselect all filters for location and clear the list', () => {
+    component.selectedLocationFiltersList = ['option1', 'option2'];
+    spyOn(component as any, 'updateSelectedFiltersList');
+    spyOn(component as any, 'unselectCheckbox');
+    spyOn(component as any, 'cleanEventList');
+    spyOn(component as any, 'getEvents');
+
+    (component as any)['unselectAllFiltersInType']('location');
+
+    expect(component.selectedLocationFiltersList).toEqual([]);
+    expect((component as any)['unselectCheckbox']).toHaveBeenCalledWith(component.locationOptionList);
+    expect((component as any)['cleanEventList']).toHaveBeenCalled();
+    expect((component as any)['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should unselect all filters for status and clear the list', () => {
+    component.selectedStatusFiltersList = ['option1', 'option2'];
+    spyOn(component as any, 'updateSelectedFiltersList');
+    spyOn(component as any, 'unselectCheckbox');
+    spyOn(component as any, 'cleanEventList');
+    spyOn(component as any, 'getEvents');
+    (component as any)['unselectAllFiltersInType']('status');
+
+    expect(component.selectedStatusFiltersList).toEqual([]);
+    expect((component as any)['unselectCheckbox']).toHaveBeenCalledWith(component.statusOptionList);
+    expect((component as any)['cleanEventList']).toHaveBeenCalled();
+    expect((component as any)['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should unselect all filters for type and clear the list', () => {
+    component.selectedTypeFiltersList = ['option1', 'option2'];
+    spyOn(component as any, 'updateSelectedFiltersList');
+    spyOn(component as any, 'unselectCheckbox');
+    spyOn(component as any, 'cleanEventList');
+    spyOn(component as any, 'getEvents');
+    (component as any)['unselectAllFiltersInType']('type');
+    expect(component.selectedTypeFiltersList).toEqual([]);
+    expect((component as any)['unselectCheckbox']).toHaveBeenCalledWith(component.typeOptionList);
+    expect((component as any)['cleanEventList']).toHaveBeenCalled();
+    expect((component as any)['getEvents']).toHaveBeenCalled();
+  });
 });
