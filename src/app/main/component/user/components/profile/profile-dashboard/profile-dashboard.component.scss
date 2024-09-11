@@ -178,12 +178,15 @@ a {
     }
 
     .in-progress {
+      display: flex;
       flex-wrap: wrap-reverse;
+      align-items: center;
+    }
 
-      a {
-        width: 100%;
-        margin-bottom: 32px;
-      }
+    #create-button-new-habit,
+    #create-button-add-new-habit {
+      width: 100%;
+      margin-bottom: 16px;
     }
 
     #my-events {
