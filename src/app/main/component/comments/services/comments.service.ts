@@ -12,15 +12,15 @@ export abstract class CommentsService {
 
   abstract getCommentsCount(entityId: number): Observable<number>;
 
-  abstract getActiveRepliesByPage(entityId: number, id: number, page: number, size: number): Observable<CommentsModel>;
+  abstract getActiveRepliesByPage(entityId: number, parentCommentId: number, page: number, size: number): Observable<CommentsModel>;
 
-  abstract deleteComments(entityId: number, id: number): Observable<boolean>;
+  abstract deleteComments(entityId: number, commentId: number): Observable<boolean>;
 
-  abstract getCommentLikes(id: number): Observable<number>;
+  abstract getCommentLikes(commentId: number): Observable<number>;
 
-  abstract getRepliesAmount(entityId: number, id: number): Observable<number>;
+  abstract getRepliesAmount(entityId: number, parentCommentId: number): Observable<number>;
 
-  abstract postLike(entityId: number, id: number): Observable<void>;
+  abstract postLike(entityId: number, commentId: number): Observable<void>;
 
-  abstract editComment(entityId: number, id: number, text: string): Observable<void>;
+  abstract editComment(entityId: number, commentId: number, text: string): Observable<void>;
 }
