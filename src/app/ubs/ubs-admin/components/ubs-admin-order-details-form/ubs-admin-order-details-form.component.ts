@@ -240,7 +240,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     const overpayment = Math.max(this.paymentInfo.paymentTableInfoDto.paidAmount - newSum, 0);
     const unPaid = Math.max(newSum - this.paymentInfo.paymentTableInfoDto.paidAmount, 0);
 
-    this.overpayment = overpayment ?? -unPaid;
+    this.overpayment = overpayment || -unPaid;
+
     const isChanged =
       overpayment !== this.paymentInfo.paymentTableInfoDto.overpayment ||
       unPaid !== this.paymentInfo.paymentTableInfoDto.unPaidAmount ||
