@@ -5,9 +5,9 @@ import { combineLatest, Subscription } from 'rxjs';
 import { FormBridgeService } from '../../../../../../services/form-bridge.service';
 import { timeValidator } from './validator/timeValidator';
 import { LanguageService } from '../../../../../../../../i18n/language.service';
-import { DateAdapter } from '@angular/material/core';
 import { DateTime, DateTimeForm, FormEmitter } from '../../../../../../models/events.interface';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import 'moment/locale/uk';
@@ -15,6 +15,7 @@ import 'moment/locale/uk';
 const moment = _rollupMoment || _moment;
 moment.locale('uk');
 
+// Custom date formats
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MMM DD, YYYY'
@@ -31,7 +32,10 @@ export const MY_FORMATS = {
   selector: 'app-date-time',
   templateUrl: './date-time.component.html',
   styleUrls: ['./date-time.component.scss'],
-  providers: [provideMomentDateAdapter(MY_FORMATS)]
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+  ]
 })
 export class DateTimeComponent implements OnInit, OnDestroy {
   @Input({ required: true }) dayNumber: number;
