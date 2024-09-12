@@ -322,12 +322,15 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   calculateOrderSum(): void {
     let orderSum = 0;
+
     this.bags?.forEach((bag) => {
       const quantity = this.getBagQuantity(bag.id);
       if (quantity) {
         orderSum += bag.price * quantity;
+        this.store.dispatch(SetBags({ bagId: bag.id, bagValue: quantity }));
       }
     });
+
     this.orderSum = orderSum;
     this.store.dispatch(SetOrderSum({ orderSum }));
     this.calculateFinalSum();
