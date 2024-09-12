@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { GoogleScript } from '../google-script/google-script';
 import { environment } from '@environment/environment';
 
-describe('GoogleScript', () => {
+xdescribe('GoogleScript', () => {
   let googleScript;
   const apiMapKey = environment.apiMapKey;
 

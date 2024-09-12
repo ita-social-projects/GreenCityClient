@@ -98,7 +98,7 @@
           </mat-drawer>
         </mat-drawer-container>
       </div>
-      <div class="google-map" #map>
+      <div class="google-map" #map *ngIf="!isRenderingMap">
         <google-map
           height="100%"
           width="100%"

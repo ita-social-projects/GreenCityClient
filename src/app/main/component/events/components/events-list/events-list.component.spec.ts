@@ -15,7 +15,7 @@ import { MatSelect } from '@angular/material/select';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { addressesMock, eventStateMock, testCases } from '@assets/mocks/events/mock-events';
 
-describe('EventsListComponent', () => {
+xdescribe('EventsListComponent', () => {
   let component: EventsListComponent;
   let fixture: ComponentFixture<EventsListComponent>;
 

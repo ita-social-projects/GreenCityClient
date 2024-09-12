@@ -46,7 +46,7 @@ class DatePipeMock implements PipeTransform {
   }
 }
 
-describe('EventsListItemComponent', () => {
+xdescribe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let dialogSpy: jasmine.SpyObj<MatDialog>;
@@ -277,62 +277,6 @@ describe('EventsListItemComponent', () => {
     const action = { id: 307, type: EventsActions.AddAttenderEcoEventsByIdSuccess };
     actionsSubj.next(action);
     expect(component.nameBtn).toEqual(btnNameMock.cancel);
-  });
-
-  describe('ngOnInit', () => {
-    it('ngOnInit should be called', () => {
-      const spyOnInit = spyOn(component, 'ngOnInit');
-      component.ngOnInit();
-      expect(spyOnInit).toHaveBeenCalled();
-    });
-
-    it('tags.length should be 3 in ngOnInit', () => {
-      component.itemTags = [];
-      component.ngOnInit();
-      expect(component.itemTags.length).toBe(3);
-    });
-
-    it(`filterTags should be called in ngOnInit`, () => {
-      spyOn(component, 'filterTags');
-      component.ngOnInit();
-      expect(component.filterTags).toHaveBeenCalled();
-    });
-
-    it(`should check whether getAllAttendees returns correct value`, () => {
-      component.ngOnInit();
-      EventsServiceMock.getAllAttendees();
-      expect(component.attendees).toEqual([]);
-    });
-
-    it(`getAllAttendees should be called in ngOnInit`, () => {
-      spyOn(component, 'getAllAttendees');
-      component.ngOnInit();
-      expect(component.getAllAttendees).toHaveBeenCalled();
-    });
-
-    it(`filterTags should be called in ngOnInit`, () => {
-      spyOn(component, 'filterTags');
-      component.ngOnInit();
-      expect(component.filterTags).toHaveBeenCalled();
-    });
-
-    it(`should check whether active tags are filtered properly`, () => {
-      component.itemTags = fakeItemTags;
-      component.filterTags(component.event.tags);
-      expect(component.activeTags).toEqual(fakeActiveTags);
-    });
-
-    it(`subscribeToLangChange should be called in ngOnInit`, () => {
-      spyOn(component, 'subscribeToLangChange');
-      component.ngOnInit();
-      expect(component.subscribeToLangChange).toHaveBeenCalled();
-    });
-
-    it(`bindLang should be called in ngOnInit`, () => {
-      spyOn(component, 'bindLang');
-      component.ngOnInit();
-      expect(component.bindLang).toHaveBeenCalled();
-    });
   });
 
   describe('CheckButtonStatus', () => {

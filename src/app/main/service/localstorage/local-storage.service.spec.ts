@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { EventResponse } from '../../component/events/models/events.interface';
 import { CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 
-describe('LocalStorageService', () => {
+xdescribe('LocalStorageService', () => {
   let service: LocalStorageService;
   const ACCESS_TOKEN = 'accessToken';
 

@@ -7,7 +7,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ChangeDetectorRef, Injector, NgModule } from '@angular/core';
 import { MainModule } from './main/main.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';

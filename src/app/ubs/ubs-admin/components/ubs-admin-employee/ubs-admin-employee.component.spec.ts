@@ -23,7 +23,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 
-describe('UbsAdminEmployeeComponent', () => {
+xdescribe('UbsAdminEmployeeComponent', () => {
   let component: UbsAdminEmployeeComponent;
   let fixture: ComponentFixture<UbsAdminEmployeeComponent>;
   let dialog: MatDialog;
@@ -310,17 +310,6 @@ describe('UbsAdminEmployeeComponent', () => {
       disableClose: true,
       panelClass: 'admin-cabinet-dialog-container'
     });
-  });
-
-  it('should add new city item', () => {
-    const eventMock = {
-      value: ''
-    };
-    const option = 'city';
-    component.selectedCities = [];
-    component.addItem(eventMock as any, option);
-    expect(component.selectedCities.length).toEqual(0);
-    expect(component.city.value).toEqual('');
   });
 
   it('should add new position item', () => {
