@@ -250,7 +250,7 @@ describe('ProfileDashboardComponent', () => {
   it('should call getUserFavoriteEvents and set favouriteEvents when getUserFavouriteEvents is called', () => {
     eventsServiceMock.getUserFavoriteEvents.and.returnValue(of(mockEvent));
     component.getUserFavouriteEvents();
-    expect(eventsServiceMock.getUserFavoriteEvents).toHaveBeenCalledWith(0, component.eventsPerPage);
+    expect(eventsServiceMock.getUserFavoriteEvents).toHaveBeenCalledWith(0, component.eventsPerPage, component.userId);
     expect(component.favouriteEvents).toEqual(mockEvent.page);
   });
 
@@ -260,9 +260,9 @@ describe('ProfileDashboardComponent', () => {
     const expectedParams = new HttpParams()
       .append('page', page.toString())
       .append('size', component.eventsPerPage.toString())
-      .append('userLatitude', component.userLatitude.toString())
-      .append('userLongitude', component.userLongitude.toString())
-      .append('eventType', eventType);
+      .append('statuses', 'CREATED,JOINED')
+      .append('user-id', component.userId)
+      .append('type', eventType);
     const resultParams = (component as any).getHttpParams(page, eventType);
     expect(resultParams.toString()).toEqual(expectedParams.toString());
   });
@@ -272,8 +272,8 @@ describe('ProfileDashboardComponent', () => {
     const expectedParams = new HttpParams()
       .append('page', page.toString())
       .append('size', component.eventsPerPage.toString())
-      .append('userLatitude', component.userLatitude.toString())
-      .append('userLongitude', component.userLongitude.toString());
+      .append('statuses', 'CREATED,JOINED')
+      .append('user-id', component.userId);
     const resultParams = (component as any).getHttpParams(page);
     expect(resultParams.toString()).toEqual(expectedParams.toString());
   });

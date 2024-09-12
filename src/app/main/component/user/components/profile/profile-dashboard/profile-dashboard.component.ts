@@ -155,10 +155,10 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     let params = new HttpParams()
       .append('page', page.toString())
       .append('size', this.eventsPerPage.toString())
-      .append('userLatitude', this.userLatitude.toString())
-      .append('userLongitude', this.userLongitude.toString());
+      .append('statuses', 'CREATED,JOINED')
+      .append('user-id', this.localStorageService.getUserId());
     if (eventType) {
-      params = params.append('eventType', eventType);
+      params = params.append('type', eventType);
     }
     return params;
   }
@@ -166,7 +166,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   getUserFavouriteEvents(): void {
     if (this.favoriteEventsPage !== undefined && this.hasNextPageOfFavoriteEvents) {
       this.eventService
-        .getUserFavoriteEvents(this.favoriteEventsPage, this.eventsPerPage)
+        .getUserFavoriteEvents(this.favoriteEventsPage, this.eventsPerPage, this.userId)
         .pipe(take(1))
         .subscribe((res: EventResponseDto) => {
           this.favouriteEvents.push(...res.page);
