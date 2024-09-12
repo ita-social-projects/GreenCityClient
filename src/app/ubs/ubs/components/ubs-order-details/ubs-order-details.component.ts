@@ -5,7 +5,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { Bag, CourierLocations, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
@@ -104,7 +104,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   getBagQuantity(id: number): number {
-    return +this.orderDetailsForm.controls.bags.get(`quantity${id}`).value;
+    return +this.getBagQuantityFormControl(id).value;
   }
 
   constructor(
@@ -304,7 +304,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   changeQuantity(id: number, value: number): void {
-    const formControl = this.orderDetailsForm.controls.bags.get('quantity' + id);
+    const formControl = this.getBagQuantityFormControl(id);
     const maxValue = 999;
     const minValue = 0;
     const newValue = +this.getBagQuantity(id) + value;
@@ -339,7 +339,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   subscribeToQuantityChanges(): void {
     this.bags.forEach((bag) => {
-      const formControl = this.orderDetailsForm.controls.bags.get('quantity' + bag.id);
+      const formControl = this.getBagQuantityFormControl(bag.id);
 
       if (formControl) {
         formControl.valueChanges.pipe(takeUntil(this.$destroy)).subscribe(() => {
@@ -420,6 +420,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
       this.initLocation();
     });
+  }
+
+  private getBagQuantityFormControl(id: number): AbstractControl | null {
+    return this.orderDetailsForm.controls.bags.get('quantity' + id);
   }
 
   onCancel(): void {
