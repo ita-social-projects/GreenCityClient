@@ -768,7 +768,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.initDateForm();
   }
 
-  applyFilters() {
+  applyFilters(selectedFilters?: IFilters): void {
+    if (selectedFilters) {
+      this.store.dispatch(AddFiltersAction({ filters: selectedFilters, fetchTable: false }));
+    }
+
     this.currentPage = 0;
     this.firstPageLoad = true;
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', true);
@@ -792,15 +796,18 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
     dialogRef.afterClosed().subscribe((data) => {
       let buttonName: 'clear' | 'apply' | undefined;
+      let selectedFilters = {};
+
       if (data) {
         buttonName = data[0];
+        selectedFilters = data[1];
       }
       if (buttonName === 'clear') {
         const columnName = data[1];
         this.store.dispatch(ClearFilters({ fetchTable: true, columnName }));
       }
       if (buttonName) {
-        this.applyFilters();
+        this.applyFilters(selectedFilters);
       }
     });
   }

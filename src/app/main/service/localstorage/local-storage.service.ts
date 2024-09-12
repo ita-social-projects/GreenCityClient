@@ -307,7 +307,17 @@ export class LocalStorageService {
     return JSON.parse(window.localStorage.getItem('filters'));
   }
 
+  // setFilters(filters: IFilters): void {
+  //   window.localStorage.setItem('filters', JSON.stringify(filters));
+  // }
+
   setFilters(filters: IFilters): void {
+    // Clear existing filters in local storage
+    window.localStorage.removeItem('filters');
+
+    console.log('localstorage filters trigger');
+    console.log(filters);
+    // Set the new filters in local storage
     window.localStorage.setItem('filters', JSON.stringify(filters));
   }
 

@@ -12,7 +12,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { select, Store } from '@ngrx/store';
 import moment from 'moment';
 import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
-import { AddFilterMultiAction, AddFiltersAction, RemoveFilter } from 'src/app/store/actions/bigOrderTable.actions';
+import { AddFiltersAction } from 'src/app/store/actions/bigOrderTable.actions';
 import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 
 @Component({
@@ -30,7 +30,8 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
 
   isPopupOpened = false;
 
-  selectedFiltersCount = 0;
+  selectedFilters: { [key: string]: string[] } = {};
+  showButtons: boolean = false;
 
   private allFilters: IFilters;
   private destroy$: Subject<void> = new Subject<void>();
@@ -53,11 +54,13 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     });
     this.setPopupPosUnderButton();
     this.initListeners();
+    this.showButtons = false;
   }
 
   initListeners(): void {
     this.store.pipe(takeUntil(this.destroy$), select(filtersSelector)).subscribe((filters: IFilters) => {
       this.allFilters = filters;
+      this.selectedFilters = { ...this.allFilters } as { [key: string]: string[] };
 
       const filtersDateCheck = filters?.[this.data.columnName + 'Check'];
       if (filtersDateCheck !== null && filtersDateCheck !== undefined && typeof filtersDateCheck === 'boolean') {
@@ -92,12 +95,19 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
 
   changeColumnFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
+    this.showButtons = true;
 
-    checked
-      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
-      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
+    const currentFilters = this.selectedFilters[currentColumn] || [];
 
-    this.selectedFiltersCount = (this.allFilters?.[this.data.columnName] as string[]).length;
+    const updatedFilters = checked ? [...currentFilters, value] : currentFilters.filter((item) => item !== value);
+
+    this.selectedFilters = {
+      ...this.selectedFilters,
+      [currentColumn]: updatedFilters
+    };
+
+    console.log('selectedFilters');
+    console.log(this.selectedFilters);
   }
 
   onDateChecked(e: MatCheckboxChange, checked: boolean): void {
