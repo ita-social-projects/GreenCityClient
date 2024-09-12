@@ -16,50 +16,43 @@ export class EventsCommentsService implements CommentsService {
   constructor(private http: HttpClient) {}
 
   addComment(eventId: number, text: string, id = 0): Observable<AddedCommentDTO> {
-    const body = {
-      parentCommentId: id,
-      text
-    };
-
-    return this.http.post<EventsAddedCommentDTO>(`${this.backEnd}events/comments/${eventId}`, body);
+    const body = { parentCommentId: id, text };
+    return this.http.post<EventsAddedCommentDTO>(`${this.backEnd}events/${eventId}/comments`, body);
   }
 
   getActiveCommentsByPage(eventId: number, page: number, size: number): Observable<CommentsModel> {
-    return this.http.get<EventsCommentsModel>(`${this.backEnd}events/comments/active?eventId=${eventId}&page=${page}&size=${size}`);
+    const url = `${this.backEnd}events/${eventId}/comments?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`;
+    return this.http.get<EventsCommentsModel>(url);
   }
 
   getCommentsCount(eventId: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}events/comments/count/${eventId}`);
+    return this.http.get<number>(`${this.backEnd}events/${eventId}/comments/count`);
   }
 
   getActiveRepliesByPage(eventId: number, parentCommentId: number, page: number, size: number): Observable<CommentsModel> {
-    return this.http.get<EventsCommentsModel>(`${this.backEnd}events/comments/replies/active/${parentCommentId}?page=${page}&size=${size}`);
+    const url = `${this.backEnd}events/${eventId}/comments/${parentCommentId}/replies?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`;
+    return this.http.get<EventsCommentsModel>(url);
   }
 
-  deleteComments(eventId: number, commentId: number) {
-    return this.http.delete<object>(`${this.backEnd}events/comments/${commentId}`, { observe: 'response' }).pipe(
-      map((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          return true;
-        }
-        return false;
-      })
-    );
+  deleteComments(eventId: number, commentId: number): Observable<boolean> {
+    return this.http
+      .delete<object>(`${this.backEnd}events/${eventId}/comments/${commentId}`, { observe: 'response' })
+      .pipe(map((response) => response.status >= 200 && response.status < 300));
   }
 
-  getCommentLikes(commentId: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}events/comments/likes/count/commentId=${commentId}`);
+  getCommentLikes(eventId: number, commentId: number): Observable<number> {
+    return this.http.get<number>(`${this.backEnd}events/${eventId}/comments/${commentId}/likes/count`);
   }
 
-  getRepliesAmount(eventId: number, parentCommentId: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}events/comments/replies/active/count/${parentCommentId}`);
+  getRepliesAmount(eventId: number, commentId: number): Observable<number> {
+    return this.http.get<number>(`${this.backEnd}events/${eventId}/comments/${commentId}/replies/count`);
   }
 
   postLike(eventId: number, commentId: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}events/comments/like?commentId=${commentId}`, {});
+    return this.http.post<void>(`${this.backEnd}events/${eventId}/comments/${commentId}/likes`, {});
   }
 
   editComment(eventId: number, commentId: number, text: string): Observable<void> {
-    return this.http.patch<void>(`${this.backEnd}events/comments?id=${commentId}`, text);
+    return this.http.put<void>(`${this.backEnd}events/${eventId}/comments/${commentId}`, text);
   }
 }
