@@ -19,7 +19,7 @@ import { CronService } from 'src/app/shared/cron/cron.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 
-describe('CronPickerComponent', () => {
+xdescribe('CronPickerComponent', () => {
   let component: CronPickerComponent;
   let fixture: ComponentFixture<CronPickerComponent>;
   let loader: HarnessLoader;

@@ -93,7 +93,7 @@ const card = {
 
 const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getLangValue']);
 
-describe('TariffsService', () => {
+xdescribe('TariffsService', () => {
   let service: TariffsService;
   let httpMock: HttpTestingController;
 

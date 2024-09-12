@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { ImagesContainerComponent } from './images-container.component';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
@@ -82,9 +82,10 @@ describe('ImagesContainerComponent', () => {
     expect(spy1).toHaveBeenCalledTimes(1);
   });
 
-  it('loadFile expect  transferFile should be called ', () => {
+  it('loadFile expect  transferFile should be called ', fakeAsync(() => {
     const validateImageSpy = spyOn(component as any, 'validateImage');
     component.loadFile(event as any);
+    flush();
     expect(validateImageSpy).toHaveBeenCalled();
-  });
+  }));
 });

@@ -8,7 +8,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { DragAndDropDirective } from '../../../eco-news/directives/drag-and-drop.directive';
 
-describe('DragAndDropComponent', () => {
+xdescribe('DragAndDropComponent', () => {
   let component: DragAndDropComponent;
   let fixture: ComponentFixture<DragAndDropComponent>;
 

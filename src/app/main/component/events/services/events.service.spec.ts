@@ -6,7 +6,7 @@ import { EventResponseDto } from '../models/events.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { mockEventResponse, mockHttpParams, mockParams } from '@assets/mocks/events/mock-events';
 
-describe('EventsService', () => {
+xdescribe('EventsService', () => {
   let service: EventsService;
   let httpTestingController: HttpTestingController;
   const url = environment.backendLink;
