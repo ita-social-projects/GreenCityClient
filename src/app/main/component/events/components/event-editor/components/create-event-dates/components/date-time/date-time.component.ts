@@ -152,7 +152,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   private dateValidator(control: AbstractControl): null | { [error: string]: boolean } {
     const selectedDate = control.value;
     if (!selectedDate) {
-      return { isRequired: true };
+      return control.errors.matDatepickerMin ? { dateIncorrect: true } : { isRequired: true };
     }
 
     // Convert control value to a Moment object
@@ -168,16 +168,12 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   }
 
   private _emitForm(form: DateTimeForm, valid: boolean) {
-    console.log(form);
     const newForm = form && { ...form, date: form?.date.toDate() };
-    console.log(newForm);
     this.formEmitter.emit({ key: this._key, valid, form: newForm, sharedKey: this.sharedKey, formKey: 'dateTime' });
   }
 
   private _subscribeToFormStatus() {
     this.form.statusChanges.subscribe((status) => {
-      console.log(status);
-      console.log(this.form?.getRawValue());
       if (status === 'VALID') {
         this._emitForm(this.form.getRawValue(), true);
       } else {
