@@ -48,7 +48,7 @@ export class ProfileService {
 
   getFactsOfTheDayByTags(): Observable<FactOfTheDay> {
     const currentLang = this.languageService.getCurrentLanguage();
-    return this.http.get<FactOfTheDay>(`${mainLink}factoftheday/random/by-tags?lang=${currentLang}`);
+    return this.http.get<FactOfTheDay>(`${mainLink}fact-of-the-day/random/by-tags?lang=${currentLang}`);
   }
 
   getUserInfo(): Observable<EditProfileModel> {
