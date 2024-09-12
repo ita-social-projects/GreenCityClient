@@ -1288,21 +1288,7 @@
     "min-photo-error": "Мінімум одна фотографія",
     "choose-day": "День",
     "choose-month": "Місяць",
-    "choose-year": "Рік",
-    "months": {
-      "january": "Січень",
-      "february": "Лютий",
-      "march": "Березень",
-      "april": "Квітень",
-      "may": "Травень",
-      "june": "Червень",
-      "july": "Липень",
-      "august": "Серпень",
-      "september": "Вересень",
-      "october": "Жовтень",
-      "november": "Листопад",
-      "december": "Грудень"
-    }
+    "choose-year": "Рік"
   },
   "input-error": {
     "required": "Це поле є обов'язковим для заповнення",

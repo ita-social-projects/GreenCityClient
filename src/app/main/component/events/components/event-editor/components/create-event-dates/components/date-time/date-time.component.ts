@@ -6,12 +6,32 @@ import { FormBridgeService } from '../../../../../../services/form-bridge.servic
 import { timeValidator } from './validator/timeValidator';
 import { LanguageService } from '../../../../../../../../i18n/language.service';
 import { DateAdapter } from '@angular/material/core';
-import { DateTime, DateTimeGroup, FormEmitter } from '../../../../../../models/events.interface';
+import { DateTime, DateTimeForm, FormEmitter } from '../../../../../../models/events.interface';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import * as _moment from 'moment';
+import { default as _rollupMoment } from 'moment';
+import 'moment/locale/uk';
+
+const moment = _rollupMoment || _moment;
+moment.locale('uk');
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MMM DD, YYYY'
+  },
+  display: {
+    dateInput: 'MMM DD, YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+};
 
 @Component({
   selector: 'app-date-time',
   templateUrl: './date-time.component.html',
-  styleUrls: ['./date-time.component.scss']
+  styleUrls: ['./date-time.component.scss'],
+  providers: [provideMomentDateAdapter(MY_FORMATS)]
 })
 export class DateTimeComponent implements OnInit, OnDestroy {
   @Input({ required: true }) dayNumber: number;
@@ -36,30 +56,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   private _lastTimeValues: string[] = [];
   private _key = Symbol('dateKey');
 
-  // isDateCorrect = true;
-  // isDateInThePast = false;
-  // isDateEmpty = false;
-
   form: FormGroup;
-  dateGroup: FormGroup;
-
-  months = [
-    { value: 0, label: 'january' },
-    { value: 1, label: 'february' },
-    { value: 2, label: 'march' },
-    { value: 3, label: 'april' },
-    { value: 4, label: 'may' },
-    { value: 5, label: 'june' },
-    { value: 6, label: 'july' },
-    { value: 7, label: 'august' },
-    { value: 8, label: 'september' },
-    { value: 9, label: 'october' },
-    { value: 10, label: 'november' },
-    { value: 11, label: 'december' }
-  ];
-
-  minYear = this.today.getFullYear();
-  maxYear = this.minYear + 10;
 
   constructor(
     private fb: FormBuilder,
@@ -67,23 +64,12 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     private ls: LanguageService,
     private adapter: DateAdapter<any>
   ) {
-    // Main form
     this.form = this.fb.group({
-      date: [this.today, Validators.required],
+      date: [moment(this.today), [Validators.required, this.dateValidator]],
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
       allDay: [false]
     });
-
-    // Separate form for day, month, and year
-    this.dateGroup = this.fb.group(
-      {
-        day: [this.today.getDate(), [Validators.required, Validators.min(1), Validators.max(31)]],
-        month: [this.today.getMonth(), Validators.required], // Months are zero-indexed, so add 1
-        year: [this.today.getFullYear(), [Validators.required, Validators.min(this.minYear), Validators.max(this.maxYear)]]
-      },
-      { validators: [this.dateValidator] }
-    );
   }
 
   get date() {
@@ -111,7 +97,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     this._upperTimeLimit = this._timeArr.indexOf(initialStartTime);
     this.form.patchValue(
       {
-        date: this.today,
+        date: moment(this.today),
         startTime: initialStartTime
       },
       { emitEvent: true }
@@ -131,19 +117,6 @@ export class DateTimeComponent implements OnInit, OnDestroy {
     this.ls.getCurrentLangObs().subscribe((lang) => {
       const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
       this.adapter.setLocale(locale);
-    });
-
-    this.dateGroup.valueChanges.subscribe((dateParts) => {
-      this.syncDatePartsToMainDate();
-    });
-
-    this.form.get('date')?.valueChanges.subscribe((selectedDate: Date) => {
-      if (selectedDate) {
-        const day = selectedDate.getDate();
-        const month = selectedDate.getMonth();
-        const year = selectedDate.getFullYear();
-        this.dateGroup.patchValue({ day, month, year });
-      }
     });
   }
 
@@ -177,41 +150,34 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   }
 
   private dateValidator(control: AbstractControl): null | { [error: string]: boolean } {
-    const day = control.get('day')?.value;
-    const month = control.get('month')?.value;
-    const year = control.get('year')?.value;
-
-    if (day && month !== undefined && year) {
-      const date = new Date(year, month, day);
-      const today = new Date();
-
-      // Set time to midnight for comparison
-      today.setHours(0, 0, 0, 0);
-      date.setHours(0, 0, 0, 0);
-
-      // Check if the constructed date matches the input values and is not in the past
-      if (date.getFullYear() === year && date.getMonth() === month && date.getDate() === day && date >= today) {
-        return null; // Valid date
-      }
+    const selectedDate = control.value;
+    if (!selectedDate) {
+      return { isRequired: true };
     }
-    return { invalidDate: true }; // Invalid date
+
+    // Convert control value to a Moment object
+    const momentDate = moment(selectedDate);
+    const now = moment();
+
+    // Check if the date is in the past
+    if (momentDate.isBefore(now, 'day')) {
+      return { dateInPast: true };
+    }
+
+    return null;
   }
 
-  syncDatePartsToMainDate() {
-    const day = this.dateGroup.get('day')?.value;
-    const month = this.dateGroup.get('month')?.value;
-    const year = this.dateGroup.get('year')?.value;
-
-    const newDate = new Date(year, month, day);
-    this.form.patchValue({ date: newDate });
-  }
-
-  private _emitForm(form: DateTime, valid: boolean) {
-    this.formEmitter.emit({ key: this._key, valid, form, sharedKey: this.sharedKey, formKey: 'dateTime' });
+  private _emitForm(form: DateTimeForm, valid: boolean) {
+    console.log(form);
+    const newForm = form && { ...form, date: form?.date.toDate() };
+    console.log(newForm);
+    this.formEmitter.emit({ key: this._key, valid, form: newForm, sharedKey: this.sharedKey, formKey: 'dateTime' });
   }
 
   private _subscribeToFormStatus() {
     this.form.statusChanges.subscribe((status) => {
+      console.log(status);
+      console.log(this.form?.getRawValue());
       if (status === 'VALID') {
         this._emitForm(this.form.getRawValue(), true);
       } else {

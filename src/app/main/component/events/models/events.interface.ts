@@ -1,4 +1,5 @@
 import { FormControl } from '@angular/forms';
+import { Moment } from 'moment';
 
 type FormControllers<T> = {
   [K in keyof T]: FormControl<T[K]>;
@@ -16,6 +17,13 @@ export type FormCollectionEmitter<T> = Omit<FormEmitter<T>, 'sharedKey' | 'formK
 
 export interface DateTime {
   date: Date;
+  startTime: string;
+  endTime: string;
+  allDay: boolean;
+}
+
+export interface DateTimeForm {
+  date: Moment;
   startTime: string;
   endTime: string;
   allDay: boolean;

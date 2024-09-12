@@ -1,43 +1,14 @@
 <div [formGroup]="form" class="date-time">
   <span class="day">{{ dayNumber + 1 }} {{ 'create-event.day' | translate }}</span>
-  <div>
-    <input
-      [matDatepickerFilter]="dateFilterBind"
-      [matDatepicker]="picker"
-      [min]="today"
-      autocomplete="false"
-      formControlName="date"
-      matInput
-      ngDefaultControl
-      readonly
-      class="hidden-input"
-    />
-    <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </div>
-  <!-- Separate form for dateGroup -->
-  <div [formGroup]="dateGroup" class="date-fields">
-    <mat-form-field appearance="outline" class="date-day">
-      <mat-label>{{ 'create-event.choose-day' | translate }}</mat-label>
-      <input matInput autocomplete="off" formControlName="day" type="number" placeholder="DD" min="1" max="31" />
-    </mat-form-field>
 
-    <mat-form-field appearance="outline" class="month-dropdown">
-      <mat-label>{{ 'create-event.choose-month' | translate }}</mat-label>
-      <mat-select formControlName="month" placeholder="{{ 'create-event.choose-month' | translate }}">
-        <mat-option *ngFor="let month of months" [value]="month.value">
-          {{ 'create-event.months.' + month.label | translate }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="date-year">
-      <mat-label>{{ 'create-event.choose-year' | translate }}</mat-label>
-      <input matInput autocomplete="off" formControlName="year" type="number" placeholder="YYYY" [min]="minYear" [max]="maxYear" />
-    </mat-form-field>
-
-    <mat-error *ngIf="dateGroup.hasError('invalidDate')">Invalid date</mat-error>
-  </div>
+  <mat-form-field appearance="outline">
+    <mat-label>{{ 'create-event.choose-date' | translate }}</mat-label>
+    <input matInput [matDatepicker]="dp" formControlName="date" [min]="today" />
+    <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+    <mat-error *ngIf="date.hasError('isRequired')">{{ 'create-event.date-error-required' | translate }}</mat-error>
+    <mat-error *ngIf="date.hasError('dateInPast')">{{ 'create-event.date-error' | translate }}</mat-error>
+  </mat-form-field>
 
   <div class="time">
     <mat-form-field appearance="outline" class="time-item">
