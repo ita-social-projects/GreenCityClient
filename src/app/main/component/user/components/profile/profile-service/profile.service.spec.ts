@@ -50,11 +50,11 @@ describe('ProfileService', () => {
   describe('test for method which get facts for today', () => {
     it('should return fact of the day', () => {
       const fact = { id: 1, content: 'Great day!' };
-      profileService.getFactsOfTheDay().subscribe((info) => {
+      profileService.getRandomFactOfTheDay().subscribe((info) => {
         expect(info.content).toBe('Great day!');
       });
 
-      const req = httpMock.expectOne(`${backLink}factoftheday/?lang=en`);
+      const req = httpMock.expectOne(`${backLink}fact-of-the-day/random?lang=en`);
       expect(req.request.method).toBe('GET');
       req.flush(fact);
     });

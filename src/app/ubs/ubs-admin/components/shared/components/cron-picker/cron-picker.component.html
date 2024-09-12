@@ -10,22 +10,30 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div formGroupName="time" class="panel select-time">
-        <mat-form-field>
-          <mat-label>{{ 'cron-picker.labels.hour' | translate }}</mat-label>
-          <mat-select formControlName="hour">
-            <mat-option *ngFor="let hour of hours" [value]="hour">
+        <mat-form-field appearance="outline">
+          <mat-label class="time-label">{{ 'cron-picker.labels.hour' | translate }}</mat-label>
+          <input matInput formControlName="hour" [matAutocomplete]="autoHour" />
+          <mat-autocomplete #autoHour="matAutocomplete">
+            <mat-option *ngFor="let hour of hourFiltered | async" [value]="hour">
               {{ hour }}
             </mat-option>
-          </mat-select>
+          </mat-autocomplete>
+          <mat-error *ngIf="checkForErrorsIn('hour')">
+            {{ checkForErrorsIn('hour') | translate }}
+          </mat-error>
         </mat-form-field>
-        &nbsp;:&nbsp;
-        <mat-form-field>
-          <mat-label>{{ 'cron-picker.labels.min' | translate }}</mat-label>
-          <mat-select formControlName="min">
-            <mat-option *ngFor="let min of minutes" [value]="min">
+        <div>&nbsp;:&nbsp;</div>
+        <mat-form-field appearance="outline">
+          <mat-label class="time-label">{{ 'cron-picker.labels.min' | translate }}</mat-label>
+          <input matInput formControlName="min" [matAutocomplete]="autoMin" />
+          <mat-autocomplete #autoMin="matAutocomplete">
+            <mat-option *ngFor="let min of minFiltered | async" [value]="min">
               {{ min }}
             </mat-option>
-          </mat-select>
+          </mat-autocomplete>
+          <mat-error *ngIf="checkForErrorsIn('min')">
+            {{ checkForErrorsIn('min') | translate }}
+          </mat-error>
         </mat-form-field>
       </div>
     </mat-expansion-panel>
@@ -76,7 +84,6 @@
           <mat-radio-button value="every-month">{{ 'cron-picker.labels.every-month' | translate }}</mat-radio-button>
           <mat-radio-button value="months">
             <div class="select-months">
-              <!-- Error appearance="outline" -->
               <mat-button-toggle-group appearance="standard" formControlName="months" aria-label="Months" multiple>
                 <mat-button-toggle disableRipple *ngFor="let month of months" [value]="month">
                   {{ 'cron-picker.months.' + monthsAliases[month - 1] | translate }}

@@ -6,7 +6,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { TitleAndMetaTagsService } from '@global-service/title-meta-tags/title-and-meta-tags.service';
-import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 import { UserService } from '@global-service/user/user.service';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -33,16 +32,9 @@ xdescribe('MainComponent', () => {
   jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
-  const languageServiceMock = jasmine.createSpyObj('LanguageService', [
-    'setDefaultLanguage',
-    'getCurrentLanguage',
-    'changeCurrentLanguage'
-  ]);
   const titleAndMetaTagsServiceMock = jasmine.createSpyObj('TitleAndMetaTagsService', ['useTitleMetasData']);
   const userServiceMock = jasmine.createSpyObj('UserService', ['updateLastTimeActivity']);
   userServiceMock.updateLastTimeActivity.and.returnValue(of());
-  const uiActionsServiceMock = jasmine.createSpyObj('UiActionsService', ['stopScrollingSubject']);
-  uiActionsServiceMock.stopScrollingSubject = of(false);
 
   const focusMock = {
     nativeElement: jasmine.createSpyObj('nativeElement', ['focus'])
@@ -69,9 +61,7 @@ xdescribe('MainComponent', () => {
         provideMockStore({ initialState }),
         { provide: Store, useValue: storeMock },
         { provide: JwtService, useValue: jwtServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock },
         { provide: TitleAndMetaTagsService, useValue: titleAndMetaTagsServiceMock },
-        { provide: UiActionsService, useValue: uiActionsServiceMock },
         { provide: UserService, useValue: userServiceMock },
         { provide: ElementRef, useValue: {} }
       ],
@@ -94,14 +84,11 @@ xdescribe('MainComponent', () => {
   });
 
   it('should init main functions', () => {
-    app.toggle = true;
     const spy = spyOn(MainComponent.prototype as any, 'navigateToStartingPositionOnPage');
     app.ngOnInit();
 
     expect(spy).toHaveBeenCalled();
-    expect(languageServiceMock.setDefaultLanguage).toHaveBeenCalled();
     expect(titleAndMetaTagsServiceMock.useTitleMetasData).toHaveBeenCalled();
-    expect(app.toggle).toBe(false);
   });
 
   it('should updateLastTimeActivity be called in onExitHandler', () => {

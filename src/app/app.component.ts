@@ -4,8 +4,9 @@ import { GetCurrentUserAction } from 'src/app/store/actions/auth.actions';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { CommonService } from './chat/service/common/common.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { distinctUntilChanged, filter, map } from 'rxjs';
+import { distinctUntilChanged, filter, map, take, takeUntil } from 'rxjs';
 import { ChatsService } from './chat/service/chats/chats.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { ChatsService } from './chat/service/chats/chats.service';
 export class AppComponent implements OnInit {
   private store: Store = inject(Store);
   private googleScript: GoogleScript = inject(GoogleScript);
+  private localeStorageService: LocalStorageService = inject(LocalStorageService);
   commonChatSevice: CommonService = inject(CommonService);
   router: Router = inject(Router);
   chatsService: ChatsService = inject(ChatsService);
@@ -25,7 +27,9 @@ export class AppComponent implements OnInit {
     this.onNetworkStatusChange();
     window.addEventListener('online', this.onNetworkStatusChange.bind(this));
     window.addEventListener('offline', this.onNetworkStatusChange.bind(this));
-    this.googleScript.load('uk');
+    this.localeStorageService.languageBehaviourSubject.subscribe((lang: string) => {
+      this.googleScript.load(lang);
+    });
     this.store.dispatch(GetCurrentUserAction());
     this.router.events
       .pipe(

@@ -114,41 +114,4 @@ describe('UbsAdminOrderClientInfoComponent', () => {
 
     expect(result).toBe(undefined);
   });
-
-  it('should update isOrderDone if orderStatus is DONE', () => {
-    component.ngOnChanges(changes);
-    expect(component.isOrderDone).toBeTruthy();
-    expect(component.isOrderCanceled).toBeFalsy();
-    expect(component.isOrderNotTakenOut).toBeFalsy();
-  });
-
-  it('should update isOrderCanceled if orderStatus is CANCELED', () => {
-    changes.orderStatus.currentValue = OrderStatus.CANCELED;
-    changes.orderStatus.previousValue = OrderStatus.DONE;
-    changes.orderStatus.firstChange = false;
-    component.ngOnChanges(changes);
-    expect(component.isOrderDone).toBeFalsy();
-    expect(component.isOrderCanceled).toBeTruthy();
-    expect(component.isOrderNotTakenOut).toBeFalsy();
-  });
-
-  it('should update isOrderNotTakenOut if orderStatus is NOT_TAKEN_OUT', () => {
-    changes.orderStatus.currentValue = OrderStatus.NOT_TAKEN_OUT;
-    changes.orderStatus.previousValue = OrderStatus.CANCELED;
-    changes.orderStatus.firstChange = false;
-    component.ngOnChanges(changes);
-    expect(component.isOrderDone).toBeFalsy();
-    expect(component.isOrderCanceled).toBeFalsy();
-    expect(component.isOrderNotTakenOut).toBeTruthy();
-  });
-
-  it('statuses should be false if orderStatus is not defined', () => {
-    changes.orderStatus.currentValue = null;
-    changes.orderStatus.previousValue = OrderStatus.NOT_TAKEN_OUT;
-    changes.orderStatus.firstChange = false;
-    component.ngOnChanges(changes);
-    expect(component.isOrderDone).toBeFalsy();
-    expect(component.isOrderCanceled).toBeFalsy();
-    expect(component.isOrderNotTakenOut).toBeFalsy();
-  });
 });

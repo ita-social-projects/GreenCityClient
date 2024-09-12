@@ -167,7 +167,6 @@ You should install Angular CLI 16.2.10 writting this in console: npm install -g 
     all-habits.service.ts
     title-and-meta-tags.service.ts
     user.service.ts
-    ui-actions.service.ts
     auth-page-guard.service.ts
     filter-place.service.ts
     feedback.service.ts
