@@ -278,6 +278,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
     this.orderDetailsForm.setControl('bags', newBagsGroup);
     this.calculateOrderSum();
+    this.subscribeToQuantityChanges();
   }
 
   initExistingOrderValues(): void {
@@ -334,6 +335,18 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   calculateFinalSum(): void {
     this.finalSum = Math.max(this.orderSum - this.certificateUsed - this.pointsUsed, 0);
+  }
+
+  subscribeToQuantityChanges(): void {
+    this.bags.forEach((bag) => {
+      const formControl = this.orderDetailsForm.controls.bags.get('quantity' + bag.id);
+
+      if (formControl) {
+        formControl.valueChanges.pipe(takeUntil(this.$destroy)).subscribe(() => {
+          this.calculateOrderSum();
+        });
+      }
+    });
   }
 
   isCanAddEcoShopOrderNumber(): boolean {
