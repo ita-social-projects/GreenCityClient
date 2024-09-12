@@ -46,6 +46,11 @@ export class ProfileService {
     return this.http.get<FactOfTheDay>(`${mainLink}fact-of-the-day/random?lang=${currentLang}`);
   }
 
+  getFactsOfTheDayByTags(): Observable<FactOfTheDay> {
+    const currentLang = this.languageService.getCurrentLanguage();
+    return this.http.get<FactOfTheDay>(`${mainLink}factoftheday/random/by-tags?lang=${currentLang}`);
+  }
+
   getUserInfo(): Observable<EditProfileModel> {
     this.setUserId();
     return this.http.get<EditProfileModel>(`${mainUserLink}user/${this.userId}/profile/`);
