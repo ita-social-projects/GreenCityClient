@@ -46,6 +46,6 @@ export class GoogleScript {
     script.type = 'text/javascript';
     script.id = 'initMap';
     script.innerHTML = `function initMap() {}`;
-    document.getElementsByTagName('head')[0].appendChild(script);
+    document.head.appendChild(script);
   }
 }

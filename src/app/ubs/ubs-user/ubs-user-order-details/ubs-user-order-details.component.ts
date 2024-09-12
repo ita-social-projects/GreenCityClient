@@ -8,6 +8,7 @@ import { IUserOrderInfo, PaymentStatusEn } from '../ubs-user-orders-list/models/
 })
 export class UbsUserOrderDetailsComponent implements OnInit {
   @Input() order: IUserOrderInfo;
+
   certificatesAmount: number;
 
   ngOnInit(): void {

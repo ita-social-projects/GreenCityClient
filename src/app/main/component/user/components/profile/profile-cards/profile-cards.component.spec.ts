@@ -4,7 +4,7 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProfileCardsComponent } from '@global-user/components';
-import { CardModel } from '@user-models/card.model';
+import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 
 describe('ProfileCardsComponent', () => {
   let component: ProfileCardsComponent;
@@ -12,10 +12,10 @@ describe('ProfileCardsComponent', () => {
   let profileServiceMock: jasmine.SpyObj<ProfileService>;
   let localStorageService: LocalStorageService;
 
-  const cardModelMock: CardModel = { id: 1, content: 'Hello' };
+  const factOfTheDayMock: FactOfTheDay = { id: 1, content: 'Hello' };
 
   beforeEach(waitForAsync(() => {
-    profileServiceMock = jasmine.createSpyObj<ProfileService>('ProfileService', ['getFactsOfTheDay']);
+    profileServiceMock = jasmine.createSpyObj<ProfileService>('ProfileService', ['getRandomFactOfTheDay']);
 
     TestBed.configureTestingModule({
       declarations: [ProfileCardsComponent],
@@ -63,25 +63,25 @@ describe('ProfileCardsComponent', () => {
   });
 
   it('should set factOfTheDay on successful', () => {
-    profileServiceMock.getFactsOfTheDay.and.returnValue(of(cardModelMock));
+    profileServiceMock.getRandomFactOfTheDay.and.returnValue(of(factOfTheDayMock));
     component.ngOnInit();
 
-    expect(component.factOfTheDay).toEqual(cardModelMock);
+    expect(component.factOfTheDay).toEqual(factOfTheDayMock);
     expect(component.error).toBeUndefined();
   });
 
   it('should handle success in getFactOfTheDay', () => {
-    profileServiceMock.getFactsOfTheDay.and.returnValue(of(cardModelMock));
+    profileServiceMock.getRandomFactOfTheDay.and.returnValue(of(factOfTheDayMock));
     component.getFactOfTheDay();
 
-    expect(component.factOfTheDay).toEqual(cardModelMock);
+    expect(component.factOfTheDay).toEqual(factOfTheDayMock);
     expect(component.error).toBeUndefined();
   });
 
   it('should handle error', () => {
     const errorMessage = 'Error message';
     const errorResponse = new Error(errorMessage);
-    profileServiceMock.getFactsOfTheDay.and.returnValue(throwError(() => errorResponse.message));
+    profileServiceMock.getRandomFactOfTheDay.and.returnValue(throwError(() => errorResponse.message));
     component.ngOnInit();
 
     expect(component.error).toEqual(errorMessage);

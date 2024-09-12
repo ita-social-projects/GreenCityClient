@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { CardModel } from '@user-models/card.model';
+import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 import { ProfileService } from '../profile-service/profile.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
@@ -13,7 +13,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 export class ProfileCardsComponent implements OnInit, OnDestroy {
   profileSubscription: Subscription;
   languageSubscription: Subscription;
-  factOfTheDay: CardModel;
+  factOfTheDay: FactOfTheDay;
   error: string;
 
   constructor(
@@ -29,14 +29,14 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
 
   getFactOfTheDay(): void {
     this.profileSubscription = this.profileService
-      .getFactsOfTheDay()
+      .getRandomFactOfTheDay()
       .pipe(
         catchError((error) => {
           this.error = error;
           return error;
         })
       )
-      .subscribe((success: CardModel) => {
+      .subscribe((success: FactOfTheDay) => {
         this.factOfTheDay = { ...success };
       });
   }
