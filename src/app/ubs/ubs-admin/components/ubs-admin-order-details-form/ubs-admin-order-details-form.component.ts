@@ -123,8 +123,12 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   recalculateSum() {
-    this.writeoffAtStationSum = this.orderInfo.writeOffStationSum ? this.orderInfo.writeOffStationSum : 0;
-    this.courierPrice = this.orderDetails.courierPricePerPackage;
+    if (!this.writeoffAtStationSum) {
+      this.writeoffAtStationSum = this.orderInfo.writeOffStationSum ? this.orderInfo.writeOffStationSum : 0;
+    }
+    if (!this.courierPrice) {
+      this.courierPrice = this.orderDetails.courierPricePerPackage;
+    }
     this.resetBagsInfo();
     this.setBagsInfo();
     this.calculateFinalSum();
@@ -243,7 +247,15 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   private calculateOverpayment() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
-    const newSum = this.bagsInfo?.sum[bagType];
+    let newSum = this.bagsInfo?.sum[bagType];
+    console.log(newSum, this.showUbsCourier);
+    if (this.showUbsCourier) {
+      newSum += this.courierPrice || 0;
+    }
+    if (this.showWriteOffStationField()) {
+      newSum += this.writeoffAtStationSum;
+    }
+    console.log(newSum);
     const overpayment = Math.max(this.paymentInfo.paymentTableInfoDto.paidAmount - newSum, 0);
     const unPaid = Math.max(newSum - this.paymentInfo.paymentTableInfoDto.paidAmount, 0);
 
