@@ -13,7 +13,6 @@ import { select, Store } from '@ngrx/store';
 import moment from 'moment';
 import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
 import { AddFiltersAction } from 'src/app/store/actions/bigOrderTable.actions';
-import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 
 @Component({
   selector: 'app-column-filters-pop-up',
@@ -29,8 +28,6 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   dateChecked: boolean;
 
   isPopupOpened = false;
-
-  selectedFilters: { [key: string]: string[] } = {};
   showButtons: boolean = false;
 
   private allFilters: IFilters;
@@ -60,7 +57,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   initListeners(): void {
     this.store.pipe(takeUntil(this.destroy$), select(filtersSelector)).subscribe((filters: IFilters) => {
       this.allFilters = filters;
-      this.selectedFilters = { ...this.allFilters } as { [key: string]: string[] };
+      this.adminTableService.setCurrentFilters(this.allFilters);
 
       const filtersDateCheck = filters?.[this.data.columnName + 'Check'];
       if (filtersDateCheck !== null && filtersDateCheck !== undefined && typeof filtersDateCheck === 'boolean') {
@@ -93,21 +90,9 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeColumnFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
-    const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
+  onFilterChange(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.showButtons = true;
-
-    const currentFilters = this.selectedFilters[currentColumn] || [];
-
-    const updatedFilters = checked ? [...currentFilters, value] : currentFilters.filter((item) => item !== value);
-
-    this.selectedFilters = {
-      ...this.selectedFilters,
-      [currentColumn]: updatedFilters
-    };
-
-    console.log('selectedFilters');
-    console.log(this.selectedFilters);
+    this.adminTableService.setNewFilters(checked, currentColumn, option);
   }
 
   onDateChecked(e: MatCheckboxChange, checked: boolean): void {
@@ -137,10 +122,12 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     );
   }
 
-  isFilterChecked(columnName: string, option: IFilteredColumnValue): boolean {
-    const value = columnsToFilterByName.includes(columnName) ? option.en : option.key;
+  isChecked(columnName: string, option: IFilteredColumnValue): boolean {
+    return this.adminTableService.isFilterChecked(columnName, option);
+  }
 
-    return (this.allFilters?.[columnName] as string[])?.includes(value);
+  discardChanges(): void {
+    this.adminTableService.setCurrentFilters(this.allFilters);
   }
 
   getOptionsForFiltering(): IFilteredColumnValue[] {
