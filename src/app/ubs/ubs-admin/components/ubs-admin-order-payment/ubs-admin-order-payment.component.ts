@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enum';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-ubs-admin-order-payment',
@@ -22,6 +23,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   @Input() orderStatus: string;
   @Input() isEmployeeCanEditOrder: boolean;
   @Input() paymentInfo: orderPaymentInfo;
+  @Input() orderForm: FormGroup;
   @Output() newPaymentStatus = new EventEmitter<string>();
   @Output() returnMoneyOrBonusesChange = new EventEmitter<ReturnMoneyOrBonuses>();
   @Output() paymentInfoChanged = new EventEmitter<orderPaymentInfo>();
@@ -144,6 +146,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   private moneyOrBonuses(isMoney: boolean): void {
+    this.orderForm.markAsDirty();
     const currentDate: string = this.getStringDate(new Date());
     const paymentDetails: IPaymentInfoDto = {
       id: null,
@@ -164,7 +167,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
         unPaidAmount: 0
       }
     });
-    this.returnMoneyOrBonusesChange.emit({ ...this.returnMoneyOrBonuses, [isMoney ? 'isReturnMoney' : 'isReturnBonuses']: true });
+    this.returnMoneyOrBonusesChange.emit({ ...this.returnMoneyOrBonuses, [isMoney ? 'returnMoney' : 'returnBonuses']: true });
   }
 
   private postDataItem(orderId: number, newValue: string): void {

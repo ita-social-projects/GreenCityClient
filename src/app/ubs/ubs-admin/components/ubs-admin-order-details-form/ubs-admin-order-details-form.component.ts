@@ -86,6 +86,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.isVisible = !this.isVisible;
     }
 
+    if (!changes?.orderStatusInfo?.firstChange) {
+      this.isDisabledConfirmQuantity();
+    }
     this.recalculateSum();
   }
 
@@ -111,8 +114,12 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     this.orderDetails = JSON.parse(JSON.stringify(this.orderDetailsOriginal));
   }
 
-  isDisabledConfirmQuantity() {
-    return this.isOrderBroughtByHimself || this.isOrderCancelled || this.isOrderNotTakenOut || this.isOrderDone;
+  private isDisabledConfirmQuantity() {
+    if (this.isOrderBroughtByHimself || this.isOrderCancelled || this.isOrderNotTakenOut || this.isOrderDone) {
+      this.orderDetails.bags.forEach((bag) => {
+        this.orderDetailsForm.controls[`confirmedQuantity${bag.id}`].disable();
+      });
+    }
   }
 
   recalculateSum() {

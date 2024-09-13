@@ -137,8 +137,8 @@ export interface IOrderInfo {
 }
 
 export interface ReturnMoneyOrBonuses {
-  isReturnMoney: boolean;
-  isReturnBonuses: boolean;
+  returnMoney: boolean;
+  returnBonuses: boolean;
   amount: number;
 }
 

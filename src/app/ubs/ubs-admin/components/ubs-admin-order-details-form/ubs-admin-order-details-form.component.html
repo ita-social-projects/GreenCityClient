@@ -43,9 +43,7 @@
                 min="0"
                 max="999"
                 formControlName="confirmedQuantity{{ bag.id }}"
-                [attr.disabled]="isDisabledConfirmQuantity()"
                 (input)="onQuantityChange('confirmed', bag.id)"
-                [disabled]="this.orderStatusInfo.ableActualChange !== 'actual'"
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
