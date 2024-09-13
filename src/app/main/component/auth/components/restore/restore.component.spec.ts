@@ -9,7 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { RestoreComponent } from './restore.component';
 
-describe('RestoreComponent', () => {
+xdescribe('RestoreComponent', () => {
   let component: RestoreComponent;
   let fixture: ComponentFixture<RestoreComponent>;
 

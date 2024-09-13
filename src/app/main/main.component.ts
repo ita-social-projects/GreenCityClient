@@ -1,8 +1,6 @@
 import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { LanguageService } from './i18n/language.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 import { UserService } from '@global-service/user/user.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -13,17 +11,14 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  toggle: boolean;
   isUBS: boolean;
   ubsUrl = 'ubs';
   isLogin: boolean;
 
   constructor(
-    private languageService: LanguageService,
     private titleAndMetaTagsService: TitleAndMetaTagsService,
     private router: Router,
     private localStorageService: LocalStorageService,
-    private uiActionsService: UiActionsService,
     private userService: UserService,
     private userOwnAuthService: UserOwnAuthService
   ) {}
@@ -36,7 +31,6 @@ export class MainComponent implements OnInit {
     this.localStorageService.setUbsRegistration(this.isUBS);
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();
-    this.uiActionsService.stopScrollingSubject.subscribe((data) => (this.toggle = data));
     this.checkLogin();
   }
 

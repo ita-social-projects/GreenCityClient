@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Coords, MapMarker as MapMarkerInterface } from '../../models/events.interface';
+import { GoogleScript } from '@assets/google-script/google-script';
 
 @Component({
   selector: 'app-map-event',
@@ -10,14 +11,14 @@ import { Coords, MapMarker as MapMarkerInterface } from '../../models/events.int
   styleUrls: ['./map-event.component.scss']
 })
 export class MapEventComponent implements OnInit, OnDestroy {
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private $destroy: Subject<boolean> = new Subject<boolean>();
   private map: google.maps.Map;
 
   eventPlace: MapMarkerInterface;
   adress: string;
   markerContent = 'Event Address';
   mapDeactivate: boolean;
-
+  isRenderingMap: boolean;
   @Output() location = new EventEmitter<Coords>();
 
   regionOptions = {
@@ -27,10 +28,16 @@ export class MapEventComponent implements OnInit, OnDestroy {
 
   constructor(
     private matDialogRef: MatDialogRef<MapEventComponent>,
+    private googleScript: GoogleScript,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
 
   ngOnInit(): void {
+    this.googleScript.$isRenderingMap.pipe(takeUntil(this.$destroy)).subscribe((value: boolean) => {
+      setTimeout(() => {
+        this.isRenderingMap = value;
+      }, 1000);
+    });
     this.adress = this.data.address;
     this.eventPlace = {
       location: {
@@ -41,7 +48,7 @@ export class MapEventComponent implements OnInit, OnDestroy {
     };
     this.matDialogRef
       .backdropClick()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.$destroy))
       .subscribe(() => {
         this.matDialogRef.close();
       });
@@ -69,7 +76,7 @@ export class MapEventComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
+    this.$destroy.next(true);
+    this.$destroy.complete();
   }
 }

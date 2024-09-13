@@ -1,3 +1,0 @@
-interface IUiState {
-  addNewHabitModalVisible: boolean;
-}

@@ -12,7 +12,7 @@ import {
   EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
-import { EventResponse, LocationResponse, PagePreviewDTO } from '../../models/events.interface';
+import { EventAttender, EventResponse, LocationResponse, PagePreviewDTO } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject } from 'rxjs';
@@ -43,7 +43,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   bsModalRef: BsModalRef;
   role = this.roles.UNAUTHENTICATED;
   isEventFavorite: boolean;
-  attendees = [];
+  attendees: EventAttender[] = [];
   attendeesAvatars = [];
   organizerName: string;
   event: EventResponse | PagePreviewDTO;
@@ -128,7 +128,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  setGoogleMapLink() {
+  setGoogleMapLink(): void {
     const coords = this.event.dates[0].coordinates;
     this.googleMapLink = `https://www.google.com.ua/maps/@${coords.longitude},${coords.latitude}`;
   }

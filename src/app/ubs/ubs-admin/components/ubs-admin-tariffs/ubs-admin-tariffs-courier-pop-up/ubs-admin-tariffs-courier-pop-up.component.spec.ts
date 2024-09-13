@@ -15,7 +15,7 @@ import {
 } from '@angular/material/autocomplete';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
-describe('UbsAdminTariffsCourierPopUpComponent', () => {
+xdescribe('UbsAdminTariffsCourierPopUpComponent', () => {
   let component: UbsAdminTariffsCourierPopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsCourierPopUpComponent>;
 

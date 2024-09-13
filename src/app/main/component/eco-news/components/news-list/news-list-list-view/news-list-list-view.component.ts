@@ -86,17 +86,12 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
     return this.newsImage;
   }
 
-  private getDomWidth(): string {
-    return window.innerWidth <= 768 ? this.smallHeight : this.bigHeight;
-  }
-
   routeToNews(): void {
     this.router.navigate(['/news', this.ecoNewsModel.id]);
   }
 
   private getHeightOfDesc(titleHeight: number): string {
-    const result = possibleDescHeight[titleHeight];
-    return result;
+    return possibleDescHeight[titleHeight];
   }
 
   ngOnDestroy() {

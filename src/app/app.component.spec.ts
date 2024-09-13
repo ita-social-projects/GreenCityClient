@@ -13,9 +13,14 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
-  const localStorageMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject', 'getAccessToken']);
+  const localStorageMock = jasmine.createSpyObj('LocalStorageService', [
+    'userIdBehaviourSubject',
+    'getAccessToken',
+    'languageBehaviourSubject'
+  ]);
   localStorageMock.userIdBehaviourSubject = () => of(1);
   localStorageMock.getAccessToken = () => 1;
+  localStorageMock.languageBehaviourSubject = new BehaviorSubject('ua');
   const chatsServiceMock = jasmine.createSpyObj('ChatsService', ['isSupportChat$']);
   chatsServiceMock.isSupportChat$ = new BehaviorSubject(true);
 

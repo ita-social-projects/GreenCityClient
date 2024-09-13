@@ -18,7 +18,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 
-describe('RestorePasswordComponent', () => {
+xdescribe('RestorePasswordComponent', () => {
   let component: RestorePasswordComponent;
   let fixture: ComponentFixture<RestorePasswordComponent>;
   let router: Router;

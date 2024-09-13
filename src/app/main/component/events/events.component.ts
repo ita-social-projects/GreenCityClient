@@ -8,8 +8,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./events.component.scss']
 })
 export class EventsComponent implements OnInit {
-  private langChangeSub: Subscription;
-  constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private translate: TranslateService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
     this.bindLang(this.localStorageService.getCurrentLanguage());
@@ -17,7 +19,7 @@ export class EventsComponent implements OnInit {
   }
 
   private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
+    this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 
   private bindLang(lang: string): void {
