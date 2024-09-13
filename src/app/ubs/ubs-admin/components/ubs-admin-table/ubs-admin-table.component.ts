@@ -232,13 +232,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.noFiltersApplied = false;
 
         this.restoredFilters.forEach((filter) => {
+          console.log(filter);
           if (Object.keys(filter).length < 2) {
             const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0]);
             const isLocation = column === TableKeys.city || column === TableKeys.district;
             const value = String(Object.values(filter)[0]);
             const options: IFilteredColumnValue = isLocation ? { en: value } : { key: value };
-            this.changeFilters(true, column, options);
+            // this.changeFilters(true, column, options);
             this.applyFilters();
+            console.log(filter);
           } else {
             const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0].split('From')[0]);
             this.adminTableService.saveDateFilters(true, column, filter);
@@ -719,14 +721,23 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return this.adminTableService.columnsForFiltering;
   }
 
-  changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
-    this.tableData = [];
-    this.isLoading = true;
-    const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
+  // changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
+  //   this.tableData = [];
+  //   this.isLoading = true;
+  //   const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
 
-    checked
-      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
-      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
+  //   checked
+  //     ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
+  //     : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
+  // }
+
+  isChecked(columnName: string, option: IFilteredColumnValue): boolean {
+    return this.adminTableService.isFilterChecked(columnName, option);
+  }
+
+  onFilterChange(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
+    this.noFiltersApplied = false;
+    this.adminTableService.setNewFilters(checked, currentColumn, option);
   }
 
   changeInputDate(): void {
@@ -770,6 +781,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   applyFilters(): void {
     const selectedFilters = this.adminTableService.getSelectedFilters();
+    console.log(selectedFilters);
     if (selectedFilters) {
       this.store.dispatch(AddFiltersAction({ filters: selectedFilters, fetchTable: false }));
     }
@@ -777,6 +789,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.currentPage = 0;
     this.firstPageLoad = true;
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', true);
+  }
+
+  resetCurrentFilters() {
+    this.adminTableService.setCurrentFilters(this.allFilters);
   }
 
   openColumnFilterPopup(event: MouseEvent, column) {
@@ -1014,12 +1030,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
 
     return !!this.allFilters[columnName.toLowerCase().includes('date') ? `${columnName}From` : columnName];
-  }
-
-  isFilterChecked(columnName: string, option: IFilteredColumnValue): boolean {
-    const value = columnsToFilterByName.includes(columnName) ? option.en : option.key;
-
-    return (this.allFilters?.[columnName] as string[])?.includes(value);
   }
 
   checkIfFilteredBy(columnKey: string): boolean {

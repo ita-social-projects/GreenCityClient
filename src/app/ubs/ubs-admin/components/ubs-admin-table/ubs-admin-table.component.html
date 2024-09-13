@@ -8,7 +8,13 @@
   <div>{{ 'ubs-tables.orders-number' | translate }} : {{ totalElements }}</div>
   <div class="btn-group">
     <div class="filters-dropdown-wrappe">
-      <button type="button" [matMenuTriggerFor]="clickMenu" #clickMenuTrigger="matMenuTrigger" class="btn btn-default filter-table-btn">
+      <button
+        type="button"
+        [matMenuTriggerFor]="clickMenu"
+        #clickMenuTrigger="matMenuTrigger"
+        class="btn btn-default filter-table-btn"
+        (click)="resetCurrentFilters()"
+      >
         <mat-icon>filter_list</mat-icon>
         {{ 'ubs-tables.filters' | translate }}
       </button>
@@ -97,8 +103,8 @@
                       <ul class="accordion-list">
                         <li *ngFor="let option of column.values">
                           <mat-checkbox
-                            [checked]="isFilterChecked(column.key, option)"
-                            (change)="changeFilters($event?.checked, column.key, option)"
+                            [checked]="isChecked(column.key, option)"
+                            (change)="onFilterChange($event?.checked, column.key, option)"
                           >
                             {{ option | serverTranslate: currentLang }}
                           </mat-checkbox>
@@ -114,7 +120,7 @@
             <button [disabled]="noFiltersApplied" type="button" class="filter-btn bg-lime" (click)="applyFilters()">
               {{ 'ubs-tables.apply-filters' | translate }}
             </button>
-            <button type="button" class="filter-btn clear-filt" (click)="clearFilters()">
+            <button [disabled]="noFiltersApplied" type="button" class="filter-btn clear-filt" (click)="resetCurrentFilters()">
               {{ 'ubs-tables.clear-filters' | translate }}
             </button>
           </div>
