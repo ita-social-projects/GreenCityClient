@@ -42,7 +42,9 @@
           <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed>
             <div cdkScrollable class="mat-drawer-inner-container">
               <div *ngIf="!activePlaceDetails">
-                <p class="title-sidebar">{{ 'user.places-card.card-popular' | translate }}</p>
+                <div class="title-container">
+                  <p class="title-sidebar">{{ 'user.places-card.card-popular' | translate }}</p>
+                </div>
                 <div class="sidebar-content-all" *ngFor="let place of placesList">
                   <div class="head">
                     <p class="content-title" (click)="selectPlaceFromSideBar(place)">{{ place.name }}</p>

@@ -263,15 +263,19 @@ $cardTextColor: #1d2830;
   }
 }
 
-.title-sidebar {
-  color: #313131;
-  font-family: var(--primary-font), sans-serif;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 28px;
-  letter-spacing: 0.04px;
-  margin: 18px 73px;
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 24px;
+
+  .title-sidebar {
+    color: #313131;
+    font-family: var(--primary-font), sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+  }
 }
 
 .sidebar-content-all {
