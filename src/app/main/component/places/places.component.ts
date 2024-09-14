@@ -70,7 +70,8 @@ export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
     private favoritePlaceService: FavoritePlaceService,
     private dialog: MatDialog,
     private userOwnAuthService: UserOwnAuthService,
-    private googleScript: GoogleScript
+    private googleScript: GoogleScript,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngAfterViewInit(): void {
@@ -229,6 +230,8 @@ export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.totalPages = item.totalPages;
       this.page += 1;
+
+      this.cdr.detectChanges();
     });
   }
 
