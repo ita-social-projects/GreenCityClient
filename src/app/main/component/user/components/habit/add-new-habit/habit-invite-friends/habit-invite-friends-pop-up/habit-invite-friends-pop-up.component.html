@@ -67,7 +67,7 @@
     <button class="btn btn-outline-success" mat-dialog-close>
       {{ 'user.habit.invite.btn.cancel' | translate }}
     </button>
-    <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial (click)="setAddedFriends()">
+    <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial (click)="setAddedFriends()" [disabled]="!isAnyFriendSelected">
       {{ 'user.habit.invite.btn.invite' | translate }}
     </button>
   </mat-dialog-actions>
