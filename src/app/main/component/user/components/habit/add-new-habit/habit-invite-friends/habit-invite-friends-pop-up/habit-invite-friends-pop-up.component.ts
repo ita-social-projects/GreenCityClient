@@ -26,6 +26,10 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService
   ) {}
 
+  get isAnyFriendSelected(): boolean {
+    return this.friends.some((friend) => friend.added);
+  }
+
   ngOnInit() {
     this.getUserId();
     this.getFriends();
