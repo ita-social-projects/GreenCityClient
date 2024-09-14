@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
@@ -19,13 +19,14 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from './models/places-consts';
 import { GoogleScript } from '@assets/google-script/google-script';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-places',
   templateUrl: './places.component.html',
   styleUrls: ['./places.component.scss']
 })
-export class PlacesComponent implements OnInit, OnDestroy {
+export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
   position: any = {};
   zoom = 13;
   tagList: FilterModel[] = tagsListPlacesData;
@@ -47,9 +48,10 @@ export class PlacesComponent implements OnInit, OnDestroy {
   isActivePlaceFavorite = false;
   readonly tagFilterStorageKey = 'placesTagFilter';
   readonly moreOptionsStorageKey = 'moreOptionsFilter';
-  placesList: Array<AllAboutPlace>;
+  placesList: AllAboutPlace[] = [];
 
   @ViewChild('drawer') drawer: MatDrawer;
+  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
 
   private map: any;
   private googlePlacesService: google.maps.places.PlacesService;
@@ -70,6 +72,12 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private userOwnAuthService: UserOwnAuthService,
     private googleScript: GoogleScript
   ) {}
+
+  ngAfterViewInit(): void {
+    this.scrollable.elementScrolled().subscribe(() => {
+      this.checkIfScrolledToBottom();
+    });
+  }
 
   ngOnInit() {
     this.checkUserSingIn();
@@ -213,8 +221,8 @@ export class PlacesComponent implements OnInit, OnDestroy {
 
   private getPlaceList(): void {
     this.placeService.getAllPlaces(this.page, this.size).subscribe((item: any) => {
-      this.placesList = item.page;
-      if (this.placesList) {
+      if (item.page) {
+        this.placesList = [...this.placesList, ...item.page];
         this.drawer.toggle(true);
       } else {
         this.drawer.toggle(false);
@@ -340,6 +348,15 @@ export class PlacesComponent implements OnInit, OnDestroy {
           });
         }
       });
+  }
+
+  private checkIfScrolledToBottom() {
+    const element = this.scrollable.getElementRef().nativeElement;
+    const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
+
+    if (atBottom) {
+      this.updatePlaceList(false);
+    }
   }
 
   ngOnDestroy(): void {
