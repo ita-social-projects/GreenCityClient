@@ -14,6 +14,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
   providedIn: 'root'
 })
 export class ProfileService {
+  readonly oneDayInMillis: number = 24 * 60 * 60 * 1000;
   userId: number;
   icons = {
     edit: './assets/img/profile/icons/edit.svg',
@@ -44,6 +45,27 @@ export class ProfileService {
   getRandomFactOfTheDay(): Observable<FactOfTheDay> {
     const currentLang = this.languageService.getCurrentLanguage();
     return this.http.get<FactOfTheDay>(`${mainLink}fact-of-the-day/random?lang=${currentLang}`);
+  }
+
+  getHabitFactFromLocalStorage(): FactOfTheDay | null {
+    const savedHabitFact = localStorage.getItem('habitFactOfTheDay');
+    const lastHabitFetchTime = localStorage.getItem('lastHabitFactFetchTime');
+    const currentTime = Date.now();
+
+    if (savedHabitFact && lastHabitFetchTime && currentTime - Number(lastHabitFetchTime) < this.oneDayInMillis) {
+      return JSON.parse(savedHabitFact);
+    }
+    return null;
+  }
+
+  saveHabitFactToLocalStorage(fact: FactOfTheDay, currentTime: number): void {
+    localStorage.setItem('habitFactOfTheDay', JSON.stringify(fact));
+    localStorage.setItem('lastHabitFetchTime', currentTime.toString());
+  }
+
+  clearHabitFactFromLocalStorage(): void {
+    localStorage.removeItem('habitFactOfTheDay');
+    localStorage.removeItem('lastHabitFetchTime');
   }
 
   getFactsOfTheDayByTags(): Observable<FactOfTheDay> {
