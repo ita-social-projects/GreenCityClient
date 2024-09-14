@@ -75,9 +75,11 @@ export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.scrollable.elementScrolled().subscribe(() => {
-      this.checkIfScrolledToBottom();
-    });
+    if (this.scrollable) {
+      this.scrollable.elementScrolled().subscribe(() => {
+        this.checkIfScrolledToBottom();
+      });
+    }
   }
 
   ngOnInit() {
