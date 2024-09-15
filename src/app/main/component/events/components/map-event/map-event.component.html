@@ -3,15 +3,17 @@
     Event address:
     <span>{{ adress }}</span>
   </p>
-  <google-map [style.width.%]="100" [style.height.%]="100" [zoom]="12" (mapReady)="onMapReady($event)">
-    <map-marker
-      *ngIf="eventPlace"
-      [position]="eventPlace.location"
-      [title]="markerContent"
-      (mouseOver)="markerOver(eventPlace)"
-      (mouseOut)="markerOut(eventPlace)"
-    />
-  </google-map>
+  <div *ngIf="!isRenderingMap">
+    <google-map [style.width.%]="100" [style.height.%]="100" [zoom]="12" (mapReady)="onMapReady($event)">
+      <map-marker
+        *ngIf="eventPlace"
+        [position]="eventPlace.location"
+        [title]="markerContent"
+        (mouseOver)="markerOver(eventPlace)"
+        (mouseOut)="markerOut(eventPlace)"
+      />
+    </google-map>
+  </div>
   <div class="map-button">
     <button mat-raised-button color="warn" (click)="closeMap()">Close</button>
   </div>

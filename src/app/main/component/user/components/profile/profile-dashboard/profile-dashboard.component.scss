@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 p {
   margin: 0;
 }
@@ -68,11 +70,6 @@ a {
   .body {
     display: grid;
     grid-template-columns: 1fr;
-  }
-
-  .acquired {
-    margin-top: 40px;
-    margin-bottom: 32px;
   }
 
   .btn-view-more {
@@ -181,12 +178,15 @@ a {
     }
 
     .in-progress {
+      display: flex;
       flex-wrap: wrap-reverse;
+      align-items: center;
+    }
 
-      a {
-        width: 100%;
-        margin-bottom: 32px;
-      }
+    #create-button-new-habit,
+    #create-button-add-new-habit {
+      width: 100%;
+      margin-bottom: 16px;
     }
 
     #my-events {
@@ -244,7 +244,7 @@ a {
   }
 }
 
-@media (min-width: 576px) {
+@include responsivePCFirst(sm) {
   .main {
     .menu {
       .tab {
@@ -260,10 +260,6 @@ a {
     .header {
       font-size: 16px;
       line-height: 24px;
-    }
-
-    .acquired {
-      margin-top: 32px;
     }
   }
 }

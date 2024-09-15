@@ -32,7 +32,6 @@ import { Language } from 'src/app/main/i18n/Language';
   styleUrls: ['./ubs-admin-employee.component.scss']
 })
 export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
-  // private destroy$ = new Subject();
   @Input() locationCard: Locations;
 
   employeePositions: EmployeePositions[];
@@ -141,12 +140,10 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
         this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
       });
   }
-
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();
   }
-
   addNewFilters(data: FilterData) {
     this.ubsAdminEmployeeService.updateFilterData(data);
   }

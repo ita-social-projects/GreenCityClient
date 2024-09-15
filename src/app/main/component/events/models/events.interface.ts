@@ -53,6 +53,11 @@ export interface EventInformation {
   images: ImagesContainer[];
 }
 
+export interface EventAttender {
+  name: string;
+  imagePath: string;
+}
+
 export type EventInformationGroup = FormControllers<EventInformation>;
 
 export type EventForm = { dateInformation: DateInformation[]; eventInformation: EventInformation };
@@ -172,49 +177,10 @@ export interface TagDto {
   nameEn: string;
 }
 
-export interface Coordinates {
-  cityEn: string;
-  cityUa: string;
-  latitude: number;
-  longitude: number;
-  countryEn: string;
-  countryUa: string;
-  houseNumber: number;
-  regionEn: string;
-  regionUa: string;
-  streetEn: string;
-  streetUa: string;
-  formattedAddressEn: string;
-  formattedAddressUa: string;
-}
-
-export interface DateEventResponseDto {
-  coordinates: Coordinates;
-  event: string;
-  finishDate: string;
-  id: number;
-  onlineLink: string;
-  startDate: string;
-  check?: boolean;
-  valid: boolean;
-}
-
 export interface TagObj {
   nameUa: string;
   nameEn: string;
   isActive: boolean;
-}
-
-export interface DateFormObj {
-  date: Date;
-  finishDate?: string;
-  onlineLink?: string;
-  place: string;
-  startDate?: string;
-  coordinates?: {
-    latitude: number;
-    longitude: number;
-  };
 }
 
 export interface PagePreviewDTO {

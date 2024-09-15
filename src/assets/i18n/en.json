@@ -392,7 +392,8 @@
       "unauthorised-user": "You need to be authorized to edit an event",
       "exist-address": "This address has already been added",
       "certificate-duration": "The duration of the certificate cant be more than 12 months",
-      "friend-request": "You cannot add this friend"
+      "friend-request": "You cannot add this friend",
+      "friend-already-added": "This friend has been already added"
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
@@ -852,7 +853,7 @@
         "habit-acquired": "You have successfully acquire habit",
         "habit-was-deleted": "You have successfully deleted habit from your list",
         "custom-habit-was-deleted": "You have successfully deleted habit",
-        "habit-already-assigned": "You already have assigned this habit",
+        "habit-limit-reached": "You can only have 6 habits in progress",
         "reset-filters": "Reset all",
         "habits-popup": {
           "title": "All created content will be lost.",

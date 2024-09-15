@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { Addresses, EventResponse, EventResponseDto, LocationResponse, PagePreviewDTO } from '../models/events.interface';
+import { Addresses, EventAttender, EventResponse, EventResponseDto, LocationResponse, PagePreviewDTO } from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable({
@@ -36,11 +36,11 @@ export class EventsService implements OnDestroy {
   }
 
   createEvent(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/create`, formData);
+    return this.http.post<any>(`${this.backEnd}events`, formData);
   }
 
   editEvent(formData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.backEnd}events/update`, formData);
+    return this.http.put<any>(`${this.backEnd}events/${formData.get('id')}`, formData);
   }
 
   getEvents(requestParams: HttpParams): Observable<EventResponseDto> {
@@ -48,39 +48,39 @@ export class EventsService implements OnDestroy {
   }
 
   addEventToFavourites(eventId: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}events/addToFavorites/${eventId}`, eventId);
+    return this.http.post<void>(`${this.backEnd}events/${eventId}/favorites`, eventId);
   }
 
   removeEventFromFavourites(eventId: number): Observable<void> {
-    return this.http.delete<void>(`${this.backEnd}events/removeFromFavorites/${eventId}`);
+    return this.http.delete<void>(`${this.backEnd}events/${eventId}/favorites`);
   }
 
-  getUserFavoriteEvents(page: number, quantity: number): Observable<EventResponseDto> {
-    return this.http.get<EventResponseDto>(`${this.backEnd}events/getAllFavoriteEvents?page=${page}&size=${quantity}`);
+  getUserFavoriteEvents(page: number, quantity: number, userId: number): Observable<EventResponseDto> {
+    return this.http.get<EventResponseDto>(`${this.backEnd}events?page=${page}&size=${quantity}&statuses=SAVED&user-id=${userId}`);
   }
 
   getEventById(id: number): Observable<EventResponse> {
-    return this.http.get<EventResponse>(`${this.backEnd}events/event/${id}`);
+    return this.http.get<EventResponse>(`${this.backEnd}events/${id}`);
   }
 
   deleteEvent(id: number): Observable<any> {
-    return this.http.delete(`${this.backEnd}events/delete/${id}`);
+    return this.http.delete(`${this.backEnd}events/${id}`);
   }
 
   rateEvent(id: number, grade: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/rateEvent/${id}/${grade}`, null);
+    return this.http.post<any>(`${this.backEnd}events/${id}/rating/${grade}`, null);
   }
 
   addAttender(id: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/addAttender/${id}`, { observe: 'response' });
+    return this.http.post<any>(`${this.backEnd}events/${id}/attenders`, { observe: 'response' });
   }
 
   removeAttender(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.backEnd}events/removeAttender/${id}`);
+    return this.http.delete<any>(`${this.backEnd}events/${id}/attenders`);
   }
 
-  getAllAttendees(id: number): Observable<any> {
-    return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
+  getAllAttendees(id: number): Observable<EventAttender[]> {
+    return this.http.get<any>(`${this.backEnd}events/${id}/attenders`);
   }
 
   getFormattedAddress(coordinates: LocationResponse): string {
@@ -105,16 +105,14 @@ export class EventsService implements OnDestroy {
     if (!location) {
       return '';
     }
-    const parts = [location[`country${lang}`], location[`city${lang}`], location[`street${lang}`], location.houseNumber];
-    return parts.join(this.divider);
+    return [location[`country${lang}`], location[`city${lang}`], location[`street${lang}`], location.houseNumber].join(this.divider);
   }
 
   createEventsListAddresses(location: LocationResponse | null, lang: string): string {
     if (!location) {
       return '';
     }
-    const addressParts = [location[`city${lang}`], location[`street${lang}`], location.houseNumber];
-    return addressParts.join(this.divider);
+    return [location[`city${lang}`], location[`street${lang}`], location.houseNumber].join(this.divider);
   }
 
   ngOnDestroy(): void {

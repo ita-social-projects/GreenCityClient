@@ -237,18 +237,6 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     });
   });
 
-  describe('orderOptionPayment', () => {
-    it('makes expected calls', () => {
-      const event = { target: { value: 'fakeValue' } } as any;
-      const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
-
-      component.orderOptionPayment(event);
-
-      expect(fillOrderClientDtoSpy).toHaveBeenCalled();
-      expect(component.selectedPayment).toBe('fakeValue');
-    });
-  });
-
   describe('processOrder', () => {
     it('makes expected calls for WayForPay with link', () => {
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');

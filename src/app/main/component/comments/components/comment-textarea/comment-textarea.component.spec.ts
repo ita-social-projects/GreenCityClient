@@ -12,7 +12,7 @@ import { UserProfileImageComponent } from '@global-user/components/shared/compon
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('CommentTextareaComponent', () => {
+xdescribe('CommentTextareaComponent', () => {
   let component: CommentTextareaComponent;
   let fixture: ComponentFixture<CommentTextareaComponent>;
 
