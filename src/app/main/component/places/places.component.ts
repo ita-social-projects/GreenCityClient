@@ -355,7 +355,7 @@ export class PlacesComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  private checkIfScrolledToBottom() {
+  checkIfScrolledToBottom() {
     const element = this.scrollable.getElementRef().nativeElement;
     const atBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
 

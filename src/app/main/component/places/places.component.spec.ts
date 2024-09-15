@@ -198,6 +198,14 @@ describe('PlacesComponent', () => {
     expect(component.scrollable).toBeDefined();
   });
 
+  it('should checkIfScrolledToBottom method be called when scrolling', () => {
+    const spy = spyOn(component, 'checkIfScrolledToBottom');
+    component.ngAfterViewInit();
+    component.scrollable.elementScrolled();
+    component.checkIfScrolledToBottom();
+    expect(spy).toHaveBeenCalled();
+  });
+
   afterEach(() => {
     spyOn(component, 'ngOnDestroy').and.callFake(() => {});
     fixture.destroy();
