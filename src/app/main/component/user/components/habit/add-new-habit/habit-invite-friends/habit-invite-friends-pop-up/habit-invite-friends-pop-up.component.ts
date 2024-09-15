@@ -27,7 +27,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   ) {}
 
   get isAnyFriendSelected(): boolean {
-    return this.friends && this.friends.some((friend) => friend.added);
+    return this.friends?.some((friend) => friend.added) ?? false;
   }
 
   ngOnInit() {
