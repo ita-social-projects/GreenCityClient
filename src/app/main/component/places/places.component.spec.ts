@@ -154,15 +154,6 @@ describe('PlacesComponent', () => {
     fixture = TestBed.createComponent(PlacesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    scrollSubject = new Subject<Event>();
-    const mockScrollable = jasmine.createSpyObj('CdkScrollable', ['elementScrolled']);
-
-    // Mock the `elementScrolled()` method to return the `scrollSubject`
-    mockScrollable.elementScrolled.and.returnValue(scrollSubject.asObservable());
-
-    // Assign the mocked CdkScrollable to the component's `scrollable` property
-    component.scrollable = mockScrollable;
   });
 
   it('should create', () => {
@@ -207,14 +198,31 @@ describe('PlacesComponent', () => {
     expect(component.scrollable).toBeDefined();
   });
 
-  it('should call checkIfScrolledToBottom when scrollable is scrolled', () => {
+  it('should call checkIfScrolledToBottom when scrollable is defined and scrolled', () => {
     const spy = spyOn(component, 'checkIfScrolledToBottom');
+
+    scrollSubject = new Subject<Event>();
+
+    const mockScrollable = jasmine.createSpyObj('CdkScrollable', ['elementScrolled']);
+    mockScrollable.elementScrolled.and.returnValue(scrollSubject.asObservable());
+
+    component.scrollable = mockScrollable;
 
     component.ngAfterViewInit();
 
     scrollSubject.next(new Event('scroll'));
 
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not subscribe to elementScrolled or call checkIfScrolledToBottom when scrollable is undefined', () => {
+    component.scrollable = undefined;
+
+    const spy = spyOn(component, 'checkIfScrolledToBottom');
+
+    component.ngAfterViewInit();
+
+    expect(spy).not.toHaveBeenCalled();
   });
 
   afterEach(() => {
