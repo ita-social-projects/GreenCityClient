@@ -198,11 +198,17 @@ describe('PlacesComponent', () => {
     expect(component.scrollable).toBeDefined();
   });
 
-  it('should checkIfScrolledToBottom method be called when scrolling', () => {
+  it('should call checkIfScrolledToBottom when elementScrolled is triggered', () => {
     const spy = spyOn(component, 'checkIfScrolledToBottom');
+
+    const scrollSubject = new Subject<Event>();
+
+    spyOn(component.scrollable, 'elementScrolled').and.returnValue(scrollSubject.asObservable());
+
     component.ngAfterViewInit();
-    component.scrollable.elementScrolled();
-    component.checkIfScrolledToBottom();
+
+    scrollSubject.next(new Event('scroll'));
+
     expect(spy).toHaveBeenCalled();
   });
 
