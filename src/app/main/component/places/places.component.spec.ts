@@ -19,7 +19,7 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
   let fixture: ComponentFixture<PlacesComponent>;
-
+  let scrollSubject: Subject<Event>;
   let tagsArray: Array<FilterModel> = tagsListPlacesData;
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
@@ -154,6 +154,15 @@ describe('PlacesComponent', () => {
     fixture = TestBed.createComponent(PlacesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    scrollSubject = new Subject<Event>();
+    const mockScrollable = jasmine.createSpyObj('CdkScrollable', ['elementScrolled']);
+
+    // Mock the `elementScrolled()` method to return the `scrollSubject`
+    mockScrollable.elementScrolled.and.returnValue(scrollSubject.asObservable());
+
+    // Assign the mocked CdkScrollable to the component's `scrollable` property
+    component.scrollable = mockScrollable;
   });
 
   it('should create', () => {
@@ -198,12 +207,8 @@ describe('PlacesComponent', () => {
     expect(component.scrollable).toBeDefined();
   });
 
-  it('should call checkIfScrolledToBottom when elementScrolled is triggered', () => {
+  it('should call checkIfScrolledToBottom when scrollable is scrolled', () => {
     const spy = spyOn(component, 'checkIfScrolledToBottom');
-
-    const scrollSubject = new Subject<Event>();
-
-    spyOn(component.scrollable, 'elementScrolled').and.returnValue(scrollSubject.asObservable());
 
     component.ngAfterViewInit();
 
