@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { PlacesComponent } from './places.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -198,7 +198,7 @@ describe('PlacesComponent', () => {
     expect(component.scrollable).toBeDefined();
   });
 
-  it('should subscribe to elementScrolled when scrollable is defined and call checkIfScrolledToBottom', () => {
+  it('should subscribe to elementScrolled and call checkIfScrolledToBottom', fakeAsync(() => {
     const spy = spyOn(component, 'checkIfScrolledToBottom');
 
     scrollSubject = new Subject<Event>();
@@ -208,18 +208,16 @@ describe('PlacesComponent', () => {
 
     component.scrollable = mockScrollable;
 
-    const subscribeSpy = spyOn(scrollSubject, 'subscribe').and.callThrough();
-
     component.ngAfterViewInit();
-
-    expect(subscribeSpy).toHaveBeenCalled();
 
     scrollSubject.next(new Event('scroll'));
 
-    expect(spy).toHaveBeenCalled();
-  });
+    tick();
 
-  it('should not subscribe to elementScrolled or call checkIfScrolledToBottom when scrollable is undefined', () => {
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it('should not subscribe or call checkIfScrolledToBottom when scrollable is undefined', () => {
     component.scrollable = undefined;
 
     const spy = spyOn(component, 'checkIfScrolledToBottom');
