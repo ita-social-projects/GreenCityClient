@@ -14,6 +14,7 @@ import { CreatePlaceModel, OpeningHoursDto } from './models/create-place.model';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { tagsListPlacesData } from './models/places-consts';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
@@ -122,7 +123,7 @@ describe('PlacesComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PlacesComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule, InfiniteScrollModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, InfiniteScrollModule, CdkScrollable],
       providers: [
         {
           provide: LocalStorageService,
@@ -190,6 +191,11 @@ describe('PlacesComponent', () => {
     const spy = spyOn(component, 'selectPlace');
     component.selectPlaceFromSideBar(placeMock);
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should have scrollable defined after view init', () => {
+    fixture.detectChanges();
+    expect(component.scrollable).toBeDefined();
   });
 
   afterEach(() => {
