@@ -3,7 +3,7 @@ import { PlacesComponent } from './places.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { PlaceService } from '@global-service/place/place.service';
-import { BehaviorSubject, Subject, of } from 'rxjs';
+import { BehaviorSubject, Subject, lastValueFrom, of } from 'rxjs';
 import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
 import { PlaceStatus } from '@global-models/placeStatus.model';
@@ -198,7 +198,7 @@ describe('PlacesComponent', () => {
     expect(component.scrollable).toBeDefined();
   });
 
-  it('should subscribe to elementScrolled and call checkIfScrolledToBottom', fakeAsync(() => {
+  it('should subscribe to elementScrolled and call checkIfScrolledToBottom', async () => {
     const spy = spyOn(component, 'checkIfScrolledToBottom');
 
     scrollSubject = new Subject<Event>();
@@ -210,12 +210,12 @@ describe('PlacesComponent', () => {
 
     component.ngAfterViewInit();
 
-    scrollSubject.next(new Event('scroll'));
-
-    tick();
-
+    await fakeAsync(() => {
+      scrollSubject.next(new Event('scroll'));
+      tick();
+    })();
     expect(spy).toHaveBeenCalled();
-  }));
+  });
 
   it('should not subscribe or call checkIfScrolledToBottom when scrollable is undefined', () => {
     component.scrollable = undefined;
