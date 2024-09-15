@@ -198,7 +198,7 @@ describe('PlacesComponent', () => {
     expect(component.scrollable).toBeDefined();
   });
 
-  it('should call checkIfScrolledToBottom when scrollable is defined and scrolled', () => {
+  it('should subscribe to elementScrolled when scrollable is defined and call checkIfScrolledToBottom', () => {
     const spy = spyOn(component, 'checkIfScrolledToBottom');
 
     scrollSubject = new Subject<Event>();
@@ -208,7 +208,11 @@ describe('PlacesComponent', () => {
 
     component.scrollable = mockScrollable;
 
+    const subscribeSpy = spyOn(scrollSubject, 'subscribe').and.callThrough();
+
     component.ngAfterViewInit();
+
+    expect(subscribeSpy).toHaveBeenCalled();
 
     scrollSubject.next(new Event('scroll'));
 
