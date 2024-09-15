@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { catchError, takeUntil } from 'rxjs/operators';
-import { Subject, Subscription, of, timer } from 'rxjs';
+import { Subject, of, timer } from 'rxjs';
 import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 import { ProfileService } from '../profile-service/profile.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -16,6 +16,7 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
   factOfTheDay: FactOfTheDay;
   habitFactOfTheDay: FactOfTheDay;
   error: string;
+  oneDayInMillis = 24 * 60 * 60 * 1000;
 
   constructor(
     private profileService: ProfileService,
@@ -29,13 +30,13 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
       this.checkAndUpdateHabitFact();
     });
 
-    timer(0, this.profileService.oneDayInMillis)
+    timer(0, this.oneDayInMillis)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.checkAndUpdateHabitFact());
   }
 
   loadHabitFactFromLocalStorage(): void {
-    this.habitFactOfTheDay = this.profileService.getHabitFactFromLocalStorage();
+    this.habitFactOfTheDay = this.localStorageService.getHabitFactFromLocalStorage();
   }
 
   getFactOfTheDay(): void {
@@ -43,13 +44,15 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
       .getRandomFactOfTheDay()
       .pipe(
         catchError((error) => {
-          this.error = error;
-          return error;
+          this.error = error.message;
+          return of(null);
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe((success: FactOfTheDay) => {
-        this.factOfTheDay = { ...success };
+      .subscribe((success: FactOfTheDay | null) => {
+        if (success) {
+          this.factOfTheDay = { ...success };
+        }
       });
   }
 
@@ -72,10 +75,9 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
   updateHabitFactIfNeeded(): void {
     const lastHabitFetchTime = localStorage.getItem('lastHabitFactFetchTime');
     const currentTime = Date.now();
-    const oneDay = this.profileService.oneDayInMillis;
+    const oneDay = this.oneDayInMillis;
 
-    // Only update habit fact if the last fetch was over 24 hours ago
-    if (!lastHabitFetchTime || currentTime - Number(lastHabitFetchTime) > oneDay) {
+    if (this.isMoreThanOneDayPassed(lastHabitFetchTime, currentTime, oneDay)) {
       this.clearHabitFact();
 
       this.profileService
@@ -87,15 +89,19 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
         .subscribe((fact: FactOfTheDay | null) => {
           if (fact) {
             this.habitFactOfTheDay = fact;
-            this.profileService.saveHabitFactToLocalStorage(fact, currentTime);
+            this.localStorageService.saveHabitFactToLocalStorage(fact, currentTime);
           }
         });
     }
   }
 
+  isMoreThanOneDayPassed(lastHabitFetchTime: string | null, currentTime: number, oneDay: number): boolean {
+    return !lastHabitFetchTime || currentTime - Number(lastHabitFetchTime) > oneDay;
+  }
+
   clearHabitFact(): void {
     this.habitFactOfTheDay = null;
-    this.profileService.clearHabitFactFromLocalStorage();
+    this.localStorageService.clearHabitFactFromLocalStorage();
   }
 
   ngOnDestroy(): void {

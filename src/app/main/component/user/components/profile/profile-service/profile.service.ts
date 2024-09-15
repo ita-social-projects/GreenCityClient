@@ -1,7 +1,7 @@
 import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FactOfTheDay as FactOfTheDay } from '@global-user/models/factOfTheDay';
+import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
@@ -14,7 +14,6 @@ import { Patterns } from 'src/assets/patterns/patterns';
   providedIn: 'root'
 })
 export class ProfileService {
-  readonly oneDayInMillis: number = 24 * 60 * 60 * 1000;
   userId: number;
   icons = {
     edit: './assets/img/profile/icons/edit.svg',
@@ -45,27 +44,6 @@ export class ProfileService {
   getRandomFactOfTheDay(): Observable<FactOfTheDay> {
     const currentLang = this.languageService.getCurrentLanguage();
     return this.http.get<FactOfTheDay>(`${mainLink}fact-of-the-day/random?lang=${currentLang}`);
-  }
-
-  getHabitFactFromLocalStorage(): FactOfTheDay | null {
-    const savedHabitFact = localStorage.getItem('habitFactOfTheDay');
-    const lastHabitFetchTime = localStorage.getItem('lastHabitFactFetchTime');
-    const currentTime = Date.now();
-
-    if (savedHabitFact && lastHabitFetchTime && currentTime - Number(lastHabitFetchTime) < this.oneDayInMillis) {
-      return JSON.parse(savedHabitFact);
-    }
-    return null;
-  }
-
-  saveHabitFactToLocalStorage(fact: FactOfTheDay, currentTime: number): void {
-    localStorage.setItem('habitFactOfTheDay', JSON.stringify(fact));
-    localStorage.setItem('lastHabitFetchTime', currentTime.toString());
-  }
-
-  clearHabitFactFromLocalStorage(): void {
-    localStorage.removeItem('habitFactOfTheDay');
-    localStorage.removeItem('lastHabitFetchTime');
   }
 
   getFactsOfTheDayByTags(): Observable<FactOfTheDay> {

@@ -4,6 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { EventResponse, PagePreviewDTO } from '../../component/events/models/events.interface';
 import { Address, CourierLocations, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
 import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 
 @Injectable({
   providedIn: 'root'
@@ -384,5 +385,32 @@ export class LocalStorageService {
 
   private getName(): string {
     return localStorage.getItem(this.NAME);
+  }
+
+  saveHabitFactToLocalStorage(fact: FactOfTheDay, currentTime: number): void {
+    localStorage.setItem('habitFactOfTheDay', JSON.stringify(fact));
+    localStorage.setItem('lastHabitFetchTime', currentTime.toString());
+  }
+
+  getHabitFactFromLocalStorage(): FactOfTheDay | null {
+    const savedHabitFact = localStorage.getItem('habitFactOfTheDay');
+    const lastHabitFetchTime = localStorage.getItem('lastHabitFetchTime');
+    const currentTime = Date.now();
+    const oneDayInMillis = 24 * 60 * 60 * 1000;
+
+    const isHabitFactPresent = !!savedHabitFact;
+    const isLastFetchTimePresent = !!lastHabitFetchTime;
+    const isWithinOneDay = currentTime - Number(lastHabitFetchTime) < oneDayInMillis;
+
+    if (isHabitFactPresent && isLastFetchTimePresent && isWithinOneDay) {
+      return JSON.parse(savedHabitFact);
+    }
+
+    return null;
+  }
+
+  clearHabitFactFromLocalStorage(): void {
+    localStorage.removeItem('habitFactOfTheDay');
+    localStorage.removeItem('lastHabitFetchTime');
   }
 }
