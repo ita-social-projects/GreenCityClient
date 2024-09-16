@@ -22,8 +22,8 @@
         {{ 'user.habit.invite.all' | translate }}
       </mat-checkbox>
       <ul>
-        <li *ngFor="let friend of friends" [class.disabled]="setFriendDisable(friend.id)">
-          <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
+        <li *ngFor="let friend of inputFriends" [class.disabled]="setFriendDisable(friend.id)">
+          <mat-checkbox [checked]="selectedFriends.includes(friend.id)" (change)="onFriendCheckboxChange(friend.id, $event.checked)">
             <div class="friend">
               <app-user-profile-image
                 [imgPath]="friend.profilePicturePath"
@@ -44,7 +44,7 @@
     <div *ngIf="inputValue">
       <ul>
         <li *ngFor="let friend of inputFriends" [class.disabled]="setFriendDisable(friend.id)">
-          <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
+          <mat-checkbox [checked]="selectedFriends.includes(friend.id)" (change)="onFriendCheckboxChange(friend.id, $event.checked)">
             <div class="friend">
               <app-user-profile-image
                 [imgPath]="friend.profilePicturePath"
@@ -67,7 +67,7 @@
     <button class="btn btn-outline-success" mat-dialog-close>
       {{ 'user.habit.invite.btn.cancel' | translate }}
     </button>
-    <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial (click)="setAddedFriends()">
+    <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial (click)="inviteFriends($event)">
       {{ 'user.habit.invite.btn.invite' | translate }}
     </button>
   </mat-dialog-actions>

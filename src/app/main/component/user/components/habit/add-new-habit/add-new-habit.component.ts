@@ -79,11 +79,15 @@ export class AddNewHabitComponent implements OnInit {
     public userFriendsService: UserFriendsService
   ) {}
 
+  getHabitId(): number {
+    return this.habitId;
+  }
+
   ngOnInit() {
     this.getUserId();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-    this.route.params.subscribe((params) => {
+    this.route.params.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
       if (this.router.url.includes('add')) {
         this.habitId = Number(params.habitId);
       } else {
@@ -94,6 +98,11 @@ export class AddNewHabitComponent implements OnInit {
     this.checkIfAssigned();
     this.getRecommendedNews(this.page, this.size);
     this.userFriendsService.addedFriends.length = 0;
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   private bindLang(lang: string): void {
