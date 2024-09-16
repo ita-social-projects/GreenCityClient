@@ -24,38 +24,45 @@
     <br />
 
     <div class="input-group">
-      <mat-form-field class="filter-input">
-        <mat-label>{{ 'ubs-tables.date-from' | translate }}</mat-label>
-        <input
-          matInput
-          readonly
-          [matDatepicker]="picker1"
-          id="dateFrom{{ data.columnName }}"
-          [(ngModel)]="dateFrom"
-          (dateChange)="onDateChange()"
-        />
+      <div class="input-wrapper">
+        <mat-form-field class="filter-input">
+          <mat-label>{{ 'ubs-tables.date-from' | translate }}</mat-label>
+          <input
+            matInput
+            readonly
+            [matDatepicker]="picker1"
+            id="dateFrom{{ data.columnName }}"
+            [(ngModel)]="dateFrom"
+            (dateChange)="onDateChange()"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
 
-        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <button *ngIf="dateFrom" type="button" class="reset-settings" (click)="discardDateChanges('from', $event)">
+          <i class="fa fa-close" aria-hidden="true"></i>
+        </button>
+      </div>
 
-        <mat-datepicker #picker1></mat-datepicker>
-      </mat-form-field>
+      <div class="input-wrapper" *ngIf="dateChecked">
+        <mat-form-field class="filter-input">
+          <mat-label>{{ 'ubs-tables.date-to' | translate }}</mat-label>
+          <input
+            matInput
+            readonly
+            [matDatepicker]="picker2"
+            id="dateTo{{ data.columnName }}"
+            [(ngModel)]="dateTo"
+            (dateChange)="onDateChange()"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
 
-      <mat-form-field class="filter-input" *ngIf="dateChecked">
-        <mat-label>{{ 'ubs-tables.date-to' | translate }}</mat-label>
-
-        <input
-          matInput
-          readonly
-          [matDatepicker]="picker2"
-          id="dateTo{{ data.columnName }}"
-          [(ngModel)]="dateTo"
-          (dateChange)="onDateChange()"
-        />
-
-        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-
-        <mat-datepicker #picker2></mat-datepicker>
-      </mat-form-field>
+        <button *ngIf="dateTo" type="button" class="reset-settings" (click)="discardDateChanges('to', $event)">
+          <i class="fa fa-close" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
   </ng-template>
 </ng-container>

@@ -12,7 +12,6 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { select, Store } from '@ngrx/store';
 import moment from 'moment';
 import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
-import { AddFiltersAction } from 'src/app/store/actions/bigOrderTable.actions';
 
 @Component({
   selector: 'app-column-filters-pop-up',
@@ -96,10 +95,13 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   }
 
   onDateChecked(e: MatCheckboxChange, checked: boolean): void {
-    this.store.dispatch(AddFiltersAction({ filters: { [this.data.columnName + 'Check']: checked }, fetchTable: false }));
+    this.showButtons = true;
+    this.onDateChange();
+    this.adminTableService.setNewDateChecked(this.data.columnName, checked);
   }
 
   onDateChange(): void {
+    this.showButtons = true;
     if (this.dateChecked && this.dateFrom?.getTime() > this.dateTo?.getTime()) {
       const temp = this.dateFrom;
       this.dateFrom = this.dateTo;
@@ -108,18 +110,10 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
       this.dateTo = this.dateFrom;
     }
 
-    const dateFrom = this.formatDate(this.dateFrom);
-    const dateTo = this.formatDate(this.dateTo);
+    const dateFrom = this.dateFrom ? this.formatDate(this.dateFrom) : '';
+    const dateTo = this.dateTo ? this.formatDate(this.dateTo) : '';
 
-    this.store.dispatch(
-      AddFiltersAction({
-        filters: {
-          [this.data.columnName + 'From']: dateFrom,
-          [this.data.columnName + 'To']: dateTo
-        },
-        fetchTable: false
-      })
-    );
+    this.adminTableService.setNewDateRange(this.data.columnName, dateFrom, dateTo);
   }
 
   isChecked(columnName: string, option: IFilteredColumnValue): boolean {
@@ -127,7 +121,25 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   }
 
   discardChanges(): void {
+    console.log(this.allFilters);
     this.adminTableService.setCurrentFilters(this.allFilters);
+
+    const dateFromFilter = this.allFilters[this.data.columnName + 'From'];
+    const dateToFilter = this.allFilters[this.data.columnName + 'To'];
+
+    this.dateFrom = dateFromFilter ? new Date(dateFromFilter as string) : null;
+    this.dateTo = dateToFilter ? new Date(dateToFilter as string) : null;
+  }
+
+  discardDateChanges(type: 'from' | 'to', event: Event): void {
+    event.stopPropagation();
+    if (type === 'from') {
+      this.dateFrom = null;
+    } else if (type === 'to') {
+      this.dateTo = null;
+    }
+
+    this.onDateChange();
   }
 
   getOptionsForFiltering(): IFilteredColumnValue[] {

@@ -53,7 +53,7 @@ export class AdminTableService {
 
   columnsForFiltering: IFilteredColumn[] = [];
   filters: any[] = [];
-  selectedFilters: { [key: string]: string[] } = {};
+  selectedFilters: IFilters = {};
   url = environment.ubsAdmin.backendUbsAdminLink + '/management/';
 
   constructor(
@@ -201,14 +201,15 @@ export class AdminTableService {
     this.selectedFilters = { ...filters } as { [key: string]: string[] };
   }
 
-  getSelectedFilters(): { [key: string]: string[] } {
+  getSelectedFilters(): IFilters {
     return this.selectedFilters;
   }
 
   setNewFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
 
-    const currentFilters = this.selectedFilters[currentColumn] || [];
+    const currentFilters = Array.isArray(this.selectedFilters[currentColumn]) ? (this.selectedFilters[currentColumn] as string[]) : [];
+
     const updatedFilters = checked ? [...currentFilters, value] : currentFilters.filter((item) => item !== value);
 
     this.selectedFilters = {
@@ -217,6 +218,17 @@ export class AdminTableService {
     };
 
     console.log('Updated selectedFilters:', this.selectedFilters);
+  }
+
+  setNewDateChecked(columnName: string, checked: boolean): void {
+    this.selectedFilters[columnName + 'Check'] = checked ? true : false;
+  }
+
+  setNewDateRange(columnName: string, dateFrom: string, dateTo: string): void {
+    this.selectedFilters[columnName + 'From'] = dateFrom;
+    this.selectedFilters[columnName + 'To'] = dateTo;
+
+    console.log('Updated date Filters:', this.selectedFilters);
   }
 
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
