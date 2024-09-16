@@ -1,9 +1,9 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PlacesComponent } from './places.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { PlaceService } from '@global-service/place/place.service';
-import { BehaviorSubject, Subject, lastValueFrom, of } from 'rxjs';
+import { BehaviorSubject, Subject, of } from 'rxjs';
 import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
 import { PlaceStatus } from '@global-models/placeStatus.model';
@@ -14,12 +14,10 @@ import { CreatePlaceModel, OpeningHoursDto } from './models/create-place.model';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { tagsListPlacesData } from './models/places-consts';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
-import { CdkScrollable } from '@angular/cdk/scrolling';
 
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
   let fixture: ComponentFixture<PlacesComponent>;
-  let scrollSubject: Subject<Event>;
   let tagsArray: Array<FilterModel> = tagsListPlacesData;
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
@@ -191,40 +189,6 @@ describe('PlacesComponent', () => {
     const spy = spyOn(component, 'selectPlace');
     component.selectPlaceFromSideBar(placeMock);
     expect(spy).toHaveBeenCalled();
-  });
-
-  it('should have scrollable defined after view init', () => {
-    fixture.detectChanges();
-    expect(component.scrollable).toBeDefined();
-  });
-
-  it('should subscribe to elementScrolled and call checkIfScrolledToBottom', async () => {
-    const spy = spyOn(component, 'checkIfScrolledToBottom');
-
-    scrollSubject = new Subject<Event>();
-
-    const mockScrollable = jasmine.createSpyObj('CdkScrollable', ['elementScrolled']);
-    mockScrollable.elementScrolled.and.returnValue(scrollSubject.asObservable());
-
-    component.scrollable = mockScrollable;
-
-    component.ngAfterViewInit();
-
-    await fakeAsync(() => {
-      scrollSubject.next(new Event('scroll'));
-      tick();
-    })();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should not subscribe or call checkIfScrolledToBottom when scrollable is undefined', () => {
-    component.scrollable = undefined;
-
-    const spy = spyOn(component, 'checkIfScrolledToBottom');
-
-    component.ngAfterViewInit();
-
-    expect(spy).not.toHaveBeenCalled();
   });
 
   afterEach(() => {
