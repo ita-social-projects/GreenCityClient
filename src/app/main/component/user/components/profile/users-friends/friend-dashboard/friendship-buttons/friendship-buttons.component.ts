@@ -76,7 +76,7 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
     this.subscribeToAction();
   }
 
-  private subscribeToAction() {
+  private subscribeToAction(): void {
     this.actionsSubj
       .pipe(ofType(DeleteFriendSuccess, AcceptRequestSuccess, DeclineRequestSuccess), takeUntil(this.destroy$))
       .subscribe((data) => {
@@ -102,7 +102,7 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  private updateConditions() {
+  private updateConditions(): void {
     this.canAddFriend =
       this.userAsFriend?.friendStatus === FriendStatusValues.NONE || this.userAsFriend?.friendStatus === FriendStatusValues.REJECTED;
     this.canDeleteFriend = this.userAsFriend?.friendStatus === FriendStatusValues.FRIEND;
@@ -112,7 +112,7 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
       this.userAsFriend?.friendStatus === FriendStatusValues.REQUEST && this.userAsFriend?.requesterId === this.userAsFriend.id;
   }
 
-  handleAction(event: MouseEvent | KeyboardEvent) {
+  handleAction(event: MouseEvent | KeyboardEvent): void {
     if (event instanceof KeyboardEvent && event.key !== 'Enter') {
       return;
     }
@@ -186,6 +186,7 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   private onOpenChat(isNewChat: boolean): void {
+    this.socketService.connect();
     isNewChat ? this.socketService.createNewChat(this.userAsFriend.id, true) : this.chatsService.openCurrentChat(this.userAsFriend.chatId);
     this.chatsService.getAllUserChats(this.currentUserId);
     this.dialog.closeAll();
