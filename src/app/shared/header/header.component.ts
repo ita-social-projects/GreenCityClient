@@ -372,7 +372,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     dialogConfig.closeOnNavigation = true;
     dialogConfig.panelClass = 'dialog-notification';
     dialogConfig.position = {
-      top: 35 + 'px',
+      top: 55 + 'px',
       right: 20 + 'px'
     };
     const matDialogRef = this.dialog.open(UserNotificationsPopUpComponent, dialogConfig);

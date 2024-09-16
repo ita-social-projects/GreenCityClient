@@ -84,10 +84,14 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
         takeUntil(this.destroy$),
         debounceTime(300),
         tap(() => {
-          this.menuTrigger.closeMenu();
-          this.suggestedUsers = [];
           this.content.setValue(this.commentTextarea.nativeElement.textContent);
           this.emitCommentText();
+          const textContent = this.commentTextarea.nativeElement.textContent;
+          const hasTagCharacter = this.charToTagUsers.some((char) => textContent.includes(char));
+          if (!hasTagCharacter) {
+            this.menuTrigger.closeMenu();
+            this.suggestedUsers = [];
+          }
         }),
         filter(() => {
           this.getSelectionStart();
@@ -106,6 +110,9 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
 
         if (!this.searchQuery.includes(' ')) {
           this.sendSocketMessage(this.searchQuery);
+        } else {
+          this.menuTrigger.closeMenu();
+          this.suggestedUsers = [];
         }
       });
   }

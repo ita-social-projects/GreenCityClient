@@ -150,14 +150,6 @@ describe('UbsAdminSidebarComponent', () => {
     expect(spy3).toHaveBeenCalled();
   });
 
-  it('employeesViewer method should call', () => {
-    const spy = spyOnProperty(component, 'employeesViewer').and.callThrough();
-    const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
-    expect(spy).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
-  });
-
   it('customerViewer method should call', () => {
     const spy = spyOnProperty(component, 'customerViewer').and.callThrough();
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');

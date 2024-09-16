@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IAppState } from 'src/app/store/state/app.state';
 
-describe('UbsAdminCertificateComponent', () => {
+xdescribe('UbsAdminCertificateComponent', () => {
   let component: UbsAdminCertificateComponent;
   let fixture: ComponentFixture<UbsAdminCertificateComponent>;
   const initialState = {

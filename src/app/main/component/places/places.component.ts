@@ -1,16 +1,16 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
 import { greenIcon, notification, redIcon, searchIcon, share, star, starHalf, starUnfilled } from '../../image-pathes/places-icons';
 import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
-import { debounceTime, take } from 'rxjs/operators';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Subject, Subscription } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
@@ -18,6 +18,7 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from './models/places-consts';
+import { GoogleScript } from '@assets/google-script/google-script';
 
 @Component({
   selector: 'app-places',
@@ -36,6 +37,8 @@ export class PlacesComponent implements OnInit, OnDestroy {
   basicFilters: string[];
   mapBoundsDto: MapBoundsDto;
   places: Place[] = [];
+  isRenderingMap: boolean;
+
   readonly redIconUrl: string = redIcon;
   readonly greenIconUrl: string = greenIcon;
   activePlace: Place;
@@ -54,6 +57,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   private page = 0;
   private totalPages: number;
   private size = 6;
+  private $destroy: Subject<boolean> = new Subject();
   userId: number;
 
   constructor(
@@ -63,7 +67,8 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private filterPlaceService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
     private dialog: MatDialog,
-    private userOwnAuthService: UserOwnAuthService
+    private userOwnAuthService: UserOwnAuthService,
+    private googleScript: GoogleScript
   ) {}
 
   ngOnInit() {
@@ -78,6 +83,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
     });
 
     this.getMoreOptionsValueFromSessionStorage();
+    this.googleScript.$isRenderingMap.pipe(takeUntil(this.$destroy)).subscribe((value: boolean) => {
+      setTimeout(() => {
+        this.isRenderingMap = value;
+      }, 1000);
+    });
 
     combineLatest([
       this.placeService.places$,
@@ -334,5 +344,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.langChangeSub.unsubscribe();
+    this.$destroy.next(true);
+    this.$destroy.complete();
   }
 }

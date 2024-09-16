@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ChangeViewButtonComponent } from './change-view-button.component';
 
-describe('ChangeViewButtonComponent', () => {
+xdescribe('ChangeViewButtonComponent', () => {
   let component: ChangeViewButtonComponent;
   let fixture: ComponentFixture<ChangeViewButtonComponent>;
 

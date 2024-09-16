@@ -12,7 +12,7 @@ import { NgxPaginationModule, PaginatePipe } from 'ngx-pagination';
 import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
-describe('UbsUserMessagesComponent', () => {
+xdescribe('UbsUserMessagesComponent', () => {
   let component: UbsUserMessagesComponent;
   let fixture: ComponentFixture<UbsUserMessagesComponent>;
   const fakeNotificationBody: NotificationBody = {

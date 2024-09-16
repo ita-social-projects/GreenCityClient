@@ -2,7 +2,7 @@ import { Patterns } from './../../../../../../assets/patterns/patterns';
 import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-success-sign-in';
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { authImages } from './../../../../image-pathes/auth-images';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -81,8 +81,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router,
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent,
-    private zone: NgZone
+    private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit() {
@@ -222,9 +221,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
-    this.zone.run(() => {
-      this.router.navigate(this.isUbs ? ['ubs'] : ['profile', data.userId]);
-    });
+    this.router.navigate(this.isUbs ? ['ubs'] : ['profile', data.userId]);
   }
 
   private signUpWithGoogleError(errors: HttpErrorResponse): void {
