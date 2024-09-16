@@ -27,7 +27,7 @@ declare global {
   }
 }
 
-xdescribe('SignIn component', () => {
+describe('SignIn component', () => {
   let component: SignInComponent;
   let fixture: ComponentFixture<SignInComponent>;
   let router: Router;
