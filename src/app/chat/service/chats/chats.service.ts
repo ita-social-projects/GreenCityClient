@@ -7,8 +7,8 @@ import { Message, MessageExtended, MessagesToSave } from '../../model/Message.mo
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { Messages } from './../../model/Message.model';
 import { concatMap, map } from 'rxjs/operators';
-import { UserService } from '@global-service/user/user.service';
 import { OrderService } from '@ubs/ubs/services/order.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +31,8 @@ export class ChatsService {
 
   constructor(
     private httpClient: HttpClient,
-    public userService: UserService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private localStorageService: LocalStorageService
   ) {}
 
   get userChats() {
@@ -60,7 +60,7 @@ export class ChatsService {
       map((messages) => {
         return messages.map((message, index, array) => {
           const isFirstOfDay = index === 0 || !this.isSameDay(message.createDate, array[index - 1].createDate);
-          const isLiked = message?.likes?.some((el) => el.id === this.userService.userId);
+          const isLiked = message?.likes?.some((el) => el.id === this.localStorageService.getUserId());
           return { ...message, isFirstOfDay, isLiked: !!isLiked };
         });
       })
