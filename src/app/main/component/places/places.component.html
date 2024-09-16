@@ -40,12 +40,18 @@
       <div class="place-info">
         <mat-drawer-container class="example-container sidebar-container" autosize>
           <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed>
-            <div cdkScrollable class="mat-drawer-inner-container">
+            <div
+              class="sidebar-content-all"
+              infiniteScroll
+              [infiniteScrollThrottle]="500"
+              [scrollWindow]="false"
+              (scrolled)="updatePlaceList(false)"
+            >
               <div *ngIf="!activePlaceDetails">
                 <div class="title-container">
                   <p class="title-sidebar">{{ 'user.places-card.card-popular' | translate }}</p>
                 </div>
-                <div class="sidebar-content-all" *ngFor="let place of placesList">
+                <div class="sidebar-item-content" *ngFor="let place of placesList">
                   <div class="head">
                     <p class="content-title" (click)="selectPlaceFromSideBar(place)">{{ place.name }}</p>
                     <button (click)="toggleFavoriteFromSideBar(place)" class="btn-bookmark">
