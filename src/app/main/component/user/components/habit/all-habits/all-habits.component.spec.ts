@@ -189,13 +189,6 @@ xdescribe('AllHabitsComponent', () => {
     expect(component.habitsList).toEqual(result);
   });
 
-  // it('should not call method checkIfAssigned on setHabitsList if totalElements is zero', () => {
-  //   HABITLIST.totalElements = 0;
-  //   const spy = spyOn(component, 'checkIfAssigned');
-  //   (component as any).setHabitsList(0, HABITLIST);
-  //   expect(spy).not.toHaveBeenCalled();
-  // });
-
   it('should set isFetching false and dont call methods onScroll if isAllPages is true', () => {
     (component as any).isAllPages = true;
     const spy1 = spyOn(component as any, 'getAllHabits');
