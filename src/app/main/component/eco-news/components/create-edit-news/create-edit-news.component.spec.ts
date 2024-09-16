@@ -47,7 +47,7 @@ function getEmptyFormGroup() {
   });
 }
 
-xdescribe('CreateEditNewsComponent', () => {
+describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
   let fixture: ComponentFixture<CreateEditNewsComponent>;
   let router: Router;
