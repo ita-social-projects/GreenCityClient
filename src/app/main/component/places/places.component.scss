@@ -279,6 +279,11 @@ $cardTextColor: #1d2830;
 }
 
 .sidebar-content-all {
+  height: 540px;
+  overflow-y: auto;
+}
+
+.sidebar-item-content {
   display: flex;
   flex-direction: column;
   width: 264px;
@@ -334,6 +339,10 @@ $cardTextColor: #1d2830;
     font-weight: 400;
     line-height: 12px;
   }
+}
+
+:host ::ng-deep .mat-drawer-inner-container {
+  overflow: hidden;
 }
 
 @media screen and (max-width: 767px) {
