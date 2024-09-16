@@ -12,6 +12,7 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
 import { singleNewsImages } from '../../../../../image-pathes/single-news-images';
 import { HabitsFiltersList } from '../models/habits-filters-list';
+import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
 import { HttpParams } from '@angular/common/http';
 
@@ -125,6 +126,9 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.currentPage = res.currentPage;
     page += 1;
     this.isAllPages = this.totalPages === page;
+    if (this.totalHabits) {
+      this.checkIfAssigned();
+    }
   }
 
   onDisplayModeChange(mode: boolean): void {
@@ -174,6 +178,22 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
         ? this.getHabitsByFilters(this.currentPage, this.pageSize, this.activeFilters)
         : this.getAllHabits(this.currentPage, this.pageSize);
     }
+  }
+
+  checkIfAssigned(): void {
+    this.habitAssignService
+      .getAssignedHabits()
+      .pipe(take(1))
+      .subscribe((response: Array<HabitAssignInterface>) => {
+        response.forEach((assigned) => {
+          this.habitsList.forEach((filtered) => {
+            if (assigned.habit.id === filtered.id && assigned.status === 'INPROGRESS') {
+              filtered.isAssigned = true;
+              filtered.assignId = assigned.id;
+            }
+          });
+        });
+      });
   }
 
   goToCreateHabit(): void {
