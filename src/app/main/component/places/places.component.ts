@@ -214,17 +214,20 @@ export class PlacesComponent implements OnInit, OnDestroy {
 
   private getPlaceList(): void {
     this.placeService.getAllPlaces(this.page, this.size).subscribe((item: any) => {
-      if (item.page) {
-        this.placesList = [...this.placesList, ...item.page];
-        this.drawer.toggle(true);
-      } else {
-        this.drawer.toggle(false);
-      }
-      this.totalPages = item.totalPages;
-      this.page += 1;
-
-      this.cdr.detectChanges();
+      this.handlePlaceListResponse(item);
     });
+  }
+
+  private handlePlaceListResponse(item: any): void {
+    if (item.page) {
+      this.placesList = [...this.placesList, ...item.page];
+      this.drawer.toggle(true);
+    } else {
+      this.drawer.toggle(false);
+    }
+    this.totalPages = item.totalPages;
+    this.page += 1;
+    this.cdr.detectChanges();
   }
 
   toggleFavorite(): void {
