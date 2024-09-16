@@ -121,7 +121,7 @@ describe('PlacesComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PlacesComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule, InfiniteScrollModule, CdkScrollable],
+      imports: [TranslateModule.forRoot(), MatDialogModule, InfiniteScrollModule],
       providers: [
         {
           provide: LocalStorageService,
