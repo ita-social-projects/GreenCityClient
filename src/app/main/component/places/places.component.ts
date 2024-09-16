@@ -345,10 +345,6 @@ export class PlacesComponent implements OnInit, OnDestroy {
       });
   }
 
-  onScroll() {
-    alert('scroll');
-  }
-
   ngOnDestroy(): void {
     this.langChangeSub.unsubscribe();
     this.$destroy.next(true);
