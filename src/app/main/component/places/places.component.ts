@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
@@ -66,10 +66,9 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private placeService: PlaceService,
     private filterPlaceService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
-    private dialog: MatDialog,
-    private userOwnAuthService: UserOwnAuthService,
     private googleScript: GoogleScript,
-    private cdr: ChangeDetectorRef
+    private dialog: MatDialog,
+    private userOwnAuthService: UserOwnAuthService
   ) {}
 
   ngOnInit() {
@@ -227,7 +226,6 @@ export class PlacesComponent implements OnInit, OnDestroy {
     }
     this.totalPages = item.totalPages;
     this.page += 1;
-    this.cdr.detectChanges();
   }
 
   toggleFavorite(): void {
