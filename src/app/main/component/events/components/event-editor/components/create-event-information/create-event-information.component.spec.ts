@@ -97,13 +97,13 @@ xdescribe('CreateEventInformationComponent', () => {
   it('should return quillError if quillLength is more than maxLength', () => {
     component.quillLength = 63207;
     localStorageServiceSpy.getCurrentLanguage.and.returnValue(Language.EN);
-    expect(component.quillLabel).toBe('Left characters:  1');
+    expect(component.quillLabel).toBe('Number of characters: 1');
   });
 
   it('should return quillValid if quillLength is between minLength and maxLength', () => {
     component.quillLength = 30;
     localStorageServiceSpy.getCurrentLanguage.and.returnValue(Language.EN);
-    expect(component.quillLabel).toBe('Left characters:  63176');
+    expect(component.quillLabel).toBe('Number of characters: 63176');
   });
 
   it('should set initial form values if formInput is provided', () => {

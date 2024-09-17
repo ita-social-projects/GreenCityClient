@@ -69,22 +69,23 @@ export class CreateEventInformationComponent implements OnInit {
   }
 
   quillContentChanged(content: ContentChange): void {
-    this.quillLength = content.text.length;
-    this.isQuillUnfilled = this.quillLength < this.minLength || this.quillLength > this.maxLength;
+    this.quillLength = content.text.length - 1;
+    this.isQuillUnfilled = this.quillLength < 20;
     this.eventInfForm.get('description').setValue(content.text.trimEnd());
   }
 
   get quillLabel(): string {
-    if (this.quillLength > this.maxLength) {
-      return `${this.getLocale('quillValid')} ${this.quillLength - this.maxLength}`;
-    }
-    if (this.quillLength < 1) {
+    const typedCharacters = this.quillLength;
+    if (typedCharacters < 1) {
       return `${this.getLocale('quillDefault')}`;
     }
-    if (this.quillLength < this.minLength) {
-      return `${this.getLocale('quillError')} ${this.minLength - this.quillLength}`;
+    if (typedCharacters > this.maxLength) {
+      return `${this.getLocale('quillMaxExceeded')} ${typedCharacters - this.maxLength}`;
     }
-    return `${this.getLocale('quillValid')} ${this.maxLength - this.quillLength}`;
+    if (typedCharacters < this.minLength) {
+      return `${this.getLocale('quillError')} ${this.minLength - typedCharacters}`;
+    }
+    return `${this.getLocale('quillValid')} ${typedCharacters}`;
   }
 
   getLocale(localeKey: EventLocaleKeys): string {

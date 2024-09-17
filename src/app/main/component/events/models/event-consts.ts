@@ -98,9 +98,13 @@ export const EVENT_LOCALE = {
     ua: 'Недостатньо символів. Залишилось: ',
     en: 'Not enough characters. Left: '
   },
+  quillMaxExceeded: {
+    ua: 'Максимальна довжина символів більше ніж ',
+    en: 'The maximum character length is greater than '
+  },
   quillValid: {
-    ua: 'Залишилось символів: ',
-    en: 'Left characters: '
+    ua: 'Кількість символів: ',
+    en: 'Number of characters: '
   },
   quillDefault: {
     ua: '',
