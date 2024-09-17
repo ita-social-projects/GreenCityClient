@@ -81,6 +81,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     const isCalendarOpened = this.pickerFrom?.opened || this.pickerTo?.opened;
 
     if (!clickedInside && this.isPopupOpened && !isCalendarOpened) {
+      this.discardChanges();
       this.matDialogRef.close();
     }
 
@@ -95,25 +96,21 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   }
 
   onDateChecked(e: MatCheckboxChange, checked: boolean): void {
-    this.showButtons = true;
     this.onDateChange();
     this.adminTableService.setNewDateChecked(this.data.columnName, checked);
   }
 
   onDateChange(): void {
     this.showButtons = true;
-    if (this.dateChecked && this.dateFrom?.getTime() > this.dateTo?.getTime()) {
-      const temp = this.dateFrom;
-      this.dateFrom = this.dateTo;
-      this.dateTo = temp;
-    } else if (!this.dateChecked) {
-      this.dateTo = this.dateFrom;
-    }
+    const { dateFrom, dateTo } = this.adminTableService.swapDatesIfNeeded(this.dateFrom, this.dateTo, this.dateChecked);
 
-    const dateFrom = this.dateFrom ? this.formatDate(this.dateFrom) : '';
-    const dateTo = this.dateTo ? this.formatDate(this.dateTo) : '';
+    this.dateFrom = dateFrom;
+    this.dateTo = dateTo;
 
-    this.adminTableService.setNewDateRange(this.data.columnName, dateFrom, dateTo);
+    const formattedDateFrom = this.dateFrom ? this.formatDate(this.dateFrom) : '';
+    const formattedDateTo = this.dateTo ? this.formatDate(this.dateTo) : '';
+
+    this.adminTableService.setNewDateRange(this.data.columnName, formattedDateFrom, formattedDateTo);
   }
 
   isChecked(columnName: string, option: IFilteredColumnValue): boolean {
@@ -121,7 +118,6 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   }
 
   discardChanges(): void {
-    console.log(this.allFilters);
     this.adminTableService.setCurrentFilters(this.allFilters);
 
     const dateFromFilter = this.allFilters[this.data.columnName + 'From'];

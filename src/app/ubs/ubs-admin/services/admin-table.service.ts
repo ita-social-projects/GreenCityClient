@@ -216,8 +216,6 @@ export class AdminTableService {
       ...this.selectedFilters,
       [currentColumn]: updatedFilters
     };
-
-    console.log('Updated selectedFilters:', this.selectedFilters);
   }
 
   setNewDateChecked(columnName: string, checked: boolean): void {
@@ -227,8 +225,15 @@ export class AdminTableService {
   setNewDateRange(columnName: string, dateFrom: string, dateTo: string): void {
     this.selectedFilters[columnName + 'From'] = dateFrom;
     this.selectedFilters[columnName + 'To'] = dateTo;
+  }
 
-    console.log('Updated date Filters:', this.selectedFilters);
+  swapDatesIfNeeded(dateFrom: Date | null, dateTo: Date | null, dateChecked: boolean): { dateFrom: Date | null; dateTo: Date | null } {
+    if (dateChecked && dateFrom?.getTime() > dateTo?.getTime()) {
+      return { dateFrom: dateTo, dateTo: dateFrom };
+    } else if (!dateChecked) {
+      return { dateFrom: dateFrom, dateTo: dateFrom }; // Set dateTo same as dateFrom if dateChecked is false
+    }
+    return { dateFrom, dateTo };
   }
 
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {

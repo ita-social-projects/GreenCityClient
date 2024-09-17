@@ -121,7 +121,7 @@ input {
   .date-input {
     font-size: 14px;
     height: 18px;
-    width: 104px;
+    width: 100%;
     background-color: transparent;
     margin: 0;
     padding: 0;
@@ -619,6 +619,18 @@ mat-spinner {
   border: none;
   border-radius: 100px;
   background-color: transparent;
+  padding: 0px 5px;
+}
+
+.one-row {
+  width: 255px;
+  margin-right: 10px;
+}
+
+.one-row-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 #table-container {
@@ -642,4 +654,10 @@ mat-spinner {
 
 :host ::ng-deep .mdc-form-field > label {
   width: 275px;
+}
+
+.date-change_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

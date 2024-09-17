@@ -13,7 +13,7 @@
         [matMenuTriggerFor]="clickMenu"
         #clickMenuTrigger="matMenuTrigger"
         class="btn btn-default filter-table-btn"
-        (click)="resetCurrentFilters()"
+        (click)="resetCurrentFilters($event)"
       >
         <mat-icon>filter_list</mat-icon>
         {{ 'ubs-tables.filters' | translate }}
@@ -49,15 +49,25 @@
                   <div class="accordion-body">
                     <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
                       <div [formGroup]="dateForm">
-                        <mat-checkbox formControlName="{{ column.key }}Check" (change)="changeInputDate()">
+                        <mat-checkbox formControlName="{{ column.key }}Check" (change)="onDateChecked($event, $event.checked, column.key)">
                           {{ 'ubs-tables.date-range' | translate }}
                         </mat-checkbox>
                         <div class="date-range-box">
-                          <div class="input-box">
-                            <label class="date-label" for="dateFrom" *ngIf="getControlValue(column.key, 'Check')">{{
-                              'ubs-tables.date-from' | translate
-                            }}</label>
-                            <div class="data-field">
+                          <div class="input-box" [ngClass]="{ 'one-row-box': !getControlValue(column.key, 'Check') }">
+                            <div class="date-change_wrapper" *ngIf="getControlValue(column.key, 'Check')">
+                              <label class="date-label" for="dateFrom">
+                                {{ 'ubs-tables.date-from' | translate }}
+                              </label>
+                              <button
+                                *ngIf="getControlValue(column.key, 'From')"
+                                type="button"
+                                class="reset-settings"
+                                (click)="discardDateChanges($event, column.key, 'from')"
+                              >
+                                <i class="fa fa-close" aria-hidden="true"></i>
+                              </button>
+                            </div>
+                            <div class="data-field" [ngClass]="{ 'one-row': !getControlValue(column.key, 'Check') }">
                               <input
                                 matInput
                                 readonly
@@ -67,16 +77,34 @@
                                 formControlName="{{ column.key }}From"
                                 [max]="currentDate"
                                 (keydown)="(false)"
-                                (dateChange)="changeInputDate()"
+                                (dateChange)="onDateChange(column.key)"
                               />
                               <button matSuffix class="calendar-btn">
                                 <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker1.open()" />
                               </button>
                               <mat-datepicker #picker1></mat-datepicker>
                             </div>
+                            <button
+                              *ngIf="!getControlValue(column.key, 'Check') && getControlValue(column.key, 'From')"
+                              type="button"
+                              class="reset-settings"
+                              (click)="discardDateChanges($event, column.key, '')"
+                            >
+                              <i class="fa fa-close" aria-hidden="true"></i>
+                            </button>
                           </div>
                           <div class="input-box" *ngIf="getControlValue(column.key, 'Check')">
-                            <label class="date-label" for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
+                            <div class="date-change_wrapper">
+                              <label class="date-label" for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
+                              <button
+                                *ngIf="getControlValue(column.key, 'To')"
+                                type="button"
+                                class="reset-settings"
+                                (click)="discardDateChanges($event, column.key, 'to')"
+                              >
+                                <i class="fa fa-close" aria-hidden="true"></i>
+                              </button>
+                            </div>
                             <div class="data-field">
                               <input
                                 matInput
@@ -88,7 +116,7 @@
                                 [placeholder]="'ubs-tables.date-placeholder' | translate"
                                 formControlName="{{ column.key }}To"
                                 (keydown)="(false)"
-                                (dateChange)="changeInputDate()"
+                                (dateChange)="onDateChange(column.key)"
                               />
                               <button matSuffix class="calendar-btn">
                                 <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker2.open()" />
@@ -120,7 +148,7 @@
             <button [disabled]="noFiltersApplied" type="button" class="filter-btn bg-lime" (click)="applyFilters()">
               {{ 'ubs-tables.apply-filters' | translate }}
             </button>
-            <button [disabled]="noFiltersApplied" type="button" class="filter-btn clear-filt" (click)="resetCurrentFilters()">
+            <button [disabled]="noFiltersApplied" type="button" class="filter-btn clear-filt" (click)="resetCurrentFilters($event)">
               {{ 'ubs-tables.clear-filters' | translate }}
             </button>
           </div>
