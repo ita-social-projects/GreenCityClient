@@ -231,7 +231,7 @@ export class AdminTableService {
     if (dateChecked && dateFrom?.getTime() > dateTo?.getTime()) {
       return { dateFrom: dateTo, dateTo: dateFrom };
     } else if (!dateChecked) {
-      return { dateFrom: dateFrom, dateTo: dateFrom }; // Set dateTo same as dateFrom if dateChecked is false
+      return { dateFrom: dateFrom, dateTo: dateFrom };
     }
     return { dateFrom, dateTo };
   }

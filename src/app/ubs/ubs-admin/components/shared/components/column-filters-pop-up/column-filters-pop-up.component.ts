@@ -107,8 +107,8 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     this.dateFrom = dateFrom;
     this.dateTo = dateTo;
 
-    const formattedDateFrom = this.dateFrom ? this.formatDate(this.dateFrom) : '';
-    const formattedDateTo = this.dateTo ? this.formatDate(this.dateTo) : '';
+    const formattedDateFrom = this.dateFrom ? this.adminTableService.setDateFormat(this.dateFrom) : '';
+    const formattedDateTo = this.dateTo ? this.adminTableService.setDateFormat(this.dateTo) : '';
 
     this.adminTableService.setNewDateRange(this.data.columnName, formattedDateFrom, formattedDateTo);
   }
@@ -150,10 +150,6 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  private formatDate(date: Date): string {
-    return moment(date).format('YYYY-MM-DD');
   }
 
   private setPopupPosUnderButton(): void {

@@ -23,7 +23,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { SelectionModel } from '@angular/cdk/collections';
 import { Language } from 'src/app/main/i18n/Language';
 import { DateAdapter } from '@angular/material/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableHeightService } from '../../services/table-height.service';
 import { Router } from '@angular/router';
@@ -31,7 +31,7 @@ import { IColumnDTO, IFilteredColumn } from '../../models/ubs-admin.interface';
 import { IAlertInfo } from '../../models/edit-cell.model';
 import { AdminTableService } from '../../services/admin-table.service';
 
-xdescribe('UbsAdminTableComponent', () => {
+fdescribe('UbsAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch', 'pipe']);
@@ -676,6 +676,106 @@ xdescribe('UbsAdminTableComponent', () => {
     (component as any).adminTableService.columnsForFiltering = [{ value: 'one' }] as any;
     const Res = component.getColumnsForFiltering();
     expect(Res[0]).toEqual({ value: 'one' } as any);
+  });
+
+  it('should return true when isFilterChecked returns true', () => {
+    const columnName = 'orderStatus';
+    const option = { en: 'Completed', key: 'DONE' };
+
+    spyOn(adminTableService, 'isFilterChecked').and.returnValue(true);
+    const result = component.isChecked(columnName, option);
+
+    expect(result).toBeTrue();
+    expect(adminTableService.isFilterChecked).toHaveBeenCalledWith(columnName, option);
+  });
+
+  it('should set noFiltersApplied to false and call setNewFilters', () => {
+    const checked = true;
+    const currentColumn = 'orderStatus';
+    const option = { en: 'Completed', key: 'DONE' };
+
+    spyOn(adminTableService, 'setNewFilters');
+    component.onFilterChange(checked, currentColumn, option);
+
+    expect(component.noFiltersApplied).toBeFalse();
+    expect(adminTableService.setNewFilters).toHaveBeenCalledWith(checked, currentColumn, option);
+  });
+
+  it('should set noFiltersApplied to false, swap dates if needed, and set new date range', () => {
+    component.dateForm = new FormGroup({
+      orderStatusFrom: new FormControl(null),
+      orderStatusTo: new FormControl(null),
+      orderStatusCheck: new FormControl(true)
+    });
+
+    const columnKey = 'orderStatus';
+    const dateFromValue = '2024-09-17';
+    const dateToValue = '2024-09-18';
+    const dateChecked = true;
+
+    spyOn(component, 'getControlValue').and.callFake((key: string, type: string) => {
+      if (type === 'From') return dateFromValue;
+      if (type === 'To') return dateToValue;
+      if (type === 'Check') return dateChecked;
+      return null;
+    });
+
+    const swappedDates = { dateFrom: new Date(dateToValue), dateTo: new Date(dateFromValue) };
+    spyOn(adminTableService, 'swapDatesIfNeeded').and.returnValue(swappedDates);
+    spyOn(adminTableService, 'setDateFormat').and.callFake((date: Date) => date.toISOString().split('T')[0]);
+    spyOn(adminTableService, 'setNewDateRange');
+
+    component.onDateChange(columnKey);
+
+    expect(component.noFiltersApplied).toBeFalse();
+    expect(adminTableService.swapDatesIfNeeded).toHaveBeenCalledWith(new Date(dateFromValue), new Date(dateToValue), dateChecked);
+
+    expect(component.dateForm.get(`${columnKey}From`)?.value?.toISOString()).toEqual(new Date(dateToValue).toISOString());
+    expect(component.dateForm.get(`${columnKey}To`)?.value?.toISOString()).toEqual(new Date(dateFromValue).toISOString());
+
+    expect(adminTableService.setDateFormat).toHaveBeenCalledWith(new Date(dateToValue));
+    expect(adminTableService.setDateFormat).toHaveBeenCalledWith(new Date(dateFromValue));
+    expect(adminTableService.setNewDateRange).toHaveBeenCalledWith(columnKey, dateToValue, dateFromValue);
+  });
+
+  it('should update date checked status and call onDateChange', () => {
+    component.dateForm = new FormGroup({
+      orderStatusFrom: new FormControl(null),
+      orderStatusTo: new FormControl(null),
+      orderStatusCheck: new FormControl(false)
+    });
+
+    const columnKey = 'orderStatus';
+    const checked = true;
+
+    spyOn(adminTableService, 'setNewDateChecked');
+    spyOn(component, 'onDateChange');
+
+    const event = {} as MatCheckboxChange;
+    component.onDateChecked(event, checked, columnKey);
+
+    expect(adminTableService.setNewDateChecked).toHaveBeenCalledWith(columnKey, checked);
+    expect(component.onDateChange).toHaveBeenCalledWith(columnKey);
+  });
+
+  it('should discard date changes and call onDateChange', () => {
+    component.dateForm = new FormGroup({
+      orderStatusFrom: new FormControl('2024-09-18'),
+      orderStatusTo: new FormControl('2024-09-20')
+    });
+
+    spyOn(component, 'onDateChange');
+    const event = new Event('click');
+
+    component.discardDateChanges(event, 'orderStatus', 'from');
+    expect(component.dateForm.get('orderStatusFrom')?.value).toBe('');
+    expect(component.dateForm.get('orderStatusTo')?.value).toBe('2024-09-20');
+    expect(component.onDateChange).toHaveBeenCalledWith('orderStatus');
+
+    component.discardDateChanges(event, 'orderStatus', 'to');
+    expect(component.dateForm.get('orderStatusFrom')?.value).toBe('');
+    expect(component.dateForm.get('orderStatusTo')?.value).toBe('');
+    expect(component.onDateChange).toHaveBeenCalledWith('orderStatus');
   });
 
   it('should conver date value on changeInputDate', () => {
