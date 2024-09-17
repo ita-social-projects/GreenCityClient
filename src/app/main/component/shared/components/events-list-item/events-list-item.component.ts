@@ -12,7 +12,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { typeFiltersData } from '../../../events/models/event-consts';
-import { EventListResponse, LocationResponse, TagDto, TagObj } from '../../../events/models/events.interface';
+import { EventAttender, EventListResponse, LocationResponse, TagDto, TagObj } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -66,7 +66,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   isOwner: boolean;
   isAdmin: boolean;
   isActive: boolean;
-  attendees = [];
+  attendees: EventAttender[] = [];
   attendeesAvatars = [];
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title-admin',

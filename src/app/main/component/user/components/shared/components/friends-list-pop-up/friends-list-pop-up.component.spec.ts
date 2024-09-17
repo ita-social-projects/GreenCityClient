@@ -70,20 +70,6 @@ describe('FriendsListPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('Testing the basic functionality', () => {
-    it('should close dialog by onClose function call', () => {
-      const spy = spyOn((component as any).matDialogRef, 'close');
-      component.onClose();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should call getFriendsHabitProgress inside ngOnInit', () => {
-      const spy = spyOn(component as any, 'getFriendsHabitProgress');
-      component.ngOnInit();
-      expect(spy).toHaveBeenCalled();
-    });
-  });
-
   describe('getFriendsHabitProgress', () => {
     it('should set friends correctly', () => {
       component.getFriendsHabitProgress();

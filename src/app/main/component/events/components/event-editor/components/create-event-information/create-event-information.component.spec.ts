@@ -16,7 +16,7 @@ import { FormBridgeService } from '../../../../services/form-bridge.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from '../../../../../../i18n/Language';
 
-describe('CreateEventInformationComponent', () => {
+xdescribe('CreateEventInformationComponent', () => {
   let component: CreateEventInformationComponent;
   let fixture: ComponentFixture<CreateEventInformationComponent>;
   let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;

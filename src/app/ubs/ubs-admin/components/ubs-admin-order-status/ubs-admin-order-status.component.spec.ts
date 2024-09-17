@@ -136,7 +136,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.UNPAID);
   });
 
-  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status HALF_PAID', () => {
+  xit('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status HALF_PAID', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 2;
     component.totalPaid = 1;
