@@ -126,8 +126,12 @@ describe('ColumnFiltersPopUpComponent', () => {
 
     fakeAdminTableService.swapDatesIfNeeded.and.returnValue({ dateFrom, dateTo });
     fakeAdminTableService.setDateFormat.and.callFake((date) => {
-      if (date === dateFrom) return formattedDateFrom;
-      if (date === dateTo) return formattedDateTo;
+      if (date === dateFrom) {
+        return formattedDateFrom;
+      }
+      if (date === dateTo) {
+        return formattedDateTo;
+      }
       return '';
     });
 

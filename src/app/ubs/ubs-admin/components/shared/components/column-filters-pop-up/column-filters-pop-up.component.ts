@@ -27,7 +27,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   dateChecked: boolean;
 
   isPopupOpened = false;
-  showButtons: boolean = false;
+  showButtons = false;
 
   private allFilters: IFilters;
   private destroy$: Subject<void> = new Subject<void>();
