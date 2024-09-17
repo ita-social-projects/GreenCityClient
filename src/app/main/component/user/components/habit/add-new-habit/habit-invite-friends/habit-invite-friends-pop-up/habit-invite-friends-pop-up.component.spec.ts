@@ -23,6 +23,8 @@ describe('HabitInviteFriendsPopUpComponent', () => {
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
+  userFriendsServiceMock.inviteFriendsToHabit = jasmine.createSpy('inviteFriendsToHabit').and.returnValue(of({}));
+  userFriendsServiceMock.addedFriends = [];
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -58,18 +60,20 @@ describe('HabitInviteFriendsPopUpComponent', () => {
   });
 
   describe('setFriendDisable', () => {
-    it('should return true if the friend is in the addedFriends list', () => {
+    it('should return true if the friend is in the addedFriends list and invitationSent is false', () => {
       const friendId = 1;
       userFriendsServiceMock.addedFriends = [FIRSTFRIEND, SECONDFRIEND];
+      component.invitationSent = false;
       const result = component.setFriendDisable(friendId);
       expect(result).toBe(false);
     });
 
-    it('should return false if the friend is not in the addedFriends list', () => {
+    it('should return true if invitationSent is true, regardless of addedFriends', () => {
       const friendId = 1;
-      userFriendsServiceMock.addedFriends = [];
+      userFriendsServiceMock.addedFriends = [FIRSTFRIEND, SECONDFRIEND];
+      component.invitationSent = true;
       const result = component.setFriendDisable(friendId);
-      expect(result).toBe(false);
+      expect(result).toBe(true);
     });
   });
 
@@ -83,5 +87,49 @@ describe('HabitInviteFriendsPopUpComponent', () => {
     component.friends = [FIRSTFRIEND, SECONDFRIEND];
     component.allAdd = false;
     expect(component.someAdd()).toBeTruthy();
+  });
+
+  describe('onFriendCheckboxChange', () => {
+    it('should add friend to selectedFriends when checked', () => {
+      component.friends = [FIRSTFRIEND];
+      component.onFriendCheckboxChange(FIRSTFRIEND.id, true);
+
+      expect(component.selectedFriends).toContain(FIRSTFRIEND.id);
+    });
+
+    it('should remove friend from selectedFriends when unchecked', () => {
+      component.friends = [FIRSTFRIEND];
+      component.selectedFriends = [FIRSTFRIEND.id];
+      component.onFriendCheckboxChange(FIRSTFRIEND.id, false);
+
+      expect(component.selectedFriends).not.toContain(FIRSTFRIEND.id);
+    });
+  });
+
+  it('should update selected friends when setAll is called', () => {
+    component.friends = [FIRSTFRIEND, SECONDFRIEND];
+    const spy = spyOn(component, 'toggleFriendSelection');
+    component.setAll(true);
+    expect(spy).toHaveBeenCalledTimes(2);
+    expect(component.allAdd).toBeTrue();
+  });
+
+  it('should filter friends by input', () => {
+    const event = {
+      target: {
+        value: 'test'
+      }
+    } as any;
+    component.onInput(event);
+    expect(component.inputValue).toBe('test');
+    expect(component.allAdd).toBeFalse();
+  });
+
+  it('should unsubscribe on ngOnDestroy', () => {
+    const spy = spyOn(component['destroyed$'], 'next');
+    const spyComplete = spyOn(component['destroyed$'], 'complete');
+    component.ngOnDestroy();
+    expect(spy).toHaveBeenCalledWith(true);
+    expect(spyComplete).toHaveBeenCalled();
   });
 });
