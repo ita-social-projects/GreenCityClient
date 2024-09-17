@@ -109,8 +109,12 @@ export class CAddressData {
     this.addressComment = address.addressComment;
   }
 
-  setCoordinates(coordinates: google.maps.LatLng): void {
+  setCoordinates(coordinates: google.maps.LatLng, opts?: { fetch: boolean }): void {
     this.coordinates = coordinates;
+
+    if (!opts?.fetch) {
+      return;
+    }
 
     this.fetchAddress(coordinates);
   }
@@ -156,9 +160,9 @@ export class CAddressData {
   }
 
   setStreet(place_id: string): void {
+    this.placeId = place_id;
     this.setProperties('street', place_id, 'route');
     this.setDistrict(place_id);
-    this.resetPlaceId();
   }
 
   resetStreet(): void {
@@ -177,6 +181,12 @@ export class CAddressData {
     this.setProperties('district', place_id, 'sublocality', 'administrative_area_level_2');
   }
 
+  setDistrictFromCity() {
+    this.district = this.city;
+    this.districtEn = this.cityEn;
+    this.addressChange.next(this.getValues());
+  }
+
   resetDistrict(): void {
     this.district = '';
     this.districtEn = '';
@@ -184,11 +194,6 @@ export class CAddressData {
 
   setHouseNumber(value: any) {
     this.houseNumber = value;
-    this.resetPlaceId();
-
-    if (value) {
-      this.fetchPlaceId();
-    }
   }
 
   setHouseCorpus(value: any) {
@@ -213,7 +218,6 @@ export class CAddressData {
 
   getValues(): AddressData {
     const addressData: AddressData = {
-      searchAddress: this.getSearchAddress(),
       regionEn: this.regionEn,
       region: this.region,
       city: this.city,
@@ -226,7 +230,11 @@ export class CAddressData {
       entranceNumber: this.entranceNumber,
       houseCorpus: this.houseCorpus,
       addressComment: this.addressComment,
-      placeId: this.placeId
+      placeId: this.placeId,
+      coordinates: {
+        latitude: this.coordinates?.lat(),
+        longitude: this.coordinates?.lng()
+      }
     };
     return addressData;
   }
@@ -262,35 +270,6 @@ export class CAddressData {
     });
   }
 
-  //Fetch placeId for address
-  //If it cant find exact address it tries to find address without house number
-  private fetchPlaceId(isUseHouseNumber = true): void {
-    const request = {
-      input: this.getSearchAddress(isUseHouseNumber),
-      language: this.languageService.getCurrentLanguage() === Language.EN ? 'en' : 'uk',
-      types: ['address'],
-      componentRestrictions: { country: 'ua' }
-    };
-
-    new google.maps.places.AutocompleteService().getPlacePredictions(request, (predictions) => {
-      if (predictions?.length && predictions[0]?.place_id) {
-        this.placeId = predictions[0]?.place_id;
-        this.placeIdChange.next(this.placeId);
-      } else if (isUseHouseNumber) {
-        this.fetchPlaceId(false);
-      }
-    });
-  }
-
-  private getSearchAddress(isExactAddress = true): string {
-    const houseNumber = isExactAddress && this.houseNumber ? `${this.houseNumber}, ` : '';
-    const street = isExactAddress ? `${this.languageService.getLangValue(this.street, this.streetEn)} ` : '';
-
-    return this.languageService.getCurrentLanguage() === Language.EN
-      ? `${this.regionEn}, ${this.cityEn} city, ${street}${houseNumber}, Ukraine`
-      : `${this.region}, місто ${this.city}, ${street}${houseNumber}, Україна`;
-  }
-
   //Translates values to achieve consistent view of address in different languages
   private setProperties(propertyName: string, place_id: string, ...googleLocalityType: string[]): void {
     this.translateProperty(propertyName, place_id, Language.UK, ...googleLocalityType);
@@ -300,6 +279,8 @@ export class CAddressData {
   //Translates address component by placeId to required language
   private translateProperty(propertyName: string, placeId: string, language: Language, ...googleLocalityType: string[]): void {
     new google.maps.Geocoder().geocode({ placeId, language }).then((response) => {
+      console.log(response);
+
       this[propertyName] = this.findValue(response.results[0], ...googleLocalityType)?.long_name ?? '';
       this.addressChange.next(this.getValues());
     });
