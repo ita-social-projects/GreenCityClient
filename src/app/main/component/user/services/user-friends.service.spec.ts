@@ -4,29 +4,14 @@ import { getTestBed, TestBed } from '@angular/core/testing';
 import { UserFriendsService } from './user-friends.service';
 import { UserDataAsFriend } from '@global-user/models/friend.model';
 import { FriendStatusValues } from '@global-user/models/friend.model';
+import { FRIENDS } from '@global-user/mocks/friends-mock';
 
 describe('UserFriendsService', () => {
   let injector: TestBed;
   let userFriendsService: UserFriendsService;
   let httpMock: HttpTestingController;
 
-  const friends = {
-    totalElements: 18,
-    totalPages: 2,
-    currentPage: 1,
-    page: [
-      {
-        id: 1,
-        name: 'temp1',
-        profilePicture: ''
-      },
-      {
-        id: 2,
-        name: 'temp2',
-        profilePicture: ''
-      }
-    ]
-  };
+  const friends = FRIENDS;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
