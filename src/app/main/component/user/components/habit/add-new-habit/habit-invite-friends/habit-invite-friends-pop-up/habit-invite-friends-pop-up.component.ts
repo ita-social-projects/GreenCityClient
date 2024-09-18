@@ -32,6 +32,10 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBarComponent
   ) {}
 
+  get isAnyFriendSelected(): boolean {
+    return this.friends?.some((friend) => friend.added) ?? false;
+  }
+
   ngOnInit() {
     this.habitId = this.data.habitId;
     this.getUserId();
