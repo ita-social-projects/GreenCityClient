@@ -31,3 +31,14 @@ input[type='date'] {
     justify-content: flex-end;
   }
 }
+
+.filter-input {
+  flex: 1;
+}
+
+.reset-settings {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 18px;
+}
