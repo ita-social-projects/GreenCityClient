@@ -1,6 +1,5 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { getTestBed, TestBed } from '@angular/core/testing';
-
 import { UserFriendsService } from './user-friends.service';
 import { UserDataAsFriend } from '@global-user/models/friend.model';
 import { FriendStatusValues } from '@global-user/models/friend.model';
@@ -10,8 +9,6 @@ describe('UserFriendsService', () => {
   let injector: TestBed;
   let userFriendsService: UserFriendsService;
   let httpMock: HttpTestingController;
-
-  const friends = FRIENDS;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,7 +37,7 @@ describe('UserFriendsService', () => {
 
       const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends?page=0&size=10`);
       expect(req.request.method).toBe('GET');
-      req.flush(friends);
+      req.flush(FRIENDS);
     });
   });
 
@@ -52,7 +49,7 @@ describe('UserFriendsService', () => {
 
       const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/not-friends-yet?name=&page=0&size=10`);
       expect(req.request.method).toBe('GET');
-      req.flush(friends);
+      req.flush(FRIENDS);
     });
   });
 
@@ -64,7 +61,7 @@ describe('UserFriendsService', () => {
 
       const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/friendRequests?page=0&size=10`);
       expect(req.request.method).toBe('GET');
-      req.flush(friends);
+      req.flush(FRIENDS);
     });
   });
 
@@ -118,32 +115,32 @@ describe('UserFriendsService', () => {
 
   describe('findNewFriendsByName', () => {
     it('should return an object on calling findNewFriendsByName', () => {
-      userFriendsService.getNewFriends(friends.page[0].name, 0, 10).subscribe((users) => {
+      userFriendsService.getNewFriends(FRIENDS.page[0].name, 0, 10).subscribe((users) => {
         expect(users.page.length).toBeGreaterThanOrEqual(2);
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/not-friends-yet?name=${friends.page[0].name}&page=0&size=10`);
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/not-friends-yet?name=${FRIENDS.page[0].name}&page=0&size=10`);
       expect(req.request.method).toBe('GET');
-      req.flush(friends);
+      req.flush(FRIENDS);
     });
   });
 
   describe('getFriendsByName', () => {
     it('should return an object on calling getFriendsByName', () => {
-      userFriendsService.getFriendsByName(friends.page[0].name).subscribe((users) => {
+      userFriendsService.getFriendsByName(FRIENDS.page[0].name).subscribe((users) => {
         expect(users).toBeTruthy();
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends?name=${friends.page[0].name}&page=0&size=10`);
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends?name=${FRIENDS.page[0].name}&page=0&size=10`);
       expect(req.request.method).toBe('GET');
-      req.flush(friends);
+      req.flush(FRIENDS);
     });
   });
 
   describe('addedFriendsToHabit', () => {
     it('function addedFriendsToHabit should have been called', () => {
       const addedFriendsToHabitSpy = spyOn(userFriendsService, 'addedFriendsToHabit');
-      userFriendsService.addedFriendsToHabit(friends.page[0]);
+      userFriendsService.addedFriendsToHabit(FRIENDS.page[0]);
       expect(addedFriendsToHabitSpy).toHaveBeenCalled();
     });
   });
@@ -157,7 +154,7 @@ describe('UserFriendsService', () => {
       `${userFriendsService.urlFriend}friends/1/all-user-friends?page=0&size=${(userFriendsService as any).size}`
     );
     expect(req.request.method).toBe('GET');
-    req.flush(friends);
+    req.flush(FRIENDS);
   });
 
   it('mutual friends', () => {
@@ -169,7 +166,7 @@ describe('UserFriendsService', () => {
       `${userFriendsService.urlFriend}friends/mutual-friends?friendId=1&page=0&size=${(userFriendsService as any).size}`
     );
     expect(req.request.method).toBe('GET');
-    req.flush(friends);
+    req.flush(FRIENDS);
   });
 
   it('should get User Data As Friend', () => {
