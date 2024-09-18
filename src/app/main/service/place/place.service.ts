@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { FilterPlaceCategories, Place } from '../../component/places/models/place';
+import { AllAboutPlace, FilterPlaceCategories, Place } from '../../component/places/models/place';
 import { PlaceInfo } from '../../model/place/place-info';
 import { UpdatePlaceStatus } from '../../model/place/update-place-status.model';
 import { mainLink, placeLink } from '../../links';
@@ -13,6 +13,7 @@ import { environment } from '@environment/environment';
 import { CreatePlaceModel } from '../../component/places/models/create-place.model';
 import { PlacesParams } from '../../component/places/models/places-params';
 import { getPaginatedResult, getPaginationParams } from 'src/app/shared/pagination/pagination-helper';
+import { PaginatedResult } from 'src/app/shared/pagination/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -33,11 +34,10 @@ export class PlaceService {
     private filterService: FilterPlaceService
   ) {}
 
-  // return this.http.get(`${this.baseUrl}all?page=${page}&size=${size}`);
-  getAllPlaces(placesParams: PlacesParams) {
+  getAllPlaces(placesParams: PlacesParams): Observable<PaginatedResult<AllAboutPlace[]>> {
     const params = getPaginationParams(placesParams);
 
-    return getPaginatedResult<Place[]>(`${this.baseUrl}all`, params, this.http);
+    return getPaginatedResult<AllAboutPlace[]>(`${this.baseUrl}all`, params, this.http);
   }
 
   getFilteredPlaces() {
