@@ -40,60 +40,69 @@
       <div class="place-info">
         <mat-drawer-container class="example-container sidebar-container" autosize>
           <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed>
-            <div *ngIf="!activePlaceDetails">
-              <p class="title-sidebar">{{ 'user.places-card.card-popular' | translate }}</p>
-              <div class="sidebar-content-all" *ngFor="let place of placesList">
-                <div class="head">
-                  <p class="content-title" (click)="selectPlaceFromSideBar(place)">{{ place.name }}</p>
-                  <button (click)="toggleFavoriteFromSideBar(place)" class="btn-bookmark">
-                    <span class="material-icons">{{ place.isFavorite ? 'bookmark' : 'bookmark_border' }}</span>
+            <div
+              class="sidebar-content-all"
+              infiniteScroll
+              [infiniteScrollThrottle]="500"
+              [scrollWindow]="false"
+              (scrolled)="updatePlaceList(false)"
+            >
+              <div *ngIf="!activePlaceDetails">
+                <div class="title-container">
+                  <p class="title-sidebar">{{ 'user.places-card.card-popular' | translate }}</p>
+                </div>
+                <div class="sidebar-item-content" *ngFor="let place of placesList">
+                  <div class="head">
+                    <p class="content-title" (click)="selectPlaceFromSideBar(place)">{{ place.name }}</p>
+                    <button (click)="toggleFavoriteFromSideBar(place)" class="btn-bookmark">
+                      <span class="material-icons">{{ place.isFavorite ? 'bookmark' : 'bookmark_border' }}</span>
+                    </button>
+                  </div>
+                  <p class="content-address">{{ place.location.address }}</p>
+                </div>
+              </div>
+              <div class="sidebar-content" *ngIf="activePlaceDetails">
+                <span class="close-mark" (click)="updatePlaceList(true)"></span>
+                <div class="title-wrapper">
+                  <h6 class="content-title">{{ activePlaceDetails.name }}</h6>
+                </div>
+                <div class="sidebar-photo" *ngIf="activePlaceDetails.photos">
+                  <img [src]="activePlaceDetails.photos[0]?.getUrl({})" class="content-photo" alt="" />
+                </div>
+                <div class="sidebar-address">
+                  <span class="content-address">{{ activePlaceDetails.vicinity }}</span>
+                  <button (click)="toggleFavorite()" class="btn-bookmark">
+                    <span class="material-icons">{{ isActivePlaceFavorite ? 'bookmark' : 'bookmark_border' }}</span>
                   </button>
                 </div>
-                <p class="content-address">{{ place.location.address }}</p>
+                <div>
+                  <p class="content-description">{{ activePlaceDetails?.types.join(', ') }}</p>
+                </div>
+                <div>
+                  <a [href]="activePlaceDetails.website" target="_blank" class="content-website" *ngIf="activePlaceDetails.website">{{
+                    activePlaceDetails.website
+                  }}</a>
+                </div>
+                <ul class="content-list">
+                  <li class="content-list-event">
+                    <img class="event-icon" src="{{ notification }}" alt="event-icon" />
+                    <p class="event-description">{{ 'user.places-card.card-first-event' | translate }}</p>
+                  </li>
+                  <li class="content-list-event">
+                    <img class="event-icon" src="{{ share }}" alt="event-icon" />
+                    <p class="event-description">{{ 'user.places-card.card-second-event' | translate }}</p>
+                  </li>
+                </ul>
+                <h6 class="content-reviews-title">
+                  {{ 'user.places-card.card-rating' | translate }} &nbsp;&nbsp; <span>{{ activePlaceDetails.rating }}</span>
+                </h6>
+                <div class="stars-container">
+                  <img *ngFor="let star of getStars(activePlaceDetails.rating)" class="star" src="{{ star }}" alt="star" />
+                </div>
+                <span class="content-reviews-amount"
+                  >{{ activePlaceDetails.reviews?.length }} {{ 'user.places-card.card-reviews' | translate }}</span
+                >
               </div>
-              <div infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="updatePlaceList(false)"></div>
-            </div>
-            <div class="sidebar-content" *ngIf="activePlaceDetails">
-              <span class="close-mark" (click)="updatePlaceList(true)"></span>
-              <div class="title-wrapper">
-                <h6 class="content-title">{{ activePlaceDetails.name }}</h6>
-              </div>
-              <div class="sidebar-photo" *ngIf="activePlaceDetails.photos">
-                <img [src]="activePlaceDetails.photos[0]?.getUrl({})" class="content-photo" alt="" />
-              </div>
-              <div class="sidebar-address">
-                <span class="content-address">{{ activePlaceDetails.vicinity }}</span>
-                <button (click)="toggleFavorite()" class="btn-bookmark">
-                  <span class="material-icons">{{ isActivePlaceFavorite ? 'bookmark' : 'bookmark_border' }}</span>
-                </button>
-              </div>
-              <div>
-                <p class="content-description">{{ activePlaceDetails?.types.join(', ') }}</p>
-              </div>
-              <div>
-                <a [href]="activePlaceDetails.website" target="_blank" class="content-website" *ngIf="activePlaceDetails.website">{{
-                  activePlaceDetails.website
-                }}</a>
-              </div>
-              <ul class="content-list">
-                <li class="content-list-event">
-                  <img class="event-icon" src="{{ notification }}" alt="event-icon" />
-                  <p class="event-description">{{ 'user.places-card.card-first-event' | translate }}</p>
-                </li>
-                <li class="content-list-event">
-                  <img class="event-icon" src="{{ share }}" alt="event-icon" />
-                  <p class="event-description">{{ 'user.places-card.card-second-event' | translate }}</p>
-                </li>
-              </ul>
-              <h6 class="content-reviews-title">
-                {{ 'user.places-card.card-rating' | translate }} &nbsp;&nbsp; <span>{{ activePlaceDetails.rating }}</span>
-              </h6>
-              <div class="stars-container">
-                <img *ngFor="let star of getStars(activePlaceDetails.rating)" class="star" src="{{ star }}" alt="star" />
-              </div>
-              <span class="content-reviews-amount"
-                >{{ activePlaceDetails.reviews?.length }} {{ 'user.places-card.card-reviews' | translate }}</span
-              >
             </div>
           </mat-drawer>
         </mat-drawer-container>

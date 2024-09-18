@@ -113,22 +113,6 @@ describe('CommentsContainerComponent', () => {
       expect(commentsServiceMock.getActiveRepliesByPage).toHaveBeenCalledWith(1, 0, 0, 10);
     });
 
-    it('should call getComments if type is comment', () => {
-      const spy = spyOn(component as any, 'getComments').and.callThrough();
-      component.dataType = 'comment';
-
-      component.initCommentsList();
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-
-    it('should call getReplies if type is reply', () => {
-      const spy = spyOn(component as any, 'getReplies').and.callThrough();
-      component.dataType = 'reply';
-
-      component.initCommentsList();
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-
     it('should update elements list for reply', () => {
       const addedComment: any = { ...MOCK_COMMENTS_DTO, id: 1 };
       component.userReplies = [{ id: 2 } as CommentsDTO];

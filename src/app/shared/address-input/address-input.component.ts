@@ -12,15 +12,16 @@ import {
   Validators
 } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Coordinates } from '@global-user/models/edit-profile.model';
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { emptyOrValid } from 'src/app/shared/validators/empthy-or-valid.validator';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
 import { GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Address, CourierLocations, DistrictEnum, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
 import { CAddressData } from 'src/app/ubs/ubs/models/ubs.model';
-import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { addressAlreadyExistsValidator } from 'src/app/ubs/ubs/validators/address-olready-exists-validator';
 import { Patterns } from 'src/assets/patterns/patterns';
 
@@ -125,7 +126,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   constructor(
     private fb: FormBuilder,
-    private orderService: OrderService,
     private localStorageService: LocalStorageService,
     public langService: LanguageService,
     private store: Store,
@@ -133,7 +133,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   ) {}
 
   validate(control: AbstractControl): ValidationErrors {
-    return this.addressForm.valid || this.addressForm.pristine ? null : { incorrectAddress: true };
+    return (this.addressForm.valid && this.addressData.isValid()) || this.addressForm.pristine ? null : { incorrectAddress: true };
   }
 
   writeValue(obj: any): void {}
@@ -237,10 +237,13 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       street: [this.addressData.getStreet() ?? '', Validators.required],
       district: [this.addressData.getDistrict() ?? '', Validators.required],
       houseNumber: [this.address?.houseNumber ?? '', [Validators.required, Validators.pattern(this.buildingPattern)]],
-      houseCorpus: [this.address?.houseCorpus ?? '', [Validators.maxLength(4), Validators.pattern(this.buildingPattern)]],
-      entranceNumber: [this.address?.entranceNumber ?? '', [Validators.maxLength(2), Validators.pattern(this.buildingPattern)]],
+      houseCorpus: [this.address?.houseCorpus ?? '', emptyOrValid([Validators.maxLength(4), Validators.pattern(this.buildingPattern)])],
+      entranceNumber: [
+        this.address?.entranceNumber ?? '',
+        emptyOrValid([Validators.maxLength(2), Validators.pattern(this.buildingPattern)])
+      ],
       placeId: [this.address?.placeId ?? '', Validators.required],
-      addressComment: [this.address?.addressComment ?? '', []]
+      addressComment: [this.address?.addressComment ?? '']
     });
 
     if (!this.edit) {
@@ -311,6 +314,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   onStreetSelected(street: GooglePrediction): void {
     if (street) {
+      this.placeId.setValue(street.place_id);
       this.addressData.setStreet(street.place_id);
     } else {
       this.addressData.resetStreet();
@@ -321,6 +325,11 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.onStreetValueSet(street?.structured_formatting.main_text ?? '');
   }
 
+  onCoordinatesSelected(coordinates: Coordinates) {
+    this.addressData.setCoordinates(new google.maps.LatLng(coordinates.latitude, coordinates.longitude));
+    this.OnChangeAndTouched();
+  }
+
   onDistrictSelected(): void {
     this.addressData.setDistrict(this.district.value);
     this.onChange(this.addressData.getValues());
@@ -329,6 +338,10 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   onHouseNumberChange(): void {
     this.addressData.setHouseNumber(this.houseNumber.value);
     this.OnChangeAndTouched();
+
+    if (!this.district.value) {
+      this.addressData.setDistrictFromCity();
+    }
   }
 
   onHouseCorpusChange(): void {
@@ -349,7 +362,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   onMapClick($event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) {
     this.addressCoords = $event.latLng;
 
-    this.addressData.setCoordinates(new google.maps.LatLng(this.addressCoords));
+    this.addressData.setCoordinates(new google.maps.LatLng(this.addressCoords), { fetch: true });
   }
 
   isErrorMessageShown(control: AbstractControl): boolean {

@@ -21,15 +21,3 @@ export interface CustomHabit {
   image: string;
   shopList: ShoppingList[];
 }
-
-export interface HabitPageable {
-  page?: number;
-  size?: number;
-  tags?: Array<string>;
-  lang?: string;
-  excludeAssigned?: boolean;
-  habit?: CustomHabit;
-  id?: number;
-  filters?: string[];
-  sort?: 'asc' | 'desc';
-}

@@ -6,5 +6,5 @@ import { BehaviorSubject, Subject } from 'rxjs';
 })
 export class CommonService {
   newMessageWindowRequireCloseStream$: Subject<boolean> = new Subject<boolean>();
-  isChatVisible$ = new BehaviorSubject<boolean>(true);
+  isChatVisible$ = new BehaviorSubject<boolean>(false);
 }

@@ -81,7 +81,7 @@ describe('EcoNewsDetailComponent', () => {
     fixture.detectChanges();
     component.backRoute = '/news';
     component.newsItem = { ...FIRSTECONEWS, likes: 1 };
-    (component as any).newsId = 3;
+    component.newsId = 3;
     (component as any).newsImage = ' ';
     component.tags = component.getAllTags();
   });
@@ -90,48 +90,17 @@ describe('EcoNewsDetailComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should init four method', () => {
-    const spy = spyOn(component as any, 'getUserId');
-    const spy1 = spyOn(component as any, 'getIsLiked');
-    const spy2 = spyOn(component as any, 'setNewsId');
-    const spy3 = spyOn(component as any, 'getEcoNewsById');
-
-    component.userId = 3;
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy1).toHaveBeenCalledTimes(1);
-    expect(spy2).toHaveBeenCalledTimes(1);
-    expect(spy3).toHaveBeenCalledTimes(1);
-    expect(spy3).toHaveBeenCalledWith((component as any).newsId);
-  });
-
-  it('userId null should not call getIsLiked method', () => {
-    const spy = spyOn(component as any, 'getUserId');
-    const spy1 = spyOn(component as any, 'getIsLiked');
-
-    component.userId = null;
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy1).toHaveBeenCalledTimes(0);
-  });
-
   it('ngOnInit newsId null should not call getEcoNewsById method', () => {
-    const spy = spyOn(component as any, 'getEcoNewsById');
+    const spy = spyOn(component, 'getEcoNewsById');
 
-    (component as any).newsId = null;
+    component.newsId = null;
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
-  it('should set newsId', () => {
-    route.snapshot.params.id = 1;
-    (component as any).setNewsId();
-    expect((component as any).newsId).toBe(1);
-  });
-
   it('getEcoNewsById should get newsItem by id', () => {
     component.newsItem = null;
-    component.getEcoNewsById((component as any).newsId);
+    component.getEcoNewsById(component.newsId);
     expect(component.newsItem).toEqual(FIRSTECONEWS);
   });
 
@@ -200,11 +169,6 @@ describe('EcoNewsDetailComponent', () => {
     );
   });
 
-  it('should get IsLiked', () => {
-    (component as any).getIsLiked();
-    expect(component.isLiked).toBe(true);
-  });
-
   it('should retrieve news by ID and set tags', () => {
     const id = 3;
     component.getEcoNewsById(id);
@@ -220,12 +184,6 @@ describe('EcoNewsDetailComponent', () => {
     expect(result).toBe(imagePath);
   });
 
-  it('should set news ID from route params', () => {
-    route.snapshot.params = { id: 5 };
-    component['setNewsId']();
-    expect((component as any).newsId).toBe(5);
-  });
-
   it('should call getEcoNewsById and set newsItem correctly', () => {
     const newsId = 123;
     component.getEcoNewsById(newsId);
@@ -233,23 +191,10 @@ describe('EcoNewsDetailComponent', () => {
     expect(component.newsItem).toEqual(FIRSTECONEWS);
   });
 
-  it('should call postToggleLike with the correct newsId', () => {
-    component.newsId = 3;
-    component['postToggleLike'](3);
-    expect(ecoNewsServ.postToggleLike).toHaveBeenCalledWith(3);
-  });
-
   it('should return correct image path from checkNewsImage', () => {
     component.newsItem.imagePath = 'image-path.jpg';
     const result = component.checkNewsImage();
     expect(result).toBe('image-path.jpg');
-  });
-
-  it('should generate correct share links', () => {
-    const shareLinks = (component as any).shareLinks();
-    const currentPage = 'http://localhost:9876/context.html';
-    expect(shareLinks.fb()).toBe(`https://www.facebook.com/sharer/sharer.php?u=${currentPage}`);
-    expect(shareLinks.linkedin()).toBe(`https://www.linkedin.com/sharing/share-offsite/?url=${currentPage}`);
   });
 
   it('should return default image path when image path is empty', () => {

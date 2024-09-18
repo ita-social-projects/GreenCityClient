@@ -34,9 +34,11 @@
     <label for="street">{{ 'personal-info.pop-up-street' | translate }}</label>
     <app-input-google-autocomplete
       formControlName="street"
+      [isReturnCoordinates]="true"
       [requestPrefix]="region.value + ', ' + this.langService.getLangValue('місто ', 'city ') + city.value + ', '"
       [autoCompRequest]="autocompleteStreetRequest"
       (predictionSelected)="onStreetSelected($event)"
+      (selectedPredictionCoordinates)="onCoordinatesSelected($event)"
       [isInvalid]="street.invalid"
       ngDefaultControl
     ></app-input-google-autocomplete>

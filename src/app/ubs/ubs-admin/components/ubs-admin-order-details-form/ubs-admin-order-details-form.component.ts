@@ -179,12 +179,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     const bonusesAndCert = this.isOrderCancelled
       ? this.bagsInfo.certificateDiscount
       : this.bagsInfo.bonuses + this.bagsInfo.certificateDiscount;
-
     this.checkMinOrderLimit();
     this.bagsInfo.finalSum = {
-      planned: this.bagsInfo.sum.planned - bonusesAndCert,
-      confirmed: this.bagsInfo.sum.confirmed - bonusesAndCert,
-      actual: this.bagsInfo.sum.actual - bonusesAndCert
+      planned: this.bagsInfo.sum.planned - bonusesAndCert - this.orderDetails.paidAmount,
+      confirmed: this.bagsInfo.sum.confirmed - bonusesAndCert - this.orderDetails.paidAmount,
+      actual: this.bagsInfo.sum.actual - bonusesAndCert - this.orderDetails.paidAmount
     };
 
     if (this.isOrderBroughtByHimself) {
@@ -193,7 +192,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     }
 
     if (this.isVisible && this.showUbsCourier) {
-      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual + bonusesAndCert + this.courierPrice;
+      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual - bonusesAndCert - this.courierPrice;
     }
 
     for (const type in this.bagsInfo.finalSum) {

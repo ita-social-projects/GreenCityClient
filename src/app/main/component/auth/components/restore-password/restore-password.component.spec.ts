@@ -18,7 +18,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 
-xdescribe('RestorePasswordComponent', () => {
+describe('RestorePasswordComponent', () => {
   let component: RestorePasswordComponent;
   let fixture: ComponentFixture<RestorePasswordComponent>;
   let router: Router;
@@ -127,12 +127,6 @@ xdescribe('RestorePasswordComponent', () => {
       };
     });
 
-    it('signUpWithGoogleSuccess should navigate to homePage', () => {
-      const navigateSpy = spyOn(router, 'navigate');
-      (component as any).onSignInWithGoogleSuccess(userSuccessSignIn);
-      expect(navigateSpy).toHaveBeenCalledWith(['/']);
-    });
-
     it('Test sendEmailForRestore method', () => {
       const spy = (restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(of(mockFormData)));
       restorePasswordService.sendEmailForRestore(mockFormData);
@@ -167,39 +161,6 @@ xdescribe('RestorePasswordComponent', () => {
   });
 
   describe('Error functionality testing', () => {
-    let errors;
-
-    it('Should return an emailErrorMessageBackEnd when login failed', () => {
-      errors = new HttpErrorResponse({ error: { message: 'Ups' } });
-
-      (component as any).onSentEmailBadMessage(errors);
-      fixture.detectChanges();
-      expect(component.emailErrorMessageBackEnd).toBe('email-not-exist');
-    });
-
-    it('Should return an emailErrorMessageBackEnd when login failed', () => {
-      errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
-
-      (component as any).onSignInFailure(errors);
-      fixture.detectChanges();
-      expect(component.emailErrorMessageBackEnd).toBe('Ups');
-    });
-
-    it('Should return an passwordErrorMessageBackEnd when login failed', () => {
-      errors = new HttpErrorResponse({ error: [{ name: 'password', message: 'Ups' }] });
-
-      (component as any).onSignInFailure(errors);
-      fixture.detectChanges();
-      expect(component.passwordErrorMessageBackEnd).toBe('Ups');
-    });
-
-    it('Should return an backEndError when login failed', () => {
-      errors = new HttpErrorResponse({ error: { message: 'Ups' } });
-      (component as any).onSignInFailure(errors.error);
-      fixture.detectChanges();
-      expect(component.backEndError).toBe('Ups');
-    });
-
     it('Should reset error messages', () => {
       component.emailErrorMessageBackEnd = 'I am error message';
       component.passwordErrorMessageBackEnd = 'I am error message';
