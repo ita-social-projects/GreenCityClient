@@ -352,16 +352,17 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   get quillLabel(): string {
-    if (this.quillLength < 1) {
+    const typedCharacters = this.quillLength;
+    if (typedCharacters < 1) {
       return `${this.getLocale('quillDefault')}`;
     }
-    if (this.quillLength < this.minLength) {
-      return `${this.getLocale('quillError')} ${this.minLength - this.quillLength}`;
+    if (typedCharacters < this.minLength) {
+      return `${this.getLocale('quillError')} ${this.minLength - typedCharacters}`;
     }
-    if (this.quillLength > this.maxLength) {
-      return `${this.getLocale('quillValid')} ${this.quillLength - this.maxLength}`;
+    if (typedCharacters > this.maxLength) {
+      return `${this.getLocale('quillMaxExceeded')} ${typedCharacters - this.maxLength}`;
     }
-    return `${this.getLocale('quillValid')} ${this.maxLength - this.quillLength}`;
+    return `${this.getLocale('quillValid')} ${typedCharacters}`;
   }
 
   getLocale(localeKey: EventLocaleKeys): string {
