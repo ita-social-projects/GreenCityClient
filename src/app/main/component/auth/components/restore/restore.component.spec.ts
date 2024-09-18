@@ -9,7 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { RestoreComponent } from './restore.component';
 
-xdescribe('RestoreComponent', () => {
+describe('RestoreComponent', () => {
   let component: RestoreComponent;
   let fixture: ComponentFixture<RestoreComponent>;
 
@@ -40,7 +40,7 @@ xdescribe('RestoreComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('shoud send email', inject([RestorePasswordService], (service: RestorePasswordService) => {
+  it('should send email', inject([RestorePasswordService], (service: RestorePasswordService) => {
     const spy = spyOn(service as any, 'sendEmailForRestore');
 
     component.sentEmail();
