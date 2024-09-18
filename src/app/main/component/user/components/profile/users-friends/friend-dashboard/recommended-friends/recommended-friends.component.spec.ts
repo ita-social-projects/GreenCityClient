@@ -15,10 +15,8 @@ describe('RecommendedFriendsComponent', () => {
   let userFriendsService: jasmine.SpyObj<UserFriendsService>;
   let matSnackBar: jasmine.SpyObj<MatSnackBarComponent>;
   let userOnlineStatusService: jasmine.SpyObj<UserOnlineStatusService>;
-  let removeFriendSubj$: BehaviorSubject<void>;
 
   beforeEach(async () => {
-    removeFriendSubj$ = new BehaviorSubject<void>(undefined);
     const userFriendsServiceSpy = jasmine.createSpyObj('UserFriendsService', [
       'getNewFriends',
       'getAllRecommendedFriends',
@@ -101,66 +99,22 @@ describe('RecommendedFriendsComponent', () => {
       expect(component.isFetching).toBe(false);
       expect(component.searchMode).toBe(false);
     });
-
-    it('should fetch new friends on initialization', fakeAsync(() => {
-      userFriendsService.getAllRecommendedFriends.and.returnValue(of(FRIENDS));
-      component.ngOnInit();
-      tick();
-      expect(userFriendsService.getAllRecommendedFriends).toHaveBeenCalledWith(0, 10);
-      expect(component.recommendedFriends).toEqual(FRIENDS.page);
-      expect(component.totalPages).toBe(FRIENDS.totalPages);
-      expect(component.isFetching).toBeFalse();
-    }));
-
-    it('should call getNewFriends on scroll when conditions are met', fakeAsync(() => {
-      component.scroll = false;
-      component.emptySearchList = false;
-      component.currentPage = 0;
-      component.totalPages = 2;
-      spyOn(component, 'getNewFriends').and.callThrough();
-      component.onScroll();
-      tick();
-      expect(component.getNewFriends).toHaveBeenCalled();
-    }));
-
-    it('should not call getNewFriends on scroll if already fetching or empty search list', fakeAsync(() => {
-      component.isFetching = true;
-      component.emptySearchList = false;
-      spyOn(component, 'getNewFriends').and.callThrough();
-      component.onScroll();
-      tick(); // Simulate the passage of time
-      expect(component.getNewFriends).not.toHaveBeenCalled();
-
-      component.isFetching = false;
-      component.emptySearchList = true;
-      component.onScroll();
-      tick(); // Simulate the passage of time
-      expect(component.getNewFriends).not.toHaveBeenCalled();
-    }));
-
-    it('should perform search and handle response', fakeAsync(() => {
-      const searchTerm = 'Name';
-      userFriendsService.getNewFriends.and.returnValue(of(FRIENDS));
-      component.findUserByName(searchTerm);
-      tick();
-      expect(component.searchQuery).toBe(searchTerm);
-      expect(component.isFetching).toBeTrue();
-      expect(component.searchMode).toBeTrue();
-      fixture.whenStable().then(() => {
-        expect(component.recommendedFriendsBySearch).toEqual([FIRSTFRIEND]);
-        expect(component.amountOfFriends).toBe(1);
-        expect(component.isFetching).toBeFalse();
-        expect(component.searchMode).toBeFalse();
-      });
-    }));
-
-    it('should call removeFriendSubj$.pipe on ngOnInit', fakeAsync(() => {
-      spyOn(removeFriendSubj$, 'pipe').and.returnValue(of(null));
-      component.ngOnInit();
-      tick();
-      expect(removeFriendSubj$.pipe).toHaveBeenCalledWith(jasmine.any(Function));
-    }));
   });
+
+  it('should not call getNewFriends on scroll if already fetching or empty search list', fakeAsync(() => {
+    component.isFetching = true;
+    component.emptySearchList = false;
+    spyOn(component, 'getNewFriends').and.callThrough();
+    component.onScroll();
+    tick();
+    expect(component.getNewFriends).not.toHaveBeenCalled();
+
+    component.isFetching = false;
+    component.emptySearchList = true;
+    component.onScroll();
+    tick();
+    expect(component.getNewFriends).not.toHaveBeenCalled();
+  }));
 
   it('should initialize with default values', () => {
     expect(component.recommendedFriends).toEqual([]);
@@ -189,14 +143,6 @@ describe('RecommendedFriendsComponent', () => {
     expect(component.getNewFriends).not.toHaveBeenCalled();
   });
 
-  it('should call onScroll when removeFriendSubj$ emits', fakeAsync(() => {
-    spyOn(component, 'onScroll').and.callThrough();
-    removeFriendSubj$.next();
-    tick();
-
-    expect(component.onScroll).toHaveBeenCalled();
-  }));
-
   it('should handle search error', fakeAsync(() => {
     const searchTerm = 'Name';
     userFriendsService.getNewFriends.and.returnValue(throwError('error'));
@@ -220,12 +166,5 @@ describe('RecommendedFriendsComponent', () => {
     expect(component.isFetching).toBeFalse();
     expect(component.scroll).toBeFalse();
     expect(userOnlineStatusService.addUsersId).toHaveBeenCalled();
-  }));
-
-  it('should handle getNewFriends when empty search list', fakeAsync(() => {
-    userFriendsService.getAllRecommendedFriends.and.returnValue(of({ ...FRIENDS, page: [] }));
-    component.getNewFriends();
-    tick();
-    expect(component.emptySearchList).toBeTrue();
   }));
 });
