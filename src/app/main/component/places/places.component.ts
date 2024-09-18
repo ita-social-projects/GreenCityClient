@@ -19,6 +19,8 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from './models/places-consts';
 import { GoogleScript } from '@assets/google-script/google-script';
+import { PlacesParams } from './models/places-params';
+import { PaginatedResult, Pagination } from 'src/app/shared/pagination/pagination';
 
 @Component({
   selector: 'app-places',
@@ -54,9 +56,8 @@ export class PlacesComponent implements OnInit, OnDestroy {
   private map: any;
   private googlePlacesService: google.maps.places.PlacesService;
   private langChangeSub: Subscription;
-  private page = 0;
-  private totalPages: number;
-  private size = 6;
+  private pagination: Pagination | undefined;
+  private placesParams: PlacesParams = new PlacesParams();
   private $destroy: Subject<boolean> = new Subject();
   userId: number;
 
@@ -204,28 +205,28 @@ export class PlacesComponent implements OnInit, OnDestroy {
 
   updatePlaceList(isAfterClose: boolean): void {
     if (isAfterClose) {
-      this.page = 0;
-    } else if (this.totalPages === this.page) {
+      this.placesParams.page = 0;
+    } else if (this.pagination.totalPages === this.placesParams.page) {
       return;
     }
     this.getPlaceList();
   }
 
   private getPlaceList(): void {
-    this.placeService.getAllPlaces(this.page, this.size).subscribe((item: any) => {
-      this.handlePlaceListResponse(item);
+    this.placeService.getAllPlaces(this.placesParams).subscribe((response: PaginatedResult<AllAboutPlace[]>) => {
+      this.handlePlaceListResponse(response);
     });
   }
 
-  private handlePlaceListResponse(item: any): void {
-    if (item.page) {
-      this.placesList = [...this.placesList, ...item.page];
+  private handlePlaceListResponse(places: PaginatedResult<AllAboutPlace[]>): void {
+    if (places.result) {
+      this.placesList = [...this.placesList, ...places.result];
       this.drawer.toggle(true);
     } else {
       this.drawer.toggle(false);
     }
-    this.totalPages = item.totalPages;
-    this.page += 1;
+    this.pagination = places.pagination;
+    this.placesParams.page++;
   }
 
   toggleFavorite(): void {
