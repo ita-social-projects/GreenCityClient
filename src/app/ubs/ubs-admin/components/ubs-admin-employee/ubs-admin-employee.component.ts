@@ -140,7 +140,6 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
         this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
       });
   }
-
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();
