@@ -279,8 +279,6 @@ export class CAddressData {
   //Translates address component by placeId to required language
   private translateProperty(propertyName: string, placeId: string, language: Language, ...googleLocalityType: string[]): void {
     new google.maps.Geocoder().geocode({ placeId, language }).then((response) => {
-      console.log(response);
-
       this[propertyName] = this.findValue(response.results[0], ...googleLocalityType)?.long_name ?? '';
       this.addressChange.next(this.getValues());
     });
