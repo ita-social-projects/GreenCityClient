@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
@@ -32,7 +32,7 @@ import { HttpParams } from '@angular/common/http';
   templateUrl: './add-new-habit.component.html',
   styleUrls: ['./add-new-habit.component.scss']
 })
-export class AddNewHabitComponent implements OnInit {
+export class AddNewHabitComponent implements OnInit, OnDestroy {
   assignedHabit: HabitAssignInterface;
   habitResponse: HabitInterface;
   recommendedHabits: HabitInterface[];
@@ -79,11 +79,15 @@ export class AddNewHabitComponent implements OnInit {
     public userFriendsService: UserFriendsService
   ) {}
 
+  getHabitId(): number {
+    return this.habitId;
+  }
+
   ngOnInit() {
     this.getUserId();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-    this.route.params.subscribe((params) => {
+    this.route.params.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
       if (this.router.url.includes('add')) {
         this.habitId = Number(params.habitId);
       } else {
@@ -94,6 +98,11 @@ export class AddNewHabitComponent implements OnInit {
     this.checkIfAssigned();
     this.getRecommendedNews(this.page, this.size);
     this.userFriendsService.addedFriends.length = 0;
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   private bindLang(lang: string): void {
