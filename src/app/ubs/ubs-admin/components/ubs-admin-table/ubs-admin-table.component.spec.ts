@@ -714,9 +714,15 @@ fdescribe('UbsAdminTableComponent', () => {
     const dateChecked = true;
 
     spyOn(component, 'getControlValue').and.callFake((key: string, type: string) => {
-      if (type === 'From') return dateFromValue;
-      if (type === 'To') return dateToValue;
-      if (type === 'Check') return dateChecked;
+      if (type === 'From') {
+        return dateFromValue;
+      }
+      if (type === 'To') {
+        return dateToValue;
+      }
+      if (type === 'Check') {
+        return dateChecked;
+      }
       return null;
     });
     const setDateFormatSpy = jasmine.createSpy('setDateFormat');
