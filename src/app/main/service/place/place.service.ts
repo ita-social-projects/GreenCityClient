@@ -11,6 +11,8 @@ import { BulkUpdatePlaceStatus } from '../../model/place/bulk-update-place-statu
 import { TagInterface } from '../../component/shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { CreatePlaceModel } from '../../component/places/models/create-place.model';
+import { PlacesParams } from '../../component/places/models/places-params';
+import { getPaginatedResult, getPaginationParams } from 'src/app/shared/pagination/pagination-helper';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +33,11 @@ export class PlaceService {
     private filterService: FilterPlaceService
   ) {}
 
-  getAllPlaces(page: number, size: number) {
-    return this.http.get(`${this.baseUrl}all?page=${page}&size=${size}`);
+  // return this.http.get(`${this.baseUrl}all?page=${page}&size=${size}`);
+  getAllPlaces(placesParams: PlacesParams) {
+    const params = getPaginationParams(placesParams);
+
+    return getPaginatedResult<Place[]>(`${this.baseUrl}all`, params, this.http);
   }
 
   getFilteredPlaces() {
