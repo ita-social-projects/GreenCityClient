@@ -6,4 +6,12 @@
       <img src="assets/img/wave_shape.png" alt="wave-background" />
     </div>
   </div>
+
+  <div class="card habit-card" *ngIf="habitFactOfTheDay">
+    <p class="cart-title">{{ 'profile.fact-of-the-day' | translate }}</p>
+    <p class="card-description">{{ habitFactOfTheDay?.content }}</p>
+    <div class="shape-img">
+      <img src="assets/img/wave_shape.png" alt="wave-background" />
+    </div>
+  </div>
 </div>
