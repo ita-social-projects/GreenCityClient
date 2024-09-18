@@ -102,10 +102,10 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
 
   onDateChange(): void {
     this.showButtons = true;
-    const { dateFrom, dateTo } = this.adminTableService.swapDatesIfNeeded(this.dateFrom, this.dateTo, this.dateChecked);
+    const swappedDates = this.adminTableService.swapDatesIfNeeded(this.dateFrom, this.dateTo, this.dateChecked);
 
-    this.dateFrom = dateFrom;
-    this.dateTo = dateTo;
+    this.dateFrom = swappedDates ? swappedDates.dateFrom : this.dateFrom;
+    this.dateTo = swappedDates ? swappedDates.dateTo : this.dateTo;
 
     const formattedDateFrom = this.dateFrom ? this.adminTableService.setDateFormat(this.dateFrom) : '';
     const formattedDateTo = this.dateTo ? this.adminTableService.setDateFormat(this.dateTo) : '';

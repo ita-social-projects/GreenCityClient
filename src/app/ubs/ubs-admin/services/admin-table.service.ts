@@ -201,10 +201,6 @@ export class AdminTableService {
     this.selectedFilters = { ...filters } as { [key: string]: string[] };
   }
 
-  getSelectedFilters(): IFilters {
-    return this.selectedFilters;
-  }
-
   setNewFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
 
@@ -233,7 +229,7 @@ export class AdminTableService {
     } else if (!dateChecked) {
       return { dateFrom: dateFrom, dateTo: dateFrom };
     }
-    return { dateFrom, dateTo };
+    return null;
   }
 
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {

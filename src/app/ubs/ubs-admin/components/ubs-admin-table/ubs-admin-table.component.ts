@@ -753,7 +753,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const dateFrom = dateFromValue ? new Date(dateFromValue) : null;
     const dateTo = dateToValue ? new Date(dateToValue) : null;
 
-    const { dateFrom: swappedDateFrom, dateTo: swappedDateTo } = this.adminTableService.swapDatesIfNeeded(dateFrom, dateTo, dateChecked);
+    const swappedDates = this.adminTableService.swapDatesIfNeeded(dateFrom, dateTo, dateChecked);
+
+    const swappedDateFrom = swappedDates ? swappedDates.dateFrom : dateFrom;
+    const swappedDateTo = swappedDates ? swappedDates.dateTo : dateTo;
 
     this.dateForm.get(`${columnKey}From`)?.setValue(swappedDateFrom);
     this.dateForm.get(`${columnKey}To`)?.setValue(swappedDateTo);
@@ -791,7 +794,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   applyFilters(): void {
-    const selectedFilters = this.adminTableService.getSelectedFilters();
+    const selectedFilters = this.adminTableService.selectedFilters;
     if (selectedFilters) {
       this.store.dispatch(AddFiltersAction({ filters: selectedFilters, fetchTable: false }));
     }

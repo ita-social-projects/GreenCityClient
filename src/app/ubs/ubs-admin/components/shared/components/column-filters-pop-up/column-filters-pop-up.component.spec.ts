@@ -30,7 +30,7 @@ describe('ColumnFiltersPopUpComponent', () => {
     'setNewDateChecked',
     'setCurrentFilters'
   ]);
-  const fakeDialog = jasmine.createSpyObj('fakeDialog', ['close', 'updatePosition', 'updateSize']);
+  const fakeDialog = jasmine.createSpyObj('fakeDialog', ['close', 'updatePosition', 'updateSize', 'discardChanges']);
   const matDialogDataMock = {
     columnName: 'test',
     trigger: new ElementRef(document.createElement('div'))
@@ -83,13 +83,6 @@ describe('ColumnFiltersPopUpComponent', () => {
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });
-
-  // it('outside click should close popup', fakeAsync(() => {
-  //   component.isPopupOpened = true;
-  //   fixture.detectChanges();
-  //   document.dispatchEvent(new MouseEvent('click'));
-  //   expect(fakeDialog.close).toHaveBeenCalled();
-  // }));
 
   it('method getOptionsForFiltering should return options', () => {
     const options = component.getOptionsForFiltering();

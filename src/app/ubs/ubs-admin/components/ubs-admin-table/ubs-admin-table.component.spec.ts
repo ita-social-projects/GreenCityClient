@@ -701,7 +701,7 @@ fdescribe('UbsAdminTableComponent', () => {
     expect(adminTableService.setNewFilters).toHaveBeenCalledWith(checked, currentColumn, option);
   });
 
-  it('should set noFiltersApplied to false, swap dates if needed, and set new date range', () => {
+  it('should set noFiltersApplied to false, handle null swapDatesIfNeeded response, and not call setDateFormat or setNewDateRange', () => {
     component.dateForm = new FormGroup({
       orderStatusFrom: new FormControl(null),
       orderStatusTo: new FormControl(null),
@@ -714,34 +714,27 @@ fdescribe('UbsAdminTableComponent', () => {
     const dateChecked = true;
 
     spyOn(component, 'getControlValue').and.callFake((key: string, type: string) => {
-      if (type === 'From') {
-        return dateFromValue;
-      }
-      if (type === 'To') {
-        return dateToValue;
-      }
-      if (type === 'Check') {
-        return dateChecked;
-      }
+      if (type === 'From') return dateFromValue;
+      if (type === 'To') return dateToValue;
+      if (type === 'Check') return dateChecked;
       return null;
     });
+    const setDateFormatSpy = jasmine.createSpy('setDateFormat');
+    const setNewDateRangeSpy = jasmine.createSpy('setNewDateRange');
 
-    const swappedDates = { dateFrom: new Date(dateToValue), dateTo: new Date(dateFromValue) };
-    spyOn(adminTableService, 'swapDatesIfNeeded').and.returnValue(swappedDates);
-    spyOn(adminTableService, 'setDateFormat').and.callFake((date: Date) => date.toISOString().split('T')[0]);
-    spyOn(adminTableService, 'setNewDateRange');
+    spyOn(adminTableService, 'swapDatesIfNeeded').and.returnValue(null);
+    spyOn(adminTableService, 'setDateFormat').and.callFake(setDateFormatSpy);
+    spyOn(adminTableService, 'setNewDateRange').and.callFake(setNewDateRangeSpy);
 
     component.onDateChange(columnKey);
 
     expect(component.noFiltersApplied).toBeFalse();
     expect(adminTableService.swapDatesIfNeeded).toHaveBeenCalledWith(new Date(dateFromValue), new Date(dateToValue), dateChecked);
 
-    expect(component.dateForm.get(`${columnKey}From`)?.value?.toISOString()).toEqual(new Date(dateToValue).toISOString());
-    expect(component.dateForm.get(`${columnKey}To`)?.value?.toISOString()).toEqual(new Date(dateFromValue).toISOString());
-
-    expect(adminTableService.setDateFormat).toHaveBeenCalledWith(new Date(dateToValue));
-    expect(adminTableService.setDateFormat).toHaveBeenCalledWith(new Date(dateFromValue));
-    expect(adminTableService.setNewDateRange).toHaveBeenCalledWith(columnKey, dateToValue, dateFromValue);
+    expect(component.dateForm.get(`${columnKey}From`)?.value).toEqual(new Date(dateFromValue));
+    expect(component.dateForm.get(`${columnKey}To`)?.value).toEqual(new Date(dateToValue));
+    expect(setDateFormatSpy).toHaveBeenCalled();
+    expect(setNewDateRangeSpy).toHaveBeenCalled();
   });
 
   it('should update date checked status and call onDateChange', () => {

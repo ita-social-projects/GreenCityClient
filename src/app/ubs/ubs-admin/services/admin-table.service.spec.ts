@@ -217,7 +217,7 @@ fdescribe('AdminTableService', () => {
 
     service.selectedFilters = mockFilters;
 
-    const result = service.getSelectedFilters();
+    const result = service.selectedFilters;
     expect(result).toEqual(mockFilters);
   });
 
