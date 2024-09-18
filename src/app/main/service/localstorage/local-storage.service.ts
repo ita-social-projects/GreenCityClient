@@ -26,6 +26,7 @@ export class LocalStorageService {
   private readonly EDIT_EVENT = 'editEvent';
   private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
   private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
+  readonly ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
 
   constructor() {
     this.firstNameBehaviourSubject = new BehaviorSubject<string>(this.getName());
@@ -396,11 +397,10 @@ export class LocalStorageService {
     const savedHabitFact = localStorage.getItem('habitFactOfTheDay');
     const lastHabitFetchTime = localStorage.getItem('lastHabitFetchTime');
     const currentTime = Date.now();
-    const oneDayInMillis = 24 * 60 * 60 * 1000;
 
     const isHabitFactPresent = !!savedHabitFact;
     const isLastFetchTimePresent = !!lastHabitFetchTime;
-    const isWithinOneDay = currentTime - Number(lastHabitFetchTime) < oneDayInMillis;
+    const isWithinOneDay = currentTime - Number(lastHabitFetchTime) < this.ONE_DAY_IN_MILLIS;
 
     if (isHabitFactPresent && isLastFetchTimePresent && isWithinOneDay) {
       return JSON.parse(savedHabitFact);

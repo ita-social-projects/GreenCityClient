@@ -16,7 +16,6 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
   factOfTheDay: FactOfTheDay;
   habitFactOfTheDay: FactOfTheDay;
   error: string;
-  oneDayInMillis = 24 * 60 * 60 * 1000;
 
   constructor(
     private profileService: ProfileService,
@@ -30,7 +29,7 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
       this.checkAndUpdateHabitFact();
     });
 
-    timer(0, this.oneDayInMillis)
+    timer(0, this.localStorageService.ONE_DAY_IN_MILLIS)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.checkAndUpdateHabitFact());
   }
@@ -73,9 +72,9 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
   }
 
   updateHabitFactIfNeeded(): void {
-    const lastHabitFetchTime = localStorage.getItem('lastHabitFactFetchTime');
+    const lastHabitFetchTime = localStorage.getItem('lastHabitFetchTime');
     const currentTime = Date.now();
-    const oneDay = this.oneDayInMillis;
+    const oneDay = this.localStorageService.ONE_DAY_IN_MILLIS;
 
     if (this.isMoreThanOneDayPassed(lastHabitFetchTime, currentTime, oneDay)) {
       this.clearHabitFact();
