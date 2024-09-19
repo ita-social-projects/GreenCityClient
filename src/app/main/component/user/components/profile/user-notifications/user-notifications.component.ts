@@ -151,7 +151,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         .flat()
     };
     this.userNotificationService
-      .getAllNotification(page, this.itemsPerPage, filtersSelected)
+      .getAllNotifications(page, this.itemsPerPage, filtersSelected)
       .pipe(take(1))
       .subscribe((data) => {
         this.notifications = [...this.notifications, ...data.page];
