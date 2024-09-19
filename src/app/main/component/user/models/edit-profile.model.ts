@@ -8,6 +8,7 @@ export class EditProfileModel {
   showLocation: boolean;
   showShoppingList: boolean;
   socialNetworks: Array<{ id: number; url: string }>;
+  emailPreferences: string[];
 }
 
 export class EditProfileDto {
@@ -18,6 +19,7 @@ export class EditProfileDto {
   showLocation: boolean;
   showShoppingList: boolean;
   socialNetworks: Array<string>;
+  emailPreferences: string[];
 }
 
 export class UserLocationDto {

@@ -165,7 +165,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: !!form.value.showLocation,
       showEcoPlace: !!form.value.showEcoPlace,
       showShoppingList: !!form.value.showShoppingList,
-      socialNetworks: this.socialNetworksToServer
+      socialNetworks: this.socialNetworksToServer,
+      emailPreferences: this.builder.getSelectedEmailPreferences(form)
     };
 
     this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe({

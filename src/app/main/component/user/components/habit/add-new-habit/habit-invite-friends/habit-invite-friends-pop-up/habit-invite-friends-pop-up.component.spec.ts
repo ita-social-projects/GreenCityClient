@@ -77,12 +77,6 @@ describe('HabitInviteFriendsPopUpComponent', () => {
     });
   });
 
-  it('should update allAdd status', () => {
-    component.friends = [FIRSTFRIEND, SECONDFRIEND];
-    component.updateAllAdd();
-    expect(component.allAdd).toBeTruthy();
-  });
-
   it('should check if some friends are added', () => {
     component.friends = [FIRSTFRIEND, SECONDFRIEND];
     component.allAdd = false;

@@ -692,6 +692,12 @@
       "user-credo": "My Credo is to make small steps that leads to huge impact. Let’s change the world together.",
       "user-name": "Brandier Webb",
       "user-location": "Lviv",
+      "email-preferences": {
+        "title": "Email Notifications",
+        "likes": "Receive notifications for likes",
+        "comments": "Receive notifications for comments",
+        "invites": "Receive notifications for invites"
+      },
       "btn": {
         "cancel": "Cancel",
         "save": "Save",

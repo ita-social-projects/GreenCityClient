@@ -1,30 +1,33 @@
-.checkmark {
-  border: 1px solid var(--quaternary-grey);
-  border-radius: 3px;
-  height: 16px;
-  width: 16px;
-  margin-right: 8px;
+.checkbox-container {
+  .checkmark {
+    border: 1px solid var(--quaternary-grey);
+    border-radius: 3px;
+    height: 16px;
+    width: 16px;
+    margin-right: 8px;
+  }
+
+  input[type='checkbox'] {
+    height: 0;
+    opacity: 0;
+    width: 0;
+  }
+
+  input:checked ~ .checkmark {
+    background-color: var(--primary-green);
+    border: var(--primary-green);
+  }
+
+  input:checked ~ .checkmark::after {
+    content: '';
+    display: block;
+    width: 11px;
+    height: 8px;
+    margin: 4px auto 0;
+    background-image: url('/assets/img/profile/icons/checkmark.svg');
+  }
 }
 
-input[type='checkbox'] {
-  height: 0;
-  opacity: 0;
-  width: 0;
-}
-
-input:checked ~ .checkmark {
-  background-color: var(--primary-green);
-  border: var(--primary-green);
-}
-
-input:checked ~ .checkmark::after {
-  content: '';
-  display: block;
-  width: 11px;
-  height: 8px;
-  margin: 4px auto 0;
-  background-image: url('/assets/img/profile/icons/checkmark.svg');
-}
 
 .edit_prof-container {
   width: 100%;
@@ -111,10 +114,6 @@ input:checked ~ .checkmark::after {
     }
   }
 
-  .wrapper:nth-child(2) {
-    padding-bottom: 32px;
-  }
-
   .buttons {
     display: flex;
     justify-content: flex-end;
@@ -143,7 +142,9 @@ h2 {
   letter-spacing: 0.2px;
 }
 
-.privacy-wrapper {
+.privacy-wrapper, .email-preferences {
+  @extend .checkbox-container;
+
   border-bottom: 1px solid #e1e5e3;
   margin-top: 40px;
   padding-bottom: 34px;

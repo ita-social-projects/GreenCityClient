@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditProfileModel, UserLocationDto } from '@global-user/models/edit-profile.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
@@ -17,7 +17,16 @@ export class EditProfileFormBuilder {
       showLocation: [false],
       showEcoPlace: [false],
       showShoppingList: [false],
-      socialNetworks: ['']
+      socialNetworks: [''],
+      emailPreferences: this.getEmailPreferencesFormGroup(null)
+    });
+  }
+
+  private getEmailPreferencesFormGroup(preferences: string[] | null) {
+    return this.builder.group({
+      likes: [this.isPreferenceEnabled(preferences, 'LIKES')],
+      comments: [this.isPreferenceEnabled(preferences, 'COMMENTS')],
+      invites: [this.isPreferenceEnabled(preferences, 'INVITES')]
     });
   }
 
@@ -30,6 +39,13 @@ export class EditProfileFormBuilder {
     return '';
   }
 
+  getSelectedEmailPreferences(form: FormGroup): string[] {
+    const preferences = ['likes', 'comments', 'invites']
+      .filter((key) => form.get(`emailPreferences.${key}`)?.value)
+      .map((preference) => preference.toUpperCase());
+    return ['SYSTEM', ...preferences];
+  }
+
   getEditProfileForm(editForm: EditProfileModel) {
     return this.builder.group({
       name: [editForm.name, [Validators.maxLength(30), Validators.required]],
@@ -38,7 +54,11 @@ export class EditProfileFormBuilder {
       showLocation: [editForm.showLocation],
       showEcoPlace: [editForm.showEcoPlace],
       showShoppingList: [editForm.showShoppingList],
-      socialNetworks: [editForm.socialNetworks]
+      socialNetworks: [editForm.socialNetworks],
+      emailPreferences: this.getEmailPreferencesFormGroup(editForm.emailPreferences)
     });
+  }
+  private isPreferenceEnabled(preferences: string[] | null, type: string): boolean {
+    return preferences ? preferences.includes(type) : false;
   }
 }
