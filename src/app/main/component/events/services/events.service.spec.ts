@@ -13,7 +13,7 @@ import {
   mockParams
 } from '@assets/mocks/events/mock-events';
 
-xdescribe('EventsService', () => {
+describe('EventsService', () => {
   let service: EventsService;
   let httpTestingController: HttpTestingController;
   const url = environment.backendLink;
