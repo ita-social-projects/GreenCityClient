@@ -10,7 +10,9 @@ import { GoogleMapsModule } from '@angular/google-maps';
 describe('MapEventComponent', () => {
   let component: MapEventComponent;
   let fixture: ComponentFixture<MapEventComponent>;
+
   let google;
+  const originalGoogle = (window as any).google;
 
   const MatDialogMock = jasmine.createSpyObj('MatDialogRef', ['close', 'backdropClick']);
   MatDialogMock.close = () => 'Close the window please';
@@ -42,7 +44,6 @@ describe('MapEventComponent', () => {
 
   beforeEach(() => {
     (window as any).google = {
-      ...(window as any).google,
       maps: {
         Map: jasmine.createSpy('Map').and.returnValue({
           setCenter: jasmine.createSpy('setCenter'),
@@ -64,6 +65,11 @@ describe('MapEventComponent', () => {
     fixture = TestBed.createComponent(MapEventComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    (window as any).google = originalGoogle;
+    TestBed.resetTestingModule();
   });
 
   it('should create', () => {
