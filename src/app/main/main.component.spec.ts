@@ -1,8 +1,8 @@
-import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, NO_ERRORS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { TitleAndMetaTagsService } from '@global-service/title-meta-tags/title-and-meta-tags.service';
@@ -12,13 +12,10 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { LayoutModule } from './component/layout/layout.module';
-import { LanguageService } from './i18n/language.service';
 import { MainComponent } from './main.component';
 import { MainModule } from './main.module';
 
 xdescribe('MainComponent', () => {
-  const navigateToStartingPositionOnPage = 'navigateToStartingPositionOnPage';
-
   let fixture;
   let app: MainComponent;
   let router: Router;
@@ -26,7 +23,7 @@ xdescribe('MainComponent', () => {
 
   const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
-  storeMock.select.and.returnValue(of({ emplpyees: { emplpyeesPermissions: mockData } }));
+  storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
 
   const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
@@ -38,11 +35,6 @@ xdescribe('MainComponent', () => {
 
   const focusMock = {
     nativeElement: jasmine.createSpyObj('nativeElement', ['focus'])
-  };
-
-  const routerMock = {
-    events: new BehaviorSubject<any>(null),
-    navigate: jasmine.createSpy('navigate').and.returnValue(true)
   };
 
   beforeEach(waitForAsync(() => {
@@ -74,7 +66,6 @@ xdescribe('MainComponent', () => {
     app = fixture.componentInstance;
     router = fixture.debugElement.injector.get(Router);
     spyOn(router.url, 'includes').and.returnValue(false);
-    spyOn(app as any, 'checkLogin');
     localStorage.clear();
     fixture.detectChanges();
   });
@@ -84,10 +75,8 @@ xdescribe('MainComponent', () => {
   });
 
   it('should init main functions', () => {
-    const spy = spyOn(MainComponent.prototype as any, 'navigateToStartingPositionOnPage');
     app.ngOnInit();
 
-    expect(spy).toHaveBeenCalled();
     expect(titleAndMetaTagsServiceMock.useTitleMetasData).toHaveBeenCalled();
   });
 
@@ -106,13 +95,5 @@ xdescribe('MainComponent', () => {
     app.focusLast = focusMock;
     app.skipFocus();
     expect(app.focusLast.nativeElement.focus).toHaveBeenCalled();
-  });
-
-  it('should navigate to starting position on page', () => {
-    const event = new NavigationEnd(42, '/', '/');
-    routerMock.events.next(event);
-    app[navigateToStartingPositionOnPage]();
-
-    expect(document.documentElement.scrollTop).toBe(0);
   });
 });
