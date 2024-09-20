@@ -82,7 +82,7 @@ describe('EventsService', () => {
 
   it('editEvent should dispatch EditEcoEventSuccessAction on success', () => {
     const formData = new FormData();
-    const action = EditEcoEventAction({ data: formData });
+    const action = EditEcoEventAction({ data: formData, id: 1 });
     const completion = EditEcoEventSuccessAction({ event: eventMock });
 
     actions$ = of(action);
@@ -96,7 +96,7 @@ describe('EventsService', () => {
   it('editEvent should dispatch ReceivedFailureAction on failure', () => {
     const formData = new FormData();
     const error = 'Error';
-    const action = EditEcoEventAction({ data: formData });
+    const action = EditEcoEventAction({ data: formData, id: 1 });
     const completion = ReceivedFailureAction({ error });
 
     actions$ = of(action);

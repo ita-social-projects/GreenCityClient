@@ -285,7 +285,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   private createEvent(sendData: FormData) {
     this.isPosting = true;
     this.isUpdating
-      ? this.store.dispatch(EditEcoEventAction({ data: sendData }))
+      ? this.store.dispatch(EditEcoEventAction({ data: sendData, id: this.eventId }))
       : this.store.dispatch(CreateEcoEventAction({ data: sendData }));
 
     this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess), take(1)).subscribe(() => {
