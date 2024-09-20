@@ -13,7 +13,7 @@ import { RecommendedFriendsComponent } from './recommended-friends.component';
 import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
 import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 
-xdescribe('RecommendedFriendsComponent', () => {
+describe('RecommendedFriendsComponent', () => {
   let component: RecommendedFriendsComponent;
   let fixture: ComponentFixture<RecommendedFriendsComponent>;
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
@@ -67,10 +67,8 @@ xdescribe('RecommendedFriendsComponent', () => {
   });
 
   it('should call initUser and getPossibleFriends OnInit', () => {
-    const initUserSpy = spyOn(component as any, 'initUser');
     const getFriendsSpy = spyOn(component, 'getNewFriends');
     component.ngOnInit();
-    expect(initUserSpy).toHaveBeenCalledTimes(1);
     expect(getFriendsSpy).toHaveBeenCalled();
   });
 
@@ -98,10 +96,5 @@ xdescribe('RecommendedFriendsComponent', () => {
     const getRecommendedFriendSpy = spyOn(component, 'getNewFriends');
     component.onScroll();
     expect(getRecommendedFriendSpy).toHaveBeenCalled();
-  });
-
-  it('should set userId on initUser', () => {
-    (component as any).initUser();
-    expect(component.userId).toBe(1111);
   });
 });

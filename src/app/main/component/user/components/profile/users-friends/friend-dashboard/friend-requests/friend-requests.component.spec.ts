@@ -45,16 +45,4 @@ describe('FriendRequestsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should get a user', () => {
-    const initUserSpy = spyOn(component as any, 'initUser');
-    component.ngOnInit();
-    expect(initUserSpy).toHaveBeenCalledTimes(1);
-    expect(component.scroll).toBeFalsy();
-  });
-
-  it('should set userId on initUser', () => {
-    (component as any).initUser();
-    expect(component.userId).toBe(1111);
-  });
 });

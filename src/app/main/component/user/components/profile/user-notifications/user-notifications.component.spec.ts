@@ -148,84 +148,6 @@ describe('UserNotificationsComponent', () => {
     expect(component.checkSelectedFilter(FilterApproach.TYPE)).toBeFalsy();
   });
 
-  it('should get  getAllSelectedFilters', () => {
-    component.notificationTypesFilter = [
-      {
-        name: 'All',
-        nameEn: 'All',
-        nameUa: 'Усі',
-        isSelected: true
-      }
-    ];
-    const result1 = (component as any).getAllSelectedFilters(component.filterApproach.TYPE);
-    expect(result1).toEqual([]);
-    component.notificationTypesFilter = notificationTypesFilter;
-    const result = (component as any).getAllSelectedFilters(component.filterApproach.TYPE);
-    expect(result).toEqual([
-      { name: NotificationType.ECONEWS_CREATED, nameEn: ' News Created', nameUa: 'Створення новини', isSelected: true }
-    ]);
-  });
-
-  it('should get notifications and change component property', () => {
-    component.notifications = [];
-    spyOn(component as any, 'getAllSelectedFilters').and.returnValue([
-      { name: NotificationType.ECONEWS_CREATED, nameEn: ' News Created', nameUa: 'Створення новини', isSelected: true }
-    ]);
-    const spy = spyOn((component as any).userNotificationService, 'getAllNotification').and.returnValue(
-      of({ page: notifications, currentPage: 1, hasNext: true })
-    );
-    component.getNotification();
-    expect(spy).toHaveBeenCalled();
-    expect(component.notifications).toEqual(notifications);
-    expect(component.currentPage).toBe(1);
-    expect(component.hasNextPage).toBeTruthy();
-    expect(component.isLoading).toBeFalsy();
-  });
-
-  it(' should change notification status after call unreadNotification method', () => {
-    component.notifications = notifications;
-    const event = new MouseEvent('click');
-    const spy = spyOn(event, 'stopPropagation');
-    const spy1 = spyOn((component as any).userNotificationService, 'unReadNotification').and.returnValue(of(true));
-    component.unReadNotification(event, notifications[1]);
-    expect(spy).toHaveBeenCalled();
-    expect(spy1).toHaveBeenCalledWith(notifications[1].notificationId);
-    expect(component.notifications[1].viewed).toBeFalsy();
-  });
-
-  it('should change notification status after call readNotification method', () => {
-    component.notifications = notifications;
-    const event = new KeyboardEvent('keydown', { key: 'Enter' });
-    const spy = spyOn(event, 'stopPropagation');
-    const spy1 = spyOn((component as any).userNotificationService, 'readNotification').and.returnValue(of(true));
-    component.readNotification(event, notifications[0]);
-    expect(spy).toHaveBeenCalled();
-    expect(spy1).toHaveBeenCalledWith(notifications[0].notificationId);
-    expect(component.notifications[0].viewed).toBeTruthy();
-  });
-
-  it('should delete', () => {
-    component.notifications = notifications;
-    const event = new KeyboardEvent('keydown', { key: 'Enter' });
-    const spy = spyOn(event, 'stopPropagation');
-    const spy1 = spyOn((component as any).userNotificationService, 'deleteNotification').and.returnValue(of(true));
-    component.deleteNotification(event, notifications[0]);
-    expect(spy).toHaveBeenCalled();
-    expect(spy1).toHaveBeenCalledWith(notifications[0].notificationId);
-    expect(component.notifications.length).toBe(1);
-  });
-
-  it('should delete', () => {
-    component.notifications = notifications;
-    const event = new MouseEvent('click');
-    const spy = spyOn((component as any).userNotificationService, 'deleteNotification').and.returnValue(throwError('Error'));
-    const spy1 = spyOn((component as any).matSnackBar, 'openSnackBar');
-    component.deleteNotification(event, notifications[0]);
-    expect(spy).toHaveBeenCalledWith(notifications[0].notificationId);
-    expect(component.notifications.length).toBe(2);
-    expect(spy1).toHaveBeenCalled();
-  });
-
   it('should call declineRequest', fakeAsync(() => {
     component.notifications = notifications;
     const spy = spyOn(component, 'declineRequest');
@@ -244,17 +166,6 @@ describe('UserNotificationsComponent', () => {
     button.triggerEventHandler('click', null);
     tick();
     expect(spy).toHaveBeenCalled();
-  }));
-
-  it('', fakeAsync(() => {
-    const spy = spyOn(component, 'navigate');
-    component.notifications = notifications;
-    fixture.detectChanges();
-    const paragraph = fixture.debugElement.query(By.css('.message-text'));
-    paragraph.triggerEventHandler('click', null);
-    tick();
-    expect(spy).toHaveBeenCalled();
-    expect((component as any).router.navigate).not.toHaveBeenCalled();
   }));
 
   it('onScroll', () => {

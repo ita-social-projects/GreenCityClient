@@ -22,10 +22,11 @@ import { InputGoogleAutocompleteComponent } from '@shared/components/input-googl
 
 class Test {}
 
-xdescribe('EditProfileComponent', () => {
+describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
   let fixture: ComponentFixture<EditProfileComponent>;
   let router: Router;
+  const previousGoogle = (window as any).google;
 
   beforeEach(waitForAsync(() => {
     (window as any).google = {
@@ -75,6 +76,10 @@ xdescribe('EditProfileComponent', () => {
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
     fixture.detectChanges();
+  });
+
+  afterAll(() => {
+    (window as any).google = previousGoogle;
   });
 
   it('should create EditProfileComponent', () => {
