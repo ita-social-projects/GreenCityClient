@@ -23,7 +23,7 @@ xdescribe('MainComponent', () => {
 
   const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
-  storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
+  storeMock.select.and.returnValue(of({ emplpyees: { emplpyeesPermissions: mockData } }));
 
   const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
