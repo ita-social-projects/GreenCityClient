@@ -7,7 +7,11 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
+import {
+  HabitInterface,
+  HabitItemInterface,
+  HabitListFriendsInterface
+} from '@global-user/components/habit/models/interfaces/habit.interface';
 import { HabitService } from '@global-service/habit/habit.service';
 
 @Component({
@@ -29,14 +33,9 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   friendsList: FriendModel[] = [];
   mutualFriendsList: FriendModel[] = [];
   selectedIndex = 0;
-  userDashboardTab = UserDashboardTab;
   readonly absentContent = 'assets/img/noNews.svg';
   habitsList: HabitInterface[] = [];
   galleryView = true;
-  private destroyed$: Subject<boolean> = new Subject<boolean>();
-  private currentHabitPage = 0;
-  private currentHabitSize = 9;
-  totalHabitPages: number;
 
   constructor(
     private userFriendsService: UserFriendsService,
@@ -61,15 +60,30 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
 
   private getAllHabits(): void {
     this.habitService
-      .getAllHabits(this.currentHabitPage, this.currentHabitSize)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((res) => {
-        this.totalHabitPages = res.totalPages;
-        this.scroll = false;
-        this.isFetching = false;
-        this.habitsList = this.currentHabitPage
-          ? [...this.habitsList, ...res.page] : res.page;
+      .getAllFriendHabits(this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: HabitListFriendsInterface) => {
+          this.habitsList = res.page.map(this.mapHabitItemToHabit);
+        },
+        error: (error) => {
+          console.error('Error fetching habits:', error);
+          this.isFetching = false;
+        }
       });
+  }
+
+  private mapHabitItemToHabit(item: HabitItemInterface): HabitInterface {
+    return {
+      id: item.habit.id,
+      image: item.habit.image,
+      habitTranslation: item.habit.habitTranslation,
+      defaultDuration: item.duration,
+      amountAcquiredUsers: 0,
+      isCustomHabit: false,
+      usersIdWhoCreatedCustomHabit: 0,
+      tags: []
+    };
   }
 
   private getAllFriends(id: number, page?: number): void {
@@ -116,11 +130,6 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
       this.scroll = true;
       this.currentMutualPage += 1;
       this.getMutualFriends(this.currentMutualPage);
-    }
-    if (!this.scroll && this.habitsList.length < this.totalHabitPages * this.currentHabitSize) {
-      this.scroll = true;
-      this.currentHabitPage += 1;
-      this.getAllHabits();
     }
   }
 

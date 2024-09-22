@@ -9,9 +9,7 @@
           </div>
         </div>
         <div *ngIf="galleryView" [ngClass]="{ gallery: galleryView }">
-          <app-habits-gallery-view
-            *ngFor="let habit of habitsList" [habit]="habit">
-          </app-habits-gallery-view>
+          <app-habits-gallery-view *ngFor="let habit of habitsList" [habit]="habit"> </app-habits-gallery-view>
         </div>
       </div>
     </mat-tab>
@@ -58,8 +56,7 @@
         <h3 class="no-friends">{{ 'profile.friends.no-mutual-friends' | translate }}</h3>
       </div>
     </mat-tab>
-    <app-spinner *ngIf="isFetching"></app-spinner>
-    <div infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+
     <div
       infiniteScroll
       [infiniteScrollDistance]="1"
