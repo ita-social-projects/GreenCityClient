@@ -2,13 +2,19 @@
   <mat-tab-group animationDuration="400ms" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedIndex">
     <mat-tab label="{{ 'user.habit.all-habits.title' | translate }}">
       <div class="container">
-        <div class="img-absent">
-          <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
-          <h3 class="title">{{ 'user.habit.all-habits.title' | translate }}</h3>
+        <div *ngIf="!galleryView">
+          <div class="img-absent">
+            <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
+            <h3 class="title">{{ 'user.habit.all-habits.title' | translate }}</h3>
+          </div>
+        </div>
+        <div *ngIf="galleryView" [ngClass]="{ gallery: galleryView }">
+          <app-habits-gallery-view
+            *ngFor="let habit of habitsList" [habit]="habit">
+          </app-habits-gallery-view>
         </div>
       </div>
     </mat-tab>
-
     <mat-tab label="{{ 'user.habit.all-habits.mutual' | translate }}" [disabled]="userId === currentUserId">
       <div class="container">
         <div class="img-absent">
@@ -52,7 +58,8 @@
         <h3 class="no-friends">{{ 'profile.friends.no-mutual-friends' | translate }}</h3>
       </div>
     </mat-tab>
-
+    <app-spinner *ngIf="isFetching"></app-spinner>
+    <div infiniteScroll [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
     <div
       infiniteScroll
       [infiniteScrollDistance]="1"

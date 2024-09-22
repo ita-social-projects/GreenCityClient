@@ -7,6 +7,8 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
+import { HabitService } from '@global-service/habit/habit.service';
 
 @Component({
   selector: 'app-friend-profile-dashboard',
@@ -29,13 +31,20 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   selectedIndex = 0;
   userDashboardTab = UserDashboardTab;
   readonly absentContent = 'assets/img/noNews.svg';
+  habitsList: HabitInterface[] = [];
+  galleryView = true;
+  private destroyed$: Subject<boolean> = new Subject<boolean>();
+  private currentHabitPage = 0;
+  private currentHabitSize = 9;
+  totalHabitPages: number;
 
   constructor(
     private userFriendsService: UserFriendsService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private userOnlineStatusService: UserOnlineStatusService
+    private userOnlineStatusService: UserOnlineStatusService,
+    private habitService: HabitService
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +56,20 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
     if (this.userId !== this.currentUserId) {
       this.getMutualFriends();
     }
+    this.getAllHabits();
+  }
+
+  private getAllHabits(): void {
+    this.habitService
+      .getAllHabits(this.currentHabitPage, this.currentHabitSize)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((res) => {
+        this.totalHabitPages = res.totalPages;
+        this.scroll = false;
+        this.isFetching = false;
+        this.habitsList = this.currentHabitPage
+          ? [...this.habitsList, ...res.page] : res.page;
+      });
   }
 
   private getAllFriends(id: number, page?: number): void {
@@ -93,6 +116,11 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
       this.scroll = true;
       this.currentMutualPage += 1;
       this.getMutualFriends(this.currentMutualPage);
+    }
+    if (!this.scroll && this.habitsList.length < this.totalHabitPages * this.currentHabitSize) {
+      this.scroll = true;
+      this.currentHabitPage += 1;
+      this.getAllHabits();
     }
   }
 
