@@ -8,7 +8,7 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
-import { CustomHabitDtoRequest, CustomHabit, HabitPageable } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
+import { CustomHabitDtoRequest, CustomHabit } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 
@@ -50,9 +50,8 @@ export class HabitService {
     return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
-  getHabitsByFilters(criteria: HabitPageable): Observable<HabitListInterface> {
-    const params = this.getHttpParams(criteria);
-    return this.http.get<HabitListInterface>(`${habitLink}/search?${params}`);
+  getHabitsByFilters(requestParams: HttpParams): Observable<HabitListInterface> {
+    return this.http.get<HabitListInterface>(`${habitLink}/search`, { params: requestParams });
   }
 
   addCustomHabit(habit: CustomHabit, lang: string): Observable<CustomHabitDtoRequest> {
@@ -71,55 +70,6 @@ export class HabitService {
 
   deleteCustomHabit(id: number): Observable<CustomHabitDtoRequest> {
     return this.http.delete<CustomHabitDtoRequest>(`${habitLink}/delete/${id}`);
-  }
-
-  private getHttpParams(criteria: HabitPageable): string {
-    let params = new HttpParams();
-    params = criteria.lang ? params.set('lang', criteria.lang) : params.set('lang', this.language);
-    params = criteria.page ? params.set('page', criteria.page.toString()) : params.set('page', '0');
-    params = criteria.size ? params.set('size', criteria.size.toString()) : params.set('size', '6');
-    params = criteria.sort ? params.set('sort', criteria.sort) : params.set('sort', 'asc');
-
-    if (criteria.excludeAssigned !== undefined) {
-      params = params.set('excludeAssigned', criteria.excludeAssigned.toString());
-    }
-
-    if (criteria.filters && Array.isArray(criteria.filters)) {
-      let isCustomHabitFilter: string | null = null;
-      let complexitiesFilter: string | null = null;
-      let tagsFilter: string | null = null;
-
-      criteria.filters.forEach((filter) => {
-        const parts = filter.split(',');
-        parts.forEach((part) => {
-          if (part.startsWith('isCustomHabit=')) {
-            isCustomHabitFilter = part;
-          } else if (part.startsWith('complexities=')) {
-            complexitiesFilter = part;
-          } else if (part.startsWith('tags=')) {
-            tagsFilter = part;
-          }
-        });
-      });
-      if (isCustomHabitFilter) {
-        const [key, value] = isCustomHabitFilter.split('=');
-        params = params.set(key, value);
-      }
-      if (complexitiesFilter) {
-        const [key, value] = complexitiesFilter.split('=');
-        params = params.set(key, value);
-      }
-      if (tagsFilter) {
-        const [key, value] = tagsFilter.split('=');
-        params = params.set(key, value);
-      }
-    }
-    if (criteria.tags && Array.isArray(criteria.tags) && criteria.tags.length > 0) {
-      const tags = criteria.tags.join(',');
-      params = params.set('tags', tags);
-    }
-
-    return params.toString().replace(/%252C/g, ',');
   }
 
   private prepareCustomHabitRequest(habit: CustomHabit, lang: string): FormData {

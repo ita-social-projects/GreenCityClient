@@ -6,16 +6,12 @@ import { NewMessageWindowComponent } from '../new-message-window/new-message-win
 import { ReferenceDirective } from '../../directive/reference/reference.directive';
 import { CommonService } from '../../service/common/common.service';
 import { Subject } from 'rxjs';
-import { concatMap, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { SocketService } from '../../service/socket/socket.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
-
-import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { LocationForChat } from '../../model/Chat.model';
-import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-popup',
@@ -50,8 +46,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     private socketService: SocketService,
     private dialog: MatDialog,
     private localStorageService: LocalStorageService,
-    private jwt: JwtService,
-    private orderService: OrderService
+    private jwt: JwtService
   ) {}
 
   ngOnInit(): void {
@@ -60,8 +55,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
       this.isUbsAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
       if (id) {
         this.socketService.connect();
-
-        this.loadChats();
+        this.chatsService.loadChats(this.userId, this.isUbsAdmin);
       } else {
         this.socketService.unsubscribeAll();
         this.chatsService.resetData();
@@ -75,28 +69,6 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     });
 
     this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());
-  }
-
-  loadChats(): void {
-    if (this.isUbsAdmin) {
-      this.chatsService.getAllSupportChats();
-      return;
-    }
-
-    this.orderService
-      .getAllActiveCouriers()
-      .pipe(
-        concatMap((data) => {
-          const courierId = data.find((courier) => courier.nameEn.includes(this.courierUBSName)).courierId;
-          return this.chatsService.getLocationsChats(this.userId, courierId);
-        }),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe((locations: LocationForChat[]) => {
-        this.chatsService.locations$.next(locations);
-      });
-
-    this.chatsService.getAllUserChats(this.userId);
   }
 
   openAuthModalWindow(): void {
@@ -142,6 +114,8 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.socketService.unsubscribeAll();
+    this.chatsService.resetData();
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
   }

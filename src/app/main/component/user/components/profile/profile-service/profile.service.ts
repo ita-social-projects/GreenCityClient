@@ -1,7 +1,7 @@
 import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FactOfTheDay as FactOfTheDay } from '@global-user/models/factOfTheDay';
+import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
@@ -44,6 +44,11 @@ export class ProfileService {
   getRandomFactOfTheDay(): Observable<FactOfTheDay> {
     const currentLang = this.languageService.getCurrentLanguage();
     return this.http.get<FactOfTheDay>(`${mainLink}fact-of-the-day/random?lang=${currentLang}`);
+  }
+
+  getFactsOfTheDayByTags(): Observable<FactOfTheDay> {
+    const currentLang = this.languageService.getCurrentLanguage();
+    return this.http.get<FactOfTheDay>(`${mainLink}fact-of-the-day/random/by-tags?lang=${currentLang}`);
   }
 
   getUserInfo(): Observable<EditProfileModel> {

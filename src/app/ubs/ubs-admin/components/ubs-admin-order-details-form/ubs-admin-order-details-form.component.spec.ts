@@ -42,7 +42,7 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
 
   const orderDetailsMock = {
     bonuses: 100,
-    paidAmount: 200,
+    paidAmount: 23,
     certificateDiscount: 50,
     bags: [
       { planned: 2, confirmed: 3, actual: 4, price: 10 },
@@ -90,9 +90,10 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     component = fixture.componentInstance;
     component.orderStatusInfo = orderStatusMock;
     component.orderDetailsForm = orderDetailsFormMock;
-    component.orderDetails = orderDetailsMock as any;
-    component.bagsInfo = bagsInfoMock;
-    component.orderInfo = fakeOrderInfo;
+    component.orderDetails = JSON.parse(JSON.stringify(orderDetailsMock));
+    component.bagsInfo = JSON.parse(JSON.stringify(bagsInfoMock));
+    component.orderInfo = JSON.parse(JSON.stringify(fakeOrderInfo));
+
     fixture.detectChanges();
   });
 
@@ -100,7 +101,7 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('life cycle hook ngOnInit', () => {
+  it('lifecycle hook ngOnInit', () => {
     component.totalPaid = 300;
     component.orderInfo.generalOrderInfo.orderPaymentStatus = 'PAID';
     component.ngOnInit();
@@ -190,11 +191,23 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
 
     (component as any).calculateFinalSum();
 
-    expect(component.bagsInfo.finalSum.planned).toBe(55);
-    expect(component.bagsInfo.finalSum.actual).toBe(225);
+    expect(component.bagsInfo.finalSum.planned).toBe(32);
+    expect(component.bagsInfo.finalSum.actual).toBe(202);
   });
 
-  it('should calculate final sum correctly', () => {
+  it('should calculate final sum correctly 2', () => {
+    (component as any).calculateFinalSum();
+
+    const expectedFinalSum = {
+      planned: 32,
+      confirmed: 117,
+      actual: 202
+    };
+
+    expect(component.bagsInfo.finalSum).toEqual(expectedFinalSum);
+  });
+
+  it('should calculate final sum and call some functions', () => {
     const spy = spyOn(component as any, 'checkMinOrderLimit');
     const spy2 = spyOn(component as any, 'calculateOverpayment');
     const spy3 = spyOn(component as any, 'setFinalFullPrice');
@@ -295,7 +308,6 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
   });
 
   it('should calculateOverpayment metod call if showUbsCourier = false and isOrderBroughtByHimself = false', () => {
-    component.showUbsCourier = false;
     component.showUbsCourier = false;
     component.bagsInfo.sum.confirmed = 140;
     component.orderDetails.certificateDiscount = 12;

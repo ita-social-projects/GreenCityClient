@@ -4,6 +4,7 @@ import { ChatMessageComponent } from './chat-message.component';
 import { UserService } from '@global-service/user/user.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { StoreModule } from '@ngrx/store';
 
 describe('ChatMessageComponent', () => {
   let component: ChatMessageComponent;
@@ -12,7 +13,7 @@ describe('ChatMessageComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ChatMessageComponent],
-      imports: [HttpClientTestingModule, MatDialogModule],
+      imports: [HttpClientTestingModule, MatDialogModule, StoreModule.forRoot({})],
       providers: [{ provide: UserService, useValue: {} }, MatDialog]
     });
     fixture = TestBed.createComponent(ChatMessageComponent);

@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
@@ -47,7 +47,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   isActivePlaceFavorite = false;
   readonly tagFilterStorageKey = 'placesTagFilter';
   readonly moreOptionsStorageKey = 'moreOptionsFilter';
-  placesList: Array<AllAboutPlace>;
+  placesList: AllAboutPlace[] = [];
 
   @ViewChild('drawer') drawer: MatDrawer;
 
@@ -66,9 +66,9 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private placeService: PlaceService,
     private filterPlaceService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
+    private googleScript: GoogleScript,
     private dialog: MatDialog,
-    private userOwnAuthService: UserOwnAuthService,
-    private googleScript: GoogleScript
+    private userOwnAuthService: UserOwnAuthService
   ) {}
 
   ngOnInit() {
@@ -213,15 +213,19 @@ export class PlacesComponent implements OnInit, OnDestroy {
 
   private getPlaceList(): void {
     this.placeService.getAllPlaces(this.page, this.size).subscribe((item: any) => {
-      this.placesList = item.page;
-      if (this.placesList) {
-        this.drawer.toggle(true);
-      } else {
-        this.drawer.toggle(false);
-      }
-      this.totalPages = item.totalPages;
-      this.page += 1;
+      this.handlePlaceListResponse(item);
     });
+  }
+
+  private handlePlaceListResponse(item: any): void {
+    if (item.page) {
+      this.placesList = [...this.placesList, ...item.page];
+      this.drawer.toggle(true);
+    } else {
+      this.drawer.toggle(false);
+    }
+    this.totalPages = item.totalPages;
+    this.page += 1;
   }
 
   toggleFavorite(): void {

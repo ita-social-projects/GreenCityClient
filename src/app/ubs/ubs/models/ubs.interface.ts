@@ -1,3 +1,5 @@
+import { Coordinates } from '@global-user/models/edit-profile.model';
+
 export interface Bag {
   id: number;
   name?: string;
@@ -108,20 +110,20 @@ export interface Address {
 }
 
 export interface AddressData {
-  searchAddress: string;
-  districtEn: string;
-  district: string;
   regionEn: string;
   region: string;
+  city: string;
+  cityEn: string;
+  street: string;
+  streetEn: string;
+  districtEn: string;
+  district: string;
   houseNumber: string;
   entranceNumber: string;
   houseCorpus: string;
   addressComment: string;
   placeId: string;
-  city: string;
-  cityEn: string;
-  street: string;
-  streetEn: string;
+  coordinates: Coordinates;
 }
 
 export interface CourierTranslationDtos {
