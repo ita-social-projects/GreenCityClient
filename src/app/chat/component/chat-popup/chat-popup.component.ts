@@ -29,7 +29,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   private userId: number;
   private courierUBSName = 'UBS';
-  public isAdmin: boolean;
+  public isUbsAdmin: boolean;
   breakpoint = 575;
 
   @Input() isSupportChat: boolean;
@@ -60,39 +60,14 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
       if (id) {
         this.socketService.connect();
         this.userId = id;
-        this.isAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
-        this.loadChats();
+        this.isUbsAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
+        this.chatsService.loadChats(this.userId, this.isUbsAdmin);
       } else {
         this.socketService.unsubscribeAll();
       }
     });
 
     this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());
-  }
-
-  loadChats(): void {
-    if (this.isSupportChat && this.isAdmin) {
-      this.chatsService.getAllSupportChats();
-    }
-
-    if (this.isSupportChat && !this.isAdmin) {
-      this.orderService
-        .getAllActiveCouriers()
-        .pipe(
-          concatMap((data) => {
-            const courierId = data.find((courier) => courier.nameEn.includes(this.courierUBSName)).courierId;
-            return this.chatsService.getLocationsChats(this.userId, courierId);
-          }),
-          takeUntil(this.onDestroy$)
-        )
-        .subscribe((locations: LocationForChat[]) => {
-          this.chatsService.locations$.next(locations);
-        });
-    }
-
-    if (!this.isSupportChat) {
-      this.chatsService.getAllUserChats(this.userId);
-    }
   }
 
   public openAuthModalWindow(): void {
@@ -134,6 +109,8 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.socketService.unsubscribeAll();
+    this.chatsService.resetData();
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }

@@ -9,6 +9,10 @@ import { Subject } from 'rxjs';
 import { FriendChatInfo, Participant } from '../../model/Chat.model';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Title } from '@angular/platform-browser';
+import { SocketClientState } from '@global-service/socket/socket-state.enum';
+import { BehaviorSubject } from 'rxjs';
+import { filter, first, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +20,7 @@ import { Title } from '@angular/platform-browser';
 export class SocketService {
   private socket: WebSocket;
   private stompClient: CompatClient;
+  private socketState: BehaviorSubject<SocketClientState>;
   private backendSocketLink = `${environment.chatSocket}`;
   private userId: number;
   private isOpenNewChat = false;
@@ -32,25 +37,50 @@ export class SocketService {
     private titleService: Title
   ) {}
   public connect() {
-    this.userId = this.localStorageService.getUserId();
-    this.socket = new SockJS(this.backendSocketLink);
-    this.stompClient = Stomp.over(() => this.socket);
-    this.stompClient.connect(
-      {},
-      () => {
-        if (this.stompClient.connected) {
+    if (!this.socketState) {
+      this.userId = this.localStorageService.getUserId();
+      this.socket = new SockJS(this.backendSocketLink);
+      this.stompClient = Stomp.over(() => this.socket);
+      this.socketState = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
+      this.stompClient.connect(
+        {},
+        () => {
+          this.socketState.next(SocketClientState.CONNECTED);
           this.onConnected();
-        }
-      },
-      (error) => this.onError(error)
+        },
+        (error) => this.onError(error)
+      );
+      this.stompClient.reconnectDelay = 1000;
+    }
+  }
+
+  connectSubs(): Observable<any> {
+    return new Observable((observer) => {
+      this.socketState.pipe(filter((state) => state === SocketClientState.CONNECTED)).subscribe(() => {
+        observer.next(this.stompClient);
+      });
+    });
+  }
+
+  onMessage(topic: string) {
+    return this.connectSubs().pipe(
+      first(),
+      switchMap(
+        (client: CompatClient) =>
+          new Observable<any>((observer) => {
+            const subscription: StompSubscription = client.subscribe(topic, (message) => {
+              observer.next(message);
+            });
+            return () => client.unsubscribe(subscription.id);
+          })
+      )
     );
-    this.stompClient.reconnectDelay = 1000;
   }
 
   private onConnected() {
     const isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwt.getUserRole() === 'ROLE_ADMIN';
 
-    const messagesSubs = this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
+    const messagesSubs = this.onMessage(`/room/message/chat-messages${this.userId}`).subscribe((data) => {
       const newMessage: Message = JSON.parse(data.body);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
       const chat = this.chatsService.userChats?.find((el) => el.id === newMessage.roomId);
@@ -64,15 +94,13 @@ export class SocketService {
         this.chatsService.currentChatMessagesStream$.next(messages.page);
       }
     });
-    this.subscriptions.push(messagesSubs);
 
-    const newParticipantSubs = this.stompClient.subscribe('/message/new-participant', (participant) => {
+    const newParticipantSubs = this.onMessage('/message/new-participant').subscribe((participant) => {
       const newChatParticipant: Participant = JSON.parse(participant.body);
       this.chatsService.currentChat.participants.push(newChatParticipant);
     });
-    this.subscriptions.push(newParticipantSubs);
 
-    const newChatSubs = this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
+    const newChatSubs = this.onMessage(`/rooms/user/new-chats${this.userId}`).subscribe((newChat) => {
       const newUserChat = JSON.parse(newChat.body);
 
       if (!this.chatsService.isSupportChat) {
@@ -98,10 +126,9 @@ export class SocketService {
         this.chatsService.setCurrentChat(newUserChat);
       }
     });
-    this.subscriptions.push(newChatSubs);
 
     if (isAdmin) {
-      const supportChatSubs = this.stompClient.subscribe(`/user/${this.jwt.getEmailFromAccessToken()}/rooms/support`, (сhat) => {
+      const supportChatSubs = this.onMessage(`/user/${this.jwt.getEmailFromAccessToken()}/rooms/support`).subscribe((сhat) => {
         const userChat = JSON.parse(сhat.body);
         userChat.amountUnreadMessages = 1;
         const isNewChat = !this.chatsService.userChats.find((el) => el.id === userChat.id);
@@ -113,7 +140,6 @@ export class SocketService {
         }
         this.titleService.setTitle(`new chat`);
       });
-      this.subscriptions.push(supportChatSubs);
     }
   }
 
@@ -126,22 +152,38 @@ export class SocketService {
   }
 
   sendMessage(message: Message) {
-    this.stompClient.send('/app/chat', {}, JSON.stringify(message));
-    const currentChat = this.chatsService.currentChat;
-    currentChat.lastMessage = message.content;
-    currentChat.lastMessageDateTime = message.createDate;
+    this.connectSubs()
+      .pipe(first())
+      .subscribe((client) => {
+        client.send('/app/chat', {}, JSON.stringify(message));
+        const currentChat = this.chatsService.currentChat;
+        currentChat.lastMessage = message.content;
+        currentChat.lastMessageDateTime = message.createDate;
+      });
   }
 
   removeMessage(message: Message): void {
-    this.stompClient.send('/app/chat/delete', {}, JSON.stringify(message));
+    this.connectSubs()
+      .pipe(first())
+      .subscribe((client) => {
+        client.send('/app/chat/delete', {}, JSON.stringify(message));
+      });
   }
 
   updateMessage(message: Message): void {
-    this.stompClient.send('/app/chat/update', {}, JSON.stringify(message));
+    this.connectSubs()
+      .pipe(first())
+      .subscribe((client) => {
+        client.send('/app/chat/update', {}, JSON.stringify(message));
+      });
   }
 
   likeMessage(message: MessagesLikeDto): void {
-    this.stompClient.send('/app/chat/like', {}, JSON.stringify(message));
+    this.connectSubs()
+      .pipe(first())
+      .subscribe((client) => {
+        client.send('/app/chat/like', {}, JSON.stringify(message));
+      });
   }
 
   createNewChat(ids, isOpen, isOpenInWindow?) {
@@ -150,13 +192,17 @@ export class SocketService {
       currentUserId: this.userId,
       [key]: ids
     };
-    this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
-    this.isOpenNewChat = isOpen;
-    this.isOpenNewChatInWindow = isOpenInWindow;
+    this.connectSubs()
+      .pipe(first())
+      .subscribe((client) => {
+        client.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
+        this.isOpenNewChat = isOpen;
+        this.isOpenNewChatInWindow = isOpenInWindow;
+      });
   }
 
   subscribeToUpdateDeleteMessage(roomId: number): void {
-    this.updateDeleteMessageSubs = this.stompClient.subscribe(`/room/${roomId}/queue/messages`, (data: IMessage) => {
+    this.onMessage(`/room/${roomId}/queue/messages`).subscribe((data: IMessage) => {
       const message = JSON.parse(data.body);
       if (data.headers.update) {
         const updatedMessage = this.chatsService.currentChatMessages.find((el) => el.id === message.id);
@@ -175,10 +221,7 @@ export class SocketService {
   }
 
   unsubscribeAll(): void {
-    this.subscriptions.forEach((subs) => {
-      if (subs) {
-        subs.unsubscribe();
-      }
-    });
+    this.stompClient?.disconnect();
+    this.socketState = null;
   }
 }
