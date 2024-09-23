@@ -108,10 +108,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     return this.overpayment && this.isStatusForReturnMoneyOrPaid;
   }
 
-  setOverpayment(overpayment: number): void {
-    this.overpayment = Math.abs(overpayment);
-  }
-
   getStringDate(date: Date): string {
     return date.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').reverse().join('-');
   }
