@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminCertificateComponent } from './ubs-admin-certificate.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -12,7 +12,8 @@ import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IAppState } from 'src/app/store/state/app.state';
 
-xdescribe('UbsAdminCertificateComponent', () => {
+//breaks other tests
+describe('UbsAdminCertificateComponent', () => {
   let component: UbsAdminCertificateComponent;
   let fixture: ComponentFixture<UbsAdminCertificateComponent>;
   const initialState = {
@@ -51,7 +52,7 @@ xdescribe('UbsAdminCertificateComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('openAddCertificate should call getTable and dialog.open with expected parameters', () => {
+  it('openAddCertificate should call getTable and dialog.open with expected parameters', fakeAsync(() => {
     const props = {
       hasBackdrop: true,
       disableClose: true,
@@ -60,8 +61,8 @@ xdescribe('UbsAdminCertificateComponent', () => {
     const spy = spyOn(component, 'getTable');
 
     component.openAddCertificate();
-
+    tick();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminCertificateAddCertificatePopUpComponent, props);
     expect(spy).toHaveBeenCalled();
-  });
+  }));
 });
