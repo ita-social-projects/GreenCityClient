@@ -472,6 +472,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         };
         this.deleteNumberOrderFromEcoShop = false;
       }
+      delete changedValues.orderDetailsForm;
     }
     if (this.ubsCourierPrice) {
       changedValues.ubsCourierPrice = this.ubsCourierPrice;
@@ -485,8 +486,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     if (this.cancelReason) {
       changedValues.cancelReason = this.cancelReason;
     }
-    if (this.returnMoneyOrBonuses?.isReturnBonuses || this.returnMoneyOrBonuses?.isReturnMoney) {
-      changedValues.RefundDto = this.returnMoneyOrBonuses;
+    if (this.returnMoneyOrBonuses?.returnBonuses || this.returnMoneyOrBonuses?.returnMoney) {
+      changedValues.refundDto = this.returnMoneyOrBonuses;
     }
 
     if (changedValues.responsiblePersonsForm) {
@@ -505,7 +506,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     if (this.notTakenOutReasonDescription) {
       changedValues.notTakenOutReason = this.notTakenOutReasonDescription;
     }
-
+    this.orderForm.dirty;
     this.addIdForUserAndAdress(changedValues);
 
     this.orderService

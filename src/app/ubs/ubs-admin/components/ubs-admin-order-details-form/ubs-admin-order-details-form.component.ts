@@ -86,6 +86,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.isVisible = !this.isVisible;
     }
 
+    if (!changes?.orderStatusInfo?.firstChange) {
+      this.isDisabledConfirmQuantity();
+    }
     this.recalculateSum();
   }
 
@@ -111,13 +114,21 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     this.orderDetails = JSON.parse(JSON.stringify(this.orderDetailsOriginal));
   }
 
-  isDisabledConfirmQuantity() {
-    return this.isOrderBroughtByHimself || this.isOrderCancelled || this.isOrderNotTakenOut || this.isOrderDone;
+  private isDisabledConfirmQuantity() {
+    if (this.isOrderBroughtByHimself || this.isOrderCancelled || this.isOrderNotTakenOut || this.isOrderDone) {
+      this.orderDetails.bags.forEach((bag) => {
+        this.orderDetailsForm.controls[`confirmedQuantity${bag.id}`].disable();
+      });
+    }
   }
 
   recalculateSum() {
-    this.writeoffAtStationSum = this.orderInfo.writeOffStationSum ? this.orderInfo.writeOffStationSum : 0;
-    this.courierPrice = this.orderDetails.courierPricePerPackage;
+    if (!this.writeoffAtStationSum) {
+      this.writeoffAtStationSum = this.orderInfo.writeOffStationSum ? this.orderInfo.writeOffStationSum : 0;
+    }
+    if (!this.courierPrice) {
+      this.courierPrice = this.orderDetails.courierPricePerPackage;
+    }
     this.resetBagsInfo();
     this.setBagsInfo();
     this.calculateFinalSum();
@@ -235,7 +246,15 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   private calculateOverpayment() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
-    const newSum = this.bagsInfo?.finalSum[bagType];
+    let newSum = this.bagsInfo?.sum[bagType];
+    console.log(newSum, this.showUbsCourier);
+    if (this.showUbsCourier) {
+      newSum += this.courierPrice || 0;
+    }
+    if (this.showWriteOffStationField()) {
+      newSum += this.writeoffAtStationSum;
+    }
+    console.log(newSum);
     const overpayment = Math.max(this.paymentInfo.paymentTableInfoDto.paidAmount - newSum, 0);
     const unPaid = Math.max(newSum - this.paymentInfo.paymentTableInfoDto.paidAmount, 0);
 

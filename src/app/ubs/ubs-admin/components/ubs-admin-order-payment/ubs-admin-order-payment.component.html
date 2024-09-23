@@ -65,7 +65,8 @@
           *ngIf="isBroughtItHimSelf"
           type="number"
           [(ngModel)]="returnMoneyOrBonuses.amount"
-          [min]="0"
+          [min]="1"
+          [max]="paidAmount"
           class="price bg-price-none"
           placeholder="Enter amount"
         />
