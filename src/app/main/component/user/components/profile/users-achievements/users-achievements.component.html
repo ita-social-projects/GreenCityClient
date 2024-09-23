@@ -1,18 +1,43 @@
 <div class="outer">
   <div class="achievements">
-    <div class="{{ this.currLang === 'ua' ? 'header-ukr' : 'header' }}">
+    <div class="header">
       <div class="title-achievements">
         <p class="my-achievements">
           {{ 'profile.my-achievements' | translate }}
         </p>
-        <a (click)="navigateToAchievements()">{{ 'profile.see-all' | translate }}</a>
+        <a *ngIf="amountOfAchievements > itemsPerPage" (click)="openDialog()">{{ 'profile.see-all' | translate }}</a>
       </div>
       <div>
-        <div class="achieved-quantity">15 {{ 'profile.achieved' | translate }}</div>
+        <div class="achieved-quantity">{{ amountOfAchievements }} {{ 'profile.achieved' | translate }}</div>
       </div>
     </div>
-    <div class="body">
-      <img [src]="image" alt="achievement" *ngFor="let image of achievementsImages" />
+    <div class="slider-wrapper" *ngIf="amountOfAchievements; else noAchievements">
+      <img
+        #previousArrow
+        class="achievements-previous"
+        (click)="changeAchievements(false)"
+        [src]="arrows.arrowPrevious"
+        alt="arrow previous"
+        [ngClass]="{ hidden: !shouldShowArrows() }"
+      />
+
+      <div #slider class="achievements-images">
+        <div *ngFor="let achievement of achievementsToShow; let i = index">
+          <img [src]="achievementsImages[i]" alt="achievement" />
+        </div>
+      </div>
+
+      <img
+        #nextArrow
+        class="achievements-next"
+        (click)="changeAchievements(true)"
+        [src]="arrows.arrowNext"
+        alt="arrow next"
+        [ngClass]="{ hidden: !shouldShowArrows() }"
+      />
     </div>
+    <ng-template #noAchievements>
+      <p class="no-achievements">{{ 'profile.no-achievements' | translate }}</p>
+    </ng-template>
   </div>
 </div>

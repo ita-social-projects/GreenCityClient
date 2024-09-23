@@ -12,7 +12,7 @@ export class AchievementListComponent implements OnInit {
   constructor(private achievementService: AchievementService) {}
 
   ngOnInit() {
-    this.achievementService.loadAchievements();
-    this.$achievements = this.achievementService.achievements;
+    // this.achievementService.loadAchievements();
+    // this.$achievements = this.achievementService.achievements;
   }
 }
