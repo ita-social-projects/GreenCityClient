@@ -120,7 +120,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLanguage = lang;
       this.translate.setDefaultLang(lang);
-      this.googleScript.load(lang);
+      // this.googleScript.load();
     });
     this.route.params.subscribe((params: Params) => {
       this.orderId = +params.id;

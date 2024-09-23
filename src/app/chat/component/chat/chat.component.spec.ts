@@ -8,16 +8,16 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angu
 import { OverlayRef } from '@angular/cdk/overlay';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
 
 describe('ChatComponent', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
-  const matDialogRefStub = {};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ChatComponent, InfiniteScrollDirective],
-      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, StoreModule.forRoot({})],
       providers: [
         ChatsService,
         SocketService,

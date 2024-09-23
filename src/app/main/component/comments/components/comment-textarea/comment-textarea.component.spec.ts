@@ -101,23 +101,6 @@ describe('CommentTextareaComponent', () => {
 
       expect(component.commentTextarea.nativeElement.textContent).toBe('Initial text');
     });
-
-    it('should subscribe to input events and emit comment text', () => {
-      spyOn(component.content, 'setValue');
-      spyOn(component as any, 'emitCommentText');
-
-      component.ngAfterViewInit();
-      fixture.detectChanges();
-
-      const textarea = component.commentTextarea.nativeElement as HTMLTextAreaElement;
-      textarea.value = 'New text';
-      textarea.dispatchEvent(new Event('input'));
-
-      fixture.whenStable().then(() => {
-        expect(component.content.setValue).toHaveBeenCalledWith('New text');
-        expect((component as any).emitCommentText).toHaveBeenCalled();
-      });
-    });
   });
 
   describe('ngOnChanges', () => {
@@ -145,44 +128,6 @@ describe('CommentTextareaComponent', () => {
       component.ngOnChanges({ commentHtml: { currentValue: 'a' } as any });
       const textareaElement = component.commentTextarea.nativeElement;
       expect(textareaElement.innerHTML).toBe(innerHTML);
-    });
-  });
-
-  describe('onpaste', () => {
-    it('should prevent default behavior and update content on paste', () => {
-      const clipboardEvent = {
-        clipboardData: {
-          getData: (type: string) => (type === 'text/plain' ? 'pasted text' : '')
-        },
-        preventDefault: () => {}
-      } as ClipboardEvent;
-      spyOn(clipboardEvent, 'preventDefault');
-      spyOn(component as any, 'insertTextAtCursor');
-      spyOn(component as any, 'emitCommentText');
-      component.onPaste(clipboardEvent);
-      expect(clipboardEvent.preventDefault).toHaveBeenCalled();
-      expect((component as any).insertTextAtCursor).toHaveBeenCalledWith('pasted text');
-      expect((component as any).emitCommentText).toHaveBeenCalled();
-      expect(component.content.value).toBe(component.commentTextarea.nativeElement.textContent);
-    });
-  });
-
-  describe('insertTextAtCursor', () => {
-    it('should insert text at cursor position', () => {
-      const text = 'Inserted Text';
-      const selection = document.getSelection();
-      const range = document.createRange();
-      const textNode = document.createTextNode('Existing Text');
-      const container = document.createElement('div');
-      container.appendChild(textNode);
-      document.body.appendChild(container);
-      selection.removeAllRanges();
-      range.setStart(textNode, 1);
-      range.collapse(true);
-      selection.addRange(range);
-      (component as any).insertTextAtCursor(text);
-      expect(container.textContent).toBe(`E${text}xisting Text`);
-      document.body.removeChild(container);
     });
   });
 

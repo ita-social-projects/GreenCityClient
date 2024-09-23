@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
@@ -25,14 +25,14 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { STAR_IMAGES } from '../const/data.const';
-import { HabitPageable } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-new-habit',
   templateUrl: './add-new-habit.component.html',
   styleUrls: ['./add-new-habit.component.scss']
 })
-export class AddNewHabitComponent implements OnInit {
+export class AddNewHabitComponent implements OnInit, OnDestroy {
   assignedHabit: HabitAssignInterface;
   habitResponse: HabitInterface;
   recommendedHabits: HabitInterface[];
@@ -79,11 +79,15 @@ export class AddNewHabitComponent implements OnInit {
     public userFriendsService: UserFriendsService
   ) {}
 
+  getHabitId(): number {
+    return this.habitId;
+  }
+
   ngOnInit() {
     this.getUserId();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-    this.route.params.subscribe((params) => {
+    this.route.params.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
       if (this.router.url.includes('add')) {
         this.habitId = Number(params.habitId);
       } else {
@@ -94,6 +98,11 @@ export class AddNewHabitComponent implements OnInit {
     this.checkIfAssigned();
     this.getRecommendedNews(this.page, this.size);
     this.userFriendsService.addedFriends.length = 0;
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   private bindLang(lang: string): void {
@@ -127,10 +136,19 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private getRecommendedHabits(page: number, size: number, tags: string[]): void {
-    const criteria: HabitPageable = { page, size, lang: this.currentLang, tags, sort: 'asc', excludeAssigned: true };
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('lang', this.currentLang)
+      .set('sort', 'asc')
+      .set('excludeAssigned', 'true');
+    tags.forEach((tag) => {
+      params = params.append('tags', tag);
+    });
+
     if (this.userId) {
       this.habitService
-        .getHabitsByFilters(criteria)
+        .getHabitsByFilters(params)
         .pipe(take(1))
         .subscribe((data: HabitListInterface) => {
           this.recommendedHabits = data.page;

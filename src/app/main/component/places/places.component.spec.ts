@@ -18,7 +18,6 @@ import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
   let fixture: ComponentFixture<PlacesComponent>;
-
   let tagsArray: Array<FilterModel> = tagsListPlacesData;
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [

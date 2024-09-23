@@ -58,7 +58,7 @@ describe('UbsAdminNotificationEditFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display text for en and ua versions', async () => {
+  it('should display text for en and ua versions', () => {
     const [uaTextField, enTextField] = fixture.debugElement.queryAll(By.css('textarea')).map((de) => de.nativeElement);
     expect(uaTextField.value).toBe('Текст повідомлення для email');
     expect(enTextField.value).toBe('Notification text for email');

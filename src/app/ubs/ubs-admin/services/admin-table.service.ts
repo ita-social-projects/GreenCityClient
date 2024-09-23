@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters } from '../models/ubs-admin.interface';
+import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import moment from 'moment';
@@ -52,6 +53,7 @@ export class AdminTableService {
 
   columnsForFiltering: IFilteredColumn[] = [];
   filters: any[] = [];
+  selectedFilters: IFilters = {};
   url = environment.ubsAdmin.backendUbsAdminLink + '/management/';
 
   constructor(
@@ -188,6 +190,46 @@ export class AdminTableService {
         break;
     }
     return tableColumnName;
+  }
+
+  isFilterChecked(columnName: string, option: IFilteredColumnValue): boolean {
+    const value = columnsToFilterByName.includes(columnName) ? option.en : option.key;
+    return (this.selectedFilters?.[columnName] as string[])?.includes(value);
+  }
+
+  setCurrentFilters(filters: IFilters): void {
+    this.selectedFilters = { ...filters } as { [key: string]: string[] };
+  }
+
+  setNewFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
+    const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
+
+    const currentFilters = Array.isArray(this.selectedFilters[currentColumn]) ? (this.selectedFilters[currentColumn] as string[]) : [];
+
+    const updatedFilters = checked ? [...currentFilters, value] : currentFilters.filter((item) => item !== value);
+
+    this.selectedFilters = {
+      ...this.selectedFilters,
+      [currentColumn]: updatedFilters
+    };
+  }
+
+  setNewDateChecked(columnName: string, checked: boolean): void {
+    this.selectedFilters[columnName + 'Check'] = checked ? true : false;
+  }
+
+  setNewDateRange(columnName: string, dateFrom: string, dateTo: string): void {
+    this.selectedFilters[columnName + 'From'] = dateFrom;
+    this.selectedFilters[columnName + 'To'] = dateTo;
+  }
+
+  swapDatesIfNeeded(dateFrom: Date | null, dateTo: Date | null, dateChecked: boolean): { dateFrom: Date | null; dateTo: Date | null } {
+    if (dateChecked && dateFrom?.getTime() > dateTo?.getTime()) {
+      return { dateFrom: dateTo, dateTo: dateFrom };
+    } else if (!dateChecked) {
+      return { dateFrom: dateFrom, dateTo: dateFrom };
+    }
+    return null;
   }
 
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {

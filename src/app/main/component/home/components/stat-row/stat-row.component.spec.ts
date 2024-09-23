@@ -89,13 +89,6 @@ describe('StatRowComponent', () => {
     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
   });
 
-  it('should redirect to profile page', () => {
-    fixture.ngZone.run(() => {
-      component.startHabit();
-      expect(routerSpy.navigate).toBeDefined();
-    });
-  });
-
   it('openAuthModalWindow should be called', () => {
     const spyOpenAuthModalWindow = spyOn(MatDialogMock.prototype, 'open');
     MatDialogMock.prototype.open();

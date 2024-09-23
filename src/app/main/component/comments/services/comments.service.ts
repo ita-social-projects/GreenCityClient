@@ -6,7 +6,7 @@ import { AddedCommentDTO, CommentsModel } from '../models/comments-model';
   providedIn: 'root'
 })
 export abstract class CommentsService {
-  abstract addComment(entityId: number, text: string, id): Observable<AddedCommentDTO>;
+  abstract addComment(entityId: number, text: string, parentCommentId: number): Observable<AddedCommentDTO>;
 
   abstract getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<CommentsModel>;
 
@@ -14,13 +14,13 @@ export abstract class CommentsService {
 
   abstract getActiveRepliesByPage(entityId: number, parentCommentId: number, page: number, size: number): Observable<CommentsModel>;
 
-  abstract deleteComments(entityId: number, commentId: number): Observable<boolean>;
+  abstract deleteComments(entityId: number, parentCommentId: number): Observable<boolean>;
 
-  abstract getCommentLikes(commentId: number): Observable<number>;
+  abstract getCommentLikes(entityId: number, parentCommentId: number): Observable<number>;
 
   abstract getRepliesAmount(entityId: number, parentCommentId: number): Observable<number>;
 
-  abstract postLike(entityId: number, commentId: number): Observable<void>;
+  abstract postLike(entityId: number, parentCommentId: number): Observable<void>;
 
-  abstract editComment(entityId: number, commentId: number, text: string): Observable<void>;
+  abstract editComment(entityId: number, parentCommentId: number, text: string): Observable<void>;
 }

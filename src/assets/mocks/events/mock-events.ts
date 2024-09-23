@@ -1,4 +1,4 @@
-import { EventResponse, EventResponseDto } from '../../../app/main/component/events/models/events.interface';
+import { Addresses, EventAttender, EventResponse, EventResponseDto } from '../../../app/main/component/events/models/events.interface';
 import { HttpParams } from '@angular/common/http';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
@@ -15,9 +15,9 @@ export const testCases = [
       .append('page', '0')
       .append('size', '10')
       .append('title', 'EVENT1')
-      .append('eventType', 'ONLINE')
+      .append('type', 'ONLINE')
       .append('cities', 'CITY1')
-      .append('eventTime', '2024-08-22')
+      .append('time', '2024-08-22')
       .append('statuses', 'ACTIVE')
       .append('tags', 'TAG1')
   },
@@ -40,7 +40,7 @@ export const testCases = [
     selectedEventTimeStatusFiltersList: [],
     selectedStatusFiltersList: ['inactive'],
     selectedTypeFiltersList: [],
-    expectedParams: new HttpParams().append('page', '0').append('size', '10').append('eventType', 'ONLINE').append('statuses', 'INACTIVE')
+    expectedParams: new HttpParams().append('page', '0').append('size', '10').append('type', 'ONLINE').append('statuses', 'INACTIVE')
   },
   {
     title: '',
@@ -48,7 +48,7 @@ export const testCases = [
     selectedEventTimeStatusFiltersList: ['2024-08-22'],
     selectedStatusFiltersList: [],
     selectedTypeFiltersList: [],
-    expectedParams: new HttpParams().append('page', '0').append('size', '10').append('eventTime', '2024-08-22')
+    expectedParams: new HttpParams().append('page', '0').append('size', '10').append('time', '2024-08-22')
   },
   {
     title: 'Event5',
@@ -60,7 +60,7 @@ export const testCases = [
       .append('page', '0')
       .append('size', '10')
       .append('title', 'EVENT5')
-      .append('eventType', 'ONLINE')
+      .append('type', 'ONLINE')
       .append('cities', 'CITY3')
       .append('statuses', 'ACTIVE')
   },
@@ -74,28 +74,22 @@ export const testCases = [
   }
 ];
 
-export const mockParams = new HttpParams()
-  .set('page', '0')
-  .set('size', '1')
-  .set('userLatitude', '50.58')
-  .set('userLongitude', '42.38')
-  .set('eventType', 'ONLINE');
+export const mockParams = new HttpParams().append('page', '0').append('size', '1').append('type', 'ONLINE');
 
 export const mockHttpParams = new HttpParams()
   .append('page', '0')
   .append('size', '10')
   .append('cities', 'City')
   .append('tags', 'Tag')
-  .append('eventTime', '2024-08-22')
-  .append('statuses', 'active')
-  .append('userLatitude', '12.34')
-  .append('userLongitude', '56.78')
-  .append('eventType', 'ONLINE');
+  .append('time', '2024-08-22')
+  .append('statuses', 'CREATED')
+  .append('userId', '1')
+  .append('type', 'ONLINE');
 
 export const mockHabitAssign: HabitAssignInterface[] = [
   {
     id: 1,
-    status: 'ACTIVE' as HabitStatus,
+    status: 'CREATED' as HabitStatus,
     createDateTime: new Date('2023-03-20T04:00:00Z'),
     habit: { id: 2 } as HabitInterface,
     complexity: 1,
@@ -110,7 +104,7 @@ export const mockHabitAssign: HabitAssignInterface[] = [
   },
   {
     id: 2,
-    status: 'ACTIVE' as HabitStatus,
+    status: 'CREATED' as HabitStatus,
     createDateTime: new Date('2023-03-22T04:00:00Z'),
     habit: { id: 4 } as HabitInterface,
     complexity: 1,
@@ -361,3 +355,107 @@ export const mockEventResponse: EventResponseDto = {
   totalElements: 1,
   totalPages: 1
 };
+
+export const addressesMock: Array<Addresses> = [
+  {
+    latitude: 50.4911190426373,
+    longitude: 30.38957457031249,
+    streetEn: 'Stetsenka Street',
+    streetUa: 'вулиця Стеценка',
+    houseNumber: '20',
+    cityEn: 'Kyiv',
+    cityUa: 'Київ',
+    regionEn: 'Kyiv',
+    regionUa: 'місто Київ',
+    countryEn: 'Ukraine',
+    countryUa: 'Україна',
+    formattedAddressEn: 'Stetsenka St, 20, Kyiv, Ukraine, 02000',
+    formattedAddressUa: 'вулиця Стеценка, 20, Київ, Україна, 02000'
+  },
+  {
+    latitude: 49.8555208,
+    longitude: 24.0340401,
+    streetEn: 'Zavodska Street',
+    streetUa: 'вулиця Заводська',
+    houseNumber: '31',
+    cityEn: 'Lviv',
+    cityUa: 'Львів',
+    regionEn: 'Lvivska oblast',
+    regionUa: 'Львівська область',
+    countryEn: 'Ukraine',
+    countryUa: 'Україна',
+    formattedAddressEn: 'Zavodska St, 31, Lviv, Lvivska oblast, Ukraine, 79000',
+    formattedAddressUa: 'вулиця Заводська, 31, Львів, Львівська область, Україна, 79000'
+  },
+  {
+    latitude: 49.7998806,
+    longitude: 23.9901827,
+    streetEn: 'Ivana Puliuia Street',
+    streetUa: 'вулиця Івана Пулюя',
+    houseNumber: '31',
+    cityEn: 'Lviv',
+    cityUa: 'Львів',
+    regionEn: 'Lvivska oblast',
+    regionUa: 'Львівська область',
+    countryEn: 'Ukraine',
+    countryUa: 'Україна',
+    formattedAddressEn: `Ivana Puliuia St, 38, L'viv, L'vivs'ka oblast, Ukraine, 79000`,
+    formattedAddressUa: 'вулиця Івана Пулюя, 38, Львів, Львівська область, Україна, 79000'
+  },
+  {
+    latitude: 49.550731,
+    longitude: 25.61935,
+    streetEn: 'Stepana Bandery Avenue',
+    streetUa: 'проспект Степана Бандери',
+    houseNumber: '58',
+    cityEn: 'Ternopil',
+    cityUa: 'Тернопіль',
+    regionEn: `Ternopil's'ka oblas`,
+    regionUa: 'Тернопільська область',
+    countryEn: 'Ukraine',
+    countryUa: 'Україна',
+    formattedAddressEn: `Stepana Bandery Ave, 58, Ternopil, Ternopil's'ka oblast, Ukraine, 46000`,
+    formattedAddressUa: 'проспект Степана Бандери, 58, Тернопіль, Тернопільська область, Україна, 46000'
+  }
+];
+
+export const eventMock = {
+  additionalImages: [],
+  dates: [
+    {
+      coordinates: {
+        addressEn: 'Address',
+        addressUa: 'Адрес',
+        latitude: 3,
+        longitude: 4
+      },
+      event: 'test',
+      finishDate: '2023-02-14',
+      id: 1,
+      onlineLink: 'https://test',
+      startDate: '2023-04-12'
+    }
+  ],
+  description: 'description',
+  id: 1,
+  open: true,
+  organizer: {
+    id: 1111,
+    name: 'John'
+  },
+  tags: [{ nameEn: 'Environmental', nameUa: 'Екологічний', id: 1 }],
+  title: 'title',
+  titleImage: '',
+  isSubscribed: true
+};
+
+export const eventStateMock = {
+  eventState: {},
+  eventsList: [],
+  visitedPages: [],
+  totalPages: 0,
+  pageNumber: 0,
+  error: null
+};
+
+export const mockAttendees: EventAttender[] = [{ name: 'Stetsenka Street', imagePath: 'http://example.com/image.jpg' }];

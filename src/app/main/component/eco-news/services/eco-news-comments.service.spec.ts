@@ -148,11 +148,11 @@ describe('EcoNewsCommentsService', () => {
 
   it('should make GET request to get comment likes', () => {
     const commentLikes = 5;
-    service.getCommentLikes(1).subscribe((commentData: number) => {
+    service.getCommentLikes(1, 1).subscribe((commentData: number) => {
       expect(commentData).toEqual(commentLikes);
     });
 
-    const req = httpTestingController.expectOne(`${url}eco-news/comments/count/likes?id=1`);
+    const req = httpTestingController.expectOne(`${url}eco-news/1/comments/1/likes/count`);
     expect(req.request.method).toEqual('GET');
     req.flush(commentLikes);
   });

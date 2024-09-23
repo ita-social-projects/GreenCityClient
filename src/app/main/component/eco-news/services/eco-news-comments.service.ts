@@ -16,11 +16,7 @@ export class EcoNewsCommentsService implements CommentsService {
   constructor(private http: HttpClient) {}
 
   addComment(ecoNewsId: number, text: string, id = 0): Observable<AddedCommentDTO> {
-    const body = {
-      parentCommentId: id,
-      text
-    };
-
+    const body = { parentCommentId: id, text };
     return this.http.post<EcoNewsAddedCommentDTO>(`${this.backEnd}eco-news/${ecoNewsId}/comments`, body);
   }
 
@@ -40,19 +36,14 @@ export class EcoNewsCommentsService implements CommentsService {
     );
   }
 
-  deleteComments(ecoNewsId: number, commentId: number) {
-    return this.http.delete<object>(`${this.backEnd}eco-news/${ecoNewsId}/comments/${commentId}`, { observe: 'response' }).pipe(
-      map((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          return true;
-        }
-        return false;
-      })
-    );
+  deleteComments(ecoNewsId: number, parentCommentId: number) {
+    return this.http
+      .delete<object>(`${this.backEnd}eco-news/${ecoNewsId}/comments/${parentCommentId}`, { observe: 'response' })
+      .pipe(map((response) => response.status >= 200 && response.status < 300));
   }
 
-  getCommentLikes(commentId: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}eco-news/comments/count/likes?id=${commentId}`);
+  getCommentLikes(ecoNewsId: number, parentCommentId: number): Observable<number> {
+    return this.http.get<number>(`${this.backEnd}eco-news/${ecoNewsId}/comments/${parentCommentId}/likes/count`);
   }
 
   getRepliesAmount(ecoNewsId: number, parentCommentId: number): Observable<number> {

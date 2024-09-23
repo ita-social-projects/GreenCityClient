@@ -48,7 +48,6 @@
                   placeholder="0"
                   [unmask]="false"
                   [imask]="servicesMask"
-                  (change)="calculateOrderSum()"
                   (keypress)="checkOnNumber($event)"
                 />
                 <button (click)="changeQuantity(bag.id, 1)" type="button">
