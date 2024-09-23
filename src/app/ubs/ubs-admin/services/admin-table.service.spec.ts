@@ -7,7 +7,7 @@ import { IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { OrderStatus } from '../../ubs/order-status.enum';
 
-xdescribe('AdminTableService', () => {
+describe('AdminTableService', () => {
   let httpMock: HttpTestingController;
   let service: AdminTableService;
   let localStorageService: LocalStorageService;

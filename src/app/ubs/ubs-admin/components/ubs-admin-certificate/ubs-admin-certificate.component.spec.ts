@@ -9,10 +9,8 @@ import { MatTableModule } from '@angular/material/table';
 import { of } from 'rxjs';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
 import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IAppState } from 'src/app/store/state/app.state';
+import { provideMockStore } from '@ngrx/store/testing';
 
-//breaks other tests
 describe('UbsAdminCertificateComponent', () => {
   let component: UbsAdminCertificateComponent;
   let fixture: ComponentFixture<UbsAdminCertificateComponent>;
