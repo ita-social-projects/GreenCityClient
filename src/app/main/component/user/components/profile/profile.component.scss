@@ -169,7 +169,8 @@
 @include responsivePCFirst(md) {
   .profile-wrapper {
     .left-column {
-      .app-users-friends {
+      .app-users-friends,
+      .app-users-achievements {
         display: flex;
       }
 
