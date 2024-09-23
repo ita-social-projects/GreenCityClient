@@ -13,6 +13,7 @@ import { of, BehaviorSubject } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FriendModel, UserDashboardTab } from '@global-user/models/friend.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
 
 describe('FriendItemComponent', () => {
   let component: FriendItemComponent;
@@ -37,7 +38,14 @@ describe('FriendItemComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FriendItemComponent, MaxTextLengthPipe, CorrectUnitPipe],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, RouterTestingModule.withRoutes([]), MatTooltipModule],
+      imports: [
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        MatDialogModule,
+        RouterTestingModule.withRoutes([]),
+        MatTooltipModule,
+        StoreModule.forRoot({})
+      ],
       providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
