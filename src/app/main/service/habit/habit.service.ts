@@ -38,6 +38,10 @@ export class HabitService {
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((language) => (this.language = language));
   }
 
+  getMutualHabits(friendId: number): Observable<HabitListFriendsInterface> {
+    return this.http.get<HabitListFriendsInterface>(`${habitLink}/assign/allMutualHabits/${friendId}`);
+  }
+
   getAllFriendHabits(friendId: number): Observable<HabitListFriendsInterface> {
     return this.http.get<HabitListFriendsInterface>(`${habitLink}/assign/allUser/${friendId}`);
   }

@@ -2,31 +2,35 @@
   <mat-tab-group animationDuration="400ms" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedIndex">
     <mat-tab label="{{ 'user.habit.all-habits.title' | translate }}">
       <div class="container">
-        <div *ngIf="!galleryView">
-          <div class="img-absent">
-            <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
-            <h3 class="title">{{ 'user.habit.all-habits.title' | translate }}</h3>
-          </div>
+        <div class="img-absent" *ngIf="!isHabitsPresent">
+          <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
+          <h3 class="title">{{ 'user.habit.all-habits.title' | translate }}</h3>
         </div>
-        <div *ngIf="galleryView" [ngClass]="{ gallery: galleryView }">
-          <app-habits-gallery-view *ngFor="let habit of habitsList" [habit]="habit"> </app-habits-gallery-view>
+        <div *ngIf="isHabitsPresent" [ngClass]="{ gallery: isHabitsPresent }">
+          <app-habits-gallery-view *ngFor="let habit of friendHabitsList" [habit]="habit"> </app-habits-gallery-view>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="{{ 'user.habit.all-habits.mutual' | translate }}" [disabled]="userId === currentUserId">
       <div class="container">
-        <div class="img-absent">
+        <div class="img-absent" *ngIf="!isMutualHabitsPresent">
           <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
           <h3 class="title">{{ 'user.habit.all-habits.mutual' | translate }}</h3>
+        </div>
+        <div *ngIf="isMutualHabitsPresent" [ngClass]="{ gallery: isMutualHabitsPresent }">
+          <app-habits-gallery-view *ngFor="let habit of mutualHabitsList" [habit]="habit"> </app-habits-gallery-view>
         </div>
       </div>
     </mat-tab>
 
     <mat-tab label="{{ 'profile.dashboard.my-habits' | translate }}">
       <div class="container">
-        <div class="img-absent">
+        <div class="img-absent" *ngIf="!isAllHabitsListPresent">
           <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
           <h3 class="title">{{ 'profile.dashboard.my-habits' | translate }}</h3>
+        </div>
+        <div *ngIf="isAllHabitsListPresent" [ngClass]="{ gallery: isAllHabitsListPresent }">
+          <app-habits-gallery-view *ngFor="let habit of myAllHabitsList" [habit]="habit"> </app-habits-gallery-view>
         </div>
       </div>
     </mat-tab>
@@ -60,7 +64,7 @@
     <div
       infiniteScroll
       [infiniteScrollDistance]="1"
-      [infiniteScrollThrottle]="500"
+      [infiniteScrollThrottle]="1300"
       (scrolled)="onScroll()"
       [infiniteScrollDisabled]="!isActiveInfinityScroll"
     ></div>
