@@ -32,6 +32,8 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
   public isSupportChat: boolean;
   currentPath: string;
   uploadedFile: File;
+  isMessageSending: boolean;
+
   @Input() isModal: boolean;
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('customInput', { static: true }) customInput: ElementRef;
@@ -113,10 +115,12 @@ export class NewMessageWindowComponent implements OnInit, AfterViewInit, OnDestr
       content: this.messageControl.value
     };
     if (this.uploadedFile) {
+      this.isMessageSending = true;
       this.chatsService
         .sendMessageWithFile(message, this.uploadedFile)
         .pipe(take(1))
         .subscribe((data: Message) => {
+          this.isMessageSending = false;
           this.uploadedFile = null;
           this.messageControl.setValue('');
           this.customInput.nativeElement.textContent = '';

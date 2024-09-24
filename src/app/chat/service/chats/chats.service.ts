@@ -7,7 +7,9 @@ import { Message, MessageExtended, MessagesToSave } from '../../model/Message.mo
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { Messages } from './../../model/Message.model';
 import { map } from 'rxjs/operators';
-import { UserService } from '@global-service/user/user.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { concatMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +29,7 @@ export class ChatsService {
   supportChatPageSize = 10;
   messagesPageSize = 20;
 
-  constructor(private httpClient: HttpClient, public userService: UserService) {}
+  constructor(private httpClient: HttpClient, private orderService: OrderService, private localStorageService: LocalStorageService) {}
 
   get userChats() {
     return this.userChatsStream$.getValue();
@@ -54,7 +56,7 @@ export class ChatsService {
       map((messages) => {
         return messages.map((message, index, array) => {
           const isFirstOfDay = index === 0 || !this.isSameDay(message.createDate, array[index - 1].createDate);
-          const isLiked = message?.likes?.some((el) => el.id === this.userService.userId);
+          const isLiked = message?.likes?.some((el) => el.id === this.localStorageService.getUserId());
           return { ...message, isFirstOfDay, isLiked: !!isLiked };
         });
       })
@@ -192,5 +194,34 @@ export class ChatsService {
 
   public getFile(img: string): Observable<Blob> {
     return this.httpClient.get(img, { responseType: 'blob' });
+  }
+
+  loadChats(userId: number, isUbsAdmin?: boolean): void {
+    if (isUbsAdmin) {
+      this.getAllSupportChats();
+      return;
+    }
+
+    this.orderService
+      .getAllActiveCouriers()
+      .pipe(
+        concatMap((data) => {
+          const courierId = data.find((courier) => courier.nameEn.includes('UBS')).courierId;
+          return this.getLocationsChats(userId, courierId);
+        })
+      )
+      .subscribe((locations: LocationForChat[]) => {
+        this.locations$.next(locations);
+      });
+
+    this.getAllUserChats(userId);
+  }
+
+  resetData(): void {
+    this.userChatsStream$.next([]);
+    this.currentChatStream$.next(null);
+    this.currentChatPageData$.next(null);
+    this.currentChatMessagesStream$.next([]);
+    this.locations$.next([]);
   }
 }
