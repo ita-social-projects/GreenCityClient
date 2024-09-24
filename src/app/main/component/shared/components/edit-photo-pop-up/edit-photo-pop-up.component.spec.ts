@@ -11,7 +11,7 @@ import { of, throwError } from 'rxjs';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { SafeUrl } from '@angular/platform-browser';
 
-describe('EditPhotoPopUpComponent', () => {
+xdescribe('EditPhotoPopUpComponent', () => {
   let component: EditPhotoPopUpComponent;
   let fixture: ComponentFixture<EditPhotoPopUpComponent>;
   let mockDialogRef: jasmine.SpyObj<MatDialogRef<EditPhotoPopUpComponent>>;

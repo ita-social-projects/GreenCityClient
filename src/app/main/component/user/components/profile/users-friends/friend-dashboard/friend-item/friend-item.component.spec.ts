@@ -16,6 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { StoreModule } from '@ngrx/store';
 
 describe('FriendItemComponent', () => {
   let component: FriendItemComponent;
@@ -49,7 +50,14 @@ describe('FriendItemComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FriendItemComponent, MaxTextLengthPipe, CorrectUnitPipe],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, RouterTestingModule.withRoutes([]), MatTooltipModule],
+      imports: [
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        MatDialogModule,
+        RouterTestingModule.withRoutes([]),
+        MatTooltipModule,
+        StoreModule.forRoot({})
+      ],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserOnlineStatusService, useValue: onlineStatusMock },

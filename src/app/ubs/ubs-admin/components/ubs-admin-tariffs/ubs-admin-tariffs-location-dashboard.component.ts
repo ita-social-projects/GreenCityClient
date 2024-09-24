@@ -199,7 +199,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
-      this.googleScript.load(lang);
+      // this.googleScript.load();
     });
   }
 

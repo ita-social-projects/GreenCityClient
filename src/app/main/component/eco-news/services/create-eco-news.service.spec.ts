@@ -15,6 +15,7 @@ describe('CreateEcoNewsService', () => {
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const form = new FormGroup({
+    id: new FormControl('123'),
     title: new FormControl('mock news'),
     content: new FormControl('This is mock news content Greencity!!!!!!!!!!!!'),
     tags: new FormArray([new FormControl('News'), new FormControl('Ads')]),
@@ -69,17 +70,17 @@ describe('CreateEcoNewsService', () => {
       expect(newsData.title).toEqual('mock news');
     });
 
-    const req = httpTestingController.expectOne(environment.backendLink + `econews`);
+    const req = httpTestingController.expectOne(environment.backendLink + `eco-news`);
     expect(req.request.method).toEqual('POST');
     req.flush(form.value);
   });
 
   it('should make PUT request', () => {
-    service.editNews(form).subscribe((newsData) => {
+    service.editNews(form.value).subscribe((newsData) => {
       expect(newsData.tags[0]).toEqual('News');
     });
 
-    const req = httpTestingController.expectOne(environment.backendLink + 'econews/update');
+    const req = httpTestingController.expectOne(environment.backendLink + `eco-news/123`);
     expect(req.request.method).toEqual('PUT');
     req.flush(form.value);
   });

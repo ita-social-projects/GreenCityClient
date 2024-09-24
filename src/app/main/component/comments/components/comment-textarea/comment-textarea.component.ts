@@ -67,7 +67,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
         if (data.length) {
           this.suggestedUsers = data.filter((el) => el.userName.toLowerCase().includes(this.searchQuery.toLowerCase()));
           this.menuTrigger.openMenu();
-          this.dropdown.focusFirstItem();
+          this.refocusTextarea();
         } else {
           this.menuTrigger.closeMenu();
           this.suggestedUsers = [];
@@ -84,22 +84,35 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
         takeUntil(this.destroy$),
         debounceTime(300),
         tap(() => {
-          this.menuTrigger.closeMenu();
-          this.suggestedUsers = [];
           this.content.setValue(this.commentTextarea.nativeElement.textContent);
           this.emitCommentText();
+          const textContent = this.commentTextarea.nativeElement.textContent;
+          const hasTagCharacter = this.charToTagUsers.some((char) => textContent.includes(char));
+          if (!hasTagCharacter) {
+            this.menuTrigger.closeMenu();
+            this.suggestedUsers = [];
+          }
         }),
-        filter((el: InputEvent) => !!el.data)
+        filter(() => {
+          this.getSelectionStart();
+          if (this.range?.startContainer) {
+            const textBeforeCaret = this.range.startContainer.textContent.slice(0, this.range.startOffset);
+            this.lastTagCharIndex = Math.max(textBeforeCaret.lastIndexOf('@'), textBeforeCaret.lastIndexOf('#'));
+            return this.lastTagCharIndex !== -1;
+          }
+          return false;
+        })
       )
       .subscribe(() => {
-        this.getSelectionStart();
         const textBeforeCaret = this.range.startContainer.textContent.slice(0, this.range.startOffset);
-        this.lastTagCharIndex = Math.max(...[...this.charToTagUsers].map((char) => textBeforeCaret.lastIndexOf(char)));
         this.searchQuery = textBeforeCaret.slice(this.lastTagCharIndex + 1);
         this.updateCursorPosition();
 
-        if (this.lastTagCharIndex !== -1 && !this.searchQuery.includes(' ') && this.searchQuery.length) {
+        if (!this.searchQuery.includes(' ')) {
           this.sendSocketMessage(this.searchQuery);
+        } else {
+          this.menuTrigger.closeMenu();
+          this.suggestedUsers = [];
         }
       });
   }
@@ -108,6 +121,12 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     if (changes.commentHtml?.currentValue === '') {
       this.commentTextarea.nativeElement.innerHTML = '';
     }
+  }
+
+  refocusTextarea(): void {
+    setTimeout(() => {
+      this.commentTextarea.nativeElement.focus();
+    }, 0);
   }
 
   onCommentTextareaFocus(): void {
@@ -125,13 +144,15 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     const sel = window.getSelection();
     sel.removeAllRanges();
     sel.addRange(this.range);
+    this.refocusTextarea();
   }
 
   onCommentKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' || event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
     }
   }
+
   onPaste(event: ClipboardEvent): void {
     event.preventDefault();
     const text = event.clipboardData?.getData('text/plain');
@@ -210,8 +231,10 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     this.menuTrigger.closeMenu();
     this.removeSearchQuery();
     this.insertNodeAtCursor(user, tagChar);
+    this.setFocusCommentTextarea();
     this.content.setValue(this.commentTextarea.nativeElement.textContent);
     this.emitCommentText();
+    this.refocusTextarea();
   }
 
   private emitCommentText(): void {

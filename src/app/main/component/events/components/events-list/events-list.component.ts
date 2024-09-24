@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Addresses, EventFilterCriteriaInterface, EventListResponse, FilterItem } from '../../models/events.interface';
+import { Addresses, EventListResponse, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -15,6 +15,7 @@ import { MatSelect } from '@angular/material/select';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
 import { MatOption } from '@angular/material/core';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-events-list',
@@ -247,6 +248,49 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.getEvents();
   }
 
+  toggleAllOptions(filterType: string, select: MatSelect): void {
+    const control = select.ngControl?.control;
+    if (!control) {
+      return;
+    }
+
+    const allOptions = select.options.toArray();
+    const firstOption = allOptions[0]?.value;
+    const firstSelected = firstOption ? (control.value || []).includes(firstOption) : false;
+    control.setValue(firstSelected ? [] : allOptions.map((option) => option.value));
+
+    switch (filterType) {
+      case 'eventTimeStatus':
+        this.toggleAll(this.eventTimeStatusOptionList, this.selectedEventTimeStatusFiltersList);
+        break;
+      case 'location':
+        this.toggleAll(this.locationOptionList, this.selectedLocationFiltersList);
+        break;
+      case 'status':
+        this.toggleAll(this.statusOptionList, this.selectedStatusFiltersList);
+        break;
+      case 'type':
+        this.toggleAll(this.typeOptionList, this.selectedTypeFiltersList);
+        break;
+    }
+
+    this.cleanEventList();
+    this.getEvents();
+  }
+
+  private toggleAll(select: MatSelect, selectedList: string[]): void {
+    const control = select.ngControl?.control;
+    const options = select.options.toArray();
+    const currentValue = control.value || [];
+    if (options.every((option) => currentValue.includes(option.value))) {
+      control.setValue([]);
+      selectedList.length = 0;
+    } else {
+      control.setValue(options.map((option) => option.value));
+      selectedList.splice(0, selectedList.length, ...options.map((option) => option.value));
+    }
+  }
+
   resetAllFilters(): void {
     this.selectedFilters = [];
     this.selectedEventTimeStatusFiltersList = [];
@@ -290,23 +334,20 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.searchResultSubscription.unsubscribe();
     }
 
-    const eventListFilterCriterias = this.createEventListFilterCriteriasObject();
-    this.searchResultSubscription = this.eventService
-      .getEvents(this.page, this.eventsPerPage, eventListFilterCriterias, searchTitle)
-      .subscribe((res) => {
-        this.isLoading = false;
-        if (res.page.length > 0) {
-          this.countOfEvents = res.totalElements;
-          this.eventsList.push(...res.page);
-          this.hasNextPage = res.hasNext;
-        } else {
-          this.noEventsMatch = true;
-        }
-      });
+    this.searchResultSubscription = this.eventService.getEvents(this.getEventsHttpParams(searchTitle)).subscribe((res) => {
+      this.isLoading = false;
+      if (res.page.length > 0) {
+        this.countOfEvents = res.totalElements;
+        this.eventsList.push(...res.page);
+        this.hasNextPage = res.hasNext;
+      } else {
+        this.noEventsMatch = true;
+      }
+    });
   }
 
   private getUserFavoriteEvents(): void {
-    this.eventService.getUserFavoriteEvents(this.page, this.eventsPerPage).subscribe((res) => {
+    this.eventService.getUserFavoriteEvents(this.page, this.eventsPerPage, this.userId).subscribe((res) => {
       this.isLoading = false;
       this.eventsList.push(...res.page);
       this.page++;
@@ -351,13 +392,40 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.countOfEvents = 0;
   }
 
-  private createEventListFilterCriteriasObject(): EventFilterCriteriaInterface {
-    return {
-      eventTime: [...this.selectedEventTimeStatusFiltersList],
-      cities: [...this.selectedLocationFiltersList],
-      statuses: [...this.selectedStatusFiltersList],
-      tags: [...this.selectedTypeFiltersList]
-    };
+  private getEventsHttpParams(title: string): HttpParams {
+    let params = new HttpParams().append('page', this.page.toString()).append('size', this.eventsPerPage.toString());
+
+    const paramsToAdd = [
+      this.appendIfNotEmpty('user-id', this.userId.toString()),
+      this.appendIfNotEmpty('title', title),
+      this.appendIfNotEmpty('type', this.selectedLocationFiltersList.find((city) => city === 'Online') || ''),
+      this.appendIfNotEmpty(
+        'cities',
+        this.selectedLocationFiltersList.filter((city) => city !== 'Online' && city !== 'Select All' && city !== 'Обрати всі')
+      ),
+      this.appendIfNotEmpty(
+        'time',
+        this.selectedEventTimeStatusFiltersList.filter(
+          (time) => time !== 'Any time' && time !== 'Будь-який' && this.selectedEventTimeStatusFiltersList.length < 2
+        )
+      ),
+      this.appendIfNotEmpty(
+        'statuses',
+        this.selectedStatusFiltersList.filter((status) => status !== 'Any status' && status !== 'Будь-який статус')
+      ),
+      this.appendIfNotEmpty(
+        'tags',
+        this.selectedTypeFiltersList.filter((type) => type !== 'All types' && type !== 'Всі типи')
+      )
+    ];
+
+    paramsToAdd.filter((param) => param !== null).forEach((param) => (params = params.append(param.key, param.value)));
+    return params;
+  }
+
+  private appendIfNotEmpty(key: string, value: string | string[]): { key: string; value: string } | null {
+    const formattedValue = (Array.isArray(value) ? value.join(',') : value)?.toUpperCase() || '';
+    return formattedValue ? { key, value: formattedValue } : null;
   }
 
   private checkUserSingIn(): void {

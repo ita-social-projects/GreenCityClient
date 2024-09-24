@@ -25,6 +25,7 @@ class TranslatePipeMock implements PipeTransform {
 describe('UserNotificationsComponent', () => {
   let component: UserNotificationsComponent;
   let fixture: ComponentFixture<UserNotificationsComponent>;
+  let matSnackBarMock: jasmine.SpyObj<MatSnackBarComponent>;
 
   const notifications = [
     {
@@ -89,7 +90,9 @@ describe('UserNotificationsComponent', () => {
     'getAllNotification',
     'readNotification',
     'unReadNotification',
-    'deleteNotification'
+    'deleteNotification',
+    'acceptRequest',
+    'declineRequest'
   ]);
   userNotificationServiceMock.getAllNotification = () => of({ page: notifications });
 
@@ -120,6 +123,7 @@ describe('UserNotificationsComponent', () => {
   }));
 
   beforeEach(() => {
+    matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
     fixture = TestBed.createComponent(UserNotificationsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -270,5 +274,52 @@ describe('UserNotificationsComponent', () => {
     component.ngOnDestroy();
     expect(nextSpy).toHaveBeenCalled();
     expect(completeSpy).toHaveBeenCalled();
+  });
+
+  it('should handle declineRequest error', () => {
+    const userId = 1;
+    userNotificationServiceMock.declineRequest.and.returnValue(throwError(() => new Error()));
+    component.declineRequest(userId);
+    expect(matSnackBarMock.openSnackBar).not.toHaveBeenCalled();
+  });
+
+  it('should load more notifications on scroll if there is a next page', () => {
+    spyOn(component, 'getNotification');
+    component.hasNextPage = true;
+    component.currentPage = 1;
+    component.onScroll();
+    expect(component.isLoading).toBeTrue();
+    expect(component.getNotification).toHaveBeenCalledWith(component.currentPage + 1);
+  });
+
+  it('should not load more notifications on scroll if there is no next page', () => {
+    spyOn(component, 'getNotification');
+    component.hasNextPage = false;
+    component.onScroll();
+    expect(component.isLoading).toBeTrue();
+    expect(component.getNotification).not.toHaveBeenCalled();
+  });
+
+  it('should not change filter approach when event is not a mouse or enter key event', () => {
+    const mockEvent = new Event('click');
+    component.filterApproaches = [...filterApproaches];
+    component.changefilterApproach('ALL', mockEvent);
+    expect(component.filterApproaches).toEqual(filterApproaches);
+  });
+
+  it('should change filter approach correctly when changeFilterApproach is called', () => {
+    const mockEvent = new MouseEvent('click');
+    component.filterApproaches = [...filterApproaches];
+    component['filterAll'] = 'ALL';
+    component.changefilterApproach('ALL', mockEvent);
+    expect(component.notificationTypesFilter.every((el) => el.isSelected)).toBeTrue();
+    expect(component.projects.every((el) => el.isSelected)).toBeTrue();
+  });
+
+  it('should not change filter approach when event is not a mouse or enter key event', () => {
+    const mockEvent = new Event('click');
+    component.filterApproaches = [...filterApproaches];
+    component.changefilterApproach('ALL', mockEvent);
+    expect(component.filterApproaches).toEqual(filterApproaches);
   });
 });

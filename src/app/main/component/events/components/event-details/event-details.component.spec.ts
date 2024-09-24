@@ -16,6 +16,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { EventStoreService } from '../../services/event-store.service';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { eventMock, eventStateMock } from '@assets/mocks/events/mock-events';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -34,52 +35,10 @@ export function mockPipe(options: Pipe): Pipe {
 describe('EventDetailsComponent', () => {
   let component: EventDetailsComponent;
   let fixture: ComponentFixture<EventDetailsComponent>;
-  let route: ActivatedRoute;
-  const routerSpy = { navigate: jasmine.createSpy('navigate') };
   let dialogSpy: jasmine.SpyObj<MatDialog>;
 
-  const eventMock = {
-    additionalImages: [],
-    dates: [
-      {
-        coordinates: {
-          addressEn: 'Address',
-          addressUa: 'Адрес',
-          latitude: 3,
-          longitude: 4
-        },
-        event: 'test',
-        finishDate: '2023-02-14',
-        id: 1,
-        onlineLink: 'https://test',
-        startDate: '2023-04-12'
-      }
-    ],
-    description: 'description',
-    id: 1,
-    open: true,
-    organizer: {
-      id: 1111,
-      name: 'John'
-    },
-    tags: [{ nameEn: 'Environmental', nameUa: 'Екологічний', id: 1 }],
-    title: 'title',
-    titleImage: '',
-    isSubscribed: true
-  };
-
-  const MockData = {
-    eventState: {},
-    eventsList: [],
-    visitedPages: [],
-    totalPages: 0,
-    pageNumber: 0,
-
-    error: null
-  };
-
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of(MockData);
+  storeMock.select = () => of(eventStateMock);
 
   const EventsServiceMock = jasmine.createSpyObj('eventService', [
     'getEventById ',
@@ -178,7 +137,6 @@ describe('EventDetailsComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
     dialogSpy = TestBed.inject(MatDialog) as jasmine.SpyObj<MatDialog>;
-    route = TestBed.inject(ActivatedRoute);
   }));
 
   beforeEach(() => {

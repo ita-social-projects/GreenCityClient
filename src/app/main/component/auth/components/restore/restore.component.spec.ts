@@ -40,7 +40,7 @@ describe('RestoreComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('shoud send email', inject([RestorePasswordService], (service: RestorePasswordService) => {
+  it('should send email', inject([RestorePasswordService], (service: RestorePasswordService) => {
     const spy = spyOn(service as any, 'sendEmailForRestore');
 
     component.sentEmail();

@@ -25,6 +25,7 @@ export class AuthEffects {
     Unauthorized: 'user.auth.sign-in.account-has-been-deleted',
     'You should verify the email first, check your email box!': 'user.auth.sign-in.not-verified-email'
   };
+  private readonly DEFAULT_ERROR = 'user.auth.sign-in.bad-email-or-password';
 
   private actions: Actions = inject(Actions);
   private router: Router = inject(Router);
@@ -50,7 +51,7 @@ export class AuthEffects {
       mergeMap((action: { data: ISignIn }) => {
         return this.authService.signIn(action.data).pipe(
           map((response: ISignInResponse) => SignInSuccessAction({ data: response })),
-          catchError(() => of(SignInFailureAction({ error: this.BACKEND_ERRORS.Unauthorized })))
+          catchError((error) => of(SignInFailureAction({ error: this.BACKEND_ERRORS[error.message] || this.DEFAULT_ERROR })))
         );
       })
     );
@@ -62,7 +63,7 @@ export class AuthEffects {
       mergeMap((action: { token: string }) => {
         return this.authService.signInWithGoogle(action.token).pipe(
           map((response: ISignInResponse) => SignInSuccessAction({ data: response })),
-          catchError((error) => of(SignInFailureAction({ error: this.BACKEND_ERRORS[error.message] })))
+          catchError((error) => of(SignInFailureAction({ error: this.BACKEND_ERRORS[error.message] || this.DEFAULT_ERROR })))
         );
       })
     );

@@ -3,11 +3,12 @@ import { GoogleMap } from '@angular/google-maps';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { dateFormValidator } from './validators/dateFormValidator';
 import { DefaultCoordinates } from '../../../../../../models/event-consts';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { GeocoderService } from '@global-service/geocoder/geocoder.service';
 import { FormBridgeService } from '../../../../../../services/form-bridge.service';
 import { Patterns } from '@assets/patterns/patterns';
 import { FormEmitter, PlaceOnline, PlaceOnlineGroup } from '../../../../../../models/events.interface';
+import { GoogleScript } from '@assets/google-script/google-script';
 
 @Component({
   selector: 'app-place-online',
@@ -18,7 +19,7 @@ import { FormEmitter, PlaceOnline, PlaceOnlineGroup } from '../../../../../../mo
 export class PlaceOnlineComponent implements OnInit, OnDestroy {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
   @ViewChild('placesRef') placesRef: ElementRef;
-
+  isRenderingMap: boolean;
   isPlaceSelected = false;
   isOnline = false;
   isPlaceDisabled = false;
@@ -64,11 +65,12 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     place: ''
   };
   private _key = Symbol('placeKey');
-
+  private $destroy: Subject<boolean> = new Subject();
   constructor(
     private geocoderService: GeocoderService,
     private bridge: FormBridgeService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private googleScript: GoogleScript
   ) {}
 
   get coordinates() {
@@ -107,6 +109,11 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // FORM BLOCK START
+    this.googleScript.$isRenderingMap.pipe(takeUntil(this.$destroy)).subscribe((value: boolean) => {
+      setTimeout(() => {
+        this.isRenderingMap = value;
+      }, 1000);
+    });
     this._subscribeToFormStatus();
     if (this.dayNumber > 0) {
       this._subscribeToLocationChanges();

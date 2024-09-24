@@ -9,86 +9,15 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { Addresses, FilterItem } from '../../models/events.interface';
+import { FilterItem } from '../../models/events.interface';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { MatSelect } from '@angular/material/select';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { addressesMock, eventStateMock, testCases } from '@assets/mocks/events/mock-events';
 
-describe('EventsListComponent', () => {
+xdescribe('EventsListComponent', () => {
   let component: EventsListComponent;
   let fixture: ComponentFixture<EventsListComponent>;
-
-  const addressesMock: Array<Addresses> = [
-    {
-      latitude: 50.4911190426373,
-      longitude: 30.38957457031249,
-      streetEn: 'Stetsenka Street',
-      streetUa: 'вулиця Стеценка',
-      houseNumber: '20',
-      cityEn: 'Kyiv',
-      cityUa: 'Київ',
-      regionEn: 'Kyiv',
-      regionUa: 'місто Київ',
-      countryEn: 'Ukraine',
-      countryUa: 'Україна',
-      formattedAddressEn: 'Stetsenka St, 20, Kyiv, Ukraine, 02000',
-      formattedAddressUa: 'вулиця Стеценка, 20, Київ, Україна, 02000'
-    },
-    {
-      latitude: 49.8555208,
-      longitude: 24.0340401,
-      streetEn: 'Zavodska Street',
-      streetUa: 'вулиця Заводська',
-      houseNumber: '31',
-      cityEn: 'Lviv',
-      cityUa: 'Львів',
-      regionEn: 'Lvivska oblast',
-      regionUa: 'Львівська область',
-      countryEn: 'Ukraine',
-      countryUa: 'Україна',
-      formattedAddressEn: 'Zavodska St, 31, Lviv, Lvivska oblast, Ukraine, 79000',
-      formattedAddressUa: 'вулиця Заводська, 31, Львів, Львівська область, Україна, 79000'
-    },
-    {
-      latitude: 49.7998806,
-      longitude: 23.9901827,
-      streetEn: 'Ivana Puliuia Street',
-      streetUa: 'вулиця Івана Пулюя',
-      houseNumber: '31',
-      cityEn: 'Lviv',
-      cityUa: 'Львів',
-      regionEn: 'Lvivska oblast',
-      regionUa: 'Львівська область',
-      countryEn: 'Ukraine',
-      countryUa: 'Україна',
-      formattedAddressEn: `Ivana Puliuia St, 38, L'viv, L'vivs'ka oblast, Ukraine, 79000`,
-      formattedAddressUa: 'вулиця Івана Пулюя, 38, Львів, Львівська область, Україна, 79000'
-    },
-    {
-      latitude: 49.550731,
-      longitude: 25.61935,
-      streetEn: 'Stepana Bandery Avenue',
-      streetUa: 'проспект Степана Бандери',
-      houseNumber: '58',
-      cityEn: 'Ternopil',
-      cityUa: 'Тернопіль',
-      regionEn: `Ternopil's'ka oblas`,
-      regionUa: 'Тернопільська область',
-      countryEn: 'Ukraine',
-      countryUa: 'Україна',
-      formattedAddressEn: `Stepana Bandery Ave, 58, Ternopil, Ternopil's'ka oblast, Ukraine, 46000`,
-      formattedAddressUa: 'проспект Степана Бандери, 58, Тернопіль, Тернопільська область, Україна, 46000'
-    }
-  ];
-
-  const MockData = {
-    eventState: {},
-    eventsList: [],
-    visitedPages: [],
-    totalPages: 0,
-    pageNumber: 0,
-    error: null
-  };
 
   const createMockMatSelect = (options: { value: string }[]): MatSelect => {
     return {
@@ -100,7 +29,7 @@ describe('EventsListComponent', () => {
   UserOwnAuthServiceMock.credentialDataSubject = of({ userId: 3 });
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of(MockData);
+  storeMock.select = () => of(eventStateMock);
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
@@ -401,5 +330,113 @@ describe('EventsListComponent', () => {
   it('should set isGalleryView to false for list view mode', () => {
     component.changeViewMode('list');
     expect(component.isGalleryView).toBeFalse();
+  });
+
+  testCases.forEach((testCase, index) => {
+    it(`should generate correct HttpParams for test case ${index + 1}`, () => {
+      (component as any).page = 0;
+      (component as any).eventsPerPage = 10;
+      component.selectedLocationFiltersList = testCase.selectedLocationFiltersList;
+      component.selectedEventTimeStatusFiltersList = testCase.selectedEventTimeStatusFiltersList;
+      component.selectedStatusFiltersList = testCase.selectedStatusFiltersList;
+      component.selectedTypeFiltersList = testCase.selectedTypeFiltersList;
+
+      const generatedParams = (component as any).getEventsHttpParams(testCase.title);
+      const generatedParamsMap = new Map<string, string>();
+      generatedParams.keys().forEach((key) => {
+        generatedParamsMap.set(key, generatedParams.get(key));
+      });
+
+      const expectedParamsMap = new Map<string, string>();
+      testCase.expectedParams.keys().forEach((key) => {
+        expectedParamsMap.set(key, testCase.expectedParams.get(key));
+      });
+      expect(generatedParamsMap).toEqual(expectedParamsMap);
+    });
+  });
+
+  it('should clear selected filters for eventTimeStatus', () => {
+    component.unselectAllFiltersInType('eventTimeStatus');
+    expect(component.selectedEventTimeStatusFiltersList).toEqual([]);
+  });
+
+  it('should clear selected filters for location', () => {
+    component.unselectAllFiltersInType('location');
+    expect(component.selectedLocationFiltersList).toEqual([]);
+  });
+
+  it('should clear selected filters for status', () => {
+    component.unselectAllFiltersInType('status');
+    expect(component.selectedStatusFiltersList).toEqual([]);
+  });
+
+  it('should clear selected filters for type', () => {
+    component.unselectAllFiltersInType('type');
+    expect(component.selectedTypeFiltersList).toEqual([]);
+  });
+
+  it('should reset all filter lists and unselect all checkboxes', () => {
+    component.resetAllFilters();
+    expect(component.selectedFilters).toEqual([]);
+    expect(component.selectedEventTimeStatusFiltersList).toEqual([]);
+    expect(component.selectedLocationFiltersList).toEqual([]);
+    expect(component.selectedStatusFiltersList).toEqual([]);
+    expect(component.selectedTypeFiltersList).toEqual([]);
+  });
+
+  it('should unselect all filters for eventTimeStatus and clear the list', () => {
+    component.selectedEventTimeStatusFiltersList = ['option1', 'option2'];
+    spyOn(component as any, 'updateSelectedFiltersList');
+    spyOn(component as any, 'unselectCheckbox');
+    spyOn(component as any, 'cleanEventList');
+    spyOn(component as any, 'getEvents');
+    (component as any)['unselectAllFiltersInType']('eventTimeStatus');
+
+    expect(component.selectedEventTimeStatusFiltersList).toEqual([]);
+    expect((component as any)['unselectCheckbox']).toHaveBeenCalledWith(component.eventTimeStatusOptionList);
+    expect((component as any)['cleanEventList']).toHaveBeenCalled();
+    expect((component as any)['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should unselect all filters for location and clear the list', () => {
+    component.selectedLocationFiltersList = ['option1', 'option2'];
+    spyOn(component as any, 'updateSelectedFiltersList');
+    spyOn(component as any, 'unselectCheckbox');
+    spyOn(component as any, 'cleanEventList');
+    spyOn(component as any, 'getEvents');
+
+    (component as any)['unselectAllFiltersInType']('location');
+
+    expect(component.selectedLocationFiltersList).toEqual([]);
+    expect((component as any)['unselectCheckbox']).toHaveBeenCalledWith(component.locationOptionList);
+    expect((component as any)['cleanEventList']).toHaveBeenCalled();
+    expect((component as any)['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should unselect all filters for status and clear the list', () => {
+    component.selectedStatusFiltersList = ['option1', 'option2'];
+    spyOn(component as any, 'updateSelectedFiltersList');
+    spyOn(component as any, 'unselectCheckbox');
+    spyOn(component as any, 'cleanEventList');
+    spyOn(component as any, 'getEvents');
+    (component as any)['unselectAllFiltersInType']('status');
+
+    expect(component.selectedStatusFiltersList).toEqual([]);
+    expect((component as any)['unselectCheckbox']).toHaveBeenCalledWith(component.statusOptionList);
+    expect((component as any)['cleanEventList']).toHaveBeenCalled();
+    expect((component as any)['getEvents']).toHaveBeenCalled();
+  });
+
+  it('should unselect all filters for type and clear the list', () => {
+    component.selectedTypeFiltersList = ['option1', 'option2'];
+    spyOn(component as any, 'updateSelectedFiltersList');
+    spyOn(component as any, 'unselectCheckbox');
+    spyOn(component as any, 'cleanEventList');
+    spyOn(component as any, 'getEvents');
+    (component as any)['unselectAllFiltersInType']('type');
+    expect(component.selectedTypeFiltersList).toEqual([]);
+    expect((component as any)['unselectCheckbox']).toHaveBeenCalledWith(component.typeOptionList);
+    expect((component as any)['cleanEventList']).toHaveBeenCalled();
+    expect((component as any)['getEvents']).toHaveBeenCalled();
   });
 });

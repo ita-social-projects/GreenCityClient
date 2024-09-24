@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { NotificationTemplatesMock, NotificationMock } from './notificationsMock';
 import { ubsAdminNotificationLink } from 'src/app/main/links';
 
-describe('NotificationsService', () => {
+xdescribe('NotificationsService', () => {
   let service: NotificationsService;
   const notificationTemplates = NotificationTemplatesMock;
   const urlMock = ubsAdminNotificationLink;

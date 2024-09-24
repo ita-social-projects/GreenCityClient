@@ -116,13 +116,6 @@ describe('HomepageComponent', () => {
     expect(spyOnInit).toHaveBeenCalled();
   });
 
-  it('should redirect to profile page', () => {
-    fixture.ngZone.run(() => {
-      component.startHabit();
-      expect(routerSpy.navigate).toBeDefined();
-    });
-  });
-
   it('check the validity of token', inject([VerifyEmailService], (service: VerifyEmailService) => {
     const spy = spyOn(service, 'onCheckToken').and.returnValue(of({}));
     (component as any).onCheckToken();

@@ -1,14 +1,14 @@
 <div class="profile-avatar-wrapper">
   <img
-    *ngIf="imgPath"
+    *ngIf="sanitizedImgPath"
     class="profile-avatar"
     referrerpolicy="no-referrer"
-    alt="profile avatar"
+    alt="avatar"
     [ngClass]="['profile-avatar', additionalImgClass]"
-    [src]="imgPath"
+    [src]="sanitizedImgPath"
   />
   <div *ngIf="!imgPath" [ngClass]="['profile-avatar', additionalImgClass, 'default-avatar']">
     <p>{{ getDefaultProfileImg() }}</p>
   </div>
-  <div class="status-indicator" *ngIf="isOnline" #onlineStatusIndicator></div>
+  <div class="status-indicator" *ngIf="isOnline"></div>
 </div>

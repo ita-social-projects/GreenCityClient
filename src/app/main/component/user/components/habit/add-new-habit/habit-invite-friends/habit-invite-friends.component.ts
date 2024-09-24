@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
@@ -13,6 +13,7 @@ import { HabitInviteFriendsPopUpComponent } from './habit-invite-friends-pop-up/
 })
 export class HabitInviteFriendsComponent implements OnDestroy {
   private destroyed$: Subject<boolean> = new Subject<boolean>();
+  @Input() habitId: number;
   userId: number;
   addedFriends: FriendModel[] = [];
 
@@ -23,7 +24,10 @@ export class HabitInviteFriendsComponent implements OnDestroy {
 
   openInviteFriendsDialog() {
     this.dialog.open(HabitInviteFriendsPopUpComponent, {
-      hasBackdrop: true
+      hasBackdrop: true,
+      data: {
+        habitId: this.habitId
+      }
     });
     this.dialog.afterAllClosed.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getAddedFriends());
   }
