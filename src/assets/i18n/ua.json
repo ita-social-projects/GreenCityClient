@@ -1285,10 +1285,7 @@
     "use-greencity-pics": "Використовуйте фотографії Greencity",
     "created-event": "Ви успішно додали подію",
     "updated-event": "Ви успішно оновили подію",
-    "min-photo-error": "Мінімум одна фотографія",
-    "choose-day": "День",
-    "choose-month": "Місяць",
-    "choose-year": "Рік"
+    "min-photo-error": "Мінімум одна фотографія"
   },
   "input-error": {
     "required": "Це поле є обов'язковим для заповнення",

@@ -7,10 +7,10 @@ import { timeValidator } from './validator/timeValidator';
 import { LanguageService } from '../../../../../../../../i18n/language.service';
 import { DateTime, DateTimeForm, FormEmitter } from '../../../../../../models/events.interface';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import 'moment/locale/uk';
+import { MomentDateAdapter } from './my-moment-date-adapter/my-moment-date-adapter';
 
 const moment = _rollupMoment || _moment;
 moment.locale('uk');
@@ -156,7 +156,7 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   private dateValidator(control: AbstractControl): null | { [error: string]: boolean } {
     const selectedDate = control.value;
     if (!selectedDate) {
-      return control.errors.matDatepickerMin ? { dateIncorrect: true } : { isRequired: true };
+      return control.errors?.matDatepickerMin ? { dateIncorrect: true } : { isRequired: true };
     }
 
     // Convert control value to a Moment object
