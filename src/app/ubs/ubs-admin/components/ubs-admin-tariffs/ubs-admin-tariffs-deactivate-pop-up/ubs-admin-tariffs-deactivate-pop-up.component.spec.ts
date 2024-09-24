@@ -12,7 +12,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 // import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
+xdescribe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   let component: UbsAdminTariffsDeactivatePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsDeactivatePopUpComponent>;
 

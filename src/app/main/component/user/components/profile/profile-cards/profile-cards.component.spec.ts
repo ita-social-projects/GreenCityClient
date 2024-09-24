@@ -1,45 +1,63 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { BehaviorSubject, of, Subscription, throwError } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProfileCardsComponent } from '@global-user/components';
-import { CardModel } from '@user-models/card.model';
+import { FactOfTheDay } from '@global-user/models/factOfTheDay';
+import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ProfileCardsComponent', () => {
   let component: ProfileCardsComponent;
   let fixture: ComponentFixture<ProfileCardsComponent>;
   let profileServiceMock: jasmine.SpyObj<ProfileService>;
-  let localStorageService: LocalStorageService;
+  let localStorageServiceMock: jasmine.SpyObj<LocalStorageService>;
+  let languageSubject: BehaviorSubject<string>;
 
-  const cardModelMock: CardModel = { id: 1, content: 'Hello' };
+  const factOfTheDayMock: FactOfTheDay = { id: 1, content: 'Hello' };
+  const profileStatisticsMock: ProfileStatistics = {
+    amountHabitsInProgress: 1,
+    amountHabitsAcquired: 0,
+    amountPublishedNews: 0,
+    amountOrganizedAndAttendedEvents: 0
+  };
 
   beforeEach(waitForAsync(() => {
-    profileServiceMock = jasmine.createSpyObj<ProfileService>('ProfileService', ['getFactsOfTheDay']);
+    profileServiceMock = jasmine.createSpyObj('ProfileService', [
+      'getRandomFactOfTheDay',
+      'getUserProfileStatistics',
+      'getFactsOfTheDayByTags'
+    ]);
+
+    profileServiceMock.getRandomFactOfTheDay.and.returnValue(of(factOfTheDayMock));
+    profileServiceMock.getUserProfileStatistics.and.returnValue(of(profileStatisticsMock));
+    profileServiceMock.getFactsOfTheDayByTags.and.returnValue(of(factOfTheDayMock));
+
+    localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+      'getHabitFactFromLocalStorage',
+      'clearHabitFactFromLocalStorage',
+      'saveHabitFactToLocalStorage'
+    ]);
+
+    languageSubject = new BehaviorSubject<string>('ua');
+    localStorageServiceMock.languageBehaviourSubject = languageSubject;
 
     TestBed.configureTestingModule({
       declarations: [ProfileCardsComponent],
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, TranslateModule.forRoot()],
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },
-        { provide: LocalStorageService, useValue: { languageBehaviourSubject: new BehaviorSubject('ua') } }
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfileCardsComponent);
     component = fixture.componentInstance;
-    localStorageService = TestBed.inject(LocalStorageService);
-    component.profileSubscription = new Subscription();
-    component.languageSubscription = new Subscription();
   }));
 
   afterEach(() => {
-    fixture = null;
-  });
-
-  afterAll(() => {
-    TestBed.resetTestingModule();
-    fixture?.destroy();
+    fixture.destroy();
   });
 
   it('should create the component', () => {
@@ -47,58 +65,67 @@ describe('ProfileCardsComponent', () => {
   });
 
   it('should get fact of the day on language change', () => {
-    const languageSubject = new BehaviorSubject<string>('ua');
-    spyOn(localStorageService.languageBehaviourSubject, 'subscribe').and.callThrough();
     spyOn(component, 'getFactOfTheDay').and.callThrough();
     fixture.detectChanges();
 
-    expect(localStorageService.languageBehaviourSubject.subscribe).toHaveBeenCalled();
     expect(component.getFactOfTheDay).toHaveBeenCalled();
 
     languageSubject.next('en');
     fixture.detectChanges();
 
-    expect(localStorageService.languageBehaviourSubject.subscribe).toHaveBeenCalledTimes(1);
-    expect(component.getFactOfTheDay).toHaveBeenCalledTimes(1);
+    expect(component.getFactOfTheDay).toHaveBeenCalledTimes(2);
   });
 
-  it('should set factOfTheDay on successful', () => {
-    profileServiceMock.getFactsOfTheDay.and.returnValue(of(cardModelMock));
+  it('should set factOfTheDay on successful response', () => {
+    profileServiceMock.getRandomFactOfTheDay.and.returnValue(of(factOfTheDayMock));
     component.ngOnInit();
 
-    expect(component.factOfTheDay).toEqual(cardModelMock);
+    expect(component.factOfTheDay).toEqual(factOfTheDayMock);
     expect(component.error).toBeUndefined();
   });
 
-  it('should handle success in getFactOfTheDay', () => {
-    profileServiceMock.getFactsOfTheDay.and.returnValue(of(cardModelMock));
+  it('should handle error in getFactOfTheDay', () => {
+    const errorMessage = 'Error occurred';
+    profileServiceMock.getRandomFactOfTheDay.and.returnValue(throwError(() => new Error(errorMessage)));
+
     component.getFactOfTheDay();
 
-    expect(component.factOfTheDay).toEqual(cardModelMock);
-    expect(component.error).toBeUndefined();
+    expect(component.error).toBe(errorMessage);
+    expect(component.factOfTheDay).toBeUndefined();
   });
 
-  it('should handle error', () => {
-    const errorMessage = 'Error message';
-    const errorResponse = new Error(errorMessage);
-    profileServiceMock.getFactsOfTheDay.and.returnValue(throwError(() => errorResponse.message));
-    component.ngOnInit();
+  it('should load habit fact from local storage', () => {
+    localStorageServiceMock.getHabitFactFromLocalStorage.and.returnValue(factOfTheDayMock);
 
-    expect(component.error).toEqual(errorMessage);
+    component.loadHabitFactFromLocalStorage();
+
+    expect(component.habitFactOfTheDay).toEqual(factOfTheDayMock);
   });
 
-  it('should unsubscribe from subscriptions on component destroy', () => {
-    component.profileSubscription = new Subscription();
-    component.languageSubscription = new Subscription();
-    spyOn(component.profileSubscription, 'unsubscribe');
-    spyOn(component.languageSubscription, 'unsubscribe');
+  it('should update habit fact if more than one day has passed', () => {
+    const profileStatisticsMock: ProfileStatistics = {
+      amountHabitsInProgress: 1,
+      amountHabitsAcquired: 0,
+      amountPublishedNews: 0,
+      amountOrganizedAndAttendedEvents: 0
+    };
+
+    profileServiceMock.getUserProfileStatistics.and.returnValue(of(profileStatisticsMock));
+
+    spyOn(component, 'updateHabitFactIfNeeded').and.callThrough();
+
+    component.checkAndUpdateHabitFact();
+
+    expect(component.updateHabitFactIfNeeded).toHaveBeenCalled();
+  });
+
+  it('should unsubscribe from observables on destroy', () => {
+    spyOn(component['destroy$'], 'next').and.callThrough();
+    spyOn(component['destroy$'], 'complete').and.callThrough();
+
     component.ngOnDestroy();
 
-    if (component.profileSubscription) {
-      expect(component.profileSubscription.unsubscribe).toHaveBeenCalled();
-    }
-    if (component.languageSubscription) {
-      expect(component.languageSubscription.unsubscribe).toHaveBeenCalled();
-    }
+    expect(component['destroy$'].next).toHaveBeenCalled();
+    expect(component['destroy$'].complete).toHaveBeenCalled();
   });
 });

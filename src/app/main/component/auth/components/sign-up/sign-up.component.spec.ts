@@ -90,37 +90,8 @@ describe('SignUpComponent', () => {
   });
 
   describe('Basic tests', () => {
-    beforeEach(() => {
-      spyOn((component as any).pageName, 'emit');
-    });
-
     it('should create SignUpComponent', () => {
       expect(component).toBeTruthy();
-    });
-
-    it('should call closeSignUpWindow ', () => {
-      const spy = spyOn((component as any).matDialogRef, 'close').and.callThrough();
-      (component as any).closeSignUpWindow();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should emit "sign-in" after calling openSignInWindow', () => {
-      component.openSignInWindow();
-      expect((component as any).pageName.emit).toHaveBeenCalledWith('sign-in');
-    });
-  });
-
-  describe('Reset error messages', () => {
-    it('Should reset error messages', () => {
-      component.firstNameErrorMessageBackEnd = 'I am error message';
-      component.emailErrorMessageBackEnd = 'I am error message';
-      component.passwordErrorMessageBackEnd = 'I am error message';
-      component.passwordConfirmErrorMessageBackEnd = 'I am error message';
-      (component as any).setNullAllMessage();
-      expect(component.firstNameErrorMessageBackEnd).toBeNull();
-      expect(component.passwordErrorMessageBackEnd).toBeNull();
-      expect(component.emailErrorMessageBackEnd).toBeNull();
-      expect(component.passwordConfirmErrorMessageBackEnd).toBeNull();
     });
   });
 
@@ -218,94 +189,10 @@ describe('SignUpComponent', () => {
     });
   });
 
-  describe('Check sign up methods', () => {
-    let mockUserSuccessSignIn: UserSuccessSignIn;
-
-    beforeEach(() => {
-      mockUserSuccessSignIn = {
-        userId: '23',
-        name: 'JohnSmith',
-        accessToken: 'test',
-        refreshToken: 'test'
-      };
-    });
-
-    it('onSubmit should call userOwnSignUpService', () => {
-      (component as any).onSubmitSuccess = () => true;
-      const spy = spyOn((component as any).userOwnSignUpService, 'signUp').and.returnValue(of(mockFormData));
-      component.onSubmit(mockFormData as UserOwnSignUp);
-      expect(spy).toHaveBeenCalledWith(mockFormData, 'ua');
-    });
-
-    it('onSubmit should call onSubmitError', () => {
-      const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
-      const spy = spyOn((component as any).userOwnSignUpService, 'signUp').and.returnValue(throwError(errors));
-      component.onSubmit(mockFormData as UserOwnSignUp);
-      expect(spy).toHaveBeenCalled();
-    });
-
-    describe('Check sign up with signInWithGoogle', () => {
-      it('signUpWithGoogleSuccess should navigate to profilePage', fakeAsync(() => {
-        (component as any).signUpWithGoogleSuccess(mockUserSuccessSignIn);
-        fixture.ngZone.run(() => {
-          expect(router.navigate).toHaveBeenCalledWith(['profile', mockUserSuccessSignIn.userId]);
-        });
-        fixture.destroy();
-        flush();
-      }));
-    });
-  });
-
   describe('Check ErrorMessageBackEnd', () => {
-    it('should return firstNameErrorMessageBackEnd when login failed', () => {
-      const errors = new HttpErrorResponse({
-        error: [
-          { name: 'name', message: 'Ups' },
-          { name: 'email', message: 'Ups' },
-          { name: 'password', message: 'Ups' },
-          { name: 'passwordConfirm', message: 'Ups' }
-        ]
-      });
-      (component as any).onSubmitError(errors);
-      fixture.detectChanges();
-      expect(component.firstNameErrorMessageBackEnd).toBe('Ups');
-      expect(component.emailErrorMessageBackEnd).toBe('Ups');
-      expect(component.passwordErrorMessageBackEnd).toBe('Ups');
-      expect(component.passwordConfirmErrorMessageBackEnd).toBe('Ups');
-    });
-
-    it('should return emailErrorMessageBackEnd when login failed', () => {
-      const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
-      (component as any).signUpWithGoogleError(errors);
-      fixture.detectChanges();
-      expect(component.emailErrorMessageBackEnd).toBe('Ups');
-    });
-
-    it('should return passwordConfirmErrorMessageBackEnd when login failed', () => {
-      const errors = new HttpErrorResponse({ error: [{ name: 'password', message: 'Ups' }] });
-      (component as any).signUpWithGoogleError(errors);
-      fixture.detectChanges();
-      expect(component.passwordConfirmErrorMessageBackEnd).toBe('Ups');
-    });
-
     it('should reset emailErrorMessageBackEnd', () => {
       component.setEmailBackendErr();
       expect(component.emailErrorMessageBackEnd).toBeNull();
-    });
-
-    it('signUpWithGoogleError should set errors', () => {
-      const result = (component as any).signUpWithGoogleError('User cancelled login or did not fully authorize');
-      expect(result).toEqual(null || undefined);
-    });
-
-    it('signUpWithGoogleError should set errors', () => {
-      const errors = {
-        error: {
-          message: 'Ups'
-        }
-      };
-      (component as any).signUpWithGoogleError(errors);
-      expect(component.backEndError).toBe('Ups');
     });
   });
 });

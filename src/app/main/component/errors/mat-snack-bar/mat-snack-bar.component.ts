@@ -38,7 +38,7 @@ export class MatSnackBarComponent {
     cafeNotificationsBreakTime: { classname: SnackbarClassName.error, key: 'update-cafe.notifications.breakTime' },
     cafeNotificationsPhotoUpload: { classname: SnackbarClassName.error, key: 'update-cafe.notifications.photoUpload' },
     habitDeleted: { classname: SnackbarClassName.error, key: 'user.habit.all-habits.habit-was-deleted' },
-    habitAlreadyAssigned: { classname: SnackbarClassName.error, key: 'user.habit.all-habits.habit-already-assigned' },
+    habitLimitReached: { classname: SnackbarClassName.error, key: 'user.habit.all-habits.habit-limit-reached' },
     customHabitDeleted: { classname: SnackbarClassName.error, key: 'user.habit.all-habits.custom-habit-was-deleted' },
     habitAdded: { classname: SnackbarClassName.success, key: 'user.habit.all-habits.new-habit-added' },
     habitDidNotGiveUp: { classname: SnackbarClassName.success, key: 'user.habit.all-habits.habit-did-not-give-up' },
@@ -64,6 +64,7 @@ export class MatSnackBarComponent {
     ratedEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.rating-send' },
     addFriend: { classname: SnackbarClassName.success, key: 'snack-bar.success.add-friend' },
     friendValidation: { classname: SnackbarClassName.error, key: 'snack-bar.error.friend-request' },
+    friendInValidRequest: { classname: SnackbarClassName.error, key: 'snack-bar.error.friend-already-added' },
     cancelRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.cancel-request' },
     jointEventRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.joint-event-request' },
     errorImageTypeSize: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-type-and-size' },
@@ -72,7 +73,8 @@ export class MatSnackBarComponent {
     errorMaxPhotos: { classname: SnackbarClassName.error, key: 'user.photo-upload.you-can-upload-max-photos-event' },
     errorMinPhoto: { classname: SnackbarClassName.error, key: 'create-event.min-photo-error' },
     errorUpdateProfile: { classname: SnackbarClassName.error, key: 'user.user-setting.profile-update-error-name' },
-    errorLiked: { classname: SnackbarClassName.error, key: 'homepage.eco-news.likes' }
+    errorLiked: { classname: SnackbarClassName.error, key: 'homepage.eco-news.likes' },
+    errorNotFound: { classname: SnackbarClassName.error, key: 'homepage.eco-news.not-found' }
   };
 
   constructor(

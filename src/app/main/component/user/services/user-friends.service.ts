@@ -89,4 +89,9 @@ export class UserFriendsService {
   addedFriendsToHabit(friend) {
     this.addedFriends.push(friend);
   }
+
+  inviteFriendsToHabit(habitId: number, friendsIds: number[]): Observable<any> {
+    const queryParams = friendsIds.map((id) => `friendsIds=${id}`).join('&');
+    return this.http.post(`${this.urlFriend}habit/assign/${habitId}/invite?${queryParams}`, {}, this.httpOptions);
+  }
 }

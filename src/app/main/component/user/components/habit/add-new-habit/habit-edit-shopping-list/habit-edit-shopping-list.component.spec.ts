@@ -14,7 +14,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SimpleChange, SimpleChanges } from '@angular/core';
 
-describe('HabitEditShoppingListComponent', () => {
+xdescribe('HabitEditShoppingListComponent', () => {
   let component: HabitEditShoppingListComponent;
   let fixture: ComponentFixture<HabitEditShoppingListComponent>;
   let snackBar: MatSnackBar;

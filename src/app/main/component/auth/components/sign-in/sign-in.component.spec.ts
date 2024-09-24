@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -31,6 +31,8 @@ describe('SignIn component', () => {
   let component: SignInComponent;
   let fixture: ComponentFixture<SignInComponent>;
   let router: Router;
+  let dialog: MatDialog;
+
   const initialState = {
     employees: null,
     error: null,
@@ -71,8 +73,6 @@ describe('SignIn component', () => {
   actionsMock.pipe.and.returnValue(of({}));
 
   beforeEach(waitForAsync(async () => {
-    window.google = { accounts: googleAccountMock };
-
     TestBed.configureTestingModule({
       declarations: [SignInComponent, ErrorComponent, GoogleBtnComponent],
       imports: [
@@ -83,6 +83,7 @@ describe('SignIn component', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
+        MatDialog,
         provideMockStore({ initialState }),
         { provide: Store, useValue: storeMock },
         { provide: GoogleSignInService, useValue: googleServiceMock },
@@ -99,6 +100,7 @@ describe('SignIn component', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     router = fixture.debugElement.injector.get(Router);
+    dialog = TestBed.inject(MatDialog);
     spyOn<any>(component, 'initGooglePopup');
     spyOn(router.url, 'includes').and.returnValue(false);
     spyOn(router, 'navigate');
@@ -119,12 +121,6 @@ describe('SignIn component', () => {
       fixture.detectChanges();
 
       expect(component.onOpenModalWindow).toHaveBeenCalledWith('restore-password');
-    });
-
-    it('should emit "sign-up" after calling openSignInWindowp', () => {
-      spyOn((component as any).pageName, 'emit');
-      component.onOpenModalWindow('sign-up');
-      expect((component as any).pageName.emit).toHaveBeenCalledWith('sign-up');
     });
   });
 

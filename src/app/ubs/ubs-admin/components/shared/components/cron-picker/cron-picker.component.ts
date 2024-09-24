@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
 import { CronService } from 'src/app/shared/cron/cron.service';
+import { MatAutocomplete } from '@angular/material/autocomplete';
+import { startWith, map, takeUntil } from 'rxjs/operators';
 
 const range = (from: number, to: number) => new Array(to - from).fill(0).map((_, idx) => from + idx);
 const compareObjects = (obj1: any, obj2: any) => JSON.stringify(obj1) === JSON.stringify(obj2);
@@ -17,12 +18,19 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() schedule = '';
   @Output() scheduleSelected = new EventEmitter<string>();
 
+  @ViewChild('autoHour', { static: false }) autoHour!: MatAutocomplete;
+  @ViewChild('autoMin', { static: false }) autoMin!: MatAutocomplete;
+
   form: FormGroup;
   private destroy = new Subject<void>();
   lang = 'en';
 
-  minutes = range(0, 60);
-  hours = range(0, 24);
+  hours: string[] = Array.from({ length: 24 }, (_, i) => this.padZero(i));
+  minutes: string[] = Array.from({ length: 60 }, (_, i) => this.padZero(i));
+
+  hourFiltered!: Observable<string[]>;
+  minFiltered!: Observable<string[]>;
+
   daysOfWeek = range(1, 8);
   days = range(1, 32);
   months = range(1, 13);
@@ -40,10 +48,17 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     private cronService: CronService
   ) {
     this.form = this.fb.group({
-      time: this.fb.group({
-        min: [0],
-        hour: [0]
-      }),
+      time: this.fb.group(
+        {
+          min: new FormControl(this.padZero(new Date().getMinutes()), [Validators.required, Validators.pattern(/^[0-5]\d$/)]),
+          hour: new FormControl(this.padZero(new Date().getHours()), [
+            Validators.required,
+            Validators.pattern(/^[0-2]\d$/),
+            this.hourValidator
+          ])
+        },
+        { validators: [this.timeValidator] }
+      ),
       day: this.fb.group(
         {
           type: ['every-day'],
@@ -66,6 +81,54 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+  private hourValidator(control: FormControl) {
+    const value = parseInt(control.value, 10);
+    if (isNaN(value) || value < 0 || value >= 25) {
+      return { invalidHour: true };
+    }
+    return null;
+  }
+
+  private timeValidator(control: AbstractControl): null | { [error: string]: boolean } {
+    const hour = control.get('hour')?.value;
+    const min = control.get('min')?.value;
+
+    if (!hour || !min) {
+      return null;
+    }
+    const hourValid = /^[0-2][0-9]$/.test(hour) && hour < 25;
+    const minValid = /^[0-5][0-9]$/.test(min);
+
+    if (hourValid && minValid) {
+      return null;
+    } else {
+      return { invalidHourMin: true };
+    }
+  }
+
+  private isFormControl(control: AbstractControl): control is FormControl {
+    return control instanceof FormControl;
+  }
+
+  getFormControl(controlName: string): FormControl | null {
+    const control = this.form.get(`time.${controlName}`);
+    return this.isFormControl(control) ? control : null;
+  }
+
+  checkForErrorsIn(controlName: string): string | null {
+    const control = this.form.get(`time.${controlName}`);
+
+    if (control?.errors) {
+      if (control.errors.required) {
+        return controlName === 'hour' ? 'cron-picker.errors.hour-required' : 'cron-picker.errors.minute-required';
+      }
+      if (control.errors.pattern || control.errors.invalidHourMin) {
+        return controlName === 'hour' ? 'cron-picker.errors.hour-error' : 'cron-picker.errors.minute-error';
+      }
+    }
+    return null;
+  }
+
   private dayValidator(control: AbstractControl): null | { [error: string]: boolean } {
     const output = {
       'every-day': null,
@@ -84,10 +147,44 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
+    if (this.schedule) {
+      this.initializeForm();
+    }
+    this.setupFormValueChanges();
+  }
+
+  private initializeForm() {
+    const { min, hour } = this.cronService.parse(this.schedule);
+    this.form.patchValue({
+      time: {
+        min: this.padZero(min.value || min.value[0]),
+        hour: this.padZero(hour.value || hour.value[0])
+      }
+    });
+    this.setDescription();
+  }
+
+  private setupFormValueChanges() {
+    this.setDescription();
+
     this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.setDescription();
     });
-    this.setDescription();
+
+    this.setupFilteredValues('hour', this.hours);
+    this.setupFilteredValues('min', this.minutes);
+  }
+
+  private setupFilteredValues(controlName: string, options: string[]): void {
+    this[`${controlName}Filtered`] = this.form.get(`time.${controlName}`)?.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value, options))
+    );
+  }
+
+  private _filter(value: string, list: string[]): string[] {
+    const filterValue = value.toString().toLowerCase();
+    return list.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -112,6 +209,10 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     const params = this.getCronParams();
     const cron = `${params.min} ${params.hour} ${params.dayOfMonth} ${params.month} ${params.dayOfWeek}`;
     this.scheduleSelected.emit(cron);
+  }
+
+  padZero(num: number): string {
+    return num.toString().padStart(2, '0');
   }
 
   private mapScheduleToFormValue(cron: string): any {

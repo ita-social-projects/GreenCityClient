@@ -14,7 +14,7 @@ $ubs-header-height: 86px;
   backdrop-filter: blur(7px);
 }
 
-::ng-deep .dialog-notification .mat-dialog-container {
+::ng-deep .dialog-notification .mat-mdc-dialog-surface {
   padding: 0;
 }
 
@@ -108,10 +108,9 @@ header {
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
-  background-color: var(--ubs-secondary-light-green);
-  border: 2 solid var(--ubs-secondary-light-green);
+  background-color: var(--ubs-button-light-green);
   border-radius: 6px;
-  color: var(--ubs-primary-white);
+  color: var(--ubs-primary-black);
 
   &:hover {
     background-color: var(--ubs-tertiary-dark-green);
@@ -183,10 +182,12 @@ header {
   display: flex;
   width: 145px;
   height: 36px;
+  margin: 0 10px;
   justify-content: center;
   align-items: center;
   color: var(--ubs-primary-black);
-  border: 2px solid #87bc1e;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+  box-shadow: 2px 6px 10px rgba(100 114 125 / 30%);
   border-radius: 6px;
   font-weight: 600;
   font-size: 14px;

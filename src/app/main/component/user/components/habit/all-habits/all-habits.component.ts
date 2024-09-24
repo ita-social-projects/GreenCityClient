@@ -12,9 +12,9 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
 import { singleNewsImages } from '../../../../../image-pathes/single-news-images';
 import { HabitsFiltersList } from '../models/habits-filters-list';
-import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
+import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
-import { HabitPageable } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-all-habits',
@@ -97,9 +97,21 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   }
 
   private getHabitsByFilters(page: number, size: number, filters: string[]): void {
-    const criteria: HabitPageable = { page, size, lang: this.lang, filters, sort: 'asc' };
+    let params = new HttpParams().set('page', page.toString()).set('size', size.toString()).set('lang', this.lang).set('sort', 'asc');
+
+    filters.forEach((filter) => {
+      const [key, value] = filter.split('=');
+      if (key && value) {
+        params = params.set(key, value);
+      }
+    });
+
+    filters.forEach((filter) => {
+      params.append(`filter`, filter);
+    });
+
     this.habitService
-      .getHabitsByFilters(criteria)
+      .getHabitsByFilters(params)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
         this.setHabitsList(page, res);

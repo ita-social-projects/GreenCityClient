@@ -71,7 +71,7 @@
     <div>
       <p class="field-label">{{ 'ubs-notifications.settings-popup.labels.schedule' | translate }}</p>
       <div class="field-wrapper">
-        <div class="select-schedule-trigger" [matMenuTriggerFor]="selectSchedule">
+        <div class="select-schedule-trigger" [matMenuTriggerFor]="selectSchedule" #menuTrigger="matMenuTrigger">
           <input
             class="select-schedule"
             type="text"
@@ -87,7 +87,7 @@
         <app-cron-picker
           [schedule]="schedule"
           (click)="$event.stopPropagation()"
-          (scheduleSelected)="onScheduleSelected($event)"
+          (scheduleSelected)="onScheduleSelected($event); menuTrigger.closeMenu()"
         ></app-cron-picker>
       </mat-menu>
     </div>

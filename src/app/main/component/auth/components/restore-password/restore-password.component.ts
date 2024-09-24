@@ -1,7 +1,7 @@
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -53,8 +53,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router,
     private restorePasswordService: RestorePasswordService,
     private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent,
-    private zone: NgZone
+    private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit() {
@@ -158,9 +157,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
 
   private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
-    this.zone.run(() => {
-      this.router.navigate(['/']);
-    });
+    this.router.navigate(['/']);
   }
 
   classCheck(): string {
