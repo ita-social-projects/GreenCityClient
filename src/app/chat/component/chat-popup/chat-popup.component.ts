@@ -6,7 +6,7 @@ import { NewMessageWindowComponent } from '../new-message-window/new-message-win
 import { ReferenceDirective } from '../../directive/reference/reference.directive';
 import { CommonService } from '../../service/common/common.service';
 import { Subject } from 'rxjs';
-import { concatMap, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { SocketService } from '../../service/socket/socket.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
@@ -15,7 +15,6 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 
 import { Role } from '@global-models/user/roles.model';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { LocationForChat } from '../../model/Chat.model';
 
 @Component({
   selector: 'app-chat-popup',
@@ -28,7 +27,6 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
 
   private onDestroy$ = new Subject();
   private userId: number;
-  private courierUBSName = 'UBS';
   public isUbsAdmin: boolean;
   breakpoint = 575;
 
@@ -57,16 +55,18 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.chatsService.isSupportChat$.next(this.isSupportChat);
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.onDestroy$)).subscribe((id) => {
+      this.userId = id;
+      this.isUbsAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
       if (id) {
         this.socketService.connect();
-        this.userId = id;
-        this.isUbsAdmin = this.jwt.getUserRole() === Role.UBS_EMPLOYEE || this.jwt.getUserRole() === Role.ADMIN;
         this.chatsService.loadChats(this.userId, this.isUbsAdmin);
       } else {
         this.socketService.unsubscribeAll();
+        this.chatsService.resetData();
+        this.isOpen = false;
+        this.commonService.newMessageWindowRequireCloseStream$.next(true);
       }
     });
-
     this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());
   }
 
