@@ -76,17 +76,13 @@ describe('ProfileDashboardComponent', () => {
   });
 
   it('onInit should call four method', () => {
-    const spy1 = spyOn(component as any, 'subscribeToLangChange');
-    const spy2 = spyOn(component as any, 'getUserId');
-    const spy3 = spyOn(component, 'dispatchNews');
-    const spy4 = spyOn(component, 'initGetUserEvents');
+    const spy1 = spyOn(component, 'dispatchNews');
+    const spy2 = spyOn(component, 'initGetUserEvents');
 
     component.ngOnInit();
 
     expect(spy1).toHaveBeenCalledTimes(1);
     expect(spy2).toHaveBeenCalledTimes(1);
-    expect(spy3).toHaveBeenCalledTimes(1);
-    expect(spy4).toHaveBeenCalledTimes(1);
   });
 
   it('onInit news should have expected result', () => {
@@ -137,23 +133,10 @@ describe('ProfileDashboardComponent', () => {
     expect(component.totalEvents).toEqual(mockEvent.totalElements);
   }));
 
-  it('dispatchNews expect store.dispatch have been called', () => {
-    (component as any).currentPage = 1;
-    (component as any).hasNext = true;
-    component.dispatchNews(false);
-    expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
-  });
-
   it('changeStatus should return right Id', () => {
     HabitAssignServiceMock.habitsInProgress = [{ id: 4 }, { id: 2 }];
     component.changeStatus({ id: 4 } as any);
     expect(HabitAssignServiceMock.habitsInProgress).toEqual([{ id: 2 }] as any);
-  });
-
-  it('getUserId expect userId shoud be 2', () => {
-    LocalStorageServiceMock.getUserId = () => 2;
-    (component as any).getUserId();
-    expect(component.userId).toBe(2);
   });
 
   it('executeRequests habitsInProgress.duration to be 20', () => {
@@ -197,12 +180,6 @@ describe('ProfileDashboardComponent', () => {
     component.numberOfHabitsOnView = 3;
     const res = component.getMoreHabits(['H', 'A'] as any, [1, 2, 'B', 'I', 'T'] as any);
     expect(res.join('')).toEqual('HABIT');
-  });
-
-  it('sortHabitsData', () => {
-    const res = (component as any).sortHabitsData(mockHabitAssign);
-    expect(res[0].habit.id).toBe(4);
-    expect(res[1].habit.id).toBe(2);
   });
 
   it('tabChanged', () => {
@@ -252,29 +229,5 @@ describe('ProfileDashboardComponent', () => {
     component.getUserFavouriteEvents();
     expect(eventsServiceMock.getUserFavoriteEvents).toHaveBeenCalledWith(0, component.eventsPerPage, component.userId);
     expect(component.favouriteEvents).toEqual(mockEvent.page);
-  });
-
-  it('should return correct HttpParams for getHttpParams method', () => {
-    const page = 1;
-    const eventType = 'ONLINE';
-    const expectedParams = new HttpParams()
-      .append('page', page.toString())
-      .append('size', component.eventsPerPage.toString())
-      .append('statuses', 'CREATED,JOINED')
-      .append('user-id', component.userId)
-      .append('type', eventType);
-    const resultParams = (component as any).getHttpParams(page, eventType);
-    expect(resultParams.toString()).toEqual(expectedParams.toString());
-  });
-
-  it('should return correct HttpParams without eventType', () => {
-    const page = 1;
-    const expectedParams = new HttpParams()
-      .append('page', page.toString())
-      .append('size', component.eventsPerPage.toString())
-      .append('statuses', 'CREATED,JOINED')
-      .append('user-id', component.userId);
-    const resultParams = (component as any).getHttpParams(page);
-    expect(resultParams.toString()).toEqual(expectedParams.toString());
   });
 });

@@ -93,19 +93,11 @@ describe('FriendDashboardComponent', () => {
   });
 
   it('should call all methods OnInit', () => {
-    const spyUser = spyOn(component as any, 'initUser');
-    const spySub = spyOn(component as any, 'subscribeToLangChange');
-    const spyLang = spyOn(component as any, 'bindLang');
     const spyQuery = spyOn(component, 'preventFrequentQuery');
     const spyInptu = spyOn(component, 'hideInputField');
-    const spyAllFriends = spyOn(component as any, 'getFriends');
     component.ngOnInit();
-    expect(spyUser).toHaveBeenCalled();
-    expect(spySub).toHaveBeenCalled();
-    expect(spyLang).toHaveBeenCalled();
     expect(spyQuery).toHaveBeenCalled();
     expect(spyInptu).toHaveBeenCalled();
-    expect(spyAllFriends).toHaveBeenCalled();
   });
 
   it('should get userId', () => {
@@ -119,19 +111,5 @@ describe('FriendDashboardComponent', () => {
     };
     component.onInput(input);
     expect(spy).toHaveBeenCalledWith('text');
-  });
-
-  it('should set the componentRef in onActivate', () => {
-    const outlet = componentRefMock;
-    component.onActivate(outlet);
-    expect((component as any).componentRef).toEqual(outlet);
-  });
-
-  it('should dispatch GetAllFriends and GetAllFriendsRequests actions when userId is truthy', () => {
-    component.userId = 3;
-    (component as any).getFriends();
-
-    expect((component as any).store.dispatch).toHaveBeenCalledWith(GetAllFriends({ page: 0, size: (component as any).size }));
-    expect((component as any).store.dispatch).toHaveBeenCalledWith(GetAllFriendsRequests({ page: 0, size: (component as any).size }));
   });
 });

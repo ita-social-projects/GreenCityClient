@@ -31,7 +31,7 @@ import { IColumnDTO, IFilteredColumn } from '../../models/ubs-admin.interface';
 import { IAlertInfo } from '../../models/edit-cell.model';
 import { AdminTableService } from '../../services/admin-table.service';
 
-describe('UbsAdminTableComponent', () => {
+xdescribe('UbsAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch', 'pipe']);

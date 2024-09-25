@@ -7,8 +7,12 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { HabitInterface, HabitItemInterface, HabitListFriendsInterface, HabitListInterface }
-  from '@global-user/components/habit/models/interfaces/habit.interface';
+import {
+  HabitInterface,
+  HabitItemInterface,
+  HabitListFriendsInterface,
+  HabitListInterface
+} from '@global-user/components/habit/models/interfaces/habit.interface';
 import { HabitService } from '@global-service/habit/habit.service';
 
 @Component({

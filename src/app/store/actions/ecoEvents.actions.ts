@@ -29,7 +29,7 @@ export enum EventsActions {
   ReceivedFailure = '[Events] Received Failure'
 }
 
-export const EditEcoEventAction = createAction(EventsActions.EditEcoEvent, props<{ data: FormData, id: number }>());
+export const EditEcoEventAction = createAction(EventsActions.EditEcoEvent, props<{ data: FormData; id: number }>());
 
 export const EditEcoEventSuccessAction = createAction(
   EventsActions.EditEcoEventSuccess,

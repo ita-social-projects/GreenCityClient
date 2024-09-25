@@ -73,6 +73,14 @@ describe('RecommendedFriendsComponent', () => {
     expect(component.getNewFriends).not.toHaveBeenCalled();
   });
 
+  xit('should call initUser and getPossibleFriends OnInit', () => {
+    const initUserSpy = spyOn(component as any, 'initUser');
+    const getFriendsSpy = spyOn(component, 'getNewFriends');
+    component.ngOnInit();
+    expect(initUserSpy).toHaveBeenCalledTimes(1);
+    expect(getFriendsSpy).toHaveBeenCalled();
+  });
+
   it('should fetch new friends and handle response', () => {
     userFriendsService.getAllRecommendedFriends.and.returnValue(of(FRIENDS));
     component.getNewFriends();

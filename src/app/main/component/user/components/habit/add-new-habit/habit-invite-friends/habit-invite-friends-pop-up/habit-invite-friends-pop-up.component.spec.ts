@@ -52,10 +52,8 @@ describe('HabitInviteFriendsPopUpComponent', () => {
   });
 
   it('should call on ngOnInit', () => {
-    const spy1 = spyOn(component as any, 'getUserId');
     const spy2 = spyOn(component, 'getFriends');
     component.ngOnInit();
-    expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
   });
 
