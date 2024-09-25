@@ -10,7 +10,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import 'moment/locale/uk';
-import { MomentDateAdapter } from './my-moment-date-adapter/my-moment-date-adapter';
+import { MomentDateAdapter } from './moment-date-adapter/moment-date-adapter';
 
 const moment = _rollupMoment || _moment;
 moment.locale('uk');

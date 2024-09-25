@@ -3,7 +3,7 @@ import { waitForAsync, inject, TestBed } from '@angular/core/testing';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { MomentDateModule } from './index';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from './my-moment-date-adapter';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from './moment-date-adapter';
 
 import moment from 'moment';
 import 'moment/min/locales';
