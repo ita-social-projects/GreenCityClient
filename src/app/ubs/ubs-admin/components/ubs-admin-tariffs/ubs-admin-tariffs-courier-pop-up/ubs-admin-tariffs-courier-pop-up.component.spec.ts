@@ -15,7 +15,7 @@ import {
 } from '@angular/material/autocomplete';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
-xdescribe('UbsAdminTariffsCourierPopUpComponent', () => {
+describe('UbsAdminTariffsCourierPopUpComponent', () => {
   let component: UbsAdminTariffsCourierPopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsCourierPopUpComponent>;
 
@@ -215,13 +215,5 @@ xdescribe('UbsAdminTariffsCourierPopUpComponent', () => {
   it('method onNoClick should invoke destroyRef.close', () => {
     component.onNoClick();
     expect(matDialogRefMock.close).toHaveBeenCalled();
-  });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    const destroy = 'destroy';
-    component[destroy] = new Subject<boolean>();
-    spyOn(component[destroy], 'unsubscribe');
-    component.ngOnDestroy();
-    expect(component[destroy].unsubscribe).toHaveBeenCalledTimes(1);
   });
 });

@@ -10,7 +10,7 @@ import { DistrictsDtos, KyivNamesEnum } from '../models/ubs.interface';
 import { ADDRESSESMOCK } from '../../mocks/address-mock';
 import { Store, StoreModule } from '@ngrx/store';
 
-xdescribe('OrderService', () => {
+describe('OrderService', () => {
   const bagMock = {
     id: 1,
     name: '',
@@ -226,7 +226,7 @@ xdescribe('OrderService', () => {
       expect(data).toEqual(responceOrderFondyModel);
     });
 
-    httpTest('client/processOrderFondy', 'POST', responceOrderFondyModel);
+    httpTest('client/processOrder', 'POST', responceOrderFondyModel);
   });
 
   it('method findAllDistricts should return districts based on region and city', () => {
@@ -235,11 +235,11 @@ xdescribe('OrderService', () => {
     const districtsMock: DistrictsDtos[] = ADDRESSESMOCK.DISTRICTSKYIVMOCK;
 
     service.findAllDistricts(regionMock, cityMock).subscribe((districts) => {
-      expect(districts.length).toBe(3);
+      expect(districts.length).toBe(districtsMock.length);
       expect(districts).toEqual(ADDRESSESMOCK.DISTRICTSKYIVMOCKLABLED);
     });
 
-    const req = httpMock.expectOne(`${baseLink}/get-all-districts?city=${cityMock}&region=${regionMock}`);
+    const req = httpMock.expectOne(`${baseLink}/get-all-districts?city=${cityMock}&region=${encodeURIComponent(regionMock)}`);
     expect(req.request.method).toBe('GET');
     req.flush(districtsMock);
   });

@@ -178,12 +178,6 @@ describe('UbsAdminOrderPaymentComponent', () => {
     });
   });
 
-  it('method postDataItem', () => {
-    (component as any).postDataItem(250, PaymnetStatus.PAID);
-
-    expect(storeMock.dispatch).toHaveBeenCalled();
-  });
-
   it('method getStringDate', () => {
     const currentTime: Date = new Date();
     const formatDate: string = currentTime

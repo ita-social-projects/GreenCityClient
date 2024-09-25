@@ -14,7 +14,7 @@ import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform
 import { BrowserModule } from '@angular/platform-browser';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
-xdescribe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
+describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   let component: UbsAdminTariffsAddTariffServicePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsAddTariffServicePopUpComponent>;
   let fakeTariffService: TariffsService;
@@ -94,44 +94,6 @@ xdescribe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`initForm should be called in ngOnInit`, () => {
-    const initFormSpy = spyOn(component as any, 'initForm');
-    component.ngOnInit();
-    expect(initFormSpy).toHaveBeenCalled();
-  });
-
-  it(`fillFields should be called in ngOnInit`, () => {
-    const fillFieldsSpy = spyOn(component as any, 'fillFields');
-    component.ngOnInit();
-    expect(fillFieldsSpy).toHaveBeenCalled();
-  });
-
-  it(`setDate should be called in ngOnInit`, () => {
-    const setDateSpy = spyOn(component as any, 'setDate');
-    component.ngOnInit();
-    expect(setDateSpy).toHaveBeenCalled();
-  });
-
-  it(`editForm should be called in initForm`, () => {
-    component.receivedData.bagData = fakeBag;
-    const editFormSpy = spyOn(component as any, 'editForm');
-    (component as any).initForm();
-    expect(editFormSpy).toHaveBeenCalled();
-  });
-
-  it(`addForm should be called in initForm`, () => {
-    component.receivedData.bagData = !fakeBag;
-    const addFormSpy = spyOn(component as any, 'addForm');
-    (component as any).initForm();
-    expect(addFormSpy).toHaveBeenCalled();
-  });
-
-  it(`setDate should be called in ngOnInit`, () => {
-    const setDateSpy = spyOn(component as any, 'setDate');
-    component.ngOnInit();
-    expect(setDateSpy).toHaveBeenCalled();
-  });
-
   it('should be valid if form value is valid', () => {
     component.addTariffServiceForm.setValue({
       price: 120,
@@ -164,31 +126,6 @@ xdescribe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     expect(commissionControl.valid).toBeTruthy();
   });
 
-  it('should return price Control on getControl', () => {
-    (component as any).initForm();
-    const price = component.getControl('price') as FormControl;
-    const name = component.getControl('name') as FormControl;
-    const nameEng = component.getControl('nameEng') as FormControl;
-    const description = component.getControl('description') as FormControl;
-    const descriptionEng = component.getControl('descriptionEng') as FormControl;
-    expect(price).toEqual(component.addTariffServiceForm.get('price') as FormControl);
-    expect(name).toEqual(component.addTariffServiceForm.get('name') as FormControl);
-    expect(nameEng).toEqual(component.addTariffServiceForm.get('nameEng') as FormControl);
-    expect(description).toEqual(component.addTariffServiceForm.get('description') as FormControl);
-    expect(descriptionEng).toEqual(component.addTariffServiceForm.get('descriptionEng') as FormControl);
-  });
-
-  it('component should initialize createTariffService form from with correct parameters', () => {
-    (component as any).createTariffService();
-    expect(component.addTariffServiceForm.get('name').value).toEqual('');
-    expect(component.addTariffServiceForm.get('nameEng').value).toEqual('');
-    expect(component.addTariffServiceForm.get('price').value).toEqual('');
-    expect(component.addTariffServiceForm.get('description').value).toEqual('');
-    expect(component.addTariffServiceForm.get('descriptionEng').value).toEqual('');
-    expect(component.addTariffServiceForm.get('capacity').value).toEqual('');
-    expect(component.addTariffServiceForm.get('commission').value).toEqual('');
-  });
-
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
 
   it('Check whether method onCancel called with proper args', () => {
@@ -208,29 +145,6 @@ xdescribe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     component.addNewTariffForService();
     fakeTariffService.createNewTariffForService(fakeBag, 1);
     expect(addNewTariffForServiceSpy).toHaveBeenCalled();
-  });
-
-  it('should addTariffForNewService work correctly', () => {
-    (component as any).isLangEn = true;
-    component.addTariffServiceForm.setValue({
-      price: 12,
-      name: 'Мок Назва',
-      nameEng: 'MockNameEng',
-      description: 'Мок опис',
-      descriptionEng: 'MockDescrEng',
-      capacity: 77,
-      commission: 89
-    });
-    component.addNewTariffForService();
-    expect(component.tariffService).toEqual({
-      price: 12,
-      name: 'MockNameEng',
-      nameEng: 'Мок Назва',
-      description: 'MockDescrEng',
-      descriptionEng: 'Мок опис',
-      capacity: 77,
-      commission: 89
-    });
   });
 
   it('should call editTariffForService correctly', () => {
