@@ -50,8 +50,8 @@ export class EventsEffects {
   editEvent = createEffect(() =>
     this.actions.pipe(
       ofType(EditEcoEventAction),
-      mergeMap((actions: { data: FormData }) =>
-        this.eventsService.editEvent(actions.data).pipe(
+      mergeMap((actions: { data: FormData; id: number }) =>
+        this.eventsService.editEvent(actions.data, actions.id).pipe(
           map((event: EventResponse) => EditEcoEventSuccessAction({ event })),
           catchError((error) => of(ReceivedFailureAction(error)))
         )
