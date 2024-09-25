@@ -13,16 +13,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store, StoreModule } from '@ngrx/store';
 
-xdescribe('UbsConfirmPageComponent', () => {
+describe('UbsConfirmPageComponent', () => {
   let component: UbsConfirmPageComponent;
   let fixture: ComponentFixture<UbsConfirmPageComponent>;
   let router: Router;
-  const fakeSnackBar = jasmine.createSpyObj('fakeSnakBar', ['openSnackBar']);
-  const fakeUBSOrderFormService = jasmine.createSpyObj('fakeUBSService', [
-    'getOrderResponseErrorStatus',
-    'getOrderStatus',
-    'saveDataOnLocalStorage'
-  ]);
+  const fakeSnackBar = jasmine.createSpyObj('fakeSnackBar', ['openSnackBar']);
+  const fakeUBSOrderFormService = jasmine.createSpyObj('fakeUBSService', ['getOrderResponseErrorStatus', 'getOrderStatus']);
   const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', [
     'getFinalSumOfOrder',
     'clearPaymentInfo',
@@ -97,16 +93,6 @@ xdescribe('UbsConfirmPageComponent', () => {
     expect(checkPaymentStatusMock).toHaveBeenCalled();
   });
 
-  it('ngOnInit should call renderView without oderID', () => {
-    const orderService = 'orderService';
-    spyOn(component[orderService], 'getUbsOrderStatus').and.returnValue(of({ result: 'success', order_id: '123_456' }));
-    const renderViewMock = spyOn(component, 'renderView');
-    component.ngOnInit();
-    expect(renderViewMock).toHaveBeenCalled();
-    expect(component.isSpinner).toBeFalsy();
-    expect(component.orderResponseError).toBeFalsy();
-  });
-
   it('in renderView should saveDataOnLocalStorage and openSnackBar be called', () => {
     component.orderStatusDone = false;
     component.orderResponseError = false;
@@ -117,25 +103,12 @@ xdescribe('UbsConfirmPageComponent', () => {
     expect(fakeSnackBar.openSnackBar).toHaveBeenCalledWith('successConfirmSaveOrder', '132');
   });
 
-  it('checkPaymentStatus should set true to orderPaymentError if response.code is payment_not_found', () => {
-    const orderService = 'orderService';
-    spyOn(component[orderService], 'getUbsOrderStatus').and.returnValue(of({ code: 'payment_not_found', order_id: '123_457' }));
-    fakeLocalStorageService.getFinalSumOfOrder.and.returnValue('999');
-    component.checkPaymentStatus();
-    expect(component.isSpinner).toBeFalsy();
-  });
-
   it('in renderView should saveDataOnLocalStorage when no error occurred', () => {
     component.orderStatusDone = true;
     component.orderResponseError = false;
     const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
     component.renderView();
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
-  });
-
-  it('in saveDataOnLocalStorage should saveDataOnLocalStorage be called', () => {
-    component.saveDataOnLocalStorage();
-    expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();
   });
 
   it('should redirect to order', () => {

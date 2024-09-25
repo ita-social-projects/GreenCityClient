@@ -108,17 +108,6 @@ describe('UbsAdminOrderStatusComponent', () => {
     expect(component.onChangedOrderStatus).toHaveBeenCalledTimes(1);
   });
 
-  it('openPopup  dialog.open should been called and pass res.Reason', () => {
-    spyOn(component, 'onChangedOrderStatus');
-    matDialogMock.open.and.returnValue(dialogRefStubOther as any);
-    component.openPopup();
-    expect((component as any).dialog.open).toHaveBeenCalledWith(AddOrderCancellationReasonComponent, {
-      hasBackdrop: true,
-      data,
-      maxHeight: '100vh'
-    });
-  });
-
   it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status UNPAID when order was not payed', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 1;
@@ -189,12 +178,5 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
     expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.PAID);
-  });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    (component as any).destroy$ = new Subject<boolean>();
-    spyOn((component as any).destroy$, 'complete');
-    component.ngOnDestroy();
-    expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
   });
 });

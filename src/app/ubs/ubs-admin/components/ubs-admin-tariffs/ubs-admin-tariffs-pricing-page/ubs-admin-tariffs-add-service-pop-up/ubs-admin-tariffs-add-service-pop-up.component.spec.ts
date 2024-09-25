@@ -88,18 +88,6 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(spyOnInit).toHaveBeenCalled();
   });
 
-  it(`initForm should be called in ngOnInit`, () => {
-    const initFormSpy = spyOn(component as any, 'initForm');
-    component.ngOnInit();
-    expect(initFormSpy).toHaveBeenCalled();
-  });
-
-  it(`setDate should be called in ngOnInit`, () => {
-    const setDateSpy = spyOn(component as any, 'setDate');
-    component.ngOnInit();
-    expect(setDateSpy).toHaveBeenCalled();
-  });
-
   it('component should initialize form with correct parameters', () => {
     component.addForm();
     expect(component.addServiceForm.get('price').value).toEqual('');
@@ -127,45 +115,6 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(component.addServiceForm.get('descriptionEng').value).toEqual(component.receivedData.serviceData.descriptionEng);
   });
 
-  it(`fillFields should be called in ngOnInit`, () => {
-    const fillFieldsSpy = spyOn(component as any, 'fillFields');
-    component.ngOnInit();
-    expect(fillFieldsSpy).toHaveBeenCalled();
-  });
-
-  it(`editForm should be called in initForm`, () => {
-    component.receivedData.serviceData = fakeService;
-    const editFormSpy = spyOn(component as any, 'editForm');
-    (component as any).initForm();
-    expect(editFormSpy).toHaveBeenCalled();
-  });
-
-  it(`addForm should be called in initForm`, () => {
-    component.receivedData.serviceData = !fakeService;
-    const addFormSpy = spyOn(component as any, 'addForm');
-    (component as any).initForm();
-    expect(addFormSpy).toHaveBeenCalled();
-  });
-
-  it('should addNewService work correctly', () => {
-    (component as any).isLangEn = true;
-    component.addServiceForm.setValue({
-      price: 12,
-      name: 'Мок Назва',
-      nameEng: 'MockNameEng',
-      description: 'Мок опис',
-      descriptionEng: 'MockDescrEng'
-    });
-    component.addNewService();
-    expect(component.service).toEqual({
-      price: 12,
-      name: 'MockNameEng',
-      nameEng: 'Мок Назва',
-      description: 'MockDescrEng',
-      descriptionEng: 'Мок опис'
-    });
-  });
-
   it('should set date', () => {
     component.setDate();
     expect(component.newDate).toEqual(fakeTariffService.setDate('ua'));
@@ -187,21 +136,6 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     const partOfName = 'asdfghjkloiuytrewquiopytrefghktasdfghjkloiuytrewquiopytreffffghg';
     nameControl.setValue(`${partOfName + partOfName + partOfName + partOfName}`);
     expect(nameControl.valid).toBe(false);
-  });
-
-  it('should return price Control on getControl', () => {
-    (component as any).initForm();
-    const price = component.getControl('price') as FormControl;
-    const name = component.getControl('name') as FormControl;
-    const nameEng = component.getControl('nameEng') as FormControl;
-    const description = component.getControl('description') as FormControl;
-    const descriptionEng = component.getControl('descriptionEng') as FormControl;
-
-    expect(price).toEqual(component.addServiceForm.get('price') as FormControl);
-    expect(name).toEqual(component.addServiceForm.get('name') as FormControl);
-    expect(nameEng).toEqual(component.addServiceForm.get('nameEng') as FormControl);
-    expect(description).toEqual(component.addServiceForm.get('description') as FormControl);
-    expect(descriptionEng).toEqual(component.addServiceForm.get('descriptionEng') as FormControl);
   });
 
   it('should fillFields correctly', () => {

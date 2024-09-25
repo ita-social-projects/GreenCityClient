@@ -17,7 +17,7 @@ import { TariffSelectorComponent } from './tariff-selector.component';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 
-xdescribe('TariffSelectorComponent', () => {
+describe('TariffSelectorComponent', () => {
   let component: TariffSelectorComponent;
   let fixture: ComponentFixture<TariffSelectorComponent>;
   let loader: HarnessLoader;

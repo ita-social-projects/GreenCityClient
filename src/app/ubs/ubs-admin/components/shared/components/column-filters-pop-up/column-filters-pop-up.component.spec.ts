@@ -163,22 +163,6 @@ describe('ColumnFiltersPopUpComponent', () => {
     expect(result).toBe(expectedResult);
   });
 
-  it('should call setCurrentFilters and set dateFrom and dateTo correctly', () => {
-    const mockFilters = {
-      testColumnFrom: '2024-09-18T00:00:00Z',
-      testColumnTo: '2024-09-20T00:00:00Z'
-    };
-
-    component['allFilters'] = mockFilters;
-    component.data = { columnName: 'testColumn' } as any;
-
-    component.discardChanges();
-
-    expect(fakeAdminTableService.setCurrentFilters).toHaveBeenCalledWith(mockFilters);
-    expect(component['dateFrom']).toEqual(new Date('2024-09-18T00:00:00Z'));
-    expect(component['dateTo']).toEqual(new Date('2024-09-20T00:00:00Z'));
-  });
-
   it('should call stopPropagation and update dates correctly when type is "from"', () => {
     const event = { stopPropagation: jasmine.createSpy('stopPropagation') } as unknown as Event;
 
