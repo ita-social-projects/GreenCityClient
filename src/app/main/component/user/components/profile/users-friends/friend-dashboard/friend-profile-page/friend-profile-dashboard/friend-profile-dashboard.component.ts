@@ -160,8 +160,6 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   onScroll(): void {
-    console.log(this.currentHabitPage)
-    console.log(this.myAllHabitsList.length)
     if (this.selectedIndex === 3 && !this.scroll && this.friendsList.length < this.numberAllFriends) {
       this.scroll = true;
       this.currentFriendPage += 1;
