@@ -330,6 +330,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private searchEventsByTitle(searchTitle: string): void {
+    if (this.searchResultSubscription) {
+      this.searchResultSubscription.unsubscribe();
+    }
+
     this.searchResultSubscription = this.eventService.getEvents(this.getEventsHttpParams(searchTitle)).subscribe((res) => {
       this.isLoading = false;
       if (res.page.length > 0) {

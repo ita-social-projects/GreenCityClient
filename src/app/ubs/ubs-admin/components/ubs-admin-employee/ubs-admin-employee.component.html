@@ -33,7 +33,7 @@
           <mat-autocomplete #autoposition="matAutocomplete" (optionSelected)="onSelectPosition($event, autocompleteTriggerPosition)">
             <div class="option-wrapper">
               <mat-option value="all">
-                <mat-checkbox [checked]="isPositionChecked()" (change)="toggleSelectAllPositions()" value="all"></mat-checkbox>
+                <mat-checkbox [checked]="isPositionChecked()" value="all"></mat-checkbox>
                 {{ 'ubs-tariffs.states.all' | translate }}</mat-option
               >
               <mat-option *ngFor="let position of positionName">
@@ -99,7 +99,7 @@
           >
             <div class="option-wrapper">
               <mat-option value="all">
-                <mat-checkbox [checked]="isCityChecked()" (change)="toggleSelectAllCity()" value="all"></mat-checkbox>
+                <mat-checkbox [checked]="isCityChecked()" value="all"></mat-checkbox>
                 {{ 'ubs-tariffs.states.all' | translate }}
               </mat-option>
               <mat-option *ngFor="let city of filteredCities | async">
@@ -135,7 +135,7 @@
           >
             <div class="option-wrapper">
               <mat-option value="all">
-                <mat-checkbox [checked]="isCourierChecked()" (change)="(toggleSelectAllCourier)" value="all"></mat-checkbox>
+                <mat-checkbox [checked]="isCourierChecked()" value="all"></mat-checkbox>
                 {{ 'ubs-tariffs.states.all' | translate }}
               </mat-option>
               <mat-option *ngFor="let courier of couriersName">

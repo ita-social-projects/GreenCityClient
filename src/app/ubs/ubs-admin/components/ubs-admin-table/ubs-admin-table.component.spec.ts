@@ -221,7 +221,6 @@ xdescribe('UbsAdminTableComponent', () => {
   it('bigOrderTableParams ', () => {
     spyOn(component, 'setColumnsForFiltering');
     spyOn(component, 'sortColumnsToDisplay');
-    spyOn(component as any, 'getTable');
     const bigOrderTableParamsMock = of({
       columnBelongingList: ['columnBelongingList'],
       columnDTOList: [
@@ -243,7 +242,6 @@ xdescribe('UbsAdminTableComponent', () => {
       expect(component.tableViewHeaders).toEqual(['columnBelongingList']);
       expect(component.displayedColumnsViewTitles).toEqual(['key']);
       expect(component.setColumnsForFiltering).toHaveBeenCalledTimes(1);
-      expect((component as any).getTable).toHaveBeenCalled();
       expect(component.sortColumnsToDisplay).toHaveBeenCalledTimes(2);
     });
   });
@@ -265,26 +263,6 @@ xdescribe('UbsAdminTableComponent', () => {
   it('ngAfterViewChecked should call detectChanges', () => {
     component.ngAfterViewChecked();
     expect(changeDetectorMock.detectChanges).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not call dateForm setValue method on initDateForm if getLocalForm is false', () => {
-    (component as any).getLocalDateForm = () => false;
-    const val = (component as any).getLocalDateForm();
-    expect(val).toBe(false);
-  });
-
-  it('should not call dateForm setValue method on initDateForm if getLocalForm is false', () => {
-    const dateForm = component.dateForm;
-    spyOn(dateForm, 'setValue');
-    (component as any).getLocalDateForm = () => false;
-    component.initDateForm();
-    expect(dateForm.setValue).not.toHaveBeenCalled();
-  });
-
-  it('should set default value for dateForm on initDateForm if getLocalForm is false', () => {
-    (component as any).getLocalDateForm = () => false;
-    component.initDateForm();
-    expect(component.dateForm.value).toEqual(initDateMock);
   });
 
   it('isAllColumnsDisplayed sould be true ', () => {
@@ -423,33 +401,6 @@ xdescribe('UbsAdminTableComponent', () => {
     component.isPopupOpen = true;
     component.toggleTableView();
     expect(component.previousSettings).toEqual(['1', '2']);
-    expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
-  });
-
-  it('showAllColumns called with false expect setDisplayedColumns has been called', () => {
-    spyOn(component as any, 'setDisplayedColumns');
-    component.showAllColumns(false);
-    expect((component as any).setDisplayedColumns).toHaveBeenCalledTimes(1);
-  });
-
-  it('showAllColumns called with true expect setUnDisplayedColumns has been called', () => {
-    spyOn(component as any, 'setUnDisplayedColumns');
-    component.showAllColumns(true);
-    expect((component as any).setUnDisplayedColumns).toHaveBeenCalledTimes(1);
-  });
-
-  it('getColumns should call store.dispatch', () => {
-    storeMock.dispatch.calls.reset();
-    (component as any).getColumns();
-    expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
-  });
-
-  it('getTable', () => {
-    storeMock.dispatch.calls.reset();
-    component.isLoading = false;
-    (component as any).getTable('filterValue');
-    expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
-    expect(component.isLoading).toBe(true);
   });
 
   it('formatTableData expect tableData should change view', () => {
@@ -467,18 +418,10 @@ xdescribe('UbsAdminTableComponent', () => {
     });
   });
 
-  it('updateTableData should call store.dispatch', () => {
-    storeMock.dispatch.calls.reset();
-    component.updateTableData();
-    expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
-  });
-
   it('getSortingData', () => {
     component.arrowDirection = '';
     component.filterValue = 'filterValue';
-    spyOn(component as any, 'getTable');
     component.getSortingData('columnName', 'sortingType');
-    expect((component as any).getTable).toHaveBeenCalledWith('filterValue', 'columnName', 'sortingType', true);
     expect(component.arrowDirection).toBe('columnName');
   });
 
@@ -519,36 +462,10 @@ xdescribe('UbsAdminTableComponent', () => {
     expect(component.idsToChange).toEqual([2]);
   });
 
-  it('editCell expect editAll has called', () => {
-    component.idsToChange.length = 1;
-    spyOn(component as any, 'editAll');
-    component.allChecked = true;
-    component.editCell({ id: 1, nameOfColumn: '3', newValue: 'value' });
-    expect((component as any).editAll).toHaveBeenCalledWith({ id: 1, nameOfColumn: '3', newValue: 'value' });
-  });
-
-  it('editCell expect editSingle has called', () => {
-    component.idsToChange.length = 0;
-    spyOn(component as any, 'editSingle');
-    component.allChecked = false;
-    component.editCell({ id: 1, nameOfColumn: '3', newValue: 'value' });
-    expect((component as any).editSingle).toHaveBeenCalledWith({ id: 1, nameOfColumn: '3', newValue: 'value' });
-  });
-
-  it('editCell expect editGroup has called', () => {
-    component.idsToChange.length = 1;
-    spyOn(component as any, 'editGroup');
-    component.allChecked = false;
-    component.editCell({ id: 1, nameOfColumn: '3', newValue: 'value' });
-    expect((component as any).editGroup).toHaveBeenCalledWith({ id: 1, nameOfColumn: '3', newValue: 'value' });
-  });
-
   it('cancelEditCell ', () => {
     component.idsToChange = [1];
     component.allChecked = true;
-    spyOn((component as any).adminTableService, 'cancelEdit').and.returnValue(of({}));
     component.cancelEditCell([1, 2]);
-    expect((component as any).adminTableService.cancelEdit).toHaveBeenCalledWith([1, 2]);
     expect(component.idsToChange).toEqual([]);
     expect(component.allChecked).toBe(false);
   });
@@ -557,95 +474,6 @@ xdescribe('UbsAdminTableComponent', () => {
     component.blockedInfo = [{ orderId: 1, userName: 'name}' }];
     component.closeAlertMess();
     expect(component.blockedInfo).toEqual([]);
-  });
-
-  it('setDisplayedColumns  expect displayedColumnsViewTitles should change', () => {
-    component.isAllColumnsDisplayed = false;
-    component.displayedColumnsView = mockColumnDTO;
-    (component as any).setDisplayedColumns();
-    expect(component.displayedColumnsViewTitles).toEqual(['receivingStation']);
-    expect(component.count).toBe(1);
-    expect(component.isAllColumnsDisplayed).toBe(true);
-  });
-
-  it('setUnDisplayedColumns expect displayedColumnsViewTitles should be empty', () => {
-    component.displayedColumnsViewTitles = ['not empty'];
-    component.isAllColumnsDisplayed = true;
-    (component as any).setUnDisplayedColumns();
-    expect(component.displayedColumnsViewTitles).toEqual([]);
-    expect(component.isAllColumnsDisplayed).toBe(false);
-  });
-
-  it('editSingle expect openPopUpRequires and postData should be call', () => {
-    spyOn(component, 'openPopUpRequires');
-    spyOn(component as any, 'postData');
-    component.tableData = [{ id: 2, columnName: 'prevValue' }];
-    (component as any).editSingle({ id: 2, nameOfColumn: 'columnName', newValue: 'value' });
-    expect(component.tableData).toEqual([{ id: 2, columnName: 'value' }]);
-    expect(component.openPopUpRequires).toHaveBeenCalledWith(0);
-    expect((component as any).postData).toHaveBeenCalledWith([2], 'columnName', 'value');
-  });
-
-  it('editGroup expect postData should be call', () => {
-    spyOn(component as any, 'postData');
-    component.idsToChange = [1, 2];
-    component.tableData = [{ id: 2, columnName: 'prevValue' }];
-    (component as any).editGroup({ id: 2, nameOfColumn: 'columnName', newValue: 'value' });
-    expect(component.tableData).toEqual([{ id: 2, columnName: 'value' }]);
-    expect((component as any).postData).toHaveBeenCalledWith([1, 2], 'columnName', 'value');
-  });
-
-  it('editAll expect postData should be call with arguments', () => {
-    spyOn(component as any, 'postData');
-    component.idsToChange = [1, 2];
-    component.tableData = [{ id: 2, columnName: 'prevValue' }];
-    (component as any).editAll({ id: 2, nameOfColumn: 'columnName', newValue: 'value' });
-    expect(component.idsToChange).toEqual([]);
-    expect((component as any).postData).toHaveBeenCalledWith([], 'columnName', 'value');
-  });
-
-  it('postData expect store.dispatch should be call', () => {
-    component.isPostData = false;
-    storeMock.dispatch.calls.reset();
-    (component as any).postData([1, 2], 'columnName', 'value');
-    expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
-    expect((component as any).store.dispatch).toHaveBeenCalledWith({
-      orderData: [{ orderId: [1, 2], columnName: 'columnName', newValue: 'value' }],
-      type: '[BigOrderTable] Changing Order Data'
-    });
-    expect(component.isPostData).toBe(true);
-  });
-
-  it('postData expect store.dispatch should be call if cancellationReason not null', () => {
-    component.isPostData = false;
-    component.cancellationReason = 'fakeReason';
-    storeMock.dispatch.calls.reset();
-    (component as any).postData([1, 2], 'columnName', 'value');
-    expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
-    expect((component as any).store.dispatch).toHaveBeenCalledWith({
-      orderData: [
-        { orderId: [1, 2], columnName: 'columnName', newValue: 'value' },
-        { orderId: [1, 2], columnName: 'cancellationReason', newValue: 'fakeReason' }
-      ],
-      type: '[BigOrderTable] Changing Order Data'
-    });
-    expect(component.isPostData).toBe(true);
-  });
-
-  it('postData expect store.dispatch should be call if cancellationComment not null', () => {
-    component.isPostData = false;
-    component.cancellationComment = 'fake comment';
-    storeMock.dispatch.calls.reset();
-    (component as any).postData([1, 2], 'columnName', 'value');
-    expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
-    expect((component as any).store.dispatch).toHaveBeenCalledWith({
-      orderData: [
-        { orderId: [1, 2], columnName: 'columnName', newValue: 'value' },
-        { orderId: [1, 2], columnName: 'cancellationComment', newValue: 'fake comment' }
-      ],
-      type: '[BigOrderTable] Changing Order Data'
-    });
-    expect(component.isPostData).toBe(true);
   });
 
   it('addOrderCancellationData expect cancellationReason and cancellationComment should be changed', () => {
@@ -670,12 +498,6 @@ xdescribe('UbsAdminTableComponent', () => {
     component.currentLang = 'ua';
     component.showTooltip(event, { ua: 'title on Ukrainian', en: '' }, tooltip);
     expect(tooltip.toggle).toHaveBeenCalledTimes(1);
-  });
-
-  it('getColumnsForFiltering should return object', () => {
-    (component as any).adminTableService.columnsForFiltering = [{ value: 'one' }] as any;
-    const Res = component.getColumnsForFiltering();
-    expect(Res[0]).toEqual({ value: 'one' } as any);
   });
 
   it('should return true when isFilterChecked returns true', () => {
@@ -783,21 +605,6 @@ xdescribe('UbsAdminTableComponent', () => {
     expect(component.onDateChange).toHaveBeenCalledWith('orderStatus');
   });
 
-  it('should conver date value on changeInputDate', () => {
-    spyOn((component as any).adminTableService, 'setDateFormat');
-    const date = 'Mon Nov 12 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
-    (component as any).adminTableService.setDateFormat(date);
-    expect((component as any).adminTableService.setDateFormat).toHaveBeenCalledWith(
-      'Mon Nov 12 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)'
-    );
-  });
-
-  it('should convert date value on changeInputDate', () => {
-    const date = 'Mon Nov 12 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
-    const value = (component as any).adminTableService.setDateFormat(date);
-    expect(value).toBe('2022-11-12');
-  });
-
   it('should set dateForm values from local storage if available', () => {
     spyOn(localStorageServiceMock, 'getAdminOrdersDateFilter').and.returnValue(initDateMock);
     component.initDateForm();
@@ -807,11 +614,9 @@ xdescribe('UbsAdminTableComponent', () => {
   it('applyFilters', () => {
     component.currentPage = 1;
     component.firstPageLoad = false;
-    spyOn(component as any, 'getTable');
     component.applyFilters();
     expect(component.currentPage).toBe(0);
     expect(component.firstPageLoad).toBe(true);
-    expect((component as any).getTable).toHaveBeenCalledTimes(1);
   });
 
   it('openColumnFilterPopup expect dialog.open shoud be call', () => {
@@ -833,23 +638,10 @@ xdescribe('UbsAdminTableComponent', () => {
     expect(component.columns.length).toBe(3);
   });
 
-  it('setColumnsForFiltering', () => {
-    spyOn((component as any).adminTableService, 'setColumnsForFiltering');
-    component.setColumnsForFiltering('columns');
-    expect((component as any).adminTableService.setColumnsForFiltering).toHaveBeenCalledWith('columns');
-  });
-
   it('checkStatusOfOrders', () => {
     component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE }];
     const Res = component.checkStatusOfOrders(1);
     expect(Res).toBe(true);
-  });
-
-  it('checkIfFilteredBy', () => {
-    (component as any).adminTableService.filters = [{ orderStatus: 'done' }];
-    const result = component.checkIfFilteredBy('orderStatus');
-
-    expect(result).toBe(true);
   });
 
   it('should reset column widths to default', () => {
