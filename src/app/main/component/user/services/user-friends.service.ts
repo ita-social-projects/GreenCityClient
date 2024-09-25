@@ -11,7 +11,6 @@ import { Observable, Subject } from 'rxjs';
 })
 export class UserFriendsService {
   addedFriends: FriendModel[] = [];
-  allUserFriends: FriendModel[] = [];
   private size = 10;
   url: string = environment.backendUserLink;
   urlFriend: string = environment.backendLink;
@@ -86,12 +85,16 @@ export class UserFriendsService {
     return this.http.get<UserDataAsFriend>(`${this.urlFriend}friends/user-data-as-friend/${idFriend}`);
   }
 
-  addedFriendsToHabit(friend) {
+  addedFriendsToHabit(friend: FriendModel) {
     this.addedFriends.push(friend);
   }
 
   inviteFriendsToHabit(habitId: number, friendsIds: number[]): Observable<any> {
     const queryParams = friendsIds.map((id) => `friendsIds=${id}`).join('&');
     return this.http.post(`${this.urlFriend}habit/assign/${habitId}/invite?${queryParams}`, {}, this.httpOptions);
+  }
+
+  getAllRecommendedFriends(page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/recommended-friends?page=${page}&size=${size}`);
   }
 }
