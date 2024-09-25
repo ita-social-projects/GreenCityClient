@@ -7,6 +7,9 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { HabitInterface, HabitItemInterface, HabitListFriendsInterface, HabitListInterface }
+  from '@global-user/components/habit/models/interfaces/habit.interface';
+import { HabitService } from '@global-service/habit/habit.service';
 
 @Component({
   selector: 'app-friend-profile-dashboard',
@@ -27,26 +30,99 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   friendsList: FriendModel[] = [];
   mutualFriendsList: FriendModel[] = [];
   selectedIndex = 0;
-  userDashboardTab = UserDashboardTab;
   readonly absentContent = 'assets/img/noNews.svg';
+  friendHabitsList: HabitInterface[] = [];
+  mutualHabitsList: HabitInterface[] = [];
+  myAllHabitsList: HabitInterface[] = [];
+  private currentHabitPage = 0;
+  private currentHabitSize = 6;
 
   constructor(
     private userFriendsService: UserFriendsService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private userOnlineStatusService: UserOnlineStatusService
+    private userOnlineStatusService: UserOnlineStatusService,
+    private habitService: HabitService
   ) {}
 
   ngOnInit(): void {
     this.userId = +this.route.snapshot.params.userId;
     this.currentUserId = +this.route.snapshot.params.id;
     this.selectedIndex = +Object.values(UserDashboardTab).indexOf(this.route.snapshot.queryParams.tab);
-    this.isActiveInfinityScroll = this.selectedIndex === 3 || this.selectedIndex === 4;
+    this.isActiveInfinityScroll = this.selectedIndex === 2 || this.selectedIndex === 3 || this.selectedIndex === 4;
     this.getAllFriends(this.userId);
+    this.getAllFriendHabits();
+    this.getAllHabits();
     if (this.userId !== this.currentUserId) {
       this.getMutualFriends();
+      this.getMutualHabits();
     }
+  }
+
+  get isHabitsPresent(): boolean {
+    return this.friendHabitsList.length > 0;
+  }
+
+  get isMutualHabitsPresent(): boolean {
+    return this.mutualHabitsList.length > 0;
+  }
+
+  get isAllHabitsListPresent(): boolean {
+    return this.myAllHabitsList.length > 0;
+  }
+
+  private getMutualHabits(): void {
+    this.habitService
+      .getMutualHabits(this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: HabitListFriendsInterface) => {
+          this.mutualHabitsList = res.page.map(this.mapHabitItemToHabit);
+          this.scroll = false;
+          this.isFetching = false;
+        }
+      });
+  }
+
+  private getAllHabits(): void {
+    this.isFetching = true;
+    this.habitService
+      .getAllHabits(this.currentHabitPage, this.currentHabitSize)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: HabitListInterface) => {
+          this.myAllHabitsList = [...this.myAllHabitsList, ...res.page];
+          this.scroll = false;
+          this.isFetching = false;
+        }
+      });
+  }
+
+  private getAllFriendHabits(): void {
+    this.habitService
+      .getAllFriendHabits(this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: HabitListFriendsInterface) => {
+          this.friendHabitsList = res.page.map(this.mapHabitItemToHabit);
+          this.scroll = false;
+          this.isFetching = false;
+        }
+      });
+  }
+
+  private mapHabitItemToHabit(item: HabitItemInterface): HabitInterface {
+    return {
+      id: item.habit.id,
+      image: item.habit.image,
+      habitTranslation: item.habit.habitTranslation,
+      defaultDuration: item.duration,
+      amountAcquiredUsers: 0,
+      isCustomHabit: false,
+      usersIdWhoCreatedCustomHabit: 0,
+      tags: []
+    };
   }
 
   private getAllFriends(id: number, page?: number): void {
@@ -93,6 +169,11 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
       this.scroll = true;
       this.currentMutualPage += 1;
       this.getMutualFriends(this.currentMutualPage);
+    }
+    if (this.selectedIndex === 2 && !this.scroll) {
+      this.scroll = true;
+      this.currentHabitPage += 1;
+      this.getAllHabits();
     }
   }
 
