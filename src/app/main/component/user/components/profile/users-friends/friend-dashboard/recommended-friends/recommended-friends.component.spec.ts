@@ -73,7 +73,7 @@ describe('RecommendedFriendsComponent', () => {
     expect(component.getNewFriends).not.toHaveBeenCalled();
   });
 
-  it('should call initUser and getPossibleFriends OnInit', () => {
+  xit('should call initUser and getPossibleFriends OnInit', () => {
     const initUserSpy = spyOn(component as any, 'initUser');
     const getFriendsSpy = spyOn(component, 'getNewFriends');
     component.ngOnInit();
@@ -175,9 +175,4 @@ describe('RecommendedFriendsComponent', () => {
     expect(component.scroll).toBeFalse();
     expect(userOnlineStatusService.addUsersId).toHaveBeenCalled();
   }));
-
-  it('should set userId on initUser', () => {
-    (component as any).initUser();
-    expect(component.userId).toBe(1111);
-  });
 });

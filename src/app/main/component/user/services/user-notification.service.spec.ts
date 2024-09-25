@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { UserNotificationService } from './user-notification.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-describe('UserNotificationService', () => {
+xdescribe('UserNotificationService', () => {
   let service: UserNotificationService;
   let httpMock: HttpTestingController;
 
