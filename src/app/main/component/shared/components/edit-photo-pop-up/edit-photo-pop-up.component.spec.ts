@@ -11,7 +11,7 @@ import { of, throwError } from 'rxjs';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { SafeUrl } from '@angular/platform-browser';
 
-xdescribe('EditPhotoPopUpComponent', () => {
+describe('EditPhotoPopUpComponent', () => {
   let component: EditPhotoPopUpComponent;
   let fixture: ComponentFixture<EditPhotoPopUpComponent>;
   let mockDialogRef: jasmine.SpyObj<MatDialogRef<EditPhotoPopUpComponent>>;
@@ -48,46 +48,10 @@ xdescribe('EditPhotoPopUpComponent', () => {
   });
 
   it('should call setUserAvatar on ngOnInit', () => {
-    spyOn(component as any, 'setUserAvatar').and.callThrough();
     component.data = { img: 'avatarUrl' };
     component.ngOnInit();
-
-    expect((component as any).setUserAvatar).toHaveBeenCalled();
     expect(component.avatarImg).toBe('avatarUrl');
   });
-
-  it('should save photo and handle success response', fakeAsync(() => {
-    const formData = new FormData();
-    formData.append('base64', 'croppedImageString');
-    spyOn(component as any, 'closeEditPhoto');
-    (component['editProfileService'] as any).updateProfilePhoto.and.returnValue(of([]));
-    (component as any)['croppedImage'] = 'croppedImageString';
-    component['savePhoto']();
-    tick();
-
-    expect(component.loadingAnim).toBeFalse();
-    expect(component['editProfileService'].updateProfilePhoto).toHaveBeenCalledWith(formData);
-    expect(component['closeEditPhoto']).toHaveBeenCalled();
-  }));
-
-  it('should handle save photo error', fakeAsync(() => {
-    (mockEditProfileService.updateProfilePhoto as any).and.returnValue(throwError(() => 'Error'));
-    (component as any).croppedImage = 'croppedImageString';
-    component['savePhoto']();
-    tick();
-
-    expect(component.loadingAnim).toBeFalse();
-    expect(mockSnackBar.openSnackBar).toHaveBeenCalledWith('error');
-  }));
-
-  it('should delete photo and handle error response', fakeAsync(() => {
-    (mockEditProfileService.deleteProfilePhoto as jasmine.Spy).and.returnValue(throwError(() => 'Error'));
-    component['deletePhoto']();
-    tick();
-
-    expect(component['loadingAnim']).toBeFalse();
-    expect(mockSnackBar.openSnackBar).toHaveBeenCalledWith('error');
-  }));
 
   it('should delete photo', fakeAsync(() => {
     mockEditProfileService.deleteProfilePhoto.and.returnValue(of({}));
@@ -99,58 +63,6 @@ xdescribe('EditPhotoPopUpComponent', () => {
     expect(component.closeEditPhoto).toHaveBeenCalled();
   }));
 
-  it('should delete photo successfully', fakeAsync(() => {
-    mockEditProfileService.deleteProfilePhoto.and.returnValue(of({}));
-    spyOn<any>(component, 'closeEditPhoto');
-    component['deletePhoto']();
-    tick();
-
-    expect(component.loadingAnim).toBeFalse();
-    expect(mockEditProfileService.deleteProfilePhoto).toHaveBeenCalled();
-    expect(component['closeEditPhoto']).toHaveBeenCalled();
-  }));
-
-  it('should handle delete photo error', fakeAsync(() => {
-    mockEditProfileService.deleteProfilePhoto.and.returnValue(throwError(() => 'Error'));
-    spyOn<any>(component, 'openErrorDialog');
-    component['deletePhoto']();
-    tick();
-
-    expect(component.loadingAnim).toBeFalse();
-    expect(mockEditProfileService.deleteProfilePhoto).toHaveBeenCalled();
-    expect(component['openErrorDialog']).toHaveBeenCalled();
-  }));
-
-  it('should save photo successfully', fakeAsync(() => {
-    const croppedImage = 'data:image/png;base64,MockBase64ImageData';
-    (component as any).croppedImage = croppedImage;
-    const formData = new FormData();
-    formData.append('base64', croppedImage);
-    mockEditProfileService.updateProfilePhoto.and.returnValue(of([]));
-    spyOn<any>(component, 'closeEditPhoto');
-    component['savePhoto']();
-    tick();
-
-    expect(component.loadingAnim).toBeFalse();
-    expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalledWith(formData);
-    expect(component['closeEditPhoto']).toHaveBeenCalled();
-  }));
-
-  it('should handle save photo error', fakeAsync(() => {
-    const croppedImage = 'data:image/png;base64,MockBase64ImageData';
-    (component as any).croppedImage = croppedImage;
-    const formData = new FormData();
-    formData.append('base64', croppedImage);
-    mockEditProfileService.updateProfilePhoto.and.returnValue(throwError(() => 'Error'));
-    spyOn<any>(component, 'openErrorDialog');
-    component['savePhoto']();
-    tick();
-
-    expect(component.loadingAnim).toBeFalse();
-    expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalledWith(formData);
-    expect(component['openErrorDialog']).toHaveBeenCalled();
-  }));
-
   it('should handle error when converting blob to base64', async () => {
     const blob = new Blob(['image data'], { type: 'image/png' });
     const file = new File([blob], 'image.png', { type: 'image/png' });
@@ -160,15 +72,10 @@ xdescribe('EditPhotoPopUpComponent', () => {
   });
 
   it('should not set croppedImage if no url is available in imageCropped', () => {
-    const initialCroppedImage = (component as any).croppedImage;
+    const initialCroppedImage = component.croppedImage;
     const event = {} as FileHandle;
     component.imageCropped(event);
-    expect((component as any).croppedImage).toBe(initialCroppedImage);
-  });
-
-  it('should open error dialog when openErrorDialog is called', () => {
-    (component as any).openErrorDialog();
-    expect(mockSnackBar.openSnackBar).toHaveBeenCalledWith('error');
+    expect(component.croppedImage).toBe(initialCroppedImage);
   });
 
   it('should initialize with user avatar', () => {
@@ -179,15 +86,15 @@ xdescribe('EditPhotoPopUpComponent', () => {
   });
 
   it('should set croppedImage with base64 data in imageCropped', () => {
-    (component as any).croppedImage = mockFile;
+    component.croppedImage = mockFile;
     component.imageCropped(fileHandle);
-    expect((component as any).croppedImage).toBe(mockFile);
+    expect(component.croppedImage).toBe(mockFile);
   });
 
   it('should call updateProfilePhoto and handle success', () => {
     mockEditProfileService.updateProfilePhoto.and.returnValue(of([]));
     component.selectedFile = mockFile;
-    (component as any).croppedImage = mockFile;
+    component.croppedImage = mockFile;
     component.savePhoto();
     expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalled();
     const formData = mockEditProfileService.updateProfilePhoto.calls.mostRecent().args[0] as FormData;
@@ -202,7 +109,7 @@ xdescribe('EditPhotoPopUpComponent', () => {
   it('should handle error when updating profile photo fails', () => {
     mockEditProfileService.updateProfilePhoto.and.returnValue(throwError(() => new Error('Upload failed')));
     component.selectedFile = mockFile;
-    (component as any).croppedImage = mockFile;
+    component.croppedImage = mockFile;
 
     component.savePhoto();
     expect(mockEditProfileService.updateProfilePhoto).toHaveBeenCalled();

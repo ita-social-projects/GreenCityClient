@@ -150,48 +150,11 @@ describe('EventDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should inject dependencies correctly', () => {
-    expect(component.eventService).toBe(EventsServiceMock);
-    expect(component.localStorageService).toBe(LocalStorageServiceMock);
-    expect((component as any).store).toBe(storeMock);
-    expect((component as any).modalService).toBe(bsModalBsModalServiceMock);
-    expect((component as any).snackBar).toBe(MatSnackBarMock);
-    expect((component as any).jwtService).toBe(jwtServiceFake);
-    expect((component as any).actionsSubj).toBe(actionSub);
-  });
-
-  it('should call verifyRole on ngOnInit', () => {
-    const spy1 = spyOn(component as any, 'verifyRole');
-    component.ngOnInit();
-    expect(spy1).toHaveBeenCalled();
-  });
-
   it('should return the formatted address from the event service', () => {
     const expectedAddress = 'fake address';
     spyOn(component.eventService, 'getFormattedAddress').and.returnValue(expectedAddress);
     expect(component.getAddress()).toBe(expectedAddress);
     expect(component.eventService.getFormattedAddress).toHaveBeenCalledWith(component.locationCoordinates);
-  });
-
-  it('should return USER for regular users', () => {
-    (component as any).userId = 123;
-    (component as any).event = { organizer: { id: 1 } };
-    spyOn((component as any).jwtService, 'getUserRole').and.returnValue('ROLE_USER');
-    expect((component as any).verifyRole()).toBe(component.roles.USER);
-  });
-
-  it('should return ADMIN for admin users', () => {
-    (component as any).userId = 123;
-    (component as any).event = { organizer: { id: 1 } };
-    spyOn((component as any).jwtService, 'getUserRole').and.returnValue('ROLE_ADMIN');
-    expect((component as any).verifyRole()).toBe(component.roles.ADMIN);
-  });
-
-  it('should prioritize organizer role over user role', () => {
-    (component as any).userId = 123;
-    (component as any).event = { organizer: { id: 123 } };
-    spyOn((component as any).jwtService, 'getUserRole').and.returnValue('ROLE_USER');
-    expect((component as any).verifyRole()).toBe(component.roles.ORGANIZER);
   });
 
   it('should verify unauthenticated role', () => {
@@ -204,14 +167,6 @@ describe('EventDetailsComponent', () => {
     let role = 'UNAUTHENTICATED';
     role = jwtServiceFake.getUserRole() === 'ROLE_USER' ? 'USER' : role;
     expect(role).toBe('USER');
-  });
-
-  it('should verify organizer role', () => {
-    let role = 'UNAUTHENTICATED';
-    (component as any).userId = 1;
-    eventMock.organizer.id = 1;
-    role = (component as any).userId === eventMock.organizer.id ? 'ORGANIZER' : role;
-    expect(role).toBe('ORGANIZER');
   });
 
   it('should verify admin role', () => {

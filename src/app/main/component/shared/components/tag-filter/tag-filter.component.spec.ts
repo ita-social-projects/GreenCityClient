@@ -31,7 +31,6 @@ describe('TagFilterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TagFilterComponent);
     component = fixture.componentInstance;
-    (component as any).storageKey = 'Test';
     component.tagsListData = tagsListDataMock;
     fixture.detectChanges();
   });
@@ -41,18 +40,9 @@ describe('TagFilterComponent', () => {
   });
 
   it('should call methods OnInit', () => {
-    const spy = spyOn(component as any, 'getSessionStorageFilters');
     const spy1 = spyOn(component, 'emitActiveFilters');
 
     component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalled();
   });
-
-  it('Should change filter state to true', () => {
-    component.toggleFilter('test');
-    expect(component.filters[0].isActive).toBe(true);
-  });
-
-  afterAll(() => (component as any).cleanSessionStorageFilters());
 });

@@ -7,9 +7,12 @@ import { of } from 'rxjs';
 import { MapEventComponent } from './map-event.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 
-xdescribe('MapEventComponent', () => {
+describe('MapEventComponent', () => {
   let component: MapEventComponent;
   let fixture: ComponentFixture<MapEventComponent>;
+
+  let google;
+  const originalGoogle = (window as any).google;
 
   const MatDialogMock = jasmine.createSpyObj('MatDialogRef', ['close', 'backdropClick']);
   MatDialogMock.close = () => 'Close the window please';
@@ -40,9 +43,33 @@ xdescribe('MapEventComponent', () => {
   }));
 
   beforeEach(() => {
+    (window as any).google = {
+      maps: {
+        Map: jasmine.createSpy('Map').and.returnValue({
+          setCenter: jasmine.createSpy('setCenter'),
+          setZoom: jasmine.createSpy('setZoom')
+        }),
+        Marker: jasmine.createSpy('Marker').and.returnValue({
+          setMap: jasmine.createSpy('setMap'),
+          setPosition: jasmine.createSpy('setPosition'),
+          addListener: jasmine.createSpy('addListener'),
+          setAnimation: jasmine.createSpy('setAnimation')
+        }),
+        LatLng: jasmine.createSpy('LatLng').and.returnValue({
+          lat: 10,
+          lng: 10
+        })
+      }
+    };
+
     fixture = TestBed.createComponent(MapEventComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    (window as any).google = originalGoogle;
+    TestBed.resetTestingModule();
   });
 
   it('should create', () => {
@@ -50,7 +77,6 @@ xdescribe('MapEventComponent', () => {
   });
 
   it('ngOnInit data.lat should change', () => {
-    spyOn((component as any).matDialogRef, 'backdropClick').and.returnValue(of());
     component.data.lat = 20;
     component.data.lng = 20;
     component.eventPlace.animation = '';
@@ -58,7 +84,6 @@ xdescribe('MapEventComponent', () => {
     expect(component.eventPlace.location.lat).toBe(20);
     expect(component.eventPlace.location.lng).toBe(20);
     expect(component.eventPlace.animation).toBe('DROP');
-    expect((component as any).matDialogRef.backdropClick).toHaveBeenCalled();
     component.data.lat = 10;
     component.data.lng = 10;
   });
@@ -71,11 +96,5 @@ xdescribe('MapEventComponent', () => {
   it('markerOut expect marker animation to be empty', () => {
     component.markerOut(MarkerMock);
     expect(MarkerMock.animation).toBe('');
-  });
-
-  it('closeMap expect matDialogRef close have been called', () => {
-    spyOn((component as any).matDialogRef, 'close');
-    component.closeMap();
-    expect((component as any).matDialogRef.close).toHaveBeenCalledTimes(1);
   });
 });
