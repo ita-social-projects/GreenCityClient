@@ -39,8 +39,8 @@ export class EventsService implements OnDestroy {
     return this.http.post<any>(`${this.backEnd}events`, formData);
   }
 
-  editEvent(formData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.backEnd}events/${formData.get('id')}`, formData);
+  editEvent(formData: FormData, eventId: number): Observable<any> {
+    return this.http.put<any>(`${this.backEnd}events/${eventId}`, formData);
   }
 
   getEvents(requestParams: HttpParams): Observable<EventResponseDto> {
@@ -59,28 +59,28 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventResponseDto>(`${this.backEnd}events?page=${page}&size=${quantity}&statuses=SAVED&user-id=${userId}`);
   }
 
-  getEventById(id: number): Observable<EventResponse> {
-    return this.http.get<EventResponse>(`${this.backEnd}events/${id}`);
+  getEventById(eventId: number): Observable<EventResponse> {
+    return this.http.get<EventResponse>(`${this.backEnd}events/${eventId}`);
   }
 
-  deleteEvent(id: number): Observable<any> {
-    return this.http.delete(`${this.backEnd}events/${id}`);
+  deleteEvent(eventId: number): Observable<any> {
+    return this.http.delete(`${this.backEnd}events/${eventId}`);
   }
 
-  rateEvent(id: number, grade: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/${id}/rating/${grade}`, null);
+  rateEvent(eventId: number, grade: number): Observable<any> {
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/rating/${grade}`, null);
   }
 
-  addAttender(id: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/${id}/attenders`, { observe: 'response' });
+  addAttender(eventId: number): Observable<any> {
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/attenders`, { observe: 'response' });
   }
 
-  removeAttender(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.backEnd}events/${id}/attenders`);
+  removeAttender(eventId: number): Observable<any> {
+    return this.http.delete<any>(`${this.backEnd}events/${eventId}/attenders`);
   }
 
-  getAllAttendees(id: number): Observable<EventAttender[]> {
-    return this.http.get<any>(`${this.backEnd}events/${id}/attenders`);
+  getAllAttendees(eventId: number): Observable<EventAttender[]> {
+    return this.http.get<any>(`${this.backEnd}events/${eventId}/attenders`);
   }
 
   getFormattedAddress(coordinates: LocationResponse): string {

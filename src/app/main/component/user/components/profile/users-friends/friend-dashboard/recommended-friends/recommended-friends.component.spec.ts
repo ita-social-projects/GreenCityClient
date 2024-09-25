@@ -1,100 +1,183 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { TranslateModule } from '@ngx-translate/core';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { RecommendedFriendsComponent } from './recommended-friends.component';
-import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
+import { FIRSTFRIEND, FRIENDS, SECONDFRIEND } from '@global-user/mocks/friends-mock';
 import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { UsersCategOnlineStatus } from '@user-models/friend.model';
 
 describe('RecommendedFriendsComponent', () => {
   let component: RecommendedFriendsComponent;
   let fixture: ComponentFixture<RecommendedFriendsComponent>;
-  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
-  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  let userFriendsService: jasmine.SpyObj<UserFriendsService>;
+  let matSnackBar: jasmine.SpyObj<MatSnackBarComponent>;
+  let userOnlineStatusService: jasmine.SpyObj<UserOnlineStatusService>;
 
-  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = () => {};
-
-  const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', [
-    'getPossibleFriends',
-    'findNewFriendsByName',
-    'addFriend',
-    'getNewFriends'
-  ]);
-  userFriendsServiceMock.getNewFriends = () => of(FRIENDS);
-  userFriendsServiceMock.addFriend = (idFriend) => of(FIRSTFRIEND);
-
-  const userOnlineStatusServiceMock: UserOnlineStatusService = jasmine.createSpyObj('UserOnlineStatusService', [
-    'addUsersId',
-    'removeUsersId'
-  ]);
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    const userFriendsServiceSpy = jasmine.createSpyObj('UserFriendsService', [
+      'getNewFriends',
+      'getAllRecommendedFriends',
+      'removeFriendSubj$'
+    ]);
+    const localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+    const matSnackBarSpy = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+    const userOnlineStatusServiceSpy = jasmine.createSpyObj('UserOnlineStatusService', ['addUsersId', 'removeUsersId']);
+    await TestBed.configureTestingModule({
       declarations: [RecommendedFriendsComponent],
       providers: [
-        { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: UserFriendsService, useValue: userFriendsServiceMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: UserOnlineStatusService, useValue: userOnlineStatusServiceMock }
+        { provide: UserFriendsService, useValue: userFriendsServiceSpy },
+        { provide: LocalStorageService, useValue: localStorageServiceSpy },
+        { provide: MatSnackBarComponent, useValue: matSnackBarSpy },
+        {
+          provide: UserOnlineStatusService,
+          useValue: userOnlineStatusServiceSpy
+        }
       ],
-      imports: [
-        TranslateModule.forRoot(),
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([]),
-        MatSnackBarModule,
-        InfiniteScrollModule
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(RecommendedFriendsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    userFriendsService = TestBed.inject(UserFriendsService) as jasmine.SpyObj<UserFriendsService>;
+    matSnackBar = TestBed.inject(MatSnackBarComponent) as jasmine.SpyObj<MatSnackBarComponent>;
+    userOnlineStatusService = TestBed.inject(UserOnlineStatusService) as jasmine.SpyObj<UserOnlineStatusService>;
+    localStorageServiceSpy.userIdBehaviourSubject = new BehaviorSubject(1);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should handle user ID subscription and cleanup on ngOnDestroy', () => {
+    const removeUsersIdSpy = userOnlineStatusService.removeUsersId as jasmine.Spy;
+    component.ngOnDestroy();
+    expect(removeUsersIdSpy).toHaveBeenCalledWith(UsersCategOnlineStatus.recommendedFriends);
+  });
+
+  it('should handle scrolling', () => {
+    component.currentPage = 0;
+    component.totalPages = 2;
+    spyOn(component, 'getNewFriends');
+    component.onScroll();
+    expect(component.getNewFriends).toHaveBeenCalled();
+  });
+
+  it('should handle scrolling when max pages are reached', () => {
+    component.currentPage = 1;
+    component.totalPages = 2;
+    spyOn(component, 'getNewFriends');
+    component.onScroll();
+    expect(component.getNewFriends).not.toHaveBeenCalled();
+  });
+
   it('should call initUser and getPossibleFriends OnInit', () => {
+    const initUserSpy = spyOn(component as any, 'initUser');
     const getFriendsSpy = spyOn(component, 'getNewFriends');
     component.ngOnInit();
+    expect(initUserSpy).toHaveBeenCalledTimes(1);
     expect(getFriendsSpy).toHaveBeenCalled();
   });
 
-  it('should set values on findUserByName', () => {
-    component.findUserByName('A');
-    expect(component.totalPages).toBe(1);
-    expect(component.recommendedFriends).toEqual(FRIENDS.page);
-    expect(component.amountOfFriends).toBe(2);
-    expect(component.emptySearchList).toBeFalsy();
-    expect(component.isFetching).toBeFalsy();
-    expect(component.searchMode).toBeFalsy();
+  it('should fetch new friends and handle response', () => {
+    userFriendsService.getAllRecommendedFriends.and.returnValue(of(FRIENDS));
+    component.getNewFriends();
+    fixture.whenStable().then(() => {
+      expect(component.recommendedFriends).toEqual([FIRSTFRIEND, SECONDFRIEND]);
+      expect(component.totalPages).toBe(1);
+      expect(component.isFetching).toBe(false);
+    });
   });
 
-  it('should set values on getNewFriends', () => {
-    const recFriends = component.recommendedFriends.concat(FRIENDS.page);
-    component.getNewFriends(1);
-    expect(component.totalPages).toBe(1);
-    expect(component.recommendedFriends).toEqual(recFriends);
-    expect(component.emptySearchList).toBeFalsy();
-    expect(component.isFetching).toBeFalsy();
-    expect(component.scroll).toBeFalsy();
-  });
-
-  it('should call getFriends on scroll', () => {
-    const getRecommendedFriendSpy = spyOn(component, 'getNewFriends');
+  it('should handle scrolling when max pages are reached', () => {
+    component.currentPage = 1;
+    component.totalPages = 2;
+    spyOn(component, 'getNewFriends').and.callThrough();
     component.onScroll();
-    expect(getRecommendedFriendSpy).toHaveBeenCalled();
+    expect(component.getNewFriends).not.toHaveBeenCalled();
+  });
+
+  it('should handle search error', () => {
+    userFriendsService.getNewFriends.and.returnValue(throwError('error'));
+    component.findUserByName('Name');
+    fixture.whenStable().then(() => {
+      expect(matSnackBar.openSnackBar).toHaveBeenCalledWith('snack-bar.error.default');
+      expect(component.isFetching).toBe(false);
+      expect(component.searchMode).toBe(false);
+    });
+  });
+
+  it('should not call getNewFriends on scroll if already fetching or empty search list', fakeAsync(() => {
+    component.isFetching = true;
+    component.emptySearchList = false;
+    spyOn(component, 'getNewFriends').and.callThrough();
+    component.onScroll();
+    tick();
+    expect(component.getNewFriends).not.toHaveBeenCalled();
+
+    component.isFetching = false;
+    component.emptySearchList = true;
+    component.onScroll();
+    tick();
+    expect(component.getNewFriends).not.toHaveBeenCalled();
+  }));
+
+  it('should initialize with default values', () => {
+    expect(component.recommendedFriends).toEqual([]);
+    expect(component.recommendedFriendsBySearch).toEqual([]);
+    expect(component.userId).toBeUndefined();
+    expect(component.scroll).toBeFalse();
+    expect(component.currentPage).toBe(0);
+    expect(component.totalPages).toBeUndefined();
+    expect(component.amountOfFriends).toBeUndefined();
+    expect(component.isFetching).toBeFalse();
+    expect(component.emptySearchList).toBeFalse();
+    expect(component.sizePage).toBe(10);
+    expect(component.searchQuery).toBe('');
+    expect(component.searchMode).toBeFalse();
+  });
+
+  it('should not call getNewFriends on scroll if already fetching or empty search list', () => {
+    component.isFetching = true;
+    component.emptySearchList = false;
+    spyOn(component, 'getNewFriends').and.callThrough();
+    component.onScroll();
+    expect(component.getNewFriends).not.toHaveBeenCalled();
+    component.isFetching = false;
+    component.emptySearchList = true;
+    component.onScroll();
+    expect(component.getNewFriends).not.toHaveBeenCalled();
+  });
+
+  it('should handle search error', fakeAsync(() => {
+    const searchTerm = 'Name';
+    userFriendsService.getNewFriends.and.returnValue(throwError('error'));
+
+    component.findUserByName(searchTerm);
+    tick();
+
+    expect(component.isFetching).toBeFalse();
+    expect(component.searchMode).toBeFalse();
+    expect(matSnackBar.openSnackBar).toHaveBeenCalledWith('snack-bar.error.default');
+  }));
+
+  it('should fetch new friends and handle response', fakeAsync(() => {
+    userFriendsService.getAllRecommendedFriends.and.returnValue(of(FRIENDS));
+
+    component.getNewFriends();
+    tick();
+
+    expect(component.recommendedFriends).toEqual(FRIENDS.page);
+    expect(component.totalPages).toBe(FRIENDS.totalPages);
+    expect(component.isFetching).toBeFalse();
+    expect(component.scroll).toBeFalse();
+    expect(userOnlineStatusService.addUsersId).toHaveBeenCalled();
+  }));
+
+  it('should set userId on initUser', () => {
+    (component as any).initUser();
+    expect(component.userId).toBe(1111);
   });
 });
