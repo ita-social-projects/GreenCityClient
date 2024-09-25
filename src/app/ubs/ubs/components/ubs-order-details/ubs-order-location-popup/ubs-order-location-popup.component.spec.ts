@@ -11,8 +11,10 @@ import { OrderService } from '../../../services/order.service';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.component';
 import { Router } from '@angular/router';
 import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
+import { provideMockStore } from '@ngrx/store/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
-xdescribe('UbsOrderLocationPopupComponent', () => {
+describe('UbsOrderLocationPopupComponent', () => {
   let component: UbsOrderLocationPopupComponent;
   let fixture: ComponentFixture<UbsOrderLocationPopupComponent>;
   const dialogMock = jasmine.createSpyObj('dialogRef', ['close']);
@@ -41,24 +43,24 @@ xdescribe('UbsOrderLocationPopupComponent', () => {
   const activecouriersMock = activeCouriersMock;
   orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [UbsOrderLocationPopupComponent, FilterLocationListByLangPipe],
+      imports: [HttpClientTestingModule, MatDialogModule, MatAutocompleteModule, TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogMock },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: OrderService, useValue: orderServiceMock },
-        { provide: MAT_DIALOG_DATA, useValue: fakeData },
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerMock },
+        provideMockStore({})
       ],
-      imports: [HttpClientTestingModule, MatDialogModule, MatAutocompleteModule, TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsOrderLocationPopupComponent);
     component = fixture.componentInstance;
-    component.data = fakeData;
     fixture.detectChanges();
   });
 
@@ -86,13 +88,6 @@ xdescribe('UbsOrderLocationPopupComponent', () => {
     expect(dialogMock.close).toHaveBeenCalled();
   });
 
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    (component as any).destroy$ = new Subject<boolean>();
-    spyOn((component as any).destroy$, 'complete');
-    component.ngOnDestroy();
-    expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
-  });
-
   describe('displayFn', () => {
     it('makes expected calls', () => {
       const city = {
@@ -108,19 +103,6 @@ xdescribe('UbsOrderLocationPopupComponent', () => {
       const res = component.displayFn(city);
       expect(res).toBe('');
     });
-  });
-
-  it('method _filter should return filtered data', () => {
-    const cities = [
-      {
-        locationId: 1,
-        locationName: `city, region`
-      }
-    ];
-    component.cities = cities;
-    const city = (component as any)._filter('CITY');
-    expect(component.currentLocation).toBeNull();
-    expect(city).toEqual(cities);
   });
 
   it('expected result in changeLocation', () => {

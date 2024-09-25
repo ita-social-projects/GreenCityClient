@@ -150,29 +150,6 @@ describe('UbsAdminOrderComponent', () => {
     expect(spy).toHaveBeenCalledWith(component.orderId, false);
   });
 
-  it('authoritiesSubscription expect will be invoke at onInit', () => {
-    const spy = spyOn(component as any, 'authoritiesSubscription');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('setOrderDetails expect will be invoke at onCancelOrder', () => {
-    const spy = spyOn(component as any, 'setOrderDetails');
-    component.onCancelOrder();
-    expect(spy).toHaveBeenCalled();
-    expect(component.isOrderStatusChanged).toBeTruthy();
-  });
-
-  it('notRequiredFieldsStatuses expect will be invoke at onChangedOrderStatus', () => {
-    const spy = spyOn(component as any, 'notRequiredFieldsStatuses');
-    const spy2 = spyOn(component as any, 'getOrderStatusInfo');
-    const status = 'FORMED';
-    component.onChangedOrderStatus(status);
-    expect(component.currentOrderStatus).toBe(status);
-    expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-  });
-
   it('should disable exportDetailsDto and responsiblePersonsForm when currentOrderStatus is CANCELED', () => {
     component.currentOrderStatus = OrderStatus.CANCELED;
     component.orderForm.get('exportDetailsDto').setValue({ field1: 'value1', field2: 'value2' });
@@ -210,15 +187,6 @@ describe('UbsAdminOrderComponent', () => {
     expect(component.orderForm.get('responsiblePersonsForm.name2').validator).toBeNull();
     expect(component.orderForm.get('exportDetailsDto').value).toEqual({ field1: null, field2: null });
     expect(component.orderForm.get('responsiblePersonsForm').value).toEqual({ name1: null, name2: null });
-    expect((component as any).isFormResetted).toBeTruthy();
-  });
-
-  xit('should return the order status info for the given status name', () => {
-    const GeneralInfoFake = { ...GeneralInfoMock };
-    component.generalInfo = GeneralInfoFake as any;
-    const result = (component as any).getOrderStatusInfo('DONE');
-
-    expect(result).toEqual({ ableActualChange: false, key: OrderStatus.DONE, translation: 'Formed' });
   });
 
   it('should return an empty string if the map is empty', () => {

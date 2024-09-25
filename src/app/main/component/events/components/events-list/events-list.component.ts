@@ -330,6 +330,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private searchEventsByTitle(searchTitle: string): void {
+    if (this.searchResultSubscription) {
+      this.searchResultSubscription.unsubscribe();
+    }
+
     this.searchResultSubscription = this.eventService.getEvents(this.getEventsHttpParams(searchTitle)).subscribe((res) => {
       this.isLoading = false;
       if (res.page.length > 0) {
@@ -392,15 +396,27 @@ export class EventsListComponent implements OnInit, OnDestroy {
     let params = new HttpParams().append('page', this.page.toString()).append('size', this.eventsPerPage.toString());
 
     const paramsToAdd = [
+      this.appendIfNotEmpty('user-id', this.userId.toString()),
       this.appendIfNotEmpty('title', title),
       this.appendIfNotEmpty('type', this.selectedLocationFiltersList.find((city) => city === 'Online') || ''),
       this.appendIfNotEmpty(
         'cities',
-        this.selectedLocationFiltersList.filter((city) => city !== 'Online')
+        this.selectedLocationFiltersList.filter((city) => city !== 'Online' && city !== 'Select All' && city !== 'Обрати всі')
       ),
-      this.appendIfNotEmpty('time', this.selectedEventTimeStatusFiltersList),
-      this.appendIfNotEmpty('statuses', this.selectedStatusFiltersList),
-      this.appendIfNotEmpty('tags', this.selectedTypeFiltersList)
+      this.appendIfNotEmpty(
+        'time',
+        this.selectedEventTimeStatusFiltersList.filter(
+          (time) => time !== 'Any time' && time !== 'Будь-який' && this.selectedEventTimeStatusFiltersList.length < 2
+        )
+      ),
+      this.appendIfNotEmpty(
+        'statuses',
+        this.selectedStatusFiltersList.filter((status) => status !== 'Any status' && status !== 'Будь-який статус')
+      ),
+      this.appendIfNotEmpty(
+        'tags',
+        this.selectedTypeFiltersList.filter((type) => type !== 'All types' && type !== 'Всі типи')
+      )
     ];
 
     paramsToAdd.filter((param) => param !== null).forEach((param) => (params = params.append(param.key, param.value)));

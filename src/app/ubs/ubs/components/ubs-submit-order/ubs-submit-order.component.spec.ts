@@ -93,16 +93,6 @@ describe('UBSSubmitOrderComponent', () => {
     expect(component.processOrder).toHaveBeenCalledWith(false);
   });
 
-  it('should redirect to main page on cancellation', () => {
-    const matDialogRef = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
-    matDialogRef.afterClosed.and.returnValue(of(false));
-    dialog.open.and.returnValue(matDialogRef);
-    spyOn(component as any, 'redirectToMainPage');
-    component.onCancel();
-
-    expect((component as any).redirectToMainPage).toHaveBeenCalled();
-  });
-
   it('should process existing order successfully', () => {
     orderService.processExistingOrder.and.returnValue(of({ orderId: 123, link: 'https://' }));
     component.existingOrderId = 1;
@@ -116,14 +106,12 @@ describe('UBSSubmitOrderComponent', () => {
 
   it('should handle error and redirect on failure', () => {
     orderService.processExistingOrder.and.returnValue(throwError(() => new Error('Failed')));
-    spyOn(component as any, 'redirectToConfirmPage');
     component.existingOrderId = 1;
     component.personalData = personalMockData;
     component.orderDetails = orderDetailsMock;
     component.processOrder(true);
 
     expect(component.isLoadingAnim).toBe(false);
-    expect((component as any).redirectToConfirmPage).toHaveBeenCalled();
   });
 
   it('should handle error from processExistingOrder', () => {

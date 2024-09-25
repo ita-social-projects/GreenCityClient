@@ -35,20 +35,23 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
     private userOnlineStatusService: UserOnlineStatusService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initUser();
-    this.getNewFriends(this.currentPage);
+    this.getNewFriends();
+    this.userFriendsService.removeFriendSubj$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      this.onScroll();
+    });
   }
 
-  findUserByName(value: string) {
+  findUserByName(value: string): void {
     this.searchQuery = value;
     this.isFetching = true;
     this.searchMode = true;
     this.userFriendsService
       .getNewFriends(value)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (data: FriendArrayModel) => {
+      .subscribe({
+        next: (data: FriendArrayModel) => {
           this.emptySearchList = !data.page.length;
           this.recommendedFriendsBySearch = data.page;
           this.userOnlineStatusService.removeUsersId(UsersCategOnlineStatus.recommendedFriends);
@@ -60,36 +63,27 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
           this.isFetching = false;
           this.searchMode = false;
         },
-        (error) => {
+        error: () => {
           this.matSnackBar.openSnackBar('snack-bar.error.default');
           this.isFetching = false;
           this.searchMode = false;
         }
-      );
+      });
   }
 
-  getNewFriends(currentPage: number) {
+  getNewFriends(): void {
     this.isFetching = true;
-    this.userFriendsService
-      .getNewFriends('', currentPage)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (data: FriendArrayModel) => {
-          this.totalPages = data.totalPages;
-          this.recommendedFriends = this.recommendedFriends.concat(data.page);
-          this.userOnlineStatusService.addUsersId(
-            UsersCategOnlineStatus.recommendedFriends,
-            data.page.map((el) => el.id)
-          );
-          this.emptySearchList = false;
-          this.isFetching = false;
-          this.scroll = false;
-        },
-        (error) => {
-          this.matSnackBar.openSnackBar('snack-bar.error.default');
-          this.isFetching = false;
-        }
+    this.userFriendsService.getAllRecommendedFriends(this.currentPage, this.sizePage).subscribe((data: FriendArrayModel) => {
+      this.recommendedFriends = [...this.recommendedFriends, ...data.page];
+      this.totalPages = data.totalPages;
+      this.userOnlineStatusService.addUsersId(
+        UsersCategOnlineStatus.recommendedFriends,
+        data.page.map((el) => el.id)
       );
+      this.emptySearchList = false;
+      this.isFetching = false;
+      this.scroll = false;
+    });
   }
 
   onScroll(): void {
@@ -97,9 +91,10 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       return;
     }
     this.scroll = true;
-    if (this.currentPage < this.totalPages) {
+
+    if (this.currentPage < this.totalPages - 1) {
       this.currentPage += 1;
-      this.getNewFriends(this.currentPage);
+      this.getNewFriends();
     }
   }
 

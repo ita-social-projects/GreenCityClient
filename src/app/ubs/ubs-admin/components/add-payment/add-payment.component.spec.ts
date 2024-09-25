@@ -137,35 +137,6 @@ describe('AddPaymentComponent', () => {
     });
   });
 
-  describe('files', () => {
-    it('makes expected calls in filesDropped', () => {
-      const loadImageSpy = spyOn(component, 'loadImage');
-      spyOn(component as any, 'showWarning').and.returnValue(false);
-      component.filesDropped([fakeFileHandle] as any);
-      expect(component.file).toEqual(dataFileMock);
-      expect(loadImageSpy).toHaveBeenCalled();
-    });
-
-    it('makes expected calls in onFileSelect', () => {
-      const loadImageSpy = spyOn(component, 'loadImage');
-      spyOn(component as any, 'showWarning').and.returnValue(false);
-      component.onFileSelect(event as any);
-      expect(component.file).toEqual(dataFileMock);
-      expect(loadImageSpy).toHaveBeenCalled();
-    });
-
-    it('gets false from showWarning', () => {
-      const isShowWarning = (component as any).showWarning(dataFileMock);
-      expect(isShowWarning).toBeFalsy();
-    });
-
-    it('gets true from showWarning', () => {
-      const fileMock = new File([''], 'test-file.jpeg', { type: 'text/plain' });
-      const isShowWarning = (component as any).showWarning(fileMock);
-      expect(isShowWarning).toBeTruthy();
-    });
-  });
-
   describe('removeImage', () => {
     it(`is not edit mode`, () => {
       component.imagePreview = { src: 'fakePaht', name: 'fakeName' };

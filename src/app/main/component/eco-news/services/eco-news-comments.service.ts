@@ -22,7 +22,7 @@ export class EcoNewsCommentsService implements CommentsService {
 
   getActiveCommentsByPage(ecoNewsId: number, page: number, size: number): Observable<CommentsModel> {
     return this.http.get<EcoNewsCommentsModel>(
-      `${this.backEnd}eco-news/${ecoNewsId}/comments?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`
+      `${this.backEnd}eco-news/${ecoNewsId}/comments/active?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`
     );
   }
 
@@ -32,13 +32,13 @@ export class EcoNewsCommentsService implements CommentsService {
 
   getActiveRepliesByPage(ecoNewsId: number, parentCommentId: number, page: number, size: number): Observable<CommentsModel> {
     return this.http.get<EcoNewsCommentsModel>(
-      `${this.backEnd}eco-news/${ecoNewsId}/comments/${parentCommentId}/replies?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`
+      `${this.backEnd}eco-news/${ecoNewsId}/comments/${parentCommentId}/replies/active?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`
     );
   }
 
   deleteComments(ecoNewsId: number, parentCommentId: number) {
     return this.http
-      .delete<object>(`${this.backEnd}eco-news/${ecoNewsId}/comments/${parentCommentId}`, { observe: 'response' })
+      .delete<object>(`${this.backEnd}eco-news/comments/${ecoNewsId}`, { observe: 'response' })
       .pipe(map((response) => response.status >= 200 && response.status < 300));
   }
 
@@ -47,14 +47,14 @@ export class EcoNewsCommentsService implements CommentsService {
   }
 
   getRepliesAmount(ecoNewsId: number, parentCommentId: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}eco-news/${ecoNewsId}/comments/${parentCommentId}/replies/count`);
+    return this.http.get<number>(`${this.backEnd}eco-news/${ecoNewsId}/comments/${parentCommentId}/replies/active/count`);
   }
 
   postLike(ecoNewsId: number, commentId: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}eco-news/${ecoNewsId}/comments/${commentId}/likes`, {});
+    return this.http.post<void>(`${this.backEnd}eco-news/comments/like?commentId=${commentId}`, {});
   }
 
   editComment(ecoNewsId: number, commentId: number, text: string): Observable<void> {
-    return this.http.put<void>(`${this.backEnd}eco-news/${ecoNewsId}/comments/${commentId}`, text);
+    return this.http.patch<void>(`${this.backEnd}eco-news/comments?commentId=${commentId}`, text);
   }
 }

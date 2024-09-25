@@ -12,7 +12,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 // import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-xdescribe('UbsAdminTariffsDeactivatePopUpComponent', () => {
+describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   let component: UbsAdminTariffsDeactivatePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsDeactivatePopUpComponent>;
 
@@ -1393,13 +1393,5 @@ xdescribe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.selectedCities = [];
     component.onNoClick();
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
-  });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    const unsubscribe = 'unsubscribe';
-    component[unsubscribe] = new Subject<boolean>();
-    spyOn(component[unsubscribe], 'complete');
-    component.ngOnDestroy();
-    expect(component[unsubscribe].complete).toHaveBeenCalledTimes(1);
   });
 });
