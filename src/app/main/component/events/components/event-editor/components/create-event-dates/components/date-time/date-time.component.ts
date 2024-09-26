@@ -53,20 +53,20 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   private _timeArr: string[] = [];
   private _upperTimeLimit = 0;
   private _lowerTimeLimit: number = this._timeArr.length - 1;
-  private _subscriptions: Subscription[] = [];
+  private readonly _subscriptions: Subscription[] = [];
   private _indexStartTime: number;
   private _indexEndTime: number;
   private _checkedAllDay = false;
   private _lastTimeValues: string[] = [];
-  private _key = Symbol('dateKey');
+  private readonly _key = Symbol('dateKey');
 
   form: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
-    private bridge: FormBridgeService,
-    private ls: LanguageService,
-    private adapter: DateAdapter<any>
+    private readonly fb: FormBuilder,
+    private readonly bridge: FormBridgeService,
+    private readonly ls: LanguageService,
+    private readonly adapter: DateAdapter<any>
   ) {
     this.form = this.fb.group({
       date: [moment(this.today), [Validators.required, this.dateValidator]],
