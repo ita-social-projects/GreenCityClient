@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
-import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
-import { IPaymentInfoDto } from '../../models/ubs-admin.interface';
-import { OrderService } from '../../services/order.service';
+import { FormBuilder } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Store, StoreModule } from '@ngrx/store';
-import { OrderInfoMockedData, IPaymentInfoDtoMock } from './../../services/orderInfoMock';
-import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
-import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { TranslateModule } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
-import { HttpClient } from '@angular/common/http';
-import { SimpleChange } from '@angular/core';
+import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { IPaymentInfoDto } from '../../models/ubs-admin.interface';
+import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
+import { OrderInfoMockedData } from './../../services/orderInfoMock';
+import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
 
 describe('UbsAdminOrderPaymentComponent', () => {
   let component: UbsAdminOrderPaymentComponent;
@@ -68,7 +67,10 @@ describe('UbsAdminOrderPaymentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminOrderPaymentComponent);
     component = fixture.componentInstance;
-    component.orderInfo = fakeOrderInfo;
+    const formBuilder: FormBuilder = TestBed.inject(FormBuilder);
+    component.orderForm = formBuilder.group({
+      someControl: ['']
+    });
     component.paymentsArray = fakeOrderInfo.paymentTableInfoDto.paymentInfoDtos;
     component.orderStatus = 'Formed';
     component.pageOpen = false;
@@ -80,31 +82,18 @@ describe('UbsAdminOrderPaymentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('life cycle hook ngOnInit', () => {
-    const spy = spyOn(component, 'setDateInPaymentArray');
-    const spy2 = spyOn(component, 'positivePaymentsArrayAmount');
-    component.ngOnInit();
-    const sumDiscount = component.orderInfo.orderBonusDiscount + component.orderInfo.orderCertificateTotalDiscount;
-    expect(component.orderId).toBe(1);
-    expect(component.paymentInfo).toBe(fakeOrderInfo.paymentTableInfoDto);
-    expect(component.paymentsArray).toBe(fakeOrderInfo.paymentTableInfoDto.paymentInfoDtos);
-    expect(component.paymentInfo).toBe(fakeOrderInfo.paymentTableInfoDto);
-    expect(component.paidAmount).toBe(component.paymentInfo.paidAmount);
-    expect(component.unPaidAmount).toBe(component.paymentInfo.unPaidAmount);
-    expect(component.currentOrderStatus).toBe('Formed');
-    expect(component.overpayment).toBe(component.paymentInfo.overpayment);
-    expect(sumDiscount).toBe(0);
-    expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-  });
-
   it('method formatDate', () => {
     expect(component.formatDate('2020-07-02')).toBe('02.07.2020');
   });
 
   it('method setDateInPaymentArray', () => {
     const fakeSettlementdateArray: string[] = ['2022-02-01', '2022-08-22', '2020-02-18'];
-    component.setDateInPaymentArray(component.paymentsArray);
+    component.paymentsArray = [
+      { id: 0, currentDate: '2022-02-01', amount: 0, settlementdate: '2022-02-01', receiptLink: '' },
+      { id: 1, currentDate: '2022-08-22', amount: 0, settlementdate: '2022-08-22', receiptLink: '' },
+      { id: 2, currentDate: '2020-02-18', amount: 0, settlementdate: '2020-02-18', receiptLink: '' }
+    ];
+    component.setDateInPaymentArray();
     for (let i = 0; i < component.paymentsArray.length; i++) {
       expect(component.paymentsArray[i].settlementdate).toBe(component.formatDate(fakeSettlementdateArray[i]));
     }
@@ -117,24 +106,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
     expect(component.pageOpen).toBe(true);
   });
 
-  it('method recountUnpaidAmount', () => {
-    component.recountUnpaidAmount(200);
-    expect(component.unPaidAmount).toBe(450);
-    component.recountUnpaidAmount(1000);
-    expect(component.unPaidAmount).toBe(0);
-  });
-
-  it('method setOverpayment', () => {
-    const fakeModuleOverPayment = Math.abs(component.overpayment);
-    component.setOverpayment(component.overpayment);
-
-    expect(orderServiceMock.getOverpaymentMsg).toHaveBeenCalledWith(component.overpayment);
-    expect(component.overpayment).toBe(fakeModuleOverPayment);
-  });
-
   it('method returnMoney', () => {
-    const orderId = 137;
-    component.returnMoney(orderId);
+    component.returnMoney();
     expect(matDialogMock.open).toHaveBeenCalled();
     expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, {
       hasBackdrop: true,
@@ -148,7 +121,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
   it('method openPopup', () => {
     const viewMode = true;
     const paymentIndex = 3;
-    component.openPopup(viewMode);
+    component.orderId = 1;
+    component.openPopup(true);
     expect(matDialogMock.open).toHaveBeenCalled();
     expect(matDialogMock.open).toHaveBeenCalledWith(AddPaymentComponent, {
       hasBackdrop: true,
@@ -167,7 +141,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
 
   it('method isOverpaymentReturnAvailable', () => {
     expect(component.isOverpaymentReturnAvailable()).toBeFalsy();
-    component.currentOrderStatus = OrderStatus.CANCELED;
+    component.overpayment = 100;
+    component.isStatusForReturnMoneyOrPaid = true;
     expect(component.isOverpaymentReturnAvailable()).toBeTruthy();
   });
 
@@ -192,40 +167,6 @@ describe('UbsAdminOrderPaymentComponent', () => {
     component.unPaidAmount = 0;
     component.currentOrderStatus = OrderStatus.CANCELED;
     expect(component.displayUnpaidAmount()).toBeFalsy();
-  });
-
-  it('method setCancelOrderOverpayment', () => {
-    const sum = 250;
-    component.setCancelOrderOverpayment(sum);
-    expect(component.overpayment).toBe(250);
-  });
-
-  it('method preconditionChangePaymentData', () => {
-    const spy = spyOn(component, 'recountUnpaidAmount');
-    component.preconditionChangePaymentData(IPaymentInfoDtoMock);
-    expect(spy).toHaveBeenCalledWith(IPaymentInfoDtoMock.amount);
-  });
-
-  it('should update overpayment message and value in ngOnChanges when orderStatus changes', () => {
-    component.orderStatus = 'In Progress';
-    component.totalPaid = 480;
-    const previousStutusValue = 'In Progress';
-    const currentStatusValue = 'Completed';
-    const currentOverpaymentValue = 0;
-    const previousOverpaymentValue = 200;
-    const isFirstChange = false;
-
-    const SimpleChangesMock = {
-      orderStatus: new SimpleChange(previousStutusValue, currentStatusValue, isFirstChange),
-      overpayment: new SimpleChange(currentOverpaymentValue, previousOverpaymentValue, isFirstChange)
-    };
-
-    component.ngOnChanges(SimpleChangesMock);
-
-    expect(component.currentOrderStatus).toBe('Completed');
-    expect(orderServiceMock.getOverpaymentMsg).toHaveBeenCalledWith(480);
-    expect(component.message).toBe('Overpayment Message');
-    expect(component.overpayment).toBe(480);
   });
 
   it('should update positive amount value in the paymentsArray correctly', () => {

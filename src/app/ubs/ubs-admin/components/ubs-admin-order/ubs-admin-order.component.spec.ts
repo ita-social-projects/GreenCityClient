@@ -147,7 +147,7 @@ describe('UbsAdminOrderComponent', () => {
     const spy = spyOn(component, 'getOrderInfo');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledWith(component.orderId, false);
+    expect(spy).toHaveBeenCalledWith(component.orderId);
   });
 
   it('should disable exportDetailsDto and responsiblePersonsForm when currentOrderStatus is CANCELED', () => {
@@ -214,18 +214,6 @@ describe('UbsAdminOrderComponent', () => {
     component.onUpdatePaymentStatus(newPaymentStatus);
     expect(component.additionalPayment).toEqual(newPaymentStatus);
     expect(component.orderForm.dirty).toBeTruthy();
-  });
-
-  it('onPaymentUpdate should update totalPaid', () => {
-    const sum = 100;
-    component.onPaymentUpdate(sum);
-    expect(component.totalPaid).toEqual(sum);
-  });
-
-  it('changeOverpayment should update overpayment', () => {
-    const sum = 50;
-    component.changeOverpayment(sum);
-    expect(component.overpayment).toEqual(sum);
   });
 
   it('onChangeCurrentPrice should update currentOrderPrice', () => {

@@ -10,7 +10,7 @@
         <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
       </div>
       <div class="order-payment-sum">
-        <span class="price">{{ totalPaid | localizedCurrency }}</span>
+        <span class="price">{{ paidAmount | localizedCurrency }}</span>
       </div>
       <div>
         <button *ngIf="isOrderCanBePaid" class="btn button-payment-operations btn-add-payment" (click)="openPopup(false)">
@@ -42,8 +42,8 @@
             <td *ngIf="!payment.paymentId"></td>
             <td>{{ payment.amount | localizedCurrency }}</td>
             <td *ngIf="payment.receiptLink">
-              <div *ngIf="payment.receiptLink === returnToBonusAccount; else paymentLink">
-                {{ 'user-orders.enroll-bonuses' | translate }}
+              <div *ngIf="isReturnPaymentLink(payment.receiptLink); else paymentLink">
+                {{ payment.receiptLink | translate }}
               </div>
               <ng-template #paymentLink>
                 <div (click)="openPopup(true, i)">{{ 'order-payment.title' | translate }}</div>
@@ -58,18 +58,24 @@
         <span class="form__subtitle">{{ 'order-payment.overpayment' | translate }}</span>
       </div>
       <div class="order-overpayment-sum">
-        <span class="price bg-price-none">{{ overpayment | localizedCurrency }}</span>
+        <span *ngIf="!isBroughtItHimSelf" class="price bg-price-none">
+          {{ overpayment | localizedCurrency }}
+        </span>
+        <input
+          *ngIf="isBroughtItHimSelf"
+          type="number"
+          [(ngModel)]="returnMoneyOrBonuses.amount"
+          [min]="1"
+          [max]="paidAmount"
+          class="price bg-price-none"
+          placeholder="Enter amount"
+        />
       </div>
       <div>
-        <button class="btn button-payment-operations btn-enroll-to-bonus-account" (click)="enrollToBonusAccount(this.overpayment)">
+        <button class="btn button-payment-operations btn-enroll-to-bonus-account" (click)="enrollToBonusAccount()">
           {{ 'order-payment.enroll-on-bonus-account' | translate }}
         </button>
-        <button
-          *ngIf="isEmployeeCanEditOrder"
-          [disabled]="isMoneyReturning"
-          class="btn button-payment-operations btn-return-money"
-          (click)="returnMoney(orderId)"
-        >
+        <button *ngIf="isEmployeeCanEditOrder" class="btn button-payment-operations btn-return-money" (click)="returnMoney()">
           {{ 'order-payment.return-money' | translate }}
         </button>
       </div>

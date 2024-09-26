@@ -32,23 +32,20 @@
           [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
         >
         </app-ubs-admin-order-client-info>
-        <app-ubs-admin-address-details
-          [addressExportDetailsDto]="getFormGroup('addressExportDetailsDto')"
-          [addressComment]="orderInfo.addressComment"
-          [generalInfo]="generalInfo"
-          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
-        >
+        <app-ubs-admin-address-details [address]="addressInfo" [addressExportDetailsDto]="addressExportDetailsDto">
         </app-ubs-admin-address-details>
         <app-ubs-admin-order-details-form
           [orderDetailsForm]="getFormGroup('orderDetailsForm')"
           [orderDetailsOriginal]="orderDetails"
+          [isOrderCancelledAfterFormed]="isOrderCancelledAfterFormed"
           [orderStatusInfo]="orderStatusInfo"
           [orderInfo]="orderInfo"
           [totalPaid]="totalPaid"
           [updateBonusAccount]="updateBonusAccount"
           [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
           (deleteNumberOrderFromEcoShopChanged)="deleteNumberOrderFromEcoShopChange($event)"
-          (changeOverpayment)="changeOverpayment($event)"
+          [paymentInfo]="paymentInfo"
+          (paymentInfoChanged)="onPaymentInfoChanged($event)"
           (checkMinOrder)="setMinOrder($event)"
           (changeCurrentPrice)="onChangeCurrentPrice($event)"
           (changeUbsCourierPrice)="onChangeCourierPrice($event)"
@@ -56,14 +53,14 @@
           (orderStatusChanged)="onCancelOrder()"
         ></app-ubs-admin-order-details-form>
         <app-ubs-admin-order-payment
-          [actualPrice]="currentOrderPrice"
-          [totalPaid]="totalPaid"
-          [orderInfo]="orderInfo"
+          [orderId]="orderId"
+          [orderForm]="orderForm"
           [orderStatus]="currentOrderStatus"
           [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
+          [paymentInfo]="paymentInfo"
+          (paymentInfoChanged)="onPaymentInfoChanged($event)"
           (newPaymentStatus)="onUpdatePaymentStatus($event)"
-          (paymentUpdate)="onPaymentUpdate($event)"
-          (paymentToBonusAccount)="onPaymentToBonusAccount($event)"
+          (returnMoneyOrBonusesChange)="onReturnMoneyOrBonusesChange($event)"
         ></app-ubs-admin-order-payment>
         <app-ubs-admin-export-details
           [exportDetailsDto]="getFormGroup('exportDetailsDto')"
@@ -94,12 +91,7 @@
           >
             {{ 'order-edit.btn.cancel' | translate }}
           </button>
-          <button
-            type="submit"
-            class="save-button"
-            [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder || generalInfo.blocked"
-            (click)="onSubmit()"
-          >
+          <button [disabled]="!orderForm.dirty || !orderForm.valid || !isMinOrder" type="submit" class="save-button" (click)="onSubmit()">
             {{ 'order-edit.btn.save' | translate }}
             <span class="inform-window" *ngIf="!orderForm.valid">
               {{ 'information-window.message' | translate }}

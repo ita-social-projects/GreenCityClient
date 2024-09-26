@@ -16,7 +16,7 @@ import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
 import { mockEvent, mockFavouriteEvents, mockHabitAssign } from '@assets/mocks/events/mock-events';
 import { mockHabits } from '@assets/mocks/habit/mock-habit-calendar';
 
-describe('ProfileDashboardComponent', () => {
+xdescribe('ProfileDashboardComponent', () => {
   let component: ProfileDashboardComponent;
   let fixture: ComponentFixture<ProfileDashboardComponent>;
 

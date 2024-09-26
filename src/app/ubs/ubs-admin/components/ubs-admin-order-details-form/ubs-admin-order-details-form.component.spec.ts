@@ -110,22 +110,6 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     expect(component.orderDetailsForm.get('certificates').disable()).toBe(undefined);
   });
 
-  it('should update writeoffAtStationSum, emit sum for station, and calculate final sum when changeWriteOffSum is called', () => {
-    const eventMock = { target: { value: '150' } };
-    component.changeWriteOffSum(eventMock);
-
-    expect(component.writeoffAtStationSum).toEqual(150);
-  });
-
-  it('should update courierPrice, check if courierPrice is invalid', () => {
-    component.orderDetailsForm.patchValue({ orderFullPrice: 1000 });
-    const eventMock = { target: { value: '150' } };
-    component.changeUbsCourierSum(eventMock);
-
-    expect(component.courierPrice).toEqual(150);
-    expect(component.isCourierPriceInvalid).toBe(false);
-  });
-
   it('should return true when the order is brought by himself and paid', () => {
     component.isOrderBroughtByHimself = true;
     component.isOrderPaid = true;
@@ -173,20 +157,5 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
       component.isOrderCancelled = false;
       expect(component.getOrderBonusValue(null)).toEqual('');
     });
-  });
-
-  it('should isDisabledConfirmQuantity() return true', () => {
-    component.isOrderBroughtByHimself = true;
-    component.isDisabledConfirmQuantity();
-    expect(component.isDisabledConfirmQuantity()).toBeTruthy();
-  });
-
-  it('should isDisabledConfirmQuantity() return true', () => {
-    component.isOrderBroughtByHimself = false;
-    component.isOrderCancelled = false;
-    component.isOrderNotTakenOut = false;
-    component.isOrderDone = false;
-    component.isDisabledConfirmQuantity();
-    expect(component.isDisabledConfirmQuantity()).toBeFalsy();
   });
 });

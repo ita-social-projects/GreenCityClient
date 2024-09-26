@@ -27,9 +27,9 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
   pageOpen: boolean;
   userViolationForCurrentOrder: number;
   totalUserViolations: number;
-  isOrderDone = false;
-  isOrderNotTakenOut = false;
-  isOrderCanceled = false;
+  isOrderDone: boolean;
+  isOrderNotTakenOut: boolean;
+  isOrderCanceled: boolean;
 
   constructor(private dialog: MatDialog) {}
 

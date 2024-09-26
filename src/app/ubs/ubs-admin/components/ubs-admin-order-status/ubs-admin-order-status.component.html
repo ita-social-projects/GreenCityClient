@@ -43,13 +43,14 @@
                   id="payment"
                   class="form-control payment"
                   formControlName="paymentStatus"
-                  [disabled]
+                  [disabled]="true"
                   *ngIf="availablePaymentOrderStatuses?.length"
                 >
                   <option
                     *ngFor="let status of availablePaymentOrderStatuses"
                     [selected]="status?.key === generalInfo.orderPaymentStatus"
                     [value]="status?.key"
+                    [disabled]="true"
                     [appLangValue]="{ ua: status?.ua, en: status?.eng }"
                   ></option>
                 </select>

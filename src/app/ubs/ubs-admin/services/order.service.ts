@@ -111,6 +111,9 @@ export class OrderService {
     });
   }
 
+  getIsOrderCancelledAfterFormed(orderId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.backend}/management/check-status-transition/formed-to-canceled/${orderId}`);
+  }
   isStatusInArray(status: string, statusArray: Array<string>): boolean {
     return statusArray.some((s) => s === status);
   }
