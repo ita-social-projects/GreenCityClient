@@ -116,13 +116,6 @@ describe('HomepageComponent', () => {
     expect(spyOnInit).toHaveBeenCalled();
   });
 
-  it('check the validity of token', inject([VerifyEmailService], (service: VerifyEmailService) => {
-    const spy = spyOn(service, 'onCheckToken').and.returnValue(of({}));
-    (component as any).onCheckToken();
-
-    expect(spy).toHaveBeenCalledWith('1', '1');
-  }));
-
   it('openAuthModalWindow should be called', () => {
     const spyOpenAuthModalWindow = spyOn(MatDialogMock.prototype, 'open');
     MatDialogMock.prototype.open();

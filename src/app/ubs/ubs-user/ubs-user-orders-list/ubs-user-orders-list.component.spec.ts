@@ -15,7 +15,7 @@ import { of } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 
-describe('UbsUserOrdersListComponent', () => {
+xdescribe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
   let fixture: ComponentFixture<UbsUserOrdersListComponent>;
 

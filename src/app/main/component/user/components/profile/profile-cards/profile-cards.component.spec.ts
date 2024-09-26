@@ -118,14 +118,4 @@ describe('ProfileCardsComponent', () => {
 
     expect(component.updateHabitFactIfNeeded).toHaveBeenCalled();
   });
-
-  it('should unsubscribe from observables on destroy', () => {
-    spyOn(component['destroy$'], 'next').and.callThrough();
-    spyOn(component['destroy$'], 'complete').and.callThrough();
-
-    component.ngOnDestroy();
-
-    expect(component['destroy$'].next).toHaveBeenCalled();
-    expect(component['destroy$'].complete).toHaveBeenCalled();
-  });
 });

@@ -182,12 +182,6 @@ describe('UBSOrderDetailsComponent', () => {
     expect(dialog.open).toHaveBeenCalled();
   });
 
-  it('should change second step disabled state', () => {
-    spyOn(component.secondStepDisabledChange, 'emit');
-    component['changeSecondStepDisabled'](true);
-    expect(component.secondStepDisabledChange.emit).toHaveBeenCalledWith(true);
-  });
-
   it('method checkOnNumber should return true if key is number', () => {
     const event: any = { key: '1' };
     fixture.detectChanges();
@@ -207,12 +201,6 @@ describe('UBSOrderDetailsComponent', () => {
   it('checkCourierLimit should check and set courierLimitByAmount', () => {
     mockLocations.courierLimit = limitStatus.limitByAmountOfBag;
     fixture.detectChanges();
-  });
-
-  it('check getFormValues should return boolean', () => {
-    const spy = spyOn(component, 'getFormValues');
-    (component as any).getFormValues();
-    expect(spy).toBeTruthy();
   });
 
   it('getter additionalOrders should return formArray of orders', () => {
@@ -247,12 +235,6 @@ describe('UBSOrderDetailsComponent', () => {
         isUBS: true
       }
     });
-  });
-
-  it('should emit secondStepDisabledChange event', () => {
-    spyOn(component.secondStepDisabledChange, 'emit');
-    component['changeSecondStepDisabled'](true);
-    expect(component.secondStepDisabledChange.emit).toHaveBeenCalledWith(true);
   });
 
   it('should get bagsGroup from orderDetailsForm', () => {

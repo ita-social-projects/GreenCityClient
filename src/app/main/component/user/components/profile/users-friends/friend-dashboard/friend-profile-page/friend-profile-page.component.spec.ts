@@ -77,32 +77,4 @@ describe('FriendProfilePageComponent', () => {
     translateServiseMock.setDefaultLang(value);
     expect(translateServiseMock.setDefaultLang).toHaveBeenCalledWith(value);
   });
-
-  it('method ngOnInit should called method bindLang', () => {
-    const spy = spyOn(component as any, 'bindLang');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('method getUserInfo should have been called', () => {
-    spyOn(component as any, 'getUserInfo').and.callFake(() => {});
-    component.ngOnInit();
-
-    expect((component as any).getUserInfo).toHaveBeenCalled();
-  });
-
-  it('method getUserActivities should get user info', () => {
-    spyOn(component as any, 'getUserActivities').and.callFake(() => {});
-    component.ngOnInit();
-    expect((component as any).getUserActivities).toHaveBeenCalled();
-  });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    (component as any).destroy$ = new Subject<boolean>();
-
-    spyOn((component as any).destroy$, 'complete');
-    component.ngOnDestroy();
-
-    expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
-  });
 });

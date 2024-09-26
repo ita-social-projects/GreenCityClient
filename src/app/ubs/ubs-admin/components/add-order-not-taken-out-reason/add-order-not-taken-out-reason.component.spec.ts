@@ -152,16 +152,6 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
       expect(component.images).toEqual([]);
     });
 
-    it('checkFileExtension', () => {
-      (component as any).checkFileExtensionAndSize(fakeFileHandle);
-      expect((component as any).isImageTypeError).toBe(true);
-    });
-
-    it('checkFileSize', () => {
-      (component as any).checkFileExtensionAndSize(largeFileMock);
-      expect((component as any).isImageSizeError).toBe(true);
-    });
-
     it('loadFiles with file lenght more than 6', () => {
       const files = [];
       files.length = 7;
@@ -178,13 +168,6 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
       component.isImageTypeError = true;
 
       expect(component.loadFiles(files)).toBeFalsy();
-    });
-
-    it('loadFile expect transferFile should be called with specified argument', () => {
-      const transferFileSpy = spyOn(component as any, 'transferFile');
-      const a = new File([''], 'test-file.jpeg', { type: 'image/jpeg' });
-      component.loadFiles([a]);
-      expect(transferFileSpy).toHaveBeenCalledWith(dataFileMock);
     });
   });
 

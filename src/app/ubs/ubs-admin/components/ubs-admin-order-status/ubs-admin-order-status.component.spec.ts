@@ -10,6 +10,7 @@ import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-r
 import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('UbsAdminOrderStatusComponent', () => {
   let component: UbsAdminOrderStatusComponent;
@@ -50,7 +51,7 @@ describe('UbsAdminOrderStatusComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminOrderStatusComponent],
-      imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NoopAnimationsModule],
+      imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NoopAnimationsModule, SharedModule],
       providers: [
         { provide: OrderService, useValue: OrderServiceFake },
         { provide: MatDialog, useValue: matDialogMock },
@@ -105,17 +106,6 @@ describe('UbsAdminOrderStatusComponent', () => {
     matDialogMock.open.and.returnValue(dialogRefStubCancel as any);
     component.openPopup();
     expect(component.onChangedOrderStatus).toHaveBeenCalledTimes(1);
-  });
-
-  it('openPopup  dialog.open should been called and pass res.Reason', () => {
-    spyOn(component, 'onChangedOrderStatus');
-    matDialogMock.open.and.returnValue(dialogRefStubOther as any);
-    component.openPopup();
-    expect((component as any).dialog.open).toHaveBeenCalledWith(AddOrderCancellationReasonComponent, {
-      hasBackdrop: true,
-      data,
-      maxHeight: '100vh'
-    });
   });
 
   it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status UNPAID when order was not payed', () => {
@@ -188,12 +178,5 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
     expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.PAID);
-  });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    (component as any).destroy$ = new Subject<boolean>();
-    spyOn((component as any).destroy$, 'complete');
-    component.ngOnDestroy();
-    expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
   });
 });

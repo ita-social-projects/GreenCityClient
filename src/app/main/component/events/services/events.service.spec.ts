@@ -13,7 +13,7 @@ import {
   mockParams
 } from '@assets/mocks/events/mock-events';
 
-xdescribe('EventsService', () => {
+describe('EventsService', () => {
   let service: EventsService;
   let httpTestingController: HttpTestingController;
   const url = environment.backendLink;
@@ -52,7 +52,7 @@ xdescribe('EventsService', () => {
   });
 
   it('should make PUT request to update event', () => {
-    service.editEvent(formData).subscribe((event: any) => {
+    service.editEvent(formData, 1).subscribe((event: any) => {
       expect(event).toEqual(mockEventResponse);
     });
 
@@ -247,11 +247,11 @@ xdescribe('EventsService', () => {
   it('should make GET request to get image as file', () => {
     const mockBlob = new Blob(['sample image'], { type: 'image/jpeg' });
 
-    service.getImageAsFile('http://example.com/sample.jpg').subscribe((blob) => {
+    service.getImageAsFile('https://example.com/sample.jpg').subscribe((blob) => {
       expect(blob).toEqual(mockBlob);
     });
 
-    const req = httpTestingController.expectOne('http://example.com/sample.jpg');
+    const req = httpTestingController.expectOne('https://example.com/sample.jpg');
     expect(req.request.method).toEqual('GET');
     expect(req.request.responseType).toEqual('blob');
     req.flush(mockBlob);

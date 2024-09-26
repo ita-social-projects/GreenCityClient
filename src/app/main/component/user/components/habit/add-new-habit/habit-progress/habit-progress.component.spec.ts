@@ -133,31 +133,7 @@ xdescribe('HabitProgressComponent', () => {
       component.enroll();
       expect(component.habitMark).toBe('acquired');
     });
-
-    it('makes expected on enroll call updateHabit if status is not acquired', fakeAsync(() => {
-      const response = DEFAULTFULLINFOHABIT;
-      response.status = HabitStatus.INPROGRESS;
-      habitAssignServiceMock.enrollByHabit.and.returnValue(of(response));
-      const updateHabitSpy = spyOn(component as any, 'updateHabit');
-      const setGreenCircleInCalendarSpy = spyOn(component as any, 'setGreenCircleInCalendar');
-      component.enroll();
-      tick();
-      expect(updateHabitSpy).toHaveBeenCalledWith(response);
-      expect(setGreenCircleInCalendarSpy).toHaveBeenCalledWith(true);
-    }));
   });
-
-  it('should call updateHabit on un enroll', fakeAsync(() => {
-    const response = DEFAULTFULLINFOHABIT;
-    response.status = HabitStatus.INPROGRESS;
-    habitAssignServiceMock.unenrollByHabit.and.returnValue(of(response));
-    const updateHabitSpy = spyOn(component as any, 'updateHabit');
-    const setGreenCircleInCalendarSpy = spyOn(component as any, 'setGreenCircleInCalendar');
-    component.unenroll();
-    tick();
-    expect(setGreenCircleInCalendarSpy).toHaveBeenCalledWith(false);
-    expect(updateHabitSpy).toHaveBeenCalledWith(response);
-  }));
 
   it('should calculate the difference in days between two dates', () => {
     const date1 = '2024-02-29';

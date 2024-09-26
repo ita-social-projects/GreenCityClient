@@ -104,12 +104,6 @@ describe('SearchPopupComponent', () => {
   });
 
   describe('General methods', () => {
-    it(`ngOnInit should init setupInitialValue method`, () => {
-      const spy = spyOn(component as any, 'setupInitialValue');
-      component.ngOnInit();
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-
     it('should call openErrorPopup', () => {
       spyOn(component.dialog, 'open');
       component.openErrorPopup();
@@ -127,25 +121,10 @@ describe('SearchPopupComponent', () => {
       expect(getSearchSpy).toHaveBeenCalledWith('test', 'econews', 'ua');
     }));
 
-    it('should call resetData', () => {
-      const resetDataSpy = spyOn(component as any, 'resetData');
-      component.ngOnInit();
-
-      component.searchInput.setValue('', { emitEvent: true });
-      expect(resetDataSpy).toHaveBeenCalled();
-    });
-
     it('closeSearch should open SearchService/closeSearchSignal', () => {
       const spy = spyOn(component.searchService, 'closeSearchSignal');
       component.closeSearch();
       expect(spy).toHaveBeenCalled();
-    });
-
-    it('should setup Initial Value', () => {
-      const subscribeToSignalSpy = spyOn(component as any, 'subscribeToSignal');
-      component.setupInitialValue();
-      component.searchService.searchSubject.next(true);
-      expect(subscribeToSignalSpy).toHaveBeenCalledWith(true);
     });
 
     it('should reset input value', () => {

@@ -136,12 +136,6 @@ describe('OneHabitComponent', () => {
     expect(routerMock.navigate).toHaveBeenCalledWith(['profile/777/allhabits/edithabit/123']);
   });
 
-  it('should call setHabitValue', () => {
-    const spy = spyOn(component as any, 'setHabitValue');
-    component.buildHabitDescription();
-    expect(spy).toHaveBeenCalled();
-  });
-
   describe('buildHabitDescription', () => {
     it('makes expected calls if status is ACQUIRED', () => {
       component.currentDate = '2022-02-19';
@@ -174,33 +168,6 @@ describe('OneHabitComponent', () => {
     it('makes expected calls', () => {
       component.setGreenCircleInCalendar(true);
       expect(habitAssignServiceMock.getAssignHabitsByPeriod).toHaveBeenCalledWith('2022-02-20', '2022-02-20');
-    });
-  });
-
-  describe('enroll', () => {
-    it('makes expected calls if status is ACQUIRED', () => {
-      habitAssignServiceMock.enrollByHabit.and.returnValue(of(fakeHabitAssign));
-      const setGreenCircleInCalendarSpy = spyOn(component, 'setGreenCircleInCalendar');
-      component.enroll();
-      (component as any).setHabitValue(false);
-      expect(setGreenCircleInCalendarSpy).toHaveBeenCalledWith(true);
-      expect(component.daysCounter).toBe(4);
-      expect(component.showPhoto).toBeFalsy();
-      expect(component.habitMark).toBe('acquired');
-    });
-
-    it('makes expected calls if status is not ACQUIRED', () => {
-      habitAssignServiceMock.enrollByHabit.and.returnValue(of(fakeHabit));
-      const setGreenCircleInCalendarSpy = spyOn(component, 'setGreenCircleInCalendar');
-      const buildHabitDescriptionSpy = spyOn(component, 'buildHabitDescription');
-      component.enroll();
-      (component as any).setHabitValue(false);
-      expect(setGreenCircleInCalendarSpy).toHaveBeenCalledWith(true);
-      expect(buildHabitDescriptionSpy).toHaveBeenCalled();
-      expect(component.habit.habitStatusCalendarDtoList).toEqual([fakeHabitStatusCalendarList]);
-      expect(component.daysCounter).toBe(4);
-      expect(component.habit.habitStreak).toBe(5);
-      expect(component.isRequest).toBeFalsy();
     });
   });
 

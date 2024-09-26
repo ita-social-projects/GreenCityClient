@@ -1,7 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DeletingProfileReasonPopUpComponent } from './deleting-profile-reason-pop-up.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -23,7 +21,7 @@ describe('DeletingProfileReasonPopUpComponent', () => {
     close: () => {}
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DeletingProfileReasonPopUpComponent, LangValueDirective],
       imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule],

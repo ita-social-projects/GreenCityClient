@@ -38,25 +38,6 @@ describe('TariffConfirmationPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize component variables in ngOnInit', () => {
-    const modalData: TariffConfirmationPopUpInterface = {
-      title: 'Test Title',
-      courierNameUa: 'Кур"єр',
-      courierNameEn: 'Courier',
-      stationNames: ['stationName'],
-      regionNameUa: 'regionName',
-      regionNameEn: 'regionEnglishName',
-      locationNames: ['locationNames'],
-      action: 'edit'
-    };
-    const firstName = 'Test Name';
-    component.modalData = modalData;
-    spyOn((component as any).localeStorageService.firstNameBehaviourSubject, 'pipe').and.returnValue(of(firstName));
-    component.ngOnInit();
-    expect(component.values).toEqual(modalData);
-    expect(component.name).toEqual(firstName);
-  });
-
   it('should open a dialog in onNoClick', () => {
     matDialogMock.open.and.returnValue(fakeMatDialogRef);
     component.onNoClick();

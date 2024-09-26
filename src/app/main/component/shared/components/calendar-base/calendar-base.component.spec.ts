@@ -18,7 +18,7 @@ class TranslationServiceStub {
   public unsubscribe = new EventEmitter<any>();
 }
 
-xdescribe('CalendarBaseComponent', () => {
+describe('CalendarBaseComponent', () => {
   let component: CalendarBaseComponent;
   let fixture: ComponentFixture<CalendarBaseComponent>;
   let habitAssignServiceMock: jasmine.SpyObj<HabitAssignService>;

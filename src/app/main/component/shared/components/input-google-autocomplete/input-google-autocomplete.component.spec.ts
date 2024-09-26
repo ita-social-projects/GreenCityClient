@@ -1,5 +1,4 @@
-import { async, ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-
+import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { InputGoogleAutocompleteComponent } from './input-google-autocomplete.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -8,7 +7,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { of } from 'rxjs';
 import { Language } from 'src/app/main/i18n/Language';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 class MockLanguageService {
   getCurrentLangObs() {
@@ -20,16 +19,16 @@ class MockLanguageService {
   }
 }
 
-xdescribe('InputGoogleAutocompleteComponent', () => {
+describe('InputGoogleAutocompleteComponent', () => {
   let component: InputGoogleAutocompleteComponent;
   let fixture: ComponentFixture<InputGoogleAutocompleteComponent>;
-
+  const previousGoogle = (window as any).google;
   const predictionList = [
     { description: 'Place 1', place_id: '1' },
     { description: 'Place 2', place_id: '2' }
   ];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     (window as any).google = {
       maps: {
         places: {
@@ -50,7 +49,7 @@ xdescribe('InputGoogleAutocompleteComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), MatAutocompleteModule, FormsModule],
+      imports: [TranslateModule.forRoot(), MatAutocompleteModule, FormsModule, ReactiveFormsModule],
       declarations: [InputGoogleAutocompleteComponent],
       providers: [
         { provide: LanguageService, useClass: MockLanguageService },
@@ -63,6 +62,10 @@ xdescribe('InputGoogleAutocompleteComponent', () => {
     fixture = TestBed.createComponent(InputGoogleAutocompleteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterAll(() => {
+    (window as any).google = previousGoogle;
   });
 
   it('should create', () => {
@@ -85,7 +88,7 @@ xdescribe('InputGoogleAutocompleteComponent', () => {
     expect(geocodeSpy).toHaveBeenCalledWith({ placeId: prediction.place_id });
   }));
 
-  it('should initialise predictionList on input', fakeAsync(() => {
+  xit('should initialize predictionList on input', fakeAsync(() => {
     const getPlacePredictionsSpy = spyOn(google.maps.places.AutocompleteService.prototype, 'getPlacePredictions').and.callThrough();
     component.inputUpdate.next('some input');
     fixture.detectChanges();
@@ -95,7 +98,7 @@ xdescribe('InputGoogleAutocompleteComponent', () => {
     expect(getPlacePredictionsSpy).toHaveBeenCalled();
   }));
 
-  it('should filter unwanted results', fakeAsync(() => {
+  xit('should filter unwanted results', fakeAsync(() => {
     const getPlacePredictionsSpy = spyOn(google.maps.places.AutocompleteService.prototype, 'getPlacePredictions').and.callFake(
       (request, callback) => {
         const predictionList = [

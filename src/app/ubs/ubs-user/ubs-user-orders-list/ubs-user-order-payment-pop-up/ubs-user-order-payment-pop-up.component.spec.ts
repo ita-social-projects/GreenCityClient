@@ -360,7 +360,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
         ]);
       });
 
-      xit('makes expected calls if certificates are no more than one', () => {
+      it('makes expected calls if certificates are no more than one', () => {
         const certificate = { value: { certificateSum: 111 } };
         const formArrayCertificatesFake = new FormArray([
           new FormGroup({

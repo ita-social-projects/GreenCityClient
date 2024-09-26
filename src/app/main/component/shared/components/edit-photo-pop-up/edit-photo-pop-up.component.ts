@@ -19,6 +19,7 @@ export class EditPhotoPopUpComponent implements OnInit {
   isNotification: boolean;
   loadingAnim: boolean;
   isDragAndDropMenu = false;
+  croppedImage: string | File;
 
   constructor(
     private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,

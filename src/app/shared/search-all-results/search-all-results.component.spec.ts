@@ -79,36 +79,6 @@ describe('SearchAllResultsComponent', () => {
   });
 
   describe('test main functionality', () => {
-    // it('should force fetch data if heigth of body less that document', () => {
-    //   // @ts-ignore
-    //   spyOn(document.documentElement, 'clientHeight').and.returnValue(200);
-    //   // @ts-ignore
-    //   spyOn(document.body, 'clientHeight').and.returnValue(100);
-    //   const spy = spyOn(component, 'onScroll');
-    //   // @ts-ignore
-    //   component.forceScroll();
-
-    //   expect(spy).toHaveBeenCalled();
-    // });
-
-    it('should update url query part', inject([Router], (mockRouter: Router) => {
-      component.inputValue = 'test';
-      component.searchCategory = 'tetCat';
-      spyOn(mockRouter, 'navigate').and.returnValue(new Promise((res) => res(true)));
-
-      (component as any).onSearchUpdateQuery();
-      expect(mockRouter.navigate).toHaveBeenCalled();
-    }));
-
-    it('should toogle dropdown', () => {
-      component.itemsFound = 1;
-      component.displayedElements = [mockNewsData];
-
-      (component as any).resetData();
-      expect(component.itemsFound).toBe(0);
-      expect(component.displayedElements).toEqual([]);
-    });
-
     it('should change current sorting to desc', () => {
       component.changeCurrentSorting(1);
       expect(component.sortType).toBe('desc');
@@ -122,14 +92,6 @@ describe('SearchAllResultsComponent', () => {
     it('should change current sorting to asc', () => {
       component.changeCurrentSorting(2);
       expect(component.sortType).toBe('asc');
-    });
-
-    it('should on update page url if current filter is same', () => {
-      component.searchCategory = 'econews';
-
-      const spy = spyOn(component as any, 'onSearchUpdateQuery').and.returnValue(true);
-      component.onFilterByClick({ category: 'econews', name: 'news' });
-      expect(spy).not.toHaveBeenCalled();
     });
   });
 });

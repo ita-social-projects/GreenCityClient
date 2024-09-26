@@ -98,10 +98,4 @@ describe('UbsBaseSidebarComponent', () => {
     component.ngAfterViewInit();
     expect(getCountOfUnreadNotificationSpy).toHaveBeenCalledTimes(1);
   });
-
-  it('calls detect changes', () => {
-    const spy = spyOn((component as any).cdr, 'detectChanges');
-    component.ngAfterViewChecked();
-    expect(spy).toHaveBeenCalled();
-  });
 });

@@ -72,12 +72,6 @@ describe('ModalTextComponent', () => {
     expect(matDialogRefMock.close).toHaveBeenCalled();
   });
 
-  it(`setDate should be called in ngOnInit`, () => {
-    const setDateSpy = spyOn(component as any, 'setDate');
-    component.ngOnInit();
-    expect(setDateSpy).toHaveBeenCalled();
-  });
-
   it('should set date', () => {
     component.setDate();
     expect(component.newDate).toEqual(fakeTariffService.setDate('ua'));

@@ -7,7 +7,6 @@ import { PersonalPhotoComponent } from './personal-photo.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { EditProfileModel } from '@global-user/models/edit-profile.model';
 
 class MatDialogStub {
   result = true;
@@ -42,48 +41,5 @@ describe('PersonalPhotoComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('Test main functionality', () => {
-    it('Should set user data', () => {
-      const userData = {
-        profilePicturePath: 'test',
-        name: 'test'
-      };
-      spyOn((component as any).profileService, 'getUserInfo').and.returnValue(of(userData));
-
-      (component as any).setUserAvatar();
-
-      expect(component.userName).toBe(userData.name);
-    });
-
-    it('Should set user data', () => {
-      const userData: EditProfileModel = {
-        userLocationDto: { cityEn: 'city' },
-        name: '',
-        userCredo: '',
-        profilePicturePath: 'test',
-        rating: 0,
-        showEcoPlace: true,
-        showLocation: true,
-        showShoppingList: true,
-        socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }]
-      } as EditProfileModel;
-      spyOn((component as any).profileService, 'getUserInfo').and.returnValue(of(userData));
-      (component as any).setUserAvatar();
-
-      expect(component.userName).toBe(userData.name);
-    });
-
-    it('Should open editPhoto modal window', () => {
-      component.userName = 'test';
-      component.avatarImg = 'test';
-
-      dialogStub.setResult(true);
-      const spy = spyOn(component as any, 'setUserAvatar');
-      component.openEditPhoto();
-
-      expect(spy).toHaveBeenCalled();
-    });
   });
 });

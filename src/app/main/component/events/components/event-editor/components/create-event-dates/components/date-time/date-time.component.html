@@ -1,20 +1,15 @@
 <div [formGroup]="form" class="date-time">
   <span class="day">{{ dayNumber + 1 }} {{ 'create-event.day' | translate }}</span>
-  <mat-form-field appearance="outline" class="date">
+
+  <mat-form-field appearance="outline">
     <mat-label>{{ 'create-event.choose-date' | translate }}</mat-label>
-    <input
-      [matDatepickerFilter]="dateFilterBind"
-      [matDatepicker]="picker"
-      [min]="today"
-      autocomplete="false"
-      formControlName="date"
-      matInput
-      ngDefaultControl
-    />
-    <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-    <mat-error>{{ 'create-event.date-error' | translate }}</mat-error>
-    <mat-hint>MMDDYYYY</mat-hint>
+    <input matInput [matDatepicker]="dp" formControlName="date" [min]="today" />
+    <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+
+    <mat-error *ngIf="date.hasError('dateIncorrect')">{{ 'create-event.date-error-format' | translate }}</mat-error>
+    <mat-error *ngIf="date.hasError('isRequired')">{{ 'create-event.date-error-required' | translate }}</mat-error>
+    <mat-error *ngIf="date.hasError('dateInPast')">{{ 'create-event.date-error' | translate }}</mat-error>
   </mat-form-field>
 
   <div class="time">
@@ -39,16 +34,6 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-  </div>
-
-  <div *ngIf="form?.invalid && form?.touched" class="date-error">
-    <app-input-error
-      [formElement]="endTime && startTime"
-      [isEvent]="true"
-      [date]="endTime.invalid"
-      [numberDate]="date.invalid"
-      [isStartEventError]="startTime.invalid"
-    ></app-input-error>
   </div>
 
   <mat-checkbox (change)="toggleAllDay()" class="mr-2" color="primary" formControlName="allDay"

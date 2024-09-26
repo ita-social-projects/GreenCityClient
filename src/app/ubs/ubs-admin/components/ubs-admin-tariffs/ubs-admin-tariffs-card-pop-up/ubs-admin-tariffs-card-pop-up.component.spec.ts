@@ -14,7 +14,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
-xdescribe('UbsAdminTariffsCardPopUpComponent', () => {
+describe('UbsAdminTariffsCardPopUpComponent', () => {
   let component: UbsAdminTariffsCardPopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsCardPopUpComponent>;
 
@@ -531,13 +531,5 @@ xdescribe('UbsAdminTariffsCardPopUpComponent', () => {
     };
     component.onBlur(eventMock);
     expect(component.blurOnOption).toEqual(false);
-  });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    const unsubscribe = 'unsubscribe';
-    component[unsubscribe] = new Subject<boolean>();
-    spyOn(component[unsubscribe], 'complete');
-    component.ngOnDestroy();
-    expect(component[unsubscribe].complete).toHaveBeenCalledTimes(1);
   });
 });

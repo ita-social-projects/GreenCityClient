@@ -150,7 +150,7 @@ describe('TimePickerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('shoud set time in selectors', () => {
+  it('should set time in selectors', () => {
     component.fromSelect = fakeTimeSelectFrom;
     component.toSelect = fakeTimeSelectTo;
     expect(component.fromSelect).toEqual(fakeTimeSelectFrom);
@@ -163,11 +163,16 @@ describe('TimePickerComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should set list of time "delivery to" started with time "delivery from" plus 30 minutes', () => {
+  it('should set list of time "delivery to" started with time "delivery from" plus 30 minutes', () => {
+    component.currentHour = '00:00';
+    fixture.detectChanges();
+
     const selector = fixture.debugElement.query(By.css('#timeFrom')).nativeElement;
     selector.dispatchEvent(new Event('change'));
     fakeTimeToChange = component.compareFromTime();
+
     fixture.detectChanges();
+
     if (component.fromSelect[0] !== undefined) {
       expect(component.fromSelect).toEqual(component.compareFromTime());
     }
