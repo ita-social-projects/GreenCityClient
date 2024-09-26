@@ -505,7 +505,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     if (this.notTakenOutReasonDescription) {
       changedValues.notTakenOutReason = this.notTakenOutReasonDescription;
     }
-    this.orderForm.dirty;
+
     this.addIdForUserAndAdress(changedValues);
 
     this.orderService
