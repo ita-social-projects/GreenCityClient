@@ -63,6 +63,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   private page = 0;
   private size = 3;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
+  scope = 'public'
+  isPrivate = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -294,24 +296,17 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.router.navigate(['profile', this.userId]);
   }
 
-  addHabit(): void {
-    this.isCustomHabit ? this.assignCustomHabit() : this.assignStandardHabit();
-  }
-
   private assignStandardHabit() {
     const conditionForDurationUpdate = this.newDuration && this.newDuration !== this.initialDuration;
     this.habitAssignService
-      .assignHabit(this.habitId)
-      .pipe(
-        take(1),
+      .assignHabit(this.habitId).pipe(take(1),
         concatMap((res) => (conditionForDurationUpdate ? this.habitAssignService.updateHabitDuration(res.id, this.newDuration) : of([])))
-      )
-      .subscribe(() => {
+      ).subscribe(() => {
         this.afterHabitWasChanged('habitAdded');
       });
   }
 
-  private assignCustomHabit() {
+  assignHabit(): void {
     this.friendsIdsList = this.userFriendsService.addedFriends?.map((friend) => friend.id);
     const defaultItemsIds = this.standardShopList.filter((item) => item.selected === true).map((item) => item.id);
     const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defaultItemsIds, duration: this.newDuration };
@@ -329,18 +324,10 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   updateHabit(): void {
     this.habitAssignService
-      .updateHabit(this.habitAssignId, this.newDuration)
-      .pipe(take(1))
-      .subscribe(() => {
+      .updateHabit(this.habitAssignId, this.newDuration).pipe(take(1)).subscribe(() => {
         if (this.customShopList || this.standardShopList) {
           this.convertShopLists();
-          const habitShopListUpdate = this.setHabitListForUpdate();
-          this.shopListService
-            .updateHabitShopList(habitShopListUpdate)
-            .pipe(take(1))
-            .subscribe(() => {
-              this.afterHabitWasChanged('habitUpdated');
-            });
+          this.shopListService.updateHabitShopList(this.setHabitListForUpdate());
         }
         this.afterHabitWasChanged('habitUpdated');
       });
@@ -427,5 +414,9 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.afterHabitWasChanged('habitAcquired');
       });
+  }
+
+  onChange(): void {
+    this.scope = this.scope === 'private' ? 'public' : 'private';
   }
 }
