@@ -95,6 +95,21 @@
   </div>
   <hr />
   <app-ubs-order-address></app-ubs-order-address>
+  <hr />
+  <div class="payment">
+    <h2 class="ml-3 payment-title">Оплата</h2>
+    <p class="ml-3">Ви можете здійснити оплату одним з вибраних способів нижче.</p>
+    <div class="payment-group ml-3">
+      <label>Оберіть спосіб оплати</label>
+      <mat-form-field appearance="outline" class="payment-field">
+        <mat-select class="select">
+          <mat-option *ngFor="let type of ['Monobank', 'Way-for-pay']; index as i" [value]="i">
+            {{ 'Карткою через  ' + type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
 </form>
 
 <div class="w-100 buttons" *ngIf="personalDataForm">
