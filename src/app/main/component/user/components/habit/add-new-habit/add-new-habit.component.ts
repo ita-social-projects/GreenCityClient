@@ -278,6 +278,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
             .pipe(take(1))
             .subscribe(() => {
               this.afterHabitWasChanged('habitDeleted');
+              this.router.navigate([`profile/${this.userId}`]);
             });
         } else {
           this.snackBar.openSnackBar('habitDidNotGiveUp');
