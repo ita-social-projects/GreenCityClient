@@ -172,8 +172,17 @@ export class DateTimeComponent implements OnInit, OnDestroy {
   }
 
   private _emitForm(form: DateTimeForm, valid: boolean) {
-    const newForm = form && { ...form, date: form?.date.toDate() };
-    this.formEmitter.emit({ key: this._key, valid, form: newForm, sharedKey: this.sharedKey, formKey: 'dateTime' });
+    const newForm = form && {
+      ...form,
+      date: moment.isMoment(form.date) ? form.date.toDate() : form.date
+    };
+    this.formEmitter.emit({
+      key: this._key,
+      valid,
+      form: newForm,
+      sharedKey: this.sharedKey,
+      formKey: 'dateTime'
+    });
   }
 
   private _subscribeToFormStatus() {
