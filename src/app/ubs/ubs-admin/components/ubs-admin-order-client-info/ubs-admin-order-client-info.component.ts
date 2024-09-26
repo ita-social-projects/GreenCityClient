@@ -50,7 +50,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
   }
 
   ngOnInit(): void {
-    // this.pageOpen = true;
+    this.pageOpen = true;
     this.setViolationData();
   }
 

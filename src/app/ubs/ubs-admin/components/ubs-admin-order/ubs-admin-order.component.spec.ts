@@ -216,18 +216,6 @@ describe('UbsAdminOrderComponent', () => {
     expect(component.orderForm.dirty).toBeTruthy();
   });
 
-  // it('onPaymentUpdate should update totalPaid', () => {
-  //   const sum = 100;
-  //   component.onPaymentUpdate(sum);
-  //   expect(component.totalPaid).toEqual(sum);
-  // });
-
-  // it('changeOverpayment should update overpayment', () => {
-  //   const sum = 50;
-  //   component.changeOverpayment(sum);
-  //   expect(component.overpayment).toEqual(sum);
-  // });
-
   it('onChangeCurrentPrice should update currentOrderPrice', () => {
     const sum = 500;
     component.onChangeCurrentPrice(sum);

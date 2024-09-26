@@ -100,7 +100,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     }
   }
 
-  plusSum(sum): number {
+  absSum(sum): number {
     return Math.abs(sum);
   }
 
@@ -247,14 +247,12 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   private calculateOverpayment() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
     let newSum = this.bagsInfo?.sum[bagType];
-    console.log(newSum, this.showUbsCourier);
     if (this.showUbsCourier) {
       newSum += this.courierPrice || 0;
     }
     if (this.showWriteOffStationField()) {
       newSum += this.writeoffAtStationSum;
     }
-    console.log(newSum);
     const overpayment = Math.max(this.paymentInfo.paymentTableInfoDto.paidAmount - newSum, 0);
     const unPaid = Math.max(newSum - this.paymentInfo.paymentTableInfoDto.paidAmount, 0);
 
@@ -271,11 +269,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
         orderFullPrice: newSum
       });
     }
-    for (const type in this.bagsInfo.finalSum) {
+    Object.keys(this.bagsInfo.finalSum).forEach((type) => {
       if (this.bagsInfo.finalSum[type] < 0) {
         this.bagsInfo.finalSum[type] = 0;
       }
-    }
+    });
     this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
   }
   private setFinalFullPrice() {

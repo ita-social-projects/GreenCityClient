@@ -48,23 +48,20 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, OnChan
       if ((hasNotValidFields || isFormRequired) && this.orderStatus !== OrderStatus.FORMED) {
         this.exportDetailsDto.get(controlName).setValidators(Validators.required);
         this.exportDetailsDto.setErrors({ incorrect: true });
-        this.exportDetailsDto.get(controlName).updateValueAndValidity({ onlySelf: true });
-        this.exportDetailsDto.updateValueAndValidity();
+      } else {
+        this.exportDetailsDto.setErrors(null);
+        this.exportDetailsDto.get(controlName).setErrors(null);
+        this.exportDetailsDto.get(controlName).clearValidators();
       }
-      // else {
-      //   this.exportDetailsDto.setErrors(null);
-      //   this.exportDetailsDto.get(controlName).setErrors(null);
-      //   this.exportDetailsDto.get(controlName).clearValidators();
-      // }
-      // this.exportDetailsDto.get(controlName).updateValueAndValidity({ onlySelf: true });
-      // this.exportDetailsDto.updateValueAndValidity();
+      this.exportDetailsDto.get(controlName).updateValueAndValidity({ onlySelf: true });
+      this.exportDetailsDto.updateValueAndValidity();
     });
 
     if (this.orderStatus === OrderStatus.CANCELED || this.orderStatus === OrderStatus.DONE) {
       this.isOrderStatusCancelOrDone = true;
     }
 
-    // this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
   ngOnInit(): void {
