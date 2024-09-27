@@ -3,8 +3,10 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
+import { CAddressData } from '@ubs/ubs/models/ubs.model';
 import { Subject, combineLatest } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { DeleteAddress, GetAddresses, SetAddress, UpdateAddress } from 'src/app/store/actions/order.actions';
 import {
@@ -31,13 +33,17 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   maxAddressLength = 4;
   $isAddressLoading = this.store.pipe(select(isAddressLoadingSelector));
   private $destroy: Subject<void> = new Subject<void>();
+  private addressData: CAddressData;
 
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private addressValidator: AddressValidator,
-    private store: Store
-  ) {}
+    private store: Store,
+    private languageService: LanguageService
+  ) {
+    this.addressData = new CAddressData(this.languageService);
+  }
 
   ngOnInit(): void {
     this.store.dispatch(GetAddresses());
@@ -45,7 +51,7 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
       params.existingOrderId ? this.initListenersForExistingOrder() : this.initListenersForNewOrder();
     });
 
-    this.addressComment.disable();
+    !this.selectedAddress && this.addressComment.disable();
   }
 
   initListenersForNewOrder(): void {
@@ -118,12 +124,20 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
     address && this.isAddressAvailable(address) ? this.setCurrentAddress(address) : this.initLocation();
   }
 
-  setCurrentAddress(address): void {
-    this.selectedAddress = address;
-    this.addressComment.patchValue(address?.addressComment ?? '');
-    this.store.dispatch(SetAddress({ address }));
+  async setCurrentAddress(address: Address): Promise<void> {
+    const clonedAddress = { ...address };
 
-    address ? this.addressComment.enable() : this.addressComment.disable();
+    if (!clonedAddress.placeId) {
+      const latLng = new google.maps.LatLng(clonedAddress.coordinates.latitude, clonedAddress.coordinates.longitude);
+      clonedAddress.placeId = await this.addressData.getAddressPlaceId(latLng);
+    }
+
+    this.selectedAddress = clonedAddress;
+
+    this.addressComment.patchValue(clonedAddress?.addressComment ?? '');
+    this.store.dispatch(SetAddress({ address: clonedAddress }));
+
+    clonedAddress ? this.addressComment.enable() : this.addressComment.disable();
   }
 
   isAddressAvailable(address: Address): boolean {
@@ -135,8 +149,14 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   }
 
   changeAddressComment(): void {
+    const updatedAddress = {
+      ...this.selectedAddress,
+      addressComment: this.addressComment.value
+    };
+
     if (this.addressComment.value !== this.selectedAddress.addressComment) {
-      this.store.dispatch(UpdateAddress({ address: { ...this.selectedAddress, addressComment: this.addressComment.value } }));
+      this.store.dispatch(UpdateAddress({ address: updatedAddress }));
+      this.selectedAddress = updatedAddress;
     }
   }
 
