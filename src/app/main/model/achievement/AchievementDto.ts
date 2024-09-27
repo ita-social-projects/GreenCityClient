@@ -1,13 +1,12 @@
 export class AchievementDto {
   id: number;
+  name: string;
+  nameEng: string;
   title: string;
-  description: string;
-  message: string;
-
-  constructor(id: number, title: string, description: string, message: string) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.message = message;
-  }
+  achievementCategory: {
+    id: number;
+    name: string;
+  };
+  condition: number;
+  progress: number;
 }

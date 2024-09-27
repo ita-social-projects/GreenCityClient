@@ -7,7 +7,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { AchievementDto } from '@global-models/achievement/AchievementDto';
 import { calendarImage } from '@shared/components/calendar-base/calendar-image';
 import { MatDialog } from '@angular/material/dialog';
-// import { AchievementsModalComponent } from '@global-user/components/user-achievements/achievements-modal/achievements-modal.component';
+import { AchievementsModalComponent } from './achievements-modal/achievements-modal.component';
 
 @Component({
   selector: 'app-users-achievements',
@@ -98,18 +98,13 @@ export class UsersAchievementsComponent implements OnInit, OnDestroy {
     return this.achievements.length > this.itemsPerPage && window.innerWidth < 768;
   }
 
-  // navigateToAchievements(): void {
-  //   this.router.navigate(['/achievements']);
-  // }
-
   openDialog() {
-    // this.dialog.open(AchievementsModalComponent, {
-    //   hasBackdrop: true,
-    //   closeOnNavigation: true,
-    //   panelClass: ['custom-dialog-container'],
-    //   data: {
-    //   }
-    // });
+    this.dialog.open(AchievementsModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {}
+    });
   }
 
   ngOnDestroy() {

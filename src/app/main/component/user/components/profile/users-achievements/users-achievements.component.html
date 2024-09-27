@@ -22,8 +22,8 @@
       />
 
       <div #slider class="achievements-images">
-        <div *ngFor="let achievement of achievementsToShow; let i = index">
-          <img [src]="achievementsImages[i]" alt="achievement" />
+        <div *ngFor="let achievement of achievementsToShow">
+          <img [src]="'assets/img/profile/achievements/' + achievement.achievementCategory.name + '.png'" alt="achievement" />
         </div>
       </div>
 
