@@ -9,4 +9,5 @@ export interface HabitAssignCustomPropertiesDto {
 export interface HabitAssignPropertiesDto {
   defaultShoppingListItems: Array<number>;
   duration: number;
+  isPrivate: boolean;
 }
