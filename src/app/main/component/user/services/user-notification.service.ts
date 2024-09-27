@@ -18,22 +18,22 @@ export class UserNotificationService {
     const typesString = filters.notificationType.map((el) => 'notification-types=' + el);
     const filtersStringsArr = [...projectsString, ...typesString];
     const filtersString = filtersStringsArr.join('&') + (filtersStringsArr.length ? '&' : '');
-    return this.http.get<NotificationArrayModel>(`${this.url}notifications?${filtersString}page=${page}&size=${size}&viewed=${viewed}`);
+    return this.http.get<NotificationArrayModel>(`${this.url}notification/all?${filtersString}page=${page}&size=${size}&viewed=${viewed}`);
   }
 
   getThreeNewNotification(): Observable<NotificationModel[]> {
-    return this.http.get<NotificationModel[]>(`${this.url}notifications?page=0&size=3&viewed=false`);
+    return this.http.get<NotificationModel[]>(`${this.url}notification/new`);
   }
 
-  readNotification(id: number): Observable<object> {
-    return this.http.post<object>(`${this.url}notifications/${id}/viewNotification`, {});
+  readNotification(id: number): Observable<NotificationModel[]> {
+    return this.http.patch<NotificationModel[]>(`${this.url}notification/view/${id}`, {});
   }
 
-  unReadNotification(id: number): Observable<object> {
-    return this.http.post<object>(`${this.url}notifications/${id}/unreadNotification`, {});
+  unReadNotification(id: number): Observable<NotificationModel[]> {
+    return this.http.patch<NotificationModel[]>(`${this.url}notification/unread/${id}`, {});
   }
 
-  deleteNotification(id: number): Observable<object> {
-    return this.http.delete<object>(`${this.url}notifications/${id}`);
+  deleteNotification(id: number): Observable<NotificationModel> {
+    return this.http.delete<NotificationModel>(`${this.url}notification/${id}`);
   }
 }
