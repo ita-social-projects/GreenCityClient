@@ -630,7 +630,7 @@
     "update": "Save",
     "filter-reset-all": "Reset all",
     "image-error": "The supported formats of the photo are PNG and JPG. Max size is 10MB",
-    "tariffs": "Tariffs",
+    "tariffs": "Tariffs*",
     "tariffs-columns": {
       "region": "Region",
       "city": "City",

@@ -58,6 +58,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   search: FormControl;
   filteredTariffs = [];
   tariffsFromEditForm = [];
+  isAnyTariffSelected: boolean = false;
 
   private addMappers = {
     tariffs: (tariffData) =>
@@ -220,6 +221,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     if (!this.isInitialTariffsChanged) {
       this.isInitialTariffsChanged = true;
     }
+    this.isAnyTariffSelected = this.filteredTariffs.some((tariff) => tariff.selected);
   }
 
   doesIncludeRole(role) {

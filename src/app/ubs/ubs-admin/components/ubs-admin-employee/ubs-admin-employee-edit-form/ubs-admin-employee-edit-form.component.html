@@ -106,13 +106,18 @@
                 <tbody>
                   <tr *ngFor="let tariff of filteredTariffs">
                     <td>
-                      {{ tariff.region.en }}
+                      <!-- {{ tariff.region.en }} -->
+                      {{ langService.getLangValue(tariff.region.ua, tariff.region.en) }}
                     </td>
                     <td>
-                      <span *ngFor="let location of tariff.locations">{{ location.en }}</span>
+                      <span *ngFor="let location of tariff.locations">
+                        <!-- {{ location.en }} -->
+                        {{ langService.getLangValue(location.ua, location.en) }}
+                      </span>
                     </td>
                     <td>
-                      {{ tariff.courier.en }}
+                      <!-- {{ tariff.courier.en }} -->
+                      {{ langService.getLangValue(tariff.courier.ua, tariff.courier.en) }}
                     </td>
                     <td>
                       <mat-checkbox
@@ -173,7 +178,13 @@
           employeeForm.invalid ||
           !employeePositions.length ||
           isUploading ||
-          (editMode && !isInitialDataChanged && !isInitialImageChanged && !isInitialPositionsChanged && !isInitialTariffsChanged)
+          !isAnyTariffSelected ||
+          (editMode &&
+            !isInitialDataChanged &&
+            !isInitialImageChanged &&
+            !isInitialPositionsChanged &&
+            !isInitialTariffsChanged &&
+            !isAnyTariffSelected)
         "
         (click)="isUpdatingEmployee ? this.updateEmployee() : this.createEmployee()"
       >
