@@ -63,8 +63,8 @@ xdescribe('HeaderComponent', () => {
   const userServiceMock: UserService = jasmine.createSpyObj('UserService', ['onLogout']);
   userServiceMock.updateUserLanguage = () => of(true);
 
-  const achievementServiceMock: AchievementService = jasmine.createSpyObj('AchievementService', ['onLogout']);
-  achievementServiceMock.onLogout = () => true;
+  // const achievementServiceMock: AchievementService = jasmine.createSpyObj('AchievementService', ['onLogout']);
+  // achievementServiceMock.onLogout = () => true;
 
   const habitStatisticServiceMock: HabitStatisticService = jasmine.createSpyObj('HabitStatisticService', ['onLogout']);
   habitStatisticServiceMock.onLogout = () => true;
@@ -120,7 +120,7 @@ xdescribe('HeaderComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: UserService, useValue: userServiceMock },
-        { provide: AchievementService, useValue: achievementServiceMock },
+        // { provide: AchievementService, useValue: achievementServiceMock },
         { provide: HabitStatisticService, useValue: habitStatisticServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: SearchService, useValue: searchServiceMock },

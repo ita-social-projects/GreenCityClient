@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AchievementService } from '../../../../../service/achievement/achievement.service';
 
 @Component({
@@ -6,13 +6,13 @@ import { AchievementService } from '../../../../../service/achievement/achieveme
   templateUrl: './achievement-list.component.html',
   styleUrls: ['./achievement-list.component.scss']
 })
-export class AchievementListComponent implements OnInit {
+export class AchievementListComponent {
   $achievements: any;
 
   constructor(private achievementService: AchievementService) {}
 
-  ngOnInit() {
-    // this.achievementService.loadAchievements();
-    // this.$achievements = this.achievementService.achievements;
-  }
+  // ngOnInit() {
+  // this.achievementService.loadAchievements();
+  // this.$achievements = this.achievementService.achievements;
+  // }
 }

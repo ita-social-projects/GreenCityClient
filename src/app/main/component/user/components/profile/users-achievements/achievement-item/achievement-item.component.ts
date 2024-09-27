@@ -11,7 +11,7 @@ import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
 })
 export class AchievementItemComponent {
   @Input() item: AchievementDto | AchievementCategoryDto;
-  @Input() isCategory: boolean = false;
+  @Input() isCategory = false;
   @Output() selectItem = new EventEmitter<AchievementDto | AchievementCategoryDto>();
   achievementsImages = PROFILE_IMAGES.achs;
 

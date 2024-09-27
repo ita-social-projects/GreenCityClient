@@ -56,6 +56,7 @@ p {
       color: var(--quintynary-light-grey);
     }
   }
+
   .achievements-images {
     display: flex;
     justify-content: space-around;
@@ -88,25 +89,6 @@ p {
   }
 }
 
-// @media (min-width: 768px) and (max-width: 1199px) {
-//   .outer {
-//     height: 132px;
-
-//     .achievements {
-//       width: 184px;
-//       bottom: -1px;
-
-//       .header-ukr {
-//         padding: 16px 0;
-//       }
-
-//       .body img {
-//         height: 48px;
-//       }
-//     }
-//   }
-// }
-
 .achievements-next,
 .achievements-previous {
   position: absolute;
@@ -114,7 +96,6 @@ p {
   height: 18px;
   cursor: pointer;
   z-index: 4;
-  // visibility: hidden;
 }
 
 .hidden {

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AchievementDto } from '@global-models/achievement/AchievementDto';
 import { AchievementService } from '@global-service/achievement/achievement.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
@@ -13,7 +13,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   templateUrl: './achievements-modal.component.html',
   styleUrls: ['./achievements-modal.component.scss']
 })
-export class AchievementsModalComponent {
+export class AchievementsModalComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject();
   userInfo: EditProfileModel;
   achievements: AchievementDto[];
