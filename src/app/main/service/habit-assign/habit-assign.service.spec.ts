@@ -111,7 +111,8 @@ describe('HabitService', () => {
     const friendsIdsList = [2, 3, 4];
     const habitAssignProperties: HabitAssignPropertiesDto = {
       defaultShoppingListItems: [],
-      duration: 15
+      duration: 15,
+      isPrivate: true
     };
     const customShoppingItemList: Array<CustomShoppingItem> = [{ text: '1234567890' }];
     service.assignCustomHabit(habitId, friendsIdsList, habitAssignProperties, customShoppingItemList);
