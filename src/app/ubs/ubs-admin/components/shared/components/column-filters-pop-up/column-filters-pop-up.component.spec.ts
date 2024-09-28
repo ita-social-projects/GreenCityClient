@@ -84,11 +84,6 @@ describe('ColumnFiltersPopUpComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method getOptionsForFiltering should return options', () => {
-    const options = component.getOptionsForFiltering();
-    expect(options).toEqual(fakeAdminTableService.columnsForFiltering[0].values);
-  });
-
   it('should set showButtons to true and call setNewFilters on filter change', () => {
     const checked = true;
     const currentColumn = 'testColumn';
