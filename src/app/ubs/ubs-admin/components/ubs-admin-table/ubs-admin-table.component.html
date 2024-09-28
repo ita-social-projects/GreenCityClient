@@ -131,7 +131,7 @@
                       <input
                         *ngIf="isLocationColumn(column.key)"
                         type="text"
-                        class="search-input"
+                        class="search-term-input"
                         placeholder="{{ 'ubs-tables.search' | translate }}"
                         (input)="onSearchTermChange(column.key, $event)"
                       />
