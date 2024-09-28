@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AchievementDto } from '@global-models/achievement/AchievementDto';
 import { AchievementService } from '@global-service/achievement/achievement.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { ProfileService } from '../../profile-service/profile.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
@@ -19,8 +19,10 @@ export class AchievementsModalComponent implements OnInit, OnDestroy {
   achievements: AchievementDto[];
   selectedCategory: AchievementCategoryDto;
   categories: AchievementCategoryDto[];
-  achievedAmount$: Observable<number>;
-  totalAmount$: Observable<number>;
+  achievedAmount: number;
+  totalAmount: number;
+  achievedAmountToShow: number;
+  totalAmountToShow: number;
 
   constructor(
     private achievementService: AchievementService,
@@ -32,34 +34,59 @@ export class AchievementsModalComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.showUserInfo();
-    this.achievementService
-      .getCategories()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((categories) => {
-        this.categories = categories;
-      });
-    this.achievedAmount$ = this.achievementService.getAchievedAmount();
-    this.totalAmount$ = this.achievementService.getAchievementsAmount();
+    this.showCategories();
+    this.getStatistics();
   }
 
   showUserInfo(): void {
     this.profileService
       .getUserInfo()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((item) => {
-        this.userInfo = item;
+      .subscribe((user) => {
+        this.userInfo = user;
+      });
+  }
+
+  showCategories(): void {
+    this.achievementService
+      .getCategories()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((categories) => {
+        this.categories = categories;
+      });
+  }
+
+  getStatistics(): void {
+    this.achievementService
+      .getAchievementsAmount()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((achievementsAmount) => {
+        this.totalAmount = achievementsAmount;
+        this.totalAmountToShow = achievementsAmount;
+      });
+    this.achievementService
+      .getAchievedAmount()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((achievedAmount) => {
+        this.achievedAmount = achievedAmount;
+        this.achievedAmountToShow = achievedAmount;
       });
   }
 
   onCategorySelect(category) {
     this.selectedCategory = category;
-    this.fetchAchievements(category.id);
+    this.getAchievements(category);
   }
 
-  fetchAchievements(categoryId: number) {
-    this.achievementService.getAchievementsByCategory(categoryId).subscribe((data) => {
-      this.achievements = data;
-    });
+  getAchievements(category: AchievementCategoryDto) {
+    this.achievementService
+      .getAchievementsByCategory(category.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.achievements = data;
+      });
+    this.achievedAmountToShow = category.achieved;
+    this.totalAmountToShow = category.totalQuantity;
   }
 
   close() {
@@ -68,6 +95,9 @@ export class AchievementsModalComponent implements OnInit, OnDestroy {
 
   backToCategories() {
     this.selectedCategory = null;
+    this.achievements = [];
+    this.achievedAmountToShow = this.achievedAmount;
+    this.totalAmountToShow = this.totalAmount;
   }
 
   ngOnDestroy() {

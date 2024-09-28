@@ -1,6 +1,6 @@
 <div class="main">
   <div class="wrapper">
-    <div class="user__wrapper">
+    <div class="user__wrapper" *ngIf="userInfo">
       <app-user-profile-image
         class="user-image"
         [imgPath]="userInfo.profilePicturePath"
@@ -13,9 +13,9 @@
         <div class="user__name">{{ userInfo.name }}</div>
         <div class="user__achievements-amount">
           <img src="/assets/img/sidebarIcons/achievement_icon.svg" alt="achievement" />
-          {{ achievedAmount$ | async }}
+          {{ achievedAmountToShow }}
           /
-          {{ totalAmount$ | async }}
+          {{ totalAmountToShow }}
         </div>
       </div>
       <button
