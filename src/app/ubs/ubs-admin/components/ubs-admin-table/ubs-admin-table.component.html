@@ -128,8 +128,16 @@
                       </div>
                     </div>
                     <ng-template #nonDate>
+                      <input
+                        *ngIf="isLocationColumn(column.key)"
+                        type="text"
+                        class="search-input"
+                        placeholder="{{ 'ubs-tables.search' | translate }}"
+                        (input)="onSearchTermChange(column.key, $event)"
+                      />
+
                       <ul class="accordion-list">
-                        <li *ngFor="let option of column.values">
+                        <li *ngFor="let option of getOptionsForFiltering(column)">
                           <mat-checkbox
                             [checked]="isChecked(column.key, option)"
                             (change)="onFilterChange($event?.checked, column.key, option)"
