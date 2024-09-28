@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { iif, Subject } from 'rxjs';
@@ -15,6 +15,11 @@ import { orderDetailsSelector, orderSelectors, personalDataSelector } from 'src/
 import { WarningPopUpComponent } from '@shared/components';
 import { DomSanitizer } from '@angular/platform-browser';
 
+export enum PaymentSystem {
+  MONOBANK = 'Monobank',
+  WAY_FOR_PAY = 'Way-for-pay'
+}
+
 @Component({
   selector: 'app-ubs-submit-order',
   templateUrl: './ubs-submit-order.component.html',
@@ -24,7 +29,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   @Input() public isNotification: boolean;
   @Input() public orderIdFromNotification: number;
 
-  paymentForm: FormGroup = this.fb.group({});
+  paymentForm: FormGroup;
+  paymentSystemOptions = Object.values(PaymentSystem);
 
   bags: Bag[] = [];
   personalData: PersonalData;
@@ -76,6 +82,11 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   ngOnInit(): void {
     this.route.queryParams.pipe(take(1)).subscribe((params) => (this.existingOrderId = params.existingOrderId));
+    console.log(this.paymentSystemOptions);
+    this.paymentForm = new FormGroup({
+      paymentType: new FormControl(this.paymentSystemOptions[0], Validators.required)
+    });
+
     this.initListeners();
   }
 
