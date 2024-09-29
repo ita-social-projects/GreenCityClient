@@ -38,7 +38,7 @@ export class EcoNewsCommentsService implements CommentsService {
 
   deleteComments(ecoNewsId: number, parentCommentId: number) {
     return this.http
-      .delete<object>(`${this.backEnd}eco-news/comments/${ecoNewsId}`, { observe: 'response' })
+      .delete<object>(`${this.backEnd}eco-news/comments/${parentCommentId}`, { observe: 'response' })
       .pipe(map((response) => response.status >= 200 && response.status < 300));
   }
 
