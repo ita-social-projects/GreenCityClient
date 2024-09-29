@@ -1,7 +1,7 @@
 <li [ngClass]="isCategory && 'click'" class="achievements__item" (click)="onItemClick()">
   <div class="item__image">
     <mat-progress-spinner mode="determinate" [value]="getProgressValue()" diameter="90" strokeWidth="5"> </mat-progress-spinner>
-    <img [src]="getImagePath()" alt="achievement" [ngClass]="{ greyscale: isGreyscale() }" />
+    <img [src]="getImagePath()" alt="achievement" [ngClass]="{ greyscale: this.itemToUse.achieved < this.itemToUse.totalQuantity }" />
   </div>
   <div class="item__data">
     <p class="item__title">{{ getTitle() }}</p>
