@@ -1,10 +1,15 @@
 .friend-btn {
   display: flex;
   flex-direction: column;
-  width: 125px;
+  width: fit-content;
   justify-content: end;
+  align-items: end;
   gap: 15px;
   white-space: nowrap;
+}
+
+.secondary-global-button {
+  width: 125px;
 }
 
 .chat-btn {
@@ -47,4 +52,10 @@
 
 .chat-btn:focus::after {
   left: -4px;
+}
+
+.cancel-btn {
+  width: fit-content;
+  min-width: 125px;
+  padding: 0 4px;
 }
