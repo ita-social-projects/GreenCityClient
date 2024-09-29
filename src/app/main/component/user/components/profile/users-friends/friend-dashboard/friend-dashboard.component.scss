@@ -20,14 +20,13 @@
   .friends {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
-    column-gap: 63px;
     align-items: center;
     font-family: var(--tertiary-font);
     padding: 12px 0 44px;
 
     @media screen and (max-width: 1024px) {
       padding: 12px 0 41px;
+      justify-content: space-between;
     }
 
     @media screen and (max-width: 576px) {
@@ -60,8 +59,12 @@
   }
 
   .friend-tabs {
+    display: flex;
+    gap: 38px;
+
     a {
       white-space: nowrap;
+      margin: 0;
     }
 
     @media screen and (max-width: 1200px) {
@@ -78,6 +81,12 @@
 
   .searchForm {
     background-color: var(--white);
+    margin-right: 38px;
+    margin-left: auto;
+
+    @media screen and (max-width: 1024px) {
+      margin: 0;
+    }
 
     @media (max-width: 576px) {
       margin: 0 auto;
