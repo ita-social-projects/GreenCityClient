@@ -123,9 +123,9 @@
         <form class="payment-group" [formGroup]="paymentForm">
           <label class="choose-payment-chooser">Оберіть спосіб оплати</label>
           <mat-form-field appearance="outline" class="payment-field">
-            <mat-select class="select" formControlName="paymentType">
+            <mat-select class="select" formControlName="paymentSystem">
               <mat-option *ngFor="let type of paymentSystemOptions" [value]="type">
-                {{ 'Карткою через ' + type }}
+                {{ 'Карткою через ' + convertPaymentSystem[type] }}
               </mat-option>
             </mat-select>
           </mat-form-field>

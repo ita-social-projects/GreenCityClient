@@ -14,11 +14,7 @@ import { select, Store } from '@ngrx/store';
 import { orderDetailsSelector, orderSelectors, personalDataSelector } from 'src/app/store/selectors/order.selectors';
 import { WarningPopUpComponent } from '@shared/components';
 import { DomSanitizer } from '@angular/platform-browser';
-
-export enum PaymentSystem {
-  MONOBANK = 'Monobank',
-  WAY_FOR_PAY = 'Way-for-pay'
-}
+import { PaymentSystem } from '../../models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -28,6 +24,11 @@ export enum PaymentSystem {
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   @Input() public isNotification: boolean;
   @Input() public orderIdFromNotification: number;
+
+  convertPaymentSystem = {
+    MONOBANK: 'Monobank',
+    WAY_FOR_PAY: 'WayForPay'
+  };
 
   paymentForm: FormGroup;
   paymentSystemOptions = Object.values(PaymentSystem);
@@ -84,7 +85,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     this.route.queryParams.pipe(take(1)).subscribe((params) => (this.existingOrderId = params.existingOrderId));
     console.log(this.paymentSystemOptions);
     this.paymentForm = new FormGroup({
-      paymentType: new FormControl(this.paymentSystemOptions[0], Validators.required)
+      paymentSystem: new FormControl(this.paymentSystemOptions[0], Validators.required)
     });
 
     this.initListeners();
@@ -113,6 +114,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.personalData = personalData;
       this.cdr.detectChanges();
     });
+  }
+
+  get paymentSystem() {
+    return this.paymentForm.get('paymentSystem').value;
   }
 
   processOrder(shouldBePaid: boolean = true): void {
@@ -165,6 +170,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       locationId: this.locationId,
       addressId: this.addressId,
       shouldBePaid,
+      paymentSystem: this.paymentSystem,
       bags: this.bags.map((bag) => ({ id: bag.id, amount: bag.quantity }))
     };
   }
