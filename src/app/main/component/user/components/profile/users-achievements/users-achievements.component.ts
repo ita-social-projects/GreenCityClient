@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
-import { Router } from '@angular/router';
 import { AchievementService } from '@global-service/achievement/achievement.service';
 import { debounceTime, fromEvent, Subject, takeUntil } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -16,8 +15,8 @@ import { AchievementsModalComponent } from './achievements-modal/achievements-mo
 })
 export class UsersAchievementsComponent implements OnInit, OnDestroy {
   itemsPerPage = 3;
-  private slideIndex = 0;
-  private totalPages = 0;
+  slideIndex = 0;
+  totalPages = 0;
 
   achievements: AchievementDto[] = [];
   achievementsToShow: AchievementDto[] = [];
@@ -35,7 +34,6 @@ export class UsersAchievementsComponent implements OnInit, OnDestroy {
   @ViewChild('previousArrow', { static: false }) previousArrow: ElementRef;
 
   constructor(
-    private router: Router,
     private achievementService: AchievementService,
     private localStorageService: LocalStorageService,
     private dialog: MatDialog
@@ -102,8 +100,7 @@ export class UsersAchievementsComponent implements OnInit, OnDestroy {
     this.dialog.open(AchievementsModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      panelClass: ['custom-dialog-container'],
-      data: {}
+      panelClass: ['custom-dialog-container']
     });
   }
 
