@@ -258,7 +258,6 @@ export class CAddressData {
     return new google.maps.Geocoder()
       .geocode({ location: coordinates })
       .then((response) => {
-        console.log(response);
         const place_id = response.results[0]?.place_id;
         return place_id || '';
       })

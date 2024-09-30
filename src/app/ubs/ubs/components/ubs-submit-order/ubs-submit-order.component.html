@@ -2,7 +2,6 @@
   <div class="header">
     <h3 class="font-bolt order-title">{{ 'order-details.your-order' | translate }}</h3>
   </div>
-  <!-- <form class="form"> -->
   <div class="labels-box">
     <label for="service" class="label">{{ 'order-details.service' | translate }}</label>
     <label for="volume" class="label">{{ 'order-details.volume' | translate }}</label>
@@ -121,9 +120,9 @@
         <h2 class="payment-title">Оплата</h2>
         <p class="choose-payment">Ви можете здійснити оплату одним з вибраних способів нижче.</p>
         <form class="payment-group" [formGroup]="paymentForm">
-          <label class="choose-payment-chooser">Оберіть спосіб оплати</label>
-          <mat-form-field appearance="outline" class="payment-field">
-            <mat-select class="select" formControlName="paymentSystem">
+          <label class="choose-payment-chooser" for="payment-select">Оберіть спосіб оплати</label>
+          <mat-form-field appearance="outline" class="payment-field" id="payment-system">
+            <mat-select class="select" formControlName="paymentSystem" id="payment-select">
               <mat-option *ngFor="let type of paymentSystemOptions" [value]="type">
                 {{ 'Карткою через ' + convertPaymentSystem[type] }}
               </mat-option>
@@ -133,7 +132,6 @@
       </div>
     </div>
   </div>
-  <!-- </form> -->
 </div>
 
 <div class="w-100 buttons" *ngIf="bags.length && personalData?.district">

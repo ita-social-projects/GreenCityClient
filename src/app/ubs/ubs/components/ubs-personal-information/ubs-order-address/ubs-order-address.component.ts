@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { CAddressData } from '@ubs/ubs/models/ubs.model';
-import { Subject, combineLatest } from 'rxjs';
+import { Subject, combineLatest, from } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
@@ -18,6 +18,8 @@ import {
 import { IAddressExportDetails, IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
 import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 import { AddressValidator } from 'src/app/ubs/ubs/validators/address-validators';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ubs-order-address',
@@ -38,14 +40,14 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private addressValidator: AddressValidator,
-    private store: Store,
-    private languageService: LanguageService
-  ) {
-    this.addressData = new CAddressData(this.languageService);
-  }
+    private readonly addressValidator: AddressValidator,
+    private readonly store: Store,
+    private readonly languageService: LanguageService
+  ) {}
 
   ngOnInit(): void {
+    this.addressData = new CAddressData(this.languageService);
+
     this.store.dispatch(GetAddresses());
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       params.existingOrderId ? this.initListenersForExistingOrder() : this.initListenersForNewOrder();
@@ -124,20 +126,33 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
     address && this.isAddressAvailable(address) ? this.setCurrentAddress(address) : this.initLocation();
   }
 
-  async setCurrentAddress(address: Address): Promise<void> {
+  setCurrentAddress(address: Address): void {
     const clonedAddress = { ...address };
 
-    if (!clonedAddress.placeId) {
-      const latLng = new google.maps.LatLng(clonedAddress.coordinates.latitude, clonedAddress.coordinates.longitude);
-      clonedAddress.placeId = await this.addressData.getAddressPlaceId(latLng);
-    }
+    of(clonedAddress)
+      .pipe(
+        switchMap((clonedAddress) => {
+          if (!clonedAddress.placeId) {
+            const latLng = new google.maps.LatLng(clonedAddress.coordinates.latitude, clonedAddress.coordinates.longitude);
+            return from(this.addressData.getAddressPlaceId(latLng)).pipe(
+              switchMap((placeId: string) => {
+                clonedAddress.placeId = placeId;
+                return of(clonedAddress);
+              })
+            );
+          } else {
+            return of(clonedAddress);
+          }
+        })
+      )
+      .subscribe((clonedAddress) => {
+        this.selectedAddress = clonedAddress;
 
-    this.selectedAddress = clonedAddress;
+        this.addressComment.patchValue(clonedAddress?.addressComment ?? '');
+        this.store.dispatch(SetAddress({ address: clonedAddress }));
 
-    this.addressComment.patchValue(clonedAddress?.addressComment ?? '');
-    this.store.dispatch(SetAddress({ address: clonedAddress }));
-
-    clonedAddress ? this.addressComment.enable() : this.addressComment.disable();
+        clonedAddress ? this.addressComment.enable() : this.addressComment.disable();
+      });
   }
 
   isAddressAvailable(address: Address): boolean {

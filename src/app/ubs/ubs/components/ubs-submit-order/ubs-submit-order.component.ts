@@ -1,20 +1,17 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { iif, Subject } from 'rxjs';
 import { filter, finalize, take, takeUntil } from 'rxjs/operators';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
-import { Bag, IProcessOrderResponse, Order, OrderDetails, PersonalData } from '../../models/ubs.interface';
+import { Bag, IProcessOrderResponse, Order, OrderDetails, PersonalData, PaymentSystem } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { select, Store } from '@ngrx/store';
 import { orderDetailsSelector, orderSelectors, personalDataSelector } from 'src/app/store/selectors/order.selectors';
 import { WarningPopUpComponent } from '@shared/components';
-import { DomSanitizer } from '@angular/platform-browser';
-import { PaymentSystem } from '../../models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -26,8 +23,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   @Input() public orderIdFromNotification: number;
 
   convertPaymentSystem = {
-    MONOBANK: 'Monobank',
-    WAY_FOR_PAY: 'WayForPay'
+    [PaymentSystem.MONOBANK]: 'Monobank',
+    [PaymentSystem.WAY_FOR_PAY]: 'WayForPay'
   };
 
   paymentForm: FormGroup;
@@ -70,10 +67,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     public ubsOrderFormService: UBSOrderFormService,
     private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
-    private langService: LanguageService,
-    private fb: FormBuilder,
     private store: Store,
-    private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
     router: Router,
     dialog: MatDialog
@@ -83,7 +77,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   ngOnInit(): void {
     this.route.queryParams.pipe(take(1)).subscribe((params) => (this.existingOrderId = params.existingOrderId));
-    console.log(this.paymentSystemOptions);
     this.paymentForm = new FormGroup({
       paymentSystem: new FormControl(this.paymentSystemOptions[0], Validators.required)
     });
@@ -114,10 +107,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.personalData = personalData;
       this.cdr.detectChanges();
     });
-  }
-
-  get paymentSystem() {
-    return this.paymentForm.get('paymentSystem').value;
   }
 
   processOrder(shouldBePaid: boolean = true): void {
@@ -170,7 +159,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       locationId: this.locationId,
       addressId: this.addressId,
       shouldBePaid,
-      paymentSystem: this.paymentSystem,
+      paymentSystem: this.paymentForm.get('paymentSystem').value,
       bags: this.bags.map((bag) => ({ id: bag.id, amount: bag.quantity }))
     };
   }

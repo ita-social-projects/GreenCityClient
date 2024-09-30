@@ -9,7 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SpinnerComponent } from 'src/app/shared/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('UbsOrderAddressComponent', () => {
   let component: UbsOrderAddressComponent;
@@ -24,8 +24,9 @@ describe('UbsOrderAddressComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsOrderAddressComponent, SpinnerComponent],
-      imports: [TranslateModule.forRoot(), MatProgressSpinnerModule, ReactiveFormsModule, HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), MatProgressSpinnerModule, ReactiveFormsModule],
       providers: [
+        provideHttpClient(withInterceptorsFromDi()),
         {
           provide: ActivatedRoute,
           useValue: {
