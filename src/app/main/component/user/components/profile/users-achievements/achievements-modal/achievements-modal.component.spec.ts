@@ -13,14 +13,14 @@ import { AchievementDto } from '@global-models/achievement/AchievementDto';
 describe('AchievementsPopupComponent', () => {
   let component: AchievementsModalComponent;
   let fixture: ComponentFixture<AchievementsModalComponent>;
-  let achievementServiceMock = jasmine.createSpyObj('AchievementService', [
+  const achievementServiceMock = jasmine.createSpyObj('AchievementService', [
     'getAchievementsAmount',
     'getAchievedAmount',
     'getCategories',
     'getAchievementsByCategory'
   ]);
-  let profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
-  let dialogRefMock = jasmine.createSpyObj('MatDialogRef', ['close']);
+  const profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
+  const dialogRefMock = jasmine.createSpyObj('MatDialogRef', ['close']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
