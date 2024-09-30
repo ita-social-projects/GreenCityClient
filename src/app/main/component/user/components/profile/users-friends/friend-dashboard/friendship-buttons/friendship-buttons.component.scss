@@ -1,15 +1,10 @@
 .friend-btn {
   display: flex;
   flex-direction: column;
-  width: fit-content;
+  width: 125px;
   justify-content: end;
-  align-items: end;
   gap: 15px;
   white-space: nowrap;
-}
-
-.secondary-global-button {
-  width: 125px;
 }
 
 .chat-btn {
