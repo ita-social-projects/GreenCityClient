@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AchievementDto } from '../../model/achievement/AchievementDto';
 import { Observable } from 'rxjs';
 import { achievementLink } from '../../links';
+import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class AchievementService {
     return this.http.get<AchievementDto[]>(`${achievementLink}?achievementCategoryId=${categoryId}`);
   }
 
-  getCategories(): Observable<[]> {
-    return this.http.get<[]>(`${achievementLink}/categories`);
+  getCategories(): Observable<AchievementCategoryDto[]> {
+    return this.http.get<AchievementCategoryDto[]>(`${achievementLink}/categories`);
   }
 }
