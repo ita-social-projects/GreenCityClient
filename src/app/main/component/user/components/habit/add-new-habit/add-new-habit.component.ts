@@ -20,9 +20,12 @@ import { HabitAcquireConfirm, HabitCongratulation, HabitGiveUp, HabitLeavePage }
 import { WarningDialog } from '@global-user/models/warning-dialog.inteface';
 import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
-import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '@user-models/shoppinglist.interface';
+import { AllShoppingLists, HabitUpdateShopList, ShoppingList } from '@user-models/shoppinglist.interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import {
+  HabitAssignCustomPropertiesDto,
+  HabitAssignPropertiesDto
+} from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { STAR_IMAGES } from '../const/data.const';
 import { HttpParams } from '@angular/common/http';
@@ -288,25 +291,26 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   assignCustomHabit(): void {
     this.friendsIdsList = this.userFriendsService.addedFriends?.map((friend) => friend.id);
-    const defaultItemsIds = this.standardShopList.filter((item) => item.selected === true).map((item) => item.id);
-    const propertiesDto: HabitAssignPropertiesDto = {
-      defaultShoppingListItems: defaultItemsIds,
+    const habitAssignPropertiesDto: HabitAssignPropertiesDto = {
+      defaultShoppingListItems: this.standardShopList.filter((item) => item.selected === true).map((item) => item.id),
       duration: this.newDuration,
       isPrivate: this.isPrivate
     };
-    const customItemsList: CustomShoppingItem[] = this.customShopList.map((item) => ({ text: item.text }));
+    const body: HabitAssignCustomPropertiesDto = {
+      friendsIdsList: this.friendsIdsList,
+      habitAssignPropertiesDto,
+      customShoppingListItemList: this.customShopList.map((item) => ({ text: item.text }))
+    };
 
     this.habitAssignService
-      .assignCustomHabit(this.habitId, this.friendsIdsList, propertiesDto, customItemsList)
-      .pipe(take(1))
-      .subscribe(() => {
+      .assignCustomHabit(this.habitId, body).pipe(take(1)).subscribe(() => {
         this.afterHabitWasChanged('habitAdded');
       });
   }
 
   updateHabit(): void {
     this.habitAssignService
-      .updateHabit(this.habitAssignId, this.newDuration)
+      .updateHabitDuration(this.habitAssignId, this.newDuration)
       .pipe(take(1))
       .subscribe(() => {
         if (this.customShopList || this.standardShopList) {
