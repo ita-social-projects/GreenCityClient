@@ -3,9 +3,10 @@
 @import 'src/typography/_fonts.scss';
 
 .main {
-  width: 800px;
+  max-width: 800px;
   min-height: 500px;
   color: var(--primary-dark-grey);
+  margin: 0;
 }
 
 .wrapper {
@@ -82,25 +83,8 @@
   }
 }
 
-@include responsivePCFirst(lg) {
-  .wrapper {
-    width: 480px;
-    padding-right: 0;
-  }
-}
-
-@include responsivePCFirst(lg) {
-  .wrapper {
-    div {
-      max-width: 320px;
-    }
-  }
-}
-
-@media screen and (max-width: 350px) {
-  .wrapper {
-    div {
-      max-width: 280px;
-    }
+@include responsivePCFirst(sm) {
+  .achievements__list {
+    flex-direction: column;
   }
 }
