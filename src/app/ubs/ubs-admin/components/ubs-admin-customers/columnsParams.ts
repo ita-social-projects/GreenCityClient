@@ -1,8 +1,19 @@
-export const columnsParams = [
+export interface ColumnParam {
+  title: ColumnParamTitle;
+  width: number;
+}
+
+export interface ColumnParamTitle {
+  key: string;
+  ua: string;
+  en: string;
+}
+
+export const columnsParams: ColumnParam[] = [
   {
     title: {
       key: 'clientName',
-      ua: 'Імя клієнта',
+      ua: "Ім'я клієнта",
       en: 'Client name'
     },
     width: 100
@@ -65,7 +76,7 @@ export const columnsParams = [
   }
 ];
 
-export const columnsParamsOrders = [
+export const columnsParamsOrders: ColumnParam[] = [
   {
     title: {
       key: 'orderDate',
@@ -108,7 +119,7 @@ export const columnsParamsOrders = [
   }
 ];
 
-export const columnsParamsViolations = [
+export const columnsParamsViolations: ColumnParam[] = [
   {
     title: {
       key: 'violationDate',
@@ -135,7 +146,7 @@ export const columnsParamsViolations = [
   }
 ];
 
-export const columnsParamsCertificates = [
+export const columnsParamsCertificates: ColumnParam[] = [
   {
     title: {
       key: 'select',

@@ -7,6 +7,7 @@ import { Language } from 'src/app/main/i18n/Language';
 import { IBigOrderTableOrderInfo } from '../../../models/ubs-admin.interface';
 import { tableViewParameters, nameOfTable, notTranslatedRows } from '../../../models/admin-tables.model';
 import * as XLSX from 'xlsx';
+import { ColumnParam, columnsParams, columnsParamsCertificates, columnsParamsOrders } from '../../ubs-admin-customers/columnsParams';
 
 @Component({
   selector: 'app-ubs-admin-table-excel-popup',
@@ -61,6 +62,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     const isOrdersTable = this.name === nameOfTable.ordersTable;
     const isCertificatesTable = this.name === nameOfTable.certificatesTable;
     const isCustomersTable = this.name === nameOfTable.customersTable;
+
     if (this.tableView === tableViewParameters.wholeTable) {
       if (isOrdersTable) {
         this.getOrdersTable(this.onePageForWholeTable, this.allElements, '', 'DESC', 'id')
@@ -206,11 +208,43 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     });
   }
 
+  private getTranslatedColumnTitles(columnTitles: string[], translations: Record<string, ColumnParam[]>): string[] {
+    let currentLanguage = this.languageService.getCurrentLanguage();
+    if (currentLanguage === Language.UK) {
+      currentLanguage = Language.UA;
+    }
+
+    return columnTitles.map((key: string) => {
+      const column = translations[this.name]?.find((col) => col.title.key === key);
+      if (column) {
+        return column.title[currentLanguage.toLowerCase()] || key;
+      }
+      return key;
+    });
+  }
+
   createXLSX() {
+    const translations: Record<string, ColumnParam[]> = {
+      [nameOfTable.ordersTable]: columnsParamsOrders,
+      [nameOfTable.certificatesTable]: columnsParamsCertificates,
+      [nameOfTable.customersTable]: columnsParams
+    };
+
     this.isLoading = false;
+
+    let columnTitles: string[];
+    if (this.tableData && this.tableData.length > 0) {
+      columnTitles = Object.keys(this.tableData[0]);
+    } else if (this.columnTitles.length) {
+      columnTitles = this.columnTitles;
+    } else {
+      columnTitles = this.columnKeys;
+    }
+
     if (this.tableData) {
+      const translatedColumnTitles = this.getTranslatedColumnTitles(columnTitles, translations);
       const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData, { header: this.columnKeys });
-      const wst = XLSX.utils.sheet_add_aoa(ws, [this.columnTitles], { origin: 'A1' });
+      const wst = XLSX.utils.sheet_add_aoa(ws, [translatedColumnTitles], { origin: 'A1' });
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
 
       XLSX.utils.book_append_sheet(wb, wst, 'Sheet1');
