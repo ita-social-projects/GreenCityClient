@@ -132,7 +132,7 @@ describe('EventsCommentsService', () => {
       expect(commentData).toEqual(commentBody);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/1/comments/1/replies?statuses=ORIGINAL,EDITED&page=2&size=3`);
+    const req = httpTestingController.expectOne(`${url}events/1/comments/1/replies/active?statuses=ORIGINAL,EDITED&page=2&size=3`);
     expect(req.request.method).toEqual('GET');
     req.flush(commentBody);
   });
@@ -142,7 +142,7 @@ describe('EventsCommentsService', () => {
       expect(deleted).toBe(true);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/1/comments/1`);
+    const req = httpTestingController.expectOne(`${url}events/comments/1`);
     expect(req.request.method).toEqual('DELETE');
     req.flush({});
   });
@@ -153,7 +153,7 @@ describe('EventsCommentsService', () => {
       expect(commentData).toEqual(commentLikes);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/1/comments/1/likes/count`);
+    const req = httpTestingController.expectOne(`${url}events/comments/1/likes/count`);
     expect(req.request.method).toEqual('GET');
     req.flush(commentLikes);
   });
@@ -164,7 +164,7 @@ describe('EventsCommentsService', () => {
       expect(commentData).toEqual(commentReplies);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/1/comments/1/replies/count`);
+    const req = httpTestingController.expectOne(`${url}events/comments/1/replies/count`);
     expect(req.request.method).toEqual('GET');
     req.flush(commentReplies);
   });
@@ -174,7 +174,7 @@ describe('EventsCommentsService', () => {
       expect(commentData).toEqual({});
     });
 
-    const req = httpTestingController.expectOne(`${url}events/1/comments/1/likes`);
+    const req = httpTestingController.expectOne(`${url}events/comments/like/1`);
     expect(req.request.method).toEqual('POST');
     req.flush({});
   });
@@ -184,8 +184,8 @@ describe('EventsCommentsService', () => {
       expect(commentData).toEqual({});
     });
 
-    const req = httpTestingController.expectOne(`${url}events/1/comments/1`);
-    expect(req.request.method).toEqual('PUT');
+    const req = httpTestingController.expectOne(`${url}events/comments/1`);
+    expect(req.request.method).toEqual('PATCH');
     expect(req.request.body).toEqual(commentText);
     req.flush({});
   });
