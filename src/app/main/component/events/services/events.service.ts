@@ -64,12 +64,14 @@ export class EventsService implements OnDestroy {
           finishDate: finishDate.toISOString(),
           onlineLink: dateInfo.placeOnline.onlineLink,
           place: dateInfo.placeOnline.place,
+          /* eslint-disable indent */
           coordinates: dateInfo.placeOnline.coordinates
             ? {
                 latitude: dateInfo.placeOnline.coordinates.lat,
                 longitude: dateInfo.placeOnline.coordinates.lng
               }
             : undefined
+          /* eslint-enable indent */
         };
       }),
       tags: eventInformation.tags,

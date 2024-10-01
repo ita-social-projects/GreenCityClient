@@ -150,6 +150,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     this.eventDateForm.controls.forEach((dayGroup, index) => {
       const dayFormGroup = dayGroup.get('day') as FormGroup;
       const currentDay = new Date(dayFormGroup.get('date').value);
+      /* eslint-disable indent */
       const prevDate =
         index > 0
           ? new Date(
@@ -159,6 +160,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
                 .get('date').value
             )
           : null;
+      /* eslint-disable indent */
       const nextDate = index < this.eventDateForm.length - 1 ? new Date(this.eventDateForm.at(index).get('day').get('date').value) : null;
 
       dayFormGroup.get('minDate').setValue(prevDate ? new Date(prevDate.getTime() + 24 * 60 * 60 * 1000) : currentDay);
