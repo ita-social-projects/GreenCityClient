@@ -124,8 +124,10 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   }
 
   setCurrentAddress(address: Address): void {
+    if (!address) {
+      return;
+    }
     const clonedAddress = { ...address };
-
     of(clonedAddress)
       .pipe(
         switchMap((clonedAddress) => {
