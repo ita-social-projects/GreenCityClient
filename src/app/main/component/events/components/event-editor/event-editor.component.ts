@@ -1,26 +1,25 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { quillConfig } from './quillEditorFunc';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ofType } from '@ngrx/effects';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
-import { Place } from '../../../places/models/place';
-import { DateInformation, Dates, EventDTO, EventForm, EventResponse, TagObj } from '../../models/events.interface';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EventsService } from '../../services/events.service';
 import { Subscription } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ActionsSubject, Store } from '@ngrx/store';
-import { ofType } from '@ngrx/effects';
-import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { singleNewsImages } from '../../../../image-pathes/single-news-images';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { take } from 'rxjs/operators';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
+import { singleNewsImages } from '../../../../image-pathes/single-news-images';
+import { Place } from '../../../places/models/place';
 import { DefaultCoordinates } from '../../models/event-consts';
+import { DateInformation, Dates, EventDTO, EventForm, EventResponse, TagObj } from '../../models/events.interface';
+import { EventsService } from '../../services/events.service';
+import { quillConfig } from './quillEditorFunc';
 
 @Component({
   selector: 'app-event-editor',
@@ -66,15 +65,12 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     public dialog: MatDialog,
     public router: Router,
     private fb: FormBuilder,
-    private route: ActivatedRoute,
     public localStorageService: LocalStorageService,
     private actionsSubj: ActionsSubject,
     private store: Store,
     private snackBar: MatSnackBarComponent,
     public dialogRef: MatDialogRef<DialogPopUpComponent>,
-    private languageService: LanguageService,
-    private eventsService: EventsService,
-    private matSnackBar: MatSnackBarComponent
+    private eventsService: EventsService
   ) {
     super(router, dialog);
     this.quillModules = quillConfig;
@@ -112,7 +108,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
 
         if (currentLength > numberDays) {
           for (let i = currentLength - 1; i >= numberDays; i--) {
-            this.eventDateForm.removeAt(i);
+            this.eventDateForm.removeAt(i, { emitEvent: false });
           }
         } else {
           for (let i = currentLength; i < numberDays; i++) {
@@ -173,7 +169,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   private createFormEvent(): void {
     const information = this.event?.eventInformation;
     const date = this.event?.dateInformation ?? [];
-    console.log(information, date);
+
     this.eventForm = this.fb.group({
       eventInformation: this.fb.group({
         title: [information?.title ?? '', [Validators.required, Validators.maxLength(70)]],
@@ -218,11 +214,11 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
 
   submitEvent(): void {
     const { eventInformation, dateInformation } = this.eventForm.value;
-    const { open, tags, editorText, title, images } = eventInformation;
+    const { open, tags, description, title, images } = eventInformation;
     const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
     let sendEventDto: EventDTO = {
       title,
-      description: editorText,
+      description: description,
       open,
       tags,
       datesLocations: dates

@@ -7,9 +7,6 @@ import 'moment/locale/uk';
 import { LanguageService } from '../../../../../../../../i18n/language.service';
 import { MomentDateAdapter } from './moment-date-adapter/moment-date-adapter';
 
-const moment = _moment;
-moment.locale('uk');
-
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MMM DD, YYYY'
@@ -45,7 +42,6 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   private _upperTimeLimit = 0;
   private prevTimeValue: Array<string>;
   private initialStartTime: string;
-  // test = '00:00';
   timeMask = {
     mask: 'HH:MM',
     blocks: {
@@ -63,29 +59,6 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
       }
     }
   };
-  // dateMask = {
-  //   mask: 'd/`m/`YY',
-  //   blocks: {
-  //     d: {
-  //       mask: IMask.MaskedRange,
-  //       from: 1,
-  //       to: 31,
-  //       maxLength: 2
-  //     },
-  //     m: {
-  //       mask: IMask.MaskedRange,
-  //       from: 1,
-  //       to: 12,
-  //       maxLength: 2
-  //     },
-  //     Y: {
-  //       mask: IMask.MaskedRange,
-  //       from: 1900,
-  //       to: 9999,
-  //       maxLength: 4
-  //     }
-  //   }
-  // };
 
   @ViewChild('dateRef') dateRef: ElementRef;
   @ViewChild('startTimeRef') startTimeRef: ElementRef;
@@ -121,6 +94,8 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     return this.dayForm.get('maxDate').value;
   }
   ngOnInit() {
+    const moment = _moment;
+    moment.locale('uk');
     this.dayForm = this.dayFormGroup.get('day') as FormGroup;
     this._fillTimeArray();
     this.initialStartTime = this._initialStartTime();
@@ -131,14 +106,11 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
       this.dateFormat = lang !== 'ua' ? 'MMDDYYYY' : 'DDMMYYYY';
       this.adapter.setLocale(locale);
     });
-    this.date.valueChanges.subscribe((value) => {
-      //todo: change input on inputs(day, mounth, year)
-      console.log(moment(value).format('YYYY-MM-DD'));
+    this.date.valueChanges.subscribe(() => {
       this._updateNeighboringDates();
     });
     this.startTime.valueChanges.subscribe((value: string) => {
       this._handleTimeChange(value, 'start');
-      console.log(this.startTime);
     });
 
     this.endTime.valueChanges.subscribe((value: string) => {
@@ -147,6 +119,7 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    // TODO
     // IMask(this.dateRef.nativeElement, this.dateMask);
     IMask(this.startTimeRef.nativeElement, this.timeMask);
     IMask(this.endTimeRef.nativeElement, this.timeMask);
@@ -158,7 +131,7 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
       const prevDayComponent = prevFormGroup.get('day');
       if (prevDayComponent) {
         prevDayComponent.patchValue({
-          maxDate: new Date(this.date.value.getTime() - 24 * 60 * 60 * 1000)
+          maxDate: new Date(this.date.value._d.getTime() - 24 * 60 * 60 * 1000)
         });
       }
     }
@@ -168,7 +141,7 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
       const nextDayComponent = nextFormGroup.get('day');
       if (nextDayComponent) {
         nextDayComponent.patchValue({
-          minDate: new Date(this.date.value.getTime() + 24 * 60 * 60 * 1000)
+          minDate: new Date(this.date.value._d.getTime() + 24 * 60 * 60 * 1000)
         });
       }
     }

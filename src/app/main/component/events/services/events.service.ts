@@ -4,6 +4,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
 import {
   Addresses,
+  EventAttender,
   EventFilterCriteriaInterface,
   EventForm,
   EventResponse,
