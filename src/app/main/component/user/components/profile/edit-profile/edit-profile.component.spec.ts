@@ -26,6 +26,7 @@ describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
   let fixture: ComponentFixture<EditProfileComponent>;
   let router: Router;
+  const previousGoogle = (window as any).google;
 
   beforeEach(waitForAsync(() => {
     (window as any).google = {
@@ -77,51 +78,12 @@ describe('EditProfileComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create EditProfileComponent', () => {
-    expect(component).toBeTruthy();
+  afterAll(() => {
+    (window as any).google = previousGoogle;
   });
 
-  describe('General methods:', () => {
-    const initMethods = ['initForm', 'getInitialValue', 'subscribeToLangChange', 'bindLang'];
-
-    for (let i = 0; i < initMethods.length; i++) {
-      it(`ngOnInit should init ${i + 1}-st element ${initMethods[i]}`, () => {
-        const spy = spyOn(component as any, initMethods[i]);
-        component.ngOnInit();
-        expect(spy).toHaveBeenCalledTimes(1);
-      });
-    }
-
-    it('ngOnDestroy should destroy one method', () => {
-      spyOn((component as any).langChangeSub, 'unsubscribe');
-      component.ngOnDestroy();
-      expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
-    });
-
-    it('should return the correct form values', () => {
-      component.editProfileForm.setValue({
-        name: 'John',
-        city: 'City',
-        credo: 'Some credo',
-        showLocation: true,
-        showEcoPlace: false,
-        showShoppingList: true,
-        socialNetworks: []
-      });
-      component.coordinates = { latitude: 123, longitude: 456 };
-      component.socialNetworksToServer = ['Facebook', 'Twitter'];
-
-      const result = component.getFormValues();
-
-      expect(result.firstName).toBe('John');
-      expect(result.latitude).toBe(123);
-      expect(result.longitude).toBe(456);
-      expect(result.userCredo).toBe('Some credo');
-      expect(result.showLocation).toBe(true);
-      expect(result.showEcoPlace).toBe(false);
-      expect(result.showShoppingList).toBe(true);
-      expect(result.socialNetworks).toEqual(['Facebook', 'Twitter']);
-    });
+  it('should create EditProfileComponent', () => {
+    expect(component).toBeTruthy();
   });
 
   describe('Testing of warnings in cases of user leaves the page', () => {

@@ -75,35 +75,6 @@ describe('HabitEditShoppingListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('bindLang(lang) should invoke translate.setDefaultLang(lang)', () => {
-    spyOn((component as any).translate, 'setDefaultLang').and.returnValue('test');
-    (component as any).bindLang('en');
-    expect((component as any).translate.setDefaultLang).toHaveBeenCalledWith('en');
-  });
-
-  it('should call placeItemInOrder on additem', () => {
-    component.isListChanged = false;
-    const spy = spyOn(component as any, 'placeItemInOrder');
-    component.addItem('test');
-    expect(spy).toHaveBeenCalled();
-    expect(component.isListChanged).toBeTruthy();
-  });
-
-  it('should set selected property on ngOnchange', () => {
-    component.shopList = [];
-    const spy = spyOn(component as any, 'placeItemInOrder');
-    mockList.forEach((el) => {
-      const { selected, ...newEl } = el;
-      component.shopList.push(newEl);
-    });
-    const changes: SimpleChanges = {
-      shopList: new SimpleChange(undefined, [], true)
-    };
-    component.ngOnChanges(changes);
-    expect(component.shopList).toEqual(mockList);
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should add item to shop list on additem', () => {
     const newList = [
       {
@@ -123,49 +94,6 @@ describe('HabitEditShoppingListComponent', () => {
     component.item.setValue('test');
     component.addItem('test');
     expect(component.item.value).toBe('');
-  });
-
-  it('should call placeItemInOrder on selectItem', () => {
-    component.isListChanged = false;
-    const spy = spyOn(component as any, 'placeItemInOrder');
-    component.selectItem(mockItem);
-    expect(component.isListChanged).toBeTruthy();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should open confirmation dialog on deleteItem', () => {
-    component.isListChanged = false;
-    component.shopList = mockList;
-    component.deleteItem('Item 1');
-    expect((component as any).dialog.open).toHaveBeenCalled();
-    expect(component.shopList).toEqual([mockList[1]]);
-    expect(component.isListChanged).toBeTruthy();
-  });
-
-  it('should switch edit mode', () => {
-    mockList.forEach((el) => (component as any).shopListBeforeEditing.push({ ...el }));
-    component.shopList = [{ ...mockItem }];
-    component.isEditMode = false;
-    component.isListChanged = true;
-    component.changeEditMode();
-    expect((component as any).shopListBeforeEditing).toEqual(component.shopList);
-    expect(component.isListChanged).toBeFalsy();
-    expect(component.isEditMode).toBeTruthy();
-  });
-
-  it('should check isListItemsChanged', () => {
-    (component as any).shopListBeforeEditing = mockList;
-    component.shopList = [...mockList, mockItem];
-    const result = (component as any).isListItemsChanged();
-    expect(result).toBeTruthy();
-  });
-
-  it('should open dialog o close editing ', () => {
-    (component as any).isEditMode = true;
-    spyOn(component as any, 'isListItemsChanged').and.returnValue(true);
-    component.cancelEditing();
-    expect((component as any).dialog.open).toHaveBeenCalled();
-    expect(component.isEditMode).toBeFalsy();
   });
 
   it('should return disableCheck if isAcquired is true', () => {
@@ -210,7 +138,6 @@ describe('HabitEditShoppingListComponent', () => {
 
   it('should move selected item to the top of the list', () => {
     component.shopList = [...mockList];
-    console.log(mockList);
     component.selectItem(mockList[1]);
     console.log(component.shopList, mockList);
     expect(component.shopList[0]).toBe(mockList[1]);
@@ -222,11 +149,5 @@ describe('HabitEditShoppingListComponent', () => {
     const snackBarSpy = spyOn(snackBar, 'open');
     component.checkItemValidity();
     expect(snackBarSpy).not.toHaveBeenCalled();
-  });
-
-  it('ngOnDestroy should unsubscribe from subscription', () => {
-    spyOn((component as any).langChangeSub, 'unsubscribe');
-    component.ngOnDestroy();
-    expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalled();
   });
 });

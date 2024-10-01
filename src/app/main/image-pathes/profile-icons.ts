@@ -5,5 +5,5 @@ export const userAssignedCardsIcons = {
   userIcon: 'assets/img/icon/econews/profile-icon.svg',
   calendarIcon: 'assets/img/icon/econews/calendar-icon.svg',
   locationIcon: 'assets/img/events/location.svg',
-  clockIcon: 'assest/events-icons/clock.png'
+  clockIcon: 'assets/events-icons/clock.png'
 };

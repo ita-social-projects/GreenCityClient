@@ -12,8 +12,6 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { select, Store } from '@ngrx/store';
 import moment from 'moment';
 import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
-import { AddFilterMultiAction, AddFiltersAction, RemoveFilter } from 'src/app/store/actions/bigOrderTable.actions';
-import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 
 @Component({
   selector: 'app-column-filters-pop-up',
@@ -29,6 +27,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   dateChecked: boolean;
 
   isPopupOpened = false;
+  showButtons = false;
 
   private allFilters: IFilters;
   private destroy$: Subject<void> = new Subject<void>();
@@ -51,11 +50,13 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     });
     this.setPopupPosUnderButton();
     this.initListeners();
+    this.showButtons = false;
   }
 
   initListeners(): void {
     this.store.pipe(takeUntil(this.destroy$), select(filtersSelector)).subscribe((filters: IFilters) => {
       this.allFilters = filters;
+      this.adminTableService.setCurrentFilters(this.allFilters);
 
       const filtersDateCheck = filters?.[this.data.columnName + 'Check'];
       if (filtersDateCheck !== null && filtersDateCheck !== undefined && typeof filtersDateCheck === 'boolean') {
@@ -80,6 +81,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     const isCalendarOpened = this.pickerFrom?.opened || this.pickerTo?.opened;
 
     if (!clickedInside && this.isPopupOpened && !isCalendarOpened) {
+      this.discardChanges();
       this.matDialogRef.close();
     }
 
@@ -88,42 +90,52 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeColumnFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
-    const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
-    checked
-      ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
-      : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
+  onFilterChange(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
+    this.showButtons = true;
+    this.adminTableService.setNewFilters(checked, currentColumn, option);
   }
 
   onDateChecked(e: MatCheckboxChange, checked: boolean): void {
-    this.store.dispatch(AddFiltersAction({ filters: { [this.data.columnName + 'Check']: checked }, fetchTable: false }));
+    this.onDateChange();
+    this.adminTableService.setNewDateChecked(this.data.columnName, checked);
   }
 
   onDateChange(): void {
-    if (this.dateChecked && this.dateFrom?.getTime() > this.dateTo?.getTime()) {
-      const temp = this.dateFrom;
-      this.dateFrom = this.dateTo;
-      this.dateTo = temp;
-    } else if (!this.dateChecked) {
-      this.dateTo = this.dateFrom;
-    }
+    this.showButtons = true;
+    const swappedDates = this.adminTableService.swapDatesIfNeeded(this.dateFrom, this.dateTo, this.dateChecked);
 
-    const dateFrom = this.formatDate(this.dateFrom);
-    const dateTo = this.formatDate(this.dateTo);
+    this.dateFrom = swappedDates ? swappedDates.dateFrom : this.dateFrom;
+    this.dateTo = swappedDates ? swappedDates.dateTo : this.dateTo;
 
-    this.store.dispatch(
-      AddFiltersAction({
-        filters: {
-          [this.data.columnName + 'From']: dateFrom,
-          [this.data.columnName + 'To']: dateTo
-        },
-        fetchTable: false
-      })
-    );
+    const formattedDateFrom = this.dateFrom ? this.adminTableService.setDateFormat(this.dateFrom) : '';
+    const formattedDateTo = this.dateTo ? this.adminTableService.setDateFormat(this.dateTo) : '';
+
+    this.adminTableService.setNewDateRange(this.data.columnName, formattedDateFrom, formattedDateTo);
   }
 
-  isFilterChecked(columnName: string, value: string): boolean {
-    return (this.allFilters?.[columnName] as string[])?.includes(value);
+  isChecked(columnName: string, option: IFilteredColumnValue): boolean {
+    return this.adminTableService.isFilterChecked(columnName, option);
+  }
+
+  discardChanges(): void {
+    this.adminTableService.setCurrentFilters(this.allFilters);
+
+    const dateFromFilter = this.allFilters[this.data.columnName + 'From'];
+    const dateToFilter = this.allFilters[this.data.columnName + 'To'];
+
+    this.dateFrom = dateFromFilter ? new Date(dateFromFilter as string) : null;
+    this.dateTo = dateToFilter ? new Date(dateToFilter as string) : null;
+  }
+
+  discardDateChanges(type: 'from' | 'to', event: Event): void {
+    event.stopPropagation();
+    if (type === 'from') {
+      this.dateFrom = null;
+    } else if (type === 'to') {
+      this.dateTo = null;
+    }
+
+    this.onDateChange();
   }
 
   getOptionsForFiltering(): IFilteredColumnValue[] {
@@ -138,10 +150,6 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  private formatDate(date: Date): string {
-    return moment(date).format('YYYY-MM-DD');
   }
 
   private setPopupPosUnderButton(): void {

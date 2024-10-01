@@ -41,7 +41,7 @@ export class DeleteCommentComponent {
       .subscribe((confirm) => {
         if (confirm) {
           this.commentsService
-            .deleteComments(this.element.id)
+            .deleteComments(this.entityId, this.element.id)
             .pipe(take(1))
             .subscribe((success) => {
               if (success) {

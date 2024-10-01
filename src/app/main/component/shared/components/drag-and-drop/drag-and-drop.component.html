@@ -18,7 +18,9 @@
     <image-cropper
       [maintainAspectRatio]="true"
       [containWithinAspectRatio]="false"
-      [aspectRatio]="16 / 9"
+      [resizeToHeight]="height"
+      [roundCropper]="roundCropper"
+      [aspectRatio]="aspectRatio"
       [imageChangedEvent]="imageChangedEvent"
       [imageFile]="file?.file"
       (imageCropped)="imageCropped($event)"
@@ -26,7 +28,7 @@
     >
     </image-cropper>
   </div>
-  <div class="cropper-buttons">
+  <div class="cropper-buttons" *ngIf="!isDisabledButton">
     <button class="secondary-global-button s-btn" type="button" (click)="cancelChanges()">
       {{ 'drag-and-drop.cancel-changes-button' | translate }}
     </button>

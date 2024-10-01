@@ -150,6 +150,7 @@
     "address-corp": "корпус",
     "address-entrance": "під'їзд",
     "address-district": "район",
+    "pop-up-map-check": "Обрати на карті",
     "pop-up-region": "Область",
     "pop-up-region-name": "Київська область",
     "pop-up-title": "Нова адреса",
@@ -389,7 +390,8 @@
     "lower-nav-bar": {
       "about-us": "Про сервіс",
       "sorting-rules": "Правила сортування",
-      "eco-shop": "Екомагазин"
+      "eco-shop": "Екомагазин",
+      "user-agreement": "Угода користувача"
     },
     "auth": {
       "sign-in": {
@@ -407,7 +409,7 @@
         "too-long-password": "Пароль повинен містити менше 20 символів без пробілів.",
         "fill-all-red-fields": "Потрібно заповнити всі обов'язкові поля.",
         "sign-in": "Увійти",
-        "sign-up": "Зареєструватись",
+        "sign-up": "Зареєструватися",
         "sign-in-with-google": "Увійти через Google",
         "forgot-password": "Забули пароль?",
         "account-has-been-deleted": "Ваш аккаунт було видалено, будь ласка зв'яжіться з нами щоб відновити його",
@@ -442,9 +444,9 @@
         "password-match-is-empty": "Будь ласка введіть спершу пароль!",
         "password-confirm": "Повторіть пароль",
         "password-confirm-is-required": "Введіть пароль ще раз",
-        "submit": "Зареєструватись",
+        "submit": "Зареєструватися",
         "or": "або",
-        "submit-with-google": "Зареєструватись через Google",
+        "submit-with-google": "Зареєструватися через Google",
         "haveyou-account": "Вже маєте акаунт?",
         "enter": "Увійти"
       },
@@ -475,7 +477,7 @@
     }
   },
   "top-bar": {
-    "sign-up": "Зареєструватись ",
+    "sign-up": "Зареєструватися ",
     "sign-in": "Увійти"
   },
   "nav-bar": {

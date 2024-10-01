@@ -1,6 +1,6 @@
-import { takeUntil } from 'rxjs/operators';
+import { catchError, takeUntil } from 'rxjs/operators';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -19,6 +19,7 @@ export class ShoppingListComponent implements OnInit {
   private userId: number;
   currentLang: string;
   profileSubscription: Subscription;
+  private shoppingListCache: AllShoppingLists[] | null = null;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -42,15 +43,28 @@ export class ShoppingListComponent implements OnInit {
   }
 
   private getAllShopLists(): void {
+    if (this.shoppingListCache) {
+      this.updateShoppingList(this.shoppingListCache);
+      return;
+    }
+
     this.shopListService
       .getUserShoppingLists(this.currentLang)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError(() => of([]))
+      )
       .subscribe((list) => {
-        const customShopList = this.convertShopList(list, 'custom');
-        const standardShopList = this.convertShopList(list, 'standard');
-        customShopList.forEach((el) => (el.custom = true));
-        this.shoppingList = [...customShopList, ...standardShopList];
+        this.shoppingListCache = list;
+        this.updateShoppingList(list);
       });
+  }
+
+  private updateShoppingList(list: AllShoppingLists[]): void {
+    const customShopList = this.convertShopList(list, 'custom');
+    const standardShopList = this.convertShopList(list, 'standard');
+    customShopList.forEach((el) => (el.custom = true));
+    this.shoppingList = [...customShopList, ...standardShopList];
   }
 
   convertShopList(list: AllShoppingLists[], type: string): ShoppingList[] {

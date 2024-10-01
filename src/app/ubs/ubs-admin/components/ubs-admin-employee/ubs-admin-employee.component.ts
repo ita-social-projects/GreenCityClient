@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
@@ -31,7 +31,7 @@ import { Language } from 'src/app/main/i18n/Language';
   templateUrl: './ubs-admin-employee.component.html',
   styleUrls: ['./ubs-admin-employee.component.scss']
 })
-export class UbsAdminEmployeeComponent implements OnInit {
+export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   @Input() locationCard: Locations;
 
   employeePositions: EmployeePositions[];
@@ -92,7 +92,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   searchForm: FormGroup;
-  private destroy: Subject<boolean> = new Subject<boolean>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   constructor(
@@ -107,7 +107,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang: string) => {
       this.currentLang = lang;
     });
     this.definitionUserAuthorities();
@@ -116,7 +116,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.getContacts();
     this.getLocations();
     this.getCouriers();
-    this.region.valueChanges.pipe(takeUntil(this.destroy)).subscribe((value) => {
+    this.region.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.regionSelectedSub(value);
       this.checkRegionValue();
       this.selectedCities = [];
@@ -128,7 +128,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
     this.languageService
       .getCurrentLangObs()
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((i) => {
         this.getLocations();
         this.getCouriers();
@@ -141,6 +141,10 @@ export class UbsAdminEmployeeComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
   addNewFilters(data: FilterData) {
     this.ubsAdminEmployeeService.updateFilterData(data);
   }
@@ -197,7 +201,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   getPositions(): void {
     this.ubsAdminEmployeeService
       .getAllPositions()
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         (roles) => {
           this.employeePositions = roles;
@@ -283,7 +287,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   getCouriers(): void {
     this.tariffsService
       .getCouriers()
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
         this.couriersName = this.couriers.map((el) => this.languageService.getLangValue(el.nameUk, el.nameEn));
@@ -691,25 +695,32 @@ export class UbsAdminEmployeeComponent implements OnInit {
       case filterOptions.position:
         this.selectedPositions = this.selectedPositions.filter((item) => item.id !== filterName.id);
         this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
+        Object.assign(this.filterData, { positions: this.selectedPositions.map((it) => it.id) });
         break;
       case filterOptions.state:
         this.selectedState = [];
         this.state.setValue('');
+        Object.assign(this.filterData, { employeeStatus: '' });
         break;
       case filterOptions.city:
         this.selectedCities = this.selectedCities.filter((item) => item.id !== filterName.id);
         this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
+        Object.assign(this.filterData, { locations: this.selectedCities.map((it) => it.id) });
         break;
       case filterOptions.courier:
         this.selectedCouriers = this.selectedCouriers.filter((item) => item.id !== filterName.id);
         this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
+        Object.assign(this.filterData, { couriers: this.selectedCouriers.map((it) => it.id) });
         break;
       case filterOptions.region:
         this.selectedRegions = this.selectedRegions.filter((item) => item.regionId !== filterName.regionId);
         this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
         this.checkRegionValue();
+        Object.assign(this.filterData, { regions: this.selectedRegions.map((it) => it.regionId) });
         break;
     }
+
+    this.addNewFilters(this.filterData);
   }
 
   applyFilter(event: Event) {

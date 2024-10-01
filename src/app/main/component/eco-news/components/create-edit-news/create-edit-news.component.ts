@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil, catchError, take } from 'rxjs/operators';
+import { takeUntil, catchError } from 'rxjs/operators';
 import { FileHandle, QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError } from 'rxjs';
@@ -15,7 +15,7 @@ import { ActionInterface } from '../../models/action.interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { ContentChange, EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
@@ -27,6 +27,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
 import { ImageService } from '@global-service/image/image.service';
+import { EVENT_LOCALE, EventLocaleKeys } from '../../../events/models/event-consts';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -95,7 +96,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   private route: ActivatedRoute;
   private localStorageService: LocalStorageService;
   private snackBar: MatSnackBarComponent;
-  quillModules = {};
+  quillModules = quillConfig;
+  isQuillUnfilled = false;
+  quillLength = 0;
+  minLength = 20;
+  maxLength = 63206;
   blurred = false;
   focused = false;
   editorText = '';
@@ -216,9 +221,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       .pipe(
         ofType(NewsActions.CreateEcoNewsSuccess),
         takeUntil(this.destroyed$),
-        catchError((err) => {
-          this.snackBar.openSnackBar('error');
-          return throwError(err);
+        catchError((error: Error) => {
+          this.snackBar.openSnackBar('snack-bar.error.default');
+          return throwError(() => new Error(error.message));
         })
       )
       .subscribe(() => {
@@ -231,16 +236,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     const imagesSrc = checkImages(this.editorHTML);
     if (imagesSrc) {
       const imgFiles = imagesSrc.map((base64) => dataURLtoFile(base64));
-      this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
-        (response) => {
-          const findBase64Regex = Patterns.Base64Regex;
-          response.forEach((link) => {
-            this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
-          });
+      this.createEcoNewsService.sendImagesData(imgFiles).subscribe({
+        next: (response) => {
+          response.forEach((link) => (this.editorHTML = this.editorHTML.replace(Patterns.Base64Regex, link)));
           this.sendData(this.editorHTML);
         },
-        (err) => console.error(err)
-      );
+        error: (err) => console.error(err)
+      });
     } else {
       this.sendData(this.editorHTML);
     }
@@ -265,9 +267,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.actionsSubj
       .pipe(
         ofType(NewsActions.EditEcoNewsSuccess),
-        catchError((error) => {
-          this.snackBar.openSnackBar('Something went wrong. Please reload page or try again later.');
-          return throwError(error);
+        catchError((error: Error) => {
+          this.snackBar.openSnackBar('snack-bar.error.default');
+          return throwError(() => new Error(error.message));
         })
       )
       .subscribe(() => this.escapeFromCreatePage());
@@ -281,17 +283,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
     if (imagesSrc) {
       const imgFiles = imagesSrc.map((base64) => dataURLtoFile(base64));
-
-      this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
-        (response) => {
-          const findBase64Regex = Patterns.Base64Regex;
-          response.forEach((link) => {
-            this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
-          });
+      this.createEcoNewsService.sendImagesData(imgFiles).subscribe({
+        next: (response) => {
+          response.forEach((link) => (this.editorHTML = this.editorHTML.replace(Patterns.Base64Regex, link)));
           this.editData(this.editorHTML);
         },
-        (err) => console.error(err)
-      );
+        error: (err) => console.error(err)
+      });
     } else {
       this.editData(this.editorHTML);
     }
@@ -306,10 +304,14 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         this.setActiveFilters(item);
         this.onSourceChange();
         this.setInitialValues();
-        this.imageService.createFileHandle(item.imagePath, 'image/jpeg').subscribe((fileHandle: FileHandle) => {
-          this.createEcoNewsService.file = fileHandle;
-          this.imageFile = fileHandle;
-        });
+        if (item.imagePath) {
+          this.imageService.createFileHandle(item.imagePath, 'image/jpeg').subscribe((fileHandle: FileHandle) => {
+            this.createEcoNewsService.file = fileHandle;
+            this.imageFile = fileHandle;
+          });
+        } else {
+          console.error('ImagePath is null or undefined');
+        }
       });
   }
 
@@ -347,6 +349,30 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       this.editorText = event.text;
       this.editorHTML = event.html;
     }
+  }
+
+  get quillLabel(): string {
+    const typedCharacters = this.quillLength;
+    if (typedCharacters < 1) {
+      return `${this.getLocale('quillDefault')}`;
+    }
+    if (typedCharacters < this.minLength) {
+      return `${this.getLocale('quillError')} ${this.minLength - typedCharacters}`;
+    }
+    if (typedCharacters > this.maxLength) {
+      return `${this.getLocale('quillMaxExceeded')} ${typedCharacters - this.maxLength}`;
+    }
+    return `${this.getLocale('quillValid')} ${typedCharacters}`;
+  }
+
+  getLocale(localeKey: EventLocaleKeys): string {
+    return EVENT_LOCALE[localeKey][this.localStorageService.getCurrentLanguage()];
+  }
+
+  quillContentChanged(content: ContentChange): void {
+    this.quillLength = content.text.length - 1;
+    this.isQuillUnfilled = this.quillLength < 20;
+    this.form.get('description').setValue(content.text.trimEnd());
   }
 
   ngOnDestroy() {

@@ -15,51 +15,46 @@ export class EcoNewsCommentsService implements CommentsService {
 
   constructor(private http: HttpClient) {}
 
-  addComment(entityId: number, text: string, id = 0): Observable<AddedCommentDTO> {
-    const body = {
-      parentCommentId: id,
-      text
-    };
-
-    return this.http.post<EcoNewsAddedCommentDTO>(`${this.backEnd}econews/comments/${entityId}`, body);
+  addComment(ecoNewsId: number, text: string, id = 0): Observable<AddedCommentDTO> {
+    const body = { parentCommentId: id, text };
+    return this.http.post<EcoNewsAddedCommentDTO>(`${this.backEnd}eco-news/${ecoNewsId}/comments`, body);
   }
 
-  getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<CommentsModel> {
-    return this.http.get<EcoNewsCommentsModel>(`${this.backEnd}econews/comments/active?ecoNewsId=${entityId}&page=${page}&size=${size}`);
-  }
-
-  getCommentsCount(entityId: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}econews/comments/count/comments/${entityId}`);
-  }
-
-  getActiveRepliesByPage(id: number, page: number, size: number): Observable<CommentsModel> {
-    return this.http.get<EcoNewsCommentsModel>(`${this.backEnd}econews/comments/replies/active/${id}?page=${page}&size=${size}`);
-  }
-
-  deleteComments(id: number) {
-    return this.http.delete<object>(`${this.backEnd}econews/comments?id=${id}`, { observe: 'response' }).pipe(
-      map((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          return true;
-        }
-        return false;
-      })
+  getActiveCommentsByPage(ecoNewsId: number, page: number, size: number): Observable<CommentsModel> {
+    return this.http.get<EcoNewsCommentsModel>(
+      `${this.backEnd}eco-news/${ecoNewsId}/comments/active?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`
     );
   }
 
-  getCommentLikes(id: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}econews/comments/count/likes?id=${id}`);
+  getCommentsCount(ecoNewsId: number): Observable<number> {
+    return this.http.get<number>(`${this.backEnd}eco-news/${ecoNewsId}/comments/count`);
   }
 
-  getRepliesAmount(id: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}econews/comments/count/replies/${id}`);
+  getActiveRepliesByPage(ecoNewsId: number, parentCommentId: number, page: number, size: number): Observable<CommentsModel> {
+    return this.http.get<EcoNewsCommentsModel>(
+      `${this.backEnd}eco-news/${ecoNewsId}/comments/${parentCommentId}/replies/active?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`
+    );
   }
 
-  postLike(id: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}econews/comments/like?id=${id}`, {});
+  deleteComments(ecoNewsId: number, parentCommentId: number) {
+    return this.http
+      .delete<object>(`${this.backEnd}eco-news/comments/${ecoNewsId}`, { observe: 'response' })
+      .pipe(map((response) => response.status >= 200 && response.status < 300));
   }
 
-  editComment(id: number, text: string): Observable<void> {
-    return this.http.patch<void>(`${this.backEnd}econews/comments?id=${id}`, text);
+  getCommentLikes(ecoNewsId: number, parentCommentId: number): Observable<number> {
+    return this.http.get<number>(`${this.backEnd}eco-news/${ecoNewsId}/comments/${parentCommentId}/likes/count`);
+  }
+
+  getRepliesAmount(ecoNewsId: number, parentCommentId: number): Observable<number> {
+    return this.http.get<number>(`${this.backEnd}eco-news/${ecoNewsId}/comments/${parentCommentId}/replies/active/count`);
+  }
+
+  postLike(ecoNewsId: number, commentId: number): Observable<void> {
+    return this.http.post<void>(`${this.backEnd}eco-news/comments/like?commentId=${commentId}`, {});
+  }
+
+  editComment(ecoNewsId: number, commentId: number, text: string): Observable<void> {
+    return this.http.patch<void>(`${this.backEnd}eco-news/comments?commentId=${commentId}`, text);
   }
 }

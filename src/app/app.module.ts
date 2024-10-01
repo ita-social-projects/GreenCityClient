@@ -7,7 +7,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ChangeDetectorRef, Injector, NgModule } from '@angular/core';
 import { MainModule } from './main/main.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,21 +25,25 @@ import { FriendsEffects } from './store/effects/friends.effects';
 import { OrderEffects } from 'src/app/store/effects/order.effects';
 import { UbsUserEffects } from 'src/app/store/effects/ubs-user.effects';
 import { AuthEffects } from 'src/app/store/effects/auth.effects';
+import { ChatModule } from './chat/chat.module';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector, languageService: LanguageService) {
   return () =>
     new Promise<any>((resolve: any) => {
       const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
       locationInitialized.then(() => {
-        languageService.setDefaultLanguage();
-        const langToSet = languageService.getCurrentLanguage();
+        if (!languageService.getCurrentLanguage()) {
+          languageService.setDefaultLanguage();
+        }
 
-        translate.use(langToSet).subscribe(
+        const selectedLanguage = languageService.getCurrentLanguage();
+
+        translate.use(selectedLanguage).subscribe(
           () => {
-            console.log(`Successfully initialized '${langToSet}' language.'`);
+            console.log(`Successfully initialized '${selectedLanguage}' language.`);
           },
           (err) => {
-            console.error(`Problem with '${langToSet}' language initialization.'`);
+            console.error(`Problem with '${selectedLanguage}' language initialization.`, { err });
           },
           () => {
             resolve(null);
@@ -58,6 +62,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     MainModule,
     UbsModule,
     HttpClientModule,
+    ChatModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

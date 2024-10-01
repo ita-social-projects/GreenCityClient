@@ -1,6 +1,6 @@
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { Store } from '@ngrx/store';
 import { DeleteEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -48,8 +49,10 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     private ecoNewsService: EcoNewsService,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
+    private snackBar: MatSnackBarComponent,
     private dialog: MatDialog,
-    private store: Store
+    private store: Store,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -71,13 +74,27 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   getEcoNewsById(id: number): void {
-    this.ecoNewsService.getEcoNewsById(id).subscribe((res: EcoNewsModel) => {
-      this.newsItem = res;
-      this.tags = this.getAllTags();
+    this.ecoNewsService.getEcoNewsById(id).subscribe({
+      next: (res: EcoNewsModel) => {
+        if (res) {
+          this.newsItem = res;
+          this.tags = this.getAllTags();
+        } else {
+          this.snackBar.openSnackBar('errorNotFound');
+          this.router.navigate(['/news']);
+        }
+      },
+      error: () => {
+        this.snackBar.openSnackBar('errorNotFound');
+        this.router.navigate(['/news']);
+      }
     });
   }
+
   getAllTags(): Array<string> {
-    return this.langService.getLangValue(this.newsItem.tagsUa, this.newsItem.tags);
+    const tagsUa = this.newsItem?.tagsUa || [];
+    const tags = this.newsItem?.tags || [];
+    return this.langService.getLangValue(tagsUa, tags);
   }
 
   checkNewsImage(): string {
@@ -95,19 +112,28 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   onLikeNews(): void {
-    if (this.isLiked) {
-      this.isLiked = false;
-      this.newsItem.likes = this.newsItem.likes - 1;
-      this.postToggleLike();
-    } else {
-      this.isLiked = true;
-      this.newsItem.likes = this.newsItem.likes + 1;
-      this.postToggleLike();
-    }
+    const updatedLikes = this.isLiked ? this.newsItem.likes - 1 : this.newsItem.likes + 1;
+    this.isLiked = !this.isLiked;
+    this.postToggleLike(updatedLikes);
   }
 
-  private postToggleLike(): void {
-    this.ecoNewsService.postToggleLike(this.newsId).pipe(take(1)).subscribe();
+  private postToggleLike(updatedLikes: number): void {
+    let isPermit = false;
+    this.ecoNewsService
+      .postToggleLike(this.newsId)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          isPermit = true;
+          this.newsItem.likes = updatedLikes;
+        },
+        complete: () => {
+          if (!isPermit) {
+            this.snackBar.openSnackBar('errorLiked');
+            this.isLiked = !this.isLiked;
+          }
+        }
+      });
   }
 
   private shareLinks() {
@@ -125,7 +151,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   private getIsLiked(): void {
     this.ecoNewsService
-      .getIsLikedByUser(this.newsId)
+      .getIsLikedByUser(this.newsId, this.userId)
       .pipe(take(1))
       .subscribe((val: boolean) => {
         this.isLiked = val;
@@ -153,8 +179,8 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
 }

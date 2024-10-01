@@ -4,6 +4,7 @@ import { Address, AddressData, CourierLocations, OrderDetails, PersonalData } fr
 import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
 
 export enum OrderActions {
+  SetCurrentStep = '[Order] Set Current Step',
   SetBags = '[Order] Set Bags',
   SetOrderSum = '[Order] Set Order Sum',
   SetPointsUsed = '[Order] Set Points Used',
@@ -63,6 +64,7 @@ export enum OrderActions {
   ClearOrderData = '[Order] Clear Order Data'
 }
 
+export const SetCurrentStep = createAction(OrderActions.SetCurrentStep, props<{ step: number }>());
 export const SetBags = createAction(OrderActions.SetBags, props<{ bagId: number; bagValue: number }>());
 export const SetOrderSum = createAction(OrderActions.SetOrderSum, props<{ orderSum: number }>());
 export const SetPointsUsed = createAction(OrderActions.SetPointsUsed, props<{ pointsUsed: number }>());

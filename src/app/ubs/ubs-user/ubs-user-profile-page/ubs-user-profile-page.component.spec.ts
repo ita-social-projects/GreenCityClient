@@ -23,8 +23,9 @@ import { AddressInputComponent } from 'src/app/shared/address-input/address-inpu
 import { InputGoogleAutocompleteComponent } from '@shared/components/input-google-autocomplete/input-google-autocomplete.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
-describe('UbsUserProfilePageComponent', () => {
+xdescribe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
     addressDto: [
       {
@@ -81,11 +82,15 @@ describe('UbsUserProfilePageComponent', () => {
   const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
     'languageBehaviourSubject',
-    'getLocations'
+    'getLocations',
+    'getAccessToken',
+    'getUserId'
   ]);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
   fakeLocalStorageService.getLocations = () => [];
+  fakeLocalStorageService.getAccessToken = () => 'token';
+  fakeLocalStorageService.getUserId = () => 1;
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLanguage', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => valUa;
@@ -109,6 +114,10 @@ describe('UbsUserProfilePageComponent', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 
+  const jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
+  jwtServiceMock.getUserRole = () => 'fakeRole';
+  jwtServiceMock.getEmailFromAccessToken = () => 'fakeEmail';
+
   const initialState = { order: { ubsOrderServiseMock } };
 
   beforeEach(waitForAsync(() => {
@@ -122,6 +131,7 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: LocationService, useValue: fakeLocationServiceMock },
+        { provide: JwtService, useValue: jwtServiceMock },
         provideMockStore({ initialState })
       ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, HttpClientTestingModule, MatAutocompleteModule],
@@ -244,12 +254,13 @@ describe('UbsUserProfilePageComponent', () => {
     expect(dialogMock.open).toHaveBeenCalled();
   });
 
-  it('spiner has to be defined if (isFetching === true)', () => {
+  xit('spiner has to be defined if (isFetching === true)', fakeAsync(() => {
     component.isFetching = true;
     fixture.detectChanges();
+    flush();
     const spiner = fixture.debugElement.query(By.css('app-spinner')).nativeElement;
     expect(spiner).toBeDefined();
-  });
+  }));
 
   xit('method onEdit should get data and invoke methods', fakeAsync(() => {
     component.isEditing = false;

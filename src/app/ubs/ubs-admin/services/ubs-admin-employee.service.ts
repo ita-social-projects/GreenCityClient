@@ -19,12 +19,12 @@ export class UbsAdminEmployeeService {
   getEmployees(
     pageNumber?: number,
     pageSize?: number,
-    search?: string,
+    searchLine?: string,
     sortBy?: string,
     sortDirection?: string,
     data?
   ): Observable<Employees> {
-    const urlAttr = [{ search }, { sortBy }, { sortDirection }].reduce(
+    const urlAttr = [{ searchLine }, { sortBy }, { sortDirection }].reduce(
       (acc, item) => (Object.values(item)[0] ? `${acc}&${Object.keys(item)[0]}=${Object.values(item)[0]}` : acc),
       ``
     );

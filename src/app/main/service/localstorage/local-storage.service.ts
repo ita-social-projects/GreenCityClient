@@ -4,6 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { EventResponse, PagePreviewDTO } from '../../component/events/models/events.interface';
 import { Address, CourierLocations, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
 import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,7 @@ export class LocalStorageService {
   private readonly EDIT_EVENT = 'editEvent';
   private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
   private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
+  readonly ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
 
   constructor() {
     this.firstNameBehaviourSubject = new BehaviorSubject<string>(this.getName());
@@ -384,5 +386,31 @@ export class LocalStorageService {
 
   private getName(): string {
     return localStorage.getItem(this.NAME);
+  }
+
+  saveHabitFactToLocalStorage(fact: FactOfTheDay, currentTime: number): void {
+    localStorage.setItem('habitFactOfTheDay', JSON.stringify(fact));
+    localStorage.setItem('lastHabitFetchTime', currentTime.toString());
+  }
+
+  getHabitFactFromLocalStorage(): FactOfTheDay | null {
+    const savedHabitFact = localStorage.getItem('habitFactOfTheDay');
+    const lastHabitFetchTime = localStorage.getItem('lastHabitFetchTime');
+    const currentTime = Date.now();
+
+    const isHabitFactPresent = !!savedHabitFact;
+    const isLastFetchTimePresent = !!lastHabitFetchTime;
+    const isWithinOneDay = currentTime - Number(lastHabitFetchTime) < this.ONE_DAY_IN_MILLIS;
+
+    if (isHabitFactPresent && isLastFetchTimePresent && isWithinOneDay) {
+      return JSON.parse(savedHabitFact);
+    }
+
+    return null;
+  }
+
+  clearHabitFactFromLocalStorage(): void {
+    localStorage.removeItem('habitFactOfTheDay');
+    localStorage.removeItem('lastHabitFetchTime');
   }
 }

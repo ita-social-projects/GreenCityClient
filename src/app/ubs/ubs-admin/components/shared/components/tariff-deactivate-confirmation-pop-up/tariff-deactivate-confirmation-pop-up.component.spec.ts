@@ -47,12 +47,6 @@ describe('TariffDeactivateConfirmationPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`setDate should be called in ngOnInit`, () => {
-    const setDateSpy = spyOn(component as any, 'setDate');
-    component.ngOnInit();
-    expect(setDateSpy).toHaveBeenCalled();
-  });
-
   it('method onNoClick should invoke destroyRef.close()', () => {
     matDialogMock.open.and.returnValue(fakeMatDialog as any);
     component.onCancelClick();

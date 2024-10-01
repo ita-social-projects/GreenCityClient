@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitLink } from '../../links';
-
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
-import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
+import {
+  HabitInterface,
+  HabitListInterface,
+  HabitListFriendsInterface
+} from '@global-user/components/habit/models/interfaces/habit.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { CustomHabitDtoRequest, CustomHabit } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
@@ -36,6 +38,14 @@ export class HabitService {
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((language) => (this.language = language));
   }
 
+  getMutualHabits(friendId: number): Observable<HabitListFriendsInterface> {
+    return this.http.get<HabitListFriendsInterface>(`${habitLink}/assign/allMutualHabits/${friendId}`);
+  }
+
+  getAllFriendHabits(friendId: number): Observable<HabitListFriendsInterface> {
+    return this.http.get<HabitListFriendsInterface>(`${habitLink}/assign/allUser/${friendId}`);
+  }
+
   getAllHabits(page: number, size: number): Observable<HabitListInterface> {
     return this.http.get<HabitListInterface>(`${habitLink}?lang=${this.language}&page=${page}&size=${size}`);
   }
@@ -52,21 +62,26 @@ export class HabitService {
     return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
-  getHabitsByTagAndLang(page: number, size: number, tags: Array<string>, language: string): Observable<HabitListInterface> {
-    const sort = 'asc';
-    return this.http.get<HabitListInterface>(
-      `${habitLink}/tags/search?lang=${language}&page=${page}&size=${size}&sort=${sort}&tags=${tags}`
-    );
+  getHabitsByFilters(requestParams: HttpParams): Observable<HabitListInterface> {
+    return this.http.get<HabitListInterface>(`${habitLink}/search`, { params: requestParams });
   }
 
-  getHabitsByFilters(page: number, size: number, language: string, filters: string[]): Observable<HabitListInterface> {
-    const sort = 'asc';
-    if (filters.length) {
-      const searchFilters = filters.join('&');
-      return this.http.get<HabitListInterface>(
-        `${habitLink}/search?lang=${language}&page=${page}&size=${size}&sort=${sort}&${searchFilters}`
-      );
-    }
+  addCustomHabit(habit: CustomHabit, lang: string): Observable<CustomHabitDtoRequest> {
+    const formData = this.prepareCustomHabitRequest(habit, lang);
+    return this.http.post<CustomHabitDtoRequest>(`${habitLink}/custom`, formData, this.httpOptions);
+  }
+
+  changeCustomHabit(habit: CustomHabit, lang: string, id: number): Observable<CustomHabitDtoRequest> {
+    const formData = this.prepareCustomHabitRequest(habit, lang);
+    return this.http.put<CustomHabitDtoRequest>(`${habitLink}/update/${id}`, formData, this.httpOptions);
+  }
+
+  getFriendsTrakingSameHabitByHabitId(id: number): Observable<FriendProfilePicturesArrayModel[]> {
+    return this.http.get<FriendProfilePicturesArrayModel[]>(`${habitLink}/${id}/friends/profile-pictures`);
+  }
+
+  deleteCustomHabit(id: number): Observable<CustomHabitDtoRequest> {
+    return this.http.delete<CustomHabitDtoRequest>(`${habitLink}/delete/${id}`);
   }
 
   private prepareCustomHabitRequest(habit: CustomHabit, lang: string): FormData {
@@ -92,28 +107,10 @@ export class HabitService {
       this.imageFile = null;
     }
 
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = this.localStorageService.getAccessToken();
     this.httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
     this.httpOptions.headers.append('Content-Type', 'multipart/form-data');
 
     return formData;
-  }
-
-  addCustomHabit(habit: CustomHabit, lang: string): Observable<CustomHabitDtoRequest> {
-    const formData = this.prepareCustomHabitRequest(habit, lang);
-    return this.http.post<CustomHabitDtoRequest>(`${habitLink}/custom`, formData, this.httpOptions);
-  }
-
-  changeCustomHabit(habit: CustomHabit, lang: string, id: number): Observable<CustomHabitDtoRequest> {
-    const formData = this.prepareCustomHabitRequest(habit, lang);
-    return this.http.put<CustomHabitDtoRequest>(`${habitLink}/update/${id}`, formData, this.httpOptions);
-  }
-
-  getFriendsTrakingSameHabitByHabitId(id: number): Observable<FriendProfilePicturesArrayModel[]> {
-    return this.http.get<FriendProfilePicturesArrayModel[]>(`${habitLink}/${id}/friends/profile-pictures`);
-  }
-
-  deleteCustomHabit(id: number): Observable<CustomHabitDtoRequest> {
-    return this.http.delete<CustomHabitDtoRequest>(`${habitLink}/delete/${id}`);
   }
 }

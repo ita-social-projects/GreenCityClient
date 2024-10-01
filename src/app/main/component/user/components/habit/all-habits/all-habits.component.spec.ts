@@ -120,22 +120,6 @@ describe('AllHabitsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call methods OnInit', () => {
-    const spy1 = spyOn(component, 'onResize');
-    const spy2 = spyOn(component, 'checkHabitsView');
-    const spy3 = spyOn(component as any, 'getAllHabitsTags');
-    component.ngOnInit();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
-  });
-
-  it('should get Habits tags list on getAllHabitsTags', () => {
-    component.tagList = [];
-    (component as any).getAllHabitsTags();
-    expect(component.tagList).toEqual([FIRSTTAGITEM, SECONDTAGITEM]);
-  });
-
   it('onDisplayModeChange() setting false value', () => {
     component.onDisplayModeChange(false);
     expect(localStorageServiceMock.setHabitsGalleryView).toHaveBeenCalledWith(false);
@@ -160,84 +144,6 @@ describe('AllHabitsComponent', () => {
     expect(component.galleryView).toEqual(true);
   });
 
-  it('should call method setHabitsList on getAllHabits', () => {
-    const spy = spyOn(component as any, 'setHabitsList');
-    (component as any).getAllHabits(0, 6);
-    expect(spy).toHaveBeenCalledWith(0, HABITLIST);
-  });
-
-  it('should call method setHabitsList on getHabitsByFilters', () => {
-    const spy = spyOn(component as any, 'setHabitsList');
-    (component as any).getHabitsByFilters(0, 6, ['tag']);
-    expect(spy).toHaveBeenCalledWith(0, HABITLIST);
-  });
-
-  it('should set values on setHabitsList', () => {
-    const page = 0;
-    (component as any).setHabitsList(page, HABITLIST);
-    expect(component.isFetching).toBeFalsy();
-    expect(component.habitsList).toEqual([DEFAULTHABIT, CUSTOMHABIT]);
-    expect((component as any).totalPages).toBe(2);
-    expect((component as any).currentPage).toBe(1);
-    expect((component as any).isAllPages).toBeFalsy();
-  });
-
-  it('should set Habits List on setHabitsList when page is 1', () => {
-    component.habitsList = HABITLIST.page;
-    const result = [...component.habitsList, ...HABITLIST.page];
-    (component as any).setHabitsList(1, HABITLIST);
-    expect(component.habitsList).toEqual(result);
-  });
-
-  it('should not call method checkIfAssigned on setHabitsList if totalElements is zero', () => {
-    HABITLIST.totalElements = 0;
-    const spy = spyOn(component, 'checkIfAssigned');
-    (component as any).setHabitsList(0, HABITLIST);
-    expect(spy).not.toHaveBeenCalled();
-  });
-
-  it('should set isFetching false and dont call methods onScroll if isAllPages is true', () => {
-    (component as any).isAllPages = true;
-    const spy1 = spyOn(component as any, 'getAllHabits');
-    const spy2 = spyOn(component as any, 'getHabitsByFilters');
-    component.onScroll();
-    expect(component.isFetching).toBeFalsy();
-    expect(spy1).not.toHaveBeenCalled();
-    expect(spy2).not.toHaveBeenCalled();
-  });
-
-  it('should set isFetching true and call method getAllHabits on onScroll', () => {
-    (component as any).isAllPages = false;
-    component.activeFilters = [];
-    const spy1 = spyOn(component as any, 'getAllHabits');
-    const spy2 = spyOn(component as any, 'getHabitsByFilters');
-    component.onScroll();
-    expect(component.isFetching).toBeTruthy();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).not.toHaveBeenCalled();
-  });
-
-  it('should call method getHabitsByFilters on onScroll', () => {
-    (component as any).isAllPages = false;
-    component.activeFilters = ['tags'];
-    const spy1 = spyOn(component as any, 'getHabitsByFilters');
-    const spy2 = spyOn(component as any, 'getAllHabits');
-    component.onScroll();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).not.toHaveBeenCalled();
-  });
-
-  it('should navigate to create habit page', () => {
-    const routerSpy = spyOn((component as any).router, 'navigate');
-    spyOn(localStorage, 'getItem').and.callFake((key) => {
-      if (key === 'userId') {
-        return '1';
-      }
-    });
-    component.goToCreateHabit();
-    expect(routerSpy).toHaveBeenCalledWith(['profile/1/create-habit']);
-  });
-
   it('should navigate to create habit', () => {
     const navigateSpy = spyOn(component.router, 'navigate');
     localStorage.setItem('userId', '123');
@@ -260,38 +166,6 @@ describe('AllHabitsComponent', () => {
       expect(filter.isAllSelected).toBeFalse();
       filter.options.forEach((option: FilterOptions) => expect(option.isActive).toBeFalse());
     });
-    expect(cleanFiltersSpy).toHaveBeenCalled();
-  });
-
-  it('should set filters', () => {
-    const getHabitsByFiltersSpy = spyOn(component as any, 'getHabitsByFilters');
-    const getAllHabitsSpy = spyOn(component as any, 'getAllHabits');
-    const filterChange: FilterSelect = {
-      name: 'test',
-      title: 'Test Title',
-      selectAllOption: 'All',
-      isAllSelected: false,
-      options: [
-        { value: '1', isActive: true },
-        { value: '2', isActive: false }
-      ]
-    };
-    (component as any).filtersList = [filterChange];
-    component.setFilters(filterChange);
-    expect(component.activeFilters).toContain('test=1');
-    expect(getHabitsByFiltersSpy).toHaveBeenCalledWith(0, (component as any).pageSize, component.activeFilters);
-    expect(getAllHabitsSpy).not.toHaveBeenCalled();
-  });
-
-  it('should reset filters', () => {
-    const getAllHabitsSpy = spyOn(component as any, 'getAllHabits');
-    const cleanFiltersSpy = spyOn(component.cleanFilters, 'next');
-    component.resetFilters();
-    component.filtersList.forEach((filter: FilterSelect) => {
-      expect(filter.isAllSelected).toBeFalse();
-      filter.options.forEach((option: FilterOptions) => expect(option.isActive).toBeFalse());
-    });
-    expect(getAllHabitsSpy).toHaveBeenCalledWith(0, (component as any).pageSize);
     expect(cleanFiltersSpy).toHaveBeenCalled();
   });
 

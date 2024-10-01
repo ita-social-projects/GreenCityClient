@@ -3,7 +3,9 @@
   <div class="box" *ngIf="!isPosting">
     <div class="title">
       <h2 class="title-header">{{ attributes.title | translate }}</h2>
-      <p class="title-description">{{ 'create-news.form-description' | translate }}</p>
+      <div class="title-description-wrapper">
+        <p class="title-description">{{ 'create-news.form-description' | translate }}</p>
+      </div>
     </div>
     <div class="form-container" *ngIf="form">
       <form [formGroup]="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
@@ -56,7 +58,7 @@
 
           <div class="image-block">
             <h3>{{ 'create-news.picture-title' | translate }}</h3>
-            <app-drag-and-drop [file]="imageFile" (newFile)="getFile($event)"></app-drag-and-drop>
+            <app-drag-and-drop [aspectRatio]="16 / 9" [file]="imageFile" (newFile)="getFile($event)"></app-drag-and-drop>
           </div>
         </div>
         <div class="textarea-wrapper">
@@ -70,12 +72,23 @@
             </p>
           </div>
           <quill-editor
-            minlength="20"
+            [maxLength]="maxLength"
+            [minLength]="minLength"
             [modules]="quillModules"
             formControlName="content"
             placeholder="{{ 'create-news.content-placeholder' | translate }}"
+            (onContentChanged)="quillContentChanged($event)"
             (onEditorChanged)="changedEditor($event)"
           ></quill-editor>
+          <p
+            [ngClass]="{
+              warning: isQuillUnfilled || quillLength > maxLength,
+              'quill-valid': !isQuillUnfilled && quillLength <= maxLength
+            }"
+            class="quill-counter"
+          >
+            {{ quillLabel }}
+          </p>
         </div>
         <div class="date">
           <p>

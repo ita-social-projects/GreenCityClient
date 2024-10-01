@@ -1,6 +1,5 @@
 import { CertificateStatus } from 'src/app/ubs/ubs/certificate-status.enum';
 import { Address, AddressData, DistrictsDtos, ICertificateResponse } from './ubs.interface';
-import { GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Subject } from 'rxjs';
@@ -87,13 +86,14 @@ export class CAddressData {
   private houseCorpus: string;
   private placeId: string;
   private addressComment = '';
+  private coordinates: google.maps.LatLng;
 
   private placeIdChange: Subject<string> = new Subject();
   private addressChange: Subject<AddressData> = new Subject();
 
   constructor(private languageService: LanguageService) {}
 
-  public initAddressData(address: Address): void {
+  initAddressData(address: Address): void {
     this.region = address.region;
     this.regionEn = address.regionEn;
     this.city = address.city;
@@ -109,108 +109,115 @@ export class CAddressData {
     this.addressComment = address.addressComment;
   }
 
-  public getRegion(language: Language): string {
+  setCoordinates(coordinates: google.maps.LatLng, opts?: { fetch: boolean }): void {
+    this.coordinates = coordinates;
+
+    if (!opts?.fetch) {
+      return;
+    }
+
+    this.fetchAddress(coordinates);
+  }
+
+  getRegion(language: Language): string {
     return language === Language.EN ? this.regionEn : this.region;
   }
 
-  public setRegion(region: GooglePrediction): void {
-    this.setProperties('region', region);
+  setRegion(place_id: string): void {
+    this.setProperties('region', place_id, 'administrative_area_level_1');
     this.resetPlaceId();
   }
 
-  public setRegionWithTranslation(region: string, regionEn: string): void {
+  setRegionWithTranslation(region: string, regionEn: string): void {
     this.region = region;
     this.regionEn = regionEn;
     this.resetPlaceId();
   }
 
-  public resetRegion(): void {
+  resetRegion(): void {
     this.region = '';
     this.regionEn = '';
     this.resetPlaceId();
   }
 
-  public getCity(language: Language): string {
+  getCity(language: Language): string {
     return language === Language.EN ? this.cityEn : this.city;
   }
 
-  public setCity(city: GooglePrediction): void {
-    this.setProperties('city', city);
+  setCity(place_id: string): void {
+    this.setProperties('city', place_id, 'locality');
     this.resetPlaceId();
   }
 
-  public resetCity(): void {
+  resetCity(): void {
     this.city = '';
     this.cityEn = '';
     this.resetPlaceId();
   }
 
-  public getStreet(): string {
+  getStreet(): string {
     return this.languageService.getCurrentLanguage() === Language.EN ? this.streetEn : this.street;
   }
 
-  public setStreet(street: GooglePrediction): void {
-    this.setProperties('street', street);
-    this.resetPlaceId();
+  setStreet(place_id: string): void {
+    this.placeId = place_id;
+    this.setProperties('street', place_id, 'route');
+    this.setDistrict(place_id);
   }
 
-  public resetStreet(): void {
+  resetStreet(): void {
     this.street = '';
     this.streetEn = '';
     this.resetPlaceId();
   }
 
-  public getDistrict(): DistrictsDtos | null {
-    return this.district && this.districtEn ? { nameUa: this.district, nameEn: this.districtEn } : null;
+  getDistrict(): string {
+    return this.languageService.getLangValue(this.district, this.districtEn);
   }
 
-  public setDistrict(district: DistrictsDtos): void {
-    this.district = district?.nameUa ?? '';
-    this.districtEn = district?.nameEn ?? '';
+  setDistrict(place_id: string): void {
+    this.resetDistrict();
+
+    this.setProperties('district', place_id, 'sublocality', 'administrative_area_level_2');
   }
 
-  public resetDistrict(): void {
+  setDistrictFromCity() {
+    this.district = this.city;
+    this.districtEn = this.cityEn;
+    this.addressChange.next(this.getValues());
+  }
+
+  resetDistrict(): void {
     this.district = '';
     this.districtEn = '';
   }
 
-  public setHouseNumber(value: any) {
+  setHouseNumber(value: any) {
     this.houseNumber = value;
-    this.resetPlaceId();
-
-    if (value) {
-      this.fetchPlaceId();
-    }
   }
 
-  public setHouseCorpus(value: any) {
+  setHouseCorpus(value: any) {
     this.houseCorpus = value;
   }
 
-  public setEntranceNumber(value: any) {
+  setEntranceNumber(value: any) {
     this.entranceNumber = value;
   }
 
-  public setAddressComment(comment: string) {
+  setAddressComment(comment: string) {
     this.addressComment = comment;
   }
 
-  private resetPlaceId() {
-    this.placeId = '';
-    this.placeIdChange.next(this.placeId);
-  }
-
-  public getPlaceIdChange(): Subject<string> {
+  getPlaceIdChange(): Subject<string> {
     return this.placeIdChange;
   }
 
-  public getAddressChange(): Subject<AddressData> {
+  getAddressChange(): Subject<AddressData> {
     return this.addressChange;
   }
 
-  public getValues(): AddressData {
+  getValues(): AddressData {
     const addressData: AddressData = {
-      searchAddress: this.getSearchAddress(),
       regionEn: this.regionEn,
       region: this.region,
       city: this.city,
@@ -223,12 +230,16 @@ export class CAddressData {
       entranceNumber: this.entranceNumber,
       houseCorpus: this.houseCorpus,
       addressComment: this.addressComment,
-      placeId: this.placeId
+      placeId: this.placeId,
+      coordinates: {
+        latitude: this.coordinates?.lat(),
+        longitude: this.coordinates?.lng()
+      }
     };
     return addressData;
   }
 
-  public isValid(): boolean {
+  isValid(): boolean {
     const data = this.getValues();
     delete data.addressComment;
     delete data.houseCorpus;
@@ -238,42 +249,44 @@ export class CAddressData {
     return values.every((value) => value);
   }
 
-  private fetchPlaceId(isUseHouseNumber = true): void {
-    const request = {
-      input: this.getSearchAddress(isUseHouseNumber),
-      language: this.languageService.getCurrentLanguage() === Language.EN ? 'en' : 'uk',
-      types: ['address'],
-      componentRestrictions: { country: 'ua' }
-    };
+  private resetPlaceId() {
+    this.placeId = '';
+    this.placeIdChange.next(this.placeId);
+  }
 
-    new google.maps.places.AutocompleteService().getPlacePredictions(request, (predictions) => {
-      if (predictions?.length && predictions[0]?.place_id) {
-        this.placeId = predictions[0]?.place_id;
+  //Tries to fetch address by selected coordinates
+  private fetchAddress(coordinates: google.maps.LatLng) {
+    new google.maps.Geocoder().geocode({ location: coordinates }).then((response) => {
+      const place_id = response.results[0]?.place_id;
+      if (place_id) {
+        this.setRegion(place_id);
+        this.setCity(place_id);
+        this.setStreet(place_id);
+
+        this.setHouseNumber(this.findValue(response.results[0], 'street_number')?.long_name ?? '');
+        this.placeId = place_id;
         this.placeIdChange.next(this.placeId);
-      } else if (isUseHouseNumber) {
-        this.fetchPlaceId(false);
       }
     });
   }
 
-  private getSearchAddress(isExactAddress = true): string {
-    const houseNumber = isExactAddress && this.houseNumber ? `${this.houseNumber}, ` : '';
-    const street = isExactAddress ? `${this.languageService.getLangValue(this.street, this.streetEn)}, ` : '';
-
-    return this.languageService.getCurrentLanguage() === Language.EN
-      ? `${this.regionEn}, city ${this.cityEn}, ${street}${houseNumber}, Ukraine`
-      : `${this.region}, місто ${this.city}, ${street}${houseNumber}, Україна`;
+  //Translates values to achieve consistent view of address in different languages
+  private setProperties(propertyName: string, place_id: string, ...googleLocalityType: string[]): void {
+    this.translateProperty(propertyName, place_id, Language.UK, ...googleLocalityType);
+    this.translateProperty(propertyName + 'En', place_id, Language.EN, ...googleLocalityType);
   }
 
-  private setProperties(propertyName: string, prediction: GooglePrediction): void {
-    this.translateProperty(propertyName, prediction.place_id, Language.UK);
-    this.translateProperty(propertyName + 'En', prediction.place_id, Language.EN);
-  }
-
-  private translateProperty(propertyName: string, placeId: string, language: Language): void {
+  //Translates address component by placeId to required language
+  private translateProperty(propertyName: string, placeId: string, language: Language, ...googleLocalityType: string[]): void {
     new google.maps.Geocoder().geocode({ placeId, language }).then((response) => {
-      this[propertyName] = response.results[0].address_components[0].long_name;
+      this[propertyName] = this.findValue(response.results[0], ...googleLocalityType)?.long_name ?? '';
       this.addressChange.next(this.getValues());
     });
+  }
+
+  //Find required address component in google response by it's type
+  //For example 'route' is a street name, 'street_number' is a house number
+  private findValue(response: google.maps.GeocoderResult, ...type: string[]): google.maps.GeocoderAddressComponent {
+    return response.address_components.find((component) => component.types.some((t) => type.includes(t)));
   }
 }

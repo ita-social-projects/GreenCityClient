@@ -45,6 +45,8 @@ export interface Tariff {
   region: TariffItem;
   locationsDtos: TariffItem[];
   courier: TariffItem;
+  hasChat: boolean;
+  selected?: boolean;
 }
 
 export interface TariffItem {
@@ -78,6 +80,7 @@ export interface TariffForEmployee {
   location: TariffForEmployeeItem[];
   courier: TariffForEmployeeItem;
   selected?: boolean;
+  hasChat?: boolean;
   locations: any[];
 }
 export interface TariffForEmployeeItem {
@@ -87,12 +90,12 @@ export interface TariffForEmployeeItem {
 
 export interface EmployeeDataToSend {
   employeeDto: EmployeeDto;
-  tariffId: number[];
+  tariffs: { tariffId: number; hasChat: boolean }[];
 }
 
 export interface EmployeeDataResponse {
   employeeDto: EmployeeDto;
-  tariffs: Tariff[];
+  tariffs: { tariffId: number; hasChat: boolean }[];
 }
 
 export interface EmployeeDto {
@@ -107,7 +110,7 @@ export interface EmployeeDto {
 export interface IOrderInfo {
   generalOrderInfo: IGeneralOrderInfo;
   userInfoDto: IUserInfo;
-  addressExportDetailsDto: IAddressExportDetails;
+  addressExportDetailsDto: Address;
   addressComment: string;
   amountOfBagsConfirmed: Map<string, number>;
   amountOfBagsExported: Map<string, number>;
@@ -130,6 +133,13 @@ export interface IOrderInfo {
   employeePositionDtoRequest: IResponsiblePersons;
   writeOffStationSum: number;
   updateResponsibleEmployeeDto?: IEmployeePositions[];
+  isOrderCancelledAfterFormed: boolean;
+}
+
+export interface ReturnMoneyOrBonuses {
+  returnMoney: boolean;
+  returnBonuses: boolean;
+  amount: number;
 }
 
 export interface IEmployeePositions {
@@ -229,6 +239,10 @@ export interface IAddressExportDetails {
   addressRegionDistrictList: DistrictsDtos[];
 }
 
+export interface orderPaymentInfo {
+  orderFullPrice: number;
+  paymentTableInfoDto: IPaymentInfo;
+}
 export interface IPaymentInfo {
   overpayment: number;
   paidAmount: number;

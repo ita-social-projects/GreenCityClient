@@ -84,18 +84,6 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
     expect(spyOnInit).toHaveBeenCalled();
   });
 
-  it(`initForm should be called in ngOnInit`, () => {
-    spyOn(component as any, 'initForm');
-    component.ngOnInit();
-    expect(component.initForm).toHaveBeenCalled();
-  });
-
-  it('ngOnInit should called subscribeToLangChange method one time', () => {
-    const subscribeToLangChangeSpy = spyOn(component as any, 'subscribeToLangChange');
-    component.ngOnInit();
-    expect(subscribeToLangChangeSpy).toHaveBeenCalledTimes(1);
-  });
-
   it('component should initialize from with correct parameters', () => {
     component.initForm();
     expect(component.addCertificateForm.get('code').value).toEqual('');

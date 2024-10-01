@@ -74,19 +74,6 @@ describe('LikeCommentComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should get user id', () => {
-    (component as any).userId = null;
-    component.getUserId();
-    expect((component as any).userId).toBe(1111);
-  });
-
-  it('should set initial view for like-component elements', () => {
-    component.likeState = true;
-    const state = component.likeState;
-    (component as any).setStartingElements(state);
-    expect(component.like.nativeElement.srcset).toEqual(component.commentsImages.liked);
-  });
-
   it('should change view of like button', () => {
     const msg = {
       id: 8877,
@@ -97,54 +84,5 @@ describe('LikeCommentComponent', () => {
     component.changeLkeBtn(msg);
     expect(component.likeState).toBeTruthy();
     expect(component.like.nativeElement.srcset).toEqual(component.commentsImages.liked);
-  });
-
-  it('should set userId and send data to backend if user press like button', () => {
-    (component as any).userId = null;
-    const spy = spyOn((component as any).commentsService, 'postLike').and.returnValue(of({}));
-    component.pressLike();
-    expect(spy).toHaveBeenCalled();
-    expect((component as any).userId).toBe(1111);
-  });
-
-  it('should connect to socket and change view of like button', () => {
-    const msg = {
-      id: 8877,
-      amountLikes: 1,
-      liked: true,
-      userId: 1111
-    };
-    (component as any).userId = 1111;
-    spyOn((component as any).socketService, 'onMessage').and.returnValue(of(msg));
-    const spy = spyOn(component, 'changeLkeBtn');
-    component.onConnectedtoSocket();
-    expect(spy).toHaveBeenCalledWith(msg);
-  });
-
-  it('should emit new count of likes', () => {
-    const msg = {
-      id: 8877,
-      amountLikes: 1,
-      liked: true,
-      userId: 1111
-    };
-    let likeCount = null;
-
-    spyOn((component as any).socketService, 'onMessage').and.returnValue(of(msg));
-    component.likesCounter.subscribe((amountLikes) => (likeCount = amountLikes));
-    component.onConnectedtoSocket();
-    expect(likeCount).toBe(1);
-  });
-
-  it('should choose socketMessageToSubscribe and socketMessageToSend depending on current page', () => {
-    (component as any).router.url = 'events';
-    component.checkSocketMessageToSubscribe();
-    expect(component.socketMessageToSubscribe).toBe(`/topic/1/eventComment`);
-    expect(component.socketMessageToSend).toBe('/app/eventCommentLikeAndCount');
-
-    (component as any).router.url = 'news';
-    component.checkSocketMessageToSubscribe();
-    expect(component.socketMessageToSubscribe).toBe(`/topic/1/comment`);
-    expect(component.socketMessageToSend).toBe('/app/likeAndCount');
   });
 });

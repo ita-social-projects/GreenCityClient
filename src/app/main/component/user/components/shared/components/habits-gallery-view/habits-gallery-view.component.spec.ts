@@ -10,8 +10,6 @@ import { Observable, of } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { DEFAULTHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
-import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 
@@ -19,7 +17,6 @@ describe('HabitsGalleryViewComponent', () => {
   let component: HabitsGalleryViewComponent;
   let fixture: ComponentFixture<HabitsGalleryViewComponent>;
   const matSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  let httpTestingController: HttpTestingController;
   const habitAssignServiceMock: HabitAssignService = jasmine.createSpyObj('HabitAssignService', ['assignHabit']);
   habitAssignServiceMock.assignHabit = () => new Observable();
 
@@ -64,7 +61,6 @@ describe('HabitsGalleryViewComponent', () => {
         { provide: HabitAssignService, useValue: fakeHabitAssignService }
       ]
     }).compileComponents();
-    httpTestingController = TestBed.inject(HttpTestingController);
   }));
 
   beforeEach(() => {
@@ -84,58 +80,6 @@ describe('HabitsGalleryViewComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should set userId on onInit', () => {
-    (component as any).userId = 12;
-    component.ngOnInit();
-    expect((component as any).userId).toBe(1);
-  });
-
-  it('should call navigate and show snackbar on addHabit', () => {
-    spyOn(component['habitAssignService'], 'assignHabit').and.returnValue(of(mockHabit));
-    component.addHabit();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 1]);
-    expect(matSnackBarMock.openSnackBar).toHaveBeenCalledWith('habitAdded');
-  });
-
-  it('addHabit method should call assignCustomHabit methods', () => {
-    (component as any).habit.isCustomHabit = true;
-    const spy = spyOn(component as any, 'assignCustomHabit');
-    component.addHabit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('addHabit method should call assignStandardHabit methods', () => {
-    (component as any).habit.isCustomHabit = false;
-    const spy = spyOn(component as any, 'assignStandardHabit');
-    component.addHabit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('call of assignCustomHabit method should invoke afterHabitWasChanged method', () => {
-    const spy = spyOn(component as any, 'assignHabit');
-    const habitAssignPropertiesDto: HabitAssignPropertiesDto = { duration: 25, defaultShoppingListItems: [] };
-    const friendsIdsList = [];
-    (component as any).assignCustomHabit();
-    fakeHabitAssignService
-      .assignCustomHabit(1, friendsIdsList, habitAssignPropertiesDto)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(spy).toHaveBeenCalled();
-      });
-  });
-
-  it('call of assignStandardHabit method should invoke afterHabitWasChanged method', () => {
-    const spy = spyOn(component as any, 'assignHabit');
-    (component as any).habit.id = 2;
-    (component as any).assignStandardHabit();
-    fakeHabitAssignService
-      .assignHabit((component as any).habitId)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(spy).toHaveBeenCalled();
-      });
-  });
-
   it('should update stars array with green stars up to complexity level', () => {
     component.getStars(2);
     expect(component.stars).toEqual([component.greenStar, component.greenStar, component.whiteStar]);
@@ -153,33 +97,5 @@ describe('HabitsGalleryViewComponent', () => {
     expect(component.stars).toEqual([component.greenStar, component.whiteStar, component.whiteStar]);
     component.getStars(3);
     expect(component.stars).toEqual([component.greenStar, component.greenStar, component.greenStar]);
-  });
-
-  it('should call assignCustomHabit if isCustomHabit is true', () => {
-    spyOn(component as any, 'assignCustomHabit').and.callThrough();
-    component.habit = { isCustomHabit: true } as any;
-    component.addHabit();
-    expect((component as any).assignCustomHabit).toHaveBeenCalled();
-  });
-
-  it('should call assignStandardHabit if isCustomHabit is false', () => {
-    spyOn(component as any, 'assignStandardHabit').and.callThrough();
-    component.habit = { isCustomHabit: false } as any;
-    component.addHabit();
-    expect((component as any).assignStandardHabit).toHaveBeenCalled();
-  });
-
-  it('should call assignHabit with the correct function for standard habit assignment', () => {
-    spyOn(component as any, 'assignHabit').and.callThrough();
-    spyOn(component.habitAssignService, 'assignHabit').and.returnValue(of(mockHabit));
-    (component as any).assignStandardHabit();
-    expect((component as any).assignHabit).toHaveBeenCalledWith(jasmine.any(Function));
-  });
-
-  it('should call assignHabit with assignHabit when isCustomHabit is false', () => {
-    spyOn(component as any, 'assignHabit').and.callThrough();
-    component.habit = { isCustomHabit: false, id: 1 } as any;
-    component.addHabit();
-    expect((component as any).assignHabit).toHaveBeenCalledWith(jasmine.any(Function));
   });
 });

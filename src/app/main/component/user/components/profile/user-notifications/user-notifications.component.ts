@@ -74,12 +74,8 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   hasNextPage: boolean;
   private filterChangeSubs$: Subject<{ type: NotificationFilter; approach: string }> = new Subject();
   isFilterDisabled: boolean;
-
   isLoading = true;
-  isSmallSpinnerVisible = false;
   private filterAll = 'All';
-  deleteIcon = 'assets/img/comments/delete.png';
-  markAsReadIcon = 'assets/img/comments/mark-read.svg';
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -155,7 +151,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         .flat()
     };
     this.userNotificationService
-      .getAllNotification(page, this.itemsPerPage, filtersSelected)
+      .getAllNotifications(page, this.itemsPerPage, filtersSelected)
       .pipe(take(1))
       .subscribe((data) => {
         this.notifications = [...this.notifications, ...data.page];
@@ -195,17 +191,17 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       this.userNotificationService
         .deleteNotification(notification.notificationId)
         .pipe(takeUntil(this.destroy$))
-        .subscribe(
-          () => {
+        .subscribe({
+          next: () => {
             this.notifications = this.notifications.filter((el) => el.notificationId !== notification.notificationId);
             if (this.notifications.length < this.itemsPerPage && this.hasNextPage) {
               this.getNotification(this.currentPage + 1);
             }
           },
-          () => {
+          error: () => {
             this.matSnackBar.openSnackBar('error');
           }
-        );
+        });
     }
   }
 
@@ -217,11 +213,31 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   acceptRequest(userId: number): void {
-    this.userFriendsService.acceptRequest(userId).subscribe();
+    let isAccepted = true;
+    this.userFriendsService.acceptRequest(userId).subscribe({
+      error: () => {
+        isAccepted = false;
+      },
+      complete: () => {
+        if (isAccepted) {
+          this.matSnackBar.openSnackBar('friendInValidRequest');
+        }
+      }
+    });
   }
 
   declineRequest(userId: number): void {
-    this.userFriendsService.declineRequest(userId).subscribe();
+    let isAccepted = true;
+    this.userFriendsService.declineRequest(userId).subscribe({
+      error: () => {
+        isAccepted = false;
+      },
+      complete: () => {
+        if (isAccepted) {
+          this.matSnackBar.openSnackBar('friendInValidRequest');
+        }
+      }
+    });
   }
 
   navigate(event: Event): void {

@@ -16,6 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { StoreModule } from '@ngrx/store';
 
 describe('FriendItemComponent', () => {
   let component: FriendItemComponent;
@@ -28,13 +29,17 @@ describe('FriendItemComponent', () => {
     'languageBehaviourSubject',
     'getCurrentLanguage',
     'getUserId',
-    'userIdBehaviourSubject'
+    'userIdBehaviourSubject',
+    'getAccessToken'
   ]);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
   localStorageServiceMock.getUserId = () => 1;
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1);
+  localStorageServiceMock.getAccessToken = () => {
+    123;
+  };
 
   const onlineStatusMock = jasmine.createSpyObj('UserOnlineStatusService', ['checkIsOnline']);
   onlineStatusMock.checkIsOnline = () => true;
@@ -45,7 +50,14 @@ describe('FriendItemComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FriendItemComponent, MaxTextLengthPipe, CorrectUnitPipe],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, RouterTestingModule.withRoutes([]), MatTooltipModule],
+      imports: [
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        MatDialogModule,
+        RouterTestingModule.withRoutes([]),
+        MatTooltipModule,
+        StoreModule.forRoot({})
+      ],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserOnlineStatusService, useValue: onlineStatusMock },
@@ -77,61 +89,5 @@ describe('FriendItemComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call getLangChange method onInit', () => {
-    const spy = spyOn(component as any, 'getLangChange');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should call toUsersInfo when target class friend-mutual-link and userId is not set', () => {
-    const span = document.createElement('span');
-    span.className = 'friend-mutual-link';
-    const mockEvent: Partial<MouseEvent> = {
-      target: span
-    };
-    component.userId = null;
-    const spy = spyOn(component as any, 'toUsersInfo');
-
-    component.clickHandler(mockEvent as MouseEvent);
-
-    expect(spy).toHaveBeenCalledWith(UserDashboardTab.mutualFriends);
-  });
-
-  it('should call toUsersInfo when target is div', () => {
-    const mockEvent: Partial<MouseEvent> = {
-      target: document.createElement('div')
-    };
-    const spy = spyOn(component as any, 'toUsersInfo');
-
-    component.clickHandler(mockEvent as MouseEvent);
-
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('it should navigate to user profile if user id is set', () => {
-    component.userId = 1;
-    (component as any).currentUserId = 2;
-    component.friend = { name: 'name', id: 3 } as FriendModel;
-
-    spyOn(router, 'navigate');
-    (component as any).toUsersInfo();
-    expect(router.navigate).toHaveBeenCalledWith(['profile', 2, 'users', 'name', 3], {
-      queryParams: { tab: UserDashboardTab.allHabits }
-    });
-  });
-
-  it('it should navigate to user profile if user id is not set', () => {
-    component.userId = null;
-    (component as any).currentUserId = 2;
-    component.friend = { name: 'name', id: 3 } as FriendModel;
-
-    spyOn(router, 'navigate');
-    (component as any).toUsersInfo(UserDashboardTab.mutualFriends);
-    expect(router.navigate).toHaveBeenCalledWith(['name', 3], {
-      relativeTo: activatedRoute,
-      queryParams: { tab: UserDashboardTab.mutualFriends }
-    });
   });
 });

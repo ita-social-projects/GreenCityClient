@@ -169,7 +169,7 @@ describe('AddViolationsComponent', () => {
     expect(getAddSaveButtonDebug().nativeElement.disabled).toBeTruthy();
   });
 
-  xit('[View Mode] clicking an image opens modal with ShowImgsPopUpComponent with correct params', async () => {
+  it('[View Mode] clicking an image opens modal with ShowImgsPopUpComponent with correct params', async () => {
     await buildComponent();
     await clickElement(getImagesDebug()[1]);
     expect(matDialogStub.open).toHaveBeenCalledWith(ShowImgsPopUpComponent, {
@@ -182,7 +182,7 @@ describe('AddViolationsComponent', () => {
     });
   });
 
-  xit('[View Mode] clicking delete button should open confirmation modal (DialogPopUpComponent)', async () => {
+  it('[View Mode] clicking delete button should open confirmation modal (DialogPopUpComponent)', async () => {
     await buildComponent();
     await clickElement(getDeleteButtonDebug());
     expect(matDialogStub.open).toHaveBeenCalledWith(DialogPopUpComponent, {
@@ -266,7 +266,7 @@ describe('AddViolationsComponent', () => {
     expect(deletedImage).toBeFalsy();
   });
 
-  xit('[Edit Mode] clicking cancel button should close the modal', async () => {
+  it('[Edit Mode] clicking cancel button should close the modal', async () => {
     await buildComponent();
     await enterEditMode();
     await clickElement(getCancelButtonDebug());
@@ -280,7 +280,7 @@ describe('AddViolationsComponent', () => {
     expect(getAddSaveButtonDebug().nativeElement.disabled).toBe(false);
   });
 
-  xit('[Edit Mode] clicking an image opens modal with ShowImgsPopUpComponent with correct params', async () => {
+  it('[Edit Mode] clicking an image opens modal with ShowImgsPopUpComponent with correct params', async () => {
     await buildComponent();
     await enterEditMode();
     await clickElement(getImagesDebug()[0]);

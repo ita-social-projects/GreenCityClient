@@ -1,26 +1,35 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  computed,
-  ElementRef,
-  inject,
-  Input,
-  OnInit,
-  Renderer2,
-  signal,
-  ViewChild
-} from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
-import { LanguageService } from '../../../../../../../../i18n/language.service';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { IMask } from 'angular-imask';
-import moment from 'moment';
+import * as _moment from 'moment';
+import 'moment/locale/uk';
+import { LanguageService } from '../../../../../../../../i18n/language.service';
+import { MomentDateAdapter } from './moment-date-adapter/moment-date-adapter';
+
+const moment = _moment;
+moment.locale('uk');
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MMM DD, YYYY'
+  },
+  display: {
+    dateInput: 'MMM DD, YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+};
 
 @Component({
   selector: 'app-date-time',
   templateUrl: './date-time.component.html',
-  styleUrls: ['./date-time.component.scss']
+  styleUrls: ['./date-time.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+  ]
 })
 export class DateTimeComponent implements OnInit, AfterViewInit {
   @Input() daysForm: FormArray;
@@ -36,7 +45,7 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   private _upperTimeLimit = 0;
   private prevTimeValue: Array<string>;
   private initialStartTime: string;
-  test = '00:00';
+  // test = '00:00';
   timeMask = {
     mask: 'HH:MM',
     blocks: {
@@ -54,29 +63,29 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
       }
     }
   };
-  dateMask = {
-    mask: 'd/`m/`YY',
-    blocks: {
-      d: {
-        mask: IMask.MaskedRange,
-        from: 1,
-        to: 31,
-        maxLength: 2
-      },
-      m: {
-        mask: IMask.MaskedRange,
-        from: 1,
-        to: 12,
-        maxLength: 2
-      },
-      Y: {
-        mask: IMask.MaskedRange,
-        from: 1900,
-        to: 9999,
-        maxLength: 4
-      }
-    }
-  };
+  // dateMask = {
+  //   mask: 'd/`m/`YY',
+  //   blocks: {
+  //     d: {
+  //       mask: IMask.MaskedRange,
+  //       from: 1,
+  //       to: 31,
+  //       maxLength: 2
+  //     },
+  //     m: {
+  //       mask: IMask.MaskedRange,
+  //       from: 1,
+  //       to: 12,
+  //       maxLength: 2
+  //     },
+  //     Y: {
+  //       mask: IMask.MaskedRange,
+  //       from: 1900,
+  //       to: 9999,
+  //       maxLength: 4
+  //     }
+  //   }
+  // };
 
   @ViewChild('dateRef') dateRef: ElementRef;
   @ViewChild('startTimeRef') startTimeRef: ElementRef;
@@ -138,7 +147,7 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    IMask(this.dateRef.nativeElement, this.dateMask);
+    // IMask(this.dateRef.nativeElement, this.dateMask);
     IMask(this.startTimeRef.nativeElement, this.timeMask);
     IMask(this.endTimeRef.nativeElement, this.timeMask);
   }

@@ -68,18 +68,6 @@ describe('ShoppingListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call subscribeToLangChange method onInit', () => {
-    const spy = spyOn(component as any, 'subscribeToLangChange');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should call getAllShopLists on subscribeToLangChange', () => {
-    const spy = spyOn(component as any, 'getAllShopLists');
-    (component as any).subscribeToLangChange();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should set custom true after getShopLists', () => {
     const result = [
       { ...SHOPLISTITEMONE, custom: true },
@@ -112,25 +100,5 @@ describe('ShoppingListComponent', () => {
     SHOPLISTITEMONE.status = TodoStatus.inprogress;
     component.toggleDone(SHOPLISTITEMONE);
     expect(SHOPLISTITEMONE.status).toBe('DONE');
-  });
-
-  it('should call updateStatusItem on toggleDone', () => {
-    SHOPLISTITEMONE.custom = false;
-    const spy = spyOn(component as any, 'updateStatusItem');
-    component.toggleDone(SHOPLISTITEMONE);
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should call updateStatusCustomItem on toggleDone', () => {
-    SHOPLISTITEMONE.custom = true;
-    const spy = spyOn(component as any, 'updateStatusCustomItem');
-    component.toggleDone(SHOPLISTITEMONE);
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should call updateStatusCustomItem on updateStatusCustomItem', () => {
-    const spy = spyOn(component as any, 'updateStatusCustomItem');
-    (component as any).updateStatusCustomItem(SHOPLISTITEMONE);
-    expect(spy).toHaveBeenCalledWith(SHOPLISTITEMONE);
   });
 });

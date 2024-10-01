@@ -60,8 +60,8 @@ export class FilterSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedList.emit(this.filter);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    this.destroy$.complete();
   }
 }

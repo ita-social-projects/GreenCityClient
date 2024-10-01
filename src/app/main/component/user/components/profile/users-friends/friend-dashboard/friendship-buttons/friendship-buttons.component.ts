@@ -2,7 +2,6 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-
 import { FriendStatusValues, UserDataAsFriend } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { ofType } from '@ngrx/effects';
@@ -11,6 +10,7 @@ import { WarningPopUpComponent } from '@shared/components';
 import { Subject, take, takeUntil } from 'rxjs';
 import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal.component';
 import { ChatsService } from 'src/app/chat/service/chats/chats.service';
+import { CommonService } from 'src/app/chat/service/common/common.service';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import {
   AcceptRequest,
@@ -30,7 +30,6 @@ import {
 export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy {
   private destroy$ = new Subject();
   currentUserId: number;
-  profileUserId: number;
   canAddFriend: boolean;
   canDeleteFriend: boolean;
   canCancelRequest: boolean;
@@ -65,11 +64,11 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
     private localStorageService: LocalStorageService,
     private actionsSubj: ActionsSubject,
     private socketService: SocketService,
-    private chatsService: ChatsService
+    private chatsService: ChatsService,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
-    this.socketService.connect();
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((id) => {
       this.currentUserId = id;
       this.updateConditions();
@@ -77,7 +76,7 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
     this.subscribeToAction();
   }
 
-  private subscribeToAction() {
+  private subscribeToAction(): void {
     this.actionsSubj
       .pipe(ofType(DeleteFriendSuccess, AcceptRequestSuccess, DeclineRequestSuccess), takeUntil(this.destroy$))
       .subscribe((data) => {
@@ -103,7 +102,7 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  private updateConditions() {
+  private updateConditions(): void {
     this.canAddFriend =
       this.userAsFriend?.friendStatus === FriendStatusValues.NONE || this.userAsFriend?.friendStatus === FriendStatusValues.REJECTED;
     this.canDeleteFriend = this.userAsFriend?.friendStatus === FriendStatusValues.FRIEND;
@@ -113,17 +112,17 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
       this.userAsFriend?.friendStatus === FriendStatusValues.REQUEST && this.userAsFriend?.requesterId === this.userAsFriend.id;
   }
 
-  handleAction(event: MouseEvent | KeyboardEvent) {
+  handleAction(event: MouseEvent | KeyboardEvent): void {
     if (event instanceof KeyboardEvent && event.key !== 'Enter') {
       return;
     }
     const target = event.target as HTMLElement;
     switch (target.id) {
       case 'addFriend':
-        this.addFriend(this.userAsFriend.id);
+        this.addFriend();
         break;
       case 'cancelRequest':
-        this.unsendFriendRequest(this.userAsFriend.id);
+        this.unsendFriendRequest();
         break;
       case 'deleteFriend':
         this.openConfirmPopup();
@@ -135,34 +134,35 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
         this.store.dispatch(AcceptRequest({ id: this.userAsFriend.id }));
         break;
       case 'createChatButton':
-        this.onCreateChat();
+        this.onOpenChat(true);
         break;
       case 'openChatButton':
-        this.onOpenChat();
+        this.onOpenChat(false);
         break;
       default:
         break;
     }
   }
 
-  private addFriend(id: number): void {
+  private addFriend(): void {
+    let isSend = false;
     this.userFriendsService
       .addFriend(this.userAsFriend.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.snackBar.openSnackBar('addFriend');
+          isSend = true;
           this.userAsFriend.friendStatus = FriendStatusValues.REQUEST;
           this.userAsFriend.requesterId = this.currentUserId;
           this.updateConditions();
         },
-        error: (err) => console.error(err.message)
+        complete: () => this.snackBar.openSnackBar(isSend ? 'addFriend' : 'friendValidation')
       });
   }
 
-  private unsendFriendRequest(id: number): void {
+  private unsendFriendRequest(): void {
     this.userFriendsService
-      .unsendFriendRequest(id)
+      .unsendFriendRequest(this.userAsFriend.id)
       .pipe(take(1))
       .subscribe(() => {
         this.snackBar.openSnackBar('cancelRequest');
@@ -185,16 +185,13 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
       });
   }
 
-  private onCreateChat() {
-    this.socketService.createNewChat(this.userAsFriend.id, true);
+  private onOpenChat(isNewChat: boolean): void {
+    this.socketService.connect();
+    isNewChat ? this.socketService.createNewChat(this.userAsFriend.id, true) : this.chatsService.openCurrentChat(this.userAsFriend.chatId);
+    this.chatsService.getAllUserChats(this.currentUserId);
     this.dialog.closeAll();
     this.dialog.open(ChatModalComponent, this.chatDialogConfig);
-  }
-
-  private onOpenChat() {
-    this.dialog.closeAll();
-    this.dialog.open(ChatModalComponent, this.chatDialogConfig);
-    this.chatsService.openCurrentChat(this.userAsFriend.chatId);
+    this.commonService.newMessageWindowRequireCloseStream$.next(true);
   }
 
   ngOnDestroy(): void {

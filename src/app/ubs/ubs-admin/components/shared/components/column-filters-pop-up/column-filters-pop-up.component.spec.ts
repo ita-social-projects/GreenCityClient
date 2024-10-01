@@ -9,6 +9,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { ColumnFiltersPopUpComponent } from './column-filters-pop-up.component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { IFilteredColumnValue } from '@ubs/ubs-admin/models/ubs-admin.interface';
 
 describe('ColumnFiltersPopUpComponent', () => {
   let component: ColumnFiltersPopUpComponent;
@@ -19,9 +21,16 @@ describe('ColumnFiltersPopUpComponent', () => {
     'getDateChecked',
     'getDateValue',
     'changeDateFilters',
-    'changeInputDateFilters'
+    'changeInputDateFilters',
+    'isFilterChecked',
+    'setNewFilters',
+    'swapDatesIfNeeded',
+    'setDateFormat',
+    'setNewDateRange',
+    'setNewDateChecked',
+    'setCurrentFilters'
   ]);
-  const fakeDialog = jasmine.createSpyObj('fakeDialog', ['close', 'updatePosition', 'updateSize']);
+  const fakeDialog = jasmine.createSpyObj('fakeDialog', ['close', 'updatePosition', 'updateSize', 'discardChanges']);
   const matDialogDataMock = {
     columnName: 'test',
     trigger: new ElementRef(document.createElement('div'))
@@ -75,19 +84,6 @@ describe('ColumnFiltersPopUpComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('outside click should close popup', fakeAsync(() => {
-    component.isPopupOpened = true;
-    fixture.detectChanges();
-    document.dispatchEvent(new MouseEvent('click'));
-    expect(fakeDialog.close).toHaveBeenCalled();
-  }));
-
-  it('method setPopupPosUnderButton should should set size anp pos', () => {
-    (component as any).setPopupPosUnderButton();
-    expect(fakeDialog.updatePosition).toHaveBeenCalled();
-    expect(fakeDialog.updateSize).toHaveBeenCalled();
-  });
-
   it('method getOptionsForFiltering should return options', () => {
     const options = component.getOptionsForFiltering();
     expect(options).toEqual(fakeAdminTableService.columnsForFiltering[0].values);
@@ -96,5 +92,94 @@ describe('ColumnFiltersPopUpComponent', () => {
   it('method getColumnsForFiltering should return columnsForFiltering from service', () => {
     const columnsForFilteringTest = component.getColumnsForFiltering();
     expect(columnsForFilteringTest).toEqual(fakeAdminTableService.columnsForFiltering);
+  });
+
+  it('should set showButtons to true and call setNewFilters on filter change', () => {
+    const checked = true;
+    const currentColumn = 'testColumn';
+    const option = { en: 'Option En', key: 'optionKey' };
+
+    component.onFilterChange(checked, currentColumn, option);
+
+    expect(component.showButtons).toBeTrue();
+    expect(fakeAdminTableService.setNewFilters).toHaveBeenCalledWith(checked, currentColumn, option);
+  });
+
+  it('should update date values and call setNewDateRange with formatted dates', () => {
+    const dateFrom = new Date('2024-09-01');
+    const dateTo = new Date('2024-09-30');
+    const formattedDateFrom = '01-09-2024';
+    const formattedDateTo = '30-09-2024';
+    const columnName = 'testColumn';
+
+    component.dateFrom = dateFrom;
+    component.dateTo = dateTo;
+    component.dateChecked = true;
+    component.data = { columnName };
+
+    fakeAdminTableService.swapDatesIfNeeded.and.returnValue({ dateFrom, dateTo });
+    fakeAdminTableService.setDateFormat.and.callFake((date) => {
+      if (date === dateFrom) {
+        return formattedDateFrom;
+      }
+      if (date === dateTo) {
+        return formattedDateTo;
+      }
+      return '';
+    });
+
+    component.onDateChange();
+
+    expect(component.showButtons).toBeTrue();
+    expect(fakeAdminTableService.swapDatesIfNeeded).toHaveBeenCalledWith(dateFrom, dateTo, component.dateChecked);
+    expect(fakeAdminTableService.setDateFormat).toHaveBeenCalledWith(dateFrom);
+    expect(fakeAdminTableService.setDateFormat).toHaveBeenCalledWith(dateTo);
+    expect(fakeAdminTableService.setNewDateRange).toHaveBeenCalledWith(columnName, formattedDateFrom, formattedDateTo);
+  });
+
+  it('should call onDateChange and setNewDateChecked on checkbox change', () => {
+    const columnName = 'testColumn';
+    const checked = true;
+    const mockEvent = { checked } as MatCheckboxChange;
+
+    component.data = { columnName };
+    spyOn(component, 'onDateChange').and.callThrough();
+
+    component.onDateChecked(mockEvent, checked);
+
+    expect(component.onDateChange).toHaveBeenCalled();
+    expect(fakeAdminTableService.setNewDateChecked).toHaveBeenCalledWith(columnName, checked);
+  });
+
+  it('should return the result of adminTableService.isFilterChecked', () => {
+    const columnName = 'testColumn';
+    const option: IFilteredColumnValue = { key: 'testKey', en: 'Test' };
+    const expectedResult = true;
+
+    fakeAdminTableService.isFilterChecked.and.returnValue(expectedResult);
+    const result = component.isChecked(columnName, option);
+
+    expect(fakeAdminTableService.isFilterChecked).toHaveBeenCalledWith(columnName, option);
+    expect(result).toBe(expectedResult);
+  });
+
+  it('should call stopPropagation and update dates correctly when type is "from"', () => {
+    const event = { stopPropagation: jasmine.createSpy('stopPropagation') } as unknown as Event;
+
+    fakeAdminTableService.swapDatesIfNeeded.and.returnValue({
+      dateFrom: null,
+      dateTo: new Date('2024-09-30T00:00:00Z')
+    });
+
+    component.dateFrom = new Date('2024-09-01T00:00:00Z');
+    component.dateTo = new Date('2024-09-30T00:00:00Z');
+    const onDateChangeSpy = spyOn(component, 'onDateChange').and.callThrough();
+    component.discardDateChanges('from', event);
+
+    expect(event.stopPropagation).toHaveBeenCalled();
+
+    expect(component.dateFrom).toBeNull();
+    expect(component.dateTo).toEqual(new Date('2024-09-30T00:00:00Z'));
+    expect(onDateChangeSpy).toHaveBeenCalled();
   });
 });

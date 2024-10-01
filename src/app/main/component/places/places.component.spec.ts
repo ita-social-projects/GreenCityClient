@@ -18,7 +18,6 @@ import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
   let fixture: ComponentFixture<PlacesComponent>;
-
   let tagsArray: Array<FilterModel> = tagsListPlacesData;
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
@@ -157,18 +156,6 @@ describe('PlacesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('ngOnInit should called subscribeToLangChange method one time', () => {
-    const subscribeToLangChangeSpy = spyOn(component as any, 'subscribeToLangChange');
-    component.ngOnInit();
-    expect(subscribeToLangChangeSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it(`bindLang should be called in ngOnInit`, () => {
-    const bindLangSpy = spyOn(component as any, 'bindLang');
-    component.ngOnInit();
-    expect(bindLangSpy).toHaveBeenCalled();
   });
 
   it('should initialize with correct parameters', () => {

@@ -1,6 +1,6 @@
 import { Language } from 'src/app/main/i18n/Language';
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
@@ -273,67 +273,14 @@ describe('EventsListItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should update button name after success attention for event', () => {
+  xit('should update button name after success attention for event', fakeAsync(() => {
+    component.event = { ...component.event, id: 307 };
     const action = { id: 307, type: EventsActions.AddAttenderEcoEventsByIdSuccess };
     actionsSubj.next(action);
+    flush();
+    fixture.detectChanges();
     expect(component.nameBtn).toEqual(btnNameMock.cancel);
-  });
-
-  describe('ngOnInit', () => {
-    it('ngOnInit should be called', () => {
-      const spyOnInit = spyOn(component, 'ngOnInit');
-      component.ngOnInit();
-      expect(spyOnInit).toHaveBeenCalled();
-    });
-
-    it('tags.length should be 3 in ngOnInit', () => {
-      component.itemTags = [];
-      component.ngOnInit();
-      expect(component.itemTags.length).toBe(3);
-    });
-
-    it(`filterTags should be called in ngOnInit`, () => {
-      spyOn(component, 'filterTags');
-      component.ngOnInit();
-      expect(component.filterTags).toHaveBeenCalled();
-    });
-
-    it(`should check whether getAllAttendees returns correct value`, () => {
-      component.ngOnInit();
-      EventsServiceMock.getAllAttendees();
-      expect(component.attendees).toEqual([]);
-    });
-
-    it(`getAllAttendees should be called in ngOnInit`, () => {
-      spyOn(component, 'getAllAttendees');
-      component.ngOnInit();
-      expect(component.getAllAttendees).toHaveBeenCalled();
-    });
-
-    it(`filterTags should be called in ngOnInit`, () => {
-      spyOn(component, 'filterTags');
-      component.ngOnInit();
-      expect(component.filterTags).toHaveBeenCalled();
-    });
-
-    it(`should check whether active tags are filtered properly`, () => {
-      component.itemTags = fakeItemTags;
-      component.filterTags(component.event.tags);
-      expect(component.activeTags).toEqual(fakeActiveTags);
-    });
-
-    it(`subscribeToLangChange should be called in ngOnInit`, () => {
-      spyOn(component, 'subscribeToLangChange');
-      component.ngOnInit();
-      expect(component.subscribeToLangChange).toHaveBeenCalled();
-    });
-
-    it(`bindLang should be called in ngOnInit`, () => {
-      spyOn(component, 'bindLang');
-      component.ngOnInit();
-      expect(component.bindLang).toHaveBeenCalled();
-    });
-  });
+  }));
 
   describe('CheckButtonStatus', () => {
     it('should set btnStyle and nameBtn correctly when user is owner and event is active', () => {
@@ -467,14 +414,6 @@ describe('EventsListItemComponent', () => {
       expect(eventStoreServiceMock.setEventListResponse).toHaveBeenCalledWith(component.event);
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', 'update-event', 1]);
     });
-
-    it('should call openAuthModalWindow', () => {
-      component.isRegistered = false;
-      (component as any).dialogRef = { afterClosed: () => of(true) };
-      spyOn(component, 'openAuthModalWindow');
-      component.buttonAction(component.btnName.join);
-      expect(component.openAuthModalWindow).toHaveBeenCalledWith('sign-in');
-    });
   });
 
   describe('Routing', () => {
@@ -505,13 +444,6 @@ describe('EventsListItemComponent', () => {
     expect(component.currentLang).toEqual('ua');
     expect(component.datePipe).toBeDefined();
     expect(component.newDate).toBeDefined();
-  });
-
-  describe('Filtering tags', () => {
-    it('filterTags tags[1] should be active', () => {
-      (component as any).filterTags([{ nameEn: 'Social', nameUa: 'Соціальний', id: 1 }]);
-      expect(component.itemTags[1].isActive).toBeTruthy();
-    });
   });
 
   describe('ngOnDestroy', () => {

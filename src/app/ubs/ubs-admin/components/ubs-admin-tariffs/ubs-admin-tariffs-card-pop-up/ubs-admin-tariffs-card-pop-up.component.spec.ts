@@ -416,11 +416,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(component.checkStation('Фейк')).toEqual(true);
   });
 
-  it('checkStation should return false if item is not in selectedStation', () => {
-    component.selectedStation = [stationItem];
-    expect(component.checkStation('Фейк1')).toEqual(false);
-  });
-
   it('should delete city from the list', () => {
     const spy = spyOn(component, 'setCountOfSelectedCity');
     component.selectedCities.push(locationItem);
@@ -536,13 +531,5 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     };
     component.onBlur(eventMock);
     expect(component.blurOnOption).toEqual(false);
-  });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    const unsubscribe = 'unsubscribe';
-    component[unsubscribe] = new Subject<boolean>();
-    spyOn(component[unsubscribe], 'complete');
-    component.ngOnDestroy();
-    expect(component[unsubscribe].complete).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,7 +1,7 @@
 import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CardModel } from '@user-models/card.model';
+import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
@@ -41,9 +41,14 @@ export class ProfileService {
     this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
   }
 
-  getFactsOfTheDay(): Observable<CardModel> {
+  getRandomFactOfTheDay(): Observable<FactOfTheDay> {
     const currentLang = this.languageService.getCurrentLanguage();
-    return this.http.get<CardModel>(`${mainLink}factoftheday/?lang=${currentLang}`);
+    return this.http.get<FactOfTheDay>(`${mainLink}fact-of-the-day/random?lang=${currentLang}`);
+  }
+
+  getFactsOfTheDayByTags(): Observable<FactOfTheDay> {
+    const currentLang = this.languageService.getCurrentLanguage();
+    return this.http.get<FactOfTheDay>(`${mainLink}fact-of-the-day/random/by-tags?lang=${currentLang}`);
   }
 
   getUserInfo(): Observable<EditProfileModel> {

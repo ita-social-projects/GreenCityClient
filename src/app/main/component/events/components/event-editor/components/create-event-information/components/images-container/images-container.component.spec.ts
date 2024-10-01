@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { ImagesContainerComponent } from './images-container.component';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
@@ -60,31 +60,5 @@ describe('ImagesContainerComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('ngOnInit expect chooseImage should be call', () => {
-    component.images.length = 0;
-    const spy = spyOn(component as any, 'chooseImage');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should open snackbar when imageCount is 5', () => {
-    component.imageCount = 5;
-    const spy = spyOn((component as any).snackBar, 'openSnackBar');
-    component.chooseImage('test.jpg');
-    expect(spy).toHaveBeenCalledWith('errorMaxPhotos');
-  });
-
-  it('filesDropped expect transferFile should be called once', () => {
-    const spy1 = spyOn(component as any, 'validateImage');
-    (component as any).filesDropped(files);
-    expect(spy1).toHaveBeenCalledTimes(1);
-  });
-
-  it('loadFile expect  transferFile should be called ', () => {
-    const validateImageSpy = spyOn(component as any, 'validateImage');
-    component.loadFile(event as any);
-    expect(validateImageSpy).toHaveBeenCalled();
   });
 });

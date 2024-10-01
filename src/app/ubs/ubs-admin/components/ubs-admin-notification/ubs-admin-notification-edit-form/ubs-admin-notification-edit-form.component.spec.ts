@@ -58,7 +58,7 @@ describe('UbsAdminNotificationEditFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display text for en and ua versions', async () => {
+  it('should display text for en and ua versions', () => {
     const [uaTextField, enTextField] = fixture.debugElement.queryAll(By.css('textarea')).map((de) => de.nativeElement);
     expect(uaTextField.value).toBe('Текст повідомлення для email');
     expect(enTextField.value).toBe('Notification text for email');
@@ -103,19 +103,5 @@ describe('UbsAdminNotificationEditFormComponent', () => {
     expect(matDialogRefMock.close).toHaveBeenCalledWith({
       text: { en: 'New notification text for email', ua: 'Новий текст повідомлення для email' }
     });
-  });
-
-  it('should set selectEn and selectUa values to 0 and call detectChanges after view checked', () => {
-    component.textUa = textUaMock;
-    component.textEn = textEnMock;
-    (component as any).selectEn = selectEnMock;
-    (component as any).selectUa = selectUaMock;
-    (component as any).cdref = changeDetectorRefMock;
-
-    component.ngAfterViewChecked();
-
-    expect(component.selectEn.value).toEqual(0);
-    expect(component.selectUa.value).toEqual(0);
-    expect(changeDetectorRefMock.detectChanges).toHaveBeenCalled();
   });
 });

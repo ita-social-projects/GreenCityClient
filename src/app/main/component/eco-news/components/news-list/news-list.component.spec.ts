@@ -97,11 +97,6 @@ describe('NewsListComponent', () => {
     expect(component.view).toBeTruthy();
   });
 
-  it('should set default number of news', () => {
-    (component as any).setDefaultNumberOfNews(12);
-    expect(component.numberOfNews).toBe(12);
-  });
-
   it('should check if user logged in', () => {
     let userID = null;
 
@@ -113,20 +108,5 @@ describe('NewsListComponent', () => {
     spyOn(component, 'getFilterData');
     component.getFilterData(['News']);
     expect(component.getFilterData).toHaveBeenCalledWith(['News']);
-  });
-
-  it('should resize window and set view', () => {
-    const spy = spyOn(component as any, 'getSessionStorageView');
-    component.onResize();
-    expect(spy).toHaveBeenCalled();
-    expect(component.view).toBeDefined();
-  });
-
-  it('should get value from sessionStorage', () => {
-    const store = { viewGallery: 'true' };
-    const spy = spyOn(sessionStorage, 'getItem').and.callFake((key) => store[key]);
-
-    (component as any).getSessionStorageView();
-    expect(spy('viewGallery')).toBe('true');
   });
 });

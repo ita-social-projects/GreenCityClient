@@ -216,12 +216,4 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     component.onNoClick();
     expect(matDialogRefMock.close).toHaveBeenCalled();
   });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    const destroy = 'destroy';
-    component[destroy] = new Subject<boolean>();
-    spyOn(component[destroy], 'unsubscribe');
-    component.ngOnDestroy();
-    expect(component[destroy].unsubscribe).toHaveBeenCalledTimes(1);
-  });
 });

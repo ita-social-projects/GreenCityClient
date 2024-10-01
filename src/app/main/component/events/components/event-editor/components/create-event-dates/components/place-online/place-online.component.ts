@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { GoogleMap } from '@angular/google-maps';
 import { AbstractControl, FormArray, FormGroup, Validators } from '@angular/forms';
-import { GeocoderService } from '@global-service/geocoder/geocoder.service';
+import { GoogleMap } from '@angular/google-maps';
+import { GoogleScript } from '@assets/google-script/google-script';
 import { Patterns } from '@assets/patterns/patterns';
+import { GeocoderService } from '@global-service/geocoder/geocoder.service';
+import { Subject, takeUntil } from 'rxjs';
 import { PlaceOnlineGroup } from '../../../../../../models/events.interface';
 
 @Component({
@@ -18,6 +20,7 @@ export class PlaceOnlineComponent implements OnInit {
   isPlaceSelected: boolean;
   isOnline: boolean;
   isPlaceDisabled: boolean;
+  isRenderingMap: boolean;
   isLinkDisabled: boolean;
   mapMarkerCoords: google.maps.LatLngLiteral;
   @Input() daysForm: FormArray;
@@ -37,10 +40,11 @@ export class PlaceOnlineComponent implements OnInit {
     place: ''
   };
   private _key = Symbol('placeKey');
-
+  private $destroy: Subject<boolean> = new Subject();
   constructor(
     private geocoderService: GeocoderService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private googleScript: GoogleScript
   ) {}
 
   get coordinates() {
@@ -97,7 +101,11 @@ export class PlaceOnlineComponent implements OnInit {
       this.applyInitialSettings(firstDay);
       this.subscribeToFormChanges();
     }
-
+    this.googleScript.$isRenderingMap.pipe(takeUntil(this.$destroy)).subscribe((value: boolean) => {
+      setTimeout(() => {
+        this.isRenderingMap = value;
+      }, 1000);
+    });
     this.daysForm.controls[0].get('placeOnline').valueChanges.subscribe((value) => {
       if (this.appliedPlaceForAll.value) {
         this.applyLocationToAllDays(value.coordinates, value.place, true);

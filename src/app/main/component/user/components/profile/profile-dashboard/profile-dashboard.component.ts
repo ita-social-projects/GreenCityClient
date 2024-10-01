@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -16,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -66,7 +67,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     public habitAssignService: HabitAssignService,
     private store: Store,
     private eventService: EventsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -85,12 +87,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.initGetUserEvents();
     this.dispatchNews(true);
     this.getUserLocation();
-
     this.localStorageService.setCurentPage('previousPage', '/profile');
-
     this.route.params.subscribe((params) => {
       const tabId = +params?.tabId;
-
       if (!isNaN(tabId)) {
         this.selectedIndex = tabId;
       }
@@ -108,9 +107,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   onCheckboxChange(EventTypeChecked?: string) {
     if (EventTypeChecked === EventType.ONLINE) {
-      this.isOfflineChecked = false; // Uncheck checkbox2 when checkbox1 is checked
+      this.isOfflineChecked = false;
     } else {
-      this.isOnlineChecked = false; // Uncheck checkbox1 when checkbox2 is checked
+      this.isOnlineChecked = false;
     }
 
     if (this.isOnlineChecked) {
@@ -142,19 +141,32 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   initGetUserEvents(eventType?: string): void {
     this.eventService
-      .getAllUserEvents(0, this.eventsPerPage, this.userLatitude, this.userLongitude, eventType)
+      .getEvents(this.getHttpParams(0, eventType))
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
         this.eventsList = res.page;
         this.totalEvents = res.totalElements;
         this.hasNextPageOfEvents = res.hasNext;
+        this.cdr.detectChanges();
       });
+  }
+
+  private getHttpParams(page: number, eventType?: string): HttpParams {
+    let params = new HttpParams()
+      .append('page', page.toString())
+      .append('size', this.eventsPerPage.toString())
+      .append('statuses', 'CREATED,JOINED')
+      .append('user-id', this.localStorageService.getUserId());
+    if (eventType) {
+      params = params.append('type', eventType);
+    }
+    return params;
   }
 
   getUserFavouriteEvents(): void {
     if (this.favoriteEventsPage !== undefined && this.hasNextPageOfFavoriteEvents) {
       this.eventService
-        .getUserFavoriteEvents(this.favoriteEventsPage, this.eventsPerPage)
+        .getUserFavoriteEvents(this.favoriteEventsPage, this.eventsPerPage, this.userId)
         .pipe(take(1))
         .subscribe((res: EventResponseDto) => {
           this.favouriteEvents.push(...res.page);
@@ -171,7 +183,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   getUserEvents(): void {
     if (this.eventsPage !== undefined && this.hasNextPageOfEvents) {
       this.eventService
-        .getAllUserEvents(this.eventsPage, this.eventsPerPage, this.userLatitude, this.userLongitude, this.eventType)
+        .getEvents(this.getHttpParams(this.eventsPage, this.eventType))
         .pipe(take(1))
         .subscribe((res: EventResponseDto) => {
           this.eventsList.push(...res.page);
@@ -185,6 +197,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     if (this.currentPage !== undefined && this.hasNext) {
       this.store.dispatch(
         GetEcoNewsByAuthorAction({
+          authorId: this.userId,
           currentPage: this.currentPage,
           numberOfNews: this.newsCount,
           reset: res

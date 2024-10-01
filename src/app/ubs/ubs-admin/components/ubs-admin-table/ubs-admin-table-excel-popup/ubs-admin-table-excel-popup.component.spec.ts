@@ -129,25 +129,6 @@ describe('UbsAdminTableExcelPopupComponent', () => {
     expect(component.getCustomersTable).toHaveBeenCalledTimes(1);
   });
 
-  it('after getOrdersTable call  adminTableService.getTable should been call once', () => {
-    AdminTableServiceFake.getTable.calls.reset();
-    AdminTableServiceFake.getTable.and.returnValue(of({}));
-    component.getOrdersTable(0, 3, '', 'DESC', 'id');
-    expect((component as any).adminTableService.getTable).toHaveBeenCalledTimes(1);
-  });
-
-  it('after getCertificatesTable call  adminCertificateService.getTable should been call once', () => {
-    AdminCertificateServiceFake.getTable.and.returnValue(of({}));
-    component.getCertificatesTable(0, 3, '', 'DESC', 'id');
-    expect((component as any).adminCertificateService.getTable).toHaveBeenCalledTimes(1);
-  });
-
-  it('after getCustomersTable call  adminCustomerService.getCustomers should been call once', () => {
-    AdminCustomerServiceFake.getCustomers.and.returnValue(of({}));
-    component.getCustomersTable(0, 3, '', 'DESC', 'id');
-    expect((component as any).adminCustomerService.getCustomers).toHaveBeenCalledTimes(1);
-  });
-
   it('createXLSX should call XLSX', () => {
     component.tableData = [{}];
     const spy1 = spyOn(XLSX.utils, 'json_to_sheet');

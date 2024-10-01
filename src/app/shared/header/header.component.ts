@@ -27,6 +27,8 @@ import { ChatPopupComponent } from 'src/app/chat/component/chat-popup/chat-popup
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
 import { SocketService } from '@global-service/socket/socket.service';
 import { SignOutAction } from 'src/app/store/actions/auth.actions';
+import { CommonService } from 'src/app/chat/service/common/common.service';
+import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal.component';
 
 @Component({
   selector: 'app-header',
@@ -81,7 +83,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     injector: Injector,
     private store: Store,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private commonChatService: CommonService
   ) {
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
@@ -180,7 +183,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private initLanguage(): void {
     const language = this.languageService.getCurrentLanguage();
-    this.setCurrentLanguage(this.isLoggedIn ? language : Language.UA);
+    this.setCurrentLanguage(language || Language.UA);
   }
 
   private setCurrentLanguage(language: Language): void {
@@ -369,7 +372,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     dialogConfig.closeOnNavigation = true;
     dialogConfig.panelClass = 'dialog-notification';
     dialogConfig.position = {
-      top: 35 + 'px',
+      top: 55 + 'px',
       right: 20 + 'px'
     };
     const matDialogRef = this.dialog.open(UserNotificationsPopUpComponent, dialogConfig);
@@ -384,16 +387,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   openChatPopUp() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    dialogConfig.closeOnNavigation = true;
-    dialogConfig.panelClass = 'dialog-chat';
-    dialogConfig.position = {
-      right: '450px',
-      top: '55px'
-    };
-    const matDialogRef = this.dialog.open(ChatPopupComponent, dialogConfig);
-    matDialogRef.afterClosed();
+    this.commonChatService.isChatVisible$.next(true);
   }
 
   signOut(): void {

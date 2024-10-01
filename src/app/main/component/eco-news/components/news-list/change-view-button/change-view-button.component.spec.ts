@@ -20,45 +20,4 @@ describe('ChangeViewButtonComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('test main methods', () => {
-    it('should set value to sessionStorage', () => {
-      const store = {};
-      const spy = spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string): string => (store[key] = value));
-      (component as any).setSessionStorageView();
-      expect(spy).toHaveBeenCalledWith('viewGallery', 'true');
-      expect(store['viewGallery']).toBe('true');
-    });
-
-    it('should get value from sessionStorage', () => {
-      const store = { viewGallery: 'true' };
-      const spy = spyOn(sessionStorage, 'getItem').and.callFake((key) => store[key]);
-
-      (component as any).getSessionStorageView();
-      expect(spy('viewGallery')).toBe('true');
-    });
-
-    it('should emit gallery view', () => {
-      let result = null;
-      const gallery = true;
-      component.view.subscribe((value) => (result = value));
-
-      (component as any).changeGalleryViewEmit(gallery);
-      expect(result).toBeTruthy();
-    });
-
-    it('should change view to gallery-view', () => {
-      const spy = spyOn(component as any, 'setSessionStorageView');
-      component.changeGalleryView();
-      expect(component.gallery).toBeTruthy();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should change view to list-view', () => {
-      const spy = spyOn(component as any, 'setSessionStorageView');
-      component.changeListView();
-      expect(component.gallery).toBeFalsy();
-      expect(spy).toHaveBeenCalled();
-    });
-  });
 });

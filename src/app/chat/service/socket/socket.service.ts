@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import SockJS from 'sockjs-client';
 import { environment } from '@environment/environment';
 import { CompatClient, IMessage, Stomp, StompSubscription } from '@stomp/stompjs';
-import { Message } from '../../model/Message.model';
+import { Message, MessagesLikeDto } from '../../model/Message.model';
 import { ChatsService } from '../chats/chats.service';
-import { User } from '../../model/User.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
-import { FriendChatInfo } from '../../model/Chat.model';
+import { BehaviorSubject, filter, first, Observable, Subject, switchMap } from 'rxjs';
+import { FriendChatInfo, Participant } from '../../model/Chat.model';
+import { JwtService } from '@global-service/jwt/jwt.service';
+import { Title } from '@angular/platform-browser';
+import { SocketClientState } from '@global-service/socket/socket-state.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,7 @@ import { FriendChatInfo } from '../../model/Chat.model';
 export class SocketService {
   private socket: WebSocket;
   private stompClient: CompatClient;
+  private socketState: BehaviorSubject<SocketClientState>;
   private backendSocketLink = `${environment.chatSocket}`;
   private userId: number;
   private isOpenNewChat = false;
@@ -22,49 +25,97 @@ export class SocketService {
   private subscriptions: StompSubscription[] = [];
 
   updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
+  updateDeleteMessageSubs: StompSubscription;
 
   constructor(
     private chatsService: ChatsService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private jwt: JwtService,
+    private titleService: Title
   ) {}
 
-  connect() {
-    this.userId = this.localStorageService.getUserId();
-    this.socket = new SockJS(this.backendSocketLink);
-    this.stompClient = Stomp.over(() => this.socket);
-    this.stompClient.connect(
-      {},
-      () => this.onConnected(),
-      (error) => this.onError(error)
+  connect(): void {
+    if (!this.socketState) {
+      this.userId = this.localStorageService.getUserId();
+      this.socket = new SockJS(this.backendSocketLink);
+      this.stompClient = Stomp.over(() => this.socket);
+      this.socketState = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
+      this.stompClient.connect(
+        {},
+        () => {
+          this.socketState.next(SocketClientState.CONNECTED);
+          this.onConnected();
+        },
+        (error) => this.onError(error)
+      );
+      this.stompClient.reconnectDelay = 1000;
+    }
+  }
+
+  connectSubs(): Observable<any> {
+    return new Observable((observer) => {
+      this.socketState.pipe(filter((state) => state === SocketClientState.CONNECTED)).subscribe(() => {
+        observer.next(this.stompClient);
+      });
+    });
+  }
+
+  onMessage(topic: string) {
+    return this.connectSubs().pipe(
+      first(),
+      switchMap(
+        (client) =>
+          new Observable<any>((observer) => {
+            const subscription: StompSubscription = client.subscribe(topic, (message) => {
+              observer.next(message);
+            });
+            return () => client.unsubscribe(subscription.id);
+          })
+      )
     );
   }
 
-  private onConnected() {
-    const messagesSubs = this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
+  private onConnected(): void {
+    const isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
+
+    const messagesSubs = this.onMessage(`/room/message/chat-messages${this.userId}`).subscribe((data) => {
       const newMessage: Message = JSON.parse(data.body);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
+      const chat = this.chatsService.userChats?.find((el) => el.id === newMessage.roomId);
+      if (chat && newMessage.senderId !== this.userId) {
+        chat.amountUnreadMessages = 1;
+        this.titleService.setTitle(`New message`);
+      }
+
       if (messages) {
         messages.page.push(newMessage);
         this.chatsService.currentChatMessagesStream$.next(messages.page);
       }
     });
-    this.subscriptions.push(messagesSubs);
 
-    const newParticipantSubs = this.stompClient.subscribe('/message/new-participant', (participant) => {
-      const newChatParticipant: User = JSON.parse(participant.body);
+    const newParticipantSubs = this.onMessage('/message/new-participant').subscribe((participant) => {
+      const newChatParticipant: Participant = JSON.parse(participant.body);
       this.chatsService.currentChat.participants.push(newChatParticipant);
     });
-    this.subscriptions.push(newParticipantSubs);
 
-    const newChatSubs = this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
+    const newChatSubs = this.onMessage(`/rooms/user/new-chats${this.userId}`).subscribe((newChat) => {
       const newUserChat = JSON.parse(newChat.body);
-      const usersChats = [...this.chatsService.userChats, newUserChat];
-      this.chatsService.userChatsStream$.next(usersChats);
-      const idFriend = newUserChat.participants.find((user) => user.id !== this.userId).id;
-      this.updateFriendsChatsStream$.next({
-        friendId: idFriend,
-        chatId: newUserChat.id
-      });
+
+      if (!this.chatsService.isSupportChat) {
+        const usersChats = [...this.chatsService.userChats, newUserChat];
+        this.chatsService.userChatsStream$.next(usersChats);
+        const idFriend = newUserChat.participants.find((user) => user.id !== this.userId)?.id;
+        this.updateFriendsChatsStream$.next({
+          friendId: idFriend,
+          chatExists: true,
+          chatId: newUserChat.id
+        });
+      }
+
+      if (this.chatsService.isSupportChat && !isAdmin) {
+        this.chatsService.locations.find((el) => el.tariffsId === newUserChat.tariffId).chat = newUserChat;
+      }
+
       if (this.isOpenNewChat) {
         this.chatsService.openCurrentChat(newUserChat.id);
         this.isOpenNewChat = false;
@@ -73,7 +124,21 @@ export class SocketService {
         this.chatsService.setCurrentChat(newUserChat);
       }
     });
-    this.subscriptions.push(newChatSubs);
+
+    if (isAdmin) {
+      const supportChatSubs = this.onMessage(`/user/${this.jwt.getEmailFromAccessToken()}/rooms/support`).subscribe((сhat) => {
+        const userChat = JSON.parse(сhat.body);
+        userChat.amountUnreadMessages = 1;
+        const isNewChat = !this.chatsService.userChats.find((el) => el.id === userChat.id);
+        if (isNewChat) {
+          const usersChats = [...this.chatsService.userChats, userChat];
+          this.chatsService.userChatsStream$.next(usersChats);
+        } else {
+          this.chatsService.userChats.find((el) => el.id === userChat.id).amountUnreadMessages = 1;
+        }
+        this.titleService.setTitle(`new chat`);
+      });
+    }
   }
 
   private onError(error) {
@@ -85,28 +150,76 @@ export class SocketService {
   }
 
   sendMessage(message: Message) {
-    this.stompClient.send('/app/chat', {}, JSON.stringify(message));
-    const currentChat = this.chatsService.currentChat;
-    currentChat.lastMessage = message.content;
-    currentChat.lastMessageDate = message.createDate;
+    this.connectSubs()
+      .pipe(first())
+      .subscribe((client) => {
+        client.send('/app/chat', {}, JSON.stringify(message));
+        const currentChat = this.chatsService.currentChat;
+        currentChat.lastMessage = message.content;
+        currentChat.lastMessageDateTime = message.createDate;
+      });
   }
 
-  createNewChat(participantsId, isOpen, isOpenInWindow?) {
+  removeMessage(message: Message): void {
+    this.connectSubs()
+      .pipe(first())
+      .subscribe((client) => {
+        client.send('/app/chat/delete', {}, JSON.stringify(message));
+      });
+  }
+
+  updateMessage(message: Message): void {
+    this.connectSubs()
+      .pipe(first())
+      .subscribe((client) => {
+        client.send('/app/chat/update', {}, JSON.stringify(message));
+      });
+  }
+
+  likeMessage(message: MessagesLikeDto): void {
+    this.connectSubs()
+      .pipe(first())
+      .subscribe((client) => {
+        client.send('/app/chat/like', {}, JSON.stringify(message));
+      });
+  }
+
+  createNewChat(ids, isOpen, isOpenInWindow?): void {
+    const key = this.chatsService.isSupportChat ? 'tariffId' : 'participantId';
     const newChatInfo = {
       currentUserId: this.userId,
-      participantsIds: participantsId
+      [key]: ids
     };
-    this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
-    this.isOpenNewChat = isOpen;
-    this.isOpenNewChatInWindow = isOpenInWindow;
+    this.connectSubs()
+      .pipe(first())
+      .subscribe((client) => {
+        client.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
+        this.isOpenNewChat = isOpen;
+        this.isOpenNewChatInWindow = isOpenInWindow;
+      });
   }
 
-  disconnect(): void {
-    this.subscriptions.forEach((subs) => {
-      if (subs) {
-        subs.unsubscribe();
+  subscribeToUpdateDeleteMessage(roomId: number): void {
+    this.onMessage(`/room/${roomId}/queue/messages`).subscribe((data: IMessage) => {
+      const message = JSON.parse(data.body);
+      if (data.headers.update) {
+        const updatedMessage = this.chatsService.currentChatMessages.find((el) => el.id === message.id);
+        updatedMessage.content = message.content;
+        updatedMessage.likes = message.likes;
+        this.chatsService.currentChatMessagesStream$.next(this.chatsService.currentChatMessages);
+        this.chatsService.messageToEdit$.next(null);
+      }
+      if (data.headers.delete) {
+        const updatedMessages = this.chatsService.currentChatMessages.filter((el) => el.id !== message.id);
+        this.chatsService.currentChatMessagesStream$.next(updatedMessages);
+        const chatsMessages = this.chatsService.chatsMessages[roomId].page.filter((el) => el.id !== message.id);
+        this.chatsService.chatsMessages[roomId].page = chatsMessages;
       }
     });
-    this.stompClient.disconnect();
+  }
+
+  unsubscribeAll(): void {
+    this.stompClient?.disconnect();
+    this.socketState = null;
   }
 }

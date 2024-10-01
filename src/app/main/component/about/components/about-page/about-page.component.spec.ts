@@ -85,16 +85,6 @@ describe('AboutPageComponent', () => {
     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
   });
 
-  it('should redirect to profile page', (done) => {
-    fixture.ngZone.run(() => {
-      component.navigateToHabit();
-      fixture.whenStable().then(() => {
-        expect(routerSpy.navigate).toBeDefined();
-        done();
-      });
-    });
-  });
-
   it('should unsubscribe on destroy', () => {
     component.langChangeSub = of(true).subscribe();
     component.ngOnDestroy();

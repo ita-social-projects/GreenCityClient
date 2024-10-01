@@ -1,8 +1,8 @@
 <div class="main" *ngIf="habit">
-  <img class="image" [src]="habit.habit.image" onerror="this.src='assets/img/habits/man.svg'" alt="habit picture" />
+  <img class="image" [src]="habit.habit.image" (error)="habit.habit.image = man" alt="habit picture" />
   <div class="description">
     <div class="first-row">
-      <img class="calendar" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
+      <img class="calendar" [src]="calendarGreen" alt="calendar" />
       <p>{{ daysCounter }} / {{ habit.duration }}<span>I</span></p>
       <div class="friends-photo-wrapper" (click)="onDialogOpen()" [matTooltip]="getTooltipText()" matTooltipClass="multiline-matTooltip">
         <div *ngFor="let friend of friends; index as i">

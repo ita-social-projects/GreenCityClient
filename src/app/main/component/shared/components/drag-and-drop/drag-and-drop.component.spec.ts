@@ -12,9 +12,6 @@ describe('DragAndDropComponent', () => {
   let component: DragAndDropComponent;
   let fixture: ComponentFixture<DragAndDropComponent>;
 
-  const defaultImagePath =
-    'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
-
   const imageCroppedEventMock: ImageCroppedEvent = {
     base64: 'test',
     width: 200,
@@ -82,13 +79,6 @@ describe('DragAndDropComponent', () => {
     expect(warning.textContent).toContain('drag-and-drop.picture-tooltip');
   });
 
-  it('showWarning', () => {
-    component.file.file = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
-    component.isWarning = true;
-    component.showWarning();
-    expect(component.isWarning).toBeFalsy();
-  });
-
   it('should stop cropping', (done) => {
     spyOn(component.newFile, 'emit');
     component.croppedImage = { ...imageCroppedEventMock, blob: new Blob(['some content'], { type: 'image/png' }) };
@@ -101,5 +91,29 @@ describe('DragAndDropComponent', () => {
       expect(component.newFile.emit).toHaveBeenCalledWith(component.file);
       done();
     }, 100);
+  });
+
+  it('should cancel changes and reset component states', () => {
+    component.file = { url: 'http://', file: new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' }) };
+    component.selectedFile = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
+    component.croppedImage = imageCroppedEventMock;
+    component.selectedFileUrl = 'http://example.com/image.jpg';
+    component.cancelChanges();
+    expect(component.file).toBeNull();
+    expect(component.isCropper).toBeTrue();
+    expect(component.croppedImage).toBeNull();
+    expect(component.selectedFile).toBeNull();
+    expect(component.selectedFileUrl).toBeNull();
+  });
+
+  it('should handle file selection and read file data', () => {
+    const reader = new FileReader();
+    spyOn(window, 'FileReader').and.returnValue(reader);
+    spyOn(reader, 'readAsDataURL');
+    spyOn(reader, 'addEventListener');
+    const event = { target: { files: [new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' })] } } as any;
+    component.onFileSelected(event);
+    expect(component.selectedFile).toEqual(event.target.files[0]);
+    expect(reader.readAsDataURL).toHaveBeenCalledWith(component.selectedFile);
   });
 });

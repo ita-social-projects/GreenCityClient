@@ -179,6 +179,109 @@ describe('AdminTableService', () => {
     expect(currentColumnDateFilter.values[0].filtered).toBeTruthy();
   });
 
+  it('should return true if the filter is checked', () => {
+    const columnName = 'orderStatus';
+    const option: IFilteredColumnValue = { en: 'Completed', key: 'DONE' };
+    service.selectedFilters = {
+      orderStatus: ['DONE']
+    };
+
+    const result = service.isFilterChecked(columnName, option);
+    expect(result).toBeTrue();
+  });
+
+  it('should set current filters correctly', () => {
+    const mockFilters = {
+      orderStatusFrom: '2024-01-01',
+      orderStatusTo: '2024-12-31',
+      orderStatusCheck: true
+    };
+
+    service.setCurrentFilters(mockFilters);
+
+    const expectedFilters = {
+      orderStatusFrom: '2024-01-01',
+      orderStatusTo: '2024-12-31',
+      orderStatusCheck: true
+    };
+
+    expect((service as any).selectedFilters).toEqual(expectedFilters);
+  });
+
+  it('should return the current selected filters', () => {
+    const mockFilters = {
+      orderStatusFrom: '2024-01-01',
+      orderStatusTo: '2024-12-31',
+      orderStatusCheck: true
+    };
+
+    service.selectedFilters = mockFilters;
+
+    const result = service.selectedFilters;
+    expect(result).toEqual(mockFilters);
+  });
+
+  it('should add filter value if checked is true', () => {
+    const mockColumnsForFiltering = [
+      {
+        en: 'Order status',
+        key: 'orderStatus',
+        ua: 'Статус замовлення',
+        values: [
+          { en: 'Formed', filtered: false, key: 'FORMED', ua: 'Сформовано' },
+          { en: 'Canceled', filtered: false, key: 'CANCELED', ua: 'Скасовано' },
+          { en: 'Completed', filtered: false, key: 'DONE', ua: 'Завершено' }
+        ]
+      }
+    ];
+
+    const option = { en: 'Formed', key: 'FORMED' };
+    const columnName = 'orderStatus';
+
+    service.columnsForFiltering = mockColumnsForFiltering;
+
+    service.selectedFilters = {};
+    service.setNewFilters(true, columnName, option);
+    expect(service.selectedFilters[columnName]).toEqual([option.key]);
+  });
+
+  it('should set new checked status in selectedFilters', () => {
+    service.selectedFilters = {};
+
+    const columnName = 'testColumn';
+    const checkedTrue = true;
+    const checkedFalse = false;
+
+    service.setNewDateChecked(columnName, checkedTrue);
+    expect(service.selectedFilters[columnName + 'Check']).toBe(true);
+
+    service.setNewDateChecked(columnName, checkedFalse);
+    expect(service.selectedFilters[columnName + 'Check']).toBe(false);
+  });
+
+  it('should set new date range in selectedFilters', () => {
+    service.selectedFilters = {};
+
+    const columnName = 'testColumn';
+    const dateFrom = '2024-01-01';
+    const dateTo = '2024-12-31';
+
+    service.setNewDateRange(columnName, dateFrom, dateTo);
+
+    expect(service.selectedFilters[columnName + 'From']).toBe(dateFrom);
+    expect(service.selectedFilters[columnName + 'To']).toBe(dateTo);
+  });
+
+  it('should swap dates if dateChecked is true and dateFrom is greater than dateTo', () => {
+    const dateFrom = new Date('2024-09-17');
+    const dateTo = new Date('2024-09-15');
+
+    const result = service.swapDatesIfNeeded(dateFrom, dateTo, true);
+
+    expect(result.dateFrom).toEqual(dateTo);
+    expect(result.dateTo).toEqual(dateFrom);
+  });
+
   it('method changeFilters should set value to localStorageService', () => {
     const option: IFilteredColumnValue = { key: OrderStatus.FORMED, ua: 'Сформовано', en: 'Formed', filtered: false };
     service.changeFilters(true, 'orderStatus', option);

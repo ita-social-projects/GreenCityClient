@@ -4,7 +4,7 @@
       <h1 class="title">{{ 'order-edit.status.title' | translate }} №{{ generalInfo.id }}</h1>
       <div class="pr-4">
         <span class="form__label"> {{ 'order-edit.status.order-date' | translate }}: </span>
-        <span>{{ generalInfo.dateFormed | date: 'dd.MM.y' }}</span>
+        <span>{{ generalInfo.dateFormed | localizedDate | date: 'dd.MM.y' }}</span>
       </div>
     </div>
     <div class="row">
@@ -43,13 +43,14 @@
                   id="payment"
                   class="form-control payment"
                   formControlName="paymentStatus"
-                  [disabled]
+                  [disabled]="true"
                   *ngIf="availablePaymentOrderStatuses?.length"
                 >
                   <option
                     *ngFor="let status of availablePaymentOrderStatuses"
                     [selected]="status?.key === generalInfo.orderPaymentStatus"
                     [value]="status?.key"
+                    [disabled]="true"
                     [appLangValue]="{ ua: status?.ua, en: status?.eng }"
                   ></option>
                 </select>

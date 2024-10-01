@@ -5,6 +5,7 @@ export const CHAT_ICONS = {
   settings: 'assets/img/chat/settings.svg',
   threeDots: 'assets/img/chat/three-dots.svg',
   userLogo: 'assets/img/chat/user.svg',
+  supportChatLogo: 'assets/img/chat/support-chat.svg',
   close: 'assets/img/chat/close.svg',
   greenPeople: 'assets/img/illustration-people.png',
   smile: 'assets/img/chat/smile.svg',
@@ -17,6 +18,10 @@ export const CHAT_ICONS = {
   chats: 'assets/img/chat/chats.svg',
   setting: 'assets/img/chat/setting.svg',
   profile: 'assets/img/chat/profile.svg',
-  emptyChatBack: 'assets/img/chat/chat-backround.png',
-  windowEmptyBack: 'assets/img/chat/windowBack.png'
+  edit: 'assets/img/profile/icons/edit.svg',
+  delete: 'assets/img/profile/icons/delete.svg',
+  cancel: 'assets/img/auth/cross.svg',
+  download: 'assets/img/chat/download.svg',
+  like: 'assets/img/comments/like.png',
+  liked: 'assets/img/comments/liked.png'
 };

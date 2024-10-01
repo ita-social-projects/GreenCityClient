@@ -54,15 +54,11 @@ describe('ProfileComponent', () => {
       const spyIsDeskWidth = spyOn(component, 'isDeskWidth').and.returnValue(true);
       const spyAnnounce = spyOn(component, 'announce');
       const spyShowUserInfo = spyOn(component, 'showUserInfo');
-      const spySubscribeToLangChange = spyOn(component as any, 'subscribeToLangChange');
-      const spyCheckUserActivities = spyOn(component as any, 'checkUserActivities');
 
       component.ngOnInit();
       expect(spyIsDeskWidth).toHaveBeenCalled();
       expect(spyAnnounce).toHaveBeenCalled();
       expect(spyShowUserInfo).toHaveBeenCalled();
-      expect(spySubscribeToLangChange).toHaveBeenCalled();
-      expect(spyCheckUserActivities).toHaveBeenCalled();
       expect(component.isDesktopWidth).toBeTruthy();
       expect(localStorageServiceMock.setCurentPage).toHaveBeenCalledWith('previousPage', '/profile');
     });
@@ -76,18 +72,5 @@ describe('ProfileComponent', () => {
   it('showUserInfo makes expected calls', () => {
     component.showUserInfo();
     expect(component.userInfo).toEqual(fakeItem as any);
-  });
-
-  it('bindLang makes expected calls', () => {
-    (component as any).bindLang('de');
-    expect(translateServiceMock.setDefaultLang).toHaveBeenCalledWith('de');
-  });
-
-  describe('checkUserActivities', () => {
-    it('makes expected calls', () => {
-      component.progress = null;
-      (component as any).checkUserActivities();
-      expect(component.progress).toBe('fakeStatistics' as any);
-    });
   });
 });

@@ -50,6 +50,7 @@ import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-dis
 import { RelativeDatePipe } from './relative-date.pipe';
 import { EditImagePopUpComponent } from './edit-image-pop-up/edit-image-pop-up.component';
 import { LangValueDirective } from './directives/lang-value/lang-value.directive';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import { LangValueDirective } from './directives/lang-value/lang-value.directive
     ReactiveFormsModule,
     FormsModule,
     MatTooltipModule,
+    GoogleMapsModule,
     // GooglePlaceModule,
     ImageCropperModule
   ],

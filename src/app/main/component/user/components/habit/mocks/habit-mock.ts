@@ -4,6 +4,10 @@ import { HabitStatisticsDto } from '@global-models/habit/HabitStatisticsDto';
 import { DayEstimation } from '@global-models/habit/DayEstimation';
 import { AvailableHabitDto } from '@global-models/habit/AvailableHabitDto';
 import { NewHabitDto } from '@global-models/habit/NewHabitDto';
+import { CustomHabit } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
+import { CustomHabitDtoRequest } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
+import { TodoStatus } from '../models/todo-status.enum';
+import { HttpParams } from '@angular/common/http';
 
 export const HABITLIST: HabitListInterface = {
   page: [DEFAULTHABIT, CUSTOMHABIT],
@@ -46,4 +50,94 @@ export const AVAIL_HABIT_ARRAY_MOCK: AvailableHabitDto[] = [
   }
 ];
 
+export const MOCK_CUSTOM_HABIT: CustomHabit = {
+  title: 'testTitle',
+  description: 'testDescription',
+  complexity: 1,
+  duration: 30,
+  tagIds: [1, 2],
+  image: 'testImage',
+  shopList: [
+    {
+      id: 2,
+      text: 'Collapsible Silicone Water Bottle',
+      status: TodoStatus.inprogress
+    }
+  ]
+};
+
+export const MOCK_CUSTOM_HABIT_RESPONSE: CustomHabitDtoRequest = {
+  habitTranslations: [
+    {
+      name: MOCK_CUSTOM_HABIT.title,
+      description: MOCK_CUSTOM_HABIT.description,
+      habitItem: 'testHabitItem',
+      languageCode: 'en',
+      nameUa: MOCK_CUSTOM_HABIT.title,
+      descriptionUa: MOCK_CUSTOM_HABIT.description,
+      habitItemUa: 'testHabitItem'
+    }
+  ],
+  complexity: MOCK_CUSTOM_HABIT.complexity,
+  defaultDuration: MOCK_CUSTOM_HABIT.duration,
+  image: MOCK_CUSTOM_HABIT.image,
+  tagIds: MOCK_CUSTOM_HABIT.tagIds,
+  customShoppingListItemDto: MOCK_CUSTOM_HABIT.shopList
+};
+
 export const NEW_HABIT_ARRAY_MOCK: NewHabitDto[] = [new NewHabitDto(1), new NewHabitDto(2), new NewHabitDto(3)];
+
+export const CRITERIA_FILTER = new HttpParams()
+  .set('lang', 'en')
+  .set('page', '1')
+  .set('size', '10')
+  .set('sort', 'asc')
+  .set('filters', 'filter1,filter2');
+
+export const CRITERIA_TAGS = new HttpParams()
+  .set('lang', 'en')
+  .set('page', '1')
+  .set('size', '1')
+  .set('sort', 'asc')
+  .set('excludeAssigned', 'false')
+  .set('tags', 'test');
+
+export const CRITERIA = new HttpParams().set('lang', 'en').set('page', '0').set('size', '6').set('sort', 'asc');
+
+export const EXCLUDE_ASSIGNED_TRUE = new HttpParams()
+  .set('lang', 'en')
+  .set('page', '1')
+  .set('size', '10')
+  .set('sort', 'desc')
+  .set('excludeAssigned', 'true')
+  .set('isCustomHabit', 'true')
+  .set('complexities', '1,2')
+  .set('tags', 'Testing,Reusable');
+
+export const EXCLUDE_ASSIGNED_FALSE = new HttpParams()
+  .set('lang', 'en')
+  .set('page', '1')
+  .set('size', '10')
+  .set('sort', 'desc')
+  .set('excludeAssigned', 'false')
+  .set('isCustomHabit', 'true')
+  .set('complexities', '1,2')
+  .set('tags', 'Testing,Reusable');
+
+export const CUSTOM_HABIT_FALSE = new HttpParams()
+  .set('lang', 'en')
+  .set('page', '1')
+  .set('size', '10')
+  .set('sort', 'asc')
+  .set('excludeAssigned', 'false')
+  .set('isCustomHabit', 'false')
+  .set('tags', 'tag2');
+
+export const CUSTOM_HABIT_TRUE = new HttpParams()
+  .set('lang', 'en')
+  .set('page', '1')
+  .set('size', '10')
+  .set('sort', 'asc')
+  .set('excludeAssigned', 'false')
+  .set('isCustomHabit', 'true')
+  .set('tags', 'tag2');

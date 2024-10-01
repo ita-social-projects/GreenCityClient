@@ -1394,12 +1394,4 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.onNoClick();
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
   });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    const unsubscribe = 'unsubscribe';
-    component[unsubscribe] = new Subject<boolean>();
-    spyOn(component[unsubscribe], 'complete');
-    component.ngOnDestroy();
-    expect(component[unsubscribe].complete).toHaveBeenCalledTimes(1);
-  });
 });

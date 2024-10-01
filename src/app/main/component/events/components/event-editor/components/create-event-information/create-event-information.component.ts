@@ -4,7 +4,6 @@ import { ContentChange } from 'ngx-quill';
 
 import { FormGroup } from '@angular/forms';
 import { quillConfig } from '../../quillEditorFunc';
-
 import { EVENT_LOCALE, EventLocaleKeys } from '../../../../models/event-consts';
 import { ImagesContainer } from '../../../../models/events.interface';
 import { Router } from '@angular/router';
@@ -20,7 +19,8 @@ export class CreateEventInformationComponent implements OnInit {
   quillModules = quillConfig;
   imgArray: string[] = [];
   @Input() eventInfForm: FormGroup;
-
+  minLength = 20;
+  maxLength = 63206;
   titleLength: string;
   protected readonly EVENT_LOCALE = EVENT_LOCALE;
 
@@ -39,17 +39,31 @@ export class CreateEventInformationComponent implements OnInit {
     });
   }
 
-  quillContentChanged(content: ContentChange) {
+  quillContentChanged(content: ContentChange): void {
     this.quillLength = content.text.length - 1;
     this.isQuillUnfilled = this.quillLength < 20;
     this.eventInfForm.get('description').setValue(content.text.trimEnd());
+  }
+
+  get quillLabel(): string {
+    const typedCharacters = this.quillLength;
+    if (typedCharacters < 1) {
+      return `${this.getLocale('quillDefault')}`;
+    }
+    if (typedCharacters > this.maxLength) {
+      return `${this.getLocale('quillMaxExceeded')} ${typedCharacters - this.maxLength}`;
+    }
+    if (typedCharacters < this.minLength) {
+      return `${this.getLocale('quillError')} ${this.minLength - typedCharacters}`;
+    }
+    return `${this.getLocale('quillValid')} ${typedCharacters}`;
   }
 
   getLocale(localeKey: EventLocaleKeys): string {
     return EVENT_LOCALE[localeKey][this.localStorageService.getCurrentLanguage()];
   }
 
-  setImagesUrlArray(value: ImagesContainer[]) {
+  setImagesUrlArray(value: ImagesContainer[]): void {
     this.eventInfForm.controls.images.setValue(value);
   }
 }

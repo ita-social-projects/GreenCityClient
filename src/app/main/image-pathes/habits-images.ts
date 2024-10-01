@@ -1,5 +1,7 @@
 export const habitImages = {
-  defaultImage: 'assets/img/habits/default-habit-image.png'
+  defaultImage: 'assets/img/habits/default-habit-image.png',
+  calendarGreen: 'assets/icons/habits/calendar-green.svg',
+  man: 'assets/img/habits/man.svg'
 };
 
 export const starIcons = {

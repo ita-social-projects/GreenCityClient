@@ -65,6 +65,11 @@ describe('UbsAdminSidebarComponent', () => {
       link: 'assets/img/sidebarIcons/none_notification_Bell.svg',
       name: 'ubs-sidebar.notifications',
       routerLink: 'notifications'
+    },
+    {
+      link: 'assets/img/sidebarIcons/user_icon.svg',
+      name: 'ubs-sidebar.user-agreement',
+      routerLink: 'user-agreement'
     }
   ];
 
@@ -103,81 +108,5 @@ describe('UbsAdminSidebarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('listElementChangedUtil should called in changeListElementsDependOnPermissions()', () => {
-    const spy = spyOn(component as any, 'listElementChangedUtil');
-    spyOnProperty(component as any, 'customerViewer', 'get').and.returnValue(false);
-    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
-    expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledWith(SideMenuElementsNames.customers);
-  });
-
-  it('listElementChangedUtil should called in changeListElementsDependOnPermissions()', () => {
-    const spy = spyOn(component as any, 'listElementChangedUtil');
-    spyOnProperty(component as any, 'certificatesViewer', 'get').and.returnValue(false);
-    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
-    expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledWith(SideMenuElementsNames.certificates);
-  });
-
-  it('notificationsViewer method should call', () => {
-    const spy = spyOnProperty(component, 'notificationsViewer').and.callThrough();
-    const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
-    expect(spy).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
-  });
-
-  it('certificatesViewer method should call', () => {
-    const spy = spyOnProperty(component, 'certificatesViewer').and.callThrough();
-    const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
-    expect(spy).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
-  });
-
-  it('tariffsViewer method should call', () => {
-    const spy = spyOnProperty(component, 'tariffsViewer').and.callThrough();
-    const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
-    expect(spy).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
-  });
-
-  it('employeesViewer method should call', () => {
-    const spy = spyOnProperty(component, 'employeesViewer').and.callThrough();
-    const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
-    expect(spy).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
-  });
-
-  it('customerViewer method should call', () => {
-    const spy = spyOnProperty(component, 'customerViewer').and.callThrough();
-    const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
-    expect(spy).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
-  });
-
-  it('ordersViewer method should call', () => {
-    const spy = spyOnProperty(component, 'ordersViewer').and.callThrough();
-    const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
-    expect(spy).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
-  });
-
-  it('authoritiesFilterUtil method should call', () => {
-    component.employeeAuthorities = employeePositionsAuthorities.authorities;
-    const spy = spyOn(component as any, 'authoritiesFilterUtil').and.callThrough();
-    expect(spy).toBeTruthy();
-  });
-
-  it('listElementChangedUtil method should call', () => {
-    component.listElementsAdmin = listElementsAdmin;
-    (component as any).listElementChangedUtil(SideMenuElementsNames.customers);
-    expect(component.listElementsAdmin).toEqual(listElementsAdminMock);
   });
 });

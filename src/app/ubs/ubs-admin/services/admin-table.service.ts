@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters } from '../models/ubs-admin.interface';
+import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import moment from 'moment';
@@ -23,8 +24,36 @@ const columnMapping: { [key: string]: string } = {
   providedIn: 'root'
 })
 export class AdminTableService {
+  private readonly BACKEND_REGION: Record<string, string> = {
+    "vinnyts'ka oblast": 'VINNYTSIA_OBLAST',
+    "volyns'ka oblast": 'VOLYN_OBLAST',
+    "donets'ka oblast": 'DONETSK_OBLAST',
+    "ivano-Frankivs'ka oblast": 'IVANO_FRANKIVSK_OBLAST',
+    "khersons'ka oblast": 'KHERSON_OBLAST',
+    "khmelnyts'ka oblast": 'KHMELNYTSKY_OBLAST',
+    "kyivs'ka oblast": 'KYIV_OBLAST',
+    kyiv: 'KYIV_CITY',
+    "lvivs'ka oblast": 'LVIV_OBLAST',
+    "mykolaivs'ka oblast": 'MYKOLAIV_OBLAST',
+    "odess'ka oblast": 'ODESSA_OBLAST',
+    "poltavs'ka oblast": 'POLTAVA_OBLAST',
+    "rivnens'ka oblast": 'RIVNE_OBLAST',
+    "sums'ka oblast": 'SUMY_OBLAST',
+    "ternopils'ka oblast": 'TERNOPIL_OBLAST',
+    "zaporizs'ka oblast": 'ZAPORIZHIA_OBLAST',
+    "zhytomyrs'ka oblast": 'ZHYTOMYR_OBLAST',
+    "kirovograds'ka oblast": 'KIROVOGRAD_OBLAST',
+    "cherkas'ka oblast": 'CHERKASY_OBLAST',
+    "chernivets'ka oblast": 'CHERNIVTSI_OBLAST',
+    "chernihivs'ka oblast": 'CHERNIHIV_OBLAST',
+    "dnipropetrovs'ka oblast": 'DNIPRO_OBLAST',
+    "kharkivs'ka oblast": 'KHARKIV_OBLAST',
+    crimea: 'CRIMEA'
+  };
+
   columnsForFiltering: IFilteredColumn[] = [];
   filters: any[] = [];
+  selectedFilters: IFilters = {};
   url = environment.ubsAdmin.backendUbsAdminLink + '/management/';
 
   constructor(
@@ -55,7 +84,10 @@ export class AdminTableService {
   }
 
   getColumns() {
-    return this.http.get(`${this.url}tableParams`);
+    let regions = this.localStorageService.getFilters()?.region ?? [];
+    regions = Array.isArray(regions) ? regions?.map((region) => this.BACKEND_REGION[region.toLowerCase()] ?? '').filter(Boolean) : [];
+
+    return this.http.get(`${this.url}tableParams`, { params: { region: regions } });
   }
 
   postData(orderIdsList: number[], columnName: string, newValue: string) {
@@ -158,6 +190,46 @@ export class AdminTableService {
         break;
     }
     return tableColumnName;
+  }
+
+  isFilterChecked(columnName: string, option: IFilteredColumnValue): boolean {
+    const value = columnsToFilterByName.includes(columnName) ? option.en : option.key;
+    return (this.selectedFilters?.[columnName] as string[])?.includes(value);
+  }
+
+  setCurrentFilters(filters: IFilters): void {
+    this.selectedFilters = { ...filters } as { [key: string]: string[] };
+  }
+
+  setNewFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
+    const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
+
+    const currentFilters = Array.isArray(this.selectedFilters[currentColumn]) ? (this.selectedFilters[currentColumn] as string[]) : [];
+
+    const updatedFilters = checked ? [...currentFilters, value] : currentFilters.filter((item) => item !== value);
+
+    this.selectedFilters = {
+      ...this.selectedFilters,
+      [currentColumn]: updatedFilters
+    };
+  }
+
+  setNewDateChecked(columnName: string, checked: boolean): void {
+    this.selectedFilters[columnName + 'Check'] = checked ? true : false;
+  }
+
+  setNewDateRange(columnName: string, dateFrom: string, dateTo: string): void {
+    this.selectedFilters[columnName + 'From'] = dateFrom;
+    this.selectedFilters[columnName + 'To'] = dateTo;
+  }
+
+  swapDatesIfNeeded(dateFrom: Date | null, dateTo: Date | null, dateChecked: boolean): { dateFrom: Date | null; dateTo: Date | null } {
+    if (dateChecked && dateFrom?.getTime() > dateTo?.getTime()) {
+      return { dateFrom: dateTo, dateTo: dateFrom };
+    } else if (!dateChecked) {
+      return { dateFrom: dateFrom, dateTo: dateFrom };
+    }
+    return null;
   }
 
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {

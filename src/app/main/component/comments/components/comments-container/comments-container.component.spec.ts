@@ -94,8 +94,8 @@ describe('CommentsContainerComponent', () => {
       component.comment.showAllRelies = true;
       component.ngOnInit();
 
-      expect(commentsServiceMock.getRepliesAmount).toHaveBeenCalledWith(0);
-      expect(commentsServiceMock.getActiveRepliesByPage).toHaveBeenCalledWith(0, 0, 10);
+      expect(commentsServiceMock.getRepliesAmount).toHaveBeenCalledWith(1, 0);
+      expect(commentsServiceMock.getActiveRepliesByPage).toHaveBeenCalledWith(1, 0, 0, 10);
     });
 
     it('should not initialize reply untill it is not open', () => {
@@ -104,29 +104,13 @@ describe('CommentsContainerComponent', () => {
       component.comment.showAllRelies = false;
       component.ngOnInit();
 
-      expect(commentsServiceMock.getRepliesAmount).toHaveBeenCalledWith(0);
+      expect(commentsServiceMock.getRepliesAmount).toHaveBeenCalledWith(1, 0);
       expect(commentsServiceMock.getActiveRepliesByPage).not.toHaveBeenCalled();
 
       component.comment.showAllRelies = true;
       fixture.detectChanges();
 
-      expect(commentsServiceMock.getActiveRepliesByPage).toHaveBeenCalledWith(0, 0, 10);
-    });
-
-    it('should call getComments if type is comment', () => {
-      const spy = spyOn(component as any, 'getComments').and.callThrough();
-      component.dataType = 'comment';
-
-      component.initCommentsList();
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-
-    it('should call getReplies if type is reply', () => {
-      const spy = spyOn(component as any, 'getReplies').and.callThrough();
-      component.dataType = 'reply';
-
-      component.initCommentsList();
-      expect(spy).toHaveBeenCalledTimes(1);
+      expect(commentsServiceMock.getActiveRepliesByPage).toHaveBeenCalledWith(1, 0, 0, 10);
     });
 
     it('should update elements list for reply', () => {
@@ -195,7 +179,7 @@ describe('CommentsContainerComponent', () => {
       component.dataType = 'reply';
       component.ngOnInit();
 
-      expect(commentsServiceMock.getRepliesAmount).toHaveBeenCalledWith(0);
+      expect(commentsServiceMock.getRepliesAmount).toHaveBeenCalledWith(1, 0);
       expect(commentsServiceMock.getActiveCommentsByPage).not.toHaveBeenCalled();
     });
 

@@ -92,3 +92,22 @@
     grid-template-columns: 417px 417px;
   }
 }
+
+.gallery {
+  display: grid;
+  grid-template-columns: 250px;
+  grid-gap: 30px;
+  justify-content: center;
+
+  @media (min-width: 576px) {
+    grid-template-columns: repeat(2, 50%);
+  }
+
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(3, 199px);
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 350px);
+  }
+}

@@ -103,82 +103,51 @@ export class EventsService implements OnDestroy {
   }
 
   createEvent(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/create`, formData);
+    return this.http.post<any>(`${this.backEnd}events`, formData);
   }
 
-  editEvent(formData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.backEnd}events/update`, formData);
+  editEvent(formData: FormData, eventId: number): Observable<any> {
+    return this.http.put<any>(`${this.backEnd}events/${eventId}`, formData);
   }
 
-  getEvents(page: number, quantity: number, filter: EventFilterCriteriaInterface, searchTitle?: string): Observable<EventResponseDto> {
-    let requestParams = new HttpParams();
-    requestParams = requestParams.append('page', page.toString());
-    requestParams = requestParams.append('size', quantity.toString());
-    requestParams = requestParams.append('cities', filter.cities.toString().toUpperCase());
-    requestParams = requestParams.append('tags', filter.tags.toString().toUpperCase());
-    requestParams = requestParams.append('eventTime', filter.eventTime.toString().toUpperCase());
-    requestParams = requestParams.append('statuses', filter.statuses.toString().toUpperCase());
-    if (searchTitle) {
-      requestParams = requestParams.append('title', searchTitle);
-    }
+  getEvents(requestParams: HttpParams): Observable<EventResponseDto> {
     return this.http.get<EventResponseDto>(`${this.backEnd}events`, { params: requestParams });
   }
 
-  getSubscribedEvents(page: number, quantity: number): Observable<EventResponseDto> {
-    return this.http.get<EventResponseDto>(`${this.backEnd}events/myEvents?page=${page}&size=${quantity}`);
-  }
-
-  getCreatedEvents(page: number, quantity: number): Observable<EventResponseDto> {
-    return this.http.get<EventResponseDto>(`${this.backEnd}events/myEvents/createdEvents?page=${page}&size=${quantity}`);
-  }
-
-  getAllUserEvents(
-    page: number,
-    quantity: number,
-    userLatitude: number,
-    userLongitude: number,
-    eventType = ''
-  ): Observable<EventResponseDto> {
-    return this.http.get<EventResponseDto>(
-      `${this.backEnd}events/myEvents?eventType=${eventType}&page=${page}&size=${quantity}&` +
-        `userLatitude=${userLatitude}&userLongitude=${userLongitude}`
-    );
-  }
-
   addEventToFavourites(eventId: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}events/addToFavorites/${eventId}`, eventId);
+    return this.http.post<void>(`${this.backEnd}events/${eventId}/favorites`, eventId);
   }
 
   removeEventFromFavourites(eventId: number): Observable<void> {
-    return this.http.delete<void>(`${this.backEnd}events/removeFromFavorites/${eventId}`);
+    return this.http.delete<void>(`${this.backEnd}events/${eventId}/favorites`);
   }
 
-  getUserFavoriteEvents(page: number, quantity: number): Observable<EventResponseDto> {
-    return this.http.get<EventResponseDto>(`${this.backEnd}events/getAllFavoriteEvents?page=${page}&size=${quantity}`);
+  getUserFavoriteEvents(page: number, quantity: number, userId: number): Observable<EventResponseDto> {
+    return this.http.get<EventResponseDto>(`${this.backEnd}events?page=${page}&size=${quantity}&statuses=SAVED&user-id=${userId}`);
   }
 
-  getEventById(id: number): Observable<EventResponse> {
-    return this.http.get<EventResponse>(`${this.backEnd}events/event/${id}`);
+  getEventById(eventId: number): Observable<EventResponse> {
+    return this.http.get<EventResponse>(`${this.backEnd}events/${eventId}`);
   }
 
-  deleteEvent(id: number): Observable<any> {
-    return this.http.delete(`${this.backEnd}events/delete/${id}`);
+  deleteEvent(eventId: number): Observable<any> {
+    return this.http.delete(`${this.backEnd}events/${eventId}`);
   }
 
-  rateEvent(id: number, grade: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/rateEvent/${id}/${grade}`, null);
+  rateEvent(eventId: number, grade: number): Observable<any> {
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/rating/${grade}`, null);
   }
 
-  addAttender(id: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/addAttender/${id}`, { observe: 'response' });
+  addAttender(eventId: number): Observable<any> {
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/attenders`, { observe: 'response' });
   }
 
-  removeAttender(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.backEnd}events/removeAttender/${id}`);
+  removeAttender(eventId: number): Observable<any> {
+    return this.http.delete<any>(`${this.backEnd}events/${eventId}/attenders`);
   }
 
-  getAllAttendees(id: number): Observable<any> {
-    return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
+  getAllAttendees(eventId: number): Observable<EventAttender[]> {
+    return this.http.get<any>(`${this.backEnd}events/${eventId}/attenders`);
   }
 
   getFormattedAddress(coordinates: LocationResponse): string {
@@ -192,27 +161,25 @@ export class EventsService implements OnDestroy {
     return this.langService.getLangValue(
       coordinates.streetUa
         ? this.createEventsListAddresses(coordinates, 'Ua')
-        : coordinates.formattedAddressUa.split(', ').slice(0, 2).reverse().join(', '),
+        : coordinates.formattedAddressUa?.split(', ').slice(0, 2).reverse().join(', ') || '',
       coordinates.streetEn
         ? this.createEventsListAddresses(coordinates, 'En')
-        : coordinates.formattedAddressEn.split(', ').slice(0, 2).reverse().join(', ')
+        : coordinates.formattedAddressEn?.split(', ').slice(0, 2).reverse().join(', ') || ''
     );
   }
 
-  createAddresses(coord: LocationResponse | null, lang: string): string {
-    if (!coord) {
+  createAddresses(location: LocationResponse | null, lang: string): string {
+    if (!location) {
       return '';
     }
-    const parts = [coord[`country${lang}`], coord[`city${lang}`], coord[`street${lang}`], coord.houseNumber];
-    return parts.join(this.divider);
+    return [location[`country${lang}`], location[`city${lang}`], location[`street${lang}`], location.houseNumber].join(this.divider);
   }
 
-  createEventsListAddresses(coord: LocationResponse | null, lang: string): string {
-    if (!coord) {
+  createEventsListAddresses(location: LocationResponse | null, lang: string): string {
+    if (!location) {
       return '';
     }
-    const addressParts = [coord[`city${lang}`], coord[`street${lang}`], coord.houseNumber];
-    return addressParts.join(this.divider);
+    return [location[`city${lang}`], location[`street${lang}`], location.houseNumber].join(this.divider);
   }
 
   ngOnDestroy(): void {

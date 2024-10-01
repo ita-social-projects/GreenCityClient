@@ -1,5 +1,5 @@
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { ShoppingList } from '../../../../models/shoppinglist.interface';
+import { ShoppingList } from '@user-models/shoppinglist.interface';
 import { HabitInterface } from './habit.interface';
 
 export interface HabitAssignInterface {

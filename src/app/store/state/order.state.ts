@@ -3,6 +3,7 @@ import { PersonalData, OrderDetails, CourierLocations, Address } from 'src/app/u
 import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
 
 export interface IOrderState {
+  currentStep: number;
   orderDetails: OrderDetails | null;
   courierLocations: CourierLocations | null;
   UBSCourierId: number | null;
@@ -24,6 +25,7 @@ export interface IOrderState {
 }
 
 export const initialOrderState: IOrderState = {
+  currentStep: 0,
   orderDetails: null,
   courierLocations: null,
   UBSCourierId: null,

@@ -24,7 +24,6 @@ import { PlaceholderForDivDirective } from './directives/placeholder-for-div.dir
     EditCommentComponent,
     LikeCommentComponent,
     ReplyCommentComponent,
-    EditCommentComponent,
     CommentPaginationComponent,
     CommentsListComponent,
     CommentsContainerComponent,
@@ -39,7 +38,6 @@ import { PlaceholderForDivDirective } from './directives/placeholder-for-div.dir
     EditCommentComponent,
     LikeCommentComponent,
     ReplyCommentComponent,
-    EditCommentComponent,
     CommentPaginationComponent,
     CommentsListComponent,
     CommentsContainerComponent

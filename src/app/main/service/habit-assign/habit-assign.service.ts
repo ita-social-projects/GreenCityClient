@@ -24,12 +24,11 @@ export class HabitAssignService implements OnDestroy {
   userId: number;
   language: string;
   destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  habitsFromDashBoard: Array<any> = [];
+  habitsFromDashBoard: Array<HabitsForDateInterface> = [];
   habitsInProgressToView: Array<HabitAssignInterface> = [];
   habitsInProgress: Array<HabitAssignInterface> = [];
   habitForEdit: HabitAssignInterface;
   habitChangesFromCalendarSubj: Subject<ChangesFromCalendarToProgress> = new Subject<ChangesFromCalendarToProgress>();
-  countOfResult: number;
   habitDate: any;
   mapOfArrayOfAllDate = new Map();
 

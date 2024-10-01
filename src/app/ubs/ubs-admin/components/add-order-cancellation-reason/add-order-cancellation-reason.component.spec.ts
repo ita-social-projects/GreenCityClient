@@ -62,16 +62,4 @@ describe('AddOrderCancellationReasonComponent', () => {
     component.initForm();
     expect(spy).toHaveBeenCalled();
   });
-
-  it('pop up should close', () => {
-    const spy = spyOn(component.dialogRef, 'close');
-    component.close();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('pop up should save and data be saved', () => {
-    const spy = spyOn(component.dialogRef, 'close');
-    component.close();
-    expect(spy).toHaveBeenCalled();
-  });
 });

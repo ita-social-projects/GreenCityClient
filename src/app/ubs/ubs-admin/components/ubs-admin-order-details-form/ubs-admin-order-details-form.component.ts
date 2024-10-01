@@ -3,7 +3,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { IOrderDetails, IOrderInfo } from '../../models/ubs-admin.interface';
+import { IOrderDetails, IOrderInfo, IPaymentInfo, orderPaymentInfo } from '../../models/ubs-admin.interface';
 import { limitStatus } from '../ubs-admin-tariffs/ubs-tariffs.enum';
 
 @Component({
@@ -29,7 +29,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   showUbsCourier = false;
   limitMsg;
   limitAmount;
-  isOrderCancelledAfterFormed = false;
   courierPrice: number;
   writeoffAtStationSum: number;
   isOrderCancelled = false;
@@ -39,15 +38,15 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   isOrderDone = false;
   isOrderNotTakenOut = false;
   isDisabledWriteOffStation = false;
-
+  sumOrder: number;
   @Output() deleteNumberOrderFromEcoShopChanged = new EventEmitter<boolean>();
-  @Output() changeOverpayment = new EventEmitter<number>();
   @Output() checkMinOrder = new EventEmitter<boolean>();
   @Output() changeCurrentPrice = new EventEmitter<number>();
   @Output() changeUbsCourierPrice = new EventEmitter<number>();
   @Output() changeWriteoffAtStationSum = new EventEmitter<number>();
   @Output() orderStatusChanged = new EventEmitter<boolean>();
-
+  @Output() paymentInfoChanged = new EventEmitter<orderPaymentInfo>();
+  @Input() isOrderCancelledAfterFormed: boolean;
   @Input() orderDetailsOriginal: IOrderDetails;
   @Input() orderDetailsForm: FormGroup;
   @Input() orderStatusInfo;
@@ -55,6 +54,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() orderInfo: IOrderInfo;
   @Input() isEmployeeCanEditOrder: boolean;
   @Input() updateBonusAccount: number;
+  @Input() paymentInfo: orderPaymentInfo;
 
   constructor(private orderService: OrderService) {}
 
@@ -71,16 +71,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
     this.isDisabledWriteOffStation = !prevStatus?.key && curStatus?.key === OrderStatus.BROUGHT_IT_HIMSELF;
 
-    if (curStatus?.key === OrderStatus.CANCELED && prevStatus?.key === OrderStatus.FORMED) {
+    if ((curStatus?.key === OrderStatus.CANCELED && prevStatus?.key === OrderStatus.FORMED) || this.isOrderCancelledAfterFormed) {
       this.isOrderCancelledAfterFormed = true;
       this.emitChangedStatus();
       this.courierPrice = 0;
       this.emitUbsPrice(this.courierPrice);
-    }
-
-    if (changes.totalPaid) {
-      this.isOrderPaid = changes.totalPaid.currentValue !== 0;
-      this.updateOverpayment(changes.totalPaid.currentValue - changes.totalPaid.previousValue);
     }
 
     if (changes.orderDetailsForm) {
@@ -91,6 +86,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.isVisible = !this.isVisible;
     }
 
+    if (!changes?.orderStatusInfo?.firstChange) {
+      this.isDisabledConfirmQuantity();
+    }
     this.recalculateSum();
   }
 
@@ -100,6 +98,10 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     if (this.orderInfo.generalOrderInfo.orderPaymentStatus !== PaymnetStatus.UNPAID) {
       this.orderDetailsForm.get('certificates').disable();
     }
+  }
+
+  absSum(sum): number {
+    return Math.abs(sum);
   }
 
   showWriteOffStationField(): boolean {
@@ -112,13 +114,21 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     this.orderDetails = JSON.parse(JSON.stringify(this.orderDetailsOriginal));
   }
 
-  isDisabledConfirmQuantity() {
-    return this.isOrderBroughtByHimself || this.isOrderCancelled || this.isOrderNotTakenOut || this.isOrderDone;
+  private isDisabledConfirmQuantity() {
+    if (this.isOrderBroughtByHimself || this.isOrderCancelled || this.isOrderNotTakenOut || this.isOrderDone) {
+      this.orderDetails.bags.forEach((bag) => {
+        this.orderDetailsForm.controls[`confirmedQuantity${bag.id}`].disable();
+      });
+    }
   }
 
   recalculateSum() {
-    this.writeoffAtStationSum = this.orderInfo.writeOffStationSum ? this.orderInfo.writeOffStationSum : 0;
-    this.courierPrice = this.orderDetails.courierPricePerPackage;
+    if (!this.writeoffAtStationSum) {
+      this.writeoffAtStationSum = this.orderInfo.writeOffStationSum ? this.orderInfo.writeOffStationSum : 0;
+    }
+    if (!this.courierPrice) {
+      this.courierPrice = this.orderDetails.courierPricePerPackage;
+    }
     this.resetBagsInfo();
     this.setBagsInfo();
     this.calculateFinalSum();
@@ -179,12 +189,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     const bonusesAndCert = this.isOrderCancelled
       ? this.bagsInfo.certificateDiscount
       : this.bagsInfo.bonuses + this.bagsInfo.certificateDiscount;
-
     this.checkMinOrderLimit();
     this.bagsInfo.finalSum = {
-      planned: this.bagsInfo.sum.planned - bonusesAndCert,
-      confirmed: this.bagsInfo.sum.confirmed - bonusesAndCert,
-      actual: this.bagsInfo.sum.actual - bonusesAndCert
+      planned: this.bagsInfo.sum.planned - bonusesAndCert - this.orderDetails.paidAmount,
+      confirmed: this.bagsInfo.sum.confirmed - bonusesAndCert - this.orderDetails.paidAmount,
+      actual: this.bagsInfo.sum.actual - bonusesAndCert - this.orderDetails.paidAmount
     };
 
     if (this.isOrderBroughtByHimself) {
@@ -193,13 +202,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     }
 
     if (this.isVisible && this.showUbsCourier) {
-      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual + bonusesAndCert + this.courierPrice;
-    }
-
-    for (const type in this.bagsInfo.finalSum) {
-      if (this.bagsInfo.finalSum[type] < 0) {
-        this.bagsInfo.finalSum[type] = 0;
-      }
+      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual - bonusesAndCert - this.courierPrice;
     }
 
     this.calculateOverpayment();
@@ -243,33 +246,36 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   private calculateOverpayment() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
-    let priceWithoutCertificate = this.bagsInfo?.sum[bagType] - this.orderDetails.certificateDiscount;
-    priceWithoutCertificate = Math.max(priceWithoutCertificate, 0);
-
-    const usedBonuses = this.isOrderCancelled ? 0 : this.orderDetails.bonuses;
-
-    const baseSumOfOrder = usedBonuses + this.orderDetails.paidAmount + this.orderDetails.certificateDiscount;
-
-    if (this.isOrderBroughtByHimself) {
-      this.overpayment = baseSumOfOrder - this.writeoffAtStationSum;
-    } else if (this.showUbsCourier) {
-      this.overpayment = usedBonuses - priceWithoutCertificate - this.courierPrice;
-    } else {
-      this.overpayment = usedBonuses + this.orderDetails.paidAmount - priceWithoutCertificate;
+    let newSum = this.bagsInfo?.sum[bagType];
+    if (this.showUbsCourier) {
+      newSum += this.courierPrice || 0;
     }
-
-    this.changeOverpayment.emit(this.overpayment);
-    if (this.overpayment) {
-      this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
-      this.overpayment = Math.abs(this.overpayment);
+    if (this.showWriteOffStationField()) {
+      newSum += this.writeoffAtStationSum;
     }
-  }
+    const overpayment = Math.max(this.paymentInfo.paymentTableInfoDto.paidAmount - newSum, 0);
+    const unPaid = Math.max(newSum - this.paymentInfo.paymentTableInfoDto.paidAmount, 0);
 
-  private updateOverpayment(sum: number): void {
-    this.overpayment += sum;
+    this.overpayment = overpayment || -unPaid;
+
+    const isChanged =
+      overpayment !== this.paymentInfo.paymentTableInfoDto.overpayment ||
+      unPaid !== this.paymentInfo.paymentTableInfoDto.unPaidAmount ||
+      newSum !== this.paymentInfo.orderFullPrice;
+
+    if (isChanged) {
+      this.paymentInfoChanged.emit({
+        paymentTableInfoDto: { ...this.paymentInfo.paymentTableInfoDto, overpayment: overpayment, unPaidAmount: unPaid },
+        orderFullPrice: newSum
+      });
+    }
+    Object.keys(this.bagsInfo.finalSum).forEach((type) => {
+      if (this.bagsInfo.finalSum[type] < 0) {
+        this.bagsInfo.finalSum[type] = 0;
+      }
+    });
     this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
   }
-
   private setFinalFullPrice() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
     this.orderDetailsForm.controls.orderFullPrice.setValue(this.bagsInfo.finalSum[bagType]);
@@ -341,8 +347,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   getStoreOrderNumbers() {
-    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
-    return arr.controls;
+    return (this.orderDetailsForm.controls.storeOrderNumbers as FormArray).controls;
   }
 
   checkMaxOrdersFromShop(): boolean {
@@ -357,8 +362,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   deleteOrder(index: number): void {
-    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
-    arr.removeAt(index);
+    (this.orderDetailsForm.controls.storeOrderNumbers as FormArray).removeAt(index);
     this.orderDetailsForm.markAsDirty();
     this.deleteNumberOrderFromEcoShopChanged.emit(true);
   }

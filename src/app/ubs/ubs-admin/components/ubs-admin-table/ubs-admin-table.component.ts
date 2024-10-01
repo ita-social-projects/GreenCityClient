@@ -729,28 +729,53 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
   }
 
-  changeInputDate(): void {
-    const filters = {};
-
-    Object.keys(this.dateForm.value).forEach((key) => {
-      const value = this.dateForm.get(key)?.value;
-
-      if (value !== null || value !== undefined) {
-        filters[key] = value instanceof Date ? this.adminTableService.convertDate(value) : value;
-      }
-    });
-
-    if (!filters) {
-      return;
-    }
-
-    this.addFilters(filters);
+  isChecked(columnName: string, option: IFilteredColumnValue): boolean {
+    return this.adminTableService.isFilterChecked(columnName, option) || false;
   }
 
-  private addFilters(filters: IFilters, fetchTable = true): void {
-    this.tableData = [];
-    this.isLoading = true;
-    this.store.dispatch(AddFiltersAction({ filters, fetchTable }));
+  onFilterChange(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
+    this.noFiltersApplied = false;
+    this.adminTableService.setNewFilters(checked, currentColumn, option);
+  }
+
+  onDateChecked(event: MatCheckboxChange, checked: boolean, columnKey: string): void {
+    this.adminTableService.setNewDateChecked(columnKey, checked);
+    this.onDateChange(columnKey);
+  }
+
+  onDateChange(columnKey: string): void {
+    this.noFiltersApplied = false;
+
+    const dateFromValue = this.getControlValue(columnKey, 'From') as string;
+    const dateToValue = this.getControlValue(columnKey, 'To') as string;
+    const dateChecked = this.getControlValue(columnKey, 'Check') as boolean;
+
+    const dateFrom = dateFromValue ? new Date(dateFromValue) : null;
+    const dateTo = dateToValue ? new Date(dateToValue) : null;
+
+    const swappedDates = this.adminTableService.swapDatesIfNeeded(dateFrom, dateTo, dateChecked);
+
+    const swappedDateFrom = swappedDates ? swappedDates.dateFrom : dateFrom;
+    const swappedDateTo = swappedDates ? swappedDates.dateTo : dateTo;
+
+    this.dateForm.get(`${columnKey}From`)?.setValue(swappedDateFrom);
+    this.dateForm.get(`${columnKey}To`)?.setValue(swappedDateTo);
+
+    const formattedDateFrom = swappedDateFrom ? this.adminTableService.setDateFormat(swappedDateFrom) : '';
+    const formattedDateTo = swappedDateTo ? this.adminTableService.setDateFormat(swappedDateTo) : '';
+
+    this.adminTableService.setNewDateRange(columnKey, formattedDateFrom, formattedDateTo);
+  }
+
+  discardDateChanges(event: Event, columnKey: string, type: 'from' | 'to' | ''): void {
+    event.stopPropagation();
+    if (type === 'from' || type === '') {
+      this.dateForm.get(`${columnKey}From`)?.setValue('');
+    } else if (type === 'to' || type === '') {
+      this.dateForm.get(`${columnKey}To`)?.setValue('');
+    }
+
+    this.onDateChange(columnKey);
   }
 
   clearFilters(): void {
@@ -768,10 +793,32 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.initDateForm();
   }
 
-  applyFilters() {
+  applyFilters(): void {
+    const selectedFilters = this.adminTableService.selectedFilters;
+    if (selectedFilters) {
+      this.store.dispatch(AddFiltersAction({ filters: selectedFilters, fetchTable: false }));
+    }
+
     this.currentPage = 0;
     this.firstPageLoad = true;
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', true);
+  }
+
+  resetCurrentFilters(e: Event): void {
+    e.stopPropagation();
+    this.adminTableService.setCurrentFilters(this.allFilters);
+
+    Object.keys(this.allFilters).forEach((key) => {
+      if (key.endsWith('From') || key.endsWith('To')) {
+        const controlKey = key.replace(/From|To/, '');
+        const dateFrom = this.allFilters[controlKey + 'From'];
+        const dateTo = this.allFilters[controlKey + 'To'];
+
+        this.dateForm.get(controlKey + 'From')?.setValue(dateFrom ? new Date(dateFrom as string) : null);
+        this.dateForm.get(controlKey + 'To')?.setValue(dateTo ? new Date(dateTo as string) : null);
+        this.dateForm.get(controlKey + 'Check')?.setValue(this.allFilters[controlKey + 'Check']);
+      }
+    });
   }
 
   openColumnFilterPopup(event: MouseEvent, column) {
@@ -791,16 +838,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       }
     });
     dialogRef.afterClosed().subscribe((data) => {
-      let buttonName: 'clear' | 'apply' | undefined;
-      if (data) {
-        buttonName = data[0];
-      }
-      if (buttonName === 'clear') {
-        const columnName = data[1];
-        this.store.dispatch(ClearFilters({ fetchTable: true, columnName }));
-      }
-      if (buttonName) {
-        this.applyFilters();
+      if (data && Array.isArray(data)) {
+        const [buttonName] = data;
+        if (buttonName === 'apply') {
+          this.applyFilters();
+        }
       }
     });
   }
@@ -1010,10 +1052,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return !!this.allFilters[columnName.toLowerCase().includes('date') ? `${columnName}From` : columnName];
   }
 
-  isFilterChecked(columnName: string, value: string): boolean {
-    return (this.allFilters?.[columnName] as string[])?.includes(value);
-  }
-
   checkIfFilteredBy(columnKey: string): boolean {
     let key: string;
     switch (columnKey) {
@@ -1059,6 +1097,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   ngOnDestroy() {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
 }

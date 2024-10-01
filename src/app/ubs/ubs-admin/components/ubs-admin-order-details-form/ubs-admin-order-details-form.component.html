@@ -31,7 +31,7 @@
                 min="0"
                 max="999"
                 formControlName="plannedQuantity{{ bag.id }}"
-                [disabled]="true"
+                [readOnly]="true"
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count">
@@ -43,9 +43,7 @@
                 min="0"
                 max="999"
                 formControlName="confirmedQuantity{{ bag.id }}"
-                [attr.disabled]="isDisabledConfirmQuantity() ? true : null"
-                (change)="onQuantityChange('confirmed', bag.id)"
-                [disabled]="true"
+                (input)="onQuantityChange('confirmed', bag.id)"
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
@@ -58,7 +56,7 @@
                 max="999"
                 formControlName="actualQuantity{{ bag.id }}"
                 [attr.disabled]="isOrderCancelled && isOrderPaid ? true : null"
-                (change)="onQuantityChange('actual', bag.id)"
+                (input)="onQuantityChange('actual', bag.id)"
               />
             </div>
           </li>
@@ -103,6 +101,18 @@
             >
             <span class="col-sm-2 text-center">{{ !bagsInfo.bonuses ? '' : '-' }}{{ bagsInfo.bonuses | localizedCurrency }}</span>
             <span *ngIf="isVisible" class="col-sm-2 text-center">{{ getOrderBonusValue(bagsInfo.bonuses) | localizedCurrency }} </span>
+          </li>
+          <li class="d-flex justify-content-between align-items-baseline py-2">
+            <span class="col-sm-2">{{ 'order-details.paid' | translate }}</span>
+            <span class="col-sm-2"></span>
+            <span class="col-sm-2"></span>
+            <span class="col-sm-2 text-center text-success"
+              >{{ !orderDetails.paidAmount ? '' : '-' }}{{ orderDetails.paidAmount | localizedCurrency }}</span
+            >
+            <span class="col-sm-2 text-center"
+              >{{ !orderDetails.paidAmount ? '' : '-' }}{{ orderDetails.paidAmount | localizedCurrency }}</span
+            >
+            <span *ngIf="isVisible" class="col-sm-2 text-center">{{ orderDetails.paidAmount | localizedCurrency }} </span>
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="isVisible && showUbsCourier">
             <span class="col-sm-2">{{ 'order-details.ubs-courier' | translate }}</span>
@@ -154,7 +164,7 @@
               {{ 'order-details.not-enough-bags' | translate }}
             </span>
             <span class="col-sm-3 text-danger pl-5" *ngIf="!isOrderDone && overpayment">
-              {{ overpaymentMessage | translate }} {{ overpayment | localizedCurrency }}
+              {{ overpaymentMessage | translate }} {{ absSum(overpayment) | localizedCurrency }}
             </span>
             <span class="col-sm-4 text-danger pl-5" *ngIf="buyMore">
               {{ limitMsg.min | translate }} {{ limitAmount.min }} {{ limitMsg.max | translate }} {{ limitAmount.max }}
@@ -209,7 +219,7 @@
             formControlName="customerComment"
             placeholder="{{ 'order-details.client-comment.placeholder' | translate }}"
             id="customer-comment"
-            [disabled]="true"
+            [readOnly]="true"
           >
           </textarea>
         </div>

@@ -5,7 +5,16 @@ import { BehaviorSubject } from 'rxjs';
 import { HabitService } from './habit.service';
 import { environment } from '@environment/environment';
 import { CUSTOMHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
-import { HABITLIST } from '@global-user/components/habit/mocks/habit-mock';
+import {
+  CRITERIA,
+  CRITERIA_FILTER,
+  CRITERIA_TAGS,
+  CUSTOM_HABIT_FALSE,
+  CUSTOM_HABIT_TRUE,
+  EXCLUDE_ASSIGNED_FALSE,
+  EXCLUDE_ASSIGNED_TRUE,
+  HABITLIST
+} from '@global-user/components/habit/mocks/habit-mock';
 import {
   MOCK_CUSTOM_HABIT,
   MOCK_CUSTOM_HABIT_RESPONSE,
@@ -14,7 +23,14 @@ import {
   SHOPLIST
 } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { TAGLIST } from '@global-user/components/habit/mocks/tags-list-mock';
-import { HttpResponse } from '@angular/common/http';
+import { HttpParams, HttpResponse } from '@angular/common/http';
+
+export function makeCall(habitService: HabitService, criteria: HttpParams) {
+  habitService.getHabitsByFilters(criteria).subscribe((data) => {
+    expect(data).not.toBeNull();
+    expect(data).toEqual(HABITLIST);
+  });
+}
 
 describe('HabitService', () => {
   const habitLink = `${environment.backendLink}habit`;
@@ -24,8 +40,12 @@ describe('HabitService', () => {
 
   let langMock = null;
 
-  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('localStorageService', ['languageBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('localStorageService', [
+    'languageBehaviourSubject',
+    'getAccessToken'
+  ]);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+  (localStorageServiceMock.getAccessToken as jasmine.Spy).and.returnValue('accessToken');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,25 +119,45 @@ describe('HabitService', () => {
   });
 
   it('should return habits by tag and lang', () => {
-    habitService.getHabitsByTagAndLang(1, 1, ['test'], 'en').subscribe((data) => {
-      expect(data).not.toBeNull();
+    const expectedUrl = `${habitLink}/search?${CRITERIA_TAGS.toString()}`;
+    habitService.getHabitsByFilters(CRITERIA_TAGS).subscribe((data) => {
       expect(data).toEqual(HABITLIST);
     });
-
-    const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en&page=1&size=1&sort=asc&tags=test`);
+    const req = httpMock.expectOne(expectedUrl);
     expect(req.request.method).toBe('GET');
     req.flush(HABITLIST);
   });
 
-  it('should return an Observable HabitListInterface', () => {
-    const filters = ['filter1', 'filter2'];
-    const page = 1;
-    const size = 10;
-    const language = 'en';
-    habitService.getHabitsByFilters(page, size, language, filters).subscribe((habits) => {
+  it('should return an Observable of HabitListInterface with filters', () => {
+    const expectedUrl = `${habitLink}/search?${CRITERIA_FILTER.toString()}`;
+    habitService.getHabitsByFilters(CRITERIA_FILTER).subscribe((habits) => {
       expect(habits).toEqual(MOCK_HABITS);
     });
-    const req = httpMock.expectOne(`${habitLink}/search?lang=${language}&page=${page}&size=${size}&sort=asc&${filters.join('&')}`);
+
+    const req = httpMock.expectOne(expectedUrl);
+    expect(req.request.method).toBe('GET');
+    req.flush(MOCK_HABITS);
+  });
+
+  it('should handle default parameters', () => {
+    const expectedUrl = `${habitLink}/search?${CRITERIA.toString()}`;
+    habitService.getHabitsByFilters(CRITERIA).subscribe((habits) => {
+      expect(habits).toEqual(MOCK_HABITS);
+    });
+
+    const req = httpMock.expectOne(expectedUrl);
+    expect(req.request.method).toBe('GET');
+    req.flush(MOCK_HABITS);
+  });
+
+  it('should return habits without custom filters', () => {
+    const params = CRITERIA_FILTER;
+    const expectedUrl = `${habitLink}/search?${params.toString()}`;
+    habitService.getHabitsByFilters(params).subscribe((habits) => {
+      expect(habits).toEqual(MOCK_HABITS);
+    });
+
+    const req = httpMock.expectOne(expectedUrl);
     expect(req.request.method).toBe('GET');
     req.flush(MOCK_HABITS);
   });
@@ -139,18 +179,19 @@ describe('HabitService', () => {
   it('should change a custom habit', () => {
     const habit = MOCK_CUSTOM_HABIT;
     const lang = 'en';
-    const id = 1;
+    const id = CUSTOMHABIT.id;
     const mockResponse = MOCK_CUSTOM_HABIT_RESPONSE;
     habitService.changeCustomHabit(habit, lang, id).subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });
+
     const req = httpMock.expectOne(`${habitLink}/update/${id}`);
     expect(req.request.method).toBe('PUT');
     req.flush(mockResponse);
   });
 
   it('should get friends tracking the same habit by habit id', () => {
-    const id = 1;
+    const id = CUSTOMHABIT.id;
     const mockResponse = MOCK_FRIEND_PROFILE_PICTURES;
     habitService.getFriendsTrakingSameHabitByHabitId(id).subscribe((response) => {
       expect(response).toEqual(mockResponse);
@@ -162,13 +203,56 @@ describe('HabitService', () => {
 
   it('should delete custom habit', () => {
     const id = CUSTOMHABIT.id;
-
     habitService.deleteCustomHabit(id).subscribe();
-
     const req = httpMock.expectOne(`${habitLink}/delete/${id}`);
-
     req.flush(new HttpResponse({ status: 200 }));
+
     expect(req.request.method).toBe('DELETE');
     httpMock.verify();
+  });
+
+  it('should include isCustomHabit=true when set to true', () => {
+    const expectedParams = CUSTOM_HABIT_TRUE;
+    const expectedUrl = `${habitLink}/search?${expectedParams.toString()}`;
+    makeCall(habitService, expectedParams);
+    const req = httpMock.expectOne((request) => request.urlWithParams === expectedUrl);
+    expect(req.request.method).toBe('GET');
+    req.flush(HABITLIST);
+  });
+
+  it('should include isCustomHabit=false when set to false', () => {
+    const expectedParams = CUSTOM_HABIT_FALSE;
+    const expectedUrl = `${habitLink}/search?${expectedParams.toString()}`;
+    makeCall(habitService, expectedParams);
+    const req = httpMock.expectOne((request) => request.urlWithParams === expectedUrl);
+    expect(req.request.method).toBe('GET');
+    req.flush(HABITLIST);
+  });
+
+  it('should not include isCustomHabit when omitted', () => {
+    const expectedParams = EXCLUDE_ASSIGNED_FALSE;
+    const expectedUrl = `${habitLink}/search?${expectedParams.toString()}`;
+    makeCall(habitService, expectedParams);
+    const req = httpMock.expectOne((request) => request.urlWithParams === expectedUrl);
+    expect(req.request.method).toBe('GET');
+    req.flush(HABITLIST);
+  });
+
+  it('should handle default parameters', () => {
+    const expectedParams = CRITERIA;
+    const expectedUrl = `${habitLink}/search?${expectedParams.toString()}`;
+    makeCall(habitService, expectedParams);
+    const req = httpMock.expectOne((request) => request.urlWithParams === expectedUrl);
+    expect(req.request.method).toBe('GET');
+    req.flush(HABITLIST);
+  });
+
+  it('should include all parameters when provided', () => {
+    const expectedParams = EXCLUDE_ASSIGNED_TRUE;
+    const expectedUrl = `${habitLink}/search?${expectedParams.toString()}`;
+    makeCall(habitService, expectedParams);
+    const req = httpMock.expectOne((request) => request.urlWithParams === expectedUrl);
+    expect(req.request.method).toBe('GET');
+    req.flush(HABITLIST);
   });
 });
