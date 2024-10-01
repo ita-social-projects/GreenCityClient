@@ -77,46 +77,52 @@ export const columnsParams: ColumnParam[] = [
 ];
 
 export const columnsParamsOrders: ColumnParam[] = [
+  { title: { key: 'orderDate', ua: 'Дата замовлення', en: 'Order Date' }, width: 100 },
+  { title: { key: 'id', ua: '№ замовлення	', en: '№ order	' }, width: 60 },
+  { title: { key: 'orderStatus', ua: 'Статус замовлення', en: 'Order status' }, width: 100 },
+  { title: { key: 'orderPaymentStatus', ua: 'Статус оплати', en: 'Payment status' }, width: 60 },
+  { title: { key: 'amount', ua: 'Сума замовлення', en: 'Order amount' }, width: 60 },
+  { title: { key: 'select', ua: 'Вибір', en: 'Select' }, width: 100 },
+  { title: { key: 'id', ua: 'Номер замовлення', en: 'Order number' }, width: 100 },
+  { title: { key: 'orderStatus', ua: 'Статус замовлення', en: 'Order status' }, width: 100 },
+  { title: { key: 'orderPaymentStatus', ua: 'Статус оплати', en: 'Payment status' }, width: 100 },
+  { title: { key: 'orderDate', ua: 'Дата замовлення', en: 'Order date' }, width: 100 },
+  { title: { key: 'paymentDate', ua: 'Дата оплати', en: 'Payment date' }, width: 100 },
+  { title: { key: 'commentsForOrder', ua: 'Коментар адміністратора', en: 'Admin comment' }, width: 100 },
+  { title: { key: 'clientName', ua: "Ім'я клієнта", en: 'Client name' }, width: 100 },
+  { title: { key: 'clientPhone', ua: 'Телефон клієнта', en: 'Phone number' }, width: 100 },
+  { title: { key: 'clientEmail', ua: 'Email клієнта', en: 'Client email' }, width: 100 },
+  { title: { key: 'senderName', ua: "Ім'я відправника", en: 'Sender name' }, width: 100 },
+  { title: { key: 'senderPhone', ua: 'Телефон відправника', en: 'Sender phone' }, width: 100 },
+  { title: { key: 'senderEmail', ua: 'Email відправника', en: 'Sender email' }, width: 100 },
+  { title: { key: 'violationsAmount', ua: 'Кількість порушень клієнта', en: 'Violations' }, width: 100 },
+  { title: { key: 'region', ua: 'Область', en: 'Region' }, width: 100 },
+  { title: { key: 'city', ua: 'Місто', en: 'City' }, width: 100 },
+  { title: { key: 'district', ua: 'Район', en: 'District' }, width: 100 },
+  { title: { key: 'address', ua: 'Адреса', en: 'Address' }, width: 100 },
   {
-    title: {
-      key: 'orderDate',
-      ua: 'Дата замовлення',
-      en: 'Order Date'
-    },
+    title: { key: 'commentToAddressForClient', ua: 'Коментар до адреси від клієнта', en: 'Comment to address from the client' },
     width: 100
   },
+  { title: { key: 'bagsAmount', ua: 'К-сть пакетів', en: 'Bags amount' }, width: 100 },
+  { title: { key: 'totalOrderSum', ua: 'Сума замовлення', en: 'Total order sum' }, width: 100 },
+  { title: { key: 'orderCertificateCode', ua: 'Номер сертифікату', en: 'Order certificate code' }, width: 100 },
+  { title: { key: 'generalDiscount', ua: 'Загальна знижка', en: 'General discount' }, width: 100 },
+  { title: { key: 'amountDue', ua: 'Сума до оплати', en: 'Amount due' }, width: 100 },
   {
-    title: {
-      key: 'id',
-      ua: '№ замовлення	',
-      en: '№ order	'
-    },
-    width: 60
-  },
-  {
-    title: {
-      key: 'orderStatus',
-      ua: 'Статус замовлення',
-      en: 'Order status'
-    },
+    title: { key: 'commentForOrderByClient', ua: 'Коментар до замовлення від клієнта', en: 'Comment to the order from the client' },
     width: 100
   },
-  {
-    title: {
-      key: 'orderPaymentStatus',
-      ua: 'Статус оплати',
-      en: 'Payment status'
-    },
-    width: 60
-  },
-  {
-    title: {
-      key: 'amount',
-      ua: 'Сума замовлення',
-      en: 'Order amount'
-    },
-    width: 60
-  }
+  { title: { key: 'totalPayment', ua: 'Оплата', en: 'Total payment' }, width: 100 },
+  { title: { key: 'dateOfExport', ua: 'Дата вивезення', en: 'Date of export' }, width: 100 },
+  { title: { key: 'timeOfExport', ua: 'Час вивезення', en: 'Time of export' }, width: 100 },
+  { title: { key: 'idOrderFromShop', ua: 'Номер замовлення з магазину', en: 'Id order from shop' }, width: 100 },
+  { title: { key: 'receivingStation', ua: 'Станція приймання', en: 'Receiving station' }, width: 100 },
+  { title: { key: 'responsibleCaller', ua: 'Менеджер обдзвону', en: 'Call manager' }, width: 100 },
+  { title: { key: 'responsibleLogicMan', ua: 'Логіст', en: 'Logistician' }, width: 100 },
+  { title: { key: 'responsibleDriver', ua: 'Водій', en: 'Driver' }, width: 100 },
+  { title: { key: 'responsibleNavigator', ua: 'Штурман', en: 'Navigator' }, width: 100 },
+  { title: { key: 'blockedBy', ua: 'Ким заблоковано', en: 'Blocked by' }, width: 100 }
 ];
 
 export const columnsParamsViolations: ColumnParam[] = [
