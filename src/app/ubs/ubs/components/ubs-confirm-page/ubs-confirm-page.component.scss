@@ -100,9 +100,9 @@
   }
 
   .image {
-    width: 130%;
+    width: 90%;
     height: auto;
-    margin: 55px auto;
+    margin: 0 auto 55px;
   }
 
   .p-40 {
@@ -136,7 +136,7 @@
 @media screen and (max-width: 768px) {
   .wraper {
     .image {
-      width: 112%;
+      width: 100%;
     }
 
     .order {
