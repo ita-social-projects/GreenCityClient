@@ -45,6 +45,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { DateTimeComponent } from './components/event-editor/components/create-event-dates/components/date-time/date-time.component';
 import { UpdateEventComponent } from './components/update-event/update-event.component';
 import { EventStoreService } from './services/event-store.service';
+import { IMaskModule } from 'angular-imask';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { EventStoreService } from './services/event-store.service';
     MatNativeDateModule,
     MatSelectModule,
     SharedMainModule,
+    IMaskModule,
     SharedModule,
     InfiniteScrollModule,
     TranslateModule.forChild({

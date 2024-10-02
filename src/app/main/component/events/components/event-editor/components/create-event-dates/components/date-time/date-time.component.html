@@ -1,9 +1,9 @@
-<div [formGroup]="form" class="date-time">
+<div [formGroup]="dayForm" class="date-time">
   <span class="day">{{ dayNumber + 1 }} {{ 'create-event.day' | translate }}</span>
 
   <mat-form-field appearance="outline">
     <mat-label>{{ 'create-event.choose-date' | translate }}</mat-label>
-    <input matInput [matDatepicker]="dp" formControlName="date" [min]="today" />
+    <input matInput [matDatepicker]="dp" formControlName="date" [min]="minDate" [max]="maxDate" />
     <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp></mat-datepicker>
 
@@ -15,7 +15,7 @@
   <div class="time">
     <mat-form-field appearance="outline" class="time-item">
       <mat-label>{{ 'create-event.set-start-time' | translate }}</mat-label>
-      <input [matAutocomplete]="startOptions" formControlName="startTime" matInput maxlength="5" />
+      <input #startTimeRef [matAutocomplete]="startOptions" formControlName="startTime" matInput maxlength="5" [readonly]="allDay.value" />
       <mat-autocomplete #startOptions="matAutocomplete">
         <mat-option *ngFor="let time of startOptionsArr" [value]="time">
           {{ time }}
@@ -27,7 +27,7 @@
 
     <mat-form-field appearance="outline" class="time-item">
       <mat-label>{{ 'create-event.set-end-time' | translate }}</mat-label>
-      <input [matAutocomplete]="endOptions" formControlName="endTime" matInput maxlength="5" />
+      <input #endTimeRef [matAutocomplete]="endOptions" formControlName="endTime" matInput maxlength="5" [readonly]="allDay.value" />
       <mat-autocomplete #endOptions="matAutocomplete">
         <mat-option *ngFor="let time of endOptionsArr" [value]="time">
           {{ time }}
