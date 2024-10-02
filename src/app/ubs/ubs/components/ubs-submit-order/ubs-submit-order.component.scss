@@ -142,24 +142,48 @@ label {
   }
 }
 
-.choose-payment,
-.choose-payment-chooser {
-  font-style: normal;
-  font-weight: normal;
-  margin-bottom: 0;
+.payment {
+  .payment-group {
+    display: flex;
+    flex-direction: column;
+    width: 323px;
+    margin-top: 20px;
+  }
+
+  .payment-title {
+    margin: 40px 0 20px;
+    font-family: var(--ubs-tertiary-font);
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: 0.002em;
+    color: var(--ubs-primary-grey);
+  }
+
+  .choose-payment,
+  .choose-payment-chooser {
+    font-style: normal;
+    font-weight: normal;
+    margin-bottom: 0;
+  }
+
+  .choose-payment {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 20px;
+    color: var(--ubs-primary-grey);
+  }
+
+  .choose-payment-chooser {
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--ubs-secondary-grey);
+  }
 }
 
-.choose-payment {
-  font-size: 14px;
-  line-height: 20px;
-  margin-bottom: 20px;
-  color: var(--ubs-primary-grey);
-}
-
-.choose-payment-chooser {
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--ubs-secondary-grey);
+::ng-deep .mat-mdc-select-min-line {
+  font-size: 16px !important;
 }
 
 .payment-select {
