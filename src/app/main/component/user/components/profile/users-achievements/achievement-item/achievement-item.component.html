@@ -1,4 +1,4 @@
-<li [ngClass]="isCategory && 'click'" class="achievements__item" (click)="onItemClick()">
+<div [ngClass]="isCategory && 'click'" class="achievements__item">
   <div class="item__image">
     <mat-progress-spinner mode="determinate" [value]="getProgressValue()" diameter="90" strokeWidth="5"> </mat-progress-spinner>
     <img [src]="getImagePath()" alt="achievement" [ngClass]="{ greyscale: this.itemToUse.achieved < this.itemToUse.totalQuantity }" />
@@ -7,4 +7,4 @@
     <p class="item__title">{{ getTitle() }}</p>
     <p class="item__statistics">{{ getStatistics() }}</p>
   </div>
-</li>
+</div>

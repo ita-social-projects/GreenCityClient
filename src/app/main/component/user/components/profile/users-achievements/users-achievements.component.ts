@@ -1,7 +1,7 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
 import { AchievementService } from '@global-service/achievement/achievement.service';
-import { debounceTime, fromEvent, Subject, takeUntil } from 'rxjs';
+import { debounceTime, fromEvent, take } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { AchievementDto } from '@global-models/achievement/AchievementDto';
 import { calendarImage } from '@shared/components/calendar-base/calendar-image';
@@ -13,7 +13,7 @@ import { AchievementsModalComponent } from './achievements-modal/achievements-mo
   templateUrl: './users-achievements.component.html',
   styleUrls: ['./users-achievements.component.scss']
 })
-export class UsersAchievementsComponent implements OnInit, OnDestroy {
+export class UsersAchievementsComponent implements OnInit {
   itemsPerPage = 3;
   slideIndex = 0;
   totalPages = 0;
@@ -24,7 +24,6 @@ export class UsersAchievementsComponent implements OnInit, OnDestroy {
 
   achievementsImages = PROFILE_IMAGES.achs;
   currentLang: string;
-  destroy$ = new Subject();
 
   arrows = calendarImage;
   itemsMap = { 768: 3, 576: 5, 320: 3 };
@@ -34,9 +33,9 @@ export class UsersAchievementsComponent implements OnInit, OnDestroy {
   @ViewChild('previousArrow', { static: false }) previousArrow: ElementRef;
 
   constructor(
-    private achievementService: AchievementService,
-    private localStorageService: LocalStorageService,
-    private dialog: MatDialog
+    private readonly achievementService: AchievementService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -52,7 +51,7 @@ export class UsersAchievementsComponent implements OnInit, OnDestroy {
   showAchievements() {
     this.achievementService
       .getAchievements()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(take(1))
       .subscribe({
         next: (achievements) => {
           this.achievements = achievements;
@@ -69,6 +68,7 @@ export class UsersAchievementsComponent implements OnInit, OnDestroy {
   calculateAchievementsToShow() {
     if (this.achievements.length > 0) {
       this.itemsPerPage = this.getAchievementsToShow();
+      this.totalPages = Math.ceil(this.amountOfAchievements / this.itemsPerPage);
       const startIndex = this.slideIndex * this.itemsPerPage;
       const endIndex = Math.min(startIndex + this.itemsPerPage, this.achievements.length);
       this.achievementsToShow = this.achievements.slice(startIndex, endIndex);
@@ -104,8 +104,10 @@ export class UsersAchievementsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
+  onKeyDown(event: KeyboardEvent, isNext: boolean): void {
+    if ((event.key === 'Enter' || event.key === ' ') && this.shouldShowArrows()) {
+      event.preventDefault();
+      this.changeAchievements(isNext);
+    }
   }
 }

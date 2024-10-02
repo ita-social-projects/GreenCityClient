@@ -16,9 +16,11 @@
         #previousArrow
         class="achievements-previous"
         (click)="changeAchievements(false)"
+        (keydown)="onKeyDown($event, false)"
         [src]="arrows.arrowPrevious"
         alt="arrow previous"
         [ngClass]="{ hidden: !shouldShowArrows() }"
+        [attr.tabindex]="shouldShowArrows() ? '0' : '-1'"
       />
 
       <div #slider class="achievements-images">
@@ -31,9 +33,11 @@
         #nextArrow
         class="achievements-next"
         (click)="changeAchievements(true)"
+        (keydown)="onKeyDown($event, true)"
         [src]="arrows.arrowNext"
         alt="arrow next"
         [ngClass]="{ hidden: !shouldShowArrows() }"
+        [attr.tabindex]="shouldShowArrows() ? '0' : '-1'"
       />
     </div>
     <ng-template #noAchievements>

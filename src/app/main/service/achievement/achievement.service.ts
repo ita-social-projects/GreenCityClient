@@ -9,7 +9,7 @@ import { AchievementCategoryDto } from '@global-models/achievementCategory/achie
   providedIn: 'root'
 })
 export class AchievementService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getAchievements() {
     return this.http.get<AchievementDto[]>(`${achievementLink}?achievementStatus=ACHIEVED`);

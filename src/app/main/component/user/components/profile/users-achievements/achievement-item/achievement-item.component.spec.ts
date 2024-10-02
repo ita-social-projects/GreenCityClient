@@ -81,28 +81,6 @@ describe('AchievementItemComponent', () => {
     });
   });
 
-  describe('onItemClick', () => {
-    it('should emit selectItem when isCategory is true', () => {
-      component.item = categoryItemMock;
-      component.isCategory = true;
-      spyOn(component.selectItem, 'emit');
-
-      component.onItemClick();
-
-      expect(component.selectItem.emit).toHaveBeenCalledWith(categoryItemMock);
-    });
-
-    it('should not emit selectItem when isCategory is false', () => {
-      component.item = achievementItemMock;
-      component.isCategory = false;
-      spyOn(component.selectItem, 'emit');
-
-      component.onItemClick();
-
-      expect(component.selectItem.emit).not.toHaveBeenCalled();
-    });
-  });
-
   describe('getProgressValue', () => {
     it('should calculate the correct progress value', () => {
       component.itemToUse = itemToUseMock;

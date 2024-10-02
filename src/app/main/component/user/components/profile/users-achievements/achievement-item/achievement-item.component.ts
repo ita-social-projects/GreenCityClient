@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AchievementDto } from '@global-models/achievement/AchievementDto';
 import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -12,7 +12,7 @@ import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
 export class AchievementItemComponent implements OnInit {
   @Input() item: AchievementDto | AchievementCategoryDto;
   @Input() isCategory = false;
-  @Output() selectItem = new EventEmitter<AchievementDto | AchievementCategoryDto>();
+
   achievementsImages = PROFILE_IMAGES.achs;
   itemToUse: {
     categoryId: number;
@@ -47,12 +47,6 @@ export class AchievementItemComponent implements OnInit {
         achieved: achievementItem.progress,
         totalQuantity: achievementItem.condition
       };
-    }
-  }
-
-  onItemClick() {
-    if (this.isCategory) {
-      this.selectItem.emit(this.item);
     }
   }
 

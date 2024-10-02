@@ -33,13 +33,9 @@
     <div class="achievements__wrapper">
       <div *ngIf="!selectedCategory">
         <ul class="achievements__list">
-          <app-achievement-item
-            *ngFor="let category of categories"
-            [item]="category"
-            [isCategory]="true"
-            (selectItem)="onCategorySelect($event)"
-          >
-          </app-achievement-item>
+          <li *ngFor="let category of categories" (click)="onCategorySelect(category)" (keydown)="onCategorySelect(category)">
+            <app-achievement-item [item]="category" [isCategory]="true"> </app-achievement-item>
+          </li>
         </ul>
       </div>
 
@@ -52,7 +48,9 @@
         </div>
 
         <ul class="achievements__list">
-          <app-achievement-item *ngFor="let achievement of achievements" [item]="achievement" [isCategory]="false"> </app-achievement-item>
+          <li *ngFor="let achievement of achievements">
+            <app-achievement-item [item]="achievement" [isCategory]="false"> </app-achievement-item>
+          </li>
         </ul>
       </div>
     </div>
