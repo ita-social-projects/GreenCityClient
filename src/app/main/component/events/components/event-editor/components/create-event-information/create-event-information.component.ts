@@ -42,7 +42,13 @@ export class CreateEventInformationComponent implements OnInit {
   quillContentChanged(content: ContentChange): void {
     this.quillLength = content.text.length - 1;
     this.isQuillUnfilled = this.quillLength < 20;
-    this.eventInfForm.get('description').setValue(content.text.trimEnd());
+
+    const trimmedText = content.text.trimEnd();
+    const currentDescription = this.eventInfForm.get('description').value;
+
+    if (currentDescription !== trimmedText) {
+      this.eventInfForm.get('description').setValue(trimmedText, { emitEvent: false });
+    }
   }
 
   get quillLabel(): string {

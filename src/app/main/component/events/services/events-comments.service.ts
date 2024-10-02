@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { CommentsService } from '../../comments/services/comments.service';
 import { AddedCommentDTO, CommentsModel } from '../../comments/models/comments-model';
-import { EventsAddedCommentDTO, EventsCommentsModel } from '../models/events-comments.model';
+import { EventsCommentsModel } from '../models/events-comments.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,9 @@ export class EventsCommentsService implements CommentsService {
   constructor(private http: HttpClient) {}
 
   addComment(eventId: number, text: string, id = 0): Observable<AddedCommentDTO> {
-    const body = { parentCommentId: id, text };
-    return this.http.post<EventsAddedCommentDTO>(`${this.backEnd}events/${eventId}/comments`, body);
+    const formData = new FormData();
+    formData.append('request', JSON.stringify({ text: text, parentCommentId: id }));
+    return this.http.post<AddedCommentDTO>(`${this.backEnd}events/${eventId}/comments`, formData);
   }
 
   getActiveCommentsByPage(eventId: number, page: number, size: number): Observable<CommentsModel> {

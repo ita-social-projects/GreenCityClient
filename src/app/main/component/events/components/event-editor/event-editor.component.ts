@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -70,7 +70,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     private store: Store,
     private snackBar: MatSnackBarComponent,
     public dialogRef: MatDialogRef<DialogPopUpComponent>,
-    private eventsService: EventsService
+    private eventsService: EventsService,
+    private cdRef: ChangeDetectorRef
   ) {
     super(router, dialog);
     this.quillModules = quillConfig;
@@ -78,10 +79,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   @Input() formInput: EventForm;
-
-  get formValues(): EventForm {
-    return this._savedFormValues;
-  }
 
   get eventInformation(): FormGroup {
     return this.eventForm.get('eventInformation') as FormGroup;
@@ -209,6 +206,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   onPreview() {
+    this.cdRef.detectChanges();
     this.eventsService.setIsFromCreateEvent(true);
     this.eventsService.setEvent(this.eventForm.value);
     this.router.navigate(['events', 'preview']);
@@ -226,9 +224,13 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       datesLocations: dates
     };
 
-    //TODO CAN WE CHANGE TITLE IMAGE?
     if (this.isUpdating) {
-      const currentImages = this._savedFormValues.eventInformation.images.filter((value) => !value.file).map((value) => value.url);
+      if (!this.eventId) {
+        const urlSegments = this.router.url.split('/');
+        this.eventId = Number(urlSegments[urlSegments.length - 1]);
+      }
+      const currentImages = (this._savedFormValues?.eventInformation?.images || [])
+        .filter((value) => !value.file).map((value) => value.url);
       sendEventDto = {
         ...sendEventDto,
         additionalImages: currentImages.slice(1),
@@ -254,19 +256,28 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   clear(): void {
     this.eventForm.reset();
   }
+
   transformDatesFormToDates(form: DateInformation[]): Dates[] {
     return form.map((value) => {
       const { date, endTime, startTime } = value.day;
       const { onlineLink, place, coordinates } = value.placeOnline;
+
+      const dateObject = new Date(date);
+
+      if (isNaN(dateObject.getTime())) {
+        return;
+      }
+
       let [hours, minutes] = startTime.split(':');
-      date.setHours(parseInt(hours, 10));
-      date.setMinutes(parseInt(minutes, 10));
-      const startDate = date.toISOString();
+      dateObject.setHours(parseInt(hours, 10));
+      dateObject.setMinutes(parseInt(minutes, 10));
+      const startDate = dateObject.toISOString();
 
       [hours, minutes] = endTime.split(':');
-      date.setHours(parseInt(hours, 10));
-      date.setMinutes(parseInt(minutes, 10));
-      const finishDate = date.toISOString();
+      dateObject.setHours(parseInt(hours, 10));
+      dateObject.setMinutes(parseInt(minutes, 10));
+      const finishDate = dateObject.toISOString();
+
       const dates: Dates = {
         startDate,
         finishDate,
@@ -282,7 +293,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
         };
       }
       return dates;
-    });
+    }).filter(Boolean);
   }
 
   escapeFromCreateEvent(): void {

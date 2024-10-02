@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventsService } from '../../services/events.service';
 import {
@@ -30,7 +30,8 @@ export class UpdateEventComponent implements OnInit {
     private eventStore: EventStoreService,
     private eventService: EventsService,
     private languageService: LanguageService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -51,18 +52,17 @@ export class UpdateEventComponent implements OnInit {
             this.authorId = response.organizer.id;
             this.isAuthor = this.authorId === userId;
             this.isFetching = false;
+            this.cdRef.detectChanges();
           },
           error: (error) => {
             this.isFetching = false;
             this.isAuthor = false;
+            this.cdRef.detectChanges();
           }
         });
-        if (this.isFetching) {
-          this.isFetching = false;
-          this.isAuthor = false;
-        }
       } else {
         this.isAuthor = false;
+        this.cdRef.detectChanges();
       }
     });
   }

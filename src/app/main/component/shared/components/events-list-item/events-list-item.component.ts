@@ -1,8 +1,4 @@
-import {
-  AddAttenderEcoEventsByIdAction,
-  DeleteEcoEventAction,
-  EventsActions,
-  RemoveAttenderEcoEventsByIdAction
+import { AddAttenderEcoEventsByIdAction, DeleteEcoEventAction, EventsActions, RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
@@ -12,7 +8,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { typeFiltersData } from '../../../events/models/event-consts';
-import { EventAttender, EventListResponse, LocationResponse, TagDto, TagObj } from '../../../events/models/events.interface';
+import { EventAttender, EventDatesResponse, EventListResponse, LocationResponse, TagDto, TagObj
+} from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -134,6 +131,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const regex = /^img\/habits\//;
+    if (regex.test(this.event.titleImage)) {
+      this.event.titleImage = 'assets/' + this.event.titleImage;
+    }
     this.itemTags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
     this.userOwnAuthService.getDataFromLocalStorage();
@@ -355,17 +356,17 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         this.eventService
           .removeEventFromFavourites(this.event.id)
           .pipe(takeUntil(this.destroyed$))
-          .subscribe(
-            () => {
+          .subscribe({
+            next: () => {
               if (this.isUserAssignList) {
                 this.idOfUnFavouriteEvent.emit(this.event.id);
               }
             },
-            () => {
+            error: () => {
               this.snackBar.openSnackBar('error');
               this.isEventFavorite = true;
             }
-          );
+          });
       }
     }
   }
@@ -389,5 +390,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   private joinEvent() {
     this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
     this.snackBar.openSnackBar('joinedEvent');
+  }
+
+  isDateExpired(dates: EventDatesResponse[]): boolean {
+    if (!dates || dates.length === 0) {return false;}
+    return new Date(dates[dates.length - 1].startDate) < new Date();
   }
 }
