@@ -1,4 +1,5 @@
 import { Component, Input, ElementRef, ViewChild } from '@angular/core';
+import { CommentsDTO } from '../../models/comments-model';
 
 @Component({
   selector: 'app-reply-comment',
@@ -6,7 +7,9 @@ import { Component, Input, ElementRef, ViewChild } from '@angular/core';
   styleUrls: ['./reply-comment.component.scss']
 })
 export class ReplyCommentComponent {
-  @Input() public isAddingReply: boolean;
+  @Input() currentComment: CommentsDTO;
+  @Input() repliedComment: { comment: CommentsDTO; isAdd: boolean };
+
   @ViewChild('reply', { static: true }) reply: ElementRef;
 
   commentsImages = {
@@ -15,7 +18,8 @@ export class ReplyCommentComponent {
   };
 
   writeReply(): void {
-    const imgName = this.isAddingReply ? 'reply' : 'replying';
-    this.reply.nativeElement.srcset = this.commentsImages[imgName];
+    if (this.repliedComment && this.repliedComment.comment.id !== this.currentComment.id) {
+      this.repliedComment.isAdd = false;
+    }
   }
 }
