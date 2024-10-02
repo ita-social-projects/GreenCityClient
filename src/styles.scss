@@ -430,18 +430,32 @@ body {
   box-shadow: 0 -2px var(--ubs-button-light-green);
 }
 
-.mat-simple-snackbar-action {
-  .mat-focus-indicator::after {
+.mat-mdc-snack-bar-container {
+  .mdc-snackbar__surface {
+    background-color: inherit !important;
+  }
+
+  .mdc-snackbar__label {
+    color: var(--quaternary-dark-grey) !important;
+  }
+}
+
+.mat-mdc-button {
+  &.mat-mdc-snack-bar-action {
+    min-width: 24px;
+  }
+
+  .mdc-button__label {
+    display: none;
+  }
+
+  .mat-mdc-focus-indicator {
     background-image: url('assets/img/snackBar-close-icon.svg');
-    display: inline-block;
+    display: block;
+    margin: auto;
     background-size: 11px;
     width: 11px;
     height: 11px;
-    content: '';
-  }
-
-  .mat-button-wrapper {
-    display: none;
   }
 }
 
