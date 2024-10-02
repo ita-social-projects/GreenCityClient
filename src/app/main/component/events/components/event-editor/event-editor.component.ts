@@ -71,7 +71,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     private snackBar: MatSnackBarComponent,
     public dialogRef: MatDialogRef<DialogPopUpComponent>,
     private eventsService: EventsService,
-    private cdRef: ChangeDetectorRef
+    private readonly cdRef: ChangeDetectorRef
   ) {
     super(router, dialog);
     this.quillModules = quillConfig;

@@ -31,7 +31,7 @@ export class UpdateEventComponent implements OnInit {
     private eventService: EventsService,
     private languageService: LanguageService,
     private localStorageService: LocalStorageService,
-    private cdRef: ChangeDetectorRef
+    private readonly cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {

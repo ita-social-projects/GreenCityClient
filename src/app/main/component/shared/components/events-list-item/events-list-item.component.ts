@@ -131,8 +131,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const regex = /^img\/habits\//;
-    if (regex.test(this.event.titleImage)) {
+    if (this.event.titleImage.startsWith('img/habits/')) {
       this.event.titleImage = 'assets/' + this.event.titleImage;
     }
     this.itemTags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);
