@@ -10,7 +10,6 @@ import { HeaderComponent } from './header.component';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from '@global-service/user/user.service';
-import { AchievementService } from '@global-service/achievement/achievement.service';
 import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { SearchService } from '@global-service/search/search.service';
@@ -62,9 +61,6 @@ describe('HeaderComponent', () => {
 
   const userServiceMock: UserService = jasmine.createSpyObj('UserService', ['onLogout']);
   userServiceMock.updateUserLanguage = () => of(true);
-
-  const achievementServiceMock: AchievementService = jasmine.createSpyObj('AchievementService', ['onLogout']);
-  achievementServiceMock.onLogout = () => true;
 
   const habitStatisticServiceMock: HabitStatisticService = jasmine.createSpyObj('HabitStatisticService', ['onLogout']);
   habitStatisticServiceMock.onLogout = () => true;
@@ -120,7 +116,6 @@ describe('HeaderComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: UserService, useValue: userServiceMock },
-        { provide: AchievementService, useValue: achievementServiceMock },
         { provide: HabitStatisticService, useValue: habitStatisticServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: SearchService, useValue: searchServiceMock },

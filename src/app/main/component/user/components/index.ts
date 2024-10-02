@@ -24,9 +24,4 @@ export { ProfileWidgetComponent } from './profile/profile-widget/profile-widget.
 export { ProfileHeaderComponent } from './profile/profile-widget/profile-header/profile-header.component';
 export { ProfileProgressComponent } from './profile/profile-widget/profile-progress/profile-progress.component';
 export { ShoppingListComponent } from './profile/shopping-list/shopping-list.component';
-export { AchievementItemComponent } from './user-achievements/achievement-item/achievement-item.component';
-export { AchievementListComponent } from './user-achievements/achievement-list/achievement-list.component';
-export { UserAchievementsComponent } from './user-achievements/achievements-container/user-achievements.component';
-export { NewAchievementModalComponent } from './user-achievements/new-achievement-modal/new-achievement-modal.component';
-export { UserSidebarComponent } from './user-sidebar/user-sidebar.component';
 export { UserSettingComponent } from './user-setting/user-setting.component';

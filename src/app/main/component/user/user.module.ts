@@ -32,11 +32,6 @@ import {
   ProfileHeaderComponent,
   ProfileProgressComponent,
   ShoppingListComponent,
-  AchievementItemComponent,
-  AchievementListComponent,
-  UserAchievementsComponent,
-  NewAchievementModalComponent,
-  UserSidebarComponent,
   UserSettingComponent,
   EditProfileComponent,
   PersonalPhotoComponent,
@@ -88,6 +83,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { NotificContentReplaceDirective } from './directives/notific-content-replace.directive';
 import { FriendshipButtonsComponent } from './components/profile/users-friends/friend-dashboard/friendship-buttons/friendship-buttons.component';
+import { AchievementsModalComponent } from './components/profile/users-achievements/achievements-modal/achievements-modal.component';
+import { AchievementItemComponent } from './components/profile/users-achievements/achievement-item/achievement-item.component';
 
 @NgModule({
   declarations: [
@@ -95,12 +92,7 @@ import { FriendshipButtonsComponent } from './components/profile/users-friends/f
     ProfileCardsComponent,
     ProfileDashboardComponent,
     OneHabitComponent,
-    AchievementItemComponent,
-    AchievementListComponent,
-    UserAchievementsComponent,
-    NewAchievementModalComponent,
     UserSettingComponent,
-    UserSidebarComponent,
     ButtonComponent,
     UserLogComponent,
     HabitTrackersComponent,
@@ -155,7 +147,9 @@ import { FriendshipButtonsComponent } from './components/profile/users-friends/f
     UserNotificationsComponent,
     UserNotificationsPopUpComponent,
     NotificContentReplaceDirective,
-    FriendshipButtonsComponent
+    FriendshipButtonsComponent,
+    AchievementsModalComponent,
+    AchievementItemComponent
   ],
   imports: [
     NgbModule,

@@ -1,0 +1,58 @@
+<div class="main">
+  <div class="wrapper">
+    <div class="user__wrapper" *ngIf="userInfo">
+      <app-user-profile-image
+        class="user-image"
+        [imgPath]="userInfo.profilePicturePath"
+        [firstName]="userInfo.name"
+        [additionalImgClass]="'profile-avatar'"
+        tabindex="0"
+      >
+      </app-user-profile-image>
+      <div class="user__data">
+        <div class="user__name">{{ userInfo.name }}</div>
+        <div class="user__achievements-amount">
+          <img src="/assets/img/sidebarIcons/achievement_icon.svg" alt="achievement" />
+          {{ achievedAmountToShow }}
+          /
+          {{ totalAmountToShow }}
+        </div>
+      </div>
+      <button
+        mat-icon-button
+        (click)="close()"
+        (keydown.enter)="close()"
+        class="btn close-modal-window"
+        aria-label="close button"
+        tabindex="0"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="achievements__wrapper">
+      <div *ngIf="!selectedCategory">
+        <ul class="achievements__list">
+          <li *ngFor="let category of categories" (click)="onCategorySelect(category)" (keydown)="onCategorySelect(category)">
+            <app-achievement-item [item]="category" [isCategory]="true"> </app-achievement-item>
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="selectedCategory">
+        <div class="achievements__title">
+          {{ langService.getLangValue(selectedCategory.title, selectedCategory.titleEn) }}
+          <button mat-icon-button class="btn" (click)="backToCategories()">
+            <mat-icon>keyboard_backspace</mat-icon>
+          </button>
+        </div>
+
+        <ul class="achievements__list">
+          <li *ngFor="let achievement of achievements">
+            <app-achievement-item [item]="achievement" [isCategory]="false"> </app-achievement-item>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
