@@ -1,8 +1,10 @@
+@import 'src/typography/_resp.scss';
+
 .friend-dashboard {
   background-color: var(--after-primary-light-grey);
   min-height: calc(100vh - 164px);
 
-  @media screen and (max-width: 576px) {
+  @include responsivePCFirst(sm) {
     min-height: calc(100vh - 476px);
   }
 }
@@ -20,21 +22,16 @@
   .friends {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
-    column-gap: 63px;
     align-items: center;
     font-family: var(--tertiary-font);
     padding: 12px 0 44px;
 
-    @media screen and (max-width: 1024px) {
+    @include responsivePCFirst(xl) {
       padding: 12px 0 41px;
+      justify-content: space-between;
     }
 
-    @media screen and (max-width: 576px) {
-      padding: 12px 0 13px;
-    }
-
-    @media screen and (max-width: 576px) {
+    @include responsivePCFirst(sm) {
       padding: 12px 0 21px;
     }
 
@@ -54,32 +51,42 @@
     font-size: 16px;
     line-height: 18.75px;
 
-    @media screen and (max-width: 576px) {
+    @include responsivePCFirst(sm) {
       margin: 0 6px;
     }
   }
 
   .friend-tabs {
+    display: flex;
+    gap: 38px;
+
     a {
       white-space: nowrap;
+      margin: 0;
     }
 
-    @media screen and (max-width: 1200px) {
+    @include responsivePCFirst(2xl) {
       width: 100%;
       display: flex;
       justify-content: space-around;
       margin-top: 9px;
     }
 
-    @media screen and (max-width: 320px) {
+    @include responsivePCFirst(xs) {
       margin-top: 17px;
     }
   }
 
   .searchForm {
     background-color: var(--white);
+    margin-right: 38px;
+    margin-left: auto;
 
-    @media (max-width: 576px) {
+    @include responsivePCFirst(xl) {
+      margin: 0;
+    }
+
+    @include responsivePCFirst(sm) {
       margin: 0 auto;
     }
   }
@@ -93,15 +100,15 @@
     border-radius: 4px;
     padding: 8px;
 
-    @media (max-width: 1024px) {
+    @include responsivePCFirst(xl) {
       width: 330px;
     }
 
-    @media (max-width: 768px) {
+    @include responsivePCFirst(md) {
       width: 295px;
     }
 
-    @media (max-width: 576px) {
+    @include responsivePCFirst(sm) {
       width: 256px;
     }
 
