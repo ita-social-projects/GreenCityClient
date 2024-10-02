@@ -641,3 +641,20 @@ export interface NotTakenOutReasonImages {
   src: string;
   file: File;
 }
+
+export interface ILocationBase {
+  id: number;
+  nameEn: string;
+  nameUk: string;
+}
+export interface IDistrictDetails extends ILocationBase {
+  cityId: number;
+}
+
+export interface ICityDetails extends ILocationBase {
+  regionId: number;
+  districts: IDistrictDetails[];
+}
+export interface ILocationDetails extends ILocationBase {
+  cities: ICityDetails[];
+}
