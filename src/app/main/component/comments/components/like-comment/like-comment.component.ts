@@ -50,6 +50,10 @@ export class LikeCommentComponent implements OnInit {
       this.socketMessageToSubscribe = `/topic/${this.comment.id}/eventComment`;
       this.socketMessageToSend = '/app/eventCommentLikeAndCount';
     }
+    if (this.router.url.includes('allhabits')) {
+      this.socketMessageToSubscribe = `/topic/${this.comment.id}/сomment`;
+      this.socketMessageToSend = '/app/likeAndCount';
+    }
   }
 
   onConnectedtoSocket(): void {

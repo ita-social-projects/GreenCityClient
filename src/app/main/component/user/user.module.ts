@@ -88,6 +88,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { NotificContentReplaceDirective } from './directives/notific-content-replace.directive';
 import { FriendshipButtonsComponent } from './components/profile/users-friends/friend-dashboard/friendship-buttons/friendship-buttons.component';
+import { CommentsModule } from '../comments/comments.module';
+import { CommentsService } from '../comments/services/comments.service';
+import { HabitCommentsService } from '@global-service/habit-comments/habit-comments.service';
 
 @NgModule({
   declarations: [
@@ -185,10 +188,11 @@ import { FriendshipButtonsComponent } from './components/profile/users-friends/f
     MatTabsModule,
     NgxPaginationModule,
     QuillModule.forRoot(),
-    FormsModule
+    FormsModule,
+    CommentsModule
   ],
   exports: [MatAutocompleteModule],
-  providers: [EditProfileFormBuilder]
+  providers: [EditProfileFormBuilder, { provide: CommentsService, useClass: HabitCommentsService }]
 })
 export class UserModule {}
 
