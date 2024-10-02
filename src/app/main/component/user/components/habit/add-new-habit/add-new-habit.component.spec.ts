@@ -51,7 +51,7 @@ describe('AddNewHabitComponent', () => {
     'setHabitStatus',
     'progressNotificationHasDisplayed',
     'assignHabit',
-    'updateHabit'
+    'updateHabitDuration'
   ]);
   fakeHabitAssignService.getHabitByAssignId = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.deleteHabitById = () => of();
@@ -59,13 +59,10 @@ describe('AddNewHabitComponent', () => {
   fakeHabitAssignService.setHabitStatus = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.progressNotificationHasDisplayed = () => of({});
   fakeHabitAssignService.assignHabit = () => of();
-  fakeHabitAssignService.updateHabit = () => of();
+  fakeHabitAssignService.updateHabitDuration = () => of();
 
-  const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService', [
-    'getHabitById',
-    'getHabitsByFilters',
-    'deleteCustomHabit'
-  ]);
+  const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService',
+    ['getHabitById', 'getHabitsByFilters', 'deleteCustomHabit']);
   fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
   fakeHabitService.getHabitsByFilters = () => of(HABITLIST);
   fakeHabitService.deleteCustomHabit = () => of(MOCK_CUSTOM_HABIT_RESPONSE);

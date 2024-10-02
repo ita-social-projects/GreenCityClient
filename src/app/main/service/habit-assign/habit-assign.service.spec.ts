@@ -10,11 +10,13 @@ import {
   CHANGES_FROM_CALENDAR,
   FRIENDSHABITPROGESS
 } from '@global-user/components/habit/mocks/habit-assigned-mock';
-import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
-import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
+
 import { HabitAssignInterface, UpdateHabitDuration } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HttpResponse } from '@angular/common/http';
+import {
+  HabitAssignCustomPropertiesDto
+} from '@global-models/goal/HabitAssignCustomPropertiesDto';
 
 describe('HabitService', () => {
   let service: HabitAssignService;
@@ -106,15 +108,19 @@ describe('HabitService', () => {
   });
 
   it('should assign custom habit', () => {
+    const HABIT_ASSIGN_CUSTOM: HabitAssignCustomPropertiesDto = {
+      friendsIdsList: [2, 3, 4],
+      habitAssignPropertiesDto: {
+        defaultShoppingListItems: [],
+        duration: 15,
+        isPrivate: true
+      },
+      customShoppingListItemList: [{ text: '1234567890' }]
+    };
+
     const spy = spyOn(service, 'assignCustomHabit');
     const habitId = 1;
-    const friendsIdsList = [2, 3, 4];
-    const habitAssignProperties: HabitAssignPropertiesDto = {
-      defaultShoppingListItems: [],
-      duration: 15
-    };
-    const customShoppingItemList: Array<CustomShoppingItem> = [{ text: '1234567890' }];
-    service.assignCustomHabit(habitId, friendsIdsList, habitAssignProperties, customShoppingItemList);
+    service.assignCustomHabit(habitId, HABIT_ASSIGN_CUSTOM);
     expect(spy).toHaveBeenCalled();
   });
 
@@ -142,27 +148,27 @@ describe('HabitService', () => {
     service.setCircleFromPopUpToProgress(changesFromCalendar);
   });
 
-  // it('should delete habit by id', () => {
-  //   const habitAssignId = HABITSASSIGNEDLIST[0].id;
-  //   const mockResponse = service;
-  //   service.deleteHabitById(habitAssignId).subscribe((response) => {
-  //     expect(response).toEqual(mockResponse);
-  //   });
-  //   const req = httpMock.expectOne(`${habitAssignLink}/delete/${habitAssignId}`);
-  //   expect(req.request.method).toBe('DELETE');
-  //   req.flush(mockResponse);
-  // });
-
   it('should update habit', () => {
     const habitAssignId = HABITSASSIGNEDLIST[0].id;
     const duration = 30;
-    const mockResponse = HABITSASSIGNEDLIST[0];
-    service.updateHabit(habitAssignId, duration).subscribe((response) => {
-      expect(response).toEqual(mockResponse);
+
+    const expectedResponse: UpdateHabitDuration = {
+      habitAssignId,
+      habitId: 123,
+      userId: 456,
+      status: HabitStatus.INPROGRESS,
+      workingDays: 10,
+      duration
+    };
+
+    service.updateHabitDuration(habitAssignId, duration).subscribe((response) => {
+      expect(response).toEqual(expectedResponse);
     });
+
     const req = httpMock.expectOne(`${habitAssignLink}/${habitAssignId}/update-habit-duration?duration=${duration}`);
     expect(req.request.method).toBe('PUT');
-    req.flush(mockResponse);
+
+    req.flush(expectedResponse);
   });
 
   it('should set habit status', () => {

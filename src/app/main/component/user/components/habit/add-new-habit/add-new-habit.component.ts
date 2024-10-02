@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { concatMap, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, of } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
@@ -20,9 +20,12 @@ import { HabitAcquireConfirm, HabitCongratulation, HabitGiveUp, HabitLeavePage }
 import { WarningDialog } from '@global-user/models/warning-dialog.inteface';
 import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
-import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '@user-models/shoppinglist.interface';
+import { AllShoppingLists, HabitUpdateShopList, ShoppingList } from '@user-models/shoppinglist.interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import {
+  HabitAssignCustomPropertiesDto,
+  HabitAssignPropertiesDto
+} from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { STAR_IMAGES } from '../const/data.const';
 import { HttpParams } from '@angular/common/http';
@@ -44,10 +47,11 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   newDuration = 7;
   initialDuration: number;
   habitAssignId: number;
+  habitId: number;
   userId: number;
   star: number;
   habitImage: string;
-  isCustom = false;
+  isCustomHabit = false;
   isEditing = false;
   canAcquire = false;
   isAcquired = false;
@@ -57,12 +61,12 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   images = singleNewsImages;
   stars = [STAR_IMAGES.WHITE, STAR_IMAGES.WHITE, STAR_IMAGES.WHITE];
   private enoughToAcquire = 80;
-  private isCustomHabit = false;
   private currentLang: string;
-  private habitId: number;
   private page = 0;
   private size = 3;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
+  scope = 'private';
+  isPrivate = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -79,12 +83,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     public userFriendsService: UserFriendsService
   ) {}
 
-  getHabitId(): number {
-    return this.habitId;
-  }
-
   ngOnInit() {
-    this.getUserId();
+    this.userId = this.localStorageService.getUserId();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.route.params.pipe(takeUntil(this.destroyed$)).subscribe((params) => {
@@ -117,7 +117,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   private checkIfAssigned(): void {
-    this.getUserId();
     if (this.isEditing && this.userId) {
       this.habitAssignService
         .getHabitByAssignId(this.habitAssignId, this.currentLang)
@@ -186,7 +185,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.initialDuration = customDuration || habit.defaultDuration;
     this.wasCustomHabitCreatedByUser = habit.usersIdWhoCreatedCustomHabit === this.userId;
     this.habitImage = this.habitResponse.image ? this.habitResponse.image : this.defaultImage;
-    this.isCustom = habit.isCustomHabit;
+    this.isCustomHabit = habit.isCustomHabit;
     this.getStars(habit.complexity);
     if (this.habitResponse.tags?.length) {
       this.getRecommendedHabits(this.page, this.size, [this.habitResponse.tags[0]]);
@@ -217,10 +216,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     } else {
       this.location.back();
     }
-  }
-
-  private getUserId() {
-    this.userId = this.localStorageService.getUserId();
   }
 
   getDuration(newDuration: number): void {
@@ -294,53 +289,33 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.router.navigate(['profile', this.userId]);
   }
 
-  addHabit(): void {
-    this.isCustomHabit ? this.assignCustomHabit() : this.assignStandardHabit();
-  }
-
-  private assignStandardHabit() {
-    const conditionForDurationUpdate = this.newDuration && this.newDuration !== this.initialDuration;
-    this.habitAssignService
-      .assignHabit(this.habitId)
-      .pipe(
-        take(1),
-        concatMap((res) => (conditionForDurationUpdate ? this.habitAssignService.updateHabitDuration(res.id, this.newDuration) : of([])))
-      )
-      .subscribe(() => {
-        this.afterHabitWasChanged('habitAdded');
-      });
-  }
-
-  private assignCustomHabit() {
+  assignCustomHabit(): void {
     this.friendsIdsList = this.userFriendsService.addedFriends?.map((friend) => friend.id);
-    const defaultItemsIds = this.standardShopList.filter((item) => item.selected === true).map((item) => item.id);
-    const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defaultItemsIds, duration: this.newDuration };
-    const customItemsList: CustomShoppingItem[] = this.customShopList.map((item) => ({
-      text: item.text
-    }));
+    const habitAssignPropertiesDto: HabitAssignPropertiesDto = {
+      defaultShoppingListItems: this.standardShopList.filter((item) => item.selected === true).map((item) => item.id),
+      duration: this.newDuration,
+      isPrivate: this.isPrivate
+    };
+    const body: HabitAssignCustomPropertiesDto = {
+      friendsIdsList: this.friendsIdsList,
+      habitAssignPropertiesDto,
+      customShoppingListItemList: this.customShopList.map((item) => ({ text: item.text }))
+    };
 
     this.habitAssignService
-      .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties, customItemsList)
-      .pipe(take(1))
-      .subscribe(() => {
+      .assignCustomHabit(this.habitId, body).pipe(take(1)).subscribe(() => {
         this.afterHabitWasChanged('habitAdded');
       });
   }
 
   updateHabit(): void {
     this.habitAssignService
-      .updateHabit(this.habitAssignId, this.newDuration)
+      .updateHabitDuration(this.habitAssignId, this.newDuration)
       .pipe(take(1))
       .subscribe(() => {
         if (this.customShopList || this.standardShopList) {
           this.convertShopLists();
-          const habitShopListUpdate = this.setHabitListForUpdate();
-          this.shopListService
-            .updateHabitShopList(habitShopListUpdate)
-            .pipe(take(1))
-            .subscribe(() => {
-              this.afterHabitWasChanged('habitUpdated');
-            });
+          this.shopListService.updateHabitShopList(this.setHabitListForUpdate());
         }
         this.afterHabitWasChanged('habitUpdated');
       });
@@ -427,5 +402,10 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.afterHabitWasChanged('habitAcquired');
       });
+  }
+
+  onChange(): void {
+    this.isPrivate = this.scope === 'private';
+    this.scope = this.isPrivate ? 'public' : 'private';
   }
 }
