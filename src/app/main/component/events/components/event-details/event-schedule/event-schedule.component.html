@@ -14,7 +14,10 @@
         <div class="event-location-icon">
           <img [src]="icons.location" alt="" />
         </div>
-        <div>{{ day.coordinates?.latitude && getAddress(day.coordinates) }}</div>
+        <div *ngIf="day.coordinates.streetEn">{{ getAddress(day.coordinates) }}</div>
+        <a *ngIf="!day.coordinates.streetEn && day.coordinates.longitude" href="{{ getAddress(day.coordinates) }}">{{
+          getAddress(day.coordinates)
+        }}</a>
       </div>
       <div class="event-link" *ngIf="day.onlineLink">
         <div class="event-link-icon">

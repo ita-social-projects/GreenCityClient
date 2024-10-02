@@ -54,7 +54,7 @@ xdescribe('UserNotificationService', () => {
 
   it('should return getThreeNewNotification', () => {
     service.getThreeNewNotification().subscribe((res) => {
-      expect(res.length).toBe(1);
+      expect(res.page.length).toBe(1);
     });
     const req = httpMock.expectOne(`${service.url}notification/new`);
     expect(req.request.method).toBe('GET');

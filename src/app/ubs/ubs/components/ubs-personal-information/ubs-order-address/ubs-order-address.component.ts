@@ -3,8 +3,8 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { Subject, combineLatest } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { CAddressData } from '@ubs/ubs/models/ubs.model';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { DeleteAddress, GetAddresses, SetAddress, UpdateAddress } from 'src/app/store/actions/order.actions';
 import {
@@ -16,6 +16,7 @@ import {
 import { IAddressExportDetails, IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
 import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 import { AddressValidator } from 'src/app/ubs/ubs/validators/address-validators';
+import { of, switchMap, Subject, combineLatest, from, filter, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-order-address',
@@ -31,21 +32,25 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   maxAddressLength = 4;
   $isAddressLoading = this.store.pipe(select(isAddressLoadingSelector));
   private $destroy: Subject<void> = new Subject<void>();
+  private addressData: CAddressData;
 
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private addressValidator: AddressValidator,
-    private store: Store
+    private readonly addressValidator: AddressValidator,
+    private readonly store: Store,
+    private readonly languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
+    this.addressData = new CAddressData(this.languageService);
+
     this.store.dispatch(GetAddresses());
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       params.existingOrderId ? this.initListenersForExistingOrder() : this.initListenersForNewOrder();
     });
 
-    this.addressComment.disable();
+    !this.selectedAddress && this.addressComment.disable();
   }
 
   initListenersForNewOrder(): void {
@@ -118,12 +123,35 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
     address && this.isAddressAvailable(address) ? this.setCurrentAddress(address) : this.initLocation();
   }
 
-  setCurrentAddress(address): void {
-    this.selectedAddress = address;
-    this.addressComment.patchValue(address?.addressComment ?? '');
-    this.store.dispatch(SetAddress({ address }));
+  setCurrentAddress(address: Address): void {
+    if (!address) {
+      return;
+    }
+    const clonedAddress = { ...address };
+    of(clonedAddress)
+      .pipe(
+        switchMap((clonedAddress) => {
+          if (!clonedAddress.placeId) {
+            const latLng = new google.maps.LatLng(clonedAddress.coordinates.latitude, clonedAddress.coordinates.longitude);
+            return from(this.addressData.getAddressPlaceId(latLng)).pipe(
+              switchMap((placeId: string) => {
+                clonedAddress.placeId = placeId;
+                return of(clonedAddress);
+              })
+            );
+          } else {
+            return of(clonedAddress);
+          }
+        })
+      )
+      .subscribe((clonedAddress) => {
+        this.selectedAddress = clonedAddress;
 
-    address ? this.addressComment.enable() : this.addressComment.disable();
+        this.addressComment.patchValue(clonedAddress?.addressComment ?? '');
+        this.store.dispatch(SetAddress({ address: clonedAddress }));
+
+        clonedAddress ? this.addressComment.enable() : this.addressComment.disable();
+      });
   }
 
   isAddressAvailable(address: Address): boolean {
@@ -135,8 +163,14 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   }
 
   changeAddressComment(): void {
+    const updatedAddress = {
+      ...this.selectedAddress,
+      addressComment: this.addressComment.value
+    };
+
     if (this.addressComment.value !== this.selectedAddress.addressComment) {
-      this.store.dispatch(UpdateAddress({ address: { ...this.selectedAddress, addressComment: this.addressComment.value } }));
+      this.store.dispatch(UpdateAddress({ address: updatedAddress }));
+      this.selectedAddress = updatedAddress;
     }
   }
 

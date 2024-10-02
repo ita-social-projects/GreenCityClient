@@ -13,8 +13,7 @@ import {
   UpdateHabitDuration,
   FriendsHabitProgress
 } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
-import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
-import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
+import { HabitAssignCustomPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 
 @Injectable({
@@ -56,22 +55,8 @@ export class HabitAssignService implements OnDestroy {
     return this.http.post<ResponseInterface>(`${habitAssignLink}/${habitId}`, null);
   }
 
-  assignCustomHabit(
-    habitId: number,
-    friendsIdsList: Array<number>,
-    habitAssignProperties: HabitAssignPropertiesDto,
-    customShoppingListItemList?: Array<CustomShoppingItem>
-  ): Observable<HabitAssignCustomPropertiesDto> {
-    const body: HabitAssignCustomPropertiesDto = {
-      friendsIdsList,
-      habitAssignPropertiesDto: habitAssignProperties,
-      customShoppingListItemList
-    };
+  assignCustomHabit(habitId: number, body: HabitAssignCustomPropertiesDto): Observable<HabitAssignCustomPropertiesDto> {
     return this.http.post<HabitAssignCustomPropertiesDto>(`${habitAssignLink}/${habitId}/custom`, body);
-  }
-
-  updateHabit(habitAssignId: number, duration: number): Observable<HabitAssignInterface> {
-    return this.http.put<HabitAssignInterface>(`${habitAssignLink}/${habitAssignId}/update-habit-duration?duration=${duration}`, {});
   }
 
   enrollByHabit(habitAssignId: number, date: string): Observable<HabitAssignInterface> {
@@ -88,8 +73,7 @@ export class HabitAssignService implements OnDestroy {
   }
 
   setHabitStatus(habitId: number, status: HabitStatus): Observable<HabitAssignInterface> {
-    const body = { status };
-    return this.http.patch<HabitAssignInterface>(`${habitAssignLink}/${habitId}`, body);
+    return this.http.patch<HabitAssignInterface>(`${habitAssignLink}/${habitId}`, { status });
   }
 
   deleteHabitById(habitAssignId: number): Observable<void> {

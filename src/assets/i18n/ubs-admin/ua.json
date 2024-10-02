@@ -383,7 +383,8 @@
     "placeholder": "Пошук по імені або контактах",
     "no-orders-found": "За даними критеріями замовлень не знайдено",
     "default-reset": "Вирівнювання",
-    "orders-number": "Кількість замовлень"
+    "orders-number": "Кількість замовлень",
+    "search": "Пошук"
   },
   "ubs-customer-filters": {
     "total-customers": "Кількість користувачів:",

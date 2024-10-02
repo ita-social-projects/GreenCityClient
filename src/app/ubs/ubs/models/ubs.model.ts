@@ -254,6 +254,19 @@ export class CAddressData {
     this.placeIdChange.next(this.placeId);
   }
 
+  async getAddressPlaceId(coordinates: google.maps.LatLng): Promise<string> {
+    return new google.maps.Geocoder()
+      .geocode({ location: coordinates })
+      .then((response) => {
+        const place_id = response.results[0]?.place_id;
+        return place_id || '';
+      })
+      .catch((error) => {
+        console.error('Geocoding failed:', error);
+        return '';
+      });
+  }
+
   //Tries to fetch address by selected coordinates
   private fetchAddress(coordinates: google.maps.LatLng) {
     new google.maps.Geocoder().geocode({ location: coordinates }).then((response) => {

@@ -9,7 +9,16 @@
   </div>
 
   <ng-container *ngIf="!data.isDateFilter; else date">
-    <li *ngFor="let option of getOptionsForFiltering()" class="positioing">
+    <input
+      *ngIf="isLocationColumn"
+      type="text"
+      class="search-input"
+      placeholder="{{ 'ubs-tables.search' | translate }}"
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearchTermChange()"
+    />
+
+    <li *ngFor="let option of displayedOptionsForFiltering" class="positioing">
       <mat-checkbox [checked]="isChecked(data.columnName, option)" (change)="onFilterChange($event?.checked, data.columnName, option)">
         {{ option | serverTranslate: data.currentLang }}
       </mat-checkbox>

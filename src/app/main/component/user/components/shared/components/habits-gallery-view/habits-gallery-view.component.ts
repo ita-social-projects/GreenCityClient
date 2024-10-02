@@ -21,8 +21,6 @@ export class HabitsGalleryViewComponent implements OnInit {
   calendarGreen = habitImages.calendarGreen;
   man = habitImages.man;
   stars = [this.whiteStar, this.whiteStar, this.whiteStar];
-  star: number;
-
   private userId: number;
 
   constructor(
@@ -51,21 +49,8 @@ export class HabitsGalleryViewComponent implements OnInit {
     });
   }
 
-  addHabit(): void {
-    this.habit.isCustomHabit ? this.assignCustomHabit() : this.assignStandardHabit();
-  }
-
-  private assignStandardHabit(): void {
+  assignStandardHabit(): void {
     this.assignHabit(() => this.habitAssignService.assignHabit(this.habit.id));
-  }
-
-  private assignCustomHabit(): void {
-    this.assignHabit(() =>
-      this.habitAssignService.assignCustomHabit(this.habit.id, [], {
-        defaultShoppingListItems: [],
-        duration: this.habit.defaultDuration
-      })
-    );
   }
 
   private assignHabit<T>(assignHabit: () => Observable<T>): void {

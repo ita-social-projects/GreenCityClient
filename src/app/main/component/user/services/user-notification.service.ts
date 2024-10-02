@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NotificationArrayModel, NotificationModel } from '@global-user/models/notification.model';
+import { NotificationArrayModel } from '@global-user/models/notification.model';
 import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
 
@@ -13,27 +13,37 @@ export class UserNotificationService {
 
   constructor(private http: HttpClient) {}
 
-  getAllNotifications(page = 0, size = this.size, filters?, viewed = false): Observable<NotificationArrayModel> {
-    const projectsString = filters.projectName.map((el) => 'project-name=' + el);
-    const typesString = filters.notificationType.map((el) => 'notification-types=' + el);
-    const filtersStringsArr = [...projectsString, ...typesString];
-    const filtersString = filtersStringsArr.join('&') + (filtersStringsArr.length ? '&' : '');
-    return this.http.get<NotificationArrayModel>(`${this.url}notifications?${filtersString}page=${page}&size=${size}&viewed=${viewed}`);
+  getAllNotifications(page: number = 0, size: number = this.size, filters?: any, viewed = false): Observable<NotificationArrayModel> {
+    let params = new HttpParams().set('page', page.toString()).set('size', size.toString()).set('viewed', viewed.toString());
+
+    if (filters && filters.projectName) {
+      filters.projectName.forEach((project: string) => {
+        params = params.append('project-name', project);
+      });
+    }
+
+    if (filters && filters.notificationType) {
+      filters.notificationType.forEach((type: string) => {
+        params = params.append('notification-types', type);
+      });
+    }
+
+    return this.http.get<NotificationArrayModel>(`${this.url}notifications`, { params });
   }
 
-  getThreeNewNotification(): Observable<NotificationModel[]> {
-    return this.http.get<NotificationModel[]>(`${this.url}notifications?page=0&size=3&viewed=false`);
+  getThreeNewNotification(): Observable<NotificationArrayModel> {
+    return this.http.get<NotificationArrayModel>(`${this.url}notifications?page=0&size=3&viewed=false`);
   }
 
-  readNotification(id: number): Observable<object> {
-    return this.http.post<object>(`${this.url}notifications/${id}/viewNotification`, {});
+  readNotification(id: number): Observable<void> {
+    return this.http.post<void>(`${this.url}notifications/${id}/viewNotification`, {});
   }
 
-  unReadNotification(id: number): Observable<object> {
-    return this.http.post<object>(`${this.url}notifications/${id}/unreadNotification`, {});
+  unReadNotification(id: number): Observable<void> {
+    return this.http.post<void>(`${this.url}notifications/${id}/unreadNotification`, {});
   }
 
-  deleteNotification(id: number): Observable<object> {
-    return this.http.delete<object>(`${this.url}notifications/${id}`);
+  deleteNotification(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.url}notifications/${id}`);
   }
 }
