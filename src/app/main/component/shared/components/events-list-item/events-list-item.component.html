@@ -73,7 +73,7 @@
           'primary-global-button': btnName.join === nameBtn
         }"
         (click)="buttonAction(nameBtn)"
-        [disabled]="nameBtn === btnName.requestSent"
+        [disabled]="nameBtn === btnName.requestSent || isDateExpired(event.dates)"
       >
         {{ nameBtn | translate }}
       </button>
