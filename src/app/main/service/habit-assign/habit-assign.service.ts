@@ -6,7 +6,12 @@ import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitAssignLink } from '../../links';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
-import { HabitAssignInterface, ResponseInterface, ChangesFromCalendarToProgress, UpdateHabitDuration, FriendsHabitProgress
+import {
+  HabitAssignInterface,
+  ResponseInterface,
+  ChangesFromCalendarToProgress,
+  UpdateHabitDuration,
+  FriendsHabitProgress
 } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitAssignCustomPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
@@ -50,8 +55,7 @@ export class HabitAssignService implements OnDestroy {
     return this.http.post<ResponseInterface>(`${habitAssignLink}/${habitId}`, null);
   }
 
-  assignCustomHabit(
-    habitId: number, body: HabitAssignCustomPropertiesDto): Observable<HabitAssignCustomPropertiesDto> {
+  assignCustomHabit(habitId: number, body: HabitAssignCustomPropertiesDto): Observable<HabitAssignCustomPropertiesDto> {
     return this.http.post<HabitAssignCustomPropertiesDto>(`${habitAssignLink}/${habitId}/custom`, body);
   }
 

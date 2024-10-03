@@ -61,8 +61,11 @@ describe('AddNewHabitComponent', () => {
   fakeHabitAssignService.assignHabit = () => of();
   fakeHabitAssignService.updateHabitDuration = () => of();
 
-  const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService',
-    ['getHabitById', 'getHabitsByFilters', 'deleteCustomHabit']);
+  const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService', [
+    'getHabitById',
+    'getHabitsByFilters',
+    'deleteCustomHabit'
+  ]);
   fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
   fakeHabitService.getHabitsByFilters = () => of(HABITLIST);
   fakeHabitService.deleteCustomHabit = () => of(MOCK_CUSTOM_HABIT_RESPONSE);

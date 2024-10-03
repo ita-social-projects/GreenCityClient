@@ -107,6 +107,7 @@
     "recipient": "Personal data",
     "export-address": "The address of export of the ordered services",
     "store-delivery": "Delivery from the Eco store",
+    "order-number": "Your order number:",
     "order-numbers": "Your order numbers:",
     "comment-error": "You can't enter more than 255 characters.",
     "order-error": "The number was entered incorrectly.  Please try again.",

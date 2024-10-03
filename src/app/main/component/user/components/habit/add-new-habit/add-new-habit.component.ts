@@ -22,10 +22,7 @@ import { HabitAssignInterface } from '../models/interfaces/habit-assign.interfac
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
 import { AllShoppingLists, HabitUpdateShopList, ShoppingList } from '@user-models/shoppinglist.interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import {
-  HabitAssignCustomPropertiesDto,
-  HabitAssignPropertiesDto
-} from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { STAR_IMAGES } from '../const/data.const';
 import { HttpParams } from '@angular/common/http';
@@ -303,7 +300,9 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     };
 
     this.habitAssignService
-      .assignCustomHabit(this.habitId, body).pipe(take(1)).subscribe(() => {
+      .assignCustomHabit(this.habitId, body)
+      .pipe(take(1))
+      .subscribe(() => {
         this.afterHabitWasChanged('habitAdded');
       });
   }

@@ -14,9 +14,7 @@ import {
 import { HabitAssignInterface, UpdateHabitDuration } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HttpResponse } from '@angular/common/http';
-import {
-  HabitAssignCustomPropertiesDto
-} from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { HabitAssignCustomPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 
 describe('HabitService', () => {
   let service: HabitAssignService;
