@@ -106,7 +106,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
         value.forEach((item) => {
           params = params.append(key, item);
         });
-      } else if (value !== undefined && value !== null) {
+      } else if (value) {
         params = params.set(key, value.toString());
       }
     });
