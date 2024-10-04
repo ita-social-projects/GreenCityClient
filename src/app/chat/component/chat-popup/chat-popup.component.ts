@@ -15,6 +15,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 
 import { Role } from '@global-models/user/roles.model';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat-popup',
@@ -49,7 +50,8 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private localStorageService: LocalStorageService,
     private jwt: JwtService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +69,20 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
         this.commonService.newMessageWindowRequireCloseStream$.next(true);
       }
     });
+
+    this.route.queryParams.subscribe((params) => {
+      const paramValue = params['isChatOpen'];
+      if (paramValue) {
+        if (!this.userId) {
+          this.localStorageService.setIsChatOpen(paramValue);
+        }
+        this.handlePanelClick();
+      } else if (this.localStorageService.getIsChatOpen()) {
+        this.handlePanelClick();
+        this.localStorageService.removeIsChatOpen();
+      }
+    });
+
     this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());
   }
 
