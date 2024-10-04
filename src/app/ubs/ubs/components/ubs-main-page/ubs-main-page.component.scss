@@ -612,11 +612,12 @@ section .main-container {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      align-items: stretch;
       margin-top: 140px;
 
       .time-frame {
-        @include height-and-width(160px, 45%);
-
+        width: 33%;
+        min-height: min-content;
         max-width: 850px;
         background-color: var(--ubs-primary-white);
         border: 1px solid var(--ubs-quaternary-dark-green);
@@ -633,6 +634,7 @@ section .main-container {
           margin: 20px 0 25px 0;
           font-size: 40px;
           line-height: 49px;
+          width: 100%;
         }
 
         .content-time {
@@ -905,8 +907,8 @@ section .main-container {
           .time-frame {
             justify-content: space-between;
             padding: 32px 38px;
-            width: 552px;
-            height: 139px;
+            width: 33%;
+            min-height: 139px;
 
             h2 {
               margin: 0 0 20px 0;
@@ -1200,9 +1202,9 @@ section .main-container {
           .time-frame {
             justify-content: space-between;
             padding: 32px 38px;
-            min-width: 464px;
+            min-width: 30%;
             max-width: 552px;
-            height: 139px;
+            min-height: 139px;
 
             h2 {
               margin: 0 0 20px 0;
@@ -1511,10 +1513,10 @@ section .main-container {
 
           .time-frame {
             padding: 24px 8px 8px 24px;
-            width: 48%;
-            min-width: 344px;
+            width: 33%;
+            min-width: 30%;
             max-width: 464px;
-            height: 105px;
+            min-height: 105px;
 
             h2 {
               margin: 0;
@@ -1765,9 +1767,9 @@ section .main-container {
 
           .time-frame {
             padding: 16px;
-            width: 44%;
-            min-width: 254px;
-            height: 73px;
+            width: 33%;
+            min-width: 30%;
+            min-height: 73px;
             border-radius: 10px;
             text-align: left;
 

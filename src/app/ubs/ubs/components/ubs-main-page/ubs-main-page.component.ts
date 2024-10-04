@@ -95,6 +95,10 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       content: 'ubs-homepage.ubs-courier.how-works.time.pre_1'
     },
     {
+      header: 'ubs-homepage.ubs-courier.how-works.header.pre_3',
+      content: 'ubs-homepage.ubs-courier.how-works.time.pre_3'
+    },
+    {
       header: 'ubs-homepage.ubs-courier.how-works.header.pre_2',
       content: 'ubs-homepage.ubs-courier.how-works.time.pre_2'
     }
