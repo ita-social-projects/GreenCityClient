@@ -20,6 +20,7 @@
     margin-top: -28px;
     margin-bottom: 64px;
     overflow: hidden;
+    background-color: var(--primary-white);
 
     button {
       padding: 8px 14px;
@@ -100,9 +101,9 @@
   }
 
   .image {
-    width: 130%;
+    width: 90%;
     height: auto;
-    margin: 55px auto;
+    margin: 0 auto 55px;
   }
 
   .p-40 {
@@ -136,7 +137,7 @@
 @media screen and (max-width: 768px) {
   .wraper {
     .image {
-      width: 112%;
+      width: 100%;
     }
 
     .order {
