@@ -48,7 +48,6 @@
   "order-details": {
     "location": {
       "title": "Welcome to UBS! First, choose the location of waste disposal. Currently, we work in Kyiv and the suburbs.",
-      "info-city": "The location of Kyiv also includes Hatne, Horenka, Zazymie, Irpin, Kniazhychi, Kotsiubynske, Novosilky, Petropavlivska Borshchahivka, Pohreby, Prolisky, Sofiivska Borshchahivka, Chaiky, and Shchaslyve.",
       "info-region": "Currently, the Kyiv region includes cities within 20 km of Kyiv",
       "btn": {
         "back": "Back",
@@ -308,7 +307,6 @@
         "item_1": "When ordering the service, indicate that you plan to give the courier free extrapositions, and indicate their number.",
         "item_2": "Fold each type of packaging separately. A mix of these wastes in one bag/box will not be picked up by the courier. Tie each bag tightly."
       },
-
       "minimum-volume": {
         "title": "Minimum volume for export:",
         "li_1": "2 packages of 120 l in Kyiv ",
@@ -488,7 +486,6 @@
     "management": "Management",
     "my-profile": "My profile"
   },
-
   "footer": {
     "station": "Station",
     "address": "Saperno-Slobidska St, 25, Kyiv, Ukraine",
