@@ -72,7 +72,6 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
 
     this.route.queryParams.subscribe((params) => {
       const paramValue = params.isChatOpen;
-      console.log(paramValue);
       if (paramValue === 'true') {
         if (!this.userId) {
           this.localStorageService.setIsChatOpen(paramValue);
