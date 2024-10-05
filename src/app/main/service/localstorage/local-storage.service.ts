@@ -31,8 +31,9 @@ export class LocalStorageService {
     localStorage.setItem(this.CHAT_OPEN, JSON.stringify(value));
   }
 
-  public getIsChatOpen(): boolean | null {
-    return JSON.parse(localStorage.getItem(this.CHAT_OPEN));
+  public getIsChatOpen(): boolean {
+    const value = localStorage.getItem(this.CHAT_OPEN);
+    return value === null ? false : JSON.parse(value);
   }
 
   public removeIsChatOpen(): void {
