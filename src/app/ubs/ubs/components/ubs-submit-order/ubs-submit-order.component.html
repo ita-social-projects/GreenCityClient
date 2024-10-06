@@ -119,14 +119,14 @@
       </div>
       <hr />
       <div class="order-info payment">
-        <h2 class="payment-title">Оплата</h2>
-        <p class="choose-payment">Ви можете здійснити оплату одним з вибраних способів нижче.</p>
+        <h2 class="payment-title">{{ 'order-form.payment' | translate }}</h2>
+        <p class="choose-payment">{{ 'order-details.choose-payment' | translate }}</p>
         <form class="payment-group" [formGroup]="paymentForm">
-          <label class="choose-payment-chooser" for="payment-select">Оберіть спосіб оплати</label>
+          <label class="choose-payment-chooser" for="payment-select">{{ 'order-details.choose-payment-type' | translate }}</label>
           <mat-form-field appearance="outline" class="payment-field" id="payment-system">
             <mat-select class="select" formControlName="paymentSystem" id="payment-select">
               <mat-option *ngFor="let type of paymentSystemOptions" [value]="type">
-                {{ 'Карткою через ' + convertPaymentSystem[type] }}
+                {{ 'order-details.payment-card' | translate }} {{ convertPaymentSystem[type] }}
               </mat-option>
             </mat-select>
           </mat-form-field>
