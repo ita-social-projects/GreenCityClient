@@ -139,6 +139,12 @@ input:disabled {
   margin: 12px 0 0 28px;
 }
 
+.add-address-btn {
+  background-color: transparent;
+  border: none;
+  color: var(--ubs-dark-purple);
+}
+
 .edit-address {
   height: 100%;
   margin: 14px 3px 5px 10px;
@@ -158,26 +164,38 @@ input:disabled {
   font-size: 0.8rem;
 }
 
-.checkmark {
-  position: absolute;
-  top: 5px;
-  left: 4px;
-  height: 16px;
-  width: 16px;
-  background-color: var(--ubs-primary-white);
-  border-radius: 50%;
-  border: 1px solid var(--ubs-quaternary-dark-grey);
+.address-position {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 8px;
 
-  &::after {
-    content: '';
-    position: absolute;
-    display: none;
+  .custom-radio {
+    .custom-radio-button {
+      padding: 0;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--ubs-quaternary-dark-grey);
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+      outline: none;
+      transition: background-color 0.3s ease;
+
+      &:checked::before {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: var(--ubs-quaternary-dark-grey);
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
   }
-}
-
-.custom-radio input[name='address'] {
-  accent-color: var(--ubs-quaternary-dark-grey);
-  margin-top: 14px;
 }
 
 .adress-position {

@@ -13,11 +13,11 @@
     </div>
 
     <div class="w-50 d-flex mt-2 mb-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let address of addresses">
-      <label class="adress-position" [for]="'address' + address.id">
+      <label class="address-position" [for]="'address' + address.id">
         <div class="custom-radio d-flex">
           <input
             [id]="'address' + address.id"
-            class="checkmark"
+            class="custom-radio-button"
             name="addressId"
             type="radio"
             [value]="address"
@@ -28,7 +28,7 @@
             [address]="address"
           />
         </div>
-        <app-address [address]="address" class="col-md-6"></app-address>
+        <app-address [address]="address" class=""></app-address>
       </label>
       <div class="edit-address" (click)="editAddress(address.id)">
         <img src="assets/img/comments/edit.png" alt="edit" />
@@ -42,13 +42,7 @@
       <div *ngIf="!selectedAddress && addresses?.length" class="validate-address">
         {{ 'personal-info.no-any-address-for-current-tariff' | translate }}
       </div>
-      <button
-        type="button"
-        class="ubs-link-global-button s-link"
-        mat-raised-button
-        (click)="addNewAddress()"
-        [disabled]="addresses.length >= maxAddressLength"
-      >
+      <button type="button" class="s-link add-address-btn" (click)="addNewAddress()" [disabled]="addresses.length >= maxAddressLength">
         {{ (!addresses.length ? 'personal-info.info-add-address' : 'personal-info.info-add-new-address') | translate }}
       </button>
     </div>
