@@ -20,6 +20,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
+import { googleProvider } from './GoogleOAuthProvider/GoogleOAuthProvider';
 
 declare var google: any;
 @Component({
@@ -127,22 +128,32 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
       );
   }
 
-  public signInWithGoogle(): void {
+  public signInWithGooglePopup(): void {
     const gAccounts: accounts = google.accounts;
     gAccounts.id.initialize({
       client_id: environment.googleClientId,
       ux_mode: 'popup',
       cancel_on_tap_outside: true,
-      callback: this.handleGgOneTap.bind(this)
+      callback: (resp) => this.handleGoogleAuth(resp.credential)
     });
-    gAccounts.id.prompt(() => {
-      document.cookie = `g_state=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT`;
-    });
+    gAccounts.id.prompt();
   }
 
-  public handleGgOneTap(resp): void {
+  public signInWithGoogle(): void {
+    const login = googleProvider.useGoogleLogin({
+      flow: 'implicit',
+      onSuccess: (res) => {
+        console.log(res);
+        this.handleGoogleAuth(res.access_token);
+      },
+      onError: (err) => console.error('Failed to login with google redirect', err)
+    });
+    login();
+  }
+
+  public handleGoogleAuth(resp): void {
     this.googleService
-      .signIn(resp.credential)
+      .signIn(resp)
       .pipe(takeUntil(this.destroy))
       .subscribe((signInData: UserSuccessSignIn) => {
         this.onSignInWithGoogleSuccess(signInData);
