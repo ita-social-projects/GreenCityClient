@@ -35,6 +35,7 @@
 
   &__achievements-amount {
     color: var(--secondary-dark-green);
+    display: flex;
   }
 }
 
@@ -85,6 +86,19 @@
   &__list li {
     flex: 1 0 50%;
   }
+}
+
+.svg-color {
+  width: 24px;
+  height: 24px;
+  filter: invert(40%) sepia(100%) saturate(1000%) hue-rotate(100deg);
+}
+
+.svg-mask {
+  width: 24px;
+  height: 24px;
+  background-color: #056b33;
+  mask-image: url('/assets/img/sidebarIcons/achievement_icon.svg');
 }
 
 @include responsivePCFirst(sm) {

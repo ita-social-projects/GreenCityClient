@@ -12,7 +12,8 @@
       <div class="user__data">
         <div class="user__name">{{ userInfo.name }}</div>
         <div class="user__achievements-amount">
-          <img src="/assets/img/sidebarIcons/achievement_icon.svg" alt="achievement" />
+          <div class="svg-mask" aria-label="achievement"></div>
+
           {{ achievedAmountToShow }}
           /
           {{ totalAmountToShow }}

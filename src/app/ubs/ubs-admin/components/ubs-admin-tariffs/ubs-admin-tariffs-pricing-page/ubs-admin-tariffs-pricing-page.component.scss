@@ -148,6 +148,15 @@ h4 {
   }
 }
 
+.chackbox-min-set {
+  margin-left: -8px;
+
+  span {
+    color: var(--ubs-primary-grey);
+    margin: 0;
+  }
+}
+
 .sum-input,
 .bags-input {
   margin-top: 15px;
