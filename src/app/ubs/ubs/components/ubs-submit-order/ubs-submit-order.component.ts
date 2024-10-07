@@ -139,7 +139,13 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     matDialogRef
       .afterClosed()
       .pipe(take(1))
-      .subscribe((isSave) => (isSave ? this.processOrder(false) : this.redirectToMainPage()));
+      .subscribe((isSave) => {
+        if (isSave === true) {
+          this.processOrder(false);
+        } else if (isSave === false) {
+          this.redirectToMainPage();
+        }
+      });
   }
 
   private processWayForPay(response: IProcessOrderResponse): void {
