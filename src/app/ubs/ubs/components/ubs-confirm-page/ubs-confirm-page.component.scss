@@ -40,7 +40,6 @@
       color: var(--ubs-quaternary-dark-grey);
       background: none;
       font-size: 14px;
-      text-decoration: underline;
       margin-left: -40px;
     }
 
@@ -101,9 +100,9 @@
   }
 
   .image {
-    width: 90%;
+    width: 77%;
     height: auto;
-    margin: 0 auto 55px;
+    margin: 50px auto 0;
   }
 
   .p-40 {
@@ -114,7 +113,6 @@
 
   .link {
     color: var(--ubs-electric-violet);
-    text-decoration: underline;
   }
 }
 
