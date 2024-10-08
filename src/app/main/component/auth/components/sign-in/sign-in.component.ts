@@ -143,7 +143,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     const login = googleProvider.useGoogleLogin({
       flow: 'implicit',
       onSuccess: (res) => {
-        console.log(res);
         this.handleGoogleAuth(res.access_token);
       },
       onError: (err) => console.error('Failed to login with google redirect', err)
