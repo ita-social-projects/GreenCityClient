@@ -25,9 +25,9 @@ switch (currentEnvironment) {
 
 require('dotenv').config({ path: envPath });
 
-console.debug(`Environment: ${currentEnvironment}`);
-console.debug(`Target path: ${targetPath}`);
-console.debug(`.env file path: ${envPath}`);
+console.log(`Environment: ${currentEnvironment}`);
+console.log(`Target path: ${targetPath}`);
+console.log(`.env file path: ${envPath}`);
 
 /**
  * Create the environment.ts file if it doesn't exist
