@@ -7,6 +7,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { distinctUntilChanged, filter, map, take, takeUntil } from 'rxjs';
 import { ChatsService } from './chat/service/chats/chats.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { environment } from '@environment/environment';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit {
   offline: boolean;
 
   ngOnInit(): void {
+    console.debug('DELETE! Google client ID', environment.googleClientId);
     this.onNetworkStatusChange();
     window.addEventListener('online', this.onNetworkStatusChange.bind(this));
     window.addEventListener('offline', this.onNetworkStatusChange.bind(this));
