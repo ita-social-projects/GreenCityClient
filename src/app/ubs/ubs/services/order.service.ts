@@ -161,7 +161,6 @@ export class OrderService {
   }
 
   getInfoAboutTariff(courierId: number, locationId: number): Observable<AllLocationsDtos> {
-    console.log(courierId);
     return this.http.get<AllLocationsDtos>(`${this.url}/tariffinfo/${locationId}?courierId=${courierId}`);
   }
 
