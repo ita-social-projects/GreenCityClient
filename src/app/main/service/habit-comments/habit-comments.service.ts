@@ -15,7 +15,7 @@ export class HabitCommentsService implements CommentsService {
 
   constructor(private http: HttpClient) {}
 
-  addComment(habitId: number, text: string, parentCommentId = 0, images: File[] = []): Observable<AddedCommentDTO> {
+  addComment(habitId: number, text: string, parentCommentId = 0): Observable<AddedCommentDTO> {
     const formData = new FormData();
     const requestPayload = {
       text: text,
@@ -23,12 +23,6 @@ export class HabitCommentsService implements CommentsService {
     };
 
     formData.append('request', JSON.stringify(requestPayload));
-
-    if (images && images.length > 0) {
-      images.forEach((image, index) => {
-        formData.append(`images[${index}]`, image);
-      });
-    }
 
     return this.http.post<HabitAddedCommentDTO>(`${this.backEnd}habits/${habitId}/comments`, formData);
   }
