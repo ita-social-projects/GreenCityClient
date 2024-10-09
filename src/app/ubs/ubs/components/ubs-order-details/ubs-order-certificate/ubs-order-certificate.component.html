@@ -14,7 +14,7 @@
       [imask]="certificateMask"
       [formControlName]="i"
       [readonly]="certificates[i]"
-      (keydown.enter)="onActivateCertififcate(i)"
+      (keydown.enter)="$event.preventDefault(); onActivateCertififcate(i)"
     />
     <div class="form-group">
       <button
