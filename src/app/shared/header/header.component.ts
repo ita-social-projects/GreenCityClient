@@ -7,7 +7,6 @@ import { filter, takeUntil, takeWhile } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from '@global-service/user/user.service';
-import { AchievementService } from '@global-service/achievement/achievement.service';
 import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
 import { SearchService } from '@global-service/search/search.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
@@ -71,7 +70,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private jwtService: JwtService;
   private router: Router;
   private userService: UserService;
-  private achievementService: AchievementService;
   private habitStatisticService: HabitStatisticService;
   private languageService: LanguageService;
   private searchSearch: SearchService;
@@ -90,7 +88,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.jwtService = injector.get(JwtService);
     this.router = injector.get(Router);
     this.userService = injector.get(UserService);
-    this.achievementService = injector.get(AchievementService);
     this.habitStatisticService = injector.get(HabitStatisticService);
     this.languageService = injector.get(LanguageService);
     this.searchSearch = injector.get(SearchService);
@@ -399,7 +396,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.userOwnAuthService.isLoginUserSubject.next(false);
       this.localeStorageService.clear();
       this.habitStatisticService.onLogout();
-      this.achievementService.onLogout();
       this.orderService.cancelUBSwithoutSaving();
       this.userOwnAuthService.getDataFromLocalStorage();
     });

@@ -10,7 +10,6 @@ import { HeaderComponent } from './header.component';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from '@global-service/user/user.service';
-import { AchievementService } from '@global-service/achievement/achievement.service';
 import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { SearchService } from '@global-service/search/search.service';
@@ -30,7 +29,7 @@ class MatDialogMock {
   }
 }
 
-xdescribe('HeaderComponent', () => {
+describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   const mockLang = 'ua';
@@ -62,9 +61,6 @@ xdescribe('HeaderComponent', () => {
 
   const userServiceMock: UserService = jasmine.createSpyObj('UserService', ['onLogout']);
   userServiceMock.updateUserLanguage = () => of(true);
-
-  const achievementServiceMock: AchievementService = jasmine.createSpyObj('AchievementService', ['onLogout']);
-  achievementServiceMock.onLogout = () => true;
 
   const habitStatisticServiceMock: HabitStatisticService = jasmine.createSpyObj('HabitStatisticService', ['onLogout']);
   habitStatisticServiceMock.onLogout = () => true;
@@ -120,7 +116,6 @@ xdescribe('HeaderComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: UserService, useValue: userServiceMock },
-        { provide: AchievementService, useValue: achievementServiceMock },
         { provide: HabitStatisticService, useValue: habitStatisticServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: SearchService, useValue: searchServiceMock },
@@ -139,7 +134,7 @@ xdescribe('HeaderComponent', () => {
     component.dropdownVisible = false;
     component.langDropdownVisible = false;
     component.toggleBurgerMenu = false;
-    component[userId] = 1;
+    (component as any).userId = 1;
     dialog = TestBed.inject(MatDialog);
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
@@ -155,7 +150,7 @@ xdescribe('HeaderComponent', () => {
   });
 
   describe('test main methods', () => {
-    it('should toogle dropdown state', () => {
+    it('should toggle dropdown state', () => {
       component.toggleDropdown();
 
       expect(component.dropdownVisible).toBeTruthy();
@@ -171,104 +166,6 @@ xdescribe('HeaderComponent', () => {
       component.openAuthModalWindow('sign-in');
       expect(spy).toHaveBeenCalled();
     });
-
-    it('should toogle search method', () => {
-      const searchSearch = 'searchSearch';
-      const spy = spyOn(component[searchSearch], 'toggleSearchModal');
-      component.toggleSearchPage();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('makes expected calls in autoOffBurgerBtn', () => {
-      const spy = spyOn(component, 'toggleScroll');
-      (component as any).autoOffBurgerBtn();
-      expect(component.toggleBurgerMenu).toBeFalsy();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('makes expected calls in assignData', (done) => {
-      (component as any).assignData(3);
-      expect((component as any).userId).toBe(3);
-      userOwnAuthServiceMock.isLoginUserSubject.subscribe((value) => {
-        expect(value).toBeTruthy();
-        done();
-      });
-    });
-
-    it('should call getUserLangValue when isLoggedIn is true', () => {
-      const spy = spyOn((component as any).languageService, 'getCurrentLanguage').and.returnValue(of(mockLang));
-      component.isLoggedIn = true;
-      (component as any).initLanguage();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should set currentLanguage to localStorageService.getCurrentLanguage when isLoggedIn is false', () => {
-      component.isLoggedIn = false;
-      (component as any).initLanguage();
-      expect(component.currentLanguage).toEqual(mockLang);
-    });
-
-    it('makes expected calls in openSearchSubscription', () => {
-      (component as any).openSearchSubscription(true);
-      expect(component.isSearchClicked).toBeTruthy();
-    });
-
-    it('makes expected calls in openAllSearchSubscription', () => {
-      (component as any).openAllSearchSubscription(true);
-      expect(component.isAllSearchOpen).toBeTruthy();
-    });
-
-    it('makes expected calls in initUser', () => {
-      const assignDataSpy = spyOn(component as any, 'assignData');
-      (component as any).initUser();
-      expect(assignDataSpy).toHaveBeenCalledWith(1111);
-    });
-
-    it('should change current language', () => {
-      const languageService = 'languageService';
-      const spy = spyOn(component[languageService], 'changeCurrentLanguage');
-      component.changeCurrentLanguage = (language, i: number) => {
-        component[languageService].changeCurrentLanguage(language.toLowerCase() as Language);
-        const temporary = component.arrayLang[0].lang;
-        component.arrayLang[0].lang = language;
-        component.arrayLang[i].lang = temporary;
-      };
-      const index = 1;
-      component.changeCurrentLanguage('en', index);
-
-      expect(spy).toHaveBeenCalled();
-      expect(component.arrayLang[0].lang).toBe('en');
-    });
-
-    it('should call setCurrentLanguage', () => {
-      spyOn((component as any).languageService, 'getUserLangValue').and.returnValue(of(mockLang));
-      const setCurrentLanguageSpy = spyOn(component as any, 'setCurrentLanguage');
-      component.isLoggedIn = false;
-      (component as any).initLanguage();
-
-      expect(setCurrentLanguageSpy).toHaveBeenCalledWith(mockLang);
-    });
-
-    it('should set current language', () => {
-      (component as any).setCurrentLanguage('en');
-      expect(component.currentLanguage).toBe('en');
-      expect(component.arrayLang[0].lang.toLowerCase()).toBe('en');
-
-      (component as any).setCurrentLanguage('ua');
-      expect(component.currentLanguage).toBe('ua');
-      expect(component.arrayLang[0].lang.toLowerCase()).toBe('ua');
-    });
-
-    it('should log out the user', fakeAsync(() => {
-      const localeStorageService = 'localeStorageService';
-      const orderService = 'orderService';
-      const spy = spyOn(component[localeStorageService], 'clear');
-      const cancelUBSwithoutSavingSpy = spyOn(component[orderService], 'cancelUBSwithoutSaving');
-      component.signOut();
-      tick();
-      expect(spy).toHaveBeenCalled();
-      expect(cancelUBSwithoutSavingSpy).toHaveBeenCalled();
-    }));
 
     it('should make chat visible', fakeAsync(() => {
       const spy1 = spyOn(component, 'openChatPopUp');

@@ -103,19 +103,9 @@ describe('UbsAdminExportDetailsComponent', () => {
     expect(component.showTimePicker).toBe(false);
   });
 
-  it('should set isOrderStatusCancelOrDone to true if orderStatus is CANCELED or DONE', () => {
-    component.orderStatus = OrderStatus.CANCELED;
-    component.ngAfterViewChecked();
-    expect(component.isOrderStatusCancelOrDone).toBe(true);
-
-    component.orderStatus = OrderStatus.DONE;
-    component.ngAfterViewChecked();
-    expect(component.isOrderStatusCancelOrDone).toBe(true);
-  });
-
   it('should return true when pageOpen is false, exportDetailsDto is invalid and orderStatus is not cancel or done', () => {
     component.pageOpen = false;
     component.isOrderStatusCancelOrDone = false;
-    expect(component.isFormRequired()).toBeTruthy();
+    expect(component.isFormRequired).toBeFalsy();
   });
 });

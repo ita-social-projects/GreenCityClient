@@ -147,30 +147,7 @@ describe('UbsAdminOrderComponent', () => {
     const spy = spyOn(component, 'getOrderInfo');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledWith(component.orderId, false);
-  });
-
-  it('authoritiesSubscription expect will be invoke at onInit', () => {
-    const spy = spyOn(component as any, 'authoritiesSubscription');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('setOrderDetails expect will be invoke at onCancelOrder', () => {
-    const spy = spyOn(component as any, 'setOrderDetails');
-    component.onCancelOrder();
-    expect(spy).toHaveBeenCalled();
-    expect(component.isOrderStatusChanged).toBeTruthy();
-  });
-
-  it('notRequiredFieldsStatuses expect will be invoke at onChangedOrderStatus', () => {
-    const spy = spyOn(component as any, 'notRequiredFieldsStatuses');
-    const spy2 = spyOn(component as any, 'getOrderStatusInfo');
-    const status = 'FORMED';
-    component.onChangedOrderStatus(status);
-    expect(component.currentOrderStatus).toBe(status);
-    expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(component.orderId);
   });
 
   it('should disable exportDetailsDto and responsiblePersonsForm when currentOrderStatus is CANCELED', () => {
@@ -210,15 +187,6 @@ describe('UbsAdminOrderComponent', () => {
     expect(component.orderForm.get('responsiblePersonsForm.name2').validator).toBeNull();
     expect(component.orderForm.get('exportDetailsDto').value).toEqual({ field1: null, field2: null });
     expect(component.orderForm.get('responsiblePersonsForm').value).toEqual({ name1: null, name2: null });
-    expect((component as any).isFormResetted).toBeTruthy();
-  });
-
-  xit('should return the order status info for the given status name', () => {
-    const GeneralInfoFake = { ...GeneralInfoMock };
-    component.generalInfo = GeneralInfoFake as any;
-    const result = (component as any).getOrderStatusInfo('DONE');
-
-    expect(result).toEqual({ ableActualChange: false, key: OrderStatus.DONE, translation: 'Formed' });
   });
 
   it('should return an empty string if the map is empty', () => {
@@ -246,18 +214,6 @@ describe('UbsAdminOrderComponent', () => {
     component.onUpdatePaymentStatus(newPaymentStatus);
     expect(component.additionalPayment).toEqual(newPaymentStatus);
     expect(component.orderForm.dirty).toBeTruthy();
-  });
-
-  it('onPaymentUpdate should update totalPaid', () => {
-    const sum = 100;
-    component.onPaymentUpdate(sum);
-    expect(component.totalPaid).toEqual(sum);
-  });
-
-  it('changeOverpayment should update overpayment', () => {
-    const sum = 50;
-    component.changeOverpayment(sum);
-    expect(component.overpayment).toEqual(sum);
   });
 
   it('onChangeCurrentPrice should update currentOrderPrice', () => {

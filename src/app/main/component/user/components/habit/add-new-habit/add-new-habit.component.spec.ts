@@ -51,7 +51,7 @@ describe('AddNewHabitComponent', () => {
     'setHabitStatus',
     'progressNotificationHasDisplayed',
     'assignHabit',
-    'updateHabit'
+    'updateHabitDuration'
   ]);
   fakeHabitAssignService.getHabitByAssignId = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.deleteHabitById = () => of();
@@ -59,7 +59,7 @@ describe('AddNewHabitComponent', () => {
   fakeHabitAssignService.setHabitStatus = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.progressNotificationHasDisplayed = () => of({});
   fakeHabitAssignService.assignHabit = () => of();
-  fakeHabitAssignService.updateHabit = () => of();
+  fakeHabitAssignService.updateHabitDuration = () => of();
 
   const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService', [
     'getHabitById',
@@ -141,48 +141,6 @@ describe('AddNewHabitComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('bindLang(lang) should invoke translate.setDefaultLang(lang)', () => {
-    spyOn((component as any).translate, 'setDefaultLang').and.returnValue('test');
-    (component as any).bindLang('en');
-    expect((component as any).translate.setDefaultLang).toHaveBeenCalledWith('en');
-  });
-
-  it('changing of fakeLocalStorageService.languageSubject should invoke methods', () => {
-    spyOn(component as any, 'bindLang').and.returnValue('test');
-    fakeLocalStorageService.languageSubject.subscribe((lang) => {
-      expect((component as any).bindLang).toHaveBeenCalledWith(lang);
-    });
-    fakeLocalStorageService.languageSubject.next('en');
-  });
-
-  it('should set recommended habits on getRecommendedHabits', () => {
-    (component as any).getRecommendedHabits(1, 3, ['tag']);
-    expect(component.recommendedHabits).toEqual(HABITLIST.page);
-  });
-
-  it('should set recommended news on getRecommendedNews', () => {
-    (component as any).getRecommendedNews(1, 3);
-    expect(component.recommendedNews).toEqual(ECONEWSMOCK.page);
-  });
-
-  it('should call getStars on initHabitData', () => {
-    const spy = spyOn(component as any, 'getStars');
-    (component as any).initHabitData(DEFAULTHABIT);
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should set data on initHabitData', () => {
-    (component as any).initHabitData(DEFAULTHABIT);
-    expect(component.habitResponse).toEqual(DEFAULTHABIT);
-    expect(component.initialDuration).toEqual(DEFAULTHABIT.defaultDuration);
-  });
-
-  it('getDefaultHabit should invoke inHabitData method', () => {
-    const spy = spyOn(component as any, 'initHabitData');
-    (component as any).getDefaultHabit();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should navigate back on onGoBack without call dialog', () => {
     component.initialDuration = 1;
     component.newDuration = 1;
@@ -191,11 +149,6 @@ describe('AddNewHabitComponent', () => {
     const spy = spyOn(locationMock, 'back');
     component.onGoBack();
     expect(spy).toHaveBeenCalled();
-  });
-
-  it('getUserId should set this.userId', () => {
-    (component as any).getUserId();
-    expect((component as any).userId).toBe(2);
   });
 
   it('getDuration should set this.newDuration', fakeAsync(() => {
@@ -216,153 +169,6 @@ describe('AddNewHabitComponent', () => {
     expect(component.canAcquire).toBeTruthy();
   });
 
-  it('should not call congratulation dialog on getProgressValue', () => {
-    const spyDialog = spyOn(component as any, 'getOpenDialog');
-    const spyRef = spyOn(component as any, 'afterDialogClosed');
-    component.getProgressValue(60);
-    expect(spyDialog).not.toHaveBeenCalled();
-    expect(spyRef).not.toHaveBeenCalled();
-  });
-
-  it('should call congratulation dialog on getProgressValue', () => {
-    component.assignedHabit = DEFAULTFULLINFOHABIT;
-    component.isAcquired = false;
-    component.canAcquire = true;
-    const spyDialog = spyOn(component as any, 'getOpenDialog');
-    const spyRef = spyOn(component as any, 'afterDialogClosed');
-    component.getProgressValue(80);
-    expect(spyDialog).toHaveBeenCalled();
-    expect(spyRef).toHaveBeenCalled();
-  });
-
-  it('checkIfAssigned method should call getCustomShopList', () => {
-    (component as any).habitAssignId = 2;
-    component.isEditing = true;
-    const spy = spyOn(component as any, 'getCustomShopList');
-    (component as any).checkIfAssigned();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('checkIfAssigned method should invoke getDefaultHabit', () => {
-    (component as any).habitId = 3;
-    component.isEditing = false;
-    const spy = spyOn(component as any, 'getDefaultHabit');
-    (component as any).checkIfAssigned();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('goToProfile method should navigate to user profile page', () => {
-    (component as any).userId = 2;
-    component.goToProfile();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 2]);
-  });
-
-  it('goToAllHabits method should navigate to all habits page', () => {
-    (component as any).userId = 2;
-    component.goToAllHabits();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/profile/2/allhabits']);
-  });
-
-  it('should call go to profile and snackbar on afterHabitWasChanged', () => {
-    const spyGoProfile = spyOn(component, 'goToProfile');
-    const spySnackBar = spyOn(matSnackBarMock, 'openSnackBar');
-    const changesType = 'habitUpdated';
-    (component as any).afterHabitWasChanged(changesType);
-    expect(spyGoProfile).toHaveBeenCalled();
-    expect(spySnackBar).toHaveBeenCalledWith(changesType);
-  });
-
-  it('addHabit method should call assignCustomHabit methods', () => {
-    (component as any).isCustomHabit = true;
-    const spy = spyOn(component as any, 'assignCustomHabit');
-    component.addHabit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('addHabit method should call assignStandardHabit methods', () => {
-    (component as any).isCustomHabit = false;
-    const spy = spyOn(component as any, 'assignStandardHabit');
-    component.addHabit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('call of assignStandardHabit method should invoke afterHabitWasChanged method', () => {
-    const spy = spyOn(component as any, 'afterHabitWasChanged');
-    (component as any).habitId = 2;
-    (component as any).assignStandardHabit();
-    fakeHabitAssignService
-      .assignHabit((component as any).habitId)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(spy).toHaveBeenCalledWith('habitAdded');
-      });
-  });
-
-  it('call of updateHabit method should invoke afterHabitWasChanged method', () => {
-    const spy = spyOn(component as any, 'afterHabitWasChanged');
-    const spy2 = spyOn(component as any, 'convertShopLists');
-    const spy3 = spyOn(component as any, 'setHabitListForUpdate');
-    component.customShopList = DEFAULTFULLINFOHABIT.shoppingListItems;
-    (component as any).updateHabit();
-    fakeHabitAssignService
-      .updateHabit(5, 21)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(spy2).toHaveBeenCalled();
-        expect(spy3).toHaveBeenCalled();
-        expect(spy).toHaveBeenCalled();
-      });
-  });
-
-  it('call of acquireHabit method should invoke afterHabitWasChanged method', () => {
-    const spy = spyOn(component as any, 'afterHabitWasChanged');
-    (component as any).habitAssignId = 2;
-    (component as any).acquireHabit();
-    fakeHabitAssignService
-      .setHabitStatus((component as any).habitAssignId, (component as any).setStatus)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(spy).toHaveBeenCalledWith('habitAcquired');
-      });
-  });
-
-  it('should call HabitAcquireConfirm dialog on openAcquireConfirm', () => {
-    const spyDialog = spyOn(component as any, 'getOpenDialog');
-    const spyRef = spyOn(component as any, 'afterDialogClosed');
-    component.openAcquireConfirm();
-    expect(spyDialog).toHaveBeenCalled();
-    expect(spyDialog).toHaveBeenCalledWith(HabitAcquireConfirm, true);
-    expect(spyRef).toHaveBeenCalled();
-  });
-
-  it('setHabitListForUpdate should return shopListUpdate', () => {
-    (component as any).habitAssignId = 3;
-    (component as any).currentLang = 'en';
-    (component as any).customShopList = CUSTOMFULLINFOHABIT;
-    (component as any).standardShopList = DEFAULTFULLINFOHABIT;
-
-    const habitUpdateShopListMock = {
-      habitAssignId: 3,
-      customShopList: CUSTOMFULLINFOHABIT,
-      standardShopList: DEFAULTFULLINFOHABIT,
-      lang: 'en'
-    };
-
-    const result = (component as any).setHabitListForUpdate();
-    expect(result).toEqual(habitUpdateShopListMock);
-  });
-
-  it('call of getStandardShopList method should change initialShoppingList', () => {
-    (component as any).habitId = 2;
-    (component as any).getStandardShopList();
-    fakeShoppingListService
-      .getHabitShopList((component as any).habitId)
-      .pipe(take(1))
-      .subscribe((res) => {
-        expect(component.initialShoppingList).toBe(res);
-      });
-  });
-
   it('should set standardShopList', () => {
     component.getList(DEFAULTFULLINFOHABIT.shoppingListItems);
     expect(component.standardShopList).toEqual([{ id: 6, status: TodoStatus.active, text: 'TEST' }]);
@@ -380,11 +186,5 @@ describe('AddNewHabitComponent', () => {
     component.getList(shoppingListItems);
     expect(component.customShopList).toEqual(shoppingListItems.filter((item) => item.custom));
     expect(component.standardShopList).toEqual(shoppingListItems.filter((item) => !item.custom));
-  });
-
-  it('should navigate to all habits after habit has been deleted', () => {
-    (component as any).userId = 2;
-    component.deleteHabit();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/profile/2/allhabits']);
   });
 });

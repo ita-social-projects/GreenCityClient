@@ -1,4 +1,4 @@
-import { ShoppingList } from '../../../../models/shoppinglist.interface';
+import { ShoppingList } from '@user-models/shoppinglist.interface';
 
 export interface HabitInterface {
   defaultDuration: number;
@@ -33,4 +33,21 @@ export interface HabitListInterface {
   page: Array<HabitInterface>;
   totalElements: number;
   totalPages: number;
+}
+
+export interface HabitListFriendsInterface {
+  page: Array<HabitItemInterface>;
+  totalElements: number;
+  currentPage: number;
+  totalPages: number;
+  number: number;
+}
+
+export interface HabitItemInterface {
+  duration: number;
+  habit: HabitInterface;
+  id: number;
+  status: string;
+  userId: number;
+  workingDays: number;
 }

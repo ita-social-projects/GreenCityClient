@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { UserDashboardTab } from '@user-models/friend.model';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('FriendProfileDashboardComponent', () => {
   let component: FriendProfileDashboardComponent;
@@ -38,7 +39,7 @@ describe('FriendProfileDashboardComponent', () => {
         { provide: Location, useValue: locationMock },
         { provide: UserOnlineStatusService, useValue: userOnlineStatusServiceMock }
       ],
-      imports: [MatTabsModule, TranslateModule.forRoot()]
+      imports: [HttpClientModule, MatTabsModule, TranslateModule.forRoot()]
     });
 
     component = TestBed.createComponent(FriendProfileDashboardComponent).componentInstance;

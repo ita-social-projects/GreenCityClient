@@ -42,6 +42,10 @@ export class CommentsListComponent {
     }
   };
   isAddingReply = false;
+  repliedComment: {
+    comment: CommentsDTO;
+    isAdd: boolean;
+  } | null = null;
   private isAdmin = this.jwtService.getUserRole() === 'ROLE_ADMIN';
 
   constructor(
@@ -107,6 +111,8 @@ export class CommentsListComponent {
 
     if (key === 'showRelyButton') {
       this.isAddingReply = !this.isAddingReply;
+
+      this.repliedComment = { comment: this.elementsList.find((comment) => comment.id === id), isAdd: !this.repliedComment?.isAdd };
     }
 
     this.elementsList = this.elementsList.map((item) => {

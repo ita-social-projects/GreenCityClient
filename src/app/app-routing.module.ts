@@ -6,7 +6,6 @@ import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
-import { AchievementListComponent } from '@global-user/components';
 import { UbsUserGuard } from '@ubs/ubs-user/ubs-user-guard.guard';
 import { NonAdminGuard } from 'src/app/shared/guards/non-admin.guard';
 
@@ -64,8 +63,7 @@ export const routes: Routes = [
         path: 'greenCity',
         component: HomepageComponent,
         canActivate: [NonAdminGuard]
-      },
-      { path: 'achievements', component: AchievementListComponent, canActivate: [NonAdminGuard] }
+      }
     ]
   },
   {

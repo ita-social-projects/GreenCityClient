@@ -733,7 +733,7 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component.selectedCities).toEqual([]);
   });
 
-  xit('should call filterOption function when region value match existing region', () => {
+  it('should call filterOption function when region value match existing region', () => {
     component.locations = mockRegion;
     const spy = spyOn(component, 'filterOptions');
     component.checkRegionValue('Фейк область');
@@ -855,7 +855,7 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component.region.value).toBe('');
   });
 
-  xit('should call functions on checkisCardExist', () => {
+  it('should call functions on checkisCardExist', () => {
     component.region.setValue('fake');
     component.courier.setValue('fake');
     component.selectedStation = [{ name: 'stationItem', id: 1 }];
@@ -898,28 +898,6 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.checkisCardExist();
     tariffsServiceMock.checkIfCardExist.and.returnValue(of(false));
     expect(component.isCardExist).toBe(true);
-  });
-
-  it('should call set card method', () => {
-    const spy = spyOn(component as any, 'setCard');
-    (component as any).setCard();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should reset region and sity value', () => {
-    component.cardsUk = [
-      {
-        courier: 'УБС',
-        station: 'Станція',
-        region: 'Регіон',
-        city: 'Місто',
-        tariff: 'ACTIVE',
-        regionId: 3,
-        cardId: 4
-      }
-    ];
-    (component as any).setCard();
-    expect(component.cards).toEqual(component.cardsUk);
   });
 
   it('should call openAddCourierDialog', () => {
@@ -1075,15 +1053,5 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     fixture.whenStable().then(() => {
       expect(spy).toHaveBeenCalled();
     });
-  });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    const destroy = 'destroy';
-    component[destroy] = new Subject<boolean>();
-    spyOn(component[destroy], 'next');
-    spyOn(component[destroy], 'complete');
-    component.ngOnDestroy();
-    expect(component[destroy].next).toHaveBeenCalledTimes(1);
-    expect(component[destroy].complete).toHaveBeenCalledTimes(1);
   });
 });

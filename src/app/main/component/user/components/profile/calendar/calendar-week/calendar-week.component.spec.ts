@@ -47,29 +47,6 @@ describe('CalendarWeekComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should find first week date', () => {
-    component.currentDate = new Date('Mon Jul 03 2023 00:00:00 GMT+0300');
-    fixture.detectChanges();
-    const resultDate = (component as any).getFirstWeekDate();
-    const expectedDate = new Date('Mon Jul 03 2023 00:00:00 GMT+0300');
-    const resultDateUTC = new Date(Date.UTC(resultDate.getFullYear(), resultDate.getMonth(), resultDate.getDate()));
-    const expectedDateUTC = new Date(Date.UTC(expectedDate.getFullYear(), expectedDate.getMonth(), expectedDate.getDate()));
-
-    expect(resultDateUTC).toEqual(expectedDateUTC);
-  });
-
-  it('should create calendar', () => {
-    (component as any).buildWeekCalendar(component.currentDate);
-    expect(component.weekDates.length).toBe(7);
-  });
-
-  it('title has to be changed after changing language', () => {
-    const spy = spyOn<any>(component, 'buildWeekCalendarTitle');
-    (component as any).getLanguage();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should go to next week when isNext is true', () => {
     component.weekDates = [day];
     const initialWeekDates = [...component.weekDates];

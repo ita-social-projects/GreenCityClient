@@ -2,7 +2,16 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { Addresses, EventAttender, EventResponse, EventResponseDto, LocationResponse, PagePreviewDTO } from '../models/events.interface';
+import {
+  Addresses,
+  EventAttender,
+  EventFilterCriteriaInterface,
+  EventForm,
+  EventResponse,
+  EventResponseDto,
+  LocationResponse,
+  PagePreviewDTO
+} from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable({
@@ -10,15 +19,76 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 })
 export class EventsService implements OnDestroy {
   currentForm: PagePreviewDTO | EventResponse;
+  private eventPreview: PagePreviewDTO;
+  private event: EventForm;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private divider = `, `;
+  private isFromCreateEvent: boolean;
 
   constructor(
     private http: HttpClient,
     private langService: LanguageService
   ) {}
 
+  setEvent(event: EventForm): void {
+    this.event = event;
+    this.eventPreview = this.convertEventToPreview(event);
+  }
+
+  setIsFromCreateEvent(value: boolean): void {
+    this.isFromCreateEvent = value;
+  }
+
+  getIsFromCreateEvent(): boolean {
+    return this.isFromCreateEvent;
+  }
+  private convertEventToPreview(event: EventForm): PagePreviewDTO {
+    const { eventInformation, dateInformation } = event;
+
+    return {
+      title: eventInformation.title,
+      description: eventInformation.description,
+      eventDuration: eventInformation.duration,
+      open: eventInformation.open,
+      editorText: eventInformation.editorText,
+      dates: dateInformation.map((dateInfo) => {
+        const startDate = new Date(dateInfo.day.date);
+        startDate.setHours(parseInt(dateInfo.day.startTime.split(':')[0], 10), parseInt(dateInfo.day.startTime.split(':')[1], 10));
+
+        const finishDate = new Date(dateInfo.day.date);
+        finishDate.setHours(parseInt(dateInfo.day.endTime.split(':')[0], 10), parseInt(dateInfo.day.endTime.split(':')[1], 10));
+
+        return {
+          startDate: startDate.toISOString(),
+          finishDate: finishDate.toISOString(),
+          onlineLink: dateInfo.placeOnline.onlineLink,
+          place: dateInfo.placeOnline.place,
+          /* eslint-disable indent */
+          coordinates: dateInfo.placeOnline.coordinates
+            ? {
+                latitude: dateInfo.placeOnline.coordinates.lat,
+                longitude: dateInfo.placeOnline.coordinates.lng
+              }
+            : undefined
+          /* eslint-enable indent */
+        };
+      }),
+      tags: eventInformation.tags,
+      imgArray: eventInformation.images.map((image) => image.url),
+      imgArrayToPreview: eventInformation.images.filter((image) => image.main).map((image) => image.url),
+      location: dateInformation
+        .map((dateInfo) => dateInfo.placeOnline.place)
+        .filter((place) => place)
+        .join(', ')
+    };
+  }
+  getEventPriview(): PagePreviewDTO {
+    return this.eventPreview;
+  }
+  getEvent(): EventForm {
+    return this.event;
+  }
   getAddresses(): Observable<Addresses[]> {
     return this.http.get<Addresses[]>(`${this.backEnd}events/addresses`);
   }
@@ -32,15 +102,15 @@ export class EventsService implements OnDestroy {
   }
 
   getForm(): PagePreviewDTO | EventResponse {
-    return this.currentForm;
+    return this.eventPreview;
   }
 
-  createEvent(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events`, formData);
+  createEvent(formData: FormData): Observable<EventResponse> {
+    return this.http.post<EventResponse>(`${this.backEnd}events`, formData);
   }
 
-  editEvent(formData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.backEnd}events/${formData.get('id')}`, formData);
+  editEvent(formData: FormData, eventId: number): Observable<EventResponse> {
+    return this.http.put<EventResponse>(`${this.backEnd}events/${eventId}`, formData);
   }
 
   getEvents(requestParams: HttpParams): Observable<EventResponseDto> {
@@ -59,28 +129,28 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventResponseDto>(`${this.backEnd}events?page=${page}&size=${quantity}&statuses=SAVED&user-id=${userId}`);
   }
 
-  getEventById(id: number): Observable<EventResponse> {
-    return this.http.get<EventResponse>(`${this.backEnd}events/${id}`);
+  getEventById(eventId: number): Observable<EventResponse> {
+    return this.http.get<EventResponse>(`${this.backEnd}events/${eventId}`);
   }
 
-  deleteEvent(id: number): Observable<any> {
-    return this.http.delete(`${this.backEnd}events/${id}`);
+  deleteEvent(eventId: number): Observable<any> {
+    return this.http.delete(`${this.backEnd}events/${eventId}`);
   }
 
-  rateEvent(id: number, grade: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/${id}/rating/${grade}`, null);
+  rateEvent(eventId: number, grade: number): Observable<any> {
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/rating/${grade}`, null);
   }
 
-  addAttender(id: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/${id}/attenders`, { observe: 'response' });
+  addAttender(eventId: number): Observable<any> {
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/attenders`, { observe: 'response' });
   }
 
-  removeAttender(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.backEnd}events/${id}/attenders`);
+  removeAttender(eventId: number): Observable<any> {
+    return this.http.delete<any>(`${this.backEnd}events/${eventId}/attenders`);
   }
 
-  getAllAttendees(id: number): Observable<EventAttender[]> {
-    return this.http.get<any>(`${this.backEnd}events/${id}/attenders`);
+  getAllAttendees(eventId: number): Observable<EventAttender[]> {
+    return this.http.get<any>(`${this.backEnd}events/${eventId}/attenders`);
   }
 
   getFormattedAddress(coordinates: LocationResponse): string {

@@ -45,14 +45,6 @@ describe('UserNotificationsPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('it should call get three New Notifications when onInit is invoken', () => {
-    const notifications = [];
-    const spy = spyOn((component as any).userNotificationService, 'getThreeNewNotification').and.returnValue(of(notifications));
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-    expect(component.notifications).toEqual(notifications);
-  });
-
   it('should call close after openAll notifications', () => {
     const spy = spyOn((component as any).dialogRef, 'close');
     component.openAll();

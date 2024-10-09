@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ChangingOrderPaymentStatus } from 'src/app/store/actions/bigOrderTable.actions';
-import { IPaymentInfo, IPaymentInfoDto, IOrderInfo, PaymentDetails } from '../../models/ubs-admin.interface';
+import { IPaymentInfoDto, IOrderInfo, PaymentDetails, orderPaymentInfo, ReturnMoneyOrBonuses } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enum';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-ubs-admin-order-payment',
@@ -18,28 +19,25 @@ import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/emp
   styleUrls: ['./ubs-admin-order-payment.component.scss']
 })
 export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() orderInfo: IOrderInfo;
-  @Input() actualPrice: number;
-  @Input() totalPaid: number;
+  @Input() orderId: number;
   @Input() orderStatus: string;
   @Input() isEmployeeCanEditOrder: boolean;
-
+  @Input() paymentInfo: orderPaymentInfo;
+  @Input() orderForm: FormGroup;
   @Output() newPaymentStatus = new EventEmitter<string>();
-  @Output() paymentUpdate = new EventEmitter<number>();
-  @Output() paymentToBonusAccount = new EventEmitter<number>();
-
-  message: string;
+  @Output() returnMoneyOrBonusesChange = new EventEmitter<ReturnMoneyOrBonuses>();
+  @Output() paymentInfoChanged = new EventEmitter<orderPaymentInfo>();
+  actualPrice: number;
+  isStatusForReturnMoneyOrPaid: boolean;
   pageOpen: boolean;
-  orderId: number;
   overpayment: number;
   paidAmount: number;
   unPaidAmount: number;
-  paymentInfo: IPaymentInfo;
   paymentsArray: IPaymentInfoDto[];
   paymentsIdArray: string[] = [];
   currentOrderStatus: string;
+  returnMoneyOrBonuses: ReturnMoneyOrBonuses;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  isMoneyReturning = false;
   isRefundApplicationCreate = false;
   private returnMoneyDialogDate = {
     popupTitle: 'return-payment.message',
@@ -48,23 +46,9 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     style: PopUpsStyles.green
   };
 
-  private refundApplicationDialogDate = {
-    popupTitle: 'return-payment.accept-refund-application',
-    popupConfirm: 'employees.btn.yes',
-    popupCancel: 'employees.btn.no',
-    style: PopUpsStyles.green,
-    isItrefund: true,
-    іsPermissionConfirm: true
-  };
-
-  private refundApplicationErrorDialogDate = {
-    popupTitle: 'return-payment.error-refund-application',
-    popupConfirm: 'employees.btn.yes',
-    popupCancel: 'employees.btn.no',
-    style: PopUpsStyles.green,
-    isItrefund: true,
-    іsPermissionConfirm: true
-  };
+  get isBroughtItHimSelf(): boolean {
+    return this.currentOrderStatus === OrderStatus.BROUGHT_IT_HIMSELF;
+  }
 
   constructor(
     private orderService: OrderService,
@@ -73,29 +57,29 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   ) {}
 
   ngOnInit() {
-    this.currentOrderStatus = this.orderStatus;
-    this.orderId = this.orderInfo.generalOrderInfo.id;
-    this.paymentInfo = this.orderInfo.paymentTableInfoDto;
-    this.overpayment = this.currentOrderStatus === OrderStatus.CANCELED ? this.paymentInfo.paidAmount : this.paymentInfo.overpayment;
-    this.paymentsArray = this.paymentInfo.paymentInfoDtos;
-    this.paidAmount = this.paymentInfo.paidAmount;
-    const sumDiscount = this.orderInfo.orderBonusDiscount + this.orderInfo.orderCertificateTotalDiscount;
-    const notPaid = this.orderInfo.orderFullPrice - this.orderInfo.paymentTableInfoDto.paidAmount - sumDiscount;
-    this.unPaidAmount = notPaid > 0 ? notPaid : 0;
-    this.setDateInPaymentArray(this.paymentsArray);
+    this.setDateInPaymentArray();
     this.positivePaymentsArrayAmount();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.overpayment) {
-      this.message = this.orderService.getOverpaymentMsg(this.overpayment);
-      this.overpayment = Math.abs(this.overpayment);
+    if (changes.paymentInfo) {
+      this.paymentInfo = { ...changes.paymentInfo.currentValue };
+      this.overpayment = this.paymentInfo.paymentTableInfoDto.overpayment;
+      this.paymentsArray = this.paymentInfo.paymentTableInfoDto.paymentInfoDtos;
+      this.paidAmount = this.paymentInfo.paymentTableInfoDto.paidAmount;
+      this.unPaidAmount = this.paymentInfo.paymentTableInfoDto.unPaidAmount;
+      this.actualPrice = this.paymentInfo.orderFullPrice;
     }
 
     if (changes.orderStatus) {
       this.currentOrderStatus = changes.orderStatus.currentValue;
+      this.isStatusForReturnMoneyOrPaid =
+        this.currentOrderStatus === OrderStatus.CANCELED || this.currentOrderStatus === OrderStatus.DONE || this.isBroughtItHimSelf;
       if (this.currentOrderStatus === OrderStatus.CANCELED) {
-        this.overpayment = this.totalPaid;
+        this.overpayment = this.paidAmount;
+      }
+      if (this.currentOrderStatus === OrderStatus.BROUGHT_IT_HIMSELF) {
+        this.returnMoneyOrBonuses = { ...this.returnMoneyOrBonuses, amount: 0 };
       }
     }
   }
@@ -110,8 +94,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     });
   }
 
-  setDateInPaymentArray(paymentsArray: IPaymentInfoDto[]): void {
-    paymentsArray.forEach((payment: IPaymentInfoDto) => {
+  setDateInPaymentArray(): void {
+    this.paymentsArray.forEach((payment: IPaymentInfoDto) => {
       payment.settlementdate = this.formatDate(payment.settlementdate);
     });
   }
@@ -121,12 +105,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   isOverpaymentReturnAvailable(): boolean {
-    return this.overpayment && this.currentOrderStatus === OrderStatus.CANCELED;
-  }
-
-  setOverpayment(overpayment: number): void {
-    this.message = this.orderService.getOverpaymentMsg(overpayment);
-    this.overpayment = Math.abs(overpayment);
+    return this.overpayment && this.isStatusForReturnMoneyOrPaid;
   }
 
   getStringDate(date: Date): string {
@@ -137,84 +116,51 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     return this.unPaidAmount && this.currentOrderStatus !== OrderStatus.CANCELED;
   }
 
-  setCancelOrderOverpayment(sum: number): void {
-    this.overpayment = sum;
+  enrollToBonusAccount(): void {
+    this.moneyOrBonuses(false);
   }
 
-  enrollToBonusAccount(sum: number): void {
-    const currentDate: string = this.getStringDate(new Date());
-    const paymentDetails: PaymentDetails = {
-      amount: sum,
-      receiptLink: 'Enrollment to the bonus account',
-      settlementdate: currentDate
-    };
-
-    this.orderService.addPaymentBonuses(this.orderId, paymentDetails).subscribe((responce: IPaymentInfoDto) => {
-      responce.settlementdate = this.formatDate(responce.settlementdate);
-      this.paymentsArray.push(responce);
-      this.totalPaid -= this.overpayment;
-      this.overpayment = 0;
-      this.paymentUpdate.emit(this.overpayment);
-      this.paymentToBonusAccount.emit(responce.amount);
-    });
-  }
-
-  returnMoney(id: number): void {
-    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
-      data: this.returnMoneyDialogDate,
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: ''
-    });
-
-    matDialogRef
+  returnMoney(): void {
+    this.dialog
+      .open(DialogPopUpComponent, {
+        data: this.returnMoneyDialogDate,
+        hasBackdrop: true,
+        closeOnNavigation: true,
+        disableClose: true,
+        panelClass: ''
+      })
       .afterClosed()
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          this.orderService.saveOrderIdForRefund(id).subscribe((response) => {
-            if (response.status === 201) {
-              this.isMoneyReturning = true;
-              this.isRefundApplicationCreate = true;
-            }
-            this.dialog.open(DialogPopUpComponent, {
-              data: this.isRefundApplicationCreate ? this.refundApplicationDialogDate : this.refundApplicationErrorDialogDate,
-              hasBackdrop: true,
-              closeOnNavigation: true,
-              disableClose: true,
-              panelClass: ''
-            });
-          });
+          this.moneyOrBonuses(true);
         }
       });
   }
 
-  recountUnpaidAmount(value: number): void {
-    this.unPaidAmount -= value;
-    if (this.unPaidAmount < 0) {
-      this.unPaidAmount = 0;
-    }
-  }
-
-  preconditionChangePaymentData(extraPayment: IPaymentInfoDto): void {
-    const checkPaymentId = (): number => this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === extraPayment.id).length;
-
-    this.recountUnpaidAmount(extraPayment.amount);
-    extraPayment.settlementdate = this.formatDate(extraPayment.settlementdate);
-
-    if (checkPaymentId()) {
-      this.paymentsArray = this.paymentsArray.map((payment): IPaymentInfoDto => {
-        if (payment.id === extraPayment.id) {
-          this.totalPaid = this.totalPaid - payment.amount + extraPayment.amount;
-          return extraPayment;
-        }
-        return payment;
-      });
-    } else {
-      this.totalPaid += extraPayment.amount;
-      this.paymentsArray = [...this.paymentsArray, extraPayment];
-    }
+  private moneyOrBonuses(isMoney: boolean): void {
+    this.orderForm.markAsDirty();
+    const currentDate: string = this.getStringDate(new Date());
+    const paymentDetails: IPaymentInfoDto = {
+      id: null,
+      comment: null,
+      settlementdate: currentDate.replace('-', '.'),
+      amount: this.isBroughtItHimSelf ? this.returnMoneyOrBonuses.amount : this.overpayment,
+      paymentId: null,
+      receiptLink: `return-payment.${[isMoney ? 'reqeust-return-money' : 'reqeust-return-bonuses']}`,
+      currentDate: currentDate
+    };
+    this.paymentsArray.push(paymentDetails);
+    this.paymentInfoChanged.emit({
+      ...this.paymentInfo,
+      paymentTableInfoDto: {
+        overpayment: 0,
+        paymentInfoDtos: [...this.paymentsArray],
+        paidAmount: this.isBroughtItHimSelf ? this.paidAmount - this.returnMoneyOrBonuses.amount : this.paidAmount - this.overpayment,
+        unPaidAmount: 0
+      }
+    });
+    this.returnMoneyOrBonusesChange.emit({ ...this.returnMoneyOrBonuses, [isMoney ? 'returnMoney' : 'returnBonuses']: true });
   }
 
   private postDataItem(orderId: number, newValue: string): void {
@@ -230,7 +176,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
         panelClass: 'custom-dialog-container',
         height: '100%',
         data: {
-          orderId: this.orderInfo.generalOrderInfo.id,
+          orderId: this.orderId,
           viewMode,
           payment: viewMode ? this.paymentsArray[paymentIndex] : null,
           isCanPaymentEdit: this.isOrderCanBePaid
@@ -238,26 +184,12 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe((extraPayment: IPaymentInfoDto | number | null) => {
-        if (typeof extraPayment === 'number') {
-          this.recountUnpaidAmount(extraPayment);
-          this.paymentsArray = this.paymentsArray.filter((payment) => {
-            if (payment.id === extraPayment) {
-              this.totalPaid -= payment.amount;
-              this.setOverpayment(this.totalPaid - this.actualPrice);
-            }
-            return payment.id !== extraPayment;
-          });
-        }
-        if (extraPayment !== null && typeof extraPayment === 'object') {
-          this.preconditionChangePaymentData(extraPayment);
-          this.setOverpayment(this.totalPaid - this.actualPrice);
-        }
+      .subscribe(() => {
         this.orderService
           .getOrderInfo(this.orderId)
           .pipe(takeUntil(this.destroy$))
           .subscribe((data: IOrderInfo) => {
-            this.paymentUpdate.emit(data.paymentTableInfoDto.paidAmount);
+            this.paymentInfoChanged.emit({ orderFullPrice: data.orderFullPrice, paymentTableInfoDto: data.paymentTableInfoDto });
             const newValue = data.generalOrderInfo.orderPaymentStatus;
             this.postDataItem(this.orderId, newValue);
             this.newPaymentStatus.emit(newValue);
@@ -266,11 +198,11 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   get isOrderCanBePaid(): boolean {
-    return this.currentOrderStatus !== OrderStatus.CANCELED && this.isEmployeeCanEditOrder;
+    return !this.isStatusForReturnMoneyOrPaid && this.isEmployeeCanEditOrder;
   }
 
-  get returnToBonusAccount(): string {
-    return PaymentEnrollment.receiptLink;
+  isReturnPaymentLink(paymentLink): boolean {
+    return paymentLink === PaymentEnrollment.bonuses || paymentLink === PaymentEnrollment.money;
   }
 
   ngOnDestroy(): void {

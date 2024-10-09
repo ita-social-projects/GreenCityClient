@@ -151,7 +151,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         .flat()
     };
     this.userNotificationService
-      .getAllNotification(page, this.itemsPerPage, filtersSelected)
+      .getAllNotifications(page, this.itemsPerPage, filtersSelected)
       .pipe(take(1))
       .subscribe((data) => {
         this.notifications = [...this.notifications, ...data.page];
@@ -187,6 +187,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
 
   deleteNotification(event: Event, notification: NotificationModel): void {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
+      this.readNotification(event, notification);
       event.stopPropagation();
       this.userNotificationService
         .deleteNotification(notification.notificationId)

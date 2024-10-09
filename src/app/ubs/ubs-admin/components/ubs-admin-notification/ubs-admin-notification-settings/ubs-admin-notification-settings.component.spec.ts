@@ -18,7 +18,7 @@ class CronPipe implements PipeTransform {
   }
 }
 
-xdescribe('UbsAdminNotificationSettingsComponent', () => {
+describe('UbsAdminNotificationSettingsComponent', () => {
   let component: UbsAdminNotificationSettingsComponent;
   let fixture: ComponentFixture<UbsAdminNotificationSettingsComponent>;
   let loader: HarnessLoader;

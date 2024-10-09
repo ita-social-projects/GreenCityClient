@@ -16,10 +16,13 @@ export class EventScheduleComponent {
   };
 
   @Input() days = [];
-
   constructor(public eventService: EventsService) {}
 
   getAddress(location: LocationResponse): string {
-    return this.eventService.getFormattedAddress(location);
+    if (location.streetEn) {
+      return this.eventService.getFormattedAddress(location);
+    } else {
+      return `https://www.google.com.ua/maps?q=${location.latitude},${location.longitude}`;
+    }
   }
 }

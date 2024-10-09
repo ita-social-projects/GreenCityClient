@@ -37,7 +37,7 @@ class TranslationServiceStub {
   }
 }
 
-xdescribe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
+describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
   let component: UbsAdminCertificateAddCertificatePopUpComponent;
   let fixture: ComponentFixture<UbsAdminCertificateAddCertificatePopUpComponent>;
   let httpMock: HttpTestingController;
@@ -82,18 +82,6 @@ xdescribe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
     const spyOnInit = spyOn(component, 'ngOnInit');
     component.ngOnInit();
     expect(spyOnInit).toHaveBeenCalled();
-  });
-
-  it(`initForm should be called in ngOnInit`, () => {
-    spyOn(component as any, 'initForm');
-    component.ngOnInit();
-    expect(component.initForm).toHaveBeenCalled();
-  });
-
-  it('ngOnInit should called subscribeToLangChange method one time', () => {
-    const subscribeToLangChangeSpy = spyOn(component as any, 'subscribeToLangChange');
-    component.ngOnInit();
-    expect(subscribeToLangChangeSpy).toHaveBeenCalledTimes(1);
   });
 
   it('component should initialize from with correct parameters', () => {

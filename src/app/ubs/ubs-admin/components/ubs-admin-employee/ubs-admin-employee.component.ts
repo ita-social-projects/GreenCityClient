@@ -695,25 +695,32 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
       case filterOptions.position:
         this.selectedPositions = this.selectedPositions.filter((item) => item.id !== filterName.id);
         this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
+        Object.assign(this.filterData, { positions: this.selectedPositions.map((it) => it.id) });
         break;
       case filterOptions.state:
         this.selectedState = [];
         this.state.setValue('');
+        Object.assign(this.filterData, { employeeStatus: '' });
         break;
       case filterOptions.city:
         this.selectedCities = this.selectedCities.filter((item) => item.id !== filterName.id);
         this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
+        Object.assign(this.filterData, { locations: this.selectedCities.map((it) => it.id) });
         break;
       case filterOptions.courier:
         this.selectedCouriers = this.selectedCouriers.filter((item) => item.id !== filterName.id);
         this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
+        Object.assign(this.filterData, { couriers: this.selectedCouriers.map((it) => it.id) });
         break;
       case filterOptions.region:
         this.selectedRegions = this.selectedRegions.filter((item) => item.regionId !== filterName.regionId);
         this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
         this.checkRegionValue();
+        Object.assign(this.filterData, { regions: this.selectedRegions.map((it) => it.regionId) });
         break;
     }
+
+    this.addNewFilters(this.filterData);
   }
 
   applyFilter(event: Event) {

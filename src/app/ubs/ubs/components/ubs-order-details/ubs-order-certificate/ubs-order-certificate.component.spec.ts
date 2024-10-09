@@ -16,7 +16,7 @@ import { IMaskModule } from 'angular-imask';
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
-xdescribe('UbsOrderCertificateComponent', () => {
+describe('UbsOrderCertificateComponent', () => {
   let component: UbsOrderCertificateComponent;
   let fixture: ComponentFixture<UbsOrderCertificateComponent>;
   const shareFormService = jasmine.createSpyObj('shareFormService', [
@@ -49,7 +49,14 @@ xdescribe('UbsOrderCertificateComponent', () => {
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
         { provide: LocalStorageService, useValue: localStorageService },
-        { provide: Store, useValue: storeMock }
+        {
+          provide: Store,
+          useValue: {
+            pipe: () => of(),
+            dispatch: () => of(),
+            select: jasmine.createSpy().and.returnValue(of({ order: ubsOrderServiseMock })) // Mock selectors
+          }
+        }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

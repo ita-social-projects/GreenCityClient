@@ -9,23 +9,24 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
-import { EditProfileComponent } from './edit-profile.component';
-import { SocialNetworksComponent } from './social-networks/social-networks.component';
+import { EditProfileComponent } from '@global-user/components';
+import { SocialNetworksComponent } from '@global-user/components';
 import { Router } from '@angular/router';
 import { SharedMainModule } from '@shared/shared-main.module';
 import { InputGoogleAutocompleteComponent } from '@shared/components/input-google-autocomplete/input-google-autocomplete.component';
 
 class Test {}
 
-xdescribe('EditProfileComponent', () => {
+describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
   let fixture: ComponentFixture<EditProfileComponent>;
   let router: Router;
+  const previousGoogle = (window as any).google;
 
   beforeEach(waitForAsync(() => {
     (window as any).google = {
@@ -75,6 +76,10 @@ xdescribe('EditProfileComponent', () => {
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
     fixture.detectChanges();
+  });
+
+  afterAll(() => {
+    (window as any).google = previousGoogle;
   });
 
   it('should create EditProfileComponent', () => {

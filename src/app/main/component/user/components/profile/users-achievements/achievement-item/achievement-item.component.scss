@@ -1,0 +1,50 @@
+.achievements__item {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+
+  img {
+    height: 72px;
+    width: 72px;
+    object-fit: cover;
+    position: absolute;
+  }
+
+  span {
+    font-size: 16px;
+    margin-left: 10px;
+  }
+}
+
+.item {
+  &__image {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__data {
+    padding-left: 20px;
+    font-family: var(--secondary-font);
+  }
+
+  &__title {
+    font-weight: 600;
+  }
+
+  &__statistics {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--secondary-dark-green);
+  }
+}
+
+.greyscale {
+  filter: grayscale(80%);
+  opacity: 0.8;
+}
+
+.click {
+  cursor: pointer;
+}

@@ -85,19 +85,25 @@ export const OrderInfoMockedData: IOrderInfo = {
     userViolationForCurrentOrder: 0
   },
   addressExportDetailsDto: {
-    addressId: 32,
-    addressCity: 'Київ',
-    addressCityEng: 'Kyiv',
-    addressDistrict: 'Шевченківський',
-    addressDistrictEng: 'Shevchenkivskyi',
-    addressEntranceNumber: 1,
-    addressHouseCorpus: 3,
-    addressHouseNumber: 42,
-    addressRegion: 'Київська область',
-    addressRegionEng: 'Kyiv Oblast',
-    addressStreet: 'Січових Стрільців вул',
-    addressStreetEng: 'Sichovyh Streltsyv str',
-    addressRegionDistrictList: ADDRESSESMOCK.DISTRICTSKYIVMOCK
+    id: 32,
+    city: 'Київ',
+    cityEn: 'Kyiv',
+    district: 'Шевченківський',
+    districtEn: 'Shevchenkivskyi',
+    entranceNumber: '1',
+    houseCorpus: '3',
+    houseNumber: '42',
+    region: 'Київська область',
+    regionEn: 'Kyiv Oblast',
+    street: 'Січових Стрільців вул',
+    streetEn: 'Sichovyh Streltsyv str',
+    addressRegionDistrictList: ADDRESSESMOCK.DISTRICTSKYIVMOCK,
+    coordinates: {
+      latitude: null,
+      longitude: null
+    },
+    placeId: 'test',
+    actual: true
   },
   addressComment: '',
   amountOfBagsConfirmed: new Map(),
@@ -159,7 +165,8 @@ export const OrderInfoMockedData: IOrderInfo = {
     currentPositionEmployees: new Map(),
     orderId: 1
   },
-  writeOffStationSum: 0
+  writeOffStationSum: 0,
+  isOrderCancelledAfterFormed: false
 };
 
 export const GeneralInfoMock = {

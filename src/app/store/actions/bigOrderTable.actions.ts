@@ -1,9 +1,11 @@
 import { createAction, props } from '@ngrx/store';
+import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import {
   IBigOrderTable,
   IBigOrderTableParams,
   IFilter,
   IFilters,
+  ILocationDetails,
   IOrdersViewParameters
 } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
@@ -29,7 +31,10 @@ export enum BigOrderTableActions {
   SaveFilters = '[BigOrderTable] Save Filters',
 
   LoadFilters = '[BigOrderTable] Load Filters',
-  LoadFiltersSuccess = '[BigOrderTable] Load Filters Success'
+  LoadFiltersSuccess = '[BigOrderTable] Load Filters Success',
+
+  GetLocationsDetails = '[BigOrderTable] Get Locations Details',
+  GetLocationsDetailsSuccess = '[BigOrderTable] Get Locations Details Success'
 }
 
 export const GetColumnToDisplay = createAction(BigOrderTableActions.GetColumnToDisplay);
@@ -89,3 +94,9 @@ export const LoadFiltersAction = createAction(BigOrderTableActions.LoadFilters);
 export const LoadFiltersSuccessAction = createAction(BigOrderTableActions.LoadFiltersSuccess, props<{ filters: IFilters | null }>());
 
 export const ReceivedFailure = createAction(BigOrderTableActions.ReceivedFailure, props<{ error: string | null }>());
+
+export const GetLocationsDetails = createAction(BigOrderTableActions.GetLocationsDetails);
+export const GetLocationsDetailsSuccess = createAction(
+  BigOrderTableActions.GetLocationsDetailsSuccess,
+  props<{ locationsDetails: ILocationDetails[] }>()
+);

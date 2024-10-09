@@ -1,17 +1,24 @@
+import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
-import { Component, ElementRef, HostListener, Inject, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IFilteredColumn, IFilteredColumnValue, IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { DateAdapter } from '@angular/material/core';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { LanguageModel } from '@eco-news-models/create-news-interface';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { LanguageModel } from '@eco-news-models/create-news-interface';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
-import moment from 'moment';
-import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
+import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { filtersSelector, locationsDetailsSelector } from 'src/app/store/selectors/big-order-table.selectors';
+import {
+  ICityDetails,
+  IDistrictDetails,
+  IFilteredColumnValue,
+  IFilters,
+  ILocationBase,
+  ILocationDetails
+} from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 
 @Component({
   selector: 'app-column-filters-pop-up',
@@ -25,9 +32,17 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   dateFrom: Date;
   dateTo: Date;
   dateChecked: boolean;
+  isLocationColumn: boolean;
+  optionsForFiltering: IFilteredColumnValue[] = [];
+  displayedOptionsForFiltering: IFilteredColumnValue[] = [];
 
+  locationDetails: ILocationDetails[] = [];
+  allLocations: ILocationBase[] = [];
+
+  searchTerm = '';
   isPopupOpened = false;
   showButtons = false;
+  selectedFiltersCount = 0;
 
   private allFilters: IFilters;
   private destroy$: Subject<void> = new Subject<void>();
@@ -37,7 +52,6 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     private matDialogRef: MatDialogRef<ColumnFiltersPopUpComponent>,
     private elementRef: ElementRef,
     private adapter: DateAdapter<LanguageModel>,
-    private injector: Injector,
     private adminTableService: AdminTableService,
     private store: Store,
     private localStorageService: LocalStorageService
@@ -51,6 +65,9 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     this.setPopupPosUnderButton();
     this.initListeners();
     this.showButtons = false;
+
+    this.isLocationColumn = columnsToFilterByName.includes(this.data.columnName);
+    this.isLocationColumn ? this.getLocationsForFiltering() : this.getOptionsForFiltering();
   }
 
   initListeners(): void {
@@ -59,7 +76,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
       this.adminTableService.setCurrentFilters(this.allFilters);
 
       const filtersDateCheck = filters?.[this.data.columnName + 'Check'];
-      if (filtersDateCheck !== null && filtersDateCheck !== undefined && typeof filtersDateCheck === 'boolean') {
+      if (typeof filtersDateCheck === 'boolean') {
         this.dateChecked = filtersDateCheck;
       }
 
@@ -73,6 +90,46 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
         this.dateTo = new Date(filtersDateTo);
       }
     });
+  }
+
+  getLocationsForFiltering(): void {
+    this.store.pipe(select(locationsDetailsSelector), takeUntil(this.destroy$)).subscribe((locations) => {
+      this.locationDetails = locations;
+
+      if (this.data.columnName === 'region') {
+        this.allLocations = this.locationDetails;
+      } else if (this.data.columnName === 'city') {
+        this.allLocations = this.getCitiesForFiltering();
+      } else if (this.data.columnName === 'district') {
+        this.allLocations = this.getDistrictsForFiltering();
+      }
+
+      this.optionsForFiltering = this.allLocations.map(this.toFilteredColumnValue);
+      this.displayedOptionsForFiltering = this.optionsForFiltering.slice(0, 100);
+    });
+  }
+
+  getCitiesForFiltering(): ICityDetails[] {
+    const regionIds = this.allFilters.region && Array.isArray(this.allFilters.region) ? this.getRegionIds(this.allFilters.region) : [];
+    const cities = this.locationDetails.map((region) => region.cities).flat();
+
+    return regionIds.length ? cities.filter((city) => regionIds.includes(city.regionId)) : cities;
+  }
+
+  getDistrictsForFiltering(): IDistrictDetails[] {
+    const cityIds = this.allFilters.city && Array.isArray(this.allFilters.city) ? this.getCityIds(this.allFilters.city) : [];
+    const districts = this.getCitiesForFiltering()
+      .map((city) => city.districts)
+      .flat();
+
+    return cityIds.length ? districts.filter((district) => cityIds.includes(district.cityId)) : districts;
+  }
+
+  onSearchTermChange(): void {
+    const term = this.searchTerm.trim().toLowerCase();
+    this.displayedOptionsForFiltering = this.optionsForFiltering
+      .filter((option) => option.ua.toLowerCase().includes(term) || option.en.toLowerCase().includes(term))
+      .slice(0, 100);
   }
 
   @HostListener('document:click', ['$event'])
@@ -138,13 +195,9 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     this.onDateChange();
   }
 
-  getOptionsForFiltering(): IFilteredColumnValue[] {
-    const columnsForFiltering = this.getColumnsForFiltering();
-    return columnsForFiltering.find((column) => column.key === this.data.columnName).values;
-  }
-
-  getColumnsForFiltering(): IFilteredColumn[] {
-    return this.adminTableService.columnsForFiltering;
+  getOptionsForFiltering(): void {
+    this.optionsForFiltering = this.adminTableService.columnsForFiltering.find((column) => column.key === this.data.columnName).values;
+    this.displayedOptionsForFiltering = this.optionsForFiltering;
   }
 
   ngOnDestroy(): void {
@@ -161,5 +214,27 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
     }
     this.matDialogRef.updatePosition(position);
     this.matDialogRef.updateSize(`${this.data.width}px`, `${this.data.height}px`);
+  }
+
+  //Temporary solution, need to refactor after back-end is ready to filter locations by id
+  private getRegionIds(names: string[]): number[] {
+    return this.locationDetails.filter((location) => names.includes(location.nameEn)).map((location) => location.id);
+  }
+
+  //Temporary solution, need to refactor after back-end is ready to filter locations by id
+  private getCityIds(names: string[]): number[] {
+    return this.locationDetails
+      .map((location) => location.cities)
+      .flat()
+      .filter((city) => names.includes(city.nameEn))
+      .map((city) => city.id);
+  }
+
+  private toFilteredColumnValue(location: ILocationBase): IFilteredColumnValue {
+    return {
+      key: location.id.toString(),
+      ua: location.nameUk,
+      en: location.nameEn
+    };
   }
 }

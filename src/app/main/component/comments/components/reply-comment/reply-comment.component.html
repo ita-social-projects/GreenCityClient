@@ -1,6 +1,15 @@
 <div class="d-flex main-wrapper">
-  <button class="cta-btn reply" [ngClass]="{ 'reply-active': isAddingReply }" (click)="writeReply()">
-    <img [src]="commentsImages.reply" class="btn-img" aria-hidden="true" alt="reply" #reply />
+  <button
+    class="cta-btn reply"
+    [ngClass]="{ 'reply-active': repliedComment?.isAdd && repliedComment?.comment.id === currentComment.id }"
+    (click)="writeReply()"
+  >
+    <img
+      [src]="repliedComment?.isAdd && repliedComment?.comment.id === currentComment.id ? commentsImages.replying : commentsImages.reply"
+      class="btn-img"
+      aria-hidden="true"
+      alt="reply"
+    />
     <span class="d-none d-sm-block btn-text">
       {{ 'homepage.eco-news.comment.btn.reply' | translate }}
     </span>

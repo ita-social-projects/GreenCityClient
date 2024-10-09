@@ -39,7 +39,7 @@
         </button>
       </div>
       <div>
-        <button [disabled]="habit.isAssigned" class="primary-global-button m-btn" (click)="addHabit()">
+        <button [disabled]="habit.isAssigned" class="primary-global-button m-btn" (click)="assignStandardHabit()">
           {{ habit.isAssigned ? ('user.habit.all-habits.btn-added' | translate) : ('user.habit.all-habits.btn-add' | translate) }}
         </button>
       </div>

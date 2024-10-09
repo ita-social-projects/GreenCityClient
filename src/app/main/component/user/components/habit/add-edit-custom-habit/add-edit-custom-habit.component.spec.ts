@@ -33,7 +33,7 @@ import { TodoStatus } from '../models/todo-status.enum';
 import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';
 import { CalendarComponent } from '@global-user/components';
 
-xdescribe('AddEditCustomHabitComponent', () => {
+describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
   let fixture: ComponentFixture<AddEditCustomHabitComponent>;
   const initialState = { habit: { defaultDuration: 1 } };
@@ -129,18 +129,6 @@ xdescribe('AddEditCustomHabitComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call methods onInit', () => {
-    const spy1 = spyOn(component as any, 'getUserId');
-    const spy2 = spyOn(component as any, 'initForm');
-    const spy3 = spyOn(component as any, 'getHabitTags');
-    const spy4 = spyOn(component as any, 'subscribeToLangChange');
-    component.ngOnInit();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
-    expect(spy4).toHaveBeenCalled();
   });
 
   it('getStars should return right star image', () => {

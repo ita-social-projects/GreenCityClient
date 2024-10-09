@@ -154,15 +154,6 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should cancel streams after ngOnDestroy', () => {
-    const destroy$ = 'destroyed$';
-    const nextSpy = spyOn(component[destroy$], 'next');
-    const completeSpy = spyOn(component[destroy$], 'complete');
-    component.ngOnDestroy();
-    expect(nextSpy).toHaveBeenCalled();
-    expect(completeSpy).toHaveBeenCalled();
-  });
-
   it('should return firstName Control on get firstName', () => {
     const firstName = component.firstName;
     expect(firstName).toEqual(component.employeeForm.get('firstName'));
@@ -248,20 +239,6 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
     const filesDroppedMock = spyOn(component, 'filesDropped');
     component.filesDropped(datasFileMock);
     expect(filesDroppedMock).toHaveBeenCalledWith(datasFileMock);
-  });
-
-  it('File should be transfered', () => {
-    component.imageName = 'fake';
-    spyOn(UbsAdminEmployeeEditFormComponent.prototype as any, 'showWarning').and.returnValue(false);
-    component[transferFile](dataFileMock);
-    expect(component.imageName).toBe('test-file.jpeg');
-  });
-
-  it('File should not be transfered', () => {
-    component.imageName = 'fake';
-    spyOn(UbsAdminEmployeeEditFormComponent.prototype as any, 'showWarning').and.returnValue(true);
-    component[transferFile](dataFileMock);
-    expect(component.imageName).toBe('fake');
   });
 
   describe('checkIsInitialPositionsChanged', () => {

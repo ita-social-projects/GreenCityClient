@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment';
-import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters } from '../models/ubs-admin.interface';
+import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters, ILocationDetails } from '../models/ubs-admin.interface';
 import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -24,33 +24,6 @@ const columnMapping: { [key: string]: string } = {
   providedIn: 'root'
 })
 export class AdminTableService {
-  private readonly BACKEND_REGION: Record<string, string> = {
-    "vinnyts'ka oblast": 'VINNYTSIA_OBLAST',
-    "volyns'ka oblast": 'VOLYN_OBLAST',
-    "donets'ka oblast": 'DONETSK_OBLAST',
-    "ivano-Frankivs'ka oblast": 'IVANO_FRANKIVSK_OBLAST',
-    "khersons'ka oblast": 'KHERSON_OBLAST',
-    "khmelnyts'ka oblast": 'KHMELNYTSKY_OBLAST',
-    "kyivs'ka oblast": 'KYIV_OBLAST',
-    kyiv: 'KYIV_CITY',
-    "lvivs'ka oblast": 'LVIV_OBLAST',
-    "mykolaivs'ka oblast": 'MYKOLAIV_OBLAST',
-    "odess'ka oblast": 'ODESSA_OBLAST',
-    "poltavs'ka oblast": 'POLTAVA_OBLAST',
-    "rivnens'ka oblast": 'RIVNE_OBLAST',
-    "sums'ka oblast": 'SUMY_OBLAST',
-    "ternopils'ka oblast": 'TERNOPIL_OBLAST',
-    "zaporizs'ka oblast": 'ZAPORIZHIA_OBLAST',
-    "zhytomyrs'ka oblast": 'ZHYTOMYR_OBLAST',
-    "kirovograds'ka oblast": 'KIROVOGRAD_OBLAST',
-    "cherkas'ka oblast": 'CHERKASY_OBLAST',
-    "chernivets'ka oblast": 'CHERNIVTSI_OBLAST',
-    "chernihivs'ka oblast": 'CHERNIHIV_OBLAST',
-    "dnipropetrovs'ka oblast": 'DNIPRO_OBLAST',
-    "kharkivs'ka oblast": 'KHARKIV_OBLAST',
-    crimea: 'CRIMEA'
-  };
-
   columnsForFiltering: IFilteredColumn[] = [];
   filters: any[] = [];
   selectedFilters: IFilters = {};
@@ -84,10 +57,11 @@ export class AdminTableService {
   }
 
   getColumns() {
-    let regions = this.localStorageService.getFilters()?.region ?? [];
-    regions = Array.isArray(regions) ? regions?.map((region) => this.BACKEND_REGION[region.toLowerCase()] ?? '').filter(Boolean) : [];
+    return this.http.get(`${this.url}tableParams`);
+  }
 
-    return this.http.get(`${this.url}tableParams`, { params: { region: regions } });
+  getLocations(): Observable<ILocationDetails[]> {
+    return this.http.get<ILocationDetails[]>(`${this.url}locations-details`);
   }
 
   postData(orderIdsList: number[], columnName: string, newValue: string) {

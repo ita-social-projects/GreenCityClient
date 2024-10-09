@@ -19,7 +19,7 @@ class DatePipeMock implements PipeTransform {
   }
 }
 
-xdescribe('HabitsPopupComponent', () => {
+describe('HabitsPopupComponent', () => {
   let component: HabitsPopupComponent;
   let fixture: ComponentFixture<HabitsPopupComponent>;
   const habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', ['assignHabit', 'mapOfArrayOfAllDate', 'habitDate']);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventsService } from '../../services/events.service';
 import {
@@ -30,7 +30,8 @@ export class UpdateEventComponent implements OnInit {
     private eventStore: EventStoreService,
     private eventService: EventsService,
     private languageService: LanguageService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private readonly cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -51,18 +52,17 @@ export class UpdateEventComponent implements OnInit {
             this.authorId = response.organizer.id;
             this.isAuthor = this.authorId === userId;
             this.isFetching = false;
+            this.cdRef.detectChanges();
           },
           error: (error) => {
             this.isFetching = false;
             this.isAuthor = false;
+            this.cdRef.detectChanges();
           }
         });
-        if (this.isFetching) {
-          this.isFetching = false;
-          this.isAuthor = false;
-        }
       } else {
         this.isAuthor = false;
+        this.cdRef.detectChanges();
       }
     });
   }
@@ -93,10 +93,10 @@ export class UpdateEventComponent implements OnInit {
   }
 
   private _transformDatesToForm(form: EventDatesResponse[]): DateInformation[] {
-    // let allPlace = true;
-    // let allLink = true;
-    // const address = form[0].coordinates?.formattedAddressEn;
-    // const link = form[0].onlineLink;
+    let allPlace = true;
+    let allLink = true;
+    const address = form[0].coordinates?.formattedAddressEn;
+    const link = form[0].onlineLink;
     return form.map((value) => {
       const { finishDate, startDate, onlineLink, coordinates } = value;
       const _startDate = new Date(startDate);
@@ -113,10 +113,10 @@ export class UpdateEventComponent implements OnInit {
 
       const place = this.languageService.getCurrentLanguage() === 'ua' ? coordinates?.formattedAddressUa : coordinates?.formattedAddressEn;
 
-      // allPlace &&= address === coordinates?.formattedAddressEn ?? false;
-      // allLink &&= link === onlineLink;
+      allPlace &&= address === coordinates?.formattedAddressEn ?? false;
+      allLink &&= link === onlineLink;
       return {
-        dateTime: { startTime: formattedStartTime, date: _startDate, endTime: formattedEndTime, allDay: false },
+        day: { startTime: formattedStartTime, date: _startDate, endTime: formattedEndTime, allDay: false },
         placeOnline: {
           appliedPlaceForAll: false,
           appliedLinkForAll: false,

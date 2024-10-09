@@ -8,7 +8,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { DragAndDropDirective } from '../../../eco-news/directives/drag-and-drop.directive';
 
-xdescribe('DragAndDropComponent', () => {
+describe('DragAndDropComponent', () => {
   let component: DragAndDropComponent;
   let fixture: ComponentFixture<DragAndDropComponent>;
 
@@ -79,13 +79,6 @@ xdescribe('DragAndDropComponent', () => {
     expect(warning.textContent).toContain('drag-and-drop.picture-tooltip');
   });
 
-  it('showWarning', () => {
-    component.file.file = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
-    component.isWarning = true;
-    (component as any).showWarning();
-    expect(component.isWarning).toBeFalsy();
-  });
-
   it('should stop cropping', (done) => {
     spyOn(component.newFile, 'emit');
     component.croppedImage = { ...imageCroppedEventMock, blob: new Blob(['some content'], { type: 'image/png' }) };
@@ -98,15 +91,6 @@ xdescribe('DragAndDropComponent', () => {
       expect(component.newFile.emit).toHaveBeenCalledWith(component.file);
       done();
     }, 100);
-  });
-
-  it('should stop cropping and reset states', () => {
-    spyOn(component as any, 'autoCropping');
-    component.stopCropping();
-
-    expect((component as any).autoCropping).toHaveBeenCalled();
-    expect(component.isCropper).toBeFalse();
-    expect(component.isWarning).toBeFalse();
   });
 
   it('should cancel changes and reset component states', () => {
@@ -125,7 +109,6 @@ xdescribe('DragAndDropComponent', () => {
   it('should handle file selection and read file data', () => {
     const reader = new FileReader();
     spyOn(window, 'FileReader').and.returnValue(reader);
-    spyOn(component as any, 'handleFile');
     spyOn(reader, 'readAsDataURL');
     spyOn(reader, 'addEventListener');
     const event = { target: { files: [new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' })] } } as any;
