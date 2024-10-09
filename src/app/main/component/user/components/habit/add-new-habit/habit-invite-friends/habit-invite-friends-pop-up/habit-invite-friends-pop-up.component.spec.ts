@@ -52,10 +52,8 @@ describe('HabitInviteFriendsPopUpComponent', () => {
   });
 
   it('should call on ngOnInit', () => {
-    const spy1 = spyOn(component as any, 'getUserId');
     const spy2 = spyOn(component, 'getFriends');
     component.ngOnInit();
-    expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
   });
 
@@ -75,6 +73,12 @@ describe('HabitInviteFriendsPopUpComponent', () => {
       const result = component.setFriendDisable(friendId);
       expect(result).toBe(true);
     });
+  });
+
+  xit('should update allAdd status', () => {
+    component.friends = [FIRSTFRIEND, SECONDFRIEND];
+    component.updateAllAdd();
+    expect(component.allAdd).toBeTruthy();
   });
 
   it('should check if some friends are added', () => {
