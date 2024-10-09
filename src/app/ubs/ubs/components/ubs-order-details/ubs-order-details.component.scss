@@ -366,10 +366,17 @@ input[type='number'] {
     width: 215px;
     position: relative;
 
-    ::placeholder {
-      color: var(--ubs-primary-light-grey);
-      opacity: 1;
-      font-size: 0.9rem;
+    .eco-store-input {
+      background-color: var(--ubs-grey-white);
+
+      &:focus {
+        background-color: transparent;
+      }
+
+      &::placeholder {
+        color: var(--ubs-primary-light-grey);
+        font-size: 14px;
+      }
     }
 
     & > [input-close-button] {
@@ -738,13 +745,13 @@ li {
         display: flex;
         flex-direction: column;
         align-items: center;
-
-        .eco-store-input {
-          width: 240px;
-          text-align: center;
-        }
       }
     }
+  }
+
+  .eco-store-input {
+    width: 240px;
+    text-align: center;
   }
 
   .bottom-text {
