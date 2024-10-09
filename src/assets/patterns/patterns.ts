@@ -21,7 +21,7 @@ export const Patterns = {
 
   // prettier-ignore
   ubsMailPattern:
-    /^[\w-\.]+@[a-zA-Z-]+\.[a-zA-Z]{2,4}$/,
+    /^[\w.-]+@[a-zA-Z-]+(\.[a-zA-Z]{2,})+$/,
   paymentAmountPattern: '^[0-9]+(.[0-9]{1,2})?$',
   certificateMonthCount: '^[0-9]{1,2}$',
   certificateInitialValue: '^[0-9]{1,4}$',
