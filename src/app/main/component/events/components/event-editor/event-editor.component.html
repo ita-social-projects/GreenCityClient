@@ -16,25 +16,19 @@
     </div>
     <div class="mat-wrapper flex-lg-row">
       <mat-card class="information-card">
-        <app-create-event-information
-          (formStatus)="checkFormInformation($event, 'event')"
-          [formInput]="formValues.eventInformation"
-        ></app-create-event-information>
+        <app-create-event-information [eventInfForm]="eventInformation"></app-create-event-information>
       </mat-card>
       <mat-card>
-        <app-create-event-dates
-          (formsEmit)="checkFormInformation($event, 'date')"
-          [formInput]="formValues.dateInformation"
-        ></app-create-event-dates>
+        <app-create-event-dates [eventDateForm]="eventDateForm"></app-create-event-dates>
       </mat-card>
     </div>
 
     <div class="submit-container">
-      <button (click)="onPreview()" [disabled]="!formsIsValid" class="secondary-global-button submit-buttons">
+      <button (click)="onPreview()" [disabled]="!eventForm.valid" class="secondary-global-button submit-buttons">
         {{ 'create-event.preview' | translate }}
       </button>
 
-      <button (click)="submitEvent()" [disabled]="!formsIsValid" class="primary-global-button submit-buttons">
+      <button (click)="submitEvent()" [disabled]="!eventForm.valid" class="primary-global-button submit-buttons">
         {{ submitButtonName | translate }}
       </button>
 

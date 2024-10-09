@@ -23,10 +23,3 @@ export interface EcoNewsCommentsDTO {
   showRelyButton?: boolean;
   showAllRelies?: boolean;
 }
-
-export interface EcoNewsAddedCommentDTO {
-  author: EcoNewsAuthorDTO;
-  id: number;
-  modifiedDate: string;
-  text: string;
-}

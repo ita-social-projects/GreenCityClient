@@ -32,11 +32,6 @@ import {
   ProfileHeaderComponent,
   ProfileProgressComponent,
   ShoppingListComponent,
-  AchievementItemComponent,
-  AchievementListComponent,
-  UserAchievementsComponent,
-  NewAchievementModalComponent,
-  UserSidebarComponent,
   UserSettingComponent,
   EditProfileComponent,
   PersonalPhotoComponent,
@@ -91,6 +86,8 @@ import { FriendshipButtonsComponent } from './components/profile/users-friends/f
 import { CommentsModule } from '../comments/comments.module';
 import { CommentsService } from '../comments/services/comments.service';
 import { HabitCommentsService } from '@global-service/habit-comments/habit-comments.service';
+import { AchievementsModalComponent } from './components/profile/users-achievements/achievements-modal/achievements-modal.component';
+import { AchievementItemComponent } from './components/profile/users-achievements/achievement-item/achievement-item.component';
 
 @NgModule({
   declarations: [
@@ -98,12 +95,7 @@ import { HabitCommentsService } from '@global-service/habit-comments/habit-comme
     ProfileCardsComponent,
     ProfileDashboardComponent,
     OneHabitComponent,
-    AchievementItemComponent,
-    AchievementListComponent,
-    UserAchievementsComponent,
-    NewAchievementModalComponent,
     UserSettingComponent,
-    UserSidebarComponent,
     ButtonComponent,
     UserLogComponent,
     HabitTrackersComponent,
@@ -158,7 +150,9 @@ import { HabitCommentsService } from '@global-service/habit-comments/habit-comme
     UserNotificationsComponent,
     UserNotificationsPopUpComponent,
     NotificContentReplaceDirective,
-    FriendshipButtonsComponent
+    FriendshipButtonsComponent,
+    AchievementsModalComponent,
+    AchievementItemComponent
   ],
   imports: [
     NgbModule,

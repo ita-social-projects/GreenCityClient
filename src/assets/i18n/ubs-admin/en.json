@@ -122,7 +122,9 @@
   "return-payment": {
     "message": "Do you really want a refund?",
     "accept-refund-application": "Your application has been accepted. Our manager will contact you later.",
-    "error-refund-application": "Something went wrong. Your application has not been accepted. Please, try create it later."
+    "error-refund-application": "Something went wrong. Your application has not been accepted. Please, try create it later.",
+    "reqeust-return-bonuses": "The funds will be credited to the bonus account after saving the changes",
+    "reqeust-return-money": "The funds will be credited to the client's account after saving the changes"
   },
   "add-payment": {
     "title": "Add a payment document",
@@ -382,7 +384,8 @@
     "placeholder": "Search by name or contacts",
     "no-orders-found": "According to these criteria, no orders were found",
     "default-reset": "Reset width",
-    "orders-number": "Number of orders"
+    "orders-number": "Number of orders",
+    "search": "Search"
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",
@@ -948,6 +951,7 @@
     "address-corp": "corp",
     "address-entrance": "entrance",
     "address-district": "district",
+    "pop-up-map-check": "Select the place on the map",
     "pop-up-region": "Region",
     "pop-up-region-name": "Kyiv region",
     "pop-up-title": "New address",

@@ -11,6 +11,11 @@ export interface Bag {
   limitedIncluded?: boolean;
 }
 
+export enum PaymentSystem {
+  MONOBANK = 'MONOBANK',
+  WAY_FOR_PAY = 'WAY_FOR_PAY'
+}
+
 export interface Order {
   additionalOrders: Array<string>;
   addressId: number;
@@ -21,6 +26,7 @@ export interface Order {
   personalData: PersonalData;
   pointsToUse: number;
   shouldBePaid: boolean;
+  paymentSystem: PaymentSystem;
 }
 
 export interface OrderBag {

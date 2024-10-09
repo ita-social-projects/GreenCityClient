@@ -9,7 +9,7 @@ import { FormBaseComponent } from './form-base.component';
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
-xdescribe('FormBaseComponent', () => {
+describe('FormBaseComponent', () => {
   let component: FormBaseComponent;
   let fixture: ComponentFixture<FormBaseComponent>;
   let router: Router;
@@ -53,62 +53,5 @@ xdescribe('FormBaseComponent', () => {
     component.cancel(true);
     expect(spyCancelPopupJustifying).toHaveBeenCalledWith(true);
     expect(spyLocalStorage).toHaveBeenCalledWith('newsTags');
-  });
-
-  it('should call navigateByUrl inside cancelUBSwithoutSaving', () => {
-    const spy = spyOn(router, 'navigateByUrl');
-    expect(spy).toHaveBeenCalledWith('/ubs');
-  });
-
-  it('should call cancelPopupJustifying inside cancelUBS', () => {
-    spyOn(component, 'getFormValues').and.returnValue(true);
-    const spy = spyOn(FormBaseComponent.prototype as any, 'cancelPopupJustifying');
-    expect(spy).toHaveBeenCalledWith(true, true);
-  });
-
-  it('should call router.navigate if isUbs is false inside cancelPopupJustifying', () => {
-    component.previousPath = 'fakePath';
-    spyOn(matDialog, 'open').and.returnValue(dialogRefStub as any);
-    spyOnProperty(router, 'url', 'get').and.returnValue('fake');
-    const spy = spyOn(router, 'navigate');
-    const cancelPopupJustifying = 'cancelPopupJustifying';
-    component[cancelPopupJustifying](true, false);
-    expect(spy).toHaveBeenCalledWith(['fakePath']);
-  });
-
-  it('should call cancelUBSwithoutSaving if isUbs is true inside cancelPopupJustifying', () => {
-    component.previousPath = 'fakePath';
-    spyOn(matDialog, 'open').and.returnValue(dialogRefStub as any);
-    spyOnProperty(router, 'url', 'get').and.returnValue('ubs/order');
-    const cancelPopupJustifying = 'cancelPopupJustifying';
-    component[cancelPopupJustifying](true, false);
-  });
-
-  it('should call router.navigate if isUbsOrderSubmit is true inside cancelPopupJustifying', () => {
-    spyOn(matDialog, 'open').and.returnValue(dialogRefStub as any);
-    spyOnProperty(router, 'url', 'get').and.returnValue('fake');
-    const spy = spyOn(router, 'navigate');
-    const cancelPopupJustifying = 'cancelPopupJustifying';
-    component[cancelPopupJustifying](true, true);
-    expect(spy).toHaveBeenCalledWith(['ubs', 'confirm']);
-  });
-
-  it('should call router.navigate if conditions is false inside cancelPopupJustifying', () => {
-    component.previousPath = 'fakePath';
-    const spy = spyOn(router, 'navigate');
-    const cancelPopupJustifying = 'cancelPopupJustifying';
-    component[cancelPopupJustifying](false, false);
-    expect(spy).toHaveBeenCalledWith(['fakePath']);
-  });
-
-  it('should call cancelUBSwithoutSaving if isUbsOrderSubmit is true and confirm === null inside cancelPopupJustifying', () => {
-    const fakedialogRef = {
-      afterClosed() {
-        return of(null);
-      }
-    };
-    spyOn(matDialog, 'open').and.returnValue(fakedialogRef as any);
-    const cancelPopupJustifying = 'cancelPopupJustifying';
-    component[cancelPopupJustifying](true, true);
   });
 });

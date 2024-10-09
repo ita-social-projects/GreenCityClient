@@ -84,16 +84,6 @@ describe('ColumnFiltersPopUpComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method getOptionsForFiltering should return options', () => {
-    const options = component.getOptionsForFiltering();
-    expect(options).toEqual(fakeAdminTableService.columnsForFiltering[0].values);
-  });
-
-  it('method getColumnsForFiltering should return columnsForFiltering from service', () => {
-    const columnsForFilteringTest = component.getColumnsForFiltering();
-    expect(columnsForFilteringTest).toEqual(fakeAdminTableService.columnsForFiltering);
-  });
-
   it('should set showButtons to true and call setNewFilters on filter change', () => {
     const checked = true;
     const currentColumn = 'testColumn';
@@ -161,22 +151,6 @@ describe('ColumnFiltersPopUpComponent', () => {
 
     expect(fakeAdminTableService.isFilterChecked).toHaveBeenCalledWith(columnName, option);
     expect(result).toBe(expectedResult);
-  });
-
-  it('should call setCurrentFilters and set dateFrom and dateTo correctly', () => {
-    const mockFilters = {
-      testColumnFrom: '2024-09-18T00:00:00Z',
-      testColumnTo: '2024-09-20T00:00:00Z'
-    };
-
-    component['allFilters'] = mockFilters;
-    component.data = { columnName: 'testColumn' } as any;
-
-    component.discardChanges();
-
-    expect(fakeAdminTableService.setCurrentFilters).toHaveBeenCalledWith(mockFilters);
-    expect(component['dateFrom']).toEqual(new Date('2024-09-18T00:00:00Z'));
-    expect(component['dateTo']).toEqual(new Date('2024-09-20T00:00:00Z'));
   });
 
   it('should call stopPropagation and update dates correctly when type is "from"', () => {

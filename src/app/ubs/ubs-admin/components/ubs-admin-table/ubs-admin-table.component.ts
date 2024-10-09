@@ -1,31 +1,18 @@
-import { ColumnFiltersPopUpComponent } from '../shared/components/column-filters-pop-up/column-filters-pop-up.component';
-import {
-  IBigOrderTable,
-  IBigOrderTableParams,
-  IColumnDTO,
-  IDateFilters,
-  IFilteredColumn,
-  IFilteredColumnValue,
-  IFilters,
-  IOrdersViewParameters
-} from '../../models/ubs-admin.interface';
-import { TableHeightService } from '../../services/table-height.service';
-import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { nonSortableColumns } from '../../models/non-sortable-columns.model';
-import { AdminTableService } from '../../services/admin-table.service';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { debounceTime, filter, take, takeUntil } from 'rxjs/operators';
-import { Subject, timer } from 'rxjs';
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { DateAdapter } from '@angular/material/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { select, Store } from '@ngrx/store';
-import { IAppState } from 'src/app/store/state/app.state';
+import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
+import { Subject, timer } from 'rxjs';
+import { debounceTime, filter, take, takeUntil } from 'rxjs/operators';
+import { MouseEvents } from 'src/app/shared/mouse-events';
 import {
   AddFilterMultiAction,
   AddFiltersAction,
@@ -33,18 +20,35 @@ import {
   ClearFilters,
   GetColumns,
   GetColumnToDisplay,
+  GetLocationsDetails,
   GetTable,
   RemoveFilter,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
-import { MouseEvents } from 'src/app/shared/mouse-events';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
+import { filtersSelector, isFiltersAppliedSelector, locationsDetailsSelector } from 'src/app/store/selectors/big-order-table.selectors';
+import { IAppState } from 'src/app/store/state/app.state';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
-import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
-import { filtersSelector, isFiltersAppliedSelector, isNoFiltersAppliedSelector } from 'src/app/store/selectors/big-order-table.selectors';
+import { IAlertInfo, IEditCell } from '../../models/edit-cell.model';
+import { nonSortableColumns } from '../../models/non-sortable-columns.model';
+import {
+  IBigOrderTable,
+  IBigOrderTableParams,
+  ICityDetails,
+  IColumnDTO,
+  IDateFilters,
+  IDistrictDetails,
+  IFilteredColumn,
+  IFilteredColumnValue,
+  IFilters,
+  ILocationDetails,
+  IOrdersViewParameters
+} from '../../models/ubs-admin.interface';
+import { AdminTableService } from '../../services/admin-table.service';
+import { TableHeightService } from '../../services/table-height.service';
+import { TableColorKeys, TableKeys } from '../../services/table-keys.enum';
+import { ColumnFiltersPopUpComponent } from '../shared/components/column-filters-pop-up/column-filters-pop-up.component';
 import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
-import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
+import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -113,6 +117,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   dateForm: FormGroup;
   filters: IDateFilters[] = [];
   allFilters: IFilters;
+  searchTerms: Record<string, string> = {};
+  locationDetails: ILocationDetails[] = [];
+  locationsForFiltering: Record<string, IFilteredColumnValue[]> = {};
   defaultColumnsWidth: Map<string, number> = new Map(Object.entries(defaultColumnsWidthPreference));
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
@@ -255,6 +262,19 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.getColumns();
       this.store.dispatch(GetColumnToDisplay());
     }
+
+    this.store.dispatch(GetLocationsDetails());
+
+    this.store.pipe(select(locationsDetailsSelector), takeUntil(this.destroy)).subscribe((locations) => {
+      this.locationDetails = locations;
+      this.updateLocationsForFiltering();
+    });
+  }
+
+  updateLocationsForFiltering(): void {
+    columnsToFilterByName.forEach((columnName) => {
+      this.locationsForFiltering[columnName] = this.getLocationsForFiltering(columnName);
+    });
   }
 
   ngAfterViewChecked() {
@@ -489,6 +509,70 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         reset: false
       })
     );
+  }
+
+  isLocationColumn(columnName: string): boolean {
+    return columnsToFilterByName.includes(columnName);
+  }
+
+  onSearchTermChange(columnName: string, event: Event): void {
+    this.searchTerms[columnName] = event.target['value'];
+
+    this.locationsForFiltering[columnName] = this.getLocationsForFiltering(columnName);
+  }
+
+  getOptionsForFiltering(column: IFilteredColumn): IFilteredColumnValue[] {
+    return this.isLocationColumn(column.key) ? this.locationsForFiltering[column.key] : column.values;
+  }
+
+  getLocationsForFiltering(columnName: string): IFilteredColumnValue[] {
+    let locations = [];
+
+    if (columnName === 'region') {
+      locations = this.locationDetails;
+    } else if (columnName === 'city') {
+      locations = this.getCitiesForFiltering();
+    } else if (columnName === 'district') {
+      locations = this.getDistrictsForFiltering();
+    }
+
+    const term = this.searchTerms[columnName]?.toLowerCase() ?? '';
+    return locations
+      .filter((location) => location.nameEn.toLowerCase().includes(term) || location.nameUk.toLowerCase().includes(term))
+      ?.slice(0, 100)
+      .map((location) => ({ key: location.id, en: location.nameEn, ua: location.nameUa }));
+  }
+
+  getCitiesForFiltering(): ICityDetails[] {
+    const filters = this.adminTableService.selectedFilters.region;
+    const regionIds = Array.isArray(filters) ? this.getRegionIds(filters) : [];
+    const cities = this.locationDetails.map((region) => region.cities).flat();
+
+    return regionIds.length ? cities.filter((city) => regionIds.includes(city.regionId)) : cities;
+  }
+
+  getDistrictsForFiltering(): IDistrictDetails[] {
+    const filters = this.adminTableService.selectedFilters.city;
+    const cityIds = Array.isArray(filters) ? this.getCityIds(filters) : [];
+    const districts = this.getCitiesForFiltering()
+      .map((city) => city.districts)
+      .flat();
+
+    return cityIds.length ? districts.filter((district) => cityIds.includes(district.cityId)) : districts;
+  }
+
+  //Temporary solution, need to refactor after back-end is ready to filter locations by id
+  private getRegionIds(names: string[]): number[] {
+    return this.locationDetails.filter((location) => names.includes(location.nameEn)).map((location) => location.id);
+  }
+
+  //Temporary solution, need to refactor after back-end is ready to filter locations by id
+  private getCityIds(names: string[]): number[] {
+    return this.locationDetails
+      .map((location) => location.cities)
+      .flat()
+      .filter((city) => names.includes(city.nameEn))
+      .map((city) => city.id);
   }
 
   getSortingData(columnName, sortingType) {
@@ -736,6 +820,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   onFilterChange(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.noFiltersApplied = false;
     this.adminTableService.setNewFilters(checked, currentColumn, option);
+
+    if (columnsToFilterByName.includes(currentColumn)) {
+      this.updateLocationsForFiltering();
+    }
   }
 
   onDateChecked(event: MatCheckboxChange, checked: boolean, columnKey: string): void {

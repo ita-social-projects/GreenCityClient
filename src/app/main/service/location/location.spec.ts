@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Language } from '../../i18n/Language';
 
-xdescribe('LocationService', () => {
+describe('LocationService', () => {
   let locations;
 
   const placeDetailsEn = {

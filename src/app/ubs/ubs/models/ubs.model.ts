@@ -171,8 +171,8 @@ export class CAddressData {
     this.resetPlaceId();
   }
 
-  getDistrict(): DistrictsDtos | null {
-    return this.district && this.districtEn ? { nameUa: this.district, nameEn: this.districtEn } : null;
+  getDistrict(): string {
+    return this.languageService.getLangValue(this.district, this.districtEn);
   }
 
   setDistrict(place_id: string): void {
@@ -252,6 +252,19 @@ export class CAddressData {
   private resetPlaceId() {
     this.placeId = '';
     this.placeIdChange.next(this.placeId);
+  }
+
+  async getAddressPlaceId(coordinates: google.maps.LatLng): Promise<string> {
+    return new google.maps.Geocoder()
+      .geocode({ location: coordinates })
+      .then((response) => {
+        const place_id = response.results[0]?.place_id;
+        return place_id || '';
+      })
+      .catch((error) => {
+        console.error('Geocoding failed:', error);
+        return '';
+      });
   }
 
   //Tries to fetch address by selected coordinates

@@ -15,6 +15,7 @@ import { HabitsFiltersList } from '../models/habits-filters-list';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
 import { HttpParams } from '@angular/common/http';
+import { SelectedFilters } from './all-habits.model';
 
 @Component({
   selector: 'app-all-habits',
@@ -27,7 +28,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   galleryView = true;
   isFetching = true;
   tagList: TagInterface[] = [];
-  activeFilters: string[] = [];
+  activeFilters: SelectedFilters = {};
   filtersList: FilterSelect[] = HabitsFiltersList;
   windowSize: number;
   private currentPage = 0;
@@ -96,18 +97,18 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getHabitsByFilters(page: number, size: number, filters: string[]): void {
+  private getHabitsByFilters(page: number, size: number, filters: SelectedFilters): void {
     let params = new HttpParams().set('page', page.toString()).set('size', size.toString()).set('lang', this.lang).set('sort', 'asc');
 
-    filters.forEach((filter) => {
-      const [key, value] = filter.split('=');
-      if (key && value) {
-        params = params.set(key, value);
+    Object.keys(filters).forEach((key) => {
+      const value = filters[key];
+      if (Array.isArray(value)) {
+        value.forEach((item) => {
+          params = params.append(key, item);
+        });
+      } else if (value) {
+        params = params.set(key, value.toString());
       }
-    });
-
-    filters.forEach((filter) => {
-      params.append(`filter`, filter);
     });
 
     this.habitService
@@ -137,19 +138,21 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   }
 
   setFilters(filterChange: FilterSelect): void {
-    this.activeFilters = [];
+    this.activeFilters = {};
+
     const selectedInd = this.filtersList.findIndex((filt: FilterSelect) => filt.name === filterChange.name);
     if (selectedInd >= 0) {
       this.filtersList[selectedInd] = filterChange;
       const filtersActive = this.filtersList.filter((item: FilterSelect) => !item.isAllSelected);
       filtersActive.forEach((el: FilterSelect) => {
         const activeOptions = el.options.filter((option: FilterOptions) => option.isActive);
-        if (activeOptions.length) {
-          const queryString = `${el.name}=${activeOptions.map((option) => option.value).join('%2C')}`;
-          this.activeFilters.push(queryString);
+
+        if (Array.isArray(activeOptions) && activeOptions.length) {
+          Object.assign(this.activeFilters, { [el.name]: activeOptions.map((option) => option.value) });
         }
       });
-      filtersActive.length && this.activeFilters.length
+
+      filtersActive.length && Object.keys(this.activeFilters).length
         ? this.getHabitsByFilters(0, this.pageSize, this.activeFilters)
         : this.getAllHabits(0, this.pageSize);
     }
@@ -174,7 +177,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     if (!this.isAllPages) {
       this.isFetching = true;
       this.currentPage += 1;
-      this.activeFilters.length
+      Object.keys(this.activeFilters).length
         ? this.getHabitsByFilters(this.currentPage, this.pageSize, this.activeFilters)
         : this.getAllHabits(this.currentPage, this.pageSize);
     }

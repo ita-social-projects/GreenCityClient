@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { UserNotificationService } from '@global-user/services/user-notification.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { NotificationArrayModel, NotificationModel } from '@user-models/notification.model';
 
 @Component({
   selector: 'app-user-notifications-pop-up',
@@ -11,8 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
-  limitNotifications = 3;
-  notifications = [];
+  notifications: NotificationModel[] = [];
   isLoading = true;
 
   constructor(
@@ -33,8 +33,8 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
     this.userNotificationService
       .getThreeNewNotification()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((data) => {
-        this.notifications = data;
+      .subscribe((data: NotificationArrayModel) => {
+        this.notifications = data.page;
         this.isLoading = false;
       });
   }

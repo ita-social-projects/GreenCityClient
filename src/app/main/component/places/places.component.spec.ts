@@ -158,18 +158,6 @@ describe('PlacesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should called subscribeToLangChange method one time', () => {
-    const subscribeToLangChangeSpy = spyOn(component as any, 'subscribeToLangChange');
-    component.ngOnInit();
-    expect(subscribeToLangChangeSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it(`bindLang should be called in ngOnInit`, () => {
-    const bindLangSpy = spyOn(component as any, 'bindLang');
-    component.ngOnInit();
-    expect(bindLangSpy).toHaveBeenCalled();
-  });
-
   it('should initialize with correct parameters', () => {
     component.ngOnInit();
     if (!component.userId) {

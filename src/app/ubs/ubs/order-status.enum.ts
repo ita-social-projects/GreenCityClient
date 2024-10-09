@@ -25,5 +25,6 @@ export enum CancellationReason {
 }
 
 export enum PaymentEnrollment {
-  receiptLink = 'Enrollment to the bonus account'
+  bonuses = 'return-payment.reqeust-return-bonuses',
+  money = 'return-payment.reqeust-return-money'
 }

@@ -180,8 +180,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   navigateToEditEvent(): void {
-    this.localStorageService.setEditMode('canUserEdit', true);
-    this.router.navigate(['/events', 'update-event', this.eventId]);
+    if (this.eventService.getIsFromCreateEvent()) {
+      this.router.navigate(['/events', 'create-event', this.eventId]);
+    } else {
+      this.localStorageService.setEditMode('canUserEdit', true);
+      this.router.navigate(['/events', 'update-event', this.eventId]);
+    }
   }
 
   submitEventCancelling() {

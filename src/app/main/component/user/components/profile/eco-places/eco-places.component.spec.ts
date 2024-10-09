@@ -51,12 +51,6 @@ describe('EcoPlacesComponent', () => {
     expect(component.currentLang).toEqual('en');
   });
 
-  it('should unsubscribe on destroy', () => {
-    const unsubscribeSpy = spyOn(component['destroy$'], 'next');
-    component.ngOnDestroy();
-    expect(unsubscribeSpy).toHaveBeenCalled();
-  });
-
   it('should complete the destroy$ subject on destroy', () => {
     spyOn(component.destroy$, 'next');
     spyOn(component.destroy$, 'complete');

@@ -1,42 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AchievementDto } from '../../model/achievement/AchievementDto';
-import { BehaviorSubject, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { achievementLink } from '../../links';
-import { catchError } from 'rxjs/operators';
-import { LocalStorageService } from '../localstorage/local-storage.service';
-import { OnLogout } from '../OnLogout';
+import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AchievementService implements OnLogout {
-  private $achievements = new BehaviorSubject<AchievementDto[]>([]);
-  private dataStore: { achievements: AchievementDto[] } = { achievements: [] };
-  readonly achievements = this.$achievements.asObservable();
+export class AchievementService {
+  constructor(private readonly http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient,
-    private localStorageService: LocalStorageService
-  ) {}
-
-  loadAchievements() {
-    this.dataStore.achievements = [];
-    const http$ = this.http.get<AchievementDto[]>(`${achievementLink}`);
-    http$.pipe(catchError(() => of([]))).subscribe(
-      (data) => {
-        this.dataStore.achievements = data;
-        this.$achievements.next({ ...this.dataStore }.achievements);
-        this.localStorageService.unsetFirstSignIn();
-      },
-      (error) => {
-        throw error;
-      }
-    );
+  getAchievements() {
+    return this.http.get<AchievementDto[]>(`${achievementLink}?achievementStatus=ACHIEVED`);
   }
 
-  onLogout(): void {
-    this.dataStore.achievements = [];
-    this.$achievements.next({ ...this.dataStore }.achievements);
+  getAchievementsAmount() {
+    return this.http.get<number>(`${achievementLink}/count`);
+  }
+
+  getAchievedAmount() {
+    return this.http.get<number>(`${achievementLink}/count?achievementStatus=ACHIEVED`);
+  }
+
+  getAchievementsByCategory(categoryId: number): Observable<AchievementDto[]> {
+    return this.http.get<AchievementDto[]>(`${achievementLink}?achievementCategoryId=${categoryId}`);
+  }
+
+  getCategories(): Observable<AchievementCategoryDto[]> {
+    return this.http.get<AchievementCategoryDto[]>(`${achievementLink}/categories`);
   }
 }

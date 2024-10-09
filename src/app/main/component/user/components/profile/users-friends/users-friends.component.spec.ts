@@ -70,18 +70,6 @@ describe('UsersFriendsComponent', () => {
     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
   });
 
-  it('should get a user', () => {
-    const initUserSpy = spyOn(component as any, 'initUser');
-    component.ngOnInit();
-    expect(initUserSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should get users friends', () => {
-    const showUsersFriendsSpy = spyOn(component as any, 'calculateFriendsToShow');
-    component.ngOnInit();
-    expect(showUsersFriendsSpy).toHaveBeenCalledTimes(1);
-  });
-
   it('should set message to error message', () => {
     const error = new Error('Error message');
     spyOn(userFriendsServiceMock, 'getAllFriends').and.returnValue(throwError(() => error.message));

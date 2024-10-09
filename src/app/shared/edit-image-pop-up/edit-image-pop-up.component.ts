@@ -18,9 +18,7 @@ export class EditImagePopUpComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data,
     private dialogRef: MatDialogRef<EditImagePopUpComponent>,
     private imageService: ImageService
-  ) {
-    console.log(data);
-  }
+  ) {}
 
   ngOnInit(): void {
     if (!this.data.image) {

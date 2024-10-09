@@ -1,4 +1,5 @@
 import { FormControl } from '@angular/forms';
+import { Moment } from 'moment';
 
 type FormControllers<T> = {
   [K in keyof T]: FormControl<T[K]>;
@@ -21,6 +22,12 @@ export interface DateTime {
   allDay: boolean;
 }
 
+export interface DateTimeForm {
+  date: Moment;
+  startTime: string;
+  endTime: string;
+  allDay: boolean;
+}
 export type DateTimeGroup = FormControllers<DateTime>;
 
 export interface PlaceOnline {
@@ -35,7 +42,7 @@ export interface PlaceOnline {
 }
 
 export type PlaceOnlineGroup = FormControllers<PlaceOnline>;
-export type DateInformation = { dateTime: DateTime; placeOnline: PlaceOnline; pastDate?: boolean };
+export type DateInformation = { day: DateTime; placeOnline: PlaceOnline; pastDate?: boolean };
 
 export interface ImagesContainer {
   file: File;

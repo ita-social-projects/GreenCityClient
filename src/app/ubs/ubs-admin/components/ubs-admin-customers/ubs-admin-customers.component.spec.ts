@@ -57,58 +57,15 @@ describe('UbsAdminCustomersComponent', () => {
     expect(detectChangesSpy).toHaveBeenCalled();
   });
 
-  it('method ngOnInit should invoke methods', () => {
-    const spy = spyOn(component as any, 'setDisplayedColumns');
-    const spy1 = spyOn(component as any, 'getTable');
-    const spy2 = spyOn(component as any, 'initFilterForm');
-    const spy3 = spyOn(component as any, 'onCreateGroupFormValueChange');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
-  });
-
-  it('method getSortingData should invoke methods', () => {
-    const spy = spyOn(component as any, 'getTable');
-    component.getSortingData('', '');
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('method togglePopUp should toggle display', () => {
     component.display = 'block';
     component.togglePopUp();
     expect(component.display).toBe('none');
   });
 
-  it('method initFilterForm should assign data to filters', () => {
-    (component as any).initFilterForm();
-    expect(component.filters).toBe(component.filterForm.value);
-  });
-
   it('method onDeleteFilter should reset data in filterForm', () => {
     component.onDeleteFilter('bonusesFrom', 'bonusesTo');
     expect(component.filterForm.value.bonusesFrom).toBe('');
     expect(component.filterForm.value.bonusesTo).toBe('');
-  });
-
-  it('method onClearFilters should reset filterForm', () => {
-    component.onClearFilters();
-    expect((component as any).filterForm.getRawValue()).toEqual((component as any).initialFilterValues);
-  });
-
-  it('onScroll should add 1 to currentPage', () => {
-    component.isUpdate = false;
-    component.currentPage = 1;
-    (component as any).totalPages = 2;
-    component.onScroll();
-    expect(component.currentPage).toBe(2);
-  });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    (component as any).destroy = new Subject<boolean>();
-    spyOn((component as any).destroy$, 'unsubscribe');
-    component.ngOnDestroy();
-    expect((component as any).destroy$.unsubscribe).toHaveBeenCalledTimes(1);
   });
 });

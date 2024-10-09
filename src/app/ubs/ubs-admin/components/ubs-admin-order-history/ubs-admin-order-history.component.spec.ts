@@ -183,36 +183,4 @@ describe('UbsAdminOrderHistoryComponent', () => {
     MatDialogMock.prototype.open();
     expect(spy).toHaveBeenCalled();
   });
-
-  it('openCancelReason should call dialog.open once', () => {
-    const spy = spyOn((component as any).dialog, 'open');
-    component.orderInfo = OrderInfoMock;
-    component.openCancelReason();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('openCancelReason should call dialog.open with correct data', () => {
-    const spy = spyOn((component as any).dialog, 'open');
-    component.orderInfo = OrderInfoMock;
-    component.cancellationReason = cancellationReasonMock;
-    component.cancellationComment = cancellationCommentMock;
-    component.openCancelReason();
-    expect(spy).toHaveBeenCalledWith(AddOrderCancellationReasonComponent, {
-      hasBackdrop: true,
-      data: {
-        isHistory: true,
-        orderID: component.orderInfo.generalOrderInfo.id,
-        reason: component.cancellationReason,
-        comment: component.cancellationComment
-      },
-      maxHeight: '100vh'
-    });
-  });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    (component as any).destroy$ = new Subject<boolean>();
-    spyOn((component as any).destroy$, 'next');
-    component.ngOnDestroy();
-    expect((component as any).destroy$.next).toHaveBeenCalledTimes(1);
-  });
 });

@@ -62,8 +62,6 @@ describe('UbsAdminEditUserAgreementComponent', () => {
     });
 
     it('should return previous version if user cancels', () => {
-      console.log('calls', mockUserAgreementService.getUserAgreement.calls.count());
-
       mockMatDialog.open.and.returnValue({ afterClosed: () => of(false) });
 
       component.currentVersion = 'initial';

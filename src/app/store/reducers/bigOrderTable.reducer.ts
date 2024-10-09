@@ -11,7 +11,9 @@ import {
   AddFiltersAction,
   RemoveFilter,
   AddFilterMultiAction,
-  ClearFilters
+  ClearFilters,
+  GetLocationsDetails,
+  GetLocationsDetailsSuccess
 } from '../actions/bigOrderTable.actions';
 import { createReducer, on } from '@ngrx/store';
 import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
@@ -119,5 +121,10 @@ export const bigOrderTableReducer = createReducer(
   on(LoadFiltersSuccessAction, (state, action) => ({
     ...state,
     filters: action.filters
+  })),
+
+  on(GetLocationsDetailsSuccess, (state, action) => ({
+    ...state,
+    locationsDetails: action.locationsDetails
   }))
 );

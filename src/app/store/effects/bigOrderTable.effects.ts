@@ -5,7 +5,12 @@ import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
-import { IBigOrderTable, IBigOrderTableParams, IOrdersViewParameters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import {
+  IBigOrderTable,
+  IBigOrderTableParams,
+  ILocationDetails,
+  IOrdersViewParameters
+} from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import {
@@ -18,6 +23,8 @@ import {
   GetColumnsSuccess,
   GetColumnToDisplay,
   GetColumnToDisplaySuccess,
+  GetLocationsDetails,
+  GetLocationsDetailsSuccess,
   GetTable,
   GetTableSuccess,
   LoadFiltersAction,
@@ -91,6 +98,18 @@ export class BigOrderTableEffects {
     );
   });
 
+  getLocationsDetails = createEffect(() => {
+    return this.actions.pipe(
+      ofType(GetLocationsDetails),
+      mergeMap(() => {
+        return this.adminTableService.getLocations().pipe(
+          map((locationsDetails: ILocationDetails[]) => GetLocationsDetailsSuccess({ locationsDetails })),
+          catchError((error) => of(ReceivedFailure(error)))
+        );
+      })
+    );
+  });
+
   changingOrderData = createEffect(() => {
     return this.actions.pipe(
       ofType(ChangingOrderData),
@@ -117,7 +136,6 @@ export class BigOrderTableEffects {
         tap(() => this.store.dispatch(SaveFiltersAction())),
         tap((action) => {
           if (action.fetchTable) {
-            this.store.dispatch(GetColumns());
             this.store.dispatch(GetTable({ page: 0, size: 25, columnName: 'id', sortingType: 'DESC', reset: true }));
           }
         })
