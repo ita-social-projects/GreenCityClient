@@ -1,8 +1,4 @@
-import {
-  AddAttenderEcoEventsByIdAction,
-  DeleteEcoEventAction,
-  EventsActions,
-  RemoveAttenderEcoEventsByIdAction
+import { AddAttenderEcoEventsByIdAction, DeleteEcoEventAction, EventsActions, RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
@@ -12,13 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { typeFiltersData } from '../../../events/models/event-consts';
-import {
-  EventAttender,
-  EventDatesResponse,
-  EventListResponse,
-  LocationResponse,
-  TagDto,
-  TagObj
+import { EventAttender, EventDatesResponse, EventListResponse, LocationResponse, TagDto, TagObj
 } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
@@ -402,9 +392,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   isDateExpired(dates: EventDatesResponse[]): boolean {
-    if (!dates || dates.length === 0) {
-      return false;
-    }
+    if (!dates || dates.length === 0) {return false;}
     return new Date(dates[dates.length - 1].startDate) < new Date();
   }
 }
