@@ -123,5 +123,5 @@
     [isHabit]="false"
     [recommendedNews]="recommendedNews"
   ></app-habits-widget>
-  <app-comments-container *ngIf="getHabitId()" [entityId]="getHabitId()"></app-comments-container>
+  <app-comments-container *ngIf="habitId" [entityId]="habitId"></app-comments-container>
 </div>
