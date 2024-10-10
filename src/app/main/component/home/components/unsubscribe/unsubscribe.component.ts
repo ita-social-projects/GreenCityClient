@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubscriptionService } from '@global-service/subscription/subscription.service';
 import { take } from 'rxjs';
@@ -8,7 +8,7 @@ import { take } from 'rxjs';
   templateUrl: './unsubscribe.component.html',
   styleUrls: ['./unsubscribe.component.scss']
 })
-export class UnsubscribeComponent {
+export class UnsubscribeComponent implements OnInit {
   token: string;
   type: string;
   message: string;
@@ -17,8 +17,8 @@ export class UnsubscribeComponent {
   isError = false;
 
   constructor(
-    private route: ActivatedRoute,
-    private subscriptionService: SubscriptionService
+    private readonly route: ActivatedRoute,
+    private readonly subscriptionService: SubscriptionService
   ) {}
 
   ngOnInit(): void {
