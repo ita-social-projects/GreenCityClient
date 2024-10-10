@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
@@ -39,6 +39,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   googleImage = SignInIcons;
   hideShowPasswordImage = SignInIcons;
   signInForm: FormGroup;
+  captchaRendered = false;
 
   get email(): FormControl {
     return this.signInForm.get('email') as FormControl;
@@ -46,6 +47,10 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   get password(): FormControl {
     return this.signInForm.get('password') as FormControl;
+  }
+
+  get captchaToken(): FormControl {
+    return this.signInForm.get('captchaToken') as FormControl;
   }
 
   constructor(
@@ -57,7 +62,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.signInForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
+      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
+      captchaToken: new FormControl<null | string>(null, [Validators.required])
     });
 
     this.initGooglePopup();
@@ -65,8 +71,16 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.actions.pipe(ofType(SignInSuccessAction), take(1)).subscribe(() => this.matDialogRef.close());
   }
 
+  onCaptchaError(): void {
+    console.error('Captcha validation failed.');
+  }
+
   signIn(): void {
-    this.store.dispatch(SignInAction({ data: this.signInForm.value, isUBS: this.isUbs }));
+    if (this.signInForm.valid) {
+      this.store.dispatch(SignInAction({ data: this.signInForm.value, isUBS: this.isUbs }));
+    } else {
+      console.error('Form is invalid, unable to submit.');
+    }
   }
 
   signInWithGoogle(): void {
