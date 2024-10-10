@@ -74,7 +74,6 @@
         [size]="'flexible'"
         (captchaError)="onCaptchaError()"
       ></app-turnstile-captcha>
-      {{ signInForm.value | json }}
       <button
         [ngClass]="isUbs ? 'ubsStyle' : 'greenStyle'"
         [disabled]="((email.invalid || !password.touched) && password.invalid) || signInForm.invalid"

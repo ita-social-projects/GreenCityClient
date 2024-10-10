@@ -1,5 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Language } from 'src/app/main/i18n/Language';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-turnstile-captcha',
@@ -13,7 +15,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ]
 })
-export class TurnstileCaptchaComponent implements AfterViewInit, ControlValueAccessor {
+export class TurnstileCaptchaComponent implements OnInit, AfterViewInit, ControlValueAccessor {
   @Input() siteKey!: string;
   @Input() theme: 'light' | 'dark' = 'light';
   @Input() size: 'normal' | 'compact' | 'invisible' | 'flexible' = 'flexible';
@@ -22,9 +24,18 @@ export class TurnstileCaptchaComponent implements AfterViewInit, ControlValueAcc
 
   private captchaRendered = false;
   private captchaToken: string | null = null;
+  private language: 'uk' | 'en' = 'uk';
 
   private onChange = (token: string | null) => {};
   private onTouched = () => {};
+
+  constructor(private languageService: LanguageService) {}
+
+  ngOnInit() {
+    this.languageService.getCurrentLangObs().subscribe((selectedLanguage: Language) => {
+      this.language = selectedLanguage === 'en' ? 'en' : 'uk';
+    });
+  }
 
   ngAfterViewInit(): void {
     if (!this.captchaRendered) {
@@ -43,7 +54,7 @@ export class TurnstileCaptchaComponent implements AfterViewInit, ControlValueAcc
           size: this.size,
           'error-callback': this.errorCallback.bind(this),
           'expired-callback': this.expiredCallback.bind(this),
-          language: 'uk'
+          language: this.language
         });
         this.captchaRendered = true;
       } else {
