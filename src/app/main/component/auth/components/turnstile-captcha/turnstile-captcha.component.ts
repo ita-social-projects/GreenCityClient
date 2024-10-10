@@ -25,6 +25,7 @@ export class TurnstileCaptchaComponent implements OnInit, AfterViewInit, Control
   private captchaRendered = false;
   private captchaToken: string | null = null;
   private language: 'uk' | 'en' = 'uk';
+  private widgetId: string | null = null;
 
   private onChange = (token: string | null) => {};
   private onTouched = () => {};
@@ -43,11 +44,14 @@ export class TurnstileCaptchaComponent implements OnInit, AfterViewInit, Control
     }
   }
 
+  get turnstile(): any {
+    return (window as any).turnstile;
+  }
+
   private renderTurnstile(): void {
     try {
-      const turnstile = (window as any).turnstile;
-      if (turnstile) {
-        turnstile.render('#turnstile-container', {
+      if (this.turnstile) {
+        this.widgetId = this.turnstile.render('#turnstile-container', {
           sitekey: this.siteKey,
           callback: this.javascriptCallback.bind(this),
           theme: this.theme,
@@ -84,6 +88,13 @@ export class TurnstileCaptchaComponent implements OnInit, AfterViewInit, Control
 
   writeValue(token: string | null): void {
     this.captchaToken = token;
+  }
+
+  public clearToken(): void {
+    this.turnstile.reset(this.widgetId);
+
+    this.captchaToken = null;
+    this.onChange(null);
   }
 
   registerOnChange(fn: (token: string | null) => void): void {
