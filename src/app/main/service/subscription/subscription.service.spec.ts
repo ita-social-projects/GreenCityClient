@@ -1,31 +1,59 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { SubscriptionService } from './subscription.service';
+import { subscriptionLink } from 'src/app/main/links';
 
 describe('SubscriptionService', () => {
   let service: SubscriptionService;
-  let httpMock: HttpTestingController;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
+      providers: [SubscriptionService]
     });
 
     service = TestBed.inject(SubscriptionService);
-    httpMock = TestBed.inject(HttpTestingController);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
-    httpMock.verify();
+    httpTestingController.verify();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call subscribeToNewsletter', () => {
-    const spy = spyOn(service, 'subscribeToNewsletter');
-    service.subscribeToNewsletter('sth');
-    expect(spy).toHaveBeenCalled();
+  it('should subscribe to newsletter', () => {
+    const email = 'test@example.com';
+    const expectedResponse = { success: true };
+
+    service.subscribeToNewsletter(email).subscribe((response) => {
+      expect(response).toEqual(expectedResponse);
+    });
+
+    const req = httpTestingController.expectOne(`${subscriptionLink}`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({
+      email,
+      subscriptionType: 'ECO_NEWS'
+    });
+
+    req.flush(expectedResponse);
+  });
+
+  it('should unsubscribe', () => {
+    const token = 'testToken';
+    const expectedResponse = { success: true };
+
+    service.unsubscribe(token).subscribe((response) => {
+      expect(response).toEqual(expectedResponse);
+    });
+
+    const req = httpTestingController.expectOne(`${subscriptionLink}/${token}`);
+    expect(req.request.method).toBe('DELETE');
+
+    req.flush(expectedResponse);
   });
 });
