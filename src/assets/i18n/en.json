@@ -411,6 +411,7 @@
       "updated-address": "The address has been updated",
       "deleted-address": "The address has been deleted",
       "update-notification": "Notification was updated",
+      "delete-notification": "Notification was deleted",
       "rating-send": "Rating sent",
       "add-friend": "Friend request sent",
       "cancel-request": "Your friend request has been canceled",

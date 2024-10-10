@@ -58,6 +58,7 @@ export class MatSnackBarComponent {
     updatedEvent: { classname: SnackbarClassName.success, key: 'create-event.updated-event' },
     savedChangesToUserProfile: { classname: SnackbarClassName.success, key: 'snack-bar.success.saved-changes' },
     updatedNotification: { classname: SnackbarClassName.success, key: 'snack-bar.success.update-notification' },
+    deletedNotification: { classname: SnackbarClassName.success, key: 'snack-bar.success.delete-notification' },
     joinedEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.joined-event' },
     errorJoinEvent: { classname: SnackbarClassName.error, key: 'snack-bar.success.error-joined-event' },
     tooLongInput: { classname: SnackbarClassName.error, key: 'user.habit.to-do.too-long-input' },
