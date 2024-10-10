@@ -18,8 +18,8 @@ export class SubscribeComponent implements OnInit {
   email = '';
 
   constructor(
-    private subscriptionService: SubscriptionService,
-    private snackBar: MatSnackBarComponent
+    private readonly subscriptionService: SubscriptionService,
+    private readonly snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit() {
