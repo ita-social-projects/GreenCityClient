@@ -11,9 +11,9 @@ import { HabitAddedCommentDTO, HabitCommentsModel } from '@global-user/component
   providedIn: 'root'
 })
 export class HabitCommentsService implements CommentsService {
-  private backEnd = environment.backendLink;
+  private readonly backEnd = environment.backendLink;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   addComment(habitId: number, text: string, parentCommentId = 0): Observable<AddedCommentDTO> {
     const formData = new FormData();
@@ -41,7 +41,7 @@ export class HabitCommentsService implements CommentsService {
     return this.http.get<HabitCommentsModel>(url);
   }
 
-  deleteComments(habitId: number, id: number) {
+  deleteComments(habitId: number, id: number): Observable<boolean> {
     return this.http
       .delete<object>(`${this.backEnd}habits/comments/${id}`, { observe: 'response' })
       .pipe(map((response) => response.status >= 200 && response.status < 300));

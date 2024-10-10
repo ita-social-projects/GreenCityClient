@@ -116,4 +116,78 @@ describe('HabitCommentsService', () => {
     expect(req.request.body).toEqual({ text: updatedText });
     req.flush({});
   });
+
+  it('should make GET request to get active replies by page', () => {
+    const repliesData: HabitCommentsModel = {
+      currentPage: 0,
+      page: [
+        {
+          author: { id: 1, name: 'User', userProfilePicturePath: null },
+          id: 1,
+          text: 'Test reply',
+          likes: 5,
+          modifiedDate: new Date().toISOString(),
+          status: 'ORIGINAL',
+          replies: 0,
+          currentUserLiked: false
+        }
+      ],
+      totalElements: 1
+    };
+
+    service.getActiveRepliesByPage(1, 1, 0, 5).subscribe((data) => {
+      expect(data).toEqual(repliesData);
+    });
+
+    const req = httpTestingController.expectOne(`${url}habits/comments/1/replies/active?page=0&size=5`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(repliesData);
+  });
+
+  it('should make POST request to like a comment', () => {
+    service.postLike(1, 1).subscribe(() => {});
+
+    const req = httpTestingController.expectOne(`${url}habits/comments/like?commentId=1`);
+    expect(req.request.method).toEqual('POST');
+    req.flush({});
+  });
+
+  it('should make GET request to get comment likes count', () => {
+    const likesCount = 15;
+
+    service.getCommentLikes(1, 1).subscribe((data) => {
+      expect(data).toEqual(likesCount);
+    });
+
+    const req = httpTestingController.expectOne(`${url}habits/comments/1/likes/count`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(likesCount);
+  });
+
+  it('should make GET request to get comment by id', () => {
+    const commentData: HabitCommentsModel = {
+      currentPage: 0,
+      page: [
+        {
+          author: { id: 1, name: 'User', userProfilePicturePath: null },
+          id: 1,
+          text: 'Test comment',
+          likes: 5,
+          modifiedDate: new Date().toISOString(),
+          status: 'ORIGINAL',
+          replies: 0,
+          currentUserLiked: false
+        }
+      ],
+      totalElements: 1
+    };
+
+    service.getCommentById(1, 1).subscribe((data) => {
+      expect(data).toEqual(commentData);
+    });
+
+    const req = httpTestingController.expectOne(`${url}habits/comments/1`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(commentData);
+  });
 });

@@ -42,14 +42,13 @@ export class LikeCommentComponent implements OnInit {
   }
 
   checkSocketMessageToSubscribe() {
-    const baseUrl = '/app/likeAndCount';
     const routes = ['news', 'events', 'allhabits'];
 
     const matchingRoute = routes.find((route) => this.router.url.includes(route));
 
     if (matchingRoute) {
       this.socketMessageToSubscribe = `/topic/${this.comment.id}/comment`;
-      this.socketMessageToSend = baseUrl;
+      this.socketMessageToSend = '/app/likeAndCount';
     }
   }
 
