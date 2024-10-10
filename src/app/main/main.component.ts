@@ -12,7 +12,9 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 })
 export class MainComponent implements OnInit {
   isUBS: boolean;
+  isUnsubscribe: boolean;
   ubsUrl = 'ubs';
+  unsubscribeUrl = 'unsubscribe';
   isLogin: boolean;
 
   constructor(
@@ -28,6 +30,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.isUBS = this.router.url.includes(this.ubsUrl);
+    this.isUnsubscribe = this.router.url.includes(this.unsubscribeUrl);
     this.localStorageService.setUbsRegistration(this.isUBS);
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();

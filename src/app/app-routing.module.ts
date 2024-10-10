@@ -8,6 +8,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
 import { UbsUserGuard } from '@ubs/ubs-user/ubs-user-guard.guard';
 import { NonAdminGuard } from 'src/app/shared/guards/non-admin.guard';
+import { UnsubscribeComponent } from './main/component/home/components/unsubscribe/unsubscribe.component';
 
 export const routes: Routes = [
   {
@@ -62,6 +63,11 @@ export const routes: Routes = [
       {
         path: 'greenCity',
         component: HomepageComponent,
+        canActivate: [NonAdminGuard]
+      },
+      {
+        path: 'unsubscribe',
+        component: UnsubscribeComponent,
         canActivate: [NonAdminGuard]
       }
     ]

@@ -11,9 +11,12 @@
   min-height: 100%;
 }
 
+.app-wrapper {
+  background-color: var(--pre-secondary-light-grey);
+}
+
 .app-container {
   min-height: calc(100% - 340px);
-  background-color: var(--pre-secondary-light-grey);
 }
 
 .stop-scroll {
