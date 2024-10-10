@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
@@ -39,7 +39,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   googleImage = SignInIcons;
   hideShowPasswordImage = SignInIcons;
   signInForm: FormGroup;
-  captchaRendered = false;
 
   get email(): FormControl {
     return this.signInForm.get('email') as FormControl;
@@ -47,10 +46,6 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   get password(): FormControl {
     return this.signInForm.get('password') as FormControl;
-  }
-
-  get captchaToken(): FormControl {
-    return this.signInForm.get('captchaToken') as FormControl;
   }
 
   constructor(
