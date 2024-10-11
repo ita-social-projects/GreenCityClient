@@ -105,32 +105,6 @@
             <app-ubs-input-error [formElement]="getControl('recipientPhone')"> </app-ubs-input-error>
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label for="recipientNotification" [ngClass]="{ notificationEdit: isEditing }" class="form-label">{{
-            'ubs-client-profile.get-notification-in' | translate
-          }}</label>
-          <div role="checkbox" class="checkbox-wrapper">
-            <div class="social-media">Telegram</div>
-            <app-ubs-switcher
-              class="ubs-switcher"
-              [isChecked]="userProfile.telegramIsNotify"
-              [isEditing]="!isEditing"
-              value="id1"
-              id="telegramNotification"
-              (switchChanged)="onSwitchChanged('telegramNotification')"
-            ></app-ubs-switcher>
-            <div class="social-media">Viber</div>
-            <app-ubs-switcher
-              class="ubs-switcher"
-              [isChecked]="userProfile.viberIsNotify"
-              [isEditing]="!isEditing"
-              value="id2"
-              id="telegramNotification"
-              (switchChanged)="onSwitchChanged('viberNotification')"
-            ></app-ubs-switcher>
-          </div>
-          <div class="alert-mess">{{ 'ubs-client-profile.social-media-mess' | translate }}</div>
-        </div>
       </div>
 
       <div class="address" formArrayName="address" *ngFor="let address of userForm.controls.address['controls']; let i = index">
