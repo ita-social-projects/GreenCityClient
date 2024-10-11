@@ -18,7 +18,7 @@ export class LocalStorageService {
   private EDIT_HABIT = '';
   private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
   private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
-
+  private readonly CHAT_OPEN = 'isChatOpen';
   languageSubject: Subject<string> = new Subject<string>();
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
   userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
@@ -26,6 +26,19 @@ export class LocalStorageService {
   accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
   ubsRegBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getUbsRegistration());
   ubsRedirectionBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getOrderIdToRedirect());
+
+  public setIsChatOpen(value: boolean): void {
+    localStorage.setItem(this.CHAT_OPEN, JSON.stringify(value));
+  }
+
+  public getIsChatOpen(): boolean {
+    const value = localStorage.getItem(this.CHAT_OPEN);
+    return value === null ? false : JSON.parse(value);
+  }
+
+  public removeIsChatOpen(): void {
+    return localStorage.removeItem(this.CHAT_OPEN);
+  }
 
   public setHabitsGalleryView(value: boolean): void {
     localStorage.setItem(this.HABITS_GALLERY_VIEW, JSON.stringify(value));
