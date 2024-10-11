@@ -67,9 +67,16 @@
           {{ 'user.auth.sign-in.forgot-password' | translate }}</a
         >
       </div>
+      <app-turnstile-captcha
+        formControlName="captchaToken"
+        [siteKey]="'0x4AAAAAAAxJcr7nYr6v13PV'"
+        [theme]="'light'"
+        [size]="'flexible'"
+        (captchaError)="onCaptchaError()"
+      ></app-turnstile-captcha>
       <button
         [ngClass]="isUbs ? 'ubsStyle' : 'greenStyle'"
-        [disabled]="(email.invalid || !password.touched) && password.invalid"
+        [disabled]="((email.invalid || !password.touched) && password.invalid) || signInForm.invalid"
         type="submit"
       >
         <span *ngIf="isLoading$ | async" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

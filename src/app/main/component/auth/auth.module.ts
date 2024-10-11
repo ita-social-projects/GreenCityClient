@@ -10,6 +10,7 @@ import { GoogleBtnComponent } from './components/google-btn/google-btn.component
 import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TurnstileCaptchaComponent } from './components/turnstile-captcha/turnstile-captcha.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ConfirmRestorePasswordComponent,
     ErrorComponent,
     GoogleBtnComponent,
-    AuthModalComponent
+    AuthModalComponent,
+    TurnstileCaptchaComponent
   ],
   imports: [CoreModule, SharedMainModule, SharedModule, ReactiveFormsModule],
   exports: [InputcolorDirective],
