@@ -83,6 +83,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { NotificContentReplaceDirective } from './directives/notific-content-replace.directive';
 import { FriendshipButtonsComponent } from './components/profile/users-friends/friend-dashboard/friendship-buttons/friendship-buttons.component';
+import { CommentsModule } from '../comments/comments.module';
+import { CommentsService } from '../comments/services/comments.service';
+import { HabitCommentsService } from '@global-service/habit-comments/habit-comments.service';
 import { AchievementsModalComponent } from './components/profile/users-achievements/achievements-modal/achievements-modal.component';
 import { AchievementItemComponent } from './components/profile/users-achievements/achievement-item/achievement-item.component';
 
@@ -179,10 +182,11 @@ import { AchievementItemComponent } from './components/profile/users-achievement
     MatTabsModule,
     NgxPaginationModule,
     QuillModule.forRoot(),
-    FormsModule
+    FormsModule,
+    CommentsModule
   ],
   exports: [MatAutocompleteModule],
-  providers: [EditProfileFormBuilder]
+  providers: [EditProfileFormBuilder, { provide: CommentsService, useClass: HabitCommentsService }]
 })
 export class UserModule {}
 
