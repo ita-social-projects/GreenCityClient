@@ -36,9 +36,9 @@ export class EventsCommentsService implements CommentsService {
     );
   }
 
-  deleteComments(eventId: number, commentId: number): Observable<boolean> {
+  deleteComments(commentId: number): Observable<boolean> {
     return this.http
-      .delete<object>(`${this.backEnd}events/comments/${commentId}`, { observe: 'response' })
+      .delete<void>(`${this.backEnd}events/comments/${commentId}`, { observe: 'response' })
       .pipe(map((response) => response.status >= 200 && response.status < 300));
   }
 
@@ -50,11 +50,11 @@ export class EventsCommentsService implements CommentsService {
     return this.http.get<number>(`${this.backEnd}events/comments/${parentCommentId}/replies/count`);
   }
 
-  postLike(eventId: number, parentCommentId: number): Observable<void> {
+  postLike(parentCommentId: number): Observable<void> {
     return this.http.post<void>(`${this.backEnd}events/comments/like/${parentCommentId}`, {});
   }
 
-  editComment(eventId: number, commentId: number, text: string): Observable<void> {
+  editComment(commentId: number, text: string): Observable<void> {
     return this.http.patch<void>(`${this.backEnd}events/comments/${commentId}`, text);
   }
 }

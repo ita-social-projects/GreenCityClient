@@ -80,7 +80,7 @@ describe('HabitCommentsService', () => {
   it('should make PATCH request to edit a comment', () => {
     const updatedText = 'Updated comment';
 
-    service.editComment(1, 2, updatedText).subscribe(() => {});
+    service.editComment(2, updatedText).subscribe(() => {});
 
     const req = httpTestingController.expectOne(`${url}habits/comments?id=2`);
     expect(req.request.method).toEqual('PATCH');

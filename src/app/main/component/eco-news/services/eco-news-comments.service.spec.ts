@@ -169,7 +169,7 @@ xdescribe('EcoNewsCommentsService', () => {
   });
 
   it('should make POST request to post Like', () => {
-    service.postLike(1, 1).subscribe((commentData: any) => {
+    service.postLike(1).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 
@@ -179,7 +179,7 @@ xdescribe('EcoNewsCommentsService', () => {
   });
 
   it('should make PATCH request to edit comment', () => {
-    service.editComment(1, 2, commentText).subscribe((commentData: any) => {
+    service.editComment(2, commentText).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 

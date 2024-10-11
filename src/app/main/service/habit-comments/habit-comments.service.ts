@@ -41,9 +41,9 @@ export class HabitCommentsService implements CommentsService {
     return this.http.get<HabitCommentsModel>(url);
   }
 
-  deleteComments(habitId: number, id: number): Observable<boolean> {
+  deleteComments(commentId: number): Observable<boolean> {
     return this.http
-      .delete<object>(`${this.backEnd}habits/comments/${id}`, { observe: 'response' })
+      .delete<void>(`${this.backEnd}habits/comments/${commentId}`, { observe: 'response' })
       .pipe(map((response) => response.status >= 200 && response.status < 300));
   }
 
@@ -52,7 +52,7 @@ export class HabitCommentsService implements CommentsService {
     return this.http.get<number>(url);
   }
 
-  postLike(habitId: number, commentId: number): Observable<void> {
+  postLike(commentId: number): Observable<void> {
     return this.http.post<void>(`${this.backEnd}habits/comments/like?commentId=${commentId}`, {});
   }
 
@@ -60,11 +60,11 @@ export class HabitCommentsService implements CommentsService {
     return this.http.get<number>(`${this.backEnd}habits/comments/${commentId}/likes/count`);
   }
 
-  editComment(habitId: number, id: number, text: string): Observable<void> {
+  editComment(id: number, text: string): Observable<void> {
     return this.http.patch<void>(`${this.backEnd}habits/comments?id=${id}`, { text });
   }
 
-  getCommentById(habitId: number, id: number): Observable<CommentsModel> {
-    return this.http.get<HabitCommentsModel>(`${this.backEnd}habits/comments/${id}`);
+  getCommentById(commentId: number): Observable<CommentsModel> {
+    return this.http.get<CommentsModel>(`${this.backEnd}habits/comments/${commentId}`);
   }
 }

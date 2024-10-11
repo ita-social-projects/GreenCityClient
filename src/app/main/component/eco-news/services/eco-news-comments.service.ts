@@ -43,9 +43,9 @@ export class EcoNewsCommentsService implements CommentsService {
     );
   }
 
-  deleteComments(ecoNewsId: number, parentCommentId: number) {
+  deleteComments(parentCommentId: number): Observable<boolean> {
     return this.http
-      .delete<object>(`${this.backEnd}eco-news/comments/${parentCommentId}`, { observe: 'response' })
+      .delete<void>(`${this.backEnd}eco-news/comments/${parentCommentId}`, { observe: 'response' })
       .pipe(map((response) => response.status >= 200 && response.status < 300));
   }
 
@@ -57,11 +57,11 @@ export class EcoNewsCommentsService implements CommentsService {
     return this.http.get<number>(`${this.backEnd}eco-news/${ecoNewsId}/comments/${parentCommentId}/replies/active/count`);
   }
 
-  postLike(ecoNewsId: number, commentId: number): Observable<void> {
+  postLike(commentId: number): Observable<void> {
     return this.http.post<void>(`${this.backEnd}eco-news/comments/like?commentId=${commentId}`, {});
   }
 
-  editComment(ecoNewsId: number, commentId: number, text: string): Observable<void> {
+  editComment(commentId: number, text: string): Observable<void> {
     return this.http.patch<void>(`${this.backEnd}eco-news/comments?commentId=${commentId}`, text);
   }
 }
