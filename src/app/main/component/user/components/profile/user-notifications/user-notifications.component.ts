@@ -128,7 +128,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       }
       const isTypeFiltered = this.getAllSelectedFilters(this.filterApproach.TYPE).length !== this.notificationTypesFilter.length;
       const isProjectFiltered = this.getAllSelectedFilters(this.filterApproach.TYPE).length !== this.projects.length;
-      this.isFilterDisabled = this.isLoading || (!this.notifications.length && !isTypeFiltered && isProjectFiltered);
+      this.isFilterDisabled = !this.notifications.length && !isTypeFiltered && isProjectFiltered;
     }
   }
 
@@ -186,6 +186,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   deleteNotification(event: Event, notification: NotificationModel): void {
+    let isDeleted = false;
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       this.readNotification(event, notification);
       event.stopPropagation();
@@ -194,13 +195,14 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
+            isDeleted = true;
             this.notifications = this.notifications.filter((el) => el.notificationId !== notification.notificationId);
             if (this.notifications.length < this.itemsPerPage && this.hasNextPage) {
               this.getNotification(this.currentPage + 1);
             }
           },
-          error: () => {
-            this.matSnackBar.openSnackBar('error');
+          complete: () => {
+            this.matSnackBar.openSnackBar(isDeleted ? 'deletedNotification' : 'error');
           }
         });
     }
