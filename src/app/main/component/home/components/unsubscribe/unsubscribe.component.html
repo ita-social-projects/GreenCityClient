@@ -1,5 +1,5 @@
 <div class="unsubscribe-container">
-  <img src="assets/img/logo-l.svg" alt="GreenCity_logo" />
+  <img [src]="logo" alt="GreenCity_logo" />
 
   <div *ngIf="!isSuccess && !isError">
     <h2>{{ 'homepage.subscription.content-unsubscribe' | translate }} {{ getDynamicTranslationKey() | translate }}?</h2>

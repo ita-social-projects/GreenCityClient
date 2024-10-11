@@ -9,11 +9,11 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   templateUrl: './subscribe.component.html',
   styleUrls: ['./subscribe.component.scss']
 })
-export class SubscribeComponent implements OnInit {
+export class SubscribeComponent {
   readonly qrCode = 'assets/img/qr-code.png';
   private readonly emailRegex = new RegExp(Patterns.ubsMailPattern);
 
-  emailTouched: boolean;
+  emailTouched = false;
   emailValid: boolean;
   email = '';
 
@@ -21,10 +21,6 @@ export class SubscribeComponent implements OnInit {
     private readonly subscriptionService: SubscriptionService,
     private readonly snackBar: MatSnackBarComponent
   ) {}
-
-  ngOnInit() {
-    this.emailTouched = false;
-  }
 
   validateEmail() {
     this.emailTouched = true;

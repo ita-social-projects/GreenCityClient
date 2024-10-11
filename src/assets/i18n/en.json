@@ -186,8 +186,8 @@
     "subscription": {
       "caption": "Receive interesting news",
       "content": "Subscribe for our newsletter and always be up to date with news and updates",
-      "content-unsubscribe": "Do you want to unsubscribe from receiving ",
-      "unsubscribe-info": "You`ll stop receiving ",
+      "content-unsubscribe": "Do you want to unsubscribe from receiving",
+      "unsubscribe-info": "You`ll stop receiving",
       "placeholder": "Enter your email",
       "validation-error": "Invalid email",
       "button-subscribe": "Subscribe!",

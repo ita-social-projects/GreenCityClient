@@ -27,11 +27,8 @@ describe('SubscriptionService', () => {
 
   it('should subscribe to newsletter', () => {
     const email = 'test@example.com';
-    const expectedResponse = { success: true };
 
-    service.subscribeToNewsletter(email).subscribe((response) => {
-      expect(response).toEqual(expectedResponse);
-    });
+    service.subscribeToNewsletter(email).subscribe();
 
     const req = httpTestingController.expectOne(`${subscriptionLink}`);
     expect(req.request.method).toBe('POST');
@@ -40,20 +37,17 @@ describe('SubscriptionService', () => {
       subscriptionType: 'ECO_NEWS'
     });
 
-    req.flush(expectedResponse);
+    req.flush(null);
   });
 
   it('should unsubscribe', () => {
     const token = 'testToken';
-    const expectedResponse = { success: true };
 
-    service.unsubscribe(token).subscribe((response) => {
-      expect(response).toEqual(expectedResponse);
-    });
+    service.unsubscribe(token).subscribe();
 
     const req = httpTestingController.expectOne(`${subscriptionLink}/${token}`);
     expect(req.request.method).toBe('DELETE');
 
-    req.flush(expectedResponse);
+    req.flush(null);
   });
 });

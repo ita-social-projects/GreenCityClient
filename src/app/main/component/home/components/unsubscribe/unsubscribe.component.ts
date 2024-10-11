@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubscriptionService } from '@global-service/subscription/subscription.service';
 import { take } from 'rxjs';
+import { footerIcons } from './../../../../image-pathes/footer-icons';
 
 @Component({
   selector: 'app-unsubscribe',
@@ -15,6 +16,7 @@ export class UnsubscribeComponent implements OnInit {
   isLoading = false;
   isSuccess = false;
   isError = false;
+  logo = footerIcons.greenCityLogo;
 
   constructor(
     private readonly route: ActivatedRoute,

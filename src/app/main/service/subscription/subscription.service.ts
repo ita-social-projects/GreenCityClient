@@ -8,15 +8,15 @@ import { Observable } from 'rxjs';
 export class SubscriptionService {
   constructor(private readonly http: HttpClient) {}
 
-  subscribeToNewsletter(email: string): Observable<any> {
+  subscribeToNewsletter(email: string): Observable<void> {
     const body = {
       email,
       subscriptionType: 'ECO_NEWS'
     };
-    return this.http.post(`${subscriptionLink}`, body);
+    return this.http.post<void>(`${subscriptionLink}`, body);
   }
 
-  unsubscribe(token: string): Observable<any> {
-    return this.http.delete(`${subscriptionLink}/${token}`);
+  unsubscribe(token: string): Observable<void> {
+    return this.http.delete<void>(`${subscriptionLink}/${token}`);
   }
 }
