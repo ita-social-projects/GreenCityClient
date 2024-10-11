@@ -5,7 +5,9 @@
       <div class="user-location">
         <div>
           <h5 *ngIf="currentLocation">{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
-          <h5 *ngIf="!currentLocation" class="error-text">{{ 'order-details.title-without-location' | translate }}</h5>
+          <h5 *ngIf="!isOrderDetailsLoading && !currentLocation" class="error-text">
+            {{ 'order-details.title-without-location' | translate }}
+          </h5>
           <button class="ubs-link-global-button s-link add-order-btn" (click)="openLocationDialog()">
             {{ 'order-details.choose-location' | translate }}
           </button>
