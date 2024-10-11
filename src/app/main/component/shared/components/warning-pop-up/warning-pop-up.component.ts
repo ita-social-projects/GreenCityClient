@@ -45,7 +45,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     this.matDialogRef
       .backdropClick()
       .pipe(takeUntil(this.$destroy))
-      .subscribe(() => this.userReply(false));
+      .subscribe(() => this.userReply(null));
   }
 
   private setTitles(): void {
@@ -65,7 +65,6 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     if (reply) {
       localStorage.removeItem('newsTags');
     }
-
     this.matDialogRef.close(reply);
   }
 
