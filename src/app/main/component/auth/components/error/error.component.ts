@@ -11,7 +11,16 @@ export class ErrorComponent implements OnInit, OnDestroy {
   @Input() public controlName: string;
 
   private readonly ERROR_MESSAGE = {
-    required: () => 'user.auth.sign-in.field-is-required',
+    required: () => {
+      switch (this.controlName) {
+        case 'email':
+          return 'user.auth.sign-in.email-is-required';
+        case 'firstName':
+          return 'user.auth.sign-in.name-is-required';
+        default:
+          return 'user.auth.sign-in.field-is-required';
+      }
+    },
     email: () => 'user.auth.sign-in.email-is-required',
     pattern: () => 'user.auth.sign-in.this-is-not-email',
     passwordMismatch: () => 'user.auth.sign-up.password-match',

@@ -20,7 +20,7 @@
         tabindex="0"
       />
       <div id="email-err-msg" class="validation-email-error">
-        <app-error [control]="email"></app-error>
+        <app-error [control]="email" controlName="email"></app-error>
       </div>
       <div *ngIf="error$ | async as error" class="email-field-margin"></div>
       <label for="password" aria-required="true">{{ 'user.auth.sign-in.password' | translate }}</label>

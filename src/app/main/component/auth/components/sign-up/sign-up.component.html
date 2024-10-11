@@ -23,7 +23,7 @@
         tabindex="0"
       />
       <div *ngIf="emailControl.invalid && emailControl.touched" class="error-message" id="email-err-msg" role="alert">
-        <app-error [control]="email"></app-error>
+        <app-error [control]="email" controlName="email"></app-error>
       </div>
       <div *ngIf="emailErrorMessageBackEnd" class="error-message error-message-show">
         {{ getEmailError() | translate }}
@@ -44,7 +44,7 @@
         tabindex="0"
       />
       <div *ngIf="firstNameControl.invalid && firstNameControl.touched" class="error-message" id="firstname-err-msg" role="alert">
-        <app-error [control]="firstName"></app-error>
+        <app-error [control]="firstName" controlName="firstName"></app-error>
       </div>
       <div *ngIf="firstNameErrorMessageBackEnd" class="error-message error-message-show">
         {{ 'user.auth.sign-up.user-name-size' | translate }}
