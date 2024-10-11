@@ -18,7 +18,7 @@ input,
 textarea,
 select {
   border: 1px solid var(--ubs-quintynary-light-grey);
-  padding: 0 0 0 24px;
+  padding: 0 0 0 7px;
   color: var(--ubs-primary-grey);
   font-size: 14px;
 }
@@ -26,6 +26,10 @@ select {
 input,
 select {
   height: 36px;
+}
+
+input::placeholder {
+  color: var(--ubs-primary-light-grey);
 }
 
 textarea.ng-touched.ng-invalid,
@@ -138,17 +142,48 @@ label,
 
 .form-check {
   margin: 0 0 0 25px;
+  display: flex;
+  align-items: center;
 
   .form-check-input {
     top: -1px;
-    width: 16px;
-    height: 16px;
+    padding: 0;
+    margin-bottom: 2px;
   }
 
   .form-check-label {
     margin-left: 5px;
     font-size: 14px;
     color: var(--ubs-primary-grey);
+  }
+
+  .custom-checkbox {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid var(--ubs-secondary-grey);
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .custom-checkbox:checked {
+    background-color: var(--ubs-quaternary-dark-grey);
+    border-color: var(--ubs-quaternary-dark-grey);
+  }
+
+  .custom-checkbox:checked::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    border-radius: 1px;
+    transform: rotate(45deg);
   }
 }
 

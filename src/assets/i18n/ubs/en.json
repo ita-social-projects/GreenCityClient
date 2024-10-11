@@ -13,7 +13,7 @@
     "max-length-comment": "Maximum 255 characters are allowed",
     "minlength-short": "The field contains insufficient characters",
     "max-length": "The field should contain 1-30 characters",
-    "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed"
+    "pattern": "Enter a valid email"
   },
   "snack-bar": {
     "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
