@@ -176,7 +176,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     });
 
     this.personalDataForm.statusChanges.pipe(takeUntil(this.$destroy)).subscribe(() => {
-      console.log(this.personalDataForm, this.personalDataForm.valid);
       this.store.dispatch(SetSecondFormStatus({ isValid: this.personalDataForm.valid }));
     });
     this.store.dispatch(SetSecondFormStatus({ isValid: this.personalDataForm.valid }));
