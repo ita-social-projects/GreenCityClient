@@ -190,10 +190,19 @@
     "subscription": {
       "caption": "Отримувати цікаві новини",
       "content": "Підпишіться на розсилку та завжди будьте в курсі новин та оновлень",
+      "content-unsubscribe": "Ви дійсно хочете відписатися від отримання",
+      "unsubscribe-info": "Ви більше не отримаєте",
       "placeholder": "Введіть ваш email",
       "validation-error": "Некоректна електронна пошта",
-      "subscription-error": "Помилка, можливо ви вже підписані",
-      "button-subscribe": "Підписатися!"
+      "button-subscribe": "Підписатися!",
+      "button-unsubscribe": "Відписатися",
+      "subscription-success": "Ви успішно підписалися на розсилку",
+      "unsubscription-success": "Ви успішно відписалися від розсилки",
+      "already-subscribed": "Ви вже підписалися",
+      "already-unsubscribed": "Ви вже відписалися",
+      "type": {
+        "ECO_NEWS": "цікавих новин"
+      }
     }
   },
   "search": {

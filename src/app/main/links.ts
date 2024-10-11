@@ -33,7 +33,7 @@ export const habitLink = mainLink + 'habit';
 export const habitAssignLink = mainLink + 'habit/assign';
 export const achievementLink = mainLink + 'achievements';
 export const latestNewsLink = mainLink + 'eco-news';
-export const subscriptionLink = mainLink + 'newsSubscriber';
+export const subscriptionLink = mainLink + 'subscriptions';
 
 // front-end
 export const frontMailLink = environment.frontendLink;

@@ -75,7 +75,9 @@ export class MatSnackBarComponent {
     errorMinPhoto: { classname: SnackbarClassName.error, key: 'create-event.min-photo-error' },
     errorUpdateProfile: { classname: SnackbarClassName.error, key: 'user.user-setting.profile-update-error-name' },
     errorLiked: { classname: SnackbarClassName.error, key: 'homepage.eco-news.likes' },
-    errorNotFound: { classname: SnackbarClassName.error, key: 'homepage.eco-news.not-found' }
+    errorNotFound: { classname: SnackbarClassName.error, key: 'homepage.eco-news.not-found' },
+    subscribedToNewsletter: { classname: SnackbarClassName.success, key: 'homepage.subscription.subscription-success' },
+    errorAlreadySubscribed: { classname: SnackbarClassName.error, key: 'homepage.subscription.already-subscribed' }
   };
 
   constructor(

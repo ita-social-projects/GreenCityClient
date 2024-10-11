@@ -5,7 +5,7 @@
       {{ 'accessibility.skip-to-the-main-content' | translate }}
     </a>
   </div>
-  <app-header></app-header>
+  <app-header *ngIf="!isUnsubscribe"></app-header>
   <app-search-popup></app-search-popup>
   <div class="main-content app-container">
     <div #focusLast tabindex="-1" aria-label="Tab To Main"></div>

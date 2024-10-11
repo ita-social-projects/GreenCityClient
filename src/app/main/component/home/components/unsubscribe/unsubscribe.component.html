@@ -1,0 +1,21 @@
+<div class="unsubscribe-container">
+  <img [src]="logo" alt="GreenCity_logo" />
+
+  <div *ngIf="!isSuccess && !isError">
+    <h2>{{ 'homepage.subscription.content-unsubscribe' | translate }} {{ getDynamicTranslationKey() | translate }}?</h2>
+    <p class="">{{ 'homepage.subscription.unsubscribe-info' | translate }} {{ getDynamicTranslationKey() | translate }}.</p>
+    <div>
+      <button (click)="onUnsubscribe()" [disabled]="isLoading">
+        {{ 'homepage.subscription.button-unsubscribe' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="isSuccess">
+    <p>{{ 'homepage.subscription.unsubscription-success' | translate }}</p>
+  </div>
+
+  <div *ngIf="isError">
+    <p>{{ 'homepage.subscription.already-unsubscribed' | translate }}</p>
+  </div>
+</div>

@@ -1,48 +1,47 @@
 import { Component, OnInit } from '@angular/core';
 import { SubscriptionService } from '@global-service/subscription/subscription.service';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-subscribe',
   templateUrl: './subscribe.component.html',
   styleUrls: ['./subscribe.component.scss']
 })
-export class SubscribeComponent implements OnInit {
+export class SubscribeComponent {
   readonly qrCode = 'assets/img/qr-code.png';
   private readonly emailRegex = new RegExp(Patterns.ubsMailPattern);
 
-  subscriptionError: string;
-  emailTouched: boolean;
+  emailTouched = false;
   emailValid: boolean;
   email = '';
 
-  constructor(private subscriptionService: SubscriptionService) {}
-
-  ngOnInit() {
-    this.emailTouched = false;
-    this.subscriptionService.subscriptionError.pipe(catchError(() => of(''))).subscribe((subscriptionError: string) => {
-      if (subscriptionError !== undefined && subscriptionError.length > 0) {
-        this.subscriptionError = subscriptionError;
-      } else {
-        this.subscriptionError = '';
-      }
-    });
-  }
+  constructor(
+    private readonly subscriptionService: SubscriptionService,
+    private readonly snackBar: MatSnackBarComponent
+  ) {}
 
   validateEmail() {
     this.emailTouched = true;
-    this.subscriptionError = '';
     this.emailValid = this.email.length > 0 && this.emailRegex.test(this.email);
   }
 
-  subscribe() {
+  subscribeToNewsletter(): void {
+    let isSubscribed = false;
     if (this.emailValid) {
-      this.subscriptionService.subscribeToNewsletter(this.email);
-      this.emailTouched = false;
-      this.emailValid = false;
-      this.email = '';
+      this.subscriptionService
+        .subscribeToNewsletter(this.email)
+        .pipe(take(1))
+        .subscribe({
+          next: (): void => {
+            this.emailTouched = false;
+            this.emailValid = false;
+            this.email = '';
+            isSubscribed = true;
+          },
+          complete: () => this.snackBar.openSnackBar(isSubscribed ? 'subscribedToNewsletter' : 'errorAlreadySubscribed')
+        });
     } else {
       this.emailTouched = true;
     }

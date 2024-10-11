@@ -17,13 +17,7 @@
         <p id="validation-error" [ngClass]="{ hidden: !emailTouched || emailValid, visible: emailTouched && !emailValid }">
           {{ 'homepage.subscription.validation-error' | translate }}
         </p>
-        <p
-          id="subscription-error"
-          [ngClass]="{ hidden: subscriptionError.length < 1, visible: !emailTouched || subscriptionError.length > 0 }"
-        >
-          {{ 'homepage.subscription.subscription-error' | translate }}
-        </p>
-        <button class="primary-global-button btn" (click)="subscribe()">
+        <button class="primary-global-button btn" (click)="subscribeToNewsletter()">
           {{ 'homepage.subscription.button-subscribe' | translate }}
         </button>
       </div>

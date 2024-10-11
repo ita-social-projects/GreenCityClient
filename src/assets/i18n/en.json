@@ -186,10 +186,19 @@
     "subscription": {
       "caption": "Receive interesting news",
       "content": "Subscribe for our newsletter and always be up to date with news and updates",
+      "content-unsubscribe": "Do you want to unsubscribe from receiving",
+      "unsubscribe-info": "You`ll stop receiving",
       "placeholder": "Enter your email",
       "validation-error": "Invalid email",
-      "subscription-error": "Error, maybe you are already subscribed",
-      "button-subscribe": "Subscribe!"
+      "button-subscribe": "Subscribe!",
+      "button-unsubscribe": "Unsubscribe",
+      "subscription-success": "You successfully subscribed to the newsletter",
+      "unsubscription-success": "You successfully unsubscribed from the newsletter",
+      "already-subscribed": "You are already subscribed",
+      "already-unsubscribed": "You are already unsubscribed",
+      "type": {
+        "ECO_NEWS": "interesting news"
+      }
     }
   },
   "search": {
