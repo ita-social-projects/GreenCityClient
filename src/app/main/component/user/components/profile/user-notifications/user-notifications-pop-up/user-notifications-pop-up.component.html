@@ -14,7 +14,6 @@
           class="notification"
           *ngFor="let notification of notifications"
           [ngClass]="notification.viewed ? 'notification-read' : 'notification-unread'"
-          hideToggle
         >
           <mat-expansion-panel-header class="notification-header">
             <div class="d-flex flex-column">
