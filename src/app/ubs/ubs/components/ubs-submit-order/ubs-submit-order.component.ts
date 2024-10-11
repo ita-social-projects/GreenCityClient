@@ -140,11 +140,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .afterClosed()
       .pipe(take(1))
       .subscribe((isSave) => {
-        if (isSave === true) {
-          this.processOrder(false);
-        } else if (isSave === false) {
-          this.redirectToMainPage();
+        if (isSave === null) {
+          return;
         }
+        return isSave ? this.processOrder(false) : this.redirectToMainPage();
       });
   }
 
