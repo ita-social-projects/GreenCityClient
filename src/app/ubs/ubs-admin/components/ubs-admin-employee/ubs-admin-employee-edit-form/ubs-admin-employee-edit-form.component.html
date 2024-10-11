@@ -171,18 +171,7 @@
       <button
         type="submit"
         class="addButton action-buttons"
-        [disabled]="
-          employeeForm.invalid ||
-          !employeePositions.length ||
-          isUploading ||
-          !isAnyTariffSelected ||
-          (editMode &&
-            !isInitialDataChanged &&
-            !isInitialImageChanged &&
-            !isInitialPositionsChanged &&
-            !isInitialTariffsChanged &&
-            !isAnyTariffSelected)
-        "
+        [disabled]="isButtonDisabled()"
         (click)="isUpdatingEmployee ? this.updateEmployee() : this.createEmployee()"
       >
         <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>

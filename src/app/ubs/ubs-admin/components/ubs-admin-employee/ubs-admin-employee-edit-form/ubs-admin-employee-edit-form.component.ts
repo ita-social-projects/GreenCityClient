@@ -365,4 +365,19 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  isButtonDisabled(): boolean {
+    return (
+      this.employeeForm.invalid ||
+      !this.employeePositions.length ||
+      this.isUploading ||
+      !this.isAnyTariffSelected ||
+      (this.editMode &&
+        !this.isInitialDataChanged &&
+        !this.isInitialImageChanged &&
+        !this.isInitialPositionsChanged &&
+        !this.isInitialTariffsChanged &&
+        !this.isAnyTariffSelected)
+    );
+  }
 }
