@@ -9,12 +9,12 @@
       id="certificate"
       type="text"
       class="shadow-none form-control col-12 col-sm-8 my-1 input-border"
-      placeholder="xxxx-xxxx"
+      placeholder="XXXX-XXXX"
       [unmask]="false"
       [imask]="certificateMask"
       [formControlName]="i"
       [readonly]="certificates[i]"
-      (keydown.enter)="onActivateCertififcate(i)"
+      (keydown.enter)="$event.preventDefault(); onActivateCertififcate(i)"
     />
     <div class="form-group">
       <button

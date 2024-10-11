@@ -6,11 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { habitLink } from '../../links';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
-import {
-  HabitInterface,
-  HabitListInterface,
-  HabitListFriendsInterface
-} from '@global-user/components/habit/models/interfaces/habit.interface';
+import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { CustomHabitDtoRequest, CustomHabit } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
@@ -38,12 +34,12 @@ export class HabitService {
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((language) => (this.language = language));
   }
 
-  getMutualHabits(friendId: number): Observable<HabitListFriendsInterface> {
-    return this.http.get<HabitListFriendsInterface>(`${habitLink}/assign/allMutualHabits/${friendId}`);
+  getMutualHabits(friendId: number, page: number, size: number): Observable<HabitListInterface> {
+    return this.http.get<HabitListInterface>(`${habitLink}/allMutualHabits/${friendId}?page=${page}&size=${size}`);
   }
 
-  getAllFriendHabits(friendId: number): Observable<HabitListFriendsInterface> {
-    return this.http.get<HabitListFriendsInterface>(`${habitLink}/assign/allUser/${friendId}`);
+  getAllFriendHabits(friendId: number, page: number, size: number): Observable<HabitListInterface> {
+    return this.http.get<HabitListInterface>(`${habitLink}/all/${friendId}?page=${page}&size=${size}`);
   }
 
   getAllHabits(page: number, size: number): Observable<HabitListInterface> {

@@ -89,7 +89,9 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   onActivateCertififcate(index: number): void {
     const code = this.getCertificateValue(index);
-
+    if (!code) {
+      return;
+    }
     this.orderService
       .processCertificate(code)
       .pipe(take(1))

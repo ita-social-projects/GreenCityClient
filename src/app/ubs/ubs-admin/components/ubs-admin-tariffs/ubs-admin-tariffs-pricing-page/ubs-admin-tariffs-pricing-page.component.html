@@ -194,12 +194,12 @@
             <div>
               <mat-checkbox
                 [disabled]="!isEmployeeCanEditPricingCard"
-                class="example-margin"
+                class="chackbox-min-set"
                 [checked]="bag.limitIncluded"
                 (change)="onChecked(bag.id, $event)"
-                [appLangValue]="{ ua: bag.name, en: bag.nameEng }"
-                suffix=" {{ bag.capacity | volume }}"
               >
+                <span [appLangValue]="{ ua: bag.name, en: bag.nameEng }"></span>
+                <span> {{ bag.capacity | volume }}</span>
               </mat-checkbox>
             </div>
           </div>

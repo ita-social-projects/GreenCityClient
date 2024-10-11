@@ -34,20 +34,3 @@ export interface HabitListInterface {
   totalElements: number;
   totalPages: number;
 }
-
-export interface HabitListFriendsInterface {
-  page: Array<HabitItemInterface>;
-  totalElements: number;
-  currentPage: number;
-  totalPages: number;
-  number: number;
-}
-
-export interface HabitItemInterface {
-  duration: number;
-  habit: HabitInterface;
-  id: number;
-  status: string;
-  userId: number;
-  workingDays: number;
-}

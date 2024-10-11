@@ -13,7 +13,7 @@
     "max-length-comment": "Maximum 255 characters are allowed",
     "minlength-short": "The field contains insufficient characters",
     "max-length": "The field should contain 1-30 characters",
-    "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed"
+    "pattern": "Enter a valid email"
   },
   "snack-bar": {
     "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
@@ -113,7 +113,9 @@
     "order-error": "The number was entered incorrectly.  Please try again.",
     "address-comment": "Comment to the address:",
     "order-comment": "Comment to the order:",
-    "choose-payment": "You can make a payment in one of the selected methods below"
+    "choose-payment": "You can make a payment in one of the selected methods below",
+    "choose-payment-type": "Choose payment method",
+    "payment-card": "By card through"
   },
   "order-form": {
     "ubs-title": "Order garbage collection",
@@ -310,7 +312,6 @@
         "item_1": "When ordering the service, indicate that you plan to give the courier free extrapositions, and indicate their number.",
         "item_2": "Fold each type of packaging separately. A mix of these wastes in one bag/box will not be picked up by the courier. Tie each bag tightly."
       },
-
       "minimum-volume": {
         "title": "Minimum volume for export:",
         "li_1": "2 packages of 120 l in Kyiv ",
@@ -490,7 +491,6 @@
     "sign-in": "Sign in",
     "management": "Management"
   },
-
   "footer": {
     "station": "Station",
     "address": "Saperno-Slobidska St, 25, Kyiv, Ukraine",

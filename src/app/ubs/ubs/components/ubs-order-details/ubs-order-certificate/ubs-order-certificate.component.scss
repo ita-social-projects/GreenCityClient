@@ -8,6 +8,11 @@ p {
   font-size: 12px;
 }
 
+input::placeholder {
+  color: var(--ubs-primary-light-grey);
+  font-size: 14px;
+}
+
 .add-certificate {
   display: flex;
   flex-wrap: wrap;

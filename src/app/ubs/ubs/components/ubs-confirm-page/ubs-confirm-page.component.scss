@@ -20,6 +20,7 @@
     margin-top: -28px;
     margin-bottom: 64px;
     overflow: hidden;
+    background-color: var(--primary-white);
 
     button {
       padding: 8px 14px;
@@ -39,7 +40,6 @@
       color: var(--ubs-quaternary-dark-grey);
       background: none;
       font-size: 14px;
-      text-decoration: underline;
       margin-left: -40px;
     }
 
@@ -100,9 +100,9 @@
   }
 
   .image {
-    width: 130%;
+    width: 77%;
     height: auto;
-    margin: 55px auto;
+    margin: 50px auto 0;
   }
 
   .p-40 {
@@ -113,7 +113,6 @@
 
   .link {
     color: var(--ubs-electric-violet);
-    text-decoration: underline;
   }
 }
 
@@ -136,7 +135,7 @@
 @media screen and (max-width: 768px) {
   .wraper {
     .image {
-      width: 112%;
+      width: 100%;
     }
 
     .order {

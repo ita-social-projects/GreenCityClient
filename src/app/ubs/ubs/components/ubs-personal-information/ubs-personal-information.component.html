@@ -5,7 +5,12 @@
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label for="firstName">{{ 'personal-info.info-name' | translate }}</label>
-      <input formControlName="firstName" type="text" class="shadow-none form-control" />
+      <input
+        formControlName="firstName"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.info-name' | translate }}"
+      />
       <div class="validation" *ngIf="firstName.invalid && firstName.touched">
         <app-ubs-input-error [formElement]="firstName"></app-ubs-input-error>
       </div>
@@ -27,7 +32,12 @@
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
       <label for="lastName">{{ 'personal-info.info-surname' | translate }}</label>
-      <input formControlName="lastName" type="text" class="shadow-none form-control" />
+      <input
+        formControlName="lastName"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.info-surname' | translate }}"
+      />
       <div class="validation" *ngIf="lastName.invalid && lastName.touched">
         <app-ubs-input-error [formElement]="lastName"></app-ubs-input-error>
       </div>
@@ -41,7 +51,7 @@
     </div>
   </div>
   <div class="row form-check">
-    <input class="form-check-input" type="checkbox" formControlName="isAnotherClient" id="flexCheckDefault" />
+    <input class="form-check-input custom-checkbox" type="checkbox" formControlName="isAnotherClient" id="flexCheckDefault" />
     <label class="form-check-label" for="flexCheckDefault">
       {{ 'personal-info.info-other-client' | translate }}
     </label>
