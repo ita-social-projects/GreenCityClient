@@ -308,7 +308,6 @@
         "item_1": "When ordering the service, indicate that you plan to give the courier free extrapositions, and indicate their number.",
         "item_2": "Fold each type of packaging separately. A mix of these wastes in one bag/box will not be picked up by the courier. Tie each bag tightly."
       },
-
       "minimum-volume": {
         "title": "Minimum volume for export:",
         "li_1": "2 packages of 120 l in Kyiv ",
@@ -368,11 +367,13 @@
       "how-works": {
         "header": {
           "pre_1": "Working hours",
-          "pre_2": "Route forming time"
+          "pre_2": "Route forming time",
+          "pre_3": "Technical support"
         },
         "time": {
-          "pre_1": "Monday-Friday from 10:00 to 17:00.",
-          "pre_2": "From 2 to 5 business days."
+          "pre_1": "Monday-Friday from 09:00 to 17:30.",
+          "pre_2": "From 2 to 5 business days.",
+          "pre_3": "7 days a week from 9:00 to 19:00."
         },
         "content": {
           "pre_1": "Get free products shipping",
@@ -488,7 +489,6 @@
     "management": "Management",
     "my-profile": "My profile"
   },
-
   "footer": {
     "station": "Station",
     "address": "Saperno-Slobidska St, 25, Kyiv, Ukraine",
