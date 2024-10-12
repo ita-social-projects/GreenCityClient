@@ -152,8 +152,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.socketService.send(this.socketService.connection.greenCity, '/app/notifications', { userId: this.userId });
   }
 
-  displayMessagesCount() {
-    return this.newMessagesCount > 99 ? '99+' : this.newMessagesCount;
+  displayMessagesCount(): string {
+    return this.newMessagesCount > 99 ? '99+' : this.newMessagesCount.toString();
   }
 
   defineAuthorities() {
