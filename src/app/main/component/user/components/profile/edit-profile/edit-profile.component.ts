@@ -92,7 +92,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     private injector: Injector,
     public dialog: MatDialog,
     public router: Router,
-    private cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef
   ) {
     super(router, dialog);
     this.builder = injector.get(EditProfileFormBuilder);
@@ -207,7 +207,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showEcoPlace: !!form.value.showEcoPlace,
       showShoppingList: !!form.value.showShoppingList,
       socialNetworks: this.socialNetworksToServer,
-      emailPreferences: this.builder.getSelectedEmailPreferences(form)
+      emailPreferences: emailPreferences.length > 0 ? emailPreferences : null
     };
 
     this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe({
