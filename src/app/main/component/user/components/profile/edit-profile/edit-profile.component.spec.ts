@@ -19,6 +19,7 @@ import { SocialNetworksComponent } from '@global-user/components';
 import { Router } from '@angular/router';
 import { SharedMainModule } from '@shared/shared-main.module';
 import { InputGoogleAutocompleteComponent } from '@shared/components/input-google-autocomplete/input-google-autocomplete.component';
+import { MatSelectModule } from '@angular/material/select';
 
 class Test {}
 
@@ -51,6 +52,7 @@ describe('EditProfileComponent', () => {
         ReactiveFormsModule,
         MatAutocompleteModule,
         MatDialogModule,
+        MatSelectModule,
         MatSnackBarModule,
         BrowserAnimationsModule,
         RouterTestingModule.withRoutes([{ path: '**', component: Test }]),
@@ -84,6 +86,96 @@ describe('EditProfileComponent', () => {
 
   it('should create EditProfileComponent', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('Email Preferences Tests', () => {
+    beforeEach(() => {
+      component.emailPreferencesList = [
+        { controlName: 'system', translationKey: 'system', periodicityControl: 'periodicitySystem' },
+        { controlName: 'likes', translationKey: 'likes', periodicityControl: 'periodicityLikes' }
+      ];
+
+      component.periodicityOptions = [
+        { value: 'IMMEDIATELY', label: 'immediately' },
+        { value: 'DAILY', label: 'daily' },
+        { value: 'WEEKLY', label: 'weekly' },
+        { value: 'NEVER', label: 'never' }
+      ];
+
+      fixture.detectChanges();
+    });
+
+    it('should initialize email preferences with correct default values', () => {
+      const emailPreferencesForm = component.editProfileForm.get('emailPreferences');
+      expect(emailPreferencesForm.get('system').value).toBe(false);
+      expect(emailPreferencesForm.get('periodicitySystem').value).toBe('NEVER');
+      expect(emailPreferencesForm.get('likes').value).toBe(false);
+      expect(emailPreferencesForm.get('periodicityLikes').value).toBe('NEVER');
+      expect(emailPreferencesForm.get('comments').value).toBe(false);
+      expect(emailPreferencesForm.get('periodicityComments').value).toBe('NEVER');
+      expect(emailPreferencesForm.get('places').value).toBe(false);
+      expect(emailPreferencesForm.get('periodicityPlaces').value).toBe('NEVER');
+      expect(emailPreferencesForm.get('invites').value).toBe(false);
+      expect(emailPreferencesForm.get('periodicityInvites').value).toBe('NEVER');
+    });
+
+    it('should populate email preferences correctly from existing data', () => {
+      const preferences = [
+        { emailPreference: 'SYSTEM', periodicity: 'WEEKLY' },
+        { emailPreference: 'LIKES', periodicity: 'NEVER' }
+      ];
+      component.populateEmailPreferences(preferences);
+
+      const emailPreferencesForm = component.editProfileForm.get('emailPreferences');
+      expect(emailPreferencesForm.get('system').value).toBe(true);
+      expect(emailPreferencesForm.get('periodicitySystem').value).toBe('WEEKLY');
+      expect(emailPreferencesForm.get('likes').value).toBe(false);
+      expect(emailPreferencesForm.get('periodicityLikes').value).toBe('NEVER');
+    });
+
+    it('should return correct email preferences when form is submitted', () => {
+      const emailPreferencesForm = component.editProfileForm.get('emailPreferences');
+
+      emailPreferencesForm.get('system').setValue(true);
+      emailPreferencesForm.get('periodicitySystem').setValue('DAILY');
+
+      emailPreferencesForm.get('likes').setValue(true);
+      emailPreferencesForm.get('periodicityLikes').setValue('NEVER');
+
+      emailPreferencesForm.get('comments').setValue(true);
+      emailPreferencesForm.get('periodicityComments').setValue('DAILY');
+
+      emailPreferencesForm.get('invites').setValue(true);
+      emailPreferencesForm.get('periodicityInvites').setValue('NEVER');
+
+      emailPreferencesForm.get('places').setValue(true);
+      emailPreferencesForm.get('periodicityPlaces').setValue('NEVER');
+
+      const selectedPrefs = component.builder.getSelectedEmailPreferences(component.editProfileForm);
+
+      const expectedPrefs = [
+        { emailPreference: 'SYSTEM', periodicity: 'DAILY' },
+        { emailPreference: 'LIKES', periodicity: 'NEVER' },
+        { emailPreference: 'COMMENTS', periodicity: 'DAILY' },
+        { emailPreference: 'INVITES', periodicity: 'NEVER' },
+        { emailPreference: 'PLACES', periodicity: 'NEVER' }
+      ];
+
+      expect(selectedPrefs).toEqual(expectedPrefs);
+    });
+
+    it('should correctly set periodicity options when preferences are selected', () => {
+      const emailPreferencesForm = component.editProfileForm.get('emailPreferences');
+
+      emailPreferencesForm.get('system').setValue(true);
+      emailPreferencesForm.get('periodicitySystem').setValue('DAILY');
+
+      expect(emailPreferencesForm.get('periodicitySystem').value).toBe('DAILY');
+      expect(component.builder.getSelectedEmailPreferences(component.editProfileForm)).toContain({
+        emailPreference: 'SYSTEM',
+        periodicity: 'DAILY'
+      });
+    });
   });
 
   describe('Testing of warnings in cases of user leaves the page', () => {
