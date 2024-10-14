@@ -41,7 +41,7 @@ export class CreateEventInformationComponent implements OnInit {
 
   quillContentChanged(content: ContentChange): void {
     const quill = content.editor;
-    const range = quill.getSelection(); // Save the current selection
+    const range = quill.getSelection();
 
     this.quillLength = content.text.length - 1;
     this.isQuillUnfilled = this.quillLength < 20;
@@ -52,8 +52,6 @@ export class CreateEventInformationComponent implements OnInit {
     if (currentDescription !== trimmedText) {
       setTimeout(() => {
         this.eventInfForm.get('description').setValue(trimmedText, { emitEvent: false });
-
-        // Restore the cursor position
         quill.setSelection(range.index, range.length);
       }, 0);
     }
