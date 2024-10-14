@@ -9,6 +9,11 @@ import { UserNotificationService } from '@global-user/services/user-notification
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
+import {
+  NotificationBody,
+  Notifications
+} from '@ubs/ubs-admin/models/ubs-user.model';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-notifications',
@@ -97,9 +102,9 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       this.currentPage = 0;
       this.hasNextPage = false;
       this.isLoading = true;
-      this.getNotification();
+      this.getNotification(this.currentPage);
     });
-    this.getNotification();
+    this.getNotification(this.currentPage);
   }
 
   changefilterApproach(approach: string, event: Event): void {
@@ -143,15 +148,58 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     return allOption.isSelected ? [] : [...filterArr.filter((el) => {return el.isSelected === true && el.name !== this.filterAll;})];
   }
 
-  getNotification(page?: number): void {
+  getNotification(page: number): void {
     const filtersSelected = {
       projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN).map((el) => el.name),
       notificationType: this.getAllSelectedFilters(this.filterApproach.TYPE)
-        .map((el) => (el.filterArr?.length ? el.filterArr : el.name))
-        .flat()
+        .map((el) => (el.filterArr?.length ? el.filterArr : el.name)).flat()
     };
+
+    if (filtersSelected.projectName.includes('PICKUP')) {
+      this.fetchUBSNotifications(page);
+    } else if (filtersSelected.projectName.includes('GREENCITY')) {
+      this.fetchAllNotifications(page, filtersSelected);
+    } else {
+      this.fetchUBSNotifications(page);
+      this.fetchAllNotifications(page, filtersSelected);
+    }
+  }
+
+  private fetchUBSNotifications(page: number): void {
+    const params = new HttpParams()
+      .set('lang', 'en')
+      .set('page', page.toString())
+      .set('size', this.itemsPerPage.toString());
     this.userNotificationService
-      .getAllNotifications(page, this.itemsPerPage, filtersSelected)
+      .getUBSNotification(params)
+      .pipe(take(1))
+      .subscribe((data: Notifications) => {
+        this.notifications = [...this.notifications, ...data.page.map(this.mapNotificationBodyToModel)];
+        this.currentPage = data.currentPage;
+        this.isLoading = false;
+      });
+  }
+
+  private fetchAllNotifications(page: number, filters: any, viewed = false): void {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', this.itemsPerPage.toString())
+      .set('viewed', viewed.toString());
+
+    if (filters && filters.projectName) {
+      filters.projectName.forEach((project: string) => {
+        params = params.append('project-name', project);
+      });
+    }
+
+    if (filters && filters.notificationType) {
+      filters.notificationType.forEach((type: string) => {
+        params = params.append('notification-types', type);
+      });
+    }
+
+    this.userNotificationService
+      .getAllNotifications(params)
       .pipe(take(1))
       .subscribe((data) => {
         this.notifications = [...this.notifications, ...data.page];
@@ -159,6 +207,26 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         this.hasNextPage = data.hasNext;
         this.isLoading = false;
       });
+  }
+
+  mapNotificationBodyToModel(body: NotificationBody): NotificationModel {
+    const parsedDate = new Date(body.notificationTime);
+    const isValidDate = !isNaN(parsedDate.getTime());
+    return {
+      actionUserId: 0,
+      actionUserText: '',
+      bodyText: body.body || '',
+      message: '',
+      notificationId: body.id,
+      notificationType: '',
+      projectName: 'PICKUP',
+      secondMessage: '',
+      secondMessageId: 0,
+      targetId: body.orderId,
+      time: isValidDate ? parsedDate : null,
+      titleText: body.title,
+      viewed: body.read
+    };
   }
 
   readNotification(event: Event, notification: NotificationModel) {

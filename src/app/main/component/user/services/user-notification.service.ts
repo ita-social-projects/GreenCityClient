@@ -3,31 +3,17 @@ import { Injectable } from '@angular/core';
 import { NotificationArrayModel } from '@global-user/models/notification.model';
 import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
+import { Notifications } from '@ubs/ubs-admin/models/ubs-user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserNotificationService {
-  private size = 10;
   url: string = environment.backendLink;
 
   constructor(private http: HttpClient) {}
 
-  getAllNotifications(page: number = 0, size: number = this.size, filters?: any, viewed = false): Observable<NotificationArrayModel> {
-    let params = new HttpParams().set('page', page.toString()).set('size', size.toString()).set('viewed', viewed.toString());
-
-    if (filters && filters.projectName) {
-      filters.projectName.forEach((project: string) => {
-        params = params.append('project-name', project);
-      });
-    }
-
-    if (filters && filters.notificationType) {
-      filters.notificationType.forEach((type: string) => {
-        params = params.append('notification-types', type);
-      });
-    }
-
+  getAllNotifications(params: HttpParams): Observable<NotificationArrayModel> {
     return this.http.get<NotificationArrayModel>(`${this.url}notifications`, { params });
   }
 
@@ -45,5 +31,9 @@ export class UserNotificationService {
 
   deleteNotification(id: number): Observable<void> {
     return this.http.delete<void>(`${this.url}notifications/${id}`);
+  }
+
+  getUBSNotification(params: HttpParams): Observable<Notifications> {
+    return this.http.get<Notifications>(`https://greencity-ubs.greencity.cx.ua/notifications`, { params });
   }
 }
