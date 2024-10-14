@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { UserNotificationService } from './user-notification.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpParams } from '@angular/common/http';
 
 xdescribe('UserNotificationService', () => {
   let service: UserNotificationService;
@@ -42,7 +43,13 @@ xdescribe('UserNotificationService', () => {
 
   it('getAllNotification', () => {
     const filters = { projectName: ['GREENCITY'], notificationType: ['ECONEWS_COMMENT_REPLY'] };
-    service.getAllNotifications(0, 5, filters).subscribe((res) => {
+    const params = new HttpParams()
+      .set('projectName', filters.projectName[0])
+      .set('notificationType', filters.notificationType[0])
+      .set('page', '0')
+      .set('size', '5');
+
+    service.getAllNotifications(params).subscribe((res) => {
       expect(res.page.length).toBe(1);
     });
     const req = httpMock.expectOne(
