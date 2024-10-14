@@ -1,6 +1,6 @@
 export interface CommentsModel {
   currentPage: number;
-  page: Array<CommentsDTO>;
+  page: CommentsDTO[];
   totalElements: number;
 }
 
