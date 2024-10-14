@@ -102,13 +102,22 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     this.getNotification();
   }
 
+  // changefilterApproach(approach: string, event: Event): void {
+  //   if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
+  //     this.filterApproaches.forEach((el) => (el.isSelected = el.name === approach));
+  //     if (approach === this.filterAll) {
+  //       this.notificationTypesFilter.forEach((el) => (el.isSelected = true));
+  //       this.projects.forEach((el) => (el.isSelected = true));
+  //     }
+  //   }
+  // }
+
+  // IN CASE WE NEED A SEPARATE FILTERING:
   changefilterApproach(approach: string, event: Event): void {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       this.filterApproaches.forEach((el) => (el.isSelected = el.name === approach));
-      if (approach === this.filterAll) {
-        this.notificationTypesFilter.forEach((el) => (el.isSelected = true));
-        this.projects.forEach((el) => (el.isSelected = true));
-      }
+      this.notifications = [];
+      this.getNotification();
     }
   }
 
@@ -119,7 +128,15 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
 
       const notificationType = filterArr.find((el) => el.name === type.name);
       const notificationTypeAll = filterArr.find((el) => el.name === this.filterAll);
-      notificationType.isSelected = !notificationType.isSelected;
+
+      const allSelected = filterArr.every((el) => el.isSelected);
+
+      if (allSelected) {
+        filterArr.forEach((el) => (el.isSelected = false));
+        notificationType.isSelected = true;
+      } else {
+        notificationType.isSelected = !notificationType.isSelected;
+      }
 
       if (notificationType.name === this.filterAll) {
         filterArr.forEach((el) => (el.isSelected = notificationType.isSelected));
@@ -143,13 +160,47 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     return allOption.isSelected ? [] : [...filterArr.filter((el) => {return el.isSelected === true && el.name !== this.filterAll;})];
   }
 
+  // getNotification(page?: number): void {
+  //   const filtersSelected = {
+  //     projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN).map((el) => el.name),
+  //     notificationType: this.getAllSelectedFilters(this.filterApproach.TYPE)
+  //       .map((el) => (el.filterArr?.length ? el.filterArr : el.name))
+  //       .flat()
+  //   };
+  //   this.userNotificationService
+  //     .getAllNotifications(page, this.itemsPerPage, filtersSelected)
+  //     .pipe(take(1))
+  //     .subscribe((data) => {
+  //       this.notifications = [...this.notifications, ...data.page];
+  //       this.currentPage = data.currentPage;
+  //       this.hasNextPage = data.hasNext;
+  //       this.isLoading = false;
+  //     });
+  // }
+
   getNotification(page?: number): void {
-    const filtersSelected = {
-      projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN).map((el) => el.name),
-      notificationType: this.getAllSelectedFilters(this.filterApproach.TYPE)
-        .map((el) => (el.filterArr?.length ? el.filterArr : el.name))
-        .flat()
-    };
+    let filtersSelected = {};
+    const selectedApproach = this.filterApproaches.find((el) => el.isSelected)?.name;
+
+    if (selectedApproach === this.filterApproach.TYPE) {
+      filtersSelected = {
+        notificationType: this.getAllSelectedFilters(this.filterApproach.TYPE)
+          .map((el) => (el.filterArr?.length ? el.filterArr : el.name))
+          .flat(),
+        projectName: []
+      };
+    } else if (selectedApproach === this.filterApproach.ORIGIN) {
+      filtersSelected = {
+        projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN).map((el) => el.name),
+        notificationType: []
+      };
+    } else {
+      filtersSelected = {
+        projectName: [],
+        notificationType: []
+      };
+    }
+
     this.userNotificationService
       .getAllNotifications(page, this.itemsPerPage, filtersSelected)
       .pipe(take(1))
@@ -158,6 +209,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         this.currentPage = data.currentPage;
         this.hasNextPage = data.hasNext;
         this.isLoading = false;
+        console.log(this.notifications);
       });
   }
 
