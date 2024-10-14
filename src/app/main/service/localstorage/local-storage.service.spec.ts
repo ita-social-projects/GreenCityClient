@@ -4,6 +4,7 @@ import { LocalStorageService } from './local-storage.service';
 import { Subject } from 'rxjs';
 import { EventResponse } from '../../component/events/models/events.interface';
 import { CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
+import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 
 describe('LocalStorageService', () => {
   let service: LocalStorageService;
@@ -608,5 +609,80 @@ describe('LocalStorageService', () => {
     const tariffId = 567;
     localStorage.setItem('currentTariffId', String(tariffId));
     expect(service.getTariffId()).toEqual(tariffId);
+  });
+
+  describe('LocalStorageService', () => {
+    let service: LocalStorageService;
+    const mockFact: FactOfTheDay = { id: 1, content: 'Mock Fact' };
+    const currentTime = Date.now();
+    const factKey = 'factOfTheDay';
+
+    beforeEach(() => {
+      service = new LocalStorageService();
+      spyOn(localStorage, 'setItem').and.callFake(() => {});
+      spyOn(localStorage, 'getItem').and.callFake(() => null);
+      spyOn(localStorage, 'removeItem').and.callFake(() => {});
+    });
+
+    it('should save fact to localStorage', () => {
+      service.saveFactToLocalStorage(mockFact, currentTime, factKey);
+
+      expect(localStorage.setItem).toHaveBeenCalledWith(factKey, JSON.stringify(mockFact));
+      expect(localStorage.setItem).toHaveBeenCalledWith('lastFetchTime', currentTime.toString());
+    });
+
+    it('should return fact from localStorage if it is present and within one day', () => {
+      spyOn(localStorage, 'getItem').and.callFake((key) => {
+        if (key === factKey) {
+          return JSON.stringify(mockFact);
+        } else if (key === 'lastFetchTime') {
+          return currentTime.toString();
+        }
+        return null;
+      });
+
+      const result = service.getFactFromLocalStorage(factKey);
+
+      expect(result).toEqual(mockFact);
+    });
+
+    it('should return null if fact is not present in localStorage', () => {
+      const result = service.getFactFromLocalStorage(factKey);
+      expect(result).toBeNull();
+    });
+
+    it('should return null if last fetch time is not present', () => {
+      spyOn(localStorage, 'getItem').and.callFake((key) => {
+        if (key === factKey) {
+          return JSON.stringify(mockFact);
+        }
+        return null;
+      });
+
+      const result = service.getFactFromLocalStorage(factKey);
+      expect(result).toBeNull();
+    });
+
+    it('should return null if more than one day has passed', () => {
+      const outdatedTime = currentTime - (service.ONE_DAY_IN_MILLIS + 1);
+      spyOn(localStorage, 'getItem').and.callFake((key) => {
+        if (key === factKey) {
+          return JSON.stringify(mockFact);
+        } else if (key === 'lastFetchTime') {
+          return outdatedTime.toString();
+        }
+        return null;
+      });
+
+      const result = service.getFactFromLocalStorage(factKey);
+      expect(result).toBeNull();
+    });
+
+    it('should clear fact from localStorage', () => {
+      service.clearFromLocalStorage(factKey);
+
+      expect(localStorage.removeItem).toHaveBeenCalledWith(factKey);
+      expect(localStorage.removeItem).toHaveBeenCalledWith('lastFetchTime');
+    });
   });
 });
