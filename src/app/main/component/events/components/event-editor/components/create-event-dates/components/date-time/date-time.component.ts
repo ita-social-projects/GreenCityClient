@@ -120,17 +120,7 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     // Subscribe to date value changes
     this.date.valueChanges.subscribe((newDate) => {
       this._updateNeighboringDates();
-
-      let result = null;
-      switch (true) {
-        case !newDate:
-          result = { dateIncorrect: true };
-          break;
-        case newDate < new Date():
-          result = { dateInPast: true };
-          break;
-      }
-      this.date.setErrors(result);
+      this.date.setErrors(this.getDateErrors(newDate));
     });
   }
 
@@ -139,6 +129,19 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     // IMask(this.dateRef.nativeElement, this.dateMask);
     IMask(this.startTimeRef.nativeElement, this.timeMask);
     IMask(this.endTimeRef.nativeElement, this.timeMask);
+  }
+
+  getDateErrors(date: _moment.Moment | null) {
+    let result = null;
+    switch (true) {
+      case !date:
+        result = { dateIncorrect: true };
+        break;
+      case date < _moment(new Date()):
+        result = { dateInPast: true };
+        break;
+    }
+    return result;
   }
 
   private _updateNeighboringDates(): void {
