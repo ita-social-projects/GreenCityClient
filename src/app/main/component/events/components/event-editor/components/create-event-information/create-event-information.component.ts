@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ContentChange } from 'ngx-quill';
+import { ContentChange, EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 
 import { FormGroup } from '@angular/forms';
 import { quillConfig } from '../../quillEditorFunc';
@@ -40,6 +40,9 @@ export class CreateEventInformationComponent implements OnInit {
   }
 
   quillContentChanged(content: ContentChange): void {
+    const quill = content.editor;
+    const range = quill.getSelection(); // Save the current selection
+
     this.quillLength = content.text.length - 1;
     this.isQuillUnfilled = this.quillLength < 20;
 
@@ -47,7 +50,12 @@ export class CreateEventInformationComponent implements OnInit {
     const currentDescription = this.eventInfForm.get('description').value;
 
     if (currentDescription !== trimmedText) {
-      this.eventInfForm.get('description').setValue(trimmedText, { emitEvent: false });
+      setTimeout(() => {
+        this.eventInfForm.get('description').setValue(trimmedText, { emitEvent: false });
+
+        // Restore the cursor position
+        quill.setSelection(range.index, range.length);
+      }, 0);
     }
   }
 
