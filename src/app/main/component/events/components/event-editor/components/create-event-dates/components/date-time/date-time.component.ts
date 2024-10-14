@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { IMask } from 'angular-imask';
 import * as _moment from 'moment';
@@ -115,6 +115,22 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
 
     this.endTime.valueChanges.subscribe((value: string) => {
       this._handleTimeChange(value, 'end');
+    });
+
+    // Subscribe to date value changes
+    this.date.valueChanges.subscribe((newDate) => {
+      this._updateNeighboringDates();
+
+      if (!newDate) {
+        this.date.setErrors({ dateIncorrect: true });
+      } else {
+        const today = new Date();
+        if (newDate < today) {
+          this.date.setErrors({ dateInPast: true });
+        } else {
+          this.date.setErrors(null);
+        }
+      }
     });
   }
 
