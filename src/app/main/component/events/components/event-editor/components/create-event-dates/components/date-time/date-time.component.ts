@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { IMask } from 'angular-imask';
 import * as _moment from 'moment';
 import 'moment/locale/uk';
 import { LanguageService } from '../../../../../../../../i18n/language.service';
-import { MomentDateAdapter } from './moment-date-adapter/moment-date-adapter';
+import { MomentDateAdapter } from './moment-date-adapter';
 
 export const MY_FORMATS = {
   parse: {
@@ -121,16 +121,16 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     this.date.valueChanges.subscribe((newDate) => {
       this._updateNeighboringDates();
 
-      if (!newDate) {
-        this.date.setErrors({ dateIncorrect: true });
-      } else {
-        const today = new Date();
-        if (newDate < today) {
-          this.date.setErrors({ dateInPast: true });
-        } else {
-          this.date.setErrors(null);
-        }
+      let result = null;
+      switch (true) {
+        case !newDate:
+          result = { dateIncorrect: true };
+          break;
+        case newDate < new Date():
+          result = { dateInPast: true };
+          break;
       }
+      this.date.setErrors(result);
     });
   }
 

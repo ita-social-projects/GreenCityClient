@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ContentChange, EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { ContentChange } from 'ngx-quill';
 
 import { FormGroup } from '@angular/forms';
 import { quillConfig } from '../../quillEditorFunc';

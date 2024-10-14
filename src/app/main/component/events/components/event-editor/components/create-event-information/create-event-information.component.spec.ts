@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -72,7 +72,9 @@ describe('CreateEventInformationComponent', () => {
     fixture.detectChanges();
   });
 
-  afterEach(() => {});
+  afterEach(() => {
+    fixture.destroy();
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -90,15 +92,18 @@ describe('CreateEventInformationComponent', () => {
     expect(component.quillLabel).toBe('Not enough characters. Left: 5');
   });
 
-  it('should set description value in form on content change', () => {
+  it('should set description value in form on content change', fakeAsync(() => {
     const mockContent = {
       text: 'Description',
       editor: new QuillMock()
     };
 
+    component.eventInfForm.get('description')?.setValue('');
+    expect(component.eventInfForm.get('description')?.value).toBe('');
     component.quillContentChanged(mockContent as any);
+    tick();
     expect(component.eventInfForm.get('description')?.value).toBe(mockContent.text.trimEnd());
-  });
+  }));
 
   it('should return error message with remaining characters when quillLength is less than minLength', () => {
     component.quillLength = 10;
@@ -112,18 +117,22 @@ describe('CreateEventInformationComponent', () => {
     expect(component.quillLabel).toBe('Error: Max length exceeded by 4');
   });
 
-  it('should update quillLength and form value on valid content change', () => {
+  it('should update quillLength and form value on valid content change', fakeAsync(() => {
     const mockContent = {
       text: 'Description',
       editor: new QuillMock()
     };
 
-    component.quillContentChanged(mockContent as any);
+    component.quillLength = 0;
+    component.isQuillUnfilled = true;
+    component.eventInfForm.get('description')?.setValue('');
 
+    component.quillContentChanged(mockContent as any);
+    tick();
     expect(component.quillLength).toBe(mockContent.text.length - 1);
     expect(component.eventInfForm.get('description')?.value).toBe(mockContent.text);
     expect(component.isQuillUnfilled).toBe(component.quillLength < 20);
-  });
+  }));
 
   it('should return default label when quillLength is zero', () => {
     component.quillLength = 0;
