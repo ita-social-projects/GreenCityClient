@@ -216,7 +216,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       actionUserId: 0,
       actionUserText: '',
       bodyText: body.body || '',
-      message: '',
+      message: body.body || '',
       notificationId: body.id,
       notificationType: '',
       projectName: 'PICKUP',
