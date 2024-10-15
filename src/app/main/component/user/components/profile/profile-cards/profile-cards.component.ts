@@ -50,23 +50,30 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((profileStats: ProfileStatistics) => {
-        if (profileStats?.amountHabitsInProgress > 0) {
-          this.updateFactsIfNeeded();
-        } else {
+        const lastFetchTime = localStorage.getItem('lastFetchTime');
+        const currentTime = Date.now();
+        const oneDay = this.localStorageService.ONE_DAY_IN_MILLIS;
+
+        if (this.isMoreThanOneDayPassed(lastFetchTime, currentTime, oneDay)) {
           this.clearFacts();
+          this.updateFacts(currentTime, profileStats?.amountHabitsInProgress > 0);
+        }
+
+        if (profileStats?.amountHabitsInProgress > 0) {
+          if (!this.habitFactOfTheDay) {
+            this.fetchAndSaveHabitFact(currentTime);
+          }
+        } else {
+          this.clearFacts(true);
         }
       });
   }
 
-  updateFactsIfNeeded(): void {
-    const lastFetchTime = localStorage.getItem('lastFetchTime');
-    const currentTime = Date.now();
-    const oneDay = this.localStorageService.ONE_DAY_IN_MILLIS;
+  updateFacts(currentTime: number, hasHabits: boolean): void {
+    this.fetchAndSaveRandomFact(currentTime);
 
-    if (this.isMoreThanOneDayPassed(lastFetchTime, currentTime, oneDay)) {
-      this.clearFacts();
+    if (hasHabits) {
       this.fetchAndSaveHabitFact(currentTime);
-      this.fetchAndSaveRandomFact(currentTime);
     }
   }
 
@@ -104,9 +111,11 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
     return !lastHabitFetchTime || currentTime - Number(lastHabitFetchTime) > oneDay;
   }
 
-  private clearFacts(): void {
-    this.localStorageService.clearFromLocalStorage(this.factKey);
-    this.localStorageService.clearFromLocalStorage(this.habitFactKey);
+  clearFacts(isHabit: boolean = false): void {
+    this.habitFactOfTheDay = null;
+    this.localStorageService.clearFromLocalStorage(this.habitFactKey, isHabit);
+
+    !isHabit && this.localStorageService.clearFromLocalStorage(this.factKey);
   }
 
   ngOnDestroy(): void {

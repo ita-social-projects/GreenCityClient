@@ -409,8 +409,8 @@ export class LocalStorageService {
     return null;
   }
 
-  clearFromLocalStorage(factKey: string): void {
+  clearFromLocalStorage(factKey: string, isHabit: boolean = false): void {
     localStorage.removeItem(factKey);
-    localStorage.removeItem('lastFetchTime');
+    !isHabit && localStorage.removeItem('lastFetchTime');
   }
 }
