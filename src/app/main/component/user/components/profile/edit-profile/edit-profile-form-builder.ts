@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EditProfileModel, UserLocationDto } from '@global-user/models/edit-profile.model';
+import { EditProfileModel, NotificationPreference, UserLocationDto } from '@global-user/models/edit-profile.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class EditProfileFormBuilder {
     private langService: LanguageService
   ) {}
 
-  emailPrefs = ['system', 'likes', 'comments', 'invites', 'places'];
+  emailPreferences = ['system', 'likes', 'comments', 'invites', 'places'];
 
   getProfileForm() {
     return this.builder.group({
@@ -25,9 +25,9 @@ export class EditProfileFormBuilder {
     });
   }
 
-  private createEmailPreferencesGroup(preferences: any[] | null): FormGroup {
+  private createEmailPreferencesGroup(preferences: NotificationPreference[] | null): FormGroup {
     const emailPrefsGroup = this.builder.group(
-      this.emailPrefs.reduce(
+      this.emailPreferences.reduce(
         (acc, pref) => ({
           ...acc,
           [pref]: [false],
@@ -44,7 +44,7 @@ export class EditProfileFormBuilder {
     return emailPrefsGroup;
   }
 
-  initializeEmailPreferences(group: FormGroup, preferences: any[]): void {
+  initializeEmailPreferences(group: FormGroup, preferences: NotificationPreference[]): void {
     preferences.forEach(({ emailPreference, periodicity }) => {
       const controlName = this.mapPreferenceToFormControl(emailPreference);
       const periodicityControl = `periodicity${this.capitalizeFirstLetter(emailPreference)}`;
@@ -57,16 +57,16 @@ export class EditProfileFormBuilder {
   }
 
   mapPreferenceToFormControl(preference: string): string | null {
-    return this.emailPrefs.find((pref) => pref.toUpperCase() === preference) || null;
+    return this.emailPreferences.find((pref) => pref.toUpperCase() === preference) || null;
   }
 
   capitalizeFirstLetter(string: string): string {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  getSelectedEmailPreferences(form: FormGroup): any[] {
+  getSelectedEmailPreferences(form: FormGroup): NotificationPreference[] {
     const emailPrefGroup = form.get('emailPreferences') as FormGroup;
-    return this.emailPrefs.map((pref) => {
+    return this.emailPreferences.map((pref) => {
       const isChecked = emailPrefGroup.get(pref)?.value;
       const periodicityControl = `periodicity${this.capitalizeFirstLetter(pref)}`;
       const periodicity = emailPrefGroup.get(periodicityControl)?.value;

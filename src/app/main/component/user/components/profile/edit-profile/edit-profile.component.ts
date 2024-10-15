@@ -7,13 +7,20 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { PlaceService } from '@global-service/place/place.service';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { Coordinates, EditProfileDto, EditProfileModel, UserLocationDto } from '@global-user/models/edit-profile.model';
+import {
+  Coordinates,
+  EditProfileDto,
+  EditProfileModel,
+  NotificationPreference,
+  UserLocationDto
+} from '@global-user/models/edit-profile.model';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { emailPreferencesList, periodicityOptions } from '@global-user/models/edit-profile-const';
 
 @Component({
   selector: 'app-edit-profile',
@@ -31,6 +38,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   namePattern: RegExp = Patterns.NamePattern;
   builder: EditProfileFormBuilder;
   placeService: PlaceService;
+  emailPreferencesList = emailPreferencesList;
+  periodicityOptions = periodicityOptions;
   private editProfileService: EditProfileService;
   private profileService: ProfileService;
   private snackBar: MatSnackBarComponent;
@@ -58,23 +67,6 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       popupCancel: 'user.edit-profile.profile-popup.cancel'
     }
   };
-
-  emailPreferencesList = [
-    { controlName: 'system', translationKey: 'system', periodicityControl: 'periodicitySystem' },
-    { controlName: 'likes', translationKey: 'likes', periodicityControl: 'periodicityLikes' },
-    { controlName: 'comments', translationKey: 'comments', periodicityControl: 'periodicityComments' },
-    { controlName: 'invites', translationKey: 'invites', periodicityControl: 'periodicityInvites' },
-    { controlName: 'places', translationKey: 'places', periodicityControl: 'periodicityPlaces' }
-  ];
-
-  periodicityOptions = [
-    { value: 'IMMEDIATELY', label: 'immediately' },
-    { value: 'TWICE_A_DAY', label: 'twice_a_day' },
-    { value: 'MONTHLY', label: 'monthly' },
-    { value: 'DAILY', label: 'daily' },
-    { value: 'WEEKLY', label: 'weekly' },
-    { value: 'NEVER', label: 'never' }
-  ];
 
   get name() {
     return this.editProfileForm.get('name');
@@ -172,13 +164,13 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       });
   }
 
-  populateEmailPreferences(preferences: any[]): void {
+  populateEmailPreferences(preferences: NotificationPreference[]): void {
     if (!preferences) {
       return;
     }
     const emailPrefGroup = this.editProfileForm.get('emailPreferences') as FormGroup;
 
-    this.emailPreferencesList.forEach(({ controlName, periodicityControl }) => {
+    emailPreferencesList.forEach(({ controlName, periodicityControl }) => {
       const matchingPref = preferences.find((p) => p.emailPreference === controlName.toUpperCase());
 
       if (matchingPref) {
