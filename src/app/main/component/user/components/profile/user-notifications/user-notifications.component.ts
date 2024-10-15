@@ -3,7 +3,15 @@ import { Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from '@global-service/user/user.service';
-import { FilterApproach, NotificationFilter, NotificationModel, NotificationType } from '@global-user/models/notification.model';
+import {
+  NotificationFilter,
+  NotificationModel,
+  NotificationCriteria,
+  FilterCriteria,
+  filterCriteriaOptions,
+  notificationCriteriaOptions,
+  projects
+} from '@global-user/models/notification.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { UserNotificationService } from '@global-user/services/user-notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,55 +26,12 @@ import { debounceTime, take, takeUntil } from 'rxjs/operators';
 export class UserNotificationsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   currentLang: string;
-  filterApproach = FilterApproach;
-  notificationFriendRequest = NotificationType.FRIEND_REQUEST_RECEIVED;
-  filterApproaches = [
-    { name: FilterApproach.ALL, isSelected: true, nameUa: 'Усі', nameEn: 'All' },
-    { name: FilterApproach.TYPE, isSelected: false, nameUa: 'Типом', nameEn: 'Type' },
-    { name: FilterApproach.ORIGIN, isSelected: false, nameUa: 'Джерелом', nameEn: 'Origin' }
-  ];
-  notificationTypesFilter: NotificationFilter[] = [
-    {
-      name: 'All',
-      nameEn: 'All',
-      nameUa: 'Усі',
-      isSelected: true
-    },
-    {
-      name: NotificationType.COMMENT_LIKE,
-      nameEn: 'Comment like',
-      nameUa: 'Вподобання коментаря',
-      filterArr: ['ECONEWS_COMMENT_LIKE', 'EVENT_COMMENT_LIKE'],
-      isSelected: true
-    },
-    {
-      name: NotificationType.COMMENT_REPLY,
-      nameEn: 'Comment reply',
-      nameUa: 'Відповідь на коментар',
-      filterArr: ['ECONEWS_COMMENT_REPLY', 'EVENT_COMMENT_REPLY'],
-      isSelected: true
-    },
-    { name: NotificationType.ECONEWS_LIKE, nameEn: ' News Like', nameUa: 'Вподобання новини', isSelected: true },
-    { name: NotificationType.ECONEWS_CREATED, nameEn: ' News Created', nameUa: 'Створення новини', isSelected: true },
-    { name: NotificationType.ECONEWS_COMMENT, nameEn: ' News Commented', nameUa: 'Коментарі новин', isSelected: true },
-    { name: NotificationType.EVENT_CREATED, nameEn: 'Event created', nameUa: 'Створення події', isSelected: true },
-    { name: NotificationType.EVENT_CANCELED, nameEn: 'Event canceled', nameUa: 'Скасування події', isSelected: true },
-    { name: NotificationType.EVENT_UPDATED, nameEn: 'Event updated', nameUa: 'Зміни у подіях', isSelected: true },
-    { name: NotificationType.EVENT_JOINED, nameEn: 'Event joined', nameUa: 'приєднання до події', isSelected: true },
-    { name: NotificationType.EVENT_COMMENT, nameEn: 'Event commented', nameUa: 'Коментарі подій', isSelected: true },
-    { name: NotificationType.FRIEND_REQUEST_RECEIVED, nameEn: 'Friend request received', nameUa: 'Нові запити дружити', isSelected: true },
-    {
-      name: NotificationType.FRIEND_REQUEST_ACCEPTED,
-      nameEn: 'Friend request accepted',
-      nameUa: 'Підтверджені запити дружити',
-      isSelected: true
-    }
-  ];
-  projects: NotificationFilter[] = [
-    { name: 'All', nameEn: 'All', nameUa: 'Усі', isSelected: true },
-    { name: 'GREENCITY', nameEn: 'GreenCity', isSelected: false },
-    { name: 'PICKUP', nameEn: 'Pick up', isSelected: false }
-  ];
+  filterCriteria = FilterCriteria;
+  filterCriteriaOptions = filterCriteriaOptions;
+  notificationCriteriaOptions = notificationCriteriaOptions;
+  projects = projects;
+  notificationTypes = NotificationCriteria;
+  notificationFriendRequest = NotificationCriteria.FRIEND_REQUEST_RECEIVED;
 
   notifications: NotificationModel[] = [];
   currentPage = 0;
@@ -102,20 +67,9 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     this.getNotification();
   }
 
-  // changefilterApproach(approach: string, event: Event): void {
-  //   if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
-  //     this.filterApproaches.forEach((el) => (el.isSelected = el.name === approach));
-  //     if (approach === this.filterAll) {
-  //       this.notificationTypesFilter.forEach((el) => (el.isSelected = true));
-  //       this.projects.forEach((el) => (el.isSelected = true));
-  //     }
-  //   }
-  // }
-
-  // IN CASE WE NEED A SEPARATE FILTERING:
-  changefilterApproach(approach: string, event: Event): void {
+  changeFilterApproach(approach: string, event: Event): void {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
-      this.filterApproaches.forEach((el) => (el.isSelected = el.name === approach));
+      this.filterCriteriaOptions.forEach((el) => (el.isSelected = el.name === approach));
       this.notifications = [];
       this.getNotification();
     }
@@ -124,7 +78,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   changeFilter(type: NotificationFilter, approach: string, event: Event): void {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) {
       this.filterChangeSubs$.next({ type, approach });
-      const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypesFilter : this.projects;
+      const filterArr = approach === this.filterCriteria.TYPE ? notificationCriteriaOptions : projects;
 
       const notificationType = filterArr.find((el) => el.name === type.name);
       const notificationTypeAll = filterArr.find((el) => el.name === this.filterAll);
@@ -143,55 +97,37 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       } else {
         notificationTypeAll.isSelected = filterArr.filter((el) => el.name !== this.filterAll).every((el) => el.isSelected);
       }
-      const isTypeFiltered = this.getAllSelectedFilters(this.filterApproach.TYPE).length !== this.notificationTypesFilter.length;
-      const isProjectFiltered = this.getAllSelectedFilters(this.filterApproach.TYPE).length !== this.projects.length;
+      const isTypeFiltered = this.getAllSelectedFilters(this.filterCriteria.TYPE).length !== notificationCriteriaOptions.length;
+      const isProjectFiltered = this.getAllSelectedFilters(this.filterCriteria.TYPE).length !== projects.length;
       this.isFilterDisabled = !this.notifications.length && !isTypeFiltered && isProjectFiltered;
     }
   }
 
   checkSelectedFilter(approachType: string): boolean {
-    return this.filterApproaches.find((el) => el.name === approachType).isSelected;
+    return filterCriteriaOptions.find((el) => el.name === approachType).isSelected;
   }
 
   /* prettier-ignore */
   private getAllSelectedFilters(approach: string): NotificationFilter[] {
-    const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypesFilter : this.projects;
+    const filterArr = approach === this.filterCriteria.TYPE ? notificationCriteriaOptions : projects;
     const allOption = filterArr.find((el) => el.name === this.filterAll);
     return allOption.isSelected ? [] : [...filterArr.filter((el) => {return el.isSelected === true && el.name !== this.filterAll;})];
   }
 
-  // getNotification(page?: number): void {
-  //   const filtersSelected = {
-  //     projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN).map((el) => el.name),
-  //     notificationType: this.getAllSelectedFilters(this.filterApproach.TYPE)
-  //       .map((el) => (el.filterArr?.length ? el.filterArr : el.name))
-  //       .flat()
-  //   };
-  //   this.userNotificationService
-  //     .getAllNotifications(page, this.itemsPerPage, filtersSelected)
-  //     .pipe(take(1))
-  //     .subscribe((data) => {
-  //       this.notifications = [...this.notifications, ...data.page];
-  //       this.currentPage = data.currentPage;
-  //       this.hasNextPage = data.hasNext;
-  //       this.isLoading = false;
-  //     });
-  // }
-
   getNotification(page?: number): void {
     let filtersSelected = {};
-    const selectedApproach = this.filterApproaches.find((el) => el.isSelected)?.name;
+    const selectedApproach = filterCriteriaOptions.find((el) => el.isSelected)?.name;
 
-    if (selectedApproach === this.filterApproach.TYPE) {
+    if (selectedApproach === this.filterCriteria.TYPE) {
       filtersSelected = {
-        notificationType: this.getAllSelectedFilters(this.filterApproach.TYPE)
+        notificationType: this.getAllSelectedFilters(this.filterCriteria.TYPE)
           .map((el) => (el.filterArr?.length ? el.filterArr : el.name))
           .flat(),
         projectName: []
       };
-    } else if (selectedApproach === this.filterApproach.ORIGIN) {
+    } else if (selectedApproach === this.filterCriteria.ORIGIN) {
       filtersSelected = {
-        projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN).map((el) => el.name),
+        projectName: this.getAllSelectedFilters(this.filterCriteria.ORIGIN).map((el) => el.name),
         notificationType: []
       };
     } else {
