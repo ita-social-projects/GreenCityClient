@@ -132,16 +132,17 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   }
 
   getDateErrors(date: _moment.Moment | null) {
-    let result = null;
-    switch (true) {
-      case !date:
-        result = { dateIncorrect: true };
-        break;
-      case date < _moment(new Date()):
-        result = { dateInPast: true };
-        break;
+    console.log(date);
+
+    if (!date) {
+      return { dateIncorrect: true };
     }
-    return result;
+
+    if (date.isBefore(_moment(), 'day')) {
+      return { dateInPast: true };
+    }
+
+    return null;
   }
 
   private _updateNeighboringDates(): void {
