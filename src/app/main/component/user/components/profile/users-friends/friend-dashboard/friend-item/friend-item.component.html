@@ -46,5 +46,5 @@
       </p>
     </div>
   </div>
-  <app-friendship-buttons [userAsFriend]="userDataAsFriend"></app-friendship-buttons>
+  <app-friendship-buttons [userAsFriend]="userDataAsFriend" *ngIf="friend.id !== currentUserId"></app-friendship-buttons>
 </div>
