@@ -8,6 +8,7 @@ import { Subject, throwError } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-user-bonuses',
@@ -23,14 +24,16 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private snackBar: MatSnackBarComponent,
-    private bonusesService: BonusesService,
-    private localStorage: LocalStorageService
+    private readonly snackBar: MatSnackBarComponent,
+    private readonly bonusesService: BonusesService,
+    private readonly localStorage: LocalStorageService,
+    private readonly metaService: MetaService
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
+    this.metaService.setMeta('userBonuses');
     this.getBonusesData();
     this.dataSource.sort = this.sort;
   }
@@ -81,6 +84,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.metaService.resetMeta();
     this.destroy.next(true);
     this.destroy.unsubscribe();
   }

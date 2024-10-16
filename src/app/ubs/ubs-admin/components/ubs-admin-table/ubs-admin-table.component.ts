@@ -49,6 +49,7 @@ import { TableColorKeys, TableKeys } from '../../services/table-keys.enum';
 import { ColumnFiltersPopUpComponent } from '../shared/components/column-filters-pop-up/column-filters-pop-up.component';
 import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -136,12 +137,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
     private fb: FormBuilder,
-    private dateAdapter: DateAdapter<Date>
+    private dateAdapter: DateAdapter<Date>,
+    private readonly metaService: MetaService
   ) {
     this.dateAdapter.setLocale('en-GB');
   }
 
   ngOnInit() {
+    this.metaService.setMeta('adminOrders');
+
     this.firstPageLoad = true;
     this.initDateForm();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
@@ -1184,6 +1188,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   ngOnDestroy() {
+    this.metaService.resetMeta();
     this.destroy.next(true);
     this.destroy.complete();
   }

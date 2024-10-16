@@ -24,6 +24,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store, StoreModule } from '@ngrx/store';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
@@ -87,6 +88,7 @@ describe('UbsUserOrdersComponent', () => {
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -109,7 +111,8 @@ describe('UbsUserOrdersComponent', () => {
         { provide: UserOrdersService, useValue: userOrderServiceMock },
         { provide: BonusesService, useValue: bonusesServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: APP_BASE_HREF, useValue: '/' }
+        { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: MetaService, useValue: metaServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });

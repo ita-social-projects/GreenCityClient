@@ -15,6 +15,7 @@ import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -107,6 +108,8 @@ describe('UbsMainPageComponent', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ emplpyees: { employeesPermissions: mockData } }));
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule, MatAutocompleteModule],
@@ -118,7 +121,8 @@ describe('UbsMainPageComponent', () => {
         { provide: LocalStorageService, useValue: localeStorageServiceMock },
         { provide: CheckTokenService, useValue: checkTokenServiceMock },
         { provide: OrderService, useValue: orderServiceMock },
-        { provide: JwtService, useValue: jwtServiceMock }
+        { provide: JwtService, useValue: jwtServiceMock },
+        { provide: MetaService, useValue: metaServiceMock }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

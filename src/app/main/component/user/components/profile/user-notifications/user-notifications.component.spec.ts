@@ -14,6 +14,7 @@ import { By } from '@angular/platform-browser';
 import { UserService } from '@global-service/user/user.service';
 import { LocalizedDatePipe } from 'src/app/shared/localized-date-pipe/localized-date.pipe';
 import { RelativeDatePipe } from 'src/app/shared/relative-date.pipe';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -105,6 +106,7 @@ xdescribe('UserNotificationsComponent', () => {
     { name: FilterApproach.TYPE, isSelected: false, nameUa: 'Типом', nameEn: 'Type' },
     { name: FilterApproach.ORIGIN, isSelected: false, nameUa: 'Джерелом', nameEn: 'Origin' }
   ];
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -116,7 +118,8 @@ xdescribe('UserNotificationsComponent', () => {
         { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
         { provide: Router, useValue: routerMock },
         { provide: UserNotificationService, useValue: userNotificationServiceMock },
-        { provide: UserService, useValue: { userId: 1 } }
+        { provide: UserService, useValue: { userId: 1 } },
+        { provide: MetaService, useValue: metaServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();

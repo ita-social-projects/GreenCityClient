@@ -14,6 +14,7 @@ import { UbsOrderLocationPopupComponent } from '../../ubs/components/ubs-order-d
 import { AllLocationsDtos } from '../../ubs/models/ubs.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -48,7 +49,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private dialog: MatDialog,
     private localStorageService: LocalStorageService,
-    private store: Store
+    private store: Store,
+    private readonly metaService: MetaService
   ) {}
 
   onScroll() {
@@ -142,6 +144,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.metaService.setMeta('myOrders');
+
     forkJoin([
       this.userOrdersService.getCurrentUserOrders(0, this.ordersPerPage),
       this.userOrdersService.getClosedUserOrders(0, this.ordersPerPage),
@@ -232,6 +236,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.metaService.resetMeta();
     this.destroy.next(true);
     this.destroy.unsubscribe();
   }

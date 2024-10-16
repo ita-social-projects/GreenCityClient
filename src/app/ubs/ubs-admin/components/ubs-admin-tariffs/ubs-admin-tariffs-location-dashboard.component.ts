@@ -26,6 +26,7 @@ import { statusOfTariff, actionsWithTariffs, switchTariffStatus } from './tariff
 import { Language } from 'src/app/main/i18n/Language';
 import { TariffRegionAll } from './ubs-tariffs.enum';
 import { abilityAddAuthorities, abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -110,7 +111,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     private translate: TranslateService,
     public languageService: LanguageService,
     private changeDetectorRef: ChangeDetectorRef,
-    private googleScript: GoogleScript
+    private googleScript: GoogleScript,
+    private readonly metaService: MetaService
   ) {}
 
   get region() {
@@ -130,6 +132,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   ngOnInit(): void {
+    this.metaService.setMeta('adminTariffs');
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.setCard();
@@ -976,6 +979,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   ngOnDestroy(): void {
+    this.metaService.resetMeta();
     this.destroy.next(true);
     this.destroy.complete();
   }

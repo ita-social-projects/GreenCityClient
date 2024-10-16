@@ -25,6 +25,7 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { ConfirmationDialogComponent } from '../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationPlatform } from '../../ubs/notification-platform.enum';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -84,15 +85,17 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private dialog: MatDialog,
-    private clientProfileService: ClientProfileService,
-    private snackBar: MatSnackBarComponent,
-    private orderService: OrderService,
-    private languageService: LanguageService,
-    private store: Store
+    private readonly dialog: MatDialog,
+    private readonly clientProfileService: ClientProfileService,
+    private readonly snackBar: MatSnackBarComponent,
+    private readonly orderService: OrderService,
+    private readonly languageService: LanguageService,
+    private readonly store: Store,
+    private readonly metaService: MetaService
   ) {}
 
   ngOnInit(): void {
+    this.metaService.setMeta('userProfile');
     this.userEmail = this.jwtService.getEmailFromAccessToken();
     this.getUserData();
 
@@ -380,6 +383,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.metaService.resetMeta();
     this.destroy.next(true);
     this.destroy.complete();
   }

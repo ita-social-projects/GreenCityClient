@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { VisionCard } from '../../models/vision-card.interface';
 import { visionCards } from '../constants/vision-cards.const';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-about-page',
@@ -17,12 +18,14 @@ export class AboutPageComponent implements OnInit, OnDestroy {
   visionCards: VisionCard[] = visionCards;
 
   constructor(
-    private router: Router,
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService
+    private readonly router: Router,
+    private readonly localStorageService: LocalStorageService,
+    private readonly translate: TranslateService,
+    private readonly metaService: MetaService
   ) {}
 
   ngOnInit() {
+    this.metaService.setMeta('about');
     this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
@@ -45,6 +48,7 @@ export class AboutPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.metaService.resetMeta();
     this.langChangeSub.unsubscribe();
   }
 }

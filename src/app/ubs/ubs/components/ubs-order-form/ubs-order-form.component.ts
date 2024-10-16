@@ -13,6 +13,7 @@ import { ClearOrderData, SetCurrentStep } from 'src/app/store/actions/order.acti
 import { currentStepSelector, isSecondFormValidSelector } from 'src/app/store/selectors/order.selectors';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Subject, takeUntil } from 'rxjs';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-order-form',
@@ -41,7 +42,8 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
     private cdr: ChangeDetectorRef,
     private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
-    private store: Store
+    private store: Store,
+    private readonly metaService: MetaService
   ) {}
 
   @HostListener('window:beforeunload') onClose() {
@@ -50,6 +52,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   }
 
   ngOnInit(): void {
+    this.metaService.setMeta('order');
     this.shareFormService.locationId = this.localStorageService.getLocationId();
     this.shareFormService.locations = this.localStorageService.getLocations();
     this.store.dispatch(SetCurrentStep({ step: 0 }));
@@ -105,6 +108,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   }
 
   ngOnDestroy(): void {
+    this.metaService.resetMeta();
     this.destroy$.next();
     this.destroy$.complete();
     this.store.dispatch(ClearOrderData());
