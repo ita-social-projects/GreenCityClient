@@ -5,6 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UserService } from '@global-service/user/user.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-homepage',
@@ -25,10 +26,12 @@ export class HomepageComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private userService: UserService,
     public dialog: MatDialog,
-    private checkTokenservice: CheckTokenService
+    private checkTokenservice: CheckTokenService,
+    private readonly metaService: MetaService
   ) {}
 
   ngOnInit() {
+    this.metaService.setMeta('greenCity');
     this.subs.add(this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId)));
     this.subs.add(this.userService.countActivatedUsers().subscribe((num) => (this.usersAmount = num)));
     this.onCheckToken();
@@ -43,6 +46,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.metaService.resetMeta();
     this.subs.unsubscribe();
   }
 }

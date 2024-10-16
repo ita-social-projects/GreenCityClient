@@ -5,6 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Language } from '../../i18n/Language';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject } from 'rxjs';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 describe('EventsComponent', () => {
   let component: EventsComponent;
@@ -18,13 +19,15 @@ describe('EventsComponent', () => {
     translateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
     localStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageSubject']);
     localStorageService.languageSubject = languageSubject;
+    const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
     TestBed.configureTestingModule({
       declarations: [EventsComponent],
       imports: [RouterTestingModule],
       providers: [
         { provide: TranslateService, useValue: translateService },
-        { provide: LocalStorageService, useValue: localStorageService }
+        { provide: LocalStorageService, useValue: localStorageService },
+        { provide: MetaService, useValue: metaServiceMock }
       ]
     }).compileComponents();
   });

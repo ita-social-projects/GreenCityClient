@@ -7,6 +7,7 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-user-messages',
@@ -35,14 +36,17 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private userMessagesService: UserMessagesService,
-    private localStorageService: LocalStorageService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private dialog: MatDialog
+    private readonly userMessagesService: UserMessagesService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly dialog: MatDialog,
+    private readonly metaService: MetaService
   ) {}
 
   ngOnInit() {
+    this.metaService.setMeta('notifications');
+
     this.route.params.subscribe((val) => {
       this.page = +this.route.snapshot.paramMap.get('pageId');
       this.subscribeToLangChange();
@@ -120,6 +124,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.metaService.resetMeta();
     this.destroy.next(true);
     this.destroy.unsubscribe();
   }

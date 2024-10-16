@@ -7,6 +7,7 @@ import { AdminUserAgreementService } from '@ubs/ubs-admin/services/admin-user-ag
 import { of } from 'rxjs';
 import { SpinnerComponent } from 'src/app/shared/spinner/spinner.component';
 import { UbsAdminEditUserAgreementComponent } from './ubs-admin-edit-user-agreement.component';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 const mockUserAgreement: TUserAgreementAdmin = {
   id: 1,
@@ -21,6 +22,7 @@ describe('UbsAdminEditUserAgreementComponent', () => {
   let fixture: ComponentFixture<UbsAdminEditUserAgreementComponent>;
   let mockUserAgreementService: jasmine.SpyObj<AdminUserAgreementService>;
   let mockMatDialog;
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(() => {
     mockUserAgreementService = jasmine.createSpyObj<AdminUserAgreementService>('UserAgreementService', [
@@ -39,7 +41,8 @@ describe('UbsAdminEditUserAgreementComponent', () => {
       declarations: [UbsAdminEditUserAgreementComponent, SpinnerComponent, MatProgressSpinner],
       providers: [
         { provide: AdminUserAgreementService, useValue: mockUserAgreementService },
-        { provide: MatDialog, useValue: mockMatDialog }
+        { provide: MatDialog, useValue: mockMatDialog },
+        { provide: MetaService, useValue: metaServiceMock }
       ]
     });
     fixture = TestBed.createComponent(UbsAdminEditUserAgreementComponent);

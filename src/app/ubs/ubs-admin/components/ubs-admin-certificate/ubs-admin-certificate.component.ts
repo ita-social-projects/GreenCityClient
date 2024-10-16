@@ -14,6 +14,7 @@ import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { abilityCreateAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-admin-certificate',
@@ -69,10 +70,12 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
     private localStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<UbsAdminCertificateAddCertificatePopUpComponent>,
     private renderer: Renderer2,
-    private store: Store<IAppState>
+    private store: Store<IAppState>,
+    private readonly metaService: MetaService
   ) {}
 
   ngOnInit() {
+    this.metaService.setMeta('adminCertificates');
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLang = lang;
     });
@@ -306,6 +309,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   }
 
   ngOnDestroy() {
+    this.metaService.resetMeta();
     this.destroy.next(true);
     this.destroy.unsubscribe();
   }

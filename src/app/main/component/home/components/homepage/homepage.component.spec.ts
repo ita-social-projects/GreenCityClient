@@ -24,6 +24,7 @@ import { AuthModule } from 'src/app/main/component/auth/auth.module';
 import { EcoNewsModule } from 'src/app/main/component/eco-news/eco-news.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { APP_BASE_HREF } from '@angular/common';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 class MatDialogMock {
   open() {
@@ -56,6 +57,7 @@ describe('HomepageComponent', () => {
     })
   };
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -90,7 +92,8 @@ describe('HomepageComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: APP_BASE_HREF, useValue: '/' },
-        UserOwnAuthService
+        UserOwnAuthService,
+        { provide: MetaService, useValue: metaServiceMock }
       ]
     }).compileComponents();
   }));

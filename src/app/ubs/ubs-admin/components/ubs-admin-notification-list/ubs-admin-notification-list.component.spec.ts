@@ -21,6 +21,7 @@ import { UbsAdminNotificationListComponent } from './ubs-admin-notification-list
 import { NotificationTemplatesMock } from '../../services/notificationsMock';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -47,6 +48,7 @@ describe('UbsAdminNotificationListComponent', () => {
     getLangValue: (uaValue, enValue) => (uaValue && enValue ? enValue : '')
   };
   const activatedRouteMock = { params: of({ id: 1 }) };
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -68,7 +70,8 @@ describe('UbsAdminNotificationListComponent', () => {
         FormBuilder,
         { provide: NotificationsService, useValue: notificationsServiceMock },
         { provide: LanguageService, useValue: langServiceMock },
-        { provide: ActivatedRoute, useValue: activatedRouteMock }
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: MetaService, useValue: metaServiceMock }
       ]
     }).compileComponents();
   }));

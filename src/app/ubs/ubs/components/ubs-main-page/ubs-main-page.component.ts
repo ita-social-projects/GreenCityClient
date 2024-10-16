@@ -16,6 +16,7 @@ import { Store } from '@ngrx/store';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-main-page',
@@ -102,18 +103,20 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   ];
 
   constructor(
-    private store: Store,
-    private router: Router,
-    private dialog: MatDialog,
-    private checkTokenservice: CheckTokenService,
-    private localStorageService: LocalStorageService,
-    private orderService: OrderService,
-    private jwtService: JwtService,
-    private cdref: ChangeDetectorRef,
-    public languageService: LanguageService
+    private readonly store: Store,
+    private readonly router: Router,
+    private readonly dialog: MatDialog,
+    private readonly checkTokenservice: CheckTokenService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly orderService: OrderService,
+    private readonly jwtService: JwtService,
+    private readonly cdref: ChangeDetectorRef,
+    public languageService: LanguageService,
+    private readonly metaService: MetaService
   ) {}
 
   ngOnInit(): void {
+    this.metaService.setMeta('home');
     this.userId = this.localStorageService.getUserId();
     this.isAdmin = this.checkIsAdmin();
     this.getActiveCouriers()
@@ -140,6 +143,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.destroy.next(true);
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
+    this.metaService.resetMeta();
   }
 
   getBags(locationId = 1): void {

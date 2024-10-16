@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@ubs/ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
@@ -6,13 +6,14 @@ import { TUserAgreementText } from '@ubs/ubs-admin/models/user-agreement.interfa
 import { AdminUserAgreementService } from '@ubs/ubs-admin/services/admin-user-agreement/admin-user-agreement.service';
 import { filter, take } from 'rxjs';
 import { quillConfigAdmin } from 'src/app/main/component/eco-news/components/create-edit-news/quillEditorFunc';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-admin-edit-user-agreement',
   templateUrl: './ubs-admin-edit-user-agreement.component.html',
   styleUrls: ['./ubs-admin-edit-user-agreement.component.scss']
 })
-export class UbsAdminEditUserAgreementComponent implements OnInit {
+export class UbsAdminEditUserAgreementComponent implements OnInit, OnDestroy {
   private confirmVersionChangeData = {
     title: 'ubs-user-agreement.confirm-version-change',
     text: 'ubs-user-agreement.changes-will-be-lost',
@@ -42,13 +43,18 @@ export class UbsAdminEditUserAgreementComponent implements OnInit {
   date: Date;
   isLoading = false;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private readonly metaService: MetaService
+  ) {}
 
   getUserAgreementControl(lang: string): FormControl<string> {
     return this.userAgreementForm.get(`userAgreement${lang}`) as FormControl<string>;
   }
 
   ngOnInit(): void {
+    this.metaService.setMeta('adminUserAgreement');
+
     this.loadVersions();
     this.initForm();
   }
@@ -158,5 +164,9 @@ export class UbsAdminEditUserAgreementComponent implements OnInit {
       .subscribe(() => {
         this.loadVersions();
       });
+  }
+
+  ngOnDestroy() {
+    this.metaService.resetMeta();
   }
 }

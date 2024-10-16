@@ -26,6 +26,7 @@ import { columnsParams } from './columnsParams';
 import { Filters } from './filters.interface';
 import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
 import { DateAdapter } from '@angular/material/core';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-admin-customers',
@@ -33,10 +34,10 @@ import { DateAdapter } from '@angular/material/core';
   styleUrls: ['./ubs-admin-customers.component.scss']
 })
 export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnDestroy {
-  private convertFromDateToStringService: ConvertFromDateToStringService;
-  private localStorageService: LocalStorageService;
-  private tableHeightService: TableHeightService;
-  private adminCustomerService: AdminCustomersService;
+  private readonly convertFromDateToStringService: ConvertFromDateToStringService;
+  private readonly localStorageService: LocalStorageService;
+  private readonly tableHeightService: TableHeightService;
+  private readonly adminCustomerService: AdminCustomersService;
 
   isLoading = false;
   isUpdate = false;
@@ -71,18 +72,19 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private queryString = '';
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
+  @ViewChild(MatTable, { read: ElementRef }) private readonly matTableRef: ElementRef;
 
   constructor(
-    private injector: Injector,
-    private adapter: DateAdapter<any>,
+    private readonly injector: Injector,
+    private readonly adapter: DateAdapter<any>,
     public dialog: MatDialog,
-    private fb: FormBuilder,
-    private cdr: ChangeDetectorRef,
-    private renderer: Renderer2,
-    private router: Router
+    private readonly fb: FormBuilder,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly renderer: Renderer2,
+    private readonly router: Router,
+    private readonly metaService: MetaService
   ) {
     this.convertFromDateToStringService = injector.get(ConvertFromDateToStringService);
     this.localStorageService = injector.get(LocalStorageService);
@@ -91,6 +93,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   ngOnInit() {
+    this.metaService.setMeta('adminCustomers');
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLang = lang;
       const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
@@ -400,6 +403,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   ngOnDestroy() {
+    this.metaService.resetMeta();
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
