@@ -9,10 +9,7 @@ import { UserNotificationService } from '@global-user/services/user-notification
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
-import {
-  NotificationBody,
-  Notifications
-} from '@ubs/ubs-admin/models/ubs-user.model';
+import { NotificationBody, Notifications } from '@ubs/ubs-admin/models/ubs-user.model';
 import { HttpParams } from '@angular/common/http';
 
 @Component({
@@ -152,7 +149,8 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     const filtersSelected = {
       projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN).map((el) => el.name),
       notificationType: this.getAllSelectedFilters(this.filterApproach.TYPE)
-        .map((el) => (el.filterArr?.length ? el.filterArr : el.name)).flat()
+        .map((el) => (el.filterArr?.length ? el.filterArr : el.name))
+        .flat()
     };
 
     if (filtersSelected.projectName.includes('PICKUP')) {
@@ -166,10 +164,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   private fetchUBSNotifications(page: number): void {
-    const params = new HttpParams()
-      .set('lang', 'en')
-      .set('page', page.toString())
-      .set('size', this.itemsPerPage.toString());
+    const params = new HttpParams().set('lang', 'en').set('page', page.toString()).set('size', this.itemsPerPage.toString());
     this.userNotificationService
       .getUBSNotification(params)
       .pipe(take(1))
@@ -181,10 +176,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   private fetchAllNotifications(page: number, filters: any, viewed = false): void {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', this.itemsPerPage.toString())
-      .set('viewed', viewed.toString());
+    let params = new HttpParams().set('page', page.toString()).set('size', this.itemsPerPage.toString()).set('viewed', viewed.toString());
 
     if (filters && filters.projectName) {
       filters.projectName.forEach((project: string) => {
@@ -245,7 +237,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter' && notification.viewed)) {
       event.stopPropagation();
       this.userNotificationService
-        .unReadNotification(notification.notificationId)
+        .unReadNotification(notification.notificationId, notification.projectName === 'PICKUP')
         .pipe(takeUntil(this.destroy$))
         .subscribe(() => {
           this.notifications.filter((el) => el.notificationId === notification.notificationId)[0].viewed = false;
@@ -259,7 +251,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       this.readNotification(event, notification);
       event.stopPropagation();
       this.userNotificationService
-        .deleteNotification(notification.notificationId)
+        .deleteNotification(notification.notificationId, notification.projectName === 'PICKUP')
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
@@ -313,8 +305,11 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
 
   navigate(event: Event): void {
     const target = event.target as HTMLElement;
-    if (event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter' && target.hasAttribute('data-userid'))) {
-      this.router.navigate(['profile', this.userService.userId, 'users', target.textContent, target.getAttribute('data-userid')]);
+    const userId = this.userService.userId;
+    const targetTextContent = target.textContent?.trim() || '';
+    const targetUserId = target.getAttribute('data-userid')?.toString();
+    if ((event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) && targetUserId) {
+      this.router.navigate(['profile', userId, 'users', targetTextContent, targetUserId]);
     }
   }
 

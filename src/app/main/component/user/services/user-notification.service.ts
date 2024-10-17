@@ -10,6 +10,7 @@ import { Notifications } from '@ubs/ubs-admin/models/ubs-user.model';
 })
 export class UserNotificationService {
   url: string = environment.backendLink;
+  pickUpUrl: string = environment.backendUbsLink + '/';
 
   constructor(private http: HttpClient) {}
 
@@ -25,15 +26,18 @@ export class UserNotificationService {
     return this.http.post<void>(`${this.url}notifications/${id}/viewNotification`, {});
   }
 
-  unReadNotification(id: number): Observable<void> {
-    return this.http.post<void>(`${this.url}notifications/${id}/unreadNotification`, {});
+  unReadNotification(id: number, isPickUp: boolean): Observable<void> {
+    return isPickUp
+      ? this.http.post<void>(`${this.pickUpUrl}notifications/${id}`, {})
+      : this.http.post<void>(`${this.url}notifications/${id}/unreadNotification`, {});
   }
 
-  deleteNotification(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.url}notifications/${id}`);
+  deleteNotification(id: number, isPickUp: boolean): Observable<void> {
+    const url = isPickUp ? this.pickUpUrl : this.url;
+    return this.http.delete<void>(`${url}notifications/${id}`);
   }
 
   getUBSNotification(params: HttpParams): Observable<Notifications> {
-    return this.http.get<Notifications>(`https://greencity-ubs.greencity.cx.ua/notifications`, { params });
+    return this.http.get<Notifications>(`${this.pickUpUrl}notifications`, { params });
   }
 }

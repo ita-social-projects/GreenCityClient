@@ -75,13 +75,13 @@ xdescribe('UserNotificationService', () => {
   });
 
   it('should readNotification', () => {
-    service.unReadNotification(2).subscribe();
+    service.unReadNotification(2, false).subscribe();
     const req = httpMock.expectOne(`${service.url}notification/unread/2`);
     expect(req.request.method).toBe('PATCH');
   });
 
   it('should deleteNotification', () => {
-    service.deleteNotification(2).subscribe();
+    service.deleteNotification(2, false).subscribe();
     const req = httpMock.expectOne(`${service.url}notification/2`);
     expect(req.request.method).toBe('DELETE');
   });
