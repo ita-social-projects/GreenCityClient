@@ -22,14 +22,14 @@ export class UserNotificationService {
     return this.http.get<NotificationArrayModel>(`${this.url}notifications?page=0&size=3&viewed=false`);
   }
 
-  readNotification(id: number): Observable<void> {
-    return this.http.post<void>(`${this.url}notifications/${id}/viewNotification`, {});
+  readNotification(id: number, isPickUp: boolean): Observable<void> {
+    const url = isPickUp ? this.pickUpUrl : this.url;
+    return this.http.post<void>(`${url}notifications/${id}/viewNotification`, {});
   }
 
   unReadNotification(id: number, isPickUp: boolean): Observable<void> {
-    return isPickUp
-      ? this.http.post<void>(`${this.pickUpUrl}notifications/${id}`, {})
-      : this.http.post<void>(`${this.url}notifications/${id}/unreadNotification`, {});
+    const url = isPickUp ? this.pickUpUrl : this.url;
+    return this.http.post<void>(`${url}notifications/${id}/unreadNotification`, {});
   }
 
   deleteNotification(id: number, isPickUp: boolean): Observable<void> {

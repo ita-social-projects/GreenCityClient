@@ -225,7 +225,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     if ((event instanceof MouseEvent || (event instanceof KeyboardEvent && event.key === 'Enter')) && !notification.viewed) {
       event.stopPropagation();
       this.userNotificationService
-        .readNotification(notification.notificationId)
+        .readNotification(notification.notificationId, notification.projectName === 'PICKUP')
         .pipe(takeUntil(this.destroy$))
         .subscribe(() => {
           this.notifications.find((el) => el.notificationId === notification.notificationId).viewed = true;
