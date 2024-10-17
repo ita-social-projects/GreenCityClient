@@ -23,6 +23,18 @@ div {
     border-top-right-radius: 4px;
   }
 
+  .tag-divider {
+    color: var(--primary-light-green);
+    height: 100%;
+    padding: 0 4px;
+    margin: 0 4px;
+  }
+
+  .divider-small {
+    margin: 0 2px;
+    padding: 0;
+  }
+
   .list-gallery-content {
     position: relative;
     margin: 8px 24px 16px;
@@ -40,7 +52,6 @@ div {
         font-size: 14px;
         line-height: 20px;
         color: var(--primary-green);
-        margin-right: 16px;
         text-transform: uppercase;
       }
     }
