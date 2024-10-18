@@ -14,6 +14,7 @@ import { CreatePlaceModel, OpeningHoursDto } from './models/create-place.model';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { tagsListPlacesData } from './models/places-consts';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
@@ -117,6 +118,7 @@ describe('PlacesComponent', () => {
   favoritePlaceServiceMock.favoritePlaces$ = new BehaviorSubject<Place[]>([]);
   const matDialogFake = jasmine.createSpyObj('matDialog', ['open']);
   matDialogFake.open.and.returnValue({ afterClosed: () => of(parametersToSend) });
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -142,7 +144,8 @@ describe('PlacesComponent', () => {
         {
           provide: MatDialog,
           useValue: matDialogFake
-        }
+        },
+        { provide: MetaService, useValue: metaServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

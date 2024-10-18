@@ -32,6 +32,7 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { TariffRegionAll } from './ubs-tariffs.enum';
 import { provideMockStore } from '@ngrx/store/testing';
 import { IAppState } from 'src/app/store/state/app.state';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
@@ -217,6 +218,7 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -246,7 +248,8 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: LanguageService, useValue: languageServiceMock },
-        { provide: GoogleScript, useValue: fakeGoogleScript }
+        { provide: GoogleScript, useValue: fakeGoogleScript },
+        { provide: MetaService, useValue: metaServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

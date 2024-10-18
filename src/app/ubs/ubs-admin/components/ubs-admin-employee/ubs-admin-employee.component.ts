@@ -25,6 +25,7 @@ import {
   EmployeeStatus
 } from './ubs-admin-employee-table/employee-models.enum';
 import { Language } from 'src/app/main/i18n/Language';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-admin-employee',
@@ -92,21 +93,23 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   searchForm: FormGroup;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   constructor(
-    private tariffsService: TariffsService,
+    private readonly tariffsService: TariffsService,
     public dialog: MatDialog,
-    private ubsAdminEmployeeService: UbsAdminEmployeeService,
-    private fb: FormBuilder,
-    private localeStorageService: LocalStorageService,
-    private translate: TranslateService,
-    public languageService: LanguageService,
-    private store: Store<IAppState>
+    private readonly ubsAdminEmployeeService: UbsAdminEmployeeService,
+    private readonly fb: FormBuilder,
+    private readonly localeStorageService: LocalStorageService,
+    private readonly translate: TranslateService,
+    public readonly languageService: LanguageService,
+    private readonly store: Store<IAppState>,
+    private readonly metaService: MetaService
   ) {}
 
   ngOnInit(): void {
+    this.metaService.setMeta('adminEmployees');
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang: string) => {
       this.currentLang = lang;
     });
@@ -142,6 +145,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.metaService.resetMeta();
     this.destroy$.next(true);
     this.destroy$.complete();
   }

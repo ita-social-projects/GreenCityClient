@@ -9,6 +9,7 @@ import { UserNotificationService } from '@global-user/services/user-notification
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-user-notifications',
@@ -84,10 +85,12 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     private matSnackBar: MatSnackBarComponent,
     private userFriendsService: UserFriendsService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private readonly metaService: MetaService
   ) {}
 
   ngOnInit() {
+    this.metaService.setMeta('notifications');
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLang = lang;
       this.translate.use(lang);
@@ -251,6 +254,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.metaService.resetMeta();
     this.destroy$.next(true);
     this.destroy$.complete();
   }

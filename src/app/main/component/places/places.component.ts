@@ -19,6 +19,7 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from './models/places-consts';
 import { GoogleScript } from '@assets/google-script/google-script';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-places',
@@ -68,10 +69,12 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private favoritePlaceService: FavoritePlaceService,
     private googleScript: GoogleScript,
     private dialog: MatDialog,
-    private userOwnAuthService: UserOwnAuthService
+    private userOwnAuthService: UserOwnAuthService,
+    private readonly metaService: MetaService
   ) {}
 
   ngOnInit() {
+    this.metaService.setMeta('places');
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.getPlaceList();
@@ -347,6 +350,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.metaService.resetMeta();
     this.langChangeSub.unsubscribe();
     this.$destroy.next(true);
     this.$destroy.complete();

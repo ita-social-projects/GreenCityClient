@@ -22,6 +22,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 xdescribe('UbsAdminEmployeeComponent', () => {
   let component: UbsAdminEmployeeComponent;
@@ -159,6 +160,7 @@ xdescribe('UbsAdminEmployeeComponent', () => {
 
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -183,7 +185,8 @@ xdescribe('UbsAdminEmployeeComponent', () => {
         { provide: MatDialogRef, useValue: dialogStub },
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: MetaService, useValue: metaServiceMock }
       ],
 
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

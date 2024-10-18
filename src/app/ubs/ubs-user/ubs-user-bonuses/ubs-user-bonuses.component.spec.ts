@@ -11,6 +11,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 const testBonuses: BonusesModel = {
   ubsUserBonuses: [
@@ -32,6 +33,7 @@ describe('UbsUserBonusesComponent', () => {
   bonusesServiceMock.getUserBonusesWithPaymentHistory = () => of(testBonuses);
   const matSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   matSnackBarMock.openSnackBar = (type: string) => {};
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -39,7 +41,8 @@ describe('UbsUserBonusesComponent', () => {
       imports: [MatTableModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
       providers: [
         { provide: BonusesService, useValue: bonusesServiceMock },
-        { provide: MatSnackBarComponent, useValue: matSnackBarMock }
+        { provide: MatSnackBarComponent, useValue: matSnackBarMock },
+        { provide: MetaService, useValue: metaServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

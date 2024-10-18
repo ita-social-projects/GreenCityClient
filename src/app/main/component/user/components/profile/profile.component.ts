@@ -7,6 +7,7 @@ import { EditProfileModel } from '@user-models/edit-profile.model';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { take } from 'rxjs/operators';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-profile',
@@ -25,10 +26,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private announcer: LiveAnnouncer,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private readonly metaService: MetaService
   ) {}
 
   ngOnInit() {
+    this.metaService.setMeta('profile');
     this.localStorageService.setCurentPage('previousPage', '/profile');
     this.isDesktopWidth = this.isDeskWidth();
     this.announce();
@@ -77,6 +80,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.metaService.resetMeta();
+
     if (this.langChangeSub) {
       this.langChangeSub.unsubscribe();
     }

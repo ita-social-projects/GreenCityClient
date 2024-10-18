@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { ProfileService } from './profile-service/profile.service';
 
 import { ProfileComponent } from './profile.component';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -24,6 +25,7 @@ describe('ProfileComponent', () => {
   profileServiceMock.getUserProfileStatistics.and.returnValue(of('fakeStatistics' as any));
   profileServiceMock.getUserInfo.and.returnValue(of(fakeItem as any));
   const translateServiceMock = jasmine.createSpyObj('translate', ['setDefaultLang']);
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -33,7 +35,8 @@ describe('ProfileComponent', () => {
         { provide: LiveAnnouncer, useValue: liveAnnouncerMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: ProfileService, useValue: profileServiceMock },
-        { provide: TranslateService, useValue: translateServiceMock }
+        { provide: TranslateService, useValue: translateServiceMock },
+        { provide: MetaService, useValue: metaServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

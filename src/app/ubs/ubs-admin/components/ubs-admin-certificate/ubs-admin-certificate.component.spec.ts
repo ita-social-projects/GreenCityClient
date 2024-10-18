@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 describe('UbsAdminCertificateComponent', () => {
   let component: UbsAdminCertificateComponent;
@@ -25,6 +26,7 @@ describe('UbsAdminCertificateComponent', () => {
 
   const matDialogMock = jasmine.createSpyObj('dialog', ['open']);
   matDialogMock.open.and.returnValue({ afterClosed: () => of(true) });
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -33,7 +35,8 @@ describe('UbsAdminCertificateComponent', () => {
         provideMockStore({ initialState }),
         { provide: Store, useValue: storeMock },
         { provide: MatDialogRef, useValue: {} },
-        { provide: MatDialog, useValue: matDialogMock }
+        { provide: MatDialog, useValue: matDialogMock },
+        { provide: MetaService, useValue: metaServiceMock }
       ],
       declarations: [UbsAdminCertificateComponent, UbsAdminCertificateAddCertificatePopUpComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

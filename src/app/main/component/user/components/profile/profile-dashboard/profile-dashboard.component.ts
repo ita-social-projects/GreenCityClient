@@ -63,12 +63,12 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   private newsCount = 5;
 
   constructor(
-    private localStorageService: LocalStorageService,
+    private readonly localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService,
-    private store: Store,
-    private eventService: EventsService,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private readonly store: Store,
+    private readonly eventService: EventsService,
+    private readonly route: ActivatedRoute,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {

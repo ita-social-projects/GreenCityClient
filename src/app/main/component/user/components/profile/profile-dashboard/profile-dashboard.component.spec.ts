@@ -15,6 +15,7 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
 import { mockEvent, mockFavouriteEvents, mockHabitAssign } from '@assets/mocks/events/mock-events';
 import { mockHabits } from '@assets/mocks/habit/mock-habit-calendar';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 xdescribe('ProfileDashboardComponent', () => {
   let component: ProfileDashboardComponent;
@@ -39,6 +40,7 @@ xdescribe('ProfileDashboardComponent', () => {
 
   const eventsServiceMock = jasmine.createSpyObj('EventsService', ['getEvents', 'getUserFavoriteEvents']);
   eventsServiceMock.getEvents = () => of(mockEvent);
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     const httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
@@ -59,7 +61,8 @@ xdescribe('ProfileDashboardComponent', () => {
         { provide: Store, useValue: storeMock },
         { provide: LocalStorageService, useValue: LocalStorageServiceMock },
         { provide: EventsService, useValue: eventsServiceMock },
-        { provide: HttpClient, useValue: HttpClient }
+        { provide: HttpClient, useValue: HttpClient },
+        { provide: MetaService, useValue: metaServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

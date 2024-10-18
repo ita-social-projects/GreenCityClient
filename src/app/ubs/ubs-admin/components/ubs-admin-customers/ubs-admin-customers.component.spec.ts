@@ -12,11 +12,13 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 describe('UbsAdminCustomersComponent', () => {
   let component: UbsAdminCustomersComponent;
   let fixture: ComponentFixture<UbsAdminCustomersComponent>;
   let dialogMock: MatDialog;
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -32,7 +34,7 @@ describe('UbsAdminCustomersComponent', () => {
         ReactiveFormsModule
       ],
       declarations: [UbsAdminCustomersComponent],
-      providers: [],
+      providers: [{ provide: MetaService, useValue: metaServiceMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   });

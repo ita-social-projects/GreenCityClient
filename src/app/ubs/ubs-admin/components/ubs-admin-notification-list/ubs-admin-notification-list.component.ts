@@ -7,6 +7,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { formatNotificationCron } from 'src/app/shared/cron/cron.service';
 import { NotificationPage, NotificationTemplatesPage } from '../../models/notifications.model';
 import { NotificationsService, notificationStatuses } from '../../services/notifications.service';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({
   selector: 'app-ubs-admin-notification-list',
@@ -31,14 +32,16 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   isLangUa: boolean;
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private notificationsService: NotificationsService,
-    private localStorageService: LocalStorageService
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly notificationsService: NotificationsService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly metaService: MetaService
   ) {}
 
   ngOnInit(): void {
+    this.metaService.setMeta('adminNotifications');
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLanguage = lang;
@@ -61,6 +64,7 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.metaService.resetMeta();
     this.destroy.next(true);
     this.destroy.complete();
   }

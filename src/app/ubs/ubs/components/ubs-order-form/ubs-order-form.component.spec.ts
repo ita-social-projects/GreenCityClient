@@ -8,6 +8,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { of } from 'rxjs';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 describe('UBSOrderFormComponent ', () => {
   let component: UBSOrderFormComponent;
@@ -16,12 +17,16 @@ describe('UBSOrderFormComponent ', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch', 'pipe']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
   storeMock.pipe.and.returnValue(of());
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, MatStepperModule, TranslateModule.forRoot(), BrowserAnimationsModule],
       declarations: [UBSOrderFormComponent],
-      providers: [{ provide: Store, useValue: storeMock }],
+      providers: [
+        { provide: Store, useValue: storeMock },
+        { provide: MetaService, useValue: metaServiceMock }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

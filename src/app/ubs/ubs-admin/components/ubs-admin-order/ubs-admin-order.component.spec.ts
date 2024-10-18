@@ -25,6 +25,7 @@ import { UbsAdminTableComponent } from '../ubs-admin-table/ubs-admin-table.compo
 import { UBSAdminRoutingModule } from '@ubs/ubs-admin/ubs-admin-routing.module';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
 import { UnsavedChangesGuard } from '@ubs/ubs-admin/unsaved-changes-guard.guard';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 describe('UbsAdminOrderComponent', () => {
   let component: UbsAdminOrderComponent;
@@ -72,6 +73,7 @@ describe('UbsAdminOrderComponent', () => {
 
   const unsavedChangesGuardMock = jasmine.createSpyObj('UnsavedChangesGuard', ['openConfirmDialog']);
   unsavedChangesGuardMock.openConfirmDialog.and.returnValue(of(true));
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -95,7 +97,8 @@ describe('UbsAdminOrderComponent', () => {
         provideMockStore({}),
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock },
-        { provide: UnsavedChangesGuard, useValue: unsavedChangesGuardMock }
+        { provide: UnsavedChangesGuard, useValue: unsavedChangesGuardMock },
+        { provide: MetaService, useValue: metaServiceMock }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

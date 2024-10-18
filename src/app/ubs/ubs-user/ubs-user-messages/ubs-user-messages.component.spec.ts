@@ -11,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxPaginationModule, PaginatePipe } from 'ngx-pagination';
 import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 describe('UbsUserMessagesComponent', () => {
   let component: UbsUserMessagesComponent;
@@ -38,13 +39,17 @@ describe('UbsUserMessagesComponent', () => {
 
   const userMessageServiceMock = jasmine.createSpyObj('UserMessagesService', ['getNotification']);
   userMessageServiceMock.getNotification = () => of(fakeNotification);
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserMessagesComponent, PaginatePipe],
       imports: [MatDialogModule, TranslateModule.forRoot(), RouterTestingModule, NgxPaginationModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: UserMessagesService, useValue: userMessageServiceMock }]
+      providers: [
+        { provide: UserMessagesService, useValue: userMessageServiceMock },
+        { provide: MetaService, useValue: metaServiceMock }
+      ]
     }).compileComponents();
 
     route = TestBed.inject(ActivatedRoute);

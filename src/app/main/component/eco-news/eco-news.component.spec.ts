@@ -7,6 +7,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { EventEmitter, Injectable } from '@angular/core';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Injectable()
 class TranslationServiceStub {
@@ -43,6 +44,7 @@ describe('EcoNewsComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta', 'resetMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -50,7 +52,8 @@ describe('EcoNewsComponent', () => {
       imports: [RouterTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: TranslateService, useClass: TranslationServiceStub }
+        { provide: TranslateService, useClass: TranslationServiceStub },
+        { provide: MetaService, useValue: metaServiceMock }
       ]
     }).compileComponents();
   }));
