@@ -58,6 +58,7 @@ export class HabitProgressComponent implements OnChanges, OnInit {
     if (this.habit) {
       this.buildHabitDescription();
       this.countProgressBar();
+      console.log(this.habit);
     }
     this.habitAssignService.habitForEdit = this.habit;
   }
@@ -71,6 +72,7 @@ export class HabitProgressComponent implements OnChanges, OnInit {
       this.updateHabitSteak(changes);
       this.countProgressBar();
     });
+    console.log(this.habit);
   }
 
   @HostListener('window:resize') public checkDisplayWidth() {
