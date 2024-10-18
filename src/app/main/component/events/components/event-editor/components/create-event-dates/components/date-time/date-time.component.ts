@@ -132,8 +132,6 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   }
 
   getDateErrors(date: _moment.Moment | null) {
-    console.log(date);
-
     if (!date) {
       return { dateIncorrect: true };
     }
