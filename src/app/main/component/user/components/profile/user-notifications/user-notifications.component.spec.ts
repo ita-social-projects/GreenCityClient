@@ -7,13 +7,14 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Language } from 'src/app/main/i18n/Language';
 import { PipeTransform, Pipe, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { FilterCriteria } from '@global-user/models/notification.model';
+import { FilterCriteria, NotificationFilter } from '@global-user/models/notification.model';
 import { Router } from '@angular/router';
 import { UserNotificationService } from '@global-user/services/user-notification.service';
-import { By } from '@angular/platform-browser';
+
 import { UserService } from '@global-service/user/user.service';
 import { LocalizedDatePipe } from 'src/app/shared/localized-date-pipe/localized-date.pipe';
 import { RelativeDatePipe } from 'src/app/shared/relative-date.pipe';
+import { By } from '@angular/platform-browser';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -85,10 +86,12 @@ describe('UserNotificationsComponent', () => {
     'readNotification',
     'unReadNotification',
     'deleteNotification',
-    'acceptRequest',
-    'declineRequest'
+    'getUBSNotification'
   ]);
   userNotificationServiceMock.getAllNotifications = () => of({ page: notifications });
+  userNotificationServiceMock.getUBSNotification = jasmine
+    .createSpy('getUBSNotification')
+    .and.returnValue(of({ page: notifications, currentPage: 1 }));
 
   userNotificationServiceMock.readNotification = () => of();
   userNotificationServiceMock.unReadNotification = () => of();
@@ -179,13 +182,6 @@ describe('UserNotificationsComponent', () => {
     component.ngOnDestroy();
     expect(nextSpy).toHaveBeenCalled();
     expect(completeSpy).toHaveBeenCalled();
-  });
-
-  it('should handle declineRequest error', () => {
-    const userId = 1;
-    userNotificationServiceMock.declineRequest.and.returnValue(throwError(() => new Error()));
-    component.declineRequest(userId);
-    expect(matSnackBarMock.openSnackBar).not.toHaveBeenCalled();
   });
 
   it('should load more notifications on scroll if there is a next page', () => {

@@ -39,7 +39,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   currentPage = 0;
   itemsPerPage = 10;
   hasNextPage: boolean;
-  private filterChangeSubs$: Subject<{ type: NotificationFilter; approach: string }> = new Subject();
+  filterChangeSubs$: Subject<{ type: NotificationFilter; approach: string }> = new Subject();
   isFilterDisabled: boolean;
   isLoading = true;
   private filterAll = 'All';
