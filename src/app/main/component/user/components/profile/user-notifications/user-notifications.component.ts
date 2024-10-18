@@ -158,6 +158,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         this.currentPage = data.currentPage;
         this.hasNextPage = data.hasNext;
         this.isLoading = false;
+        console.log(this.notifications);
       });
   }
 
