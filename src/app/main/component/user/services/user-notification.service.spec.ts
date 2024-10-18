@@ -69,7 +69,7 @@ xdescribe('UserNotificationService', () => {
   });
 
   it('should readNotification', () => {
-    service.readNotification(1).subscribe();
+    service.readNotification(1, false).subscribe();
     const req = httpMock.expectOne(`${service.url}notification/view/1`);
     expect(req.request.method).toBe('PATCH');
   });
