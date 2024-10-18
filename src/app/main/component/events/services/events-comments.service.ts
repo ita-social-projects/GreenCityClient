@@ -21,8 +21,7 @@ export class EventsCommentsService implements CommentsService {
   }
 
   getActiveCommentsByPage(eventId: number, page: number, size: number): Observable<CommentsModel> {
-    return this.http.get<CommentsModel>(
-      `${this.backEnd}events/${eventId}/comments?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`);
+    return this.http.get<CommentsModel>(`${this.backEnd}events/${eventId}/comments?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`);
   }
 
   getCommentsCount(eventId: number): Observable<number> {

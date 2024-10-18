@@ -170,7 +170,7 @@ describe('EventsCommentsService', () => {
   });
 
   it('should make POST request to post Like', () => {
-    service.postLike( 1).subscribe((commentData: any) => {
+    service.postLike(1).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 
@@ -180,7 +180,7 @@ describe('EventsCommentsService', () => {
   });
 
   it('should make PUT request to edit comment', () => {
-    service.editComment( 1, commentText).subscribe((commentData: any) => {
+    service.editComment(1, commentText).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 
