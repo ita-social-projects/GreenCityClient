@@ -63,14 +63,6 @@ describe('MetaService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should set default meta tags if no pageKey is provided', () => {
-    service.setMeta();
-    expect(translateService.get).toHaveBeenCalledWith('meta.default.title');
-    expect(translateService.get).toHaveBeenCalledWith('meta.default.description');
-    expect(titleService.setTitle).toHaveBeenCalledWith('Default Title');
-    expect(metaService.updateTag).toHaveBeenCalledWith({ name: 'description', content: 'Default Description' });
-  });
-
   it('should set meta tags for a specific pageKey', () => {
     service.setMeta('home');
     expect(translateService.get).toHaveBeenCalledWith('meta.home.title');

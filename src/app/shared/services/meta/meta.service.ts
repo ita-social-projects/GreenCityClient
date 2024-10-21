@@ -34,14 +34,10 @@ export class MetaService implements OnDestroy {
   }
 
   resetMeta(): void {
-    this.setMeta();
+    this.setMeta('default');
   }
 
-  setMeta(pageKey?: string, placeholdersData?: Record<string, any>): void {
-    if (!pageKey) {
-      pageKey = 'default';
-    }
-
+  setMeta(pageKey: string, placeholdersData?: Record<string, any>): void {
     this.currentPageKey = pageKey;
 
     const title$ = this.translate.get(`meta.${pageKey}.title`);
