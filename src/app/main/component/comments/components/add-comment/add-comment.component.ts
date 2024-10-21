@@ -11,7 +11,7 @@ import { CommentTextareaComponent } from '../comment-textarea/comment-textarea.c
   styleUrls: ['./add-comment.component.scss']
 })
 export class AddCommentComponent implements OnInit {
-  @Input() public isImageUploaderOpen: boolean = false;
+  @Input() public isImageUploaderOpen = false;
   @Input() public entityId: number;
   @Input() public commentId: number;
   @Output() public imageUploaderStatus = new EventEmitter<boolean>();
