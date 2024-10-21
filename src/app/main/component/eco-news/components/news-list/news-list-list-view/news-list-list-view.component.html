@@ -1,4 +1,7 @@
 <div class="eco-news_list-view-wrp">
+  <div class="news-flags favourite-button" (click)="changeFavouriteStatus($event)">
+    <span [ngClass]="ecoNewsModel.isFavourite ? 'flag-active' : 'flag'"></span>
+  </div>
   <img class="eco-news_list-img" [src]="checkNewsImage()" alt="Eco news image" />
   <div class="eco-news_list-content">
     <div>

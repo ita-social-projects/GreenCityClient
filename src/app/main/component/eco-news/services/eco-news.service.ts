@@ -22,8 +22,12 @@ export class EcoNewsService implements OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((language) => (this.language = language));
   }
 
-  getEcoNewsListByPage(page: number, quantity: number) {
-    return this.http.get(`${this.backEnd}eco-news?page=${page}&size=${quantity}`);
+  getEcoNewsListByPage(page: number, quantity: number): Observable<EcoNewsDto> {
+    return this.http.get<EcoNewsDto>(`${this.backEnd}eco-news?page=${page}&size=${quantity}`);
+  }
+
+  getEcoNewsListByTitle(title: string, page: number, quantity: number): Observable<EcoNewsDto> {
+    return this.http.get<EcoNewsDto>(`${this.backEnd}eco-news?title=${title}&page=${page}&size=${quantity}`);
   }
 
   getEcoNewsListByAutorId(authorId: number, page: number, quantity: number) {
@@ -32,6 +36,10 @@ export class EcoNewsService implements OnDestroy {
 
   getNewsListByTags(page: number, quantity: number, tags: Array<string>) {
     return this.http.get(`${this.backEnd}eco-news?tags=${tags}&page=${page}&size=${quantity}`);
+  }
+
+  getUserFavoriteNews(page: number, quantity: number, userId: number): Observable<EcoNewsDto> {
+    return this.http.get<EcoNewsDto>(`${this.backEnd}eco-news?page=${page}&size=${quantity}&statuses=SAVED&user-id=${userId}`);
   }
 
   getNewsList(): Observable<any> {
@@ -65,6 +73,14 @@ export class EcoNewsService implements OnDestroy {
 
   deleteNews(id: number): Observable<any> {
     return this.http.delete(`${this.backEnd}eco-news/${id}`);
+  }
+
+  addNewsToFavourites(id: number) {
+    return this.http.post(`${this.backEnd}eco-news/${id}/favorites`, {});
+  }
+
+  removeNewsFromFavourites(id: number) {
+    return this.http.delete(`${this.backEnd}eco-news/${id}/favorites`, {});
   }
 
   ngOnDestroy(): void {

@@ -13,6 +13,42 @@ div {
   background: #fff;
   margin: 0 auto;
   height: 200px;
+  position: relative;
+}
+
+.news-flags {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.8);
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 1px 0 var(--primary-grey);
+  cursor: pointer;
+
+  span {
+    display: inline-block;
+    width: 12px;
+    height: 16.5px;
+    transition: all 0.3s;
+  }
+
+  .flag {
+    background: url('/assets/img/places/bookmark-default.svg') no-repeat center;
+    background-size: contain;
+  }
+
+  .flag-active {
+    background: url('/assets/img/places/bookmark-set.svg') no-repeat center;
+    background-size: contain;
+  }
 }
 
 .eco-news_list-img {

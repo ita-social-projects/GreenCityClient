@@ -1,4 +1,7 @@
 <div class="list-gallery">
+  <div class="news-flags favourite-button" (click)="changeFavouriteStatus($event)">
+    <span [ngClass]="ecoNewsModel.isFavourite ? 'flag-active' : 'flag'"></span>
+  </div>
   <img class="list-image-content" role="img" [src]="checkNewsImage()" alt="user added image" />
   <div class="list-gallery-content">
     <div class="filter-tag" role="list">
