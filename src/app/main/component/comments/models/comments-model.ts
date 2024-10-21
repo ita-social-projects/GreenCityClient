@@ -23,6 +23,7 @@ export interface CommentsDTO {
   showRelyButton?: boolean;
   showAllRelies?: boolean;
   numberOfLikes?: number;
+  additionalImages?: string[];
 }
 
 export interface AddedCommentDTO {

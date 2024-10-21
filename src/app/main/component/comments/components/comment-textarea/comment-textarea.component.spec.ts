@@ -10,6 +10,7 @@ import { PlaceholderForDivDirective } from 'src/app/main/component/comments/dire
 import { MatSelectModule } from '@angular/material/select';
 import { UserProfileImageComponent } from '@global-user/components/shared/components/user-profile-image/user-profile-image.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CommentTextareaComponent', () => {
@@ -51,7 +52,7 @@ describe('CommentTextareaComponent', () => {
         { provide: SocketService, useValue: socketServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],
-      imports: [MatSelectModule, TranslateModule.forRoot(), BrowserAnimationsModule, MatMenuModule]
+      imports: [MatSelectModule, TranslateModule.forRoot(), BrowserAnimationsModule, MatMenuModule, MatIconModule]
     }).compileComponents();
   }));
 
@@ -168,5 +169,24 @@ describe('CommentTextareaComponent', () => {
     component.ngOnDestroy();
     expect(nextSpy).toHaveBeenCalled();
     expect(completeSpy).toHaveBeenCalled();
+  });
+
+  it('should toggle image uploader visibility', () => {
+    component.isImageUploaderOpen = false;
+
+    component.toggleImageUploader();
+    expect(component.isImageUploaderOpen).toBeTrue();
+
+    component.toggleImageUploader();
+    expect(component.isImageUploaderOpen).toBeFalse();
+  });
+
+  it('should remove an uploaded image', () => {
+    const mockFile = new File(['image content'], 'test.png', { type: 'image/png' });
+    component.uploadedImage = [{ url: 'mockUrl', file: mockFile }];
+
+    component.removeImage(0);
+
+    expect(component.uploadedImage.length).toBe(0);
   });
 });

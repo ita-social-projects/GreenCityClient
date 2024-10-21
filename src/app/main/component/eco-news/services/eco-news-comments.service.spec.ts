@@ -42,7 +42,9 @@ xdescribe('EcoNewsCommentsService', () => {
       modifiedDate: new Date('2021-05-27T15:37:15.661Z'),
       text: 'some cool content!'
     };
-    service.addComment(1, commentText, 1).subscribe((commentData: any) => {
+    const imageFiles: File[] = [];
+
+    service.addComment(1, commentText, imageFiles).subscribe((commentData: any) => {
       expect(commentData).toEqual(commentBody);
     });
 
@@ -62,8 +64,8 @@ xdescribe('EcoNewsCommentsService', () => {
       modifiedDate: new Date('2021-05-27T15:37:15.661Z'),
       text: 'some cool content!'
     };
-
-    service.addComment(1, commentText).subscribe((commentData: any) => {
+    const imageFiles: File[] = [];
+    service.addComment(1, commentText, imageFiles).subscribe((commentData: any) => {
       expect(commentData).toEqual(commentBody);
     });
 
@@ -127,7 +129,7 @@ xdescribe('EcoNewsCommentsService', () => {
       totalPages: 0
     };
 
-    service.getActiveRepliesByPage( 2, 3, 4).subscribe((commentData: any) => {
+    service.getActiveRepliesByPage(2, 3, 4).subscribe((commentData: any) => {
       expect(commentData).toEqual(commentBody);
     });
 
@@ -137,7 +139,7 @@ xdescribe('EcoNewsCommentsService', () => {
   });
 
   it('should make DELETE request to deleteComments', () => {
-    service.deleteComments( 2).subscribe((deleted) => {
+    service.deleteComments(2).subscribe((deleted) => {
       expect(deleted).toBe(true);
     });
 
@@ -148,7 +150,7 @@ xdescribe('EcoNewsCommentsService', () => {
 
   it('should make GET request to get comment likes', () => {
     const commentLikes = 5;
-    service.getCommentLikes( 1).subscribe((commentData: number) => {
+    service.getCommentLikes(1).subscribe((commentData: number) => {
       expect(commentData).toEqual(commentLikes);
     });
 
@@ -159,7 +161,7 @@ xdescribe('EcoNewsCommentsService', () => {
 
   it('should make GET request to get replies amount', () => {
     const commentReplies = 5;
-    service.getRepliesAmount( 2).subscribe((commentData: number) => {
+    service.getRepliesAmount(2).subscribe((commentData: number) => {
       expect(commentData).toEqual(commentReplies);
     });
 

@@ -14,14 +14,19 @@ export class EcoNewsCommentsService implements CommentsService {
 
   constructor(private http: HttpClient) {}
 
-  addComment(ecoNewsId: number, text: string, id = 0): Observable<AddedCommentDTO> {
+  addComment(ecoNewsId: number, text: string, imageFiles: File[], parentCommentId = 0): Observable<AddedCommentDTO> {
     const formData = new FormData();
-    const requestPayload = {
-      text: text,
-      parentCommentId: id
-    };
 
-    formData.append('request', JSON.stringify(requestPayload));
+    const requestPayload = JSON.stringify({
+      text: text,
+      parentCommentId: parentCommentId
+    });
+    formData.append('request', requestPayload);
+
+    imageFiles.forEach((imageFile, index) => {
+      formData.append(`images`, imageFile, imageFile.name);
+    });
+
     return this.http.post<AddedCommentDTO>(`${this.backEnd}eco-news/${ecoNewsId}/comments`, formData);
   }
 

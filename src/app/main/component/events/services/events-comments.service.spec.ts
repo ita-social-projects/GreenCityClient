@@ -42,7 +42,9 @@ describe('EventsCommentsService', () => {
       modifiedDate: new Date('2021-05-27T15:37:15.661Z'),
       text: 'some cool content!'
     };
-    service.addComment(1, commentText, 1).subscribe((commentData: any) => {
+    const imageFiles: File[] = [];
+
+    service.addComment(1, commentText, imageFiles).subscribe((commentData: any) => {
       expect(commentData).toEqual(commentBody);
     });
 
@@ -63,7 +65,9 @@ describe('EventsCommentsService', () => {
       text: 'some cool content!'
     };
 
-    service.addComment(1, commentText).subscribe((commentData: any) => {
+    const imageFiles: File[] = [];
+
+    service.addComment(1, commentText, imageFiles).subscribe((commentData: any) => {
       expect(commentData).toEqual(commentBody);
     });
 
@@ -170,7 +174,7 @@ describe('EventsCommentsService', () => {
   });
 
   it('should make POST request to post Like', () => {
-    service.postLike( 1).subscribe((commentData: any) => {
+    service.postLike(1).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 
@@ -180,7 +184,7 @@ describe('EventsCommentsService', () => {
   });
 
   it('should make PUT request to edit comment', () => {
-    service.editComment( 1, commentText).subscribe((commentData: any) => {
+    service.editComment(1, commentText).subscribe((commentData: any) => {
       expect(commentData).toEqual({});
     });
 

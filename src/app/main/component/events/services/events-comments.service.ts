@@ -14,15 +14,23 @@ export class EventsCommentsService implements CommentsService {
 
   constructor(private http: HttpClient) {}
 
-  addComment(eventId: number, text: string, id = 0): Observable<AddedCommentDTO> {
+  addComment(eventId: number, text: string, imageFiles: File[], parentCommentId = 0): Observable<AddedCommentDTO> {
     const formData = new FormData();
-    formData.append('request', JSON.stringify({ text: text, parentCommentId: id }));
+
+    const requestPayload = JSON.stringify({
+      text: text,
+      parentCommentId: parentCommentId
+    });
+    formData.append('request', requestPayload);
+
+    imageFiles.forEach((imageFile, index) => {
+      formData.append(`images`, imageFile, imageFile.name);
+    });
     return this.http.post<AddedCommentDTO>(`${this.backEnd}events/${eventId}/comments`, formData);
   }
 
   getActiveCommentsByPage(eventId: number, page: number, size: number): Observable<CommentsModel> {
-    return this.http.get<CommentsModel>(
-      `${this.backEnd}events/${eventId}/comments?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`);
+    return this.http.get<CommentsModel>(`${this.backEnd}events/${eventId}/comments?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`);
   }
 
   getCommentsCount(eventId: number): Observable<number> {
