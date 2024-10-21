@@ -171,22 +171,86 @@ describe('CommentTextareaComponent', () => {
     expect(completeSpy).toHaveBeenCalled();
   });
 
-  it('should toggle image uploader visibility', () => {
-    component.isImageUploaderOpen = false;
+  it('should correctly toggle image uploader visibility', () => {
+    spyOn(component.imageUploaderStatus, 'emit');
+
+    component.toggleImageUploaderVisibility(true);
+    expect(component.isImageUploaderOpen).toBeTrue();
+    expect(component.showImageControls).toBeFalse();
+    expect(component.imageUploaderStatus.emit).toHaveBeenCalledWith(true);
+
+    component.toggleImageUploaderVisibility(false);
+    expect(component.isImageUploaderOpen).toBeFalse();
+    expect(component.showImageControls).toBeTrue();
+    expect(component.imageUploaderStatus.emit).toHaveBeenCalledWith(false);
+  });
+
+  it('should toggle image uploader when there are less than 5 uploaded images', () => {
+    spyOn(component.imageUploaderStatus, 'emit');
+    component.uploadedImage = [{ url: '', file: new File([], 'file1') }];
 
     component.toggleImageUploader();
     expect(component.isImageUploaderOpen).toBeTrue();
+    expect(component.imageUploaderStatus.emit).toHaveBeenCalledWith(true);
 
     component.toggleImageUploader();
     expect(component.isImageUploaderOpen).toBeFalse();
+    expect(component.imageUploaderStatus.emit).toHaveBeenCalledWith(false);
   });
 
-  it('should remove an uploaded image', () => {
-    const mockFile = new File(['image content'], 'test.png', { type: 'image/png' });
-    component.uploadedImage = [{ url: 'mockUrl', file: mockFile }];
+  it('should not toggle image uploader when there are 5 or more uploaded images', () => {
+    component.uploadedImage = new Array(5).fill({ url: '', file: new File([], 'file') });
+
+    component.isImageUploaderOpen = false;
+    component.toggleImageUploader();
+
+    expect(component.isImageUploaderOpen).toBeFalse();
+  });
+
+  it('should not add image when there are already 5 images', () => {
+    component.uploadedImage = new Array(5).fill({ url: '', file: new File([], 'file') });
+
+    const fileHandle = { url: 'unsafeUrl', file: new File([], 'image.png') };
+    component.onImageSelected(fileHandle);
+
+    expect(component.uploadedImage.length).toBe(5);
+  });
+
+  it('should remove the image at the specified index', () => {
+    component.uploadedImage = [
+      { url: 'image1', file: new File([], 'file1') },
+      { url: 'image2', file: new File([], 'file2') }
+    ];
 
     component.removeImage(0);
 
+    expect(component.uploadedImage.length).toBe(1);
+    expect(component.uploadedImage[0].url).toBe('image2');
+  });
+
+  it('should not remove anything if index is out of bounds', () => {
+    component.uploadedImage = [{ url: 'image1', file: new File([], 'file1') }];
+
+    component.removeImage(5);
+
+    expect(component.uploadedImage.length).toBe(1);
+  });
+
+  it('should clear uploaded images, hide controls and emit comment with null image files', () => {
+    spyOn(component.comment, 'emit');
+    component.uploadedImage = [{ url: 'image1', file: new File([], 'file1') }];
+    component.showImageControls = true;
+    component.isImageUploaderOpen = true;
+
+    component.onCancelImage();
+
     expect(component.uploadedImage.length).toBe(0);
+    expect(component.showImageControls).toBeFalse();
+    expect(component.isImageUploaderOpen).toBeFalse();
+    expect(component.comment.emit).toHaveBeenCalledWith({
+      text: component.content.value,
+      innerHTML: '',
+      imageFiles: null
+    });
   });
 });
