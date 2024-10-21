@@ -61,7 +61,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     public socketService: SocketService,
     private localStorageService: LocalStorageService,
     public elementRef: ElementRef,
-    private sanitizer: DomSanitizer
+    private readonly sanitizer: DomSanitizer
   ) {
     this.socketService.initiateConnection(this.socketService.connection.greenCity);
   }
@@ -205,9 +205,10 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     this.uploadedImage = [];
     this.showImageControls = false;
     this.isImageUploaderOpen = false;
+    this.commentTextarea.nativeElement.innerHTML = '';
     this.comment.emit({
       text: this.content.value,
-      innerHTML: (this.commentTextarea.nativeElement.innerHTML = ''),
+      innerHTML: this.commentTextarea.nativeElement.innerHTML,
       imageFiles: null
     });
   }
@@ -294,7 +295,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     this.refocusTextarea();
   }
 
-  emitComment(): void {
+  private emitComment(): void {
     this.comment.emit({
       text: this.commentTextarea.nativeElement.textContent,
       innerHTML: this.commentTextarea.nativeElement.innerHTML,

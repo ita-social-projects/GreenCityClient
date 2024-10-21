@@ -60,7 +60,7 @@ export class AddCommentComponent implements OnInit {
   setContent(data: { text: string; innerHTML: string; imageFiles?: File[] }) {
     this.addCommentForm.controls.content.setValue(data.text);
     this.commentHtml = data.innerHTML;
-    if (data.imageFiles && data.imageFiles.length) {
+    if (data?.imageFiles?.length) {
       this.uploadedImage = data.imageFiles[0];
       this.showImageControls = true;
     }

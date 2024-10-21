@@ -33,7 +33,7 @@
     <div class="comment-text" [ngClass]="{ hide: comment.isEdit }" [appLinkify]="comment.text" (click)="onCommentClick($event)"></div>
     <div class="comment-images">
       <div *ngIf="comment.additionalImages && comment.additionalImages.length">
-        <img *ngFor="let image of comment.additionalImages" [src]="image" alt="comment image" class="comment-image" />
+        <img *ngFor="let image of comment.additionalImages" [src]="image" alt="comment" class="comment-image" />
       </div>
     </div>
     <div class="comment-edit-text" *ngIf="comment.isEdit">
