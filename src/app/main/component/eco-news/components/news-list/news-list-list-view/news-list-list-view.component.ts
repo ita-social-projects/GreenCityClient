@@ -20,9 +20,6 @@ import { Subject } from 'rxjs';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { EcoNewsService } from '@eco-news-service/eco-news.service';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-news-list-list-view',
@@ -48,17 +45,12 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
   newDate;
   datePipe;
 
-  @Input() userId: number;
-
   constructor(
     public router: Router,
     private renderer: Renderer2,
     public translate: TranslateService,
     public localStorageService: LocalStorageService,
-    private langService: LanguageService,
-    private ecoNewsService: EcoNewsService,
-    private userOwnAuthService: UserOwnAuthService,
-    private snackBar: MatSnackBarComponent
+    private langService: LanguageService
   ) {}
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
@@ -92,17 +84,6 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
         ? this.ecoNewsModel.imagePath
         : this.profileIcons.newsDefaultPictureList;
     return this.newsImage;
-  }
-
-  changeFavouriteStatus(event?: MouseEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (this.ecoNewsModel.isFavourite) {
-      console.log('save');
-    } else {
-      console.log('delete');
-    }
   }
 
   routeToNews(): void {

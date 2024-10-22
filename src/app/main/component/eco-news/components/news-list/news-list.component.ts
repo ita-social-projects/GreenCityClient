@@ -1,7 +1,7 @@
 import { Breakpoints } from '../../../../config/breakpoints.constants';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ReplaySubject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { ReplaySubject, Subject, Subscription } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
@@ -12,10 +12,11 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsByTagsAction, GetEcoNewsByPageAction } from 'src/app/store/actions/ecoNews.actions';
-import { Router } from '@angular/router';
 import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
 import { FormControl, Validators } from '@angular/forms';
 import { Patterns } from '@assets/patterns/patterns';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 @Component({
   selector: 'app-news-list',
@@ -48,13 +49,16 @@ export class NewsListComponent implements OnInit, OnDestroy {
   econews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
   searchQuery: string;
 
+  private destroy: Subject<boolean> = new Subject<boolean>();
+  private dialogRef: MatDialogRef<unknown>;
+
   constructor(
     private ecoNewsService: EcoNewsService,
     private userOwnAuthService: UserOwnAuthService,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private store: Store,
-    private router: Router
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -190,6 +194,71 @@ export class NewsListComponent implements OnInit, OnDestroy {
       this.page++;
       this.newsTotal = res.totalElements;
       this.hasNext = res.hasNext;
+    });
+  }
+
+  changeFavouriteStatus(event: MouseEvent, data: EcoNewsModel) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    let isRegistered = !!this.userId;
+    let isFavorite = data.isFavourite;
+
+    if (!isRegistered) {
+      this.openAuthModalWindow('sign-in');
+      this.dialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((result) => {
+          isRegistered = !!result;
+          if (isRegistered) {
+            this.changeFavouriteStatus(event, data);
+          }
+        });
+    } else {
+      isFavorite = !isFavorite;
+      if (isFavorite) {
+        this.ecoNewsService
+          .addNewsToFavourites(data.id)
+          .pipe(takeUntil(this.destroy))
+          .subscribe({
+            error: () => {
+              this.snackBar.openSnackBar('error');
+              isFavorite = false;
+            }
+          });
+      } else {
+        this.ecoNewsService
+          .removeNewsFromFavourites(data.id)
+          .pipe(takeUntil(this.destroy))
+          .subscribe({
+            next: () => {
+              // if (this.isUserAssignList) {
+              //   this.idOfUnFavouriteEvent.emit(this.ecoNewsModel.id);
+              // }
+            },
+            error: () => {
+              this.snackBar.openSnackBar('error');
+              isFavorite = true;
+            }
+          });
+      }
+    }
+  }
+
+  handleMouseDown(event: MouseEvent): void {
+    event.preventDefault(); // Prevents the default action (navigation in this case)
+    event.stopPropagation(); // Stops the event from bubbling up to the routerLink
+  }
+
+  openAuthModalWindow(page: string): void {
+    this.dialogRef = this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: page
+      }
     });
   }
 

@@ -49,9 +49,13 @@
           }"
           *ngFor="let data of elements"
         >
-          <a [routerLink]="['/news', data.id]" tabindex="0">
-            <app-news-list-gallery-view *ngIf="view" [ecoNewsModel]="data" [userId]="userId"> </app-news-list-gallery-view>
-            <app-news-list-list-view *ngIf="!view" [ecoNewsModel]="data" [userId]="userId"> </app-news-list-list-view>
+          <a [routerLink]="['/news', data.id]" tabindex="0" class="link">
+            <app-news-list-gallery-view *ngIf="view" [ecoNewsModel]="data"> </app-news-list-gallery-view>
+            <app-news-list-list-view *ngIf="!view" [ecoNewsModel]="data"> </app-news-list-list-view>
+
+            <div class="news-flags favourite-button" (click)="changeFavouriteStatus($event, data)" (mousedown)="handleMouseDown($event)">
+              <span [ngClass]="data.isFavourite ? 'flag-active' : 'flag'"></span>
+            </div>
           </a>
         </li>
       </ul>
