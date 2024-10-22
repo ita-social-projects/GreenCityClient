@@ -49,12 +49,3 @@ Thumbs.db
 
 # Logs
 *.log
-
-# .env files
-.env
-.env.*
-!.env.example
-!.env.d.ts
-environment.prod.ts
-environment.stage.ts
-environment.ts
