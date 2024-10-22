@@ -41,20 +41,11 @@ jobs:
       - name: Install
         run: |
           npm install
-          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_125.0.6422.76-1_amd64.deb
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_125.0.6422.76-1_amd64.deb 
           sudo apt-get install ./google-chrome-stable_125.0.6422.76-1_amd64.deb  -y --allow-downgrades
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.0.0.4432-linux.zip
           unzip sonar-scanner-cli-6.0.0.4432-linux.zip
           sudo mv sonar-scanner-6.0.0.4432-linux /opt/sonar-scanner
-
-      - name: Inject .env
-        run: |
-          echo "${{ secrets.ENV_DEVELOPMENT }}" > .env
-          echo "${{ secrets.ENV_STAGING }}" > .env.staging
-          echo "${{ secrets.ENV_PRODUCTION }}" > .env.production
-
-      - name: Debug file sizes with ls command
-        run: ls -lh .env*
 
       - name: JS Linter
         run: npm run lint
@@ -63,9 +54,7 @@ jobs:
         run: npm run stylelint
 
       - name: Unit Tests
-        run: |
-          npm run build:env dev
-          npx ng test --watch=false --progress=false --code-coverage=true --browsers=ChromeHeadless
+        run: npx ng test --watch=false --progress=false --code-coverage=true --browsers=ChromeHeadless
 
       - name: Sonar scan
         #continue-on-error: true
@@ -88,13 +77,9 @@ jobs:
 
       - name: Build
         run: |
-          npm run build:env stage
           npx ng build --configuration=stage --base-href=/GreenCityClient/
       #          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       #          npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
-
-      - name: Debug file sizes with ls command in src/environments
-        run: ls -lh src/environments && ls -lh .env*
 
       - name: Set outputs
         run: echo "GITHUB_SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
