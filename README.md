@@ -50,6 +50,62 @@ You should install Angular CLI 16.2.10 writting this in console: npm install -g 
 1.npm i -g json-server (https://www.npmjs.com/package/json-server); 2. in first thred use command : json-server src\assets\all-json\eco-news.json;
 3.in second thred use command: ng serve;
 
+## Project Commands
+
+This project uses `npm` scripts to handle different tasks like building, testing, and linting. Below is a breakdown of the available commands:
+
+### Development
+
+- **`npm run start`**
+  - Sets the environment to development and starts the development server using `ng serve`.
+- **`npm run serve`**
+  - Starts the Angular development server without setting environment variables (useful if environment is already set).
+
+### Building
+
+- **`npm run build-dev`**
+
+  - Configures the environment for development and builds the project using `ng build`.
+
+- **`npm run build-prod`**
+
+  - Configures the environment for production and builds the project with the production configuration.
+
+- **`npm run build-stage`**
+  - Configures the environment for staging and builds the project using the staging configuration.
+
+### Testing
+
+- **`npm run test`**
+
+  - Sets the environment to development and runs the unit tests using `ng test`.
+
+- **`npm run coverage`**
+  - Runs unit tests and generates a code coverage report.
+
+### Linting
+
+- **`npm run lint`**
+
+  - Runs `ng lint` to analyze the TypeScript code for potential errors and style issues.
+
+- **`npm run stylelint`**
+  - Runs `stylelint` on SCSS files located in the `src` folder to check for style-related issues.
+
+### Pre-commit Hook
+
+- **`npm run precommit`**
+  - Runs `lint-staged` and `ts-node ./scripts/make-private-public.ts` before committing code to ensure that only correctly formatted files are committed.
+
+### Environment Setup
+
+The `ts-node` script `setenv.ts` is used to configure environment variables based on the target environment. This script is automatically triggered in most commands by using the `build:env` step, which allows setting the environment before proceeding with the actual build, serve, or test commands.
+
+- **Example:**
+  - `npm run build:env dev` configures the environment for development.
+  - `npm run build:env prod` configures the environment for production.
+  - `npm run build:env stage` configures the environment for staging.
+
 ## Project structure
 
 1.  /e2e/ directory:
