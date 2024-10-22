@@ -41,20 +41,11 @@ jobs:
       - name: Install
         run: |
           npm install
-          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_125.0.6422.76-1_amd64.deb
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_125.0.6422.76-1_amd64.deb 
           sudo apt-get install ./google-chrome-stable_125.0.6422.76-1_amd64.deb  -y --allow-downgrades
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.0.0.4432-linux.zip
           unzip sonar-scanner-cli-6.0.0.4432-linux.zip
           sudo mv sonar-scanner-6.0.0.4432-linux /opt/sonar-scanner
-
-      - name: Inject .env
-        run: |
-          echo "${{ secrets.ENV_DEVELOPMENT }}" > .env
-          echo "${{ secrets.ENV_STAGING }}" > .env.staging
-          echo "${{ secrets.ENV_PRODUCTION }}" > .env.production
-
-      - name: Debug file sizes with ls command
-        run: ls -lh .env*
 
       - name: JS Linter
         run: npm run lint
@@ -62,41 +53,33 @@ jobs:
       - name: CSS Linter
         run: npm run stylelint
 
-      # Temporary disabled
-      # - name: Unit Tests
-      #   run: |
-      #     npm run build:env dev
-      #     npx ng test --watch=false --progress=false --code-coverage=true --browsers=ChromeHeadless
+      - name: Unit Tests
+        run: npx ng test --watch=false --progress=false --code-coverage=true --browsers=ChromeHeadless
 
-      # Temporary disabled
-      # - name: Sonar scan
-      #   #continue-on-error: true
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   run: >
-      #     /opt/sonar-scanner/bin/sonar-scanner
-      #     -Dsonar.organization=ita-social-projects
-      #     -Dsonar.projectKey=ita-social-projects-green-city-client
-      #     -Dsonar.host.url=https://sonarcloud.io
-      #     -Dsonar.sources=src
-      #     -Dsonar.exclusions=**/node_modules/**,src/app/component/user/components/profile/calendar/calendar-image.*,src/app/component/user/components/profile/calendar/calendar-week/calendar-image.*,src/environments/environment.prod.*,src/app/image-pathes/auth-images.*,src/app/image-pathes/profile-icons.*,src/app/image-pathes/profile-images.*,src/app/image-pathes/single-news-images.*,src/app/image-pathes/sign-in-icons.*,src/app/component/about/about-routing.module.*,src/app/component/about/about.module.*,src/app/component/eco-news/eco-news-routing.module.*,src/app/component/eco-news/eco-news.module.*,src/app/component/map/map-routing.module.*,src/app/component/map/map.module.*,src/app/component/user/user-routing.module.*,src/app/component/user/user.module.*,src/app/app-routing.module.*,src/app/component/shared/shared.module.*,src/app/component/admin/admin-routing.module.*,src/app/component/admin/admin.module.*,src/app/app.module.*,src/app/component/auth/auth.module.*,src/app/component/core/core.module.*,src/app/component/home/home.module.*,src/app/component/layout/layout.module.*,src/app/model/weekDays.model.*,src/app/model/achievement/AchievementDto.*,src/app/model/advice/AdviceDto.*,src/app/model/filtering/filter-discount-dto.model.*,src/app/model/filtering/filter-distance-dto.model.*,src/app/model/filtering/filter-place-dto.model.*,src/app/model/habit-fact/HabitFactDto.*,src/app/model/habit/HabitStatisticLogDto.*,src/app/model/habit/HabitStatisticMapDto.*,src/app/model/habit/HabitStatisticsDto.*,src/app/model/habit/NewHabitDto.*,src/app/component/home/models/NewsDto.*,src/app/service/subscription/SubscriptionDto.*,src/app/model/user/userFilterDto.model.*,src/app/store/effects/ecoEvents.effects.*,src/app/ubs/ubs-admin/components/ubs-admin-certificate/ubs-admin-certificate.component.*,src/app/shared/interceptors/interceptor.service.*,src/app/store/reducers/ecoEvents.reducer.*
-      #     -Dsonar.tests=src
-      #     -Dsonar.test.inclusions=**/*.spec.ts
-      #     -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
+      - name: Sonar scan
+        #continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: >
+          /opt/sonar-scanner/bin/sonar-scanner
+          -Dsonar.organization=ita-social-projects
+          -Dsonar.projectKey=ita-social-projects-green-city-client
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.sources=src
+          -Dsonar.exclusions=**/node_modules/**,src/app/component/user/components/profile/calendar/calendar-image.*,src/app/component/user/components/profile/calendar/calendar-week/calendar-image.*,src/environments/environment.prod.*,src/app/image-pathes/auth-images.*,src/app/image-pathes/profile-icons.*,src/app/image-pathes/profile-images.*,src/app/image-pathes/single-news-images.*,src/app/image-pathes/sign-in-icons.*,src/app/component/about/about-routing.module.*,src/app/component/about/about.module.*,src/app/component/eco-news/eco-news-routing.module.*,src/app/component/eco-news/eco-news.module.*,src/app/component/map/map-routing.module.*,src/app/component/map/map.module.*,src/app/component/user/user-routing.module.*,src/app/component/user/user.module.*,src/app/app-routing.module.*,src/app/component/shared/shared.module.*,src/app/component/admin/admin-routing.module.*,src/app/component/admin/admin.module.*,src/app/app.module.*,src/app/component/auth/auth.module.*,src/app/component/core/core.module.*,src/app/component/home/home.module.*,src/app/component/layout/layout.module.*,src/app/model/weekDays.model.*,src/app/model/achievement/AchievementDto.*,src/app/model/advice/AdviceDto.*,src/app/model/filtering/filter-discount-dto.model.*,src/app/model/filtering/filter-distance-dto.model.*,src/app/model/filtering/filter-place-dto.model.*,src/app/model/habit-fact/HabitFactDto.*,src/app/model/habit/HabitStatisticLogDto.*,src/app/model/habit/HabitStatisticMapDto.*,src/app/model/habit/HabitStatisticsDto.*,src/app/model/habit/NewHabitDto.*,src/app/component/home/models/NewsDto.*,src/app/service/subscription/SubscriptionDto.*,src/app/model/user/userFilterDto.model.*,src/app/store/effects/ecoEvents.effects.*,src/app/ubs/ubs-admin/components/ubs-admin-certificate/ubs-admin-certificate.component.*,src/app/shared/interceptors/interceptor.service.*,src/app/store/reducers/ecoEvents.reducer.*
+          -Dsonar.tests=src
+          -Dsonar.test.inclusions=**/*.spec.ts
+          -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
 
       # - name: E2E Tests
       #   run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
 
       - name: Build
         run: |
-          npm run build:env stage
           npx ng build --configuration=stage --base-href=/GreenCityClient/
       #          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       #          npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
-
-      - name: Debug file sizes with ls command in src/environments
-        run: ls -lh src/environments && ls -lh .env*
 
       - name: Set outputs
         run: echo "GITHUB_SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
