@@ -233,20 +233,6 @@ describe('EventDetailsComponent', () => {
     expect(component.isLiked).toBe(true);
   });
 
-  it('should increase likes when isLiked is false', () => {
-    component.isLiked = false;
-    component.event = { likes: 100 } as EventResponse;
-    component.onLikeEvent();
-    expect(component.event.likes).toBe(101);
-  });
-
-  it('should decrease likes when isLiked is true', () => {
-    component.isLiked = true;
-    component.event = { likes: 100 } as EventResponse;
-    component.onLikeEvent();
-    expect(component.event.likes).toBe(99);
-  });
-
   it('should correctly toggle likes and isLiked based on the current state', () => {
     component.event = { likes: 10 } as EventResponse;
     component.eventId = 2;
