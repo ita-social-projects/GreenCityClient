@@ -5,6 +5,7 @@ import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 import { ProfileService } from '../profile-service/profile.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-profile-cards',
@@ -15,13 +16,15 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject<void>();
   factKey = 'factOfTheDay';
   habitFactKey = 'habitFactOfTheDay';
-  factOfTheDay: FactOfTheDay;
-  habitFactOfTheDay: FactOfTheDay;
+  currentLang = '';
+  factOfTheDay: string;
+  habitFactOfTheDay: string;
   error: string;
 
   constructor(
     private readonly profileService: ProfileService,
-    private readonly localStorageService: LocalStorageService
+    private readonly localStorageService: LocalStorageService,
+    private readonly langService: LanguageService
   ) {}
 
   ngOnInit() {
@@ -38,8 +41,14 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
   }
 
   loadFactsFromLocalStorage(): void {
-    this.factOfTheDay = this.localStorageService.getFactFromLocalStorage(this.factKey);
-    this.habitFactOfTheDay = this.localStorageService.getFactFromLocalStorage(this.habitFactKey);
+    this.factOfTheDay = this.getFactContentByLanguage(this.factKey);
+    this.habitFactOfTheDay = this.getFactContentByLanguage(this.habitFactKey);
+  }
+
+  getFactContentByLanguage(factKey: string): string | null {
+    const factOfTheDay = this.localStorageService.getFactFromLocalStorage(factKey);
+
+    return factOfTheDay?.factOfTheDayTranslations.find((t) => t.languageCode === this.langService.getCurrentLanguage())?.content || null;
   }
 
   checkAndUpdateFacts(): void {
@@ -86,8 +95,8 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
       )
       .subscribe((fact: FactOfTheDay | null) => {
         if (fact) {
-          this.habitFactOfTheDay = fact;
           this.localStorageService.saveFactToLocalStorage(fact, currentTime, this.habitFactKey);
+          this.habitFactOfTheDay = this.getFactContentByLanguage(this.habitFactKey);
         }
       });
   }
@@ -101,8 +110,8 @@ export class ProfileCardsComponent implements OnInit, OnDestroy {
       )
       .subscribe((fact: FactOfTheDay | null) => {
         if (fact) {
-          this.factOfTheDay = fact;
           this.localStorageService.saveFactToLocalStorage(fact, currentTime, this.factKey);
+          this.factOfTheDay = this.getFactContentByLanguage(this.factKey);
         }
       });
   }
