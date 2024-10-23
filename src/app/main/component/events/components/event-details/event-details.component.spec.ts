@@ -39,8 +39,7 @@ describe('EventDetailsComponent', () => {
   let dialogSpy: jasmine.SpyObj<MatDialog>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(eventStateMock);
-  let snackBarMock: jasmine.SpyObj<MatSnackBarComponent>;
-  snackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
   const EventsServiceMock = jasmine.createSpyObj('eventService', [
     'getEventById ',
