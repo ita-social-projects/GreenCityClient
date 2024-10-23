@@ -28,7 +28,9 @@ describe('HabitCommentsService', () => {
   });
 
   it('should make POST request to add comment', () => {
-    service.addComment(1, 'Test comment', 0).subscribe((commentData) => {
+    const imageFiles: File[] = [];
+
+    service.addComment(1, 'Test comment', imageFiles).subscribe((commentData) => {
       expect(commentData).toEqual(MOCK_HABIT_ADDED_COMMENT);
     });
 

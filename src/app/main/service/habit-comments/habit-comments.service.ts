@@ -14,14 +14,19 @@ export class HabitCommentsService implements CommentsService {
 
   constructor(private readonly http: HttpClient) {}
 
-  addComment(habitId: number, text: string, parentCommentId = 0): Observable<AddedCommentDTO> {
+  addComment(habitId: number, text: string, imageFiles: File[], parentCommentId = 0): Observable<AddedCommentDTO> {
     const formData = new FormData();
-    const requestPayload = {
+
+    const requestPayload = JSON.stringify({
       text: text,
       parentCommentId: parentCommentId
-    };
+    });
+    formData.append('request', requestPayload);
 
-    formData.append('request', JSON.stringify(requestPayload));
+    imageFiles.forEach((imageFile, index) => {
+      formData.append(`images`, imageFile, imageFile.name);
+    });
+
     return this.http.post<AddedCommentDTO>(`${this.backEnd}habits/${habitId}/comments`, formData);
   }
 

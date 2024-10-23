@@ -6,7 +6,7 @@ import { AddedCommentDTO, CommentsModel } from '../models/comments-model';
   providedIn: 'root'
 })
 export abstract class CommentsService {
-  abstract addComment(entityId: number, text: string, parentCommentId: number): Observable<AddedCommentDTO>;
+  abstract addComment(entityId: number, text: string, imageFiles: File[], parentCommentId: number): Observable<AddedCommentDTO>;
 
   abstract getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<CommentsModel>;
 

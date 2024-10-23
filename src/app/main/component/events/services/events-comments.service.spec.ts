@@ -42,7 +42,9 @@ describe('EventsCommentsService', () => {
       modifiedDate: new Date('2021-05-27T15:37:15.661Z'),
       text: 'some cool content!'
     };
-    service.addComment(1, commentText, 1).subscribe((commentData: any) => {
+    const imageFiles: File[] = [];
+
+    service.addComment(1, commentText, imageFiles).subscribe((commentData: any) => {
       expect(commentData).toEqual(commentBody);
     });
 
@@ -63,7 +65,9 @@ describe('EventsCommentsService', () => {
       text: 'some cool content!'
     };
 
-    service.addComment(1, commentText).subscribe((commentData: any) => {
+    const imageFiles: File[] = [];
+
+    service.addComment(1, commentText, imageFiles).subscribe((commentData: any) => {
       expect(commentData).toEqual(commentBody);
     });
 
