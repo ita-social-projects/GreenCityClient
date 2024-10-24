@@ -133,6 +133,14 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventResponse>(`${this.backEnd}events/${eventId}`);
   }
 
+  getIsLikedByUser(eventId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.backEnd}events/${eventId}/likes`);
+  }
+
+  postToggleLike(eventId: number): Observable<any> {
+    return this.http.post(`${this.backEnd}events/${eventId}/like`, {});
+  }
+
   deleteEvent(eventId: number): Observable<any> {
     return this.http.delete(`${this.backEnd}events/${eventId}`);
   }
