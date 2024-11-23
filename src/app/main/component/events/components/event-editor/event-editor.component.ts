@@ -21,6 +21,7 @@ import { EventForm } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { quillConfig } from './quillEditorFunc';
 import { EventStoreService } from '../../services/event-store.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-event-editor',
@@ -28,12 +29,17 @@ import { EventStoreService } from '../../services/event-store.service';
   styleUrls: ['./event-editor.component.scss']
 })
 export class EventEditorComponent extends FormBaseComponent implements OnInit {
-  @Input() isUpdating: boolean;
+  isUpdating: boolean;
   @Input() cancelChanges: boolean;
   @Input({ required: true }) eventId: number;
   quillModules = {};
   places: Place[] = [];
-  isPosting = false;
+  isPosting: boolean;
+  isFetching: boolean;
+  isAuthor: boolean;
+  authorId: number;
+  editEvent: EventResponse;
+  tags: Array<TagObj>;
   images = singleNewsImages;
   submitButtonName = 'create-event.publish';
   subscription: Subscription;
@@ -43,25 +49,24 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   routedFromProfile: boolean;
 
   constructor(
-    public readonly dialog: MatDialog,
-    public readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly fb: FormBuilder,
-    public readonly localStorageService: LocalStorageService,
-    private readonly actionsSubj: ActionsSubject,
-    private readonly store: Store,
-    private readonly snackBar: MatSnackBarComponent,
-    public readonly dialogRef: MatDialogRef<DialogPopUpComponent>,
-    private readonly eventsService: EventsService,
-    private readonly eventStoreService: EventStoreService,
+    private eventStore: EventStoreService,
+    public dialog: MatDialog,
+    router: Router,
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    public localStorageService: LocalStorageService,
+    private actionsSubj: ActionsSubject,
+    private store: Store,
+    private snackBar: MatSnackBarComponent,
+    public dialogRef: MatDialogRef<DialogPopUpComponent>,
+    private eventsService: EventsService,
+    private languageService: LanguageService,
     private readonly cdRef: ChangeDetectorRef
   ) {
     super(router, dialog);
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
   }
-
-  @Input() formInput: EventForm;
 
   get eventInformation(): FormGroup {
     return this.eventForm.get('eventInformation') as FormGroup;
@@ -72,19 +77,42 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.event = this.formInput || this.eventStoreService.getEditorValues();
-
-    this.route.params.subscribe((params) => {
-      const id = params['id'];
-      this.eventStoreService.setEventId(Number(id));
-    });
-
-    if (this.isUpdating) {
-      this.submitButtonName = 'create-event.save-event';
+    this.event = this.eventsService.getEvent();
+    if (!this.event) {
+      const userId = this.localStorageService.getUserId();
+      this.route.params.subscribe((params) => {
+        const isAuthor = this.authorId === userId;
+        this.eventId = params['id'];
+        if (isAuthor && this.eventId) {
+          this.isFetching = true;
+          this.isUpdating = true;
+          this.submitButtonName = 'create-event.save-event';
+          // this.eventsService.getEventById(this.eventId).subscribe({
+          //   next: (response) => {
+          //     this.eventForm = this._transformResponseToForm(response);
+          //     this.eventStore.setEditorValues(this.eventForm);
+          //     this.authorId = response.organizer.id;
+          //     this.isAuthor = this.authorId === userId;
+          //     this.isFetching = false;
+          //     this.cdRef.detectChanges();
+          //   },
+          //   error: (error) => {
+          //     this.isFetching = false;
+          //     this.isAuthor = false;
+          //     this.cdRef.detectChanges();
+          //   }
+          // });
+        }
+      });
     }
-    this.eventForm = this.eventsService.convertEventToFormEvent(this.event);
+
+    this.createFormEvent();
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.previousPath = this.localStorageService.getPreviousPage() || '/events';
+    this.subscribeOnChangeDuration();
+  }
+
+  private subscribeOnChangeDuration(): void {
     this.eventForm
       .get('eventInformation')
       .get('duration')
@@ -105,9 +133,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
             this.eventDateForm.push(
               this.fb.group({
                 day: this.fb.group({
-                  date: [nextDate, Validators.required],
-                  startTime: ['', Validators.required],
-                  endTime: ['', Validators.required],
+                  startDate: [nextDate, Validators.required],
+                  finishDate: [nextDate, Validators.required],
                   allDay: [false],
                   minDate: [nextDate],
                   maxDate: [null]
@@ -130,7 +157,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
         this._updateDateRanges();
       });
   }
-
   private _updateDateRanges(): void {
     this.eventDateForm.controls.forEach((dayGroup, index) => {
       const dayFormGroup = dayGroup.get('day') as FormGroup;
@@ -153,8 +179,48 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     });
   }
 
-  onPreview() {
-    const currentRoute = this.router.url;
+  private createFormEvent(): void {
+    const information = this.event?.eventInformation;
+    const date = this.event?.dateInformation ?? [];
+
+    this.eventForm = this.fb.group({
+      eventInformation: this.fb.group({
+        title: [information?.title ?? '', [Validators.required, Validators.maxLength(70)]],
+        description: [information?.description ?? '', [Validators.required, Validators.minLength(20)]],
+        open: [information?.open ?? true, Validators.required],
+        images: [information?.images ?? []],
+        duration: [information?.duration ?? 1, Validators.required],
+        tags: [information?.tags ?? [], [Validators.required, Validators.minLength(1)]]
+      }),
+
+      dateInformation: this.fb.array(date.length > 0 ? date.map((date) => this.createDateFormGroup(date)) : [this.createDateFormGroup()])
+    });
+  }
+
+  private createDateFormGroup(date?: any): FormGroup {
+    return this.fb.group({
+      day: this.fb.group({
+        startDate: [date?.day.date ? new Date(date.day.date) : new Date(), [Validators.required]],
+        finishDate: [date?.day.date ? new Date(date.day.date) : new Date(), [Validators.required]],
+        startTime: [date?.day.date ? new Date(date.day.date) : ''],
+        finishTime: [date?.day.date ? `${new Date(date.day.date).getHours()}:${new Date(date.day.date).getMinutes()}` : ''],
+        allDay: [date?.day.allDay ?? false],
+        minDate: [date?.day.minDate ? new Date(date.minDate) : new Date()],
+        maxDate: [date?.day.maxDate ? new Date(date.maxDate) : '']
+      }),
+      placeOnline: this.fb.group({
+        coordinates: new FormControl(
+          date?.placeOnline.coordinates ?? { lat: DefaultCoordinates.LATITUDE, lng: DefaultCoordinates.LONGITUDE }
+        ),
+        onlineLink: new FormControl(date?.placeOnline.onlineLink ?? ''),
+        place: new FormControl(date?.placeOnline.place ?? ''),
+        appliedLinkForAll: [date?.placeOnline.appliedLinkForAll ?? false],
+        appliedPlaceForAll: [date?.placeOnline.appliedPlaceForAll ?? false]
+      })
+    });
+  }
+
+  onPreview(): void {
     this.cdRef.detectChanges();
 
     if (currentRoute.includes('create-event')) {
@@ -168,12 +234,90 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   submitEvent(): void {
-    const formData = this.eventsService.prepareEventForSubmit(this.eventForm.value, this.eventId, this.isUpdating);
+    const { eventInformation, dateInformation } = this.eventForm.value;
+    const { open, tags, description, title, images } = eventInformation;
+    const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
+    let sendEventDto: EventDTO = {
+      title,
+      description: description,
+      open,
+      tags,
+      datesLocations: dates
+    };
+
+    if (this.isUpdating) {
+      if (!this.eventId) {
+        const urlSegments = this.router.url.split('/');
+        this.eventId = Number(urlSegments[urlSegments.length - 1]);
+      }
+      const currentImages = (this._savedFormValues?.eventInformation?.images || [])
+        .filter((value) => !value.file)
+        .map((value) => value.url);
+      sendEventDto = {
+        ...sendEventDto,
+        additionalImages: currentImages.slice(1),
+        id: this.eventId,
+        titleImage: currentImages[0]
+      };
+    }
+    const formData: FormData = new FormData();
+    const stringifyDataToSend = JSON.stringify(sendEventDto);
+    const dtoName = this.isUpdating ? 'eventDto' : 'addEventDtoRequest';
+
+    formData.append(dtoName, stringifyDataToSend);
+
+    images.forEach((item) => {
+      if (item.file) {
+        formData.append('images', item.file);
+      }
+    });
+
     this.createEvent(formData);
   }
 
   clear(): void {
     this.eventForm.reset();
+  }
+
+  transformDatesFormToDates(form: DateInformation[]): Dates[] {
+    return form
+      .map((value) => {
+        const { date, endTime, startTime } = value.day;
+        const { onlineLink, place, coordinates } = value.placeOnline;
+
+        const dateObject = new Date(date);
+
+        if (isNaN(dateObject.getTime())) {
+          return;
+        }
+
+        let [hours, minutes] = startTime.split(':');
+        dateObject.setHours(parseInt(hours, 10));
+        dateObject.setMinutes(parseInt(minutes, 10));
+        const startDate = dateObject.toISOString();
+
+        [hours, minutes] = endTime.split(':');
+        dateObject.setHours(parseInt(hours, 10));
+        dateObject.setMinutes(parseInt(minutes, 10));
+        const finishDate = dateObject.toISOString();
+
+        const dates: Dates = {
+          startDate,
+          finishDate,
+          id: undefined
+        };
+        if (onlineLink) {
+          dates.onlineLink = onlineLink;
+        }
+        if (place) {
+          dates.coordinates = {
+            latitude: coordinates.lat,
+            longitude: coordinates.lng
+          };
+        }
+        return dates;
+      })
+      .filter(Boolean);
   }
 
   escapeFromCreateEvent(): void {
@@ -190,7 +334,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     }
   }
 
-  private createEvent(sendData: FormData) {
+  private createEvent(sendData: FormData): void {
     this.isPosting = true;
     this.isUpdating
       ? this.store.dispatch(EditEcoEventAction({ data: sendData, id: this.eventId }))
