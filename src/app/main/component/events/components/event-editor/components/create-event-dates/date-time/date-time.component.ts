@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { IMask } from 'angular-imask';
-import * as _moment from 'moment';
+import _moment from 'moment';
 import 'moment/locale/uk';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MomentDateAdapter } from './moment-date-adapter';
@@ -131,7 +131,6 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     // IMask(this.dateRef.nativeElement, this.dateMask);
     IMask(this.startTimeRef.nativeElement, this.timeMask);
     IMask(this.endTimeRef.nativeElement, this.timeMask);
-    console.log(this.startOptionsArr);
   }
 
   getDateErrors(date: _moment.Moment | null) {
@@ -195,10 +194,9 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
 
   private _handleTimeChange(value: string, type: 'start' | 'end'): void {
     if (Number(value[value.length - 1]) || value[2] === ':') {
-      const initialStartTime = Number(this.initialStartTime.replace(':', ''));
-      const numberValue = Number(value.replace(':', ''));
-      const startTime = this.startTime.value ? Number(this.startTime.value.replace(':', '')) : null;
-      const endTime = this.finishTime.value ? Number(this.finishTime.value.replace(':', '')) : null;
+      const initialStartTime = this.initialStartTime;
+      const startTime = this.startTime.value ? this.startTime.value : null;
+      const endTime = this.finishTime.value ? this.finishTime.value : null;
       if (value.length === 2 && !value.includes(':') && value.length >= (type === 'start' ? this.prevStartLength : this.prevEndLength)) {
         value += ':';
         const control = type === 'start' ? this.startTime : this.finishTime;
@@ -215,14 +213,14 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
         const [hours, minutes] = value.split(':').map(Number);
 
         if (type === 'start') {
-          if (numberValue >= initialStartTime && (endTime === null || numberValue < endTime)) {
+          if (value >= initialStartTime && (endTime === null || value < endTime)) {
             this.endOptionsArr = this._timeArr.slice(this._timeArr.indexOf(value) + 1);
             this.startDate.setValue(this.startDate.value.setHours(hours, minutes, 0, 0), { emitEvent: false });
           } else {
             this.startTime.setValue('', { emitEvent: false });
           }
         } else {
-          if (numberValue > initialStartTime && (startTime === null || numberValue > startTime)) {
+          if (value > initialStartTime && (startTime === null || value > startTime)) {
             this.startOptionsArr = this._timeArr.slice(this._timeArr.indexOf(this.initialStartTime), this._timeArr.indexOf(value));
             this.finishDate.setValue(this.finishDate.value.setHours(hours, minutes, 0, 0), { emitEvent: false });
           } else {
@@ -232,13 +230,11 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
       } else {
         if (type === 'start') {
           this.startOptionsArr = this._timeArr.filter((option) => {
-            const optionTime = Number(option.replace(':', ''));
-            return (option.startsWith(value) || !startTime) && optionTime >= initialStartTime && (!endTime || optionTime < endTime);
+            return (option.startsWith(value) || !startTime) && option >= initialStartTime && (!endTime || option < endTime);
           });
         } else {
           this.endOptionsArr = this._timeArr.filter((option) => {
-            const optionTime = Number(option.replace(':', ''));
-            return (option.startsWith(value) || !endTime) && optionTime >= initialStartTime && (!startTime || optionTime > startTime);
+            return (option.startsWith(value) || !endTime) && option >= initialStartTime && (!startTime || option > startTime);
           });
         }
       }
