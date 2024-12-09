@@ -13,12 +13,13 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, of } from 'rxjs';
 import { SafeHtmlPipe } from '@pipe/safe-html-pipe/safe-html.pipe';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Language } from '../../../../i18n/Language';
+import { Language } from 'src/app/main/i18n/Language';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { singleNewsImages } from '../../../../image-pathes/single-news-images';
+import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -54,6 +55,7 @@ describe('EcoNewsDetailComponent', () => {
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue.and.returnValue(['Events', 'Education']);
+  const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMeta']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -68,7 +70,8 @@ describe('EcoNewsDetailComponent', () => {
         { provide: DomSanitizer, useValue: sanitaizerMock },
         { provide: LocalStorageService, useValue: backLink },
         { provide: LanguageService, useValue: languageServiceMock },
-        { provide: MatSnackBarComponent, useValue: { openSnackBar: jasmine.createSpy('openSnackBar') } }
+        { provide: MatSnackBarComponent, useValue: { openSnackBar: jasmine.createSpy('openSnackBar') } },
+        { provide: MetaService, useValue: metaServiceMock }
       ]
     }).compileComponents();
 

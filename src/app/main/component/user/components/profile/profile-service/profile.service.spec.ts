@@ -1,4 +1,4 @@
-import { Language } from './../../../../../i18n/Language';
+import { Language } from 'src/app/main/i18n/Language';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -6,6 +6,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { ProfileService } from './profile.service';
 import { environment } from '@environment/environment';
+import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 
 describe('ProfileService', () => {
   const backUserLink = environment.backendUserLink;
@@ -49,12 +50,24 @@ describe('ProfileService', () => {
 
   describe('test for method which get facts for today', () => {
     it('should return fact of the day', () => {
-      const fact = { id: 1, content: 'Great day!' };
-      profileService.getRandomFactOfTheDay().subscribe((info) => {
-        expect(info.content).toBe('Great day!');
+      const fact: FactOfTheDay = {
+        id: 1,
+        factOfTheDayTranslations: [
+          {
+            languageCode: 'ua',
+            content: 'Приклад факту дня'
+          },
+          {
+            languageCode: 'en',
+            content: 'Sample fact of the day'
+          }
+        ]
+      };
+      profileService.getRandomFactOfTheDay('').subscribe((info) => {
+        expect(info.factOfTheDayTranslations[0].content).toBe('Приклад факту дня');
       });
 
-      const req = httpMock.expectOne(`${backLink}fact-of-the-day/random?lang=en`);
+      const req = httpMock.expectOne(`${backLink}fact-of-the-day/random`);
       expect(req.request.method).toBe('GET');
       req.flush(fact);
     });
@@ -70,7 +83,7 @@ describe('ProfileService', () => {
         rating: 1999,
         showEcoPlace: true,
         showLocation: false,
-        showShoppingList: true,
+        showToDoList: true,
         socialNetworks: []
       };
 
@@ -156,12 +169,9 @@ describe('ProfileService', () => {
     });
 
     it('should return the twitter icon when the url belongs to twitter', () => {
-      expect(profileService.getSocialImage('https://twitter.com')).toBe(profileService.socialMedia.twitter);
-      expect(profileService.getSocialImage('https://twitter.com/facebook')).toBe(profileService.socialMedia.twitter);
-      expect(profileService.getSocialImage('https://twitter.com?test=youtube&val=linkedin')).toBe(profileService.socialMedia.twitter);
-      expect(profileService.getSocialImage('https://x.com')).toBe(profileService.socialMedia.twitter);
-      expect(profileService.getSocialImage('https://x.com/facebook')).toBe(profileService.socialMedia.twitter);
-      expect(profileService.getSocialImage('https://x.com?test=youtube&val=instagram')).toBe(profileService.socialMedia.twitter);
+      expect(profileService.getSocialImage('https://x.com')).toBe(profileService.socialMedia.x);
+      expect(profileService.getSocialImage('https://x.com/facebook')).toBe(profileService.socialMedia.x);
+      expect(profileService.getSocialImage('https://x.com?test=youtube&val=instagram')).toBe(profileService.socialMedia.x);
     });
 
     it('should youtube the instagram icon when the url belongs to youtube', () => {

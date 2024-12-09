@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { singleNewsImages } from '../../../../image-pathes/single-news-images';
+import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { Place } from '../../../places/models/place';
 import { DefaultCoordinates } from '../../models/event-consts';
 import { DateInformation, Dates, EventDTO, EventForm, EventResponse, TagObj } from '../../models/events.interface';
@@ -41,42 +41,25 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   editEvent: EventResponse;
   tags: Array<TagObj>;
   images = singleNewsImages;
-  currentLang: string;
   submitButtonName = 'create-event.publish';
   subscription: Subscription;
-  imgArray: Array<File> = [];
-  userId: number;
   previousPath: string;
   eventForm: FormGroup;
   event: EventForm;
-  popupConfig = {
-    hasBackdrop: true,
-    closeOnNavigation: true,
-    disableClose: true,
-    panelClass: 'popup-dialog-container',
-    data: {
-      popupTitle: 'homepage.events.events-popup.title',
-      popupSubtitle: 'homepage.events.events-popup.subtitle',
-      popupConfirm: 'homepage.events.events-popup.confirm',
-      popupCancel: 'homepage.events.events-popup.cancel'
-    }
-  };
   routedFromProfile: boolean;
-  private _savedFormValues: EventForm;
 
   constructor(
-    private eventStore: EventStoreService,
-    public dialog: MatDialog,
-    router: Router,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    public localStorageService: LocalStorageService,
-    private actionsSubj: ActionsSubject,
-    private store: Store,
-    private snackBar: MatSnackBarComponent,
-    public dialogRef: MatDialogRef<DialogPopUpComponent>,
-    private eventsService: EventsService,
-    private languageService: LanguageService,
+    public readonly dialog: MatDialog,
+    public readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly fb: FormBuilder,
+    public readonly localStorageService: LocalStorageService,
+    private readonly actionsSubj: ActionsSubject,
+    private readonly store: Store,
+    private readonly snackBar: MatSnackBarComponent,
+    public readonly dialogRef: MatDialogRef<DialogPopUpComponent>,
+    private readonly eventsService: EventsService,
+    private readonly eventStoreService: EventStoreService,
     private readonly cdRef: ChangeDetectorRef
   ) {
     super(router, dialog);
@@ -93,7 +76,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.event = this.eventsService.getEvent();
+    this.event = this.eventStoreService.getEditorValues();
     if (!this.event) {
       const userId = this.localStorageService.getUserId();
       this.route.params.subscribe((params) => {
@@ -103,6 +86,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
           this.isFetching = true;
           this.isUpdating = true;
           this.submitButtonName = 'create-event.save-event';
+          this.eventStoreService.setEventId(Number(this.eventId));
           // this.eventsService.getEventById(this.eventId).subscribe({
           //   next: (response) => {
           //     this.eventForm = this._transformResponseToForm(response);
@@ -123,6 +107,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     }
 
     this.createFormEvent();
+
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.previousPath = this.localStorageService.getPreviousPage() || '/events';
     this.subscribeOnChangeDuration();
@@ -237,9 +222,16 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   onPreview(): void {
+    const currentRoute = this.router.url;
     this.cdRef.detectChanges();
-    this.eventsService.setIsFromCreateEvent(true);
-    this.eventsService.setEvent(this.eventForm.value);
+
+    if (currentRoute.includes('create-event')) {
+      this.eventsService.setIsFromCreateEvent(true);
+    } else {
+      this.eventsService.setIsFromCreateEvent(false);
+    }
+
+    this.eventStoreService.setEditorValues(this.eventForm.value);
     this.router.navigate(['events', 'preview']);
   }
 
@@ -260,9 +252,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
         const urlSegments = this.router.url.split('/');
         this.eventId = Number(urlSegments[urlSegments.length - 1]);
       }
-      const currentImages = (this._savedFormValues?.eventInformation?.images || [])
-        .filter((value) => !value.file)
-        .map((value) => value.url);
+      const currentImages = (images || []).filter((value) => !value.file).map((value) => value.url);
       sendEventDto = {
         ...sendEventDto,
         additionalImages: currentImages.slice(1),
@@ -282,6 +272,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       }
     });
 
+    // const formData = this.eventsService.prepareEventForSubmit(this.eventForm.value, this.eventId, this.isUpdating);
     this.createEvent(formData);
   }
 
@@ -352,7 +343,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
 
     this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess), take(1)).subscribe(() => {
       this.isPosting = false;
-      this.eventsService.setForm(null);
       this.escapeFromCreateEvent();
     });
   }

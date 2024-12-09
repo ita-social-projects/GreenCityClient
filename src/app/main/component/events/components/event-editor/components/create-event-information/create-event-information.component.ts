@@ -4,8 +4,8 @@ import { ContentChange } from 'ngx-quill';
 
 import { FormGroup } from '@angular/forms';
 import { quillConfig } from '../../quillEditorFunc';
-import { EVENT_LOCALE, EventLocaleKeys } from '../../../../models/event-consts';
-import { ImagesContainer } from '../../../../models/events.interface';
+import { EVENT_LOCALE, EventLocaleKeys } from 'src/app/main/component/events/models/event-consts';
+import { ImagesContainer } from 'src/app/main/component/events/models/events.interface';
 import { Router } from '@angular/router';
 
 @Component({
@@ -40,21 +40,16 @@ export class CreateEventInformationComponent implements OnInit {
   }
 
   quillContentChanged(content: ContentChange): void {
-    const quill = content.editor;
-    const range = quill.getSelection();
-
     this.quillLength = content.text.length - 1;
-    this.isQuillUnfilled = this.quillLength < 20;
+    this.isQuillUnfilled = this.quillLength < this.minLength;
+  }
 
-    const trimmedText = content.text.trimEnd();
-    const currentDescription = this.eventInfForm.get('description').value;
+  updateDescriptionOnBlur(): void {
+    const quillText = this.eventInfForm.get('description').value.trimEnd();
+    this.eventInfForm.get('description').patchValue(quillText, { emitEvent: true });
 
-    if (currentDescription !== trimmedText) {
-      setTimeout(() => {
-        this.eventInfForm.get('description').setValue(trimmedText, { emitEvent: false });
-        quill.setSelection(range.index, range.length);
-      }, 0);
-    }
+    this.quillLength = quillText.length - 1;
+    this.isQuillUnfilled = this.quillLength < this.minLength;
   }
 
   get quillLabel(): string {

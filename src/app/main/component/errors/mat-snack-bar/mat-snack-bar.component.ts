@@ -57,6 +57,8 @@ export class MatSnackBarComponent {
     addedAddress: { classname: SnackbarClassName.success, key: 'snack-bar.success.added-address' },
     updatedAddress: { classname: SnackbarClassName.success, key: 'snack-bar.success.updated-address' },
     deletedAddress: { classname: SnackbarClassName.success, key: 'snack-bar.success.deleted-address' },
+    errorCreateAddress: { classname: SnackbarClassName.error, key: 'snack-bar.error.error-create-address' },
+    errorEditAddress: { classname: SnackbarClassName.error, key: 'snack-bar.error.error-edit-address' },
     userUnauthorised: { classname: SnackbarClassName.error, key: 'snack-bar.error.unauthorised-user' },
     lessPoints: { classname: SnackbarClassName.error, key: 'snack-bar.error.not-enough-points' },
     CartValidation: { classname: SnackbarClassName.error, key: 'snack-bar.error.cartificate-not-valid' },
@@ -72,6 +74,12 @@ export class MatSnackBarComponent {
     addFriend: { classname: SnackbarClassName.success, key: 'snack-bar.success.add-friend' },
     friendValidation: { classname: SnackbarClassName.error, key: 'snack-bar.error.friend-request' },
     friendInValidRequest: { classname: SnackbarClassName.error, key: 'snack-bar.error.friend-already-added' },
+    friendRequestAccepted: { classname: SnackbarClassName.success, key: 'snack-bar.success.friend-added-success' },
+    friendRequestDeclined: { classname: SnackbarClassName.success, key: 'snack-bar.success.friend-declined-success' },
+    habitAcceptRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.habit-added-success' },
+    habitDeclineRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.habit-decline-success' },
+    habitAcceptInValidRequest: { classname: SnackbarClassName.error, key: 'snack-bar.error.habit-not-added' },
+    habitDeclineInValidRequest: { classname: SnackbarClassName.error, key: 'snack-bar.error.habit-already-added' },
     cancelRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.cancel-request' },
     jointEventRequest: { classname: SnackbarClassName.success, key: 'snack-bar.success.joint-event-request' },
     errorImageTypeSize: { classname: SnackbarClassName.error, key: 'user.photo-upload.error-img-type-and-size' },
@@ -91,25 +99,22 @@ export class MatSnackBarComponent {
     private translate: TranslateService
   ) {}
 
-  openSnackBar(type: string, additionalValue?: string) {
+  openSnackBar(type: string, additionalValue?: string, duration: number = 3000, customPositioning?: string) {
     const isInclude = type.includes('400') ? this.getSnackBarMessage('error') : this.getSnackBarMessage('errorMessage', type);
-    if (additionalValue) {
-      return this.snackType[type] ? this.getSnackBarMessage(type, additionalValue) : isInclude;
-    }
-    return this.snackType[type] ? this.getSnackBarMessage(type) : isInclude;
+    return this.snackType[type] ? this.getSnackBarMessage(type, additionalValue, duration, customPositioning) : isInclude;
   }
 
-  getSnackBarMessage(type: string, additionalValue?: string): void {
+  getSnackBarMessage(type: string, additionalValue?: string, duration: number = 3000, customPositioning?: string): void {
     const className = this.snackType[type].classname;
     const key = this.snackType[type].key || type;
     const addValue = additionalValue ? { orderId: additionalValue } : {};
     this.translate.get(key, addValue).subscribe((translation) => {
       this.message = translation;
       this.snackBar.open(this.message, 'close', {
-        duration: 3000,
+        duration,
         verticalPosition: 'top',
         horizontalPosition: 'center',
-        panelClass: [className]
+        panelClass: [className, customPositioning]
       });
     });
   }

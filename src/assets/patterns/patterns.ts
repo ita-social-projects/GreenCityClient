@@ -10,7 +10,7 @@ export const Patterns = {
 
   Base64Regex: /data:image\/([a-zA-Z]*);base64,([^"]*)/g,
 
-  socialMediaPattern: /^(?:https?:\/\/)?(?:www\.)?([^\/?]+)\.com/,
+  socialMediaPattern: /^(?:https?:\/\/)?(?:www\.)?([^\s/?]+)\.com(?:[/?][^\s]*)?$/,
 
   numericAndAlphabetic: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\-\\\/]*$/,
 
@@ -21,7 +21,7 @@ export const Patterns = {
 
   // prettier-ignore
   ubsMailPattern:
-    /^[\w.-]+@[a-zA-Z-]+(\.[a-zA-Z]{2,})+$/,
+    /^[a-zA-Z0-9.%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
   paymentAmountPattern: '^[0-9]+(.[0-9]{1,2})?$',
   certificateMonthCount: '^[0-9]{1,2}$',
   certificateInitialValue: '^[0-9]{1,4}$',

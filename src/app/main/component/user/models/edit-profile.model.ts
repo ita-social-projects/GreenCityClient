@@ -6,7 +6,7 @@ export class EditProfileModel {
   rating: number | null;
   showEcoPlace: boolean;
   showLocation: boolean;
-  showShoppingList: boolean;
+  showToDoList: boolean;
   socialNetworks: Array<{ id: number; url: string }>;
   notificationPreferences: NotificationPreference[];
 }
@@ -17,7 +17,7 @@ export class EditProfileDto {
   userCredo: string;
   showEcoPlace: boolean;
   showLocation: boolean;
-  showShoppingList: boolean;
+  showToDoList: boolean;
   socialNetworks: Array<string>;
   emailPreferences: NotificationPreference[];
 }
@@ -35,8 +35,8 @@ export class UserLocationDto {
 }
 
 export class Coordinates {
-  latitude: number | null;
-  longitude: number | null;
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 export interface NotificationPreference {
