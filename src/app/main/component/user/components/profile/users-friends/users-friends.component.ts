@@ -30,11 +30,11 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
   @ViewChild('previousArrow', { static: false }) previousArrow: ElementRef;
 
   constructor(
-    private userFriendsService: UserFriendsService,
-    private localStorageService: LocalStorageService,
-    private router: Router,
-    private renderer: Renderer2,
-    private userOnlineStatusService: UserOnlineStatusService
+    private readonly userFriendsService: UserFriendsService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly router: Router,
+    private readonly renderer: Renderer2,
+    private readonly userOnlineStatusService: UserOnlineStatusService
   ) {}
 
   ngOnInit() {
