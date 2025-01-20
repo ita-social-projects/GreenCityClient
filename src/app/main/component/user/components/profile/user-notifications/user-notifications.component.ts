@@ -61,6 +61,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLang = lang;
       this.translate.use(lang);
+      this.reloadNotifications();
     });
     this.filterChangeSubs$.pipe(debounceTime(300), takeUntil(this.destroy$)).subscribe(() => {
       this.notifications = [];
@@ -151,8 +152,12 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     }
   }
 
+  private buildDefaultParamsWithPage(page: number): HttpParams {
+    return new HttpParams().set('lang', this.currentLang).set('page', page.toString()).set('size', this.itemsPerPage.toString());
+  }
+
   private fetchUBSNotifications(page: number): void {
-    const params = new HttpParams().set('lang', 'en').set('page', page.toString()).set('size', this.itemsPerPage.toString());
+    const params = this.buildDefaultParamsWithPage(page);
     this.userNotificationService
       .getUBSNotification(params)
       .pipe(take(1))
@@ -164,19 +169,15 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   }
 
   private fetchAllNotifications(page: number, filters: any): void {
-    let params = new HttpParams().set('page', page.toString()).set('size', this.itemsPerPage.toString());
+    let params = this.buildDefaultParamsWithPage(page);
 
-    if (filters && filters.projectName) {
-      filters.projectName.forEach((project: string) => {
-        params = params.append('project-name', project);
-      });
-    }
+    filters?.projectName?.forEach((project: string) => {
+      params = params.append('project-name', project);
+    });
 
-    if (filters && filters.notificationType) {
-      filters.notificationType.forEach((type: string) => {
-        params = params.append('notification-types', type);
-      });
-    }
+    filters?.notificationType?.forEach((type: string) => {
+      params = params.append('notification-types', type);
+    });
 
     this.userNotificationService
       .getAllNotifications(params)
@@ -376,6 +377,14 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
 
   getFormattedNotificationTime(notification: NotificationModel): string {
     return formatNotificationDate(notification.time, this.translate);
+  }
+
+  private reloadNotifications(): void {
+    this.notifications = [];
+    this.currentPage = 0;
+    this.hasNextPage = false;
+    this.isLoading = true;
+    this.getNotification(this.currentPage);
   }
 
   ngOnDestroy() {
