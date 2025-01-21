@@ -19,10 +19,13 @@
 
   <!-- city field snippet -->
   <div class="col-md-6 col-sm-6 form-group">
-    <label for="city">City</label>
+    <label for="city">{{ 'personal-info.pop-up-city' | translate }}</label>
     <app-input-google-autocomplete
       formControlName="city"
       (blur)="city.markAsTouched()"
+      [requestPrefix]="getCityPrefix()"
+      [autoCompRequest]="autocompleteCityRequest"
+      (predictionSelected)="onCitySelected($event)"
       [isInvalid]="city.invalid && (city.touched || city.dirty)"
       ngDefaultControl
     ></app-input-google-autocomplete>
