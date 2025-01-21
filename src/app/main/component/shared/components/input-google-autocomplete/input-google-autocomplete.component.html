@@ -5,6 +5,7 @@
   [placeholder]="placeholder"
   [formControl]="inputValue"
   (change)="onUserChange()"
+  (blur)="onBlur()"
   [matAutocomplete]="autoPrediction"
 />
 <mat-autocomplete #autoPrediction="matAutocomplete">

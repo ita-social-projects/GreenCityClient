@@ -154,6 +154,9 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
     this.destroy$.next();
     this.destroy$.complete();
   }
+  onBlur() {
+    this.markAsTouched();
+  }
 
   private filterDuplicates(predictions: GooglePrediction[]): GooglePrediction[] {
     return predictions

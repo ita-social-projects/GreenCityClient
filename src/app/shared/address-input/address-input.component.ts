@@ -442,7 +442,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.$destroy.next();
     this.$destroy.complete();
   }
-
   private onRegionValueSet(value: string): void {
     if (value) {
       this.region.patchValue(value);
