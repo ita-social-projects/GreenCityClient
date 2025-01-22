@@ -6,6 +6,7 @@
     "name-wrong": "Only letters, numbers and hyphen, space, apostrophe are allowed",
     "city-wrong": "Only letters, numbers and hyphen, space, apostrophe, dot, comma are allowed",
     "letters-and-numeric-only": "Only letters and numbers are allowed",
+    "numeric-only": "Only numbers are allowed",
     "max-length-street": "The field should contain 1-120 characters",
     "max-length-house": "The field should contain 1-10 characters",
     "max-length-house-corpus": "The field should contain 1-4 characters",
