@@ -4,6 +4,7 @@
   [class.ng-valid]="!isInvalid"
   [placeholder]="placeholder"
   [formControl]="inputValue"
+  (blur)="markAsTouched()"
   (change)="onUserChange()"
   [matAutocomplete]="autoPrediction"
 />
