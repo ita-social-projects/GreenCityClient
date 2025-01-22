@@ -107,6 +107,11 @@
         color: var(--primary-white);
         background-color: var(--primary-green);
       }
+
+      .missed-day {
+        border: 1px solid gray;
+        opacity: 0.6;
+      }
     }
   }
 }
