@@ -38,7 +38,8 @@ export class JwtService {
     if (accessToken != null) {
       const payload = accessToken.split('.')[1];
       const decodedPayload = window.atob(payload);
-      return JSON.parse(decodedPayload)?.role ? JSON.parse(decodedPayload)?.role[0] : null;
+      const payload = JSON.parse(decodedPayload);
+      return Array.isArray(payload?.role) && payload.role.length > 0 ? payload.role[0] : null;
     } else {
       return null;
     }
