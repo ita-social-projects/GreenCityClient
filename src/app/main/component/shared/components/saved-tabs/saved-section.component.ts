@@ -20,12 +20,12 @@ export class SavedSectionComponent implements OnInit, OnDestroy {
   currentTab = this.defaultTab;
   isSavedVisible = false;
 
-  private isBookmark$ = new BehaviorSubject<boolean>(false);
+  private readonly isBookmark$ = new BehaviorSubject<boolean>(false);
   private destroy$ = new Subject<void>();
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
