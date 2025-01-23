@@ -74,7 +74,7 @@ describe('CalendarWeekComponent', () => {
   it('should mark dates with grey border if habits are not done 8 days before', () => {
     const weekDates: CalendarWeekInterface[] = [
       {
-        date: new Date(2023, 9, 24), // 24 жовтня 2023 року
+        date: new Date(2023, 9, 24),
         dayName: 'Tuesday',
         isCurrent: false,
         isMissed: false,
@@ -85,7 +85,7 @@ describe('CalendarWeekComponent', () => {
         year: 2023
       },
       {
-        date: new Date(2023, 9, 25), // 25 жовтня 2023 року
+        date: new Date(2023, 9, 25),
         dayName: 'Wednesday',
         isCurrent: false,
         isMissed: false,
@@ -96,7 +96,7 @@ describe('CalendarWeekComponent', () => {
         year: 2023
       },
       {
-        date: new Date(2023, 9, 26), // 26 жовтня 2023 року
+        date: new Date(2023, 9, 26),
         dayName: 'Thursday',
         isCurrent: false,
         isMissed: false,
@@ -107,10 +107,10 @@ describe('CalendarWeekComponent', () => {
         year: 2023
       },
       {
-        date: new Date(2023, 10, 1), // 1 листопада 2023 року (8-й день)
+        date: new Date(2023, 10, 1),
         dayName: 'Wednesday',
         isCurrent: false,
-        isMissed: false,
+        isMissed: true,
         hasHabitsInProgress: false,
         areHabitsDone: false,
         numberOfDate: 1,
@@ -119,8 +119,6 @@ describe('CalendarWeekComponent', () => {
       }
     ];
 
-    component.weekDates = weekDates;
-
     spyOn(component, 'buildWeekCalendar').and.callFake((date: Date) => {
       component.weekDates = [...weekDates];
     });
@@ -128,8 +126,9 @@ describe('CalendarWeekComponent', () => {
     const startDate = new Date(2023, 9, 24);
     component.buildWeekCalendar(startDate);
 
-    // Очікування
     const eighthDay = component.weekDates.find((entry) => entry.date.getDate() === 1);
+
+    expect(component.weekDates.length).toEqual(4);
     expect(eighthDay).toBeDefined();
     expect(eighthDay?.areHabitsDone).toBeFalse();
     expect(eighthDay?.hasHabitsInProgress).toBeFalse();

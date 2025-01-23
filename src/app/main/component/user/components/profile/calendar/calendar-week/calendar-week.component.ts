@@ -70,6 +70,11 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     }
   }
 
+  private isCurrentDate(date: Date): boolean {
+    const today = new Date();
+    return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+  }
+
   private checkIfMissedDay(date: Date): boolean {
     const currentDate = new Date();
     const eightDaysAgo = new Date(currentDate);
@@ -79,34 +84,39 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   }
 
   getHabitForDate(date: Date): HabitAssignInterface | undefined {
-    const dateString = date.toISOString().split('T')[0]; // Формат дати "YYYY-MM-DD"
+    const dateString = date.toISOString().split('T')[0];
 
     if (!this.habitAssignService.habitsFromDashBoard) {
-      console.error('habitsFromDashBoard не ініціалізовано');
       return undefined;
     }
-
-    // Пошук звички за датою
     const habitForDate = this.habitAssignService.habitsFromDashBoard.find((habit) => {
       const enrollDateString = new Date(habit.enrollDate).toISOString().split('T')[0];
       return enrollDateString === dateString;
     });
 
-    // Якщо знайдена звичка не відповідає типу HabitAssignInterface, повертаємо undefined
     if (!habitForDate) {
       return undefined;
     }
-
-    // Перевіряємо, чи всі необхідні властивості присутні
-    const isValidHabit = 'id' in habitForDate && 'status' in habitForDate && 'createDateTime' in habitForDate && 'habit' in habitForDate;
+    const isValidHabit = this.isHabitAssignInterface(habitForDate);
 
     if (!isValidHabit) {
-      console.error("Знайдений об'єкт не відповідає типу HabitAssignInterface");
       return undefined;
     }
-
-    // Повертаємо знайдену звичку, приведену до потрібного типу
     return habitForDate as HabitAssignInterface;
+  }
+
+  private isHabitAssignInterface(obj: any): obj is HabitAssignInterface {
+    return (
+      obj &&
+      typeof obj.id === 'number' &&
+      typeof obj.status === 'string' &&
+      typeof obj.createDateTime === 'string' &&
+      typeof obj.habit === 'object' &&
+      typeof obj.userId === 'number' &&
+      typeof obj.duration === 'number' &&
+      Array.isArray(obj.workingDays) &&
+      typeof obj.habitStreak === 'number'
+    );
   }
 
   checkIfHabitDone(date: Date): boolean {
