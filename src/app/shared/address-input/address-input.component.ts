@@ -336,7 +336,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.city.patchValue(city?.structured_formatting.main_text ?? '');
       this.addressData.setCity(city.place_id);
     }
-
+    this.addressForm.get('region').disable();
     this.updateDistrictEditState();
     this.resetStreet();
     this.resetDistricts();
