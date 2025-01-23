@@ -166,6 +166,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  navigateToSaved(): void {
+    this.router.navigate(['/news'], {
+      queryParams: { isBookmark: true }
+    });
+  }
+
   getHeaderClass(): string {
     if (this.isUBS) {
       return this.isAdmin ? 'header-for-admin' : 'header_navigation-menu-ubs';

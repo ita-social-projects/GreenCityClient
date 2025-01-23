@@ -14,6 +14,11 @@ import { CreatePlaceModel, OpeningHoursDto } from './models/create-place.model';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { tagsListPlacesData } from './models/places-consts';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { ActivatedRoute } from '@angular/router';
+
+const activatedRouteMock = {
+  queryParams: of({ section: 'places' })
+};
 
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
@@ -48,6 +53,7 @@ describe('PlacesComponent', () => {
   const filterPlaceServiceMock: FilterPlaceService = jasmine.createSpyObj('FilterPlaceService', ['updateFiltersDto']);
   filterPlaceServiceMock.filtersDto$ = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
   filterPlaceServiceMock.isFavoriteFilter$ = new BehaviorSubject<boolean>(true);
+  localStorageServiceMock.languageSubject.unsubscribe = jasmine.createSpy();
 
   const favoritePlaceServiceMock: FavoritePlaceService = jasmine.createSpyObj('FavoritePlaceService', [
     'updateFavoritePlaces',
@@ -142,7 +148,8 @@ describe('PlacesComponent', () => {
         {
           provide: MatDialog,
           useValue: matDialogFake
-        }
+        },
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

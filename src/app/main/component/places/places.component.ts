@@ -19,6 +19,8 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from './models/places-consts';
 import { GoogleScript } from '@assets/google-script/google-script';
+import { ActivatedRoute } from '@angular/router';
+import { initializeSavedState } from '@shared/components/saved-tabs/saved-section-const';
 
 @Component({
   selector: 'app-places',
@@ -38,6 +40,8 @@ export class PlacesComponent implements OnInit, OnDestroy {
   mapBoundsDto: MapBoundsDto;
   places: Place[] = [];
   isRenderingMap: boolean;
+  isSavedVisible = false;
+  currentTab = 'places';
 
   readonly redIconUrl: string = redIcon;
   readonly greenIconUrl: string = greenIcon;
@@ -61,14 +65,15 @@ export class PlacesComponent implements OnInit, OnDestroy {
   userId: number;
 
   constructor(
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService,
-    private placeService: PlaceService,
-    private filterPlaceService: FilterPlaceService,
-    private favoritePlaceService: FavoritePlaceService,
-    private googleScript: GoogleScript,
-    private dialog: MatDialog,
-    private userOwnAuthService: UserOwnAuthService
+    private readonly localStorageService: LocalStorageService,
+    private readonly translate: TranslateService,
+    private readonly placeService: PlaceService,
+    private readonly filterPlaceService: FilterPlaceService,
+    private readonly favoritePlaceService: FavoritePlaceService,
+    private readonly googleScript: GoogleScript,
+    private readonly dialog: MatDialog,
+    private readonly userOwnAuthService: UserOwnAuthService,
+    private readonly route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -110,6 +115,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
     if (!!this.userId) {
       this.favoritePlaceService.updateFavoritePlaces(false);
     }
+
+    initializeSavedState(this.route, (isBookmark, section) => {
+      this.isSavedVisible = isBookmark;
+      this.currentTab = section;
+    });
 
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.subscribeToLangChange();

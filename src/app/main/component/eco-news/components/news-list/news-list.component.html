@@ -1,7 +1,8 @@
 <main role="main" id="main-content" aria-label="news list">
   <div class="container">
+    <app-saved-section *ngIf="isSavedVisible"></app-saved-section>
     <div (window:resize)="onResize()">
-      <div class="cont">
+      <div *ngIf="!isSavedVisible" class="cont">
         <h1 class="main-header">{{ 'homepage.eco-news.title' | translate }}</h1>
         <div class="create-container">
           <div class="container-input" *ngIf="isSearchVisible">
@@ -39,6 +40,21 @@
           [storageKey]="'EcoNews-filter'"
           [tagsListData]="tagList"
         ></app-tag-filter>
+        <div *ngIf="isSavedVisible">
+          <div class="container-input" *ngIf="isSearchVisible">
+            <input type="text" *ngIf="isSearchVisible" class="place-input" [formControl]="searchNewsControl" placeholder="Search" />
+            <img
+              src="assets/img/smallCross.svg"
+              class="cross-position"
+              (click)="cancelSearch()"
+              (keydown.enter)="cancelSearch()"
+              alt="cancel search"
+            />
+          </div>
+          <div class="container-img" (click)="toggleSearch()" (keydown.enter)="toggleSearch()" *ngIf="!isSearchVisible">
+            <span class="search-img" [ngClass]="{ 'search-img-active': isSearchVisible }"></span>
+          </div>
+        </div>
       </div>
       <hr />
     </div>

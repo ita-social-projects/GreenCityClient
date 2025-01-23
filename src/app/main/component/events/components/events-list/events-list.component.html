@@ -1,6 +1,7 @@
 <div class="container">
+  <app-saved-section *ngIf="isSavedVisible"></app-saved-section>
   <div class="wrapper">
-    <div class="event-header">
+    <div *ngIf="!isSavedVisible" class="event-header">
       <div class="top-header">
         <p class="main-header">{{ 'homepage.events.title' | translate }}</p>
         <div class="create-container">
@@ -93,6 +94,15 @@
           <button class="reset" [disabled]="selectedFilters.length === 0" (click)="resetAllFilters()">
             {{ 'homepage.events.filter-reset-all' | translate }}
           </button>
+        </div>
+      </div>
+      <div class="right-search" *ngIf="isSavedVisible">
+        <div class="container-input" *ngIf="searchToggle">
+          <input type="text" *ngIf="searchToggle" class="place-input" [formControl]="searchEventControl" placeholder="Search" />
+          <img src="assets/img/smallCross.svg" class="cross-position" (click)="cancelSearch()" alt="cancel search" />
+        </div>
+        <div class="container-img" (click)="search()" *ngIf="!searchToggle">
+          <span class="search-img" [ngClass]="{ 'search-img-active': searchToggle }"></span>
         </div>
       </div>
     </div>

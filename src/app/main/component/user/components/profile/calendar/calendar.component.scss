@@ -40,7 +40,7 @@
 
     .days {
       display: grid;
-      grid-template-columns: repeat(7, 36px);
+      grid-template-columns: repeat(7, minmax(30px, 1fr));
       justify-content: center;
       text-align: center;
       font-size: 11px;
