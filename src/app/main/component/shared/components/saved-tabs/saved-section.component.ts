@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-saved-section',
   templateUrl: './saved-section.component.html',
   styleUrls: ['./saved-section.component.scss']
 })
-export class SavedSectionComponent implements OnInit {
+export class SavedSectionComponent implements OnInit, OnDestroy {
   @Input() tabs = [
     { key: 'news', label: 'homepage.saved.eco-news' },
     { key: 'events', label: 'homepage.saved.events' },
@@ -20,6 +21,7 @@ export class SavedSectionComponent implements OnInit {
   isSavedVisible = false;
 
   private isBookmark$ = new BehaviorSubject<boolean>(false);
+  private destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
@@ -27,11 +29,16 @@ export class SavedSectionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.isBookmark$.next(params['isBookmark'] === 'true');
       this.currentTab = params['section'] || this.defaultTab;
       this.isSavedVisible = this.isBookmark$.value;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   navigateToSaved(section: string): void {
