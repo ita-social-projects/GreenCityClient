@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 .homepage {
   margin: 0 auto;
   max-width: 1920px;
@@ -9,29 +11,46 @@
   width: 292px;
 }
 
-#path-2 {
-  height: auto;
-  max-width: 100%;
-  position: absolute;
-  top: 70px;
-  right: 0;
-  z-index: -2;
-}
-
+#path-2,
 #path-4 {
   height: auto;
   max-width: 100%;
   position: absolute;
-  top: 1286px;
   z-index: -2;
+
+  @include responsiveMobileFirst(lg) {
+    top: 70px; 
+  }
+
+  @include responsiveMobileFirst(3xl) {
+    top: 100px; 
+  }
+
+}
+
+#path-4 {
+  @include responsiveMobileFirst(lg) {
+    top: 800px; 
+  }
+
+  @include responsiveMobileFirst(3xl) {
+    top: 1286px; 
+  }
 }
 
 #path-5 {
   height: auto;
   position: absolute;
-  top: 2090px;
   width: 80px;
   z-index: -1;
+
+  @include responsiveMobileFirst(lg) {
+    top: 1500px;
+  }
+
+  @include responsiveMobileFirst(3xl) {
+    top: 2090px; 
+  }
 }
 
 /* HEADER */
