@@ -63,9 +63,10 @@ xdescribe('UserNotificationService', () => {
     service.getThreeNewNotification('en').subscribe((res) => {
       expect(res.page.length).toBe(1);
     });
-    const req = httpMock.expectOne(`${service.url}notification/new`);
+
+    const req = httpMock.expectOne(`${service.url}notifications?lang=en&page=0&size=3&viewed=false`);
     expect(req.request.method).toBe('GET');
-    req.flush(notifications);
+    req.flush({ page: notifications });
   });
 
   it('should readNotification', () => {
