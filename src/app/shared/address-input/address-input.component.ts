@@ -268,7 +268,10 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       city: [this.addressData.getCity() ?? '', Validators.required],
       street: [this.addressData.getStreet() ?? '', Validators.required],
       district: [this.addressData.getDistrict() ?? '', Validators.required],
-      houseNumber: [this.address?.houseNumber ?? '', [Validators.required, Validators.pattern(this.buildingPattern)]],
+      houseNumber: [
+        this.address?.houseNumber ?? '',
+        [Validators.required, Validators.maxLength(5), Validators.pattern(this.buildingPattern)]
+      ],
       houseCorpus: [this.address?.houseCorpus ?? '', emptyOrValid([Validators.maxLength(4), Validators.pattern(this.buildingPattern)])],
       entranceNumber: [
         this.address?.entranceNumber ?? '',
@@ -386,6 +389,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   onHouseNumberChange(): void {
     this.addressData.setHouseNumber(this.houseNumber.value);
+    console.log(this.houseNumber.errors);
     this.OnChangeAndTouched();
 
     if (!this.district.value) {
