@@ -4,6 +4,7 @@ import { UserNotificationService } from '@global-user/services/user-notification
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NotificationArrayModel, NotificationModel } from '@user-models/notification.model';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-user-notifications-pop-up',
@@ -14,13 +15,20 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   notifications: NotificationModel[] = [];
   isLoading = true;
+  currentLang: string;
 
   constructor(
-    public dialogRef: MatDialogRef<UserNotificationsPopUpComponent>,
-    private userNotificationService: UserNotificationService
+    public readonly dialogRef: MatDialogRef<UserNotificationsPopUpComponent>,
+    private readonly userNotificationService: UserNotificationService,
+    private readonly localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.onDestroy$)).subscribe((lang) => {
+      this.currentLang = lang;
+      this.fetchNotifications();
+    });
+
     this.dialogRef
       .keydownEvents()
       .pipe(takeUntil(this.onDestroy$))
@@ -29,9 +37,11 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
           this.closeDialog({ openAll: false });
         }
       });
+  }
 
+  private fetchNotifications(): void {
     this.userNotificationService
-      .getThreeNewNotification()
+      .getThreeNewNotification(this.currentLang)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: NotificationArrayModel) => {
         this.notifications = data.page;

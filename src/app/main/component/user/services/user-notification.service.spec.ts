@@ -60,7 +60,7 @@ xdescribe('UserNotificationService', () => {
   });
 
   it('should return getThreeNewNotification', () => {
-    service.getThreeNewNotification().subscribe((res) => {
+    service.getThreeNewNotification('en').subscribe((res) => {
       expect(res.page.length).toBe(1);
     });
     const req = httpMock.expectOne(`${service.url}notification/new`);
