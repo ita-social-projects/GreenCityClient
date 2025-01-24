@@ -41,15 +41,9 @@
           [tagsListData]="tagList"
         ></app-tag-filter>
         <div *ngIf="isSavedVisible">
-          <div class="container-input" *ngIf="isSearchVisible">
-            <input type="text" *ngIf="isSearchVisible" class="place-input" [formControl]="searchNewsControl" placeholder="Search" />
-            <img
-              src="assets/img/smallCross.svg"
-              class="cross-position"
-              (click)="cancelSearch()"
-              (keydown.enter)="cancelSearch()"
-              alt="cancel search"
-            />
+          <div class="container-input" [hidden]="!isSearchVisible">
+            <input type="text" [hidden]="!isSearchVisible" class="place-input" [formControl]="searchNewsControl" placeholder="Search" />
+            <img [src]="iconPath" class="cross-position" (click)="cancelSearch()" (keydown.enter)="cancelSearch()" alt="cancel search" />
           </div>
           <div class="container-img" (click)="toggleSearch()" (keydown.enter)="toggleSearch()" *ngIf="!isSearchVisible">
             <span class="search-img" [ngClass]="{ 'search-img-active': isSearchVisible }"></span>

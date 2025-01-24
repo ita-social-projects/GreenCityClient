@@ -38,7 +38,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   newsTotal: number;
   elementsArePresent = true;
   tagList: FilterModel[] = tagsListEcoNewsData;
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private readonly destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   bookmarkSelected = false;
   hasNext = true;
   loading = false;
@@ -50,6 +50,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   searchQuery = '';
   isSavedVisible = false;
   currentTab = 'news';
+  iconPath: string = 'assets/img/smallCross.svg';
 
   private dialogRef: MatDialogRef<unknown>;
 

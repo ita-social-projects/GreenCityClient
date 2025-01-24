@@ -58,10 +58,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
   isSavedVisible = false;
   currentTab = 'events';
 
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  private ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
+  private readonly destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private readonly ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   private page = 0;
-  private eventsPerPage = 6;
+  private readonly eventsPerPage = 6;
   private searchResultSubscription: Subscription;
   private searchQuery: string;
   private readonly dialogRef: MatDialogRef<unknown>;

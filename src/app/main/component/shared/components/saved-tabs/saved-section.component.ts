@@ -21,7 +21,7 @@ export class SavedSectionComponent implements OnInit, OnDestroy {
   isSavedVisible = false;
 
   private readonly isBookmark$ = new BehaviorSubject<boolean>(false);
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
     private readonly router: Router,
