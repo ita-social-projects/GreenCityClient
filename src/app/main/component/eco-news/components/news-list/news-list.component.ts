@@ -50,7 +50,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   searchQuery = '';
   isSavedVisible = false;
   currentTab = 'news';
-  iconPath: string = 'assets/img/smallCross.svg';
+  iconPath = 'assets/img/smallCross.svg';
 
   private dialogRef: MatDialogRef<unknown>;
 
