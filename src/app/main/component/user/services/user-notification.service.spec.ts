@@ -60,7 +60,9 @@ xdescribe('UserNotificationService', () => {
   });
 
   it('should return getThreeNewNotification', () => {
-    service.getThreeNewNotification('en').subscribe((res) => {
+    const params = new HttpParams().set('lang', 'en').set('page', '0').set('size', '3').set('viewed', 'false');
+
+    service.getThreeNewNotification(params).subscribe((res) => {
       expect(res.page.length).toBe(1);
     });
 

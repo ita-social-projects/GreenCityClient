@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NotificationArrayModel, NotificationModel } from '@user-models/notification.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-notifications-pop-up',
@@ -40,8 +41,10 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
   }
 
   private fetchNotifications(): void {
+    const params = new HttpParams().set('lang', this.currentLang).set('page', '0').set('size', '3').set('viewed', 'false');
+
     this.userNotificationService
-      .getThreeNewNotification(this.currentLang)
+      .getThreeNewNotification(params)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((data: NotificationArrayModel) => {
         this.notifications = data.page;
