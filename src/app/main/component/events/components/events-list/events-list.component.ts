@@ -121,7 +121,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.page++;
   }
 
-  search(): void {
+  toggleSearch(): void {
     this.searchToggle = !this.searchToggle;
   }
 

@@ -63,7 +63,13 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.initializeComponent();
+    this.handleStateChanges();
+    this.handleSearchInput();
+  }
+
+  private initializeComponent(): void {
     this.onResize();
     this.setDefaultNumberOfNews(12);
     this.checkUserSingIn();
@@ -77,9 +83,12 @@ export class NewsListComponent implements OnInit, OnDestroy {
       this.currentTab = section;
       this.bookmarkSelected = isBookmark;
     });
+  }
 
+  private handleStateChanges(): void {
     this.econews$.subscribe((value: IEcoNewsState) => {
       this.page = value.pageNumber;
+
       if (value.ecoNews) {
         this.elements = [...value.pages];
         const data = value.ecoNews;
@@ -90,7 +99,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
       }
       this.loading = false;
     });
+  }
 
+  private handleSearchInput(): void {
     this.searchNewsControl.valueChanges.subscribe((value) => {
       this.searchQuery = value.trim();
       this.dispatchStore(true);

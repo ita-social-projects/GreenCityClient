@@ -9,7 +9,7 @@
             <input type="text" *ngIf="searchToggle" class="place-input" [formControl]="searchEventControl" placeholder="Search" />
             <img src="assets/img/smallCross.svg" class="cross-position" (click)="cancelSearch()" alt="cancel search" />
           </div>
-          <div class="container-img" (click)="search()" *ngIf="!searchToggle">
+          <div class="container-img" (click)="toggleSearch()" *ngIf="!searchToggle">
             <span class="search-img" [ngClass]="{ 'search-img-active': searchToggle }"></span>
           </div>
           <div class="container-img" (click)="showSelectedEvents()">
@@ -101,7 +101,7 @@
           <input type="text" *ngIf="searchToggle" class="place-input" [formControl]="searchEventControl" placeholder="Search" />
           <img src="assets/img/smallCross.svg" class="cross-position" (click)="cancelSearch()" alt="cancel search" />
         </div>
-        <div class="container-img" (click)="search()" *ngIf="!searchToggle">
+        <div class="container-img" (click)="toggleSearch()" *ngIf="!searchToggle">
           <span class="search-img" [ngClass]="{ 'search-img-active': searchToggle }"></span>
         </div>
       </div>
