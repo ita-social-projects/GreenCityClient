@@ -18,8 +18,8 @@ export class UserNotificationService {
     return this.http.get<NotificationArrayModel>(`${this.url}notifications`, { params });
   }
 
-  getThreeNewNotification(): Observable<NotificationArrayModel> {
-    return this.http.get<NotificationArrayModel>(`${this.url}notifications?page=0&size=3&viewed=false`);
+  getThreeNewNotification(params: HttpParams): Observable<NotificationArrayModel> {
+    return this.http.get<NotificationArrayModel>(`${this.url}notifications`, { params });
   }
 
   readNotification(id: number, isPickUp: boolean): Observable<void> {

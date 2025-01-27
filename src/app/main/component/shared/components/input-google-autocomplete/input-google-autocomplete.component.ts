@@ -110,24 +110,41 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
     const sessionToken = new google.maps.places.AutocompleteSessionToken();
 
     this.inputValue.valueChanges.pipe(takeUntil(this.destroy$), debounceTime(400)).subscribe((input: string) => {
-      if (input) {
-        const regex = new RegExp(Patterns.countriesRestriction);
-        const request = {
-          ...this.autoCompRequest,
-          input: `${this.requestPrefix ?? ''}${input}${this.requestSuffix ?? ''}`,
-          language: this.languageService.getLangValue('uk', 'en'),
-          sessionToken
-        };
-
-        this.autocompleteService.getPlacePredictions(request, (predictions: google.maps.places.AutocompletePrediction[]) => {
-          predictions = predictions?.filter((prediction) => !regex.test(prediction.description));
-
-          this.predictionList = this.languageService.getCurrentLanguage() === 'en' ? predictions : this.filterDuplicates(predictions);
-        });
-      } else {
+      if (!input) {
         this.predictionList = [];
+        return;
       }
+
+      const request = {
+        ...this.autoCompRequest,
+        input: `${this.requestPrefix ?? ''}${input}${this.requestSuffix ?? ''}`,
+        language: this.languageService.getLangValue('uk', 'en'),
+        sessionToken
+      };
+
+      this.autocompleteService.getPlacePredictions(request, (predictions: google.maps.places.AutocompletePrediction[]) => {
+        this.handlePredictions(predictions);
+      });
     });
+  }
+
+  private handlePredictions(predictions: google.maps.places.AutocompletePrediction[] | null): void {
+    if (!predictions) {
+      this.predictionList = [];
+      return;
+    }
+
+    const regex = new RegExp(Patterns.countriesRestriction);
+
+    const filteredPredictions = predictions.filter((prediction) => {
+      const description = prediction.description || '';
+      const isValidText = Patterns.ukrainianText.test(description) || Patterns.englishText.test(description);
+
+      return isValidText && !regex.test(description);
+    });
+
+    this.predictionList =
+      this.languageService.getCurrentLanguage() === 'en' ? filteredPredictions : this.filterDuplicates(filteredPredictions);
   }
 
   onPredictionSelected(prediction: GooglePrediction): void {
