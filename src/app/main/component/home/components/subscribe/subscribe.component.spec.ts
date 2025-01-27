@@ -4,6 +4,7 @@ import { SubscriptionService } from '@global-service/subscription/subscription.s
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { BehaviorSubject } from 'rxjs';
 
 describe('SubscribeComponent', () => {
   let component: SubscribeComponent;

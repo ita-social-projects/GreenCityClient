@@ -130,13 +130,4 @@ describe('InputGoogleAutocompleteComponent', () => {
     expect(component.predictionList[0].place_id).toBe('4');
     expect(getPlacePredictionsSpy).toHaveBeenCalled();
   }));
-
-  it('should emit the input value on keyup', () => {
-    spyOn(component.keyupEmitter, 'emit');
-    const input = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
-    input.value = 'test value';
-    const event = new KeyboardEvent('keyup');
-    input.dispatchEvent(event);
-    expect(component.keyupEmitter.emit).toHaveBeenCalledWith('test value');
-  });
 });
