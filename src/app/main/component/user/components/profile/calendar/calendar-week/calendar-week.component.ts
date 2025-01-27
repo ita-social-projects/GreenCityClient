@@ -78,7 +78,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   private checkIfMissedDay(date: Date): boolean {
     const currentDate = new Date();
     const eightDaysAgo = new Date(currentDate);
-    eightDaysAgo.setDate(currentDate.getDate() - 8);
+    eightDaysAgo.setDate(currentDate.getDate() - 4);
 
     return date < eightDaysAgo;
   }
