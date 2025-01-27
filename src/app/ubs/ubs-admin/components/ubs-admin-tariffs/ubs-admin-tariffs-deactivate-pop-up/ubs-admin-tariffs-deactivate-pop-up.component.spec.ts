@@ -1103,7 +1103,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('should call method for filter tariff cards by courier when courier field is filled ', () => {
-    component.tariffCards = [];
+    component.tariffCards = fakeTariffCards;
     component.courier.setValue('фейкКурєр1');
     component.selectedCourier = {
       id: 1,
@@ -1113,7 +1113,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.selectedStations = [];
     component.selectedRegions = [];
     component.selectedCities = [];
-    expect(fakeCard).toEqual(fakeFilteredTariffCards);
+    component.filterTariffCardsByCourier(component.tariffCards);
+    expect(component.tariffCards).toEqual(fakeFilteredTariffCards);
   });
 
   it('should call method for filter tariff cards by stations when station field is filled ', () => {

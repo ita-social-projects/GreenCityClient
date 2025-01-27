@@ -209,6 +209,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
 
   it('should open edit dialog', () => {
     const mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') };
+    matDialogMock.open.and.returnValue(dialogRefStub);
     component.openEditDialog(fakeEmployees[0], mockEvent as any);
     expect(mockEvent.stopPropagation).toHaveBeenCalled();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminEmployeeEditFormComponent, {

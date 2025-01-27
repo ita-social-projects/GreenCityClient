@@ -1,6 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { UbsMainPageComponent } from './ubs-main-page.component';
 import { MatDialog } from '@angular/material/dialog';
 import { of, throwError } from 'rxjs';
@@ -161,13 +161,13 @@ describe('UbsMainPageComponent', () => {
       expect(orderServiceMock.getAllActiveCouriers).toHaveBeenCalled();
     });
 
-    it('should set activeCouriers when getAllActiveCouriers returns data', () => {
+    it('should set activeCouriers when getAllActiveCouriers returns data', fakeAsync(() => {
       const mockCouriers = activecouriersMock;
       orderServiceMock.getAllActiveCouriers.and.returnValue(of(mockCouriers));
-      component.getActiveCouriers().subscribe(() => {
-        expect(component.activeCouriers).toEqual(mockCouriers);
-      });
-    });
+      component.getActiveCouriers();
+      tick();
+      expect(component.activeCouriers).toEqual(mockCouriers);
+    }));
   });
 
   it('should have expected activeCouriers after ngOnInit', () => {

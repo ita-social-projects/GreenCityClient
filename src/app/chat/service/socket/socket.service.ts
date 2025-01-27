@@ -33,12 +33,12 @@ export class SocketService {
     private jwt: JwtService,
     private titleService: Title
   ) {}
-
   connect(): void {
     if (!this.socketState) {
       this.userId = this.localStorageService.getUserId();
       this.socket = new SockJS(this.backendSocketLink);
       this.stompClient = Stomp.over(() => this.socket);
+      console.log = () => {}; // turn off all console logs (debugs)
       this.socketState = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
       this.stompClient.connect(
         {},
@@ -53,6 +53,7 @@ export class SocketService {
   }
 
   connectSubs(): Observable<any> {
+    this.stompClient.debug = () => {};
     return new Observable((observer) => {
       this.socketState.pipe(filter((state) => state === SocketClientState.CONNECTED)).subscribe(() => {
         observer.next(this.stompClient);
@@ -61,6 +62,7 @@ export class SocketService {
   }
 
   onMessage(topic: string) {
+    this.stompClient.debug = () => {};
     return this.connectSubs().pipe(
       first(),
       switchMap(
@@ -76,8 +78,8 @@ export class SocketService {
   }
 
   private onConnected(): void {
+    this.stompClient.debug = () => {};
     const isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
-
     const messagesSubs = this.onMessage(`/room/message/chat-messages${this.userId}`).subscribe((data) => {
       const newMessage: Message = JSON.parse(data.body);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
@@ -150,6 +152,7 @@ export class SocketService {
   }
 
   sendMessage(message: Message) {
+    this.stompClient.debug = () => {};
     this.connectSubs()
       .pipe(first())
       .subscribe((client) => {
@@ -161,6 +164,7 @@ export class SocketService {
   }
 
   removeMessage(message: Message): void {
+    this.stompClient.debug = () => {};
     this.connectSubs()
       .pipe(first())
       .subscribe((client) => {
@@ -169,6 +173,7 @@ export class SocketService {
   }
 
   updateMessage(message: Message): void {
+    this.stompClient.debug = () => {};
     this.connectSubs()
       .pipe(first())
       .subscribe((client) => {
@@ -185,6 +190,7 @@ export class SocketService {
   }
 
   createNewChat(ids, isOpen, isOpenInWindow?): void {
+    this.stompClient.debug = () => {};
     const key = this.chatsService.isSupportChat ? 'tariffId' : 'participantId';
     const newChatInfo = {
       currentUserId: this.userId,
