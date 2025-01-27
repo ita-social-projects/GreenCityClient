@@ -61,7 +61,7 @@ describe('EventsListComponent', () => {
 
   it('should close search toggle when it opened', () => {
     component.searchToggle = true;
-    component.search();
+    component.toggleSearch();
     expect(component.searchToggle).toEqual(false);
   });
 
