@@ -19,6 +19,7 @@
         class="day-number"
         *ngFor="let day of weekDates"
         [ngClass]="{
+          'missed-day': day.isMissed,
           'enrolled-day': day.hasHabitsInProgress && day.areHabitsDone,
           'unenrolled-day': day.hasHabitsInProgress && !day.areHabitsDone,
           'enrolled-past-day': day.hasHabitsInProgress && day.date.getDate() < currentDate.getDate() - 7 && day.areHabitsDone,

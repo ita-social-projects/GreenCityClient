@@ -11,6 +11,7 @@ import { CalendarInterface } from '../calendar-interface';
 import { MatDialog } from '@angular/material/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Locale } from 'src/app/main/i18n/Language';
+import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 
 @Component({
   selector: 'app-calendar-week',
@@ -42,28 +43,85 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     this.getAllAssignedHabbits();
   }
 
-  private buildWeekCalendar(firstWeekDay: Date): void {
+  buildWeekCalendar(firstWeekDay: Date): void {
+    if (!this.language) {
+      console.error('Мова ще не ініціалізована');
+      return;
+    }
+
     const year = firstWeekDay.getFullYear();
     const month = firstWeekDay.getMonth();
     const day = firstWeekDay.getDate();
     this.weekDates = [];
+
     for (let i = 0; i < 7; i++) {
       const date = new Date(year, month, day + i);
-      const isCurrent =
-        date.getFullYear() === this.currentDate.getFullYear() &&
-        date.getMonth() === this.currentDate.getMonth() &&
-        date.getDate() === this.currentDate.getDate();
       this.weekDates.push({
         date,
-        dayName: this.language ? this.setDayName(date) : '',
-        isCurrent,
+        dayName: this.setDayName(date),
+        isCurrent: this.isCurrentDate(date),
         hasHabitsInProgress: false,
-        areHabitsDone: false,
+        areHabitsDone: this.checkIfHabitDone(date),
+        isMissed: this.checkIfMissedDay(date),
         numberOfDate: date.getDate(),
         month: date.getMonth(),
         year: date.getFullYear()
       });
     }
+  }
+
+  private isCurrentDate(date: Date): boolean {
+    const today = new Date();
+    return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+  }
+
+  private checkIfMissedDay(date: Date): boolean {
+    const currentDate = new Date();
+    const eightDaysAgo = new Date(currentDate);
+    eightDaysAgo.setDate(currentDate.getDate() - 4);
+
+    return date < eightDaysAgo;
+  }
+
+  getHabitForDate(date: Date): HabitAssignInterface | undefined {
+    const dateString = date.toISOString().split('T')[0];
+
+    if (!this.habitAssignService.habitsFromDashBoard) {
+      return undefined;
+    }
+    const habitForDate = this.habitAssignService.habitsFromDashBoard.find((habit) => {
+      const enrollDateString = new Date(habit.enrollDate).toISOString().split('T')[0];
+      return enrollDateString === dateString;
+    });
+
+    if (!habitForDate) {
+      return undefined;
+    }
+    const isValidHabit = this.isHabitAssignInterface(habitForDate);
+
+    if (!isValidHabit) {
+      return undefined;
+    }
+    return habitForDate as HabitAssignInterface;
+  }
+
+  private isHabitAssignInterface(obj: any): obj is HabitAssignInterface {
+    return (
+      obj &&
+      typeof obj.id === 'number' &&
+      typeof obj.status === 'string' &&
+      typeof obj.createDateTime === 'string' &&
+      typeof obj.habit === 'object' &&
+      typeof obj.userId === 'number' &&
+      typeof obj.duration === 'number' &&
+      Array.isArray(obj.workingDays) &&
+      typeof obj.habitStreak === 'number'
+    );
+  }
+
+  checkIfHabitDone(date: Date): boolean {
+    const habit = this.getHabitForDate(date);
+    return habit?.habitStatusCalendarDtoList?.some((status) => status.enrollDate === date.toISOString().split('T')[0]) ?? false;
   }
 
   private getFirstWeekDate(): Date {

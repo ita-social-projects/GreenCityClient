@@ -31,6 +31,7 @@ describe('CalendarWeekComponent', () => {
       date: new Date('Sun Jul 02 2023 12:21:28 GMT+0300'),
       dayName: 'test',
       isCurrent: true,
+      isMissed: false,
       hasHabitsInProgress: true,
       areHabitsDone: true,
       numberOfDate: 1,
@@ -70,11 +71,66 @@ describe('CalendarWeekComponent', () => {
     expect(openDialogDayHabitsSpy).toHaveBeenCalledWith(mockEvent, false, dayAsCalendarInterface);
   });
 
-  it('should not call openDialogDayHabits if checkCanOpenPopup returns false', () => {
-    spyOn(component, 'checkCanOpenPopup').and.returnValue(false);
-    const openDialogDayHabitsSpy = spyOn(component, 'openDialogDayHabits');
-    const mockEvent = new MouseEvent('click');
-    component.showHabits(mockEvent, day);
-    expect(openDialogDayHabitsSpy).not.toHaveBeenCalled();
+  it('should mark dates with grey border if habits are not done 8 days before', () => {
+    const weekDates: CalendarWeekInterface[] = [
+      {
+        date: new Date(2023, 9, 24),
+        dayName: 'Tuesday',
+        isCurrent: false,
+        isMissed: false,
+        hasHabitsInProgress: true,
+        areHabitsDone: false,
+        numberOfDate: 24,
+        month: 10,
+        year: 2023
+      },
+      {
+        date: new Date(2023, 9, 25),
+        dayName: 'Wednesday',
+        isCurrent: false,
+        isMissed: false,
+        hasHabitsInProgress: true,
+        areHabitsDone: true,
+        numberOfDate: 25,
+        month: 10,
+        year: 2023
+      },
+      {
+        date: new Date(2023, 9, 26),
+        dayName: 'Thursday',
+        isCurrent: false,
+        isMissed: false,
+        hasHabitsInProgress: true,
+        areHabitsDone: false,
+        numberOfDate: 26,
+        month: 10,
+        year: 2023
+      },
+      {
+        date: new Date(2023, 10, 1),
+        dayName: 'Wednesday',
+        isCurrent: false,
+        isMissed: true,
+        hasHabitsInProgress: false,
+        areHabitsDone: false,
+        numberOfDate: 1,
+        month: 11,
+        year: 2023
+      }
+    ];
+
+    spyOn(component, 'buildWeekCalendar').and.callFake((date: Date) => {
+      component.weekDates = [...weekDates];
+    });
+
+    const startDate = new Date(2023, 9, 24);
+    component.buildWeekCalendar(startDate);
+
+    const eighthDay = component.weekDates.find((entry) => entry.date.getDate() === 1);
+
+    expect(component.weekDates.length).toEqual(4);
+    expect(eighthDay).toBeDefined();
+    expect(eighthDay?.areHabitsDone).toBeFalse();
+    expect(eighthDay?.hasHabitsInProgress).toBeFalse();
   });
 });

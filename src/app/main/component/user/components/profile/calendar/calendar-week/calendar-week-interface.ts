@@ -8,6 +8,7 @@ export interface BaseCalendar {
   numberOfDate: number;
   date: Date;
   dayName: string;
+  isMissed?: boolean;
   hasHabitsInProgress: boolean;
   areHabitsDone: boolean;
 }
