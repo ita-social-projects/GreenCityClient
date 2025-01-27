@@ -32,8 +32,7 @@
       </div>
       <p *ngIf="!selectedFile" class="message" [ngClass]="{ warning: isWarning }">{{ 'user.edit-profile.picture-tooltip' | translate }}</p>
       <div *ngIf="!isWarning && selectedFile">
-        <p>{{ 'user.edit-profile.would-you-like' | translate }}</p>
-        <div class="buttons">
+        <div class="buttons buttons-with-spacing">
           <button type="button" class="tertiary-global-button m-btn" (click)="closeEditPhoto()">
             {{ 'user.edit-profile.btn.cancel' | translate }}
           </button>
