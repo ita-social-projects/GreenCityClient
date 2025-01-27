@@ -1,5 +1,6 @@
 <main role="main" id="main-content">
   <div class="main container">
+    <app-saved-section *ngIf="isSavedVisible"></app-saved-section>
     <div class="places-filter">
       <div class="search">
         <div class="search-elements">
@@ -23,7 +24,9 @@
             placeholder="{{ 'user.map.choose-location' | translate }}"
           />
         </div>
-        <button class="secondary-global-button m-btn" (click)="openTimePickerPopUp()">{{ 'user.map.add-place' | translate }}</button>
+        <button *ngIf="!isSavedVisible" class="secondary-global-button m-btn" (click)="openTimePickerPopUp()">
+          {{ 'user.map.add-place' | translate }}
+        </button>
       </div>
       <div class="filter">
         <app-tag-filter

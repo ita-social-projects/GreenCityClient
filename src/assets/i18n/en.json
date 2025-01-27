@@ -237,6 +237,12 @@
       "today": "Today",
       "yesterday": "Yesterday"
     },
+    "saved": {
+      "saved": "Saved",
+      "events": "Events",
+      "eco-news": "Eco-news",
+      "places": "Places"
+    },
     "events": {
       "title": "Events",
       "author": "by",
