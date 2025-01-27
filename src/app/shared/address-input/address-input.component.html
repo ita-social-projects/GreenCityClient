@@ -12,7 +12,7 @@
       [isInvalid]="region.invalid"
       ngDefaultControl
     ></app-input-google-autocomplete>
-    <div *ngIf="isErrorMessageShown(region)">
+    <div class="validation" *ngIf="isErrorMessageShown(region)">
       <app-ubs-input-error [formElement]="region"></app-ubs-input-error>
     </div>
   </div>
@@ -27,7 +27,7 @@
       [isInvalid]="city.invalid && (city.touched || city.dirty)"
       ngDefaultControl
     ></app-input-google-autocomplete>
-    <div *ngIf="city.invalid && (city.touched || city.dirty)">
+    <div class="validation" *ngIf="city.invalid && (city.touched || city.dirty)">
       <app-ubs-input-error [formElement]="city"></app-ubs-input-error>
     </div>
   </div>
@@ -40,13 +40,14 @@
       [autoCompRequest]="autocompleteStreetRequest"
       (predictionSelected)="onStreetSelected($event)"
       (selectedPredictionCoordinates)="onCoordinatesSelected($event)"
-      [isInvalid]="street.invalid"
+      [isInvalid]="street.invalid && street.touched"
       ngDefaultControl
     ></app-input-google-autocomplete>
-    <div *ngIf="isErrorMessageShown(street)">
+    <div class="validation" *ngIf="isErrorMessageShown(street)">
       <app-ubs-input-error [formElement]="street"></app-ubs-input-error>
     </div>
   </div>
+
   <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between flex-wrap form-group house-details-wrapper">
     <div class="item col-sm-4">
       <label for="houseNumber">{{ 'personal-info.pop-up-house' | translate }}</label>
@@ -58,8 +59,8 @@
         placeholder="{{ 'personal-info.pop-up-house' | translate }}"
         (input)="onHouseNumberChange()"
       />
-      <div class="validation" *ngIf="houseNumber.invalid && houseNumber.touched">
-        <app-ubs-input-error [formElement]="houseNumber" [inputName]="'requiredHouseNumber'"></app-ubs-input-error>
+      <div class="validation" *ngIf="isErrorMessageShown(houseNumber)">
+        <app-ubs-input-error [formElement]="houseNumber"></app-ubs-input-error>
       </div>
     </div>
     <div class="item col-sm-4">
@@ -72,7 +73,7 @@
         placeholder="{{ 'personal-info.pop-up-corps' | translate }}"
         (input)="onHouseCorpusChange()"
       />
-      <div class="validation" *ngIf="houseCorpus.invalid && houseCorpus.touched">
+      <div class="validation" *ngIf="isErrorMessageShown(houseCorpus)">
         <app-ubs-input-error [formElement]="houseCorpus"></app-ubs-input-error>
       </div>
     </div>
@@ -86,7 +87,7 @@
         placeholder="{{ 'personal-info.pop-up-entrance' | translate }}"
         (input)="onEntranceNumberChange()"
       />
-      <div class="validation" *ngIf="entranceNumber.invalid && entranceNumber.touched">
+      <div class="validation" *ngIf="isErrorMessageShown(entranceNumber)">
         <app-ubs-input-error [formElement]="entranceNumber"></app-ubs-input-error>
       </div>
     </div>
@@ -109,7 +110,7 @@
       </mat-option>
     </mat-select>
 
-    <div class="validation" *ngIf="district.invalid && district.touched">
+    <div class="validation" *ngIf="isErrorMessageShown(district)">
       <app-ubs-input-error [formElement]="district"></app-ubs-input-error>
     </div>
   </div>
@@ -125,7 +126,7 @@
       (change)="onCommentChange()"
       ngDefaultControl
     ></textarea>
-    <div class="validation" *ngIf="addressComment.invalid && addressComment.touched">
+    <div class="validation" *ngIf="isErrorMessageShown(addressComment)">
       <app-ubs-input-error [formElement]="addressComment"></app-ubs-input-error>
     </div>
   </div>
