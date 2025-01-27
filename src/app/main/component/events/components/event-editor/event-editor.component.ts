@@ -39,7 +39,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   subscription: Subscription;
   previousPath: string;
   eventForm: FormGroup;
-  event: EventForm;
   routedFromProfile: boolean;
 
   constructor(
@@ -72,19 +71,18 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.event = this.formInput || this.eventStoreService.getEditorValues();
+    const event = this.formInput || this.eventStoreService.getEditorValues();
 
     this.route.params.subscribe((params) => {
-      const id = params['id'];
-      this.eventStoreService.setEventId(Number(id));
+      this.eventStoreService.setEventId(Number(params['id']));
     });
 
     if (this.isUpdating) {
       this.submitButtonName = 'create-event.save-event';
     }
-    this.eventForm = this.eventsService.convertEventToFormEvent(this.event);
-    this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
+    this.eventForm = this.eventsService.convertEventToFormEvent(event);
     this.previousPath = this.localStorageService.getPreviousPage() || '/events';
+    this.routedFromProfile = this.previousPath === '/profile';
     this.eventForm
       .get('eventInformation')
       .get('duration')
@@ -157,11 +155,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     const currentRoute = this.router.url;
     this.cdRef.detectChanges();
 
-    if (currentRoute.includes('create-event')) {
-      this.eventsService.setIsFromCreateEvent(true);
-    } else {
-      this.eventsService.setIsFromCreateEvent(false);
-    }
+    this.eventsService.setIsFromCreateEvent(currentRoute.includes('create-event'));
 
     this.eventStoreService.setEditorValues(this.eventForm.value);
     this.router.navigate(['events', 'preview']);
@@ -169,25 +163,17 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
 
   submitEvent(): void {
     const formData = this.eventsService.prepareEventForSubmit(this.eventForm.value, this.eventId, this.isUpdating);
+    this.eventStoreService.setEditorValues(this.eventForm.value);
     this.createEvent(formData);
   }
 
-  clear(): void {
+  clearForm(): void {
     this.eventForm.reset();
   }
 
   escapeFromCreateEvent(): void {
     this.router.navigate(['/events']);
-    this.eventSuccessfullyAdded();
-  }
-
-  private eventSuccessfullyAdded(): void {
-    if (this.isUpdating) {
-      this.snackBar.openSnackBar('updatedEvent');
-    }
-    if (!this.isUpdating) {
-      this.snackBar.openSnackBar('addedEvent');
-    }
+    this.snackBar.openSnackBar(this.isUpdating ? 'updatedEvent' : 'addedEvent');
   }
 
   private createEvent(sendData: FormData) {

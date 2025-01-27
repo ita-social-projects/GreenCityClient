@@ -40,14 +40,13 @@ export class UpdateEventComponent implements OnInit {
     const userId = this.localStorageService.getUserId();
 
     this.route.params.subscribe((params) => {
-      const isAuthor = this.authorId === userId;
       this.eventId = params['id'];
 
-      if (this.eventForm.eventInformation && Number(this.eventId) === this.eventStore.getEventId()) {
+      if (this._hasFilledEventFormBefore()) {
         return;
       }
 
-      if (isAuthor || !this.authorId) {
+      if (this._isAuthorOrAuthorUndefined(userId)) {
         this.isFetching = true;
         this.eventService.getEventById(this.eventId).subscribe({
           next: (response) => {
@@ -70,6 +69,15 @@ export class UpdateEventComponent implements OnInit {
         this.cdRef.detectChanges();
       }
     });
+  }
+
+  private _hasFilledEventFormBefore(): boolean {
+    return this.eventForm.eventInformation &&
+      (Number(this.eventId) === this.eventStore.getEventId());
+  }
+
+  private _isAuthorOrAuthorUndefined(userId: number): boolean {
+    return !this.authorId || (this.authorId === userId);
   }
 
   private _transformResponseToForm(form: EventResponse): EventForm {
