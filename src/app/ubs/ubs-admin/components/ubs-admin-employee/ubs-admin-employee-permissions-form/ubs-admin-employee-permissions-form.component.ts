@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -87,6 +87,20 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     DELETE_DEACTIVATE_COURIER: 'delete-courier',
     DELETE_DEACTIVATE_STATION: 'delete-station'
   };
+  permissionRules = {
+    CREATE_PRICING_CARD: {
+      check: ['SEE_PRICING_CARD', 'EDIT_DELETE_DEACTIVATE_PRICING_CARD', 'CONTROL_SERVICE']
+    },
+    SEE_PRICING_CARD: {
+      uncheck: ['CREATE_PRICING_CARD', 'EDIT_DELETE_DEACTIVATE_PRICING_CARD', 'CONTROL_SERVICE']
+    },
+    EDIT_DELETE_DEACTIVATE_PRICING_CARD: {
+      check: ['SEE_PRICING_CARD']
+    },
+    CONTROL_SERVICE: {
+      check: ['SEE_PRICING_CARD']
+    }
+  };
 
   isUpdating = false;
   isDisabled = true;
@@ -134,6 +148,37 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
 
   updateAllComplete() {
     this.isDisabled = false;
+  }
+  onCheckboxChange(groupName: string, perm: string): void {
+    const group = this.form.get(groupName);
+    if (!group) {
+      return;
+    }
+
+    const isChecked = group.get(perm).value;
+    const rule = this.permissionRules[perm];
+    if (!rule) {
+      return;
+    }
+
+    if (isChecked) {
+      this.applyDependencies(group, rule.check, true);
+    } else {
+      this.applyDependencies(group, rule.uncheck, false);
+    }
+  }
+
+  private applyDependencies(group: AbstractControl, dependencies: string[], value: boolean): void {
+    if (!dependencies) {
+      return;
+    }
+
+    dependencies.forEach((dependentPerm) => {
+      const dependentControl = group.get(dependentPerm);
+      if (dependentControl && dependentControl.value !== value) {
+        dependentControl.setValue(value);
+      }
+    });
   }
 
   savePermissions() {

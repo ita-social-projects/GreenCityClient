@@ -40,6 +40,7 @@
             [formControlName]="permission"
             (click)="updateAllComplete()"
             [class]="group.name + '-' + labels[permission]"
+            (change)="onCheckboxChange(group.name, permission)"
           >
             {{ 'employees.permissions.' + group.name + '.' + labels[permission] | translate }}
           </mat-checkbox>
