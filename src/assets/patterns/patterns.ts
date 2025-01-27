@@ -13,6 +13,8 @@ export const Patterns = {
   socialMediaPattern: /^https?:\/\/(?:www\.)?([^\s/?]+)\.[a-z]{2,}(?:[/?][^\s]*)?$/,
 
   numericAndAlphabetic: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\-\\\/]*$/,
+  ukrainianText: /^[А-Яа-яЇїІіЄєҐґ\s,'-]+$/,
+  englishText: /^[A-Za-z\s,'-]+$/,
 
   serteficatePattern: /(?!0000)\d{4}-(?!0000)\d{4}/,
   ubsCommentPattern: /[\S\s]{0,255}/,
