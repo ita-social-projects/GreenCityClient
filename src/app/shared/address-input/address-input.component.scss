@@ -96,6 +96,15 @@ select {
   margin: 0 20px 20px;
 }
 
+.text-danger {
+  color: #d9534f;
+  font-size: 0.875rem;
+}
+
+.form-group.error {
+  border: 1px solid #d9534f;
+}
+
 .form-control.ng-invalid.ng-touched {
   border: 1px solid var(--ubs-error-ligh-red);
 }
