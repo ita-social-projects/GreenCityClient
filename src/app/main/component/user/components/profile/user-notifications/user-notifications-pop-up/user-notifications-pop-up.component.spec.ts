@@ -20,7 +20,7 @@ describe('UserNotificationsPopUpComponent', () => {
   dialogRefStub.keydownEvents = () => of(1);
 
   const notificationServiceMock: UserNotificationService = jasmine.createSpyObj('UserNotificationService', ['getThreeNewNotification']);
-  notificationServiceMock.getThreeNewNotification = () => of();
+  (notificationServiceMock.getThreeNewNotification as jasmine.Spy).and.returnValue(of({ page: [], totalPages: 1, totalElements: 0 }));
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

@@ -68,7 +68,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     maxZoom: 20
   };
 
-  private buildingPattern = Patterns.numericAndAlphabetic;
+  private buildingPattern = Patterns.ubsHouseNumberPattern;
   private $destroy: Subject<void> = new Subject();
   private viewInitialized = false;
 
