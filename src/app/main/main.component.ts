@@ -19,7 +19,7 @@ export class MainComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private titleAndMetaTagsService: TitleAndMetaTagsService,
-    private router: Router,
+    public router: Router,
     private localStorageService: LocalStorageService,
     private userService: UserService,
     private userOwnAuthService: UserOwnAuthService,
@@ -50,7 +50,7 @@ export class MainComponent implements OnInit, AfterViewChecked {
     this.focusLast.nativeElement.focus();
   }
 
-  private navigateToStartingPositionOnPage(): void {
+  navigateToStartingPositionOnPage(): void {
     this.router.events.subscribe((navigationEvent) => {
       if (navigationEvent instanceof NavigationEnd) {
         window.scroll(0, 0);
@@ -60,7 +60,7 @@ export class MainComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  private checkLogin() {
+  checkLogin() {
     this.userOwnAuthService.isLoginUserSubject.subscribe((status) => {
       this.isLogin = status;
     });
