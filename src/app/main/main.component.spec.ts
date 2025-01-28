@@ -119,6 +119,15 @@ describe('MainComponent', () => {
       component.ngOnInit();
       expect(component.checkLogin).toHaveBeenCalled();
     });
+    it('should call navigateToStartingPositionOnPage on ngOnInit', () => {
+      const navigateSpy = spyOn(component, 'navigateToStartingPositionOnPage');
+      component.navigateToStartingPositionOnPage();
+      expect(navigateSpy).toHaveBeenCalled();
+    });
+    it('should call useTitleMetasData from titleAndMetaTagsService on ngOnInit', () => {
+      const navigateSpy = spyOn(titleAndMetaTagsService, 'useTitleMetasData');
+      titleAndMetaTagsService.useTitleMetasData();
+      expect(navigateSpy).toHaveBeenCalled();
+    });
   });
-
 });
