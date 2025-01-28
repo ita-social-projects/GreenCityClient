@@ -34,4 +34,13 @@ describe('AddressInputComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should disable the region control if keyupText is not empty', () => {
+    component.keyup('some text');
+    expect(component.addressForm.get('region').disabled).toBeTrue();
+  });
+
+  it('should enable the region control if keyupText is empty', () => {
+    component.keyup('');
+    expect(component.addressForm.get('region').enabled).toBeTrue();
+  });
 });

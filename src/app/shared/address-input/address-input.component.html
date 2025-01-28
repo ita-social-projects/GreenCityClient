@@ -26,6 +26,7 @@
       (predictionSelected)="onCitySelected($event)"
       [isInvalid]="city.invalid"
       ngDefaultControl
+      (keyupEmitter)="keyup($event)"
     ></app-input-google-autocomplete>
     <div *ngIf="isErrorMessageShown(city)">
       <app-ubs-input-error [formElement]="city"></app-ubs-input-error>

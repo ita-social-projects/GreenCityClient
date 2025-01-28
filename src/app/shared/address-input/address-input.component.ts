@@ -228,6 +228,10 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.district.enable();
   }
 
+  keyup(keyupText: string): void {
+    keyupText ? this.addressForm.get('region').disable() : this.addressForm.get('region').enable();
+  }
+
   initListeners(): void {
     this.addressData
       .getPlaceIdChange()

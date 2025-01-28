@@ -6,6 +6,7 @@
   [formControl]="inputValue"
   (change)="onUserChange()"
   [matAutocomplete]="autoPrediction"
+  (keyup)="keyup($event)"
 />
 <mat-autocomplete #autoPrediction="matAutocomplete">
   <mat-option
