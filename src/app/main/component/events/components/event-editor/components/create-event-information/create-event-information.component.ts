@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ContentChange } from 'ngx-quill';
 
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { quillConfig } from '../../quillEditorFunc';
 import { EVENT_LOCALE, EventLocaleKeys } from 'src/app/main/component/events/models/event-consts';
 import { ImagesContainer } from 'src/app/main/component/events/models/events.interface';
@@ -19,6 +19,7 @@ export class CreateEventInformationComponent implements OnInit {
   quillModules = quillConfig;
   imgArray: string[] = [];
   @Input() eventInfForm: FormGroup;
+  @Input() imagesArray: FormArray;
   minLength = 20;
   maxLength = 63206;
   titleLength: string;
@@ -30,7 +31,7 @@ export class CreateEventInformationComponent implements OnInit {
   ) {}
 
   get images(): ImagesContainer[] {
-    return this.eventInfForm.controls.images.value;
+    return this.imagesArray.value;
   }
 
   ngOnInit() {

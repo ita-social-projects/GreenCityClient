@@ -13,7 +13,7 @@
           </a>
         </div>
         <div *ngIf="isPreview" class="back-button">
-          <a (click)="backToEditEvent()" class="button-link">
+          <a (click)="navigateToEditEvent()" class="button-link">
             <div class="button-content">
               <img [src]="icons.arrowLeft" alt="arrow" aria-hidden="true" class="button-arrow-img arrow" />
               <div class="button-text">{{ 'create-event.back-edit' | translate }}</div>
@@ -38,7 +38,7 @@
 
       <div class="event-header">
         <div class="left-side">
-          <div class="event-title">{{ event.title }}</div>
+          <div class="event-title">{{ event.eventInformation.title }}</div>
           <div class="date-author">
             <div>{{ event.dates[0]['startDate'] | dateLocalisation }}</div>
             <div>|</div>
@@ -75,7 +75,7 @@
           <div class="event-tags-participants">
             <div class="event-tags">
               <div
-                *ngFor="let tag of event.tags"
+                *ngFor="let tag of event.eventInformation.tags"
                 class="event-tag"
                 [appLangValue]="{ ua: tag.nameUa | uppercase, en: tag.nameEn | uppercase }"
               ></div>
@@ -176,7 +176,7 @@
 
         <div class="main-right">
           <div class="description-block-title">{{ 'create-event.event-description' | translate }}</div>
-          <div [innerHTML]="event.description | safeHtmlTransform" class="ql-editor"></div>
+          <div [innerHTML]="event.eventInformation.description | safeHtmlTransform" class="ql-editor"></div>
         </div>
       </div>
       <app-comments-container *ngIf="!isPreview" [entityId]="eventId" class="event"></app-comments-container>
