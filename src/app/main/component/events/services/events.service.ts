@@ -14,6 +14,7 @@ import {
   EventResponse,
   EventResponseDto,
   LocationResponse,
+  NewEvent,
   PagePreviewDTO
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -28,12 +29,20 @@ export class EventsService implements OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private divider = `, `;
   private isFromCreateEvent: boolean;
+  private event: NewEvent;
 
   constructor(
     private http: HttpClient,
-    private langService: LanguageService,
-    private fb: FormBuilder
+    private langService: LanguageService
   ) {}
+
+  setEvent(event: EventForm): void {
+    this.event = { ...this.event, ...event };
+  }
+
+  getEvent(): NewEvent {
+    return this.event;
+  }
 
   setIsFromCreateEvent(value: boolean): void {
     this.isFromCreateEvent = value;
@@ -41,168 +50,6 @@ export class EventsService implements OnDestroy {
 
   getIsFromCreateEvent(): boolean {
     return this.isFromCreateEvent;
-  }
-
-  private convertEventToPreview(event: EventForm): PagePreviewDTO {
-    const { eventInformation, dateInformation } = event;
-
-    return {
-      title: eventInformation.title,
-      description: eventInformation.description,
-      eventDuration: eventInformation.duration,
-      open: eventInformation.open,
-      editorText: eventInformation.editorText,
-      dates: dateInformation.map((dateInfo) => {
-        const startDate = new Date(dateInfo.day.date);
-        startDate.setHours(parseInt(dateInfo.day.startTime.split(':')[0], 10), parseInt(dateInfo.day.startTime.split(':')[1], 10));
-
-        const finishDate = new Date(dateInfo.day.date);
-        finishDate.setHours(parseInt(dateInfo.day.endTime.split(':')[0], 10), parseInt(dateInfo.day.endTime.split(':')[1], 10));
-
-        return {
-          startDate: startDate.toISOString(),
-          finishDate: finishDate.toISOString(),
-          onlineLink: dateInfo.placeOnline.onlineLink,
-          place: dateInfo.placeOnline.place,
-          /* eslint-disable indent */
-          coordinates: dateInfo.placeOnline.coordinates
-            ? {
-                latitude: dateInfo.placeOnline.coordinates.lat,
-                longitude: dateInfo.placeOnline.coordinates.lng
-              }
-            : undefined
-          /* eslint-enable indent */
-        };
-      }),
-      tags: eventInformation.tags,
-      imgArray: eventInformation.images.map((image) => image.url),
-      imgArrayToPreview: eventInformation.images.filter((image) => image.main).map((image) => image.url),
-      location: dateInformation
-        .map((dateInfo) => dateInfo.placeOnline.place)
-        .filter((place) => place)
-        .join(', ')
-    };
-  }
-
-  convertEventToFormEvent(event: EventForm): FormGroup {
-    const information = event?.eventInformation;
-    const date = event?.dateInformation ?? [];
-
-    return this.fb.group({
-      eventInformation: this.fb.group({
-        title: [information?.title ?? '', [Validators.required, Validators.maxLength(70)]],
-        description: [information?.description ?? '', [Validators.required, Validators.minLength(20)]],
-        open: [information?.open ?? true, Validators.required],
-        images: [information?.images ?? []],
-        duration: [information?.duration ?? 1, Validators.required],
-        tags: [information?.tags ?? [], [Validators.required, Validators.minLength(1)]]
-      }),
-
-      dateInformation: this.fb.array(date.length > 0 ? date.map((date) => this.createDateFormGroup(date)) : [this.createDateFormGroup()])
-    });
-  }
-
-  private createDateFormGroup(date?: any): FormGroup {
-    return this.fb.group({
-      day: this.fb.group({
-        date: [date?.day.date ? new Date(date.day.date) : new Date(), [Validators.required]],
-        startTime: [date?.day.startTime ?? '', Validators.required],
-        endTime: [date?.day.endTime ?? '', Validators.required],
-        allDay: [date?.day.allDay ?? false],
-        minDate: [date?.day.minDate ? new Date(date.minDate) : new Date()],
-        maxDate: [date?.day.maxDate ? new Date(date.maxDate) : '']
-      }),
-      placeOnline: this.fb.group({
-        coordinates: new FormControl(
-          date?.placeOnline.coordinates ?? { lat: DefaultCoordinates.LATITUDE, lng: DefaultCoordinates.LONGITUDE }
-        ),
-        onlineLink: new FormControl(date?.placeOnline.onlineLink ?? ''),
-        place: new FormControl(date?.placeOnline.place ?? ''),
-        appliedLinkForAll: [date?.placeOnline.appliedLinkForAll ?? false],
-        appliedPlaceForAll: [date?.placeOnline.appliedPlaceForAll ?? false]
-      })
-    });
-  }
-
-  transformDatesFormToDates(form: DateInformation[]): Dates[] {
-    return form
-      .map((value) => {
-        const { date, endTime, startTime } = value.day;
-        const { onlineLink, place, coordinates } = value.placeOnline;
-
-        const dateObject = new Date(date);
-
-        if (isNaN(dateObject.getTime())) {
-          return;
-        }
-
-        let [hours, minutes] = startTime.split(':');
-        dateObject.setHours(parseInt(hours, 10));
-        dateObject.setMinutes(parseInt(minutes, 10));
-        const startDate = dateObject.toISOString();
-
-        [hours, minutes] = endTime.split(':');
-        dateObject.setHours(parseInt(hours, 10));
-        dateObject.setMinutes(parseInt(minutes, 10));
-        const finishDate = dateObject.toISOString();
-
-        const dates: Dates = {
-          startDate,
-          finishDate,
-          id: undefined
-        };
-        if (onlineLink) {
-          dates.onlineLink = onlineLink;
-        }
-        if (place) {
-          dates.coordinates = {
-            latitude: coordinates.lat,
-            longitude: coordinates.lng
-          };
-        }
-        return dates;
-      })
-      .filter(Boolean);
-  }
-
-  prepareEventForSubmit(eventForm: EventForm, eventId: number, isUpdating: boolean) {
-    const { eventInformation, dateInformation } = eventForm;
-    const { open, tags, description, title, images } = eventInformation;
-    const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
-    let sendEventDto: EventDTO = {
-      title,
-      description: description,
-      open,
-      tags,
-      datesLocations: dates
-    };
-
-    if (isUpdating) {
-      const currentImages = (eventForm?.eventInformation?.images || []).filter((value) => !value.file).map((value) => value.url);
-      sendEventDto = {
-        ...sendEventDto,
-        additionalImages: currentImages.slice(1),
-        id: eventId,
-        titleImage: currentImages[0]
-      };
-    }
-    const formData: FormData = new FormData();
-    const stringifyDataToSend = JSON.stringify(sendEventDto);
-    const dtoName = isUpdating ? 'eventDto' : 'addEventDtoRequest';
-
-    formData.append(dtoName, stringifyDataToSend);
-
-    images.forEach((item) => {
-      if (item.file) {
-        formData.append('images', item.file);
-      }
-    });
-
-    return formData;
-  }
-
-  getEventPreview(event: EventForm): PagePreviewDTO {
-    return this.convertEventToPreview(event);
   }
 
   getAddresses(): Observable<Addresses[]> {
@@ -237,8 +84,8 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventResponseDto>(`${this.backEnd}events?page=${page}&size=${quantity}&statuses=SAVED&user-id=${userId}`);
   }
 
-  getEventById(eventId: number): Observable<EventResponse> {
-    return this.http.get<EventResponse>(`${this.backEnd}events/${eventId}`);
+  getEventById(eventId: number): Observable<NewEvent> {
+    return this.http.get<NewEvent>(`${this.backEnd}events/v2/${eventId}`);
   }
 
   getIsLikedByUser(eventId: number): Observable<boolean> {

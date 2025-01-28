@@ -3,7 +3,7 @@
 
   <mat-form-field appearance="outline">
     <mat-label>{{ 'create-event.choose-date' | translate }}</mat-label>
-    <input matInput [matDatepicker]="dp" formControlName="startDate" [min]="minDate" [max]="maxDate" />
+    <input matInput [matDatepicker]="dp" formControlName="day" [min]="minDate" [max]="maxDate" />
     <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp></mat-datepicker>
 

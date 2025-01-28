@@ -43,6 +43,8 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   private _upperTimeLimit = 0;
   private prevTimeValue: Array<string>;
   private initialStartTime: string;
+  private startTimeMask: any;
+  private endTimeMask: any;
   timeMask = {
     mask: 'HH:MM',
     blocks: {
@@ -61,7 +63,6 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     }
   };
 
-  @ViewChild('dateRef') dateRef: ElementRef;
   @ViewChild('startTimeRef') startTimeRef: ElementRef;
   @ViewChild('endTimeRef') endTimeRef: ElementRef;
 
@@ -77,6 +78,10 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
 
   get finishDate() {
     return this.dayForm.get('finishDate');
+  }
+
+  get day() {
+    return this.dayForm.get('day');
   }
 
   get startTime() {
@@ -101,7 +106,7 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const moment = _moment;
     moment.locale('uk');
-    this.dayForm = this.dayFormGroup.get('day') as FormGroup;
+    this.dayForm = this.dayFormGroup as FormGroup;
     this._fillTimeArray();
     this.initialStartTime = this._initialStartTime();
     this._upperTimeLimit = this._timeArr.indexOf(this.initialStartTime);
@@ -120,17 +125,24 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     });
 
     // Subscribe to date value changes
-    this.startDate.valueChanges.subscribe((newDate) => {
+    this.day.valueChanges.subscribe((newDate) => {
+      const newStartDate = new Date(newDate.toDate());
+      newStartDate.setHours(this.startDate.value.getHours(), this.startDate.value.getMinutes(), 0, 0);
+
+      const newFinishDate = new Date(newDate.toDate());
+      newFinishDate.setHours(this.finishDate.value.getHours(), this.finishDate.value.getMinutes(), 0, 0);
+
+      this.startDate.setValue(newStartDate, { emitEvent: false });
+      this.finishDate.setValue(newFinishDate, { emitEvent: false });
+
       this._updateNeighboringDates();
-      this.startDate.setErrors(this.getDateErrors(newDate));
+      this.day.setErrors(this.getDateErrors(newDate));
     });
   }
 
   ngAfterViewInit() {
-    // TODO
-    // IMask(this.dateRef.nativeElement, this.dateMask);
-    IMask(this.startTimeRef.nativeElement, this.timeMask);
-    IMask(this.endTimeRef.nativeElement, this.timeMask);
+    this.startTimeMask = IMask(this.startTimeRef.nativeElement, this.timeMask);
+    this.endTimeMask = IMask(this.endTimeRef.nativeElement, this.timeMask);
   }
 
   getDateErrors(date: _moment.Moment | null) {
@@ -148,20 +160,18 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   private _updateNeighboringDates(): void {
     if (this.dayNumber > 0) {
       const prevFormGroup = this.daysForm.at(this.dayNumber - 1) as FormGroup;
-      const prevDayComponent = prevFormGroup.get('day');
-      if (prevDayComponent) {
-        prevDayComponent.patchValue({
-          maxDate: new Date(this.startDate.value._d.getTime() - 24 * 60 * 60 * 1000)
+      if (prevFormGroup) {
+        prevFormGroup.patchValue({
+          maxDate: new Date(this.day.value._d.getTime() - 24 * 60 * 60 * 1000)
         });
       }
     }
 
     if (this.dayNumber < this.daysForm.length - 1) {
       const nextFormGroup = this.daysForm.at(this.dayNumber + 1) as FormGroup;
-      const nextDayComponent = nextFormGroup.get('day');
-      if (nextDayComponent) {
-        nextDayComponent.patchValue({
-          minDate: new Date(this.startDate.value._d.getTime() + 24 * 60 * 60 * 1000)
+      if (nextFormGroup) {
+        nextFormGroup.patchValue({
+          minDate: new Date(this.day.value._d.getTime() + 24 * 60 * 60 * 1000)
         });
       }
     }
@@ -193,7 +203,7 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   }
 
   private _handleTimeChange(value: string, type: 'start' | 'end'): void {
-    if (Number(value[value.length - 1]) || value[2] === ':') {
+    if (Number(value[value.length - 1]) || value[2] === ':' || !value.trim().length) {
       const initialStartTime = this.initialStartTime;
       const startTime = this.startTime.value ? this.startTime.value : null;
       const endTime = this.finishTime.value ? this.finishTime.value : null;
@@ -215,14 +225,18 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
         if (type === 'start') {
           if (value >= initialStartTime && (endTime === null || value < endTime)) {
             this.endOptionsArr = this._timeArr.slice(this._timeArr.indexOf(value) + 1);
-            this.startDate.setValue(this.startDate.value.setHours(hours, minutes, 0, 0), { emitEvent: false });
+            const currentStartDate = new Date(this.startDate.value);
+            currentStartDate.setHours(hours, minutes, 0, 0);
+            this.startDate.setValue(currentStartDate, { emitEvent: false });
           } else {
             this.startTime.setValue('', { emitEvent: false });
           }
         } else {
           if (value > initialStartTime && (startTime === null || value > startTime)) {
             this.startOptionsArr = this._timeArr.slice(this._timeArr.indexOf(this.initialStartTime), this._timeArr.indexOf(value));
-            this.finishDate.setValue(this.finishDate.value.setHours(hours, minutes, 0, 0), { emitEvent: false });
+            const currentFinishDate = new Date(this.finishDate.value);
+            currentFinishDate.setHours(hours, minutes, 0, 0);
+            this.finishDate.setValue(currentFinishDate, { emitEvent: false });
           } else {
             this.finishTime.setValue('', { emitEvent: false });
           }
@@ -241,6 +255,12 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
 
       if (!startTime && !endTime) {
         this._setArrTime();
+      }
+
+      if (type === 'start') {
+        this.startTimeMask.updateValue();
+      } else {
+        this.endTimeMask.updateValue();
       }
     }
   }

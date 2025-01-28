@@ -39,8 +39,6 @@ import { PlaceOnlineComponent } from './components/event-editor/components/creat
 import { ImagesContainerComponent } from './components/event-editor/components/create-event-information/components/images-container/images-container.component';
 import { CreateEventInformationComponent } from './components/event-editor/components/create-event-information/create-event-information.component';
 import { EventEditorComponent } from './components/event-editor/event-editor.component';
-import { MapEventComponent } from './components/map-event/map-event.component';
-import { UpdateEventComponent } from './components/update-event/update-event.component';
 import { EventsRoutingModule } from './events-routing.module';
 import { EventsComponent } from './events.component';
 import { EventStoreService } from './services/event-store.service';
@@ -52,15 +50,13 @@ import { EventsCommentsService } from './services/events-comments.service';
     EventsListComponent,
     EventEditorComponent,
     PlaceOnlineComponent,
-    MapEventComponent,
     ImagesContainerComponent,
     EventDetailsComponent,
     ImagesSliderComponent,
     EventScheduleOverlayComponent,
     EventScheduleComponent,
     CreateEventInformationComponent,
-    DateTimeComponent,
-    UpdateEventComponent
+    DateTimeComponent
   ],
   imports: [
     MatDialogModule,

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { EventResponse, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { EventResponse, EventResponseDto, NewEvent } from 'src/app/main/component/events/models/events.interface';
 
 export enum EventsActions {
   GetEcoEventsByPage = '[Events] Get events by page',
@@ -64,7 +64,7 @@ export const GetEcoEventsByIdAction = createAction(
 
 export const GetEcoEventsByIdSuccessAction = createAction(
   EventsActions.GetEcoEventsByIdSuccess,
-  props<{ ecoEvents: EventResponse; reset: boolean }>()
+  props<{ ecoEvents: NewEvent; reset: boolean }>()
 );
 
 export const RateEcoEventsByIdAction = createAction(

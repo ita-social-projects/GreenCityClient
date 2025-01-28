@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { EventResponse } from 'src/app/main/component/events/models/events.interface';
+import { EventResponse, NewEvent } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import {
   AddAttenderEcoEventsByIdAction,
@@ -30,7 +30,7 @@ export class EventsEffects {
       ofType(GetEcoEventsByIdAction),
       mergeMap((actions: { eventId: number; reset: boolean }) =>
         this.eventsService.getEventById(actions.eventId).pipe(
-          map((ecoEvents: EventResponse) => GetEcoEventsByIdSuccessAction({ ecoEvents, reset: actions.reset })),
+          map((ecoEvents: NewEvent) => GetEcoEventsByIdSuccessAction({ ecoEvents, reset: actions.reset })),
           catchError((error) => of(ReceivedFailureAction(error)))
         )
       )

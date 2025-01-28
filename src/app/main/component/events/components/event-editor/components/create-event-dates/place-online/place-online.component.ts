@@ -5,7 +5,7 @@ import { GoogleScript } from '@assets/google-script/google-script';
 import { Patterns } from '@assets/patterns/patterns';
 import { GeocoderService } from '@global-service/geocoder/geocoder.service';
 import { Subject, takeUntil } from 'rxjs';
-import { PlaceOnlineGroup } from 'src/app/main/component/events/models/events.interface';
+import { DateInformation, FormControllers, PlaceOnline } from 'src/app/main/component/events/models/events.interface';
 
 @Component({
   selector: 'app-place-online',
@@ -27,7 +27,7 @@ export class PlaceOnlineComponent implements OnInit {
   @Input() dayNumber: number;
   @Input() dayFormGroup: AbstractControl;
   @Input() formDisabled: boolean;
-  formGroup: FormGroup<PlaceOnlineGroup>;
+  formGroup: FormGroup<FormControllers<DateInformation>>;
   mapOptions: google.maps.MapOptions;
 
   private _autocomplete: google.maps.places.Autocomplete;
@@ -76,7 +76,7 @@ export class PlaceOnlineComponent implements OnInit {
   toggleForAllLocations(): void {
     const isApplied = !this.appliedPlaceForAll.value;
     this.applyLocationToAllDays(
-      isApplied ? this.coordinates.value : { lat: null, lng: null },
+      isApplied ? { lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude } : { lat: null, lng: null },
       isApplied ? this.place.value : '',
       isApplied
     );
@@ -84,20 +84,20 @@ export class PlaceOnlineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formGroup = this.dayFormGroup.get('placeOnline') as FormGroup;
+    this.formGroup = this.dayFormGroup as FormGroup;
     this.isOnline = !!this.link.value;
     this.isPlaceSelected = !!this.place.value;
     this.mapOptions = {
-      center: this.coordinates.value,
+      center: { lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude },
       zoom: 8,
       gestureHandling: 'greedy',
       minZoom: 4,
       maxZoom: 20
     };
-    this.mapMarkerCoords = this.coordinates.value;
+    this.mapMarkerCoords = { lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude };
 
     if (this.dayNumber !== 0) {
-      const firstDay = this.daysForm.value[0].placeOnline;
+      const firstDay = this.daysForm.value[0];
       this.applyInitialSettings(firstDay);
       this.subscribeToFormChanges();
     }
@@ -106,7 +106,7 @@ export class PlaceOnlineComponent implements OnInit {
         this.isRenderingMap = value;
       }, 1000);
     });
-    this.daysForm.controls[0].get('placeOnline').valueChanges.subscribe((value) => {
+    this.daysForm.controls[0].valueChanges.subscribe((value) => {
       if (this.appliedPlaceForAll.value) {
         this.applyLocationToAllDays(value.coordinates, value.place, true);
       }
@@ -185,11 +185,15 @@ export class PlaceOnlineComponent implements OnInit {
 
     if (this._lastLocation.place) {
       this.formGroup.patchValue({
-        coordinates: this._lastLocation.coordinates,
+        coordinates: {
+          ...this.coordinates.value,
+          latitude: this._lastLocation.coordinates.lat,
+          longitude: this._lastLocation.coordinates.lng
+        },
         place: this._lastLocation.place
       });
       setTimeout(() => {
-        this.updateMap(this.coordinates.value);
+        this.updateMap({ lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude });
       }, 0);
     } else {
       this._setCurrentLocation();
@@ -229,7 +233,7 @@ export class PlaceOnlineComponent implements OnInit {
         this.updateMapAndLocation(coords);
         this.formGroup.patchValue({
           place: locationName.formatted_address,
-          coordinates: { lat: coords.lat, lng: coords.lng }
+          coordinates: { ...this.coordinates.value, latitude: coords.lat, longitude: coords.lng }
         });
       }
     });
@@ -270,7 +274,7 @@ export class PlaceOnlineComponent implements OnInit {
     this.geocoderService.changeAddress(latLngLiteral).subscribe((result: google.maps.GeocoderResult) => {
       const address = result.formatted_address;
       this.formGroup.patchValue({
-        coordinates: latLngLiteral,
+        coordinates: { ...this.coordinates.value, latitude: latLngLiteral.lat, longitude: latLngLiteral.lng },
         place: address
       });
       this._lastLocation = { coordinates: latLngLiteral, place: address };
