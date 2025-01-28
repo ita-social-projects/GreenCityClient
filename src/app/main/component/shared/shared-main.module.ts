@@ -45,6 +45,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { EventStoreService } from '../events/services/event-store.service';
+import { SavedSectionComponent } from './components/saved-tabs/saved-section.component';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -67,7 +68,8 @@ registerLocaleData(ukLocale, 'ua');
     TagsSelectComponent,
     InputErrorComponent,
     SelectImagesComponent,
-    FilterSelectComponent
+    FilterSelectComponent,
+    SavedSectionComponent
   ],
   imports: [
     ModalModule.forRoot(),
@@ -127,7 +129,8 @@ registerLocaleData(ukLocale, 'ua');
     SelectImagesComponent,
     FilterSelectComponent,
     MatDividerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    SavedSectionComponent
   ],
   providers: [MatSnackBarComponent, TranslateService, EventStoreService]
 })

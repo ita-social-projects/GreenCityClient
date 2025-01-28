@@ -134,6 +134,12 @@
   font-size: 14px;
   line-height: 20px;
 
+  .right-search {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+  }
+
   @include responsivePCFirst(sm) {
     flex-direction: column;
     align-items: flex-start;

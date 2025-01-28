@@ -61,7 +61,7 @@ describe('EventsListComponent', () => {
 
   it('should close search toggle when it opened', () => {
     component.searchToggle = true;
-    component.search();
+    component.toggleSearch();
     expect(component.searchToggle).toEqual(false);
   });
 
@@ -99,7 +99,7 @@ describe('EventsListComponent', () => {
   it('should update selected filters list', () => {
     const clickedFiltersList: FilterItem[] = [
       { type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' },
-      { type: 'eventTimeStatus', nameEn: 'Future', nameUa: 'Майбутній' },
+      { type: 'eventTimeStatus', nameEn: 'Upcoming', nameUa: 'Майбутній' },
       { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' },
       { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' }
     ];

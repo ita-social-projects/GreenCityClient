@@ -8,7 +8,7 @@
     #tooltip="matTooltip"
     matTooltip="{{ title | serverTranslate: lang }}"
     matTooltipClass="my-custom-tooltip"
-    (mouseenter)="showTooltip($event, tooltip)"
+    (mouseenter)="onMouseEnter($event, tooltip)"
     (mouseleave)="tooltip.hide()"
   >
     {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
@@ -20,5 +20,5 @@
 </div>
 
 <div class="readonly readonly_date" *ngIf="date === 'orderDate' || date === 'paymentDate'">
-  <span>{{ title | date: 'dd/MM/y' }}</span>
+  <span>{{ title | date: 'dd.MM.y' }}</span>
 </div>

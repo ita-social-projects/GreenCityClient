@@ -44,13 +44,16 @@ export class UBSInputErrorComponent implements OnInit {
     wrongName: 'input-error.name-wrong',
     wrongNumber: 'input-error.number-wrong',
     wrongCity: 'input-error.city-wrong',
+    wrongHouse: 'input-error.house-wrong',
     lettersAndNumbericOnly: 'input-error.letters-and-numeric-only',
+    numericOnly: 'input-error.numeric-only',
     numberLength: 'input-error.number-length',
     passwordRequirements: 'input-error.password-requirements',
     newPasswordMatchesOld: 'input-error.newPassword-MatchesOld',
     confirmPasswordMistmatch: 'ubs-client-profile.password-error-confirm',
     requiredFromDropdown: 'personal-info.required-from-dropdown',
-    emailExist: 'input-error.email-exist'
+    emailExist: 'input-error.email-exist',
+    invalidBinotelLink: 'input-error.binotel-link'
   };
 
   ngOnInit() {
@@ -99,6 +102,10 @@ export class UBSInputErrorComponent implements OnInit {
         return this.validationErrors.wrongCity;
       case Patterns.numericAndAlphabetic.toString():
         return this.validationErrors.lettersAndNumbericOnly;
+      case Patterns.ubsHouseNumberPattern.toString():
+        return this.validationErrors.wrongHouse;
+      case Patterns.numeric.toString():
+        return this.validationErrors.numericOnly;
       case Patterns.NamePattern.toString():
         return this.validationErrors.wrongName;
       case Patterns.ubsMailPattern.toString():
@@ -107,6 +114,8 @@ export class UBSInputErrorComponent implements OnInit {
         return this.validationErrors.wrongNumber;
       case Patterns.regexpPass.toString():
         return this.validationErrors.passwordRequirements;
+      case Patterns.binotelLinkPattern.toString():
+        return this.validationErrors.invalidBinotelLink;
       default:
         return this.validationErrors.pattern;
     }

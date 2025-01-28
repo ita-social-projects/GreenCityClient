@@ -22,7 +22,7 @@ import { addressesSelector } from 'src/app/store/selectors/order.selectors';
 import { GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Address, CourierLocations, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
 import { CAddressData } from 'src/app/ubs/ubs/models/ubs.model';
-import { addressAlreadyExistsValidator } from 'src/app/ubs/ubs/validators/address-olready-exists-validator';
+import { addressAlreadyExistsValidator } from '@ubs/ubs/validators/address-already-exists-validator';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { AddressService } from '../services/address/address.service';
 
@@ -62,14 +62,16 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   allowDistrictEdit = false;
 
   mapOptions: google.maps.MapOptions = {
-    center: { lat: 49.8397, lng: 24.0297 },
+    center: { lat: 50.4501, lng: 30.5234 },
     zoom: 8,
     minZoom: 4,
     maxZoom: 20
   };
 
-  private buildingPattern = Patterns.numericAndAlphabetic;
-  private $destroy: Subject<void> = new Subject();
+  private readonly buildingPattern = Patterns.numericAndAlphabetic;
+  private readonly houseNumberPattern = Patterns.ubsHouseNumberPattern;
+  private readonly numericPattern = Patterns.numeric;
+  private readonly $destroy: Subject<void> = new Subject();
   private viewInitialized = false;
 
   autocompleteRegionRequest = {
@@ -206,7 +208,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
 
     if (this.isFromAdminPage) {
-      this.addressComment.disable();
       this.region.disable();
     }
   }
@@ -269,14 +270,17 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       city: [this.addressData.getCity() ?? '', Validators.required],
       street: [this.addressData.getStreet() ?? '', Validators.required],
       district: [this.addressData.getDistrict() ?? '', Validators.required],
-      houseNumber: [this.address?.houseNumber ?? '', [Validators.required, Validators.pattern(this.buildingPattern)]],
+      houseNumber: [
+        this.address?.houseNumber ?? '',
+        [Validators.required, Validators.maxLength(10), Validators.pattern(this.houseNumberPattern)]
+      ],
       houseCorpus: [this.address?.houseCorpus ?? '', emptyOrValid([Validators.maxLength(4), Validators.pattern(this.buildingPattern)])],
       entranceNumber: [
         this.address?.entranceNumber ?? '',
-        emptyOrValid([Validators.maxLength(2), Validators.pattern(this.buildingPattern)])
+        emptyOrValid([Validators.maxLength(2), Validators.pattern(this.numericPattern)])
       ],
       placeId: [this.address?.placeId ?? ''],
-      addressComment: [this.address?.addressComment ?? '']
+      addressComment: [this.address?.addressComment ?? '', Validators.maxLength(255)]
     });
 
     if (!this.edit) {
@@ -519,7 +523,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   private OnChangeAndTouched(): void {
     if (this.isFromAdminPage) {
-      this.addressComment.disable();
       this.region.disable();
     }
     this.onChange(this.addressData.getValues());

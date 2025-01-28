@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 export const Patterns = {
   linkPattern: /^$|^https?:\/\//,
-
+  binotelLinkPattern: /^https:\/\/my\.binotel\.ua.*/,
   NamePattern: /^[ґҐіІєЄїЇА-Яа-яa-zA-Z](?!.*\.$)(?!.*?\.\.)(?!.*?--)(?!.*?'')[-'ʼ’ ґҐіІєЄїЇА-Яа-я\w.]{0,29}$/,
   ServiceNamePattern: /^[ґҐіІєЄїЇА-Яа-яa-zA-Z0-9!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~\s]{1,30}$/,
   TarifNamePattern: /^[ґҐіІєЄїЇА-Яа-яa-zA-Z](?!.*\.$)(?!.*?\.\.)(?!.*?)(?!.*?)[-'ʼ’ ґҐіІєЄїЇА-Яа-я+\w.]{0,255}$/,
@@ -10,9 +10,13 @@ export const Patterns = {
 
   Base64Regex: /data:image\/([a-zA-Z]*);base64,([^"]*)/g,
 
-  socialMediaPattern: /^(?:https?:\/\/)?(?:www\.)?([^\s/?]+)\.com(?:[/?][^\s]*)?$/,
+  socialMediaPattern: /^https?:\/\/(?:www\.)?([^\s/?]+)\.[a-z]{2,}(?:[/?][^\s]*)?$/,
 
   numericAndAlphabetic: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\-\\\/]*$/,
+  numeric: /^[0-9]*$/,
+
+  ukrainianText: /^[А-Яа-яЇїІіЄєҐґ\s,'-]+$/,
+  englishText: /^[A-Za-z\s,'-]+$/,
 
   serteficatePattern: /(?!0000)\d{4}-(?!0000)\d{4}/,
   ubsCommentPattern: /[\S\s]{0,255}/,

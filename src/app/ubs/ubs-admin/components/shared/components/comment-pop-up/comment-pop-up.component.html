@@ -1,0 +1,23 @@
+<div class="wrapper">
+  <div class="set_comment_container">
+    <h3>{{ header }}</h3>
+    <div class="set_comment">
+      <form [formGroup]="commentForm">
+        <textarea
+          formControlName="comment"
+          [placeholder]="isLink ? ('ubs-tables.link-placeholder' | translate) : ('order-edit.comment.placeholder' | translate)"
+          cols="50"
+          [rows]="isLink ? 2 : 6"
+        >
+        </textarea>
+      </form>
+    </div>
+    <div class="validation" *ngIf="commentForm.invalid">
+      <app-ubs-input-error [formElement]="commentForm.controls.comment" />
+    </div>
+    <div class="comment_btns">
+      <button class="cancel" [mat-dialog-close]="null">{{ 'order-edit.btn.cancel' | translate }}</button>
+      <button (click)="onSubmit()" class="save" [disabled]="commentForm.invalid">{{ 'order-edit.btn.save' | translate }}</button>
+    </div>
+  </div>
+</div>

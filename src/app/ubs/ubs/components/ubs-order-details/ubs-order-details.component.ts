@@ -7,11 +7,10 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
-import { Bag, CourierLocations, OrderDetails } from '../../models/ubs.interface';
+import { Bag, CourierLocations, KyivNamesEnum, LocationsDtosList, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Store, select } from '@ngrx/store';
 import {
   GetCourierLocations,
@@ -38,10 +37,11 @@ import {
   tariffIdIdSelector
 } from 'src/app/store/selectors/order.selectors';
 import { courierLimitValidator, uniqueArrayValidator } from 'src/app/ubs/ubs/services/order-validators';
-import { ICourierInfo } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { ICourierInfo, IValidationConfig } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
 import { WarningPopUpComponent } from '@shared/components';
 import { emptyOrValid } from 'src/app/shared/validators/empthy-or-valid.validator';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -52,6 +52,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   isOrderDetailsLoading: Observable<boolean>;
   bags: Bag[];
   locations: CourierLocations;
+  courierLimits: ICourierInfo;
   orderDetailsForm: FormGroup;
   locationId: number;
   currentLocation: string;
@@ -72,7 +73,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   servicesMask = Masks.servicesMask;
   commentPattern = Patterns.ubsCommentPattern;
   additionalOrdersPattern = Patterns.orderEcoStorePattern;
-  private $destroy: Subject<void> = new Subject<void>();
+  private readonly $destroy: Subject<void> = new Subject<void>();
 
   popupConfig = {
     hasBackdrop: true,
@@ -108,12 +109,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   constructor(
-    private fb: FormBuilder,
-    private localStorageService: LocalStorageService,
-    private langService: LanguageService,
+    private readonly fb: FormBuilder,
+    private readonly localStorageService: LocalStorageService,
     public orderService: OrderService,
-    private route: ActivatedRoute,
-    private store: Store,
+    private readonly langService: LanguageService,
+    private readonly route: ActivatedRoute,
+    private readonly store: Store,
     router: Router,
     dialog: MatDialog
   ) {
@@ -266,19 +267,29 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   initFormBags(): void {
-    const courierLimits: ICourierInfo = {
+    this.courierLimits = {
       courierLimit: this.locations.courierLimit,
       min: this.locations.min,
       max: this.locations.max
     };
+    this.updateValidator();
+    this.calculateOrderSum();
+    this.subscribeToQuantityChanges();
+  }
 
-    const newBagsGroup = this.fb.group({}, { validators: courierLimitValidator(this.bags, courierLimits) });
+  private updateValidator() {
+    const validationConfig: IValidationConfig = {
+      courierInfo: this.courierLimits,
+      currentLang: this.langService.getCurrentLanguage(),
+      isKyiv: this.getLocationById().nameEn === KyivNamesEnum.KyivEn
+    };
+
+    const newBagsGroup = this.fb.group({}, { validators: courierLimitValidator(this.bags, validationConfig) });
+
     this.bags.forEach((bag: Bag) => {
       newBagsGroup.addControl(`quantity${bag.id}`, new FormControl(String(bag.quantity ?? 0), [Validators.min(0), Validators.max(999)]));
     });
     this.orderDetailsForm.setControl('bags', newBagsGroup);
-    this.calculateOrderSum();
-    this.subscribeToQuantityChanges();
   }
 
   initExistingOrderValues(): void {
@@ -292,15 +303,19 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   initLocation(): void {
-    const location = this.locations?.locationsDtosList.find((location) => location.locationId === this.locationId);
+    const location = this.getLocationById();
 
     if (!location) {
       return;
     }
 
     const region = this.locations.regionDto;
-    this.currentLocation =
-      this.langService.getLangValue(location.nameUk, location.nameEn) + ', ' + this.langService.getLangValue(region.nameUk, region.nameEn);
+
+    this.currentLocation = this.orderService.getLocationName(location, region);
+  }
+
+  getLocationById(): LocationsDtosList | undefined {
+    return this.locations?.locationsDtosList.find((el) => el.locationId === this.locationId);
   }
 
   changeQuantity(id: number, value: number): void {
@@ -422,6 +437,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.localStorageService.languageSubject.pipe(takeUntil(this.$destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
       this.initLocation();
+      this.updateValidator();
     });
   }
 

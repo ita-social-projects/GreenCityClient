@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { statusFiltersData, timeStatusFiltersData, typeFiltersData } from '../../models/event-consts';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
@@ -17,6 +17,7 @@ import { EventsService } from '../../services/events.service';
 import { MatOption } from '@angular/material/core';
 import { HttpParams } from '@angular/common/http';
 import { EventStoreService } from '../../services/event-store.service';
+import { initializeSavedState } from '@shared/components/saved-tabs/saved-section-const';
 
 @Component({
   selector: 'app-events-list',
@@ -54,10 +55,13 @@ export class EventsListComponent implements OnInit, OnDestroy {
   userId: number;
   isLoading = true;
   isGalleryView = true;
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  private ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
+  isSavedVisible = false;
+  currentTab = 'events';
+
+  private readonly destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private readonly ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   private page = 0;
-  private eventsPerPage = 6;
+  private readonly eventsPerPage = 6;
   private searchResultSubscription: Subscription;
   private searchQuery: string;
   private readonly dialogRef: MatDialogRef<unknown>;
@@ -69,7 +73,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly eventService: EventsService,
     private readonly eventStoreService: EventStoreService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +82,13 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.localStorageService.setCurentPage('previousPage', '/events');
+
+    initializeSavedState(this.route, (isBookmark, section) => {
+      this.isSavedVisible = isBookmark;
+      this.currentTab = section;
+      this.bookmarkSelected = isBookmark;
+    });
+
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       if (res.eventState) {
         this.isLoading = false;
@@ -109,7 +121,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.page++;
   }
 
-  search(): void {
+  toggleSearch(): void {
     this.searchToggle = !this.searchToggle;
   }
 
