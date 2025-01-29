@@ -34,13 +34,63 @@ describe('AddressInputComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should disable the region control if keyupText is not empty', () => {
-    component.keyup('some text');
-    expect(component.addressForm.get('region').disabled).toBeTrue();
+
+  it('should validate the form correctly', () => {
+    component.addressForm.setValue({
+      region: 'Kyiv',
+      city: 'Kyiv',
+      street: 'Main Street',
+      district: 'District 1',
+      houseNumber: '123',
+      houseCorpus: '',
+      entranceNumber: '',
+      placeId: 'place123',
+      addressComment: ''
+    });
+    expect(component.addressForm.valid).toBeTrue();
   });
 
-  it('should enable the region control if keyupText is empty', () => {
-    component.keyup('');
-    expect(component.addressForm.get('region').enabled).toBeTrue();
+  it('should enable the city field when region is selected', () => {
+    component.region.setValue('Kyiv');
+    component.onRegionValueSet('Kyiv');
+    expect(component.city.disabled).toBeFalse();
   });
+
+  it('should reset street and house info when city is reset', () => {
+    component.city.setValue('Kyiv');
+    component.onCityValueSet('');
+    expect(component.street.value).toBe('');
+    expect(component.houseNumber.value).toBe('');
+  });
+
+  it('should update addressData when house number changes', () => {
+    spyOn(component.addressData, 'setHouseNumber');
+    component.houseNumber.setValue('42');
+    component.onHouseNumberChange();
+    expect(component.addressData.setHouseNumber).toHaveBeenCalledWith('42');
+  });
+
+  it('should call handleGeolocationSuccess when setCurrentLocation is triggered', () => {
+    spyOn(navigator.geolocation, 'getCurrentPosition').and.callFake((success) => {
+      const mockPosition: GeolocationPosition = {
+        coords: {
+          latitude: 50.45,
+          longitude: 30.52,
+          accuracy: 10,
+          altitude: null,
+          altitudeAccuracy: null,
+          heading: null,
+          speed: null,
+          toJSON: () => ({})
+        },
+        timestamp: Date.now()
+      } as any;
+      success(mockPosition);
+    });
+
+    spyOn(component, 'handleGeolocationSuccess');
+    component.setCurrentLocation();
+    expect(component.handleGeolocationSuccess).toHaveBeenCalled();
+  });
+
 });

@@ -228,10 +228,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.district.enable();
   }
 
-  keyup(keyupText: string): void {
-    keyupText ? this.addressForm.get('region').disable() : this.addressForm.get('region').enable();
-  }
-
   initListeners(): void {
     this.addressData
       .getPlaceIdChange()
@@ -447,7 +443,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.$destroy.complete();
   }
 
-  private onRegionValueSet(value: string): void {
+  onRegionValueSet(value: string): void {
     if (value) {
       this.region.patchValue(value);
       this.city.enable();
@@ -463,7 +459,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.OnChangeAndTouched();
   }
 
-  private onCityValueSet(value: string) {
+  onCityValueSet(value: string) {
     if (value) {
       this.city.patchValue(value);
 
@@ -529,14 +525,14 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   //Set users current location
-  private setCurrentLocation(): void {
+  setCurrentLocation(): void {
     navigator.geolocation.getCurrentPosition(
       (position) => this.handleGeolocationSuccess(position),
       (error) => console.error(error)
     );
   }
 
-  private handleGeolocationSuccess(position: GeolocationPosition): void {
+  handleGeolocationSuccess(position: GeolocationPosition): void {
     this.addressCoords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     this.addressData.setCoordinates(this.addressCoords);
   }
