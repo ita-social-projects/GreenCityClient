@@ -345,6 +345,10 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.onCityValueSet(city?.structured_formatting.main_text ?? '');
   }
 
+  keyup(keyupText: string): void {
+    keyupText ? this.addressForm.get('region').disable() : this.addressForm.get('region').enable();
+  }
+  
   onStreetSelected(street: GooglePrediction): void {
     if (street) {
       this.placeId.setValue(street.place_id);
