@@ -40,6 +40,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   previousPath: string;
   eventForm: FormGroup;
   routedFromProfile: boolean;
+  private static readonly DAY_IN_MS: number = 24 * 60 * 60 * 1000;
 
   constructor(
     public readonly dialog: MatDialog,
@@ -98,7 +99,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
             const previousDay = this.eventDateForm.at(i - 1);
             const previousDate = previousDay ? new Date(previousDay.value.day.date) : new Date();
 
-            const nextDate = new Date(previousDate.getTime() + 24 * 60 * 60 * 1000);
+            const nextDate = new Date(previousDate.getTime() + EventEditorComponent.DAY_IN_MS);
 
             this.eventDateForm.push(
               this.fb.group({
@@ -146,7 +147,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       /* eslint-disable indent */
       const nextDate = index < this.eventDateForm.length - 1 ? new Date(this.eventDateForm.at(index).get('day').get('date').value) : null;
 
-      dayFormGroup.get('minDate').setValue(prevDate ? new Date(prevDate.getTime() + 24 * 60 * 60 * 1000) : currentDay);
+      dayFormGroup.get('minDate').setValue(prevDate ? new Date(prevDate.getTime() + EventEditorComponent.DAY_IN_MS) : currentDay);
       dayFormGroup.get('maxDate').setValue(nextDate ? nextDate : null);
     });
   }
