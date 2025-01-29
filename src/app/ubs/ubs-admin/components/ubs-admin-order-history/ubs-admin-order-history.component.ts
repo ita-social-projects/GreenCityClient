@@ -26,7 +26,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
   cancellationComment: string;
   statusNotTakenOut = ordersStatuses.NotTakenOutUA;
   statusCancel = ordersStatuses.CancelUA;
-
+  orderId!: number;
   constructor(
     private orderService: OrderService,
     private dialog: MatDialog,
@@ -34,13 +34,14 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
   ) {}
 
   ngOnInit(): void {
+    this.orderId = this.orderInfo.generalOrderInfo.id;
     this.currentLanguage = this.languageService.getCurrentLanguage();
     this.languageService
       .getCurrentLangObs()
       .pipe(takeUntil(this.destroy$))
       .subscribe((lang) => {
         this.currentLanguage = lang;
-        this.getOrderHistory(this.orderInfo.generalOrderInfo.id);
+        this.getOrderHistory();
       });
   }
 
@@ -64,11 +65,10 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const orderID = this.orderInfo.generalOrderInfo.id;
+    this.orderId = this.orderInfo.generalOrderInfo.id;
     if (changes.orderInfo && this.currentLanguage) {
-      this.getOrderHistory(orderID);
-      this.getNotTakenOutReason(orderID);
-      this.getOrderCancelReason(orderID);
+      this.getOrderHistory();
+      this.getNotTakenOutReason();
     }
   }
 
@@ -80,13 +80,12 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
     if (event && (event.key === 'Enter' || event.key === ' ')) {
       event.preventDefault();
     }
-
     this.orderHistory.forEach((order) => {
       if (order.id !== orderHistoryId) {
         return;
       }
       if (order.result === ordersStatuses.CancelUA) {
-        this.openCancelReason();
+        this.openCancelReason(true);
       }
       if (order.result === ordersStatuses.NotTakenOutUA) {
         this.openNotTakenOutReason(orderHistoryId);
@@ -94,14 +93,15 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
     });
   }
 
-  openCancelReason() {
+  openCancelReason(isFormDisabled?: boolean) {
     this.dialog.open(AddOrderCancellationReasonComponent, {
       hasBackdrop: true,
       data: {
         isHistory: true,
-        orderID: this.orderInfo.generalOrderInfo.id,
+        orderID: this.orderId,
         reason: this.cancellationReason,
-        comment: this.cancellationComment
+        comment: this.cancellationComment,
+        isFormDisabled: !!isFormDisabled
       },
       maxHeight: '100vh'
     });
@@ -113,35 +113,36 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
       data: {
         id: orderHistoryId,
         isFromHistory: true,
-        orderID: this.orderInfo.generalOrderInfo.id,
+        orderID: this.orderId,
         description: this.orderNotTakenOutReason.description,
         images: this.orderNotTakenOutReason.images
       }
     });
   }
 
-  getNotTakenOutReason(orderId: number) {
+  getNotTakenOutReason() {
     this.orderService
-      .getNotTakenOutReason(orderId)
+      .getNotTakenOutReason(this.orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         this.orderNotTakenOutReason = data;
       });
   }
 
-  getOrderCancelReason(orderId: number) {
+  getOrderCancelReason(orderHistoryId: number) {
     this.orderService
-      .getOrderCancelReason(orderId)
+      .getOrderCancelReason(this.orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((message) => {
         this.cancellationReason = message.cancellationReason;
         this.cancellationComment = message.cancellationComment;
+        this.showPopup(orderHistoryId);
       });
   }
 
-  getOrderHistory(orderId: number): void {
+  getOrderHistory(): void {
     this.orderService
-      .getOrderHistory(orderId, this.currentLanguage)
+      .getOrderHistory(this.orderId, this.currentLanguage)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderHistory[]) => {
         this.orderHistory = data;

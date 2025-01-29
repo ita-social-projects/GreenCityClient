@@ -31,16 +31,16 @@
           matTooltipClass="popup"
           (mouseenter)="$event.stopImmediatePropagation()"
           (mouseleave)="$event.stopImmediatePropagation()"
-          (click)="showPopup(historyAction.id)"
           (keydown)="showPopup(historyAction.id, $event)"
-        >
+          >
           <span>{{ historyAction.status }} </span>
           <span *ngIf="historyAction.result"> -</span>
           <span
-            [ngClass]="{ result: historyAction.result === statusNotTakenOut || historyAction.result === statusCancel }"
-            *ngIf="historyAction.result"
+          [ngClass]="{ result: historyAction.result === statusNotTakenOut || historyAction.result === statusCancel }"
+          *ngIf="historyAction.result"
+          (click)="getOrderCancelReason(historyAction.id)"
           >
-            {{ historyAction.result }}</span
+          {{ historyAction.result }}</span
           >
         </td>
         <td>{{ historyAction.authorName }}</td>
