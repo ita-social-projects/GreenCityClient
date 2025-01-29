@@ -1,5 +1,14 @@
-::ng-deep .cron-picker-overlay.mat-menu-panel {
-  max-width: none !important;
+::ng-deep {
+  .cron-picker-overlay {
+    max-width: none !important;
+  }
+
+  .select-trigger,
+  .select-time {
+    .mat-mdc-select-arrow {
+      display: none;
+    }
+  }
 }
 
 .notification-settings-container {
