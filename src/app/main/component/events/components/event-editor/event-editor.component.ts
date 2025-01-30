@@ -46,7 +46,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     public readonly dialog: MatDialog,
     public readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly fb: FormBuilder,
+    private readonly formBuilder: FormBuilder,
     public readonly localStorageService: LocalStorageService,
     private readonly actionsSubj: ActionsSubject,
     private readonly store: Store,
@@ -94,38 +94,40 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
           for (let i = currentLength - 1; i >= numberDays; i--) {
             this.eventDateForm.removeAt(i, { emitEvent: false });
           }
-        } else {
-          for (let i = currentLength; i < numberDays; i++) {
-            const previousDay = this.eventDateForm.at(i - 1);
-            const previousDate = previousDay ? new Date(previousDay.value.day.date) : new Date();
 
-            const nextDate = new Date(previousDate.getTime() + EventEditorComponent.DAY_IN_MS);
-
-            this.eventDateForm.push(
-              this.fb.group({
-                day: this.fb.group({
-                  date: [nextDate, Validators.required],
-                  startTime: ['', Validators.required],
-                  endTime: ['', Validators.required],
-                  allDay: [false],
-                  minDate: [nextDate],
-                  maxDate: [null]
-                }),
-                placeOnline: this.fb.group({
-                  coordinates: this.fb.group({
-                    lat: [DefaultCoordinates.LATITUDE],
-                    lng: [DefaultCoordinates.LONGITUDE]
-                  }),
-                  onlineLink: [''],
-                  place: [''],
-                  appliedLinkForAll: [false],
-                  appliedPlaceForAll: [false]
-                })
-              })
-            );
-          }
+          this._updateDateRanges();
+          return;
         }
 
+        for (let i = currentLength; i < numberDays; i++) {
+          const previousDay = this.eventDateForm.at(i - 1);
+          const previousDate = previousDay ? new Date(previousDay.value.day.date) : new Date();
+
+          const nextDate = new Date(previousDate.getTime() + EventEditorComponent.DAY_IN_MS);
+
+          this.eventDateForm.push(
+            this.formBuilder.group({
+              day: this.formBuilder.group({
+                date: [nextDate, Validators.required],
+                startTime: ['', Validators.required],
+                endTime: ['', Validators.required],
+                allDay: [false],
+                minDate: [nextDate],
+                maxDate: [null]
+              }),
+              placeOnline: this.formBuilder.group({
+                coordinates: this.formBuilder.group({
+                  lat: [DefaultCoordinates.LATITUDE],
+                  lng: [DefaultCoordinates.LONGITUDE]
+                }),
+                onlineLink: [''],
+                place: [''],
+                appliedLinkForAll: [false],
+                appliedPlaceForAll: [false]
+              })
+            })
+          );
+        }
         this._updateDateRanges();
       });
   }
@@ -138,11 +140,11 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       const prevDate =
         index > 0
           ? new Date(
-              this.eventDateForm
-                .at(index - 1)
-                .get('day')
-                .get('date').value
-            )
+            this.eventDateForm
+              .at(index - 1)
+              .get('day')
+              .get('date').value
+          )
           : null;
       /* eslint-disable indent */
       const nextDate = index < this.eventDateForm.length - 1 ? new Date(this.eventDateForm.at(index).get('day').get('date').value) : null;
