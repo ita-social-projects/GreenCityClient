@@ -28,6 +28,7 @@ import { EventStoreService } from '../../services/event-store.service';
   styleUrls: ['./event-editor.component.scss']
 })
 export class EventEditorComponent extends FormBaseComponent implements OnInit {
+  private static readonly DAY_IN_MS: number = 24 * 60 * 60 * 1000;
   @Input() isUpdating: boolean;
   @Input() cancelChanges: boolean;
   @Input({ required: true }) eventId: number;
@@ -40,7 +41,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   previousPath: string;
   eventForm: FormGroup;
   routedFromProfile: boolean;
-  private static readonly DAY_IN_MS: number = 24 * 60 * 60 * 1000;
 
   constructor(
     public readonly dialog: MatDialog,

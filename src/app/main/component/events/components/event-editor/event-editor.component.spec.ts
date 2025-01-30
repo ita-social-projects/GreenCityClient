@@ -22,7 +22,7 @@ describe('EventEditorComponent', () => {
     TestBed.configureTestingModule({
       declarations: [EventEditorComponent],
       imports: [
-        EventsModule,
+        EventsModule
       ],
       providers: [
         FormBuilder,
@@ -32,7 +32,7 @@ describe('EventEditorComponent', () => {
         provideHttpClient(),
         provideMockStore(),
         provideNoopAnimations(),
-        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
         // { provide: ActivatedRoute, useValue: {params: {id: 22}} }
       ]
     });
@@ -86,7 +86,7 @@ describe('EventEditorComponent', () => {
   it('sets event store service event id to one found in route', async () => {
     const eventStoreService = TestBed.inject(EventStoreService);
     const route = TestBed.inject(ActivatedRoute);
-    (route as any).params = of({id: 22}); // ActivatedRoute param :id = 22
+    (route as any).params = of({ id: 22 }); // ActivatedRoute param :id = 22
     const eventStoreSetEventId = spyOn(eventStoreService, 'setEventId').and.stub();
     fixture.detectChanges();
 
