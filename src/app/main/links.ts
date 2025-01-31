@@ -20,7 +20,7 @@ export const unblockAccountLink = userOwnSecurityLink + 'unblockAccount';
 // Google Security Controller
 export const googleSecurityLink = mainUserLink + 'googleSecurity';
 // Facebook Security Controller
-export const facebookSecurityLink = 'https://200a-91-245-77-57.ngrok-free.app/facebookSecurity/login';
+export const facebookSecurityLink = 'http://localhost:8060/facebookSecurity/login';
 // User Controller
 export const userLink = mainUserLink + 'user';
 

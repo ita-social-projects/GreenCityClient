@@ -18,7 +18,8 @@ export class AuthService {
     signIn: () => `${mainUserLink}ownSecurity/signIn`,
     signInWithGoogle: (token: string, lang: string) => `${googleSecurityLink}?token=${token}&lang=${lang}`,
     signInWithFacebook: (token: string, userID: string, name: string, email: string, lang: string) =>
-      `${facebookSecurityLink}?token=${token}&userID=${userID}&name=${name}&email=${email}&lang=${lang}`
+      `${facebookSecurityLink}?token=${token}&userID=${userID}&name=${name}&email=${email}&lang=${lang}`,
+    updateAccessToken: (refreshToken: string) => `http://localhost:8060/ownSecurity/updateAccessToken?refreshToken=${refreshToken}`
   };
 
   getCurrentUser(): Observable<ISignInResponse | null> {
@@ -61,6 +62,13 @@ export class AuthService {
         withCredentials: true
       }
     );
+  }
+
+  updateAccessToken(refreshToken: string): Observable<any> {
+    const url = this.API_ROUTES.updateAccessToken(refreshToken);
+    return this.http.get(url, {
+      withCredentials: true
+    });
   }
 
   saveDataToLocalStorage(data: ISignInResponse) {

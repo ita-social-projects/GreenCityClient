@@ -107,8 +107,19 @@ export class SignInComponent implements OnInit, OnDestroy {
             this.authService.signInWithFacebook(response.authResponse.accessToken, user.id, user.name, user.email, language).subscribe({
               next: (data: any) => {
                 console.log('Server response:', data);
-                if (data.accessToken) {
-                  window.location.href = 'http://localhost:4200/#/ubs';
+                if (data.accessToken && data.refreshToken) {
+                  localStorage.setItem('refreshToken', data.refreshToken);
+
+                  this.authService.updateAccessToken(data.refreshToken).subscribe({
+                    next: (tokenData: any) => {
+                      console.log('New Access Token:', tokenData.accessToken);
+                      localStorage.setItem('accessToken', tokenData.accessToken);
+                      window.location.href = 'http://localhost:4200/#/ubs';
+                    },
+                    error: (error: any) => {
+                      console.error('Error updating token:', error);
+                    }
+                  });
                 }
               },
               error: (error: any) => {
