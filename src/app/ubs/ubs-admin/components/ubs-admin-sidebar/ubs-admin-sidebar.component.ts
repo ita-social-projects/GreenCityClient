@@ -6,7 +6,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { listElementsAdmin } from '../../../ubs/models/ubs-sidebar-links';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { AdminSideBarMenu, EnablingSeeAuthorities, SideMenuElementsNames } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-admin-sidebar',
@@ -21,6 +21,8 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   positionName: Array<string>;
   destroySub: Subject<boolean> = new Subject<boolean>();
 
+  isAuthenticating$: Observable<boolean>;
+
   constructor(
     public ubsAdminEmployeeService: UbsAdminEmployeeService,
     public service: UserMessagesService,
@@ -28,12 +30,17 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     public jwtService: JwtService
   ) {
     super(service, breakpointObserver, jwtService);
+    this.isAuthenticating$ = this.jwtService.isAuthenticating$;
   }
 
   ngOnInit() {
     if (this.hasAuthorities) {
       this.changeListElementsDependOnPermissions(this.authorities);
     }
+  }
+
+  get shouldShowNoAuthorities(): boolean {
+    return !this.hasAuthorities && !this.jwtService.isAuthenticated();
   }
 
   private authoritiesFilterUtil(authority: string): boolean {
