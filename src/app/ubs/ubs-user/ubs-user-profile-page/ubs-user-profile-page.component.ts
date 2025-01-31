@@ -153,8 +153,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         Validators.minLength(12),
         PhoneNumberValidator('UA')
       ]),
-      telegramIsNotify: new FormControl(this.userProfile.telegramIsNotify),
-      viberIsNotify: new FormControl(this.userProfile.viberIsNotify)
+      telegramIsNotify: new FormControl(this.userProfile.telegramIsNotify)
     });
 
     this.isFetching = false;
@@ -209,7 +208,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         recipientPhone: this.userForm.value.recipientPhone,
         recipientSurname: this.userForm.value.recipientSurname,
         telegramIsNotify: this.userProfile.telegramIsNotify,
-        viberIsNotify: this.userProfile.viberIsNotify,
         hasPassword: this.userProfile.hasPassword
       };
 
@@ -267,10 +265,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
   goToTelegramUrl() {
     (window as any).open(this.telegramBotURL, '_blank');
-  }
-
-  goToViberUrl() {
-    (window as any).open(this.viberBotURL, '_blank');
   }
 
   openDeleteProfileDialog(): void {
@@ -370,21 +364,10 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
   }
 
-  onSwitchChanged(id: string): void {
-    switch (id) {
-      case NotificationPlatform.telegramNotification:
-        this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
-        if (this.userProfile.telegramIsNotify) {
-          this.goToTelegramUrl();
-        }
-        break;
-
-      case NotificationPlatform.viberNotification:
-        this.userProfile.viberIsNotify = !this.userProfile.viberIsNotify;
-        if (this.userProfile.viberIsNotify) {
-          this.goToViberUrl();
-        }
-        break;
+  onSwitchChanged(): void {
+    this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
+    if (this.userProfile.telegramIsNotify) {
+      this.goToTelegramUrl();
     }
   }
 

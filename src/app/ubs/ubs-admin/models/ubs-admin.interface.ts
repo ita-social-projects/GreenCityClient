@@ -344,7 +344,6 @@ export interface UserProfile {
   recipientSurname: string;
   hasPassword: boolean;
   telegramIsNotify?: boolean;
-  viberIsNotify?: boolean;
   botList?: SocialLink[];
 }
 
