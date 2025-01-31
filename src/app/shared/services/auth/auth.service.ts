@@ -5,8 +5,7 @@ import { ISignIn } from '@global-models/auth/sign-in.interface';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, Observable, of } from 'rxjs';
-import { googleSecurityLink, mainUserLink } from 'src/app/main/links';
-
+import { googleSecurityLink, facebookSecurityLink, mainUserLink } from 'src/app/main/links';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +16,9 @@ export class AuthService {
 
   private readonly API_ROUTES = {
     signIn: () => `${mainUserLink}ownSecurity/signIn`,
-    signInWithGoogle: (token: string, lang: string) => `${googleSecurityLink}?token=${token}&lang=${lang}`
+    signInWithGoogle: (token: string, lang: string) => `${googleSecurityLink}?token=${token}&lang=${lang}`,
+    signInWithFacebook: (token: string, userID: string, name: string, email: string, lang: string) =>
+      `${facebookSecurityLink}?token=${token}&userID=${userID}&name=${name}&email=${email}&lang=${lang}`
   };
 
   getCurrentUser(): Observable<ISignInResponse | null> {
@@ -45,6 +46,21 @@ export class AuthService {
     return this.http
       .get<ISignInResponse>(this.API_ROUTES.signInWithGoogle(token, lang))
       .pipe(map((response) => this.decodeUserRole(response)));
+  }
+
+  signInWithFacebook(token: string, userID: string, name: string, email: string, lang: string): Observable<any> {
+    const url = this.API_ROUTES.signInWithFacebook(token, userID, name, email, lang);
+    return this.http.post(
+      url,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
+        withCredentials: true
+      }
+    );
   }
 
   saveDataToLocalStorage(data: ISignInResponse) {

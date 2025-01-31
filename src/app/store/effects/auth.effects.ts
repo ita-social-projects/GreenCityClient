@@ -14,7 +14,8 @@ import {
   SignInAction,
   SignInFailureAction,
   SignInSuccessAction,
-  SignInWithGoogleAction
+  SignInWithGoogleAction,
+  SignInWithFacebookAction
 } from 'src/app/store/actions/auth.actions';
 import { isUBSSelector, userRoleSelector } from 'src/app/store/selectors/auth.selectors';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -72,6 +73,24 @@ export class AuthEffects {
       })
     );
   });
+
+  signInWithFacebook$ = createEffect(() =>
+    this.actions.pipe(
+      ofType(SignInWithFacebookAction),
+      mergeMap((action) =>
+        this.authService.signInWithFacebook(action.token, action.userID, action.name, action.email, action.lang).pipe(
+          map((response) => SignInSuccessAction({ data: response })),
+          catchError((error) =>
+            of(
+              SignInFailureAction({
+                error: this.BACKEND_ERRORS[error.message] || this.DEFAULT_ERROR
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 
   $redirectOnSuccess = createEffect(
     () => {

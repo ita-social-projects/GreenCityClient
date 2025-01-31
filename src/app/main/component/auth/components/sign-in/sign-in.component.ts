@@ -12,13 +12,16 @@ import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { SignInAction, SignInSuccessAction, SignInWithGoogleAction } from 'src/app/store/actions/auth.actions';
+import { SignInAction, SignInSuccessAction, SignInWithFacebookAction, SignInWithGoogleAction } from 'src/app/store/actions/auth.actions';
 import { errorSelector, isLoadingSelector } from 'src/app/store/selectors/auth.selectors';
 import { googleProvider } from './GoogleOAuthProvider/GoogleOAuthProvider';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 import { TurnstileCaptchaComponent } from '@global-auth/turnstile-captcha/turnstile-captcha.component';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
 declare let google: any;
+declare const FB: any;
+
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -53,7 +56,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   constructor(
     private readonly matDialogRef: MatDialogRef<SignInComponent>,
     private readonly googleService: GoogleSignInService,
-    private readonly userOwnAuthService: UserOwnAuthService
+    private readonly userOwnAuthService: UserOwnAuthService,
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -92,6 +96,30 @@ export class SignInComponent implements OnInit, OnDestroy {
       onError: (err) => console.error('Failed to login with google redirect', err)
     });
     login();
+  }
+
+  signInWithFacebook(): void {
+    FB.login(
+      (response: any) => {
+        if (response.authResponse) {
+          FB.api('/me', { fields: 'name,email' }, (user: any) => {
+            const language = navigator.language || navigator['userLanguage'];
+            this.authService.signInWithFacebook(response.authResponse.accessToken, user.id, user.name, user.email, language).subscribe({
+              next: (data: any) => {
+                console.log('Server response:', data);
+                if (data.accessToken) {
+                  window.location.href = 'http://localhost:4200/#/ubs';
+                }
+              },
+              error: (error: any) => {
+                console.log('Error:', error);
+              }
+            });
+          });
+        }
+      },
+      { scope: 'email' }
+    );
   }
 
   onOpenModalWindow(windowPath: string): void {

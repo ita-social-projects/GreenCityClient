@@ -9,6 +9,7 @@ export enum AuthActions {
 
   SignIn = '[Auth] Sign In',
   SignInWithGoogle = '[Auth] Sign In With Google',
+  SignInWithFacebook = '[Auth] Sign In With Facebook',
   SignInSuccess = '[Auth] Sign In Success',
   SignInFailure = '[Auth] Sign In Failure',
 
@@ -21,6 +22,10 @@ export const GetCurrentUserFailureAction = createAction(AuthActions.GetCurrentUs
 
 export const SignInAction = createAction(AuthActions.SignIn, props<{ data: ISignIn; isUBS: boolean }>());
 export const SignInWithGoogleAction = createAction(AuthActions.SignInWithGoogle, props<{ token: string; isUBS: boolean }>());
+export const SignInWithFacebookAction = createAction(
+  AuthActions.SignInWithFacebook,
+  props<{ token: string; userID: string; name: string; email: string; lang: string }>()
+);
 export const SignInSuccessAction = createAction(AuthActions.SignInSuccess, props<{ data: ISignInResponse }>());
 export const SignInFailureAction = createAction(AuthActions.SignInFailure, props<{ error: string }>());
 

@@ -31,6 +31,30 @@
     <link href="manifest.webmanifest" rel="manifest" />
     <meta content="#13AA57" name="theme-color" />
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+    <script>
+      window.fbAsyncInit = function () {
+        FB.init({
+          appId: '964118242488651',
+          cookie: true,
+          xfbml: true,
+          version: 'v18.0'
+        });
+
+        FB.AppEvents.logPageView();
+      };
+
+      (function (d, s, id) {
+        let js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+          return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, 'script', 'facebook-jssdk');
+    </script>
   </head>
 
   <body>
@@ -53,4 +77,5 @@
     src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
   ></script>
   <script src="https://accounts.google.com/gsi/client"></script>
+  <script crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 </html>
