@@ -485,8 +485,7 @@ mat-spinner {
 }
 
 .scrolling {
-  min-height: 500px;
-  height: 100vh;
+  height: calc(100vh - 160px) !important;
   overflow: scroll;
 }
 

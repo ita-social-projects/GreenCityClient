@@ -176,12 +176,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         if (this.firstPageLoad) {
           this.firstPageLoad = false;
           this.totalElements = item[`totalElements`];
-          this.tableData = JSON.parse(JSON.stringify(item[`content`]));
+          this.tableData = item[`content`];
           this.allElements = !this.allElements ? this.totalElements : this.allElements;
           this.dataSource = new MatTableDataSource(this.tableData);
           this.isTableHeightSet = false;
         } else {
-          const data = JSON.parse(JSON.stringify(item[`content`]));
+          const data = item[`content`];
           this.tableData = [...this.tableData, ...data.slice(this.tableData.length)];
           this.dataSource.data = this.tableData;
           this.isUpdate = false;
@@ -477,15 +477,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       ua: 'грн',
       en: 'UAH'
     };
-
     this.tableData.forEach((row) => {
+      const newRow = structuredClone(row);
       const priceKeys = [TableKeys.amountDue, TableKeys.totalOrderSum, TableKeys.generalDiscount, TableKeys.totalPayment];
       for (const key of priceKeys) {
-        row[key] = parseFloat(row[key]).toFixed(2) + ' ' + currency[this.currentLang];
+        newRow[key] = parseFloat(newRow[key]).toFixed(2) + ' ' + currency[this.currentLang];
       }
-      const arr = row.orderCertificateCode?.split(', ');
+      const arr = newRow.orderCertificateCode?.split(', ');
       if (arr && arr.length > 0) {
-        row.orderCertificatePoints = arr.reduce((res, elem) => {
+        newRow.orderCertificatePoints = arr.reduce((res, elem) => {
           res = parseInt(res, 10);
           res += parseInt(elem, 10);
           return res ? res + '' : '';

@@ -30,6 +30,9 @@
               "./node_modules/@ctrl/ngx-emoji-mart/picker.css",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/mixins"]
+            },
             "scripts": ["./node_modules/quill/dist/quill.min.js"],
             "extractLicenses": false,
             "buildOptimizer": false,
