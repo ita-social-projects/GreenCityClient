@@ -10,7 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.pipe';
 import { FirstStringWordPipe } from '@pipe/first-string-word/first-string-word.pipe';
-import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
+import { MaxTextLengthPipe } from 'src/app/shared/pipes/max-text-length-pipe/max-text-length.pipe';
 import { Language } from 'src/app/main/i18n/Language';
 import { FriendModel } from '@user-models/friend.model';
 import { Router } from '@angular/router';

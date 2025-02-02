@@ -40,7 +40,7 @@ import { courierLimitValidator, uniqueArrayValidator } from 'src/app/ubs/ubs/ser
 import { ICourierInfo, IValidationConfig } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
 import { WarningPopUpComponent } from '@shared/components';
-import { emptyOrValid } from 'src/app/shared/validators/empthy-or-valid.validator';
+import { emptyOrValid } from '@ubs/shared/validators/empthy-or-valid.validator';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({

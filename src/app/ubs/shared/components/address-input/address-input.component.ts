@@ -17,14 +17,14 @@ import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { emptyOrValid } from 'src/app/shared/validators/empthy-or-valid.validator';
+import { emptyOrValid } from '@ubs/shared/validators/empthy-or-valid.validator';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
 import { GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Address, CourierLocations, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
 import { CAddressData } from 'src/app/ubs/ubs/models/ubs.model';
 import { addressAlreadyExistsValidator } from '@ubs/ubs/validators/address-already-exists-validator';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { AddressService } from '../services/address/address.service';
+import { AddressService } from '../../../../shared/services/address/address.service';
 
 @Component({
   selector: 'app-address-input',

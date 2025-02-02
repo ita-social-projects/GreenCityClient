@@ -1,5 +1,5 @@
+import { CronService } from '@ubs/ubs-admin/services/cron/cron.service';
 import { CronPipe } from './cron.pipe';
-import { CronService } from '../cron/cron.service';
 
 describe('CronPipe', () => {
   let pipe;

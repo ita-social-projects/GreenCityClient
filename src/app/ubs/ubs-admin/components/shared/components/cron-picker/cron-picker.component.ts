@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Observable } from 'rxjs';
-import { CronService } from 'src/app/shared/cron/cron.service';
+import { CronService } from '@ubs/ubs-admin/services/cron/cron.service';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { startWith, map, takeUntil } from 'rxjs/operators';
 

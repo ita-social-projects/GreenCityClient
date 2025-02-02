@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import { UserNotificationService } from '@global-user/services/user-notification.service';
 
 import { UserService } from '@global-service/user/user.service';
-import { LocalizedDatePipe } from 'src/app/shared/localized-date-pipe/localized-date.pipe';
+import { LocalizedDatePipe } from '@ubs/shared/pipes/localized-date-pipe/localized-date.pipe';
 import { RelativeDatePipe } from 'src/app/shared/relative-date.pipe';
 import { By } from '@angular/platform-browser';
 import { UserFriendsService } from '@global-user/services/user-friends.service';

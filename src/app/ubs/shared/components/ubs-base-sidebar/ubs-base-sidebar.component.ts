@@ -11,12 +11,12 @@ import {
 } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatDrawer } from '@angular/material/sidenav';
-import { UserMessagesService } from '../../ubs/ubs-user/services/user-messages.service';
+import { UserMessagesService } from '../../../ubs-user/services/user-messages.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Router } from '@angular/router';
-import { listElements } from '../interface/ubs-base-sidebar-interface';
+import { listElements } from '../../../ubs/interface/ubs-base-sidebar-interface';
 
 @Component({
   selector: 'app-ubs-base-sidebar',

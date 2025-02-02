@@ -19,6 +19,7 @@ import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
 import { LayoutModule } from './component/layout/layout.module';
+import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
 @NgModule({
   declarations: [MainComponent, ErrorComponent],
@@ -35,7 +36,8 @@ import { LayoutModule } from './component/layout/layout.module';
     DragDropModule,
     NgxPaginationModule,
     MaterialModule,
-    SharedModule
+    SharedModule,
+    UbsSharedModule
   ],
   providers: [
     {

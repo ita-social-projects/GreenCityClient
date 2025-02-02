@@ -6,7 +6,7 @@ import { NotificationBody } from '@ubs/ubs-admin/models/ubs-user.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ShowImgsPopUpComponent } from '../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
+import { ShowImgsPopUpComponent } from '../../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

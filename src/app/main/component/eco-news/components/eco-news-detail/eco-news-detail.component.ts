@@ -8,7 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { Store } from '@ngrx/store';
 import { DeleteEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';

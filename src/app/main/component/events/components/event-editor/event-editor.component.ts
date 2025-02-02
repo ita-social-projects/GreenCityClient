@@ -12,7 +12,7 @@ import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { Place } from '../../../places/models/place';

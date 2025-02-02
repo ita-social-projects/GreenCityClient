@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { ModalTextComponent } from 'src/app/ubs/ubs-admin/components/shared/components/modal-text/modal-text.component';
-import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
+import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { Bag } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Patterns } from '@assets/patterns/patterns';

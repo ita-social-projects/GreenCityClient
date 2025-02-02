@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatTableModule } from '@angular/material/table';
-import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
+import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
 import { ResizeColumnDirective } from 'src/app/ubs/ubs-admin/derictives/resize-table-columns.directive';
 
 describe('UbsAdminCustomerViolationsComponent', () => {

@@ -103,6 +103,7 @@ import { QuillModule } from 'ngx-quill';
 import { UbsAdminConfirmStatusChangePopUpComponent } from './components/ubs-admin-confirm-status-change-pop-up/ubs-admin-confirm-status-change-pop-up.component';
 import { TableCellInputComponent } from './components/ubs-admin-table/table-cell-input/table-cell-input.component';
 import { CommentPopUpComponent } from './components/shared/components/comment-pop-up/comment-pop-up.component';
+import { UbsSharedModule } from '../shared/ubs-shared.module';
 
 @NgModule({
   declarations: [
@@ -216,7 +217,8 @@ import { CommentPopUpComponent } from './components/shared/components/comment-po
     CdkAccordionModule,
     MatInputModule,
     MatFormFieldModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    UbsSharedModule
   ],
   providers: [
     AdminCertificateService,

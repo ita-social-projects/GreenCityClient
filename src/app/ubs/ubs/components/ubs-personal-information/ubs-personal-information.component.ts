@@ -7,7 +7,7 @@ import { Subject, combineLatest } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { PersonalData } from '../../models/ubs.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
+import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { Store, select } from '@ngrx/store';

@@ -9,13 +9,13 @@ import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { SharedModule } from '../shared.module';
-import { UbsAdminTableComponent } from '../../ubs/ubs-admin/components/ubs-admin-table/ubs-admin-table.component';
-import { HeaderComponent } from '../header/header.component';
+import { SharedModule } from '../../../../shared/shared.module';
+import { UbsAdminTableComponent } from '../../../ubs-admin/components/ubs-admin-table/ubs-admin-table.component';
+import { HeaderComponent } from '../../../../shared/components/header/header.component';
 import { UbsBaseSidebarComponent } from './ubs-base-sidebar.component';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { UserMessagesService } from '../../ubs/ubs-user/services/user-messages.service';
+import { UserMessagesService } from '../../../ubs-user/services/user-messages.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { of } from 'rxjs';
 

@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { CAddressData } from '@ubs/ubs/models/ubs.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { UBSAddAddressPopUpComponent } from '@ubs/shared/components/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { DeleteAddress, GetAddresses, SetAddress, UpdateAddress } from 'src/app/store/actions/order.actions';
 import {
   addressesSelector,

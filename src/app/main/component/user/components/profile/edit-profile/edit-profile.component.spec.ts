@@ -18,7 +18,7 @@ import { EditProfileComponent } from '@global-user/components';
 import { SocialNetworksComponent } from '@global-user/components';
 import { Router } from '@angular/router';
 import { SharedMainModule } from '@shared/shared-main.module';
-import { InputGoogleAutocompleteComponent } from '@shared/components/input-google-autocomplete/input-google-autocomplete.component';
+import { InputGoogleAutocompleteComponent } from 'src/app/shared/components/input-google-autocomplete/input-google-autocomplete.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ProfilePrivacyPolicy } from '@global-user/models/edit-profile-const';
 import { mockUserData } from '@global-user/mocks/edit-profile-mock';

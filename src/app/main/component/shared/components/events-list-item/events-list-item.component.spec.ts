@@ -19,7 +19,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AddAttenderEcoEventsByIdAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
+import { MaxTextLengthPipe } from 'src/app/shared/pipes/max-text-length-pipe/max-text-length.pipe';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { EventStoreService } from '../../../events/services/event-store.service';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';

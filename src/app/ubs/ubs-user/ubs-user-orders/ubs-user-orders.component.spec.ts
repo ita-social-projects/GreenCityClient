@@ -6,7 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material/tabs';
-import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
+import { LocalizedCurrencyPipe } from '@ubs/shared/pipes/localized-currency-pipe/localized-currency.pipe';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollDirective, InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UbsUserOrdersComponent } from './ubs-user-orders.component';

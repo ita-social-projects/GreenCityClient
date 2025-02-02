@@ -11,14 +11,13 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
-import { FilterListByLangPipe } from 'src/app/shared/sort-list-by-lang/filter-list-by-lang.pipe';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { VolumePipe } from 'src/app/shared/volume-pipe/volume.pipe';
-import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
+import { VolumePipe } from '@ubs/shared/pipes/volume-pipe/volume.pipe';
+import { LocalizedCurrencyPipe } from '@ubs/shared/pipes/localized-currency-pipe/localized-currency.pipe';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Bag, BagLimitDto, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
@@ -243,7 +242,6 @@ describe('UbsAdminPricingPageComponent', () => {
         UbsAdminTariffsPricingPageComponent,
         UbsAdminTariffsAddServicePopUpComponent,
         UbsAdminTariffsAddTariffServicePopUpComponent,
-        FilterListByLangPipe,
         VolumePipe,
         LocalizedCurrencyPipe,
         LangValueDirective

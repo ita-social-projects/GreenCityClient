@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CronService } from '../cron/cron.service';
+import { CronService } from '@ubs/ubs-admin/services/cron/cron.service';
 
 @Pipe({
   name: 'cron'

@@ -1,4 +1,4 @@
-import { listElements } from 'src/app/shared/interface/ubs-base-sidebar-interface';
+import { listElements } from '@ubs/ubs/interface/ubs-base-sidebar-interface';
 
 export const listElementsAdmin: listElements[] = [
   {

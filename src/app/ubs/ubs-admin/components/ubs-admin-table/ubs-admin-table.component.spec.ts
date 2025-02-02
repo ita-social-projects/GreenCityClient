@@ -17,7 +17,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
+import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SelectionModel } from '@angular/cdk/collections';

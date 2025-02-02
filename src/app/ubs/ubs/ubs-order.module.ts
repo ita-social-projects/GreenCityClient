@@ -36,7 +36,8 @@ import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service
 import { UbsOrderAddressComponent } from './components/ubs-personal-information/ubs-order-address/ubs-order-address.component';
 import { ValidateAddressDirective } from 'src/app/ubs/ubs/directives/validate-address/validate-address.directive';
 import { UbsUserAgreementComponent } from './components/ubs-user-agreement/ubs-user-agreement.component';
-import { PhoneNumberTreatPipe } from 'src/app/shared/phone-number-treat/phone-number-treat.pipe';
+import { PhoneNumberTreatPipe } from '@ubs/shared/pipes/phone-number-treat/phone-number-treat.pipe';
+import { UbsSharedModule } from '../shared/ubs-shared.module';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { PhoneNumberTreatPipe } from 'src/app/shared/phone-number-treat/phone-nu
       isolate: true
     }),
     SharedMainModule,
-    SharedModule
+    SharedModule,
+    UbsSharedModule
   ],
   exports: [],
   providers: [

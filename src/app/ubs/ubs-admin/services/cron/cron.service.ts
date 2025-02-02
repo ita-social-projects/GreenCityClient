@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import enLocale from './locales/en.json';
 import ukLocale from './locales/uk.json';
-import { NotificationPage, NotificationTemplate } from '../../ubs/ubs-admin/models/notifications.model';
+import { NotificationPage, NotificationTemplate } from '@ubs/ubs-admin/models/notifications.model';
 
 type Locales = 'en' | 'uk';
 

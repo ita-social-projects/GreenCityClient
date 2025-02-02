@@ -25,7 +25,6 @@ import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { HomepageComponent } from 'src/app/main/component/home/components';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { MainComponent } from 'src/app/main/main.component';
-import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { QuillModule } from 'ngx-quill';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -140,7 +139,6 @@ describe('CreateEditNewsComponent', () => {
         PostNewsLoaderComponent,
         DragAndDropComponent,
         MainComponent,
-        UbsBaseSidebarComponent,
         HomepageComponent,
         SearchAllResultsComponent,
         ConfirmRestorePasswordComponent

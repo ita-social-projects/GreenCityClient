@@ -29,7 +29,7 @@ import {
 import { IAppState } from 'src/app/store/state/app.state';
 import { UpdateOrderInfo, UpdateOrderInfoSuccess } from 'src/app/store/actions/bigOrderTable.actions';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
+import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { AdminTableService } from '../../services/admin-table.service';

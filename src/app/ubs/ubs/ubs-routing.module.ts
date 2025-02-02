@@ -9,8 +9,8 @@ import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-ord
 import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
 import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
 import { UBSOrderDetailsComponent } from './components/ubs-order-details/ubs-order-details.component';
-import { PreventNavigationBackGuard } from 'src/app/shared/guards/prevent-navigation-back.guard';
-import { stepperGuard } from 'src/app/shared/guards/stepper/stepper.guard';
+import { PreventNavigationBackGuard } from '@ubs/ubs/guards/prevent-navigation-back/prevent-navigation-back.guard';
+import { stepperGuard } from '@ubs/ubs/guards/stepper/stepper.guard';
 import { UbsUserAgreementComponent } from '@ubs/ubs/components/ubs-user-agreement/ubs-user-agreement.component';
 import { UnblockAccountComponent } from '@global-auth/unblock-account/unblock-account.component';
 

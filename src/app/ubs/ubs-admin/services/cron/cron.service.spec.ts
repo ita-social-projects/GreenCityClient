@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CronService, formatNotificationCron, formatSpringCron, formatUnixCron } from './cron.service';
-import { NotificationMock } from '../../ubs/ubs-admin/services/notificationsMock';
-import { NotificationPage } from '../../ubs/ubs-admin/models/notifications.model';
+import { NotificationPage } from '@ubs/ubs-admin/models/notifications.model';
+import { NotificationMock } from '../notificationsMock';
 
 describe('CronService', () => {
   let service: CronService;

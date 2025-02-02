@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
+import { LocalizedCurrencyPipe } from '@ubs/shared/pipes/localized-currency-pipe/localized-currency.pipe';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UbsUserOrderDetailsComponent } from './ubs-user-order-details.component';
 import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';

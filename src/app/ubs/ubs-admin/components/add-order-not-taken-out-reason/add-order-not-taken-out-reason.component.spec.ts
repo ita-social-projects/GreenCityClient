@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NotTakenOutReasonImage } from '../../models/not-taken-out-reason.model';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
 describe('AddOrderNotTakenOutReasonComponent', () => {
   let component: AddOrderNotTakenOutReasonComponent;
@@ -50,6 +51,7 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
         HttpClientTestingModule,
         ReactiveFormsModule,
         SharedModule,
+        UbsSharedModule,
         BrowserAnimationsModule,
         TranslateModule.forRoot(),
         RouterTestingModule

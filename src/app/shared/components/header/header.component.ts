@@ -1,6 +1,6 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Language } from '../../main/i18n/Language';
-import { headerIcons, ubsHeaderIcons } from '../../main/image-pathes/header-icons';
+import { Language } from '../../../main/i18n/Language';
+import { headerIcons, ubsHeaderIcons } from '../../../main/image-pathes/header-icons';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { filter, takeUntil, takeWhile } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { UserService } from '@global-service/user/user.service';
 import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
 import { SearchService } from '@global-service/search/search.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { LanguageModel } from '../../main/component/layout/components/models/languageModel';
+import { LanguageModel } from '../../../main/component/layout/components/models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';

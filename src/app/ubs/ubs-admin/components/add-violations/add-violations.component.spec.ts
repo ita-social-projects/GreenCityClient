@@ -10,10 +10,11 @@ import { AddViolationsComponent } from './add-violations.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { DragDirective } from 'src/app/shared/drag-and-drop/dragDrop.directive';
+import { DragDirective } from 'src/app/shared/directives/drag-and-drop/dragDrop.directive';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ShowImgsPopUpComponent } from 'src/app/shared/show-imgs-pop-up/show-imgs-pop-up.component';
-import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
+import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
 const dataURLtoBlob = (dataURL: string) => {
   const [, encoded] = dataURL.split(',');
@@ -74,7 +75,7 @@ describe('AddViolationsComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [AddViolationsComponent],
-      imports: [MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, SharedModule, TranslateModule.forRoot()],
+      imports: [MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, SharedModule, UbsSharedModule, TranslateModule.forRoot()],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefStub },
         { provide: MatDialog, useValue: matDialogStub },

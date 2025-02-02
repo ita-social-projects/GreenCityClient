@@ -1,4 +1,4 @@
-import { LocalizedDatePipe } from 'src/app/shared/localized-date-pipe/localized-date.pipe';
+import { LocalizedDatePipe } from '@ubs/shared/pipes/localized-date-pipe/localized-date.pipe';
 import { TranslateService } from '@ngx-translate/core';
 
 export function formatNotificationDate(

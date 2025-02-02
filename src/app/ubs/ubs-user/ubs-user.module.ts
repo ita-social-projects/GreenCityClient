@@ -31,6 +31,7 @@ import { UbsUserOrderCancelPopUpComponent } from './ubs-user-orders-list/ubs-use
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UbsSwitcherComponent } from './ubs-user-profile-page/ubs-switcher/ubs-switcher.component';
+import { UbsSharedModule } from '../shared/ubs-shared.module';
 // import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
@@ -77,7 +78,8 @@ import { UbsSwitcherComponent } from './ubs-user-profile-page/ubs-switcher/ubs-s
     MatFormFieldModule,
     MatRadioModule,
     MatAutocompleteModule,
-    MatDialogModule
+    MatDialogModule,
+    UbsSharedModule
   ],
   providers: [
     {

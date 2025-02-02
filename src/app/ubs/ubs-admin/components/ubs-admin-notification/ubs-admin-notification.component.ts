@@ -14,7 +14,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
-import { formatSpringCron, formatUnixCron } from 'src/app/shared/cron/cron.service';
+import { formatSpringCron, formatUnixCron } from '@ubs/ubs-admin/services/cron/cron.service';
 
 @Component({
   selector: 'app-ubs-admin-notification',

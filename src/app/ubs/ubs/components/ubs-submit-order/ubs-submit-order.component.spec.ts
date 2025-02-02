@@ -14,7 +14,7 @@ import { Store } from '@ngrx/store';
 import { orderDetailsSelector, orderSelectors, personalDataSelector } from 'src/app/store/selectors/order.selectors';
 import { WarningPopUpComponent } from '@shared/components';
 import { HttpErrorResponse } from '@angular/common/http';
-import { PhoneNumberTreatPipe } from 'src/app/shared/phone-number-treat/phone-number-treat.pipe';
+import { PhoneNumberTreatPipe } from '@ubs/shared/pipes/phone-number-treat/phone-number-treat.pipe';
 
 describe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;
