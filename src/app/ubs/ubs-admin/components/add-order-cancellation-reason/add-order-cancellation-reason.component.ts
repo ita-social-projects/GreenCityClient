@@ -23,7 +23,7 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   orderID: number;
   isHistory: boolean;
   adminName;
-  isFormDisabled!: boolean;
+  isFormDisabled: boolean;
   reasonList = CancellationReasonList;
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
@@ -39,7 +39,7 @@ export class AddOrderCancellationReasonComponent implements OnInit {
     this.orderID = this.data?.orderID;
     this.cancellationReason = this.data?.reason;
     this.cancellationComment = this.data?.comment;
-    this.isFormDisabled = this.data?.isFormDisabled;
+    this.isFormDisabled = !!this.data?.isFormDisabled;
   }
 
   ngOnInit(): void {

@@ -26,7 +26,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
   cancellationComment: string;
   statusNotTakenOut = ordersStatuses.NotTakenOutUA;
   statusCancel = ordersStatuses.CancelUA;
-  orderId!: number;
+  orderId: number;
   constructor(
     private orderService: OrderService,
     private dialog: MatDialog,
@@ -85,7 +85,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
         return;
       }
       if (order.result === ordersStatuses.CancelUA) {
-        this.openCancelReason(true);
+        this.openCancelReason();
       }
       if (order.result === ordersStatuses.NotTakenOutUA) {
         this.openNotTakenOutReason(orderHistoryId);
@@ -93,7 +93,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
     });
   }
 
-  openCancelReason(isFormDisabled?: boolean) {
+  openCancelReason() {
     this.dialog.open(AddOrderCancellationReasonComponent, {
       hasBackdrop: true,
       data: {
@@ -101,7 +101,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
         orderID: this.orderId,
         reason: this.cancellationReason,
         comment: this.cancellationComment,
-        isFormDisabled: !!isFormDisabled
+        isFormDisabled: true
       },
       maxHeight: '100vh'
     });
