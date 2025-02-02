@@ -307,7 +307,7 @@
           (click)="column.title.key === 'id' && openOrder(row[column.title.key])"
           [class.pointer]="column.title.key === 'id'"
           class="column_cell"
-          [row]="row"
+          [orderId]="row.id"
         >
         </app-table-cell-readonly>
         <app-table-cell-select

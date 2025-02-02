@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Address, CourierLocations, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Store } from '@ngrx/store';
@@ -56,6 +56,10 @@ export class UBSAddAddressPopUpComponent implements OnInit {
     this.addAddressForm = this.fb.group({
       address: ['', Validators.required]
     });
+    // const oldAddress = this.data.address;
+    // if (oldAddress) {
+    //   this.addAddressForm.controls['address'].setValue(oldAddress);
+    // }
   }
 
   onNoClick(): void {
