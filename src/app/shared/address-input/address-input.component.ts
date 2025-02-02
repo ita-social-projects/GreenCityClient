@@ -141,8 +141,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   ) {}
 
   ngOnInit(): void {
-    console.log(this.address);
-    
     this.addressData = new CAddressData(this.langService);
     this.locations = this.localStorageService.getLocations();
     this.currentLanguage = this.localStorageService.getCurrentLanguage();

@@ -136,6 +136,9 @@
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/mixins"]
+            },
             "scripts": ["./node_modules/quill/dist/quill.min.js"],
             "codeCoverageExclude": ["src/app/model/**/*.ts", "src/app/**/index.ts"]
           }
