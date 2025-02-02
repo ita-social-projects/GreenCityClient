@@ -8,7 +8,7 @@
   cursor: default;
 }
 
-.pencil{
+.pencil {
   @include pencil();
   position: static;
 }

@@ -43,12 +43,15 @@ div {
 .order-number {
   color: var(--ubs-dark-purple);
 }
-.pointer{
- cursor: pointer;
+
+.pointer {
+  cursor: pointer;
 }
-.pencil{
+
+.pencil {
   @include pencil();
 }
-.padding-right{
+
+.padding-right {
   padding-right: 25px;
 }
