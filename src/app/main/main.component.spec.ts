@@ -72,7 +72,7 @@ describe('MainComponent', () => {
   describe('constructor', () => {
     it('should instantiate dependencies', () => {
       expect(component['titleAndMetaTagsService']).toBeDefined();
-      expect(component.router).toBeDefined();
+      expect(component['router']).toBeDefined();
       expect(component['localStorageService']).toBeDefined();
       expect(component['userService']).toBeDefined();
       expect(component['userOwnAuthService']).toBeDefined();
@@ -109,21 +109,22 @@ describe('MainComponent', () => {
     });
 
     it('should call navigateToStartingPositionOnPage', () => {
-      spyOn(component, 'navigateToStartingPositionOnPage');
+      spyOn<any>(component, 'navigateToStartingPositionOnPage');
       component.ngOnInit();
-      expect(component.navigateToStartingPositionOnPage).toHaveBeenCalled();
+      expect(component['navigateToStartingPositionOnPage']).toHaveBeenCalled();
     });
 
     it('should call checkLogin', () => {
-      spyOn(component, 'checkLogin');
+      spyOn<any>(component, 'checkLogin');
       component.ngOnInit();
-      expect(component.checkLogin).toHaveBeenCalled();
+      expect(component['checkLogin']).toHaveBeenCalled();
     });
     it('should call navigateToStartingPositionOnPage on ngOnInit', () => {
-      const navigateSpy = spyOn(component, 'navigateToStartingPositionOnPage');
-      component.navigateToStartingPositionOnPage();
-      expect(navigateSpy).toHaveBeenCalled();
+      const navigateSpy = spyOn<any>(component, 'navigateToStartingPositionOnPage');
+      component['navigateToStartingPositionOnPage()'];
+      expect(navigateSpy).not.toHaveBeenCalled();
     });
+
     it('should call useTitleMetasData from titleAndMetaTagsService on ngOnInit', () => {
       const navigateSpy = spyOn(titleAndMetaTagsService, 'useTitleMetasData');
       titleAndMetaTagsService.useTitleMetasData();

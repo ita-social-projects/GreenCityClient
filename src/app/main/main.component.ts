@@ -19,7 +19,7 @@ export class MainComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private titleAndMetaTagsService: TitleAndMetaTagsService,
-    public router: Router,
+    private router: Router,
     private localStorageService: LocalStorageService,
     private userService: UserService,
     private userOwnAuthService: UserOwnAuthService,
@@ -41,6 +41,10 @@ export class MainComponent implements OnInit, AfterViewChecked {
     this.titleAndMetaTagsService.useTitleMetasData();
     this.checkLogin();
   }
+  
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
+  }
 
   setFocus(): void {
     this.focusFirst.nativeElement.focus();
@@ -50,7 +54,7 @@ export class MainComponent implements OnInit, AfterViewChecked {
     this.focusLast.nativeElement.focus();
   }
 
-  navigateToStartingPositionOnPage(): void {
+  private navigateToStartingPositionOnPage(): void {
     this.router.events.subscribe((navigationEvent) => {
       if (navigationEvent instanceof NavigationEnd) {
         window.scroll(0, 0);
@@ -60,13 +64,10 @@ export class MainComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  checkLogin() {
+  private checkLogin() {
     this.userOwnAuthService.isLoginUserSubject.subscribe((status) => {
       this.isLogin = status;
     });
   }
 
-  ngAfterViewChecked(): void {
-    this.cdr.detectChanges();
-  }
 }
