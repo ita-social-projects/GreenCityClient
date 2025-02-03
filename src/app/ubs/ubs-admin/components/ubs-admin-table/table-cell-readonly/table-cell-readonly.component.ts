@@ -24,7 +24,6 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   dataObj: IColumnBelonging = null;
   data: string | number | { ua: string; en: string } | null;
   private readonly font = '12px Lato, sans-serif';
-  typeof: any;
 
   constructor(private adminTableService: AdminTableService) {}
 
