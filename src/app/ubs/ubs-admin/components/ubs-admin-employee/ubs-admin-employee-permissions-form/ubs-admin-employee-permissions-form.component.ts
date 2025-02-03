@@ -73,15 +73,13 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
   }
   onCheckboxChange(groupName: string, perm: string): void {
     const group = this.form.get(groupName);
-    if (!group) {
+    const rule = this.permissions[perm];
+
+    if (!group || !rule) {
       return;
     }
 
-    const isChecked = group.get(perm).value;
-    const rule = this.permissions[perm];
-    if (!rule) {
-      return;
-    }
+    const isChecked = !!group.get(perm)?.value;
 
     if (isChecked) {
       this.applyDependencies(group, rule.check, true);
@@ -91,7 +89,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
   }
 
   private applyDependencies(group: AbstractControl, dependencies: string[], value: boolean): void {
-    if (!dependencies) {
+    if (!Array.isArray(dependencies) || dependencies.length === 0) {
       return;
     }
 
