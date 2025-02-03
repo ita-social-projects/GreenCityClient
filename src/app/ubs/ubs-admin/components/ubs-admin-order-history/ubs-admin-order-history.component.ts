@@ -129,7 +129,10 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
       });
   }
 
-  getOrderCancelReason(orderHistoryId: number) {
+  getOrderCancelReason(orderHistoryId: number, event?: KeyboardEvent) {
+    if (event && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+    }
     this.orderService
       .getOrderCancelReason(this.orderId)
       .pipe(takeUntil(this.destroy$))
