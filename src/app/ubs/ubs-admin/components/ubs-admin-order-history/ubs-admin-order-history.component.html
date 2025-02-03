@@ -1,10 +1,16 @@
 <div class="container mb-3">
-  <div class="empty_card" (click)="openDetails()">
-    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
-    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
+  <div class="empty_card"
+       (click)="openDetails()">
+    <img *ngIf="!pageOpen"
+         src="assets/img/ubs-admin-orders/arrow_up.svg"
+         alt="arrow up" />
+    <img *ngIf="pageOpen"
+         src="assets/img/ubs-admin-orders/arrow_down.svg"
+         alt="arrow down" />
     <h1 class="form__headline">{{ 'order-history.title' | translate }}</h1>
   </div>
-  <div *ngIf="pageOpen" class="content">
+  <div *ngIf="pageOpen"
+       class="content">
     <table aria-label="order-history">
       <tr>
         <th scope="row">
@@ -23,25 +29,20 @@
       <tr *ngFor="let historyAction of orderHistory">
         <td>{{ historyAction.eventDate | localizedDate | date: 'dd.MM.yyyy' }}</td>
         <td>{{ historyAction.eventDate | localizedDate | date: 'HH:mm' }}</td>
-        <td
-          class="hiddenText"
-          #popup="matTooltip"
-          [matTooltip]="historyAction.eventName"
-          matTooltipPosition="above"
-          matTooltipClass="popup"
-          (mouseenter)="$event.stopImmediatePropagation()"
-          (mouseleave)="$event.stopImmediatePropagation()"
-          (click)="showPopup(historyAction.id)"
-          (keydown)="showPopup(historyAction.id, $event)"
-        >
+        <td class="hiddenText"
+            #popup="matTooltip"
+            [matTooltip]="historyAction.eventName"
+            matTooltipPosition="above"
+            matTooltipClass="popup"
+            (mouseenter)="$event.stopImmediatePropagation()"
+            (mouseleave)="$event.stopImmediatePropagation()"
+            (click)="showPopup(historyAction.id)"
+            (keydown)="showPopup(historyAction.id, $event)">
           <span>{{ historyAction.status }} </span>
           <span *ngIf="historyAction.result"> -</span>
-          <span
-            [ngClass]="{ result: historyAction.result === statusNotTakenOut || historyAction.result === statusCancel }"
-            *ngIf="historyAction.result"
-          >
-            {{ historyAction.result }}</span
-          >
+          <span [ngClass]="{ result: historyAction.result === statusNotTakenOut || historyAction.result === statusCancel }"
+                *ngIf="historyAction.result">
+            {{ historyAction.result }}</span>
         </td>
         <td>{{ historyAction.authorName }}</td>
       </tr>
