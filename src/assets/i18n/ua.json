@@ -237,6 +237,12 @@
       "today": "Сьогодні",
       "yesterday": "Вчора"
     },
+    "saved": {
+      "saved": "Збережені",
+      "events": "Події",
+      "eco-news": "Eко новини",
+      "places": "Карта"
+    },
     "events": {
       "title": "Події",
       "author": "автор",

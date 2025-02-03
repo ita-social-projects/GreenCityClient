@@ -13,6 +13,8 @@ export const Patterns = {
   socialMediaPattern: /^https?:\/\/(?:www\.)?([^\s/?]+)\.[a-z]{2,}(?:[/?][^\s]*)?$/,
 
   numericAndAlphabetic: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\-\\\/]*$/,
+  numeric: /^[0-9]*$/,
+
   ukrainianText: /^[А-Яа-яЇїІіЄєҐґ\s,'-]+$/,
   englishText: /^[A-Za-z\s,'-]+$/,
 

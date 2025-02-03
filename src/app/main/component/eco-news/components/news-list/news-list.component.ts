@@ -16,6 +16,8 @@ import { Patterns } from '@assets/patterns/patterns';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { ActivatedRoute } from '@angular/router';
+import { initializeSavedState } from '@shared/components/saved-tabs/saved-section-const';
 
 @Component({
   selector: 'app-news-list',
@@ -36,7 +38,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   newsTotal: number;
   elementsArePresent = true;
   tagList: FilterModel[] = tagsListEcoNewsData;
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private readonly destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   bookmarkSelected = false;
   hasNext = true;
   loading = false;
@@ -46,18 +48,28 @@ export class NewsListComponent implements OnInit, OnDestroy {
   searchNewsControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
   econews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
   searchQuery = '';
+  isSavedVisible = false;
+  currentTab = 'news';
+  iconPath = 'assets/img/smallCross.svg';
 
   private dialogRef: MatDialogRef<unknown>;
 
   constructor(
-    private userOwnAuthService: UserOwnAuthService,
-    private localStorageService: LocalStorageService,
-    private store: Store,
+    private readonly userOwnAuthService: UserOwnAuthService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly store: Store,
     private readonly dialog: MatDialog,
-    private readonly ecoNewsService: EcoNewsService
+    private readonly ecoNewsService: EcoNewsService,
+    private readonly route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.initializeComponent();
+    this.handleStateChanges();
+    this.handleSearchInput();
+  }
+
+  private initializeComponent(): void {
     this.onResize();
     this.setDefaultNumberOfNews(12);
     this.checkUserSingIn();
@@ -66,8 +78,17 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.setLocalizedTags();
     this.localStorageService.setCurentPage('previousPage', '/news');
 
+    initializeSavedState(this.route, (isBookmark, section) => {
+      this.isSavedVisible = isBookmark;
+      this.currentTab = section;
+      this.bookmarkSelected = isBookmark;
+    });
+  }
+
+  private handleStateChanges(): void {
     this.econews$.subscribe((value: IEcoNewsState) => {
       this.page = value.pageNumber;
+
       if (value.ecoNews) {
         this.elements = [...value.pages];
         const data = value.ecoNews;
@@ -78,7 +99,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
       }
       this.loading = false;
     });
+  }
 
+  private handleSearchInput(): void {
     this.searchNewsControl.valueChanges.subscribe((value) => {
       this.searchQuery = value.trim();
       this.dispatchStore(true);

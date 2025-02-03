@@ -1,0 +1,8 @@
+<div>
+  <p class="main-header">{{ 'homepage.saved.saved' | translate }}</p>
+  <div class="tabs">
+    <button class="tab" *ngFor="let tab of tabs" [ngClass]="{ 'active-tab': currentTab === tab.key }" (click)="navigateToSaved(tab.key)">
+      {{ tab.label | translate }}
+    </button>
+  </div>
+</div>
