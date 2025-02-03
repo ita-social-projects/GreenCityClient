@@ -87,7 +87,7 @@ export class CAddressData {
   private houseCorpus: string;
   private placeId: string;
   private addressComment = '';
-  coordinates: google.maps.LatLng | Coordinates;
+  private coordinates: google.maps.LatLng | Coordinates;
 
   private readonly placeIdChange: Subject<string> = new Subject();
   private readonly addressChange: Subject<AddressData> = new Subject();

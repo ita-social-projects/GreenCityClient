@@ -52,13 +52,13 @@ describe('AddressInputComponent', () => {
 
   it('should enable the city field when region is selected', () => {
     component.region.setValue('Kyiv');
-    component.onRegionValueSet('Kyiv');
+    component['onRegionValueSet']('Kyiv');
     expect(component.city.disabled).toBeFalse();
   });
 
   it('should reset street and house info when city is reset', () => {
     component.city.setValue('Kyiv');
-    component.onCityValueSet('');
+    component['onCityValueSet']('');
     expect(component.street.value).toBe('');
     expect(component.houseNumber.value).toBe('');
   });
@@ -88,9 +88,9 @@ describe('AddressInputComponent', () => {
       success(mockPosition);
     });
 
-    spyOn(component, 'handleGeolocationSuccess');
-    component.setCurrentLocation();
-    expect(component.handleGeolocationSuccess).toHaveBeenCalled();
+    spyOn<any>(component, 'handleGeolocationSuccess');
+    component['setCurrentLocation']();
+    expect(component['handleGeolocationSuccess']).toHaveBeenCalled();
   });
 
 });
