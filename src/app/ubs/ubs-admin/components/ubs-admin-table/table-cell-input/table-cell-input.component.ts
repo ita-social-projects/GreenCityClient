@@ -1,11 +1,14 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Input, Output } from '@angular/core';
 import { IAlertInfo, IEditCell } from '@ubs/ubs-admin/models/edit-cell.model';
 import { IColumnBelonging } from '@ubs/ubs-admin/models/ubs-admin.interface';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
-import { catchError, of, take } from 'rxjs';
+import { catchError, of, switchMap, take } from 'rxjs';
 import { CommentPopUpComponent } from '../../shared/components/comment-pop-up/comment-pop-up.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { OrderService } from '@ubs/ubs-admin/services/order.service';
+import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-table-cell-input',
   templateUrl: './table-cell-input.component.html',
@@ -18,29 +21,27 @@ export class TableCellInputComponent {
   @Input() isAllChecked: boolean;
   @Input() isUneditableStatus: boolean;
   @Input() data: string;
-
   @Output() cancelEdit = new EventEmitter();
   @Output() editCommentCell = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
 
   isEditable: boolean;
   isBlocked: boolean;
-
   private typeOfChange: number[];
   private readonly font = '12px Lato, sans-serif';
-
   private dialogConfig = new MatDialogConfig();
 
   constructor(
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private orderService: OrderService,
+    private destroyRef: DestroyRef
   ) {}
 
   edit(): void {
     this.isEditable = false;
     this.isBlocked = true;
-
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
     this.adminTableService
       .blockOrders(this.typeOfChange)
@@ -84,5 +85,30 @@ export class TableCellInputComponent {
 
   onMouseEnter(event: MouseEvent, tooltip: any): void {
     this.adminTableService.showTooltip(event, tooltip, this.font);
+  }
+
+  isAddressKey(): boolean {
+    const addressKeys = ['region', 'city', 'district', 'address', 'commentToAddressForClient'];
+    return addressKeys.includes(this.column.key);
+  }
+
+  openEditAddressWindow(): void {
+    this.orderService
+      .getOrderInfo(this.id)
+      .pipe(
+        switchMap((orderInfo) => {
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.panelClass = 'address-matDialog-styles';
+          dialogConfig.data = {
+            edit: true,
+            addFromProfile: true,
+            address: orderInfo.addressExportDetailsDto
+          };
+          const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
+          return dialogRef.afterClosed();
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {});
   }
 }

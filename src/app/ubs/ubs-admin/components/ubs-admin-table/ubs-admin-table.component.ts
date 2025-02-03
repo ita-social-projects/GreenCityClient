@@ -17,7 +17,6 @@ import {
   AddFilterMultiAction,
   AddFiltersAction,
   ChangingOrderData,
-  ClearFilters,
   GetColumns,
   GetColumnToDisplay,
   GetLocationsDetails,

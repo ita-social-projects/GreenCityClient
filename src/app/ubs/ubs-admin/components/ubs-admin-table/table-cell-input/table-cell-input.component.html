@@ -4,8 +4,25 @@
   matTooltip="{{ data }}"
   (mouseenter)="onMouseEnter($event, tooltip)"
   (mouseleave)="tooltip.hide()"
+  [ngClass]="{ 'padding-right': isAddressKey() }"
 >
   <span>{{ data }}</span>
-  <button *ngIf="!isEditable && !isBlocked && !isUneditableStatus" (keydown.enter)="edit()" (click)="edit()" class="pencil"></button>
-  <mat-spinner class="spinner" *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>
+  <button
+    *ngIf="!isEditable && !isBlocked && !isUneditableStatus"
+    (keydown.enter)="edit()"
+    (click)="edit()"
+    class="pencil"
+  ></button>
+  <button
+    *ngIf="isAddressKey()"
+    (keydown.enter)="openEditAddressWindow()"
+    (click)="openEditAddressWindow()"
+    class="pencil"
+  ></button>
+  <mat-spinner
+    class="spinner"
+    *ngIf="isBlocked"
+    strokeWidth="3"
+    diameter="20"
+  ></mat-spinner>
 </div>

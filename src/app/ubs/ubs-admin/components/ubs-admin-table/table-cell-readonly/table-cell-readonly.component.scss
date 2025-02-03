@@ -47,11 +47,3 @@ div {
 .pointer {
   cursor: pointer;
 }
-
-.pencil {
-  @include pencil();
-}
-
-.padding-right {
-  padding-right: 25px;
-}

@@ -26,3 +26,11 @@ div {
 
   right: -10px;
 }
+
+.pencil {
+  @include pencil();
+}
+
+.padding-right {
+  padding-right: 25px;
+}

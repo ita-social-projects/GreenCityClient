@@ -1,17 +1,32 @@
-<div class="payment-wrapper" *ngIf="key !== 'orderDate' && key !== 'paymentDate' && key !== 'id'"
-  [ngClass]="{ 'un-paid': unpaid, 'half-paid': halfpaid, 'paid': paid }">
-  <div class="readonly" #tooltip="matTooltip" matTooltip="{{ title | serverTranslate: lang }}"
-  [ngClass]="{ 'padding-right': isAddressKey() }"
-    matTooltipClass="my-custom-tooltip" (mouseenter)="onMouseEnter($event, tooltip)" (mouseleave)="tooltip.hide()">
+<div
+  class="payment-wrapper"
+  *ngIf="key !== 'orderDate' && key !== 'paymentDate' && key !== 'id'"
+  [ngClass]="{ 'un-paid': unpaid, 'half-paid': halfpaid, 'paid': paid }"
+>
+  <div
+    class="readonly"
+    #tooltip="matTooltip"
+    matTooltip="{{ title | serverTranslate: lang }}"
+    matTooltipClass="my-custom-tooltip"
+    (mouseenter)="onMouseEnter($event, tooltip)"
+    (mouseleave)="tooltip.hide()"
+  >
     {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
-    <button *ngIf="isAddressKey()" (click)="openEditAddressWindow()" class="pencil"></button>
-  </div> 
+  </div>
 </div>
 
-<div *ngIf="key === 'id'" class="order-number" [ngClass]="{ 'pointer': key === 'id' }" class="readonly">
+<div
+  *ngIf="key === 'id'"
+  class="order-number"
+  [ngClass]="{ 'pointer': key === 'id' }"
+  class="readonly"
+>
   {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
 </div>
 
-<div class="readonly readonly_date" *ngIf="key === 'orderDate' || key === 'paymentDate'">
+<div
+  class="readonly readonly_date"
+  *ngIf="key === 'orderDate' || key === 'paymentDate'"
+>
   <span>{{ title | date: 'dd.MM.y' }}</span>
 </div>
