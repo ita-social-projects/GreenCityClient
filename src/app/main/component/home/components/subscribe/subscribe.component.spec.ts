@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SubscribeComponent } from './subscribe.component';
 import { SubscriptionService } from '@global-service/subscription/subscription.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { BehaviorSubject } from 'rxjs';
 
 describe('SubscribeComponent', () => {
   let component: SubscribeComponent;
@@ -69,9 +69,7 @@ describe('SubscribeComponent', () => {
   it('should not subscribe to newsletter when email is invalid', () => {
     component.email = 'invalid-email';
     component.validateEmail();
-
     component.subscribeToNewsletter();
-
     expect(component.emailTouched).toBeTrue();
     expect(component.emailValid).toBeFalse();
     expect(subscriptionServiceMock.subscribeToNewsletter).not.toHaveBeenCalled();

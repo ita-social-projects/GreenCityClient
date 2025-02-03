@@ -14,7 +14,6 @@ class TestComponent {
   };
   font = '16px Arial';
 }
-
 describe('CustomTooltipDirective', () => {
   let component: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
@@ -38,25 +37,14 @@ describe('CustomTooltipDirective', () => {
   });
 
   it('should bind tooltipContent property', () => {
-    expect(directiveElement.injector.get(CustomTooltipDirective).tooltipContent).toEqual(component.tooltipContent);
+    const directiveInstance = directiveElement.injector.get(CustomTooltipDirective);
+    expect(directiveInstance.tooltipContent).toEqual(component.tooltipContent);
   });
 
-  it('should apply to elements with appCustomTooltip selector', () => {
-    const fixture = TestBed.createComponent(TestComponent);
+  it('should apply directive to element with appCustomTooltip selector', () => {
     const element = fixture.nativeElement.querySelector('[appCustomTooltip]');
     expect(element).toBeTruthy();
-    const directive = fixture.debugElement.query(By.directive(CustomTooltipDirective)).injector;
-    expect(directive).toBeTruthy();
   });
-
-  xit('should hide tooltip on mouse enter if text width does not exceed container width', fakeAsync(() => {
-    const eventMock = { target: { offsetWidth: 200, innerText: 'Some text' } };
-    directiveElement.triggerEventHandler('mouseenter', eventMock);
-    flush();
-    fixture.detectChanges();
-
-    expect(component.tooltip.hide).toHaveBeenCalled();
-  }));
 
   it('should hide tooltip on mouse leave', () => {
     directiveElement.triggerEventHandler('mouseleave', null);
@@ -64,18 +52,47 @@ describe('CustomTooltipDirective', () => {
     expect(component.tooltip.hide).toHaveBeenCalled();
   });
 
-  it('should show tooltip when mouse enters with wide text', () => {
+  it('should not show tooltip if text fits within container width', fakeAsync(() => {
+    const mockEvent = {
+      target: {
+        offsetWidth: 300,
+        innerText: 'Short text'
+      },
+      stopImmediatePropagation: jasmine.createSpy('stopImmediatePropagation')
+    } as any as MouseEvent;
+
+    directiveElement.triggerEventHandler('mouseenter', mockEvent);
+    flush();
+    fixture.detectChanges();
+
+    expect(component.tooltip.hide).toHaveBeenCalled();
+    expect(component.tooltip.showTooltip).not.toHaveBeenCalled();
+  }));
+
+  it('should show tooltip if text exceeds container width', fakeAsync(() => {
     const eventMock = {
-      target: { offsetWidth: 200, innerText: 'Some text Some text Some text Some text Some text Some text Some text Some text' }
+      stopImmediatePropagation: jasmine.createSpy('stopImmediatePropagation'),
+      type: 'mouseenter',
+      target: {
+        offsetWidth: 100,
+        innerText: 'Very long text that exceeds the container width'
+      }
     };
-    const tooltip = {
+
+    const tooltipMock = {
       show: jasmine.createSpy('show'),
       hide: jasmine.createSpy('hide')
     };
+
+    const directiveInstance = directiveElement.injector.get(CustomTooltipDirective);
+    const calculateTextWidthSpy = spyOn(directiveInstance, 'calculateTextWidth').and.callThrough();
+    directiveInstance.tooltip = tooltipMock;
+
     directiveElement.triggerEventHandler('mouseenter', eventMock);
-    fixture.detectChanges();
-    component.tooltip.showTooltip(eventMock, tooltip, component.font);
-    fixture.detectChanges();
-    expect(tooltip.show).not.toHaveBeenCalled();
-  });
+    flush();
+
+    expect(calculateTextWidthSpy).toHaveBeenCalled();
+    expect(tooltipMock.show).toHaveBeenCalled();
+    expect(tooltipMock.hide).not.toHaveBeenCalled();
+  }));
 });

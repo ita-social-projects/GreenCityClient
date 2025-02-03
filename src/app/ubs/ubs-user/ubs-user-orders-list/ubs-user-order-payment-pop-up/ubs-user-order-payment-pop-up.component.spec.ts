@@ -292,13 +292,12 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       it('makes expected calls if value is "yes" and sum is not more than bonusValue', () => {
         const event = { value: 'yes' } as any;
         component.userOrder.bonusValue = 1000;
-
+        component.userOrder.sum = 555;
         component.bonusOption(event);
-
         expect(component.userOrder.sum).toBe(0);
-        expect(component.bonusInfo.used).toBe(777);
-        expect(component.orderClientDto.pointsToUse).toBe(777);
-        expect(component.bonusInfo.left).toBe(223);
+        expect(component.bonusInfo.used).toBe(555);
+        expect(component.orderClientDto.pointsToUse).toBe(555);
+        expect(component.bonusInfo.left).toBe(445);
       });
 
       it('makes expected calls if value is not "yes"', () => {

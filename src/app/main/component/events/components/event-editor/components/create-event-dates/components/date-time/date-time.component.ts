@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { IMask } from 'angular-imask';
-import * as _moment from 'moment';
+import moment from 'moment';
 import 'moment/locale/uk';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MomentDateAdapter } from './moment-date-adapter';
@@ -94,7 +94,6 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     return this.dayForm.get('maxDate').value;
   }
   ngOnInit() {
-    const moment = _moment;
     moment.locale('uk');
     this.dayForm = this.dayFormGroup.get('day') as FormGroup;
     this._fillTimeArray();
@@ -131,12 +130,12 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     IMask(this.endTimeRef.nativeElement, this.timeMask);
   }
 
-  getDateErrors(date: _moment.Moment | null) {
+  getDateErrors(date: moment.Moment | null) {
     if (!date) {
       return { dateIncorrect: true };
     }
 
-    if (date.isBefore(_moment(), 'day')) {
+    if (date.isBefore(moment(), 'day')) {
       return { dateInPast: true };
     }
 
