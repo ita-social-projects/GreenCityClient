@@ -121,8 +121,8 @@ describe('MainComponent', () => {
     });
     it('should call navigateToStartingPositionOnPage on ngOnInit', () => {
       const navigateSpy = spyOn<any>(component, 'navigateToStartingPositionOnPage');
-      component['navigateToStartingPositionOnPage()'];
-      expect(navigateSpy).not.toHaveBeenCalled();
+      component['navigateToStartingPositionOnPage']();
+      expect(navigateSpy).toHaveBeenCalled();
     });
 
     it('should call useTitleMetasData from titleAndMetaTagsService on ngOnInit', () => {
