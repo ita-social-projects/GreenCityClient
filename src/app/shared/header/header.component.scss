@@ -220,7 +220,7 @@ header {
 
 .container-fluid .header_logo img {
   width: 60px;
-  box-shadow: 1px 1px 5px rgba(73, 73, 73);
+  box-shadow: 1px 1px 5px var(--primary-dark-grey);
   border-radius: 50%;
 
   @media screen and (max-width: 768px) {
