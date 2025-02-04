@@ -54,12 +54,15 @@ $ubs-header-height: 86px;
 
 header {
   width: 100vw;
+  height: 80px;
   position: fixed;
   top: 0;
   background: $white-color;
   z-index: 5;
   font-size: 14px;
   box-shadow: 1px 4px 8px 0 var(--shadow-dark-grey);
+  display: flex;
+  align-items:center;
 
   .warning {
     margin: 0 auto;
@@ -202,7 +205,7 @@ header {
 
 .header_logo {
   display: flex;
-  place-content: center center;
+  align-items:center;
   margin-right: 48px;
 }
 
@@ -211,13 +214,16 @@ header {
   height: auto;
 
   @media screen and (max-width: 577px) {
-    width: 94px;
+    width: 60px;
   }
 }
-
 .container-fluid .header_logo img {
-  width: 94px;
-  height: auto;
+  width: 60px;
+  box-shadow: 1px 1px 5px rgb(73, 73, 73);
+  border-radius: 50%;
+  @media screen and (max-width: 768px) {
+    width: 45px;
+  }
 }
 
 .header_navigation-menu-right-list {

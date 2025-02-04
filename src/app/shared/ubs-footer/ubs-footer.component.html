@@ -1,42 +1,68 @@
-<footer role="contentinfo" class="footer" (window:resize)="onResize()">
-  <div class="container-fluid">
-    <div class="footer-menu">
-      <div class="footer-logo">
-        <a [routerLink]="['/ubs']" role="button">
-          <img [src]="footerPicture.ubsLogoFooter" alt="Footer logo" />
-        </a>
-      </div>
-      <div class="footer-menu_main">
-        <ul class="footer-menu_links">
-          <a href #serviceref class="pick-up-service" (click)="openAboutServicePopUp($event)" (keydown.enter)="onPressEnter($event)">{{
-            'user.lower-nav-bar.about-us' | translate
-          }}</a>
-          <li *ngFor="let link of ubsNavLinks" role="listitem">
-            <a *ngIf="link.url" [href]="link.route" target="_blank" rel="noopener" class="route-link">
-              {{ link.name | translate }}
-            </a>
-
-            <a *ngIf="!link.url" [routerLink]="link.route" rel="noopener" class="route-link">
-              {{ link.name | translate }}
-            </a>
-          </li>
-        </ul>
-        <div class="footer-menu_social-media">
-          <div *ngFor="let link of socialLinks">
-            <a target="_blank" [href]="link.url" rel="noopener">
-              <img [src]="link.icon" class="icon" [alt]="link.name + ' icon'" />
-            </a>
-          </div>
-        </div>
-      </div>
+<footer
+  role="contentinfo"
+  class="footer"
+  (window:resize)="onResize()"
+>
+  <div class="footer__menu menu">
+    <div class="menu__logo">
+      <a
+        [routerLink]="['/ubs']"
+        role="button"
+      >
+        <img
+          [src]="footerPicture.ubsLogoFooter"
+          alt="Footer logo"
+        />
+      </a>
     </div>
-    <div class="footer-bottom-part">
-      <div class="footer-logo_mobile">
-        <a [routerLink]="['/ubs']" role="button">
-          <img [src]="footerPicture.ubsLogoFooter" alt="Footer picture" class="footer-logo-bottom" />
+    <div class="menu__links">
+      <a
+        href
+        #serviceref
+        (click)="openAboutServicePopUp($event)"
+        (keydown.enter)="onPressEnter($event)"
+      >{{
+        'user.lower-nav-bar.about-us' | translate
+        }}</a>
+      <li
+        *ngFor="let link of ubsNavLinks"
+        role="listitem"
+      >
+        <a
+          *ngIf="link.url"
+          [href]="link.route"
+          target="_blank"
+          rel="noopener"
+        >
+          {{ link.name | translate }}
+        </a>
+
+        <a
+          *ngIf="!link.url"
+          [routerLink]="link.route"
+          rel="noopener"
+        >
+          {{ link.name | translate }}
+        </a>
+      </li>
+    </div>
+    <div class="menu__social-media">
+      <div *ngFor="let link of socialLinks">
+        <a
+          target="_blank"
+          [href]="link.url"
+          rel="noopener"
+        >
+          <img
+            [src]="link.icon"
+            [alt]="link.name + ' icon'"
+          />
         </a>
       </div>
-      <p class="par" tabindex="0">Copyright © {{ currentYear }} · All Rights Reserved</p>
     </div>
   </div>
+  <p
+    class="footer__bottom-part"
+    tabindex="0"
+  >Copyright © {{ currentYear }} · All Rights Reserved</p>
 </footer>
