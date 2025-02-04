@@ -24,27 +24,29 @@
       >{{
         'user.lower-nav-bar.about-us' | translate
         }}</a>
-      <li
-        *ngFor="let link of ubsNavLinks"
-        role="listitem"
-      >
-        <a
-          *ngIf="link.url"
-          [href]="link.route"
-          target="_blank"
-          rel="noopener"
+      <ul>
+        <li
+          *ngFor="let link of ubsNavLinks"
+          role="listitem"
         >
-          {{ link.name | translate }}
-        </a>
+          <a
+            *ngIf="link.url"
+            [href]="link.route"
+            target="_blank"
+            rel="noopener"
+          >
+            {{ link.name | translate }}
+          </a>
 
-        <a
-          *ngIf="!link.url"
-          [routerLink]="link.route"
-          rel="noopener"
-        >
-          {{ link.name | translate }}
-        </a>
-      </li>
+          <a
+            *ngIf="!link.url"
+            [routerLink]="link.route"
+            rel="noopener"
+          >
+            {{ link.name | translate }}
+          </a>
+        </li>
+      </ul>
     </div>
     <div class="menu__social-media">
       <div *ngFor="let link of socialLinks">
