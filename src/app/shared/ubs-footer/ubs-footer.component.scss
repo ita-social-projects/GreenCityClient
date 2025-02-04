@@ -50,6 +50,7 @@
       font-weight: 600;
       color: var(--ubs-primary-white);
     }
+
     li {
       list-style-type: none;
     }
@@ -70,19 +71,23 @@
     }
   }
 }
+
 @media (max-width: 800px) {
   .menu {
     flex-wrap: wrap;
     row-gap: 16px;
+
     &__links {
       width: 70vw;
       order: 3;
     }
+
     &__social-media {
       margin-left: auto;
     }
   }
 }
+
 @media (max-width: 600px) {
   .menu {
     &__links {
