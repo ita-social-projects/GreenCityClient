@@ -21,11 +21,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { VolumePipe } from './pipes/volume-pipe/volume.pipe';
 import { UploadPhotoContainerComponent } from './components/upload-photo-container/upload-photo-container.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { UbsFooterComponent } from './components/ubs-footer/ubs-footer.component';
 
 @NgModule({
   declarations: [
