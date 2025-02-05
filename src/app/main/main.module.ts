@@ -9,7 +9,6 @@ import { ConfirmRestorePasswordGuard } from './service/route-guards/confirm-rest
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogRef } from '@angular/material/dialog';
 import { CoreModule } from '@global-core/core.module';
-import { ErrorComponent } from '@global-errors/error/error.component';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -22,7 +21,7 @@ import { LayoutModule } from './component/layout/layout.module';
 import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
 @NgModule({
-  declarations: [MainComponent, ErrorComponent],
+  declarations: [MainComponent],
   imports: [
     NgbModule,
     LayoutModule,
