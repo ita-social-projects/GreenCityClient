@@ -90,6 +90,7 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
 
   describe('Testing controls for the notTakenOutReason', () => {
     const validNotTakenOutReason = ['notTakenOutReason'];
+    const invalidNotTakenOutReason = ['', null, undefined];
     function controlsValidator(itemValue, controlName, status) {
       it(`The formControl: ${controlName} should be marked as ${status} if the value is ${itemValue}.`, () => {
         const control = component.addNotTakenOutForm.get(controlName);
@@ -97,12 +98,12 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
         status === 'valid' ? expect(control.valid).toBeTruthy() : expect(control.valid).toBeFalsy();
       });
     }
-
     validNotTakenOutReason.forEach((el) => controlsValidator(el, 'notTakenOutReason', 'valid'));
-    invalidnotTakenOutReason.forEach((el) => controlsValidator(el, 'notTakenOutReason', 'invalid'));
-
+    invalidNotTakenOutReason.forEach((el) => controlsValidator(el, 'notTakenOutReason', 'invalid'));
     it('form should be invalid when empty', () => {
-      expect(component.addNotTakenOutForm.valid).toBeFalsy();
+      const form = component.addNotTakenOutForm;
+      form.reset();
+      expect(form.valid).toBeFalsy();
     });
   });
 
@@ -147,11 +148,14 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
       expect(loadFilesSpy).toHaveBeenCalled();
     });
 
-    it('deleteImage', () => {
-      component.images = [{ src: 'imageSrc', name: 'nameImg', file: dataFileMock }];
-      const a: NotTakenOutReasonImage = component.images[0];
-      component.deleteImage(a);
-      expect(component.images).toEqual([]);
+    it('should remove the selected image from the images array', () => {
+      component.images = [
+        { src: 'image1Src', name: 'image1', file: dataFileMock },
+        { src: 'image2Src', name: 'image2', file: dataFileMock }
+      ];
+      const imageToDelete: NotTakenOutReasonImage = component.images[0];
+      component.deleteImage(imageToDelete);
+      expect(component.images).toEqual([{ src: 'image2Src', name: 'image2', file: dataFileMock }]);
     });
 
     it('loadFiles with file lenght more than 6', () => {

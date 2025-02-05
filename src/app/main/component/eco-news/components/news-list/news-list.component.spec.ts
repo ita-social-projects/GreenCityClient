@@ -145,6 +145,7 @@ describe('NewsListComponent', () => {
   it('should filter data', () => {
     spyOn(component, 'getFilterData');
     component.getFilterData(['News']);
+    fixture.detectChanges();
     expect(component.getFilterData).toHaveBeenCalledWith(['News']);
   });
 

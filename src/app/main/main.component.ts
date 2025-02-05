@@ -1,5 +1,5 @@
 import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { UserService } from '@global-service/user/user.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
@@ -10,7 +10,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewChecked {
   isUBS: boolean;
   isUnsubscribe: boolean;
   ubsUrl = 'ubs';
@@ -22,11 +22,16 @@ export class MainComponent implements OnInit {
     private router: Router,
     private localStorageService: LocalStorageService,
     private userService: UserService,
-    private userOwnAuthService: UserOwnAuthService
+    private userOwnAuthService: UserOwnAuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
   @ViewChild('focusLast', { static: true }) focusLast: ElementRef;
+  @HostListener('window:beforeunload')
+  onExitHandler() {
+    this.userService.updateLastTimeActivity();
+  }
 
   ngOnInit() {
     this.isUBS = this.router.url.includes(this.ubsUrl);
@@ -37,9 +42,8 @@ export class MainComponent implements OnInit {
     this.checkLogin();
   }
 
-  @HostListener('window:beforeunload')
-  onExitHandler() {
-    this.userService.updateLastTimeActivity();
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
   }
 
   setFocus(): void {

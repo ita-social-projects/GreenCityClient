@@ -215,8 +215,9 @@ describe('TimePickerComponent', () => {
     component.to = fakeTimeTo;
     const fakeDataToSave = { from: fakeTimeFrom, to: fakeTimeTo, dataWasChanged: false };
     const event = spyOn(component.timeOfExport, 'emit');
-    const saveButton = fixture.debugElement.query(By.css('.cancel'));
-    saveButton.nativeElement.click();
+    const cancelButton = fixture.debugElement.query(By.css('.cancel'));
+    cancelButton.nativeElement.click();
+    fixture.detectChanges();
     expect(event).toHaveBeenCalledWith(fakeDataToSave);
     expect(component.fromInput).toBe(fakeTimeFrom);
     expect(component.toInput).toBe(fakeTimeTo);
