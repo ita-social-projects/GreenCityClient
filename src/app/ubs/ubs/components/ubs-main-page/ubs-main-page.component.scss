@@ -19,7 +19,38 @@
     color: var(--ubs-primary-black);
   }
 
+  .our-partners-section {
+    display: flex;
+    flex-direction: column;
+    gap: 72px;
+    padding: 97px 0;
+    background-color: var(--ubs-main-page-secondary-light-grey);
+
+    &__icons {
+      display: flex;
+      justify-content: center;
+      gap: 72px;
+
+      img {
+        width: 200px;
+        box-sizing: content-box;
+        box-shadow: 0 0 10px var(--ubs-button-shadow);
+        background-color: #fefefe;
+      }
+
+      &_circle {
+        border-radius: 50%;
+      }
+
+      &_ubs {
+        padding: 0 15px;
+      }
+    }
+  }
+
   .price-section {
+    background-color: var(--ubs-main-page-secondary-light-grey);
+
     h2 {
       padding: 0 0 80px;
     }
@@ -234,17 +265,12 @@
 
   #first-section {
     padding: 70px 0;
-    background-color: var(--ubs-main-page-secondary-light-grey);
 
     .box-item,
     .conditions,
     .bonuses {
       background-color: #fff;
     }
-  }
-
-  .pick-up-service {
-    background-color: var(--ubs-main-page-secondary-light-grey);
   }
 
   a {
@@ -595,6 +621,7 @@ section .main-container {
   width: 100%;
   height: 566px;
   margin: 0;
+  background-color: var(--ubs-main-page-secondary-light-grey);
 
   .box-how-works {
     width: 100%;
@@ -1343,6 +1370,19 @@ section .main-container {
         }
       }
 
+      .our-partners-section {
+        gap: 45px;
+        padding: 70px 0;
+
+        &__icons {
+          gap: 45px;
+
+          img {
+            width: 150px;
+          }
+        }
+      }
+
       section.pick-up-service {
         padding-top: 90px;
 
@@ -1635,6 +1675,19 @@ section .main-container {
           font-size: 26px;
           line-height: 32px;
           margin-bottom: 0;
+        }
+
+        .our-partners-section {
+          gap: 40px;
+          padding: 60px 0;
+
+          &__icons {
+            gap: 30px;
+
+            img {
+              width: 100px;
+            }
+          }
         }
 
         .price-section {
@@ -1937,6 +1990,19 @@ section .main-container {
       h2 {
         font-size: 28px;
         line-height: 0.9;
+      }
+    }
+
+    .our-partners-section {
+      gap: 30px;
+      padding: 40px 0;
+
+      &__icons {
+        gap: 20px;
+
+        img {
+          width: 80px;
+        }
       }
     }
 

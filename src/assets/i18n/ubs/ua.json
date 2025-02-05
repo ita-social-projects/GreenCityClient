@@ -265,6 +265,9 @@
       "content": "Ви сортуєте — ми переробляємо!",
       "btn-order-courier": "Замовити"
     },
+    "partners": {
+      "header": "Наші партнери"
+    },
     "pick-up-service": {
       "caption": "Про сервіс",
       "pick-up-city": {

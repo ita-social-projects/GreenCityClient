@@ -1,11 +1,21 @@
 <div class="ubsHomepage">
   <header>
     <div class="header-left">
-      <img [src]="ubsMainPageImages.ubsPickUpCity" class="ubs-image" alt="ubs-armored-track" aria-hidden="true" />
+      <img
+        [src]="ubsMainPageImages.ubsPickUpCity"
+        class="ubs-image"
+        alt="ubs-armored-track"
+        aria-hidden="true"
+      />
     </div>
     <app-ubs-main-page-spinner class="spinner"></app-ubs-main-page-spinner>
     <div class="main-content">
-      <button *ngIf="!isAdmin" class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">
+      <button
+        *ngIf="!isAdmin"
+        class="button primary-global-button"
+        [disabled]="isFetching"
+        (click)="redirectToOrder()"
+      >
         {{ 'ubs-homepage.header.btn-order-courier' | translate }}
       </button>
       <div class="main-caption">
@@ -15,6 +25,36 @@
     </div>
   </header>
 
+  <section class="our-partners-section">
+    <h2>{{ 'ubs-homepage.partners.header' | translate }}</h2>
+    <div class="our-partners-section__icons">
+      <a
+        href="#"
+        target="_blank"
+        rel="noopener"
+      ><img class="our-partners-section__icons_ubs"
+          src="assets/icons/partners-ubs.png"
+          alt="ubs logo"
+        ></a>
+      <a
+        href="#"
+        target="_blank"
+        rel="noopener"
+      ><img class="our-partners-section__icons_circle"
+          src="assets/icons/partners-no-waste.png"
+          alt="no-waste logo"
+        ></a>
+      <a
+        href="#"
+        target="_blank"
+        rel="noopener"
+      ><img
+          src="assets/icons/partners-GoToRe.jpg"
+          alt="GoToRe logo"
+        ></a>
+    </div>
+  </section>
+
   <section id="first-section">
     <h2>{{ 'ubs-homepage.ubs-courier.preparing.caption' | translate }}</h2>
     <div class="how-to-prepare">
@@ -23,13 +63,21 @@
           <div class="box-number">01</div>
           <div class="box-text">
             {{ preparingContent[0] | translate }}
-            <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">{{
+            <a
+              href="https://nowaste.com.ua/sort-station/"
+              class="link-to-site"
+              target="_blank"
+              rel="noopener"
+            >{{
               preparingContent[1] | translate
-            }}</a>
+              }}</a>
             {{ preparingContent[2] | translate }}
           </div>
         </div>
-        <div class="box-item" *ngFor="let box of preparingContent | slice: 3; let i = index">
+        <div
+          class="box-item"
+          *ngFor="let box of preparingContent | slice: 3; let i = index"
+        >
           <div class="box-number">0{{ i + 2 }}</div>
           <div class="box-text">{{ box | translate }}</div>
         </div>
@@ -60,9 +108,14 @@
               {{ bonuses[1] | translate }}
             </div>
             <div class="rule">
-              <a href="https://nowaste.com.ua/nwu_services/courier/" class="link" target="_blank" rel="noopener">{{
+              <a
+                href="https://nowaste.com.ua/nwu_services/courier/"
+                class="link"
+                target="_blank"
+                rel="noopener"
+              >{{
                 bonuses[2] | translate
-              }}</a>
+                }}</a>
               {{ bonuses[3] | translate }}
             </div>
           </div>
@@ -107,13 +160,22 @@
           </mat-form-field>
         </div>
       </h2>
-      <div *ngIf="!isTarriffLoading; else spinner" class="box-card">
-        <div id="price-frame" *ngFor="let elemPrice of bags">
+      <div
+        *ngIf="!isTarriffLoading; else spinner"
+        class="box-card"
+      >
+        <div
+          id="price-frame"
+          *ngFor="let elemPrice of bags"
+        >
           <div class="content-price">
             <div>{{ getElementDescription(elemPrice.name, elemPrice.nameEng, elemPrice.capacity) }}</div>
           </div>
           <div class="header-price">
-            <div class="price" [appLangValue]="{ ua: elemPrice.price.toString() + ' грн', en: elemPrice.price.toString() + ' UAH' }"></div>
+            <div
+              class="price"
+              [appLangValue]="{ ua: elemPrice.price.toString() + ' грн', en: elemPrice.price.toString() + ' UAH' }"
+            ></div>
             <div>{{ perPackageTitle | translate }}</div>
           </div>
         </div>
@@ -128,14 +190,20 @@
     <div class="main-container">
       <h2>{{ stepsOrderTitle | translate }}</h2>
 
-      <div *ngIf="screenWidth >= 576" class="box">
+      <div
+        *ngIf="screenWidth >= 576"
+        class="box"
+      >
         <div
           class="step-order"
           id="step-order-{{ i }}"
           *ngFor="let step of stepsOrder; let odd = odd; let i = index"
           [ngStyle]="{ 'flex-direction': !(i % 2) ? 'column' : 'column-reverse' }"
         >
-          <div class="content-box" [ngStyle]="{ 'flex-direction': odd ? 'column' : 'column-reverse' }">
+          <div
+            class="content-box"
+            [ngStyle]="{ 'flex-direction': odd ? 'column' : 'column-reverse' }"
+          >
             <h1
               class="step-order-header"
               [ngClass]="odd ? 'odd' : 'even'"
@@ -156,8 +224,15 @@
         </div>
       </div>
 
-      <div *ngIf="screenWidth < 576" class="box-mobile">
-        <div class="step-order" id="step-order-{{ i }}" *ngFor="let step of stepsOrder; let i = index">
+      <div
+        *ngIf="screenWidth < 576"
+        class="box-mobile"
+      >
+        <div
+          class="step-order"
+          id="step-order-{{ i }}"
+          *ngFor="let step of stepsOrder; let i = index"
+        >
           <div class="base-line">
             <hr [ngStyle]="{ height: lineSize[i] + 'px' }" />
             <div class="circle">
@@ -179,20 +254,32 @@
   <section id="how-works">
     <div class="box-how-works">
       <div id="main-content">
-        <div class="time-frame" *ngFor="let elemTime of howWorksPickUp">
+        <div
+          class="time-frame"
+          *ngFor="let elemTime of howWorksPickUp"
+        >
           <h2 class="header-how-works">{{ elemTime.header | translate }}</h2>
           <p class="content-time">{{ elemTime.content | translate }}</p>
         </div>
       </div>
       <div id="how-works-content">
-        <button *ngIf="!isAdmin" class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">
+        <button
+          *ngIf="!isAdmin"
+          class="button primary-global-button"
+          [disabled]="isFetching"
+          (click)="redirectToOrder()"
+        >
           {{ 'ubs-homepage.header.btn-order-courier' | translate }}
         </button>
         <div class="link-to-shop">
           {{ 'ubs-homepage.ubs-courier.how-works.content.pre_1' | translate }}
-          <a target="_blank" href="https://shop.nowaste.com.ua/" rel="noopener">{{
+          <a
+            target="_blank"
+            href="https://shop.nowaste.com.ua/"
+            rel="noopener"
+          >{{
             'ubs-homepage.ubs-courier.how-works.content.link' | translate
-          }}</a>
+            }}</a>
         </div>
       </div>
     </div>
