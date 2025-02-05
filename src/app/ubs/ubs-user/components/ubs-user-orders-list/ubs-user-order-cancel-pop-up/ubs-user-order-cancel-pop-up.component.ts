@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UserOrdersService } from '../../services/user-orders.service';
+import { UserOrdersService } from '../../../services/user-orders.service';
 import { IUserOrderInfo } from '../models/UserOrder.interface';
 
 @Component({

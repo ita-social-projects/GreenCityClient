@@ -5,7 +5,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatTableModule } from '@angular/material/table';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
-import { ResizeColumnDirective } from 'src/app/ubs/ubs-admin/derictives/resize-table-columns.directive';
+import { ResizeColumnDirective } from '@ubs/ubs-admin/directives/resize-table-columns.directive';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminCustomerOrdersComponent } from './ubs-admin-customer-orders.component';

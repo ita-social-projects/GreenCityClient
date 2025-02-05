@@ -6,7 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { of, throwError } from 'rxjs';
 import { NotificationBody, Notifications } from '@ubs/ubs-admin/models/ubs-user.model';
-import { UserMessagesService } from '../services/user-messages.service';
+import { UserMessagesService } from '../../services/user-messages.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxPaginationModule, PaginatePipe } from 'ngx-pagination';
 import { ActivatedRoute } from '@angular/router';

@@ -16,7 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { of, throwError } from 'rxjs';
 
-import { UserOrdersService } from '../services/user-orders.service';
+import { UserOrdersService } from '../../services/user-orders.service';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';

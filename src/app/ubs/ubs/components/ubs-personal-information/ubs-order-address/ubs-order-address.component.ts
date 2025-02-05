@@ -13,7 +13,7 @@ import {
   isAddressLoadingSelector,
   locationIdSelector
 } from 'src/app/store/selectors/order.selectors';
-import { IAddressExportDetails, IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
+import { IAddressExportDetails, IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 import { AddressValidator } from 'src/app/ubs/ubs/validators/address-validators';
 import { of, switchMap, Subject, combineLatest, from, filter, take, takeUntil } from 'rxjs';

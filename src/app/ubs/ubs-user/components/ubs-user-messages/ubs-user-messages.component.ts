@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UserMessagesService } from '../services/user-messages.service';
+import { UserMessagesService } from '../../services/user-messages.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { NotificationBody } from '@ubs/ubs-admin/models/ubs-user.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ShowImgsPopUpComponent } from '../../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { ShowImgsPopUpComponent } from '../../../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

@@ -21,7 +21,7 @@ import {
   pointsUsedSelector
 } from 'src/app/store/selectors/order.selectors';
 import { CourierLocations, OrderDetails } from '@ubs/ubs/models/ubs.interface';
-import { IUserOrderInfo } from '@ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
+import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import {
   GetExistingOrderDetails,
   GetExistingOrderTariff,

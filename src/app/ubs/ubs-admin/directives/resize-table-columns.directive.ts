@@ -12,7 +12,10 @@ export class ResizeColumnDirective implements OnInit {
   private table: HTMLElement;
   private pressed: boolean;
 
-  constructor(private renderer: Renderer2, private el: ElementRef) {
+  constructor(
+    private renderer: Renderer2,
+    private el: ElementRef
+  ) {
     this.column = this.el.nativeElement;
   }
 
@@ -35,7 +38,7 @@ export class ResizeColumnDirective implements OnInit {
     this.pressed = true;
     this.startX = event.pageX;
     this.startWidth = this.column.offsetWidth;
-  }
+  };
 
   onMouseMove = (event: MouseEvent) => {
     const offset = 35;
@@ -50,12 +53,12 @@ export class ResizeColumnDirective implements OnInit {
         this.renderer.setStyle(cell, 'width', `${width}px`);
       }
     }
-  }
+  };
 
   onMouseUp = (event: MouseEvent) => {
     if (this.pressed) {
       this.pressed = false;
       this.renderer.removeClass(this.table, 'resizing');
     }
-  }
+  };
 }

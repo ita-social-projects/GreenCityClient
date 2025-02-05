@@ -13,7 +13,7 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { Store, select } from '@ngrx/store';
 import { GetPersonalData, SetPersonalData, GetExistingOrderInfo, SetSecondFormStatus } from 'src/app/store/actions/order.actions';
 import { addressIdSelector, existingOrderInfoSelector, personalDataSelector } from 'src/app/store/selectors/order.selectors';
-import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
+import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { WarningPopUpComponent } from '@shared/components';
 
 @Component({

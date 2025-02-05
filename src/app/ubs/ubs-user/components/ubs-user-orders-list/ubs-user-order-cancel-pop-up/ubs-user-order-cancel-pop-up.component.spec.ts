@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { UserOrdersService } from '../../services/user-orders.service';
+import { UserOrdersService } from '../../../services/user-orders.service';
 
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up.component';
 
