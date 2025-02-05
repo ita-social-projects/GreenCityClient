@@ -1,16 +1,19 @@
-import { CanDeactivateFn } from '@angular/router';
-import { inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ComponentCanDeactivate } from '@global-service/pending-changes-guard/pending-changes.guard';
 
-export const PreventNavigationBackGuard: CanDeactivateFn<ComponentCanDeactivate> = () => {
-  const dialog = inject(MatDialog);
+@Injectable({
+  providedIn: 'root'
+})
+export class PreventNavigationBackGuard {
+  constructor(private readonly dialog: MatDialog) {}
 
-  if (dialog.openDialogs.length) {
-    dialog.closeAll();
-    history.pushState(null, '');
-    return false;
+  canNavigate(): boolean {
+    if (this.dialog.openDialogs.length) {
+      this.dialog.closeAll();
+      history.pushState(null, '');
+      return false;
+    } else {
+      return true;
+    }
   }
-
-  return true;
-};
+}

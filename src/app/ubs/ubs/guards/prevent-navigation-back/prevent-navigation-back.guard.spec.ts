@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { PreventNavigationBackGuard } from './prevent-navigation-back.guard';
 import { MatDialog } from '@angular/material/dialog';
-import { ComponentCanDeactivate } from '@global-service/pending-changes-guard/pending-changes.guard';
 
 describe('PreventNavigationBackGuard', () => {
   let guard: PreventNavigationBackGuard;
@@ -23,7 +22,7 @@ describe('PreventNavigationBackGuard', () => {
   it('should allow navigation back when dialogs are not open', () => {
     dialogSpyObj.openDialogs = [];
     const spy = spyOn(history, 'pushState');
-    const result = guard.canDeactivate({} as ComponentCanDeactivate);
+    const result = guard.canNavigate();
     expect(result).toBeTruthy();
     expect(spy).not.toHaveBeenCalledWith(null, '');
   });
@@ -31,7 +30,7 @@ describe('PreventNavigationBackGuard', () => {
   it('should prevent navigation back and close dialogs when dialogs are open', () => {
     dialogSpyObj.openDialogs = [{}];
     const spy = spyOn(history, 'pushState');
-    const result = guard.canDeactivate({} as ComponentCanDeactivate);
+    const result = guard.canNavigate();
     expect(result).toBeFalsy();
     expect(dialogSpyObj.closeAll).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith(null, '');
