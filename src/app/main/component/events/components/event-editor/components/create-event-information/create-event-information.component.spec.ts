@@ -153,6 +153,7 @@ describe('CreateEventInformationComponent', () => {
     component.quillLength = 50;
     localStorageServiceSpy.getCurrentLanguage.and.returnValue(Language.EN);
     spyOn(component, 'getLocale').and.callThrough();
+    fixture.detectChanges();
     expect(component.quillLabel).toBe('Number of characters: 50');
     expect(component.getLocale).toHaveBeenCalledWith('quillValid');
   });

@@ -1,5 +1,6 @@
 import { Directive, Input, HostListener } from '@angular/core';
 import { MouseEvents } from 'src/app/shared/mouse-events';
+
 @Directive({
   selector: '[appCustomTooltip]'
 })
@@ -8,7 +9,7 @@ export class CustomTooltipDirective {
   @Input() tooltip: any;
   @Input() font = '';
 
-  @HostListener('mouseenter', ['$event']) onMouseOver(event: any) {
+  @HostListener('mouseenter', ['$event']) onMouseOver(event: MouseEvent) {
     this.showTooltip(event, this.tooltip, this.font);
   }
 
@@ -16,17 +17,17 @@ export class CustomTooltipDirective {
     this.tooltip.hide();
   }
 
-  showTooltip(event: any, tooltip: any, font: string): void {
+  showTooltip(event: MouseEvent, tooltip: any, font: string): void {
     event.stopImmediatePropagation();
     event.type === MouseEvents.MouseEnter ? this.calculateTextWidth(event, tooltip, font) : tooltip.hide();
   }
 
-  calculateTextWidth(event: any, tooltip: any, font: string): void {
-    const textContainerWidth = event.target.offsetWidth;
+  calculateTextWidth(event: MouseEvent, tooltip: any, font: string): void {
+    const textContainerWidth = event.target['offsetWidth'];
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     context.font = font;
-    const textWidth = Math.round(context.measureText(event.target.innerText).width);
+    const textWidth = Math.round(context.measureText((event.target as HTMLElement).innerText).width);
     if (textContainerWidth < textWidth) {
       tooltip.show();
     }

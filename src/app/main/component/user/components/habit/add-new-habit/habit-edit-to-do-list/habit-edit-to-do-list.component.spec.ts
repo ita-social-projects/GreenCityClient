@@ -7,12 +7,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TodoStatus } from '../../models/todo-status.enum';
-
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HabitEditToDoListComponent } from './habit-edit-to-do-list.component';
 import { ToDoListService } from './to-do-list.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { SimpleChange, SimpleChanges } from '@angular/core';
 
 describe('HabitEditToDoListComponent', () => {
   let component: HabitEditToDoListComponent;
@@ -59,7 +58,8 @@ describe('HabitEditToDoListComponent', () => {
         MatSnackBar,
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: MatDialog, useValue: matDialogRefMock }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
