@@ -15,39 +15,39 @@
         />
       </a>
     </div>
-    <div class="menu__links">
-      <a
-        href
-        #serviceref
-        (click)="openAboutServicePopUp($event)"
-        (keydown.enter)="onPressEnter($event)"
-      >{{
-        'user.lower-nav-bar.about-us' | translate
-        }}</a>
-      <ul>
-        <li
-          *ngFor="let link of ubsNavLinks"
-          role="listitem"
+    <ul class="menu__links">
+      <li>
+        <a
+          href
+          #serviceref
+          (click)="openAboutServicePopUp($event)"
+          (keydown.enter)="onPressEnter($event)"
+        >{{
+          'user.lower-nav-bar.about-us' | translate
+          }}</a>
+      </li>
+      <li
+        *ngFor="let link of ubsNavLinks"
+        role="listitem"
+      >
+        <a
+          *ngIf="link.url"
+          [href]="link.route"
+          target="_blank"
+          rel="noopener"
         >
-          <a
-            *ngIf="link.url"
-            [href]="link.route"
-            target="_blank"
-            rel="noopener"
-          >
-            {{ link.name | translate }}
-          </a>
+          {{ link.name | translate }}
+        </a>
 
-          <a
-            *ngIf="!link.url"
-            [routerLink]="link.route"
-            rel="noopener"
-          >
-            {{ link.name | translate }}
-          </a>
-        </li>
-      </ul>
-    </div>
+        <a
+          *ngIf="!link.url"
+          [routerLink]="link.route"
+          rel="noopener"
+        >
+          {{ link.name | translate }}
+        </a>
+      </li>
+    </ul>
     <div class="menu__social-media">
       <div *ngFor="let link of socialLinks">
         <a

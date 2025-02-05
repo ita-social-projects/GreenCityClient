@@ -4,10 +4,10 @@
   width: 100%;
   background-color: var(--ubs-secondary-dark-green);
   font-family: var(--ubs-secondary-font);
-  padding: 32px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 32px;
   align-items: center;
 
   &__menu {
@@ -27,7 +27,7 @@
 
 .menu {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 
   &__logo {
@@ -39,20 +39,20 @@
 
   &__links {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: center;
     gap: 20px;
-    padding: 0;
     margin: 0;
+    padding: 0;
+
+    li {
+      list-style-type: none;
+    }
 
     a {
       display: flex;
       font-weight: 600;
       color: var(--ubs-primary-white);
-    }
-
-    li {
-      list-style-type: none;
     }
   }
 
@@ -67,18 +67,17 @@
     &__links {
       flex-wrap: wrap;
       width: 50vw;
-      justify-content: center;
     }
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
   .menu {
     flex-wrap: wrap;
-    row-gap: 16px;
+    row-gap: 32px;
 
     &__links {
-      width: 70vw;
+      width: 90vw;
       order: 3;
     }
 
@@ -88,10 +87,12 @@
   }
 }
 
-@media (max-width: 600px) {
-  .menu {
-    &__links {
-      width: 90vw;
+@media (max-width: 767px) {
+  .footer {
+    padding: 15px;
+
+    .menu__logo img {
+      width: 50px;
     }
   }
 }
