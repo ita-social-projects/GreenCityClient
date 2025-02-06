@@ -9,7 +9,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { FriendRequestsComponent } from './friend-requests.component';
 import { FRIENDS } from '@global-user/mocks/friends-mock';
-import { UserOnlineStatusService } from '@global-user/services/user-online-status.service'; // Import the missing service
+import { UserOnlineStatusService } from '@global-user/services/user-online-status/user-online-status.service'; // Import the missing service
 
 describe('FriendRequestsComponent', () => {
   let component: FriendRequestsComponent;

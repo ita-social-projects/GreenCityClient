@@ -3,7 +3,7 @@ import { AchievementDto } from '@global-models/achievement/AchievementDto';
 import { AchievementService } from '@global-service/achievement/achievement.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { take } from 'rxjs';
-import { ProfileService } from '../../profile-service/profile.service';
+import { ProfileService } from '../../../../services/profile-service/profile.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';

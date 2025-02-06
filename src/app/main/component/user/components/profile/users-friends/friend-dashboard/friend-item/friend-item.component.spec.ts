@@ -13,8 +13,8 @@ import { of, BehaviorSubject } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FriendStatusValues, UserDashboardTab } from '@global-user/models/friend.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status/user-online-status.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { StoreModule } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
 

@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors } fro
 import { CommentsService } from 'src/app/greencity/modules/comments/services/comments.service';
 import { CommentTextareaComponent } from '../comment-textarea/comment-textarea.component';
 import { AddedCommentDTO, CommentFormData } from 'src/app/greencity/modules/comments/models/comments-model';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/services/profile-service/profile.service';
 
 @Component({
   selector: 'app-add-comment',

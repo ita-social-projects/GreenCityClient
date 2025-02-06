@@ -6,7 +6,7 @@ import { EditPhotoPopUpComponent } from '@shared/components';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
-import { EditProfileService } from '@global-user/services/edit-profile.service';
+import { EditProfileService } from '@global-user/services/edit-profile/edit-profile.service';
 import { of, throwError } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';

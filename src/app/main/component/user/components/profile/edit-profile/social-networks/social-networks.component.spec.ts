@@ -7,7 +7,7 @@ import { SocialNetworksComponent } from './social-networks.component';
 import { WarningPopUpComponent } from '@shared/components';
 import { of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/services/profile-service/profile.service';
 
 class MatDialogMock {
   open() {

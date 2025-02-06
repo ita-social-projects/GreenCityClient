@@ -9,7 +9,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
-  ButtonComponent,
   HabitTrackersComponent,
   HabitTrackerComponent,
   AdviceComponent,
@@ -81,7 +80,7 @@ import { UserNotificationsComponent } from './components/profile/user-notificati
 import { UserNotificationsPopUpComponent } from './components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { NotificContentReplaceDirective } from './directives/notific-content-replace.directive';
+import { NotificContentReplaceDirective } from './components/profile/user-notifications/notification-directive/notific-content-replace.directive';
 import { FriendshipButtonsComponent } from './components/profile/users-friends/friend-dashboard/friendship-buttons/friendship-buttons.component';
 import { CommentsModule } from '../../../greencity/modules/comments/comments.module';
 import { CommentsService } from '../../../greencity/modules/comments/services/comments.service';
@@ -96,7 +95,6 @@ import { AchievementItemComponent } from './components/profile/users-achievement
     ProfileDashboardComponent,
     OneHabitComponent,
     UserSettingComponent,
-    ButtonComponent,
     UserLogComponent,
     HabitTrackersComponent,
     AdviceComponent,

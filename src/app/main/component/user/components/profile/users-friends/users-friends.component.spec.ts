@@ -3,7 +3,7 @@ import { UsersFriendsComponent } from './users-friends.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA, Renderer2, Type } from '@angular/core';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { FRIENDS } from '@global-user/mocks/friends-mock';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,7 +15,7 @@ import { Language } from 'src/app/main/i18n/Language';
 import { FriendModel } from '@user-models/friend.model';
 import { Router } from '@angular/router';
 import { FriendStatusValues } from '@user-models/friend.model';
-import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status/user-online-status.service';
 
 describe('UsersFriendsComponent', () => {
   let renderer: Renderer2;

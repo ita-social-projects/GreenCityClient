@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EditProfileService } from '@global-user/services/edit-profile.service';
+import { EditProfileService } from '@global-user/services/edit-profile/edit-profile.service';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { DragAndDropComponent } from '../drag-and-drop/drag-and-drop.component';

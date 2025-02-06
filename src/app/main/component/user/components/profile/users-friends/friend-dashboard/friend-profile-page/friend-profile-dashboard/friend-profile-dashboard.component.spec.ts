@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { FriendProfileDashboardComponent } from './friend-profile-dashboard.component';
 import { of, Subject } from 'rxjs';
 import { Location } from '@angular/common';
-import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status/user-online-status.service';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { UserDashboardTab } from '@user-models/friend.model';
 import { HttpClientModule } from '@angular/common/http';

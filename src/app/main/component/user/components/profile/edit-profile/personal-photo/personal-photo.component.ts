@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
-import { ProfileService } from '../../profile-service/profile.service';
+import { ProfileService } from '../../../../services/profile-service/profile.service';
 
 @Component({
   selector: 'app-personal-photo',

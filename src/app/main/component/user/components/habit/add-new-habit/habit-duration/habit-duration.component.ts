@@ -16,7 +16,7 @@ import { Subject, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from 'src/app/main/i18n/Language';
 import { takeUntil } from 'rxjs/operators';
-import { HABIT_DEFAULT_DURATION } from '../../const/data.const';
+import { HABIT_DEFAULT_DURATION } from '../habit-const/habit.const';
 
 @Component({
   selector: 'app-habit-duration',

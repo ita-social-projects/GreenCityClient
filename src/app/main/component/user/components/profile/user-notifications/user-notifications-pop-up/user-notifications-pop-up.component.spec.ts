@@ -7,7 +7,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { NotificationsService } from 'src/app/ubs/ubs-admin/services/notifications.service';
-import { UserNotificationService } from '@global-user/services/user-notification.service';
+import { UserNotificationService } from '@global-user/services/user-notification/user-notification.service';
 import { SpinnerComponent } from 'src/app/shared/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 

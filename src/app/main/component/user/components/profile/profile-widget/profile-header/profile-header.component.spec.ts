@@ -6,14 +6,14 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { BehaviorSubject } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule, TranslateStore } from '@ngx-translate/core';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/services/profile-service/profile.service';
 import { UserLocationDto } from '@global-user/models/edit-profile.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserProfileImageComponent } from '@global-user/components/shared/components/user-profile-image/user-profile-image.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status/user-online-status.service';
 import { routes } from 'src/app/app-routing.module';
 import { ProfilePrivacyPolicy } from '@global-user/models/edit-profile-const';
 import { mockUserData } from '@global-user/mocks/edit-profile-mock';

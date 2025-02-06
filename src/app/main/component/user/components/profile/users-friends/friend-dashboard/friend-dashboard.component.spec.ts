@@ -6,7 +6,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { FriendDashboardComponent } from './friend-dashboard.component';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { FRIENDS } from '@global-user/mocks/friends-mock';
 import { Store } from '@ngrx/store';
 import { GetAllFriends, GetAllFriendsRequests } from 'src/app/store/actions/friends.actions';

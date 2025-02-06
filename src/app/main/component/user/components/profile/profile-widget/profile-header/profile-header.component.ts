@@ -5,11 +5,11 @@ import { EditProfileModel, UserLocationDto } from '@user-models/edit-profile.mod
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { ProfileService } from '../../profile-service/profile.service';
+import { ProfileService } from '../../../../services/profile-service/profile.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status/user-online-status.service';
 import { UserDataAsFriend, UsersCategOnlineStatus } from '@global-user/models/friend.model';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { ProfilePrivacyPolicy } from '@global-user/models/edit-profile-const';
 
 @Component({

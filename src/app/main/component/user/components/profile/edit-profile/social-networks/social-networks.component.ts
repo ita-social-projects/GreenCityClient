@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/services/profile-service/profile.service';
 
 @Component({
   selector: 'app-social-networks',
