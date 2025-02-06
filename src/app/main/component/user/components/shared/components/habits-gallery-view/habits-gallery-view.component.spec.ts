@@ -7,7 +7,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Observable, of } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { DEFAULTHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { PlaceService } from '@global-service/place/place.service';
+import { PlaceService } from 'src/app/shared/services/place/place.service';
 import { NewsTagInterface } from '@user-models/news.model';
 import { take } from 'rxjs/operators';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { FilterPlaceCategories } from '../../models/place';
 import { MatDialogRef } from '@angular/material/dialog';
 import { WorkingTime } from '../../models/week-pick-model';

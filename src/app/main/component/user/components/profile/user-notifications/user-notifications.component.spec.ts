@@ -3,7 +3,7 @@ import { UserNotificationsComponent } from './user-notifications.component';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of, BehaviorSubject } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { PipeTransform, Pipe, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -11,7 +11,7 @@ import { FilterCriteria } from '@global-user/models/notification.model';
 import { Router } from '@angular/router';
 import { UserNotificationService } from '@global-user/services/user-notification.service';
 
-import { UserService } from '@global-service/user/user.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import { LocalizedDatePipe } from '@ubs/shared/pipes/localized-date-pipe/localized-date.pipe';
 import { RelativeDatePipe } from 'src/app/shared/relative-date.pipe';
 import { By } from '@angular/platform-browser';

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserMessagesService } from '../../services/user-messages.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { NotificationBody } from '@ubs/ubs-admin/models/ubs-user.model';
 import { ActivatedRoute, Router } from '@angular/router';

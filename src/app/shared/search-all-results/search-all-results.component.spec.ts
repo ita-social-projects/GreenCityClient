@@ -7,7 +7,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SearchAllResultsComponent } from './search-all-results.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { SearchService } from '@global-service/search/search.service';
+import { SearchService } from 'src/app/shared/services/search/search.service';
 import { SearchItemComponent } from '../../main/component/layout/components';
 import { of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';

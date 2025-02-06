@@ -5,7 +5,7 @@ import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
 import { catchError, of, take } from 'rxjs';
 import { CommentPopUpComponent } from '../../shared/components/comment-pop-up/comment-pop-up.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 @Component({
   selector: 'app-table-cell-input',
   templateUrl: './table-cell-input.component.html',

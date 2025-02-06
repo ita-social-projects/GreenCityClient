@@ -10,11 +10,11 @@ import { of } from 'rxjs';
 import { UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from '../../services/client-profile.service';
 import { UbsUserProfilePageComponent } from './ubs-user-profile-page.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { LocationService } from '@global-service/location/location.service';
+import { LocationService } from '@ubs/ubs-user/services/location/location.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { NotificationPlatform } from '../../../ubs/notification-platform.enum';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
@@ -23,7 +23,7 @@ import { AddressInputComponent } from '@ubs/shared/components/address-input/addr
 import { InputGoogleAutocompleteComponent } from 'src/app/shared/components/input-google-autocomplete/input-google-autocomplete.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 
 xdescribe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {

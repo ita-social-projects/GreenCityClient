@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageService } from '../../service/localstorage/local-storage.service';
+import { LocalStorageService } from '../../../shared/services/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
@@ -11,7 +11,10 @@ import { Subscription } from 'rxjs';
 export class EcoNewsComponent implements OnInit {
   private langChangeSub: Subscription;
 
-  constructor(private localStorageService: LocalStorageService, private translate: TranslateService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.subscribeToLangChange();

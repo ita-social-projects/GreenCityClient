@@ -4,7 +4,7 @@ import { HabitAssignService } from '@global-service/habit-assign/habit-assign.se
 import { take } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { habitImages, starIcons } from 'src/app/main/image-pathes/habits-images';
 import { Observable } from 'rxjs';
 

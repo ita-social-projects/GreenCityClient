@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { FormControl } from '@angular/forms';
 import { OrderService } from '../../../ubs/services/order.service';
 import { UbsOrderLocationPopupComponent } from '../../../ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';

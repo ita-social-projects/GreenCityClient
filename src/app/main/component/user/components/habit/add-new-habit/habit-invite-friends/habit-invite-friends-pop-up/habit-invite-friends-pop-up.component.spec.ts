@@ -4,7 +4,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { HabitInviteFriendsPopUpComponent } from './habit-invite-friends-pop-up.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Router } from '@angular/router';
 import { FRIENDS, FIRSTFRIEND, SECONDFRIEND } from '@global-user/mocks/friends-mock';
 import { MatDialogModule } from '@angular/material/dialog';

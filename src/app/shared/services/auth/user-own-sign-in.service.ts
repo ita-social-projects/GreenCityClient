@@ -1,0 +1,31 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { userOwnSignInLink } from '../../../main/links';
+import { UserOwnSignIn } from '../../../main/model/user-own-sign-in';
+import { UserSuccessSignIn } from '../../../main/model/user-success-sign-in';
+import { LocalStorageService } from '../localstorage/local-storage.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserOwnSignInService {
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {}
+
+  signIn(model: UserOwnSignIn) {
+    const body = {
+      email: model.email,
+      password: model.password
+    };
+    return this.http.post(userOwnSignInLink, body);
+  }
+
+  saveUserToLocalStorage(data: UserSuccessSignIn) {
+    this.localStorageService.setFirstName(data.name);
+    this.localStorageService.setAccessToken(data.accessToken);
+    this.localStorageService.setRefreshToken(data.refreshToken);
+    this.localStorageService.setUserId(Number(data.userId));
+  }
+}

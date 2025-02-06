@@ -1,4 +1,4 @@
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { of } from 'rxjs';
 import { FilterLocationListByLangPipe } from './filter-location-list-by-lang.pipe';
 

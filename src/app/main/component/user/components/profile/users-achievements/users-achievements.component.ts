@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
 import { AchievementService } from '@global-service/achievement/achievement.service';
 import { debounceTime, fromEvent, take } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { AchievementDto } from '@global-models/achievement/AchievementDto';
 import { calendarImage } from '@shared/components/calendar-base/calendar-image';
 import { MatDialog } from '@angular/material/dialog';

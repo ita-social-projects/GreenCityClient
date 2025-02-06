@@ -4,7 +4,7 @@ import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxj
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { Bag, CourierLocations, KyivNamesEnum, LocationsDtosList, OrderDetails } from '../../models/ubs.interface';

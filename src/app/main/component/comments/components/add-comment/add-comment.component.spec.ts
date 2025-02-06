@@ -10,7 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CommentsService } from '../../services/comments.service';
 import { CommentTextareaComponent } from '../comment-textarea/comment-textarea.component';
 import { PlaceholderForDivDirective } from '../../directives/placeholder-for-div.directive';
-import { SocketService } from '@global-service/socket/socket.service';
+import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { CommentFormData } from '../../models/comments-model';

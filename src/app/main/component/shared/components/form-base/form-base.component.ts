@@ -1,12 +1,12 @@
 import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { ComponentCanDeactivate } from '@global-service/pending-changes-guard/pending-changes.guard';
+import { ComponentCanDeactivate } from 'src/app/main/guards/pending-changes-guard/pending-changes.guard';
 import { Router } from '@angular/router';
 import { WarningPopUpComponent } from '@shared/components';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-form-base',

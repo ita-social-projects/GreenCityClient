@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-stat-row',
@@ -17,7 +17,11 @@ export class StatRowComponent implements OnInit {
 
   readonly locationImage = 'assets/img/icon/location-icon.png';
 
-  constructor(private router: Router, private checkTokenservice: CheckTokenService, private localService: LocalStorageService) {}
+  constructor(
+    private router: Router,
+    private checkTokenservice: CheckTokenService,
+    private localService: LocalStorageService
+  ) {}
 
   ngOnInit() {
     this.localService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));

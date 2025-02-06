@@ -27,7 +27,7 @@
       "@language-service/*": ["src/app/i18n/*"],
       "@global-models/*": ["src/app/main/model/*"],
       "@global-service/*": ["src/app/main/service/*"],
-      "@auth-service/*": ["src/app/main/service/auth/*"],
+      "@auth-service/*": ["src/app/shared/services/auth/*"],
       "@global-images/*": ["src/assets/img/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],
       "@footer-images/*": ["src/assets/img/icon/footer/*"],

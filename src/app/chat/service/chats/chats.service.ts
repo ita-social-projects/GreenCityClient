@@ -8,7 +8,7 @@ import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model'
 import { Messages } from './../../model/Message.model';
 import { concatMap, map } from 'rxjs/operators';
 import { OrderService } from '@ubs/ubs/services/order.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'

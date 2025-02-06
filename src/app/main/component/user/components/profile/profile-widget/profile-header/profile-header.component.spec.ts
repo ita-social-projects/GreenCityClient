@@ -2,7 +2,7 @@ import { UserSharedModule } from './../../../shared/user-shared.module';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProfileHeaderComponent } from '@global-user/components';
 import { ProfileProgressComponent } from '@global-user/components';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule, TranslateStore } from '@ngx-translate/core';

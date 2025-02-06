@@ -1,6 +1,6 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from '../../../main/i18n/Language';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,16 +8,16 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header.component';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { JwtService } from '@global-service/jwt/jwt.service';
-import { UserService } from '@global-service/user/user.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
-import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { SearchService } from '@global-service/search/search.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
+import { SearchService } from 'src/app/shared/services/search/search.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { SocketService } from '@global-service/socket/socket.service';
+import { SocketService } from 'src/app/shared/services/socket/socket.service';
 
 class MatDialogMock {
   afterAllClosed = of(true);

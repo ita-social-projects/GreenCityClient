@@ -1,7 +1,7 @@
 import { PaginationConfig, CommentsDTO, CommentsModel, AddedCommentDTO } from '../../models/comments-model';
 import { Component, Input, OnInit, Output, EventEmitter, DoCheck } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
-import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { take } from 'rxjs/operators';
 
 @Component({

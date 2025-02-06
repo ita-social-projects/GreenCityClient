@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { UserService } from '@global-service/user/user.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import {
   NotificationFilter,
   NotificationModel,

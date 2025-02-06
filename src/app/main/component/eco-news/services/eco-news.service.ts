@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { EcoNewsModel } from '../models/eco-news-model';
 import { environment } from '@environment/environment';
 import { EcoNewsDto } from '../models/eco-news-dto';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'

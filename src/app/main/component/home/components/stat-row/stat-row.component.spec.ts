@@ -2,10 +2,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StatRowComponent } from './stat-row.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject, of } from 'rxjs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
+import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';

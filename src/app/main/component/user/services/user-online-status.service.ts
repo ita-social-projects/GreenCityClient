@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { SocketService } from '@global-service/socket/socket.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { UserCateg, UserOnlineStatus, UsersCategOnlineStatus } from '@global-user/models/friend.model';
 import { BehaviorSubject, Subject, interval, merge } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

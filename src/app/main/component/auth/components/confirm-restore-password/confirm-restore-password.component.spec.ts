@@ -2,7 +2,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ChangePasswordService } from '@auth-service/change-password.service';
+import { ChangePasswordService } from 'src/app/shared/services/auth/change-password.service';
 import { ConfirmRestorePasswordComponent } from './confirm-restore-password.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';

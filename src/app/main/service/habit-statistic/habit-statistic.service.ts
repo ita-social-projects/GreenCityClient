@@ -6,7 +6,7 @@ import { HabitDto } from '../../model/habit/HabitDto';
 import { NewHabitDto } from '../../model/habit/NewHabitDto';
 import { habitLink, habitStatisticLink, userLink } from '../../links';
 
-import { LocalStorageService } from '../localstorage/local-storage.service';
+import { LocalStorageService } from '../../../shared/services/localstorage/local-storage.service';
 import { HabitStatisticsDto } from '../../model/habit/HabitStatisticsDto';
 import { HabitStatisticLogDto } from '@global-models/habit/HabitStatisticLogDto';
 import { OnLogout } from '../OnLogout';

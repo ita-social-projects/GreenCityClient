@@ -7,7 +7,7 @@ import { UBSSubmitOrderComponent } from './ubs-submit-order.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { orderDetailsMock, personalMockData } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';

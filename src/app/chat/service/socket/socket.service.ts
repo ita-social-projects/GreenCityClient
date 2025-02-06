@@ -4,12 +4,12 @@ import { environment } from '@environment/environment';
 import { CompatClient, IMessage, Stomp, StompSubscription } from '@stomp/stompjs';
 import { Message, MessagesLikeDto } from '../../model/Message.model';
 import { ChatsService } from '../chats/chats.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject, filter, first, Observable, Subject, switchMap } from 'rxjs';
 import { FriendChatInfo, Participant } from '../../model/Chat.model';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { Title } from '@angular/platform-browser';
-import { SocketClientState } from '@global-service/socket/socket-state.enum';
+import { SocketClientState } from 'src/app/shared/services/socket/socket-state.enum';
 
 @Injectable({
   providedIn: 'root'

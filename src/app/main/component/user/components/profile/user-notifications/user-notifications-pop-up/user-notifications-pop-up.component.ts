@@ -4,7 +4,7 @@ import { UserNotificationService } from '@global-user/services/user-notification
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NotificationArrayModel, NotificationModel } from '@user-models/notification.model';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { HttpParams } from '@angular/common/http';
 
 @Component({

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EcoPlacesComponent } from './eco-places.component';
 import { BehaviorSubject, of } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { Pipe, PipeTransform } from '@angular/core';
 

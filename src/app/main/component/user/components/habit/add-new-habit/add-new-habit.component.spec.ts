@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AddNewHabitComponent } from './add-new-habit.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ToDoListService } from './habit-edit-to-do-list/to-do-list.service';
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';

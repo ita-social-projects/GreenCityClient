@@ -8,7 +8,7 @@ import { OrderService } from '../../services/order.service';
 import { PersonalData } from '../../models/ubs.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { Store, select } from '@ngrx/store';
 import { GetPersonalData, SetPersonalData, GetExistingOrderInfo, SetSecondFormStatus } from 'src/app/store/actions/order.actions';

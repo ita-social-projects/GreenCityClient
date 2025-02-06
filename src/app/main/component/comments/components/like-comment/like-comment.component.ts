@@ -1,9 +1,9 @@
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, SocketAmountLikes } from '../../models/comments-model';
 import { Router } from '@angular/router';
-import { SocketService } from '@global-service/socket/socket.service';
+import { SocketService } from 'src/app/shared/services/socket/socket.service';
 
 @Component({
   selector: 'app-like-comment',

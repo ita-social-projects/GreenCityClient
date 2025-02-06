@@ -7,7 +7,7 @@ import { BonusesService } from './services/bonuses.service';
 import { Subject, throwError } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-user-bonuses',

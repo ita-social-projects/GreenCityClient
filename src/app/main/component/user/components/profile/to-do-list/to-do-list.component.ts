@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { ToDoListService } from '@global-user/components/habit/add-new-habit/habit-edit-to-do-list/to-do-list.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subscription } from 'stompjs';
 import { AllToDoLists, ToDoList } from '@global-user/models/to-do-list.interface';
 import { TodoStatus } from '@global-user/components/habit/models/todo-status.enum';

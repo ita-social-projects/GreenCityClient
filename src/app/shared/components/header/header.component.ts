@@ -4,12 +4,12 @@ import { headerIcons, ubsHeaderIcons } from '../../../main/image-pathes/header-i
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { filter, takeUntil, takeWhile } from 'rxjs/operators';
-import { JwtService } from '@global-service/jwt/jwt.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { UserService } from '@global-service/user/user.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
-import { SearchService } from '@global-service/search/search.service';
-import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { SearchService } from 'src/app/shared/services/search/search.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { LanguageModel } from '../../../main/component/layout/components/models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
@@ -24,7 +24,7 @@ import { UserNotificationsPopUpComponent } from '@global-user/components/profile
 import { IAppState } from 'src/app/store/state/app.state';
 import { ChatPopupComponent } from 'src/app/chat/component/chat-popup/chat-popup.component';
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
-import { SocketService } from '@global-service/socket/socket.service';
+import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { SignOutAction } from 'src/app/store/actions/auth.actions';
 import { CommonService } from 'src/app/chat/service/common/common.service';
 import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal.component';

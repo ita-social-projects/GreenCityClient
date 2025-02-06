@@ -1,4 +1,4 @@
-import { SocketService } from '@global-service/socket/socket.service';
+import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import {
   Component,
   OnInit,
@@ -14,7 +14,7 @@ import {
   SecurityContext
 } from '@angular/core';
 import { EmojiEvent, TaggedUser } from '../../models/comments-model';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { FormControl, Validators } from '@angular/forms';
 import { Subject, fromEvent } from 'rxjs';
 import { debounceTime, filter, takeUntil, tap } from 'rxjs/operators';
