@@ -4,7 +4,7 @@ import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/ma
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { HabitService } from '@global-service/habit/habit.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { ToDoListService } from './habit-edit-to-do-list/to-do-list.service';

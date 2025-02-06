@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSPersonalInformationComponent } from './ubs-personal-information.component';
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { IMaskModule } from 'angular-imask';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { APP_BASE_HREF } from '@angular/common';
 import { UBSInputErrorComponent } from '@ubs/shared/components/ubs-input-error/ubs-input-error.component';

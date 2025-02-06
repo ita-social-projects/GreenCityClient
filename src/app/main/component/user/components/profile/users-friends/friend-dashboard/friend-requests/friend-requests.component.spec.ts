@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';

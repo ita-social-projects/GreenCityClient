@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'

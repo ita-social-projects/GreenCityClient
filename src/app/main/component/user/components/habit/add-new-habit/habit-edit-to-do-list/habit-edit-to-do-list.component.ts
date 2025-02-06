@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToDoList } from 'src/app/main/component/user/models/to-do-list.interface';
 import { TodoStatus } from '../../models/todo-status.enum';

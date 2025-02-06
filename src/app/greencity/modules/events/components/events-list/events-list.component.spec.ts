@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';

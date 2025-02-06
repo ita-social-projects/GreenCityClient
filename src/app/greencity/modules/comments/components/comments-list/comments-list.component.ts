@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 
 @Component({
   selector: 'app-comments-list',

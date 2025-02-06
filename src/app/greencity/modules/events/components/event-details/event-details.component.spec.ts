@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { EventDetailsComponent } from './event-details.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -9,7 +9,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';

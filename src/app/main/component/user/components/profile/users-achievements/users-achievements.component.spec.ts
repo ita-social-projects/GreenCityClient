@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AchievementDto } from '@global-models/achievement/AchievementDto';
 import { AchievementService } from '@global-service/achievement/achievement.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { UsersAchievementsComponent } from './users-achievements.component';
 import { AchievementsModalComponent } from './achievements-modal/achievements-modal.component';
 

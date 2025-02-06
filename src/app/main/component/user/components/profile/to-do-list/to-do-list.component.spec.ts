@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ToDoListComponent } from '@global-user/components';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { of, BehaviorSubject } from 'rxjs';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ToDoListService } from '@global-user/components/habit/add-new-habit/habit-edit-to-do-list/to-do-list.service';

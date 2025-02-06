@@ -8,7 +8,7 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 import { Bag, IProcessOrderResponse, Order, OrderDetails, PersonalData, PaymentSystem } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
 import { orderDetailsSelector, orderSelectors, personalDataSelector } from 'src/app/store/selectors/order.selectors';
 import { WarningPopUpComponent } from '@shared/components';

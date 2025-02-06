@@ -15,7 +15,7 @@ import {
 } from 'src/app/store/actions/ecoEvents.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { typeFiltersData } from 'src/app/greencity/modules/events/models/event-consts';
 import {
   EventAttender,
@@ -28,12 +28,12 @@ import {
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
-import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { WarningPopUpComponent } from '@shared/components';
 import { habitImages } from 'src/app/main/image-pathes/habits-images';
 import { EventStoreService } from 'src/app/greencity/modules/events/services/event-store.service';

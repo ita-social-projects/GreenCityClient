@@ -11,7 +11,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { of } from 'rxjs';

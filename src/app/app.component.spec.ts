@@ -5,7 +5,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { ChatsService } from './chat/service/chats/chats.service';
 import { ChatModule } from './chat/chat.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject, of } from 'rxjs';
 import { CommonService } from './chat/service/common/common.service';
 import { MetaService } from './shared/services/meta/meta.service';

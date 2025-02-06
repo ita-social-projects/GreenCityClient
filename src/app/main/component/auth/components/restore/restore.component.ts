@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { RestorePasswordService } from 'src/app/main/service/auth/restore-password.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { RestorePasswordService } from '@auth-service/restore-password/restore-password.service';
 
 @Component({
   selector: 'app-restore',

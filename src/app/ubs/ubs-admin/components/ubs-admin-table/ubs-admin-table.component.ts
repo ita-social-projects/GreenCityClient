@@ -7,7 +7,7 @@ import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
 import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { Subject, timer } from 'rxjs';

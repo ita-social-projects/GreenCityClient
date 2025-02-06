@@ -3,7 +3,7 @@ import { AddOrderNotTakenOutReasonComponent } from './add-order-not-taken-out-re
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BehaviorSubject } from 'rxjs';
 import { SharedModule } from 'src/app/shared/shared.module';

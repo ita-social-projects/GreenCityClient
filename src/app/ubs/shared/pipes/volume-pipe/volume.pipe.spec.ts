@@ -1,5 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { VolumePipe } from './volume.pipe';

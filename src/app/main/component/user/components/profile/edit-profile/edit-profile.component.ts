@@ -3,8 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { PlaceService } from '@global-service/place/place.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { PlaceService } from 'src/app/shared/services/place/place.service';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import {

@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { SocketService } from './socket.service';
 import { ChatsService } from '../chats/chats.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { Title } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { SocketClientState } from '@global-service/socket/socket-state.enum';
+import { SocketClientState } from 'src/app/shared/services/socket/socket-state.enum';
 
 describe('SocketService', () => {
   let service: SocketService;

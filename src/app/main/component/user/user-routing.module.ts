@@ -2,13 +2,13 @@ import { AllHabitsComponent } from './components/habit/all-habits/all-habits.com
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent, EditProfileComponent } from './components';
-import { AuthPageGuardService } from '../../service/route-guards/auth-page-guard.service';
+import { AuthPageGuardService } from '../../../shared/guards/route-guards/auth-page-guard.service';
 import { UserComponent } from './user.component';
 import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-habit.component';
 import { FriendDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-dashboard.component';
 import { AllFriendsComponent } from './components/profile/users-friends/friend-dashboard/all-friends/all-friends.component';
 import { RecommendedFriendsComponent } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
-import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
+import { PendingChangesGuard } from 'src/app/main/guards/pending-changes-guard/pending-changes.guard';
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
 import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
 import { AddEditCustomHabitComponent } from './components/habit/add-edit-custom-habit/add-edit-custom-habit.component';

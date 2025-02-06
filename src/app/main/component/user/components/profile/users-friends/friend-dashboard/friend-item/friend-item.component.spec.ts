@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FriendItemComponent } from './friend-item.component';
 import { MaxTextLengthPipe } from 'src/app/shared/pipes/max-text-length-pipe/max-text-length.pipe';
 import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.pipe';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { of, BehaviorSubject } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';

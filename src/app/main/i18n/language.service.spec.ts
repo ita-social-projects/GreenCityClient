@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Language } from './Language';
 import { LanguageService } from './language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 
 describe('LanguageService', () => {

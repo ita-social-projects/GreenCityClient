@@ -1,8 +1,8 @@
-import { CheckTokenService } from 'src/app/main/service/auth/check-token/check-token.service';
+import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { UserService } from '@global-service/user/user.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 

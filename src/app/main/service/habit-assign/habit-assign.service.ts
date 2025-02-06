@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { habitAssignLink } from '../../links';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import {

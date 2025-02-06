@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { EditProfileModel, UserLocationDto } from '@user-models/edit-profile.model';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { ActivatedRoute } from '@angular/router';

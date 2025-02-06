@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { UserService } from '../../../../service/user/user.service';
+import { UserService } from '../../../../../shared/services/user/user.service';
 import { UserUpdateModel } from '../../../../model/user/user-update.model';
-import { JwtService } from '../../../../service/jwt/jwt.service';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
+import { JwtService } from '../../../../../shared/services/jwt/jwt.service';
+import { LocalStorageService } from '../../../../../shared/services/localstorage/local-storage.service';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
 

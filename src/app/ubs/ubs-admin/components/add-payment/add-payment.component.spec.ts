@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { LocalizedCurrencyPipe } from '@ubs/shared/pipes/localized-currency-pipe/localized-currency.pipe';

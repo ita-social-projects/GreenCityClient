@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';

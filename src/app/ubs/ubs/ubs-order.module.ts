@@ -29,8 +29,8 @@ import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-ord
 import { UbsOrderCertificateComponent } from './components/ubs-order-details/ubs-order-certificate/ubs-order-certificate.component';
 import { ExtraPackagesPopUpComponent } from './components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
 import { InterceptorService } from 'src/app/shared/interceptors/interceptor.service';
-import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
-import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
+import { PendingChangesGuard } from 'src/app/main/guards/pending-changes-guard/pending-changes.guard';
+import { ConfirmRestorePasswordGuard } from 'src/app/shared/guards/route-guards/confirm-restore-password.guard';
 import { UbsMainPageSpinnerComponent } from './components/ubs-main-page-spinner/ubs-main-page-spinner.component';
 import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 import { UbsOrderAddressComponent } from './components/ubs-personal-information/ubs-order-address/ubs-order-address.component';

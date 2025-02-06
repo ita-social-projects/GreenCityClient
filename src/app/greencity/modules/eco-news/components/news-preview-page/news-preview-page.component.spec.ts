@@ -12,7 +12,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EcoNewsComponent } from '../../eco-news.component';
 import { Router } from '@angular/router';
 import { Store, ActionsSubject } from '@ngrx/store';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('NewsPreviewPageComponent', () => {

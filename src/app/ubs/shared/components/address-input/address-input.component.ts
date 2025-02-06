@@ -11,7 +11,7 @@ import {
   Validator,
   Validators
 } from '@angular/forms';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Coordinates } from '@global-user/models/edit-profile.model';
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';

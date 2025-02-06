@@ -1,7 +1,7 @@
 import { HabitItemsAmountStatisticDto } from 'src/app/main/model/goal/HabitItemsAmountStatisticDto';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UserService } from '@global-service/user/user.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { StatRowComponent } from '..';

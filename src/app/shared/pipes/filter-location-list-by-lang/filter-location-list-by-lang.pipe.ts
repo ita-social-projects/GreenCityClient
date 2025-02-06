@@ -1,5 +1,5 @@
 import { OnDestroy, Pipe, PipeTransform } from '@angular/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

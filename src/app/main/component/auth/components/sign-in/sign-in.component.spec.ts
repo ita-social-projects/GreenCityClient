@@ -6,11 +6,11 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { GoogleSignInService } from '@auth-service/google-sign-in.service';
-import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
+import { GoogleSignInService } from 'src/app/shared/services/auth/google-sign-in.service';
+import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign-in.service';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';

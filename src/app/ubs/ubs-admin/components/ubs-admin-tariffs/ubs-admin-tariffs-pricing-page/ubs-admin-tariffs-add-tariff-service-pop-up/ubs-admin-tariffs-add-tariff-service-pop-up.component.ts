@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Bag } from '../../../../models/tariffs.interface';
 import { Subject } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';

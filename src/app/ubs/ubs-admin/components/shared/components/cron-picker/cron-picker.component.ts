@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject, Observable } from 'rxjs';
 import { CronService } from '@ubs/ubs-admin/services/cron/cron.service';
 import { MatAutocomplete } from '@angular/material/autocomplete';

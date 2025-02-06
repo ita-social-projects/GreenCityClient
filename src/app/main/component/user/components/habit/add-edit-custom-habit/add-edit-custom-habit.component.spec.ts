@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitService } from '@global-service/habit/habit.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { HabitDurationComponent } from '@global-user/components/habit/add-new-habit/habit-duration/habit-duration.component';
 import { HabitEditToDoListComponent } from '@global-user/components/habit/add-new-habit/habit-edit-to-do-list/habit-edit-to-do-list.component';
 import { HabitInviteFriendsComponent } from '@global-user/components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';

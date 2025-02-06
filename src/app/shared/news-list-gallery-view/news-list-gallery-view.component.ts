@@ -2,7 +2,7 @@ import { userAssignedCardsIcons } from '../../main/image-pathes/profile-icons';
 import { Component, Input, ChangeDetectionStrategy, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LanguageService } from 'src/app/main/i18n/language.service';

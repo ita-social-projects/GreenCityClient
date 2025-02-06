@@ -1,7 +1,7 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { ProfileService } from './profile-service/profile.service';

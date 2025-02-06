@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ChangePasswordService } from '@global-service/auth/change-password.service';
+import { ChangePasswordService } from 'src/app/shared/services/auth/change-password.service';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 

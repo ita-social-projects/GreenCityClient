@@ -6,7 +6,7 @@ import { RateEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions
 import { Store } from '@ngrx/store';
 import { ReplaySubject, Subscription, pipe, take } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 @Component({

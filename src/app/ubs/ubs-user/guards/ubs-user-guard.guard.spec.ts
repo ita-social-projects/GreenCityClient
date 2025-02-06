@@ -1,7 +1,7 @@
 import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { UbsUserGuard } from '@ubs/ubs-user/guards/ubs-user-guard.guard';
 import { isObservable, Observable } from 'rxjs';

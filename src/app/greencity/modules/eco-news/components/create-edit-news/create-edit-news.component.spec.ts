@@ -27,7 +27,7 @@ import { SearchAllResultsComponent } from 'src/app/main/component/layout/compone
 import { MainComponent } from 'src/app/main/main.component';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { QuillModule } from 'ngx-quill';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';

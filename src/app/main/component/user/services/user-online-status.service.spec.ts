@@ -1,7 +1,7 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { UserOnlineStatusService } from './user-online-status.service';
-import { SocketService } from '@global-service/socket/socket.service';
+import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { profile } from 'console';
 

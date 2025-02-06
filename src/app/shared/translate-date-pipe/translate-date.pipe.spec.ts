@@ -3,10 +3,10 @@ import { TranslateDatePipe } from './translate-date.pipe';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { of } from 'rxjs';
 
 export function HttpLoaderFactory() {

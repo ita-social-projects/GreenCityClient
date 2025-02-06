@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { RecommendedFriendsComponent } from './recommended-friends.component';

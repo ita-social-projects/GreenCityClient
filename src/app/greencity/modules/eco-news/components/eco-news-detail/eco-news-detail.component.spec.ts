@@ -3,7 +3,7 @@ import { EcoNewsDetailComponent } from './eco-news-detail.component';
 import { EcoNewsWidgetComponent } from './eco-news-widget/eco-news-widget.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';

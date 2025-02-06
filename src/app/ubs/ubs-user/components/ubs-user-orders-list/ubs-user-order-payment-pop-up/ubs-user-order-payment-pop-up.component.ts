@@ -8,7 +8,7 @@ import { IOrderDetailsUser } from '../models/IOrderDetailsUser.interface';
 import { ICertificate, ICertificatePayment, ICertificateResponse } from '../models/ICertificate.interface';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { IOrderData } from '../models/IOrderData.interface';
 import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
 import { MatRadioChange } from '@angular/material/radio';

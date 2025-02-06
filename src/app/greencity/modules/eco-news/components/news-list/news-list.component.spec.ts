@@ -1,8 +1,8 @@
 import { SharedMainModule } from '@shared/shared-main.module';
-import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NewsListListViewComponent } from './news-list-list-view/news-list-list-view.component';

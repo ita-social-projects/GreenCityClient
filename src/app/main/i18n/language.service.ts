@@ -1,4 +1,4 @@
-import { LocalStorageService } from './../service/localstorage/local-storage.service';
+import { LocalStorageService } from '../../shared/services/localstorage/local-storage.service';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from './Language';
@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { userLink } from '../links';
-import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { Observable } from 'rxjs';
 
 type TLangValue = string | string[];

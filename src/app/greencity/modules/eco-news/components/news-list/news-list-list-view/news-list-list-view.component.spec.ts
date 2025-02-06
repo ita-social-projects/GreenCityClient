@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { NewsListListViewComponent } from './news-list-list-view.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { BehaviorSubject } from 'rxjs';
 import { LanguageService } from 'src/app/main/i18n/language.service';

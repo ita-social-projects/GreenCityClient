@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/main/service/user/user.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 
 @Component({
   selector: 'app-stat-rows',

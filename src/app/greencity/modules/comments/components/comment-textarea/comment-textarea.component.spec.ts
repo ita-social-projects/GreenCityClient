@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommentTextareaComponent } from './comment-textarea.component';
 import { Router } from '@angular/router';
-import { SocketService } from '@global-service/socket/socket.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { SocketService } from 'src/app/shared/services/socket/socket.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { By, DomSanitizer } from '@angular/platform-browser';

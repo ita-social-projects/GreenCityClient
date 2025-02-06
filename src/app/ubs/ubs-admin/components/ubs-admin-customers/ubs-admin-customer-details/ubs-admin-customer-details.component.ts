@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Location } from '@angular/common';
 import { CommentPopUpComponent } from '../../shared/components/comment-pop-up/comment-pop-up.component';
 import { EMPTY, mergeMap, take, tap } from 'rxjs';

@@ -2,11 +2,11 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ISignInResponse } from '@global-models/auth/sign-in-response.interface';
 import { ISignIn } from '@global-models/auth/sign-in.interface';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { AuthService } from '@auth-service/auth/auth.service';
 import {
   GetCurrentUserAction,
   GetCurrentUserFailureAction,

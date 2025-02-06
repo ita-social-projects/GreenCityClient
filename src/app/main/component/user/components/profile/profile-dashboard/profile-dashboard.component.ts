@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { HttpParams } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { IAppState } from 'src/app/store/state/app.state';

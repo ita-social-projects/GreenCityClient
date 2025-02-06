@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MatDialog } from '@angular/material/dialog';

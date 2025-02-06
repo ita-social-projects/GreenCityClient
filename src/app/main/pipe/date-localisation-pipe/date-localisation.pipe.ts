@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { formatDate } from '@angular/common';
-import { LocalStorageService } from '../../service/localstorage/local-storage.service';
+import { LocalStorageService } from '../../../shared/services/localstorage/local-storage.service';
 import { take } from 'rxjs/operators';
 
 @Pipe({

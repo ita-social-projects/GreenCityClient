@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { EventsListComponent } from './components';
 import { EventsComponent } from './events.component';
-import { AuthPageGuardService } from '@global-service/route-guards/auth-page-guard.service';
+import { AuthPageGuardService } from 'src/app/shared/guards/route-guards/auth-page-guard.service';
 import { UpdateEventComponent } from './components/update-event/update-event.component';
 import { EventEditorComponent } from './components/event-editor/event-editor.component';
 

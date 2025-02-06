@@ -1,5 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';

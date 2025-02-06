@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FileType, Message, MessageExtended } from '../../model/Message.model';
 import { CHAT_ICONS } from '../../chat-icons';
-import { UserService } from '@global-service/user/user.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import { ChatsService } from '../../service/chats/chats.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';

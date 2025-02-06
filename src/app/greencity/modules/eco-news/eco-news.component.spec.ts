@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EcoNewsComponent } from './eco-news.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { EventEmitter, Injectable } from '@angular/core';
 

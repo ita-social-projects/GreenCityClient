@@ -7,7 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-admin-certificate-add-certificate-pop-up',

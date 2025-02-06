@@ -6,7 +6,7 @@ import { Component, OnInit, ChangeDetectorRef, AfterViewChecked, OnDestroy } fro
 import { columnsParamsOrders } from '../columnsParams';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { ICustomerOrdersTable } from 'src/app/ubs/ubs-admin/models/customer-orders-table.model';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-admin-customer-orders',

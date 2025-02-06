@@ -11,7 +11,7 @@ import {
 } from '../../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventStoreService } from '../../services/event-store.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-update-event',

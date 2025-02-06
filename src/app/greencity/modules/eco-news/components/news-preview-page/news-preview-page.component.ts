@@ -3,7 +3,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject, Subscription, throwError } from 'rxjs';
 import { ACTION_TOKEN } from '../create-edit-news/action.constants';
 import { ActionInterface } from '../../models/action.interface';

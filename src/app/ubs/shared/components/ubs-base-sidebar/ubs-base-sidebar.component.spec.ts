@@ -16,7 +16,7 @@ import { UbsBaseSidebarComponent } from './ubs-base-sidebar.component';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UserMessagesService } from '../../../ubs-user/services/user-messages.service';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { of } from 'rxjs';
 
 describe('UbsBaseSidebarComponent', () => {

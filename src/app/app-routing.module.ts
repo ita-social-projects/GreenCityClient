@@ -1,4 +1,4 @@
-import { ConfirmRestorePasswordGuard } from './main/service/route-guards/confirm-restore-password.guard';
+import { ConfirmRestorePasswordGuard } from './shared/guards/route-guards/confirm-restore-password.guard';
 import { HomepageComponent } from 'src/app/greencity/modules/home/components';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';

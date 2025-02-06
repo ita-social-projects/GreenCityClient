@@ -13,10 +13,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
-import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
+import { UserOwnSignUpService } from 'src/app/shared/services/auth/user-own-sign-up.service';
 import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.component';
 import { SignUpComponent } from './sign-up.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 

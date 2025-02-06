@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PlacesComponent } from './places.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { PlaceService } from '@global-service/place/place.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { PlaceService } from 'src/app/shared/services/place/place.service';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { AllAboutPlace, Place } from './models/place';
-import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
+import { FilterPlaceService } from 'src/app/shared/services/filtering/filter-place.service';
 import { PlaceStatus } from '@global-models/placeStatus.model';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

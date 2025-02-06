@@ -7,7 +7,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { FRIENDS } from '@global-user/mocks/friends-mock';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.pipe';
 import { FirstStringWordPipe } from '@pipe/first-string-word/first-string-word.pipe';
 import { MaxTextLengthPipe } from 'src/app/shared/pipes/max-text-length-pipe/max-text-length.pipe';

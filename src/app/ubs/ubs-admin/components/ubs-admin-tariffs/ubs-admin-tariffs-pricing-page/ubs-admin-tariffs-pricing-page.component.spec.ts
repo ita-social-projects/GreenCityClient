@@ -14,7 +14,7 @@ import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { VolumePipe } from '@ubs/shared/pipes/volume-pipe/volume.pipe';
 import { LocalizedCurrencyPipe } from '@ubs/shared/pipes/localized-currency-pipe/localized-currency.pipe';

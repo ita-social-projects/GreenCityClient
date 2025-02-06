@@ -1,7 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';

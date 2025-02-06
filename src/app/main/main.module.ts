@@ -5,11 +5,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MainComponent } from './main.component';
-import { ConfirmRestorePasswordGuard } from './service/route-guards/confirm-restore-password.guard';
+import { ConfirmRestorePasswordGuard } from '../shared/guards/route-guards/confirm-restore-password.guard';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogRef } from '@angular/material/dialog';
 import { CoreModule } from '@global-core/core.module';
-import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
+import { PendingChangesGuard } from 'src/app/main/guards/pending-changes-guard/pending-changes.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from 'src/app/shared/shared.module';

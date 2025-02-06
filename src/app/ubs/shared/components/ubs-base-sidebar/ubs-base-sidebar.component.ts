@@ -14,7 +14,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { UserMessagesService } from '../../../ubs-user/services/user-messages.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { Router } from '@angular/router';
 import { listElements } from '../../../ubs/interface/ubs-base-sidebar-interface';
 

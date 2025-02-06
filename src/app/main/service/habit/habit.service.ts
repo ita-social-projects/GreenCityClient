@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { habitLink } from '../../links';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
