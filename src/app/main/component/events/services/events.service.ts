@@ -228,6 +228,7 @@ export class EventsService implements OnDestroy {
   }
 
   getEvents(requestParams: HttpParams): Observable<EventResponseDto> {
+    console.log(requestParams);
     return this.http.get<EventResponseDto>(`${this.backEnd}events`, { params: requestParams });
   }
 
