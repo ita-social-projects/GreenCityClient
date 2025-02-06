@@ -25,25 +25,37 @@
     gap: 72px;
     padding: 97px 0;
     background-color: var(--ubs-main-page-secondary-light-grey);
+    @media screen and (max-width: 1022px) {
+      padding: 70px 0;
+      gap: 50px;
+    }
+    @media screen and (max-width: 600px) {
+      padding: 50px 0;
+      gap: 30px;
+    }
 
     &__icons {
       display: flex;
-      justify-content: center;
-      gap: 72px;
+      justify-content: space-around;
 
-      img {
-        width: 200px;
-        box-sizing: content-box;
-        box-shadow: 0 0 10px var(--ubs-button-shadow);
-        background-color: #fefefe;
+      a {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    &__img {
+      height: 200px;
+
+      @media screen and (max-width: 1022px) {
+        height: 150px;
       }
 
-      &_circle {
-        border-radius: 50%;
+      @media screen and (max-width: 800px) {
+        height: 100px;
       }
-
-      &_ubs {
-        padding: 0 15px;
+      @media screen and (max-width: 600px) {
+        height: 70px;
       }
     }
   }
@@ -1370,19 +1382,6 @@ section .main-container {
         }
       }
 
-      .our-partners-section {
-        gap: 45px;
-        padding: 70px 0;
-
-        &__icons {
-          gap: 45px;
-
-          img {
-            width: 150px;
-          }
-        }
-      }
-
       section.pick-up-service {
         padding-top: 90px;
 
@@ -1675,19 +1674,6 @@ section .main-container {
           font-size: 26px;
           line-height: 32px;
           margin-bottom: 0;
-        }
-
-        .our-partners-section {
-          gap: 40px;
-          padding: 60px 0;
-
-          &__icons {
-            gap: 30px;
-
-            img {
-              width: 100px;
-            }
-          }
         }
 
         .price-section {
@@ -1990,19 +1976,6 @@ section .main-container {
       h2 {
         font-size: 28px;
         line-height: 0.9;
-      }
-    }
-
-    .our-partners-section {
-      gap: 30px;
-      padding: 40px 0;
-
-      &__icons {
-        gap: 20px;
-
-        img {
-          width: 80px;
-        }
       }
     }
 
