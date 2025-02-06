@@ -15,17 +15,15 @@ import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CUSTOMFULLINFOHABIT, DEFAULTFULLINFOHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
-import { ECONEWSMOCK } from 'src/app/main/component/eco-news/mocks/eco-news-mock';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { DEFAULTHABIT } from '../mocks/habit-assigned-mock';
 import { HABITLIST } from '../mocks/habit-mock';
-import { take } from 'rxjs/operators';
-import { HabitAcquireConfirm } from '../models/habit-warnings';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TodoStatus } from '../models/todo-status.enum';
 import { HabitInterface, HabitTranslationInterface } from '../models/interfaces/habit.interface';
 import { MOCK_CUSTOM_HABIT_RESPONSE } from '../mocks/habit-mock';
+import { ECONEWSMOCK } from 'src/app/greencity/modules/eco-news/mocks/eco-news-mock';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;

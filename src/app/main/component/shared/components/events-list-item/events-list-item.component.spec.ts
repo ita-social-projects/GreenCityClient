@@ -9,21 +9,21 @@ import { EventsListItemComponent } from './events-list-item.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
-import { EventsService } from '../../../events/services/events.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
-import { EventResponse, TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AddAttenderEcoEventsByIdAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MaxTextLengthPipe } from 'src/app/shared/pipes/max-text-length-pipe/max-text-length.pipe';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
-import { EventStoreService } from '../../../events/services/event-store.service';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { EVENT_MOCK } from '@assets/mocks/events/mock-events';
+import { TagObj } from 'src/app/greencity/modules/events/models/events.interface';
+import { EventStoreService } from 'src/app/greencity/modules/events/services/event-store.service';
+import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 
 @Injectable()
 class TranslationServiceStub {

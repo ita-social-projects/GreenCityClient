@@ -6,13 +6,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { PlaceOnlineComponent } from './components/place-online/place-online.component';
-import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, FormArray, FormGroup } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
-import { DefaultCoordinates } from 'src/app/main/component/events/models/event-consts';
+import { DefaultCoordinates } from 'src/app/greencity/modules/events/models/event-consts';
 
 describe('CreateEventDatesComponent', () => {
   let component: CreateEventDatesComponent;

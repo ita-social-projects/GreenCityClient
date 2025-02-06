@@ -1,15 +1,15 @@
+import { HttpParams } from '@angular/common/http';
+import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
+import { FormBuilder, FormControl } from '@angular/forms';
 import {
   Addresses,
   EventAttender,
   EventForm,
   EventResponse,
   EventResponseDto
-} from '../../../app/main/component/events/models/events.interface';
-import { HttpParams } from '@angular/common/http';
-import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
-import { FormBuilder, FormControl } from '@angular/forms';
+} from 'src/app/greencity/modules/events/models/events.interface';
 
 export const testCases = [
   {

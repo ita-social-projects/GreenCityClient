@@ -6,13 +6,13 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { By, DomSanitizer } from '@angular/platform-browser';
-import { PlaceholderForDivDirective } from 'src/app/main/component/comments/directives/placeholder-for-div.directive';
 import { MatSelectModule } from '@angular/material/select';
 import { UserProfileImageComponent } from '@global-user/components/shared/components/user-profile-image/user-profile-image.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ElementRef } from '@angular/core';
+import { PlaceholderForDivDirective } from 'src/app/greencity/modules/comments/directives/placeholder-for-div.directive';
 
 describe('CommentTextareaComponent', () => {
   let component: CommentTextareaComponent;

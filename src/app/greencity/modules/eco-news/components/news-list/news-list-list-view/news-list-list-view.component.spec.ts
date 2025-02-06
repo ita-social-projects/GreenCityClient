@@ -7,9 +7,9 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { Language } from 'src/app/main/i18n/Language';
 import { BehaviorSubject } from 'rxjs';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { FIRSTECONEWS } from 'src/app/main/component/eco-news/mocks/eco-news-mock';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FIRSTECONEWS } from 'src/app/greencity/modules/eco-news/mocks/eco-news-mock';
 
 class MockRenderer {
   addClass(document: string, cssClass: string): boolean {

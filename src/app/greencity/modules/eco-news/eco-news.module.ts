@@ -21,7 +21,7 @@ import {
   RemainingCountComponent
 } from './components';
 import { CommentsModule } from '../comments/comments.module';
-import { MatSnackBarComponent } from '../errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { EcoNewsComponent } from './eco-news.component';
 import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/action.constants';
 import { SharedModule } from 'src/app/shared/shared.module';

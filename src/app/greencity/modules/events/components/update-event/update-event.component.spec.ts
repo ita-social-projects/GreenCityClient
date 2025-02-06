@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
-import { UpdateEventComponent } from './update-event.component';
-import { EventStoreService } from 'src/app/main/component/events/services/event-store.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { UpdateEventComponent } from './update-event.component';
+import { EventStoreService } from '../../services/event-store.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('UpdateEventComponent', () => {

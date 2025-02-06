@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { of, throwError } from 'rxjs';
 import { mockFavouriteEvents } from '@assets/mocks/events/mock-events';
 import { Actions } from '@ngrx/effects';
+import { EventsService } from './events.service';
 import { EventsEffects } from 'src/app/store/effects/ecoEvents.effects';
 import {
   AddAttenderEcoEventsByIdAction,

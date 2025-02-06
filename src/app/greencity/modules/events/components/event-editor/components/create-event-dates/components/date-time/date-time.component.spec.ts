@@ -11,8 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { DateTimeComponent } from './date-time.component';
-import { DefaultCoordinates } from 'src/app/main/component/events/models/event-consts';
 import * as _moment from 'moment';
+import { DefaultCoordinates } from 'src/app/greencity/modules/events/models/event-consts';
 
 describe('DateTimeComponent', () => {
   let component: DateTimeComponent;

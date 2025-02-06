@@ -1,6 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { environment } from '@environment/environment';
 import { EventResponseDto } from '../models/events.interface';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,6 +13,7 @@ import {
 } from '@assets/mocks/events/mock-events';
 import { FormBuilder } from '@angular/forms';
 import { EVENT_FORM_MOCK } from '@assets/mocks/events/mock-events';
+import { EventsService } from './events.service';
 
 describe('EventsService', () => {
   let service: EventsService;

@@ -1,13 +1,13 @@
-import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
-import { ImagesContainerComponent } from './images-container.component';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
-import { FileHandle } from 'src/app/shared/models/file-handle.model';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
+import { ImagesContainerComponent } from './images-container.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {

@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ImageService } from './image.service';
-import { FileHandle } from '@eco-news-models/create-news-interface';
 import { of } from 'rxjs';
+import { ImageService } from './image.service';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 
 describe('ImageService', () => {
   let service: ImageService;

@@ -5,8 +5,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { FileHandle } from '@eco-news-models/create-news-interface';
-import { DragAndDropDirective } from '../../../eco-news/directives/drag-and-drop.directive';
+import { DragAndDropDirective } from 'src/app/greencity/modules/eco-news/directives/drag-and-drop.directive';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 
 describe('DragAndDropComponent', () => {
   let component: DragAndDropComponent;

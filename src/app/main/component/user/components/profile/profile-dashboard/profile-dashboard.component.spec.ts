@@ -8,7 +8,6 @@ import { BehaviorSubject, of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,6 +15,7 @@ import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
 import { mockEvent, mockFavouriteEvents } from '@assets/mocks/events/mock-events';
 import { mockHabits } from '@assets/mocks/habit/mock-habit-calendar';
 import { newsMock } from '@assets/mocks/eco-news/mock-news-item';
+import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 
 describe('ProfileDashboardComponent', () => {
   let component: ProfileDashboardComponent;

@@ -1,5 +1,3 @@
-import { WarningPopUpComponent } from '../../../shared/components/warning-pop-up/warning-pop-up.component';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,6 +8,7 @@ import { of } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MOCK_COMMENTS_DTO } from '../../mocks/comments-mock';
+import { WarningPopUpComponent } from '@shared/components/warning-pop-up/warning-pop-up.component';
 
 class MatDialogMock {
   open() {

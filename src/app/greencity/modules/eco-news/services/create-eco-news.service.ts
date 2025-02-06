@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { NewsDTO, FileHandle } from '../models/create-news-interface';
+import { NewsDTO } from '../models/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 
 @Injectable({
   providedIn: 'root'

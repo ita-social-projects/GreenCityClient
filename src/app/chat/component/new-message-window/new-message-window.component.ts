@@ -12,8 +12,8 @@ import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { insertEmoji } from 'src/app/main/component/comments/components/add-emoji/add-emoji';
-import { EmojiEvent } from 'src/app/main/component/comments/models/comments-model';
+import { insertEmoji } from 'src/app/greencity/modules/comments/components/add-emoji/add-emoji';
+import { EmojiEvent } from 'src/app/greencity/modules/comments/models/comments-model';
 
 @Component({
   selector: 'app-new-message-window',

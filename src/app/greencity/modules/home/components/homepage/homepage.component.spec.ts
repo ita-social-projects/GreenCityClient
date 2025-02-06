@@ -21,9 +21,9 @@ import { VerifyEmailService } from 'src/app/shared/services/auth/verify-email/ve
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from 'src/app/main/component/auth/auth.module';
-import { EcoNewsModule } from 'src/app/main/component/eco-news/eco-news.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { APP_BASE_HREF } from '@angular/common';
+import { EcoNewsModule } from '../../../eco-news/eco-news.module';
 
 class MatDialogMock {
   open() {

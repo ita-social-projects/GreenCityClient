@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from './local-storage.service';
 import { Subject } from 'rxjs';
-import { EventResponse } from '../../../main/component/events/models/events.interface';
+import { EventResponse } from 'src/app/greencity/modules/events/models/events.interface';
 import { CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 

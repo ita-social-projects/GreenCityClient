@@ -1,4 +1,4 @@
-// import { UserSharedModule } from '../user/components/shared/user-shared.module';
+import { UserSharedModule } from '../user/components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -14,7 +14,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { WarningPopUpComponent, EditPhotoPopUpComponent } from './components';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-// import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
 import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
@@ -26,7 +25,7 @@ import usLocale from '@angular/common/locales/en';
 import ruLocale from '@angular/common/locales/ru';
 import ukLocale from '@angular/common/locales/uk';
 import { FormBaseComponent } from './components/form-base/form-base.component';
-// import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
+import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -46,6 +45,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 // import { EventStoreService } from '../events/services/event-store.service';
 import { SavedSectionComponent } from './components/saved-tabs/saved-section.component';
+import { DragAndDropDirective } from 'src/app/greencity/modules/eco-news/directives/drag-and-drop.directive';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -53,17 +53,17 @@ registerLocaleData(ukLocale, 'ua');
 
 @NgModule({
   declarations: [
-    // DragAndDropDirective,
+    DragAndDropDirective,
     DragAndDropComponent,
-    // EditPhotoPopUpComponent,
+    EditPhotoPopUpComponent,
     DateLocalisationPipe,
     NoDataComponent,
     TagFilterComponent,
     CalendarBaseComponent,
     WarningPopUpComponent,
     FormBaseComponent,
-    // HabitsPopupComponent,
-    // EventsListItemComponent,
+    HabitsPopupComponent,
+    EventsListItemComponent,
     EventsListItemModalComponent,
     TagsSelectComponent,
     InputErrorComponent,
@@ -94,7 +94,7 @@ registerLocaleData(ukLocale, 'ua');
     MatDialogModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    // UserSharedModule,
+    UserSharedModule,
     MatTooltipModule,
     MatOptionModule,
     MatDividerModule,
@@ -114,15 +114,15 @@ registerLocaleData(ukLocale, 'ua');
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    // DragAndDropDirective,
+    DragAndDropDirective,
     DragAndDropComponent,
     DateLocalisationPipe,
     NoDataComponent,
     TagFilterComponent,
-    // UserSharedModule,
+    UserSharedModule,
     WarningPopUpComponent,
     FormBaseComponent,
-    // EventsListItemComponent,
+    EventsListItemComponent,
     EventsListItemModalComponent,
     TagsSelectComponent,
     InputErrorComponent,

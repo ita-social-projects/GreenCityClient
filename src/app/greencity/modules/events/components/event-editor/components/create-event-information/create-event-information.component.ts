@@ -4,9 +4,9 @@ import { ContentChange } from 'ngx-quill';
 
 import { FormGroup } from '@angular/forms';
 import { quillConfig } from 'src/app/shared/helpers/quillEditorFunc';
-import { EVENT_LOCALE, EventLocaleKeys } from 'src/app/main/component/events/models/event-consts';
-import { ImagesContainer } from 'src/app/main/component/events/models/events.interface';
 import { Router } from '@angular/router';
+import { EVENT_LOCALE, EventLocaleKeys } from 'src/app/greencity/modules/events/models/event-consts';
+import { ImagesContainer } from 'src/app/greencity/modules/events/models/events.interface';
 
 @Component({
   selector: 'app-create-event-information',

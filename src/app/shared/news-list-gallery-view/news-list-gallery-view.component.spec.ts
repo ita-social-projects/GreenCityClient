@@ -7,7 +7,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
-import { FIRSTECONEWS } from 'src/app/main/component/eco-news/mocks/eco-news-mock';
+import { FIRSTECONEWS } from 'src/app/greencity/modules/eco-news/mocks/eco-news-mock';
 
 describe('NewsListGalleryViewComponent', () => {
   let component: NewsListGalleryViewComponent;
