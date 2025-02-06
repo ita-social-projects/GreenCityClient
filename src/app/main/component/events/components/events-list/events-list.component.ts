@@ -111,12 +111,26 @@ export class EventsListComponent implements OnInit, OnDestroy {
       value.trim() !== '' ? this.searchEventsByTitle() : this.getEvents();
     });
   }
+  private refreshEventInList(updatedEvent: EventListResponse): void {
+    const index = this.eventsList.findIndex((e) => e.id === updatedEvent.id);
+    if (index !== -1) {
+      this.eventsList[index] = updatedEvent;
+    }
+    console.log('Updated Events List:', this.eventsList);
+  }
 
   likeEvent(event: EventListResponse): void {
+    console.log('Before Like:', event);
+
     this.eventService.likeEvent(event.id).subscribe(() => {
       this.updateEventReaction(event, 'like');
+      this.eventService.getEventById(event.id).subscribe((updatedEvent) => {
+        console.log('After Like (Updated from Server):', updatedEvent);
+        this.refreshEventInList(updatedEvent);
+      });
     });
   }
+
 
   dislikeEvent(event: EventListResponse): void {
     this.eventService.dislikeEvent(event.id).subscribe(() => {
@@ -401,6 +415,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.countOfEvents = res.totalElements;
         this.eventsList.push(...res.page);
         this.hasNextPage = res.hasNext;
+        console.log('Fetched Events:', this.eventsList);
       } else {
         this.noEventsMatch = true;
       }

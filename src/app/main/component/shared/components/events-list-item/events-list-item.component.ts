@@ -380,45 +380,34 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  likePost(): void {
-    if (this.event.isLiked || this.isPosting) {
-      return;
-    }
+  likePost() {
+    if (!this.event.isLiked) {
+      this.event.isLiked = true;
+      this.event.likes += 1;
+      this.eventService.likeEvent(this.event.id).subscribe(() => {
 
-    this.isPosting = true;
-    this.eventService.likeEvent(this.event.id).subscribe({
-      next: () => {
+      }, () => {
+
+        this.event.isLiked = false;
+        this.event.likes -= 1;
+      });
+    }
+  }
+
+  dislikePost() {
+    if (this.event.isLiked) {
+      this.event.isLiked = false;
+      this.event.likes -= 1;
+      this.eventService.dislikeEvent(this.event.id).subscribe(() => {
+
+      }, () => {
+
         this.event.isLiked = true;
         this.event.likes += 1;
-        this.likeStatusChange.emit(this.event);
-        this.isPosting = false;
-      },
-      error: () => {
-        console.error('Error liking the event');
-        this.isPosting = false;
-      }
-    });
-  }
-
-  dislikePost(): void {
-    if (this.event.isDisliked || this.isPosting) {
-      return;
+      });
     }
-
-    this.isPosting = true;
-    this.eventService.dislikeEvent(this.event.id).subscribe({
-      next: () => {
-        this.event.isDisliked = true;
-        this.event.likes -= 1;
-        this.likeStatusChange.emit(this.event);
-        this.isPosting = false;
-      },
-      error: () => {
-        console.error('Error disliking the event');
-        this.isPosting = false;
-      }
-    });
   }
+
   openAuthModalWindow(page: string): void {
     this.dialogRef = this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
