@@ -25,10 +25,12 @@
     gap: 72px;
     padding: 97px 0;
     background-color: var(--ubs-main-page-secondary-light-grey);
+
     @media screen and (max-width: 1022px) {
       padding: 70px 0;
       gap: 50px;
     }
+
     @media screen and (max-width: 600px) {
       padding: 50px 0;
       gap: 30px;
@@ -54,6 +56,7 @@
       @media screen and (max-width: 800px) {
         height: 100px;
       }
+
       @media screen and (max-width: 600px) {
         height: 70px;
       }
