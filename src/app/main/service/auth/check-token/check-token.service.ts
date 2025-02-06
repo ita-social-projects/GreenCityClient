@@ -5,7 +5,7 @@ import { switchMap } from 'rxjs/operators';
 import { VerifyEmailService } from '@auth-service/verify-email/verify-email.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 @Injectable({
   providedIn: 'root'

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitImages, starIcons } from 'src/app/main/image-pathes/habits-images';

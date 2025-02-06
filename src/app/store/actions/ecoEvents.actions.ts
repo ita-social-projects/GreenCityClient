@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { EventResponse, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { EventResponse, EventResponseDto } from 'src/app/greencity/modules/events/models/events.interface';
 
 export enum EventsActions {
   GetEcoEventsByPage = '[Events] Get events by page',

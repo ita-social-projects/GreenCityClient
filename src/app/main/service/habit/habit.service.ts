@@ -10,7 +10,7 @@ import { HabitInterface, HabitListInterface } from '@global-user/components/habi
 import { ToDoList } from '@global-user/models/to-do-list.interface';
 import { CustomHabitDtoRequest, CustomHabit } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
-import { FileHandle } from '@eco-news-models/create-news-interface';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 import { FriendArrayModel } from '../../component/user/models/friend.model';
 
 @Injectable({

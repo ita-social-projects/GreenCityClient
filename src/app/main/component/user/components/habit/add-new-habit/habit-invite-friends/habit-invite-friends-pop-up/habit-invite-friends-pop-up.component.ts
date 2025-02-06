@@ -6,7 +6,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
 import { searchIcon } from 'src/app/main/image-pathes/places-icons';
 import { takeUntil } from 'rxjs/operators';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HabitService } from '@global-service/habit/habit.service';
 
 @Component({

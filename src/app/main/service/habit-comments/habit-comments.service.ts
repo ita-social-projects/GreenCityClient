@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
-import { CommentsService } from 'src/app/main/component/comments/services/comments.service';
-import { AddedCommentDTO, CommentFormData, CommentsModel } from 'src/app/main/component/comments/models/comments-model';
 import { CommentService } from '@global-service/comment/comment.service';
+import { CommentsService } from 'src/app/greencity/modules/comments/services/comments.service';
+import { AddedCommentDTO, CommentFormData, CommentsModel } from 'src/app/greencity/modules/comments/models/comments-model';
 
 @Injectable({
   providedIn: 'root'

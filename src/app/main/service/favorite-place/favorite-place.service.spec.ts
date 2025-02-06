@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { Place } from '../../component/places/models/place';
+import { Place } from '../../../greencity/modules/places/models/place';
 import { favoritePlaceLink, placeLink } from '../../links';
 import { FavoritePlace } from '../../model/favorite-place/favorite-place';
 

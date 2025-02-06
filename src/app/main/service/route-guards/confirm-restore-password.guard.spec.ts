@@ -1,4 +1,4 @@
-import { MatSnackBarComponent } from './../../component/errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from '../../../shared/components/mat-snack-bar/mat-snack-bar.component';
 import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { ConfirmRestorePasswordGuard } from './confirm-restore-password.guard';

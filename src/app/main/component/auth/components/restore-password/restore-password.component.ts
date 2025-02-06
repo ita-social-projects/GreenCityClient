@@ -12,7 +12,7 @@ import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
 

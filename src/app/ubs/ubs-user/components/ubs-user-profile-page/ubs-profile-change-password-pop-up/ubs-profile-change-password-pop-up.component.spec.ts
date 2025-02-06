@@ -8,7 +8,7 @@ import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-pas
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { of } from 'rxjs';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('UbsProfileChangePasswordPopUpComponent', () => {

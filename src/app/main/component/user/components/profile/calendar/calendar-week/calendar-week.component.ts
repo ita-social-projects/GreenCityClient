@@ -6,7 +6,7 @@ import { HabitAssignService } from '@global-service/habit-assign/habit-assign.se
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
+import { CalendarWeekInterface } from './calendar-week-interface';
 import { CalendarInterface } from '../calendar-interface';
 import { MatDialog } from '@angular/material/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';

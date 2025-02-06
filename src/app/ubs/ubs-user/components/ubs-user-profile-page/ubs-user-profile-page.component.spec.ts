@@ -3,7 +3,7 @@ import { waitForAsync, ComponentFixture, fakeAsync, flush, TestBed, tick } from 
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { IMaskModule } from 'angular-imask';
 import { of } from 'rxjs';

@@ -11,7 +11,7 @@ import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { Language } from 'src/app/main/i18n/Language';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 describe('UbsAdminTariffsCardPopUpComponent', () => {

@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { TariffsService } from '../../../services/tariffs.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-station-pop-up',

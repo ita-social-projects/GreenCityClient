@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BonusesService } from './services/bonuses.service';
 import { BonusesModel } from './models/BonusesModel';
 import { throwError } from 'rxjs';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { of, Subject } from 'rxjs';
 import { EMPTY } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

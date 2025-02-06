@@ -6,7 +6,7 @@ import { BonusModel } from './models/BonusModel';
 import { BonusesService } from './services/bonuses.service';
 import { Subject, throwError } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({

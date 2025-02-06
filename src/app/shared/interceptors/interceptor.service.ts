@@ -6,7 +6,7 @@ import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { updateAccessTokenLink } from '../../main/links';
 import { LocalStorageService } from '../../main/service/localstorage/local-storage.service';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../main/http-response-status';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
 import { MatDialog } from '@angular/material/dialog';

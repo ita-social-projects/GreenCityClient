@@ -27,7 +27,7 @@ import { Filters } from './filters.interface';
 import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-from-date-to-string/convert-from-date-to-string.service';
 import { DateAdapter } from '@angular/material/core';
 import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-ubs-admin-customers',

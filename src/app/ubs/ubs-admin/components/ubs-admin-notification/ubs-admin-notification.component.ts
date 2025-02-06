@@ -10,7 +10,7 @@ import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-
 import { NotificationTemplate, NotificationTemplateUpdate } from '../../models/notifications.model';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationsService, notificationTriggerTimeMock, notificationTriggersMock } from '../../services/notifications.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';

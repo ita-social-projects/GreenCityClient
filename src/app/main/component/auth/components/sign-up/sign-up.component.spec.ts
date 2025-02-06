@@ -18,7 +18,7 @@ import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.com
 import { SignUpComponent } from './sign-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 class UserOwnSignUpServiceMock {
   mockFormData = {

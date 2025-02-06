@@ -13,12 +13,12 @@ import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { HabitService } from '@global-service/habit/habit.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
-import { quillConfig } from 'src/app/main/component/events/components/event-editor/quillEditorFunc';
+import { quillConfig } from 'src/app/shared/helpers/quillEditorFunc';
 import { ToDoList } from '@global-user/models/to-do-list.interface';
-import { FileHandle } from '@eco-news-models/create-news-interface';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TodoStatus } from '../models/todo-status.enum';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HABIT_COMPLEXITY_LIST, HABIT_DEFAULT_DURATION, HABIT_IMAGES, HABIT_TAGS_MAXLENGTH, STAR_IMAGES } from '../const/data.const';
 import { ImageService } from '@global-service/image/image.service';
 

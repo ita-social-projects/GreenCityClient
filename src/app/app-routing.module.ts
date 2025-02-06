@@ -1,5 +1,5 @@
 import { ConfirmRestorePasswordGuard } from './main/service/route-guards/confirm-restore-password.guard';
-import { HomepageComponent } from 'src/app/main/component/home/components';
+import { HomepageComponent } from 'src/app/greencity/modules/home/components';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { MainComponent } from './main/main.component';
@@ -8,7 +8,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
 import { UbsUserGuard } from '@ubs/ubs-user/guards/ubs-user-guard.guard';
 import { NonAdminGuard } from 'src/app/shared/guards/non-admin.guard';
-import { UnsubscribeComponent } from './main/component/home/components/unsubscribe/unsubscribe.component';
+import { UnsubscribeComponent } from './greencity/modules/home/components/unsubscribe/unsubscribe.component';
 
 export const routes: Routes = [
   {
@@ -27,22 +27,22 @@ export const routes: Routes = [
       },
       {
         path: 'about',
-        loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule),
+        loadChildren: () => import('./greencity/modules/about/about.module').then((mod) => mod.AboutModule),
         canActivate: [NonAdminGuard]
       },
       {
         path: 'places',
-        loadChildren: () => import('./main/component/places/places.module').then((mod) => mod.PlacesModule),
+        loadChildren: () => import('./greencity/modules/places/places.module').then((mod) => mod.PlacesModule),
         canActivate: [NonAdminGuard]
       },
       {
         path: 'news',
-        loadChildren: () => import('./main/component/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule),
+        loadChildren: () => import('./greencity/modules/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule),
         canActivate: [NonAdminGuard]
       },
       {
         path: 'events',
-        loadChildren: () => import('./main/component/events/events.module').then((mod) => mod.EventsModule),
+        loadChildren: () => import('./greencity/modules/events/events.module').then((mod) => mod.EventsModule),
         canActivate: [NonAdminGuard]
       },
       {

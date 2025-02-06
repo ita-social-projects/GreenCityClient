@@ -6,7 +6,7 @@ import { of, BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { PipeTransform, Pipe, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { FilterCriteria } from '@global-user/models/notification.model';
 import { Router } from '@angular/router';
 import { UserNotificationService } from '@global-user/services/user-notification.service';

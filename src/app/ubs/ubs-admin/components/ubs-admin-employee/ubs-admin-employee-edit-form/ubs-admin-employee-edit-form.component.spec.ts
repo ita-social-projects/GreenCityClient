@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 
 describe('UbsAdminEmployeeEditFormComponent', () => {
   let component: UbsAdminEmployeeEditFormComponent;

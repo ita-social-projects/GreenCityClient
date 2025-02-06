@@ -21,7 +21,7 @@ import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/pho
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UploadPhotoContainerComponent } from '@ubs/shared/components/upload-photo-container/upload-photo-container.component';
-import { FileHandle } from '@eco-news-models/create-news-interface';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 
 @Component({
   selector: 'app-ubs-admin-employee-edit-form',

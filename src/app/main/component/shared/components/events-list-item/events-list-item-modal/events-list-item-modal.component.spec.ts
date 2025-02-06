@@ -9,7 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { of, Subject } from 'rxjs';
 import { EventEmitter, Injectable } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { FormsModule } from '@angular/forms';
 
 @Injectable()

@@ -14,7 +14,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
 import { AdminCustomersService } from '@ubs/ubs-admin/services/admin-customers.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ColumnParam } from './columnsParams';
 import { ICustomerViolationTable } from '@ubs/ubs-admin/models/customer-violations-table.model';

@@ -16,7 +16,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from '../material.module';
 import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { AuthModule } from './component/auth/auth.module';
-import { HomeModule } from './component/home/home.module';
 import { LayoutModule } from './component/layout/layout.module';
 import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
@@ -27,7 +26,6 @@ import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
     LayoutModule,
     AuthModule,
     CoreModule,
-    HomeModule,
     InfiniteScrollModule,
     HttpClientModule,
     FormsModule,

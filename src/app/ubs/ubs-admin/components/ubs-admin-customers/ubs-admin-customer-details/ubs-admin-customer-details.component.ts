@@ -6,7 +6,7 @@ import { EMPTY, mergeMap, take, tap } from 'rxjs';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AdminCustomersService } from '@ubs/ubs-admin/services/admin-customers.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-ubs-admin-customer-details',

@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { ReplaySubject, Subscription, pipe, take } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-events-list-item-modal',

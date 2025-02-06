@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { FileHandle } from '@eco-news-models/create-news-interface';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 import { map, Observable } from 'rxjs';
 
 @Injectable({

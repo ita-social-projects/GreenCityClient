@@ -1,4 +1,4 @@
-import { UserSharedModule } from './../../../shared/user-shared.module';
+import { UserSharedModule } from '../../../shared/user-shared.module';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProfileHeaderComponent } from '@global-user/components';
 import { ProfileProgressComponent } from '@global-user/components';

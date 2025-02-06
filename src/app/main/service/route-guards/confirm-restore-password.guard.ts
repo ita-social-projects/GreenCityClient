@@ -1,4 +1,4 @@
-import { MatSnackBarComponent } from './../../component/errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from '../../../shared/components/mat-snack-bar/mat-snack-bar.component';
 import { AuthModalComponent } from './../../component/auth/components/auth-modal/auth-modal.component';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';

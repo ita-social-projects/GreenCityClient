@@ -7,7 +7,7 @@ import { ModalTextComponent } from '../modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../../../ubs-admin-tariffs/ubs-tariffs.enum';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-tariff-deactivate-confirmation-pop-up',

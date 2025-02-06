@@ -1,10 +1,11 @@
 import { Language } from 'src/app/main/i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { EventResponse, PagePreviewDTO } from '../../component/events/models/events.interface';
+
 import { Address, CourierLocations, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
 import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { FactOfTheDay } from '@global-user/models/factOfTheDay';
+import { EventResponse, PagePreviewDTO } from 'src/app/greencity/modules/events/models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -263,8 +264,9 @@ export class LocalStorageService {
     return localStorage.getItem('UBSpersonalData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSpersonalData'));
   }
 
-  getUbsOrderData(): OrderDetails {
-    return localStorage.getItem('UBSorderData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSorderData'));
+  getUbsOrderData(): OrderDetails | false {
+    const orderData = localStorage.getItem('UBSorderData');
+    return orderData ? JSON.parse(orderData) : false;
   }
 
   getLocationId(): number | false {

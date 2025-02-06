@@ -6,7 +6,7 @@ import { TariffDeactivateConfirmationPopUpComponent } from './tariff-deactivate-
 import { ModalTextComponent } from '../modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { DialogTariffComponent } from 'src/app/ubs/ubs-admin/components/shared/components/dialog-tariff/dialog-tariff.component';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 

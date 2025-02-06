@@ -17,7 +17,7 @@ import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-fro
 import { MatRadioChange } from '@angular/material/radio';
 import { EditPaymentConfirmationPopUpComponent } from '../shared/components/edit-payment-confirmation-pop-up/edit-payment-confirmation-pop-up.component';
 import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
-import { FileHandle } from '../../models/file-handle.model';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 
 interface InputData {
   orderId: number;

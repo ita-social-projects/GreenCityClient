@@ -33,7 +33,7 @@ import {
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Address, AddressData } from 'src/app/ubs/ubs/models/ubs.interface';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 @Injectable()
 export class OrderEffects {

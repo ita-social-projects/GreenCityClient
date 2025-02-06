@@ -1,3 +1,12 @@
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { ofType } from '@ngrx/effects';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { take, takeUntil } from 'rxjs/operators';
+import { ReplaySubject, Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import {
   AddAttenderEcoEventsByIdAction,
   DeleteEcoEventAction,
@@ -6,12 +15,8 @@ import {
 } from 'src/app/store/actions/ecoEvents.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
-import { ActionsSubject, Store } from '@ngrx/store';
-import { take, takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { typeFiltersData } from '../../../events/models/event-consts';
+import { typeFiltersData } from 'src/app/greencity/modules/events/models/event-consts';
 import {
   EventAttender,
   EventDatesResponse,
@@ -19,24 +24,19 @@ import {
   LocationResponse,
   TagDto,
   TagObj
-} from '../../../events/models/events.interface';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+} from 'src/app/greencity/modules/events/models/events.interface';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
-import { TranslateService } from '@ngx-translate/core';
-import { ReplaySubject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { DatePipe } from '@angular/common';
-import { EventsService } from '../../../events/services/events.service';
+import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { ofType } from '@ngrx/effects';
 import { WarningPopUpComponent } from '@shared/components';
-import { EventStoreService } from '../../../events/services/event-store.service';
 import { habitImages } from 'src/app/main/image-pathes/habits-images';
+import { EventStoreService } from 'src/app/greencity/modules/events/services/event-store.service';
 
 @Component({
   selector: 'app-events-list-item',

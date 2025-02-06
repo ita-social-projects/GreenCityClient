@@ -10,7 +10,7 @@ import { UserService } from '@global-service/user/user.service';
 import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
 import { SearchService } from '@global-service/search/search.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { LanguageModel } from '../../../main/component/layout/components/models/languageModel';
+import { LanguageModel } from 'src/app/shared/models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';

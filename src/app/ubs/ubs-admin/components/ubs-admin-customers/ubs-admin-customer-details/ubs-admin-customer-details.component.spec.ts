@@ -8,7 +8,7 @@ import { UbsAdminCustomerDetailsComponent } from './ubs-admin-customer-details.c
 import { AdminCustomersService } from '@ubs/ubs-admin/services/admin-customers.service';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { CommentPopUpComponent } from '../../shared/components/comment-pop-up/comment-pop-up.component';
 import { of, throwError } from 'rxjs';
 describe('UbsAdminCustomerDetailsComponent', () => {

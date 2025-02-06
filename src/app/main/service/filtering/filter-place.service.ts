@@ -8,9 +8,9 @@ import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.mode
 import { PlaceStatus } from '../../model/placeStatus.model';
 import { DatePipe } from '@angular/common';
 import { FilterDistanceDto } from '../../model/filtering/filter-distance-dto.model';
-import { PlaceLocation } from '../../component/places/models/location.model';
+import { PlaceLocation } from '../../../greencity/modules/places/models/location.model';
 import { BehaviorSubject } from 'rxjs';
-import { PlacesFilter } from '../../component/places/models/places-filter';
+import { PlacesFilter } from '../../../greencity/modules/places/models/places-filter';
 
 @Injectable({
   providedIn: 'root'

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { FavoritePlace } from '../../model/favorite-place/favorite-place';
 import { favoritePlaceLink, placeLink } from '../../links';
-import { Place } from '../../component/places/models/place';
+import { Place } from '../../../greencity/modules/places/models/place';
 import { take } from 'rxjs/operators';
 
 @Injectable({

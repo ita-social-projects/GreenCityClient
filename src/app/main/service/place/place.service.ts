@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { FilterPlaceCategories, Place } from '../../component/places/models/place';
+import { FilterPlaceCategories, Place } from '../../../greencity/modules/places/models/place';
 import { PlaceInfo } from '../../model/place/place-info';
 import { UpdatePlaceStatus } from '../../model/place/update-place-status.model';
 import { mainLink, placeLink } from '../../links';
@@ -10,7 +10,7 @@ import { FilterPlaceService } from '../filtering/filter-place.service';
 import { BulkUpdatePlaceStatus } from '../../model/place/bulk-update-place-status.model';
 import { TagInterface } from '../../component/shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
-import { CreatePlaceModel } from '../../component/places/models/create-place.model';
+import { CreatePlaceModel } from '../../../greencity/modules/places/models/create-place.model';
 
 @Injectable({
   providedIn: 'root'

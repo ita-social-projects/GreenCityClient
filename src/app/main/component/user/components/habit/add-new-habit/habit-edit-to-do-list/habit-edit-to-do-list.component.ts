@@ -5,7 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { ToDoList } from 'src/app/main/component/user/models/to-do-list.interface';
 import { TodoStatus } from '../../models/todo-status.enum';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { FIELD_SYMBOLS_LIMIT, HABIT_TO_DO_LIST_CHECK, TO_DO_ITEM_NAME_LIMIT } from '../../const/data.const';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';

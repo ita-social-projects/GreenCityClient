@@ -1,26 +1,26 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { HttpParams } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { EventResponse, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
-import { ActivatedRoute } from '@angular/router';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
-import { HttpParams } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { EventResponse, EventResponseDto } from 'src/app/greencity/modules/events/models/events.interface';
+import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 
 @Component({
   selector: 'app-profile-dashboard',

@@ -11,7 +11,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollDirective, InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UbsUserOrdersComponent } from './ubs-user-orders.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { of, throwError } from 'rxjs';

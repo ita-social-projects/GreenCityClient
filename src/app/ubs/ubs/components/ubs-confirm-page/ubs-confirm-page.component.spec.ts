@@ -4,7 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UbsConfirmPageComponent } from './ubs-confirm-page.component';

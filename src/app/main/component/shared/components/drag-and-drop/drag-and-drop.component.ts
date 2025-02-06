@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { FileHandle } from '@eco-news-models/create-news-interface';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 
 @Component({
   selector: 'app-drag-and-drop',

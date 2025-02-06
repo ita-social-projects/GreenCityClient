@@ -4,7 +4,7 @@ import { FriendArrayModel, FriendModel, UsersCategOnlineStatus } from '@global-u
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { GetAllFriends } from 'src/app/store/actions/friends.actions';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';

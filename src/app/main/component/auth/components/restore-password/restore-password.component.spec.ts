@@ -15,7 +15,7 @@ import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 
 describe('RestorePasswordComponent', () => {

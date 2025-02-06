@@ -1,7 +1,7 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NewsDto } from '@home-models/NewsDto';
+import { NewsDto } from 'src/app/greencity/modules/home/models/NewsDto';
 import { Observable } from 'rxjs';
 import { latestNewsLink } from 'src/app/main/links';
 

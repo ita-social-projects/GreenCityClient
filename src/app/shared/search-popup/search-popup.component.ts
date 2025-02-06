@@ -5,7 +5,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, forkJoin } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { PlacesSearchModel } from '@global-models/search/placesSearch.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SearchService } from '@global-service/search/search.service';

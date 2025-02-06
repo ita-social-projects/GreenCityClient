@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
-import { FileHandle } from '../../models/file-handle.model';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 import { iif, of, Subject } from 'rxjs';
 import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';

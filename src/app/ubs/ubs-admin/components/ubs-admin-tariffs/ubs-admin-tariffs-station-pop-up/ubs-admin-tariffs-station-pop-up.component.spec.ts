@@ -14,7 +14,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TariffsService } from '../../../services/tariffs.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { DatePipe } from '@angular/common';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 describe('UbsAdminTariffsStationPopUpComponent', () => {
   let component: UbsAdminTariffsStationPopUpComponent;

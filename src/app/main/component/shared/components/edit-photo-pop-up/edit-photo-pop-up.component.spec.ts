@@ -5,7 +5,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { EditPhotoPopUpComponent } from '@shared/components';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { of, throwError } from 'rxjs';
 import { FileHandle } from '@eco-news-models/create-news-interface';
