@@ -112,6 +112,42 @@ export class EventsListComponent implements OnInit, OnDestroy {
     });
   }
 
+  likeEvent(event: EventListResponse): void {
+    this.eventService.likeEvent(event.id).subscribe(() => {
+      this.updateEventReaction(event, 'like');
+    });
+  }
+
+  dislikeEvent(event: EventListResponse): void {
+    this.eventService.dislikeEvent(event.id).subscribe(() => {
+      this.updateEventReaction(event, 'dislike');
+    });
+  }
+
+  private updateEventReaction(event: EventListResponse, reactionType: 'like' | 'dislike'): void {
+    const i = this.eventsList.findIndex((e) => e.id === event.id);
+    if (i !== -1) {
+      const current = this.eventsList[i];
+      if (reactionType === 'like') {
+        if (!current.isLiked) {
+          current.likes++;
+          current.isLiked = true;
+          current.isDisliked = false;
+        }
+      } else {
+        if (current.isDisliked) {
+          current.isDisliked = false;
+        } else {
+          if (current.isLiked && current.likes > 0) {
+            current.likes--;
+            current.isLiked = false;
+          }
+          current.isDisliked = true;
+        }
+      }
+    }
+  }
+
   getEvents(): void {
     if (this.bookmarkSelected) {
       this.getUserFavoriteEvents();

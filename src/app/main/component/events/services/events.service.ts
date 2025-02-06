@@ -42,7 +42,13 @@ export class EventsService implements OnDestroy {
   getIsFromCreateEvent(): boolean {
     return this.isFromCreateEvent;
   }
+  likeEvent(eventId: number): Observable<void> {
+    return this.http.post<void>(`${this.backEnd}events/${eventId}/like`, {});
+  }
 
+  dislikeEvent(eventId: number): Observable<void> {
+    return this.http.post<void>(`${this.backEnd}events/${eventId}/dislike`, {});
+  }
   private convertEventToPreview(event: EventForm): PagePreviewDTO {
     const { eventInformation, dateInformation } = event;
 

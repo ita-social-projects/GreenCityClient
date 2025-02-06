@@ -92,9 +92,14 @@
         <img src="assets/events-icons/frame.png" class="frame-image" alt="frame" />
         <p>{{ event.countComments }}</p>
       </div>
-      <div class="like">
-        <img src="assets/events-icons/like.png" class="like-image" alt="like" />
-        <p>{{ event.likes }}</p>
+      <div class="like-group">
+        <div class="like" [ngClass]="{ liked: event.isLiked }" (click)="likePost()">
+          <img src="assets/events-icons/like.png" alt="like" />
+          <span>{{ event.likes }}</span>
+        </div>
+        <div class="dislike" [ngClass]="{ disliked: event.isDisliked }" (click)="dislikePost()">
+          <img src="assets/events-icons/like.png" alt="dislike" class="rotate-icon" />
+        </div>
       </div>
     </div>
   </div>
