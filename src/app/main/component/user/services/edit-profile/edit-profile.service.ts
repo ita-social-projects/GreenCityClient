@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EditProfileModel } from '@user-models/edit-profile.model';
-import { mainUserLink } from '../../../links';
+import { mainUserLink } from '../../../../links';
 
 @Injectable({
   providedIn: 'root'

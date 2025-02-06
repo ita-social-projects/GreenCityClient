@@ -12,8 +12,8 @@ import {
   notificationCriteriaOptions,
   projects
 } from '@global-user/models/notification.model';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { UserNotificationService } from '@global-user/services/user-notification.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
+import { UserNotificationService } from '@global-user/services/user-notification/user-notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';

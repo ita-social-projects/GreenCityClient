@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { UserNotificationService } from '@global-user/services/user-notification.service';
+import { UserNotificationService } from '@global-user/services/user-notification/user-notification.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NotificationArrayModel, NotificationModel } from '@user-models/notification.model';

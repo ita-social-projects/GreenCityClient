@@ -3,7 +3,7 @@ import { TranslateModule, TranslateStore } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AchievementsModalComponent } from './achievements-modal.component';
 import { AchievementService } from '@global-service/achievement/achievement.service';
-import { ProfileService } from '../../profile-service/profile.service';
+import { ProfileService } from '../../../../services/profile-service/profile.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { of } from 'rxjs';

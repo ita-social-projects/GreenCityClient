@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/services/profile-service/profile.service';
 import { AddedCommentDTO, CommentFormData } from 'src/app/main/component/comments/models/comments-model';
 import { CommentTextareaComponent } from '../comment-textarea/comment-textarea.component';
 

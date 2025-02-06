@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetAllFriendsRequests } from 'src/app/store/actions/friends.actions';
 import { IFriendState } from 'src/app/store/state/friends.state';
-import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status/user-online-status.service';
 
 @Component({
   selector: 'app-friend-requests',

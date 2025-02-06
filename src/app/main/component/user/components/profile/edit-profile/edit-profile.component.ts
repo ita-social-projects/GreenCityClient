@@ -6,7 +6,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { PlaceService } from 'src/app/shared/services/place/place.service';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/services/profile-service/profile.service';
 import {
   Coordinates,
   EditProfileDto,
@@ -14,7 +14,7 @@ import {
   NotificationPreference,
   UserLocationDto
 } from '@global-user/models/edit-profile.model';
-import { EditProfileService } from '@global-user/services/edit-profile.service';
+import { EditProfileService } from '@global-user/services/edit-profile/edit-profile.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { ReplaySubject } from 'rxjs';

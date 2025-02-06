@@ -1,6 +1,6 @@
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject, of } from 'rxjs';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/services/profile-service/profile.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProfileCardsComponent } from '@global-user/components';

@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { ProfileService } from './profile-service/profile.service';
+import { ProfileService } from '../../services/profile-service/profile.service';
 
 import { ProfileComponent } from './profile.component';
 import { mockUserData } from '@global-user/mocks/edit-profile-mock';

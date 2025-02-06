@@ -6,7 +6,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UserLocationDto } from '@global-user/models/edit-profile.model';
 import { Subject } from 'rxjs';
-import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status/user-online-status.service';
 
 @Component({
   selector: 'app-friend-item',

@@ -1,12 +1,12 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { calendarImage } from '@shared/components/calendar-base/calendar-image';
-import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status/user-online-status.service';
 
 @Component({
   selector: 'app-users-friends',

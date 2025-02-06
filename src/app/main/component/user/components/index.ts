@@ -1,4 +1,3 @@
-export { ButtonComponent } from './habit/button-component/button.component';
 export { HabitTrackersComponent } from './habit/habit-trackers/habit-trackers.component';
 export { HabitTrackerComponent } from './habit/habit-trackers/habit-tracker/habit-tracker.component';
 export { AdviceComponent } from './habit/habit-trackers/habit-tracker/advice/advice.component';

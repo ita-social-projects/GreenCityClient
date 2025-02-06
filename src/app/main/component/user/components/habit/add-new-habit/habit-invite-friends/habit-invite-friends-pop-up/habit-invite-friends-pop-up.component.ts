@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { Subject } from 'rxjs';
 import { searchIcon } from 'src/app/main/image-pathes/places-icons';
 import { takeUntil } from 'rxjs/operators';

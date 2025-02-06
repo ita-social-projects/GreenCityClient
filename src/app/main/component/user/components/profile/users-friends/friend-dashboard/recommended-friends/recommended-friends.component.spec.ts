@@ -2,11 +2,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { RecommendedFriendsComponent } from './recommended-friends.component';
 import { FIRSTFRIEND, FRIENDS, SECONDFRIEND } from '@global-user/mocks/friends-mock';
-import { UserOnlineStatusService } from '@global-user/services/user-online-status.service';
+import { UserOnlineStatusService } from '@global-user/services/user-online-status/user-online-status.service';
 import { UsersCategOnlineStatus } from '@user-models/friend.model';
 
 describe('RecommendedFriendsComponent', () => {

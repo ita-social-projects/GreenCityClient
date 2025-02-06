@@ -21,10 +21,10 @@ import { WarningDialog } from '@global-user/models/warning-dialog.inteface';
 import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
 import { AllToDoLists, HabitUpdateToDoList, ToDoList } from '@global-user/models/to-do-list.interface';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
-import { STAR_IMAGES } from '../const/data.const';
+import { STAR_IMAGES } from './habit-const/habit.const';
 import { HttpParams } from '@angular/common/http';
 
 @Component({

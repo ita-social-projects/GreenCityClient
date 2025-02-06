@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/services/profile-service/profile.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';

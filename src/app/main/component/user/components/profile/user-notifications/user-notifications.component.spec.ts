@@ -9,13 +9,13 @@ import { PipeTransform, Pipe, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { FilterCriteria } from '@global-user/models/notification.model';
 import { Router } from '@angular/router';
-import { UserNotificationService } from '@global-user/services/user-notification.service';
+import { UserNotificationService } from '@global-user/services/user-notification/user-notification.service';
 
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { LocalizedDatePipe } from '@ubs/shared/pipes/localized-date-pipe/localized-date.pipe';
 import { RelativeDatePipe } from 'src/app/shared/relative-date.pipe';
 import { By } from '@angular/platform-browser';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { HabitService } from '@global-service/habit/habit.service';
 
 @Pipe({ name: 'translate' })

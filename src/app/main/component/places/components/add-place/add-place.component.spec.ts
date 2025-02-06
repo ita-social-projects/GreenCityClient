@@ -13,7 +13,6 @@ import { PlaceService } from 'src/app/shared/services/place/place.service';
 import { of } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { FilterPlaceCategories } from '../../models/place';
-import { NewsTagInterface } from '@user-models/news.model';
 import { CreatePlaceModel, OpeningHoursDto } from '../../models/create-place.model';
 import { WorkingTime } from '../../models/week-pick-model';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';

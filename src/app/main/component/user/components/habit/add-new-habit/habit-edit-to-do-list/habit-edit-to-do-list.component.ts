@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToDoList } from 'src/app/main/component/user/models/to-do-list.interface';
 import { TodoStatus } from '../../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { FIELD_SYMBOLS_LIMIT, HABIT_TO_DO_LIST_CHECK, TO_DO_ITEM_NAME_LIMIT } from '../../const/data.const';
+import { FIELD_SYMBOLS_LIMIT, HABIT_TO_DO_LIST_CHECK, TO_DO_ITEM_NAME_LIMIT } from '../habit-const/habit.const';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';

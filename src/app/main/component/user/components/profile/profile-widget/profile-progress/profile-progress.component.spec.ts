@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ProfileProgressComponent } from './profile-progress.component';
-import { ProfileService } from '../../profile-service/profile.service';
+import { ProfileService } from '../../../../services/profile-service/profile.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';

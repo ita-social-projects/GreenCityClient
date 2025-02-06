@@ -16,10 +16,16 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { quillConfig } from 'src/app/main/component/events/components/event-editor/quillEditorFunc';
 import { ToDoList } from '@global-user/models/to-do-list.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { TodoStatus } from '../models/todo-status.enum';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { HABIT_COMPLEXITY_LIST, HABIT_DEFAULT_DURATION, HABIT_IMAGES, HABIT_TAGS_MAXLENGTH, STAR_IMAGES } from '../const/data.const';
+import {
+  HABIT_COMPLEXITY_LIST,
+  HABIT_DEFAULT_DURATION,
+  HABIT_IMAGES,
+  HABIT_TAGS_MAXLENGTH,
+  STAR_IMAGES
+} from '../add-new-habit/habit-const/habit.const';
 import { ImageService } from '@global-service/image/image.service';
 
 @Component({

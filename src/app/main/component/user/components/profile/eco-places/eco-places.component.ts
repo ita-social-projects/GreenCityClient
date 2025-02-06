@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EcoPlaces } from '@user-models/ecoPlaces.model';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/services/profile-service/profile.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { takeUntil } from 'rxjs/operators';
 

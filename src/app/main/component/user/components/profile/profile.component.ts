@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { ProfileService } from '@global-user/services/profile-service/profile.service';
 import { EditProfileModel } from '@user-models/edit-profile.model';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
