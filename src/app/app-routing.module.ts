@@ -1,7 +1,7 @@
 import { ConfirmRestorePasswordGuard } from './shared/guards/route-guards/confirm-restore-password.guard';
 import { HomepageComponent } from 'src/app/greencity/modules/home/components';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
-import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
+import { SearchAllResultsComponent } from './greencity/components/search-all-results/search-all-results.component';
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';

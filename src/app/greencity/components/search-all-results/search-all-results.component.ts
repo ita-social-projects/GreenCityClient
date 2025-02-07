@@ -1,13 +1,13 @@
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { SearchDataModel } from '@global-models/search/search.model';
-import { searchIcons } from '../../main/image-pathes/search-icons';
+import { searchIcons } from '../../../main/image-pathes/search-icons';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, Subject } from 'rxjs';
 import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil } from 'rxjs/operators';
 import { SearchService } from 'src/app/shared/services/search/search.service';
-import { FilterByitem } from '../../main/component/layout/components/models/search-dto';
-import { SearchCategory } from '../search-popup/search-consts';
+import { FilterByitem } from 'src/app/main/component/layout/components/models/search-dto';
+import { SearchCategory } from 'src/app/greencity/components/search-popup/search-consts';
 
 @Component({
   selector: 'app-search-all-results',

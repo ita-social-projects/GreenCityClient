@@ -62,7 +62,11 @@ export class ResizableBottomSheetComponent implements AfterViewInit, OnChanges, 
   animationState = 'closed';
   resizingHeight = this.height;
 
-  constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef, private renderer: Renderer2) {}
+  constructor(
+    private overlay: Overlay,
+    private viewContainerRef: ViewContainerRef,
+    private renderer: Renderer2
+  ) {}
 
   @ViewChild('bottomSheet') bottomSheetRef;
   @ViewChild('resizeHandle') resizeHandleRef: ElementRef;

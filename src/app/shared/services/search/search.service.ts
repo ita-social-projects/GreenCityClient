@@ -4,7 +4,7 @@ import { environment } from '@environment/environment';
 import { Observable, Subject } from 'rxjs';
 import { SearchDataModel } from '../../../main/model/search/search.model';
 import { SearchDto } from 'src/app/main/component/layout/components/models/search-dto';
-import { SearchCategory } from 'src/app/shared/search-popup/search-consts';
+import { SearchCategory } from 'src/app/greencity/components/search-popup/search-consts';
 
 @Injectable({
   providedIn: 'root'

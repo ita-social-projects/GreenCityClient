@@ -12,7 +12,7 @@ import { Language } from 'src/app/main/i18n/Language';
 import { TODOLISTITEMONE, TODOLISTITEMTWO } from '@global-user/components/habit/mocks/to-do-list-mock';
 import { TODOLIST } from '@global-user/components/habit/mocks/to-do-list-mock';
 import { ALLUSERTODOLISTS } from '@global-user/components/habit/mocks/to-do-list-mock';
-import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.pipe';
+import { CorrectUnitPipe } from '@global-user/pipes/correct-unit-pipe/correct-unit.pipe';
 import { TodoStatus } from '@global-user/components/habit/models/todo-status.enum';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 

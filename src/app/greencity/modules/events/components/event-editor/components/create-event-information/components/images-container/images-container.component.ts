@@ -3,7 +3,7 @@ import { take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
-import { EditImagePopUpComponent } from 'src/app/shared/edit-image-pop-up/edit-image-pop-up.component';
+import { EditImagePopUpComponent } from 'src/app/greencity/modules/events/components/event-editor/components/edit-image-pop-up/edit-image-pop-up.component';
 import { ImagesContainer } from 'src/app/greencity/modules/events/models/events.interface';
 import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 

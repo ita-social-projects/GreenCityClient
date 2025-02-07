@@ -1,4 +1,4 @@
-import { searchIcons } from '../../main/image-pathes/search-icons';
+import { searchIcons } from '../../../main/image-pathes/search-icons';
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({

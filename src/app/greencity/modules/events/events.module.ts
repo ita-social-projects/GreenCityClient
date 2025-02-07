@@ -36,6 +36,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { CommentsModule } from '../comments/comments.module';
 import { CommentsService } from '../comments/services/comments.service';
 import { EventsCommentsService } from './services/events-comments.service';
@@ -46,6 +47,8 @@ import { DateTimeComponent } from './components/event-editor/components/create-e
 import { UpdateEventComponent } from './components/update-event/update-event.component';
 import { EventStoreService } from './services/event-store.service';
 import { IMaskModule } from 'angular-imask';
+import { EditImagePopUpComponent } from './components/event-editor/components/edit-image-pop-up/edit-image-pop-up.component';
+import { ResizableBottomSheetComponent } from './components/event-details/resizable-bottom-sheet/resizable-bottom-sheet.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +65,9 @@ import { IMaskModule } from 'angular-imask';
     CreateEventInformationComponent,
     CreateEventDatesComponent,
     DateTimeComponent,
-    UpdateEventComponent
+    UpdateEventComponent,
+    EditImagePopUpComponent,
+    ResizableBottomSheetComponent
   ],
   imports: [
     MatDialogModule,
@@ -99,7 +104,8 @@ import { IMaskModule } from 'angular-imask';
     MatIconModule,
     MatDividerModule,
     CommentsModule,
-    MatChipsModule
+    MatChipsModule,
+    ImageCropperModule
   ],
   providers: [{ provide: CommentsService, useClass: EventsCommentsService }, EventStoreService],
   exports: [TranslateModule]

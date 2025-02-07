@@ -2,7 +2,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EventScheduleOverlayComponent } from './event-schedule-overlay.component';
-import { ResizableBottomSheetComponent } from 'src/app/shared/resizable-bottom-sheet/resizable-bottom-sheet.component';
+import { ResizableBottomSheetComponent } from 'src/app/greencity/modules/events/components/event-details/resizable-bottom-sheet/resizable-bottom-sheet.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('EventScheduleOverlayComponent', () => {

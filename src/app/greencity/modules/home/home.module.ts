@@ -10,6 +10,7 @@ import { EcoEventsComponent } from './components/eco-events/eco-events.component
 import { StatRowComponent } from './components/stat-row/stat-row.component';
 import { StatRowsComponent } from './components/stat-rows/stat-rows.component';
 import { SubscribeComponent } from './components/subscribe/subscribe.component';
+import { TranslateDatePipe } from './pipes/translate-date-pipe/translate-date.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { SubscribeComponent } from './components/subscribe/subscribe.component';
     StatRowsComponent,
     SubscribeComponent,
     EcoEventsItemComponent,
-    UnsubscribeComponent
+    UnsubscribeComponent,
+    TranslateDatePipe
   ],
   imports: [CommonModule, CoreModule, SharedMainModule, SharedModule],
   exports: [HomepageComponent],

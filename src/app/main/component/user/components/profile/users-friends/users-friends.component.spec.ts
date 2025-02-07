@@ -8,7 +8,7 @@ import { FRIENDS } from '@global-user/mocks/friends-mock';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.pipe';
+import { CorrectUnitPipe } from '@global-user/pipes/correct-unit-pipe/correct-unit.pipe';
 import { FirstStringWordPipe } from '@pipe/first-string-word/first-string-word.pipe';
 import { MaxTextLengthPipe } from 'src/app/shared/pipes/max-text-length-pipe/max-text-length.pipe';
 import { Language } from 'src/app/main/i18n/Language';

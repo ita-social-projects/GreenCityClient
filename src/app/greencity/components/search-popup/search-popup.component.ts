@@ -11,7 +11,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { SearchService } from 'src/app/shared/services/search/search.service';
 import { isNil, negate } from 'lodash';
 import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
-import { searchIcons } from '../../main/image-pathes/search-icons';
+import { searchIcons } from '../../../main/image-pathes/search-icons';
 import { SearchCategory } from './search-consts';
 import { PopupSearchResults } from './search-popup.model';
 
