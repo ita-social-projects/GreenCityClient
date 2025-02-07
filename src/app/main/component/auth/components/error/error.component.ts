@@ -4,7 +4,8 @@ import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-error',
-  templateUrl: './error.component.html'
+  templateUrl: './error.component.html',
+  styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent implements OnInit, OnDestroy {
   @Input() public control: FormControl;
