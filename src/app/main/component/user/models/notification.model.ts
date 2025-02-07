@@ -24,6 +24,7 @@ export interface NotificationModel {
   time: any;
   titleText: string;
   viewed: boolean;
+  status?: NotificationStatus;
 }
 
 export enum FilterCriteria {
@@ -109,3 +110,10 @@ export const projects: NotificationFilter[] = [
   { name: 'GREENCITY', nameEn: 'GreenCity', isSelected: false },
   { name: 'PICKUP', nameEn: 'Pick up', isSelected: false }
 ];
+
+export enum NotificationStatus {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED',
+  CANCELED = 'CANCELED'
+}

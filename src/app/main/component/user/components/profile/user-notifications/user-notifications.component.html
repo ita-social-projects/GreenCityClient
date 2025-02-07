@@ -110,10 +110,10 @@
           (keydown)="navigate($event)"
         ></p>
         <div class="friend-action-button" *ngIf="isHabitInvitation(notification) || isFriendRequest(notification)">
-          <button (click)="declineRequest(notification)" class="decline-request">
+          <button (click)="declineRequest(notification)" class="decline-request" [disabled]="!isPending(notification)">
             <span class="material-icons">close</span><span>{{ 'profile.friends.request-decline' | translate }}</span>
           </button>
-          <button (click)="acceptRequest(notification)" class="accept-request">
+          <button (click)="acceptRequest(notification)" class="accept-request" [disabled]="!isPending(notification)">
             <span class="material-icons">done</span><span>{{ 'profile.friends.request-accept' | translate }}</span>
           </button>
         </div>
