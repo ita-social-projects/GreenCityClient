@@ -12,7 +12,7 @@
       [isInvalid]="region.invalid"
       ngDefaultControl
     ></app-input-google-autocomplete>
-    <div class="validation" *ngIf="isErrorMessageShown(region)">
+    <div *ngIf="isErrorMessageShown(region)">
       <app-ubs-input-error [formElement]="region"></app-ubs-input-error>
     </div>
   </div>
@@ -27,7 +27,7 @@
       [isInvalid]="city.invalid && (city.touched || city.dirty)"
       ngDefaultControl
     ></app-input-google-autocomplete>
-    <div class="validation" *ngIf="city.invalid && (city.touched || city.dirty)">
+    <div *ngIf="city.invalid && (city.touched || city.dirty)">
       <app-ubs-input-error [formElement]="city"></app-ubs-input-error>
     </div>
   </div>
@@ -43,7 +43,7 @@
       [isInvalid]="street.invalid && street.touched"
       ngDefaultControl
     ></app-input-google-autocomplete>
-    <div class="validation" *ngIf="isErrorMessageShown(street)">
+    <div *ngIf="isErrorMessageShown(street)">
       <app-ubs-input-error [formElement]="street"></app-ubs-input-error>
     </div>
   </div>
@@ -59,7 +59,7 @@
         placeholder="{{ 'personal-info.pop-up-house' | translate }}"
         (input)="onHouseNumberChange()"
       />
-      <div class="validation" *ngIf="isErrorMessageShown(houseNumber)">
+      <div *ngIf="isErrorMessageShown(houseNumber)">
         <app-ubs-input-error [formElement]="houseNumber"></app-ubs-input-error>
       </div>
     </div>
@@ -73,7 +73,7 @@
         placeholder="{{ 'personal-info.pop-up-corps' | translate }}"
         (input)="onHouseCorpusChange()"
       />
-      <div class="validation" *ngIf="isErrorMessageShown(houseCorpus)">
+      <div *ngIf="isErrorMessageShown(houseCorpus)">
         <app-ubs-input-error [formElement]="houseCorpus"></app-ubs-input-error>
       </div>
     </div>
@@ -87,7 +87,7 @@
         placeholder="{{ 'personal-info.pop-up-entrance' | translate }}"
         (input)="onEntranceNumberChange()"
       />
-      <div class="validation" *ngIf="isErrorMessageShown(entranceNumber)">
+      <div *ngIf="isErrorMessageShown(entranceNumber)">
         <app-ubs-input-error [formElement]="entranceNumber"></app-ubs-input-error>
       </div>
     </div>
@@ -110,7 +110,7 @@
       </mat-option>
     </mat-select>
 
-    <div class="validation" *ngIf="isErrorMessageShown(district)">
+    <div *ngIf="isErrorMessageShown(district)">
       <app-ubs-input-error [formElement]="district"></app-ubs-input-error>
     </div>
   </div>
@@ -126,7 +126,7 @@
       (change)="onCommentChange()"
       ngDefaultControl
     ></textarea>
-    <div class="validation" *ngIf="isErrorMessageShown(addressComment)">
+    <div *ngIf="isErrorMessageShown(addressComment)">
       <app-ubs-input-error [formElement]="addressComment"></app-ubs-input-error>
     </div>
   </div>

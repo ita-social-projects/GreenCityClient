@@ -68,8 +68,8 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     maxZoom: 20
   };
 
-  private buildingPattern = Patterns.ubsHouseNumberPattern;
-  private $destroy: Subject<void> = new Subject();
+  private readonly buildingPattern = Patterns.ubsHouseNumberPattern;
+  private readonly $destroy: Subject<void> = new Subject();
   private viewInitialized = false;
 
   autocompleteRegionRequest = {
@@ -389,7 +389,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   onHouseNumberChange(): void {
     this.addressData.setHouseNumber(this.houseNumber.value);
-    console.log(this.houseNumber.errors);
     this.OnChangeAndTouched();
 
     if (!this.district.value) {
