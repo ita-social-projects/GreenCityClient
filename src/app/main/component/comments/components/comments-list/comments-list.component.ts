@@ -73,6 +73,26 @@ export class CommentsListComponent {
   isCommentEdited(element: CommentsDTO): boolean {
     return element.status === 'EDITED';
   }
+  private updateLikeDislikeCount(commentId: number, type: 'likes' | 'dislikes'): void {
+    this.elementsList = this.elementsList.map((comment) => {
+      if (comment.id === commentId) {
+        comment[type] = comment[type] + 1;
+      }
+      return comment;
+    });
+  }
+  likeComment(commentId: number): void {
+    this.commentsService.postLike(commentId).pipe(take(1)).subscribe(() => {
+      this.updateLikeDislikeCount(commentId, 'likes');
+    });
+  }
+
+  dislikeComment(commentId: number): void {
+    this.commentsService.postLike(commentId).pipe(take(1)).subscribe(() => {
+      this.updateLikeDislikeCount(commentId, 'dislikes');
+    });
+  }
+
 
   saveEditedComment(element: CommentsDTO): void {
     if (!this.commentHtml.trim() || this.commentHtml === element.text) {
@@ -129,7 +149,10 @@ export class CommentsListComponent {
     if (key === 'showRelyButton') {
       this.isAddingReply = !this.isAddingReply;
 
-      this.repliedComment = { comment: this.elementsList.find((comment) => comment.id === id), isAdd: !this.repliedComment?.isAdd };
+      this.repliedComment = {
+        comment: this.elementsList.find((comment) => comment.id === id),
+        isAdd: !this.repliedComment?.isAdd
+      };
     }
 
     this.elementsList = this.elementsList.map((item) => {

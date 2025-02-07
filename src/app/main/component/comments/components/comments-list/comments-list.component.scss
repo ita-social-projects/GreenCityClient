@@ -11,7 +11,9 @@
   width: 90%;
   padding-left: 22px;
 }
-
+.dislike-img {
+  transform: rotate(180deg);
+}
 .author-name {
   font-family: var(--tertiary-font);
   font-style: normal;
@@ -159,12 +161,14 @@
 }
 
 .comment-likes {
+  display: flex;
+  gap: 10px;
+  align-items: center;
   .like-amount {
     font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
     color: var(--secondary-grey);
-    margin-left: 5px;
   }
 
   .commnet-dot {
