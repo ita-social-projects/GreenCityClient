@@ -95,7 +95,7 @@
       <div class="like-group">
         <div class="like" [ngClass]="{ liked: event.isLiked }" (click)="likePost()">
           <img src="assets/events-icons/like.png" alt="like" />
-          <span>{{ event.likes }}</span>
+          <span>{{ event.likes - event.dislikes }}</span>
         </div>
         <div class="dislike" [ngClass]="{ disliked: event.isDisliked }" (click)="dislikePost()">
           <img src="assets/events-icons/like.png" alt="dislike" class="rotate-icon" />

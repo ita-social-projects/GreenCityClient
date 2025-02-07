@@ -28,6 +28,7 @@ export interface DateTimeForm {
   endTime: string;
   allDay: boolean;
 }
+
 export type DateTimeGroup = FormControllers<DateTime>;
 
 export interface PlaceOnline {
@@ -168,6 +169,7 @@ export interface EventResponse {
   additionalImages: string[];
   isRelevant: boolean;
   likes: number;
+  dislikes: number;
   countComments: number;
   eventRate: number;
   open: boolean;

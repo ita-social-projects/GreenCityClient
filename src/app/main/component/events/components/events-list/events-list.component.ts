@@ -116,26 +116,27 @@ export class EventsListComponent implements OnInit, OnDestroy {
     if (index !== -1) {
       this.eventsList[index] = updatedEvent;
     }
-    console.log('Updated Events List:', this.eventsList);
   }
 
   likeEvent(event: EventListResponse): void {
-    console.log('Before Like:', event);
-
     this.eventService.likeEvent(event.id).subscribe(() => {
       this.updateEventReaction(event, 'like');
       this.eventService.getEventById(event.id).subscribe((updatedEvent) => {
-        console.log('After Like (Updated from Server):', updatedEvent);
         this.refreshEventInList(updatedEvent);
+        console.log('Fetched Events:', this.eventsList);
       });
     });
   }
 
-
   dislikeEvent(event: EventListResponse): void {
-    this.eventService.dislikeEvent(event.id).subscribe(() => {
-      this.updateEventReaction(event, 'dislike');
-    });
+    this.eventService.dislikeEvent(event.id).subscribe(
+      () => {
+        this.updateEventReaction(event, 'dislike');
+      },
+      (error) => {
+        console.error('Dislike API request failed:', error);
+      }
+    );
   }
 
   private updateEventReaction(event: EventListResponse, reactionType: 'like' | 'dislike'): void {

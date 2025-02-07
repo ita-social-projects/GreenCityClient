@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, ReplaySubject } from 'rxjs';
+import { catchError, Observable, ReplaySubject, throwError } from 'rxjs';
 import { environment } from '@environment/environment';
 import { DefaultCoordinates } from '../models/event-consts';
 
@@ -18,6 +18,7 @@ import {
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -42,13 +43,24 @@ export class EventsService implements OnDestroy {
   getIsFromCreateEvent(): boolean {
     return this.isFromCreateEvent;
   }
-  likeEvent(eventId: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}events/${eventId}/like`, {});
+  likeEvent(eventId: number): Observable<any> {
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/like`, {}).pipe(catchError((error) => throwError(error)));
   }
 
-  dislikeEvent(eventId: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}events/${eventId}/dislike`, {});
+  dislikeEvent(eventId: number): Observable<any> {
+    console.log(`Sending DISLIKE request for event ID: ${eventId}`);
+
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike`, {}).pipe(
+      tap((response: any) => {
+        console.log(`DISLIKE request successful. Response:`, response);
+      }),
+      catchError((error) => {
+        console.error(`DISLIKE request failed for event ID: ${eventId}`, error);
+        return throwError(error);
+      })
+    );
   }
+
   private convertEventToPreview(event: EventForm): PagePreviewDTO {
     const { eventInformation, dateInformation } = event;
 
