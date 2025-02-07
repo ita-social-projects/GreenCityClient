@@ -23,7 +23,7 @@ import { PostNewsLoaderComponent } from '..';
 import { ACTION_CONFIG, ACTION_TOKEN } from './action.constants';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { HomepageComponent } from 'src/app/greencity/modules/home/components';
-import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
+import { SearchAllResultsComponent } from 'src/app/greencity/components/search-all-results/search-all-results.component';
 import { MainComponent } from 'src/app/main/main.component';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { QuillModule } from 'ngx-quill';

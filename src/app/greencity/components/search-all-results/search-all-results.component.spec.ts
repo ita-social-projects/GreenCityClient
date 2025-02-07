@@ -1,16 +1,16 @@
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { FormsModule } from '@angular/forms';
-import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SearchAllResultsComponent } from './search-all-results.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SearchService } from 'src/app/shared/services/search/search.service';
-import { SearchItemComponent } from '../../../main/component/layout/components';
+import { SearchItemComponent } from '../search-item/search-item.component';
 import { of, Subject } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
