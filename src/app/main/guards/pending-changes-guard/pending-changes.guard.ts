@@ -6,7 +6,6 @@ import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 
 export interface ComponentCanDeactivate {
-  // to guards!
   canDeactivate: () => boolean | Observable<boolean>;
   previousPath: string;
   popupConfig: {
