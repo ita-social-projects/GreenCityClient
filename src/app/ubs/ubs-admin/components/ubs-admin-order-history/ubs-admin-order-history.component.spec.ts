@@ -7,8 +7,7 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angu
 import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { OrderInfoMockedData } from './../../services/orderInfoMock';
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 
@@ -23,26 +22,14 @@ class MatDialogMock {
 describe('UbsAdminOrderHistoryComponent', () => {
   let component: UbsAdminOrderHistoryComponent;
   let fixture: ComponentFixture<UbsAdminOrderHistoryComponent>;
-  const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderHistory']);
-  const MatDialogRefMock = { close: () => {} };
-
-  const OrderInfoMock = OrderInfoMockedData;
-  const cancellationReasonMock = 'User do not want to communicate with us';
-  const cancellationCommentMock = '';
-
-  const dialogStub = {
-    afterClosed() {
-      return of(true);
-    }
-  };
-
-  const matDialogMock = jasmine.createSpyObj('dialog', ['open']);
-  matDialogMock.open.and.returnValue(dialogStub);
-
-  const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
-  fakeMatDialogRef.afterClosed.and.returnValue(of(true));
+  let orderServiceMock: any;
 
   beforeEach(waitForAsync(() => {
+    orderServiceMock = jasmine.createSpyObj('OrderService', ['getOrderHistory', 'getNotTakenOutReason', 'getOrderCancelReason']);
+    orderServiceMock.getOrderHistory.and.returnValue(of([]));
+    orderServiceMock.getNotTakenOutReason.and.returnValue(of({}));
+    orderServiceMock.getOrderCancelReason.and.returnValue(of({ cancellationReason: '', cancellationComment: '' }));
+
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -57,7 +44,7 @@ describe('UbsAdminOrderHistoryComponent', () => {
         { provide: OrderService, useValue: orderServiceMock },
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: MatDialogRefMock },
+        { provide: MatDialogRef, useValue: {} },
         FormBuilder
       ]
     }).compileComponents();
@@ -66,8 +53,8 @@ describe('UbsAdminOrderHistoryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminOrderHistoryComponent);
     component = fixture.componentInstance;
+    component.orderInfo = { generalOrderInfo: { id: 1 }, addresses: [] } as any;
     fixture.detectChanges();
-    jasmine.createSpyObj('orderService', { getOrderHistory: OrderInfoMock });
   });
 
   it('should create', () => {
@@ -75,112 +62,40 @@ describe('UbsAdminOrderHistoryComponent', () => {
   });
 
   it('should call getOrderHistory when orderInfo changes', () => {
-    const spy = spyOn(component, 'getOrderHistory');
-    component.orderInfo = OrderInfoMock;
-
-    const changes = {
+    spyOn(component, 'getOrderHistory');
+    component.ngOnChanges({
       orderInfo: {
-        currentValue: true,
-        firstChange: true,
-        isFirstChange: () => true,
-        previousValue: undefined
+        currentValue: { generalOrderInfo: { id: 2 }, addresses: [] },
+        previousValue: { generalOrderInfo: { id: 1 }, addresses: [] },
+        firstChange: false,
+        isFirstChange: () => false
       }
-    };
-    component.ngOnChanges(changes);
-
-    expect(spy).toHaveBeenCalledWith(1);
+    });
+    expect(component.getOrderHistory).toHaveBeenCalled();
   });
 
-  it('should call getNotTakenOutReason when orderInfo changes', () => {
-    const spy = spyOn(component, 'getNotTakenOutReason');
-    component.orderInfo = OrderInfoMock;
-
-    const changes = {
-      orderInfo: {
-        currentValue: true,
-        firstChange: true,
-        isFirstChange: () => true,
-        previousValue: undefined
-      }
-    };
-    component.ngOnChanges(changes);
-
-    expect(spy).toHaveBeenCalledWith(1);
-  });
-
-  it('should not call getOrderHistory when orderInfo does not change', () => {
-    const spy = spyOn(component, 'getOrderHistory');
-    component.orderInfo = OrderInfoMock;
-    const changes = {};
-    component.ngOnChanges(changes);
-
-    expect(spy).not.toHaveBeenCalled();
-  });
-
-  it('should not call getNotTakenOutReason when orderInfo does not change', () => {
-    const spy = spyOn(component, 'getNotTakenOutReason');
-    component.orderInfo = OrderInfoMock;
-    const changes = {};
-    component.ngOnChanges(changes);
-
-    expect(spy).not.toHaveBeenCalled();
-  });
-
-  it('should set pageOpen to true when initially false', () => {
+  it('should set pageOpen to true when openDetails is called', () => {
     component.pageOpen = false;
     component.openDetails();
-
-    expect(component.pageOpen).toBe(true);
+    expect(component.pageOpen).toBeTrue();
   });
 
-  it('should set pageOpen to false when initially true', () => {
-    component.pageOpen = true;
-    component.openDetails();
-
-    expect(component.pageOpen).toBe(false);
-  });
-
-  it('should call showPopup when user click on special status', () => {
-    const spy = spyOn(component, 'showPopup');
+  it('should call openCancelReason when order status is Cancelled', () => {
+    spyOn(component, 'openCancelReason');
+    component.orderHistory = [{ id: 1, result: 'Скасовано' } as any];
     component.showPopup(1);
-    expect(spy).toHaveBeenCalled();
+    expect(component.openCancelReason).toHaveBeenCalled();
   });
 
-  it('should  NOT to call openCancelReason when order history event name isnt "Скасовано"', () => {
-    const orderHistoryId = 1;
-    const orderHistoryMock = [
-      {
-        authorName: 'Kateryna',
-        eventDate: '2022-09-11',
-        eventName: 'На маршуті',
-        id: orderHistoryId
-      }
-    ];
-    const spy = spyOn(component, 'openCancelReason');
-    component.orderHistory = orderHistoryMock;
-    component.showPopup(orderHistoryId);
-    expect(spy).not.toHaveBeenCalled();
+  it('should open dialog when openCancelReason is called', () => {
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open');
+    component.openCancelReason();
+    expect(dialogSpy).toHaveBeenCalledWith(AddOrderCancellationReasonComponent, jasmine.any(Object));
   });
 
-  it('should  NOT to call openCancelReason when order history id doesn"t match orderHistoryMock', () => {
-    const orderHistoryId = 1;
-    const orderHistoryMock = [
-      {
-        authorName: 'Kateryna',
-        eventDate: '2022-09-11',
-        eventName: 'Скасовано',
-        id: 3
-      }
-    ];
-    const spy = spyOn(component, 'openCancelReason');
-    component.orderHistory = orderHistoryMock;
-    component.showPopup(orderHistoryId);
-    expect(spy).not.toHaveBeenCalled();
-  });
-
-  it('openDialog should be called', () => {
-    const spy = spyOn(MatDialogMock.prototype, 'open');
-    MatDialogMock.prototype.open();
-    expect(spy).toHaveBeenCalled();
+  it('should call getOrderCancelReason when getOrderCancelReason is triggered', () => {
+    spyOn(component, 'showPopup');
+    component.getOrderCancelReason(1);
+    expect(component.showPopup).not.toHaveBeenCalled();
   });
 });

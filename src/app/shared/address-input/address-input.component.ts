@@ -68,8 +68,8 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     maxZoom: 20
   };
 
-  private buildingPattern = Patterns.ubsHouseNumberPattern;
-  private $destroy: Subject<void> = new Subject();
+  private readonly buildingPattern = Patterns.ubsHouseNumberPattern;
+  private readonly $destroy: Subject<void> = new Subject();
   private viewInitialized = false;
 
   autocompleteRegionRequest = {
@@ -339,13 +339,17 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.city.patchValue(city?.structured_formatting.main_text ?? '');
       this.addressData.setCity(city.place_id);
     }
-
+    this.addressForm.get('region').disable();
     this.updateDistrictEditState();
     this.resetStreet();
     this.resetDistricts();
     this.resetHouseInfo();
 
     this.onCityValueSet(city?.structured_formatting.main_text ?? '');
+  }
+
+  keyup(keyupText: string): void {
+    keyupText ? this.addressForm.get('region').disable() : this.addressForm.get('region').enable();
   }
 
   onStreetSelected(street: GooglePrediction): void {
@@ -389,7 +393,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   onHouseNumberChange(): void {
     this.addressData.setHouseNumber(this.houseNumber.value);
-    console.log(this.houseNumber.errors);
     this.OnChangeAndTouched();
 
     if (!this.district.value) {

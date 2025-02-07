@@ -30,6 +30,7 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
 
   @Output() selectedPredictionCoordinates = new EventEmitter<Coordinates>();
   @Output() predictionSelected = new EventEmitter<GooglePrediction | null>();
+  @Output() keyupEmitter = new EventEmitter<string>();
 
   disabled = false;
   touched = false;
@@ -80,6 +81,12 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
         this.selectedPredictionCoordinates.emit({ longitude: null, latitude: null });
       }
     }, 100);
+  }
+
+  keyup(event: KeyboardEvent): void {
+    const target = event.target as HTMLInputElement;
+    const text = target.value;
+    this.keyupEmitter.emit(text);
   }
 
   writeValue(value: any): void {

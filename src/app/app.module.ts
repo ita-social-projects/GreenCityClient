@@ -40,7 +40,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
 
         translate.use(selectedLanguage).subscribe({
           next: () => {
-            console.log(`Successfully initialized '${selectedLanguage}' language.`);
+            // console.log(`Successfully initialized '${selectedLanguage}' language.`);
           },
           error: (err) => {
             console.error(`Problem with '${selectedLanguage}' language initialization.`, { err });
