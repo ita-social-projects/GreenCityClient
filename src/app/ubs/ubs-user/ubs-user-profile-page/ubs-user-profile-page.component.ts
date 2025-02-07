@@ -41,7 +41,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   userProfile: UserProfile;
   userEmail: string;
   telegramBotURL: string;
-  viberBotURL: string;
   errorMessages = [];
   maxAddressLength = 4;
   isEditing = false;
@@ -124,7 +123,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
   setUrlToBot(): void {
     this.telegramBotURL = this.userProfile.botList[0]?.link;
-    this.viberBotURL = this.userProfile.botList[1]?.link;
   }
 
   userInit(): void {
@@ -200,7 +198,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     if (this.userForm.valid) {
       this.isFetching = true;
       this.isEditing = false;
-      const submitData = {
+      const submitData: UserProfile = {
         addressDto: [],
         recipientEmail: this.userForm.value.recipientEmail,
         alternateEmail: this.userForm.value.alternateEmail,
@@ -227,7 +225,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
             id: originalAddress.id,
             actual: originalAddress.actual
           };
-
           if (!updatedAddress.houseCorpus) {
             delete updatedAddress.houseCorpus;
           }

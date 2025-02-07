@@ -368,6 +368,7 @@ export interface Address {
   houseCorpus: string;
   houseNumber: string;
   addressRegionDistrictList?: any;
+  addressComment?: any;
   isKyiv?: boolean;
   isNotKyivRegion?: boolean;
   id: number;
