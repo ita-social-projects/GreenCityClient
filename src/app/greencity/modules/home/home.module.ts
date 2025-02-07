@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '../../../main/component/core/core.module';
-import { SharedMainModule } from '@shared/shared-main.module';
+import { CoreModule } from 'src/app/main/component/core/core.module';
 import { HomepageComponent, EcoEventsComponent, StatRowComponent, StatRowsComponent, SubscribeComponent } from './components';
 import { EcoEventsItemComponent } from './components/eco-events/eco-events-item/eco-events-item.component';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.component';
 
 @NgModule({
@@ -17,8 +14,8 @@ import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.compo
     EcoEventsItemComponent,
     UnsubscribeComponent
   ],
-  imports: [CommonModule, CoreModule, SharedMainModule, SharedModule],
-  exports: [HomepageComponent, EcoEventsComponent, StatRowComponent, StatRowsComponent, SubscribeComponent, EcoEventsItemComponent],
+  imports: [CoreModule],
+  exports: [HomepageComponent],
   providers: []
 })
 export class HomeModule {}

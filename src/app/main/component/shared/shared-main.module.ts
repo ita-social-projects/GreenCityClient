@@ -43,7 +43,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-// import { EventStoreService } from '../events/services/event-store.service';
 import { SavedSectionComponent } from './components/saved-tabs/saved-section.component';
 import { DragAndDropDirective } from 'src/app/greencity/modules/eco-news/directives/drag-and-drop.directive';
 
@@ -103,7 +102,6 @@ registerLocaleData(ukLocale, 'ua');
     NgbModule
   ],
   exports: [
-    // EditPhotoPopUpComponent,
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,
@@ -132,11 +130,7 @@ registerLocaleData(ukLocale, 'ua');
     MatExpansionModule,
     SavedSectionComponent
   ],
-  providers: [
-    MatSnackBarComponent,
-    TranslateService
-    // EventStoreService
-  ]
+  providers: [MatSnackBarComponent, TranslateService]
 })
 export class SharedMainModule {}
 

@@ -7,7 +7,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, ChangeDetectorRef, Injector, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { MainModule } from './main/main.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,6 +26,7 @@ import { OrderEffects } from 'src/app/store/effects/order.effects';
 import { UbsUserEffects } from 'src/app/store/effects/ubs-user.effects';
 import { AuthEffects } from 'src/app/store/effects/auth.effects';
 import { ChatModule } from './chat/chat.module';
+import { GreencityModule } from './greencity/greencity.module';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector, languageService: LanguageService) {
   return () =>
@@ -61,6 +62,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     AppRoutingModule,
     MainModule,
     UbsModule,
+    GreencityModule,
     HttpClientModule,
     ChatModule,
     TranslateModule.forRoot({
