@@ -185,14 +185,14 @@ describe('OrderService', () => {
   });
 
   it('method addAdress should makes post request', () => {
-    service.addAdress(address as any).subscribe((data) => {
+    service.addAddress(address as any).subscribe((data) => {
       expect(data).toEqual(address);
     });
     httpTest('save-order-address', 'POST', address);
   });
 
   it('method updateAdress should makes post request', () => {
-    service.updateAdress(address as any).subscribe((data) => {
+    service.updateAddress(address as any).subscribe((data) => {
       expect(data).toEqual(address);
     });
     httpTest('update-order-address', 'PUT', address);

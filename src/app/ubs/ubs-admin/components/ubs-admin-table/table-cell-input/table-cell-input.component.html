@@ -4,9 +4,8 @@
   matTooltip="{{ data }}"
   (mouseenter)="onMouseEnter($event, tooltip)"
   (mouseleave)="tooltip.hide()"
-  [ngClass]="{ 'padding-right': isAddressKey() }"
->
-  <span>{{ data }}</span>
+  >
+  <span>{{ data | serverTranslate: lang }}</span>
   <button
     *ngIf="!isEditable && !isBlocked && !isUneditableStatus"
     (keydown.enter)="edit()"
@@ -14,7 +13,7 @@
     class="pencil"
   ></button>
   <button
-    *ngIf="isAddressKey()"
+    *ngIf="isAddressKey() && !isEditable && !isBlocked && !isUneditableStatus"
     (keydown.enter)="openEditAddressWindow()"
     (click)="openEditAddressWindow()"
     class="pencil"

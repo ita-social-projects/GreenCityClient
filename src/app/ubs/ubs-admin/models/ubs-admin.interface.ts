@@ -379,14 +379,22 @@ export interface Address {
   streetEn: string;
 }
 export interface IShortAddress {
-  city: string;
-  region: string;
-  district: string;
-  entranceNumber: string;
-  houseCorpus: string;
-  houseNumber: string;
-  id: number;
-  street: string;
+  orderAddressExportDetails: {
+    id: number;
+    district: string;
+    districtEn: string;
+    street: string;
+    streetEn: string;
+    houseCorpus: string;
+    entranceNumber: string;
+    houseNumber: string;
+    city: string;
+    cityEn: string;
+    region: string;
+    regionEn: string;
+    addressComment: string;
+  };
+  orderId: number;
 }
 
 export interface DialogData {

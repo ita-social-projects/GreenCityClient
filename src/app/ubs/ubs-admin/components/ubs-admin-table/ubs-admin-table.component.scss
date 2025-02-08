@@ -485,7 +485,7 @@ mat-spinner {
 }
 
 .scrolling {
-  height: calc(100vh - 160px) !important;
+  height: calc(100vh - 180px) !important;
   overflow: scroll;
 }
 
@@ -674,4 +674,11 @@ mat-spinner {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.top-spiner{
+position: fixed;
+left: 50vw;
+top: 5vw;
+z-index: 10;
 }

@@ -2,7 +2,6 @@ import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@ang
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { IShortAddress } from '@ubs/ubs-admin/models/ubs-admin.interface';
 
 @Component({
   selector: 'app-address-input',
@@ -25,7 +24,7 @@ export class AddressInputComponent implements ControlValueAccessor, OnInit {
     private translate: TranslateService,
     public localStorageService: LocalStorageService
   ) {}
-  
+
   ngOnInit() {
     this.bindLang(this.localStorageService.getCurrentLanguage());
   }

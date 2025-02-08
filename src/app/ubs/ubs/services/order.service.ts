@@ -114,12 +114,12 @@ export class OrderService {
     return this.http.get<ICertificateResponse>(`${this.url}/certificate/${certificate}`);
   }
 
-  addAdress(adress: AddressData): Observable<any> {
-    return this.http.post<{ addressList: Address[] }>(`${this.url}/save-order-address`, adress);
+  addAddress(address: AddressData): Observable<any> {
+    return this.http.post<{ addressList: Address[] }>(`${this.url}/save-order-address`, address);
   }
 
-  updateAdress(adress: Address): Observable<any> {
-    return this.http.put<{ addressList: Address[] }>(`${this.url}/update-order-address`, adress);
+  updateAddress(address: Address): Observable<any> {
+    return this.http.put<{ addressList: Address[] }>(`${this.url}/update-order-address`, address);
   }
 
   deleteAddress(address: Address): Observable<any> {

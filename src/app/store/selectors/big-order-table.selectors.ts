@@ -23,3 +23,5 @@ export const districtDetailsSelector = createSelector(bigOrderTableSelector, (ub
     .map((city) => city.districts)
     .flat()
 );
+
+export const isOrderAddressLoadingSelector = createSelector(bigOrderTableSelector, (tableOrder) => tableOrder.isOrderAddressLoading);

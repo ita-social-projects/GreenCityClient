@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { SnackbarClassName } from '@global-errors/error-constants';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-mat-snack-bar',
@@ -100,7 +101,8 @@ export class MatSnackBarComponent {
 
   constructor(
     public snackBar: MatSnackBar,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService,
+    private destroyRef: DestroyRef
   ) {}
 
   openSnackBar(type: string, additionalValue?: string, duration: number = 3000, customPositioning?: string) {
@@ -112,14 +114,17 @@ export class MatSnackBarComponent {
     const className = this.snackType[type].classname;
     const key = this.snackType[type].key || type;
     const addValue = additionalValue ? { orderId: additionalValue } : {};
-    this.translate.get(key, addValue).subscribe((translation) => {
-      this.message = translation;
-      this.snackBar.open(this.message, 'close', {
-        duration,
-        verticalPosition: 'top',
-        horizontalPosition: 'center',
-        panelClass: [className, customPositioning]
+    this.translate
+      .get(key, addValue)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((translation) => {
+        this.message = translation;
+        this.snackBar.open(this.message, 'close', {
+          duration,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          panelClass: [className, customPositioning]
+        });
       });
-    });
   }
 }

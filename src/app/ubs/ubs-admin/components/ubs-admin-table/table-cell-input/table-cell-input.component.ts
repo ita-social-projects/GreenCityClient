@@ -21,6 +21,7 @@ export class TableCellInputComponent {
   @Input() isAllChecked: boolean;
   @Input() isUneditableStatus: boolean;
   @Input() data: string;
+  @Input() lang: string;
   @Output() cancelEdit = new EventEmitter();
   @Output() editCommentCell = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
@@ -102,7 +103,8 @@ export class TableCellInputComponent {
           dialogConfig.data = {
             edit: true,
             addFromProfile: true,
-            address: orderInfo.addressExportDetailsDto
+            address: { ...orderInfo.addressExportDetailsDto, addressComment: orderInfo.addressComment },
+            orderId: orderInfo.generalOrderInfo.id
           };
           const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
           return dialogRef.afterClosed();
