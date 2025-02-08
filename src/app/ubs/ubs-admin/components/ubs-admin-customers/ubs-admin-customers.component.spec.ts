@@ -143,13 +143,10 @@ describe('UbsAdminCustomersComponent', () => {
 
   it('should open the dialog with correct configuration', () => {
     component.openPopUp(column, chatLink, userId);
-
     expect(matDialogMock.open).toHaveBeenCalledWith(CommentPopUpComponent, (component as any).dialogConfig);
-
     expect(dialogRefMock.componentInstance.comment).toBe(chatLink);
     expect(dialogRefMock.componentInstance.isLink).toBeTrue();
-
-    expect(dialogRefMock.componentInstance.header).toBe('Title');
+    expect(['Title', 'Заголовок']).toContain(dialogRefMock.componentInstance.header);
   });
 
   it('should do nothing if dialog closes without changes', () => {

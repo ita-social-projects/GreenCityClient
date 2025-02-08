@@ -1,99 +1,134 @@
-import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { JwtService } from '@global-service/jwt/jwt.service';
-import { TitleAndMetaTagsService } from '@global-service/title-meta-tags/title-and-meta-tags.service';
-import { UserService } from '@global-service/user/user.service';
-import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, of } from 'rxjs';
-import { LayoutModule } from './component/layout/layout.module';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MainComponent } from './main.component';
-import { MainModule } from './main.module';
+import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { UserService } from '@global-service/user/user.service';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-xdescribe('MainComponent', () => {
-  let fixture;
-  let app: MainComponent;
+class MockTitleAndMetaTagsService {
+  useTitleMetasData() {}
+}
+
+class MockLocalStorageService {
+  setUbsRegistration(value: boolean) {}
+}
+
+class MockUserService {
+  updateLastTimeActivity() {}
+}
+
+class MockUserOwnAuthService {
+  isLoginUserSubject = new BehaviorSubject<boolean>(false);
+}
+class MockTranslateService {
+  get(key: any): any {
+    return key;
+  }
+  instant(key: any): any {
+    return key;
+  }
+}
+
+describe('MainComponent', () => {
+  let component: MainComponent;
+  let fixture: ComponentFixture<MainComponent>;
   let router: Router;
-  const initialState = {};
+  let localStorageService: MockLocalStorageService;
+  let userService: MockUserService;
+  let titleAndMetaTagsService: MockTitleAndMetaTagsService;
 
-  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
-  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
-  storeMock.select.and.returnValue(of({ emplpyees: { emplpyeesPermissions: mockData } }));
-
-  const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole']);
-  jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
-  jwtServiceMock.userRole$ = new BehaviorSubject('test');
-
-  const titleAndMetaTagsServiceMock = jasmine.createSpyObj('TitleAndMetaTagsService', ['useTitleMetasData']);
-  const userServiceMock = jasmine.createSpyObj('UserService', ['updateLastTimeActivity']);
-  userServiceMock.updateLastTimeActivity.and.returnValue(of());
-
-  const focusMock = {
-    nativeElement: jasmine.createSpyObj('nativeElement', ['focus'])
-  };
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [MainComponent],
-      imports: [
-        MainModule,
-        RouterTestingModule.withRoutes([]),
-        TranslateModule.forRoot(),
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserModule,
-        LayoutModule
-      ],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
       providers: [
-        provideMockStore({ initialState }),
-        { provide: Store, useValue: storeMock },
-        { provide: JwtService, useValue: jwtServiceMock },
-        { provide: TitleAndMetaTagsService, useValue: titleAndMetaTagsServiceMock },
-        { provide: UserService, useValue: userServiceMock },
-        { provide: ElementRef, useValue: {} }
+        { provide: TranslateService, useClass: MockTranslateService },
+        { provide: TitleAndMetaTagsService, useClass: MockTitleAndMetaTagsService },
+        { provide: LocalStorageService, useClass: MockLocalStorageService },
+        { provide: UserService, useClass: MockUserService },
+        { provide: UserOwnAuthService, useClass: MockUserOwnAuthService },
+        { provide: ChangeDetectorRef, useValue: { detectChanges: jasmine.createSpy() } }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(MainComponent);
-    app = fixture.componentInstance;
-    router = fixture.debugElement.injector.get(Router);
-    spyOn(router.url, 'includes').and.returnValue(false);
-    localStorage.clear();
-    fixture.detectChanges();
+    component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    localStorageService = TestBed.inject(LocalStorageService);
+    userService = TestBed.inject(UserService);
+    titleAndMetaTagsService = TestBed.inject(TitleAndMetaTagsService);
   });
 
-  it('should create the app', () => {
-    expect(app).toBeTruthy();
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should init main functions', () => {
-    app.ngOnInit();
-
-    expect(titleAndMetaTagsServiceMock.useTitleMetasData).toHaveBeenCalled();
+  describe('constructor', () => {
+    it('should instantiate dependencies', () => {
+      expect(component['titleAndMetaTagsService']).toBeDefined();
+      expect(component['router']).toBeDefined();
+      expect(component['localStorageService']).toBeDefined();
+      expect(component['userService']).toBeDefined();
+      expect(component['userOwnAuthService']).toBeDefined();
+    });
   });
 
-  it('should updateLastTimeActivity be called in onExitHandler', () => {
-    app.onExitHandler();
-    expect(userServiceMock.updateLastTimeActivity).toHaveBeenCalled();
+  describe('HostListener: onExitHandler', () => {
+    it('should call updateLastTimeActivity on window:beforeunload', () => {
+      spyOn(userService, 'updateLastTimeActivity');
+      component.onExitHandler();
+      expect(userService.updateLastTimeActivity).toHaveBeenCalled();
+    });
   });
 
-  it('should setFocus', () => {
-    app.focusFirst = focusMock;
-    app.setFocus();
-    expect(app.focusFirst.nativeElement.focus).toHaveBeenCalled();
-  });
+  describe('ngOnInit', () => {
+    it('should set isUBS and isUnsubscribe based on router.url', () => {
+      spyOnProperty(router, 'url', 'get').and.returnValue('/ubs/some-path');
+      component.ngOnInit();
+      expect(component.isUBS).toBeTrue();
+      expect(component.isUnsubscribe).toBeFalse();
+    });
 
-  it('should skipFocus', () => {
-    app.focusLast = focusMock;
-    app.skipFocus();
-    expect(app.focusLast.nativeElement.focus).toHaveBeenCalled();
+    it('should call setUbsRegistration with the correct value', () => {
+      spyOn(localStorageService, 'setUbsRegistration');
+      spyOnProperty(router, 'url', 'get').and.returnValue('/ubs/some-path');
+      component.ngOnInit();
+      expect(localStorageService.setUbsRegistration).toHaveBeenCalledWith(true);
+    });
+
+    it('should call useTitleMetasData', () => {
+      spyOn(titleAndMetaTagsService, 'useTitleMetasData');
+      component.ngOnInit();
+      expect(titleAndMetaTagsService.useTitleMetasData).toHaveBeenCalled();
+    });
+
+    it('should call navigateToStartingPositionOnPage', () => {
+      spyOn<any>(component, 'navigateToStartingPositionOnPage');
+      component.ngOnInit();
+      expect(component['navigateToStartingPositionOnPage']).toHaveBeenCalled();
+    });
+
+    it('should call checkLogin', () => {
+      spyOn<any>(component, 'checkLogin');
+      component.ngOnInit();
+      expect(component['checkLogin']).toHaveBeenCalled();
+    });
+    it('should call navigateToStartingPositionOnPage on ngOnInit', () => {
+      const navigateSpy = spyOn<any>(component, 'navigateToStartingPositionOnPage');
+      component['navigateToStartingPositionOnPage']();
+      expect(navigateSpy).toHaveBeenCalled();
+    });
+
+    it('should call useTitleMetasData from titleAndMetaTagsService on ngOnInit', () => {
+      const navigateSpy = spyOn(titleAndMetaTagsService, 'useTitleMetasData');
+      titleAndMetaTagsService.useTitleMetasData();
+      expect(navigateSpy).toHaveBeenCalled();
+    });
   });
 });

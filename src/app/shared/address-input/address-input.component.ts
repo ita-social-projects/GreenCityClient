@@ -342,13 +342,17 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.city.patchValue(city?.structured_formatting.main_text ?? '');
       this.addressData.setCity(city.place_id);
     }
-
+    this.addressForm.get('region').disable();
     this.updateDistrictEditState();
     this.resetStreet();
     this.resetDistricts();
     this.resetHouseInfo();
 
     this.onCityValueSet(city?.structured_formatting.main_text ?? '');
+  }
+
+  keyup(keyupText: string): void {
+    keyupText ? this.addressForm.get('region').disable() : this.addressForm.get('region').enable();
   }
 
   onStreetSelected(street: GooglePrediction): void {
