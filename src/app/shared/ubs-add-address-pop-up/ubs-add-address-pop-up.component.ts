@@ -73,10 +73,13 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   }
 
   addAddress(): void {
-    this.data.edit
-      ? this.store.dispatch(UpdateAddress({ address: { ...this.data.address, ...this.address.value } }))
-      : this.store.dispatch(CreateAddress({ address: this.address.value }));
-    this.dialogRef.close('Added');
+    if (this.data.edit) {
+      this.store.dispatch(UpdateAddress({ address: { ...this.data.address, ...this.address.value } }));
+      this.dialogRef.close(this.addAddressForm.controls['address']?.value?.addressComment);
+    } else {
+      this.store.dispatch(CreateAddress({ address: this.address.value }));
+      this.dialogRef.close('Added');
+    }
   }
 
   updateOrderAddress(): void {
@@ -89,6 +92,6 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   }
 
   chooseActions(): void {
-    this.data.orderId ? this.updateOrderAddress() : this.updateOrderAddress();
+    this.data.orderId ? this.updateOrderAddress() : this.addAddress();
   }
 }

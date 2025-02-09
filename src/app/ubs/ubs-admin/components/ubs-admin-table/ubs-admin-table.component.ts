@@ -24,7 +24,12 @@ import {
   RemoveFilter,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
-import { filtersSelector, isFiltersAppliedSelector, isOrderAddressLoadingSelector, locationsDetailsSelector } from 'src/app/store/selectors/big-order-table.selectors';
+import {
+  filtersSelector,
+  isFiltersAppliedSelector,
+  isOrderAddressLoadingSelector,
+  locationsDetailsSelector
+} from 'src/app/store/selectors/big-order-table.selectors';
 import { IAppState } from 'src/app/store/state/app.state';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { IAlertInfo, IEditCell } from '../../models/edit-cell.model';
@@ -492,11 +497,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
       }
       const arr = newRow.orderCertificateCode?.split(', ');
       if (arr && arr.length > 0) {
-        newRow.orderCertificatePoints = arr.reduce((res, elem) => {
-          res = parseInt(res, 10).toString();
-          res += parseInt(elem, 10);
-          return res ? res + '' : '';
-        });
+        newRow.orderCertificatePoints = arr.reduce((res, elem) => res + parseInt(elem, 10), 0).toString();
       }
     });
   }
