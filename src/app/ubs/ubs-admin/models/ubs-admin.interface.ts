@@ -344,7 +344,6 @@ export interface UserProfile {
   recipientSurname: string;
   hasPassword: boolean;
   telegramIsNotify?: boolean;
-  viberIsNotify?: boolean;
   botList?: SocialLink[];
 }
 
@@ -369,6 +368,7 @@ export interface Address {
   houseCorpus: string;
   houseNumber: string;
   addressRegionDistrictList?: any;
+  addressComment?: any;
   isKyiv?: boolean;
   isNotKyivRegion?: boolean;
   id: number;

@@ -125,16 +125,7 @@
                   [isEditing]="!isEditing"
                   value="id1"
                   id="telegramNotification"
-                  (switchChanged)="onSwitchChanged('telegramNotification')"
-                ></app-ubs-switcher>
-                <div class="social-media">Viber</div>
-                <app-ubs-switcher
-                  class="ubs-switcher"
-                  [isChecked]="userProfile.viberIsNotify"
-                  [isEditing]="!isEditing"
-                  value="id2"
-                  id="telegramNotification"
-                  (switchChanged)="onSwitchChanged('viberNotification')"
+                  (switchChanged)="onSwitchChanged()"
                 ></app-ubs-switcher>
               </div>
               <div class="alert-mess">{{ 'ubs-client-profile.social-media-mess' | translate }}</div>
@@ -186,6 +177,12 @@
                     <p [appLangValue]="{ ua: address?.district, en: address?.districtEn }"></p>
                   </div>
                 </div>
+                <div class="inline" *ngIf="address.addressComment">
+                  <div class="form-group mrgbtn localization">
+                    <label for="comments" class="form-label">{{ 'personal-info.info-address-coment' | translate }}</label>
+                    <p>{{ address?.addressComment | translate }}</p>
+                  </div>
+                </div>
               </div>
 
               <!-- Is editing -->
@@ -200,7 +197,7 @@
                     [address]="address"
                     [edit]="true"
                     [addFromProfile]="true"
-                    [isShowCommentInput]="false"
+                    [isShowCommentInput]="true"
                   ></app-address-input>
                   <div class="delete-address" (click)="openDeleteAddressDialog(address)" role="button" tabindex="0">
                     <img src="assets/img/icon/trash-bin.svg" alt="delete address" />
