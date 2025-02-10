@@ -24,9 +24,8 @@ import { EventsEffects } from './store/effects/ecoEvents.effects';
 import { FriendsEffects } from './store/effects/friends.effects';
 import { OrderEffects } from 'src/app/store/effects/order.effects';
 import { UbsUserEffects } from 'src/app/store/effects/ubs-user.effects';
-import { AuthEffects } from 'src/app/store/effects/auth.effects';
+import { AuthEffects } from './store/effects/auth.effects'; // Added this line
 import { ChatModule } from './chat/chat.module';
-import { GreencityModule } from './greencity/greencity.module';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector, languageService: LanguageService) {
   return () =>
@@ -62,7 +61,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     AppRoutingModule,
     MainModule,
     UbsModule,
-    GreencityModule,
     HttpClientModule,
     ChatModule,
     TranslateModule.forRoot({
@@ -74,7 +72,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     }),
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([
-      AuthEffects,
+      AuthEffects, // Ensure this line is present
       EmployeesEffects,
       LocationsEffects,
       BigOrderTableEffects,
@@ -91,11 +89,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     })
   ],
   providers: [
-    // we use HashLocationStrategy because
-    // so it is to avoid collisions in two types of routes (BE and FE)
-    // also this is to stylistically separate them from each other
-    // Also some articles write that this is a well-known mistake of the angular SPA and gh-pages
-    // and I didn't find how to solve it
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

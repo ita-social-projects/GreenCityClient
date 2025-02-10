@@ -23,53 +23,58 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'ubs'
+        redirectTo: 'greenCity'
       },
       {
-        path: 'about',
-        loadChildren: () => import('./greencity/modules/about/about.module').then((mod) => mod.AboutModule),
+        path: 'greenCity',
+        loadChildren: () => import('./greencity/greencity.module').then((mod) => mod.GreencityModule),
         canActivate: [NonAdminGuard]
       },
-      {
-        path: 'places',
-        loadChildren: () => import('./greencity/modules/places/places.module').then((mod) => mod.PlacesModule),
-        canActivate: [NonAdminGuard]
-      },
-      {
-        path: 'news',
-        loadChildren: () => import('./greencity/modules/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule),
-        canActivate: [NonAdminGuard]
-      },
-      {
-        path: 'events',
-        loadChildren: () => import('./greencity/modules/events/events.module').then((mod) => mod.EventsModule),
-        canActivate: [NonAdminGuard]
-      },
-      {
-        path: 'profile',
-        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule),
-        canActivate: [NonAdminGuard]
-      },
-      {
-        path: 'search',
-        component: SearchAllResultsComponent,
-        canActivate: [NonAdminGuard]
-      },
+      // {
+      //   path: 'greenCity',
+      //   component: HomepageComponent,
+      //   canActivate: [NonAdminGuard]
+      // },
+      // {
+      //   path: 'about',
+      //   loadChildren: () => import('./greencity/modules/about/about.module').then((mod) => mod.AboutModule),
+      //   canActivate: [NonAdminGuard]
+      // },
+      // {
+      //   path: 'places',
+      //   loadChildren: () => import('./greencity/modules/places/places.module').then((mod) => mod.PlacesModule),
+      //   canActivate: [NonAdminGuard]
+      // },
+      // {
+      //   path: 'news',
+      //   loadChildren: () => import('./greencity/modules/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule),
+      //   canActivate: [NonAdminGuard]
+      // },
+      // {
+      //   path: 'events',
+      //   loadChildren: () => import('./greencity/modules/events/events.module').then((mod) => mod.EventsModule),
+      //   canActivate: [NonAdminGuard]
+      // },
+      // {
+      //   path: 'profile',
+      //   loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule),
+      //   canActivate: [NonAdminGuard]
+      // },
+      // {
+      //   path: 'search',
+      //   component: SearchAllResultsComponent,
+      //   canActivate: [NonAdminGuard]
+      // },
       {
         path: 'auth/restore',
         component: ConfirmRestorePasswordComponent,
         canActivate: [ConfirmRestorePasswordGuard, NonAdminGuard]
-      },
-      {
-        path: 'greenCity',
-        component: HomepageComponent,
-        canActivate: [NonAdminGuard]
-      },
-      {
-        path: 'unsubscribe',
-        component: UnsubscribeComponent,
-        canActivate: [NonAdminGuard]
       }
+      // {
+      //   path: 'unsubscribe',
+      //   component: UnsubscribeComponent,
+      //   canActivate: [NonAdminGuard]
+      // }
     ]
   },
   {
