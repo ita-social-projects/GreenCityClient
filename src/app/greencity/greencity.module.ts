@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { CoreModule } from '@global-core/core.module';
 import { HomeModule } from './modules/home/home.module';
 import { SharedModule } from '../shared/shared.module';
 import { SharedMainModule } from '@shared/shared-main.module';
@@ -19,7 +18,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
   imports: [
     GreencityRoutingModule,
     CommonModule,
-    CoreModule,
     SharedModule,
     SharedMainModule,
     InfiniteScrollModule,
