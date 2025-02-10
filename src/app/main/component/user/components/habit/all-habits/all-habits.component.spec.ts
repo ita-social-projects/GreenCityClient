@@ -13,7 +13,7 @@ import { HabitService } from '@global-service/habit/habit.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventEmitter, Injectable } from '@angular/core';
 import { ProfileService } from '@global-user/services/profile-service/profile.service';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { HABITLIST } from '../mocks/habit-mock';
 import { HABITSASSIGNEDLIST } from '../mocks/habit-assigned-mock';
 import { TAGLIST } from '../mocks/tags-list-mock';

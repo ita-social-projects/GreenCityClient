@@ -4,7 +4,7 @@ import { AddressInputComponent } from './address-input.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 
 describe('AddressInputComponent', () => {
   let component: AddressInputComponent;

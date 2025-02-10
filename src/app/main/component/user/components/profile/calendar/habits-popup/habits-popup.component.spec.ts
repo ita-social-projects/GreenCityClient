@@ -6,7 +6,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { DatePipe } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { mockData, mockPopupHabits } from '@assets/mocks/habit/mock-habit-calendar';

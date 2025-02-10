@@ -18,7 +18,7 @@ import { LocationsEffects } from './store/effects/tariff.effects';
 import { BigOrderTableEffects } from './store/effects/bigOrderTable.effects';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@environment/environment';
-import { LanguageService } from './main/i18n/language.service';
+import { LanguageService } from './shared/i18n/language.service';
 import { NewsEffects } from './store/effects/ecoNews.effects';
 import { EventsEffects } from './store/effects/ecoEvents.effects';
 import { FriendsEffects } from './store/effects/friends.effects';

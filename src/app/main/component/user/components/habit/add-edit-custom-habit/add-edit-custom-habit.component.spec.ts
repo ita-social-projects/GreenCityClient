@@ -27,7 +27,7 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { TagsSelectComponent } from '@shared/components/tags-select/tags-select.component';
 import { EditorChangeContent, QuillModule } from 'ngx-quill';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { TodoStatus } from '../models/todo-status.enum';
 import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';

@@ -16,7 +16,7 @@ import {
   LocationResponse,
   PagePreviewDTO
 } from '../models/events.interface';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({

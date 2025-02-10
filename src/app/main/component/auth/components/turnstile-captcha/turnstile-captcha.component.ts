@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Language } from 'src/app/main/i18n/Language';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Language } from 'src/app/shared/i18n/Language';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({
   selector: 'app-turnstile-captcha',

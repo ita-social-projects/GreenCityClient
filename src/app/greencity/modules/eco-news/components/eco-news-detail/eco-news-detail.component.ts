@@ -1,4 +1,4 @@
-import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
+import { singleNewsImages } from 'src/app/main/image-paths/single-news-images';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -6,7 +6,7 @@ import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { take, takeUntil } from 'rxjs/operators';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { Store } from '@ngrx/store';

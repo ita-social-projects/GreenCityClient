@@ -1,4 +1,4 @@
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { Component, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';

@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { CalendarInterface } from './calendar-interface';
 import { MatDialog } from '@angular/material/dialog';

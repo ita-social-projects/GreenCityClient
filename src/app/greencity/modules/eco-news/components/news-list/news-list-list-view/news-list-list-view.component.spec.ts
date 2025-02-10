@@ -4,9 +4,9 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NewsListListViewComponent } from './news-list-list-view.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { BehaviorSubject } from 'rxjs';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FIRSTECONEWS } from 'src/app/greencity/modules/eco-news/mocks/eco-news-mock';

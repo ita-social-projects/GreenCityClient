@@ -9,14 +9,14 @@ import { ConfirmRestorePasswordGuard } from '../shared/guards/route-guards/confi
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogRef } from '@angular/material/dialog';
 import { CoreModule } from '@global-core/core.module';
-import { PendingChangesGuard } from 'src/app/main/guards/pending-changes-guard/pending-changes.guard';
+import { PendingChangesGuard } from 'src/app/shared/guards/pending-changes-guard/pending-changes.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from '../material.module';
 import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { AuthModule } from './component/auth/auth.module';
-import { LayoutModule } from './component/layout/layout.module';
+import { LayoutModule } from '../greencity/modules/footer/layout.module';
 import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
 @NgModule({

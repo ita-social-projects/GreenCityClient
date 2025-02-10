@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DeletingProfileReasonPopUpComponent } from './deleting-profile-reason-pop-up.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';

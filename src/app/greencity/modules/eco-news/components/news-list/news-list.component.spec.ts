@@ -6,7 +6,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NewsListListViewComponent } from './news-list-list-view/news-list-list-view.component';
-import { NewsListGalleryViewComponent } from 'src/app/shared/news-list-gallery-view/news-list-gallery-view.component';
+import { NewsListGalleryViewComponent } from '@shared/components/news-list-gallery-view/news-list-gallery-view.component';
 import { ChangeViewButtonComponent } from './change-view-button/change-view-button.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -17,7 +17,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeEcoNewsFavoriteStatusAction } from 'src/app/store/actions/ecoNews.actions';
 

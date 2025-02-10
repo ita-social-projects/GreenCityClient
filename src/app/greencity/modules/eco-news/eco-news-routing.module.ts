@@ -8,7 +8,7 @@ import {
   NewsListComponent,
   CreateEditNewsComponent
 } from './components';
-import { PendingChangesGuard } from 'src/app/main/guards/pending-changes-guard/pending-changes.guard';
+import { PendingChangesGuard } from 'src/app/shared/guards/pending-changes-guard/pending-changes.guard';
 
 const ecoNewsRoutes: Routes = [
   {

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TagsSelectComponent } from './tags-select.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { FIRSTTAGITEM, TAGLIST } from '@global-user/components/habit/mocks/tags-list-mock';
 
 describe('TagsSelectComponent', () => {

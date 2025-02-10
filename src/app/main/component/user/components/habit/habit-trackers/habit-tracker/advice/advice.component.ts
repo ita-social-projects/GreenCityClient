@@ -3,7 +3,7 @@ import { AdviceService } from 'src/app/main/service/advice/advice.service';
 import { AdviceDto } from 'src/app/main/model/advice/AdviceDto';
 import { Observable } from 'rxjs';
 import { HabitDictionaryDto } from 'src/app/main/model/habit/HabitDictionaryDto';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({
   selector: 'app-advice',

@@ -16,10 +16,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { of } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { UbsAdminNotificationListComponent } from './ubs-admin-notification-list.component';
 import { NotificationTemplatesMock } from '../../services/notificationsMock';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @Pipe({ name: 'cron' })

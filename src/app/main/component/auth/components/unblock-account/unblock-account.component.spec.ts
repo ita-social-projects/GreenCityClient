@@ -5,8 +5,8 @@ import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/ma
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { UnblockAccountComponent } from './unblock-account.component';
-import { authImages } from 'src/app/main/image-pathes/auth-images';
-import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { authImages } from 'src/app/shared/image-paths/auth-images';
+import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 import { unblockAccountLink } from 'src/app/main/links';
 import { TranslateModule } from '@ngx-translate/core';
 

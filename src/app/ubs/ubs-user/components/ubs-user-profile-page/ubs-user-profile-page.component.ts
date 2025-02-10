@@ -9,8 +9,8 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
+import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { UBSAddAddressPopUpComponent } from '@ubs/shared/components/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';

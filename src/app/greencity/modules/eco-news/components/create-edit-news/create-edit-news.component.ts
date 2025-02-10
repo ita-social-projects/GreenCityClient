@@ -24,7 +24,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { CreateEcoNewsAction, EditEcoNewsAction, NewsActions } from 'src/app/store/actions/ecoNews.actions';
 import { ofType } from '@ngrx/effects';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
 import { ImageService } from '@global-service/image/image.service';
 import { EVENT_LOCALE, EventLocaleKeys } from '../../../events/models/event-consts';

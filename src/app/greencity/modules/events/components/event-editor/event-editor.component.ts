@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
+import { singleNewsImages } from 'src/app/main/image-paths/single-news-images';
 import { Place } from '../../../places/models/place';
 import { DefaultCoordinates } from '../../models/event-consts';
 import { EventForm } from '../../models/events.interface';

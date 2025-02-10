@@ -4,7 +4,7 @@ import { HabitDto } from 'src/app/main/model/habit/HabitDto';
 import { HabitStatisticService } from 'src/app/main/service/habit-statistic/habit-statistic.service';
 import { filter, map } from 'rxjs/operators';
 import { HabitStatisticsDto } from 'src/app/main/model/habit/HabitStatisticsDto';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({
   selector: 'app-habit-tracker',

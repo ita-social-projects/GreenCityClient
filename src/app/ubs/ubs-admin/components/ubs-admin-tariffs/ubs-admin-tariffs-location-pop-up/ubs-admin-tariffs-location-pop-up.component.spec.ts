@@ -8,8 +8,8 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { Language } from 'src/app/main/i18n/Language';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Language } from 'src/app/shared/i18n/Language';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { Locations } from '../../../models/tariffs.interface';
 import { TariffsService } from '../../../services/tariffs.service';

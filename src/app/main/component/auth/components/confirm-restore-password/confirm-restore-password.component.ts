@@ -1,6 +1,6 @@
-import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 import { RestoreDto } from 'src/app/main/model/restroreDto';
-import { authImages, ubsAuthImages } from 'src/app/main/image-pathes/auth-images';
+import { authImages, ubsAuthImages } from 'src/app/shared/image-paths/auth-images';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AbstractControl, FormGroup, FormControl, FormBuilder } from '@angular/forms';

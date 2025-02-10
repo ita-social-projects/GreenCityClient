@@ -5,7 +5,7 @@ import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 import { ProfileService } from '../../../services/profile-service/profile.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({
   selector: 'app-profile-cards',

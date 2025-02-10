@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
+import { userAssignedCardsIcons } from 'src/app/main/image-paths/profile-icons';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({
   selector: 'app-one-news',

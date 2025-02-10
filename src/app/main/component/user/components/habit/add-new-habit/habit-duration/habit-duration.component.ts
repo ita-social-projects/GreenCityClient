@@ -11,10 +11,10 @@ import {
   ChangeDetectionStrategy,
   AfterViewInit
 } from '@angular/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { Subject, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { takeUntil } from 'rxjs/operators';
 import { HABIT_DEFAULT_DURATION } from '../habit-const/habit.const';
 

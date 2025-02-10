@@ -7,7 +7,7 @@ import { ElementRef, SimpleChange } from '@angular/core';
 import { of } from 'rxjs';
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 describe('HabitDurationComponent', () => {
   let component: HabitDurationComponent;

@@ -12,7 +12,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { Location } from '@angular/common';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { habitImages } from 'src/app/main/image-pathes/habits-images';
+import { habitImages } from 'src/app/main/image-paths/habits-images';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
@@ -23,7 +23,7 @@ import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.i
 import { AllToDoLists, HabitUpdateToDoList, ToDoList } from '@global-user/models/to-do-list.interface';
 import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
-import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
+import { singleNewsImages } from 'src/app/main/image-paths/single-news-images';
 import { STAR_IMAGES } from './habit-const/habit.const';
 import { HttpParams } from '@angular/common/http';
 

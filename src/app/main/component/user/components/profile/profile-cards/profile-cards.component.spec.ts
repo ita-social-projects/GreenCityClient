@@ -7,7 +7,7 @@ import { ProfileCardsComponent } from '@global-user/components';
 import { FactOfTheDay } from '@global-user/models/factOfTheDay';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { TranslateModule } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 describe('ProfileCardsComponent', () => {
   let component: ProfileCardsComponent;

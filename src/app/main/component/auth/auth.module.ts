@@ -1,7 +1,6 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CoreModule } from '../core/core.module';
-import { InputcolorDirective } from '../../directives/inputcolor.directive';
 import { SharedMainModule } from '@shared/shared-main.module';
 import { RestoreComponent, RestorePasswordComponent, SignInComponent, SignUpComponent, SubmitEmailComponent } from './components';
 import { ErrorComponent } from './components/error/error.component';
@@ -19,7 +18,6 @@ import { UnblockAccountComponent } from './components/unblock-account/unblock-ac
     ConfirmRestorePasswordComponent,
     ErrorComponent,
     GoogleBtnComponent,
-    InputcolorDirective,
     RestoreComponent,
     RestorePasswordComponent,
     SignInComponent,
@@ -29,7 +27,7 @@ import { UnblockAccountComponent } from './components/unblock-account/unblock-ac
     UnblockAccountComponent
   ],
   imports: [CoreModule, SharedMainModule, SharedModule, ReactiveFormsModule],
-  exports: [InputcolorDirective],
+  exports: [],
   providers: [MatSnackBarModule]
 })
 export class AuthModule {}

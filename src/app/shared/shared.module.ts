@@ -16,12 +16,12 @@ import { FilterLocationListByLangPipe } from './pipes/filter-location-list-by-la
 import { MaxTextLengthPipe } from './pipes/max-text-length-pipe/max-text-length.pipe';
 import { DialogPopUpComponent } from './components/dialog-pop-up/dialog-pop-up.component';
 import { SpacePreventDirective } from './directives/space-prevent.directive';
-import { NewsListGalleryViewComponent } from './news-list-gallery-view/news-list-gallery-view.component';
+import { NewsListGalleryViewComponent } from '../main/component/shared/components/news-list-gallery-view/news-list-gallery-view.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { SafeHtmlTransformPipe } from './events-description-transforn/safe-html-transform.pipe';
 import { LinkifyDirective } from 'src/app/shared/directives/linkify.directive';
 import { RemoveLeadingZeroDirective } from 'src/app/shared/directives/remove-leading-zero/remove-leading-zero.directive';
-import { RatingDisplayComponent } from 'src/app/shared/rating-display/rating-display.component';
+import { RatingDisplayComponent } from '@shared/components/events-list-item/rating-display/rating-display.component';
 import { RelativeDatePipe } from './relative-date.pipe';
 import { LangValueDirective } from './directives/lang-value/lang-value.directive';
 import { GoogleMapsModule } from '@angular/google-maps';

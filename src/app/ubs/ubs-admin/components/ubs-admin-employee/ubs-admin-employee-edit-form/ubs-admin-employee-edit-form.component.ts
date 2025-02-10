@@ -19,7 +19,7 @@ import { Subject } from 'rxjs';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { UploadPhotoContainerComponent } from '@ubs/shared/components/upload-photo-container/upload-photo-container.component';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
 

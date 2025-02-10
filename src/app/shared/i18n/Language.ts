@@ -4,7 +4,6 @@ export enum Language {
   RU = 'ru',
   UK = 'uk'
 }
-
 export enum Locale {
   UA = 'uk-UA',
   EN = 'en-GB'

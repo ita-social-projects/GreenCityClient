@@ -3,7 +3,7 @@ import { Title, Meta } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, forkJoin, map, Subscription } from 'rxjs';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Injectable({
   providedIn: 'root'

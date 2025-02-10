@@ -4,7 +4,7 @@ import { LocalizedCurrencyPipe } from '@ubs/shared/pipes/localized-currency-pipe
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UbsUserOrderDetailsComponent } from './ubs-user-order-details.component';
 import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { fakeInputOrderData } from '@ubs/mocks/order-data-mock';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { of } from 'rxjs';
