@@ -15,7 +15,7 @@ import { GetEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
-import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
+import { singleNewsImages } from 'src/app/main/image-paths/single-news-images';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';

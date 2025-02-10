@@ -32,10 +32,10 @@ import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.s
 import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
-import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
+import { userAssignedCardsIcons } from 'src/app/main/image-paths/profile-icons';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { WarningPopUpComponent } from '@shared/components';
-import { habitImages } from 'src/app/main/image-pathes/habits-images';
+import { habitImages } from 'src/app/main/image-paths/habits-images';
 import { EventStoreService } from 'src/app/greencity/modules/events/services/event-store.service';
 
 @Component({

@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsPickUpServicePopUpComponent } from 'src/app/ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 import { ubsNavLinks, socialLinks } from './footer-links';
-import { ubsHeaderIcons } from 'src/app/main/image-pathes/header-icons';
+import { ubsHeaderIcons } from 'src/app/shared/image-paths/header-icons';
 
 @Component({
   selector: 'app-ubs-footer',

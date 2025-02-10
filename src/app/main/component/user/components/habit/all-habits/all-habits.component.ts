@@ -10,7 +10,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { ProfileService } from '@global-user/services/profile-service/profile.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
-import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
+import { singleNewsImages } from 'src/app/main/image-paths/single-news-images';
 import { HabitsFiltersList } from '../models/habits-filters-list';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';

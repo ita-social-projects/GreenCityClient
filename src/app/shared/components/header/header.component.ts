@@ -1,6 +1,6 @@
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { Language } from '../../i18n/Language';
-import { headerIcons, ubsHeaderIcons } from '../../../main/image-pathes/header-icons';
+import { headerIcons, ubsHeaderIcons } from '../../image-paths/header-icons';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { filter, takeUntil, takeWhile } from 'rxjs/operators';

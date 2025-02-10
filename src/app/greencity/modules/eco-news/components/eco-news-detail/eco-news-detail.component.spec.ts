@@ -17,7 +17,7 @@ import { Language } from 'src/app/shared/i18n/Language';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
+import { singleNewsImages } from 'src/app/main/image-paths/single-news-images';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
