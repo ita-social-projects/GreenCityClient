@@ -45,7 +45,6 @@ export class UbsFooterComponent {
   }
 
   onPressEnter(event: Event): void {
-    //$Event KeyboardEvent
     event.preventDefault();
     this.openAboutServicePopUp(event);
   }
