@@ -16,7 +16,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from '../material.module';
 import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { AuthModule } from './component/auth/auth.module';
-import { LayoutModule } from './component/layout/layout.module';
+import { LayoutModule } from '../greencity/modules/footer/layout.module';
 import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
 @NgModule({
