@@ -264,6 +264,9 @@
       "content": "You sort - we recycle!",
       "btn-order-courier": "Order"
     },
+    "partners":{
+      "header":"Our partners"
+    },
     "pick-up-service": {
       "caption": "About service",
       "pick-up-city": {

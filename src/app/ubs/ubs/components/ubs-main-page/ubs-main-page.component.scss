@@ -19,7 +19,53 @@
     color: var(--ubs-primary-black);
   }
 
+  .our-partners-section {
+    display: flex;
+    flex-direction: column;
+    gap: 72px;
+    padding: 97px 0;
+    background-color: var(--ubs-main-page-secondary-light-grey);
+
+    @media screen and (max-width: 1022px) {
+      padding: 70px 0;
+      gap: 50px;
+    }
+
+    @media screen and (max-width: 600px) {
+      padding: 50px 0;
+      gap: 30px;
+    }
+
+    &__icons {
+      display: flex;
+      justify-content: space-around;
+
+      a {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    &__img {
+      height: 200px;
+
+      @media screen and (max-width: 1022px) {
+        height: 150px;
+      }
+
+      @media screen and (max-width: 800px) {
+        height: 100px;
+      }
+
+      @media screen and (max-width: 600px) {
+        height: 70px;
+      }
+    }
+  }
+
   .price-section {
+    background-color: var(--ubs-main-page-secondary-light-grey);
+
     h2 {
       padding: 0 0 80px;
     }
@@ -234,17 +280,12 @@
 
   #first-section {
     padding: 70px 0;
-    background-color: var(--ubs-main-page-secondary-light-grey);
 
     .box-item,
     .conditions,
     .bonuses {
       background-color: #fff;
     }
-  }
-
-  .pick-up-service {
-    background-color: var(--ubs-main-page-secondary-light-grey);
   }
 
   a {
@@ -595,6 +636,7 @@ section .main-container {
   width: 100%;
   height: 566px;
   margin: 0;
+  background-color: var(--ubs-main-page-secondary-light-grey);
 
   .box-how-works {
     width: 100%;
