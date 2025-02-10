@@ -1,12 +1,15 @@
+@import 'mixin';
+
 .time_to_show {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
-  margin: 0 10px;
   cursor: default;
 }
 
-.pointer {
-  cursor: pointer;
+.pencil {
+  @include pencil();
+
+  position: static;
 }

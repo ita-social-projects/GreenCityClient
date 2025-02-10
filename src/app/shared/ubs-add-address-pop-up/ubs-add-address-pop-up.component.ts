@@ -5,6 +5,7 @@ import { Address, CourierLocations, DistrictsDtos } from 'src/app/ubs/ubs/models
 import { Store } from '@ngrx/store';
 import { CreateAddress, DeleteAddress, UpdateAddress } from 'src/app/store/actions/order.actions';
 import { CAddressData } from 'src/app/ubs/ubs/models/ubs.model';
+import { UpdateOrderAddress } from 'src/app/store/actions/bigOrderTable.actions';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -45,6 +46,7 @@ export class UBSAddAddressPopUpComponent implements OnInit {
       edit: boolean;
       address: Address;
       addFromProfile?: boolean;
+      orderId?: number;
     }
   ) {}
 
@@ -56,6 +58,9 @@ export class UBSAddAddressPopUpComponent implements OnInit {
     this.addAddressForm = this.fb.group({
       address: ['', Validators.required]
     });
+    if (this.data?.address) {
+      this.addAddressForm.setValue({ address: this.data.address || '' });
+    }
   }
 
   onNoClick(): void {
@@ -68,9 +73,25 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   }
 
   addAddress(): void {
-    this.data.edit
-      ? this.store.dispatch(UpdateAddress({ address: { ...this.data.address, ...this.address.value } }))
-      : this.store.dispatch(CreateAddress({ address: this.address.value }));
+    if (this.data.edit) {
+      this.store.dispatch(UpdateAddress({ address: { ...this.data.address, ...this.address.value } }));
+      this.dialogRef.close(this.addAddressForm.controls['address']?.value?.addressComment);
+    } else {
+      this.store.dispatch(CreateAddress({ address: this.address.value }));
+      this.dialogRef.close('Added');
+    }
+  }
+
+  updateOrderAddress(): void {
+    this.store.dispatch(
+      UpdateOrderAddress({
+        address: { orderAddressExportDetails: { ...this.data.address, ...this.address.value }, orderId: this.data.orderId }
+      })
+    );
     this.dialogRef.close('Added');
+  }
+
+  chooseActions(): void {
+    this.data.orderId ? this.updateOrderAddress() : this.addAddress();
   }
 }

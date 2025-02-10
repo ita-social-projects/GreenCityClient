@@ -378,6 +378,24 @@ export interface Address {
   street: string;
   streetEn: string;
 }
+export interface IShortAddress {
+  orderAddressExportDetails: {
+    id: number;
+    district: string;
+    districtEn: string;
+    street: string;
+    streetEn: string;
+    houseCorpus: string;
+    entranceNumber: string;
+    houseNumber: string;
+    city: string;
+    cityEn: string;
+    region: string;
+    regionEn: string;
+    addressComment: string;
+  };
+  orderId: number;
+}
 
 export interface DialogData {
   button: 'add' | 'update';

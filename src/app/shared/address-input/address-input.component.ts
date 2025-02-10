@@ -138,31 +138,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     private readonly addressService: AddressService
   ) {}
 
-  validate(control: AbstractControl): ValidationErrors {
-    return (this.addressForm.valid && this.addressData.isValid()) || this.addressForm.pristine ? null : { incorrectAddress: true };
-  }
-
-  writeValue(obj: any): void {}
-
-  setDisabledState?(isDisabled: boolean): void {
-    isDisabled ? this.addressForm.disable() : this.addressForm.enable();
-  }
-
-  registerOnChange(onChange: any): void {
-    this.onChange = onChange;
-  }
-
-  registerOnTouched(onTouched: any): void {
-    this.onTouched = onTouched;
-  }
-
-  markAsTouched(): void {
-    if (!this.isTouched) {
-      this.onTouched();
-      this.isTouched = true;
-    }
-  }
-
   ngOnInit(): void {
     this.addressData = new CAddressData(this.langService);
     this.locations = this.localStorageService.getLocations();
@@ -192,6 +167,32 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.initializeFieldStates();
     }
   }
+
+  validate(control: AbstractControl): ValidationErrors {
+    return (this.addressForm.valid && this.addressData.isValid()) || this.addressForm.pristine ? null : { incorrectAddress: true };
+  }
+
+  writeValue(obj: any): void {}
+
+  setDisabledState?(isDisabled: boolean): void {
+    isDisabled ? this.addressForm.disable() : this.addressForm.enable();
+  }
+
+  registerOnChange(onChange: any): void {
+    this.onChange = onChange;
+  }
+
+  registerOnTouched(onTouched: any): void {
+    this.onTouched = onTouched;
+  }
+
+  markAsTouched(): void {
+    if (!this.isTouched) {
+      this.onTouched();
+      this.isTouched = true;
+    }
+  }
+
 
   private initializeFieldStates(): void {
     if (!this.edit) {

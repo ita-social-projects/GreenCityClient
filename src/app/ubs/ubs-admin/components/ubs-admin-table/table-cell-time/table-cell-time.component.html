@@ -1,6 +1,6 @@
 <div class="time_to_show">
   <span>{{ from }} - {{ to }}</span>
-  <span *ngIf="!isEditable && !isBlocked && !uneditableStatus" class="pointer" (click)="edit()" (keydown)="edit($event)">&#9998;</span>
+  <button *ngIf="!isEditable && !isBlocked && !uneditableStatus" class="pencil" (click)="edit()" (keydown)="edit($event)"></button>
   <mat-spinner *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>
 </div>
 <app-time-picker
