@@ -11,7 +11,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { CorrectUnitPipe } from '@global-user/pipes/correct-unit-pipe/correct-unit.pipe';
 import { FirstStringWordPipe } from '@pipe/first-string-word/first-string-word.pipe';
 import { MaxTextLengthPipe } from 'src/app/shared/pipes/max-text-length-pipe/max-text-length.pipe';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { FriendModel } from '@user-models/friend.model';
 import { Router } from '@angular/router';
 import { FriendStatusValues } from '@user-models/friend.model';

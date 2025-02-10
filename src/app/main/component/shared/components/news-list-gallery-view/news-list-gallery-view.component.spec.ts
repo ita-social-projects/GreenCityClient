@@ -3,8 +3,8 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NewsListGalleryViewComponent } from './news-list-gallery-view.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Language } from 'src/app/main/i18n/Language';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
+import { Language } from 'src/app/shared/i18n/Language';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { FIRSTECONEWS } from 'src/app/greencity/modules/eco-news/mocks/eco-news-mock';

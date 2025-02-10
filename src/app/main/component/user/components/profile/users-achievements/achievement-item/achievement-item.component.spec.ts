@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AchievementItemComponent } from './achievement-item.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
 import { AchievementDto } from '@global-models/achievement/AchievementDto';
 import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';

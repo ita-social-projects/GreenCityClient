@@ -8,7 +8,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { Subject } from 'rxjs';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { Couriers, Locations, City, FilterData } from '../../models/tariffs.interface';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -24,7 +24,7 @@ import {
   filtersStateEmployeeOptions,
   EmployeeStatus
 } from './ubs-admin-employee-table/employee-models.enum';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 
 @Component({
   selector: 'app-ubs-admin-employee',

@@ -15,7 +15,7 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
 import { abilityDelAuthorities, abilityEditAuthorities } from '../../../models/ubs-admin.interface';
 

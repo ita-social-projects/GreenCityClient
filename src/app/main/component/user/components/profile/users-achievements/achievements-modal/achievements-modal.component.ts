@@ -6,7 +6,7 @@ import { take } from 'rxjs';
 import { ProfileService } from '../../../../services/profile-service/profile.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({
   selector: 'app-achievements-modal',

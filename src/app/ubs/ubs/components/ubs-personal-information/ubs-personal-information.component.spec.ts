@@ -11,7 +11,7 @@ import { UBSPersonalInformationComponent } from './ubs-personal-information.comp
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { IMaskModule } from 'angular-imask';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { APP_BASE_HREF } from '@angular/common';
 import { UBSInputErrorComponent } from '@ubs/shared/components/ubs-input-error/ubs-input-error.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

@@ -3,7 +3,16 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from 'src/app/shared/services/place/place.service';
-import { greenIcon, notification, redIcon, searchIcon, share, star, starHalf, starUnfilled } from 'src/app/main/image-pathes/places-icons';
+import {
+  greenIcon,
+  notification,
+  redIcon,
+  searchIcon,
+  share,
+  star,
+  starHalf,
+  starUnfilled
+} from 'src/app/greencity/image-paths/places-icons';
 import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from 'src/app/shared/services/filtering/filter-place.service';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';

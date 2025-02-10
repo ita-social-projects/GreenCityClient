@@ -82,7 +82,7 @@ import { TariffConfirmationPopUpComponent } from './components/shared/components
 import { TariffDeactivateConfirmationPopUpComponent } from './components/shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { UbsAdminEmployeePermissionsFormComponent } from './components/ubs-admin-employee/ubs-admin-employee-permissions-form/ubs-admin-employee-permissions-form.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
+import { TariffStatusPipe } from '@ubs/shared/pipes/tariff-status-pipe/tariff-status.pipe';
 import { UbsAdminTariffsDeactivatePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 import { UbsAdminNotificationListComponent } from './components/ubs-admin-notification-list/ubs-admin-notification-list.component';
 import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';

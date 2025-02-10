@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AchievementDto } from '@global-models/achievement/AchievementDto';
 import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
 
 @Component({

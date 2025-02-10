@@ -1,6 +1,6 @@
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { SearchDataModel } from '@global-models/search/search.model';
-import { searchIcons } from '../../../main/image-pathes/search-icons';
+import { searchIcons } from '../../image-paths/search-icons';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, Subject } from 'rxjs';

@@ -8,7 +8,7 @@ import { AddNewHabitComponent } from './components/habit/add-new-habit/add-new-h
 import { FriendDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-dashboard.component';
 import { AllFriendsComponent } from './components/profile/users-friends/friend-dashboard/all-friends/all-friends.component';
 import { RecommendedFriendsComponent } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
-import { PendingChangesGuard } from 'src/app/main/guards/pending-changes-guard/pending-changes.guard';
+import { PendingChangesGuard } from 'src/app/shared/guards/pending-changes-guard/pending-changes.guard';
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
 import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
 import { AddEditCustomHabitComponent } from './components/habit/add-edit-custom-habit/add-edit-custom-habit.component';

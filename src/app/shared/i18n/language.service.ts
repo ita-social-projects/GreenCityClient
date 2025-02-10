@@ -1,12 +1,12 @@
-import { LocalStorageService } from '../../shared/services/localstorage/local-storage.service';
+import { LocalStorageService } from '../services/localstorage/local-storage.service';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from './Language';
-import { LanguageId } from '../interface/language-id';
+import { LanguageId } from './language-id';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { userLink } from '../links';
+import { userLink } from '../../main/links';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { Observable } from 'rxjs';
 

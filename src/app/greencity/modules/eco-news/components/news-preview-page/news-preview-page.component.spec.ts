@@ -13,7 +13,7 @@ import { EcoNewsComponent } from '../../eco-news.component';
 import { Router } from '@angular/router';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 describe('NewsPreviewPageComponent', () => {
   let component: NewsPreviewPageComponent;

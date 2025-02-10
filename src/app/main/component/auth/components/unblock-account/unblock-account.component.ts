@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { Observable, take } from 'rxjs';
-import { authImages, ubsAuthImages } from 'src/app/main/image-pathes/auth-images';
-import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { authImages, ubsAuthImages } from 'src/app/shared/image-paths/auth-images';
+import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 import { unblockAccountLink } from 'src/app/main/links';
 
 @Component({

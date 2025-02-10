@@ -17,7 +17,7 @@ import { OrderService } from '../../services/order.service';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { GeneralInfoMock } from '../../services/orderInfoMock';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { employeePositionsName } from '../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';

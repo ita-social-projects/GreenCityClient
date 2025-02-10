@@ -9,7 +9,7 @@ import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-
 import { RouterTestingModule } from '@angular/router/testing';
 import { UbsUserOrdersListComponent } from './ubs-user-orders-list.component';
 import { HttpClientModule } from '@angular/common/http';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { of } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';

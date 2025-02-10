@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfilePrivacyPolicy } from '@global-user/models/edit-profile-const';
 import { EditProfileModel, NotificationPreference, UserLocationDto } from '@global-user/models/edit-profile.model';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Injectable()
 export class EditProfileFormBuilder {

@@ -3,7 +3,7 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/f
 import { Coordinates } from '@global-user/models/edit-profile.model';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { GoogleAutoService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Patterns } from 'src/assets/patterns/patterns';
 

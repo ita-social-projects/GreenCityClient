@@ -21,7 +21,7 @@ import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { DateAdapter } from '@angular/material/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';

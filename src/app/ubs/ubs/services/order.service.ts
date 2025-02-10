@@ -25,7 +25,7 @@ import { ResponceOrderFondyModel } from '@ubs/ubs-user/components/ubs-user-order
 import { Store } from '@ngrx/store';
 import { ClearOrderDetails, ClearPersonalData } from 'src/app/store/actions/order.actions';
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Injectable({
   providedIn: 'root'

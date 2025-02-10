@@ -3,14 +3,14 @@ import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CalendarWeekInterface } from './calendar-week-interface';
 import { CalendarInterface } from '../calendar-interface';
 import { MatDialog } from '@angular/material/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Locale } from 'src/app/main/i18n/Language';
+import { Locale } from 'src/app/shared/i18n/Language';
 
 @Component({
   selector: 'app-calendar-week',

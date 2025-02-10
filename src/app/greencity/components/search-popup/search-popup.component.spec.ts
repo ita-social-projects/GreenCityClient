@@ -1,4 +1,4 @@
-import { Language } from '../../../main/i18n/Language';
+import { Language } from '../../../shared/i18n/Language';
 
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';

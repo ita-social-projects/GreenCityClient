@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Coordinates } from '@global-user/models/edit-profile.model';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Locations } from 'src/assets/locations/locations';
 import { VincentySerivce } from 'src/assets/vincenty/vincenty';

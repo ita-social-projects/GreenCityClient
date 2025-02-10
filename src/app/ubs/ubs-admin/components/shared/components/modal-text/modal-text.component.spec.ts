@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 
 import { ModalTextComponent } from './modal-text.component';
 import { TariffsService } from '../../../../services/tariffs.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ModalTextComponent', () => {

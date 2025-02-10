@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FriendModel, UserDashboardTab, UserDataAsFriend } from '@global-user/models/friend.model';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { UserLocationDto } from '@global-user/models/edit-profile.model';
 import { Subject } from 'rxjs';
 import { UserOnlineStatusService } from '@global-user/services/user-online-status/user-online-status.service';

@@ -1,6 +1,6 @@
 import { UserOwnSignIn } from 'src/app/main/model/user-own-sign-in';
 import { UserSuccessSignIn } from 'src/app/main/model/user-success-sign-in';
-import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';

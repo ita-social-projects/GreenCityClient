@@ -36,10 +36,7 @@ import {
   SocialNetworksComponent,
   ToDoListComponent
 } from './components';
-import { ShowFirstNLettersPipe } from '@pipe/show-first-n-letters/show-first-n-letters.pipe';
-import { ShowFirstNPipe } from '@pipe/show-first-n-pipe/show-first-n.pipe';
-import { UncheckedFirstPipe } from '@pipe/unchecked-first-pipe/unchecked-first.pipe';
-import { AlphabeticalPipePipe } from '@pipe/alphabetical-pipe/alphabetical-pipe.pipe';
+
 import { SharedMainModule } from '@shared/shared-main.module';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
@@ -108,11 +105,7 @@ import { CorrectUnitPipe } from './pipes/correct-unit-pipe/correct-unit.pipe';
     HabitTitleComponent,
     HabitTrackerDateComponent,
     HabitTrackerComponent,
-    ShowFirstNLettersPipe,
-    ShowFirstNPipe,
-    UncheckedFirstPipe,
     FirstStringWordPipe,
-    AlphabeticalPipePipe,
     ProfileWidgetComponent,
     ProfileHeaderComponent,
     ProfileProgressComponent,

@@ -12,7 +12,7 @@ import { ClientProfileService } from '../../services/client-profile.service';
 import { UbsUserProfilePageComponent } from './ubs-user-profile-page.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocationService } from '@ubs/ubs-user/services/location/location.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';

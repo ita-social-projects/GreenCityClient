@@ -1,5 +1,5 @@
 import { FormGroup, ValidationErrors } from '@angular/forms';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 
 export function addressAlreadyExistsValidator(

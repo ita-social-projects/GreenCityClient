@@ -4,7 +4,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { Subject } from 'rxjs';
-import { searchIcon } from 'src/app/main/image-pathes/places-icons';
+import { searchIcon } from 'src/app/greencity/image-paths/places-icons';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HabitService } from '@global-service/habit/habit.service';

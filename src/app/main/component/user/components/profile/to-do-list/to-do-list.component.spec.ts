@@ -8,7 +8,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { of, BehaviorSubject } from 'rxjs';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ToDoListService } from '@global-user/components/habit/add-new-habit/habit-edit-to-do-list/to-do-list.service';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { TODOLISTITEMONE, TODOLISTITEMTWO } from '@global-user/components/habit/mocks/to-do-list-mock';
 import { TODOLIST } from '@global-user/components/habit/mocks/to-do-list-mock';
 import { ALLUSERTODOLISTS } from '@global-user/components/habit/mocks/to-do-list-mock';

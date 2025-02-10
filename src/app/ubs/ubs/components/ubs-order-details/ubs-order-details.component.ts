@@ -41,7 +41,7 @@ import { ICourierInfo, IValidationConfig } from 'src/app/ubs/ubs-admin/models/ub
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { WarningPopUpComponent } from '@shared/components';
 import { emptyOrValid } from '@ubs/shared/validators/empthy-or-valid.validator';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-order-details',

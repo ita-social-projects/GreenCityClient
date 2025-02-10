@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { TagFilterComponent } from './tag-filter.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { FilterModel } from './tag-filter.model';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { of } from 'rxjs';

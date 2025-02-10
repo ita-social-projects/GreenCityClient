@@ -8,7 +8,7 @@ import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component'
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 // import { DropdownModule } from 'angular-bootstrap-md';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
@@ -16,7 +16,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LocationService } from '@ubs/ubs-user/services/location/location.service';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';
