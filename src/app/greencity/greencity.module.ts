@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { HomeModule } from './modules/home/home.module';
 import { SharedModule } from '../shared/shared.module';
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SearchAllResultsComponent } from './components/search-all-results/search-all-results.component';
@@ -12,12 +11,21 @@ import { GreencityRoutingModule } from './greencity.routing.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { GreencityMainComponent } from './components/greencity-main/greencity-main.component';
+import { FooterComponent } from './modules/footer/footer/footer.component';
 
 @NgModule({
-  declarations: [SearchAllResultsComponent, SearchPopupComponent, SearchItemComponent, SearchNotFoundComponent],
+  declarations: [
+    SearchAllResultsComponent,
+    SearchPopupComponent,
+    SearchItemComponent,
+    SearchNotFoundComponent,
+    GreencityMainComponent,
+    FooterComponent
+  ],
   imports: [
     GreencityRoutingModule,
-    CommonModule,
+    // CommonModule,
     SharedModule,
     SharedMainModule,
     InfiniteScrollModule,
