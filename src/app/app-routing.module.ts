@@ -55,11 +55,11 @@ export const routes: Routes = [
       //   loadChildren: () => import('./greencity/modules/events/events.module').then((mod) => mod.EventsModule),
       //   canActivate: [NonAdminGuard]
       // },
-      // {
-      //   path: 'profile',
-      //   loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule),
-      //   canActivate: [NonAdminGuard]
-      // },
+      {
+        path: 'profile',
+        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule),
+        canActivate: [NonAdminGuard]
+      },
       // {
       //   path: 'search',
       //   component: SearchAllResultsComponent,
@@ -77,16 +77,16 @@ export const routes: Routes = [
       // }
     ]
   },
-  {
-    path: 'ubs-admin',
-    loadChildren: () => import('./ubs/ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule),
-    canLoad: [UbsAdminGuard]
-  },
-  {
-    path: 'ubs-user',
-    loadChildren: () => import('./ubs/ubs-user/ubs-user.module').then((mod) => mod.UbsUserModule),
-    canLoad: [UbsUserGuard]
-  },
+  // {
+  //   path: 'ubs-admin',
+  //   loadChildren: () => import('./ubs/ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule),
+  //   canLoad: [UbsAdminGuard]
+  // },
+  // {
+  //   path: 'ubs-user',
+  //   loadChildren: () => import('./ubs/ubs-user/ubs-user.module').then((mod) => mod.UbsUserModule),
+  //   canLoad: [UbsUserGuard]
+  // },
   {
     path: '**',
     redirectTo: ''

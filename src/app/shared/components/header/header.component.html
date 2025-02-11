@@ -79,10 +79,10 @@
                 </a>
               </li>
               <li *ngIf="isLoggedIn && isAdmin" class="header_mobile-menu-item" role="navigation to ubs">
-                <a [routerLink]="['/ubs-admin/orders']" routerLinkActive="active-link"> UBS-admin </a>
+                <a [routerLink]="['/ubs/admin/orders']" routerLinkActive="active-link"> UBS-admin </a>
               </li>
               <li *ngIf="isLoggedIn && !isAdmin" class="header_mobile-menu-item" role="navigation to ubs">
-                <a [routerLink]="['/ubs-user/orders']" routerLinkActive="active-link">UBS-user</a>
+                <a [routerLink]="['/ubs/user/orders']" routerLinkActive="active-link">UBS-user</a>
               </li>
             </ng-template>
             <li class="header_mobile-menu-sign-up" *ngIf="toggleBurgerMenu && !isLoggedIn" (click)="openAuthModalWindow('sign-up')">
@@ -237,10 +237,10 @@
                     </a>
                   </li>
                   <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
-                    <a [routerLink]="['/ubs-admin/orders']"> UBS-admin </a>
+                    <a [routerLink]="['/ubs/admin/orders']"> UBS-admin </a>
                   </li>
                   <li *ngIf="isLoggedIn && !isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
-                    <a [routerLink]="['/ubs-user/orders']">UBS-user</a>
+                    <a [routerLink]="['/ubs/user/orders']">UBS-user</a>
                   </li>
                 </ul>
               </ul>

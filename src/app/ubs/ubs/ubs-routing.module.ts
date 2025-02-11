@@ -13,6 +13,8 @@ import { PreventNavigationBackGuard } from '@ubs/ubs/guards/prevent-navigation-b
 import { stepperGuard } from '@ubs/ubs/guards/stepper/stepper.guard';
 import { UbsUserAgreementComponent } from '@ubs/ubs/components/ubs-user-agreement/ubs-user-agreement.component';
 import { UnblockAccountComponent } from '@global-auth/unblock-account/unblock-account.component';
+import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
+import { UbsUserGuard } from '@ubs/ubs-user/guards/ubs-user-guard.guard';
 
 const ubsRoutes: Routes = [
   {
@@ -31,7 +33,17 @@ const ubsRoutes: Routes = [
       { path: 'auth/restore', component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard] },
       { path: 'auth/unblock', component: UnblockAccountComponent },
       { path: 'ubs/order/:isThisExistingOrder', component: UBSOrderDetailsComponent },
-      { path: 'user-agreement', component: UbsUserAgreementComponent }
+      { path: 'user-agreement', component: UbsUserAgreementComponent },
+      {
+        path: 'ubs/admin',
+        loadChildren: () => import('../ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule),
+        canLoad: [UbsAdminGuard]
+      },
+      {
+        path: 'ubs/user',
+        loadChildren: () => import('../ubs-user/ubs-user.module').then((mod) => mod.UbsUserModule),
+        canLoad: [UbsUserGuard]
+      }
     ]
   }
 ];
