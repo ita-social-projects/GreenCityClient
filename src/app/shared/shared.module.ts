@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material.module';
-import { SpinnerComponent } from './spinner/spinner.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 import { DragDirective } from './directives/drag-and-drop/dragDrop.directive';
 import { CloseDropdownDirective } from './directives/close-dropdown.directive';
 import { ServerTranslatePipe } from '../ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
@@ -18,11 +18,11 @@ import { DialogPopUpComponent } from './components/dialog-pop-up/dialog-pop-up.c
 import { SpacePreventDirective } from './directives/space-prevent.directive';
 import { NewsListGalleryViewComponent } from '../main/component/shared/components/news-list-gallery-view/news-list-gallery-view.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { SafeHtmlTransformPipe } from './events-description-transforn/safe-html-transform.pipe';
+import { SafeHtmlTransformPipe } from './pipes/events-description-transforn/safe-html-transform.pipe';
 import { LinkifyDirective } from 'src/app/shared/directives/linkify.directive';
 import { RemoveLeadingZeroDirective } from 'src/app/shared/directives/remove-leading-zero/remove-leading-zero.directive';
 import { RatingDisplayComponent } from '@shared/components/events-list-item/rating-display/rating-display.component';
-import { RelativeDatePipe } from './relative-date.pipe';
+import { RelativeDatePipe } from './pipes/relative-date/relative-date.pipe';
 import { LangValueDirective } from './directives/lang-value/lang-value.directive';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { InputGoogleAutocompleteComponent } from './components/input-google-autocomplete/input-google-autocomplete.component';

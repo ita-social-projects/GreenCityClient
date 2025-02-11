@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Language } from './i18n/Language';
+import { Language } from '../../i18n/Language';
 import { take } from 'rxjs/operators';
 
 @Pipe({

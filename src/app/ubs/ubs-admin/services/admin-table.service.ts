@@ -8,7 +8,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import moment from 'moment';
 import { Observable } from 'rxjs';
-import { MouseEvents } from 'src/app/shared/mouse-events';
+import { MouseEvents } from 'src/app/shared/models/mouse-events';
 
 const columnMapping: { [key: string]: string } = {
   dateOfExportFrom: 'deliveryDate.from',

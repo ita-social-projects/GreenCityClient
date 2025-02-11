@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { IColumnBelonging } from '../../../models/ubs-admin.interface';
-import { MouseEvents } from 'src/app/shared/mouse-events';
+import { MouseEvents } from 'src/app/shared/models/mouse-events';
 import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '../../../services/table-keys.enum';
 import { Patterns } from 'src/assets/patterns/patterns';

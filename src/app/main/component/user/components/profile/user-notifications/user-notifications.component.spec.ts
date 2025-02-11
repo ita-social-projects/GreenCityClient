@@ -13,7 +13,7 @@ import { UserNotificationService } from '@global-user/services/user-notification
 
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { LocalizedDatePipe } from '@ubs/shared/pipes/localized-date-pipe/localized-date.pipe';
-import { RelativeDatePipe } from 'src/app/shared/relative-date.pipe';
+import { RelativeDatePipe } from 'src/app/shared/pipes/relative-date/relative-date.pipe';
 import { By } from '@angular/platform-browser';
 import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
 import { HabitService } from '@global-service/habit/habit.service';

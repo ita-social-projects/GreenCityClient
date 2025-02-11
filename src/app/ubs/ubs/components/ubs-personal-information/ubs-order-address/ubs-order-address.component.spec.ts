@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SpinnerComponent } from 'src/app/shared/spinner/spinner.component';
+import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AddressValidator } from 'src/app/ubs/ubs/validators/address-validators';
 

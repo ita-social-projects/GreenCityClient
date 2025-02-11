@@ -12,7 +12,7 @@ import { select, Store } from '@ngrx/store';
 import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { Subject, timer } from 'rxjs';
 import { debounceTime, filter, take, takeUntil } from 'rxjs/operators';
-import { MouseEvents } from 'src/app/shared/mouse-events';
+import { MouseEvents } from 'src/app/shared/models/mouse-events';
 import {
   AddFilterMultiAction,
   AddFiltersAction,

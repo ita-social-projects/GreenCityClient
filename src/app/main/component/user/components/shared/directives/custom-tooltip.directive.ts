@@ -1,5 +1,5 @@
 import { Directive, Input, HostListener } from '@angular/core';
-import { MouseEvents } from 'src/app/shared/mouse-events';
+import { MouseEvents } from 'src/app/shared/models/mouse-events';
 
 @Directive({
   selector: '[appCustomTooltip]'
