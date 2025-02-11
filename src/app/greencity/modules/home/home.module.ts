@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoreModule } from '../../../main/component/core/core.module';
 import { SharedMainModule } from '@shared/shared-main.module';
 import { EcoEventsItemComponent } from './components/eco-events/eco-events-item/eco-events-item.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -23,7 +22,7 @@ import { TranslateDatePipe } from './pipes/translate-date-pipe/translate-date.pi
     UnsubscribeComponent,
     TranslateDatePipe
   ],
-  imports: [CommonModule, CoreModule, SharedMainModule, SharedModule],
+  imports: [CommonModule, SharedMainModule, SharedModule],
   exports: [HomepageComponent],
   providers: []
 })

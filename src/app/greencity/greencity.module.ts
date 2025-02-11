@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { GreencityMainComponent } from './components/greencity-main/greencity-main.component';
 import { FooterComponent } from './modules/footer/footer/footer.component';
+import { HomeModule } from './modules/home/home.module';
 
 @NgModule({
   declarations: [
@@ -25,8 +26,9 @@ import { FooterComponent } from './modules/footer/footer/footer.component';
   ],
   imports: [
     GreencityRoutingModule,
-    // CommonModule,
+    CommonModule,
     SharedModule,
+    HomeModule,
     SharedMainModule,
     InfiniteScrollModule,
     TranslateModule.forChild({

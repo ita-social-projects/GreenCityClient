@@ -2,7 +2,6 @@ import { SharedMainModule } from '@shared/shared-main.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoreModule } from '../../../main/component/core/core.module';
 
 import { FooterComponent } from './footer/footer.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -15,7 +14,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
   declarations: [FooterComponent],
   imports: [
     CommonModule,
-    CoreModule,
     InfiniteScrollModule,
     MatSnackBarModule,
     NgxPageScrollModule,
