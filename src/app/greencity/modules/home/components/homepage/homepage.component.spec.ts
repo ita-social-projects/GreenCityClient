@@ -1,5 +1,4 @@
 import { Language } from 'src/app/shared/i18n/Language';
-import { LayoutModule } from '../../../footer/layout.module';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -70,7 +69,6 @@ describe('HomepageComponent', () => {
         AuthModule,
         EcoNewsModule,
         InfiniteScrollModule,
-        LayoutModule,
         NoopAnimationsModule
       ],
       declarations: [

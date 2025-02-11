@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, Subject } from 'rxjs';
 import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil } from 'rxjs/operators';
 import { SearchService } from 'src/app/shared/services/search/search.service';
-import { FilterByitem } from 'src/app/greencity/modules/footer/models/search-dto';
+import { FilterByitem } from 'src/app/shared/models/search-dto';
 import { SearchCategory } from 'src/app/greencity/components/search-popup/search-consts';
 
 @Component({

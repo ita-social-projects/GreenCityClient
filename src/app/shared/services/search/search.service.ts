@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '@environment/environment';
 import { Observable, Subject } from 'rxjs';
 import { SearchDataModel } from '../../../main/model/search/search.model';
-import { SearchDto } from 'src/app/greencity/modules/footer/models/search-dto';
+import { SearchDto } from 'src/app/shared/models/search-dto';
 import { SearchCategory } from 'src/app/greencity/components/search-popup/search-consts';
 
 @Injectable({
