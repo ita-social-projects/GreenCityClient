@@ -2,11 +2,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
 import { AddedCommentDTO, CommentsDTO, CommentsModel, dataTypes, PaginationConfig } from '../../models/comments-model';
-import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { finalize, take } from 'rxjs/operators';
+
+enum ReactionType {
+  LIKE = 'likes',
+  DISLIKE = 'dislikes'
+}
 
 @Component({
   selector: 'app-comments-list',
@@ -47,12 +53,14 @@ export class CommentsListComponent {
     isAdd: boolean;
   } | null = null;
   private isAdmin = this.jwtService.getUserRole() === 'ROLE_ADMIN';
-
+  private isProcessingLike = false;
+  private isProcessingDislike = false;
   constructor(
     private commentsService: CommentsService,
     private jwtService: JwtService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   deleteComment($event): void {
@@ -73,27 +81,71 @@ export class CommentsListComponent {
   isCommentEdited(element: CommentsDTO): boolean {
     return element.status === 'EDITED';
   }
-  private updateLikeDislikeCount(commentId: number, type: 'likes' | 'dislikes'): void {
+
+  private updateLikeDislikeCount(commentId: number, type: ReactionType, isAdd: boolean): void {
     this.elementsList = this.elementsList.map((comment) => {
-      if (comment.id === commentId) {
-        comment[type] = comment[type] + 1;
+      if (comment?.id === commentId) {
+        comment[type] = Math.max(0, comment[type] + (isAdd ? 1 : -1));
       }
       return comment;
     });
   }
+
   likeComment(commentId: number): void {
-    this.commentsService.postLike(commentId).pipe(take(1)).subscribe(() => {
-      this.updateLikeDislikeCount(commentId, 'likes');
-    });
+    if (this.isProcessingLike) {
+      return;
+    }
+    this.isProcessingLike = true;
+
+    this.commentsService
+      .postLike(commentId)
+      .pipe(
+        take(1),
+        finalize(() => (this.isProcessingLike = false))
+      )
+      .subscribe(
+        () => {
+          this.updateLikeDislikeCount(commentId, ReactionType.LIKE, true);
+          this.snackBar.open('Comment liked successfully', 'Close', {
+            duration: 3000
+          });
+        },
+        (error) => {
+          console.error('Failed to like comment:', error);
+          this.snackBar.open('Failed to like the comment. Please try again.', 'Close', {
+            duration: 3000
+          });
+        }
+      );
   }
 
   dislikeComment(commentId: number): void {
-    this.commentsService.postLike(commentId).pipe(take(1)).subscribe(() => {
-      this.updateLikeDislikeCount(commentId, 'dislikes');
-    });
+    if (this.isProcessingDislike) {
+      return;
+    }
+    this.isProcessingDislike = true;
+
+    this.commentsService
+      .postDislike(commentId)
+      .pipe(
+        take(1),
+        finalize(() => (this.isProcessingDislike = false))
+      )
+      .subscribe(
+        () => {
+          this.updateLikeDislikeCount(commentId, ReactionType.DISLIKE, true);
+          this.snackBar.open('Comment disliked successfully', 'Close', {
+            duration: 3000
+          });
+        },
+        (error) => {
+          console.error('Failed to dislike comment:', error);
+          this.snackBar.open('Failed to dislike the comment. Please try again.', 'Close', {
+            duration: 3000
+          });
+        }
+      );
   }
-
-
   saveEditedComment(element: CommentsDTO): void {
     if (!this.commentHtml.trim() || this.commentHtml === element.text) {
       element.isEdit = false;

@@ -19,7 +19,10 @@ import {
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-
+interface LikeResponse {
+  id: number;
+  liked: boolean;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -43,22 +46,17 @@ export class EventsService implements OnDestroy {
   getIsFromCreateEvent(): boolean {
     return this.isFromCreateEvent;
   }
-  likeEvent(eventId: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/${eventId}/like`, {}).pipe(catchError((error) => throwError(error)));
+  likeEvent(eventId: number): Observable<LikeResponse> {
+    return this.http.post<LikeResponse>(`${this.backEnd}events/${eventId}/like`, {}).pipe(
+      catchError((error) => {
+        console.error('Error liking event:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   dislikeEvent(eventId: number): Observable<any> {
-    console.log(`Sending DISLIKE request for event ID: ${eventId}`);
-
-    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike`, {}).pipe(
-      tap((response: any) => {
-        console.log(`DISLIKE request successful. Response:`, response);
-      }),
-      catchError((error) => {
-        console.error(`DISLIKE request failed for event ID: ${eventId}`, error);
-        return throwError(error);
-      })
-    );
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike`, {}).pipe(catchError((error) => throwError(error)));
   }
 
   private convertEventToPreview(event: EventForm): PagePreviewDTO {

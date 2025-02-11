@@ -93,13 +93,26 @@
         <p>{{ event.countComments }}</p>
       </div>
       <div class="like-group">
-        <div class="like" [ngClass]="{ liked: event.isLiked }" (click)="likePost()">
-          <img src="assets/events-icons/like.png" alt="like" />
-          <span>{{ event.likes - event.dislikes }}</span>
-        </div>
-        <div class="dislike" [ngClass]="{ disliked: event.isDisliked }" (click)="dislikePost()">
-          <img src="assets/events-icons/like.png" alt="dislike" class="rotate-icon" />
-        </div>
+        <button
+          class="like"
+          [ngClass]="{ liked: event.isLiked }"
+          (click)="$event.stopPropagation(); likePost()"
+          [attr.aria-label]="'Like this event'"
+          [attr.aria-pressed]="event.isLiked"
+        >
+          <img src="assets/events-icons/like.png" alt="Like" />
+          <span>{{ event.likes }}</span>
+        </button>
+        <button
+          class="dislike"
+          [ngClass]="{ disliked: event.isDisliked }"
+          (click)="$event.stopPropagation(); dislikePost()"
+          [attr.aria-label]="'Dislike this event'"
+          [attr.aria-pressed]="event.isDisliked"
+        >
+          <img src="assets/events-icons/like.png" class="rotate-icon" alt="Dislike" />
+          <span>{{ event.dislikes }}</span>
+        </button>
       </div>
     </div>
   </div>
