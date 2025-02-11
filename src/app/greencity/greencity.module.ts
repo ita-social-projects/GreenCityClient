@@ -34,5 +34,5 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 export class GreencityModule {}
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/ubs/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
