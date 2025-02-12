@@ -1,4 +1,4 @@
-import { singleNewsImages } from 'src/app/main/image-paths/single-news-images';
+import { singleNewsImages } from 'src/app/greencity/image-paths/single-news-images';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { Store, ActionsSubject } from '@ngrx/store';
 import { CreateEcoNewsAction, EditEcoNewsAction, NewsActions } from 'src/app/store/actions/ecoNews.actions';
 import { ofType } from '@ngrx/effects';
 import { catchError, takeUntil } from 'rxjs/operators';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 
 @Component({
   selector: 'app-news-preview-page',

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { changePasswordLink, setPasswordForGoogleLink, updatePasswordLink } from '../../../main/links';
 import { HttpClient } from '@angular/common/http';
-import { RestoreDto } from '../../../main/model/restroreDto';
+import { RestoreDto } from '../../models/restroreDto';
 import { Observable } from 'rxjs';
-import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
+import { UpdatePasswordDto } from 'src/app/shared/models/updatePasswordDto';
 
 @Injectable({ providedIn: 'root' })
 export class ChangePasswordService {

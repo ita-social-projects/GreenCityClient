@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SubscriptionService } from '@global-service/subscription/subscription.service';
+import { SubscriptionService } from 'src/app/greencity/modules/home/services/subscription/subscription.service';
 import { take } from 'rxjs';
 import { footerIcons } from 'src/app/greencity/image-paths/footer-icons';
 

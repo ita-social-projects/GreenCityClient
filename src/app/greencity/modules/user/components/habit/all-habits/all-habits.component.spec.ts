@@ -1,5 +1,5 @@
-import { SharedMainModule } from '@shared/shared-main.module';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -9,7 +9,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { AllHabitsComponent } from './all-habits.component';
-import { HabitService } from '@global-service/habit/habit.service';
+import { HabitService } from '@shared/service/habit/habit.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventEmitter, Injectable } from '@angular/core';
 import { ProfileService } from 'src/app/greencity/modules/user/services/profile-service/profile.service';
@@ -18,7 +18,7 @@ import { HABITLIST } from '../mocks/habit-mock';
 import { HABITSASSIGNEDLIST } from '../mocks/habit-assigned-mock';
 import { TAGLIST } from '../mocks/tags-list-mock';
 import { HabitsFiltersList } from 'src/app/greencity/modules/user/components/habit/models/habits-filters-list';
-import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
+import { FilterOptions, FilterSelect } from '@global-user/models/filter-select.interface';
 import { mockUserData } from 'src/app/greencity/modules/user/mocks/edit-profile-mock';
 
 @Injectable()

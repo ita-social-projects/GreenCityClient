@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { CommentsService } from '../../comments/services/comments.service';
 import { AddedCommentDTO, CommentFormData, CommentsModel } from '../../comments/models/comments-model';
-import { CommentService } from '@global-service/comment/comment.service';
+import { CommentService } from '@shared/service/comment/comment.service';
 
 @Injectable({
   providedIn: 'root'

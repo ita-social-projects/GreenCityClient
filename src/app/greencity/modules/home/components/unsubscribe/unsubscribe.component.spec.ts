@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UnsubscribeComponent } from './unsubscribe.component';
 import { of, throwError } from 'rxjs';
-import { SubscriptionService } from '@global-service/subscription/subscription.service';
+import { SubscriptionService } from 'src/app/greencity/modules/home/services/subscription/subscription.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 

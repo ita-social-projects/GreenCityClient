@@ -20,7 +20,7 @@ import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { NotificationBody, Notifications } from '@ubs/ubs-admin/models/ubs-user.model';
 import { HttpParams } from '@angular/common/http';
 import { formatNotificationDate } from './format-notification-date/format-notification-date';
-import { HabitService } from '@global-service/habit/habit.service';
+import { HabitService } from '@shared/service/habit/habit.service';
 
 @Component({
   selector: 'app-user-notifications',

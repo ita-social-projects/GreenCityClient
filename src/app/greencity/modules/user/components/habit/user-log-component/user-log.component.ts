@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HabitStatisticService } from 'src/app/main/service/habit-statistic/habit-statistic.service';
+import { HabitStatisticService } from 'src/app/shared/services/habit-statistic/habit-statistic.service';
 
 @Component({
   selector: 'app-user-log',

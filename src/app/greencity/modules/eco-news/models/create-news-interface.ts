@@ -1,5 +1,5 @@
 import { SafeUrl } from '@angular/platform-browser';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
+import { TagInterface } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 
 export interface NewsModel {
   text: string;

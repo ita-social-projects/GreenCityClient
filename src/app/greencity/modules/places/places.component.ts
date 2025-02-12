@@ -18,18 +18,18 @@ import { FilterPlaceService } from 'src/app/shared/services/filtering/filter-pla
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
-import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
+import { FavoritePlaceService } from 'src/app/greencity/modules/places/services/favorite-place/favorite-place.service';
 import { combineLatest, Subject, Subscription } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from './models/places-consts';
 import { GoogleScript } from '@assets/google-script/google-script';
 import { ActivatedRoute } from '@angular/router';
-import { initializeSavedState } from '@shared/components/saved-tabs/saved-section-const';
+import { initializeSavedState } from 'src/app/greencity/shared/components/saved-tabs/saved-section-const';
 
 @Component({
   selector: 'app-places',

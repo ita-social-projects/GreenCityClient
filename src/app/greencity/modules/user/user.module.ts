@@ -37,10 +37,10 @@ import {
   ToDoListComponent
 } from './components';
 
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
-import { FirstStringWordPipe } from '@pipe/first-string-word/first-string-word.pipe';
+import { FirstStringWordPipe } from '@global-user/pipe/first-string-word/first-string-word.pipe';
 import { CalendarWeekComponent } from './components/profile/calendar/calendar-week/calendar-week.component';
 import { AllHabitsComponent } from './components/habit/all-habits/all-habits.component';
 import { HabitsListViewComponent } from './components/habit/all-habits/components/habits-list-view/habits-list-view.component';
@@ -81,10 +81,10 @@ import { NotificContentReplaceDirective } from './components/profile/user-notifi
 import { FriendshipButtonsComponent } from './components/profile/users-friends/friend-dashboard/friendship-buttons/friendship-buttons.component';
 import { CommentsModule } from '../comments/comments.module';
 import { CommentsService } from '../comments/services/comments.service';
-import { HabitCommentsService } from '@global-service/habit-comments/habit-comments.service';
+import { HabitCommentsService } from '@global-user/services/habit-comments/habit-comments.service';
 import { AchievementsModalComponent } from './components/profile/users-achievements/achievements-modal/achievements-modal.component';
 import { AchievementItemComponent } from './components/profile/users-achievements/achievement-item/achievement-item.component';
-import { CorrectUnitPipe } from './pipes/correct-unit-pipe/correct-unit.pipe';
+import { CorrectUnitPipe } from './pipe/correct-unit-pipe/correct-unit.pipe';
 
 @NgModule({
   declarations: [

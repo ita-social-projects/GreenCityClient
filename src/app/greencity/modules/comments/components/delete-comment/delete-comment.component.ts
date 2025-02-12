@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO } from '../../models/comments-model';
-import { WarningPopUpComponent } from '@shared/components/warning-pop-up/warning-pop-up.component';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components/warning-pop-up/warning-pop-up.component';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 

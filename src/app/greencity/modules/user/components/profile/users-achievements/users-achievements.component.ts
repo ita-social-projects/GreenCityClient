@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { PROFILE_IMAGES } from 'src/app/main/image-paths/profile-images';
-import { AchievementService } from '@global-service/achievement/achievement.service';
+import { PROFILE_IMAGES } from 'src/app/greencity/image-paths/profile-images';
+import { AchievementService } from '@global-user/services/achievement/achievement.service';
 import { debounceTime, fromEvent, take } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { AchievementDto } from '@global-models/achievement/AchievementDto';
-import { calendarImage } from '@shared/components/calendar-base/calendar-image';
+import { AchievementDto } from '@global-user/models/achievements/AchievementDto';
+import { calendarImage } from 'src/app/greencity/shared/components/calendar-base/calendar-image';
 import { MatDialog } from '@angular/material/dialog';
 import { AchievementsModalComponent } from './achievements-modal/achievements-modal.component';
 

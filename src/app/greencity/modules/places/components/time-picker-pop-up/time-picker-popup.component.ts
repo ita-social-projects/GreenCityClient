@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { WeekPickModel, WorkingTime } from '../../models/week-pick-model';
-import { WeekDays } from '@global-models/weekDays.model';
+import { WeekDays } from 'src/app/shared/models/weekDays.model';
 
 @Component({
   selector: 'app-time-picker-pop-up',

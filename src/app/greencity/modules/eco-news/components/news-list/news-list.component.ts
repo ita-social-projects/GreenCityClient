@@ -1,9 +1,9 @@
-import { Breakpoints } from 'src/app/main/config/breakpoints.constants';
+import { Breakpoints } from '@shared/components/calendar-base/breakpoints.constants';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, of, ReplaySubject } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
@@ -17,7 +17,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { ActivatedRoute } from '@angular/router';
-import { initializeSavedState } from '@shared/components/saved-tabs/saved-section-const';
+import { initializeSavedState } from 'src/app/greencity/shared/components/saved-tabs/saved-section-const';
 
 @Component({
   selector: 'app-news-list',

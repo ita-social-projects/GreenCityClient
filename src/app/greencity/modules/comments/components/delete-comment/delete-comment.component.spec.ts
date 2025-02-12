@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MOCK_COMMENTS_DTO } from '../../mocks/comments-mock';
-import { WarningPopUpComponent } from '@shared/components/warning-pop-up/warning-pop-up.component';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components/warning-pop-up/warning-pop-up.component';
 
 class MatDialogMock {
   open() {

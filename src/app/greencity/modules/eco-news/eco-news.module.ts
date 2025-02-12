@@ -8,7 +8,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { EcoNewsRoutingModule } from './eco-news-routing.module';
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import {
   CreateEditNewsComponent,
   EcoNewsDetailComponent,
@@ -26,8 +26,8 @@ import { EcoNewsComponent } from './eco-news.component';
 import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/action.constants';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { QuillModule } from 'ngx-quill';
-import { SafeHtmlPipe } from '@pipe/safe-html-pipe/safe-html.pipe';
-import { UrlHostnamePipe } from '@pipe/url-hostname-pipe/url-hostname.pipe';
+import { SafeHtmlPipe } from 'src/app/greencity/modules/eco-news/pipe/safe-html-pipe/safe-html.pipe';
+import { UrlHostnamePipe } from 'src/app/greencity/modules/eco-news/pipe/url-hostname-pipe/url-hostname.pipe';
 import { CommentsService } from '../comments/services/comments.service';
 import { EcoNewsCommentsService } from '@eco-news-service/eco-news-comments.service';
 

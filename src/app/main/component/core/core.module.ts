@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { SharedMainModule } from '../shared/shared-main.module';
+import { SharedMainModule } from '../../../greencity/shared/shared-main.module';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SharedModule } from 'src/app/shared/shared.module';
 

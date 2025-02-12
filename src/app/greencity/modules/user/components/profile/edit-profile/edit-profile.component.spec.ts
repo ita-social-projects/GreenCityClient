@@ -17,7 +17,7 @@ import { EditProfileModel } from 'src/app/greencity/modules/user/models/edit-pro
 import { EditProfileComponent } from 'src/app/greencity/modules/user/components';
 import { SocialNetworksComponent } from 'src/app/greencity/modules/user/components';
 import { Router } from '@angular/router';
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { InputGoogleAutocompleteComponent } from 'src/app/shared/components/input-google-autocomplete/input-google-autocomplete.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ProfilePrivacyPolicy } from 'src/app/greencity/modules/user/models/edit-profile-const';

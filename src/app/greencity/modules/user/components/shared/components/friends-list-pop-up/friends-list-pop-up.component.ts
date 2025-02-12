@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { FriendsHabitPopupModel } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit-assign.interface';
-import { habitImages } from 'src/app/main/image-paths/habits-images';
+import { habitImages } from 'src/app/greencity/image-paths/habits-images';
 
 @Component({
   selector: 'app-friends-list-pop-up',

@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SocialNetworksComponent } from './social-networks.component';
-import { WarningPopUpComponent } from '@shared/components';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileService } from 'src/app/greencity/modules/user/services/profile-service/profile.service';

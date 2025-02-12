@@ -1,4 +1,4 @@
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 
 export const tagsListPlacesData: Array<FilterModel> = [
   {

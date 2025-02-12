@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { MapBounds } from '../../../main/model/map/map-bounds';
-import { CategoryDto } from '../../../main/model/category.model';
-import { Specification } from '../../../main/model/specification/specification';
+import { MapBounds } from '../../models/map/map-bounds';
+import { CategoryDto } from '../../models/category.model';
+import { Specification } from '../../models/specification/specification';
 // import { LatLngBounds } from '@agm/core';
-import { FilterDiscountDtoModel } from '../../../main/model/filtering/filter-discount-dto.model';
-import { FilterPlaceDtoModel } from '../../../main/model/filtering/filter-place-dto.model';
-import { PlaceStatus } from '../../../main/model/placeStatus.model';
+import { FilterDiscountDtoModel } from '../../models/filtering/filter-discount-dto.model';
+import { FilterPlaceDtoModel } from '../../models/filtering/filter-place-dto.model';
+import { PlaceStatus } from '../../models/placeStatus.model';
 import { DatePipe } from '@angular/common';
-import { FilterDistanceDto } from '../../../main/model/filtering/filter-distance-dto.model';
+import { FilterDistanceDto } from '../../models/filtering/filter-distance-dto.model';
 
 import { BehaviorSubject } from 'rxjs';
 import { PlaceLocation } from 'src/app/greencity/modules/places/models/location.model';

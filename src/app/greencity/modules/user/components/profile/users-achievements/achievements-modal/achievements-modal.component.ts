@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AchievementDto } from '@global-models/achievement/AchievementDto';
-import { AchievementService } from '@global-service/achievement/achievement.service';
+import { AchievementDto } from '@global-user/models/achievements/AchievementDto';
+import { AchievementService } from '@global-user/services/achievement/achievement.service';
 import { EditProfileModel } from 'src/app/greencity/modules/user/models/edit-profile.model';
 import { take } from 'rxjs';
 import { ProfileService } from '../../../../services/profile-service/profile.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
+import { AchievementCategoryDto } from '@global-user/models/achievements/achievementCategoryDto.model';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({

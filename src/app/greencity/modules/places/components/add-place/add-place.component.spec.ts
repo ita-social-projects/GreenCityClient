@@ -15,7 +15,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { FilterPlaceCategories } from '../../models/place';
 import { CreatePlaceModel, OpeningHoursDto } from '../../models/create-place.model';
 import { WorkingTime } from '../../models/week-pick-model';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from '../../models/places-consts';
 
 describe('AddPlaceComponent', () => {

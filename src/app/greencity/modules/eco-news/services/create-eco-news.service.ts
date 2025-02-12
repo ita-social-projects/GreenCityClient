@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
 
 @Injectable({

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AchievementDto } from '@global-models/achievement/AchievementDto';
-import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
+import { AchievementDto } from '@global-user/models/achievements/AchievementDto';
+import { AchievementCategoryDto } from '@global-user/models/achievements/achievementCategoryDto.model';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { PROFILE_IMAGES } from 'src/app/main/image-paths/profile-images';
+import { PROFILE_IMAGES } from 'src/app/greencity/image-paths/profile-images';
 
 @Component({
   selector: 'app-achievement-item',

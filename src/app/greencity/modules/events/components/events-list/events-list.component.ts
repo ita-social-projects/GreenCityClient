@@ -17,7 +17,7 @@ import { EventsService } from '../../services/events.service';
 import { MatOption } from '@angular/material/core';
 import { HttpParams } from '@angular/common/http';
 import { EventStoreService } from '../../services/event-store.service';
-import { initializeSavedState } from '@shared/components/saved-tabs/saved-section-const';
+import { initializeSavedState } from 'src/app/greencity/shared/components/saved-tabs/saved-section-const';
 
 @Component({
   selector: 'app-events-list',

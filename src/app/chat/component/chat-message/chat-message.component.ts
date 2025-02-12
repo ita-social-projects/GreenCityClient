@@ -4,7 +4,7 @@ import { CHAT_ICONS } from '../../chat-icons';
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { ChatsService } from '../../service/chats/chats.service';
 import { MatDialog } from '@angular/material/dialog';
-import { WarningPopUpComponent } from '@shared/components';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { SocketService } from '../../service/socket/socket.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';

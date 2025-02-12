@@ -2,15 +2,15 @@ import { LocalStorageService } from '../localstorage/local-storage.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserRoleModel } from '../../../main/model/user/user-role.model';
-import { UserStatusModel } from '../../../main/model/user/user-status.model';
-import { UserPageableDtoModel } from '../../../main/model/user/user-pageable-dto.model';
+import { UserRoleModel } from '../../../greencity/modules/user/models/user/user-role.model';
+import { UserStatusModel } from '../../../greencity/modules/user/models/user/user-status.model';
+import { UserPageableDtoModel } from '../../../greencity/modules/user/models/user/user-pageable-dto.model';
 import { habitStatisticLink, userLink } from '../../../main/links';
-import { RolesModel } from '../../../main/model/user/roles.model';
-import { UserFilterDtoModel } from '../../../main/model/user/userFilterDto.model';
-import { UserUpdateModel } from '../../../main/model/user/user-update.model';
+import { RolesModel } from '../../../greencity/modules/user/models/roles.model';
+import { UserFilterDtoModel } from '../../../greencity/modules/user/models/user/userFilterDto.model';
+import { UserUpdateModel } from '../../../greencity/modules/user/models/user/user-update.model';
 import moment from 'moment';
-import { HabitItemsAmountStatisticDto } from '@global-models/goal/HabitItemsAmountStatisticDto';
+import { HabitItemsAmountStatisticDto } from '@global-user/models/goal/HabitItemsAmountStatisticDto';
 
 @Injectable({
   providedIn: 'root'

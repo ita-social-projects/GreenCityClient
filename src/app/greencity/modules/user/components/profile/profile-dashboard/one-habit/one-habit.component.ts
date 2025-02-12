@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { HabitService } from '@global-service/habit/habit.service';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitService } from '@shared/service/habit/habit.service';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
 import { HabitMark } from 'src/app/greencity/modules/user/components/habit/models/HabitMark.enum';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
@@ -11,7 +11,7 @@ import { HabitAssignInterface } from 'src/app/greencity/modules/user/components/
 import { FriendProfilePicturesArrayModel } from 'src/app/greencity/modules/user/models/friend.model';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FriendsListPopUpComponent } from 'src/app/greencity/modules/user/components/shared/components/friends-list-pop-up/friends-list-pop-up.component';
-import { habitImages } from 'src/app/main/image-paths/habits-images';
+import { habitImages } from 'src/app/greencity/image-paths/habits-images';
 
 @Component({
   selector: 'app-one-habit',

@@ -5,7 +5,7 @@ import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { FriendArrayModel, FriendModel } from 'src/app/greencity/modules/user/models/friend.model';
-import { calendarImage } from '@shared/components/calendar-base/calendar-image';
+import { calendarImage } from 'src/app/greencity/shared/components/calendar-base/calendar-image';
 import { UserOnlineStatusService } from 'src/app/greencity/modules/user/services/user-online-status/user-online-status.service';
 
 @Component({

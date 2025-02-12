@@ -1,6 +1,6 @@
 import { Patterns } from 'src/assets/patterns/patterns';
-import { UserSuccessSignIn, SuccessSignUpDto } from 'src/app/main/model/user-success-sign-in';
-import { UserOwnSignUp } from 'src/app/main/model/user-own-sign-up';
+import { UserSuccessSignIn, SuccessSignUpDto } from 'src/app/shared/models/singIn-singUp/user-success-sign-in';
+import { UserOwnSignUp } from 'src/app/shared/models/singIn-singUp/user-own-sign-up';
 import { authImages } from 'src/app/shared/image-paths/auth-images';
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';

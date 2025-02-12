@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { filter, map } from 'rxjs/operators';
-import { HabitDto } from '@global-models/habit/HabitDto';
-import { HabitStatisticsDto } from '@global-models/habit/HabitStatisticsDto';
-import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
-import { DayEstimation } from '@global-models/habit/DayEstimation';
+import { HabitDto } from '@global-user/models/habit/HabitDto';
+import { HabitStatisticsDto } from '@global-user/models/habit/HabitStatisticsDto';
+import { HabitStatisticService } from 'src/app/shared/services/habit-statistic/habit-statistic.service';
+import { DayEstimation } from '@global-user/models/habit/DayEstimation';
 
 @Component({
   selector: 'app-day-estimation',

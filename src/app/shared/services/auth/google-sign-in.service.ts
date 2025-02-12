@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { googleSecurityLink } from '../../../main/links';
 import { Observable } from 'rxjs';
-import { UserSuccessSignIn } from '../../../main/model/user-success-sign-in';
+import { UserSuccessSignIn } from '../../models/singIn-singUp/user-success-sign-in';
 
 @Injectable({
   providedIn: 'root'

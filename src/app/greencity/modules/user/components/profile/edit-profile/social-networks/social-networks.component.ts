@@ -1,7 +1,7 @@
 import { forwardRef, Component, Input, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
 import { ControlValueAccessor, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { WarningPopUpComponent } from '@shared/components';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { take } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { ProfileService } from 'src/app/greencity/modules/user/services/profile-service/profile.service';

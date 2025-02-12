@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { searchIcon } from 'src/app/greencity/image-paths/places-icons';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
-import { HabitService } from '@global-service/habit/habit.service';
+import { HabitService } from '@shared/service/habit/habit.service';
 
 @Component({
   selector: 'app-habit-invite-friends-pop-up',

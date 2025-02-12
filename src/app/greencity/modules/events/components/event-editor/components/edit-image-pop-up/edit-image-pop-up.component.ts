@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ImageService } from '@global-service/image/image.service';
+import { ImageService } from '@shared/service/image/image.service';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({

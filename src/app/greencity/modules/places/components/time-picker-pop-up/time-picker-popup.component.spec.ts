@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TimePickerPopupComponent } from './time-picker-popup.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { WorkingTime } from '../../models/week-pick-model';
-import { WeekDays } from '@global-models/weekDays.model';
+import { WeekDays } from 'src/app/shared/models/weekDays.model';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 

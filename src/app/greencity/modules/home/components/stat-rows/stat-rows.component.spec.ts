@@ -1,4 +1,4 @@
-import { HabitItemsAmountStatisticDto } from 'src/app/main/model/goal/HabitItemsAmountStatisticDto';
+import { HabitItemsAmountStatisticDto } from '@global-user/models/goal/HabitItemsAmountStatisticDto';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserService } from 'src/app/shared/services/user/user.service';

@@ -1,4 +1,4 @@
-import { singleNewsImages } from 'src/app/main/image-paths/single-news-images';
+import { singleNewsImages } from 'src/app/greencity/image-paths/single-news-images';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';

@@ -12,7 +12,7 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { MaterialModule } from '../../material.module';
 import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../../shared/shared.module';
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';

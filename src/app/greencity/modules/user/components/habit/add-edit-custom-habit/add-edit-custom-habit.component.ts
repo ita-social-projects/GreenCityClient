@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,8 +11,8 @@ import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
-import { HabitService } from '@global-service/habit/habit.service';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
+import { HabitService } from '@shared/service/habit/habit.service';
+import { TagInterface } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { quillConfig } from 'src/app/shared/helpers/quillEditorFunc';
 import { ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.interface';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
@@ -26,7 +26,7 @@ import {
   HABIT_TAGS_MAXLENGTH,
   STAR_IMAGES
 } from '../add-new-habit/habit-const/habit.const';
-import { ImageService } from '@global-service/image/image.service';
+import { ImageService } from '@shared/service/image/image.service';
 
 @Component({
   selector: 'app-add-edit-custom-habit',

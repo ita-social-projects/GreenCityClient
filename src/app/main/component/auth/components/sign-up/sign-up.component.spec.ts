@@ -1,6 +1,6 @@
 import { Language } from 'src/app/shared/i18n/Language';
-import { UserOwnSignUp } from '@global-models/user-own-sign-up';
-import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
+import { UserOwnSignUp } from 'src/app/shared/models/singIn-singUp/user-own-sign-up';
+import { UserSuccessSignIn } from 'src/app/shared/models/singIn-singUp/user-success-sign-in';
 import { ComponentFixture, TestBed, fakeAsync, flush, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

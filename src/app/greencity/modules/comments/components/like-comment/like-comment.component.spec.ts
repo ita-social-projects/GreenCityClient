@@ -1,5 +1,5 @@
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, BehaviorSubject } from 'rxjs';

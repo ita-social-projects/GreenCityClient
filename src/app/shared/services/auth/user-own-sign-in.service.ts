@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { userOwnSignInLink } from '../../../main/links';
-import { UserOwnSignIn } from '../../../main/model/user-own-sign-in';
-import { UserSuccessSignIn } from '../../../main/model/user-success-sign-in';
+import { UserOwnSignIn } from '../../models/singIn-singUp/user-own-sign-in';
+import { UserSuccessSignIn } from '../../models/singIn-singUp/user-success-sign-in';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 
 @Injectable({

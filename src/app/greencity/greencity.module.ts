@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SharedModule } from '../shared/shared.module';
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { SearchAllResultsComponent } from './components/search-all-results/search-all-results.component';
 import { SearchPopupComponent } from './components/search-popup/search-popup.component';
 import { SearchItemComponent } from './components/search-item/search-item.component';

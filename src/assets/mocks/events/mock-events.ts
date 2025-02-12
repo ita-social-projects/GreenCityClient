@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { HabitAssignInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit-assign.interface';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
 import { HabitInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit.interface';
 import { FormBuilder, FormControl } from '@angular/forms';
 import {

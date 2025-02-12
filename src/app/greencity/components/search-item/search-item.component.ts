@@ -1,8 +1,8 @@
-import { userAssignedCardsIcons } from '../../../main/image-paths/profile-icons';
-import { NewsSearchModel } from '@global-models/search/newsSearch.model';
-import { EventsSearchModel } from '@global-models/search/eventsSearch.model';
+import { userAssignedCardsIcons } from '../../image-paths/profile-icons';
+import { NewsSearchModel } from 'src/app/greencity/components/search-popup/model/newsSearch.model';
+import { EventsSearchModel } from 'src/app/greencity/components/search-popup/model/eventsSearch.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PlacesSearchModel } from '@global-models/search/placesSearch.model';
+import { PlacesSearchModel } from 'src/app/greencity/components/search-popup/model/placesSearch.model';
 import { CommonSearchModel } from './search-item.model';
 
 @Component({

@@ -1,4 +1,4 @@
-import { TUserRole } from '@global-models/auth/user-role.type';
+import { TUserRole } from 'src/app/shared/models/auth/user-role.type';
 
 export interface IAuthState {
   isLoading: boolean;

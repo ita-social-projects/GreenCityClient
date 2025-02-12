@@ -10,7 +10,7 @@ import {
   GETUSERPAGEBLE,
   GETUPDATEUSER,
   HABITITEMS
-} from '../../../main/mocks/user-service-mock';
+} from '../../../greencity/modules/user/mocks/user-service-mock';
 
 describe('UserService', () => {
   let service: UserService;

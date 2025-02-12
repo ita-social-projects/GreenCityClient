@@ -1,4 +1,4 @@
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,7 +11,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { DEFAULTHABIT } from 'src/app/greencity/modules/user/components/habit/mocks/habit-assigned-mock';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
 
 describe('HabitsGalleryViewComponent', () => {
   let component: HabitsGalleryViewComponent;

@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { take, takeUntil } from 'rxjs/operators';
-import { HabitService } from '@global-service/habit/habit.service';
+import { HabitService } from '@shared/service/habit/habit.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { ToDoListService } from './habit-edit-to-do-list/to-do-list.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { WarningPopUpComponent } from '@shared/components';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { Location } from '@angular/common';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { habitImages } from 'src/app/main/image-paths/habits-images';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
+import { habitImages } from 'src/app/greencity/image-paths/habits-images';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
@@ -27,8 +27,8 @@ import { HabitAssignInterface } from '../models/interfaces/habit-assign.interfac
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
 import { AllToDoLists, HabitUpdateToDoList, ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.interface';
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
-import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
-import { singleNewsImages } from 'src/app/main/image-paths/single-news-images';
+import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-user/models/goal/HabitAssignCustomPropertiesDto';
+import { singleNewsImages } from 'src/app/greencity/image-paths/single-news-images';
 import { STAR_IMAGES } from './habit-const/habit.const';
 import { HttpParams } from '@angular/common/http';
 

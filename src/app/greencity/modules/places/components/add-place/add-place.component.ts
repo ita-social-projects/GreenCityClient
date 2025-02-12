@@ -9,7 +9,7 @@ import { WorkingTime } from '../../models/week-pick-model';
 import { CreatePlaceModel, OpeningHoursDto } from '../../models/create-place.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from '../../models/places-consts';
 
 @Component({

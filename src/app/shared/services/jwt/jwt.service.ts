@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
-import { TUserRole } from '@global-models/auth/user-role.type';
+import { TUserRole } from 'src/app/shared/models/auth/user-role.type';
 
 @Injectable({
   providedIn: 'root'

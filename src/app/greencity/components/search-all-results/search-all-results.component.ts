@@ -1,5 +1,5 @@
-import { NewsSearchModel } from '@global-models/search/newsSearch.model';
-import { SearchDataModel } from '@global-models/search/search.model';
+import { NewsSearchModel } from 'src/app/greencity/components/search-popup/model/newsSearch.model';
+import { SearchDataModel } from 'src/app/greencity/components/search-popup/model/search.model';
 import { searchIcons } from '../../image-paths/search-icons';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';

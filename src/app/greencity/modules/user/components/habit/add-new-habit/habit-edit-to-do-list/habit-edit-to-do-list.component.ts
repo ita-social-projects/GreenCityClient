@@ -8,7 +8,7 @@ import { TodoStatus } from '../../models/todo-status.enum';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { FIELD_SYMBOLS_LIMIT, HABIT_TO_DO_LIST_CHECK, TO_DO_ITEM_NAME_LIMIT } from '../habit-const/habit.const';
 import { MatDialog } from '@angular/material/dialog';
-import { WarningPopUpComponent } from '@shared/components';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { take } from 'rxjs/operators';
 
 @Component({

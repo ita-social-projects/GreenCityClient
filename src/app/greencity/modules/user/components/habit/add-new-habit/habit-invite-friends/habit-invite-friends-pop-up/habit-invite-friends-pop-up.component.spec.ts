@@ -10,7 +10,7 @@ import { FRIENDS, FIRSTFRIEND, SECONDFRIEND } from 'src/app/greencity/modules/us
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { HabitService } from '@global-service/habit/habit.service';
+import { HabitService } from '@shared/service/habit/habit.service';
 
 describe('HabitInviteFriendsPopUpComponent', () => {
   let component: HabitInviteFriendsPopUpComponent;
