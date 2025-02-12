@@ -1,4 +1,4 @@
-import { Photo } from 'src/app/main/model/photo/photo';
+import { Photo } from 'src/app/shared/models/photo/photo';
 
 export class HabitItem {
   numb: number;

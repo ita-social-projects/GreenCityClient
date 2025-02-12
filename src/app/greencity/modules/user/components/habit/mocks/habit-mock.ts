@@ -1,9 +1,9 @@
 import { HabitListInterface } from '../models/interfaces/habit.interface';
 import { CUSTOMHABIT, DEFAULTHABIT } from './habit-assigned-mock';
-import { HabitStatisticsDto } from '@global-models/habit/HabitStatisticsDto';
-import { DayEstimation } from '@global-models/habit/DayEstimation';
-import { AvailableHabitDto } from '@global-models/habit/AvailableHabitDto';
-import { NewHabitDto } from '@global-models/habit/NewHabitDto';
+import { HabitStatisticsDto } from '@global-user/models/habit/HabitStatisticsDto';
+import { DayEstimation } from '@global-user/models/habit/DayEstimation';
+import { AvailableHabitDto } from '@global-user/models/habit/AvailableHabitDto';
+import { NewHabitDto } from '@global-user/models/habit/NewHabitDto';
 import { CustomHabit } from 'src/app/greencity/modules/user/components/habit/models/interfaces/custom-habit.interface';
 import { CustomHabitDtoRequest } from 'src/app/greencity/modules/user/components/habit/models/interfaces/custom-habit.interface';
 import { TodoStatus } from '../models/todo-status.enum';

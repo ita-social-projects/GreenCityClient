@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
-import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
+import { UpdatePasswordDto } from 'src/app/shared/models/updatePasswordDto';
 import { ChangePasswordService } from 'src/app/shared/services/auth/change-password.service';
 import { iif, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';

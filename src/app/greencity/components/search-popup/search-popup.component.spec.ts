@@ -18,8 +18,8 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { EventsSearchModel } from '@global-models/search/eventsSearch.model';
-import { SearchDataModel } from '@global-models/search/search.model';
+import { EventsSearchModel } from 'src/app/greencity/components/search-popup/model/eventsSearch.model';
+import { SearchDataModel } from 'src/app/greencity/components/search-popup/model/search.model';
 import { SearchCategory } from './search-consts';
 
 describe('SearchPopupComponent', () => {

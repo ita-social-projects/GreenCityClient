@@ -15,9 +15,9 @@ import {
   HabitAssignInterface,
   UpdateHabitDuration
 } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit-assign.interface';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
 import { HttpResponse } from '@angular/common/http';
-import { HabitAssignCustomPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { HabitAssignCustomPropertiesDto } from '@global-user/models/goal/HabitAssignCustomPropertiesDto';
 
 describe('HabitService', () => {
   let service: HabitAssignService;

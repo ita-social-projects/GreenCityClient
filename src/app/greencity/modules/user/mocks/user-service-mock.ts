@@ -1,8 +1,8 @@
-import { HabitItemsAmountStatisticDto } from '@global-models/goal/HabitItemsAmountStatisticDto';
-import { UserPageableDtoModel } from '@global-models/user/user-pageable-dto.model';
-import { UserRoleModel } from '@global-models/user/user-role.model';
-import { UserStatusModel } from '@global-models/user/user-status.model';
-import { UserUpdateModel } from '@global-models/user/user-update.model';
+import { HabitItemsAmountStatisticDto } from '@global-user/models/goal/HabitItemsAmountStatisticDto';
+import { UserPageableDtoModel } from '@global-user/models/user/user-pageable-dto.model';
+import { UserRoleModel } from '@global-user/models/user/user-role.model';
+import { UserStatusModel } from '@global-user/models/user/user-status.model';
+import { UserUpdateModel } from '@global-user/models/user/user-update.model';
 
 export const LISTOFUSERS: UserPageableDtoModel = {
   page: [

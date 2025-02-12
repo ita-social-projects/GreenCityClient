@@ -1,4 +1,4 @@
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
 import { ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.interface';
 import { HabitInterface } from './habit.interface';
 

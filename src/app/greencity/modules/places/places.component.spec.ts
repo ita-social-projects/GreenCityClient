@@ -6,7 +6,7 @@ import { PlaceService } from 'src/app/shared/services/place/place.service';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from 'src/app/shared/services/filtering/filter-place.service';
-import { PlaceStatus } from '@global-models/placeStatus.model';
+import { PlaceStatus } from 'src/app/shared/models/placeStatus.model';
 import { FavoritePlaceService } from 'src/app/greencity/modules/places/services/favorite-place/favorite-place.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../../../shared/services/user/user.service';
-import { UserUpdateModel } from '../../../../../main/model/user/user-update.model';
+import { UserUpdateModel } from '../../models/user/user-update.model';
 import { JwtService } from '../../../../../shared/services/jwt/jwt.service';
 import { LocalStorageService } from '../../../../../shared/services/localstorage/local-storage.service';
 import { Router } from '@angular/router';

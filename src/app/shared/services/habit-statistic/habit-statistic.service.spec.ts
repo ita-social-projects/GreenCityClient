@@ -2,7 +2,7 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HabitStatisticService } from './habit-statistic.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { NewHabitDto } from '@global-models/habit/NewHabitDto';
+import { NewHabitDto } from '@global-user/models/habit/NewHabitDto';
 import { habitStatisticLink } from '../../../main/links';
 import {
   AVAIL_HABIT_ARRAY_MOCK,

@@ -1,4 +1,4 @@
-import { HabitStatisticMapDto } from '../habit/HabitStatisticMapDto';
+import { HabitStatisticMapDto } from './HabitStatisticMapDto';
 export class HabitStatisticLogDto {
   createDate: Date;
   amountUnTakenItemsPerMonth: HabitStatisticMapDto;

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { habitFactRandomLink } from '../../../../../main/links';
-import { HabitFactDto } from '../../../../../main/model/habit-fact/HabitFactDto';
+import { HabitFactDto } from '../../models/habit-fact/HabitFactDto';
 
 @Injectable({
   providedIn: 'root'

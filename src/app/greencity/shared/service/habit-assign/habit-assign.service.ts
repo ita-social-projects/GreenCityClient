@@ -13,8 +13,8 @@ import {
   UpdateHabitDuration,
   FriendsHabitProgress
 } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit-assign.interface';
-import { HabitAssignCustomPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitAssignCustomPropertiesDto } from '@global-user/models/goal/HabitAssignCustomPropertiesDto';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
 
 @Injectable({
   providedIn: 'root'

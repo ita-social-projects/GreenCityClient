@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { HabitDto } from 'src/app/main/model/habit/HabitDto';
+import { HabitDto } from '@global-user/models/habit/HabitDto';
 import { HabitStatisticService } from 'src/app/shared/services/habit-statistic/habit-statistic.service';
 import { filter, map } from 'rxjs/operators';
-import { HabitStatisticsDto } from 'src/app/main/model/habit/HabitStatisticsDto';
+import { HabitStatisticsDto } from '@global-user/models/habit/HabitStatisticsDto';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({

@@ -3,7 +3,7 @@ import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.se
 import { take, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HabitService } from '@shared/service/habit/habit.service';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
 import { HabitMark } from 'src/app/greencity/modules/user/components/habit/models/HabitMark.enum';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';

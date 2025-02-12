@@ -11,7 +11,7 @@ import { ToDoListService } from './habit-edit-to-do-list/to-do-list.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { Location } from '@angular/common';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
 import { habitImages } from 'src/app/greencity/image-paths/habits-images';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
@@ -27,7 +27,7 @@ import { HabitAssignInterface } from '../models/interfaces/habit-assign.interfac
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
 import { AllToDoLists, HabitUpdateToDoList, ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.interface';
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
-import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-user/models/goal/HabitAssignCustomPropertiesDto';
 import { singleNewsImages } from 'src/app/greencity/image-paths/single-news-images';
 import { STAR_IMAGES } from './habit-const/habit.const';
 import { HttpParams } from '@angular/common/http';

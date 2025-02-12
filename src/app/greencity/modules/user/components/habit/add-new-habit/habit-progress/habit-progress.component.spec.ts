@@ -10,7 +10,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { CUSTOMFULLINFOHABIT, DEFAULTFULLINFOHABIT, DEFAULTFULLINFOHABIT_2 } from '../../mocks/habit-assigned-mock';
 import { CalendarWeekComponent } from 'src/app/greencity/modules/user/components/profile/calendar/calendar-week/calendar-week.component';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
 import { ChangesFromCalendarToProgress } from '../../models/interfaces/habit-assign.interface';
 import { CalendarComponent } from 'src/app/greencity/modules/user/components';
 

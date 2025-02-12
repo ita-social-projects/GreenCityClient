@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
+import { UpdatePasswordDto } from 'src/app/shared/models/updatePasswordDto';
 import { of } from 'rxjs';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { RouterTestingModule } from '@angular/router/testing';

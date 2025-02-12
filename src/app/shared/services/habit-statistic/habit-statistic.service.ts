@@ -1,14 +1,14 @@
-import { AvailableHabitDto } from '@global-models/habit/AvailableHabitDto';
+import { AvailableHabitDto } from '@global-user/models/habit/AvailableHabitDto';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { HabitDto } from '../../../main/model/habit/HabitDto';
-import { NewHabitDto } from '../../../main/model/habit/NewHabitDto';
+import { HabitDto } from '../../../greencity/modules/user/models/habit/HabitDto';
+import { NewHabitDto } from '../../../greencity/modules/user/models/habit/NewHabitDto';
 import { habitLink, habitStatisticLink, userLink } from '../../../main/links';
 
 import { LocalStorageService } from '../localstorage/local-storage.service';
-import { HabitStatisticsDto } from '../../../main/model/habit/HabitStatisticsDto';
-import { HabitStatisticLogDto } from '@global-models/habit/HabitStatisticLogDto';
+import { HabitStatisticsDto } from '../../../greencity/modules/user/models/habit/HabitStatisticsDto';
+import { HabitStatisticLogDto } from '@global-user/models/habit/HabitStatisticLogDto';
 import { OnLogout } from './OnLogout';
 
 @Injectable({

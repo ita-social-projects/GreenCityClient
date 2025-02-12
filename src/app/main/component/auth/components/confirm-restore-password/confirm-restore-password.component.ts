@@ -1,5 +1,5 @@
 import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
-import { RestoreDto } from 'src/app/main/model/restroreDto';
+import { RestoreDto } from 'src/app/shared/models/restroreDto';
 import { authImages, ubsAuthImages } from 'src/app/shared/image-paths/auth-images';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
-import { FavoritePlace } from '../../../../../main/model/favorite-place/favorite-place';
+import { FavoritePlace } from '../../models/favorite-place/favorite-place';
 import { favoritePlaceLink, placeLink } from '../../../../../main/links';
 import { Place } from '../../models/place';
 import { take } from 'rxjs/operators';

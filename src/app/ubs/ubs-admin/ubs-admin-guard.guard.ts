@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { TUserRole } from '@global-models/auth/user-role.type';
+import { TUserRole } from 'src/app/shared/models/auth/user-role.type';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
 import { filter, map, take } from 'rxjs';

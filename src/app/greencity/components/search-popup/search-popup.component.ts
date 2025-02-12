@@ -1,19 +1,19 @@
-import { NewsSearchModel } from '@global-models/search/newsSearch.model';
-import { EventsSearchModel } from '@global-models/search/eventsSearch.model';
+import { NewsSearchModel } from 'src/app/greencity/components/search-popup/model/newsSearch.model';
+import { EventsSearchModel } from 'src/app/greencity/components/search-popup/model/eventsSearch.model';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, forkJoin } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
-import { PlacesSearchModel } from '@global-models/search/placesSearch.model';
+import { PlacesSearchModel } from 'src/app/greencity/components/search-popup/model/placesSearch.model';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { SearchService } from 'src/app/shared/services/search/search.service';
 import { isNil, negate } from 'lodash';
 import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 import { searchIcons } from '../../image-paths/search-icons';
 import { SearchCategory } from './search-consts';
-import { PopupSearchResults } from './search-popup.model';
+import { PopupSearchResults } from './model/search-popup.model';
 
 @Component({
   selector: 'app-search-popup',

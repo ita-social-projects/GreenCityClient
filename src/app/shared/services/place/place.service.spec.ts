@@ -1,9 +1,9 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { FilterDiscountDtoModel } from '@global-models/filtering/filter-discount-dto.model';
-import { FilterDistanceDto } from '@global-models/filtering/filter-distance-dto.model';
+import { FilterDiscountDtoModel } from 'src/app/shared/models/filtering/filter-discount-dto.model';
+import { FilterDistanceDto } from 'src/app/shared/models/filtering/filter-distance-dto.model';
 import { placeLink } from '../../../main/links';
-import { WeekDays } from '../../../main/model/weekDays.model';
+import { WeekDays } from '../../models/weekDays.model';
 import { FilterPlaceService } from '../filtering/filter-place.service';
 import { PlaceService } from './place.service';
 

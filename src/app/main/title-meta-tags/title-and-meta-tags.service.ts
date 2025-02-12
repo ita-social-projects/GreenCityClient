@@ -5,8 +5,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { combineLatest, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
-import { MetasModel } from '../model/meta/metas-model';
-import { MetaModel } from '../model/meta/meta-model';
+import { MetasModel } from './meta/metas-model';
+import { MetaModel } from './meta/meta-model';
 
 @Injectable({
   providedIn: 'root'

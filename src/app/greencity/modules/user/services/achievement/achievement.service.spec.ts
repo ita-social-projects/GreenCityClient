@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 
 import { AchievementService } from './achievement.service';
-import { AchievementDto } from '@global-models/achievement/AchievementDto';
+import { AchievementDto } from '@global-user/models/achievements/AchievementDto';
 import { achievementLink } from '../../../../../main/links';
 
 describe('AchievementService', () => {

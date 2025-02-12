@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnChanges, OnInit, HostListener } from '@angular/core';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
 import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { HabitMark } from 'src/app/greencity/modules/user/components/habit/models/HabitMark.enum';
 import { take } from 'rxjs/operators';

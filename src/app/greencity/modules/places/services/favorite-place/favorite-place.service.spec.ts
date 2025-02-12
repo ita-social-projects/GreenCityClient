@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Place } from '../../models/place';
 import { favoritePlaceLink, placeLink } from '../../../../../main/links';
-import { FavoritePlace } from '../../../../../main/model/favorite-place/favorite-place';
+import { FavoritePlace } from '../../models/favorite-place/favorite-place';
 
 import { FavoritePlaceService } from './favorite-place.service';
 

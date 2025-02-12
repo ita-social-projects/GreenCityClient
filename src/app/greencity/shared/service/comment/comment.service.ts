@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { placeLink } from '../../../../main/links';
-import { Comment } from '../../../../main/model/comment/comment';
+import { Comment } from './comment-model/comment';
 import { AddedCommentDTO, CommentFormData } from 'src/app/greencity/modules/comments/models/comments-model';
 
 @Injectable({

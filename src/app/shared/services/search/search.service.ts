@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environment/environment';
 import { Observable, Subject } from 'rxjs';
-import { SearchDataModel } from '../../../main/model/search/search.model';
+import { SearchDataModel } from '../../../greencity/components/search-popup/model/search.model';
 import { SearchDto } from 'src/app/shared/models/search-dto';
 import { SearchCategory } from 'src/app/greencity/components/search-popup/search-consts';
 

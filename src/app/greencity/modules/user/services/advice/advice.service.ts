@@ -2,7 +2,7 @@ import { Language } from 'src/app/shared/i18n/Language';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AdviceDto } from '../../../../../main/model/advice/AdviceDto';
+import { AdviceDto } from '../../models/AdviceDto';
 import { adviceRandomLink } from '../../../../../main/links';
 
 @Injectable({

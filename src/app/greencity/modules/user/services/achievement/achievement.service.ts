@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AchievementDto } from '../../../../../main/model/achievement/AchievementDto';
+import { AchievementDto } from '../../models/achievements/AchievementDto';
 import { Observable } from 'rxjs';
 import { achievementLink } from '../../../../../main/links';
-import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
+import { AchievementCategoryDto } from '@global-user/models/achievements/achievementCategoryDto.model';
 
 @Injectable({
   providedIn: 'root'

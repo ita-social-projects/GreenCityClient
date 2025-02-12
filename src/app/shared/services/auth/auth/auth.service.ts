@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ISignInResponse } from '@global-models/auth/sign-in-response.interface';
-import { ISignIn } from '@global-models/auth/sign-in.interface';
+import { ISignInResponse } from 'src/app/shared/models/auth/sign-in-response.interface';
+import { ISignIn } from 'src/app/shared/models/auth/sign-in.interface';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { map, Observable, of } from 'rxjs';

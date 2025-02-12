@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';

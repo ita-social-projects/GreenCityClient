@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ElementRef } from '@angular/core';
 import { of } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AchievementDto } from '@global-models/achievement/AchievementDto';
+import { AchievementDto } from '@global-user/models/achievements/AchievementDto';
 import { AchievementService } from '@global-user/services/achievement/achievement.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { UsersAchievementsComponent } from './users-achievements.component';

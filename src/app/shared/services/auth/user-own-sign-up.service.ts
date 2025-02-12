@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserOwnSignUp } from '../../../main/model/user-own-sign-up';
+import { UserOwnSignUp } from '../../models/singIn-singUp/user-own-sign-up';
 import { userOwnSignUpLink } from '../../../main/links';
 import { Observable, of } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
