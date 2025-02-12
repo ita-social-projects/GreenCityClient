@@ -38,7 +38,6 @@ export class SocketService {
       this.userId = this.localStorageService.getUserId();
       this.socket = new SockJS(this.backendSocketLink);
       this.stompClient = Stomp.over(() => this.socket);
-      console.log = () => {}; // turn off all console logs (debugs)
       this.socketState = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
       this.stompClient.connect(
         {},

@@ -300,11 +300,11 @@ $inputwidth: 260px;
 .checkbox-wrapper {
   width: 220px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-top: 10px;
 
   .ubs-switcher {
-    margin-top: 5px;
+    margin: 7px 0 0 15px;
   }
 }
 

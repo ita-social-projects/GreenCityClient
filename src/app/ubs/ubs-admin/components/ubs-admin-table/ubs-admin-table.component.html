@@ -303,11 +303,11 @@
           [title]="row[column.title.key]"
           [optional]="column?.checked"
           [lang]="currentLang"
-          [date]="column.title.key"
           [key]="column.title.key"
           (click)="column.title.key === 'id' && openOrder(row[column.title.key])"
           [class.pointer]="column.title.key === 'id'"
           class="column_cell"
+          [orderId]="row.id"
         >
         </app-table-cell-readonly>
         <app-table-cell-select
@@ -362,6 +362,7 @@
           [data]="row[column.title.key]"
           [column]="column.title"
           [id]="row.id"
+          [lang]="currentLang"
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
           [isUneditableStatus]="checkStatusOfOrders(row.id)"
@@ -397,3 +398,5 @@
 <ng-template #spinner>
   <app-spinner></app-spinner>
 </ng-template>
+
+<app-spinner class="top-spiner" *ngIf="isOrderAddressLoadingSelector$ | async"></app-spinner>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { SnackbarClassName } from 'src/app/shared/components/mat-snack-bar/error-constants';
+import { SnackbarClassName } from './error-constants';
 
 @Component({
   selector: 'app-mat-snack-bar',

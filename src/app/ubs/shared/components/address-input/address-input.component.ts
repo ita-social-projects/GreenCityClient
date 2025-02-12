@@ -68,9 +68,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     maxZoom: 20
   };
 
-  private readonly buildingPattern = Patterns.numericAndAlphabetic;
-  private readonly houseNumberPattern = Patterns.ubsHouseNumberPattern;
-  private readonly numericPattern = Patterns.numeric;
+  private readonly buildingPattern = Patterns.ubsHouseNumberPattern;
   private readonly $destroy: Subject<void> = new Subject();
   private viewInitialized = false;
 
@@ -140,31 +138,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     private readonly addressService: AddressService
   ) {}
 
-  validate(control: AbstractControl): ValidationErrors {
-    return (this.addressForm.valid && this.addressData.isValid()) || this.addressForm.pristine ? null : { incorrectAddress: true };
-  }
-
-  writeValue(obj: any): void {}
-
-  setDisabledState?(isDisabled: boolean): void {
-    isDisabled ? this.addressForm.disable() : this.addressForm.enable();
-  }
-
-  registerOnChange(onChange: any): void {
-    this.onChange = onChange;
-  }
-
-  registerOnTouched(onTouched: any): void {
-    this.onTouched = onTouched;
-  }
-
-  markAsTouched(): void {
-    if (!this.isTouched) {
-      this.onTouched();
-      this.isTouched = true;
-    }
-  }
-
   ngOnInit(): void {
     this.addressData = new CAddressData(this.langService);
     this.locations = this.localStorageService.getLocations();
@@ -192,6 +165,31 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     } else {
       this.enableAllFields();
       this.initializeFieldStates();
+    }
+  }
+
+  validate(control: AbstractControl): ValidationErrors {
+    return (this.addressForm.valid && this.addressData.isValid()) || this.addressForm.pristine ? null : { incorrectAddress: true };
+  }
+
+  writeValue(obj: any): void {}
+
+  setDisabledState?(isDisabled: boolean): void {
+    isDisabled ? this.addressForm.disable() : this.addressForm.enable();
+  }
+
+  registerOnChange(onChange: any): void {
+    this.onChange = onChange;
+  }
+
+  registerOnTouched(onTouched: any): void {
+    this.onTouched = onTouched;
+  }
+
+  markAsTouched(): void {
+    if (!this.isTouched) {
+      this.onTouched();
+      this.isTouched = true;
     }
   }
 
@@ -272,12 +270,12 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       district: [this.addressData.getDistrict() ?? '', Validators.required],
       houseNumber: [
         this.address?.houseNumber ?? '',
-        [Validators.required, Validators.maxLength(10), Validators.pattern(this.houseNumberPattern)]
+        [Validators.required, Validators.maxLength(4), Validators.pattern(this.buildingPattern)]
       ],
       houseCorpus: [this.address?.houseCorpus ?? '', emptyOrValid([Validators.maxLength(4), Validators.pattern(this.buildingPattern)])],
       entranceNumber: [
         this.address?.entranceNumber ?? '',
-        emptyOrValid([Validators.maxLength(2), Validators.pattern(this.numericPattern)])
+        emptyOrValid([Validators.maxLength(2), Validators.pattern(this.buildingPattern)])
       ],
       placeId: [this.address?.placeId ?? ''],
       addressComment: [this.address?.addressComment ?? '', Validators.maxLength(255)]

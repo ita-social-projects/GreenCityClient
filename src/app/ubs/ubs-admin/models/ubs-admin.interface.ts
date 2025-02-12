@@ -344,7 +344,6 @@ export interface UserProfile {
   recipientSurname: string;
   hasPassword: boolean;
   telegramIsNotify?: boolean;
-  viberIsNotify?: boolean;
   botList?: SocialLink[];
 }
 
@@ -369,6 +368,7 @@ export interface Address {
   houseCorpus: string;
   houseNumber: string;
   addressRegionDistrictList?: any;
+  addressComment?: any;
   isKyiv?: boolean;
   isNotKyivRegion?: boolean;
   id: number;
@@ -377,6 +377,24 @@ export interface Address {
   isHouseSelected?: boolean;
   street: string;
   streetEn: string;
+}
+export interface IShortAddress {
+  orderAddressExportDetails: {
+    id: number;
+    district: string;
+    districtEn: string;
+    street: string;
+    streetEn: string;
+    houseCorpus: string;
+    entranceNumber: string;
+    houseNumber: string;
+    city: string;
+    cityEn: string;
+    region: string;
+    regionEn: string;
+    addressComment: string;
+  };
+  orderId: number;
 }
 
 export interface DialogData {

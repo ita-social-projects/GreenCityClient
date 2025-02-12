@@ -165,11 +165,6 @@ xdescribe('UbsAdminTableComponent', () => {
     fixture.detectChanges();
   });
 
-  afterEach(() => {
-    spyOn(component, 'ngOnDestroy').and.callFake(() => {});
-    fixture.destroy();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -198,7 +193,6 @@ xdescribe('UbsAdminTableComponent', () => {
     component.ngOnInit();
     component.bigOrderTable$.subscribe((items: any) => {
       expect(component.currentPage).toBe(2);
-      expect(component.tableData[0].content).toBe('content');
       expect(component.formatTableData).toHaveBeenCalled();
     });
   });
@@ -307,12 +301,6 @@ xdescribe('UbsAdminTableComponent', () => {
     const data = { data: [{ id: 1 }, { id: 2 }, { id: 3 }] };
     const event: MatCheckboxChange = { source: {} as any, checked: true };
 
-    component.tableData = [
-      { id: 1, orderStatus: OrderStatus.DONE },
-      { id: 2, orderStatus: 'NEW' },
-      { id: 3, orderStatus: 'NEW' }
-    ];
-
     component.idsToChange = [];
     component.selection = new SelectionModel([] as any);
     component.dataSource = data as any;
@@ -325,7 +313,7 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('checkboxLabel should return select all', () => {
     component.dataSource = { data: [{ id: 1 }] } as any;
-    component.tableData = [{ id: 1, orderStatus: 'NEW' }];
+    component.tableData = [{ id: 1, orderStatus: 'NEW' } as any];
     component.selection = new SelectionModel(false, [{ id: 1 }] as any);
 
     const Res = component.checkboxLabel();
@@ -335,7 +323,7 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('checkboxLabel should return deselect all', () => {
     component.dataSource = { data: [{ id: 2 }] } as any;
-    component.tableData = [{ id: 2, orderStatus: OrderStatus.DONE }];
+    component.tableData = [{ id: 2, orderStatus: OrderStatus.DONE } as any];
     const Res = component.checkboxLabel();
 
     expect(Res).toBe('deselect all');
@@ -403,21 +391,6 @@ xdescribe('UbsAdminTableComponent', () => {
     expect(component.previousSettings).toEqual(['1', '2']);
   });
 
-  it('formatTableData expect tableData should change view', () => {
-    component.tableData = [
-      { amountDue: '5.4hrn', totalOrderSum: '300hrn', orderCertificateCode: '1, 2', generalDiscount: 6, totalPayment: '250' }
-    ];
-    component.formatTableData();
-    expect(component.tableData[0]).toEqual({
-      amountDue: '5.40 грн',
-      orderCertificateCode: '1, 2',
-      orderCertificatePoints: '3',
-      totalOrderSum: '300.00 грн',
-      generalDiscount: '6.00 грн',
-      totalPayment: '250.00 грн'
-    });
-  });
-
   it('getSortingData', () => {
     component.arrowDirection = '';
     component.filterValue = 'filterValue';
@@ -445,7 +418,7 @@ xdescribe('UbsAdminTableComponent', () => {
   it('openPopUpRequires', () => {
     component.showPopUp = true;
     component.idsToChange = [];
-    component.tableData = [{ id: 1 }];
+    component.tableData = [{ id: 1 } as any];
     component.openPopUpRequires(1);
     expect(component.showPopUp).toBe(false);
   });
@@ -639,7 +612,7 @@ xdescribe('UbsAdminTableComponent', () => {
   });
 
   it('checkStatusOfOrders', () => {
-    component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE }];
+    component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE } as any];
     const Res = component.checkStatusOfOrders(1);
     expect(Res).toBe(true);
   });

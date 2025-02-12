@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
 import { IColumnBelonging } from '../../../models/ubs-admin.interface';
-import { MouseEvents } from 'src/app/shared/models/mouse-events';
+
 import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '../../../services/table-keys.enum';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -16,16 +16,15 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   @Input() title: string | number | null;
   @Input() optional: IColumnBelonging[];
   @Input() lang: string;
-  @Input() date: string;
   @Input() key: string;
+  @Input() orderId: number;
   unpaid: boolean;
   paid: boolean;
   halfpaid: boolean;
   dataObj: IColumnBelonging = null;
   data: string | number | { ua: string; en: string } | null;
   private readonly font = '12px Lato, sans-serif';
-
-  constructor(private adminTableService: AdminTableService) {}
+  adminTableService = inject(AdminTableService);
 
   ngOnInit(): void {
     if (this.optional?.length) {
@@ -52,9 +51,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
         const { regex, match } = replaceRules[this.lang];
         this.title = (this.title as string).toLowerCase().replace(regex, (el) => match[el]);
       }
-
       this.data = this.title;
-
       this.isStatus();
     }
   }

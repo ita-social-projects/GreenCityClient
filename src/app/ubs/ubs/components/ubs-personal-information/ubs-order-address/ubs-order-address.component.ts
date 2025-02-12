@@ -44,12 +44,10 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.addressData = new CAddressData(this.languageService);
-
     this.store.dispatch(GetAddresses());
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       params.existingOrderId ? this.initListenersForExistingOrder() : this.initListenersForNewOrder();
     });
-
     !this.selectedAddress && this.addressComment.disable();
   }
 
@@ -202,7 +200,13 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.$destroy))
-      .subscribe((res) => {});
+      .subscribe((res) => {
+        if (res) {
+          setTimeout(() => {
+            this.addressComment.setValue(res);
+          }, 500);
+        }
+      });
   }
 
   ngOnDestroy(): void {

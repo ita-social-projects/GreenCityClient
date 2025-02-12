@@ -7,6 +7,8 @@ import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '@ubs/ubs-admin/services/table-keys.enum';
 import { PaymnetStatus } from '@ubs/ubs/order-status.enum';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('TableCellReadonlyComponent', () => {
   let component: TableCellReadonlyComponent;
@@ -22,7 +24,7 @@ describe('TableCellReadonlyComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [MatTooltipModule],
+      imports: [MatTooltipModule, MatDialogModule, HttpClientTestingModule],
       declarations: [TableCellReadonlyComponent, ServerTranslatePipe],
       providers: [{ provide: AdminTableService, useValue: adminTableServiceSpy }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

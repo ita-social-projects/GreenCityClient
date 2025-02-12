@@ -10,10 +10,11 @@ import {
   FilterCriteria,
   filterCriteriaOptions,
   notificationCriteriaOptions,
-  projects
+  projects,
+  NotificationStatus
 } from 'src/app/greencity/modules/user/models/notification.model';
-import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
-import { UserNotificationService } from 'src/app/greencity/modules/user/services/user-notification/user-notification.service';
+import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
+import { UserNotificationService } from '@global-user/services/user-notification/user-notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
@@ -272,6 +273,10 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     return notification.notificationType === this.notificationHabitInvitation;
   }
 
+  isPending(notification: NotificationModel): boolean {
+    return notification.status === NotificationStatus.PENDING;
+  }
+
   acceptRequest(notification: NotificationModel): void {
     if (this.isFriendRequest(notification)) {
       this.handleFriendRequest(notification, 'accept');
@@ -299,6 +304,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.matSnackBar.openSnackBar(isAccepted ? 'friendRequestAccepted' : 'friendInValidRequest');
+          this.reloadNotifications();
         }
       });
     } else {
@@ -308,6 +314,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.matSnackBar.openSnackBar(isAccepted ? 'friendRequestDeclined' : 'friendInValidRequest');
+          this.reloadNotifications();
         }
       });
     }
@@ -323,6 +330,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.matSnackBar.openSnackBar(isAccepted ? 'habitAcceptRequest' : 'habitAcceptInValidRequest');
+          this.reloadNotifications();
         }
       });
     } else {
@@ -332,6 +340,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.matSnackBar.openSnackBar(isAccepted ? 'habitDeclineRequest' : 'habitDeclineInValidRequest');
+          this.reloadNotifications();
         }
       });
     }

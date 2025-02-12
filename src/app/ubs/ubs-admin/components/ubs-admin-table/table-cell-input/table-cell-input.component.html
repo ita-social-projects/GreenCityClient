@@ -5,7 +5,13 @@
   (mouseenter)="onMouseEnter($event, tooltip)"
   (mouseleave)="tooltip.hide()"
 >
-  <span>{{ data }}</span>
-  <span *ngIf="!isEditable && !isBlocked && !isUneditableStatus" class="pointer" (keydown.enter)="edit()" (click)="edit()">&#9998;</span>
+  <span>{{ data | serverTranslate: lang }}</span>
+  <button *ngIf="!isEditable && !isBlocked && !isUneditableStatus" (keydown.enter)="edit()" (click)="edit()" class="pencil"></button>
+  <button
+    *ngIf="isAddressKey() && !isEditable && !isBlocked && !isUneditableStatus"
+    (keydown.enter)="openEditAddressWindow()"
+    (click)="openEditAddressWindow()"
+    class="pencil"
+  ></button>
   <mat-spinner class="spinner" *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>
 </div>

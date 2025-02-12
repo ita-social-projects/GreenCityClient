@@ -11,7 +11,8 @@ import {
   INotTakenOutReason,
   NotTakenOutReasonImages,
   IOrderInfo,
-  IBigOrderTableOrderInfo
+  IBigOrderTableOrderInfo,
+  IShortAddress
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
@@ -298,5 +299,9 @@ export class OrderService {
 
   saveOrderIdForRefund(orderId: number) {
     return this.http.post(`${this.backend}/management/save-order-for-refund/${orderId}`, orderId, { observe: 'response' });
+  }
+
+  updateOrderAddress(address: IShortAddress): Observable<void> {
+    return this.http.patch<void>(`${this.backend}/update-address`, address);
   }
 }

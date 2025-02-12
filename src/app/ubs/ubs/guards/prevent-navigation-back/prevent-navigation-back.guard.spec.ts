@@ -21,16 +21,24 @@ describe('PreventNavigationBackGuard', () => {
 
   it('should allow navigation back when dialogs are not open', () => {
     dialogSpyObj.openDialogs = [];
+
+    const mockComponent = { canNavigate: () => true };
     const spy = spyOn(history, 'pushState');
-    const result = guard.canNavigate();
+
+    const result = guard.canDeactivate(mockComponent);
+
     expect(result).toBeTruthy();
-    expect(spy).not.toHaveBeenCalledWith(null, '');
+    expect(spy).not.toHaveBeenCalled();
   });
 
   it('should prevent navigation back and close dialogs when dialogs are open', () => {
     dialogSpyObj.openDialogs = [{}];
+
+    const mockComponent = { canNavigate: () => false };
     const spy = spyOn(history, 'pushState');
-    const result = guard.canNavigate();
+
+    const result = guard.canDeactivate(mockComponent);
+
     expect(result).toBeFalsy();
     expect(dialogSpyObj.closeAll).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith(null, '');

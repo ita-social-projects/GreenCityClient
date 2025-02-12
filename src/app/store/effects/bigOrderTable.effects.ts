@@ -8,10 +8,10 @@ import { filtersSelector } from 'src/app/store/selectors/big-order-table.selecto
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import {
   IBigOrderTable,
-  IBigOrderTableOrderInfo,
   IBigOrderTableParams,
   ILocationDetails,
-  IOrdersViewParameters
+  IOrdersViewParameters,
+  IShortAddress
 } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
@@ -36,9 +36,13 @@ import {
   SaveFiltersAction,
   SetColumnToDisplay,
   SetColumnToDisplaySuccess,
+  UpdateOrderAddress,
+  UpdateOrderAddressFail,
+  UpdateOrderAddressSuccess,
   UpdateOrderInfo,
   UpdateOrderInfoSuccess
 } from '../actions/bigOrderTable.actions';
+import { UpdateAddressFail } from '../actions/order.actions';
 
 @Injectable()
 export class BigOrderTableEffects {
@@ -191,5 +195,23 @@ export class BigOrderTableEffects {
         })
       ),
     { dispatch: false }
+  );
+
+  updateOrderAddress = createEffect(() =>
+    this.actions.pipe(
+      ofType(UpdateOrderAddress),
+      mergeMap((action: { address: IShortAddress }) => {
+        return this.orderService.updateOrderAddress(action.address).pipe(
+          map(() => {
+            this.snackBar.openSnackBar('updatedAddress');
+            return UpdateOrderAddressSuccess({ address: action.address });
+          }),
+          catchError((error) => {
+            this.snackBar.openSnackBar('errorEditAddress');
+            return of(UpdateOrderAddressFail());
+          })
+        );
+      })
+    )
   );
 }
