@@ -4,7 +4,7 @@ import { LocalStorageService } from './local-storage.service';
 import { Subject } from 'rxjs';
 import { EventResponse } from 'src/app/greencity/modules/events/models/events.interface';
 import { CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
-import { FactOfTheDay } from '@global-user/models/factOfTheDay';
+import { FactOfTheDay } from 'src/app/greencity/modules/user/models/factOfTheDay';
 
 describe('LocalStorageService', () => {
   let service: LocalStorageService;

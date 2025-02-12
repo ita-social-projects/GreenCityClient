@@ -6,12 +6,15 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { habitLink } from '../../links';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
-import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
-import { ToDoList } from '@global-user/models/to-do-list.interface';
-import { CustomHabitDtoRequest, CustomHabit } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
-import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
+import { HabitInterface, HabitListInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit.interface';
+import { ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.interface';
+import {
+  CustomHabitDtoRequest,
+  CustomHabit
+} from 'src/app/greencity/modules/user/components/habit/models/interfaces/custom-habit.interface';
+import { FriendProfilePicturesArrayModel } from 'src/app/greencity/modules/user/models/friend.model';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
-import { FriendArrayModel } from '../../component/user/models/friend.model';
+import { FriendArrayModel } from '../../../greencity/modules/user/models/friend.model';
 
 @Injectable({
   providedIn: 'root'

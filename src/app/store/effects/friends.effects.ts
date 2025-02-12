@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, exhaustMap, catchError, mergeMap } from 'rxjs/operators';
-import { UserFriendsService } from '@global-user/services/user-friends/user-friends.service';
-import { FriendArrayModel } from '@global-user/models/friend.model';
+import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
+import { FriendArrayModel } from 'src/app/greencity/modules/user/models/friend.model';
 import * as friendActions from '../actions/friends.actions';
 
 @Injectable()

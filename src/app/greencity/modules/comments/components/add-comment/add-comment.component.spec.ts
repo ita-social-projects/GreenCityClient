@@ -1,11 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
-import { ProfileService } from '@global-user/services/profile-service/profile.service';
+import { ProfileService } from 'src/app/greencity/modules/user/services/profile-service/profile.service';
 import { Observable, of } from 'rxjs';
 
 import { AddCommentComponent } from './add-comment.component';
-import { UserProfileImageComponent } from '@global-user/components/shared/components/user-profile-image/user-profile-image.component';
+import { UserProfileImageComponent } from 'src/app/greencity/modules/user/components/shared/components/user-profile-image/user-profile-image.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommentsService } from '../../services/comments.service';
 import { CommentTextareaComponent } from '../comment-textarea/comment-textarea.component';
@@ -14,7 +14,7 @@ import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { CommentFormData } from '../../models/comments-model';
-import { mockUserData } from '@global-user/mocks/edit-profile-mock';
+import { mockUserData } from 'src/app/greencity/modules/user/mocks/edit-profile-mock';
 import { MOCK_COMMENTS_DTO } from '../../mocks/comments-mock';
 
 describe('AddCommentComponent', () => {

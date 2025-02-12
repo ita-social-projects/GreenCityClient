@@ -11,7 +11,7 @@ import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
-import { ProfileService } from '@global-user/services/profile-service/profile.service';
+import { ProfileService } from 'src/app/greencity/modules/user/services/profile-service/profile.service';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';

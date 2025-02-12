@@ -8,7 +8,7 @@ import {
   GetAllFriendsRequestsSuccess,
   ResetFriends
 } from '../actions/friends.actions';
-import { FriendModel } from '@global-user/models/friend.model';
+import { FriendModel } from 'src/app/greencity/modules/user/models/friend.model';
 
 export const friendsReducers = createReducer(
   initialFriendState,

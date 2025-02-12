@@ -116,7 +116,7 @@ export class InterceptorService implements HttpInterceptor {
           })
         );
       }
-      if (req.url.includes('/events/addAttender')) {
+      if (req.url.includes('/greenCity/events/addAttender')) {
         return next.handle(req).pipe(
           catchError((error: HttpErrorResponse) => {
             if (error.status === BAD_REQUEST) {

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { inputsName } from '@global-user/models/error-type.model';
+import { inputsName } from 'src/app/greencity/modules/user/models/error-type.model';
 
 enum errorType {
   email = 'email',

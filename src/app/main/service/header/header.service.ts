@@ -17,7 +17,7 @@ export class HeaderService {
     { name: 'user.lower-nav-bar.events', route: '/greenCity/events', url: false },
     { name: 'user.lower-nav-bar.map', route: '/greenCity/places', url: false },
     { name: 'user.lower-nav-bar.about-us', route: '/greenCity/about', url: false },
-    { name: 'user.lower-nav-bar.my-habits', route: '/profile', url: false },
+    { name: 'user.lower-nav-bar.my-habits', route: '/greenCity/profile', url: false },
     { name: 'user.lower-nav-bar.ubs', route: '/ubs', url: false }
   ];
 

@@ -47,7 +47,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
   startHabit() {
-    this.userId ? this.router.navigate(['/profile', this.userId]) : this.checkTokenservice.openAuthModalWindow();
+    this.userId ? this.router.navigate(['greenCity/profile', this.userId]) : this.checkTokenservice.openAuthModalWindow();
   }
 
   private onCheckToken(): void {

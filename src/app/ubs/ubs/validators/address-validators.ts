@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { Coordinates } from '@global-user/models/edit-profile.model';
+import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.model';
 import { Language } from 'src/app/shared/i18n/Language';
 import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Locations } from 'src/assets/locations/locations';

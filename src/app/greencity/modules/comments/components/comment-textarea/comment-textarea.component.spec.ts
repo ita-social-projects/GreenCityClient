@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { By, DomSanitizer } from '@angular/platform-browser';
 import { MatSelectModule } from '@angular/material/select';
-import { UserProfileImageComponent } from '@global-user/components/shared/components/user-profile-image/user-profile-image.component';
+import { UserProfileImageComponent } from 'src/app/greencity/modules/user/components/shared/components/user-profile-image/user-profile-image.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

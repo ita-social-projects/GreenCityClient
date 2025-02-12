@@ -1,4 +1,4 @@
-import { CustomToDoItem } from '@global-user/models/to-do-list.interface';
+import { CustomToDoItem } from 'src/app/greencity/modules/user/models/to-do-list.interface';
 
 export interface HabitAssignCustomPropertiesDto {
   friendsIdsList: Array<number>;

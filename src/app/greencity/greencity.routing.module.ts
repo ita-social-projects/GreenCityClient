@@ -35,11 +35,11 @@ const greencityRoutes: Routes = [
         loadChildren: () => import('./modules/events/events.module').then((mod) => mod.EventsModule),
         canActivate: [NonAdminGuard]
       },
-      // {
-      //   path: 'profile',
-      //   loadChildren: () => import('../main/component/user/user.module').then((mod) => mod.UserModule),
-      //   canActivate: [NonAdminGuard]
-      // },
+      {
+        path: 'profile',
+        loadChildren: () => import('./modules/user/user.module').then((mod) => mod.UserModule),
+        canActivate: [NonAdminGuard]
+      },
       {
         path: 'search',
         component: SearchAllResultsComponent,

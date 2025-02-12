@@ -9,9 +9,12 @@ import {
   HABITSASSIGNEDLIST,
   CHANGES_FROM_CALENDAR,
   FRIENDSHABITPROGESS
-} from '@global-user/components/habit/mocks/habit-assigned-mock';
+} from 'src/app/greencity/modules/user/components/habit/mocks/habit-assigned-mock';
 
-import { HabitAssignInterface, UpdateHabitDuration } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import {
+  HabitAssignInterface,
+  UpdateHabitDuration
+} from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HttpResponse } from '@angular/common/http';
 import { HabitAssignCustomPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';

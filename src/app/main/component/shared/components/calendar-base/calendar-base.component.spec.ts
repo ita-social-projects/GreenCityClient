@@ -7,8 +7,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { ItemClass } from './CalendarItemStyleClasses';
 import { calendarDay, calendarMock, habitMock, habitMockFalse, habitsList, mockPopupHabits } from '@assets/mocks/habit/mock-habit-calendar';
-import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
-import { BaseCalendar } from '@global-user/components/profile/calendar/calendar-week/calendar-week-interface';
+import { CalendarInterface } from 'src/app/greencity/modules/user/components/profile/calendar/calendar-interface';
+import { BaseCalendar } from 'src/app/greencity/modules/user/components/profile/calendar/calendar-week/calendar-week-interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { Language } from 'src/app/shared/i18n/Language';
 

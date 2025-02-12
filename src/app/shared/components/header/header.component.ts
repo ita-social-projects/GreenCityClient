@@ -20,7 +20,7 @@ import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { UbsPickUpServicePopUpComponent } from '@ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
 import { Store } from '@ngrx/store';
-import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
+import { UserNotificationsPopUpComponent } from 'src/app/greencity/modules/user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { IAppState } from 'src/app/store/state/app.state';
 import { ChatPopupComponent } from 'src/app/chat/component/chat-popup/chat-popup.component';
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
@@ -182,7 +182,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   getRouterLink(): string {
     if (this.isUBS && this.isAdmin) {
-      return '/ubs-admin/orders';
+      return '/ubs/admin/orders';
     }
     if (this.isUBS && !this.isAdmin) {
       return '/ubs';
@@ -372,7 +372,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   openNotificationsDialog(): void {
     this.dropdownVisible = false;
-    this.router.navigate(['/profile', this.userId, 'notifications']);
+    this.router.navigate(['greenCity/profile', this.userId, 'notifications']);
   }
 
   openNotificationPopUp() {
@@ -390,7 +390,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroySub))
       .subscribe((data) => {
         if (data?.openAll) {
-          this.router.navigate(['/profile', this.userId, 'notifications']);
+          this.router.navigate(['greenCity/profile', this.userId, 'notifications']);
         }
       });
   }
@@ -404,7 +404,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.jwtService.userRole$.next('');
 
-    this.router.navigateByUrl(this.isUBS ? '/' : '/greenCity').then((isRedirected: boolean) => {
+    this.router.navigateByUrl(this.isUBS ? '/ubs' : '/greenCity').then((isRedirected: boolean) => {
       this.userOwnAuthService.isLoginUserSubject.next(false);
       this.localeStorageService.clear();
       this.habitStatisticService.onLogout();

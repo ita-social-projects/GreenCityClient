@@ -5,14 +5,14 @@ import { takeUntil } from 'rxjs/operators';
 
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { habitAssignLink } from '../../links';
-import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
+import { HabitsForDateInterface } from 'src/app/greencity/modules/user/components/profile/calendar/habit-popup-interface';
 import {
   HabitAssignInterface,
   ResponseInterface,
   ChangesFromCalendarToProgress,
   UpdateHabitDuration,
   FriendsHabitProgress
-} from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+} from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitAssignCustomPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 

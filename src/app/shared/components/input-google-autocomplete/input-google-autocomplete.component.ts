@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Coordinates } from '@global-user/models/edit-profile.model';
+import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.model';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/shared/i18n/language.service';

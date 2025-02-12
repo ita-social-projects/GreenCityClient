@@ -1,12 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { UserSharedModule } from '@global-user/components/shared/user-shared.module';
+import { UserSharedModule } from 'src/app/greencity/modules/user/components/shared/user-shared.module';
 import { SharedMainModule } from '@shared/shared-main.module';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { EditPhotoPopUpComponent } from '@shared/components';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
-import { EditProfileService } from '@global-user/services/edit-profile/edit-profile.service';
+import { EditProfileService } from 'src/app/greencity/modules/user/services/edit-profile/edit-profile.service';
 import { of, throwError } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';

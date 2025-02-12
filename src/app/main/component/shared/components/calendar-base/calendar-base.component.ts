@@ -4,16 +4,19 @@ import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { Subject, Subscription } from 'rxjs';
 import { finalize, takeUntil, take } from 'rxjs/operators';
-import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
+import { CalendarInterface } from 'src/app/greencity/modules/user/components/profile/calendar/calendar-interface';
 import { calendarImage } from './calendar-image';
-import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
-import { HabitPopupInterface, HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
+import { HabitsPopupComponent } from 'src/app/greencity/modules/user/components/profile/calendar/habits-popup/habits-popup.component';
+import {
+  HabitPopupInterface,
+  HabitsForDateInterface
+} from 'src/app/greencity/modules/user/components/profile/calendar/habit-popup-interface';
 import { ItemClass } from './CalendarItemStyleClasses';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Breakpoints } from 'src/app/main/config/breakpoints.constants';
-import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
-import { BaseCalendar } from '@global-user/components/profile/calendar/calendar-week/calendar-week-interface';
+import { HabitAssignInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit-assign.interface';
+import { BaseCalendar } from 'src/app/greencity/modules/user/components/profile/calendar/calendar-week/calendar-week-interface';
 
 @Component({
   selector: 'app-calendar-base',

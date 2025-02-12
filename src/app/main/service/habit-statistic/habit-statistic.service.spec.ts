@@ -9,7 +9,7 @@ import {
   HABIT_STATISTIC_DTO,
   HABIT_STATISTICS,
   NEW_HABIT_ARRAY_MOCK
-} from '@global-user/components/habit/mocks/habit-mock';
+} from 'src/app/greencity/modules/user/components/habit/mocks/habit-mock';
 
 describe('HabitStatisticService', () => {
   let service: HabitStatisticService;

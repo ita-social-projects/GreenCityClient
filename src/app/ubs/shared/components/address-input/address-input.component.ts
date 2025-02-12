@@ -12,7 +12,7 @@ import {
   Validators
 } from '@angular/forms';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Coordinates } from '@global-user/models/edit-profile.model';
+import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.model';
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';

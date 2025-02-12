@@ -35,12 +35,12 @@ const ubsRoutes: Routes = [
       { path: 'ubs/order/:isThisExistingOrder', component: UBSOrderDetailsComponent },
       { path: 'user-agreement', component: UbsUserAgreementComponent },
       {
-        path: 'ubs/admin',
+        path: 'admin',
         loadChildren: () => import('../ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule),
         canLoad: [UbsAdminGuard]
       },
       {
-        path: 'ubs/user',
+        path: 'user',
         loadChildren: () => import('../ubs-user/ubs-user.module').then((mod) => mod.UbsUserModule),
         canLoad: [UbsUserGuard]
       }

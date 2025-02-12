@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 // import { EventResponse, PagePreviewDTO } from '../../../main/component/events/models/events.interface';
 import { Address, CourierLocations, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
 import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
-import { FactOfTheDay } from '@global-user/models/factOfTheDay';
+import { FactOfTheDay } from 'src/app/greencity/modules/user/models/factOfTheDay';
 import { EventResponse, PagePreviewDTO } from 'src/app/greencity/modules/events/models/events.interface';
 
 @Injectable({

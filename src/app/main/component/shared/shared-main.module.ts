@@ -1,4 +1,4 @@
-import { UserSharedModule } from '../user/components/shared/user-shared.module';
+import { UserSharedModule } from '../../../greencity/modules/user/components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -25,7 +25,7 @@ import usLocale from '@angular/common/locales/en';
 import ruLocale from '@angular/common/locales/ru';
 import ukLocale from '@angular/common/locales/uk';
 import { FormBaseComponent } from './components/form-base/form-base.component';
-import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
+import { HabitsPopupComponent } from 'src/app/greencity/modules/user/components/profile/calendar/habits-popup/habits-popup.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
 import { ModalModule } from 'ngx-bootstrap/modal';

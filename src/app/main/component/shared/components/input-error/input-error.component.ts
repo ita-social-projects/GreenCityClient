@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { errorType } from '@global-user/models/error-type.model';
+import { errorType } from 'src/app/greencity/modules/user/models/error-type.model';
 
 @Component({
   selector: 'app-input-error',

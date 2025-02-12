@@ -4,7 +4,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { BehaviorSubject } from 'rxjs';
 import { HabitService } from './habit.service';
 import { environment } from '@environment/environment';
-import { CUSTOMHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
+import { CUSTOMHABIT } from 'src/app/greencity/modules/user/components/habit/mocks/habit-assigned-mock';
 import {
   CRITERIA,
   CRITERIA_FILTER,
@@ -14,15 +14,15 @@ import {
   EXCLUDE_ASSIGNED_FALSE,
   EXCLUDE_ASSIGNED_TRUE,
   HABITLIST
-} from '@global-user/components/habit/mocks/habit-mock';
+} from 'src/app/greencity/modules/user/components/habit/mocks/habit-mock';
 import {
   MOCK_CUSTOM_HABIT,
   MOCK_CUSTOM_HABIT_RESPONSE,
   MOCK_FRIEND_PROFILE_PICTURES,
   MOCK_HABITS,
   TODOLIST
-} from '@global-user/components/habit/mocks/to-do-list-mock';
-import { TAGLIST } from '@global-user/components/habit/mocks/tags-list-mock';
+} from 'src/app/greencity/modules/user/components/habit/mocks/to-do-list-mock';
+import { TAGLIST } from 'src/app/greencity/modules/user/components/habit/mocks/tags-list-mock';
 import { HttpParams, HttpResponse } from '@angular/common/http';
 
 export function makeCall(habitService: HabitService, criteria: HttpParams) {
