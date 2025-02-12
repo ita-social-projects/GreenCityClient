@@ -14,7 +14,7 @@ import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
+import { FilterOptions, FilterSelect } from '@global-user/models/filter-select.interface';
 
 @Component({
   selector: 'app-filter-select',

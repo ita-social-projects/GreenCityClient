@@ -21,10 +21,10 @@ import { ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.inter
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-drop.component';
-import { SelectImagesComponent } from '@shared/components/select-images/select-images.component';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
-import { TagsSelectComponent } from '@shared/components/tags-select/tags-select.component';
+import { DragAndDropComponent } from 'src/app/greencity/shared/components/drag-and-drop/drag-and-drop.component';
+import { SelectImagesComponent } from 'src/app/greencity/shared/components/select-images/select-images.component';
+import { TagInterface } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
+import { TagsSelectComponent } from 'src/app/greencity/shared/components/tags-select/tags-select.component';
 import { EditorChangeContent, QuillModule } from 'ngx-quill';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { Language } from 'src/app/shared/i18n/Language';

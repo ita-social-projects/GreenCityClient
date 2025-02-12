@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { DistanceFilter, MoreOptionsFormValue } from '../../models/more-options-filter.model';
 import { baseFiltersForPlaces, servicesFiltersForPlaces } from '../../models/places-consts';
 

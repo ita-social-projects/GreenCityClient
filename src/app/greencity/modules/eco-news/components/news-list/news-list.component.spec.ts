@@ -1,4 +1,4 @@
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
@@ -6,7 +6,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NewsListListViewComponent } from './news-list-list-view/news-list-list-view.component';
-import { NewsListGalleryViewComponent } from '@shared/components/news-list-gallery-view/news-list-gallery-view.component';
+import { NewsListGalleryViewComponent } from 'src/app/greencity/shared/components/news-list-gallery-view/news-list-gallery-view.component';
 import { ChangeViewButtonComponent } from './change-view-button/change-view-button.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
-import { CalendarBaseComponent } from '@shared/components';
+import { CalendarBaseComponent } from 'src/app/greencity/shared/components';
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';

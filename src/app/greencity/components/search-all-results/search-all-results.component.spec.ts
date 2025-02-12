@@ -1,4 +1,4 @@
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { FormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';

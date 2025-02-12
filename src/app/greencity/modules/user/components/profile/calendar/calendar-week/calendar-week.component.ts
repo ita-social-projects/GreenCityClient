@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
+import { CalendarBaseComponent } from 'src/app/greencity/shared/components/calendar-base/calendar-base.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';

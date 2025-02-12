@@ -1,4 +1,4 @@
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
+import { TagInterface } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 
 export const FIRSTTAGITEM: TagInterface = {
   id: 1,

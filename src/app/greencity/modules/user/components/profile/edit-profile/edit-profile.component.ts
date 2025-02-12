@@ -16,7 +16,7 @@ import {
 } from 'src/app/greencity/modules/user/models/edit-profile.model';
 import { EditProfileService } from 'src/app/greencity/modules/user/services/edit-profile/edit-profile.service';
 import { TranslateService } from '@ngx-translate/core';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';

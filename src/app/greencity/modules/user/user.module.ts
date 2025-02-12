@@ -37,7 +37,7 @@ import {
   ToDoListComponent
 } from './components';
 
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 import { FirstStringWordPipe } from '@pipe/first-string-word/first-string-word.pipe';

@@ -1,7 +1,7 @@
 import { CalendarWeekComponent } from './calendar-week.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
-import { CalendarBaseComponent } from '@shared/components';
+import { CalendarBaseComponent } from 'src/app/greencity/shared/components';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';

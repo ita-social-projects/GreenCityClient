@@ -1,4 +1,4 @@
-import { FilterSelect } from 'src/app/main/interface/filter-select.interface';
+import { FilterSelect } from '@global-user/models/filter-select.interface';
 
 export const HabitsFiltersList: FilterSelect[] = [
   {

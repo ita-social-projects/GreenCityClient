@@ -16,7 +16,7 @@ import { UBSPersonalInformationComponent } from './components/ubs-personal-infor
 import { UBSSubmitOrderComponent } from './components/ubs-submit-order/ubs-submit-order.component';
 import { AddressComponent } from './components/ubs-personal-information/address/address.component';
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.component';
 import { UbsOrderLocationPopupComponent } from './components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';

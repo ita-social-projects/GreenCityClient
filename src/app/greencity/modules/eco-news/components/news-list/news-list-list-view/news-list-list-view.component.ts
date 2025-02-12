@@ -1,4 +1,4 @@
-import { userAssignedCardsIcons } from 'src/app/main/image-paths/profile-icons';
+import { userAssignedCardsIcons } from 'src/app/greencity/image-paths/profile-icons';
 import {
   Component,
   Input,

@@ -6,7 +6,7 @@ import { FriendStatusValues, UserDataAsFriend } from 'src/app/greencity/modules/
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { WarningPopUpComponent } from '@shared/components';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { Subject, take, takeUntil } from 'rxjs';
 import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal.component';
 import { ChatsService } from 'src/app/chat/service/chats/chats.service';

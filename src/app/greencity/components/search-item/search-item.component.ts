@@ -1,4 +1,4 @@
-import { userAssignedCardsIcons } from '../../../main/image-paths/profile-icons';
+import { userAssignedCardsIcons } from '../../image-paths/profile-icons';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { EventsSearchModel } from '@global-models/search/eventsSearch.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';

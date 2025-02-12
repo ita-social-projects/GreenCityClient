@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { HabitService } from '@global-service/habit/habit.service';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
+import { TagInterface } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { quillConfig } from 'src/app/shared/helpers/quillEditorFunc';
 import { ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.interface';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';

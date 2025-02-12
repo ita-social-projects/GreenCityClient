@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
+import { EditPhotoPopUpComponent } from 'src/app/greencity/shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
 import { ProfileService } from '../../../../services/profile-service/profile.service';
 
 @Component({

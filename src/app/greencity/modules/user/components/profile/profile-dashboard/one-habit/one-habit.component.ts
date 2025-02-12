@@ -11,7 +11,7 @@ import { HabitAssignInterface } from 'src/app/greencity/modules/user/components/
 import { FriendProfilePicturesArrayModel } from 'src/app/greencity/modules/user/models/friend.model';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FriendsListPopUpComponent } from 'src/app/greencity/modules/user/components/shared/components/friends-list-pop-up/friends-list-pop-up.component';
-import { habitImages } from 'src/app/main/image-paths/habits-images';
+import { habitImages } from 'src/app/greencity/image-paths/habits-images';
 
 @Component({
   selector: 'app-one-habit',

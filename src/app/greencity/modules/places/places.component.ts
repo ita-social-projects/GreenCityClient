@@ -25,11 +25,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { tagsListPlacesData } from './models/places-consts';
 import { GoogleScript } from '@assets/google-script/google-script';
 import { ActivatedRoute } from '@angular/router';
-import { initializeSavedState } from '@shared/components/saved-tabs/saved-section-const';
+import { initializeSavedState } from 'src/app/greencity/shared/components/saved-tabs/saved-section-const';
 
 @Component({
   selector: 'app-places',

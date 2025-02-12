@@ -22,10 +22,10 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
-import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
+import { EventsListItemModalComponent } from 'src/app/greencity/shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 import { ofType } from '@ngrx/effects';
 import { ICONS } from '../../models/event-consts';
-import { WarningPopUpComponent } from '@shared/components';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { MetaService } from 'src/app/shared/services/meta/meta.service';
 import { EventStoreService } from '../../services/event-store.service';
 

@@ -5,7 +5,7 @@ import { AddedCommentDTO, CommentsDTO, CommentsModel, dataTypes, PaginationConfi
 import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { WarningPopUpComponent } from '@shared/components';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 
 @Component({

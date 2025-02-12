@@ -13,7 +13,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreatePlaceModel, OpeningHoursDto } from './models/create-place.model';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { tagsListPlacesData } from './models/places-consts';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { ActivatedRoute } from '@angular/router';
 
 const activatedRouteMock = {

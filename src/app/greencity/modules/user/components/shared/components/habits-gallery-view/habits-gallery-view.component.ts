@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HabitInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit.interface';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { habitImages, starIcons } from 'src/app/main/image-paths/habits-images';
+import { habitImages, starIcons } from 'src/app/greencity/image-paths/habits-images';
 import { Observable } from 'rxjs';
 
 @Component({

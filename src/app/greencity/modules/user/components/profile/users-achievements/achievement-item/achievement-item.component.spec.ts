@@ -4,7 +4,7 @@ import { AchievementItemComponent } from './achievement-item.component';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { AchievementCategoryDto } from '@global-models/achievementCategory/achievementCategoryDto.model';
 import { AchievementDto } from '@global-models/achievement/AchievementDto';
-import { PROFILE_IMAGES } from 'src/app/main/image-paths/profile-images';
+import { PROFILE_IMAGES } from 'src/app/greencity/image-paths/profile-images';
 
 describe('AchievementItemComponent', () => {
   let component: AchievementItemComponent;

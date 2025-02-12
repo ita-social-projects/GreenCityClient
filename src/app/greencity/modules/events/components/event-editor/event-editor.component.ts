@@ -6,7 +6,7 @@ import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/ma
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { singleNewsImages } from 'src/app/main/image-paths/single-news-images';
+import { singleNewsImages } from 'src/app/greencity/image-paths/single-news-images';
 import { Place } from '../../../places/models/place';
 import { DefaultCoordinates } from '../../models/event-consts';
 import { EventForm } from '../../models/events.interface';

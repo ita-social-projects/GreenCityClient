@@ -8,9 +8,9 @@ import { HabitAssignService } from '@global-service/habit-assign/habit-assign.se
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ProfileService } from 'src/app/greencity/modules/user/services/profile-service/profile.service';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
-import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
-import { singleNewsImages } from 'src/app/main/image-paths/single-news-images';
+import { TagInterface } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
+import { FilterOptions, FilterSelect } from '@global-user/models/filter-select.interface';
+import { singleNewsImages } from 'src/app/greencity/image-paths/single-news-images';
 import { HabitsFiltersList } from '../models/habits-filters-list';
 import { HabitAssignInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';

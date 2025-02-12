@@ -4,7 +4,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { habitLink } from '../../links';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
+import { TagInterface } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { HabitInterface, HabitListInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit.interface';
 import { ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.interface';

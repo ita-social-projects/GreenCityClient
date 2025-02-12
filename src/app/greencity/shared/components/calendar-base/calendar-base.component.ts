@@ -14,7 +14,7 @@ import {
 import { ItemClass } from './CalendarItemStyleClasses';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { Breakpoints } from 'src/app/main/config/breakpoints.constants';
+import { Breakpoints } from '@shared/components/calendar-base/breakpoints.constants';
 import { HabitAssignInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit-assign.interface';
 import { BaseCalendar } from 'src/app/greencity/modules/user/components/profile/calendar/calendar-week/calendar-week-interface';
 

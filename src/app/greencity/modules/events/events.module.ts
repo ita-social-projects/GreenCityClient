@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { QuillModule } from 'ngx-quill';

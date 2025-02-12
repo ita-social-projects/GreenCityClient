@@ -1,4 +1,4 @@
-import { UserSharedModule } from '../../../greencity/modules/user/components/shared/user-shared.module';
+import { UserSharedModule } from '../modules/user/components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -20,11 +20,11 @@ import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/ma
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 import { NoDataComponent } from './components/no-data/no-data.component';
 import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
-import { CalendarBaseComponent } from '@shared/components';
+import { CalendarBaseComponent } from 'src/app/greencity/shared/components';
 import usLocale from '@angular/common/locales/en';
 import ruLocale from '@angular/common/locales/ru';
 import ukLocale from '@angular/common/locales/uk';
-import { FormBaseComponent } from './components/form-base/form-base.component';
+import { FormBaseComponent } from '../../shared/components/form-base/form-base.component';
 import { HabitsPopupComponent } from 'src/app/greencity/modules/user/components/profile/calendar/habits-popup/habits-popup.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
@@ -32,7 +32,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { EventsListItemModalComponent } from './components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 import { TagsSelectComponent } from './components/tags-select/tags-select.component';
-import { InputErrorComponent } from './components/input-error/input-error.component';
+import { InputErrorComponent } from '../../shared/components/input-error/input-error.component';
 import { SelectImagesComponent } from './components/select-images/select-images.component';
 import { FilterSelectComponent } from './components/filter-select/filter-select.component';
 import { MatOptionModule } from '@angular/material/core';

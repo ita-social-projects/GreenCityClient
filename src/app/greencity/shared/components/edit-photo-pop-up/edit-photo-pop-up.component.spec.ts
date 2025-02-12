@@ -1,8 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UserSharedModule } from 'src/app/greencity/modules/user/components/shared/user-shared.module';
-import { SharedMainModule } from '@shared/shared-main.module';
+import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { EditPhotoPopUpComponent } from '@shared/components';
+import { EditPhotoPopUpComponent } from 'src/app/greencity/shared/components';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';

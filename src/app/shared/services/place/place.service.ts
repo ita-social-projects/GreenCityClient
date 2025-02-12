@@ -7,7 +7,7 @@ import { mainLink, placeLink } from '../../../main/links';
 import { PlaceAddDto } from '../../../main/model/placeAddDto.model';
 import { FilterPlaceService } from '../filtering/filter-place.service';
 import { BulkUpdatePlaceStatus } from '../../../main/model/place/bulk-update-place-status.model';
-import { TagInterface } from '../../../main/component/shared/components/tag-filter/tag-filter.model';
+import { TagInterface } from '../../../greencity/shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { CreatePlaceModel } from 'src/app/greencity/modules/places/models/create-place.model';
 import { FilterPlaceCategories, Place } from 'src/app/greencity/modules/places/models/place';

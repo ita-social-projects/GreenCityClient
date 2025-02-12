@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { WarningPopUpComponent } from '@shared/components';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { of } from 'rxjs';
