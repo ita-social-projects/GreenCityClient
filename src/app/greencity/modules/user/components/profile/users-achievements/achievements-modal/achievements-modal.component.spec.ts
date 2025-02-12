@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateStore } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AchievementsModalComponent } from './achievements-modal.component';
-import { AchievementService } from '@global-service/achievement/achievement.service';
+import { AchievementService } from '@global-user/services/achievement/achievement.service';
 import { ProfileService } from '../../../../services/profile-service/profile.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EditProfileModel } from 'src/app/greencity/modules/user/models/edit-profile.model';

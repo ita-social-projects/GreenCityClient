@@ -1,4 +1,4 @@
-import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
+import { TitleAndMetaTagsService } from './title-meta-tags/title-and-meta-tags.service';
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user/user.service';

@@ -10,7 +10,7 @@ import { HeaderComponent } from './header.component';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
-import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
+import { HabitStatisticService } from 'src/app/shared/services/habit-statistic/habit-statistic.service';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { SearchService } from 'src/app/shared/services/search/search.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';

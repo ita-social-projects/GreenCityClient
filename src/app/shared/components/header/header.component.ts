@@ -7,7 +7,7 @@ import { filter, takeUntil, takeWhile } from 'rxjs/operators';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
-import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
+import { HabitStatisticService } from 'src/app/shared/services/habit-statistic/habit-statistic.service';
 import { SearchService } from 'src/app/shared/services/search/search.service';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { LanguageModel } from 'src/app/shared/models/languageModel';
@@ -15,7 +15,7 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { HeaderService } from '@global-service/header/header.service';
+import { HeaderService } from 'src/app/shared/services/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { UbsPickUpServicePopUpComponent } from '@ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CalendarComponent } from './calendar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 

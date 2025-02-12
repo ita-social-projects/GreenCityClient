@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { NewsDto } from 'src/app/greencity/modules/home/models/NewsDto';
-import { NewsService } from '@global-service/news/news.service';
+import { NewsService } from '@shared/service/news/news.service';
 
 @Component({
   selector: 'app-eco-events',

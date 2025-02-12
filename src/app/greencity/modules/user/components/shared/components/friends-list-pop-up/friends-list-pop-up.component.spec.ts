@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FriendsListPopUpComponent } from './friends-list-pop-up.component';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { of } from 'rxjs';
 import { UserProfileImageComponent } from '../user-profile-image/user-profile-image.component';
 import { RouterTestingModule } from '@angular/router/testing';

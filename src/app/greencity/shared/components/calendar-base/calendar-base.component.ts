@@ -1,7 +1,7 @@
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { Component, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { Subject, Subscription } from 'rxjs';
 import { finalize, takeUntil, take } from 'rxjs/operators';
 import { CalendarInterface } from 'src/app/greencity/modules/user/components/profile/calendar/calendar-interface';

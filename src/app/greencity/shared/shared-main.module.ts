@@ -17,7 +17,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
-import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
+import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
 import { NoDataComponent } from './components/no-data/no-data.component';
 import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
 import { CalendarBaseComponent } from 'src/app/greencity/shared/components';

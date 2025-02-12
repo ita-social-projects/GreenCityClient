@@ -12,7 +12,7 @@ import { Language } from 'src/app/shared/i18n/Language';
 import { TODOLISTITEMONE, TODOLISTITEMTWO } from 'src/app/greencity/modules/user/components/habit/mocks/to-do-list-mock';
 import { TODOLIST } from 'src/app/greencity/modules/user/components/habit/mocks/to-do-list-mock';
 import { ALLUSERTODOLISTS } from 'src/app/greencity/modules/user/components/habit/mocks/to-do-list-mock';
-import { CorrectUnitPipe } from 'src/app/greencity/modules/user/pipes/correct-unit-pipe/correct-unit.pipe';
+import { CorrectUnitPipe } from '@global-user/pipe/correct-unit-pipe/correct-unit.pipe';
 import { TodoStatus } from 'src/app/greencity/modules/user/components/habit/models/todo-status.enum';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 

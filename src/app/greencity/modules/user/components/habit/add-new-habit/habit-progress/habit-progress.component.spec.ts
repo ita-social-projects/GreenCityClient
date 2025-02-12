@@ -1,6 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { HabitProgressComponent } from './habit-progress.component';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';

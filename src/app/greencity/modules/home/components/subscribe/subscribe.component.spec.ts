@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SubscribeComponent } from './subscribe.component';
-import { SubscriptionService } from '@global-service/subscription/subscription.service';
+import { SubscriptionService } from 'src/app/greencity/modules/home/services/subscription/subscription.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';

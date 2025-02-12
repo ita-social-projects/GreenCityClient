@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SubscriptionService } from '@global-service/subscription/subscription.service';
+import { SubscriptionService } from 'src/app/greencity/modules/home/services/subscription/subscription.service';
 import { take } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';

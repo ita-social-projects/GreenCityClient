@@ -16,7 +16,7 @@ import { LocalizedDatePipe } from '@ubs/shared/pipes/localized-date-pipe/localiz
 import { RelativeDatePipe } from 'src/app/shared/pipes/relative-date/relative-date.pipe';
 import { By } from '@angular/platform-browser';
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
-import { HabitService } from '@global-service/habit/habit.service';
+import { HabitService } from '@shared/service/habit/habit.service';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {

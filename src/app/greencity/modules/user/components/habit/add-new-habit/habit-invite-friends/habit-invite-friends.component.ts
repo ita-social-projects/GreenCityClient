@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FriendProfilePicturesArrayModel } from 'src/app/greencity/modules/user/models/friend.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { HabitService } from '@global-service/habit/habit.service';
+import { HabitService } from '@shared/service/habit/habit.service';
 import { HabitInviteFriendsPopUpComponent } from './habit-invite-friends-pop-up/habit-invite-friends-pop-up.component';
 import { FriendsListPopUpComponent } from 'src/app/greencity/modules/user/components/shared/components/friends-list-pop-up/friends-list-pop-up.component';
 

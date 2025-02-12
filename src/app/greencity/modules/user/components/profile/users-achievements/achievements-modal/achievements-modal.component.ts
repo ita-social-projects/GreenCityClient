@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AchievementDto } from '@global-models/achievement/AchievementDto';
-import { AchievementService } from '@global-service/achievement/achievement.service';
+import { AchievementService } from '@global-user/services/achievement/achievement.service';
 import { EditProfileModel } from 'src/app/greencity/modules/user/models/edit-profile.model';
 import { take } from 'rxjs';
 import { ProfileService } from '../../../../services/profile-service/profile.service';

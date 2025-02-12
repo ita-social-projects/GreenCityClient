@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditImagePopUpComponent } from './edit-image-pop-up.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ImageService } from '@global-service/image/image.service';
+import { ImageService } from '@shared/service/image/image.service';
 import { ImageCropperComponent } from 'ngx-image-cropper';
 
 const mockDialogData = {

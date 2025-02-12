@@ -1,4 +1,4 @@
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';

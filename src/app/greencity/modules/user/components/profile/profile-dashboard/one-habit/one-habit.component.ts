@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { HabitService } from '@global-service/habit/habit.service';
+import { HabitService } from '@shared/service/habit/habit.service';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitMark } from 'src/app/greencity/modules/user/components/habit/models/HabitMark.enum';
 import { Subject } from 'rxjs';

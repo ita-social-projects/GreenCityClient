@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { calendarIcons } from 'src/app/greencity/image-paths/calendar-icons';
 import { HabitPopupInterface, HabitPopUpRoutes } from '../habit-popup-interface';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { DatePipe } from '@angular/common';
 import {

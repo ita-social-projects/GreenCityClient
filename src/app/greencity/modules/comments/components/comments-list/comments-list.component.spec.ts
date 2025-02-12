@@ -7,7 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CommentsListComponent } from './comments-list.component';
 import { CommentsService } from '../../services/comments.service';
 import { of } from 'rxjs';
-import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
+import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';

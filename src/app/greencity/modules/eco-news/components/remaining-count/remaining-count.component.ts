@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { WordDeclensionService } from '@global-service/word-declension/word-declension.service';
+import { WordDeclensionService } from '@shared/service/word-declension/word-declension.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileDashboardComponent } from 'src/app/greencity/modules/user/components';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, of } from 'rxjs';

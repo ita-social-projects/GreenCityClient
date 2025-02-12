@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormGroup, Validators } from '@angular/form
 import { GoogleMap } from '@angular/google-maps';
 import { GoogleScript } from '@assets/google-script/google-script';
 import { Patterns } from '@assets/patterns/patterns';
-import { GeocoderService } from '@global-service/geocoder/geocoder.service';
+import { GeocoderService } from 'src/app/greencity/modules/events/services/geocoder/geocoder.service';
 import { Subject, takeUntil } from 'rxjs';
 import { PlaceOnlineGroup } from 'src/app/greencity/modules/events/models/events.interface';
 

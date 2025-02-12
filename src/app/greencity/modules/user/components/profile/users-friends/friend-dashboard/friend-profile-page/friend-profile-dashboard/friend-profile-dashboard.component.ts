@@ -8,7 +8,7 @@ import { UserOnlineStatusService } from 'src/app/greencity/modules/user/services
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HabitInterface, HabitListInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit.interface';
-import { HabitService } from '@global-service/habit/habit.service';
+import { HabitService } from '@shared/service/habit/habit.service';
 
 @Component({
   selector: 'app-friend-profile-dashboard',

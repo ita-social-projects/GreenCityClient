@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FriendItemComponent } from './friend-item.component';
 import { MaxTextLengthPipe } from 'src/app/shared/pipes/max-text-length-pipe/max-text-length.pipe';
-import { CorrectUnitPipe } from 'src/app/greencity/modules/user/pipes/correct-unit-pipe/correct-unit.pipe';
+import { CorrectUnitPipe } from '@global-user/pipe/correct-unit-pipe/correct-unit.pipe';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Language } from 'src/app/shared/i18n/Language';
 import { of, BehaviorSubject } from 'rxjs';

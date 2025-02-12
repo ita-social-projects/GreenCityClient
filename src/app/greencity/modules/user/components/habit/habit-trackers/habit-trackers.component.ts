@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
+import { HabitStatisticService } from 'src/app/shared/services/habit-statistic/habit-statistic.service';
 import { HabitDto } from '@global-models/habit/HabitDto';
 import { Observable } from 'rxjs';
 import { LanguageService } from 'src/app/shared/i18n/language.service';

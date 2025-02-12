@@ -26,7 +26,7 @@ import { ofType } from '@ngrx/effects';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
-import { ImageService } from '@global-service/image/image.service';
+import { ImageService } from '@shared/service/image/image.service';
 import { EVENT_LOCALE, EventLocaleKeys } from '../../../events/models/event-consts';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
 

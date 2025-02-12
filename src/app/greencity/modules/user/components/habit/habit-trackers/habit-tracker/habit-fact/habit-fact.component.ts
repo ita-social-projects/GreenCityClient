@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HabitFactDto } from 'src/app/main/model/habit-fact/HabitFactDto';
-import { HabitFactService } from 'src/app/main/service/habit-fact/habit-fact.service';
+import { HabitFactService } from '@global-user/services/habit-fact/habit-fact.service';
 import { HabitDictionaryDto } from 'src/app/main/model/habit/HabitDictionaryDto';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 

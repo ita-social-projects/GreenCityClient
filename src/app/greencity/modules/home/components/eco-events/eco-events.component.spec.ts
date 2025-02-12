@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { NewsService } from '@global-service/news/news.service';
+import { NewsService } from '@shared/service/news/news.service';
 
 describe('EcoEventsComponent', () => {
   let component: EcoEventsComponent;
