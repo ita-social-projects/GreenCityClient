@@ -38,6 +38,7 @@ import { ValidateAddressDirective } from 'src/app/ubs/ubs/directives/validate-ad
 import { UbsUserAgreementComponent } from './components/ubs-user-agreement/ubs-user-agreement.component';
 import { PhoneNumberTreatPipe } from '@ubs/shared/pipes/phone-number-treat/phone-number-treat.pipe';
 import { UbsSharedModule } from '../shared/ubs-shared.module';
+import { UbsUserGuard } from '@ubs/ubs-user/guards/ubs-user-guard.guard';
 
 @NgModule({
   declarations: [

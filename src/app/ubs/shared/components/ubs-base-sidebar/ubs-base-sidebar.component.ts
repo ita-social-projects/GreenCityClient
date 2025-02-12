@@ -53,7 +53,7 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
 
   navigateToPage(event: Event, routerLink: string): void {
     event.stopPropagation();
-    const mainLink = this.isAdmin ? 'ubs-admin' : 'ubs-user';
+    const mainLink = this.isAdmin ? 'ubs/admin' : 'ubs/user';
     this.router.navigate([mainLink, ...routerLink.split('/')]);
   }
 

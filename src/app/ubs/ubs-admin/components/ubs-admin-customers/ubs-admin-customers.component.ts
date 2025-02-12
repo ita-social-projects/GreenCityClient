@@ -455,16 +455,16 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   private openCustomer(row, username): void {
     this.localStorageService.setCustomer(row);
-    this.router.navigate(['ubs-admin', 'customers', `${username.replaceAll(' ', '')}`]);
+    this.router.navigate(['ubs/admin', 'customers', `${username.replaceAll(' ', '')}`]);
   }
 
   private openOrders(user): void {
-    this.router.navigate(['ubs-admin', 'customerOrders', `${user.userId}`]);
+    this.router.navigate(['ubs/admin', 'customerOrders', `${user.userId}`]);
   }
 
   private openViolations(user): void {
     if (user.violations) {
-      this.router.navigate(['ubs-admin', 'customerViolations', `${user.userId}`]);
+      this.router.navigate(['ubs/admin', 'customerViolations', `${user.userId}`]);
     }
   }
 

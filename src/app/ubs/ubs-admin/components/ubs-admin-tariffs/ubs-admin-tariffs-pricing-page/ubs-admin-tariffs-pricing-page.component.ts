@@ -308,7 +308,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   navigateToBack(): void {
-    this.router.navigate([`ubs-admin/tariffs`]);
+    this.router.navigate([`ubs/admin/tariffs`]);
   }
 
   openAddTariffForServicePopup(): void {

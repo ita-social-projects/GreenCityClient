@@ -543,7 +543,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     if (className === 'tariff-img mr-3') {
       return;
     }
-    this.router.navigate([`ubs-admin/tariffs/location/${cardID}`]);
+    this.router.navigate([`ubs/admin/tariffs/location/${cardID}`]);
   }
 
   getCouriers(): void {

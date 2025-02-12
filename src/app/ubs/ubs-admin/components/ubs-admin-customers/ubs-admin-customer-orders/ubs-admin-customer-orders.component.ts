@@ -105,7 +105,7 @@ export class UbsAdminCustomerOrdersComponent implements OnInit, AfterViewChecked
   }
 
   goBack(): void {
-    this.router.navigate(['ubs-admin', 'customers']);
+    this.router.navigate(['ubs/admin', 'customers']);
   }
 
   private setDisplayedColumns() {
@@ -117,7 +117,7 @@ export class UbsAdminCustomerOrdersComponent implements OnInit, AfterViewChecked
 
   openOrder(id: number): void {
     this.router.navigate([]).then((result) => {
-      window.open(`/GreenCityClient/#/ubs-admin/order/${id}`, '_blank');
+      window.open(`/GreenCityClient/#/ubs/admin/order/${id}`, '_blank');
     });
   }
 

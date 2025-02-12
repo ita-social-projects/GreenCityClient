@@ -32,7 +32,7 @@ const ubsRoutes: Routes = [
       { path: `notification/confirm/:orderId`, component: UbsSubmitOrderNotificationComponent, canActivate: [AuthPageGuardService] },
       { path: 'auth/restore', component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard] },
       { path: 'auth/unblock', component: UnblockAccountComponent },
-      { path: 'ubs/order/:isThisExistingOrder', component: UBSOrderDetailsComponent },
+      { path: 'order/:isThisExistingOrder', component: UBSOrderDetailsComponent },
       { path: 'user-agreement', component: UbsUserAgreementComponent },
       {
         path: 'admin',

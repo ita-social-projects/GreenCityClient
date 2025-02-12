@@ -82,9 +82,9 @@ export class AuthEffects {
           let redirectUrl = [];
 
           if (role === 'ROLE_UBS_EMPLOYEE') {
-            redirectUrl = ['ubs-admin', 'orders'];
+            redirectUrl = ['ubs/admin', 'orders'];
           } else {
-            redirectUrl = isUBS ? ['ubs'] : ['profile', action.data.userId];
+            redirectUrl = isUBS ? ['ubs'] : ['greenCity/profile', action.data.userId];
           }
 
           this.router.navigate(redirectUrl ?? ['ubs']);

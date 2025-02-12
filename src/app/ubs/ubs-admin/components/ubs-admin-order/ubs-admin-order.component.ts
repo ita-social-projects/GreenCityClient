@@ -334,7 +334,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   goBack(): void {
-    this.router.navigate(['ubs-admin', 'orders']);
+    this.router.navigate(['ubs/admin', 'orders']);
   }
 
   @HostListener('window:beforeunload')

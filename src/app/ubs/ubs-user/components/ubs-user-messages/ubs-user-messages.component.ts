@@ -116,7 +116,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   }
 
   onTableDataChange(event) {
-    this.router.navigate(['/ubs-user/messages/' + event]);
+    this.router.navigate(['/ubs/user/messages/' + event]);
   }
 
   openImg(index: number): void {

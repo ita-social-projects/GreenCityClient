@@ -14,7 +14,7 @@ export const NonAdminGuard: CanActivateFn = (route, state) => {
   return store.pipe(
     select(userRoleSelector),
     take(1),
-    tap((userRole) => userRole === adminRoleValue && router.navigate(['/ubs-admin/orders'])),
+    tap((userRole) => userRole === adminRoleValue && router.navigate(['/ubs/admin/orders'])),
     map((userRole) => userRole !== adminRoleValue)
   );
 };
