@@ -12,13 +12,12 @@ export const routes: Routes = [
     children: [
       {
         path: 'ubs',
-        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule),
-        canActivate: [NonAdminGuard]
+        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
       },
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'greenCity'
+        redirectTo: 'ubs'
       },
       {
         path: 'greenCity',

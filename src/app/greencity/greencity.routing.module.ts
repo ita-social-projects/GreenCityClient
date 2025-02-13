@@ -13,7 +13,8 @@ const greencityRoutes: Routes = [
     children: [
       {
         path: '',
-        component: HomepageComponent
+        component: HomepageComponent,
+        canActivate: [NonAdminGuard]
       },
       {
         path: 'about',

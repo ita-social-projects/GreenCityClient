@@ -49,7 +49,6 @@ export class InterceptorService implements HttpInterceptor {
    * @param next - {@link HttpHandler}
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('interceptor');
     if (!window.navigator.onLine) {
       // if there is no internet, open Error Window
       return next.handle(req).pipe(

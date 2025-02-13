@@ -14,7 +14,6 @@ export const UbsAdminGuard: CanActivateFn = (route, state) => {
   const adminRoleValue: TUserRole = 'ROLE_UBS_EMPLOYEE';
 
   if (!localStorageService.getAccessToken()) {
-    console.log('admin-g', route['path']);
     if (route['path'].includes('ubs')) {
       return router.createUrlTree(['/ubs']);
     } else {
