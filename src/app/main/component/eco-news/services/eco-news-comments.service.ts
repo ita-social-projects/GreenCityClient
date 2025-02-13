@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { CommentsService } from '../../comments/services/comments.service';
@@ -22,7 +22,14 @@ export class EcoNewsCommentsService implements CommentsService {
     const entityUrl = `${this.backEnd}eco-news/${formData.entityId}/comments`;
     return this.commentService.addCommentByEntityId(entityUrl, formData);
   }
-
+  postDislike(commentId: number): Observable<void> {
+    return this.http.post<void>(`${this.backEnd}/comments/${commentId}/dislike`, {}).pipe(
+      catchError((error) => {
+        console.error('Failed to post dislike:', error);
+        return throwError(() => error);
+      })
+    );
+  }
   getActiveCommentsByPage(ecoNewsId: number, page: number, size: number): Observable<CommentsModel> {
     return this.http.get<CommentsModel>(
       `${this.backEnd}eco-news/${ecoNewsId}/comments/active?statuses=ORIGINAL,EDITED&page=${page}&size=${size}`
