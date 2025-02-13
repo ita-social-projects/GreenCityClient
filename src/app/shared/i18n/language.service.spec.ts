@@ -103,8 +103,7 @@ describe('LanguageService', () => {
   it('getLanguageId should return the value', () => {
     service.synqLanguageArr = [
       { id: 111, code: 'ua' },
-      { id: 222, code: 'en' },
-      { id: 333, code: 'ru' }
+      { id: 222, code: 'en' }
     ];
     const spy = service.getLanguageId(Language.UA);
     expect(spy).toBe(111);

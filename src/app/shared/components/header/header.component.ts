@@ -230,10 +230,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private setLangArr(): void {
     this.updateArrayLang();
     let mainLang = null;
-    if (this.isUBS && this.currentLanguage === Language.RU) {
-      this.languageService.changeCurrentLanguage(Language.UA.toLowerCase() as Language);
-      this.currentLanguage = this.localeStorageService.getCurrentLanguage();
-    }
 
     this.arrayLang.forEach((item, i, arr) => {
       if (arr[i].lang.toLowerCase() === this.currentLanguage) {

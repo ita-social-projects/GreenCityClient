@@ -22,7 +22,6 @@ import { NoDataComponent } from './components/no-data/no-data.component';
 import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
 import { CalendarBaseComponent } from 'src/app/greencity/shared/components';
 import usLocale from '@angular/common/locales/en';
-import ruLocale from '@angular/common/locales/ru';
 import ukLocale from '@angular/common/locales/uk';
 import { FormBaseComponent } from '../../shared/components/form-base/form-base.component';
 import { HabitsPopupComponent } from 'src/app/greencity/modules/user/components/profile/calendar/habits-popup/habits-popup.component';
@@ -47,7 +46,6 @@ import { SavedSectionComponent } from './components/saved-tabs/saved-section.com
 import { DragAndDropDirective } from 'src/app/greencity/modules/eco-news/directives/drag-and-drop.directive';
 
 registerLocaleData(usLocale, 'en');
-registerLocaleData(ruLocale, 'ru');
 registerLocaleData(ukLocale, 'ua');
 
 @NgModule({

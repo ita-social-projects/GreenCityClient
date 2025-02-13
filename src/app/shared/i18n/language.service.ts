@@ -23,8 +23,7 @@ export class LanguageService {
   isLoggedIn = false;
   synqLanguageArr: LanguageId[] = [
     { id: 1, code: 'ua' },
-    { id: 2, code: 'en' },
-    { id: 3, code: 'ru' }
+    { id: 2, code: 'en' }
   ];
 
   private languageMap: { [key: string]: Language } = {
@@ -66,20 +65,6 @@ export class LanguageService {
       'october',
       'november',
       'december'
-    ]);
-    this.monthMap.set(Language.RU, [
-      'января',
-      'февраля',
-      'марта',
-      'апреля',
-      'мая',
-      'июня',
-      'июля',
-      'августа',
-      'сентября',
-      'октября',
-      'ноября',
-      'декабря'
     ]);
   }
 
