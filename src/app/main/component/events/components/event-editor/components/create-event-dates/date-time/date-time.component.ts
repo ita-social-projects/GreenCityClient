@@ -178,15 +178,26 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
 
   toggleAllDay(): void {
     if (this.allDay.value) {
-      this.prevTimeValue = [this.startDate.value.getTime(), this.finishDate.value.getTime()];
-      this.startDate.setValue(this.startOptionsArr[0]);
-      this.finishDate.setValue(this.endOptionsArr[this.endOptionsArr.length - 1]);
+      this.prevTimeValue = [this.startTime.value, this.finishTime.value];
+      this.startTime.setValue(this.startOptionsArr[0]);
+      this.finishTime.setValue(this.endOptionsArr[this.endOptionsArr.length - 1]);
+      this.setTimeForDate(this.startOptionsArr[0], 'start');
+      this.setTimeForDate(this.endOptionsArr[this.endOptionsArr.length - 1], 'end');
     } else {
-      this.startDate.setValue(this.prevTimeValue[0]);
-      this.finishDate.setValue(this.prevTimeValue[1]);
+      this.startTime.setValue(this.prevTimeValue[0]);
+      this.finishTime.setValue(this.prevTimeValue[1]);
+      this.setTimeForDate(this.prevTimeValue[0], 'start');
+      this.setTimeForDate(this.prevTimeValue[1], 'end');
     }
   }
 
+  private setTimeForDate(time: string, type: 'start' | 'end'): void {
+    const [hour, minute] = time.split(':').map(Number);
+    const currentDate = new Date(this.day.value);
+    const control = type === 'start' ? this.startDate : this.finishDate;
+    currentDate.setHours(hour, minute, 0, 0);
+    control.setValue(currentDate, { emitEvent: false });
+  }
   private _fillTimeArray(): void {
     const timeArr = [];
     for (let hour = 0; hour < 24; hour++) {
@@ -219,23 +230,17 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
       }
 
       if (value.length === 5) {
-        const [hours, minutes] = value.split(':').map(Number);
-
         if (type === 'start') {
           if (value >= initialStartTime && (endTime === null || value < endTime)) {
             this.endOptionsArr = this._timeArr.slice(this._timeArr.indexOf(value) + 1);
-            const currentStartDate = new Date(this.startDate.value);
-            currentStartDate.setHours(hours, minutes, 0, 0);
-            this.startDate.setValue(currentStartDate, { emitEvent: false });
+            this.setTimeForDate(value, 'start');
           } else {
             this.startTime.setValue('', { emitEvent: false });
           }
         } else {
           if (value > initialStartTime && (startTime === null || value > startTime)) {
             this.startOptionsArr = this._timeArr.slice(this._timeArr.indexOf(this.initialStartTime), this._timeArr.indexOf(value));
-            const currentFinishDate = new Date(this.finishDate.value);
-            currentFinishDate.setHours(hours, minutes, 0, 0);
-            this.finishDate.setValue(currentFinishDate, { emitEvent: false });
+            this.setTimeForDate(value, 'end');
           } else {
             this.finishTime.setValue('', { emitEvent: false });
           }

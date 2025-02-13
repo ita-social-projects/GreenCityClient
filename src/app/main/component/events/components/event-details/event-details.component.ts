@@ -1,33 +1,31 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { take, takeUntil } from 'rxjs/operators';
+import { WarningPopUpComponent } from '@shared/components';
+import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 import {
   AddAttenderEcoEventsByIdAction,
-  CreateEcoEventAction,
   DeleteEcoEventAction,
-  EditEcoEventAction,
   EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
-import { EventAttender, EventForm, EventResponse, LocationResponse, NewEvent, PagePreviewDTO } from '../../models/events.interface';
-import { EventsService } from '../../services/events.service';
-import { JwtService } from '@global-service/jwt/jwt.service';
-import { Subject } from 'rxjs';
-import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
-import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
-import { ofType } from '@ngrx/effects';
+import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { ICONS } from '../../models/event-consts';
-import { WarningPopUpComponent } from '@shared/components';
-import { MetaService } from 'src/app/shared/services/meta/meta.service';
+import { EventAttender, EventForm, NewEvent, PlaceOnline } from '../../models/events.interface';
 import { EventStoreService } from '../../services/event-store.service';
+import { EventsService } from '../../services/events.service';
 
 @Component({
   selector: 'app-event-details',
@@ -54,7 +52,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   event: NewEvent;
   eventForm: EventForm;
   locationLink: string;
-  locationCoordinates: LocationResponse;
+  locationCoordinates: PlaceOnline;
   place: string;
   images: string[] = [];
   isPosting: boolean;
@@ -187,7 +185,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   setGoogleMapLink(): void {
     const coords = this.event.dates[0].coordinates;
-    this.googleMapLink = `https://www.google.com.ua/maps/@${coords.longitude},${coords.latitude}`;
+    if (coords) {
+      this.googleMapLink = `https://www.google.com.ua/maps/@${coords.longitude},${coords.latitude}`;
+    }
   }
 
   bindUserName(): void {

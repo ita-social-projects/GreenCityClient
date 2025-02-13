@@ -1,11 +1,23 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function quillEditorValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const value = control.value as string;
-    if (!value) {
-      return null;
-    }
-    return value.length >= 20 ? null : { enoughCharacters: false };
-  };
+export function customTextValidator(control: AbstractControl): ValidationErrors | null {
+  if (!control.value) {
+    return { invalid: true };
+  }
+  const value = control.value.replace('<p>', '').replace('</p>', '');
+  console.log(value !== value.trim());
+  if (value.trim() !== value) {
+    return { invalid: true };
+  }
+
+  if (/\s{3,}/.test(value)) {
+    return { invalid: true };
+  }
+
+  const characterCount = value.replace(/\s+/g, '').length;
+  if (characterCount < 10) {
+    return { invalid: true };
+  }
+
+  return null;
 }

@@ -1,30 +1,25 @@
-import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from '@environment/environment';
-import { DefaultCoordinates } from '../models/event-consts';
+import { Observable, ReplaySubject } from 'rxjs';
 
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import {
   Addresses,
-  DateInformation,
-  Dates,
   EventAttender,
-  EventDTO,
   EventForm,
   EventResponse,
   EventResponseDto,
   LocationResponse,
   NewEvent,
-  PagePreviewDTO
+  PlaceOnline
 } from '../models/events.interface';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService implements OnDestroy {
-  currentForm: PagePreviewDTO | EventResponse;
+  currentForm: EventResponse;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private divider = `, `;
@@ -61,7 +56,7 @@ export class EventsService implements OnDestroy {
   }
 
   createEvent(formData: FormData): Observable<EventResponse> {
-    return this.http.post<EventResponse>(`${this.backEnd}events`, formData);
+    return this.http.post<EventResponse>(`${this.backEnd}events/createV2`, formData);
   }
 
   editEvent(formData: FormData, eventId: number): Observable<EventResponse> {
@@ -116,7 +111,7 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventAttender[]>(`${this.backEnd}events/${eventId}/attenders`);
   }
 
-  getFormattedAddress(coordinates: LocationResponse): string {
+  getFormattedAddress(coordinates: PlaceOnline): string {
     return this.langService.getLangValue(
       coordinates?.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUa,
       coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
@@ -134,7 +129,7 @@ export class EventsService implements OnDestroy {
     );
   }
 
-  createAddresses(location: LocationResponse | null, lang: string): string {
+  createAddresses(location: PlaceOnline | null, lang: string): string {
     if (!location) {
       return '';
     }

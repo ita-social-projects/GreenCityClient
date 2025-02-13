@@ -5,9 +5,8 @@ export type FormControllers<T> = {
   [K in keyof T]: FormControl<T[K]>;
 };
 
-export interface NewEvent {
+export interface NewEvent extends EventForm {
   id?: number;
-  eventInformation: EventInformation;
   organizer?: {
     id: number;
     name: string;
@@ -15,9 +14,6 @@ export interface NewEvent {
     email: string;
   };
   creationDate?: string;
-  dates: Array<DateInformation>;
-  titleImage?: string;
-  additionalImages?: Array<string>;
   type?: string;
   isRelevant?: boolean;
   likes?: number;
@@ -29,7 +25,6 @@ export interface NewEvent {
   isSubscribed?: boolean;
   isFavorite?: boolean;
   isOrganizedByFriend?: boolean;
-  images: Array<any>;
 }
 
 export interface EventForm {
@@ -58,19 +53,19 @@ export interface DateInformation {
 }
 
 export interface PlaceOnline {
-  latitude: number;
-  longitude: number;
-  streetEn: string;
-  streetUa: string;
-  houseNumber: string;
-  cityEn: string;
-  cityUa: string;
-  regionEn: string;
-  regionUa: string;
-  countryEn: string;
-  countryUa: string;
-  formattedAddressEn: string;
-  formattedAddressUa: string;
+  latitude?: number;
+  longitude?: number;
+  streetEn?: string;
+  streetUa?: string;
+  houseNumber?: string;
+  cityEn?: string;
+  cityUa?: string;
+  regionEn?: string;
+  regionUa?: string;
+  countryEn?: string;
+  countryUa?: string;
+  formattedAddressEn?: string;
+  formattedAddressUa?: string;
 }
 export interface ImagesContainer {
   file: File;
@@ -96,36 +91,6 @@ export interface EventInformation {
 export interface EventAttender {
   name: string;
   imagePath: string;
-}
-export interface EventDTO {
-  title: string;
-  description: string;
-  open: boolean;
-  datesLocations: Array<Dates>;
-  tags: Array<string>;
-  imagesToDelete?: Array<string>;
-  additionalImages?: Array<string>;
-  id?: number;
-  organizer?: {
-    id: number;
-    name: string;
-  };
-  titleImage?: string;
-}
-
-export interface Dates {
-  startDate: string;
-  finishDate: string;
-  coordinates?: {
-    cityUa?: 'cityUa';
-    cityEn?: 'cityEn';
-    addressEn?: string;
-    addressUa?: string;
-    latitude: number;
-    longitude: number;
-  } | null;
-  onlineLink?: string;
-  id?: number;
 }
 
 export interface EventResponseDto {
@@ -204,23 +169,6 @@ export interface TagObj {
   nameUa: string;
   nameEn: string;
   isActive: boolean;
-}
-
-export interface PagePreviewDTO {
-  title: string;
-  description: string;
-  eventDuration: number;
-  open: boolean;
-  isRelevant?: boolean;
-  id?: number;
-  likes?: number;
-  editorText: string;
-  organizer?: OrganizerInfo;
-  dates: Dates[];
-  tags: any;
-  imgArray: any[];
-  imgArrayToPreview: any[];
-  location: string;
 }
 
 export interface EventFilterCriteriaInterface {
