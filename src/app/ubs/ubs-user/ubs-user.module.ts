@@ -32,7 +32,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UbsSwitcherComponent } from './components/ubs-user-profile-page/ubs-switcher/ubs-switcher.component';
 import { UbsSharedModule } from '../shared/ubs-shared.module';
-// import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
   declarations: [
@@ -59,7 +58,6 @@ import { UbsSharedModule } from '../shared/ubs-shared.module';
     MatTabsModule,
     FormsModule,
     ReactiveFormsModule,
-    // GooglePlaceModule,
     FormsModule,
     NgxPaginationModule,
     InfiniteScrollModule,

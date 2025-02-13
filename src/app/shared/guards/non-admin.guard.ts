@@ -17,33 +17,3 @@ export const NonAdminGuard: CanActivateFn = (route, state) => {
     map((userRole) => userRole !== adminRoleValue)
   );
 };
-
-// export const NonAdminGuard: CanActivateFn = (route, state) => {
-//   const store: Store = inject(Store);
-//   const router: Router = inject(Router);
-
-//   const adminRoleValue: TUserRole = 'ROLE_UBS_EMPLOYEE';
-
-//   // Log the route and state when the guard is activated
-//   console.log('NonAdminGuard activated');
-//   console.log('Route:', route);
-//   console.log('State:', state);
-
-//   return store.pipe(
-//     select(userRoleSelector),
-//     take(1),
-//     tap((userRole) => {
-//       console.log('Retrieved user role:', userRole);
-
-//       if (userRole === adminRoleValue) {
-//         console.log('User has admin role. Redirecting to /ubs/admin/orders');
-//         router.navigate(['/ubs/admin/orders']);
-//       }
-//     }),
-//     map((userRole) => {
-//       const canActivate = userRole !== adminRoleValue;
-//       console.log('Can activate (non-admin):', canActivate);
-//       return canActivate;
-//     })
-//   );
-// };

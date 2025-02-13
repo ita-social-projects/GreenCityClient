@@ -15,6 +15,7 @@ import { UbsUserAgreementComponent } from '@ubs/ubs/components/ubs-user-agreemen
 import { UnblockAccountComponent } from '@global-auth/unblock-account/unblock-account.component';
 import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
 import { UbsUserGuard } from '@ubs/ubs-user/guards/ubs-user-guard.guard';
+import { NonAdminGuard } from 'src/app/shared/guards/non-admin.guard';
 
 const ubsRoutes: Routes = [
   {
@@ -25,15 +26,39 @@ const ubsRoutes: Routes = [
       {
         path: 'order',
         component: UBSOrderFormComponent,
-        canActivate: [AuthPageGuardService],
+        canActivate: [AuthPageGuardService, NonAdminGuard],
         canDeactivate: [PreventNavigationBackGuard, stepperGuard]
       },
-      { path: 'confirm', component: UbsConfirmPageComponent, canActivate: [AuthPageGuardService] },
-      { path: `notification/confirm/:orderId`, component: UbsSubmitOrderNotificationComponent, canActivate: [AuthPageGuardService] },
-      { path: 'auth/restore', component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard] },
-      { path: 'auth/unblock', component: UnblockAccountComponent },
-      { path: 'order/:isThisExistingOrder', component: UBSOrderDetailsComponent },
-      { path: 'user-agreement', component: UbsUserAgreementComponent },
+      {
+        path: 'confirm',
+        component: UbsConfirmPageComponent,
+        canActivate: [AuthPageGuardService, NonAdminGuard]
+      },
+      {
+        path: `notification/confirm/:orderId`,
+        component: UbsSubmitOrderNotificationComponent,
+        canActivate: [AuthPageGuardService, NonAdminGuard]
+      },
+      {
+        path: 'auth/restore',
+        component: ConfirmRestorePasswordComponent,
+        canActivate: [ConfirmRestorePasswordGuard, NonAdminGuard]
+      },
+      {
+        path: 'auth/unblock',
+        component: UnblockAccountComponent,
+        canActivate: [NonAdminGuard]
+      },
+      {
+        path: 'order/:isThisExistingOrder',
+        component: UBSOrderDetailsComponent,
+        canActivate: [NonAdminGuard]
+      },
+      {
+        path: 'user-agreement',
+        component: UbsUserAgreementComponent,
+        canActivate: [NonAdminGuard]
+      },
       {
         path: 'admin',
         loadChildren: () => import('../ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule),
