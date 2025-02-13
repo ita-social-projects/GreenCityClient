@@ -17,10 +17,9 @@ export class CreateEventInformationComponent implements OnInit {
   isQuillUnfilled = false;
   quillLength = 0;
   quillModules = quillConfig;
-  imgArray: string[] = [];
   @Input() eventInfForm: FormGroup;
   @Input() imagesArray: FormArray;
-  minLength = 20;
+  minLength = 10;
   maxLength = 63206;
   titleLength: string;
   protected readonly EVENT_LOCALE = EVENT_LOCALE;
@@ -30,10 +29,6 @@ export class CreateEventInformationComponent implements OnInit {
     protected router: Router
   ) {}
 
-  get images(): ImagesContainer[] {
-    return this.imagesArray.value;
-  }
-
   ngOnInit() {
     this.eventInfForm.get('title').valueChanges.subscribe((value) => {
       this.titleLength = value.length + ' / ' + 70;
@@ -41,7 +36,7 @@ export class CreateEventInformationComponent implements OnInit {
   }
 
   quillContentChanged(content: ContentChange): void {
-    this.quillLength = content.text.length - 1;
+    this.quillLength = content.text.replace(/\s+/g, '').length;
     this.isQuillUnfilled = this.quillLength < this.minLength;
   }
 
@@ -69,9 +64,5 @@ export class CreateEventInformationComponent implements OnInit {
 
   getLocale(localeKey: EventLocaleKeys): string {
     return EVENT_LOCALE[localeKey][this.localStorageService.getCurrentLanguage()];
-  }
-
-  setImagesUrlArray(value: ImagesContainer[]): void {
-    this.eventInfForm.controls.images.setValue(value);
   }
 }

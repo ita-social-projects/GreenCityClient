@@ -7,6 +7,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import moment from 'moment';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
@@ -15,23 +16,11 @@ import { take } from 'rxjs/operators';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { Place } from '../../../places/models/place';
-import { DefaultCoordinates } from '../../models/event-consts';
-import {
-  DateInformation,
-  Dates,
-  EventDTO,
-  EventForm,
-  EventInformation,
-  EventResponse,
-  FormControllers,
-  NewEvent,
-  TagObj
-} from '../../models/events.interface';
+import { DateInformation, FormControllers, NewEvent } from '../../models/events.interface';
 import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 import { quillConfig } from './quillEditorFunc';
-import moment from 'moment';
+import { customTextValidator } from './validators/quillEditorValidator';
 
 @Component({
   selector: 'app-event-editor',
@@ -43,12 +32,10 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   @Input() cancelChanges: boolean;
   @Input({ required: true }) eventId: number;
   quillModules = {};
-  places: Place[] = [];
   isPosting: boolean;
   isFetching: boolean;
   isAuthor: boolean;
   authorId: number;
-  tags: Array<TagObj>;
   images = singleNewsImages;
   submitButtonName = 'create-event.publish';
   subscription: Subscription;
@@ -155,8 +142,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
                 maxDate: [null],
                 coordinates: [
                   {
-                    latitude: DefaultCoordinates.LATITUDE,
-                    longitude: DefaultCoordinates.LONGITUDE,
+                    latitude: '',
+                    longitude: '',
                     streetEn: '',
                     streetUa: '',
                     houseNumber: '',
@@ -202,16 +189,23 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     this.eventForm = this.fb.group({
       eventInformation: this.fb.group({
         title: [information?.title ?? '', [Validators.required, Validators.maxLength(70)]],
-        description: [information?.description ?? '', [Validators.required, Validators.minLength(20)]],
+        description: [information?.description ?? '', [Validators.required, customTextValidator]],
         open: [information?.open ?? true, Validators.required],
         duration: [information?.duration ?? 1, Validators.required],
         tags: [information?.tags ?? [], [Validators.required, Validators.minLength(1)]]
       }),
       images: this.fb.array([]),
-      dates: this.fb.array(date.length > 0 ? date.map((date) => this.createDateFormGroup(date)) : [this.createDateFormGroup()]),
-      titleImage: [this.event?.titleImage ?? undefined],
-      additionalImages: [this.event?.additionalImages ?? undefined]
+      dates: this.fb.array(date.length > 0 ? date.map((date) => this.createDateFormGroup(date)) : [this.createDateFormGroup()])
     });
+
+    if (this.event?.titleImage) {
+      this.imagesArray.push(new FormControl({ file: null, main: true, url: this.event.titleImage }));
+    }
+    if (this.event?.additionalImages) {
+      this.event.additionalImages.forEach((additionalImage) =>
+        this.imagesArray.push(new FormControl({ file: null, main: false, url: additionalImage }))
+      );
+    }
   }
 
   private createDateFormGroup(date?: DateInformation): FormGroup<FormControllers<DateInformation>> {
@@ -226,8 +220,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       maxDate: [date?.maxDate ? new Date(date.maxDate) : null],
       coordinates: [
         date?.coordinates ?? {
-          latitude: DefaultCoordinates.LATITUDE,
-          longitude: DefaultCoordinates.LONGITUDE,
+          latitude: null,
+          longitude: null,
           streetEn: '',
           streetUa: '',
           houseNumber: '',
@@ -263,40 +257,40 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   submitEvent(): void {
-    // const { eventInformation, dateInformation } = this.eventForm.value;
-    // const { open, tags, description, title, images } = eventInformation;
-    // const dates: Dates[] = this.transformDatesFormToDates(dateInformation);
-    // let sendEventDto: EventDTO = {
-    //   title,
-    //   description: description,
-    //   open,
-    //   tags,
-    //   datesLocations: dates
-    // };
-    // if (this.isUpdating) {
-    //   if (!this.eventId) {
-    //     const urlSegments = this.router.url.split('/');
-    //     this.eventId = Number(urlSegments[urlSegments.length - 1]);
-    //   }
-    //   const currentImages = (images || []).filter((value) => !value.file).map((value) => value.url);
-    //   sendEventDto = {
-    //     ...sendEventDto,
-    //     additionalImages: currentImages.slice(1),
-    //     id: this.eventId,
-    //     titleImage: currentImages[0]
-    //   };
-    // }
-    // const formData: FormData = new FormData();
-    // const stringifyDataToSend = JSON.stringify(sendEventDto);
-    // const dtoName = this.isUpdating ? 'eventDto' : 'addEventDtoRequest';
-    // formData.append(dtoName, stringifyDataToSend);
-    // images.forEach((item) => {
-    //   if (item.file) {
-    //     formData.append('images', item.file);
-    //   }
-    // });
-    // const formData = this.eventsService.prepareEventForSubmit(this.eventForm.value, this.eventId, this.isUpdating);
-    // this.createEvent(formData);
+    let sendEventDto = {
+      ...this.eventInformation.value,
+      datesLocations: this.eventDateForm.value.map((item) => {
+        if (!item.coordinates.latitude && !item.coordinates.longitude) {
+          delete item.coordinates;
+        }
+        if (!item.onlineLink) {
+          delete item.onlineLink;
+        }
+        return item;
+      })
+    };
+
+    //TODO:
+    if (this.isUpdating) {
+      const currentImages = (this.imagesArray.value || []).filter((value) => !value.file).map((value) => value.url);
+      sendEventDto = {
+        additionalImages: currentImages.slice(1),
+        id: this.eventId,
+        titleImage: currentImages[0]
+      };
+    }
+
+    const formData: FormData = new FormData();
+    const stringifyDataToSend = JSON.stringify(sendEventDto);
+    const dtoName = this.isUpdating ? 'eventDto' : 'addEventDtoRequest';
+    formData.append(dtoName, stringifyDataToSend);
+    this.imagesArray.value.forEach((item) => {
+      if (item.file) {
+        formData.append('images', item.file);
+      }
+    });
+
+    this.createEvent(formData);
   }
 
   clear(): void {
