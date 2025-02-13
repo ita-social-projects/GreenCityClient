@@ -470,7 +470,7 @@ describe('UbsAdminPricingPageComponent', () => {
   it('navigate to tariffs page', () => {
     const spy = spyOn(router, 'navigate');
     component.navigateToBack();
-    expect(spy).toHaveBeenCalledWith(['ubs-admin/tariffs']);
+    expect(spy).toHaveBeenCalledWith(['ubs/admin/tariffs']);
   });
 
   it('should call openAddTariffForServicePopup', () => {
