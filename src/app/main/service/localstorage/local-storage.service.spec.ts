@@ -11,15 +11,21 @@ describe('LocalStorageService', () => {
   const ACCESS_TOKEN = 'accessToken';
 
   const mockEvent: EventResponse = {
-    additionalImages: ['image1.jpg', 'image2.jpg'],
+    description: 'tralalalal',
+    additionalImages: [],
     creationDate: '2022-05-31',
+    tags: [
+      { id: 1, nameUa: 'Соціальний', nameEn: 'Social' },
+      { id: 13, nameUa: 'Екологічний', nameEn: 'Environmental' },
+      { id: 14, nameUa: 'Економічний', nameEn: 'Economic' }
+    ],
     dates: [
       {
         coordinates: {
           latitude: 0,
           longitude: 0,
-          cityEn: 'cityUa',
-          cityUa: 'cityEn',
+          cityEn: 'Lviv',
+          cityUa: 'Львів',
           countryEn: 'Ukraine',
           countryUa: 'Україна',
           houseNumber: '55',
@@ -27,32 +33,27 @@ describe('LocalStorageService', () => {
           regionUa: 'Львівська область',
           streetEn: 'Svobody Ave',
           streetUa: 'Свободи',
-          formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-          formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
+          formattedAddressEn: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine',
+          formattedAddressUa: 'Свободи, 55, Львів, Львівська область, Україна'
         },
-        event: null,
-        finishDate: 'finishDate',
         id: null,
-        onlineLink: 'link',
-        startDate: '2022-02-01T00:00:00Z'
+        event: null,
+        startDate: '2022-05-31T00:00:00+03:00',
+        finishDate: '2022-05-31T23:59:00+03:00',
+        onlineLink: null
       }
     ],
-    description: 'Test event description',
-    id: 123,
-    open: true,
-    organizer: {
-      id: 456,
-      name: 'Test organizer',
-      organizerRating: 3
-    },
-    tags: [{ id: 789, nameUa: 'Test tag UA', nameEn: 'Test tag EN' }],
-    title: 'Test event title',
-    titleImage: 'testImage.jpg',
+    id: 307,
+    organizer: { organizerRating: 0, id: 5, name: 'Mykola Kovalushun' },
+    title: 'dddddddd',
+    titleImage: 'https://-fc27f19b10e0apl',
     isSubscribed: true,
     isFavorite: false,
-    countComments: 5,
-    likes: 8,
     isRelevant: true,
+    open: true,
+    likes: 5,
+    dislikes: 2,
+    countComments: 7,
     isOrganizedByFriend: false,
     eventRate: 0
   };
