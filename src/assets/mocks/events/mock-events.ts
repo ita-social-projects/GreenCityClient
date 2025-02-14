@@ -125,7 +125,6 @@ export const mockHabitAssign: HabitAssignInterface[] = [
     toDoListItems: []
   }
 ];
-
 export const mockEvent: EventResponseDto = {
   currentPage: 0,
   first: true,
@@ -181,6 +180,7 @@ export const mockEvent: EventResponseDto = {
       isSubscribed: true,
       isFavorite: false,
       likes: 8,
+      dislikes: 2,
       countComments: 9,
       isRelevant: true,
       isOrganizedByFriend: false,
@@ -190,6 +190,7 @@ export const mockEvent: EventResponseDto = {
   totalElements: 12,
   totalPages: 1
 };
+
 
 export const mockFavouriteEvents: EventResponse[] = [
   {
@@ -239,6 +240,7 @@ export const mockFavouriteEvents: EventResponse[] = [
     isSubscribed: true,
     isFavorite: true,
     likes: 8,
+    dislikes: 2,  // Added this property
     countComments: 9,
     isRelevant: true,
     isOrganizedByFriend: false,
@@ -291,12 +293,14 @@ export const mockFavouriteEvents: EventResponse[] = [
     isSubscribed: true,
     isFavorite: true,
     likes: 8,
+    dislikes: 1,
     countComments: 9,
     isRelevant: true,
     isOrganizedByFriend: false,
     eventRate: 0
   }
 ];
+
 
 export const mockEventResponse: EventResponseDto = {
   currentPage: 0,
@@ -351,6 +355,7 @@ export const mockEventResponse: EventResponseDto = {
       additionalImages: ['http://example.com/image1.jpg', 'http://example.com/image2.jpg'],
       isRelevant: true,
       likes: 123,
+      dislikes: 10,
       countComments: 45,
       eventRate: 4.5,
       open: true,
@@ -507,6 +512,7 @@ export const EVENT_MOCK: EventResponse = {
   isRelevant: true,
   open: true,
   likes: 5,
+  dislikes: 1,
   countComments: 7,
   isOrganizedByFriend: false,
   eventRate: 0

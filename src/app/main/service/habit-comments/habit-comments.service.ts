@@ -31,6 +31,9 @@ export class HabitCommentsService implements CommentsService {
   getCommentsCount(habitId: number): Observable<number> {
     return this.http.get<number>(`${this.backEnd}habits/${habitId}/comments/count`);
   }
+  postDislike(parentCommentId: number): Observable<void> {
+    return this.http.post<void>(`${this.backEnd}habits/comments/dislike?commentId=${parentCommentId}`, {});
+  }
 
   getActiveRepliesByPage(parentCommentId: number, page: number, size: number): Observable<CommentsModel> {
     return this.http.get<CommentsModel>(`${this.backEnd}habits/comments/${parentCommentId}/replies/active?page=${page}&size=${size}`);
