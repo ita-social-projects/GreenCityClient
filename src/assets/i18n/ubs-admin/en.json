@@ -1240,7 +1240,8 @@
     "update-chat-link": "Link was updated successfully",
     "error": {
       "exist-address": "This address has already been added",
-      "fail-update-chat-link": "Something went wrong while updating the link. Please try again"
+      "fail-update-chat-link": "Something went wrong while updating the link. Please try again",
+      "fail-column-width": "Column width didn't update"
     }
   },
   "add-new-certificate": {

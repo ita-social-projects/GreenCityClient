@@ -15,6 +15,7 @@ export interface IBigOrderTableState {
   isFiltersApplied: boolean;
   error: string | null;
   isOrderAddressLoading: boolean;
+  tableColumnWidth: Map<string, number>;
 }
 
 export const initialBigOrderTableState: IBigOrderTableState = {
@@ -25,5 +26,6 @@ export const initialBigOrderTableState: IBigOrderTableState = {
   filters: null,
   isFiltersApplied: false,
   locationsDetails: [],
-  isOrderAddressLoading: false
+  isOrderAddressLoading: false,
+  tableColumnWidth: null
 };

@@ -28,6 +28,9 @@ import {
   GetLocationsDetails,
   GetLocationsDetailsSuccess,
   GetTable,
+  GetTableColumnWidth,
+  GetTableColumnWidthFail,
+  GetTableColumnWidthSuccess,
   GetTableSuccess,
   LoadFiltersAction,
   LoadFiltersSuccessAction,
@@ -209,6 +212,21 @@ export class BigOrderTableEffects {
           catchError((error) => {
             this.snackBar.openSnackBar('errorEditAddress');
             return of(UpdateOrderAddressFail());
+          })
+        );
+      })
+    )
+  );
+
+  getColumnsWidth = createEffect(() =>
+    this.actions.pipe(
+      ofType(GetTableColumnWidth),
+      mergeMap(() => {
+        return this.adminTableService.getUbsAdminOrdersTableColumnsWidthPreference().pipe(
+          map((columnsWidth) => GetTableColumnWidthSuccess({ columnsWidth })),
+          catchError((error) => {
+            this.snackBar.openSnackBar('errorColumnsWidth');
+            return of(GetTableColumnWidthFail());
           })
         );
       })
