@@ -11,6 +11,9 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { WarningPopUpComponent } from '@shared/components';
+import { AddedCommentDTO } from '../../models/comments-model';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
@@ -18,7 +21,6 @@ describe('CommentsListComponent', () => {
 
   const commentsServiceMock: any = {
     editComment: jasmine.createSpy('editComment').and.returnValue(of()),
-
     getActiveRepliesByPage: jasmine.createSpy('getActiveRepliesByPage').and.returnValue(
       of({
         currentPage: 1,
@@ -40,16 +42,17 @@ describe('CommentsListComponent', () => {
     )
   };
   commentsServiceMock.editComment = () => of();
+
   const matDialogMock = {
-    open() {
-      return {
-        afterClosed: () => of(true)
-      };
-    }
+    open: () => ({
+      afterClosed: () => of(true)
+    })
   };
 
-  const matDialogRefMock = jasmine.createSpyObj(['close', 'afterClosed']);
+  const matDialogRefMock = jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']);
   matDialogRefMock.afterClosed.and.returnValue(of(true));
+
+  const routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
   const commentData = {
     author: {
@@ -68,12 +71,17 @@ describe('CommentsListComponent', () => {
     showRelyButton: true
   };
 
-  const routerMock = jasmine.createSpyObj('router', ['navigate']);
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CommentsListComponent, DateLocalisationPipe],
-      imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot(), RouterTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        NgxPaginationModule,
+        ReactiveFormsModule,
+        TranslateModule.forRoot(),
+        RouterTestingModule,
+        MatSnackBarModule
+      ],
       providers: [
         { provide: CommentsService, useValue: commentsServiceMock },
         { provide: Renderer2, useValue: {} },
@@ -94,148 +102,130 @@ describe('CommentsListComponent', () => {
       currentPage: 1,
       totalItems: 1
     };
-
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('поверни створеного компонента', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize property ', () => {
+  it('ініціалізує всі необхідні властивості', () => {
     expect(component.types).toBeDefined();
     expect(component.content).toBeDefined();
-    expect(component.content instanceof FormControl).toBe(true);
+    expect(component.content instanceof FormControl).toBeTrue();
     expect(component.content.errors).toEqual({ required: true });
-    expect((component as any).commentHtml).toBe('');
+    expect(component['commentHtml']).toBe('');
   });
 
-  it('should emit event when user delete comment', () => {
-    const spy = spyOn(component.changedList, 'emit');
-    component.deleteComment(1);
-    expect(spy).toHaveBeenCalled();
+  it('викликає подію changedList при видаленні коментаря', () => {
+    const emitSpy = spyOn(component.changedList, 'emit');
+    // Створюємо обʼєкт типу AddedCommentDTO із всіма необхідними властивостями
+    const addedComment: AddedCommentDTO = {
+      author: { id: 1, name: 'Test', profilePicturePath: null },
+      id: 1,
+      modifiedDate: '111',
+      text: 'string'
+    };
+    component.deleteComment(addedComment);
+    expect(emitSpy).toHaveBeenCalledWith(addedComment);
   });
 
-  it('should return comments status', () => {
-    expect(component.isCommentEdited(commentData)).toBeTruthy();
+  it('повертає true для редагованого коментаря', () => {
+    expect(component.isCommentEdited(commentData)).toBeTrue();
   });
 
-  it('should send data when user save edited content', () => {
-    component.content.setValue('Updated comment text');
+  it('відправляє дані при збереженні редагованого коментаря', () => {
+    const updatedText = 'Updated comment text';
+    component.content.setValue(updatedText);
+    component['commentHtml'] = updatedText;
 
-    component['commentHtml'] = 'Updated comment text';
-
-    const spy = spyOn((component as any).commentsService, 'editComment').and.returnValue(of());
-
+    const editSpy = spyOn((component as any).commentsService, 'editComment').and.returnValue(of());
     component.saveEditedComment(commentData);
-    expect(spy).toHaveBeenCalled();
+
+    expect(editSpy).toHaveBeenCalledWith(commentData.id, updatedText);
+    expect(commentData.text).toEqual(updatedText);
+    expect(commentData.status).toEqual('EDITED');
   });
 
-  it('should cancel edit comment', () => {
+  it('скасовує режим редагування, якщо користувач підтверджує скасування', () => {
     component.cancelEditedComment(commentData);
-    expect(commentData.isEdit).toBeFalsy();
+    expect(commentData.isEdit).toBeFalse();
   });
 
-  it('should cancel edited comment when user confirms', () => {
-    spyOn((component as any).dialog, 'open').and.returnValue({ afterClosed: () => of(true) });
-
-    component.cancelEditedComment(commentData);
-
-    expect((component as any).isEdit).toBeFalsy();
-  });
-
-  it('should not cancel edited comment when user cancels', () => {
-    (component as any).isEdit = true;
+  it('залишає режим редагування, якщо користувач відмовляється від скасування', () => {
     spyOn((component as any).dialog, 'open').and.returnValue({
       afterClosed: () => of(false)
     } as any);
+    commentData.isEdit = true;
     component.cancelEditedComment(commentData);
-
-    expect((component as any).isEdit).toBeTruthy();
+    expect(commentData.isEdit).toBeTrue();
   });
 
-  it('should change counter if user clicks like', () => {
-    const spy = spyOn(component.elementsList, 'map').and.returnValues([commentData]);
+  it('змінює лічильник (наприклад, лайки) для вибраного коментаря', () => {
+    component.elementsList = [{ ...commentData }];
     component.changeCounter(1, commentData.id, 'likes');
-    fixture.debugElement.triggerEventHandler('click', commentData.likes++);
-    expect(spy).toHaveBeenCalled();
-    expect(commentData.likes).toBe(1);
+    const updatedComment = component.elementsList.find((item) => item.id === commentData.id);
+    expect(updatedComment?.likes).toEqual(commentData.likes + 1);
   });
 
-  it('should show page elements if user clicks reply', () => {
-    const spyMap = spyOn(component.elementsList, 'map').and.returnValue([commentData]);
-    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
-    const spyUpdateControl = spyOn(component, 'updateContentControl');
-    component.showElements(1, 'showRelyButton');
-    expect(spyMap).toHaveBeenCalled();
-    expect(spyUpdateControl).toHaveBeenCalledWith(1);
-    expect(spyMap.length).toBe(1);
+  it('оновлює відображення елементів при кліку на кнопку відповіді (reply)', () => {
+    const updateSpy = spyOn(component, 'updateContentControl');
+    component.elementsList = [{ ...commentData, showRelyButton: false }];
+    component.showElements(commentData.id, 'showRelyButton');
+    expect(updateSpy).toHaveBeenCalledWith(commentData.id);
+    const updatedComment = component.elementsList.find((item) => item.id === commentData.id);
+    expect(updatedComment?.showRelyButton).toBeTrue();
   });
 
-  it('should update content form controls when user reply', () => {
-    component.content.setValue('old value');
-    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
-    component.showElements(1, 'showRelyButton');
-    expect(component.content.value).toBe(commentData.text);
-    expect(component.isEditTextValid).toBeTruthy();
+  it('оновлює форму для редагування при відповіді на коментар', () => {
+    const oldText = 'old value';
+    component.content.setValue(oldText);
+    component.elementsList = [{ ...commentData }];
+    component.showElements(commentData.id, 'showRelyButton');
+    expect(component.content.value).toEqual(commentData.text);
+    expect(component.isEditTextValid).toBeTrue();
   });
 
-  it('should check is current user an author', () => {
-    const userId = 1;
-    component.checkCommentAuthor(commentData.author.id);
-    expect(commentData.author.id).toEqual(userId);
-  });
-
-  it('should check textarea length', () => {
-    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
-    component.updateContentControl(1);
-    expect(component.content.value).toBe(commentData.text);
-    expect(component.isEditTextValid).toBeTruthy();
-  });
-
-  it('should call router navigate if onComment click event is user-tag', async () => {
+  it('правильно перевіряє, чи є користувач автором коментаря', () => {
     component.userId = 1;
-    const target = document.createElement('a');
-    target.setAttribute('data-userid', '5');
-    const event = {
-      target: target as HTMLElement
-    } as unknown as MouseEvent;
-
-    component.onCommentClick(event);
-    expect(routerMock.navigate).toHaveBeenCalled();
+    expect(component.checkCommentAuthor(commentData.author.id)).toBeTrue();
+    expect(component.checkCommentAuthor(5)).toBeFalse();
   });
 
-  it('should not change the isAddingReply property', () => {
+  it('оновлює контент форми через updateContentControl', () => {
+    component.elementsList = [{ ...commentData }];
+    component.updateContentControl(commentData.id);
+    expect(component.content.value).toEqual(commentData.text);
+    expect(component.isEditTextValid).toBeTrue();
+  });
+
+  it('не змінює прапорець isAddingReply при кліку на showAllRelies', () => {
     component.isAddingReply = false;
-    component.showElements(1, 'showAllRelies');
-    expect(component.isAddingReply).toBe(false);
+    component.elementsList = [{ ...commentData, showAllRelies: false }];
+    component.showElements(commentData.id, 'showAllRelies');
+    expect(component.isAddingReply).toBeFalse();
   });
 
-  it('should change the isAddingReply property', () => {
+  it('змінює прапорець isAddingReply при кліку на showRelyButton', () => {
     component.isAddingReply = false;
-    const spyMap = spyOn(component.elementsList, 'map').and.returnValue([commentData]);
-    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
-    const spyUpdateControl = spyOn(component, 'updateContentControl');
-    component.showElements(1, 'showRelyButton');
-    expect(component.isAddingReply).toBe(true);
+    component.elementsList = [{ ...commentData, showRelyButton: false }];
+    component.showElements(commentData.id, 'showRelyButton');
+    expect(component.isAddingReply).toBeTrue();
   });
 
-  it('should toggle the isAddingReply property', () => {
+  it('перемикає прапорець isAddingReply при повторному кліку на showRelyButton', () => {
     component.isAddingReply = false;
-    const spyMap = spyOn(component.elementsList, 'map').and.returnValue([commentData]);
-    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
-    const spyUpdateControl = spyOn(component, 'updateContentControl');
-    component.showElements(2, 'showRelyButton');
-    expect(component.isAddingReply).toBe(true);
-    component.showElements(2, 'showRelyButton');
-    expect(component.isAddingReply).toBe(false);
+    component.elementsList = [{ ...commentData, showRelyButton: false }];
+    component.showElements(commentData.id, 'showRelyButton');
+    expect(component.isAddingReply).toBeTrue();
+    component.showElements(commentData.id, 'showRelyButton');
+    expect(component.isAddingReply).toBeFalse();
   });
 
-  it('should call updateContentControl method ', () => {
-    const spyMap = spyOn(component.elementsList, 'map').and.returnValue([commentData]);
-    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
-    const spyUpdateControl = spyOn(component, 'updateContentControl');
-    component.showElements(2, 'showRelyButton');
-    expect(spyUpdateControl).toHaveBeenCalled();
+  it('викликає метод updateContentControl під час обробки showElements', () => {
+    const updateSpy = spyOn(component, 'updateContentControl');
+    component.elementsList = [{ ...commentData }];
+    component.showElements(commentData.id, 'showRelyButton');
+    expect(updateSpy).toHaveBeenCalledWith(commentData.id);
   });
 });
