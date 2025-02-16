@@ -138,7 +138,7 @@ export class UbsAdminTableComponent implements OnInit {
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
   locationsDetailsSelector$ = this.store.select(locationsDetailsSelector);
-  // ordersViewParameters$ = this.store.select((state: IAppState): IOrdersViewParameters => state.bigOrderTable.ordersViewParameters);
+  ordersViewParameters$ = this.store.select((state: IAppState): IOrdersViewParameters => state.bigOrderTable.ordersViewParameters);
   isFiltersApplied$ = this.store.select(isFiltersAppliedSelector);
   isOrderAddressLoadingSelector$ = this.store.select(isOrderAddressLoadingSelector);
   columnWidthSelector$ = this.store.select(columnWidthSelector);

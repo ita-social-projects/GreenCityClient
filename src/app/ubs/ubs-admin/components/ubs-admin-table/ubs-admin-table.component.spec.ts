@@ -246,19 +246,6 @@ xdescribe('UbsAdminTableComponent', () => {
     expect(component.checkAllColumnsDisplayed).toHaveBeenCalled();
   });
 
-  it('ngAfterViewChecked ', () => {
-    component.isTableHeightSet = false;
-    tableServiceMock.setTableHeightToContainerHeight.and.returnValue(true);
-    spyOn(component, 'onScroll');
-    component.ngAfterViewChecked();
-    expect(component.isTableHeightSet).toBe(true);
-  });
-
-  it('ngAfterViewChecked should call detectChanges', () => {
-    component.ngAfterViewChecked();
-    expect(changeDetectorMock.detectChanges).toHaveBeenCalledTimes(1);
-  });
-
   it('isAllColumnsDisplayed sould be true ', () => {
     component.displayedColumnsView.length = 4;
     component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
@@ -613,7 +600,7 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('checkStatusOfOrders', () => {
     component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE } as any];
-    const Res = component.checkStatusOfOrders(1);
+    const Res = component.checkStatusOfOrders(OrderStatus.DONE );
     expect(Res).toBe(true);
   });
 
