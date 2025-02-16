@@ -21,8 +21,6 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   positionName: Array<string>;
   destroySub: Subject<boolean> = new Subject<boolean>();
 
-  isAuthenticating$: Observable<boolean>;
-
   constructor(
     public ubsAdminEmployeeService: UbsAdminEmployeeService,
     public service: UserMessagesService,
@@ -30,7 +28,6 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     public jwtService: JwtService
   ) {
     super(service, breakpointObserver, jwtService);
-    this.isAuthenticating$ = this.jwtService.isAuthenticating$;
   }
 
   ngOnInit() {
@@ -40,7 +37,7 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   }
 
   get shouldShowNoAuthorities(): boolean {
-    return !this.hasAuthorities && !this.jwtService.isAuthenticated();
+    return !this.hasAuthorities && !this.jwtService.isAuthenticated() && !this.jwtService.isAuthenticatingValue();
   }
 
   private authoritiesFilterUtil(authority: string): boolean {

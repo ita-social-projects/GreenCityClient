@@ -17,6 +17,7 @@ import { errorSelector, isLoadingSelector } from 'src/app/store/selectors/auth.s
 import { googleProvider } from './GoogleOAuthProvider/GoogleOAuthProvider';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 import { TurnstileCaptchaComponent } from '@global-auth/turnstile-captcha/turnstile-captcha.component';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 declare let google: any;
 @Component({
@@ -53,7 +54,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   constructor(
     private readonly matDialogRef: MatDialogRef<SignInComponent>,
     private readonly googleService: GoogleSignInService,
-    private readonly userOwnAuthService: UserOwnAuthService
+    private readonly userOwnAuthService: UserOwnAuthService,
+    public jwtService: JwtService
   ) {}
 
   ngOnInit(): void {
@@ -78,7 +80,14 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   signIn(): void {
     if (this.signInForm.valid) {
+      this.jwtService.setAuthenticating(true);
       this.store.dispatch(SignInAction({ data: this.signInForm.value, isUBS: this.isUbs }));
+
+      this.actions.pipe(ofType(SignInSuccessAction), take(1)).subscribe(() => {
+        this.jwtService.setAuthenticating(false);
+        this.matDialogRef.close();
+      });
+
       this.clearCaptchaToken();
     } else {
       console.error('Form is invalid, unable to submit.');
@@ -86,10 +95,17 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   signInWithGoogle(): void {
+    this.jwtService.setAuthenticating(true); // Початок автентифікації
     const login = googleProvider.useGoogleLogin({
       flow: 'implicit',
-      onSuccess: (res) => this.store.dispatch(SignInWithGoogleAction({ token: res.access_token, isUBS: this.isUbs })),
-      onError: (err) => console.error('Failed to login with google redirect', err)
+      onSuccess: (res) => {
+        this.store.dispatch(SignInWithGoogleAction({ token: res.access_token, isUBS: this.isUbs }));
+        this.jwtService.setAuthenticating(false); // Успішна автентифікація
+      },
+      onError: (err) => {
+        console.error('Failed to login with google redirect', err);
+        this.jwtService.setAuthenticating(false); // Помилка автентифікації
+      }
     });
     login();
   }

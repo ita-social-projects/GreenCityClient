@@ -8,11 +8,17 @@ import { TUserRole } from '@global-models/auth/user-role.type';
 })
 export class JwtService {
   userRole$: BehaviorSubject<string> = new BehaviorSubject<string>(this.getUserRole());
-
-  private isAuthenticatingSubject = new BehaviorSubject<boolean>(false);
-  isAuthenticating$ = this.isAuthenticatingSubject.asObservable();
+  private isAuthenticating = false;
 
   constructor(private localStorageService: LocalStorageService) {}
+
+  setAuthenticating(state: boolean): void {
+    this.isAuthenticating = state;
+  }
+
+  isAuthenticatingValue(): boolean {
+    return this.isAuthenticating;
+  }
 
   isExpired(token: string): boolean {
     if (token != null) {
