@@ -23,9 +23,10 @@
   &.opened {
     transform: translateY(0);
     width: 300px;
+
     .panel-account-title {
-    width: auto;
-  }
+      width: auto;
+    }
   }
 }
 
