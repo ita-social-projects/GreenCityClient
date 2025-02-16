@@ -2,13 +2,14 @@ import { Component, DestroyRef, EventEmitter, Input, Output } from '@angular/cor
 import { IAlertInfo, IEditCell } from '@ubs/ubs-admin/models/edit-cell.model';
 import { IColumnBelonging } from '@ubs/ubs-admin/models/ubs-admin.interface';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
-import { catchError, of, switchMap, take } from 'rxjs';
+import { catchError, map, of, switchMap, take } from 'rxjs';
 import { CommentPopUpComponent } from '../../shared/components/comment-pop-up/comment-pop-up.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from '@ubs/ubs-admin/services/order.service';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 @Component({
   selector: 'app-table-cell-input',
   templateUrl: './table-cell-input.component.html',
@@ -94,23 +95,31 @@ export class TableCellInputComponent {
   }
 
   openEditAddressWindow(): void {
+    this.adminTableService.blockOrders([this.id]).subscribe();
     this.orderService
-      .getOrderInfo(this.id)
+      .getOrderAddress(this.id)
       .pipe(
-        switchMap((orderInfo) => {
+        map((orderAddress) => ({
+          ...orderAddress.orderAddressExportDetails,
+          coordinates: {},
+          actual: false,
+          orderId: orderAddress.orderId
+        })),
+        switchMap((orderAddress) => {
           const dialogConfig = new MatDialogConfig();
           dialogConfig.panelClass = 'address-matDialog-styles';
           dialogConfig.data = {
             edit: true,
-            addFromProfile: true,
-            address: { ...orderInfo.addressExportDetailsDto, addressComment: orderInfo.addressComment },
-            orderId: orderInfo.generalOrderInfo.id
+            address: orderAddress,
+            orderId: orderAddress.orderId
           };
           const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
           return dialogRef.afterClosed();
         }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => {});
+      .subscribe(() => {
+        this.adminTableService.unblockOrders([this.id]).subscribe();
+      });
   }
 }

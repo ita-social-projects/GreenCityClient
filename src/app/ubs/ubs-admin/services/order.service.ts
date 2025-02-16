@@ -22,7 +22,7 @@ import { OrderStatus } from '../../ubs/order-status.enum';
   providedIn: 'root'
 })
 export class OrderService {
-  private backend: string = environment.ubsAdmin.backendUbsAdminLink;
+  private backendUbs: string = environment.ubsAdmin.backendUbsAdminLink;
   private backendLink: string = environment.backendUbsLink;
 
   readonly districts = [
@@ -129,7 +129,7 @@ export class OrderService {
   }
 
   getOrderInfo(orderId: number): Observable<IOrderInfo> {
-    return this.http.get<IOrderInfo>(`${this.backend}/management/get-data-for-order/${orderId}`);
+    return this.http.get<IOrderInfo>(`${this.backendUbs}/management/get-data-for-order/${orderId}`);
   }
 
   updateOrderInfo(
@@ -148,7 +148,7 @@ export class OrderService {
     }
 
     return this.http.patch<IBigOrderTableOrderInfo>(
-      `${this.backend}/management/update-order-page-admin-info/${orderId}?language=${lang}`,
+      `${this.backendUbs}/management/update-order-page-admin-info/${orderId}?language=${lang}`,
       formData,
       {
         observe: 'response'
@@ -157,42 +157,42 @@ export class OrderService {
   }
 
   getIsOrderCancelledAfterFormed(orderId: number): Observable<boolean> {
-    return this.http.get<boolean>(`${this.backend}/management/check-status-transition/formed-to-canceled/${orderId}`);
+    return this.http.get<boolean>(`${this.backendUbs}/management/check-status-transition/formed-to-canceled/${orderId}`);
   }
   isStatusInArray(status: string, statusArray: Array<string>): boolean {
     return statusArray.some((s) => s === status);
   }
 
   getOrderDetails(orderId: number, lang: string): Observable<any> {
-    return this.http.get<any>(`${this.backend}/management/read-order-info/${orderId}?language=${lang}`);
+    return this.http.get<any>(`${this.backendUbs}/management/read-order-info/${orderId}?language=${lang}`);
   }
 
   getOrderSumDetails(orderId: number): Observable<any> {
-    return this.http.get<any>(`${this.backend}/management/get-order-sum-detail/871`);
+    return this.http.get<any>(`${this.backendUbs}/management/get-order-sum-detail/871`);
   }
 
   getUserInfo(orderId: number, lang: string): Observable<any> {
-    return this.http.get<any>(`${this.backend}/user-info/${orderId}?lang=${lang}`);
+    return this.http.get<any>(`${this.backendUbs}/user-info/${orderId}?lang=${lang}`);
   }
 
   getUserViolations(userEmail: string): Observable<UserViolations> {
-    return this.http.get<UserViolations>(`${this.backend}/management/getUsersViolations?email=${userEmail}`);
+    return this.http.get<UserViolations>(`${this.backendUbs}/management/getUsersViolations?email=${userEmail}`);
   }
 
   getPaymentInfo(orderId: number): Observable<any> {
-    return this.http.get<any>(`${this.backend}/management/getPaymentInfo?orderId=${orderId}`);
+    return this.http.get<any>(`${this.backendUbs}/management/getPaymentInfo?orderId=${orderId}`);
   }
 
   deleteManualPayment(paymentId: number) {
-    return this.http.delete(`${this.backend}/management/delete-manual-payment/${paymentId}`);
+    return this.http.delete(`${this.backendUbs}/management/delete-manual-payment/${paymentId}`);
   }
 
   readAddressOrder(orderId: number) {
-    return this.http.get<any>(`${this.backend}/management/read-address-order/${orderId}`);
+    return this.http.get<any>(`${this.backendUbs}/management/read-address-order/${orderId}`);
   }
 
   getOrderExportDetails(orderId: number): Observable<any> {
-    return this.http.get<any>(`${this.backend}/management/get-order-export-details/${orderId}`);
+    return this.http.get<any>(`${this.backendUbs}/management/get-order-export-details/${orderId}`);
   }
 
   getAllReceivingStations(): Observable<any> {
@@ -200,27 +200,27 @@ export class OrderService {
   }
 
   getAllResponsiblePersons(positionId: number): Observable<any> {
-    return this.http.get<any>(`${this.backend}/management/get-all-employee-by-position/${positionId}`);
+    return this.http.get<any>(`${this.backendUbs}/management/get-all-employee-by-position/${positionId}`);
   }
 
   getOrderDetailStatus(orderId: number): Observable<any> {
-    return this.http.get<any>(`${this.backend}/management/read-order-detail-status/${orderId}`);
+    return this.http.get<any>(`${this.backendUbs}/management/read-order-detail-status/${orderId}`);
   }
 
   getOrderHistory(orderId: number, lang: string): Observable<IOrderHistory[]> {
-    return this.http.get<IOrderHistory[]>(`${this.backend}/order_history/${orderId}?lang=${lang}`);
+    return this.http.get<IOrderHistory[]>(`${this.backendUbs}/order_history/${orderId}?lang=${lang}`);
   }
 
   getNotTakenOutReason(historyId: number): Observable<INotTakenOutReason> {
-    return this.http.get<INotTakenOutReason>(`${this.backend}/management/get-not-taken-order-reason/${historyId}`);
+    return this.http.get<INotTakenOutReason>(`${this.backendUbs}/management/get-not-taken-order-reason/${historyId}`);
   }
 
   updateRecipientsData(postData: any) {
-    return this.http.put<any>(`${this.backend}`, postData);
+    return this.http.put<any>(`${this.backendUbs}`, postData);
   }
 
   updateOrdersInfo(lang: string, data: object) {
-    return this.http.put(`${this.backend}/management/all-order-page-admin-info?lang=${lang}`, data);
+    return this.http.put(`${this.backendUbs}/management/all-order-page-admin-info?lang=${lang}`, data);
   }
 
   addPaymentManually(orderId: number, data: PaymentDetails, file?: File): Observable<IPaymentInfoDto> {
@@ -229,11 +229,11 @@ export class OrderService {
       formData.append('image', file);
     }
     formData.append('manualPaymentDto', JSON.stringify(data));
-    return this.http.post<IPaymentInfoDto>(`${this.backend}/management/add-manual-payment/${orderId}`, formData);
+    return this.http.post<IPaymentInfoDto>(`${this.backendUbs}/management/add-manual-payment/${orderId}`, formData);
   }
 
   addPaymentBonuses(orderId: number, data: PaymentDetails): Observable<IPaymentInfoDto> {
-    return this.http.post<IPaymentInfoDto>(`${this.backend}/management/add-bonuses-user/${orderId}`, data);
+    return this.http.post<IPaymentInfoDto>(`${this.backendUbs}/management/add-bonuses-user/${orderId}`, data);
   }
 
   updatePaymentManually(paymentId: number, postData, file): Observable<any> {
@@ -242,31 +242,31 @@ export class OrderService {
       formData.append('image', file);
     }
     formData.append('manualPaymentDto', JSON.stringify(postData));
-    return this.http.put(`${this.backend}/management/update-manual-payment/${paymentId}`, formData);
+    return this.http.put(`${this.backendUbs}/management/update-manual-payment/${paymentId}`, formData);
   }
 
   getColumnToDisplay() {
-    return this.http.get(`${this.backend}/management/getOrdersViewParameters`);
+    return this.http.get(`${this.backendUbs}/management/getOrdersViewParameters`);
   }
 
   setColumnToDisplay(columns: string) {
-    return this.http.put<any>(`${this.backend}/management/changeOrdersTableView?titles=${columns}`, '');
+    return this.http.put<any>(`${this.backendUbs}/management/changeOrdersTableView?titles=${columns}`, '');
   }
 
   addViolationToCurrentOrder(violation) {
-    return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
+    return this.http.post(`${this.backendUbs}/management/addViolationToUser`, violation);
   }
 
   updateViolationOfCurrentOrder(violation) {
-    return this.http.put(`${this.backend}/management/updateViolationToUser`, violation);
+    return this.http.put(`${this.backendUbs}/management/updateViolationToUser`, violation);
   }
 
   getViolationOfCurrentOrder(orderId): Observable<IViolation> {
-    return this.http.get<IViolation>(`${this.backend}/management/violation-details/${orderId}`);
+    return this.http.get<IViolation>(`${this.backendUbs}/management/violation-details/${orderId}`);
   }
 
   deleteViolationOfCurrentOrder(orderId) {
-    return this.http.delete(`${this.backend}/management/delete-violation-from-order/${orderId}`);
+    return this.http.delete(`${this.backendUbs}/management/delete-violation-from-order/${orderId}`);
   }
 
   getOverpaymentMsg(overpayment) {
@@ -294,14 +294,18 @@ export class OrderService {
   }
 
   getOrderCancelReason(orderId: number): Observable<any> {
-    return this.http.get<any>(`${this.backend}/management/get-order-cancellation-reason/${orderId}`);
+    return this.http.get<any>(`${this.backendUbs}/management/get-order-cancellation-reason/${orderId}`);
   }
 
   saveOrderIdForRefund(orderId: number) {
-    return this.http.post(`${this.backend}/management/save-order-for-refund/${orderId}`, orderId, { observe: 'response' });
+    return this.http.post(`${this.backendUbs}/management/save-order-for-refund/${orderId}`, orderId, { observe: 'response' });
+  }
+
+  getOrderAddress(orderId: number): Observable<IShortAddress> {
+    return this.http.get<IShortAddress>(`${this.backendUbs}/get-address-for-order/`+ orderId);
   }
 
   updateOrderAddress(address: IShortAddress): Observable<void> {
-    return this.http.patch<void>(`${this.backend}/update-address`, address);
+    return this.http.patch<void>(`${this.backendUbs}/update-address`, address);
   }
 }

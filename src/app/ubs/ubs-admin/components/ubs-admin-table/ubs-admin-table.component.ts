@@ -172,6 +172,8 @@ export class UbsAdminTableComponent implements OnInit {
     //     this.displayedColumns = items.titles.split(',')[0] === ' ' ? [] : items.titles.split(',');
     //   }
     // });
+    // this.store.dispatch(GetColumnToDisplay());
+    // this.store.dispatch(GetLocationsDetails());
     this.bigOrderTable$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
       if (tableData) {
         this.getBigOrderTableContent(tableData);
@@ -200,8 +202,6 @@ export class UbsAdminTableComponent implements OnInit {
         this.columnsWidthPreference = columnsWidthMap instanceof Map ? new Map(columnsWidthMap) : new Map(Object.entries(columnsWidthMap));
       }
     });
-    // this.store.dispatch(GetColumnToDisplay());
-    // this.store.dispatch(GetLocationsDetails());
   }
 
   getCurrentLanguage(): void {
@@ -663,7 +663,6 @@ export class UbsAdminTableComponent implements OnInit {
   }
 
   editCell(e: IEditCell): void {
-    console.log('asdasd');
 
     if (this.allChecked) {
       this.editAll(e);
