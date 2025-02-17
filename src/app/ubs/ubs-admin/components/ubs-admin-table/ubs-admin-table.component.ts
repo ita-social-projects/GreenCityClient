@@ -1,12 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   DestroyRef,
   ElementRef,
-  HostListener,
   OnInit,
   Renderer2,
   ViewChild
@@ -21,20 +19,18 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { select, Store } from '@ngrx/store';
 import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { Subject, timer } from 'rxjs';
-import { debounceTime, filter, take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { MouseEvents } from 'src/app/shared/mouse-events';
 import {
   AddFilterMultiAction,
   AddFiltersAction,
   ChangingOrderData,
   GetColumns,
-  GetColumnToDisplay,
   GetLocationsDetails,
   GetTable,
   GetTableColumnWidth,
   GetTableColumnWidthSuccess,
-  RemoveFilter,
-  SetColumnToDisplay
+  RemoveFilter
 } from 'src/app/store/actions/bigOrderTable.actions';
 import {
   columnWidthSelector,
@@ -106,11 +102,9 @@ export class UbsAdminTableComponent implements OnInit {
   isPopupOpen: boolean;
   stickyColumn = [];
   model: string;
-  modelChanged: Subject<string> = new Subject<string>();
   previousSettings: string[];
   displayedColumnsView: IColumnDTO[] = [];
   displayedColumnsViewTitles: string[] = [];
-  isStoreEmpty: boolean;
   isPostData = false;
   dataForPopUp = [];
   uneditableStatuses = [OrderStatus.CANCELED, OrderStatus.DONE, OrderStatus.BROUGHT_IT_HIMSELF];
@@ -159,20 +153,6 @@ export class UbsAdminTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.modelChanged.pipe(debounceTime(500), takeUntilDestroyed(this.destroyRef)).subscribe((model) => {
-    //   this.currentPage = 0;
-    //   this.tableData = [];
-    //   this.getTable(model, 'id', 'DESC', true);
-    // });
-
-    // this.ordersViewParameters$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((items: IOrdersViewParameters) => {
-    //   if (items) {
-    //     console.log('items', items)
-    //     this.displayedColumns = items.titles.split(',')[0] === ' ' ? [] : items.titles.split(',');
-    //   }
-    // });
-    // this.store.dispatch(GetColumnToDisplay());
-    // this.store.dispatch(GetLocationsDetails());
     this.getCurrentLanguage();
     this.bigOrderTable$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
       if (tableData) {
@@ -180,6 +160,7 @@ export class UbsAdminTableComponent implements OnInit {
       } else {
         this.getTable();
         this.getColumns();
+        this.store.dispatch(GetLocationsDetails());
         this.store.dispatch(GetTableColumnWidth());
       }
       this.initDateForm();
@@ -224,7 +205,7 @@ export class UbsAdminTableComponent implements OnInit {
   getBigOrderTableParams(columns: IBigOrderTableParams): void {
     const columnsForFiltering: Array<IFilteredColumn> = [];
     this.tableViewHeaders = columns.columnBelongingList;
-    this.columns = JSON.parse(JSON.stringify(columns.columnDTOList));
+    this.columns = structuredClone(columns.columnDTOList);
     this.displayedColumnsView = columns.columnDTOList;
     this.displayedColumnsViewTitles = this.displayedColumnsView.map((item) => item.title.key);
     this.columns.forEach((column) => {
@@ -241,10 +222,6 @@ export class UbsAdminTableComponent implements OnInit {
     this.setColumnsForFiltering(columnsForFiltering);
     if (this.displayedColumns.length === 0) {
       this.setDisplayedColumns();
-    }
-    const { sortDirection, sortBy } = columns.page;
-    if (this.isStoreEmpty) {
-      this.getTable(this.filterValue, sortBy, sortDirection, true);
     }
     this.editDetails();
     this.sortColumnsToDisplay();
@@ -333,15 +310,12 @@ export class UbsAdminTableComponent implements OnInit {
 
   applyFilter(filterValue: string): void {
     this.filterValue = filterValue;
-    this.modelChanged.next(filterValue);
     this.localStorageService.setAdminOrdersDateFilter(this.filters);
   }
 
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
     this.sortColumnsToDisplay();
-    const displayedColumns = this.displayedColumns.join(',');
-    this.store.dispatch(SetColumnToDisplay({ columns: encodeURIComponent(displayedColumns), titles: displayedColumns }));
     setTimeout(() => this.applyColumnsWidthPreference(), 0);
   }
 
@@ -454,10 +428,6 @@ export class UbsAdminTableComponent implements OnInit {
   toggleTableView(): void {
     this.display = this.display === 'none' ? 'block' : 'none';
     this.isPopupOpen = !this.isPopupOpen;
-    if (!this.isPopupOpen) {
-      const displayedColumns = this.displayedColumns.join(',');
-      this.store.dispatch(SetColumnToDisplay({ columns: encodeURIComponent(displayedColumns), titles: displayedColumns }));
-    }
     this.previousSettings = this.displayedColumns;
   }
 
