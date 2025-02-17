@@ -1,6 +1,16 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AfterViewChecked, ChangeDetectorRef, Component, DestroyRef, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  ElementRef,
+  HostListener,
+  OnInit,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { DateAdapter } from '@angular/material/core';
@@ -21,10 +31,13 @@ import {
   GetColumnToDisplay,
   GetLocationsDetails,
   GetTable,
+  GetTableColumnWidth,
+  GetTableColumnWidthSuccess,
   RemoveFilter,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
 import {
+  columnWidthSelector,
   filtersSelector,
   isFiltersAppliedSelector,
   isOrderAddressLoadingSelector,
@@ -55,13 +68,14 @@ import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IBigOrderTableOrderInfo } from '../../models/ubs-admin.interface';
+import { GetLocations } from 'src/app/store/actions/tariff.actions';
 
 @Component({
   selector: 'app-ubs-admin-table',
   templateUrl: './ubs-admin-table.component.html',
   styleUrls: ['./ubs-admin-table.component.scss']
 })
-export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
+export class UbsAdminTableComponent implements OnInit {
   currentLang: string;
   nonSortableColumns = nonSortableColumns;
   sortingColumn: string;
@@ -74,14 +88,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
   editCellProgressBar: boolean;
   isUpdate = false;
   arrowDirection: string;
-  isTableHeightSet = false;
   tableData: IBigOrderTableOrderInfo[] = [];
   totalElements = 0;
   allElements: number;
   totalPages: number;
   currentPage = 0;
-  currentDate: Date;
-  currentDateStr: string;
+  currentDate = new Date();
   pageSize = 25;
   idsToChange: number[] = [];
   allChecked = false;
@@ -125,9 +137,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
   defaultColumnsWidth: Map<string, number> = new Map(Object.entries(defaultColumnsWidthPreference));
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
+  locationsDetailsSelector$ = this.store.select(locationsDetailsSelector);
   ordersViewParameters$ = this.store.select((state: IAppState): IOrdersViewParameters => state.bigOrderTable.ordersViewParameters);
   isFiltersApplied$ = this.store.select(isFiltersAppliedSelector);
   isOrderAddressLoadingSelector$ = this.store.select(isOrderAddressLoadingSelector);
+  columnWidthSelector$ = this.store.select(columnWidthSelector);
 
   constructor(
     private store: Store<IAppState>,
@@ -146,11 +160,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.firstPageLoad = true;
-    this.initDateForm();
-    this.getCurrentLanguage();
-    this.currentDate = new Date();
-    // this.currentDateStr = this.adminTableService.setDateFormat(this.currentDate);
     // this.modelChanged.pipe(debounceTime(500), takeUntilDestroyed(this.destroyRef)).subscribe((model) => {
     //   this.currentPage = 0;
     //   this.tableData = [];
@@ -163,134 +172,126 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
     //     this.displayedColumns = items.titles.split(',')[0] === ' ' ? [] : items.titles.split(',');
     //   }
     // });
-
-    this.isStoreEmpty = true;
-
-    if (this.isStoreEmpty) {
-      this.getBigOrderTableContent();
-      this.getBigOrderTableParams();
-      this.getColumns();
-      this.store.dispatch(GetColumnToDisplay());
-    }
-
-    this.store.dispatch(GetLocationsDetails());
-
-    this.store.pipe(select(locationsDetailsSelector), takeUntilDestroyed(this.destroyRef)).subscribe((locations) => {
-      this.locationDetails = locations;
-      this.updateLocationsForFiltering();
+    // this.store.dispatch(GetColumnToDisplay());
+    // this.store.dispatch(GetLocationsDetails());
+    this.bigOrderTable$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
+      if (tableData) {
+        this.getBigOrderTableContent(tableData);
+        setTimeout(() => {
+          this.applyColumnsWidthPreference();
+        }, 0);
+      } else {
+        this.firstPageLoad = true;
+        this.getTable();
+        this.getColumns();
+        this.getCurrentLanguage();
+        this.store.dispatch(GetTableColumnWidth());
+      }
+      this.initDateForm();
     });
-    this.onScroll();
-  }
-
-  ngAfterViewChecked() {
-    if (!this.isTableHeightSet) {
-      const table = document.getElementById('table');
-      const tableContainer = document.getElementById('table-container');
-      this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
-      this.isUpdate = false;
-    }
-    this.cdr.detectChanges();
+    this.locationsDetailsSelector$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((locations) => {
+      if (locations.length) {
+        this.getLocationsDetails(locations);
+      }
+    });
+    this.bigOrderTableParams$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((columns: IBigOrderTableParams) => {
+      columns && this.getBigOrderTableParams(columns);
+    });
+    this.columnWidthSelector$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((columnsWidthMap: Map<string, number>) => {
+      if (columnsWidthMap) {
+        this.columnsWidthPreference = columnsWidthMap instanceof Map ? new Map(columnsWidthMap) : new Map(Object.entries(columnsWidthMap));
+      }
+    });
   }
 
   getCurrentLanguage(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((lang) => {
       this.currentLang = lang;
-      if (this.tableData) {
+      if (this.tableData.length) {
         this.formatTableData();
       }
     });
   }
 
-  getBigOrderTableContent(): void {
-    this.bigOrderTable$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
-      if (tableData) {
-        if (this.isPostData) {
-          this.idsToChange = [];
-        }
-        this.editCellProgressBar = false;
-        this.allChecked = false;
-        this.isStoreEmpty = false;
-        this.currentPage = tableData.number;
-        if (this.firstPageLoad) {
-          this.firstPageLoad = false;
-          this.totalElements = tableData[`totalElements`];
-          this.allElements = !this.allElements ? this.totalElements : this.allElements;
-          this.isTableHeightSet = false;
-        }
-        this.totalPages = tableData[`totalPages`];
-        this.formatTableData();
-        this.adminTableService.getUbsAdminOrdersTableColumnsWidthPreference().subscribe((res) => {
-          this.columnsWidthPreference = new Map(Object.entries(res));
-          setTimeout(() => this.applyColumnsWidthPreference(), 0);
-        });
-        this.dataSource = new MatTableDataSource(tableData[`content`]);
-        this.tableData = tableData[`content`];
-        this.isUpdate = false;
-        this.isLoading = false;
-      }
-    });
+  getBigOrderTableContent(tableData: IBigOrderTable): void {
+    if (this.isPostData) {
+      this.idsToChange = [];
+    }
+    this.editCellProgressBar = false;
+    this.allChecked = false;
+    this.currentPage = tableData.number;
+    if (this.firstPageLoad) {
+      this.firstPageLoad = false;
+      this.totalElements = tableData[`totalElements`];
+      this.totalPages = tableData[`totalPages`];
+      this.allElements = !this.allElements ? this.totalElements : this.allElements;
+    }
+    this.tableData = tableData[`content`];
+    this.formatTableData();
+    this.isUpdate = false;
   }
 
-  getBigOrderTableParams(): void {
-    this.bigOrderTableParams$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((columns: IBigOrderTableParams) => {
-      if (columns) {
-        const columnsForFiltering: Array<IFilteredColumn> = [];
-        this.tableViewHeaders = columns.columnBelongingList;
-        this.columns = JSON.parse(JSON.stringify(columns.columnDTOList));
-        this.displayedColumnsView = columns.columnDTOList;
-        this.displayedColumnsViewTitles = this.displayedColumnsView.map((item) => item.title.key);
-        this.columns.forEach((column) => {
-          if (column.filtered) {
-            const filteredColumn = {
-              key: column.title.key,
-              en: column.title.en,
-              ua: column.title.ua,
-              values: [...column.checked]
-            };
-            columnsForFiltering.push(filteredColumn);
-          }
-        });
-        this.setColumnsForFiltering(columnsForFiltering);
-        if (this.displayedColumns.length === 0) {
-          this.setDisplayedColumns();
-        }
-        const { sortDirection, sortBy } = columns.page;
-        if (this.isStoreEmpty) {
-          this.getTable(this.filterValue, sortBy, sortDirection, true);
-        }
-        this.editDetails();
-      }
-      this.sortColumnsToDisplay();
-      this.checkAllColumnsDisplayed();
-
-      this.restoredFilters = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
-
-      if (!this.restoredFilters.length) {
-        this.isRestoredFilters = true;
-      }
-
-      if (this.restoredFilters && !this.isRestoredFilters && this.getColumnsForFiltering().length) {
-        this.noFiltersApplied = false;
-
-        this.restoredFilters.forEach((filter) => {
-          if (Object.keys(filter).length < 2) {
-            const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0]);
-            const isLocation = column === TableKeys.city || column === TableKeys.district;
-            const value = String(Object.values(filter)[0]);
-            const options: IFilteredColumnValue = isLocation ? { en: value } : { key: value };
-            this.changeFilters(true, column, options);
-            this.applyFilters();
-          } else {
-            const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0].split('From')[0]);
-            this.adminTableService.saveDateFilters(true, column, filter);
-            this.adminTableService.setDateCheckedFromStorage(column);
-            this.adminTableService.filters = [...this.adminTableService.filters, filter];
-            this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.adminTableService.filters);
-          }
-        });
-        this.isRestoredFilters = true;
+  getBigOrderTableParams(columns: IBigOrderTableParams): void {
+    const columnsForFiltering: Array<IFilteredColumn> = [];
+    this.tableViewHeaders = columns.columnBelongingList;
+    this.columns = JSON.parse(JSON.stringify(columns.columnDTOList));
+    this.displayedColumnsView = columns.columnDTOList;
+    this.displayedColumnsViewTitles = this.displayedColumnsView.map((item) => item.title.key);
+    this.columns.forEach((column) => {
+      if (column.filtered) {
+        const filteredColumn = {
+          key: column.title.key,
+          en: column.title.en,
+          ua: column.title.ua,
+          values: [...column.checked]
+        };
+        columnsForFiltering.push(filteredColumn);
       }
     });
+    this.setColumnsForFiltering(columnsForFiltering);
+    if (this.displayedColumns.length === 0) {
+      this.setDisplayedColumns();
+    }
+    const { sortDirection, sortBy } = columns.page;
+    if (this.isStoreEmpty) {
+      this.getTable(this.filterValue, sortBy, sortDirection, true);
+    }
+    this.editDetails();
+    this.sortColumnsToDisplay();
+    this.checkAllColumnsDisplayed();
+
+    this.restoredFilters = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
+
+    if (!this.restoredFilters.length) {
+      this.isRestoredFilters = true;
+    }
+
+    if (this.restoredFilters && !this.isRestoredFilters && this.getColumnsForFiltering().length) {
+      this.noFiltersApplied = false;
+
+      this.restoredFilters.forEach((filter) => {
+        if (Object.keys(filter).length < 2) {
+          const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0]);
+          const isLocation = column === TableKeys.city || column === TableKeys.district;
+          const value = String(Object.values(filter)[0]);
+          const options: IFilteredColumnValue = isLocation ? { en: value } : { key: value };
+          this.changeFilters(true, column, options);
+          this.applyFilters();
+        } else {
+          const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0].split('From')[0]);
+          this.adminTableService.saveDateFilters(true, column, filter);
+          this.adminTableService.setDateCheckedFromStorage(column);
+          this.adminTableService.filters = [...this.adminTableService.filters, filter];
+          this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.adminTableService.filters);
+        }
+      });
+      this.isRestoredFilters = true;
+    }
+  }
+
+  getLocationsDetails(locations: ILocationDetails[]): void {
+    this.locationDetails = locations;
+    this.updateLocationsForFiltering();
   }
 
   updateLocationsForFiltering(): void {
@@ -300,8 +301,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
   }
 
   get isAllSelected(): boolean {
-    const numRows = this.dataSource?.data.filter((row) => !this.checkStatusOfOrders(row.id)).length;
-
+    const numRows = this.dataSource?.data.filter((row) => !this.checkStatusOfOrders(row.orderStatus)).length;
     return numRows && this.selection.selected.length === numRows;
   }
 
@@ -381,7 +381,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
     }
 
     this.dataSource.data.forEach((row) => {
-      if (!this.checkStatusOfOrders(row.id) && !this.idsToChange.includes(row.id)) {
+      if (!this.checkStatusOfOrders(row.orderStatus) && !this.idsToChange.includes(row.id)) {
         this.selection.select(row);
         this.idsToChange.push(row.id);
       }
@@ -479,8 +479,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
     this.store.dispatch(GetColumns());
   }
 
-  private getTable(filterValue: string, columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC', reset = true) {
-    this.isLoading = true;
+  private getTable(filterValue: string = '', columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC', reset = true) {
     this.store.dispatch(GetTable({ columnName, page: this.currentPage, filter: filterValue, size: this.pageSize, sortingType, reset }));
   }
 
@@ -489,17 +488,21 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
       ua: 'грн',
       en: 'UAH'
     };
-    this.tableData.forEach((row) => {
-      const newRow = structuredClone(row);
-      const priceKeys = [TableKeys.amountDue, TableKeys.totalOrderSum, TableKeys.generalDiscount, TableKeys.totalPayment];
-      for (const key of priceKeys) {
-        newRow[key] = parseFloat(newRow[key]).toFixed(2) + ' ' + currency[this.currentLang];
-      }
-      const arr = newRow.orderCertificateCode?.split(', ');
-      if (arr && arr.length > 0) {
-        newRow.orderCertificatePoints = arr.reduce((res, elem) => res + parseInt(elem, 10), 0).toString();
-      }
-    });
+    this.dataSource = new MatTableDataSource(
+      this.tableData.map((row) => {
+        const newRow = structuredClone(row);
+        const priceKeys = [TableKeys.amountDue, TableKeys.totalOrderSum, TableKeys.generalDiscount, TableKeys.totalPayment];
+        for (const key of priceKeys) {
+          newRow[key] = parseFloat(newRow[key]).toFixed(2) + ' ' + currency[this.currentLang];
+        }
+        const arr = newRow.orderCertificateCode?.split(', ');
+        if (arr && arr.length > 0) {
+          newRow.orderCertificatePoints = arr.reduce((res, elem) => res + parseInt(elem, 10), 0).toString();
+        }
+        return newRow;
+      })
+    );
+    this.isLoading = false;
   }
 
   updateTableData() {
@@ -660,6 +663,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
   }
 
   editCell(e: IEditCell): void {
+
     if (this.allChecked) {
       this.editAll(e);
     } else if (this.idsToChange.length === 0) {
@@ -1033,10 +1037,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
     return event.clientX > columnMidpoint;
   }
 
-  private getTableOffsetX(): number {
-    return this.getColumnHeaderBoundaries(0)?.left;
-  }
-
   private getColumnHeaderBoundaries(index: number) {
     const headerRow = this.matTableRef?.nativeElement.children[0];
     const cell = headerRow?.children[0]?.children[index];
@@ -1071,14 +1071,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
   }
 
   applyColumnsWidthPreference(): void {
-    if (!this.columnsWidthPreference) {
-      this.columnsWidthPreference = new Map();
-    }
     for (const [idx, col] of this.columns.entries()) {
       const width = this.columnsWidthPreference.get(col.title.key) ?? this.defaultColumnWidth;
       this.setColumnWidth(idx, width);
     }
-    const tableOffsetX = this.getTableOffsetX();
+    const tableOffsetX = this.getColumnHeaderBoundaries(0)?.left;
     if (tableOffsetX === undefined) {
       return;
     }
@@ -1093,14 +1090,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
   updateColumnsWidthPreference(columnIndex: number, newWidth: number) {
     const column: IColumnDTO = this.columns[columnIndex];
     column.weight = newWidth;
-    if (!this.columnsWidthPreference) {
-      this.columnsWidthPreference = new Map();
-    }
     this.columnsWidthPreference.set(column.title.key, newWidth);
-    this.adminTableService
-      .setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe();
+    this.adminTableService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference).subscribe();
+    this.store.dispatch(GetTableColumnWidthSuccess({ columnsWidth: this.columnsWidthPreference }));
   }
 
   setColumnsForFiltering(columns): void {
@@ -1131,13 +1123,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
     return !!this.allFilters[columnName.toLowerCase().includes('date') ? `${columnName}From` : columnName];
   }
 
-  checkStatusOfOrders(id: number): boolean {
-    const order = this.tableData.find((el) => el.id === id);
-    return order ? this.uneditableStatuses.includes(order.orderStatus as OrderStatus) : false;
-  }
-
-  showTable(): string {
-    return this.displayedColumns.length > 1 ? 'block' : 'none';
+  checkStatusOfOrders(orderStatus: OrderStatus): boolean {
+    return this.uneditableStatuses.includes(orderStatus);
   }
 
   resetDefaultWidth(): void {
@@ -1150,7 +1137,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked {
       col.style.width = width + 'px';
     }
     this.applyColumnsWidthPreference();
-
     this.adminTableService
       .setUbsAdminOrdersTableColumnsWidthPreference(this.defaultColumnsWidth)
       .pipe(takeUntilDestroyed(this.destroyRef))

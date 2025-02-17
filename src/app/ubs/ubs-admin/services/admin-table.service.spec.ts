@@ -455,10 +455,10 @@ describe('AdminTableService', () => {
   });
 
   it('should get column width preferences', () => {
-    const preference = {
-      column1: 100,
-      column2: 200
-    };
+    const preference = new Map([
+      ['column1', 100],
+      ['column2', 200]
+    ]);
     service.getUbsAdminOrdersTableColumnsWidthPreference().subscribe((data) => {
       expect(data).toBeDefined();
       expect(data).toEqual(preference);

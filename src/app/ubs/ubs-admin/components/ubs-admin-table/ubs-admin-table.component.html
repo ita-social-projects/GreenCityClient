@@ -298,8 +298,8 @@
                   <div class="accordion-body">
                     <ng-container *ngFor="let column of displayedColumnsView">
                       <li
-                      class="item"
-                      *ngIf="column.columnBelonging === header.key"
+                        class="item"
+                        *ngIf="column.columnBelonging === header.key"
                       >
                         <mat-checkbox
                           [checked]="displayedColumns.includes(column.title.key)"
@@ -307,7 +307,7 @@
                           type="checkbox"
                           value="id1"
                           (change)="changeColumns($event?.checked, column.title.key, column.index)"
-                          >
+                        >
                           {{ column.title | serverTranslate: currentLang }}
                         </mat-checkbox>
                       </li>
@@ -319,227 +319,229 @@
           </div>
           <div class="sticky-bottom clear-apply-group">
             <button
-            type="button"
-            class="filter-btn bg-lime"
-            (click)="resetDefaultWidth()"
+              type="button"
+              class="filter-btn bg-lime"
+              (click)="resetDefaultWidth()"
             >
-            {{ 'ubs-tables.default-reset' | translate }}
-          </button>
-        </div>
-      </ul>
+              {{ 'ubs-tables.default-reset' | translate }}
+            </button>
+          </div>
+        </ul>
+      </div>
+      <button
+        type="button"
+        class="btn btn-default export-excel-btn"
+        (click)="openExportExcel()"
+      >
+        {{ 'ubs-tables.export-to-excel' | translate }}
+      </button>
     </div>
-    <button
-    type="button"
-    class="btn btn-default export-excel-btn"
-    (click)="openExportExcel()"
-    >
-    {{ 'ubs-tables.export-to-excel' | translate }}
-  </button>
-</div>
-</div>
+  </div>
 </div>
 <mat-progress-bar
-*ngIf="editCellProgressBar"
-mode="indeterminate"
+  *ngIf="editCellProgressBar"
+  mode="indeterminate"
 ></mat-progress-bar>
 <div
-class="blocked_mess"
-*ngIf="blockedInfo.length"
-(click)="closeAlertMess()"
+  class="blocked_mess"
+  *ngIf="blockedInfo.length"
+  (click)="closeAlertMess()"
 >
-<ng-container *ngFor="let info of blockedInfo">
-  Orders {{ info.ordersId.join(', ') }} currently blocked by {{ info.userName }}
-</ng-container>
+  <ng-container *ngFor="let info of blockedInfo">
+    Orders {{ info.ordersId.join(', ') }} currently blocked by {{ info.userName }}
+  </ng-container>
   <span class="close_alert">&#10006;</span>
 </div>
 <div
-id="table-container"
-class="scrolling"
-[style.display]="showTable()"
-infiniteScroll
-[infiniteScrollThrottle]="100"
-(scrolled)="onScroll()"
-[scrollWindow]="false"
+  id="table-container"
+  class="scrolling"
+  infiniteScroll
+  [infiniteScrollThrottle]="100"
+  (scrolled)="onScroll()"
+  [scrollWindow]="false"
 >
-<table
-id="table"
-mat-table
-cdkDropList
-cdkDropListOrientation="horizontal"
-(cdkDropListDropped)="dropListDropped($event)"
-[dataSource]="dataSource"
-*ngIf="!isLoading && dataSource; else spinner"
-aria-label="ordersTable"
->
-<ng-container
-*ngFor="let column of displayedColumnsView; let i = index"
-[matColumnDef]="column.title.key"
-[sticky]="column.sticky"
->
-<mat-header-cell
-*matHeaderCellDef
-cdkDrag
-cdkDragLockAxis="x"
-cdkDragBoundary="mat-header-row"
->
-<th
-scope="row"
-*ngIf="column.title.key !== 'select'"
-class="column_header"
->
-<div
-#tooltip="matTooltip"
-class="column-title"
-[matTooltip]="column.title | serverTranslate: currentLang"
-(mouseenter)="showTooltip($event, column.title, tooltip)"
-(mouseleave)="showTooltip($event, column.title, tooltip)"
-(click)="showTooltip($event, column.title, tooltip)"
->
-{{ column.title | serverTranslate: currentLang }}
-</div>
-<div class="icon-row">
-  <ng-container *ngIf="column.filtered">
-    <mat-icon (click)="openColumnFilterPopup($event, column)">filter_list</mat-icon>
-  </ng-container>
-  <ng-container *ngIf="!nonSortableColumns.includes(column.title.key)">
-    <mat-icon
-    *ngIf="arrowDirection === column.title.key"
-    (click)="getSortingData(column.title.key, 'ASC')"
-    >
-    arrow_downward
-  </mat-icon>
-  <mat-icon
-  *ngIf="arrowDirection !== column.title.key"
-  (click)="getSortingData(column.title.key, 'DESC')"
+  <table
+    id="table"
+    mat-table
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="dropListDropped($event)"
+    [dataSource]="dataSource"
+    *ngIf="!isLoading && dataSource; else spinner"
+    aria-label="ordersTable"
   >
-  arrow_upward
-</mat-icon>
-</ng-container>
-</div>
-</th>
-<th
-scope="row"
-*ngIf="column.title.key === 'select'"
-[ngStyle]="{ padding: '0px' }"
->
-<mat-checkbox
-[checked]="allChecked"
-[indeterminate]="isIndeterminate"
-(change)="masterToggle($event)"
-></mat-checkbox>
-</th>
-</mat-header-cell>
-<mat-cell
-*matCellDef="let row"
-[ngClass]="{ highlighted: checkForCheckedBoxes(column.title.key) && isFiltersApplied$ | async }"
-(mousedown)="onResizeColumn($event, i)"
->
-<app-table-cell-readonly
-*ngIf="column.editType === 'READ_ONLY'"
-[title]="row[column.title.key]"
-[optional]="column?.checked"
-[lang]="currentLang"
-[key]="column.title.key"
-(click)="column.title.key === 'id' && openOrder(row[column.title.key])"
-[class.pointer]="column.title.key === 'id'"
-class="column_cell"
-[orderId]="row.id"
->
-</app-table-cell-readonly>
-<app-table-cell-select
-*ngIf="column.editType === 'SELECT'"
-[key]="row[column.title.key]"
-[optional]="column.checked"
-[id]="row.id"
-[lang]="currentLang"
-[nameOfColumn]="column.title.key"
-[ordersToChange]="idsToChange"
-[isAllChecked]="allChecked"
-[uneditableStatus]="checkStatusOfOrders(row.id)"
-[dataForPopUp]="dataForPopUp"
-[showPopUp]="showPopUp"
-(editCellSelect)="editCell($event)"
-(editButtonClick)="openPopUpRequires($event)"
-(cancelEdit)="cancelEditCell($event)"
-(showBlockedInfo)="showBlockedMessage($event)"
-(orderCancellation)="addOrderCancellationData($event)"
-class="column_cell"
->
-</app-table-cell-select>
-<app-table-cell-date
-*ngIf="column.editType === 'DATE'"
-[date]="row[column.title.key]"
-[nameOfColumn]="column.title.key"
-[id]="row.id"
-[ordersToChange]="idsToChange"
-[isAllChecked]="allChecked"
-[uneditableStatus]="checkStatusOfOrders(row.id)"
-(editDateCell)="editCell($event)"
-(showBlockedInfo)="showBlockedMessage($event)"
->
-</app-table-cell-date>
-<app-table-cell-time
-*ngIf="column.editType === 'TIME'"
-[timeOfExport]="row[column.title.key]"
-[exportDate]="row.dateOfExport"
-[nameOfColumn]="column.title.key"
-[id]="row.id"
-[ordersToChange]="idsToChange"
-[isAllChecked]="allChecked"
-[uneditableStatus]="checkStatusOfOrders(row.id)"
-(cancelEdit)="cancelEditCell($event)"
-(editTimeCell)="editCell($event)"
-(showBlockedInfo)="showBlockedMessage($event)"
-(isTimePickerOpened)="setIsTimePickerOpened($event)"
->
-</app-table-cell-time>
-<app-table-cell-input
-*ngIf="column.editType === 'INLINE'"
-[data]="row[column.title.key]"
-[column]="column.title"
-[id]="row.id"
-[lang]="currentLang"
-[ordersToChange]="idsToChange"
-[isAllChecked]="allChecked"
-[isUneditableStatus]="checkStatusOfOrders(row.id)"
+    <ng-container
+      *ngFor="let column of displayedColumnsView; let i = index"
+      [matColumnDef]="column.title.key"
+      [sticky]="column.sticky"
+    >
+      <mat-header-cell
+        *matHeaderCellDef
+        cdkDrag
+        cdkDragLockAxis="x"
+        cdkDragBoundary="mat-header-row"
+      >
+        <th
+          scope="row"
+          *ngIf="column.title.key !== 'select'"
+          class="column_header"
+        >
+          <div
+            #tooltip="matTooltip"
+            class="column-title"
+            [matTooltip]="column.title | serverTranslate: currentLang"
+            (mouseenter)="showTooltip($event, column.title, tooltip)"
+            (mouseleave)="showTooltip($event, column.title, tooltip)"
+            (click)="showTooltip($event, column.title, tooltip)"
+          >
+            {{ column.title | serverTranslate: currentLang }}
+          </div>
+          <div class="icon-row">
+            <ng-container *ngIf="column.filtered">
+              <mat-icon (click)="openColumnFilterPopup($event, column)">filter_list</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="!nonSortableColumns.includes(column.title.key)">
+              <mat-icon
+                *ngIf="arrowDirection === column.title.key"
+                (click)="getSortingData(column.title.key, 'ASC')"
+              >
+                arrow_downward
+              </mat-icon>
+              <mat-icon
+                *ngIf="arrowDirection !== column.title.key"
+                (click)="getSortingData(column.title.key, 'DESC')"
+              >
+                arrow_upward
+              </mat-icon>
+            </ng-container>
+          </div>
+        </th>
+        <th
+          scope="row"
+          *ngIf="column.title.key === 'select'"
+          [ngStyle]="{ padding: '0px' }"
+        >
+          <mat-checkbox
+            [checked]="allChecked"
+            [indeterminate]="isIndeterminate"
+            (change)="masterToggle($event)"
+          ></mat-checkbox>
+        </th>
+      </mat-header-cell>
+      <mat-cell
+        *matCellDef="let row"
+        [ngClass]="{ highlighted: checkForCheckedBoxes(column.title.key) && isFiltersApplied$ | async }"
+        (mousedown)="onResizeColumn($event, i)"
+      >
+        <app-table-cell-readonly
+          *ngIf="column.editType === 'READ_ONLY'"
+          [title]="row[column.title.key]"
+          [optional]="column?.checked"
+          [lang]="currentLang"
+          [key]="column.title.key"
+          (click)="column.title.key === 'id' && openOrder(row[column.title.key])"
+          [class.pointer]="column.title.key === 'id'"
+          class="column_cell"
+          [orderId]="row.id"
+        >
+        </app-table-cell-readonly>
+        <app-table-cell-select
+          *ngIf="column.editType === 'SELECT'"
+          [key]="row[column.title.key]"
+          [optional]="column.checked"
+          [id]="row.id"
+          [lang]="currentLang"
+          [nameOfColumn]="column.title.key"
+          [ordersToChange]="idsToChange"
+          [isAllChecked]="allChecked"
+          [uneditableStatus]="checkStatusOfOrders(row.orderStatus)"
+          [dataForPopUp]="dataForPopUp"
+          [showPopUp]="showPopUp"
+          (editCellSelect)="editCell($event)"
+          (editButtonClick)="openPopUpRequires($event)"
+          (cancelEdit)="cancelEditCell($event)"
+          (showBlockedInfo)="showBlockedMessage($event)"
+          (orderCancellation)="addOrderCancellationData($event)"
+          class="column_cell"
+        >
+        </app-table-cell-select>
+        <app-table-cell-date
+          *ngIf="column.editType === 'DATE'"
+          [date]="row[column.title.key]"
+          [nameOfColumn]="column.title.key"
+          [id]="row.id"
+          [ordersToChange]="idsToChange"
+          [isAllChecked]="allChecked"
+          [uneditableStatus]="checkStatusOfOrders(row.orderStatus)"
+          (editDateCell)="editCell($event)"
+          (showBlockedInfo)="showBlockedMessage($event)"
+        >
+        </app-table-cell-date>
+        <app-table-cell-time
+          *ngIf="column.editType === 'TIME'"
+          [timeOfExport]="row[column.title.key]"
+          [exportDate]="row.dateOfExport"
+          [nameOfColumn]="column.title.key"
+          [id]="row.id"
+          [ordersToChange]="idsToChange"
+          [isAllChecked]="allChecked"
+          [uneditableStatus]="checkStatusOfOrders(row.orderStatus)"
+          (cancelEdit)="cancelEditCell($event)"
+          (editTimeCell)="editCell($event)"
+          (showBlockedInfo)="showBlockedMessage($event)"
+          (isTimePickerOpened)="setIsTimePickerOpened($event)"
+        >
+        </app-table-cell-time>
+        <app-table-cell-input
+          *ngIf="column.editType === 'INLINE'"
+          [data]="row[column.title.key]"
+          [column]="column.title"
+          [id]="row.id"
+          [lang]="currentLang"
+          [ordersToChange]="idsToChange"
+          [isAllChecked]="allChecked"
+          [isUneditableStatus]="checkStatusOfOrders(row.orderStatus)"
           (cancelEdit)="cancelEditCell($event)"
           (editCommentCell)="editCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
           class="column_cell"
-          >
+        >
         </app-table-cell-input>
         <mat-checkbox
-        *ngIf="column.editType === 'CHECKBOX'"
-        [disabled]="checkStatusOfOrders(row.id)"
-        [checked]="selection.isSelected(row)"
-        [aria-label]="checkboxLabel(row)"
-        class="select-cell"
-        (change)="selectRowsToChange($event, row)"
+          *ngIf="column.editType === 'CHECKBOX'"
+          [disabled]="checkStatusOfOrders(row.orderStatus)"
+          [checked]="selection.isSelected(row)"
+          [aria-label]="checkboxLabel(row)"
+          class="select-cell"
+          (change)="selectRowsToChange($event, row)"
         >
-      </mat-checkbox>
-    </mat-cell>
-  </ng-container>
-  <mat-header-row
-  *matHeaderRowDef="displayedColumns"
-  #tableHeaderRow
-  class="tableHeaderRow"
-  ></mat-header-row>
-  <mat-row
-  *matRowDef="let row; columns: displayedColumns"
-  [ngClass]="{ highlighted: selection.isSelected(row) && isFiltersApplied$ | async }"
-  [ngStyle]="{ 'background-color': isStatus(row) }"
-  ></mat-row>
-</table>
-<app-spinner *ngIf="isUpdate"></app-spinner>
-<div
-class="message-container"
-*ngIf="!tableData?.length && !isLoading"
->
-{{ 'ubs-tables.no-orders-found' | translate }}
-</div>
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row
+      *matHeaderRowDef="displayedColumns"
+      #tableHeaderRow
+      class="tableHeaderRow"
+    ></mat-header-row>
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      [ngClass]="{ highlighted: selection.isSelected(row) && isFiltersApplied$ | async }"
+      [ngStyle]="{ 'background-color': isStatus(row) }"
+    ></mat-row>
+  </table>
+  <app-spinner *ngIf="isUpdate"></app-spinner>
+  <div
+    class="message-container"
+    *ngIf="!tableData?.length && !isLoading"
+  >
+    {{ 'ubs-tables.no-orders-found' | translate }}
+  </div>
 </div>
 <ng-template #spinner>
   <app-spinner></app-spinner>
 </ng-template>
 
-<app-spinner class="top-spiner" *ngIf="isOrderAddressLoadingSelector$ | async"></app-spinner>
+<app-spinner
+  class="top-spiner"
+  *ngIf="isOrderAddressLoadingSelector$ | async"
+></app-spinner>
