@@ -255,7 +255,6 @@ mat-cell:first-of-type {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 154px;
   height: 36px;
   background-color: var(--primary-white) !important;
   border: 1px solid var(--ubs-quaternary-dark-grey) !important;
@@ -485,7 +484,7 @@ mat-spinner {
 }
 
 .scrolling {
-  height: calc(100vh - 180px) !important;
+  height: calc(100vh - 160px) !important;
   overflow: scroll;
 }
 

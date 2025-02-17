@@ -110,7 +110,6 @@ export class UbsAdminTableComponent implements OnInit {
   previousSettings: string[];
   displayedColumnsView: IColumnDTO[] = [];
   displayedColumnsViewTitles: string[] = [];
-  firstPageLoad: boolean;
   isStoreEmpty: boolean;
   isPostData = false;
   dataForPopUp = [];
@@ -174,17 +173,13 @@ export class UbsAdminTableComponent implements OnInit {
     // });
     // this.store.dispatch(GetColumnToDisplay());
     // this.store.dispatch(GetLocationsDetails());
+    this.getCurrentLanguage();
     this.bigOrderTable$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
       if (tableData) {
         this.getBigOrderTableContent(tableData);
-        setTimeout(() => {
-          this.applyColumnsWidthPreference();
-        }, 0);
       } else {
-        this.firstPageLoad = true;
         this.getTable();
         this.getColumns();
-        this.getCurrentLanguage();
         this.store.dispatch(GetTableColumnWidth());
       }
       this.initDateForm();
@@ -207,9 +202,7 @@ export class UbsAdminTableComponent implements OnInit {
   getCurrentLanguage(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((lang) => {
       this.currentLang = lang;
-      if (this.tableData.length) {
-        this.formatTableData();
-      }
+      this.tableData.length && this.formatTableData();
     });
   }
 
@@ -220,12 +213,9 @@ export class UbsAdminTableComponent implements OnInit {
     this.editCellProgressBar = false;
     this.allChecked = false;
     this.currentPage = tableData.number;
-    if (this.firstPageLoad) {
-      this.firstPageLoad = false;
-      this.totalElements = tableData[`totalElements`];
-      this.totalPages = tableData[`totalPages`];
-      this.allElements = !this.allElements ? this.totalElements : this.allElements;
-    }
+    this.totalElements = tableData[`totalElements`];
+    this.totalPages = tableData[`totalPages`];
+    this.allElements = !this.allElements ? this.totalElements : this.allElements;
     this.tableData = tableData[`content`];
     this.formatTableData();
     this.isUpdate = false;
@@ -502,6 +492,9 @@ export class UbsAdminTableComponent implements OnInit {
         return newRow;
       })
     );
+    setTimeout(() => {
+      this.applyColumnsWidthPreference();
+    }, 0);
     this.isLoading = false;
   }
 
@@ -588,7 +581,6 @@ export class UbsAdminTableComponent implements OnInit {
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
     this.currentPage = 0;
-    this.firstPageLoad = true;
     this.getTable(this.filterValue, columnName, sortingType, true);
   }
 
@@ -663,7 +655,6 @@ export class UbsAdminTableComponent implements OnInit {
   }
 
   editCell(e: IEditCell): void {
-
     if (this.allChecked) {
       this.editAll(e);
     } else if (this.idsToChange.length === 0) {
@@ -883,7 +874,6 @@ export class UbsAdminTableComponent implements OnInit {
     }
 
     this.currentPage = 0;
-    this.firstPageLoad = true;
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', true);
   }
 
