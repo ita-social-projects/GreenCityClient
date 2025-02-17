@@ -8,11 +8,7 @@ import { WarningPopUpComponent } from '@shared/components';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize, take } from 'rxjs/operators';
-
-enum ReactionType {
-  LIKE = 'likes',
-  DISLIKE = 'dislikes'
-}
+import { ReactionType } from './reaction-type.enum';
 
 @Component({
   selector: 'app-comments-list',

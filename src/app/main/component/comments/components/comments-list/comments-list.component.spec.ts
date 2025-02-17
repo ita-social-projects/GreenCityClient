@@ -105,11 +105,11 @@ describe('CommentsListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('поверни створеного компонента', () => {
+  it('return the created componennt', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ініціалізує всі необхідні властивості', () => {
+  it('inititilez preperties', () => {
     expect(component.types).toBeDefined();
     expect(component.content).toBeDefined();
     expect(component.content instanceof FormControl).toBeTrue();
@@ -117,9 +117,8 @@ describe('CommentsListComponent', () => {
     expect(component['commentHtml']).toBe('');
   });
 
-  it('викликає подію changedList при видаленні коментаря', () => {
+  it('calls event  changedList on comment delete', () => {
     const emitSpy = spyOn(component.changedList, 'emit');
-    // Створюємо обʼєкт типу AddedCommentDTO із всіма необхідними властивостями
     const addedComment: AddedCommentDTO = {
       author: { id: 1, name: 'Test', profilePicturePath: null },
       id: 1,
@@ -130,11 +129,11 @@ describe('CommentsListComponent', () => {
     expect(emitSpy).toHaveBeenCalledWith(addedComment);
   });
 
-  it('повертає true для редагованого коментаря', () => {
+  it('return the comment', () => {
     expect(component.isCommentEdited(commentData)).toBeTrue();
   });
 
-  it('відправляє дані при збереженні редагованого коментаря', () => {
+  it('sends data on edited comment sending', () => {
     const updatedText = 'Updated comment text';
     component.content.setValue(updatedText);
     component['commentHtml'] = updatedText;
@@ -147,12 +146,12 @@ describe('CommentsListComponent', () => {
     expect(commentData.status).toEqual('EDITED');
   });
 
-  it('скасовує режим редагування, якщо користувач підтверджує скасування', () => {
+  it(' cancels the edit mode, if the user confirms the cancelling', () => {
     component.cancelEditedComment(commentData);
     expect(commentData.isEdit).toBeFalse();
   });
 
-  it('залишає режим редагування, якщо користувач відмовляється від скасування', () => {
+  it('leaves the edit mode if the user cancels the cancel', () => {
     spyOn((component as any).dialog, 'open').and.returnValue({
       afterClosed: () => of(false)
     } as any);
@@ -161,14 +160,14 @@ describe('CommentsListComponent', () => {
     expect(commentData.isEdit).toBeTrue();
   });
 
-  it('змінює лічильник (наприклад, лайки) для вибраного коментаря', () => {
+  it('changes the counter (likes(e.g.)) for the chosen comment', () => {
     component.elementsList = [{ ...commentData }];
     component.changeCounter(1, commentData.id, 'likes');
     const updatedComment = component.elementsList.find((item) => item.id === commentData.id);
     expect(updatedComment?.likes).toEqual(commentData.likes + 1);
   });
 
-  it('оновлює відображення елементів при кліку на кнопку відповіді (reply)', () => {
+  it('renews the displaying elements on the reply button click', () => {
     const updateSpy = spyOn(component, 'updateContentControl');
     component.elementsList = [{ ...commentData, showRelyButton: false }];
     component.showElements(commentData.id, 'showRelyButton');
@@ -177,7 +176,7 @@ describe('CommentsListComponent', () => {
     expect(updatedComment?.showRelyButton).toBeTrue();
   });
 
-  it('оновлює форму для редагування при відповіді на коментар', () => {
+  it('renews the form for editing on the comment replying', () => {
     const oldText = 'old value';
     component.content.setValue(oldText);
     component.elementsList = [{ ...commentData }];
@@ -186,34 +185,34 @@ describe('CommentsListComponent', () => {
     expect(component.isEditTextValid).toBeTrue();
   });
 
-  it('правильно перевіряє, чи є користувач автором коментаря', () => {
+  it('checks whether the user is the comment author', () => {
     component.userId = 1;
     expect(component.checkCommentAuthor(commentData.author.id)).toBeTrue();
     expect(component.checkCommentAuthor(5)).toBeFalse();
   });
 
-  it('оновлює контент форми через updateContentControl', () => {
+  it('refreshes the form content using the updateContentControl', () => {
     component.elementsList = [{ ...commentData }];
     component.updateContentControl(commentData.id);
     expect(component.content.value).toEqual(commentData.text);
     expect(component.isEditTextValid).toBeTrue();
   });
 
-  it('не змінює прапорець isAddingReply при кліку на showAllRelies', () => {
+  it("doesn't change the isAddingReply flag on click", () => {
     component.isAddingReply = false;
     component.elementsList = [{ ...commentData, showAllRelies: false }];
     component.showElements(commentData.id, 'showAllRelies');
     expect(component.isAddingReply).toBeFalse();
   });
 
-  it('змінює прапорець isAddingReply при кліку на showRelyButton', () => {
+  it('changes the isAddingReply flang on the showRelybutton click', () => {
     component.isAddingReply = false;
     component.elementsList = [{ ...commentData, showRelyButton: false }];
     component.showElements(commentData.id, 'showRelyButton');
     expect(component.isAddingReply).toBeTrue();
   });
 
-  it('перемикає прапорець isAddingReply при повторному кліку на showRelyButton', () => {
+  it('changes the isAddingReply flag on repeating click on the showRelyButtonChanges', () => {
     component.isAddingReply = false;
     component.elementsList = [{ ...commentData, showRelyButton: false }];
     component.showElements(commentData.id, 'showRelyButton');
@@ -222,7 +221,7 @@ describe('CommentsListComponent', () => {
     expect(component.isAddingReply).toBeFalse();
   });
 
-  it('викликає метод updateContentControl під час обробки showElements', () => {
+  it('calls the updateContentControl method processing the showElelents', () => {
     const updateSpy = spyOn(component, 'updateContentControl');
     component.elementsList = [{ ...commentData }];
     component.showElements(commentData.id, 'showRelyButton');

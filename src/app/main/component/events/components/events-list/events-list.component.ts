@@ -123,7 +123,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.updateEventReaction(event, 'like');
       this.eventService.getEventById(event.id).subscribe((updatedEvent) => {
         this.refreshEventInList(updatedEvent);
-        console.log('Fetched Events:', this.eventsList);
       });
     });
   }
@@ -416,7 +415,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.countOfEvents = res.totalElements;
         this.eventsList.push(...res.page);
         this.hasNextPage = res.hasNext;
-        console.log('Fetched Events:', this.eventsList);
       } else {
         this.noEventsMatch = true;
       }
