@@ -1045,9 +1045,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     const column: IColumnDTO = this.columns[columnIndex];
     column.weight = newWidth;
     this.columnsWidthPreference.set(column.title.key, newWidth);
-
     this.store.dispatch(GetTableColumnWidthSuccess({ columnsWidth: this.columnsWidthPreference }));
-    this.getOrderTotalElements();
   }
 
   setColumnsForFiltering(columns): void {

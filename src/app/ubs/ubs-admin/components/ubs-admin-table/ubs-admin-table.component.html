@@ -339,9 +339,9 @@
         type="button"
         class="btn btn-default update-table"
         (click)="updateTableContent()"
-        *ngIf="amountNewOrders"
       >
-        <span>{{amountNewOrders}}</span>
+        <span *ngIf="amountNewOrders; else updateTableSymbol">{{amountNewOrders}}</span>
+        <ng-template #updateTableSymbol>↻</ng-template>
       </button>
     </div>
   </div>
