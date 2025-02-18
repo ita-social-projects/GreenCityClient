@@ -335,6 +335,14 @@
       >
         {{ 'ubs-tables.export-to-excel' | translate }}
       </button>
+      <button
+        type="button"
+        class="btn btn-default update-table"
+        (click)="updateTableContent()"
+        *ngIf="amountNewOrders"
+      >
+        <span>{{amountNewOrders}}</span>
+      </button>
     </div>
   </div>
 </div>

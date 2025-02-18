@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectorRef, Component, DestroyRef, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { DateAdapter } from '@angular/material/core';
@@ -62,7 +62,7 @@ import { IBigOrderTableOrderInfo } from '../../models/ubs-admin.interface';
   templateUrl: './ubs-admin-table.component.html',
   styleUrls: ['./ubs-admin-table.component.scss']
 })
-export class UbsAdminTableComponent implements OnInit {
+export class UbsAdminTableComponent implements OnInit, OnDestroy {
   currentLang: string;
   nonSortableColumns = nonSortableColumns;
   sortingColumn: string;
@@ -126,6 +126,7 @@ export class UbsAdminTableComponent implements OnInit {
   isFiltersApplied$ = this.store.select(isFiltersAppliedSelector);
   isOrderAddressLoadingSelector$ = this.store.select(isOrderAddressLoadingSelector);
   columnWidthSelector$ = this.store.select(columnWidthSelector);
+  amountNewOrders: number;
 
   constructor(
     private store: Store<IAppState>,
@@ -134,11 +135,11 @@ export class UbsAdminTableComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private tableHeightService: TableHeightService,
     public dialog: MatDialog,
-    private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
     private fb: FormBuilder,
     private dateAdapter: DateAdapter<Date>,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private cdr: ChangeDetectorRef
   ) {
     this.dateAdapter.setLocale('en-GB');
   }
@@ -148,6 +149,7 @@ export class UbsAdminTableComponent implements OnInit {
     this.bigOrderTable$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
       if (tableData) {
         this.getBigOrderTableContent(tableData);
+        this.getOrderTotalElements();
       } else {
         this.getTable();
         this.getColumns();
@@ -742,7 +744,6 @@ export class UbsAdminTableComponent implements OnInit {
 
   showTooltip(event, title, tooltip) {
     event.stopImmediatePropagation();
-
     const lengthStrUa = title.ua.split('').length;
     const lengthStrEn = title.en.split('').length;
     if ((this.currentLang === 'ua' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
@@ -1044,8 +1045,9 @@ export class UbsAdminTableComponent implements OnInit {
     const column: IColumnDTO = this.columns[columnIndex];
     column.weight = newWidth;
     this.columnsWidthPreference.set(column.title.key, newWidth);
-    this.adminTableService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference).subscribe();
+
     this.store.dispatch(GetTableColumnWidthSuccess({ columnsWidth: this.columnsWidthPreference }));
+    this.getOrderTotalElements();
   }
 
   setColumnsForFiltering(columns): void {
@@ -1094,5 +1096,30 @@ export class UbsAdminTableComponent implements OnInit {
       .setUbsAdminOrdersTableColumnsWidthPreference(this.defaultColumnsWidth)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe();
+  }
+
+  getOrderTotalElements(): void {
+    this.pageSize = 1;
+    this.adminTableService.getOrderTotalElements().subscribe((data) => {
+      this.amountNewOrders = data.totalElements - this.totalElements;
+    });
+    this.pageSize = 25;
+  }
+
+  updateTableContent(): void {
+    this.getTable();
+  }
+
+  saveColumnsWidthPreference(): void{
+    this.adminTableService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference).subscribe();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler() {
+    this.saveColumnsWidthPreference();
+  }
+
+  ngOnDestroy(): void {
+    this.saveColumnsWidthPreference();
   }
 }
