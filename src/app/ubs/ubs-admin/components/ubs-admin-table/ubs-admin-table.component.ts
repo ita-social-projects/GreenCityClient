@@ -1,14 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import {
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  ElementRef,
-  OnInit,
-  Renderer2,
-  ViewChild
-} from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { DateAdapter } from '@angular/material/core';
@@ -18,7 +10,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
 import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
-import { Subject, timer } from 'rxjs';
+import { timer } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { MouseEvents } from 'src/app/shared/mouse-events';
 import {
@@ -64,7 +56,6 @@ import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IBigOrderTableOrderInfo } from '../../models/ubs-admin.interface';
-import { GetLocations } from 'src/app/store/actions/tariff.actions';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -167,7 +158,12 @@ export class UbsAdminTableComponent implements OnInit {
     });
     this.locationsDetailsSelector$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((locations) => {
       if (locations.length) {
-        this.getLocationsDetails(locations);
+        const updatedLocations = locations.map((location) => ({
+          ...location,
+          nameUa: location.nameUk,
+          nameUk: undefined
+        }));
+        this.getLocationsDetails(updatedLocations);
       }
     });
     this.bigOrderTableParams$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((columns: IBigOrderTableParams) => {
@@ -488,7 +484,6 @@ export class UbsAdminTableComponent implements OnInit {
 
   onSearchTermChange(columnName: string, event: Event): void {
     this.searchTerms[columnName] = event.target['value'];
-
     this.locationsForFiltering[columnName] = this.getLocationsForFiltering(columnName);
   }
 
@@ -506,7 +501,6 @@ export class UbsAdminTableComponent implements OnInit {
     } else if (columnName === 'district') {
       locations = this.getDistrictsForFiltering();
     }
-
     const term = this.searchTerms[columnName]?.toLowerCase() ?? '';
     return locations
       .filter((location) => location.nameEn.toLowerCase().includes(term) || location.nameUk.toLowerCase().includes(term))
@@ -777,8 +771,7 @@ export class UbsAdminTableComponent implements OnInit {
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.tableData = [];
     this.isLoading = true;
-    const value = columnsToFilterByName.includes(currentColumn) ? option.en : option.key;
-
+    const value = columnsToFilterByName.includes(currentColumn) ? option[this.currentLang] : option.key;
     checked
       ? this.store.dispatch(AddFilterMultiAction({ filter: { column: currentColumn, value }, fetchTable: true }))
       : this.store.dispatch(RemoveFilter({ filter: { column: currentColumn, value }, fetchTable: true }));
@@ -791,7 +784,6 @@ export class UbsAdminTableComponent implements OnInit {
   onFilterChange(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.noFiltersApplied = false;
     this.adminTableService.setNewFilters(checked, currentColumn, option);
-
     if (columnsToFilterByName.includes(currentColumn)) {
       this.updateLocationsForFiltering();
     }
@@ -850,18 +842,19 @@ export class UbsAdminTableComponent implements OnInit {
   resetCurrentFilters(e: Event): void {
     e.stopPropagation();
     this.adminTableService.setCurrentFilters(this.allFilters);
+    if (this.allFilters) {
+      Object.keys(this.allFilters).forEach((key) => {
+        if (key.endsWith('From') || key.endsWith('To')) {
+          const controlKey = key.replace(/From|To/, '');
+          const dateFrom = this.allFilters[controlKey + 'From'];
+          const dateTo = this.allFilters[controlKey + 'To'];
 
-    Object.keys(this.allFilters).forEach((key) => {
-      if (key.endsWith('From') || key.endsWith('To')) {
-        const controlKey = key.replace(/From|To/, '');
-        const dateFrom = this.allFilters[controlKey + 'From'];
-        const dateTo = this.allFilters[controlKey + 'To'];
-
-        this.dateForm.get(controlKey + 'From')?.setValue(dateFrom ? new Date(dateFrom as string) : null);
-        this.dateForm.get(controlKey + 'To')?.setValue(dateTo ? new Date(dateTo as string) : null);
-        this.dateForm.get(controlKey + 'Check')?.setValue(this.allFilters[controlKey + 'Check']);
-      }
-    });
+          this.dateForm.get(controlKey + 'From')?.setValue(dateFrom ? new Date(dateFrom as string) : null);
+          this.dateForm.get(controlKey + 'To')?.setValue(dateTo ? new Date(dateTo as string) : null);
+          this.dateForm.get(controlKey + 'Check')?.setValue(this.allFilters[controlKey + 'Check']);
+        }
+      });
+    }
   }
 
   openColumnFilterPopup(event: MouseEvent, column) {
