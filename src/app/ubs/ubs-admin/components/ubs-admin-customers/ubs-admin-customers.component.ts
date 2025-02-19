@@ -297,6 +297,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       .getCustomers(this.sortingColumn, this.currentPage, this.queryString, this.filterValue, this.pageSize, this.sortType || 'ASC')
       .pipe(takeUntil(this.destroy$))
       .subscribe((item: ICustomersTable) => {
+        this.store.dispatch(GetCustomerTable({ table: item }));
         this.tableData = [...this.tableData, ...item.page];
         this.dataSource = new MatTableDataSource(this.tableData);
         this.totalPages = item.totalPages;
