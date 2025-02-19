@@ -688,6 +688,10 @@ mat-spinner {
   height: 36px;
   width: 36px;
 
+  &:focus {
+    box-shadow: none;
+  }
+
   span {
     position: absolute;
     left: 8px;

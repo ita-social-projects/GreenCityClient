@@ -1105,10 +1105,19 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   updateTableContent(): void {
-    this.getTable();
+    this.isLoading = true;
+    const params = {
+      page: 0,
+      size: this.pageSize,
+      filterValue: '',
+      columnName: this.sortingColumn || 'id',
+      sortingType: this.sortType || 'DESC',
+      reset: true
+    };
+    this.store.dispatch(GetTable(params));
   }
 
-  saveColumnsWidthPreference(): void{
+  saveColumnsWidthPreference(): void {
     this.adminTableService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference).subscribe();
   }
 
