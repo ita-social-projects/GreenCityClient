@@ -13,7 +13,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "stylelint": "npx stylelint \"src/**/*.scss\"",
-    "precommit": "lint-staged && ts-node ./scripts/delete-public-for-commit.ts"
+    "precommit": "lint-staged && ts-node ./scripts/delete-public-for-commit.ts",
+    "delete-public": "ts-node ./scripts/delete-public-for-all-project.ts"
   },
   "private": true,
   "dependencies": {
