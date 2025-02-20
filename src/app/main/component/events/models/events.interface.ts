@@ -78,14 +78,12 @@ export interface EventInformation {
   duration: number;
   description: string;
   open: boolean;
-  tags: [
-    {
-      id?: number;
-      name: string;
-      nameUa?: string;
-      nameEn?: string;
-    }
-  ];
+  tags: Array<{
+    id?: number;
+    name: string;
+    nameUa?: string;
+    nameEn?: string;
+  }>;
 }
 
 export interface EventAttender {
