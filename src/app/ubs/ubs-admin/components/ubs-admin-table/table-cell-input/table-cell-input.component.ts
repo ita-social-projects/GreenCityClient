@@ -10,6 +10,8 @@ import { OrderService } from '@ubs/ubs-admin/services/order.service';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Store } from '@ngrx/store';
+import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
 @Component({
   selector: 'app-table-cell-input',
   templateUrl: './table-cell-input.component.html',
@@ -28,7 +30,6 @@ export class TableCellInputComponent {
   @Output() showBlockedInfo = new EventEmitter();
 
   isEditable: boolean;
-  isBlocked: boolean;
   private typeOfChange: number[];
   private readonly font = '12px Lato, sans-serif';
   private dialogConfig = new MatDialogConfig();
@@ -38,25 +39,24 @@ export class TableCellInputComponent {
     private localStorageService: LocalStorageService,
     public dialog: MatDialog,
     private orderService: OrderService,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private store: Store
   ) {}
 
   edit(): void {
+    this.store.dispatch(SetCursorWaite({ isWaiting: true }));
     this.isEditable = false;
-    this.isBlocked = true;
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
     this.adminTableService
       .blockOrders(this.typeOfChange)
       .pipe(
         take(1),
         catchError(() => {
-          this.isBlocked = false;
           this.isEditable = true;
           return of([]);
         })
       )
       .subscribe((res: IAlertInfo[]) => {
-        this.isBlocked = false;
         if (res && res[0]) {
           this.showBlockedInfo.emit(res);
         } else {
@@ -95,6 +95,7 @@ export class TableCellInputComponent {
   }
 
   openEditAddressWindow(): void {
+    this.store.dispatch(SetCursorWaite({ isWaiting: true }));
     this.adminTableService.blockOrders([this.id]).subscribe();
     this.orderService
       .getOrderAddress(this.id)

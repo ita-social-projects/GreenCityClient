@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { CreateAddress, DeleteAddress, UpdateAddress } from 'src/app/store/actions/order.actions';
 import { CAddressData } from 'src/app/ubs/ubs/models/ubs.model';
 import { UpdateOrderAddress } from 'src/app/store/actions/bigOrderTable.actions';
+import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -61,6 +62,7 @@ export class UBSAddAddressPopUpComponent implements OnInit {
     if (this.data?.address) {
       this.addAddressForm.setValue({ address: this.data.address || '' });
     }
+    this.store.dispatch(SetCursorWaite({ isWaiting: false }));
   }
 
   onNoClick(): void {

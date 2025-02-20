@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectorRef, Component, DestroyRef, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { DateAdapter } from '@angular/material/core';
@@ -56,6 +56,7 @@ import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IBigOrderTableOrderInfo } from '../../models/ubs-admin.interface';
+import { isCursorWaiteSelector } from 'src/app/store/selectors/ubs-admin.selectors';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -127,6 +128,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   isOrderAddressLoadingSelector$ = this.store.select(isOrderAddressLoadingSelector);
   columnWidthSelector$ = this.store.select(columnWidthSelector);
   amountNewOrders: number;
+  isCursorWaite$ = this.store.select(isCursorWaiteSelector);
 
   constructor(
     private store: Store<IAppState>,
@@ -138,8 +140,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private fb: FormBuilder,
     private dateAdapter: DateAdapter<Date>,
-    private destroyRef: DestroyRef,
-    private cdr: ChangeDetectorRef
+    private destroyRef: DestroyRef
   ) {
     this.dateAdapter.setLocale('en-GB');
   }

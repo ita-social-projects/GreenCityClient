@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialUbsAdminState } from '../state/ubs-admin.state';
-import { GetCustomerTable } from '../actions/ubs-admin.actions';
+import { GetCustomerTable, SetCursorWaite } from '../actions/ubs-admin.actions';
 
 export const ubsAdminReducer = createReducer(
   initialUbsAdminState,
@@ -18,5 +18,9 @@ export const ubsAdminReducer = createReducer(
         table: { ...state.table, ...newContent }
       };
     }
-  })
+  }),
+  on(SetCursorWaite, (state, action) => ({
+    ...state,
+    isCursorWaite: action.isWaiting
+  }))
 );
