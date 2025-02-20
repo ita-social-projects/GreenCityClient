@@ -10,9 +10,9 @@ export const headerIcons = {
 };
 
 export const ubsHeaderIcons = {
-  ubsAdminLogo: 'assets/admin-header/new-logo-admin.jpg',
+  ubsAdminLogo: 'assets/admin-header/pickup-header-logo.svg',
   search: 'assets/img/search.svg',
   searchIcon: 'assets/admin-header/search.svg',
   arrowDown: 'assets/img/arrow_down.svg',
-  ubsLogoFooter: 'assets/admin-header/new-logo-admin.jpg'
+  ubsLogoFooter: 'assets/admin-header/pickup-footer-logo.svg'
 };
