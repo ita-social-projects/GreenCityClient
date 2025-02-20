@@ -83,7 +83,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       this.route.params.subscribe((params) => {
         const isAuthor = this.authorId === userId;
         this.eventId = params['id'];
-        console.log(isAuthor && this.eventId);
         if (isAuthor && this.eventId) {
           this.isFetching = true;
           this.isUpdating = true;
@@ -91,14 +90,14 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
           this.eventStoreService.setEventId(Number(this.eventId));
           this.eventsService.getEventById(this.eventId).subscribe({
             next: (response) => {
-              // this.event = response
-              // this.eventsService.setEvent(response)
+              this.event = response;
+              this.eventsService.setEvent(response);
               this.authorId = response.organizer.id;
               this.isAuthor = this.authorId === userId;
               this.isFetching = false;
               this.cdRef.detectChanges();
             },
-            error: (error) => {
+            error: (_) => {
               this.isFetching = false;
               this.isAuthor = false;
               this.cdRef.detectChanges();
@@ -244,14 +243,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   onPreview(): void {
-    this.cdRef.detectChanges();
-
-    if (currentRoute.includes('create-event')) {
-      this.eventsService.setIsFromCreateEvent(true);
-    } else {
-      this.eventsService.setIsFromCreateEvent(false);
-    }
-
     this.eventsService.setEvent(this.eventForm.value);
     this.router.navigate(['events', 'preview']);
   }

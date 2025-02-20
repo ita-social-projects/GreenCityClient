@@ -1,4 +1,4 @@
-const { readdirSync, statSync, readFileSync, writeFileSync } = require('fs');
+const { readFileSync, writeFileSync } = require('fs');
 const { execSync } = require('child_process');
 const path = require('path');
 
@@ -8,6 +8,7 @@ function getStagedFiles() {
 }
 
 function removePublicModifier(filePath: string) {
+  console.log(filePath);
   if (filePath.endsWith('.component.ts') || filePath.endsWith('.service.ts')) {
     const fileContent = readFileSync(filePath, 'utf-8');
     const updatedContent = fileContent.replace(/^\s{2}public\s+/gm, '  ');
