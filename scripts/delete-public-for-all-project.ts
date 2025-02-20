@@ -1,4 +1,5 @@
-export const { readdirSync, statSync, readFileSync, writeFileSync } = require('fs');
+// @ts-ignore
+const { readdirSync, statSync, readFileSync, writeFileSync } = require('fs');
 
 function traverseDirectory(directory: string, fileCallback: (filePath: string) => void) {
   const files = readdirSync(directory);
@@ -13,6 +14,7 @@ function traverseDirectory(directory: string, fileCallback: (filePath: string) =
   }
 }
 
+// @ts-ignore
 function removePublicModifier(filePath: string) {
   let fileContent = readFileSync(filePath, 'utf-8');
   fileContent = fileContent.replace(/^\s{2}public\s+/gm, '  ');
