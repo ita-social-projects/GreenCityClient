@@ -108,9 +108,9 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       this.getTable();
       this.columns = columnsParams;
       this.setDisplayedColumns();
-      this.initFilterForm();
       this.onCreateGroupFormValueChange();
     });
+    this.initFilterForm();
   }
 
   ngAfterViewChecked() {
