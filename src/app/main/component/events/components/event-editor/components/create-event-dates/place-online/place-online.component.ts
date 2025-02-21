@@ -29,7 +29,6 @@ export class PlaceOnlineComponent implements OnInit {
   @Input() formDisabled: boolean;
   formGroup: FormGroup<FormControllers<DateInformation>>;
   mapOptions: google.maps.MapOptions;
-
   private _autocomplete: google.maps.places.Autocomplete;
   private _regionOptions: google.maps.places.AutocompleteOptions = {
     types: ['address'],
@@ -100,7 +99,7 @@ export class PlaceOnlineComponent implements OnInit {
         this.setPlace();
       }, 1000);
     });
-    this.daysForm.controls[0].valueChanges.subscribe((value) => {
+    this.daysForm.controls[0].valueChanges.pipe(takeUntil(this.$destroy)).subscribe((value) => {
       if (this.appliedPlaceForAll.value) {
         this.applyLocationToAllDays(value.coordinates, value.place, true);
       }
@@ -108,7 +107,6 @@ export class PlaceOnlineComponent implements OnInit {
         this.applyLinkToAllDays(value.onlineLink, true);
       }
     });
-    console.log(this.formGroup.value);
   }
 
   applyInitialSettings(firstDay: any): void {
@@ -266,7 +264,7 @@ export class PlaceOnlineComponent implements OnInit {
     this.map.center = latLngLiteral;
     const geocoder = new google.maps.Geocoder();
 
-    await geocoder.geocode({ location: latLngLiteral, language: 'ua' }, (results, status) => {
+    geocoder.geocode({ location: latLngLiteral, language: 'ua' }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK && results[0]) {
         const address_components = results[0].address_components;
         this.coordinates.patchValue({
@@ -279,7 +277,7 @@ export class PlaceOnlineComponent implements OnInit {
         });
       }
     });
-    await geocoder.geocode({ location: latLngLiteral, language: 'en' }, (results, status) => {
+    geocoder.geocode({ location: latLngLiteral, language: 'en' }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK && results[0]) {
         const address_components = results[0].address_components;
         this.coordinates.patchValue({

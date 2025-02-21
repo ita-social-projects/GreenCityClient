@@ -82,9 +82,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     if (!this.event) {
       const userId = this.localStorageService.getUserId();
       this.route.params.subscribe((params) => {
-        const isAuthor = this.authorId === userId;
         this.eventId = params['id'];
-        if (isAuthor && this.eventId) {
+        if (this.eventId) {
           this.isFetching = true;
           this.isUpdating = true;
           this.submitButtonName = 'create-event.save-event';

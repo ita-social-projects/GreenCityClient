@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Language } from 'src/app/main/i18n/Language';
 import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { Address, CourierLocations, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
-import { EventResponse } from '../../component/events/models/events.interface';
+import { EventResponse, NewEvent } from '../../component/events/models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -55,10 +55,6 @@ export class LocalStorageService {
 
   getEditMode(): boolean {
     return localStorage.getItem(this.CAN_USER_EDIT_EVENT) === 'true';
-  }
-
-  setEventForEdit(key: string, event: EventResponse | any) {
-    localStorage.setItem(key, JSON.stringify(event));
   }
 
   getEventForEdit() {

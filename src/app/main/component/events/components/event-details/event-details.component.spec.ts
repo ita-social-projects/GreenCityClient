@@ -88,7 +88,6 @@ describe('EventDetailsComponent', () => {
     'userIdBehaviourSubject',
     'languageBehaviourSubject',
     'setEditMode',
-    'setEventForEdit',
     'getCurrentLanguage',
     'getPreviousPage'
   ]);

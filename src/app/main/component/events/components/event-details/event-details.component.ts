@@ -186,7 +186,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   setGoogleMapLink(): void {
     const coords = this.event.dates[0].coordinates;
     if (coords) {
-      this.googleMapLink = `https://www.google.com.ua/maps/@${coords.longitude},${coords.latitude}`;
+      this.googleMapLink = `https://www.google.com/maps/search/?api=1&query=${coords.latitude},${coords.longitude}`;
     }
   }
 
@@ -246,7 +246,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.localStorageService.setEditMode('canUserEdit', true);
     }
     const id = this.eventId || this.eventStoreService.getEventId();
-    this.router.navigate(['/events', 'create-update-event', id]);
+    if (id) {
+      this.router.navigate(['/events', 'create-update-event', id]);
+    } else {
+      this.router.navigate(['/events/create-update-event']);
+    }
   }
 
   onPublish() {

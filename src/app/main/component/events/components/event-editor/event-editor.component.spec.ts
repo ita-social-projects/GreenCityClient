@@ -13,7 +13,7 @@ import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 import { EventEditorComponent } from './event-editor.component';
 
-fdescribe('EventEditorComponent', () => {
+describe('EventEditorComponent', () => {
   let component: EventEditorComponent;
   let eventsService: EventsService;
   let fixture: ComponentFixture<EventEditorComponent>;
