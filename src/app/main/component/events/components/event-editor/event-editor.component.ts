@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -21,6 +21,7 @@ import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 import { quillConfig } from './quillEditorFunc';
 import { customTextValidator } from './validators/quillEditorValidator';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-event-editor',
@@ -87,7 +88,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
           this.isFetching = true;
           this.isUpdating = true;
           this.submitButtonName = 'create-event.save-event';
-          this.eventStoreService.setEventId(Number(this.eventId));
+          this.eventStore.setEventId(Number(this.eventId));
           this.eventsService.getEventById(this.eventId).subscribe({
             next: (response) => {
               this.event = response;
