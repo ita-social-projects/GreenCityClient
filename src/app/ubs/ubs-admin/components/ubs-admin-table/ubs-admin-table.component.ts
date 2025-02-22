@@ -161,12 +161,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     });
     this.locationsDetailsSelector$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((locations) => {
       if (locations.length) {
-        const updatedLocations = locations.map((location) => ({
-          ...location,
-          nameUa: location.nameUk,
-          nameUk: undefined
-        }));
-        this.getLocationsDetails(updatedLocations);
+        this.getLocationsDetails(locations);
       }
     });
     this.bigOrderTableParams$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((columns: IBigOrderTableParams) => {
@@ -508,7 +503,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     return locations
       .filter((location) => location.nameEn.toLowerCase().includes(term) || location.nameUk.toLowerCase().includes(term))
       ?.slice(0, 100)
-      .map((location) => ({ key: location.id, en: location.nameEn, ua: location.nameUa }));
+      .map((location) => ({ key: location.id, en: location.nameEn, ua: location.nameUk }));
   }
 
   getCitiesForFiltering(): ICityDetails[] {
@@ -1098,11 +1093,9 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   getOrderTotalElements(): void {
-    this.pageSize = 1;
     this.adminTableService.getOrderTotalElements().subscribe((data) => {
-      this.amountNewOrders = data.totalElements - this.totalElements;
+      this.amountNewOrders = data.orderCount - this.totalElements;
     });
-    this.pageSize = 25;
   }
 
   updateTableContent(): void {

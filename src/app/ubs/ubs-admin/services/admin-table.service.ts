@@ -386,7 +386,7 @@ export class AdminTableService {
   getUbsAdminOrdersTableColumnsWidthPreference(): Observable<Map<string, number>> {
     return this.http.get<Map<string, number>>(`${this.url}orderTableColumnsWidth`);
   }
-  getOrderTotalElements(): Observable<IBigOrderTable> {
-    return this.http.get<IBigOrderTable>('https://greencity-ubs.greencity.cx.ua/ubs/management/bigOrderTable');
+  getOrderTotalElements(): Observable<{ orderCount: number }> {
+    return this.http.get<{ orderCount: number }>(`${this.url}orders/count`);
   }
 }
