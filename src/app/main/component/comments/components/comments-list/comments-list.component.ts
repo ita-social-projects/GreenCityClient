@@ -24,13 +24,17 @@ export class CommentsListComponent {
   @Input() public isLoggedIn: boolean;
   @Input() public userId: number;
   @Output() public changedList = new EventEmitter<AddedCommentDTO>();
+  private isProcessing = new Set<number>();
+  likeImg = 'assets/img/comments/like.png';
+  likedImg = 'assets/img/comments/liked.png';
+  dislikedImg = 'assets/img/comments/disliked.png';
+
   types = dataTypes;
   commentMaxLength = 8000;
   content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(this.commentMaxLength)]);
   private commentHtml = '';
   editIcon = 'assets/img/comments/edit.png';
   cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
-  likeImg = 'assets/img/comments/like.png';
   isEditTextValid: boolean;
   private confirmDialogConfig = {
     hasBackdrop: true,
@@ -51,6 +55,7 @@ export class CommentsListComponent {
   private isAdmin = this.jwtService.getUserRole() === 'ROLE_ADMIN';
   private isProcessingLike = false;
   private isProcessingDislike = false;
+
   constructor(
     private commentsService: CommentsService,
     private jwtService: JwtService,
@@ -87,61 +92,67 @@ export class CommentsListComponent {
     });
   }
 
+  private showErrorMessage(message: string): void {
+    this.snackBar.open(message, 'Close', { duration: 3000 });
+  }
+
   likeComment(commentId: number): void {
-    if (this.isProcessingLike) {
+    if (this.isProcessing.has(commentId)) {
       return;
     }
-    this.isProcessingLike = true;
+    this.isProcessing.add(commentId);
 
+    const comment = this.elementsList.find((c) => c.id === commentId);
+    if (!comment) {
+      return;
+    }
+
+    const isLiking = !comment.isLiked;
     this.commentsService
       .postLike(commentId)
       .pipe(
         take(1),
-        finalize(() => (this.isProcessingLike = false))
+        finalize(() => this.isProcessing.delete(commentId))
       )
       .subscribe(
         () => {
-          this.updateLikeDislikeCount(commentId, ReactionType.LIKE, true);
-          this.snackBar.open('Comment liked successfully', 'Close', {
-            duration: 3000
-          });
+          comment.isLiked = isLiking;
+          comment.isDisliked = false;
+          comment.likes += isLiking ? 1 : -1;
+          this.snackBar.open(isLiking ? 'Comment liked' : 'Like removed', 'Close', { duration: 3000 });
         },
-        (error) => {
-          console.error('Failed to like comment:', error);
-          this.snackBar.open('Failed to like the comment. Please try again.', 'Close', {
-            duration: 3000
-          });
-        }
+        () => this.showErrorMessage('Failed to update like. Please try again.')
       );
   }
 
   dislikeComment(commentId: number): void {
-    if (this.isProcessingDislike) {
+    if (this.isProcessing.has(commentId)) {
       return;
     }
-    this.isProcessingDislike = true;
+    this.isProcessing.add(commentId);
 
+    const comment = this.elementsList.find((c) => c.id === commentId);
+    if (!comment) {
+      return;
+    }
+
+    const isDisliking = !comment.isDisliked;
     this.commentsService
       .postDislike(commentId)
       .pipe(
         take(1),
-        finalize(() => (this.isProcessingDislike = false))
+        finalize(() => this.isProcessing.delete(commentId))
       )
       .subscribe(
         () => {
-          this.updateLikeDislikeCount(commentId, ReactionType.DISLIKE, true);
-          this.snackBar.open('Comment disliked successfully', 'Close', {
-            duration: 3000
-          });
+          comment.isDisliked = isDisliking;
+          comment.isLiked = false;
+          this.snackBar.open(isDisliking ? 'Comment disliked' : 'Dislike removed', 'Close', { duration: 3000 });
         },
-        (error) => {
-          console.error('Failed to dislike comment:', error);
-          this.snackBar.open('Failed to dislike the comment. Please try again.', 'Close', {
-            duration: 3000
-          });
-        }
+        () => this.showErrorMessage('Failed to update dislike. Please try again.')
       );
   }
+
   saveEditedComment(element: CommentsDTO): void {
     if (!this.commentHtml.trim() || this.commentHtml === element.text) {
       element.isEdit = false;

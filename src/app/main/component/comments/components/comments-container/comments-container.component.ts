@@ -69,12 +69,15 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
       currentUserLiked: false,
       likes: 0,
       replies: 0,
-      status: 'ORIGINAL'
+      status: 'ORIGINAL',
+      isLiked: false,
+      isDisliked: false
     };
 
     this.userReplies = [reply, ...this.userReplies];
     this.initCommentsList();
   }
+
 
   private getComments(): void {
     this.commentsService

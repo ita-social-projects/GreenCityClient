@@ -271,3 +271,11 @@
     width: 750px;
   }
 }
+
+.active-like {
+  opacity: 0.8;
+}
+.active-dislike {
+  transform: rotate(180deg);
+  opacity: 0.8;
+}

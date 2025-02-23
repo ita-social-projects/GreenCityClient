@@ -380,20 +380,20 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  likePost() {
-    if (!this.event.isLiked) {
-      this.eventService.likeEvent(this.event.id).subscribe(
-        () => {
-          this.event.isLiked = true;
-          this.event.likes += 1;
-          this.likeStatusChange.emit(this.event);
-        },
-        () => {
-          this.snackBar.openSnackBar('error');
-        }
-      );
-    }
+  likePost(): void {
+    console.log('Before like click, event state:', this.event);
+    this.eventService.likeEvent(this.event.id).subscribe(
+      (response) => {
+        this.event.isLiked = true;
+        this.event.likes += 1;
+        this.event.isDisliked = false;
+      },
+      (error) => {
+        console.error('Error in likeEvent:', error);
+      }
+    );
   }
+
 
   dislikePost() {
     if (!this.event.isDisliked) {

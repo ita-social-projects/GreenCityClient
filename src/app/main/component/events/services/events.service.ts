@@ -56,9 +56,10 @@ export class EventsService implements OnDestroy {
   }
 
   dislikeEvent(eventId: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike`, {}).pipe(catchError((error) => throwError(error)));
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike`, {}).pipe(
+      catchError((error) => throwError(() => error))
+    );
   }
-
   private convertEventToPreview(event: EventForm): PagePreviewDTO {
     const { eventInformation, dateInformation } = event;
 
