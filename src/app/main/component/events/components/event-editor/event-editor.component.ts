@@ -176,7 +176,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       const prevDate = index > 0 ? new Date(this.eventDateForm.at(index - 1).get('startDate').value) : null;
       /* eslint-disable indent */
       const nextDate = index < this.eventDateForm.length - 1 ? new Date(this.eventDateForm.at(index).get('startDate').value) : null;
-      console.log(prevDate, nextDate);
       dayGroup.get('minDate').setValue(prevDate ? new Date(prevDate.getTime() + 24 * 60 * 60 * 1000) : currentDay);
       dayGroup.get('maxDate').setValue(nextDate ? nextDate : null);
     });
@@ -265,6 +264,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     if (this.isUpdating) {
       const currentImages = (this.imagesArray.value || []).filter((value) => !value.file).map((value) => value.url);
       sendEventDto = {
+        ...sendEventDto,
         additionalImages: currentImages.slice(1),
         id: this.eventId,
         titleImage: currentImages[0]

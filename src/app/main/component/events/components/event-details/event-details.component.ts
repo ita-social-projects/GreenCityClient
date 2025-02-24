@@ -16,7 +16,9 @@ import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up
 import { MetaService } from 'src/app/shared/services/meta/meta.service';
 import {
   AddAttenderEcoEventsByIdAction,
+  CreateEcoEventAction,
   DeleteEcoEventAction,
+  EditEcoEventAction,
   EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
@@ -50,7 +52,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   organizerName: string;
   isLiked: boolean;
   event: NewEvent;
-  eventForm: EventForm;
   locationLink: string;
   locationCoordinates: PlaceOnline;
   place: string;
@@ -254,18 +255,49 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   onPublish() {
-    // this.isPosting = true;
-    // const id = this.eventId || this.eventStoreService.getEventId();
-    // const formEvent =this.eventForm.value;
-    // const sendData = this.eventService.prepareEventForSubmit(formEvent, id, this.isUpdating);
-    // this.isUpdating
-    //   ? this.store.dispatch(EditEcoEventAction({ data: sendData, id: id }))
-    //   : this.store.dispatch(CreateEcoEventAction({ data: sendData }));
-    // this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess), take(1)).subscribe(() => {
-    //   this.isPosting = false;
-    //   this.eventStoreService.setEventListResponse(null);
-    // });
-    // this.escapeFromCreateEvent();
+    this.isPosting = true;
+    const id = this.eventId || this.eventStoreService.getEventId();
+    let sendEventDto = {
+      ...this.event.eventInformation,
+      datesLocations: this.event.dates.map((item) => {
+        if (!item.coordinates.latitude && !item.coordinates.longitude) {
+          delete item.coordinates;
+        }
+        if (!item.onlineLink) {
+          delete item.onlineLink;
+        }
+        return item;
+      })
+    };
+
+    if (this.isUpdating) {
+      const currentImages = (this.event.images || []).filter((value) => !value.file).map((value) => value.url);
+      sendEventDto = {
+        ...sendEventDto,
+        additionalImages: currentImages.slice(1),
+        id: this.eventId,
+        titleImage: currentImages[0]
+      } as any;
+    }
+
+    const formData: FormData = new FormData();
+    const stringifyDataToSend = JSON.stringify(sendEventDto);
+    const dtoName = this.isUpdating ? 'eventDto' : 'addEventDtoRequest';
+    formData.append(dtoName, stringifyDataToSend);
+    this.event.images.forEach((item) => {
+      if (item.file) {
+        formData.append('images', item.file);
+      }
+    });
+
+    this.isUpdating
+      ? this.store.dispatch(EditEcoEventAction({ data: formData, id: id }))
+      : this.store.dispatch(CreateEcoEventAction({ data: formData }));
+    this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess), take(1)).subscribe(() => {
+      this.isPosting = false;
+      this.eventStoreService.setEventListResponse(null);
+    });
+    this.escapeFromCreateEvent();
   }
 
   escapeFromCreateEvent(): void {

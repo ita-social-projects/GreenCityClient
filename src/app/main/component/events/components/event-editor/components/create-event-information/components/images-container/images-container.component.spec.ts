@@ -1,13 +1,14 @@
-import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
-import { TranslateService } from '@ngx-translate/core';
-import { ImagesContainerComponent } from './images-container.component';
-import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
-import { FileHandle } from '@ubs/ubs-admin/models/file-handle.model';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
-import { of } from 'rxjs';
+import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { TranslateService } from '@ngx-translate/core';
+import { FileHandle } from '@ubs/ubs-admin/models/file-handle.model';
+import { of } from 'rxjs';
+import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { ImagesContainerComponent } from './images-container.component';
+import { FormBuilder } from '@angular/forms';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -55,6 +56,9 @@ describe('ImagesContainerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ImagesContainerComponent);
     component = fixture.componentInstance;
+    const fb: FormBuilder = new FormBuilder();
+    component.imagesArray = fb.array([]);
+
     fixture.detectChanges();
   });
 

@@ -275,7 +275,7 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
 
   private _initialStartTime(): string {
     const today = new Date();
-    if (this.startDate.value.getDate() === today.getDate()) {
+    if (this.startDate?.value.getDate() === today.getDate()) {
       const currentHour = today.getHours();
       const currentMinute = today.getMinutes();
       if (currentMinute - 20 < 0) {

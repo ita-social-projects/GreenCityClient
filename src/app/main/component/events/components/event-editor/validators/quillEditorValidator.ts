@@ -5,7 +5,6 @@ export function customTextValidator(control: AbstractControl): ValidationErrors 
     return { invalid: true };
   }
   const value = control.value.replace('<p>', '').replace('</p>', '');
-  console.log(value !== value.trim());
   if (value.trim() !== value) {
     return { invalid: true };
   }
