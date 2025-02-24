@@ -1,4 +1,4 @@
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -78,7 +78,7 @@ describe('AllHabitsComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AllHabitsComponent, HabitsListViewComponent],
-      imports: [TranslateModule.forRoot(), SharedMainModule, InfiniteScrollModule, RouterTestingModule, HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), SharedGreenCityModule, InfiniteScrollModule, RouterTestingModule, HttpClientTestingModule],
       providers: [
         { provide: HabitService, useValue: habitServiceMock },
         { provide: HabitAssignService, useValue: assignHabitServiceMock },

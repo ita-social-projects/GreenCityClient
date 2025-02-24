@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SharedModule } from '../shared/shared.module';
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { SearchAllResultsComponent } from './components/search-all-results/search-all-results.component';
 import { SearchPopupComponent } from './components/search-popup/search-popup.component';
 import { SearchItemComponent } from './components/search-item/search-item.component';
@@ -14,6 +13,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { GreencityMainComponent } from './components/greencity-main/greencity-main.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeModule } from './modules/home/home.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,7 @@ import { HomeModule } from './modules/home/home.module';
     CommonModule,
     SharedModule,
     HomeModule,
-    SharedMainModule,
+    SharedGreenCityModule,
     InfiniteScrollModule,
     TranslateModule.forChild({
       loader: {

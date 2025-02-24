@@ -14,10 +14,9 @@ import { EditProfileFormBuilder } from 'src/app/greencity/modules/user/component
 import { EditProfileService } from 'src/app/greencity/modules/user/services/edit-profile/edit-profile.service';
 import { ProfileService } from 'src/app/greencity/modules/user/services/profile-service/profile.service';
 import { EditProfileModel } from 'src/app/greencity/modules/user/models/edit-profile.model';
-import { EditProfileComponent } from 'src/app/greencity/modules/user/components';
-import { SocialNetworksComponent } from 'src/app/greencity/modules/user/components';
+import { EditProfileComponent, SocialNetworksComponent } from 'src/app/greencity/modules/user/components';
 import { Router } from '@angular/router';
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { InputGoogleAutocompleteComponent } from 'src/app/shared/components/input-google-autocomplete/input-google-autocomplete.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ProfilePrivacyPolicy } from 'src/app/greencity/modules/user/models/edit-profile-const';
@@ -62,7 +61,7 @@ describe('EditProfileComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule.withRoutes([{ path: '**', component: Test }]),
         HttpClientTestingModule,
-        SharedMainModule,
+        SharedGreenCityModule,
         TranslateModule.forRoot()
       ],
       providers: [

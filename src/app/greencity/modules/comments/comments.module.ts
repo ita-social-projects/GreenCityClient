@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { AddCommentComponent } from './components/add-comment/add-comment.component';
 import { ViewRepliesComponent } from './components/view-replies/view-replies.component';
 import { DeleteCommentComponent } from './components/delete-comment/delete-comment.component';
@@ -31,7 +31,7 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
     CommentTextareaComponent,
     PlaceholderForDivDirective
   ],
-  imports: [SharedMainModule, SharedModule, CommonModule, NgxPaginationModule, MatProgressSpinnerModule, PickerComponent],
+  imports: [SharedGreenCityModule, SharedModule, CommonModule, NgxPaginationModule, MatProgressSpinnerModule, PickerComponent],
   exports: [
     AddCommentComponent,
     ViewRepliesComponent,

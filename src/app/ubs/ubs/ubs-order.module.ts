@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
-
 import { IMaskModule } from 'angular-imask';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -16,7 +15,6 @@ import { UBSPersonalInformationComponent } from './components/ubs-personal-infor
 import { UBSSubmitOrderComponent } from './components/ubs-submit-order/ubs-submit-order.component';
 import { AddressComponent } from './components/ubs-personal-information/address/address.component';
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.component';
 import { UbsOrderLocationPopupComponent } from './components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
@@ -38,7 +36,6 @@ import { ValidateAddressDirective } from 'src/app/ubs/ubs/directives/validate-ad
 import { UbsUserAgreementComponent } from './components/ubs-user-agreement/ubs-user-agreement.component';
 import { PhoneNumberTreatPipe } from '@ubs/shared/pipes/phone-number-treat/phone-number-treat.pipe';
 import { UbsSharedModule } from '../shared/ubs-shared.module';
-import { UbsUserGuard } from '@ubs/ubs-user/guards/ubs-user-guard.guard';
 
 @NgModule({
   declarations: [
@@ -74,7 +71,6 @@ import { UbsUserGuard } from '@ubs/ubs-user/guards/ubs-user-guard.guard';
     FormsModule,
     ReactiveFormsModule,
     IMaskModule,
-    // GoogleMapsModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -83,7 +79,6 @@ import { UbsUserGuard } from '@ubs/ubs-user/guards/ubs-user-guard.guard';
       },
       isolate: true
     }),
-    SharedMainModule,
     SharedModule,
     UbsSharedModule
   ],

@@ -1,4 +1,4 @@
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { FormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -57,7 +57,7 @@ describe('SearchAllResultsComponent', () => {
         FormsModule,
         InfiniteScrollModule,
         TranslateModule.forRoot(),
-        SharedMainModule,
+        SharedGreenCityModule,
         SharedModule
       ],
       providers: [

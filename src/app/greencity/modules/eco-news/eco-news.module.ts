@@ -8,7 +8,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { EcoNewsRoutingModule } from './eco-news-routing.module';
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import {
   CreateEditNewsComponent,
   EcoNewsDetailComponent,
@@ -50,7 +50,7 @@ import { EcoNewsCommentsService } from '@eco-news-service/eco-news-comments.serv
   imports: [
     CommonModule,
     CommentsModule,
-    SharedMainModule,
+    SharedGreenCityModule,
     SharedModule,
     MatIconModule,
     InfiniteScrollModule,

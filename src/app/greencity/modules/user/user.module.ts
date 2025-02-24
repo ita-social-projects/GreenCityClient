@@ -37,7 +37,7 @@ import {
   ToDoListComponent
 } from './components';
 
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 import { FirstStringWordPipe } from '@global-user/pipe/first-string-word/first-string-word.pipe';
@@ -150,10 +150,9 @@ import { CorrectUnitPipe } from './pipe/correct-unit-pipe/correct-unit.pipe';
   imports: [
     NgbModule,
     MatIconModule,
-    // GooglePlaceModule,
     UserRoutingModule,
     CommonModule,
-    SharedMainModule,
+    SharedGreenCityModule,
     SharedModule,
     MatButtonModule,
     MatAutocompleteModule,

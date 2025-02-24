@@ -26,6 +26,7 @@ import { RelativeDatePipe } from './pipes/relative-date/relative-date.pipe';
 import { LangValueDirective } from './directives/lang-value/lang-value.directive';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { InputGoogleAutocompleteComponent } from './components/input-google-autocomplete/input-google-autocomplete.component';
+import { InputErrorComponent } from './components/input-error/input-error.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { InputGoogleAutocompleteComponent } from './components/input-google-auto
     RemoveLeadingZeroDirective,
     RatingDisplayComponent,
     RelativeDatePipe,
-    LangValueDirective
+    LangValueDirective,
+    InputErrorComponent
   ],
   imports: [
     CommonModule,
@@ -77,7 +79,8 @@ import { InputGoogleAutocompleteComponent } from './components/input-google-auto
     RemoveLeadingZeroDirective,
     RatingDisplayComponent,
     RelativeDatePipe,
-    LangValueDirective
+    LangValueDirective,
+    InputErrorComponent
   ]
 })
 export class SharedModule {}

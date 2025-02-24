@@ -1,5 +1,5 @@
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -33,7 +33,7 @@ describe('LikeCommentComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LikeCommentComponent],
-      imports: [SharedMainModule, HttpClientTestingModule],
+      imports: [SharedGreenCityModule, HttpClientTestingModule],
       providers: [
         { provide: CommentsService, useValue: commentsServiceMock },
         { provide: SocketService, useValue: socketServiceMock },

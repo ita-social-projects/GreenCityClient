@@ -5,7 +5,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -31,7 +30,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { EventsListItemModalComponent } from './components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 import { TagsSelectComponent } from './components/tags-select/tags-select.component';
-import { InputErrorComponent } from '../../shared/components/input-error/input-error.component';
 import { SelectImagesComponent } from './components/select-images/select-images.component';
 import { FilterSelectComponent } from './components/filter-select/filter-select.component';
 import { MatOptionModule } from '@angular/material/core';
@@ -63,7 +61,6 @@ registerLocaleData(ukLocale, 'ua');
     EventsListItemComponent,
     EventsListItemModalComponent,
     TagsSelectComponent,
-    InputErrorComponent,
     SelectImagesComponent,
     FilterSelectComponent,
     SavedSectionComponent
@@ -85,7 +82,6 @@ registerLocaleData(ukLocale, 'ua');
         deps: [HttpClient]
       }
     }),
-    // MDBBootstrapModule,
     FileUploadModule,
     MatCardModule,
     MatDialogModule,
@@ -103,7 +99,6 @@ registerLocaleData(ukLocale, 'ua');
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,
-    // MDBBootstrapModule,
     FileUploadModule,
     MatCardModule,
     MatDialogModule,
@@ -121,7 +116,6 @@ registerLocaleData(ukLocale, 'ua');
     EventsListItemComponent,
     EventsListItemModalComponent,
     TagsSelectComponent,
-    InputErrorComponent,
     SelectImagesComponent,
     FilterSelectComponent,
     MatDividerModule,
@@ -130,7 +124,7 @@ registerLocaleData(ukLocale, 'ua');
   ],
   providers: [MatSnackBarComponent, TranslateService]
 })
-export class SharedMainModule {}
+export class SharedGreenCityModule {}
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');

@@ -1,4 +1,4 @@
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
@@ -88,7 +88,7 @@ describe('NewsListComponent', () => {
       imports: [
         TranslateModule.forRoot(),
         RouterTestingModule,
-        SharedMainModule,
+        SharedGreenCityModule,
         SharedModule,
         InfiniteScrollModule,
         HttpClientTestingModule

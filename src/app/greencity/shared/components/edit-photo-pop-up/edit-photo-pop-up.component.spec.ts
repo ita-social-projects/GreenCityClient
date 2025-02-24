@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UserSharedModule } from 'src/app/greencity/modules/user/components/shared/user-shared.module';
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { EditPhotoPopUpComponent } from 'src/app/greencity/shared/components';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,7 +27,7 @@ describe('EditPhotoPopUpComponent', () => {
     mockSnackBar = jasmine.createSpyObj(['openSnackBar']);
 
     TestBed.configureTestingModule({
-      imports: [SharedMainModule, UserSharedModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [SharedGreenCityModule, UserSharedModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: mockDialogRef },

@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-// import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CommonModule } from '@angular/common';
 import { PlacesRoutesModule } from './places-routing.module';
 import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { RatingModule } from 'ngx-bootstrap/rating';
-// import { Ng5SliderModule } from 'ng5-slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTabsModule } from '@angular/material/tabs';
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PlacesComponent } from './places.component';
@@ -25,7 +23,6 @@ import { MatSliderModule } from '@angular/material/slider';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-// import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MaterialModule } from '../../../material.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TimePickerPopupComponent } from './components/time-picker-pop-up/time-picker-popup.component';
@@ -38,22 +35,19 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     InfiniteScrollModule,
     MatSidenavModule,
     SharedModule,
-    SharedMainModule,
+    SharedGreenCityModule,
     CommonModule,
     PlacesRoutesModule,
-    // Ng2SearchPipeModule,
     MatTableModule,
     FormsModule,
     ReactiveFormsModule,
     MatMenuModule,
     ReactiveFormsModule,
-    // GooglePlaceModule,
     GoogleMapsModule,
     MatIconModule,
     MatButtonModule,
     MatAutocompleteModule,
     RatingModule,
-    // Ng5SliderModule,
     MatDialogModule,
     NgbModule,
     MatRippleModule,

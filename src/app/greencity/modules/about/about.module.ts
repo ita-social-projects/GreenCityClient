@@ -7,13 +7,13 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { VisionCardComponent } from './components/vision-card/vision-card.component';
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 
 @NgModule({
   declarations: [AboutPageComponent, VisionCardComponent],
   imports: [
     AboutRoutingModule,
-    SharedMainModule,
+    SharedGreenCityModule,
     SharedModule,
     CommonModule,
     TranslateModule.forChild({

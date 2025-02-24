@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedMainModule } from 'src/app/greencity/shared/shared-main.module';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { EcoEventsItemComponent } from './components/eco-events/eco-events-item/eco-events-item.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.component';
@@ -23,7 +23,7 @@ import { RouterModule } from '@angular/router';
     UnsubscribeComponent,
     TranslateDatePipe
   ],
-  imports: [CommonModule, SharedMainModule, SharedModule, RouterModule],
+  imports: [CommonModule, SharedGreenCityModule, SharedModule, RouterModule],
   exports: [HomepageComponent],
   providers: []
 })
