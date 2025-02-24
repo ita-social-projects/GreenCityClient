@@ -125,7 +125,7 @@
                   <img [src]="icons.location" alt="" />
                 </div>
                 <a href="{{ googleMapLink }}" target="_blank" rel="noopener noreferrer">
-                  {{ event || eventForm ? place : getAddress() }}
+                  {{ event ? place : getAddress() }}
                 </a>
               </div>
               <div *ngIf="locationLink" class="event-link">
