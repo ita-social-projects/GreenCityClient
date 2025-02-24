@@ -112,7 +112,8 @@ export class TableCellInputComponent {
           dialogConfig.data = {
             edit: true,
             address: orderAddress,
-            orderId: orderAddress.orderId
+            orderId: orderAddress.orderId,
+            addressForOrder: true
           };
           const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
           return dialogRef.afterClosed();

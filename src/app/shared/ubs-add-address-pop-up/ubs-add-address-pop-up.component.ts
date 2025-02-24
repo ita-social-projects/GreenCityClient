@@ -48,6 +48,7 @@ export class UBSAddAddressPopUpComponent implements OnInit {
       address: Address;
       addFromProfile?: boolean;
       orderId?: number;
+      addressForOrder?: boolean;
     }
   ) {}
 
@@ -94,6 +95,6 @@ export class UBSAddAddressPopUpComponent implements OnInit {
   }
 
   chooseActions(): void {
-    this.data.orderId ? this.updateOrderAddress() : this.addAddress();
+    this.data.addressForOrder ? this.updateOrderAddress() : this.addAddress();
   }
 }
