@@ -375,7 +375,7 @@ describe('EventsListItemComponent', () => {
       component.isOwner = false;
       component.isActive = false;
       component.routeToEvent();
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id]);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/greenCity/events', component.event.id]);
     });
   });
 
