@@ -11,6 +11,7 @@ export const routes: Routes = [
     path: '',
     component: MainComponent,
     children: [
+      /* eslint-disable indent */
       ...(environment.enableUBS
         ? [
             {
