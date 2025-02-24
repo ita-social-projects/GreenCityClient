@@ -164,7 +164,9 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       .subscribe((list: { addressList: Address[] }) => {
         this.userProfile.addressDto = list.addressList;
         const addressArray = this.userForm.get('address') as FormArray;
-        if (!addressArray) return;
+        if (!addressArray) {
+          return;
+        }
 
         const index = addressArray.controls.findIndex((ctrl) => ctrl.value.id === address.id);
         if (index !== -1) {
