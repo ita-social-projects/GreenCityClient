@@ -155,7 +155,7 @@ mat-row {
   min-height: 39px !important;
   max-height: 39px !important;
   align-items: unset;
-  cursor: col-resize;
+  // cursor: col-resize;
 }
 
 mat-cell {
@@ -557,7 +557,7 @@ mat-spinner {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0;
-  cursor: col-resize;
+  // cursor: col-resize;
 }
 
 .pointer {
