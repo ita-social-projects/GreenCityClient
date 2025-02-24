@@ -37,7 +37,7 @@ export class AboutPageComponent implements OnInit, OnDestroy {
   }
 
   navigateToHabit(): void {
-    this.router.navigate(['profile', this.userId]);
+    this.router.navigate(['/greenCity', 'profile', this.userId]);
   }
 
   generateVisionCardClass(idx: number) {

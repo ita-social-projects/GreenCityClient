@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { environment } from '@environment/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +9,7 @@ export class HeaderService {
   ubsNavLinks = [
     { name: 'user.lower-nav-bar.sorting-rules', route: 'https://nowaste.com.ua/sort-station/', url: true },
     { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.ua/', url: true },
-    { name: 'Green City', route: '/greenCity', url: false }
+    ...(environment.enableGreenCity ? [{ name: 'Green City', route: '/greenCity', url: false }] : [])
   ];
 
   navLinks = [
@@ -18,7 +18,7 @@ export class HeaderService {
     { name: 'user.lower-nav-bar.map', route: '/greenCity/places', url: false },
     { name: 'user.lower-nav-bar.about-us', route: '/greenCity/about', url: false },
     { name: 'user.lower-nav-bar.my-habits', route: '/greenCity/profile', url: false },
-    { name: 'user.lower-nav-bar.ubs', route: '/ubs', url: false }
+    ...(environment.enableUBS ? [{ name: 'user.lower-nav-bar.ubs', route: '/ubs', url: false }] : [])
   ];
 
   ubsArrLang = [

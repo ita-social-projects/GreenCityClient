@@ -65,7 +65,7 @@
           }"
           *ngFor="let data of elements"
         >
-          <a [routerLink]="['/news', data.id]" tabindex="0" class="link">
+          <a [routerLink]="['/greenCity/news', data.id]" tabindex="0" class="link">
             <app-news-list-gallery-view *ngIf="view" [ecoNewsModel]="data"> </app-news-list-gallery-view>
             <app-news-list-list-view *ngIf="!view" [ecoNewsModel]="data"> </app-news-list-list-view>
 

@@ -1,3 +1,4 @@
+import { environment } from '@environment/environment';
 import { ConfirmRestorePasswordGuard } from './shared/guards/route-guards/confirm-restore-password.guard';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { MainComponent } from './main/main.component';
@@ -10,19 +11,27 @@ export const routes: Routes = [
     path: '',
     component: MainComponent,
     children: [
-      {
-        path: 'ubs',
-        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
-      },
+      ...(environment.enableUBS
+        ? [
+            {
+              path: 'ubs',
+              loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
+            }
+          ]
+        : []),
+      ...(environment.enableGreenCity
+        ? [
+            {
+              path: 'greenCity',
+              loadChildren: () => import('./greencity/greencity.module').then((mod) => mod.GreencityModule),
+              canActivate: [NonAdminGuard]
+            }
+          ]
+        : []),
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'ubs'
-      },
-      {
-        path: 'greenCity',
-        loadChildren: () => import('./greencity/greencity.module').then((mod) => mod.GreencityModule),
-        canActivate: [NonAdminGuard]
+        redirectTo: environment.enableUBS ? 'ubs' : environment.enableGreenCity ? 'greenCity' : 'auth/restore'
       },
       {
         path: 'auth/restore',

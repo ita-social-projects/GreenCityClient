@@ -22,12 +22,10 @@ import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from 'src/app/greencity/modules/user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { IAppState } from 'src/app/store/state/app.state';
-import { ChatPopupComponent } from 'src/app/chat/component/chat-popup/chat-popup.component';
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
 import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { SignOutAction } from 'src/app/store/actions/auth.actions';
 import { CommonService } from 'src/app/chat/service/common/common.service';
-import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal.component';
 
 @Component({
   selector: 'app-header',
@@ -78,6 +76,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private orderService: OrderService;
   newMessagesCount: number;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
+  isUbsAvailable = environment.enableUBS;
   constructor(
     private dialog: MatDialog,
     injector: Injector,

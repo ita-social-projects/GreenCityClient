@@ -6,7 +6,7 @@
       <div class="p-0 pb-3 d-flex justify-content-center align-items-center" *ngFor="let data of recommendedNews; index as i">
         <app-news-list-gallery-view
           [ecoNewsModel]="data"
-          [routerLink]="['/news', data.id]"
+          [routerLink]="['/greenCity/news', data.id]"
           [class.last-item]="i === 2"
           [class.recommended-item]="true"
         >
