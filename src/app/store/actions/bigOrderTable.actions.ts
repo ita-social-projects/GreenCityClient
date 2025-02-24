@@ -42,7 +42,11 @@ export enum BigOrderTableActions {
 
   UpdateOrderAddress = '[BigOrderTable] Update Order Address',
   UpdateOrderAddressSuccess = '[BigOrderTable] Update Order Address Success',
-  UpdateOrderAddressFail = '[BigOrderTable] Update Order Address Fail'
+  UpdateOrderAddressFail = '[BigOrderTable] Update Order Address Fail',
+
+  GetTableColumnWidth = '[BigOrderTable] Get Column Width',
+  GetTableColumnWidthSuccess = '[BigOrderTable] Get Column Width Success',
+  GetTableColumnWidthFail = '[BigOrderTable] Get Column Width Fail'
 }
 
 export const GetColumnToDisplay = createAction(BigOrderTableActions.GetColumnToDisplay);
@@ -127,3 +131,10 @@ export const GetLocationsDetailsSuccess = createAction(
 export const UpdateOrderAddress = createAction(BigOrderTableActions.UpdateOrderAddress, props<{ address: IShortAddress }>());
 export const UpdateOrderAddressSuccess = createAction(BigOrderTableActions.UpdateOrderAddressSuccess, props<{ address: IShortAddress }>());
 export const UpdateOrderAddressFail = createAction(BigOrderTableActions.UpdateOrderAddressFail);
+
+export const GetTableColumnWidth = createAction(BigOrderTableActions.GetTableColumnWidth);
+export const GetTableColumnWidthSuccess = createAction(
+  BigOrderTableActions.GetTableColumnWidthSuccess,
+  props<{ columnsWidth: Map<string, number> }>()
+);
+export const GetTableColumnWidthFail = createAction(BigOrderTableActions.GetTableColumnWidthSuccess);

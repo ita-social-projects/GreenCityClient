@@ -1,7 +1,7 @@
 <div
   class="comments"
   #tooltip="matTooltip"
-  matTooltip="{{ data }}"
+  matTooltip="{{ data | serverTranslate: lang }}"
   (mouseenter)="onMouseEnter($event, tooltip)"
   (mouseleave)="tooltip.hide()"
 >

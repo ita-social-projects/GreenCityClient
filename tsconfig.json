@@ -26,7 +26,7 @@
       "@user-models/*": ["src/app/greencity/modules/user/models/*"],
       "@language-service/*": ["src/app/i18n/*"],
       "@global-models/*": ["src/app/main/model/*"],
-      "@global-service/*": ["src/app/greencity/shared/service/*"],
+      "@global-service/*": ["src/app/shared/services/*"],
       "@auth-service/*": ["src/app/shared/services/auth/*"],
       "@global-images/*": ["src/assets/img/*"],
       "@eco-news-images/*": ["src/assets/img/icon/econews/*"],

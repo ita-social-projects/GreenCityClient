@@ -8,8 +8,17 @@ import { TUserRole } from 'src/app/shared/models/auth/user-role.type';
 })
 export class JwtService {
   userRole$: BehaviorSubject<string> = new BehaviorSubject<string>(this.getUserRole());
+  private isAuthenticating = false;
 
   constructor(private localStorageService: LocalStorageService) {}
+
+  setAuthenticating(state: boolean): void {
+    this.isAuthenticating = state;
+  }
+
+  isAuthenticatingValue(): boolean {
+    return this.isAuthenticating;
+  }
 
   isExpired(token: string): boolean {
     if (token != null) {
@@ -21,6 +30,11 @@ export class JwtService {
     } else {
       return false;
     }
+  }
+
+  isAuthenticated(): boolean {
+    const token = this.localStorageService.getAccessToken();
+    return !!token && !this.isExpired(token);
   }
 
   getEmailFromAccessToken(): string {

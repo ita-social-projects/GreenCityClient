@@ -243,15 +243,7 @@
   </ng-container>
   <span class="close_alert">&#10006;</span>
 </div>
-<div
-  id="table-container"
-  class="scrolling"
-  [style.display]="showTable()"
-  infiniteScroll
-  [infiniteScrollThrottle]="100"
-  (scrolled)="onScroll()"
-  [scrollWindow]="false"
->
+<div id="table-container" class="scrolling" infiniteScroll [infiniteScrollThrottle]="100" (scrolled)="onScroll()" [scrollWindow]="false">
   <table
     id="table"
     mat-table
@@ -319,7 +311,7 @@
           [nameOfColumn]="column.title.key"
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
-          [uneditableStatus]="checkStatusOfOrders(row.id)"
+          [uneditableStatus]="checkStatusOfOrders(row.orderStatus)"
           [dataForPopUp]="dataForPopUp"
           [showPopUp]="showPopUp"
           (editCellSelect)="editCell($event)"
@@ -337,7 +329,7 @@
           [id]="row.id"
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
-          [uneditableStatus]="checkStatusOfOrders(row.id)"
+          [uneditableStatus]="checkStatusOfOrders(row.orderStatus)"
           (editDateCell)="editCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
         >
@@ -350,7 +342,7 @@
           [id]="row.id"
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
-          [uneditableStatus]="checkStatusOfOrders(row.id)"
+          [uneditableStatus]="checkStatusOfOrders(row.orderStatus)"
           (cancelEdit)="cancelEditCell($event)"
           (editTimeCell)="editCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
@@ -365,7 +357,7 @@
           [lang]="currentLang"
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
-          [isUneditableStatus]="checkStatusOfOrders(row.id)"
+          [isUneditableStatus]="checkStatusOfOrders(row.orderStatus)"
           (cancelEdit)="cancelEditCell($event)"
           (editCommentCell)="editCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
@@ -374,7 +366,7 @@
         </app-table-cell-input>
         <mat-checkbox
           *ngIf="column.editType === 'CHECKBOX'"
-          [disabled]="checkStatusOfOrders(row.id)"
+          [disabled]="checkStatusOfOrders(row.orderStatus)"
           [checked]="selection.isSelected(row)"
           [aria-label]="checkboxLabel(row)"
           class="select-cell"

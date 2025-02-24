@@ -383,7 +383,7 @@ export class AdminTableService {
     return this.http.put(`${this.url}orderTableColumnsWidth`, columnWidthDto);
   }
 
-  getUbsAdminOrdersTableColumnsWidthPreference() {
-    return this.http.get(`${this.url}orderTableColumnsWidth`);
+  getUbsAdminOrdersTableColumnsWidthPreference(): Observable<Map<string, number>> {
+    return this.http.get<Map<string, number>>(`${this.url}orderTableColumnsWidth`);
   }
 }

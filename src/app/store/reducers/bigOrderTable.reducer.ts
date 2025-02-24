@@ -16,7 +16,9 @@ import {
   UpdateOrderInfoSuccess,
   UpdateOrderAddress,
   UpdateOrderAddressFail,
-  UpdateOrderAddressSuccess
+  UpdateOrderAddressSuccess,
+  GetTableColumnWidth,
+  GetTableColumnWidthSuccess
 } from '../actions/bigOrderTable.actions';
 import { createReducer, on } from '@ngrx/store';
 import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
@@ -179,6 +181,18 @@ export const bigOrderTableReducer = createReducer(
     return {
       ...state,
       isOrderAddressLoading: false
+    };
+  }),
+  on(GetTableColumnWidth, (state) => {
+    return {
+      ...state,
+      isOrderAddressLoading: false
+    };
+  }),
+  on(GetTableColumnWidthSuccess, (state, action) => {
+    return {
+      ...state,
+      tableColumnWidth: action.columnsWidth
     };
   })
 );
