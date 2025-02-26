@@ -32,6 +32,9 @@ export class EventsService implements OnDestroy {
   ) {}
 
   setEvent(event: EventForm): void {
+    if (!event) {
+      this.event = null;
+    }
     this.event = { ...this.event, ...event };
   }
 
@@ -39,6 +42,42 @@ export class EventsService implements OnDestroy {
     return this.event;
   }
 
+  prepareForSumbit(eventInformation, dates, images, id, isUpdating): FormData {
+    let sendEventDto = {
+      ...eventInformation,
+      datesLocations: dates.map((item) => {
+        if (!item.coordinates.latitude && !item.coordinates.longitude) {
+          delete item.coordinates;
+        }
+        if (!item.onlineLink) {
+          delete item.onlineLink;
+        }
+        return item;
+      })
+    };
+
+    //TODO:
+    if (isUpdating) {
+      const currentImages = (images || []).filter((value) => !value.file).map((value) => value.url);
+      sendEventDto = {
+        ...sendEventDto,
+        additionalImages: currentImages.slice(1),
+        id,
+        titleImage: currentImages[0]
+      };
+    }
+
+    const formData: FormData = new FormData();
+    const stringifyDataToSend = JSON.stringify(sendEventDto);
+    const dtoName = isUpdating ? 'eventDto' : 'addEventDtoRequest';
+    formData.append(dtoName, stringifyDataToSend);
+    images.forEach((item) => {
+      if (item.file) {
+        formData.append('images', item.file);
+      }
+    });
+    return formData;
+  }
   setIsFromCreateEvent(value: boolean): void {
     this.isFromCreateEvent = value;
   }
@@ -55,12 +94,13 @@ export class EventsService implements OnDestroy {
     return this.http.get(img, { responseType: 'blob' });
   }
 
-  createEvent(formData: FormData): Observable<EventResponse> {
-    return this.http.post<EventResponse>(`${this.backEnd}events/createV2`, formData);
+  createEvent(formData: FormData): Observable<NewEvent> {
+    this.event = null;
+    return this.http.post<NewEvent>(`${this.backEnd}events/createV2`, formData);
   }
 
-  editEvent(formData: FormData, eventId: number): Observable<EventResponse> {
-    return this.http.put<EventResponse>(`${this.backEnd}events/${eventId}`, formData);
+  editEvent(formData: FormData, eventId: number): Observable<NewEvent> {
+    return this.http.put<NewEvent>(`${this.backEnd}events/updateV2/${eventId}`, formData);
   }
 
   getEvents(requestParams: HttpParams): Observable<EventResponseDto> {

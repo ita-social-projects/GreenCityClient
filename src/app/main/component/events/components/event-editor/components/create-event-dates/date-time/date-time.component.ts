@@ -269,8 +269,13 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   }
 
   private _setArrTime(): void {
-    this.startOptionsArr = this._timeArr.slice(this._upperTimeLimit, this._timeArr.length - 1);
-    this.endOptionsArr = this._timeArr.slice(this._upperTimeLimit + 1);
+    this.startOptionsArr = this._timeArr.slice(
+      this.startTime.value ? this._timeArr.indexOf(this.startTime.value) : this._upperTimeLimit,
+      this.finishTime.value ? this._timeArr.indexOf(this.finishTime.value) : this._timeArr.length - 1
+    );
+    this.endOptionsArr = this._timeArr.slice(
+      this.startTime.value ? this._timeArr.indexOf(this.startTime.value) + 1 : this._upperTimeLimit + 1
+    );
   }
 
   private _initialStartTime(): string {

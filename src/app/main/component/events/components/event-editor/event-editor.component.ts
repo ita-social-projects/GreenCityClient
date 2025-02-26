@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,7 +28,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   templateUrl: './event-editor.component.html',
   styleUrls: ['./event-editor.component.scss']
 })
-export class EventEditorComponent extends FormBaseComponent implements OnInit {
+export class EventEditorComponent extends FormBaseComponent implements OnInit, OnDestroy {
   isUpdating: boolean;
   @Input() cancelChanges: boolean;
   @Input({ required: true }) eventId: number;
@@ -95,6 +95,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
               this.authorId = response.organizer.id;
               this.isAuthor = this.authorId === userId;
               this.isFetching = false;
+              this.createFormEvent();
+              this.subscribeOnChangeDuration();
               this.cdRef.detectChanges();
             },
             error: (_) => {
@@ -106,10 +108,12 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
         }
       });
     }
-    this.createFormEvent();
+    if (!this.isFetching) {
+      this.createFormEvent();
+      this.subscribeOnChangeDuration();
+    }
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.previousPath = this.localStorageService.getPreviousPage() || '/events';
-    this.subscribeOnChangeDuration();
   }
 
   private subscribeOnChangeDuration(): void {
@@ -184,14 +188,13 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   private createFormEvent(): void {
     const information = this.event?.eventInformation;
     const date = this.event?.dates ?? [];
-
     this.eventForm = this.fb.group({
       eventInformation: this.fb.group({
         title: [information?.title ?? '', [Validators.required, Validators.maxLength(70)]],
         description: [information?.description ?? '', [Validators.required, customTextValidator]],
         open: [information?.open ?? true, Validators.required],
         duration: [information?.duration ?? 1, Validators.required],
-        tags: [information?.tags ?? [], [Validators.required, Validators.minLength(1)]]
+        tags: [information?.tags ? information.tags.map((item) => item.nameEn) : [], [Validators.required, Validators.minLength(1)]]
       }),
       images: this.fb.array([]),
       dates: this.fb.array(date.length > 0 ? date.map((date) => this.createDateFormGroup(date)) : [this.createDateFormGroup()])
@@ -212,8 +215,14 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       day: [date?.startDate ? moment(date.startDate) : moment()],
       startDate: [date?.startDate ? new Date(date.startDate) : new Date(), [Validators.required]],
       finishDate: [date?.finishDate ? new Date(date.finishDate) : new Date(), [Validators.required]],
-      startTime: [date?.startDate ? `${new Date(date.startDate).getHours()}:${new Date(date.startDate).getMinutes()}` : ''],
-      finishTime: [date?.finishDate ? `${new Date(date.finishDate).getHours()}:${new Date(date.finishDate).getMinutes()}` : ''],
+      startTime: [
+        date?.startDate ? `${new Date(date.startDate).getHours()}:${new Date(date.startDate).getMinutes().toString().padStart(2, '0')}` : ''
+      ],
+      finishTime: [
+        date?.finishDate
+          ? `${new Date(date.finishDate).getHours()}:${new Date(date.finishDate).getMinutes().toString().padStart(2, '0')}`
+          : ''
+      ],
       allDay: [date?.allDay ?? false],
       minDate: [date?.minDate ? new Date(date.minDate) : new Date()],
       maxDate: [date?.maxDate ? new Date(date.maxDate) : null],
@@ -235,7 +244,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
         }
       ],
       onlineLink: new FormControl(date?.onlineLink ?? ''),
-      place: new FormControl(date?.place ?? ''),
+      place: new FormControl(''),
       appliedLinkForAll: [date?.appliedLinkForAll ?? false],
       appliedPlaceForAll: [date?.appliedPlaceForAll ?? false]
     });
@@ -247,39 +256,13 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   submitEvent(): void {
-    let sendEventDto = {
-      ...this.eventInformation.value,
-      datesLocations: this.eventDateForm.value.map((item) => {
-        if (!item.coordinates.latitude && !item.coordinates.longitude) {
-          delete item.coordinates;
-        }
-        if (!item.onlineLink) {
-          delete item.onlineLink;
-        }
-        return item;
-      })
-    };
-
-    //TODO:
-    if (this.isUpdating) {
-      const currentImages = (this.imagesArray.value || []).filter((value) => !value.file).map((value) => value.url);
-      sendEventDto = {
-        ...sendEventDto,
-        additionalImages: currentImages.slice(1),
-        id: this.eventId,
-        titleImage: currentImages[0]
-      };
-    }
-
-    const formData: FormData = new FormData();
-    const stringifyDataToSend = JSON.stringify(sendEventDto);
-    const dtoName = this.isUpdating ? 'eventDto' : 'addEventDtoRequest';
-    formData.append(dtoName, stringifyDataToSend);
-    this.imagesArray.value.forEach((item) => {
-      if (item.file) {
-        formData.append('images', item.file);
-      }
-    });
+    const formData = this.eventsService.prepareForSumbit(
+      this.eventInformation.value,
+      this.eventDateForm.value,
+      this.imagesArray.value,
+      this.eventId,
+      this.isUpdating
+    );
 
     this.createEvent(formData);
   }
@@ -312,5 +295,9 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       this.isPosting = false;
       this.escapeFromCreateEvent();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.eventsService.setEvent(null);
   }
 }

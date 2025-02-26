@@ -246,49 +246,24 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     if (this.isUpdating) {
       this.localStorageService.setEditMode('canUserEdit', true);
     }
-    const id = this.eventId || this.eventStoreService.getEventId();
+    const id = this.eventId;
     if (id) {
       this.router.navigate(['/events', 'create-update-event', id]);
     } else {
-      this.router.navigate(['/events/create-update-event']);
+      this.router.navigate(['/events', 'create-update-event']);
     }
   }
 
   onPublish() {
     this.isPosting = true;
     const id = this.eventId || this.eventStoreService.getEventId();
-    let sendEventDto = {
-      ...this.event.eventInformation,
-      datesLocations: this.event.dates.map((item) => {
-        if (!item.coordinates.latitude && !item.coordinates.longitude) {
-          delete item.coordinates;
-        }
-        if (!item.onlineLink) {
-          delete item.onlineLink;
-        }
-        return item;
-      })
-    };
-
-    if (this.isUpdating) {
-      const currentImages = (this.event.images || []).filter((value) => !value.file).map((value) => value.url);
-      sendEventDto = {
-        ...sendEventDto,
-        additionalImages: currentImages.slice(1),
-        id: this.eventId,
-        titleImage: currentImages[0]
-      } as any;
-    }
-
-    const formData: FormData = new FormData();
-    const stringifyDataToSend = JSON.stringify(sendEventDto);
-    const dtoName = this.isUpdating ? 'eventDto' : 'addEventDtoRequest';
-    formData.append(dtoName, stringifyDataToSend);
-    this.event.images.forEach((item) => {
-      if (item.file) {
-        formData.append('images', item.file);
-      }
-    });
+    const formData = this.eventService.prepareForSumbit(
+      this.event.eventInformation,
+      this.event.dates,
+      this.event.images,
+      id,
+      this.isUpdating
+    );
 
     this.isUpdating
       ? this.store.dispatch(EditEcoEventAction({ data: formData, id: id }))

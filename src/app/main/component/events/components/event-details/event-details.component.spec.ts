@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EVENT_MOCK, eventStateMock } from '@assets/mocks/events/mock-events';
+import { EVENT_FORM_MOCK, EVENT_MOCK, eventStateMock } from '@assets/mocks/events/mock-events';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -19,6 +19,7 @@ import { CreateEcoEventAction, EditEcoEventAction } from 'src/app/store/actions/
 import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 import { EventDetailsComponent } from './event-details.component';
+import { NewEvent } from '../../models/events.interface';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -170,12 +171,10 @@ describe('EventDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should initialize event on ngOnInit', waitForAsync(() => {
-  //   component.ngOnInit();
-
-  //   expect(EventsServiceMock.getEventById).toHaveBeenCalledWith(2);
-  //   expect(component.event).toEqual(EVENT_MOCK);
-  // }));
+  xit('should initialize event on ngOnInit', waitForAsync(() => {
+    expect(EventsServiceMock.getEventById).toHaveBeenCalledWith(2);
+    expect(component.event).toEqual(EVENT_FORM_MOCK);
+  }));
 
   it('should return the correct formatted address', () => {
     spyOn(component.eventService, 'getFormattedAddress');
@@ -202,21 +201,22 @@ describe('EventDetailsComponent', () => {
     expect(navigateSpy).toHaveBeenCalledWith(['/events', 'create-update-event', component.eventId]);
   });
 
-  // it('should navigate back to the event edit page', () => {
-  //   component.isUpdating = true;
-  //   fixture.detectChanges();
-  //   component.backToEditEvent();
+  it('should navigate back to the event edit page', () => {
+    component.isUpdating = true;
+    fixture.detectChanges();
+    component.navigateToEditEvent();
 
-  //   expect(navigateSpy).toHaveBeenCalledWith(['/events', 'update-event', component.eventId]);
-  // });
+    expect(navigateSpy).toHaveBeenCalledWith(['/events', 'create-update-event', component.eventId]);
+  });
 
-  // it('should navigate back to the event create page', () => {
-  //   component.isUpdating = false;
-  //   fixture.detectChanges();
-  //   component.backToEditEvent();
+  it('should navigate back to the event create page', () => {
+    component.isUpdating = false;
+    component.eventId = null;
+    fixture.detectChanges();
+    component.navigateToEditEvent();
 
-  //   expect(navigateSpy).toHaveBeenCalledWith(['/events', 'create-event']);
-  // });
+    expect(navigateSpy).toHaveBeenCalledWith(['/events', 'create-update-event']);
+  });
 
   xit('should dispatch correct action based on isUpdating', waitForAsync(() => {
     const sendData = new FormData();
@@ -291,37 +291,37 @@ describe('EventDetailsComponent', () => {
     });
   });
 
-  // it('should update likes and not revert isLiked if postToggleLike succeeds', () => {
-  //   component.isLiked = false;
-  //   component.event = { likes: 10 } as EventResponse;
-  //   component.eventId = 2;
+  it('should update likes and not revert isLiked if postToggleLike succeeds', () => {
+    component.isLiked = false;
+    component.event = { likes: 10 } as NewEvent;
+    component.eventId = 2;
 
-  //   EventsServiceMock.postToggleLike.and.returnValue(of(true));
+    EventsServiceMock.postToggleLike.and.returnValue(of(true));
 
-  //   component.onLikeEvent();
+    component.onLikeEvent();
 
-  //   expect(snackBarMock.openSnackBar).not.toHaveBeenCalled();
-  //   expect(component.isLiked).toBe(true);
-  // });
+    expect(snackBarMock.openSnackBar).not.toHaveBeenCalled();
+    expect(component.isLiked).toBe(true);
+  });
 
-  // it('should correctly toggle likes and isLiked based on the current state', () => {
-  //   component.event = { likes: 10 } as EventResponse;
-  //   component.eventId = 2;
-  //   component.isLiked = false;
-  //   EventsServiceMock.postToggleLike.and.returnValue(of(true));
+  it('should correctly toggle likes and isLiked based on the current state', () => {
+    component.event = { likes: 10 } as NewEvent;
+    component.eventId = 2;
+    component.isLiked = false;
+    EventsServiceMock.postToggleLike.and.returnValue(of(true));
 
-  //   component.onLikeEvent();
+    component.onLikeEvent();
 
-  //   expect(snackBarMock.openSnackBar).not.toHaveBeenCalled();
-  //   expect(component.isLiked).toBe(true);
-  //   expect(component.event.likes).toBe(11);
+    expect(snackBarMock.openSnackBar).not.toHaveBeenCalled();
+    expect(component.isLiked).toBe(true);
+    expect(component.event.likes).toBe(11);
 
-  //   component.isLiked = true;
-  //   EventsServiceMock.postToggleLike.and.returnValue(of(true));
+    component.isLiked = true;
+    EventsServiceMock.postToggleLike.and.returnValue(of(true));
 
-  //   component.onLikeEvent();
+    component.onLikeEvent();
 
-  //   expect(component.isLiked).toBe(false);
-  //   expect(component.event.likes).toBe(10);
-  // });
+    expect(component.isLiked).toBe(false);
+    expect(component.event.likes).toBe(10);
+  });
 });

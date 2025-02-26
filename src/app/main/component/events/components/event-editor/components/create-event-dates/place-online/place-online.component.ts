@@ -83,7 +83,7 @@ export class PlaceOnlineComponent implements OnInit {
   ngOnInit(): void {
     this.formGroup = this.dayFormGroup as FormGroup;
     this.isOnline = !!this.link.value;
-    this.isPlaceSelected = !!this.place.value;
+    this.isPlaceSelected = !!this.coordinates.value.latitude;
     this.setMapOptions();
     this.mapMarkerCoords = { lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude };
 
@@ -91,6 +91,9 @@ export class PlaceOnlineComponent implements OnInit {
       const firstDay = this.daysForm.value[0];
       this.applyInitialSettings(firstDay);
       this.subscribeToFormChanges();
+    }
+    if (this.isPlaceSelected) {
+      this.setPlace();
     }
     this.googleScript.$isRenderingMap.pipe(takeUntil(this.$destroy)).subscribe((value: boolean) => {
       setTimeout(() => {
@@ -264,7 +267,7 @@ export class PlaceOnlineComponent implements OnInit {
     this.map.center = latLngLiteral;
     const geocoder = new google.maps.Geocoder();
 
-    geocoder.geocode({ location: latLngLiteral, language: 'ua' }, (results, status) => {
+    await geocoder.geocode({ location: latLngLiteral, language: 'ua' }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK && results[0]) {
         const address_components = results[0].address_components;
         this.coordinates.patchValue({
@@ -277,7 +280,7 @@ export class PlaceOnlineComponent implements OnInit {
         });
       }
     });
-    geocoder.geocode({ location: latLngLiteral, language: 'en' }, (results, status) => {
+    await geocoder.geocode({ location: latLngLiteral, language: 'en' }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK && results[0]) {
         const address_components = results[0].address_components;
         this.coordinates.patchValue({
@@ -302,7 +305,6 @@ export class PlaceOnlineComponent implements OnInit {
   }
 
   private setMapOptions(): void {
-    console.log(this.coordinates.value.latitude, this.coordinates.value.longitude);
     this.mapOptions = {
       center: { lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude },
       zoom: 8,

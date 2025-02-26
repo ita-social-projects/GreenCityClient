@@ -34,7 +34,7 @@ export const EditEcoEventAction = createAction(EventsActions.EditEcoEvent, props
 export const EditEcoEventSuccessAction = createAction(
   EventsActions.EditEcoEventSuccess,
   props<{
-    event: EventResponse;
+    event: NewEvent;
   }>()
 );
 
@@ -42,7 +42,7 @@ export const CreateEcoEventAction = createAction(EventsActions.CreateEcoEvent, p
 export const CreateEcoEventSuccessAction = createAction(
   EventsActions.CreateEcoEventSuccess,
   props<{
-    event: EventResponse;
+    event: NewEvent;
   }>()
 );
 

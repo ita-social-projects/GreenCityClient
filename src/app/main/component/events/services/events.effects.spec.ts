@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { of, throwError } from 'rxjs';
-import { mockFavouriteEvents } from '@assets/mocks/events/mock-events';
+import { EVENT_FORM_MOCK, mockFavouriteEvents } from '@assets/mocks/events/mock-events';
 import { Actions } from '@ngrx/effects';
 import { EventsEffects } from 'src/app/store/effects/ecoEvents.effects';
 import {
@@ -56,10 +56,10 @@ describe('EventsService', () => {
   it('createEvent should dispatch CreateEcoEventSuccessAction on success', () => {
     const formData = new FormData();
     const action = CreateEcoEventAction({ data: formData });
-    const completion = CreateEcoEventSuccessAction({ event: eventMock });
+    const completion = CreateEcoEventSuccessAction({ event: EVENT_FORM_MOCK });
 
     actions$ = of(action);
-    eventsService.createEvent.and.returnValue(of(eventMock));
+    eventsService.createEvent.and.returnValue(of(EVENT_FORM_MOCK));
 
     effects.createEvent.subscribe((result) => {
       expect(result).toEqual(completion);
@@ -83,10 +83,10 @@ describe('EventsService', () => {
   it('editEvent should dispatch EditEcoEventSuccessAction on success', () => {
     const formData = new FormData();
     const action = EditEcoEventAction({ data: formData, id: 1 });
-    const completion = EditEcoEventSuccessAction({ event: eventMock });
+    const completion = EditEcoEventSuccessAction({ event: EVENT_FORM_MOCK });
 
     actions$ = of(action);
-    eventsService.editEvent.and.returnValue(of(eventMock));
+    eventsService.editEvent.and.returnValue(of(EVENT_FORM_MOCK));
 
     effects.editEvent.subscribe((result) => {
       expect(result).toEqual(completion);

@@ -15,7 +15,6 @@ import { EventEditorComponent } from './event-editor.component';
 
 describe('EventEditorComponent', () => {
   let component: EventEditorComponent;
-  let eventsService: EventsService;
   let fixture: ComponentFixture<EventEditorComponent>;
   let fb: FormBuilder;
   const actionSub: ActionsSubject = new ActionsSubject();
@@ -27,7 +26,7 @@ describe('EventEditorComponent', () => {
       declarations: [EventEditorComponent],
       imports: [MatDialogModule, RouterModule, HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
-        { provide: ActivatedRoute, useValue: { params: of({ id: '1' }) } },
+        { provide: ActivatedRoute, useValue: { params: of({ id: '' }) } },
         { provide: ActionsSubject, useValue: actionSub },
         { provide: Store, useValue: storeMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },

@@ -60,7 +60,7 @@ describe('EventsService', () => {
       expect(event).toEqual(mockEventResponse);
     });
 
-    const req = httpTestingController.expectOne(`${url}events/1`);
+    const req = httpTestingController.expectOne(`${url}events/updateV2/1`);
     expect(req.request.method).toEqual('PUT');
     req.flush(mockEventResponse);
   });

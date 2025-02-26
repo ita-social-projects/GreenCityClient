@@ -41,7 +41,7 @@ export class EventsEffects {
       ofType(CreateEcoEventAction),
       mergeMap((actions: { data: FormData }) =>
         this.eventsService.createEvent(actions.data).pipe(
-          map((event: EventResponse) => CreateEcoEventSuccessAction({ event })),
+          map((event: NewEvent) => CreateEcoEventSuccessAction({ event })),
           catchError((error) => of(ReceivedFailureAction(error)))
         )
       )
@@ -52,7 +52,7 @@ export class EventsEffects {
       ofType(EditEcoEventAction),
       mergeMap((actions: { data: FormData; id: number }) =>
         this.eventsService.editEvent(actions.data, actions.id).pipe(
-          map((event: EventResponse) => EditEcoEventSuccessAction({ event })),
+          map((event: NewEvent) => EditEcoEventSuccessAction({ event })),
           catchError((error) => of(ReceivedFailureAction(error)))
         )
       )
