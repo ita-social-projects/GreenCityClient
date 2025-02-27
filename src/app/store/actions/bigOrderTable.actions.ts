@@ -9,7 +9,7 @@ import {
   IOrdersViewParameters,
   IShortAddress,
   NotTakenOutReasonImages
-} from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+} from '../../ubs/ubs-admin/models/ubs-admin.interface';
 
 export enum BigOrderTableActions {
   GetColumnToDisplay = '[BigOrderTable] Get Columns To Display',
