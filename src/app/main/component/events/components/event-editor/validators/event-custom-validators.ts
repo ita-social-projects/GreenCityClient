@@ -22,14 +22,10 @@ export function customTextValidator(control: AbstractControl): ValidationErrors 
 }
 
 export const locationOrOnlineLinkValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  if (!control || !control.get('onlineLink') || !control.get('coordinates')) {
-    return null;
-  }
-
   const onlineLink = control.get('onlineLink')?.value;
   const longitude = control.get('coordinates')?.value.longitude;
 
-  if (!onlineLink && (longitude === null || longitude === undefined || longitude === '')) {
+  if (!onlineLink && !longitude) {
     return { locationOrOnlineLinkRequired: true };
   }
 
