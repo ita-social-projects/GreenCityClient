@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup, Validators } from '@angular/forms';
 import { GoogleMap } from '@angular/google-maps';
 import { GoogleScript } from '@assets/google-script/google-script';
@@ -13,7 +13,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   styleUrls: ['./place-online.component.scss'],
   providers: []
 })
-export class PlaceOnlineComponent implements OnInit {
+export class PlaceOnlineComponent implements OnInit, OnDestroy {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
   @ViewChild('placesRef') placesRef: ElementRef;
 
@@ -130,12 +130,12 @@ export class PlaceOnlineComponent implements OnInit {
   }
 
   subscribeToFormChanges(): void {
-    this.appliedLinkForAll.valueChanges.subscribe((data) => {
+    this.appliedLinkForAll.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((data) => {
       this.isOnline = data;
       this.isLinkDisabled = data;
     });
 
-    this.appliedPlaceForAll.valueChanges.subscribe((data) => {
+    this.appliedPlaceForAll.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((data) => {
       this.isPlaceDisabled = data;
       this.isPlaceSelected = data;
       this.place[data ? 'disable' : 'enable']();
@@ -303,5 +303,9 @@ export class PlaceOnlineComponent implements OnInit {
       minZoom: 4,
       maxZoom: 20
     };
+  }
+  ngOnDestroy(): void {
+    this.$destroy.next(true);
+    this.$destroy.complete();
   }
 }

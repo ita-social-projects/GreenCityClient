@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { IMask } from 'angular-imask';
@@ -6,6 +6,7 @@ import moment from 'moment';
 import 'moment/locale/uk';
 import { LanguageService } from '../../../../../../../i18n/language.service';
 import { MomentDateAdapter } from './moment-date-adapter';
+import { Subject, takeUntil } from 'rxjs';
 
 export const MY_FORMATS = {
   parse: {
@@ -28,7 +29,7 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ]
 })
-export class DateTimeComponent implements OnInit, AfterViewInit {
+export class DateTimeComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() daysForm: FormArray;
   @Input() dayNumber: number;
   @Input() dayFormGroup: AbstractControl;
@@ -44,6 +45,7 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   private initialStartTime: string;
   private startTimeMask: any;
   private endTimeMask: any;
+  private $destroy: Subject<boolean> = new Subject();
   timeMask = {
     mask: 'HH:MM',
     blocks: {
@@ -109,21 +111,24 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     this.initialStartTime = this._initialStartTime();
     this._upperTimeLimit = this._timeArr.indexOf(this.initialStartTime);
     this._setArrTime();
-    this.ls.getCurrentLangObs().subscribe((lang) => {
-      const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
-      this.dateFormat = lang !== 'ua' ? 'MMDDYYYY' : 'DDMMYYYY';
-      this.adapter.setLocale(locale);
-    });
-    this.startTime.valueChanges.subscribe((value: string) => {
+    this.ls
+      .getCurrentLangObs()
+      .pipe(takeUntil(this.$destroy))
+      .subscribe((lang) => {
+        const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
+        this.dateFormat = lang !== 'ua' ? 'MMDDYYYY' : 'DDMMYYYY';
+        this.adapter.setLocale(locale);
+      });
+    this.startTime.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((value: string) => {
       this._handleTimeChange(value, 'start');
     });
 
-    this.finishTime.valueChanges.subscribe((value: string) => {
+    this.finishTime.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((value: string) => {
       this._handleTimeChange(value, 'end');
     });
 
     // Subscribe to date value changes
-    this.day.valueChanges.subscribe((newDate) => {
+    this.day.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((newDate) => {
       const newStartDate = new Date(newDate.toDate());
       newStartDate.setHours(this.startDate.value.getHours(), this.startDate.value.getMinutes(), 0, 0);
 
@@ -291,5 +296,10 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     } else {
       return '00:00';
     }
+  }
+
+  ngOnDestroy(): void {
+    this.$destroy.next(true);
+    this.$destroy.complete();
   }
 }
