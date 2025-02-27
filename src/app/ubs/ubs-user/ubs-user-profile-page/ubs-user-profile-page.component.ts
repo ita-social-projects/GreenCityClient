@@ -163,12 +163,13 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((list: { addressList: Address[] }) => {
         this.userProfile.addressDto = list.addressList;
-        const addressArray = this.userForm.get('address') as FormArray;
-        if (!addressArray) {
+
+        const addressArray = this.userForm.get('address');
+        if (!(addressArray instanceof FormArray)) {
           return;
         }
 
-        const index = addressArray.controls.findIndex((ctrl) => ctrl.value.id === address.id);
+        const index = addressArray.controls.findIndex((ctrl) => ctrl.value?.id === address.id);
         if (index !== -1) {
           addressArray.removeAt(index);
           this.userForm.markAsDirty();
