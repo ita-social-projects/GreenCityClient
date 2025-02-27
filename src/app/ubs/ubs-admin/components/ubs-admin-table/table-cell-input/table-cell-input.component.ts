@@ -1,14 +1,14 @@
 import { Component, DestroyRef, EventEmitter, Input, Output } from '@angular/core';
-import { IAlertInfo, IEditCell } from '../../../models/edit-cell.model';
-import { IColumnBelonging } from '../../../models/ubs-admin.interface';
-import { AdminTableService } from '../../../services/admin-table.service';
+import { IAlertInfo, IEditCell } from '@ubs/ubs-admin/models/edit-cell.model';
+import { IColumnBelonging } from '@ubs/ubs-admin/models/ubs-admin.interface';
+import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
 import { catchError, map, of, switchMap, take } from 'rxjs';
-import { CommentPopUpComponent } from '../../shared/components/comment-pop-up/comment-pop-up.component';
+import { CommentPopUpComponent } from '@ubs/ubs-admin/components/shared/components/comment-pop-up/comment-pop-up.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LocalStorageService } from '../../../../../shared/services/localstorage/local-storage.service';
-import { UBSAddAddressPopUpComponent } from '../../../../shared/components/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { UBSAddAddressPopUpComponent } from '@ubs/shared/components/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { OrderService } from '../../../services/order.service';
+import { OrderService } from '@ubs/ubs-admin/services/order.service';
 
 @Component({
   selector: 'app-table-cell-input',
