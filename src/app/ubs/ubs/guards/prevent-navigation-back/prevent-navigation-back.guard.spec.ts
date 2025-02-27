@@ -1,46 +1,38 @@
 import { TestBed } from '@angular/core/testing';
-import { PreventNavigationBackGuard } from './prevent-navigation-back.guard';
 import { MatDialog } from '@angular/material/dialog';
+import { PreventNavigationBackGuard, CanComponentDeactivate } from './prevent-navigation-back.guard';
 
-describe('PreventNavigationBackGuard', () => {
-  let guard: PreventNavigationBackGuard;
+describe('preventNavigationBackGuard', () => {
   let dialogSpy: jasmine.SpyObj<MatDialog>;
-  const dialogSpyObj = jasmine.createSpyObj('MatDialog', ['openDialogs', 'closeAll']);
 
   beforeEach(() => {
+    dialogSpy = jasmine.createSpyObj('MatDialog', ['closeAll'], { openDialogs: [] });
+
     TestBed.configureTestingModule({
-      providers: [{ provide: MatDialog, useValue: dialogSpyObj }]
+      providers: [{ provide: MatDialog, useValue: dialogSpy }]
     });
-    guard = TestBed.inject(PreventNavigationBackGuard);
-    dialogSpy = TestBed.inject(MatDialog) as jasmine.SpyObj<MatDialog>;
   });
 
-  it('should be created', () => {
-    expect(guard).toBeTruthy();
-  });
-
-  it('should allow navigation back when dialogs are not open', () => {
-    dialogSpyObj.openDialogs = [];
-
-    const mockComponent = { canNavigate: () => true };
+  it('should allow navigation when no dialogs are open', () => {
+    Object.defineProperty(dialogSpy, 'openDialogs', { get: () => [] });
+    const mockComponent: CanComponentDeactivate = { canNavigate: () => true };
     const spy = spyOn(history, 'pushState');
 
-    const result = guard.canDeactivate(mockComponent);
+    const result = TestBed.runInInjectionContext(() => PreventNavigationBackGuard(mockComponent, {} as any, {} as any, {} as any));
 
-    expect(result).toBeTruthy();
+    expect(result).toBeTrue();
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should prevent navigation back and close dialogs when dialogs are open', () => {
-    dialogSpyObj.openDialogs = [{}];
-
-    const mockComponent = { canNavigate: () => false };
+  it('should prevent navigation and close dialogs when dialogs are open', () => {
+    Object.defineProperty(dialogSpy, 'openDialogs', { get: () => [{}] });
+    const mockComponent: CanComponentDeactivate = { canNavigate: () => false };
     const spy = spyOn(history, 'pushState');
 
-    const result = guard.canDeactivate(mockComponent);
+    const result = TestBed.runInInjectionContext(() => PreventNavigationBackGuard(mockComponent, {} as any, {} as any, {} as any));
 
-    expect(result).toBeFalsy();
-    expect(dialogSpyObj.closeAll).toHaveBeenCalled();
+    expect(result).toBeFalse();
+    expect(dialogSpy.closeAll).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith(null, '');
   });
 });
