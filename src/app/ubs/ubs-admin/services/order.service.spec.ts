@@ -246,7 +246,7 @@ describe('OrderService', () => {
     service.readAddressOrder(2270).subscribe((data) => {
       expect(data).toBe(address);
     });
-    const req = httpMock.expectOne(`${urlMock}/management/read-address-order/2270`);
+    const req = httpMock.expectOne(`${urlMock}/read-address-order/2270`);
     expect(req.request.method).toBe('GET');
     req.flush(address);
   });
