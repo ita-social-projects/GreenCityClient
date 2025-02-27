@@ -38,7 +38,7 @@
       </mat-checkbox>
     </div>
 
-    <div *ngIf="!formDisabled && !isRenderingMap" class="map-container">
+    <div *ngIf="!formDisabled && !isRenderingMap && !isPlaceDisabled" class="map-container">
       <google-map (mapClick)="mapClick($event)" [options]="mapOptions" [width]="'100%'" height="410px">
         <map-marker [position]="mapMarkerCoords" />
       </google-map>
@@ -49,7 +49,7 @@
     <p class="regular-text mb-2">{{ 'create-event.event-link' | translate }}</p>
     <mat-form-field appearance="outline" class="link-title" subscriptSizing="dynamic">
       <mat-label class="link-title">{{ 'create-event.event-online-link' | translate }}</mat-label>
-      <input formControlName="onlineLink" matInput placeholder="{{ 'create-event.enter-link' | translate }}" />
+      <input [readonly]="isLinkDisabled" formControlName="onlineLink" matInput placeholder="{{ 'create-event.enter-link' | translate }}" />
       <mat-error> {{ 'create-event.event-online-link-error' | translate }}</mat-error>
     </mat-form-field>
     <mat-checkbox

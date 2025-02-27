@@ -73,7 +73,7 @@ export class PlaceOnlineComponent implements OnInit {
   toggleForAllLocations(): void {
     const isApplied = !this.appliedPlaceForAll.value;
     this.applyLocationToAllDays(
-      isApplied ? { lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude } : { lat: null, lng: null },
+      isApplied ? this.coordinates.value : { latitude: null, longitude: null },
       isApplied ? this.place.value : '',
       isApplied
     );
@@ -101,14 +101,6 @@ export class PlaceOnlineComponent implements OnInit {
         this.setMapOptions();
         this.setPlace();
       }, 1000);
-    });
-    this.daysForm.controls[0].valueChanges.pipe(takeUntil(this.$destroy)).subscribe((value) => {
-      if (this.appliedPlaceForAll.value) {
-        this.applyLocationToAllDays(value.coordinates, value.place, true);
-      }
-      if (this.appliedLinkForAll.value) {
-        this.applyLinkToAllDays(value.onlineLink, true);
-      }
     });
   }
 
@@ -141,7 +133,6 @@ export class PlaceOnlineComponent implements OnInit {
     this.appliedLinkForAll.valueChanges.subscribe((data) => {
       this.isOnline = data;
       this.isLinkDisabled = data;
-      this.link[data ? 'disable' : 'enable']();
     });
 
     this.appliedPlaceForAll.valueChanges.subscribe((data) => {
@@ -151,17 +142,17 @@ export class PlaceOnlineComponent implements OnInit {
     });
   }
 
-  applyLocationToAllDays(coordinates: google.maps.LatLngLiteral, place: string, is: boolean): void {
+  applyLocationToAllDays(coordinates: PlaceOnline, place: string, is: boolean): void {
     this.daysForm.controls.slice(1).forEach((control) => {
-      control.get('coordinates').patchValue({ coordinates, place, appliedPlaceForAll: is });
-      control.get('coordinates').updateValueAndValidity();
+      control.patchValue({ coordinates, place, appliedPlaceForAll: is });
+      control.updateValueAndValidity();
     });
   }
 
-  applyLinkToAllDays(link: string, is: boolean): void {
+  applyLinkToAllDays(onlineLink: string, is: boolean): void {
     this.daysForm.controls.slice(1).forEach((control) => {
-      control.get('coordinates').patchValue({ onlineLink: link, appliedLinkForAll: is });
-      control.get('coordinates').updateValueAndValidity();
+      control.patchValue({ onlineLink, appliedLinkForAll: is });
+      control.updateValueAndValidity();
     });
   }
 

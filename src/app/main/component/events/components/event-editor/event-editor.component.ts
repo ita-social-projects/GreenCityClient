@@ -20,7 +20,7 @@ import { DateInformation, FormControllers, NewEvent } from '../../models/events.
 import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 import { quillConfig } from './quillEditorFunc';
-import { customTextValidator } from './validators/quillEditorValidator';
+import { customTextValidator, locationOrOnlineLinkValidator } from './validators/event-custom-validators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
@@ -130,42 +130,44 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
         } else {
           for (let i = currentLength; i < numberDays; i++) {
             const previousDay = this.eventDateForm.at(i - 1);
-            const previousDate = previousDay ? new Date(previousDay.value.day.startDate) : new Date();
+            const previousDate = previousDay ? new Date(previousDay.value.startDate) : new Date();
 
             const nextDate = new Date(previousDate.getTime() + 24 * 60 * 60 * 1000);
-
             this.eventDateForm.push(
-              this.fb.group({
-                day: [moment(nextDate), Validators.required],
-                startDate: [nextDate, Validators.required],
-                finishDate: [nextDate, Validators.required],
-                startTime: ['', Validators.required],
-                finishTime: ['', Validators.required],
-                allDay: [false],
-                minDate: [nextDate],
-                maxDate: [null],
-                coordinates: [
-                  {
-                    latitude: '',
-                    longitude: '',
-                    streetEn: '',
-                    streetUa: '',
-                    houseNumber: '',
-                    cityEn: '',
-                    cityUa: '',
-                    regionEn: '',
-                    regionUa: '',
-                    countryEn: '',
-                    countryUa: '',
-                    formattedAddressEn: '',
-                    formattedAddressUa: ''
-                  }
-                ],
-                onlineLink: new FormControl(''),
-                place: new FormControl(''),
-                appliedLinkForAll: [false],
-                appliedPlaceForAll: [false]
-              })
+              this.fb.group(
+                {
+                  day: [moment(nextDate.toISOString()), Validators.required],
+                  startDate: [nextDate, Validators.required],
+                  finishDate: [nextDate, Validators.required],
+                  startTime: ['', Validators.required],
+                  finishTime: ['', Validators.required],
+                  allDay: [false],
+                  minDate: [nextDate],
+                  maxDate: [null],
+                  coordinates: [
+                    {
+                      latitude: null,
+                      longitude: null,
+                      streetEn: '',
+                      streetUa: '',
+                      houseNumber: '',
+                      cityEn: '',
+                      cityUa: '',
+                      regionEn: '',
+                      regionUa: '',
+                      countryEn: '',
+                      countryUa: '',
+                      formattedAddressEn: '',
+                      formattedAddressUa: ''
+                    }
+                  ],
+                  onlineLink: new FormControl(''),
+                  place: new FormControl(''),
+                  appliedLinkForAll: [false],
+                  appliedPlaceForAll: [false]
+                },
+                { validators: locationOrOnlineLinkValidator }
+              )
             );
           }
         }
@@ -211,43 +213,48 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
   }
 
   private createDateFormGroup(date?: DateInformation): FormGroup<FormControllers<DateInformation>> {
-    return this.fb.group({
-      day: [date?.startDate ? moment(date.startDate) : moment()],
-      startDate: [date?.startDate ? new Date(date.startDate) : new Date(), [Validators.required]],
-      finishDate: [date?.finishDate ? new Date(date.finishDate) : new Date(), [Validators.required]],
-      startTime: [
-        date?.startDate ? `${new Date(date.startDate).getHours()}:${new Date(date.startDate).getMinutes().toString().padStart(2, '0')}` : ''
-      ],
-      finishTime: [
-        date?.finishDate
-          ? `${new Date(date.finishDate).getHours()}:${new Date(date.finishDate).getMinutes().toString().padStart(2, '0')}`
-          : ''
-      ],
-      allDay: [date?.allDay ?? false],
-      minDate: [date?.minDate ? new Date(date.minDate) : new Date()],
-      maxDate: [date?.maxDate ? new Date(date.maxDate) : null],
-      coordinates: [
-        date?.coordinates ?? {
-          latitude: null,
-          longitude: null,
-          streetEn: '',
-          streetUa: '',
-          houseNumber: '',
-          cityEn: '',
-          cityUa: '',
-          regionEn: '',
-          regionUa: '',
-          countryEn: '',
-          countryUa: '',
-          formattedAddressEn: '',
-          formattedAddressUa: ''
-        }
-      ],
-      onlineLink: new FormControl(date?.onlineLink ?? ''),
-      place: new FormControl(''),
-      appliedLinkForAll: [date?.appliedLinkForAll ?? false],
-      appliedPlaceForAll: [date?.appliedPlaceForAll ?? false]
-    });
+    return this.fb.group(
+      {
+        day: [date?.startDate ? moment(date.startDate) : moment()],
+        startDate: [date?.startDate ? new Date(date.startDate) : new Date(), [Validators.required]],
+        finishDate: [date?.finishDate ? new Date(date.finishDate) : new Date(), [Validators.required]],
+        startTime: [
+          date?.startDate
+            ? `${new Date(date.startDate).getHours()}:${new Date(date.startDate).getMinutes().toString().padStart(2, '0')}`
+            : ''
+        ],
+        finishTime: [
+          date?.finishDate
+            ? `${new Date(date.finishDate).getHours()}:${new Date(date.finishDate).getMinutes().toString().padStart(2, '0')}`
+            : ''
+        ],
+        allDay: [date?.allDay ?? false],
+        minDate: [date?.minDate ? new Date(date.minDate) : new Date()],
+        maxDate: [date?.maxDate ? new Date(date.maxDate) : null],
+        coordinates: [
+          date?.coordinates ?? {
+            latitude: null,
+            longitude: null,
+            streetEn: '',
+            streetUa: '',
+            houseNumber: '',
+            cityEn: '',
+            cityUa: '',
+            regionEn: '',
+            regionUa: '',
+            countryEn: '',
+            countryUa: '',
+            formattedAddressEn: '',
+            formattedAddressUa: ''
+          }
+        ],
+        onlineLink: new FormControl(date?.onlineLink ?? ''),
+        place: new FormControl(''),
+        appliedLinkForAll: [date?.appliedLinkForAll ?? false],
+        appliedPlaceForAll: [date?.appliedPlaceForAll ?? false]
+      },
+      { validators: locationOrOnlineLinkValidator }
+    );
   }
 
   onPreview(): void {
