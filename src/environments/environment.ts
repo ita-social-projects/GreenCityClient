@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  enableUBS: true,
+  enableUBS: false,
   enableGreenCity: true,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
   apiMapKey: 'AIzaSyDaqjlemyxH1pLvF1EWfBDW2IPlgwJYXnU',
