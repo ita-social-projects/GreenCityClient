@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Language } from 'src/app/main/i18n/Language';
 import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { Address, CourierLocations, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
-import { EventResponse, NewEvent } from '../../component/events/models/events.interface';
+import { EventResponse, EventDto } from '../../component/events/models/events.interface';
 
 @Injectable({
   providedIn: 'root'

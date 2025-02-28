@@ -16,7 +16,7 @@ import { take } from 'rxjs/operators';
 import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { DateInformation, FormControllers, NewEvent } from '../../models/events.interface';
+import { DateInformation, FormControllers, EventDto } from '../../models/events.interface';
 import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 import { quillConfig } from './quillEditorFunc';
@@ -42,7 +42,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
   subscription: Subscription;
   previousPath: string;
   eventForm: FormGroup;
-  event: NewEvent;
+  event: EventDto;
   routedFromProfile: boolean;
 
   constructor(

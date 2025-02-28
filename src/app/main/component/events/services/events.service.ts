@@ -11,7 +11,7 @@ import {
   EventResponse,
   EventResponseDto,
   LocationResponse,
-  NewEvent,
+  EventDto,
   PlaceOnline
 } from '../models/events.interface';
 
@@ -24,7 +24,7 @@ export class EventsService implements OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private divider = `, `;
   private isFromCreateEvent: boolean;
-  private event: NewEvent;
+  private event: EventDto;
 
   constructor(
     private http: HttpClient,
@@ -38,7 +38,7 @@ export class EventsService implements OnDestroy {
     this.event = { ...this.event, ...event };
   }
 
-  getEvent(): NewEvent {
+  getEvent(): EventDto {
     return this.event;
   }
 
@@ -94,13 +94,13 @@ export class EventsService implements OnDestroy {
     return this.http.get(img, { responseType: 'blob' });
   }
 
-  createEvent(formData: FormData): Observable<NewEvent> {
+  createEvent(formData: FormData): Observable<EventDto> {
     this.event = null;
-    return this.http.post<NewEvent>(`${this.backEnd}events/createV2`, formData);
+    return this.http.post<EventDto>(`${this.backEnd}events/createV2`, formData);
   }
 
-  editEvent(formData: FormData, eventId: number): Observable<NewEvent> {
-    return this.http.put<NewEvent>(`${this.backEnd}events/updateV2/${eventId}`, formData);
+  editEvent(formData: FormData, eventId: number): Observable<EventDto> {
+    return this.http.put<EventDto>(`${this.backEnd}events/updateV2/${eventId}`, formData);
   }
 
   getEvents(requestParams: HttpParams): Observable<EventResponseDto> {
@@ -119,8 +119,8 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventResponseDto>(`${this.backEnd}events?page=${page}&size=${quantity}&statuses=SAVED&user-id=${userId}`);
   }
 
-  getEventById(eventId: number): Observable<NewEvent> {
-    return this.http.get<NewEvent>(`${this.backEnd}events/v2/${eventId}`);
+  getEventById(eventId: number): Observable<EventDto> {
+    return this.http.get<EventDto>(`${this.backEnd}events/v2/${eventId}`);
   }
 
   getIsLikedByUser(eventId: number): Observable<boolean> {

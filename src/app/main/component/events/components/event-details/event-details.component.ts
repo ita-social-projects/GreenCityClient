@@ -25,7 +25,7 @@ import {
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { ICONS } from '../../models/event-consts';
-import { EventAttender, EventForm, NewEvent, PlaceOnline } from '../../models/events.interface';
+import { EventAttender, EventForm, EventDto, PlaceOnline } from '../../models/events.interface';
 import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 
@@ -51,7 +51,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   attendeesAvatars = [];
   organizerName: string;
   isLiked: boolean;
-  event: NewEvent;
+  event: EventDto;
   locationLink: string;
   locationCoordinates: PlaceOnline;
   place: string;
@@ -203,7 +203,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   getEventById(): void {
-    this.eventService.getEventById(this.eventId).subscribe((res: NewEvent) => {
+    this.eventService.getEventById(this.eventId).subscribe((res: EventDto) => {
       this.event = res;
       this.metaService.setMeta('oneEventArticle', {
         title: res.eventInformation.title,

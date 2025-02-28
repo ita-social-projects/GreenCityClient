@@ -5,7 +5,7 @@ export type FormControllers<T> = {
   [K in keyof T]: FormControl<T[K]>;
 };
 
-export interface NewEvent extends EventForm {
+export interface EventDto extends EventForm {
   id?: number;
   organizer?: {
     id: number;
