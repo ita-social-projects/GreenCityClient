@@ -1,5 +1,7 @@
 export const environment = {
   production: false,
+  enableUBS: true,
+  enableGreenCity: true,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
   apiMapKey: 'AIzaSyDaqjlemyxH1pLvF1EWfBDW2IPlgwJYXnU',
   backendLink: 'http://localhost:8085/',
