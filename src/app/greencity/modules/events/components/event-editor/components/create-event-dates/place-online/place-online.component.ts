@@ -4,8 +4,8 @@ import { GoogleMap } from '@angular/google-maps';
 import { GoogleScript } from '@assets/google-script/google-script';
 import { Patterns } from '@assets/patterns/patterns';
 import { Subject, takeUntil } from 'rxjs';
+import { DateInformation, FormControllers, PlaceOnline } from 'src/app/greencity/modules/events/models/events.interface';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { DateInformation, FormControllers, PlaceOnline } from 'src/app/greenCity/modules/events/models/events.interface';
 @Component({
   selector: 'app-place-online',
   templateUrl: './place-online.component.html',
