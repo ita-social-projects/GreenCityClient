@@ -166,7 +166,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   navigateToSaved(): void {
-    this.router.navigate(['/news'], {
+    this.router.navigate(['/greenCity/news'], {
       queryParams: { isBookmark: true }
     });
   }

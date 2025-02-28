@@ -76,7 +76,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.getDataFromLocalStorage();
     this.scroll = false;
     this.setLocalizedTags();
-    this.localStorageService.setCurentPage('previousPage', '/news');
+    this.localStorageService.setCurentPage('previousPage', '/greenCity/news');
 
     initializeSavedState(this.route, (isBookmark, section) => {
       this.isSavedVisible = isBookmark;

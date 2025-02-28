@@ -138,7 +138,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.isPreview = true;
       this.eventForm = this.eventStoreService.getEditorValues();
       if (!this.eventForm.eventInformation) {
-        this.router.navigate(['/events']);
+        this.router.navigate(['/greenCity/events']);
       }
       this.event = this.eventService.getEventPreview(this.eventForm);
       this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
@@ -182,7 +182,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   navigateBackOnEventDeleteListener(): void {
     this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => {
-      this.router.navigate(['/events']);
+      this.router.navigate(['/greenCity/events']);
     });
   }
 
@@ -240,16 +240,16 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   navigateToEditEvent(): void {
-    this.router.navigate(['/events', 'update-event', this.eventId]);
+    this.router.navigate(['/greenCity/events', 'update-event', this.eventId]);
   }
 
   backToEditEvent(): void {
     if (!this.isUpdating) {
-      this.router.navigate(['/events', 'create-event']);
+      this.router.navigate(['/greenCity/events', 'create-event']);
     } else {
       this.localStorageService.setEditMode('canUserEdit', true);
       const id = this.eventId || this.eventStoreService.getEventId();
-      this.router.navigate(['/events', 'update-event', id]);
+      this.router.navigate(['/greenCity/events', 'update-event', id]);
     }
   }
 
@@ -270,7 +270,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   escapeFromCreateEvent(): void {
-    this.router.navigate(['/events']);
+    this.router.navigate(['/greenCity/events']);
     this.eventSuccessfullyAdded();
   }
 
@@ -379,7 +379,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (this.userId) {
-        this.router.navigate(['/events', this.eventId]);
+        this.router.navigate(['/greenCity/events', this.eventId]);
       }
     });
   }

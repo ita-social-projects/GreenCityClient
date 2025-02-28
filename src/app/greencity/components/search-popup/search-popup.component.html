@@ -26,7 +26,7 @@
         {{ resultsCounters.total }} {{ 'search.search-popup.items-found' | translate }}
       </div>
       <div *ngIf="newsElements && newsElements.length > 0">
-        <a [routerLink]="['/news']" (click)="closeSearch()">
+        <a [routerLink]="['/greenCity/news']" (click)="closeSearch()">
           <h3 class="search-title">
             {{ 'search.search-popup.news' | translate }} <span class="counter">({{ resultsCounters.news }})</span>
           </h3>

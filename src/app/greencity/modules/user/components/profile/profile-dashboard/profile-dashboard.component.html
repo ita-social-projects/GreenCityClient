@@ -125,7 +125,7 @@
               </p>
               <div class="in-progress" id="my-events">
                 <div class="buttons-wrapper">
-                  <a [routerLink]="['/events/create-event']">
+                  <a [routerLink]="['/greenCity/events/create-event']">
                     <div id="create-button-event" class="secondary-global-button s-btn">
                       <span>{{ 'profile.dashboard.add-event' | translate }}</span>
                     </div>
@@ -169,7 +169,7 @@
 
           <div class="no-data" *ngIf="!this.totalEvents">
             <app-no-data [title]="'profile.dashboard.no-events'" [text]="'profile.dashboard.no-events-advice'"> </app-no-data>
-            <a [routerLink]="['/events']">
+            <a [routerLink]="['/greenCity/events']">
               <div id="create-button-join-event" class="secondary-global-button m-btn">
                 <span>{{ 'profile.dashboard.join-event' | translate }}</span>
               </div>

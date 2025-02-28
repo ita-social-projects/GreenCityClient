@@ -15,7 +15,7 @@
         <button class="secondary-global-button delete-news-button" type="button" (click)="deleteNews()">
           {{ 'eco-news-single-view.delete-news-button' | translate }}
         </button>
-        <a [routerLink]="['/news/create-news']" [queryParams]="{ id: newsItem.id }">
+        <a [routerLink]="['/greenCity/news/create-news']" [queryParams]="{ id: newsItem.id }">
           <div class="edit-news">
             {{ 'eco-news-single-view.edit-news-button' | translate }}
           </div>

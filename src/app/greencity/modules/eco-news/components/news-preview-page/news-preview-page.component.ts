@@ -63,7 +63,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
         catchError((err) => throwError(err))
       )
       .subscribe(() => {
-        this.router.navigate(['/news']);
+        this.router.navigate(['/greenCity/news']);
       });
   }
 

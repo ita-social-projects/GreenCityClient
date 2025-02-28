@@ -177,7 +177,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
   }
 
   escapeFromCreateEvent(): void {
-    this.router.navigate(['/events']);
+    this.router.navigate(['/greenCity/events']);
     this.eventSuccessfullyAdded();
   }
 

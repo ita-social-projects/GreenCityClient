@@ -81,7 +81,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.localStorageService.setCurentPage('previousPage', '/events');
+    this.localStorageService.setCurentPage('previousPage', '/greenCity/events');
 
     initializeSavedState(this.route, (isBookmark, section) => {
       this.isSavedVisible = isBookmark;
@@ -330,7 +330,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   isUserLoggedRedirect(): void {
-    this.isLoggedIn ? this.router.navigate(['/events', 'create-event']) : this.openAuthModalWindow('sign-in');
+    this.isLoggedIn ? this.router.navigate(['/greenCity/events', 'create-event']) : this.openAuthModalWindow('sign-in');
     this.eventStoreService.setEditorValues(null);
   }
 

@@ -220,7 +220,7 @@ describe('EventDetailsComponent', () => {
 
     component.navigateToEditEvent();
 
-    expect(navigateSpy).toHaveBeenCalledWith(['/events', 'update-event', component.eventId]);
+    expect(navigateSpy).toHaveBeenCalledWith(['/greenCity/events', 'update-event', component.eventId]);
   });
 
   it('should navigate back to the event edit page', () => {
@@ -228,7 +228,7 @@ describe('EventDetailsComponent', () => {
     fixture.detectChanges();
     component.backToEditEvent();
 
-    expect(navigateSpy).toHaveBeenCalledWith(['/events', 'update-event', component.eventId]);
+    expect(navigateSpy).toHaveBeenCalledWith(['/greenCity/events', 'update-event', component.eventId]);
   });
 
   it('should navigate back to the event create page', () => {
@@ -236,7 +236,7 @@ describe('EventDetailsComponent', () => {
     fixture.detectChanges();
     component.backToEditEvent();
 
-    expect(navigateSpy).toHaveBeenCalledWith(['/events', 'create-event']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/greenCity/events', 'create-event']);
   });
 
   it('should dispatch correct action based on isUpdating', waitForAsync(() => {

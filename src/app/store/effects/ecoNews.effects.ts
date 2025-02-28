@@ -93,7 +93,7 @@ export class NewsEffects {
         this.newsService.deleteNews(actions.id).pipe(
           map(() => DeleteEcoNewsSuccessAction({ id: actions.id })),
           tap(() => {
-            this.router.navigate(['/news']);
+            this.router.navigate(['/greenCity/news']);
           }),
           catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
         )

@@ -16,7 +16,7 @@
       <div class="card-box" *ngFor="let news of recommendedNews; index as i">
         <app-news-list-gallery-view
           [ecoNewsModel]="news"
-          [routerLink]="['/news', news.id]"
+          [routerLink]="['/greenCity/news', news.id]"
           [class.last-item]="i === 2"
           [class.recommended-item]="true"
         >

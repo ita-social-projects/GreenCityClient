@@ -9,7 +9,7 @@
       {{ 'search.search-not-found.choose-alternative' | translate }}
     </p>
     <div class="search_not-found-item-wrp">
-      <a [routerLink]="['/news']" (click)="emitClose()">
+      <a [routerLink]="['/greenCity/news']" (click)="emitClose()">
         <div class="search_not-found-item">
           <img class="search_not-found-image" [src]="images.defaultImage" alt="news-image" />
           <h2 class="search_not-found-header">{{ 'search.search-not-found.alternative-header-news' | translate }}</h2>

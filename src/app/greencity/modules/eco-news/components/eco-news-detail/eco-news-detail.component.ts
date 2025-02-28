@@ -84,12 +84,12 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
           this.metaService.setMeta('oneNewsArticle', { title: res.title });
         } else {
           this.snackBar.openSnackBar('errorNotFound');
-          this.router.navigate(['/news']);
+          this.router.navigate(['/greenCity/news']);
         }
       },
       error: () => {
         this.snackBar.openSnackBar('errorNotFound');
-        this.router.navigate(['/news']);
+        this.router.navigate(['/greenCity/news']);
       }
     });
   }
