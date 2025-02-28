@@ -8,7 +8,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { filter, take, tap } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
@@ -41,7 +41,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   userProfile: UserProfile;
   userEmail: string;
   telegramBotURL: string;
-  viberBotURL: string;
   errorMessages = [];
   maxAddressLength = 4;
   isEditing = false;
@@ -124,7 +123,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
   setUrlToBot(): void {
     this.telegramBotURL = this.userProfile.botList[0]?.link;
-    this.viberBotURL = this.userProfile.botList[1]?.link;
   }
 
   userInit(): void {
@@ -153,20 +151,29 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         Validators.minLength(12),
         PhoneNumberValidator('UA')
       ]),
-      telegramIsNotify: new FormControl(this.userProfile.telegramIsNotify),
-      viberIsNotify: new FormControl(this.userProfile.viberIsNotify)
+      telegramIsNotify: new FormControl(this.userProfile.telegramIsNotify)
     });
 
     this.isFetching = false;
   }
 
-  deleteAddress(address) {
+  deleteAddress(address: Address) {
     this.orderService
       .deleteAddress(address)
       .pipe(take(1))
       .subscribe((list: { addressList: Address[] }) => {
         this.userProfile.addressDto = list.addressList;
-        this.getUserData();
+
+        const addressArray = this.userForm.get('address');
+        if (!(addressArray instanceof FormArray)) {
+          return;
+        }
+
+        const index = addressArray.controls.findIndex((ctrl) => ctrl.value?.id === address.id);
+        if (index !== -1) {
+          addressArray.removeAt(index);
+          this.userForm.markAsDirty();
+        }
       });
   }
 
@@ -185,7 +192,12 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   setActualAddress(addressId): void {
-    this.orderService.setActualAddress(addressId).pipe(take(1)).subscribe();
+    this.orderService
+      .setActualAddress(addressId)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.userForm.markAsDirty();
+      });
   }
 
   focusOnFirst(): void {
@@ -201,7 +213,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     if (this.userForm.valid) {
       this.isFetching = true;
       this.isEditing = false;
-      const submitData = {
+      const submitData: UserProfile = {
         addressDto: [],
         recipientEmail: this.userForm.value.recipientEmail,
         alternateEmail: this.userForm.value.alternateEmail,
@@ -209,7 +221,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         recipientPhone: this.userForm.value.recipientPhone,
         recipientSurname: this.userForm.value.recipientSurname,
         telegramIsNotify: this.userProfile.telegramIsNotify,
-        viberIsNotify: this.userProfile.viberIsNotify,
         hasPassword: this.userProfile.hasPassword
       };
 
@@ -229,7 +240,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
             id: originalAddress.id,
             actual: originalAddress.actual
           };
-
           if (!updatedAddress.houseCorpus) {
             delete updatedAddress.houseCorpus;
           }
@@ -267,10 +277,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
   goToTelegramUrl() {
     (window as any).open(this.telegramBotURL, '_blank');
-  }
-
-  goToViberUrl() {
-    (window as any).open(this.viberBotURL, '_blank');
   }
 
   openDeleteProfileDialog(): void {
@@ -370,21 +376,10 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
   }
 
-  onSwitchChanged(id: string): void {
-    switch (id) {
-      case NotificationPlatform.telegramNotification:
-        this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
-        if (this.userProfile.telegramIsNotify) {
-          this.goToTelegramUrl();
-        }
-        break;
-
-      case NotificationPlatform.viberNotification:
-        this.userProfile.viberIsNotify = !this.userProfile.viberIsNotify;
-        if (this.userProfile.viberIsNotify) {
-          this.goToViberUrl();
-        }
-        break;
+  onSwitchChanged(): void {
+    this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
+    if (this.userProfile.telegramIsNotify) {
+      this.goToTelegramUrl();
     }
   }
 

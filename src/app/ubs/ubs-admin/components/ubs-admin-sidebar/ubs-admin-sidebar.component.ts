@@ -6,7 +6,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { listElementsAdmin } from '../../../ubs/models/ubs-sidebar-links';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { AdminSideBarMenu, EnablingSeeAuthorities, SideMenuElementsNames } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-admin-sidebar',
@@ -34,6 +34,10 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     if (this.hasAuthorities) {
       this.changeListElementsDependOnPermissions(this.authorities);
     }
+  }
+
+  get shouldShowNoAuthorities(): boolean {
+    return !this.hasAuthorities && !this.jwtService.isAuthenticated() && !this.jwtService.isAuthenticatingValue();
   }
 
   private authoritiesFilterUtil(authority: string): boolean {

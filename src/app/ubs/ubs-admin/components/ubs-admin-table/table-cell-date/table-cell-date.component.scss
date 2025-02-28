@@ -1,16 +1,13 @@
 @import '../../../../../../typography/colorsUbs';
+@import 'mixin';
 
 .date_to_show {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
-  margin: 0 10px;
   cursor: default;
-}
-
-.pointer {
-  cursor: pointer;
+  position: relative;
 }
 
 .mat-form-field {
@@ -50,4 +47,10 @@
 .date-form-field {
   width: 100%;
   margin: 0;
+}
+
+.pencil {
+  @include pencil();
+
+  position: static;
 }

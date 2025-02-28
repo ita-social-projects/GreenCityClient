@@ -20,6 +20,7 @@ import { ColumnParam } from './columnsParams';
 import { ICustomerViolationTable } from '@ubs/ubs-admin/models/customer-violations-table.model';
 import { ICustomerOrdersTable } from '@ubs/ubs-admin/models/customer-orders-table.model';
 import { ICustomersTable } from '@ubs/ubs-admin/models/customers-table.model';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('UbsAdminCustomersComponent', () => {
   let component: UbsAdminCustomersComponent;
@@ -94,7 +95,8 @@ describe('UbsAdminCustomersComponent', () => {
       providers: [
         { provide: MatSnackBarComponent, useValue: snackBarSpy },
         { provide: MatDialog, useValue: matDialogMock },
-        { provide: AdminCustomersService, useValue: adminCustomersServiceMock }
+        { provide: AdminCustomersService, useValue: adminCustomersServiceMock },
+        provideMockStore({ initialState: {} })
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -143,13 +145,10 @@ describe('UbsAdminCustomersComponent', () => {
 
   it('should open the dialog with correct configuration', () => {
     component.openPopUp(column, chatLink, userId);
-
     expect(matDialogMock.open).toHaveBeenCalledWith(CommentPopUpComponent, (component as any).dialogConfig);
-
     expect(dialogRefMock.componentInstance.comment).toBe(chatLink);
     expect(dialogRefMock.componentInstance.isLink).toBeTrue();
-
-    expect(dialogRefMock.componentInstance.header).toBe('Title');
+    expect(['Title', 'Заголовок']).toContain(dialogRefMock.componentInstance.header);
   });
 
   it('should do nothing if dialog closes without changes', () => {

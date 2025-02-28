@@ -157,7 +157,6 @@ xdescribe('UbsAdminTableComponent', () => {
     storeMock.pipe = () => of(false);
     fixture = TestBed.createComponent(UbsAdminTableComponent);
     component = fixture.componentInstance;
-    spyOn(component.modelChanged, 'pipe').and.returnValue(of({}));
     component.ordersViewParameters$ = of(false) as any;
     component.bigOrderTableParams$ = of(false) as any;
     component.bigOrderTable$ = of(false) as any;
@@ -165,18 +164,8 @@ xdescribe('UbsAdminTableComponent', () => {
     fixture.detectChanges();
   });
 
-  afterEach(() => {
-    spyOn(component, 'ngOnDestroy').and.callFake(() => {});
-    fixture.destroy();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('ngOnInit', () => {
-    component.ngOnInit();
-    expect(component.modelChanged.pipe).toHaveBeenCalled();
   });
 
   it('ngOnInit component.noFiltersApplied initially true ', () => {
@@ -198,7 +187,6 @@ xdescribe('UbsAdminTableComponent', () => {
     component.ngOnInit();
     component.bigOrderTable$.subscribe((items: any) => {
       expect(component.currentPage).toBe(2);
-      expect(component.tableData[0].content).toBe('content');
       expect(component.formatTableData).toHaveBeenCalled();
     });
   });
@@ -211,7 +199,6 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('bigOrderTable$ expect totalElements to be 10 ', () => {
     component.bigOrderTable$ = of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 }) as any;
-    component.firstPageLoad = true;
     component.ngOnInit();
     component.bigOrderTable$.subscribe((items: any) => {
       expect(component.totalElements).toBe(10);
@@ -236,7 +223,6 @@ xdescribe('UbsAdminTableComponent', () => {
       page: {}
     });
     component.bigOrderTableParams$ = bigOrderTableParamsMock as any;
-    component.isStoreEmpty = true;
     component.ngOnInit();
     component.bigOrderTableParams$.subscribe(() => {
       expect(component.tableViewHeaders).toEqual(['columnBelongingList']);
@@ -250,19 +236,6 @@ xdescribe('UbsAdminTableComponent', () => {
     spyOn(component, 'checkAllColumnsDisplayed');
     component.ngOnInit();
     expect(component.checkAllColumnsDisplayed).toHaveBeenCalled();
-  });
-
-  it('ngAfterViewChecked ', () => {
-    component.isTableHeightSet = false;
-    tableServiceMock.setTableHeightToContainerHeight.and.returnValue(true);
-    spyOn(component, 'onScroll');
-    component.ngAfterViewChecked();
-    expect(component.isTableHeightSet).toBe(true);
-  });
-
-  it('ngAfterViewChecked should call detectChanges', () => {
-    component.ngAfterViewChecked();
-    expect(changeDetectorMock.detectChanges).toHaveBeenCalledTimes(1);
   });
 
   it('isAllColumnsDisplayed sould be true ', () => {
@@ -296,22 +269,9 @@ xdescribe('UbsAdminTableComponent', () => {
     expect(controlVal).toBe(false);
   });
 
-  it('applyFilter call, expect modelChanged should been called with filter', () => {
-    const filter = 'filter';
-    spyOn(component.modelChanged, 'next');
-    component.applyFilter(filter);
-    expect(component.modelChanged.next).toHaveBeenCalledWith('filter');
-  });
-
   it('should select all checkboxes without disabled', () => {
     const data = { data: [{ id: 1 }, { id: 2 }, { id: 3 }] };
     const event: MatCheckboxChange = { source: {} as any, checked: true };
-
-    component.tableData = [
-      { id: 1, orderStatus: OrderStatus.DONE },
-      { id: 2, orderStatus: 'NEW' },
-      { id: 3, orderStatus: 'NEW' }
-    ];
 
     component.idsToChange = [];
     component.selection = new SelectionModel([] as any);
@@ -325,7 +285,7 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('checkboxLabel should return select all', () => {
     component.dataSource = { data: [{ id: 1 }] } as any;
-    component.tableData = [{ id: 1, orderStatus: 'NEW' }];
+    component.tableData = [{ id: 1, orderStatus: 'NEW' } as any];
     component.selection = new SelectionModel(false, [{ id: 1 }] as any);
 
     const Res = component.checkboxLabel();
@@ -335,7 +295,7 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('checkboxLabel should return deselect all', () => {
     component.dataSource = { data: [{ id: 2 }] } as any;
-    component.tableData = [{ id: 2, orderStatus: OrderStatus.DONE }];
+    component.tableData = [{ id: 2, orderStatus: OrderStatus.DONE } as any];
     const Res = component.checkboxLabel();
 
     expect(Res).toBe('deselect all');
@@ -403,21 +363,6 @@ xdescribe('UbsAdminTableComponent', () => {
     expect(component.previousSettings).toEqual(['1', '2']);
   });
 
-  it('formatTableData expect tableData should change view', () => {
-    component.tableData = [
-      { amountDue: '5.4hrn', totalOrderSum: '300hrn', orderCertificateCode: '1, 2', generalDiscount: 6, totalPayment: '250' }
-    ];
-    component.formatTableData();
-    expect(component.tableData[0]).toEqual({
-      amountDue: '5.40 грн',
-      orderCertificateCode: '1, 2',
-      orderCertificatePoints: '3',
-      totalOrderSum: '300.00 грн',
-      generalDiscount: '6.00 грн',
-      totalPayment: '250.00 грн'
-    });
-  });
-
   it('getSortingData', () => {
     component.arrowDirection = '';
     component.filterValue = 'filterValue';
@@ -445,7 +390,7 @@ xdescribe('UbsAdminTableComponent', () => {
   it('openPopUpRequires', () => {
     component.showPopUp = true;
     component.idsToChange = [];
-    component.tableData = [{ id: 1 }];
+    component.tableData = [{ id: 1 } as any];
     component.openPopUpRequires(1);
     expect(component.showPopUp).toBe(false);
   });
@@ -613,10 +558,8 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('applyFilters', () => {
     component.currentPage = 1;
-    component.firstPageLoad = false;
     component.applyFilters();
     expect(component.currentPage).toBe(0);
-    expect(component.firstPageLoad).toBe(true);
   });
 
   it('openColumnFilterPopup expect dialog.open shoud be call', () => {
@@ -639,8 +582,8 @@ xdescribe('UbsAdminTableComponent', () => {
   });
 
   it('checkStatusOfOrders', () => {
-    component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE }];
-    const Res = component.checkStatusOfOrders(1);
+    component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE } as any];
+    const Res = component.checkStatusOfOrders(OrderStatus.DONE );
     expect(Res).toBe(true);
   });
 

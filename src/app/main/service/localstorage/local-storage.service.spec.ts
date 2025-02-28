@@ -77,6 +77,7 @@ describe('LocalStorageService', () => {
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
 
   beforeEach(() => {
+    localStorage.clear();
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()]
     });

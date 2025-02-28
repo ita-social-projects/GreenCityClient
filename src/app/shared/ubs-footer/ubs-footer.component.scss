@@ -2,231 +2,98 @@
 
 .footer {
   width: 100%;
-  height: 166px;
-  display: flex;
-  padding-left: 40px;
   background-color: var(--ubs-secondary-dark-green);
   font-family: var(--ubs-secondary-font);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
 
-  &-logo img {
-    width: 90px;
-  }
-
-  &-menu {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 150px;
-
-    &_main {
-      display: flex;
-      flex-direction: row;
-      width: 90%;
-      justify-content: space-between;
-      margin-left: 75px;
-    }
-
-    &_social-media {
-      display: flex;
-
-      a {
-        margin-left: 15px;
-      }
-    }
-
-    &_links {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 20px;
-      padding: 0;
-      margin: 0;
-
-      .pick-up-service,
-      .route-link {
-        display: flex;
-        font-weight: 600;
-        color: var(--ubs-primary-white);
-      }
-
-      li {
-        list-style-type: none;
-      }
-    }
-  }
-
-  .container-fluid {
+  &__menu {
+    width: 100%;
     max-width: 1440px;
-    margin: auto;
   }
 
-  &-bottom-part {
+  &__bottom-part {
+    margin: 0;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: var(--ubs-primary-dark-grey);
+    text-align: center;
+  }
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__logo {
+    img {
+      width: 64px;
+      height: 55px;
+    }
+  }
+
+  &__links {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin: 22px 150px 0 0;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
 
-    .par {
-      margin: 0;
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 15px;
-      color: var(--ubs-primary-dark-grey);
-    }
-  }
-
-  &-logo_mobile {
-    display: none;
-  }
-}
-
-@include responsiveRange(md, xl) {
-  .footer {
-    padding-left: 20px;
-
-    &-menu {
-      margin: 0;
+    li {
+      list-style-type: none;
     }
 
-    &-bottom-part {
-      margin: 22px 0 0;
-    }
-  }
-}
-
-@include responsiveRange(sm, md) {
-  .footer {
-    &-menu {
-      margin: 0;
-
-      &_main {
-        margin-left: 40px;
-      }
-
-      &_social-media {
-        a {
-          margin-left: 10px;
-
-          img {
-            width: 34px;
-          }
-        }
-      }
-
-      &_links {
-        .pick-up-service {
-          font-size: 10px;
-        }
-
-        li .route-link {
-          font-size: 10px;
-          line-height: 10px;
-        }
-      }
-    }
-
-    &-bottom-part {
-      margin: 16px 0 0;
-
-      .par {
-        font-size: 9px;
-      }
-    }
-  }
-}
-
-@include responsivePCFirst(sm) {
-  .footer {
-    height: 270px;
-    padding-left: 0;
-
-    .container-fluid {
-      gap: 23px;
-    }
-
-    &-menu {
-      margin: 0;
-
-      &_social-media {
-        width: 90%;
-        justify-content: space-around;
-
-        a {
-          margin-left: 8px;
-
-          img {
-            width: 30px;
-          }
-        }
-      }
-
-      &_links {
-        gap: 12px;
-        width: 100%;
-        justify-content: space-around;
-        display: flex;
-        flex-direction: column;
-        padding-bottom: 20px;
-      }
-
-      &_main {
-        margin: 0;
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        padding-bottom: 20px;
-      }
-    }
-
-    &-logo {
-      display: none;
-    }
-
-    &-bottom-part {
-      margin: 0;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    &-logo_mobile {
-      display: block;
-
-      .footer-logo-bottom {
-        width: 50px;
-      }
-    }
-  }
-}
-
-@include responsiveRange(xs, s) {
-  .footer {
-    height: 320px;
-    padding-left: 0;
-
-    &-menu_links {
+    a {
       display: flex;
-      flex-direction: column;
-      padding-bottom: 0;
+      font-weight: 600;
+      color: var(--ubs-primary-white);
+    }
+  }
 
-      a {
-        font-size: 18px;
-        line-height: 1.5;
-      }
+  &__social-media {
+    display: flex;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .menu {
+    &__links {
+      flex-wrap: wrap;
+      width: 50vw;
+    }
+  }
+}
+
+@media (max-width: 850px) {
+  .menu {
+    flex-wrap: wrap;
+    row-gap: 32px;
+
+    &__links {
+      width: 90vw;
+      order: 3;
     }
 
-    &-menu_main {
-      flex-direction: column;
-      align-items: center;
-      gap: 30px;
+    &__social-media {
+      margin-left: auto;
     }
+  }
+}
 
-    &-menu_social-media {
-      a {
-        img {
-          width: 34px;
-        }
-      }
+@media (max-width: 767px) {
+  .footer {
+    padding: 15px;
+
+    .menu__logo img {
+      width: 50px;
+      height: 41px;
     }
   }
 }

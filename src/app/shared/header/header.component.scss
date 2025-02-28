@@ -60,6 +60,8 @@ header {
   z-index: 5;
   font-size: 14px;
   box-shadow: 1px 4px 8px 0 var(--shadow-dark-grey);
+  display: flex;
+  align-items: center;
 
   .warning {
     margin: 0 auto;
@@ -202,7 +204,7 @@ header {
 
 .header_logo {
   display: flex;
-  place-content: center center;
+  align-items: center;
   margin-right: 48px;
 }
 
@@ -211,13 +213,19 @@ header {
   height: auto;
 
   @media screen and (max-width: 577px) {
-    width: 94px;
+    width: 60px;
   }
 }
 
 .container-fluid .header_logo img {
-  width: 94px;
-  height: auto;
+  width: 64px;
+  height: 55px;
+  margin: 10px 0;
+
+  @media screen and (max-width: 768px) {
+    width: 50px;
+    height: 41px;
+  }
 }
 
 .header_navigation-menu-right-list {

@@ -179,12 +179,6 @@ xdescribe('UbsUserProfilePageComponent', () => {
     expect(goToTelegramSpy).toHaveBeenCalled();
   });
 
-  it('should call "goToViberUrl" correctly', () => {
-    const goToViberSpy = spyOn(component, 'goToViberUrl');
-    goToViberSpy();
-    expect(goToViberSpy).toHaveBeenCalled();
-  });
-
   it('if post data set isFetching === false', () => {
     clientProfileServiceMock.postDataClientProfile(userProfileDataMock).subscribe((data) => {
       expect(component.isFetching).toBeFalsy();
@@ -349,16 +343,9 @@ xdescribe('UbsUserProfilePageComponent', () => {
   describe('onSwitchChanged method', () => {
     it('should toggle telegramIsNotify and call goToTelegramUrl when id is telegramNotification', () => {
       spyOn(component, 'goToTelegramUrl');
-      component.onSwitchChanged(NotificationPlatform.telegramNotification);
+      component.onSwitchChanged();
 
       expect(component.goToTelegramUrl).toHaveBeenCalled();
-    });
-
-    it('should toggle viberIsNotify and call goToViberUrl when id is viberNotification', () => {
-      spyOn(component, 'goToViberUrl');
-      component.onSwitchChanged(NotificationPlatform.viberNotification);
-
-      expect(component.goToViberUrl).toHaveBeenCalled();
     });
   });
 });

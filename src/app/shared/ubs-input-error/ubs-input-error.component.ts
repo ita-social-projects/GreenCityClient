@@ -35,9 +35,10 @@ export class UBSInputErrorComponent implements OnInit {
     minlength: 'input-error.minlength-short',
     maxlength: 'input-error.max-length',
     maxlengthEntrance: 'input-error.max-length-entrance',
-    maxlengthHouse: 'input-error.max-length-house',
+    maxlengthHouse: 'input-error.max-length-house-number',
     maxlengthHouseCorpus: 'input-error.max-length-house-corpus',
     maxlengthStreet: 'input-error.max-length-street',
+    maxlengthCity: 'input-error.max-length-city',
     maxlengthComment: 'input-error.max-length-comment',
     pattern: 'input-error.pattern',
     required: 'input-error.required',
@@ -46,7 +47,6 @@ export class UBSInputErrorComponent implements OnInit {
     wrongCity: 'input-error.city-wrong',
     wrongHouse: 'input-error.house-wrong',
     lettersAndNumbericOnly: 'input-error.letters-and-numeric-only',
-    numericOnly: 'input-error.numeric-only',
     numberLength: 'input-error.number-length',
     passwordRequirements: 'input-error.password-requirements',
     newPasswordMatchesOld: 'input-error.newPassword-MatchesOld',
@@ -104,8 +104,6 @@ export class UBSInputErrorComponent implements OnInit {
         return this.validationErrors.lettersAndNumbericOnly;
       case Patterns.ubsHouseNumberPattern.toString():
         return this.validationErrors.wrongHouse;
-      case Patterns.numeric.toString():
-        return this.validationErrors.numericOnly;
       case Patterns.NamePattern.toString():
         return this.validationErrors.wrongName;
       case Patterns.ubsMailPattern.toString():
@@ -127,8 +125,10 @@ export class UBSInputErrorComponent implements OnInit {
         return this.validationErrors.maxlengthEntrance;
       case 4:
         return this.validationErrors.maxlengthHouseCorpus;
-      case 10:
+      case 5:
         return this.validationErrors.maxlengthHouse;
+      case 30:
+        return this.validationErrors.maxlengthCity;
       case 120:
         return this.validationErrors.maxlengthStreet;
       case 255:

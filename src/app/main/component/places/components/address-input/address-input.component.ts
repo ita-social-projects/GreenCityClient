@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -20,7 +20,6 @@ export class AddressInputComponent implements ControlValueAccessor, OnInit {
   onTouched!: () => void;
   private onChange!: (value: string) => void;
   @Output() private getAddressData: EventEmitter<string> = new EventEmitter<string>();
-
   constructor(
     private translate: TranslateService,
     public localStorageService: LocalStorageService

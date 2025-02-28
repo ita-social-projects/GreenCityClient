@@ -5,6 +5,7 @@
     </div>
     <div class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
+  <div class="countInfo">{{ 'ubs-customer-filters.total-customers' | translate }} {{ totalElements }}</div>
   <div class="btn-group">
     <button type="button" class="btn btn-default" class="table-buttons filter-btn" (click)="togglePopUp()">
       <img src="assets/img/edit.svg" alt="edit" />
@@ -278,52 +279,6 @@
       </ul>
     </div>
   </div>
-</div>
-
-<div class="countInfo">{{ 'ubs-customer-filters.total-customers' | translate }} {{ totalElements }}</div>
-
-<div class="filterParams">
-  <ul class="filterParamsList">
-    <li *ngIf="hasChange" class="filterReset" (click)="onClearFilters()">{{ 'ubs-customer-filters.reset' | translate }}</li>
-    <li *ngIf="filters.registrationDateFrom || filters.registrationDateTo">
-      {{ 'ubs-customer-filters.registration-date' | translate }}
-      {{
-        filters.registrationDateFrom
-          ? ('ubs-customer-filters.from' | translate) + ' ' + filters.registrationDateFrom.toLocaleDateString()
-          : null
-      }}
-      {{
-        filters.registrationDateTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.registrationDateTo.toLocaleDateString() : null
-      }}
-      <mat-icon class="mat-icon" (click)="onDeleteFilter('registrationDateFrom', 'registrationDateTo')">clear</mat-icon>
-    </li>
-    <li *ngIf="filters.lastOrderDateFrom || filters.lastOrderDateTo">
-      {{ 'ubs-customer-filters.last-order-date' | translate }}
-      {{
-        filters.lastOrderDateFrom ? ('ubs-customer-filters.from' | translate) + ' ' + filters.lastOrderDateFrom.toLocaleDateString() : null
-      }}
-      {{ filters.lastOrderDateTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.lastOrderDateTo.toLocaleDateString() : null }}
-      <mat-icon class="mat-icon" (click)="onDeleteFilter('lastOrderDateFrom', 'lastOrderDateTo')">clear</mat-icon>
-    </li>
-    <li *ngIf="filters.ordersCountFrom || filters.ordersCountTo">
-      {{ 'ubs-customer-filters.orders-amount' | translate }}
-      {{ filters.ordersCountFrom ? ('ubs-customer-filters.from' | translate) + ' ' + filters.ordersCountFrom : null }}
-      {{ filters.ordersCountTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.ordersCountTo : null }}
-      <mat-icon class="mat-icon" (click)="onDeleteFilter('ordersCountFrom', 'ordersCountTo')">clear</mat-icon>
-    </li>
-    <li *ngIf="filters.violationsFrom || filters.violationsTo">
-      {{ 'ubs-customer-filters.violations' | translate }}
-      {{ filters.violationsFrom ? ('ubs-customer-filters.from' | translate) + ' ' + filters.violationsFrom : null }}
-      {{ filters.violationsTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.violationsTo : null }}
-      <mat-icon class="mat-icon" (click)="onDeleteFilter('violationsFrom', 'violationsTo')">clear</mat-icon>
-    </li>
-    <li *ngIf="filters.bonusesFrom || filters.bonusesTo">
-      {{ 'ubs-customer-filters.bonuses' | translate }}
-      {{ filters.bonusesFrom ? ('ubs-customer-filters.from' | translate) + ' ' + filters.bonusesFrom : null }}
-      {{ filters.bonusesTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.bonusesTo : null }}
-      <mat-icon class="mat-icon" (click)="onDeleteFilter('bonusesFrom', 'bonusesTo')">clear</mat-icon>
-    </li>
-  </ul>
 </div>
 
 <div id="table-container" class="scrolling" infiniteScroll [infiniteScrollThrottle]="100" (scrolled)="onScroll()" [scrollWindow]="false">

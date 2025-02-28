@@ -7,14 +7,11 @@ import {
   IFilters,
   ILocationDetails,
   IOrdersViewParameters,
+  IShortAddress,
   NotTakenOutReasonImages
 } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
 export enum BigOrderTableActions {
-  GetColumnToDisplay = '[BigOrderTable] Get Columns To Display',
-  GetColumnToDisplaySuccess = '[BigOrderTable] Get Columns To Display Success',
-  SetColumnToDisplay = '[BigOrderTable] Set Columns To Display',
-  SetColumnToDisplaySuccess = '[BigOrderTable] Set Columns To Display Success',
   GetColumns = '[BigOrderTable] Get Columns',
   GetColumnsSuccess = '[BigOrderTable] Get Columns Success',
   GetTable = '[BigOrderTable] Get Table',
@@ -37,26 +34,20 @@ export enum BigOrderTableActions {
   LoadFiltersSuccess = '[BigOrderTable] Load Filters Success',
 
   GetLocationsDetails = '[BigOrderTable] Get Locations Details',
-  GetLocationsDetailsSuccess = '[BigOrderTable] Get Locations Details Success'
-}
+  GetLocationsDetailsSuccess = '[BigOrderTable] Get Locations Details Success',
 
-export const GetColumnToDisplay = createAction(BigOrderTableActions.GetColumnToDisplay);
+  UpdateOrderAddress = '[BigOrderTable] Update Order Address',
+  UpdateOrderAddressSuccess = '[BigOrderTable] Update Order Address Success',
+  UpdateOrderAddressFail = '[BigOrderTable] Update Order Address Fail',
+
+  GetTableColumnWidth = '[BigOrderTable] Get Column Width',
+  GetTableColumnWidthSuccess = '[BigOrderTable] Get Column Width Success',
+  GetTableColumnWidthFail = '[BigOrderTable] Get Column Width Fail'
+}
 
 export const ChangingOrderPaymentStatus = createAction(
   BigOrderTableActions.ChangingOrderPaymentStatus,
   props<{ orderId?: number; newValue?: string }>()
-);
-
-export const GetColumnToDisplaySuccess = createAction(
-  BigOrderTableActions.GetColumnToDisplaySuccess,
-  props<{ ordersViewParameters: IOrdersViewParameters }>()
-);
-
-export const SetColumnToDisplay = createAction(BigOrderTableActions.SetColumnToDisplay, props<{ columns: string; titles: string }>());
-
-export const SetColumnToDisplaySuccess = createAction(
-  BigOrderTableActions.SetColumnToDisplaySuccess,
-  props<{ ordersViewParameters: IOrdersViewParameters }>()
 );
 
 export const GetColumns = createAction(BigOrderTableActions.GetColumns);
@@ -117,4 +108,17 @@ export const GetLocationsDetails = createAction(BigOrderTableActions.GetLocation
 export const GetLocationsDetailsSuccess = createAction(
   BigOrderTableActions.GetLocationsDetailsSuccess,
   props<{ locationsDetails: ILocationDetails[] }>()
+);
+
+export const UpdateOrderAddress = createAction(BigOrderTableActions.UpdateOrderAddress, props<{ address: IShortAddress }>());
+export const UpdateOrderAddressSuccess = createAction(BigOrderTableActions.UpdateOrderAddressSuccess, props<{ address: IShortAddress }>());
+export const UpdateOrderAddressFail = createAction(BigOrderTableActions.UpdateOrderAddressFail);
+
+export const GetTableColumnWidth = createAction(BigOrderTableActions.GetTableColumnWidth);
+export const GetTableColumnWidthSuccess = createAction(
+  BigOrderTableActions.GetTableColumnWidthSuccess,
+  props<{ columnsWidth: Map<string, number> }>()
+);
+export const GetTableColumnWidthFail = createAction(
+  BigOrderTableActions.GetTableColumnWidthSuccess
 );

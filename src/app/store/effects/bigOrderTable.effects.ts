@@ -8,10 +8,10 @@ import { filtersSelector } from 'src/app/store/selectors/big-order-table.selecto
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import {
   IBigOrderTable,
-  IBigOrderTableOrderInfo,
   IBigOrderTableParams,
   ILocationDetails,
-  IOrdersViewParameters
+  IOrdersViewParameters,
+  IShortAddress
 } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
@@ -23,19 +23,21 @@ import {
   ClearFilters,
   GetColumns,
   GetColumnsSuccess,
-  GetColumnToDisplay,
-  GetColumnToDisplaySuccess,
   GetLocationsDetails,
   GetLocationsDetailsSuccess,
   GetTable,
+  GetTableColumnWidth,
+  GetTableColumnWidthFail,
+  GetTableColumnWidthSuccess,
   GetTableSuccess,
   LoadFiltersAction,
   LoadFiltersSuccessAction,
   ReceivedFailure,
   RemoveFilter,
   SaveFiltersAction,
-  SetColumnToDisplay,
-  SetColumnToDisplaySuccess,
+  UpdateOrderAddress,
+  UpdateOrderAddressFail,
+  UpdateOrderAddressSuccess,
   UpdateOrderInfo,
   UpdateOrderInfoSuccess
 } from '../actions/bigOrderTable.actions';
@@ -50,30 +52,6 @@ export class BigOrderTableEffects {
     private store: Store,
     private snackBar: MatSnackBarComponent
   ) {}
-
-  getColumnToDisplay = createEffect(() => {
-    return this.actions.pipe(
-      ofType(GetColumnToDisplay),
-      mergeMap(() => {
-        return this.orderService.getColumnToDisplay().pipe(
-          map((ordersViewParameters: IOrdersViewParameters) => GetColumnToDisplaySuccess({ ordersViewParameters })),
-          catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
-
-  setColumnToDisplay = createEffect(() => {
-    return this.actions.pipe(
-      ofType(SetColumnToDisplay),
-      mergeMap((action: { columns: string; titles: string }) => {
-        return this.orderService.setColumnToDisplay(action.columns).pipe(
-          map(() => SetColumnToDisplaySuccess({ ordersViewParameters: { titles: action.titles } })),
-          catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
 
   getColumns = createEffect(() => {
     return this.actions.pipe(
@@ -191,5 +169,38 @@ export class BigOrderTableEffects {
         })
       ),
     { dispatch: false }
+  );
+
+  updateOrderAddress = createEffect(() =>
+    this.actions.pipe(
+      ofType(UpdateOrderAddress),
+      mergeMap((action: { address: IShortAddress }) => {
+        return this.orderService.updateOrderAddress(action.address).pipe(
+          map(() => {
+            this.snackBar.openSnackBar('updatedAddress');
+            return UpdateOrderAddressSuccess({ address: action.address });
+          }),
+          catchError((error) => {
+            this.snackBar.openSnackBar('errorEditAddress');
+            return of(UpdateOrderAddressFail());
+          })
+        );
+      })
+    )
+  );
+
+  getColumnsWidth = createEffect(() =>
+    this.actions.pipe(
+      ofType(GetTableColumnWidth),
+      mergeMap(() => {
+        return this.adminTableService.getUbsAdminOrdersTableColumnsWidthPreference().pipe(
+          map((columnsWidth) => GetTableColumnWidthSuccess({ columnsWidth })),
+          catchError((error) => {
+            this.snackBar.openSnackBar('errorColumnsWidth');
+            return of(GetTableColumnWidthFail());
+          })
+        );
+      })
+    )
   );
 }

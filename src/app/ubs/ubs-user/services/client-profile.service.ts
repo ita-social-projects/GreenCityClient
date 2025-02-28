@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { mainUbsLink, mainUserLink } from 'src/app/main/links';
 import { UserProfile } from '../../../ubs/ubs-admin/models/ubs-admin.interface';
 import { Observable, switchMap, tap } from 'rxjs';
-
 @Injectable({
   providedIn: 'root'
 })

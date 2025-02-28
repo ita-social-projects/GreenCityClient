@@ -33,7 +33,6 @@ export class SocketService {
     private jwt: JwtService,
     private titleService: Title
   ) {}
-
   connect(): void {
     if (!this.socketState) {
       this.userId = this.localStorageService.getUserId();
@@ -75,9 +74,8 @@ export class SocketService {
     );
   }
 
-  private onConnected(): void {
+  onConnected(): void {
     const isAdmin = this.jwt.getUserRole() === 'ROLE_UBS_EMPLOYEE';
-
     const messagesSubs = this.onMessage(`/room/message/chat-messages${this.userId}`).subscribe((data) => {
       const newMessage: Message = JSON.parse(data.body);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
@@ -141,7 +139,7 @@ export class SocketService {
     }
   }
 
-  private onError(error) {
+  onError(error) {
     console.log(error);
   }
 

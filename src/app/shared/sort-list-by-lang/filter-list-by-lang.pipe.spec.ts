@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { of } from 'rxjs';
 import { FilterListByLangPipe } from './filter-list-by-lang.pipe';
@@ -10,23 +10,25 @@ describe('FilterListByLangPipe', () => {
   localStorageServiceMock.languageSubject = of('en');
   const fakeList = [{ languageCode: 'ua' }, { languageCode: 'en' }, { languageCode: 'de' }];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FilterListByLangPipe],
       providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }]
-    }).compileComponents();
+    });
     pipe = new FilterListByLangPipe(localStorageServiceMock);
-  }));
+  });
 
-  it('create an instance', () => {
+  it('should create an instance', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('locale has default value', () => {
+  it('locale has default value', fakeAsync(() => {
+    tick();
     expect((pipe as any).locale).toBe('en');
-  });
+  }));
 
-  it('transform', () => {
+  it('should transform correctly', fakeAsync(() => {
+    tick();
     expect(pipe.transform(fakeList)).toEqual([{ languageCode: 'en' }]);
-  });
+  }));
 });

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, finalize, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { EMPTY, of } from 'rxjs';
 import {
   CreateAddress,
@@ -124,7 +124,7 @@ export class OrderEffects {
     this.actions.pipe(
       ofType(CreateAddress),
       mergeMap((action: { address: AddressData }) => {
-        return this.orderService.addAdress(action.address).pipe(
+        return this.orderService.addAddress(action.address).pipe(
           map((response) => {
             this.snackBar.openSnackBar('addedAddress');
             return CreateAddressSuccess({ addresses: response.addressList });
@@ -146,7 +146,7 @@ export class OrderEffects {
     this.actions.pipe(
       ofType(UpdateAddress),
       mergeMap((action: { address: Address }) => {
-        return this.orderService.updateAdress(action.address).pipe(
+        return this.orderService.updateAddress(action.address).pipe(
           map((response) => {
             this.snackBar.openSnackBar('updatedAddress');
             return UpdateAddressSuccess({ addresses: response.addressList });

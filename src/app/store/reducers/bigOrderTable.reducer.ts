@@ -1,7 +1,5 @@
 import { initialBigOrderTableState } from '../state/bigOrderTable.state';
 import {
-  GetColumnToDisplaySuccess,
-  SetColumnToDisplaySuccess,
   ChangingOrderDataSuccess,
   ChangingOrderPaymentStatus,
   GetColumnsSuccess,
@@ -13,18 +11,19 @@ import {
   AddFilterMultiAction,
   ClearFilters,
   GetLocationsDetailsSuccess,
-  UpdateOrderInfoSuccess
+  UpdateOrderInfoSuccess,
+  UpdateOrderAddress,
+  UpdateOrderAddressFail,
+  UpdateOrderAddressSuccess,
+  GetTableColumnWidth,
+  GetTableColumnWidthSuccess
 } from '../actions/bigOrderTable.actions';
 import { createReducer, on } from '@ngrx/store';
 import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { transformAddress } from '../functions';
 
 export const bigOrderTableReducer = createReducer(
   initialBigOrderTableState,
-  on(GetColumnToDisplaySuccess, SetColumnToDisplaySuccess, (state, action) => ({
-    ...state,
-    ordersViewParameters: action.ordersViewParameters
-  })),
-
   on(GetColumnsSuccess, (state, action) => ({
     ...state,
     bigOrderTableParams: action.bigOrderTableParams
@@ -141,5 +140,52 @@ export const bigOrderTableReducer = createReducer(
   on(GetLocationsDetailsSuccess, (state, action) => ({
     ...state,
     locationsDetails: action.locationsDetails
-  }))
+  })),
+
+  on(UpdateOrderAddress, (state) => {
+    return {
+      ...state,
+      isOrderAddressLoading: true
+    };
+  }),
+  on(UpdateOrderAddressSuccess, (state, action) => {
+    const orderIndex = state.bigOrderTable.content.findIndex((order) => order.id === action.address.orderId);
+    if (orderIndex === -1) {
+      return state;
+    }
+    const transformedAddress = transformAddress(action.address.orderAddressExportDetails);
+    const updatedAddress = {
+      region: transformedAddress.region.ua,
+      city: transformedAddress.city.ua,
+      district: transformedAddress.district.ua,
+      address: transformedAddress.address.ua,
+      commentToAddressForClient: transformedAddress.commentToAddressForClient
+    };
+    return {
+      ...state,
+      bigOrderTable: {
+        ...state.bigOrderTable,
+        content: state.bigOrderTable.content.map((order, index) => (index === orderIndex ? { ...order, ...updatedAddress } : order))
+      },
+      isOrderAddressLoading: false
+    };
+  }),
+  on(UpdateOrderAddressFail, (state) => {
+    return {
+      ...state,
+      isOrderAddressLoading: false
+    };
+  }),
+  on(GetTableColumnWidth, (state) => {
+    return {
+      ...state,
+      isOrderAddressLoading: false
+    };
+  }),
+  on(GetTableColumnWidthSuccess, (state, action) => {
+    return {
+      ...state,
+      tableColumnWidth: action.columnsWidth
+    };
+  })
 );

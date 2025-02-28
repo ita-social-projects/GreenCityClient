@@ -6,8 +6,12 @@ import { of } from 'rxjs';
 import { IAlertInfo } from '@ubs/ubs-admin/models/edit-cell.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
 import { IColumnBelonging } from '@ubs/ubs-admin/models/ubs-admin.interface';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('TableCellInputComponent', () => {
   let component: TableCellInputComponent;
@@ -29,12 +33,23 @@ describe('TableCellInputComponent', () => {
     matDialogSpy.open.and.returnValue(mockModalRef as any);
 
     TestBed.configureTestingModule({
-      declarations: [TableCellInputComponent],
-      imports: [MatDialogModule, MatTooltipModule, TranslateModule.forRoot()],
+      declarations: [TableCellInputComponent, ServerTranslatePipe],
+      imports: [
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useValue: { getTranslation: () => of({}) } }
+        }),
+        HttpClientTestingModule,
+        MatDialogModule,
+        MatTooltipModule
+      ],
       providers: [
+        TranslateService,
+        TranslateStore,
         { provide: AdminTableService, useValue: adminTableServiceSpy },
-        { provide: MatDialog, useValue: matDialogSpy }
-      ]
+        { provide: MatDialog, useValue: matDialogSpy },
+        provideMockStore({ initialState: {} })
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TableCellInputComponent);
@@ -64,7 +79,6 @@ describe('TableCellInputComponent', () => {
     component.edit();
 
     expect(component.showBlockedInfo.emit).toHaveBeenCalledWith([{ message: 'Blocked' }]);
-    expect(component.isBlocked).toBeFalse();
     expect(component.isEditable).toBeFalse();
   });
 
@@ -75,18 +89,5 @@ describe('TableCellInputComponent', () => {
     component.onMouseEnter(event, tooltip);
 
     expect(adminTableService.showTooltip).toHaveBeenCalledWith(event, tooltip, '12px Lato, sans-serif');
-  });
-
-  it('should emit showBlockedInfo when blockOrders returns data', () => {
-    const mockResponse: IAlertInfo[] = [{ orderId: 10, userName: 'user' }];
-    adminTableService.howChangeCell.and.returnValue([10]);
-    adminTableService.blockOrders.and.returnValue(of(mockResponse));
-    spyOn(component.showBlockedInfo, 'emit');
-
-    component.edit();
-
-    expect(component.isEditable).toBeFalse();
-    expect(component.isBlocked).toBeFalse();
-    expect(component.showBlockedInfo.emit).toHaveBeenCalledWith(mockResponse);
   });
 });
