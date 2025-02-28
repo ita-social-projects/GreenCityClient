@@ -278,23 +278,23 @@
               </button>
             </div>
             <div class="accordion scrollbar">
-              <ng-container *ngFor="let header of tableViewHeaders; index as i">
+              <ng-container *ngFor="let header of tableViewHeaders; index as columnIndex">
                 <div class="accordion-item">
                   <div
                     class="accordion-group-header"
                     data-bs-toggle="collapse"
-                    attr.data-bs-target="#panelsStayOpen-collapse{{ i }}"
+                    attr.data-bs-target="#panelsStayOpen-collapse{{ columnIndex }}"
                     aria-expanded="false"
-                    attr.aria-controls="panelsStayOpen-collapse{{ i }}"
+                    attr.aria-controls="panelsStayOpen-collapse{{ columnIndex }}"
                     (click)="toggleAccordion($event)"
                   >
                     <mat-icon>keyboard_arrow_down</mat-icon>
                     <li class="head">{{ header | serverTranslate: currentLang | titlecase }}</li>
                   </div>
                   <div
-                    id="panelsStayOpen-collapse{{ i }}"
+                    id="panelsStayOpen-collapse{{ columnIndex }}"
                     class="accordion-collapse collapse"
-                    attr.aria-labelledby="panelsStayOpen-heading{{ i }}"
+                    attr.aria-labelledby="panelsStayOpen-heading{{ columnIndex }}"
                   >
                     <div class="accordion-body">
                       <ng-container *ngFor="let column of displayedColumnsView">
@@ -380,7 +380,7 @@
       aria-label="ordersTable"
     >
       <ng-container
-        *ngFor="let column of displayedColumnsView; let i = index"
+        *ngFor="let column of displayedColumnsView; index as columnIndex"
         [matColumnDef]="column.title.key"
         [sticky]="column.sticky"
       >
@@ -389,6 +389,7 @@
           cdkDrag
           cdkDragLockAxis="x"
           cdkDragBoundary="mat-header-row"
+          [style.width.px]="columnsWidthPreference.get(column.title.key) || 100"
         >
           <th
             scope="row"
@@ -440,7 +441,8 @@
         <mat-cell
           *matCellDef="let row"
           [ngClass]="{ highlighted: checkForCheckedBoxes(column.title.key) && isFiltersApplied$ | async }"
-          (mousedown)="onResizeColumn($event, i)"
+          (mousedown)="onResizeColumn($event, column.title.key)"
+          [style.width.px]="columnsWidthPreference.get(column.title.key) || 100"
         >
           <app-table-cell-readonly
             *ngIf="column.editType === 'READ_ONLY'"
