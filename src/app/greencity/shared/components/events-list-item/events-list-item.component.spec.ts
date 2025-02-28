@@ -125,7 +125,6 @@ describe('EventsListItemComponent', () => {
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
     'setEditMode',
-    'setEventForEdit',
     'userIdBehaviourSubject',
     'languageSubject',
     'setForm'

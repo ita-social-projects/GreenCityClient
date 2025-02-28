@@ -610,12 +610,6 @@ describe('LocalStorageService', () => {
     });
   });
 
-  it('should set the event in local storage with the given key', () => {
-    const key = 'testKey';
-    service.setEventForEdit(key, mockEvent);
-    expect(localStorage.getItem(key)).toEqual(JSON.stringify(mockEvent));
-  });
-
   it('should set the current tariff ID in local storage', () => {
     const tariffId = 123;
     service.setTariffId(tariffId);

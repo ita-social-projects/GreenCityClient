@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ContentChange } from 'ngx-quill';
-
-import { FormGroup } from '@angular/forms';
 import { quillConfig } from 'src/app/shared/helpers/quillEditorFunc';
+import { FormArray, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EVENT_LOCALE, EventLocaleKeys } from 'src/app/greencity/modules/events/models/event-consts';
 import { ImagesContainer } from 'src/app/greencity/modules/events/models/events.interface';
@@ -17,9 +16,9 @@ export class CreateEventInformationComponent implements OnInit {
   isQuillUnfilled = false;
   quillLength = 0;
   quillModules = quillConfig;
-  imgArray: string[] = [];
   @Input() eventInfForm: FormGroup;
-  minLength = 20;
+  @Input() imagesArray: FormArray;
+  minLength = 10;
   maxLength = 63206;
   titleLength: string;
   protected readonly EVENT_LOCALE = EVENT_LOCALE;
@@ -29,10 +28,6 @@ export class CreateEventInformationComponent implements OnInit {
     protected router: Router
   ) {}
 
-  get images(): ImagesContainer[] {
-    return this.eventInfForm.controls.images.value;
-  }
-
   ngOnInit() {
     this.eventInfForm.get('title').valueChanges.subscribe((value) => {
       this.titleLength = value.length + ' / ' + 70;
@@ -40,7 +35,7 @@ export class CreateEventInformationComponent implements OnInit {
   }
 
   quillContentChanged(content: ContentChange): void {
-    this.quillLength = content.text.length - 1;
+    this.quillLength = content.text.replace(/\s+/g, '').length;
     this.isQuillUnfilled = this.quillLength < this.minLength;
   }
 
@@ -68,9 +63,5 @@ export class CreateEventInformationComponent implements OnInit {
 
   getLocale(localeKey: EventLocaleKeys): string {
     return EVENT_LOCALE[localeKey][this.localStorageService.getCurrentLanguage()];
-  }
-
-  setImagesUrlArray(value: ImagesContainer[]): void {
-    this.eventInfForm.controls.images.setValue(value);
   }
 }

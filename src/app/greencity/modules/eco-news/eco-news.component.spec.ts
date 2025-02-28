@@ -9,7 +9,7 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable()
-class TranslationServiceStub {
+export class TranslationServiceStub {
   public onLangChange = new EventEmitter<any>();
   public onTranslationChange = new EventEmitter<any>();
   public onDefaultLangChange = new EventEmitter<any>();

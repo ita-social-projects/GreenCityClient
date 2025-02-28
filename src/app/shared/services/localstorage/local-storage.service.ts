@@ -1,11 +1,9 @@
 import { Language } from 'src/app/shared/i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-// import { EventResponse, PagePreviewDTO } from '../../../main/component/events/models/events.interface';
 import { Address, CourierLocations, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
 import { IFilters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { FactOfTheDay } from 'src/app/greencity/modules/user/models/factOfTheDay';
-import { EventResponse, PagePreviewDTO } from 'src/app/greencity/modules/events/models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -56,10 +54,6 @@ export class LocalStorageService {
 
   getEditMode(): boolean {
     return localStorage.getItem(this.CAN_USER_EDIT_EVENT) === 'true';
-  }
-
-  setEventForEdit(key: string, event: EventResponse | PagePreviewDTO) {
-    localStorage.setItem(key, JSON.stringify(event));
   }
 
   getEventForEdit() {

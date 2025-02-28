@@ -5,7 +5,7 @@ import { EventForm, EventListResponse } from '../models/events.interface';
 export class EventStoreService implements OnDestroy {
   private state: { eventId: number; eventListResponse: EventListResponse; eventAuthorId: number; editorValues: EventForm } = {
     eventId: undefined,
-    editorValues: { eventInformation: undefined, dateInformation: undefined },
+    editorValues: { eventInformation: undefined, dates: undefined },
     eventAuthorId: undefined,
     eventListResponse: undefined
   };
@@ -22,7 +22,7 @@ export class EventStoreService implements OnDestroy {
 
   setEditorValues(value: EventForm) {
     if (!value) {
-      this.state.editorValues = { eventInformation: undefined, dateInformation: undefined };
+      this.state.editorValues = { eventInformation: undefined, dates: undefined };
     } else {
       this.state.editorValues = value;
     }

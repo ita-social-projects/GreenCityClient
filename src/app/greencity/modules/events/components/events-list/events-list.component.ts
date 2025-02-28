@@ -330,7 +330,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   isUserLoggedRedirect(): void {
-    this.isLoggedIn ? this.router.navigate(['/greenCity/events', 'create-event']) : this.openAuthModalWindow('sign-in');
+    this.isLoggedIn ? this.router.navigate(['/greenCity/events', 'create-update-event']) : this.openAuthModalWindow('sign-in');
     this.eventStoreService.setEditorValues(null);
   }
 

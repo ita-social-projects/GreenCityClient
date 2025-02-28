@@ -11,7 +11,6 @@ import { Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
-import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { UBSAddAddressPopUpComponent } from '@ubs/shared/components/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
@@ -24,6 +23,7 @@ import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { ConfirmationDialogComponent } from '../../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 
 @Component({
   selector: 'app-ubs-user-profile-page',

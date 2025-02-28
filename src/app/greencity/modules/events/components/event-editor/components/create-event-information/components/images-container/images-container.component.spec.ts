@@ -8,6 +8,7 @@ import { FileHandle } from 'src/app/shared/models/file-handle.model';
 import { ImagesContainerComponent } from './images-container.component';
 import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
+import { FormBuilder } from '@angular/forms';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -55,6 +56,9 @@ describe('ImagesContainerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ImagesContainerComponent);
     component = fixture.componentInstance;
+    const fb: FormBuilder = new FormBuilder();
+    component.imagesArray = fb.array([]);
+
     fixture.detectChanges();
   });
 
