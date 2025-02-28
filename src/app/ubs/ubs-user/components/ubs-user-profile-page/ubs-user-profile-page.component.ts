@@ -8,7 +8,7 @@ import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { filter, take, tap } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
@@ -23,7 +23,6 @@ import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profi
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { ConfirmationDialogComponent } from '../../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { NotificationPlatform } from '../../../ubs/notification-platform.enum';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 
 @Component({
@@ -157,13 +156,23 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     this.isFetching = false;
   }
 
-  deleteAddress(address) {
+  deleteAddress(address: Address) {
     this.orderService
       .deleteAddress(address)
       .pipe(take(1))
       .subscribe((list: { addressList: Address[] }) => {
         this.userProfile.addressDto = list.addressList;
-        this.getUserData();
+
+        const addressArray = this.userForm.get('address');
+        if (!(addressArray instanceof FormArray)) {
+          return;
+        }
+
+        const index = addressArray.controls.findIndex((ctrl) => ctrl.value?.id === address.id);
+        if (index !== -1) {
+          addressArray.removeAt(index);
+          this.userForm.markAsDirty();
+        }
       });
   }
 
@@ -182,7 +191,12 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   setActualAddress(addressId): void {
-    this.orderService.setActualAddress(addressId).pipe(take(1)).subscribe();
+    this.orderService
+      .setActualAddress(addressId)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.userForm.markAsDirty();
+      });
   }
 
   focusOnFirst(): void {

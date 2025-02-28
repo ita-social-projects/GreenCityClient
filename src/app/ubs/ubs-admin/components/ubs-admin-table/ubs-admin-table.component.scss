@@ -37,9 +37,7 @@ mat-header-row {
   word-wrap: break-word !important;
   white-space: nowrap !important;
   align-items: unset !important;
-  cursor:
-    url('../../../../../assets/img/ubs-admin-orders/Move-White.svg') 4 4,
-    auto;
+  cursor: grab;
 }
 
 mat-header-cell {
@@ -255,7 +253,6 @@ mat-cell:first-of-type {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 154px;
   height: 36px;
   background-color: var(--primary-white) !important;
   border: 1px solid var(--ubs-quaternary-dark-grey) !important;
@@ -366,10 +363,14 @@ mat-cell:first-of-type {
 .search {
   display: flex;
   align-items: center;
-  width: 426px;
+  width: 35%;
   height: 36px;
   border: 1px solid var(--ubs-primary-light-grey);
   border-radius: 4px;
+}
+
+.order-amount {
+  text-align: center;
 }
 
 .search-input {
@@ -485,7 +486,7 @@ mat-spinner {
 }
 
 .scrolling {
-  height: calc(100vh - 180px) !important;
+  height: calc(100vh - 160px) !important;
   overflow: scroll;
 }
 
@@ -555,7 +556,28 @@ mat-spinner {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0;
-  cursor: col-resize;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 10px;
+    height: 100%;
+    cursor: col-resize;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 10px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 10;
+  }
 }
 
 .pointer {
@@ -681,4 +703,36 @@ mat-spinner {
   left: 50vw;
   top: 5vw;
   z-index: 10;
+}
+
+.update-table {
+  padding: 0;
+  position: relative;
+  height: 36px;
+  width: 36px;
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  span {
+    position: absolute;
+    left: 8px;
+    top: 7px;
+    background-color: var(--primary-green);
+    color: white;
+    border-radius: 50%;
+    font-size: 16px;
+    width: 25px;
+    height: 25px;
+
+    &::before {
+      position: absolute;
+      left: -15px;
+      top: -20px;
+      content: '🔔';
+      font-size: 40px;
+      z-index: -1;
+    }
+  }
 }

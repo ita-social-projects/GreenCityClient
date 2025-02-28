@@ -11,7 +11,7 @@
   ></app-address-input>
 </form>
 <div class="buttons" mat-dialog-actions>
-  <button *ngIf="data.edit" class="ubs-danger-global-button m-btn delete-btn" (click)="deleteAddress()">
+  <button *ngIf="data.edit && !data.addressForOrder" class="ubs-danger-global-button m-btn delete-btn" (click)="deleteAddress()">
     {{ 'personal-info.pop-up-delete' | translate }}
   </button>
   <button class="ubs-secondary-global-button m-btn" (click)="onNoClick()">

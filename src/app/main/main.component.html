@@ -5,7 +5,7 @@
       {{ 'accessibility.skip-to-the-main-content' | translate }}
     </a>
   </div>
-  <app-header *ngIf="!isUnsubscribe"></app-header>
+  <app-header *ngIf="!isUnsubscribe && !isUBS"></app-header>
   <div class="main-content app-container">
     <div #focusLast tabindex="-1" aria-label="Tab To Main"></div>
     <router-outlet (activate)="setFocus()"></router-outlet>

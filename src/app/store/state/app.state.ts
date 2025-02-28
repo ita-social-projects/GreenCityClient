@@ -10,6 +10,7 @@ import { initialHabitState } from './habit.state';
 import { HabitInterface as IHabitState } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit.interface';
 import { initialUbsUserState, IUbsUserState } from 'src/app/store/state/ubs-user.state';
 import { IAuthState, initialAuthState } from 'src/app/store/state/auth.state';
+import { initialUbsAdminState, IUbsAdminState } from './ubs-admin.state';
 
 export interface IAppState {
   auth: IAuthState;
@@ -23,6 +24,7 @@ export interface IAppState {
   ecoEventsState: IEcoEventsState;
   habit: IHabitState;
   ubsUser: IUbsUserState;
+  ubsAdmin: IUbsAdminState;
 }
 
 export const initialAppState: IAppState = {
@@ -35,7 +37,8 @@ export const initialAppState: IAppState = {
   ecoNewsState: initialNewsState,
   ecoEventsState: initialEventsState,
   habit: initialHabitState,
-  ubsUser: initialUbsUserState
+  ubsUser: initialUbsUserState,
+  ubsAdmin: initialUbsAdminState
 };
 
 export function getInitialState(): IAppState {

@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { fromSelect, toSelect } from './table-cell-time-range';
+import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-table-cell-time',
@@ -28,13 +30,13 @@ export class TableCellTimeComponent implements OnInit {
   fromSelect: string[];
   toSelect: string[];
   isEditable: boolean;
-  isBlocked: boolean;
   private typeOfChange: number[];
   from: string;
   to: string;
   parseTime = [];
 
-  constructor(private adminTableService: AdminTableService) {}
+  adminTableService = inject(AdminTableService);
+  store = inject(Store);
 
   ngOnInit(): void {
     this.fromSelect = fromSelect;
@@ -57,12 +59,12 @@ export class TableCellTimeComponent implements OnInit {
     this.to = res[1];
   }
   edit(event?: KeyboardEvent): void {
+    this.store.dispatch(SetCursorWaite({ isWaiting: true }));
     if (event && (event.key === 'Enter' || event.key === ' ')) {
       event.preventDefault();
     }
     this.isTimePickerOpened.emit(true);
     this.isEditable = false;
-    this.isBlocked = true;
 
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
 
@@ -71,13 +73,12 @@ export class TableCellTimeComponent implements OnInit {
       .pipe(take(1))
       .subscribe((res: IAlertInfo[]) => {
         if (res[0] === undefined) {
-          this.isBlocked = false;
           this.isEditable = true;
         } else {
           this.isEditable = false;
-          this.isBlocked = false;
           this.showBlockedInfo.emit(res);
         }
+        this.store.dispatch(SetCursorWaite({ isWaiting: false }));
       });
   }
 
