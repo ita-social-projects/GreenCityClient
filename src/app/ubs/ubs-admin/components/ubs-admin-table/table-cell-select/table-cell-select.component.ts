@@ -10,6 +10,8 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminSeveralOrdersPopUpComponent } from '../../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { UbsAdminConfirmStatusChangePopUpComponent } from '../../ubs-admin-confirm-status-change-pop-up/ubs-admin-confirm-status-change-pop-up.component';
+import { Store } from '@ngrx/store';
+import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
 
 @Component({
   selector: 'app-table-cell-select',
@@ -31,7 +33,6 @@ export class TableCellSelectComponent implements OnInit {
 
   isLocked = false; //Locked by user
   isBlocked = false; //Blocked by someone else
-  isTryingToLock = false;
   isSelectOpened = false;
   isDisabled = true;
   options = [];
@@ -52,7 +53,8 @@ export class TableCellSelectComponent implements OnInit {
   constructor(
     private readonly adminTableService: AdminTableService,
     private readonly orderService: OrderService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -66,6 +68,7 @@ export class TableCellSelectComponent implements OnInit {
       return;
     }
     this.lockOrder();
+    this.store.dispatch(SetCursorWaite({ isWaiting: true }));
   }
 
   onSelectClosed(): void {
@@ -73,24 +76,21 @@ export class TableCellSelectComponent implements OnInit {
     this.isDisabled = true;
 
     this.releaseLock();
+    this.store.dispatch(SetCursorWaite({ isWaiting: false }));
   }
 
   lockOrder(): void {
-    this.isTryingToLock = true;
-
     this.adminTableService
       .blockOrders([this.id])
       .pipe(
         take(1),
         finalize(() => {
           this.editButtonClick.emit(this.id);
-          this.isTryingToLock = false;
         })
       )
-      .subscribe({
-        next: (res: IAlertInfo[]) => {
-          this.processLockResponse(res);
-        }
+      .subscribe((res: IAlertInfo[]) => {
+        this.processLockResponse(res);
+        this.store.dispatch(SetCursorWaite({ isWaiting: false }));
       });
   }
 

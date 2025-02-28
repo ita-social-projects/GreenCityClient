@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MomentDateAdapter
 } from 'src/app/main/component/events/components/event-editor/components/create-event-dates/date-time/moment-date-adapter';
+import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 
@@ -40,18 +42,18 @@ export class TableCellDateComponent {
   @Output() editDateCell = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
 
-  isBlocked: boolean;
   isEditable: boolean;
   current: Date = new Date();
 
-  constructor(private adminTableService: AdminTableService) {}
+  adminTableService = inject(AdminTableService);
+  store = inject(Store);
 
   edit(event?: KeyboardEvent): void {
+    this.store.dispatch(SetCursorWaite({ isWaiting: true }));
     if (event && (event.key === 'Enter' || event.key === ' ')) {
       event.preventDefault();
     }
     this.isEditable = false;
-    this.isBlocked = true;
     let typeOfChange: number[];
 
     if (this.isAllChecked) {
@@ -69,13 +71,12 @@ export class TableCellDateComponent {
       .pipe(take(1))
       .subscribe((res: IAlertInfo[]) => {
         if (res[0] === undefined) {
-          this.isBlocked = false;
           this.isEditable = true;
         } else {
           this.isEditable = false;
-          this.isBlocked = false;
           this.showBlockedInfo.emit(res);
         }
+        this.store.dispatch(SetCursorWaite({ isWaiting: false }));
       });
   }
 

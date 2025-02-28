@@ -46,16 +46,6 @@ mat-header-row {
   background-color: var(--ubs-primary-grey);
 }
 
-mat-header-cell:first-of-type,
-mat-cell:first-of-type {
-  padding-left: 0;
-}
-
-mat-header-cell:last-of-type,
-mat-cell:last-of-type {
-  padding-right: 0;
-}
-
 .column-title {
   color: var(--ubs-secondary-light-grey);
   font-size: 14px;
@@ -343,14 +333,12 @@ mat-spinner {
 .column_header {
   display: flex;
   justify-content: space-between;
-  padding: 0 20px;
 }
 
 .column_cell {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 0 20px;
 }
 
 .search_total_wr {
@@ -359,7 +347,7 @@ mat-spinner {
   align-items: center;
   border: 0;
   width: 100%;
-  margin: 20px 0 32px;
+  margin: 20px 0;
 }
 
 .tooltip_style {
@@ -389,4 +377,9 @@ mat-spinner {
   color: var(--ubs-tertiary-dark-grey);
   margin-right: 5px;
   min-width: 25px;
+}
+
+::ng-deep .mdc-data-table__cell,
+.mdc-data-table__header-cell {
+  padding: 10px;
 }

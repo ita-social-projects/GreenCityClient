@@ -23,8 +23,6 @@ import {
   ClearFilters,
   GetColumns,
   GetColumnsSuccess,
-  GetColumnToDisplay,
-  GetColumnToDisplaySuccess,
   GetLocationsDetails,
   GetLocationsDetailsSuccess,
   GetTable,
@@ -37,15 +35,12 @@ import {
   ReceivedFailure,
   RemoveFilter,
   SaveFiltersAction,
-  SetColumnToDisplay,
-  SetColumnToDisplaySuccess,
   UpdateOrderAddress,
   UpdateOrderAddressFail,
   UpdateOrderAddressSuccess,
   UpdateOrderInfo,
   UpdateOrderInfoSuccess
 } from '../actions/bigOrderTable.actions';
-import { UpdateAddressFail } from '../actions/order.actions';
 
 @Injectable()
 export class BigOrderTableEffects {
@@ -57,30 +52,6 @@ export class BigOrderTableEffects {
     private store: Store,
     private snackBar: MatSnackBarComponent
   ) {}
-
-  getColumnToDisplay = createEffect(() => {
-    return this.actions.pipe(
-      ofType(GetColumnToDisplay),
-      mergeMap(() => {
-        return this.orderService.getColumnToDisplay().pipe(
-          map((ordersViewParameters: IOrdersViewParameters) => GetColumnToDisplaySuccess({ ordersViewParameters })),
-          catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
-
-  setColumnToDisplay = createEffect(() => {
-    return this.actions.pipe(
-      ofType(SetColumnToDisplay),
-      mergeMap((action: { columns: string; titles: string }) => {
-        return this.orderService.setColumnToDisplay(action.columns).pipe(
-          map(() => SetColumnToDisplaySuccess({ ordersViewParameters: { titles: action.titles } })),
-          catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
 
   getColumns = createEffect(() => {
     return this.actions.pipe(

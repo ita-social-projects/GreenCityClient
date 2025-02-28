@@ -12,10 +12,6 @@ import {
 } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
 export enum BigOrderTableActions {
-  GetColumnToDisplay = '[BigOrderTable] Get Columns To Display',
-  GetColumnToDisplaySuccess = '[BigOrderTable] Get Columns To Display Success',
-  SetColumnToDisplay = '[BigOrderTable] Set Columns To Display',
-  SetColumnToDisplaySuccess = '[BigOrderTable] Set Columns To Display Success',
   GetColumns = '[BigOrderTable] Get Columns',
   GetColumnsSuccess = '[BigOrderTable] Get Columns Success',
   GetTable = '[BigOrderTable] Get Table',
@@ -49,23 +45,9 @@ export enum BigOrderTableActions {
   GetTableColumnWidthFail = '[BigOrderTable] Get Column Width Fail'
 }
 
-export const GetColumnToDisplay = createAction(BigOrderTableActions.GetColumnToDisplay);
-
 export const ChangingOrderPaymentStatus = createAction(
   BigOrderTableActions.ChangingOrderPaymentStatus,
   props<{ orderId?: number; newValue?: string }>()
-);
-
-export const GetColumnToDisplaySuccess = createAction(
-  BigOrderTableActions.GetColumnToDisplaySuccess,
-  props<{ ordersViewParameters: IOrdersViewParameters }>()
-);
-
-export const SetColumnToDisplay = createAction(BigOrderTableActions.SetColumnToDisplay, props<{ columns: string; titles: string }>());
-
-export const SetColumnToDisplaySuccess = createAction(
-  BigOrderTableActions.SetColumnToDisplaySuccess,
-  props<{ ordersViewParameters: IOrdersViewParameters }>()
 );
 
 export const GetColumns = createAction(BigOrderTableActions.GetColumns);
@@ -137,6 +119,4 @@ export const GetTableColumnWidthSuccess = createAction(
   BigOrderTableActions.GetTableColumnWidthSuccess,
   props<{ columnsWidth: Map<string, number> }>()
 );
-export const GetTableColumnWidthFail = createAction(
-  BigOrderTableActions.GetTableColumnWidthSuccess
-);
+export const GetTableColumnWidthFail = createAction(BigOrderTableActions.GetTableColumnWidthSuccess);

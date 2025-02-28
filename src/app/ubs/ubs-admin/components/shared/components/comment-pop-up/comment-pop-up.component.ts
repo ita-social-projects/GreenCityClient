@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
 
 import { Patterns } from 'src/assets/patterns/patterns';
 
@@ -19,11 +21,13 @@ export class CommentPopUpComponent implements OnInit {
 
   constructor(
     public fb: FormBuilder,
-    private readonly dialogRef: MatDialogRef<CommentPopUpComponent>
+    private readonly dialogRef: MatDialogRef<CommentPopUpComponent>,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+    this.store.dispatch(SetCursorWaite({ isWaiting: false }));
   }
 
   initForm(): void {

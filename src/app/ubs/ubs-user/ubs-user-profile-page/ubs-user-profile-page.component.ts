@@ -8,7 +8,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { filter, take, tap } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
@@ -157,13 +157,23 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     this.isFetching = false;
   }
 
-  deleteAddress(address) {
+  deleteAddress(address: Address) {
     this.orderService
       .deleteAddress(address)
       .pipe(take(1))
       .subscribe((list: { addressList: Address[] }) => {
         this.userProfile.addressDto = list.addressList;
-        this.getUserData();
+
+        const addressArray = this.userForm.get('address');
+        if (!(addressArray instanceof FormArray)) {
+          return;
+        }
+
+        const index = addressArray.controls.findIndex((ctrl) => ctrl.value?.id === address.id);
+        if (index !== -1) {
+          addressArray.removeAt(index);
+          this.userForm.markAsDirty();
+        }
       });
   }
 
@@ -182,7 +192,12 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   setActualAddress(addressId): void {
-    this.orderService.setActualAddress(addressId).pipe(take(1)).subscribe();
+    this.orderService
+      .setActualAddress(addressId)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.userForm.markAsDirty();
+      });
   }
 
   focusOnFirst(): void {

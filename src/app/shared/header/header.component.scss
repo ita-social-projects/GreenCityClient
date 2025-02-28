@@ -54,7 +54,6 @@ $ubs-header-height: 86px;
 
 header {
   width: 100vw;
-  height: 80px;
   position: fixed;
   top: 0;
   background: $white-color;
@@ -219,12 +218,13 @@ header {
 }
 
 .container-fluid .header_logo img {
-  width: 60px;
-  box-shadow: 1px 1px 5px var(--primary-dark-grey);
-  border-radius: 50%;
+  width: 64px;
+  height: 55px;
+  margin: 10px 0;
 
   @media screen and (max-width: 768px) {
     width: 50px;
+    height: 41px;
   }
 }
 

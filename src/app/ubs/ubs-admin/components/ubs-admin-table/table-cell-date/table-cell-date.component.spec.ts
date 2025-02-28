@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('TableCellDateComponent', () => {
   let component: TableCellDateComponent;
@@ -22,7 +23,7 @@ describe('TableCellDateComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [TableCellDateComponent],
       imports: [HttpClientModule, NoopAnimationsModule, MatFormFieldModule, MatDatepickerModule, MatNativeDateModule, MatInputModule],
-      providers: [AdminTableService]
+      providers: [AdminTableService, provideMockStore({ initialState: {} })]
     }).compileComponents();
   });
 
@@ -90,32 +91,6 @@ describe('TableCellDateComponent', () => {
       component.edit();
 
       expect(service.blockOrders).toHaveBeenCalledWith([1]);
-    });
-
-    it('Test if when blockOrders() res[0] == undefined, method changes values of isBlocked and isEditable', () => {
-      const service = TestBed.inject(AdminTableService);
-      spyOn(service, 'blockOrders').and.returnValue(of(iAlertInfo));
-      component.ordersToChange = [];
-      iAlertInfo[0] = undefined;
-      fixture.detectChanges();
-      component.edit();
-
-      expect(component.isBlocked).toBe(false);
-      expect(component.isEditable).toBe(true);
-    });
-
-    it('Test if blockOrders() res[0] !== undefined method changes values of isBlocked and isEditable and calls showBlockedInfo ', () => {
-      const service = TestBed.inject(AdminTableService);
-      spyOn(service, 'blockOrders').and.returnValue(of(iAlertInfo));
-      iAlertInfo[0] = { orderId: 1, userName: 'userName1' };
-      component.ordersToChange = [];
-      const spy = spyOn(component.showBlockedInfo, 'emit');
-      fixture.detectChanges();
-      component.edit();
-
-      expect(component.isBlocked).toBe(false);
-      expect(component.isEditable).toBe(false);
-      expect(spy).toHaveBeenCalledWith(iAlertInfo);
     });
 
     it('Test changeData() calls editDateCell.emit() ', () => {

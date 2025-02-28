@@ -4,6 +4,7 @@ import { CommentPopUpComponent } from './comment-pop-up.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('CommentPopUpComponent', () => {
   let component: CommentPopUpComponent;
@@ -17,7 +18,7 @@ describe('CommentPopUpComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CommentPopUpComponent],
       imports: [MatDialogModule, ReactiveFormsModule, TranslateModule.forRoot()],
-      providers: [{ provide: MatDialogRef, useValue: MatDialogRefMock }]
+      providers: [{ provide: MatDialogRef, useValue: MatDialogRefMock }, provideMockStore({ initialState: {} })]
     });
     fixture = TestBed.createComponent(CommentPopUpComponent);
     component = fixture.componentInstance;

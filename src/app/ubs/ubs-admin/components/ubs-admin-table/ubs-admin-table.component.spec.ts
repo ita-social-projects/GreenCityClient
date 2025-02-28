@@ -157,7 +157,6 @@ xdescribe('UbsAdminTableComponent', () => {
     storeMock.pipe = () => of(false);
     fixture = TestBed.createComponent(UbsAdminTableComponent);
     component = fixture.componentInstance;
-    spyOn(component.modelChanged, 'pipe').and.returnValue(of({}));
     component.ordersViewParameters$ = of(false) as any;
     component.bigOrderTableParams$ = of(false) as any;
     component.bigOrderTable$ = of(false) as any;
@@ -167,11 +166,6 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('ngOnInit', () => {
-    component.ngOnInit();
-    expect(component.modelChanged.pipe).toHaveBeenCalled();
   });
 
   it('ngOnInit component.noFiltersApplied initially true ', () => {
@@ -205,7 +199,6 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('bigOrderTable$ expect totalElements to be 10 ', () => {
     component.bigOrderTable$ = of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 }) as any;
-    component.firstPageLoad = true;
     component.ngOnInit();
     component.bigOrderTable$.subscribe((items: any) => {
       expect(component.totalElements).toBe(10);
@@ -230,7 +223,6 @@ xdescribe('UbsAdminTableComponent', () => {
       page: {}
     });
     component.bigOrderTableParams$ = bigOrderTableParamsMock as any;
-    component.isStoreEmpty = true;
     component.ngOnInit();
     component.bigOrderTableParams$.subscribe(() => {
       expect(component.tableViewHeaders).toEqual(['columnBelongingList']);
@@ -275,13 +267,6 @@ xdescribe('UbsAdminTableComponent', () => {
     const suffix = 'Check';
     const controlVal = component.getControlValue(column, suffix);
     expect(controlVal).toBe(false);
-  });
-
-  it('applyFilter call, expect modelChanged should been called with filter', () => {
-    const filter = 'filter';
-    spyOn(component.modelChanged, 'next');
-    component.applyFilter(filter);
-    expect(component.modelChanged.next).toHaveBeenCalledWith('filter');
   });
 
   it('should select all checkboxes without disabled', () => {
@@ -573,10 +558,8 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('applyFilters', () => {
     component.currentPage = 1;
-    component.firstPageLoad = false;
     component.applyFilters();
     expect(component.currentPage).toBe(0);
-    expect(component.firstPageLoad).toBe(true);
   });
 
   it('openColumnFilterPopup expect dialog.open shoud be call', () => {
@@ -600,7 +583,7 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('checkStatusOfOrders', () => {
     component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE } as any];
-    const Res = component.checkStatusOfOrders(OrderStatus.DONE );
+    const Res = component.checkStatusOfOrders(OrderStatus.DONE);
     expect(Res).toBe(true);
   });
 

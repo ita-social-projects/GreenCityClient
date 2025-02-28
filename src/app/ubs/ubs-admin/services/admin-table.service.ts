@@ -386,4 +386,7 @@ export class AdminTableService {
   getUbsAdminOrdersTableColumnsWidthPreference(): Observable<Map<string, number>> {
     return this.http.get<Map<string, number>>(`${this.url}orderTableColumnsWidth`);
   }
+  getOrderTotalElements(): Observable<{ orderCount: number }> {
+    return this.http.get<{ orderCount: number }>(`${this.url}orders/count`);
+  }
 }

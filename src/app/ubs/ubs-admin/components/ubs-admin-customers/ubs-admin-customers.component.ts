@@ -2,8 +2,10 @@ import {
   AfterViewChecked,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   HostListener,
+  inject,
   Injector,
   OnDestroy,
   OnInit,
@@ -28,6 +30,10 @@ import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date
 import { DateAdapter } from '@angular/material/core';
 import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { Store } from '@ngrx/store';
+import { adminTableOfCustomersSelector } from 'src/app/store/selectors/ubs-admin.selectors';
+import { GetCustomerTable } from 'src/app/store/actions/ubs-admin.actions';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-ubs-admin-customers',
@@ -35,11 +41,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   styleUrls: ['./ubs-admin-customers.component.scss']
 })
 export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnDestroy {
-  private readonly convertFromDateToStringService: ConvertFromDateToStringService;
-  private readonly localStorageService: LocalStorageService;
-  private readonly tableHeightService: TableHeightService;
-  adminCustomerService: AdminCustomersService;
-
   isLoading = false;
   isUpdate = false;
   nonSortableColumns = nonSortableColumns;
@@ -58,7 +59,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   filterValue = '';
   modelChanged: Subject<string> = new Subject<string>();
   pageSize = 10;
-
+  adminTableOfCustomersSelector$ = this.store.select(adminTableOfCustomersSelector);
+  customerTable: ICustomersTable;
   tableData: any[];
   private sortType: string;
   private sortingColumn: string;
@@ -80,36 +82,35 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   @ViewChild(MatTable, { read: ElementRef }) private readonly matTableRef: ElementRef;
 
   constructor(
-    private readonly injector: Injector,
     private readonly adapter: DateAdapter<any>,
     public dialog: MatDialog,
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
     private readonly renderer: Renderer2,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBarComponent
-  ) {
-    this.convertFromDateToStringService = injector.get(ConvertFromDateToStringService);
-    this.localStorageService = injector.get(LocalStorageService);
-    this.tableHeightService = injector.get(TableHeightService);
-    this.adminCustomerService = injector.get(AdminCustomersService);
-  }
+    private readonly snackBar: MatSnackBarComponent,
+    private readonly store: Store,
+    private readonly destroyRef: DestroyRef,
+    private readonly convertFromDateToStringService: ConvertFromDateToStringService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly tableHeightService: TableHeightService,
+    private readonly adminCustomerService: AdminCustomersService
+  ) {}
 
   ngOnInit() {
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((lang) => {
       this.currentLang = lang;
       const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
       this.adapter.setLocale(locale);
     });
-    this.columns = columnsParams;
-    this.setDisplayedColumns();
-    this.getTable();
-    this.initFilterForm();
-    this.onCreateGroupFormValueChange();
-    this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
-      this.currentPage = 0;
-      this.getTable(model, this.sortingColumn, this.sortType);
+    this.adminTableOfCustomersSelector$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
+      this.customerTable = tableData;
+      this.getTable();
+      this.columns = columnsParams;
+      this.setDisplayedColumns();
+      this.onCreateGroupFormValueChange();
     });
+    this.initFilterForm();
   }
 
   ngAfterViewChecked() {
@@ -258,7 +259,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   applyFilter(filterValue: string): void {
     this.filterValue = filterValue;
-    this.modelChanged.next(filterValue);
   }
 
   private getTable(
@@ -267,18 +267,27 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     sortingType = this.sortType || 'ASC'
   ) {
     this.isLoading = true;
-    this.adminCustomerService
-      .getCustomers(columnName, this.currentPage, this.queryString, filterValue, this.pageSize, sortingType)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((item: ICustomersTable) => {
-        this.tableData = item.page;
-        this.dataSource = new MatTableDataSource(this.tableData);
-        this.isLoading = false;
-        this.totalPages = item.totalPages;
-        this.totalElements = item.totalElements;
-        this.allElements = !this.allElements ? this.totalElements : this.allElements;
-        this.isTableHeightSet = false;
-      });
+    if (this.customerTable) {
+      this.setTableData(this.customerTable);
+    } else {
+      this.adminCustomerService
+        .getCustomers(columnName, this.currentPage, this.queryString, filterValue, this.pageSize, sortingType)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((customerTable: ICustomersTable) => {
+          this.store.dispatch(GetCustomerTable({ table: customerTable }));
+          this.setTableData(customerTable);
+        });
+    }
+  }
+
+  private setTableData(customerTable: ICustomersTable) {
+    this.tableData = customerTable.page;
+    this.dataSource = new MatTableDataSource(this.tableData);
+    this.isLoading = false;
+    this.totalPages = customerTable.totalPages;
+    this.totalElements = customerTable.totalElements;
+    this.allElements = !this.allElements ? this.totalElements : this.allElements;
+    this.isTableHeightSet = false;
   }
 
   private updateTableData() {
@@ -288,6 +297,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       .getCustomers(this.sortingColumn, this.currentPage, this.queryString, this.filterValue, this.pageSize, this.sortType || 'ASC')
       .pipe(takeUntil(this.destroy$))
       .subscribe((item: ICustomersTable) => {
+        this.store.dispatch(GetCustomerTable({ table: item }));
         this.tableData = [...this.tableData, ...item.page];
         this.dataSource = new MatTableDataSource(this.tableData);
         this.totalPages = item.totalPages;
@@ -305,7 +315,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     });
   }
 
-  //////////// resize logic
   onResizeColumn(event: any, index: number) {
     this.checkResizing(event, index);
     this.currentResizeIndex = index;
