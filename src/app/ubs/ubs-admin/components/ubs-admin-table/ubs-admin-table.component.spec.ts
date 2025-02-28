@@ -583,7 +583,7 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('checkStatusOfOrders', () => {
     component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE } as any];
-    const Res = component.checkStatusOfOrders(OrderStatus.DONE );
+    const Res = component.checkStatusOfOrders(OrderStatus.DONE);
     expect(Res).toBe(true);
   });
 

@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MomentDateAdapter
-} from 'src/app/main/component/events/components/event-editor/components/create-event-dates/components/date-time/moment-date-adapter';
+} from 'src/app/main/component/events/components/event-editor/components/create-event-dates/date-time/moment-date-adapter';
 import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';

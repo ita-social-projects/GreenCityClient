@@ -10,7 +10,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { ContentChange, QuillModule } from 'ngx-quill';
+import { QuillModule } from 'ngx-quill';
 import { Language } from 'src/app/main/i18n/Language';
 import { CreateEventInformationComponent } from './create-event-information.component';
 
@@ -71,7 +71,7 @@ describe('CreateEventInformationComponent', () => {
   });
 
   it('should return error message when quillLength is less than minLength', () => {
-    component.quillLength = 15;
+    component.quillLength = 5;
     localStorageServiceSpy.getCurrentLanguage.and.returnValue(Language.EN);
     expect(component.quillLabel).toBe('Not enough characters. Left: 5');
   });
@@ -105,7 +105,7 @@ describe('CreateEventInformationComponent', () => {
 
   it('should update quillLength and form value on valid content change and blur', fakeAsync(() => {
     const mockContent = {
-      text: 'Description    '
+      text: 'Descri '
     };
 
     component.quillLength = 0;
@@ -134,7 +134,7 @@ describe('CreateEventInformationComponent', () => {
   });
 
   it('should return error message when quillLength is less than minLength', () => {
-    component.quillLength = 15;
+    component.quillLength = 5;
     localStorageServiceSpy.getCurrentLanguage.and.returnValue(Language.EN);
     spyOn(component, 'getLocale').and.callThrough();
     expect(component.quillLabel).toBe('Not enough characters. Left: 5');

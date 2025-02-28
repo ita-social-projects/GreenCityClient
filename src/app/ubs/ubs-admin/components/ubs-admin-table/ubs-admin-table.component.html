@@ -1,17 +1,10 @@
-<div [ngClass]="{'cursor-waite': isCursorWaite$ | async}">
+<div [ngClass]="{ 'cursor-waite': isCursorWaite$ | async }">
   <div class="research">
     <div class="search">
       <div class="search-input">
-        <input
-          type="text"
-          placeholder="{{ 'ubs-tables.placeholder' | translate }}"
-          (keyup)="applyFilter($event.target['value'])"
-        />
+        <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target['value'])" />
       </div>
-      <div class="icon-style"><i
-          class="fa fa-search"
-          aria-hidden="true"
-        ></i></div>
+      <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
     </div>
     <div class="order-amount">{{ 'ubs-tables.orders-number' | translate }} : {{ totalElements }}</div>
     <div class="btn-group">
@@ -26,28 +19,15 @@
           <mat-icon>filter_list</mat-icon>
           {{ 'ubs-tables.filters' | translate }}
         </button>
-        <mat-menu
-          #clickMenu="matMenu"
-          class="customize-mat-panel"
-        >
+        <mat-menu #clickMenu="matMenu" class="customize-mat-panel">
           <div class="dropdown-menu-container">
             <div class="sticky-top dropdown-top-panel">
               <p class="font-weight-bold">{{ 'ubs-tables.filter' | translate }}</p>
-              <button
-                type="button"
-                class="reset-settings"
-                (click)="toggleFilters()"
-              >
-                <i
-                  class="fa fa-close"
-                  aria-hidden="true"
-                ></i>
+              <button type="button" class="reset-settings" (click)="toggleFilters()">
+                <i class="fa fa-close" aria-hidden="true"></i>
               </button>
             </div>
-            <div
-              class="accordion scrollbar"
-              (click)="$event.stopPropagation()"
-            >
+            <div class="accordion scrollbar" (click)="$event.stopPropagation()">
               <ng-container *ngFor="let column of getColumnsForFiltering(); index as i">
                 <div class="accordion-item">
                   <div
@@ -77,18 +57,9 @@
                             {{ 'ubs-tables.date-range' | translate }}
                           </mat-checkbox>
                           <div class="date-range-box">
-                            <div
-                              class="input-box"
-                              [ngClass]="{ 'one-row-box': !getControlValue(column.key, 'Check') }"
-                            >
-                              <div
-                                class="date-change_wrapper"
-                                *ngIf="getControlValue(column.key, 'Check')"
-                              >
-                                <label
-                                  class="date-label"
-                                  for="dateFrom"
-                                >
+                            <div class="input-box" [ngClass]="{ 'one-row-box': !getControlValue(column.key, 'Check') }">
+                              <div class="date-change_wrapper" *ngIf="getControlValue(column.key, 'Check')">
+                                <label class="date-label" for="dateFrom">
                                   {{ 'ubs-tables.date-from' | translate }}
                                 </label>
                                 <button
@@ -97,16 +68,10 @@
                                   class="reset-settings"
                                   (click)="discardDateChanges($event, column.key, 'from')"
                                 >
-                                  <i
-                                    class="fa fa-close"
-                                    aria-hidden="true"
-                                  ></i>
+                                  <i class="fa fa-close" aria-hidden="true"></i>
                                 </button>
                               </div>
-                              <div
-                                class="data-field"
-                                [ngClass]="{ 'one-row': !getControlValue(column.key, 'Check') }"
-                              >
+                              <div class="data-field" [ngClass]="{ 'one-row': !getControlValue(column.key, 'Check') }">
                                 <input
                                   matInput
                                   readonly
@@ -118,15 +83,8 @@
                                   (keydown)="(false)"
                                   (dateChange)="onDateChange(column.key)"
                                 />
-                                <button
-                                  matSuffix
-                                  class="calendar-btn"
-                                >
-                                  <img
-                                    src="assets/img/icon/econews/calendar-icon.svg"
-                                    alt="Calendar button"
-                                    (click)="picker1.open()"
-                                  />
+                                <button matSuffix class="calendar-btn">
+                                  <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker1.open()" />
                                 </button>
                                 <mat-datepicker #picker1></mat-datepicker>
                               </div>
@@ -136,31 +94,19 @@
                                 class="reset-settings"
                                 (click)="discardDateChanges($event, column.key, '')"
                               >
-                                <i
-                                  class="fa fa-close"
-                                  aria-hidden="true"
-                                ></i>
+                                <i class="fa fa-close" aria-hidden="true"></i>
                               </button>
                             </div>
-                            <div
-                              class="input-box"
-                              *ngIf="getControlValue(column.key, 'Check')"
-                            >
+                            <div class="input-box" *ngIf="getControlValue(column.key, 'Check')">
                               <div class="date-change_wrapper">
-                                <label
-                                  class="date-label"
-                                  for="dateTo"
-                                >{{ 'ubs-tables.date-to' | translate }}</label>
+                                <label class="date-label" for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
                                 <button
                                   *ngIf="getControlValue(column.key, 'To')"
                                   type="button"
                                   class="reset-settings"
                                   (click)="discardDateChanges($event, column.key, 'to')"
                                 >
-                                  <i
-                                    class="fa fa-close"
-                                    aria-hidden="true"
-                                  ></i>
+                                  <i class="fa fa-close" aria-hidden="true"></i>
                                 </button>
                               </div>
                               <div class="data-field">
@@ -176,15 +122,8 @@
                                   (keydown)="(false)"
                                   (dateChange)="onDateChange(column.key)"
                                 />
-                                <button
-                                  matSuffix
-                                  class="calendar-btn"
-                                >
-                                  <img
-                                    src="assets/img/icon/econews/calendar-icon.svg"
-                                    alt="Calendar button"
-                                    (click)="picker2.open()"
-                                  />
+                                <button matSuffix class="calendar-btn">
+                                  <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker2.open()" />
                                 </button>
                                 <mat-datepicker #picker2></mat-datepicker>
                               </div>
@@ -218,20 +157,10 @@
               </ng-container>
             </div>
             <div class="sticky-bottom clear-apply-group">
-              <button
-                [disabled]="noFiltersApplied"
-                type="button"
-                class="filter-btn bg-lime"
-                (click)="applyFilters()"
-              >
+              <button [disabled]="noFiltersApplied" type="button" class="filter-btn bg-lime" (click)="applyFilters()">
                 {{ 'ubs-tables.apply-filters' | translate }}
               </button>
-              <button
-                [disabled]="noFiltersApplied"
-                type="button"
-                class="filter-btn clear-filt"
-                (click)="resetCurrentFilters($event)"
-              >
+              <button [disabled]="noFiltersApplied" type="button" class="filter-btn clear-filt" (click)="resetCurrentFilters($event)">
                 {{ 'ubs-tables.clear-filters' | translate }}
               </button>
             </div>
@@ -240,21 +169,11 @@
       </div>
       <div class="button-group">
         <div class="table-view-dropdown-wrapper">
-          <button
-            type="button"
-            class="btn btn-default view-table-btn"
-            (click)="toggleTableView()"
-          >
-            <img
-              src="assets/img/edit.svg"
-              alt="edit"
-            />
+          <button type="button" class="btn btn-default view-table-btn" (click)="toggleTableView()">
+            <img src="assets/img/edit.svg" alt="edit" />
             {{ 'ubs-tables.table-view' | translate }}
           </button>
-          <ul
-            class="dropdown-menu"
-            [style.display]="display"
-          >
+          <ul class="dropdown-menu" [style.display]="display">
             <div class="sticky-top dropdown-top-panel">
               <div class="check-all">
                 <mat-checkbox
@@ -266,15 +185,8 @@
                   {{ 'ubs-tables.all-elements' | translate }}
                 </mat-checkbox>
               </div>
-              <button
-                type="button"
-                class="reset-settings"
-                (click)="toggleTableView()"
-              >
-                <i
-                  class="fa fa-close"
-                  aria-hidden="true"
-                ></i>
+              <button type="button" class="reset-settings" (click)="toggleTableView()">
+                <i class="fa fa-close" aria-hidden="true"></i>
               </button>
             </div>
             <div class="accordion scrollbar">
@@ -298,10 +210,7 @@
                   >
                     <div class="accordion-body">
                       <ng-container *ngFor="let column of displayedColumnsView">
-                        <li
-                          class="item"
-                          *ngIf="column.columnBelonging === header.key"
-                        >
+                        <li class="item" *ngIf="column.columnBelonging === header.key">
                           <mat-checkbox
                             [checked]="displayedColumns.includes(column.title.key)"
                             class="check"
@@ -319,56 +228,30 @@
               </ng-container>
             </div>
             <div class="sticky-bottom clear-apply-group">
-              <button
-                type="button"
-                class="filter-btn bg-lime"
-                (click)="resetDefaultWidth()"
-              >
+              <button type="button" class="filter-btn bg-lime" (click)="resetDefaultWidth()">
                 {{ 'ubs-tables.default-reset' | translate }}
               </button>
             </div>
           </ul>
         </div>
-        <button
-          type="button"
-          class="btn btn-default export-excel-btn"
-          (click)="openExportExcel()"
-        >
+        <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
           {{ 'ubs-tables.export-to-excel' | translate }}
         </button>
-        <button
-          type="button"
-          class="btn btn-default update-table"
-          (click)="updateTableContent()"
-        >
-          <span *ngIf="amountNewOrders; else updateTableSymbol">{{amountNewOrders}}</span>
+        <button type="button" class="btn btn-default update-table" (click)="updateTableContent()">
+          <span *ngIf="amountNewOrders; else updateTableSymbol">{{ amountNewOrders }}</span>
           <ng-template #updateTableSymbol>↻</ng-template>
         </button>
       </div>
     </div>
   </div>
-  <mat-progress-bar
-    *ngIf="editCellProgressBar"
-    mode="indeterminate"
-  ></mat-progress-bar>
-  <div
-    class="blocked_mess"
-    *ngIf="blockedInfo.length"
-    (click)="closeAlertMess()"
-  >
+  <mat-progress-bar *ngIf="editCellProgressBar" mode="indeterminate"></mat-progress-bar>
+  <div class="blocked_mess" *ngIf="blockedInfo.length" (click)="closeAlertMess()">
     <ng-container *ngFor="let info of blockedInfo">
       Orders {{ info.ordersId.join(', ') }} currently blocked by {{ info.userName }}
     </ng-container>
     <span class="close_alert">&#10006;</span>
   </div>
-  <div
-    id="table-container"
-    class="scrolling"
-    infiniteScroll
-    [infiniteScrollThrottle]="100"
-    (scrolled)="onScroll()"
-    [scrollWindow]="false"
-  >
+  <div id="table-container" class="scrolling" infiniteScroll [infiniteScrollThrottle]="100" (scrolled)="onScroll()" [scrollWindow]="false">
     <table
       id="table"
       mat-table
@@ -379,22 +262,9 @@
       *ngIf="!isLoading && dataSource; else spinner"
       aria-label="ordersTable"
     >
-      <ng-container
-        *ngFor="let column of displayedColumnsView; let i = index"
-        [matColumnDef]="column.title.key"
-        [sticky]="column.sticky"
-      >
-        <mat-header-cell
-          *matHeaderCellDef
-          cdkDrag
-          cdkDragLockAxis="x"
-          cdkDragBoundary="mat-header-row"
-        >
-          <th
-            scope="row"
-            *ngIf="column.title.key !== 'select'"
-            class="column_header"
-          >
+      <ng-container *ngFor="let column of displayedColumnsView; let i = index" [matColumnDef]="column.title.key" [sticky]="column.sticky">
+        <mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
+          <th scope="row" *ngIf="column.title.key !== 'select'" class="column_header">
             <div
               #tooltip="matTooltip"
               class="column-title"
@@ -410,31 +280,17 @@
                 <mat-icon (click)="openColumnFilterPopup($event, column)">filter_list</mat-icon>
               </ng-container>
               <ng-container *ngIf="!nonSortableColumns.includes(column.title.key)">
-                <mat-icon
-                  *ngIf="arrowDirection === column.title.key"
-                  (click)="getSortingData(column.title.key, 'ASC')"
-                >
+                <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
                   arrow_downward
                 </mat-icon>
-                <mat-icon
-                  *ngIf="arrowDirection !== column.title.key"
-                  (click)="getSortingData(column.title.key, 'DESC')"
-                >
+                <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
                   arrow_upward
                 </mat-icon>
               </ng-container>
             </div>
           </th>
-          <th
-            scope="row"
-            *ngIf="column.title.key === 'select'"
-            [ngStyle]="{ padding: '0px' }"
-          >
-            <mat-checkbox
-              [checked]="allChecked"
-              [indeterminate]="isIndeterminate"
-              (change)="masterToggle($event)"
-            ></mat-checkbox>
+          <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ padding: '0px' }">
+            <mat-checkbox [checked]="allChecked" [indeterminate]="isIndeterminate" (change)="masterToggle($event)"></mat-checkbox>
           </th>
         </mat-header-cell>
         <mat-cell
@@ -527,11 +383,7 @@
           </mat-checkbox>
         </mat-cell>
       </ng-container>
-      <mat-header-row
-        *matHeaderRowDef="displayedColumns"
-        #tableHeaderRow
-        class="tableHeaderRow"
-      ></mat-header-row>
+      <mat-header-row *matHeaderRowDef="displayedColumns" #tableHeaderRow class="tableHeaderRow"></mat-header-row>
       <mat-row
         *matRowDef="let row; columns: displayedColumns"
         [ngClass]="{ highlighted: selection.isSelected(row) && isFiltersApplied$ | async }"
@@ -539,10 +391,7 @@
       ></mat-row>
     </table>
     <app-spinner *ngIf="isUpdate"></app-spinner>
-    <div
-      class="message-container"
-      *ngIf="!tableData?.length && !isLoading"
-    >
+    <div class="message-container" *ngIf="!tableData?.length && !isLoading">
       {{ 'ubs-tables.no-orders-found' | translate }}
     </div>
   </div>
@@ -550,8 +399,5 @@
     <app-spinner></app-spinner>
   </ng-template>
 
-  <app-spinner
-    class="top-spiner"
-    *ngIf="isOrderAddressLoadingSelector$ | async"
-  ></app-spinner>
+  <app-spinner class="top-spiner" *ngIf="isOrderAddressLoadingSelector$ | async"></app-spinner>
 </div>

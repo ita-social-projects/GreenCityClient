@@ -119,6 +119,4 @@ export const GetTableColumnWidthSuccess = createAction(
   BigOrderTableActions.GetTableColumnWidthSuccess,
   props<{ columnsWidth: Map<string, number> }>()
 );
-export const GetTableColumnWidthFail = createAction(
-  BigOrderTableActions.GetTableColumnWidthSuccess
-);
+export const GetTableColumnWidthFail = createAction(BigOrderTableActions.GetTableColumnWidthSuccess);

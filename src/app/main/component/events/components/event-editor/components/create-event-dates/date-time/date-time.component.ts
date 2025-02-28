@@ -1,11 +1,12 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { IMask } from 'angular-imask';
 import moment from 'moment';
 import 'moment/locale/uk';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from '../../../../../../../i18n/language.service';
 import { MomentDateAdapter } from './moment-date-adapter';
+import { Subject, takeUntil } from 'rxjs';
 
 export const MY_FORMATS = {
   parse: {
@@ -28,7 +29,7 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ]
 })
-export class DateTimeComponent implements OnInit, AfterViewInit {
+export class DateTimeComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() daysForm: FormArray;
   @Input() dayNumber: number;
   @Input() dayFormGroup: AbstractControl;
@@ -42,6 +43,9 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   private _upperTimeLimit = 0;
   private prevTimeValue: Array<string>;
   private initialStartTime: string;
+  private startTimeMask: any;
+  private endTimeMask: any;
+  private $destroy: Subject<boolean> = new Subject();
   timeMask = {
     mask: 'HH:MM',
     blocks: {
@@ -60,7 +64,6 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     }
   };
 
-  @ViewChild('dateRef') dateRef: ElementRef;
   @ViewChild('startTimeRef') startTimeRef: ElementRef;
   @ViewChild('endTimeRef') endTimeRef: ElementRef;
 
@@ -70,16 +73,24 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     private adapter: DateAdapter<any>
   ) {}
 
-  get date() {
-    return this.dayForm.get('date');
+  get startDate() {
+    return this.dayForm.get('startDate');
+  }
+
+  get finishDate() {
+    return this.dayForm.get('finishDate');
+  }
+
+  get day() {
+    return this.dayForm.get('day');
   }
 
   get startTime() {
     return this.dayForm.get('startTime');
   }
 
-  get endTime() {
-    return this.dayForm.get('endTime');
+  get finishTime() {
+    return this.dayForm.get('finishTime');
   }
 
   get allDay() {
@@ -95,39 +106,46 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     moment.locale('uk');
-    this.dayForm = this.dayFormGroup.get('day') as FormGroup;
+    this.dayForm = this.dayFormGroup as FormGroup;
     this._fillTimeArray();
     this.initialStartTime = this._initialStartTime();
     this._upperTimeLimit = this._timeArr.indexOf(this.initialStartTime);
     this._setArrTime();
-    this.ls.getCurrentLangObs().subscribe((lang) => {
-      const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
-      this.dateFormat = lang !== 'ua' ? 'MMDDYYYY' : 'DDMMYYYY';
-      this.adapter.setLocale(locale);
-    });
-    this.date.valueChanges.subscribe(() => {
-      this._updateNeighboringDates();
-    });
-    this.startTime.valueChanges.subscribe((value: string) => {
+    this.ls
+      .getCurrentLangObs()
+      .pipe(takeUntil(this.$destroy))
+      .subscribe((lang) => {
+        const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
+        this.dateFormat = lang !== 'ua' ? 'MMDDYYYY' : 'DDMMYYYY';
+        this.adapter.setLocale(locale);
+      });
+    this.startTime.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((value: string) => {
       this._handleTimeChange(value, 'start');
     });
 
-    this.endTime.valueChanges.subscribe((value: string) => {
+    this.finishTime.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((value: string) => {
       this._handleTimeChange(value, 'end');
     });
 
     // Subscribe to date value changes
-    this.date.valueChanges.subscribe((newDate) => {
+    this.day.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((newDate) => {
+      const newStartDate = new Date(newDate.toDate());
+      newStartDate.setHours(this.startDate.value.getHours(), this.startDate.value.getMinutes(), 0, 0);
+
+      const newFinishDate = new Date(newDate.toDate());
+      newFinishDate.setHours(this.finishDate.value.getHours(), this.finishDate.value.getMinutes(), 0, 0);
+
+      this.startDate.setValue(newStartDate, { emitEvent: false });
+      this.finishDate.setValue(newFinishDate, { emitEvent: false });
+
       this._updateNeighboringDates();
-      this.date.setErrors(this.getDateErrors(newDate));
+      this.day.setErrors(this.getDateErrors(newDate));
     });
   }
 
   ngAfterViewInit() {
-    // TODO
-    // IMask(this.dateRef.nativeElement, this.dateMask);
-    IMask(this.startTimeRef.nativeElement, this.timeMask);
-    IMask(this.endTimeRef.nativeElement, this.timeMask);
+    this.startTimeMask = IMask(this.startTimeRef.nativeElement, this.timeMask);
+    this.endTimeMask = IMask(this.endTimeRef.nativeElement, this.timeMask);
   }
 
   getDateErrors(date: moment.Moment | null) {
@@ -145,20 +163,18 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   private _updateNeighboringDates(): void {
     if (this.dayNumber > 0) {
       const prevFormGroup = this.daysForm.at(this.dayNumber - 1) as FormGroup;
-      const prevDayComponent = prevFormGroup.get('day');
-      if (prevDayComponent) {
-        prevDayComponent.patchValue({
-          maxDate: new Date(this.date.value._d.getTime() - 24 * 60 * 60 * 1000)
+      if (prevFormGroup) {
+        prevFormGroup.patchValue({
+          maxDate: new Date(this.day.value._d.getTime() - 24 * 60 * 60 * 1000)
         });
       }
     }
 
     if (this.dayNumber < this.daysForm.length - 1) {
       const nextFormGroup = this.daysForm.at(this.dayNumber + 1) as FormGroup;
-      const nextDayComponent = nextFormGroup.get('day');
-      if (nextDayComponent) {
-        nextDayComponent.patchValue({
-          minDate: new Date(this.date.value._d.getTime() + 24 * 60 * 60 * 1000)
+      if (nextFormGroup) {
+        nextFormGroup.patchValue({
+          minDate: new Date(this.day.value._d.getTime() + 24 * 60 * 60 * 1000)
         });
       }
     }
@@ -166,15 +182,26 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
 
   toggleAllDay(): void {
     if (this.allDay.value) {
-      this.prevTimeValue = [this.startTime.value, this.endTime.value];
+      this.prevTimeValue = [this.startTime.value, this.finishTime.value];
       this.startTime.setValue(this.startOptionsArr[0]);
-      this.endTime.setValue(this.endOptionsArr[this.endOptionsArr.length - 1]);
+      this.finishTime.setValue(this.endOptionsArr[this.endOptionsArr.length - 1]);
+      this.setTimeForDate(this.startOptionsArr[0], 'start');
+      this.setTimeForDate(this.endOptionsArr[this.endOptionsArr.length - 1], 'end');
     } else {
       this.startTime.setValue(this.prevTimeValue[0]);
-      this.endTime.setValue(this.prevTimeValue[1]);
+      this.finishTime.setValue(this.prevTimeValue[1]);
+      this.setTimeForDate(this.prevTimeValue[0], 'start');
+      this.setTimeForDate(this.prevTimeValue[1], 'end');
     }
   }
 
+  private setTimeForDate(time: string, type: 'start' | 'end'): void {
+    const [hour, minute] = time.split(':').map(Number);
+    const currentDate = new Date(this.day.value);
+    const control = type === 'start' ? this.startDate : this.finishDate;
+    currentDate.setHours(hour, minute, 0, 0);
+    control.setValue(currentDate, { emitEvent: false });
+  }
   private _fillTimeArray(): void {
     const timeArr = [];
     for (let hour = 0; hour < 24; hour++) {
@@ -190,14 +217,13 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
   }
 
   private _handleTimeChange(value: string, type: 'start' | 'end'): void {
-    if (Number(value[value.length - 1]) || value[2] === ':') {
-      const initialStartTime = Number(this.initialStartTime.replace(':', ''));
-      const numberValue = Number(value.replace(':', ''));
-      const startTime = this.startTime.value ? Number(this.startTime.value.replace(':', '')) : null;
-      const endTime = this.endTime.value ? Number(this.endTime.value.replace(':', '')) : null;
+    if (Number(value[value.length - 1]) || value[2] === ':' || !value.trim().length) {
+      const initialStartTime = this.initialStartTime;
+      const startTime = this.startTime.value ? this.startTime.value : null;
+      const endTime = this.finishTime.value ? this.finishTime.value : null;
       if (value.length === 2 && !value.includes(':') && value.length >= (type === 'start' ? this.prevStartLength : this.prevEndLength)) {
         value += ':';
-        const control = type === 'start' ? this.startTime : this.endTime;
+        const control = type === 'start' ? this.startTime : this.finishTime;
         control.setValue(value, { emitEvent: false });
       }
 
@@ -209,28 +235,28 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
 
       if (value.length === 5) {
         if (type === 'start') {
-          if (numberValue >= initialStartTime && (endTime === null || numberValue < endTime)) {
+          if (value >= initialStartTime && (endTime === null || value < endTime)) {
             this.endOptionsArr = this._timeArr.slice(this._timeArr.indexOf(value) + 1);
+            this.setTimeForDate(value, 'start');
           } else {
             this.startTime.setValue('', { emitEvent: false });
           }
         } else {
-          if (numberValue > initialStartTime && (startTime === null || numberValue > startTime)) {
+          if (value > initialStartTime && (startTime === null || value > startTime)) {
             this.startOptionsArr = this._timeArr.slice(this._timeArr.indexOf(this.initialStartTime), this._timeArr.indexOf(value));
+            this.setTimeForDate(value, 'end');
           } else {
-            this.endTime.setValue('', { emitEvent: false });
+            this.finishTime.setValue('', { emitEvent: false });
           }
         }
       } else {
         if (type === 'start') {
           this.startOptionsArr = this._timeArr.filter((option) => {
-            const optionTime = Number(option.replace(':', ''));
-            return (option.startsWith(value) || !startTime) && optionTime >= initialStartTime && (!endTime || optionTime < endTime);
+            return (option.startsWith(value) || !startTime) && option >= initialStartTime && (!endTime || option < endTime);
           });
         } else {
           this.endOptionsArr = this._timeArr.filter((option) => {
-            const optionTime = Number(option.replace(':', ''));
-            return (option.startsWith(value) || !endTime) && optionTime >= initialStartTime && (!startTime || optionTime > startTime);
+            return (option.startsWith(value) || !endTime) && option >= initialStartTime && (!startTime || option > startTime);
           });
         }
       }
@@ -238,16 +264,28 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
       if (!startTime && !endTime) {
         this._setArrTime();
       }
+
+      if (type === 'start') {
+        this.startTimeMask.updateValue();
+      } else {
+        this.endTimeMask.updateValue();
+      }
     }
   }
+
   private _setArrTime(): void {
-    this.startOptionsArr = this._timeArr.slice(this._upperTimeLimit, this._timeArr.length - 1);
-    this.endOptionsArr = this._timeArr.slice(this._upperTimeLimit + 1);
+    this.startOptionsArr = this._timeArr.slice(
+      this.startTime.value ? this._timeArr.indexOf(this.startTime.value) : this._upperTimeLimit,
+      this.finishTime.value ? this._timeArr.indexOf(this.finishTime.value) : this._timeArr.length - 1
+    );
+    this.endOptionsArr = this._timeArr.slice(
+      this.startTime.value ? this._timeArr.indexOf(this.startTime.value) + 1 : this._upperTimeLimit + 1
+    );
   }
 
   private _initialStartTime(): string {
     const today = new Date();
-    if (this.dayForm.value.date.getDate() === today.getDate()) {
+    if (this.startDate?.value.getDate() === today.getDate()) {
       const currentHour = today.getHours();
       const currentMinute = today.getMinutes();
       if (currentMinute - 20 < 0) {
@@ -258,5 +296,10 @@ export class DateTimeComponent implements OnInit, AfterViewInit {
     } else {
       return '00:00';
     }
+  }
+
+  ngOnDestroy(): void {
+    this.$destroy.next(true);
+    this.$destroy.complete();
   }
 }

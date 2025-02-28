@@ -1,49 +1,72 @@
 import { FormControl } from '@angular/forms';
 import { Moment } from 'moment';
 
-type FormControllers<T> = {
+export type FormControllers<T> = {
   [K in keyof T]: FormControl<T[K]>;
 };
 
-export interface FormEmitter<T> {
-  key: any;
-  form: T | undefined;
-  valid: boolean;
-  sharedKey: number;
-  formKey: string;
-}
-
-export type FormCollectionEmitter<T> = Omit<FormEmitter<T>, 'sharedKey' | 'formKey'>;
-
-export interface DateTime {
-  date: Date;
-  startTime: string;
-  endTime: string;
-  allDay: boolean;
-}
-
-export interface DateTimeForm {
-  date: Moment;
-  startTime: string;
-  endTime: string;
-  allDay: boolean;
-}
-export type DateTimeGroup = FormControllers<DateTime>;
-
-export interface PlaceOnline {
-  coordinates: {
-    lat: number | null;
-    lng: number | null;
+export interface EventDto extends EventForm {
+  id?: number;
+  organizer?: {
+    id: number;
+    name: string;
+    organizerRating?: number;
+    email: string;
   };
+  creationDate?: string;
+  type?: string;
+  isRelevant?: boolean;
+  likes?: number;
+  dislikes?: number;
+  countComments?: number;
+  eventRate?: number;
+  currentUserGrade?: number;
+  open?: boolean;
+  isSubscribed?: boolean;
+  isFavorite?: boolean;
+  isOrganizedByFriend?: boolean;
+}
+
+export interface EventForm {
+  eventInformation: EventInformation;
+  dates: Array<DateInformation>;
+  titleImage?: string;
+  additionalImages?: Array<string>;
+  images?: Array<any>;
+}
+export interface DateInformation {
+  day: Moment;
+  startDate: Date;
+  finishDate: Date;
+  startTime: string;
+  finishTime: string;
+  allDay: boolean;
+  minDate: Date;
+  maxDate: Date;
+  coordinates: PlaceOnline;
+  id?: number;
+  event?: any;
   onlineLink: string;
   place: string;
   appliedLinkForAll: boolean;
   appliedPlaceForAll: boolean;
 }
 
-export type PlaceOnlineGroup = FormControllers<PlaceOnline>;
-export type DateInformation = { day: DateTime; placeOnline: PlaceOnline; pastDate?: boolean };
-
+export interface PlaceOnline {
+  latitude?: number;
+  longitude?: number;
+  streetEn?: string;
+  streetUa?: string;
+  houseNumber?: string;
+  cityEn?: string;
+  cityUa?: string;
+  regionEn?: string;
+  regionUa?: string;
+  countryEn?: string;
+  countryUa?: string;
+  formattedAddressEn?: string;
+  formattedAddressUa?: string;
+}
 export interface ImagesContainer {
   file: File;
   url: string;
@@ -55,62 +78,17 @@ export interface EventInformation {
   duration: number;
   description: string;
   open: boolean;
-  tags: string[];
-  editorText: string;
-  images: ImagesContainer[];
+  tags: Array<{
+    id?: number;
+    name: string;
+    nameUa?: string;
+    nameEn?: string;
+  }>;
 }
 
 export interface EventAttender {
   name: string;
   imagePath: string;
-}
-
-export type EventInformationGroup = FormControllers<EventInformation>;
-
-export type EventForm = { dateInformation: DateInformation[]; eventInformation: EventInformation };
-
-export interface EventDTO {
-  title: string;
-  description: string;
-  open: boolean;
-  datesLocations: Array<Dates>;
-  tags: Array<string>;
-  imagesToDelete?: Array<string>;
-  additionalImages?: Array<string>;
-  id?: number;
-  organizer?: {
-    id: number;
-    name: string;
-  };
-  titleImage?: string;
-}
-
-export interface Dates {
-  startDate: string;
-  finishDate: string;
-  coordinates?: {
-    cityUa?: 'cityUa';
-    cityEn?: 'cityEn';
-    addressEn?: string;
-    addressUa?: string;
-    latitude: number;
-    longitude: number;
-  } | null;
-  onlineLink?: string;
-  id?: number;
-}
-
-export interface Coords {
-  coords: { lat: number; lng: number };
-  placeId: number;
-}
-
-export interface MapMarker {
-  location: {
-    lat: number;
-    lng: number;
-  };
-  animation: string;
 }
 
 export interface EventResponseDto {
@@ -189,23 +167,6 @@ export interface TagObj {
   nameUa: string;
   nameEn: string;
   isActive: boolean;
-}
-
-export interface PagePreviewDTO {
-  title: string;
-  description: string;
-  eventDuration: number;
-  open: boolean;
-  isRelevant?: boolean;
-  id?: number;
-  likes?: number;
-  editorText: string;
-  organizer?: OrganizerInfo;
-  dates: Dates[];
-  tags: any;
-  imgArray: any[];
-  imgArrayToPreview: any[];
-  location: string;
 }
 
 export interface EventFilterCriteriaInterface {

@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -7,53 +7,57 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import moment from 'moment';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
-import { Place } from '../../../places/models/place';
-import { DefaultCoordinates } from '../../models/event-consts';
-import { EventForm } from '../../models/events.interface';
+import { DateInformation, FormControllers, EventDto } from '../../models/events.interface';
+import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 import { quillConfig } from './quillEditorFunc';
-import { EventStoreService } from '../../services/event-store.service';
+import { customTextValidator, locationOrOnlineLinkValidator } from './validators/event-custom-validators';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-event-editor',
   templateUrl: './event-editor.component.html',
   styleUrls: ['./event-editor.component.scss']
 })
-export class EventEditorComponent extends FormBaseComponent implements OnInit {
-  @Input() isUpdating: boolean;
+export class EventEditorComponent extends FormBaseComponent implements OnInit, OnDestroy {
+  isUpdating: boolean;
   @Input() cancelChanges: boolean;
   @Input({ required: true }) eventId: number;
   quillModules = {};
-  places: Place[] = [];
-  isPosting = false;
+  isPosting: boolean;
+  isFetching: boolean;
+  isAuthor: boolean;
+  authorId: number;
   images = singleNewsImages;
   submitButtonName = 'create-event.publish';
   subscription: Subscription;
   previousPath: string;
   eventForm: FormGroup;
-  event: EventForm;
+  event: EventDto;
   routedFromProfile: boolean;
 
   constructor(
-    public readonly dialog: MatDialog,
-    public readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly fb: FormBuilder,
-    public readonly localStorageService: LocalStorageService,
-    private readonly actionsSubj: ActionsSubject,
-    private readonly store: Store,
-    private readonly snackBar: MatSnackBarComponent,
-    public readonly dialogRef: MatDialogRef<DialogPopUpComponent>,
-    private readonly eventsService: EventsService,
-    private readonly eventStoreService: EventStoreService,
+    private eventStore: EventStoreService,
+    public dialog: MatDialog,
+    router: Router,
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    public localStorageService: LocalStorageService,
+    private actionsSubj: ActionsSubject,
+    private store: Store,
+    private snackBar: MatSnackBarComponent,
+    public dialogRef: MatDialogRef<DialogPopUpComponent>,
+    private eventsService: EventsService,
+    private languageService: LanguageService,
     private readonly cdRef: ChangeDetectorRef
   ) {
     super(router, dialog);
@@ -61,30 +65,58 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     Quill.register('modules/imageResize', ImageResize);
   }
 
-  @Input() formInput: EventForm;
-
   get eventInformation(): FormGroup {
     return this.eventForm.get('eventInformation') as FormGroup;
   }
 
   get eventDateForm(): FormArray {
-    return this.eventForm.get('dateInformation') as FormArray;
+    return this.eventForm.get('dates') as FormArray;
+  }
+
+  get imagesArray(): FormArray {
+    return this.eventForm.get('images') as FormArray;
   }
 
   ngOnInit(): void {
-    this.event = this.formInput || this.eventStoreService.getEditorValues();
-
-    this.route.params.subscribe((params) => {
-      const id = params['id'];
-      this.eventStoreService.setEventId(Number(id));
-    });
-
-    if (this.isUpdating) {
-      this.submitButtonName = 'create-event.save-event';
+    this.event = this.eventsService.getEvent();
+    if (!this.event) {
+      const userId = this.localStorageService.getUserId();
+      this.route.params.subscribe((params) => {
+        this.eventId = params['id'];
+        if (this.eventId) {
+          this.isFetching = true;
+          this.isUpdating = true;
+          this.submitButtonName = 'create-event.save-event';
+          this.eventStore.setEventId(Number(this.eventId));
+          this.eventsService.getEventById(this.eventId).subscribe({
+            next: (response) => {
+              this.event = response;
+              this.eventsService.setEvent(response);
+              this.authorId = response.organizer.id;
+              this.isAuthor = this.authorId === userId;
+              this.isFetching = false;
+              this.createFormEvent();
+              this.subscribeOnChangeDuration();
+              this.cdRef.detectChanges();
+            },
+            error: (_) => {
+              this.isFetching = false;
+              this.isAuthor = false;
+              this.cdRef.detectChanges();
+            }
+          });
+        }
+      });
     }
-    this.eventForm = this.eventsService.convertEventToFormEvent(this.event);
+    if (!this.isFetching) {
+      this.createFormEvent();
+      this.subscribeOnChangeDuration();
+    }
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.previousPath = this.localStorageService.getPreviousPage() || '/events';
+  }
+
+  private subscribeOnChangeDuration(): void {
     this.eventForm
       .get('eventInformation')
       .get('duration')
@@ -98,31 +130,44 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
         } else {
           for (let i = currentLength; i < numberDays; i++) {
             const previousDay = this.eventDateForm.at(i - 1);
-            const previousDate = previousDay ? new Date(previousDay.value.day.date) : new Date();
+            const previousDate = previousDay ? new Date(previousDay.value.startDate) : new Date();
 
             const nextDate = new Date(previousDate.getTime() + 24 * 60 * 60 * 1000);
-
             this.eventDateForm.push(
-              this.fb.group({
-                day: this.fb.group({
-                  date: [nextDate, Validators.required],
+              this.fb.group(
+                {
+                  day: [moment(nextDate.toISOString()), Validators.required],
+                  startDate: [nextDate, Validators.required],
+                  finishDate: [nextDate, Validators.required],
                   startTime: ['', Validators.required],
-                  endTime: ['', Validators.required],
+                  finishTime: ['', Validators.required],
                   allDay: [false],
                   minDate: [nextDate],
-                  maxDate: [null]
-                }),
-                placeOnline: this.fb.group({
-                  coordinates: this.fb.group({
-                    lat: [DefaultCoordinates.LATITUDE],
-                    lng: [DefaultCoordinates.LONGITUDE]
-                  }),
-                  onlineLink: [''],
-                  place: [''],
+                  maxDate: [null],
+                  coordinates: [
+                    {
+                      latitude: null,
+                      longitude: null,
+                      streetEn: '',
+                      streetUa: '',
+                      houseNumber: '',
+                      cityEn: '',
+                      cityUa: '',
+                      regionEn: '',
+                      regionUa: '',
+                      countryEn: '',
+                      countryUa: '',
+                      formattedAddressEn: '',
+                      formattedAddressUa: ''
+                    }
+                  ],
+                  onlineLink: new FormControl(''),
+                  place: new FormControl(''),
                   appliedLinkForAll: [false],
                   appliedPlaceForAll: [false]
-                })
-              })
+                },
+                { validators: locationOrOnlineLinkValidator }
+              )
             );
           }
         }
@@ -130,45 +175,102 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
         this._updateDateRanges();
       });
   }
-
   private _updateDateRanges(): void {
     this.eventDateForm.controls.forEach((dayGroup, index) => {
-      const dayFormGroup = dayGroup.get('day') as FormGroup;
-      const currentDay = new Date(dayFormGroup.get('date').value);
+      const currentDay = new Date(dayGroup.get('startDate').value);
       /* eslint-disable indent */
-      const prevDate =
-        index > 0
-          ? new Date(
-              this.eventDateForm
-                .at(index - 1)
-                .get('day')
-                .get('date').value
-            )
-          : null;
+      const prevDate = index > 0 ? new Date(this.eventDateForm.at(index - 1).get('startDate').value) : null;
       /* eslint-disable indent */
-      const nextDate = index < this.eventDateForm.length - 1 ? new Date(this.eventDateForm.at(index).get('day').get('date').value) : null;
-
-      dayFormGroup.get('minDate').setValue(prevDate ? new Date(prevDate.getTime() + 24 * 60 * 60 * 1000) : currentDay);
-      dayFormGroup.get('maxDate').setValue(nextDate ? nextDate : null);
+      const nextDate = index < this.eventDateForm.length - 1 ? new Date(this.eventDateForm.at(index).get('startDate').value) : null;
+      dayGroup.get('minDate').setValue(prevDate ? new Date(prevDate.getTime() + 24 * 60 * 60 * 1000) : currentDay);
+      dayGroup.get('maxDate').setValue(nextDate ? nextDate : null);
     });
   }
 
-  onPreview() {
-    const currentRoute = this.router.url;
-    this.cdRef.detectChanges();
+  private createFormEvent(): void {
+    const information = this.event?.eventInformation;
+    const date = this.event?.dates ?? [];
+    this.eventForm = this.fb.group({
+      eventInformation: this.fb.group({
+        title: [information?.title ?? '', [Validators.required, Validators.maxLength(70)]],
+        description: [information?.description ?? '', [Validators.required, customTextValidator]],
+        open: [information?.open ?? true, Validators.required],
+        duration: [information?.duration ?? 1, Validators.required],
+        tags: [information?.tags ? information.tags.map((item) => item.nameEn) : [], [Validators.required, Validators.minLength(1)]]
+      }),
+      images: this.fb.array([]),
+      dates: this.fb.array(date.length > 0 ? date.map((date) => this.createDateFormGroup(date)) : [this.createDateFormGroup()])
+    });
 
-    if (currentRoute.includes('create-event')) {
-      this.eventsService.setIsFromCreateEvent(true);
-    } else {
-      this.eventsService.setIsFromCreateEvent(false);
+    if (this.event?.titleImage) {
+      this.imagesArray.push(new FormControl({ file: null, main: true, url: this.event.titleImage }));
     }
+    if (this.event?.additionalImages) {
+      this.event.additionalImages.forEach((additionalImage) =>
+        this.imagesArray.push(new FormControl({ file: null, main: false, url: additionalImage }))
+      );
+    }
+  }
 
-    this.eventStoreService.setEditorValues(this.eventForm.value);
+  private createDateFormGroup(date?: DateInformation): FormGroup<FormControllers<DateInformation>> {
+    return this.fb.group(
+      {
+        day: [date?.startDate ? moment(date.startDate) : moment()],
+        startDate: [date?.startDate ? new Date(date.startDate) : new Date(), [Validators.required]],
+        finishDate: [date?.finishDate ? new Date(date.finishDate) : new Date(), [Validators.required]],
+        startTime: [
+          date?.startDate
+            ? `${new Date(date.startDate).getHours()}:${new Date(date.startDate).getMinutes().toString().padStart(2, '0')}`
+            : ''
+        ],
+        finishTime: [
+          date?.finishDate
+            ? `${new Date(date.finishDate).getHours()}:${new Date(date.finishDate).getMinutes().toString().padStart(2, '0')}`
+            : ''
+        ],
+        allDay: [date?.allDay ?? false],
+        minDate: [date?.minDate ? new Date(date.minDate) : new Date()],
+        maxDate: [date?.maxDate ? new Date(date.maxDate) : null],
+        coordinates: [
+          date?.coordinates ?? {
+            latitude: null,
+            longitude: null,
+            streetEn: '',
+            streetUa: '',
+            houseNumber: '',
+            cityEn: '',
+            cityUa: '',
+            regionEn: '',
+            regionUa: '',
+            countryEn: '',
+            countryUa: '',
+            formattedAddressEn: '',
+            formattedAddressUa: ''
+          }
+        ],
+        onlineLink: new FormControl(date?.onlineLink ?? ''),
+        place: new FormControl(''),
+        appliedLinkForAll: [date?.appliedLinkForAll ?? false],
+        appliedPlaceForAll: [date?.appliedPlaceForAll ?? false]
+      },
+      { validators: locationOrOnlineLinkValidator }
+    );
+  }
+
+  onPreview(): void {
+    this.eventsService.setEvent(this.eventForm.value);
     this.router.navigate(['events', 'preview']);
   }
 
   submitEvent(): void {
-    const formData = this.eventsService.prepareEventForSubmit(this.eventForm.value, this.eventId, this.isUpdating);
+    const formData = this.eventsService.prepareForSumbit(
+      this.eventInformation.value,
+      this.eventDateForm.value,
+      this.imagesArray.value,
+      this.eventId,
+      this.isUpdating
+    );
+
     this.createEvent(formData);
   }
 
@@ -190,7 +292,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
     }
   }
 
-  private createEvent(sendData: FormData) {
+  private createEvent(sendData: FormData): void {
     this.isPosting = true;
     this.isUpdating
       ? this.store.dispatch(EditEcoEventAction({ data: sendData, id: this.eventId }))
@@ -200,5 +302,9 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit {
       this.isPosting = false;
       this.escapeFromCreateEvent();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.eventsService.setEvent(null);
   }
 }

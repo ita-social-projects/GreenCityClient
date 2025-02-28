@@ -1,11 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { take, takeUntil } from 'rxjs/operators';
+import { WarningPopUpComponent } from '@shared/components';
+import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { MetaService } from 'src/app/shared/services/meta/meta.service';
 import {
   AddAttenderEcoEventsByIdAction,
   CreateEcoEventAction,
@@ -14,20 +22,12 @@ import {
   EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
-import { EventAttender, EventForm, EventResponse, LocationResponse, PagePreviewDTO } from '../../models/events.interface';
-import { EventsService } from '../../services/events.service';
-import { JwtService } from '@global-service/jwt/jwt.service';
-import { Subject } from 'rxjs';
-import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
-import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
-import { ofType } from '@ngrx/effects';
+import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { ICONS } from '../../models/event-consts';
-import { WarningPopUpComponent } from '@shared/components';
-import { MetaService } from 'src/app/shared/services/meta/meta.service';
+import { EventAttender, EventForm, EventDto, PlaceOnline } from '../../models/events.interface';
 import { EventStoreService } from '../../services/event-store.service';
+import { EventsService } from '../../services/events.service';
 
 @Component({
   selector: 'app-event-details',
@@ -51,10 +51,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   attendeesAvatars = [];
   organizerName: string;
   isLiked: boolean;
-  event: EventResponse | PagePreviewDTO;
-  eventForm: EventForm;
+  event: EventDto;
   locationLink: string;
-  locationCoordinates: LocationResponse;
+  locationCoordinates: PlaceOnline;
   place: string;
   images: string[] = [];
   isPosting: boolean;
@@ -136,14 +135,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       }
     } else {
       this.isPreview = true;
-      this.eventForm = this.eventStoreService.getEditorValues();
-      if (!this.eventForm.eventInformation) {
+      this.event = this.eventService.getEvent();
+      if (!this.event) {
         this.router.navigate(['/events']);
       }
-      this.event = this.eventService.getEventPreview(this.eventForm);
       this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-      this.place = this.event.location as string;
-      this.images = this.event.imgArrayToPreview;
+      this.place = this.event.dates[this.event.dates.length - 1].place as string;
+      this.images = this.event.images;
 
       this.bindUserName();
       this.setGoogleMapLink();
@@ -188,7 +186,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   setGoogleMapLink(): void {
     const coords = this.event.dates[0].coordinates;
-    this.googleMapLink = `https://www.google.com.ua/maps/@${coords.longitude},${coords.latitude}`;
+    if (coords) {
+      this.googleMapLink = `https://www.google.com/maps/search/?api=1&query=${coords.latitude},${coords.longitude}`;
+    }
   }
 
   bindUserName(): void {
@@ -203,14 +203,17 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   getEventById(): void {
-    this.eventService.getEventById(this.eventId).subscribe((res: EventResponse) => {
+    this.eventService.getEventById(this.eventId).subscribe((res: EventDto) => {
       this.event = res;
-      this.metaService.setMeta('oneEventArticle', { title: res.title, description: res.description.slice(0, 150) });
-      this.organizerName = this.event.organizer.name;
+      this.metaService.setMeta('oneEventArticle', {
+        title: res.eventInformation.title,
+        description: res.eventInformation.description.slice(0, 150)
+      });
+      this.organizerName = this.event.organizer?.name;
       this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
       this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
       this.images = [res.titleImage, ...res.additionalImages];
-      this.rate = Math.round(this.event.organizer.organizerRating);
+      this.rate = Math.round(this.event.organizer?.organizerRating);
       this.mapDialogData = {
         lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
         lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude
@@ -218,7 +221,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.isEventFavorite = this.event.isFavorite;
       this.isRegistered = !!this.userId;
       this.isSubscribed = this.event.isSubscribed;
-      const isOwner = Number(this.userId) === this.event.organizer.id;
+      const isOwner = Number(this.userId) === this.event.organizer?.id;
       this.isActive = this.event.isRelevant;
       this.isUserCanRate = this.isSubscribed && !this.isActive && !isOwner;
       this.isEventRated = !!this.event.currentUserGrade;
@@ -240,28 +243,31 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   navigateToEditEvent(): void {
-    this.router.navigate(['/events', 'update-event', this.eventId]);
-  }
-
-  backToEditEvent(): void {
-    if (!this.isUpdating) {
-      this.router.navigate(['/events', 'create-event']);
-    } else {
+    if (this.isUpdating) {
       this.localStorageService.setEditMode('canUserEdit', true);
-      const id = this.eventId || this.eventStoreService.getEventId();
-      this.router.navigate(['/events', 'update-event', id]);
+    }
+    const id = this.eventId;
+    if (id) {
+      this.router.navigate(['/events', 'create-update-event', id]);
+    } else {
+      this.router.navigate(['/events', 'create-update-event']);
     }
   }
 
   onPublish() {
     this.isPosting = true;
     const id = this.eventId || this.eventStoreService.getEventId();
-    const formEvent = this.eventService.convertEventToFormEvent(this.eventForm).value;
-    const sendData = this.eventService.prepareEventForSubmit(formEvent, id, this.isUpdating);
+    const formData = this.eventService.prepareForSumbit(
+      this.event.eventInformation,
+      this.event.dates,
+      this.event.images,
+      id,
+      this.isUpdating
+    );
 
     this.isUpdating
-      ? this.store.dispatch(EditEcoEventAction({ data: sendData, id: id }))
-      : this.store.dispatch(CreateEcoEventAction({ data: sendData }));
+      ? this.store.dispatch(EditEcoEventAction({ data: formData, id: id }))
+      : this.store.dispatch(CreateEcoEventAction({ data: formData }));
     this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess), take(1)).subscribe(() => {
       this.isPosting = false;
       this.eventStoreService.setEventListResponse(null);
@@ -411,7 +417,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   private verifyRole(): string {
     let role = this.roles.UNAUTHENTICATED;
     role = this.jwtService.getUserRole() === 'ROLE_USER' ? this.roles.USER : role;
-    role = this.userId === this.event.organizer.id ? this.roles.ORGANIZER : role;
+    role = this.userId === this.event.organizer?.id ? this.roles.ORGANIZER : role;
     role = this.jwtService.getUserRole() === 'ROLE_ADMIN' ? this.roles.ADMIN : role;
     return role;
   }

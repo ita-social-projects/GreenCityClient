@@ -1,11 +1,12 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
-import { ImagesContainer } from 'src/app/main/component/events/models/events.interface';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { EditImagePopUpComponent } from 'src/app/shared/edit-image-pop-up/edit-image-pop-up.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { take } from 'rxjs';
+import { ImagesContainer } from 'src/app/main/component/events/models/events.interface';
+import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { EditImagePopUpComponent } from 'src/app/shared/edit-image-pop-up/edit-image-pop-up.component';
+import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
 
 @Component({
   selector: 'app-images-container',
@@ -21,17 +22,17 @@ export class ImagesContainerComponent implements OnInit {
     '/assets/img/events/illustration-store.png'
   ];
   editMode: boolean;
-  @Input() images: ImagesContainer[] = [];
+  @Input() imagesArray: FormArray;
   imageCount = 0;
   isImageSizeError: boolean;
   selected = '';
 
   @ViewChild('takeInput') InputVar: ElementRef;
 
-  @Output() imagesOutput = new EventEmitter<ImagesContainer[]>();
-
   private isImageTypeError = false;
-
+  get images(): ImagesContainer[] {
+    return this.imagesArray.value;
+  }
   constructor(
     private snackBar: MatSnackBarComponent,
     private eventService: EventsService,
@@ -44,7 +45,7 @@ export class ImagesContainerComponent implements OnInit {
     [this.images[0], this.images[img]] = [this.images[img], this.images[0]];
     this.images[0].main = true;
 
-    this.imagesOutput.emit(this.images);
+    this.imagesArray.setValue(this.images);
   }
 
   ngOnInit(): void {
@@ -104,14 +105,12 @@ export class ImagesContainerComponent implements OnInit {
       this.snackBar.openSnackBar('errorMinPhoto');
       return;
     }
-    this.images.splice(i, 1);
+    this.imagesArray.removeAt(i);
+    this.imageCount -= 1;
+
     if (this.images.length && img.main) {
       this.images[0].main = true;
     }
-
-    this.imageCount -= 1;
-
-    this.imagesOutput.emit(this.images);
   }
 
   private validateImage(file: File) {
@@ -143,8 +142,7 @@ export class ImagesContainerComponent implements OnInit {
         image.main = true;
       }
 
-      this.images.push(image);
-      this.imagesOutput.emit(this.images);
+      this.imagesArray.push(new FormControl(image));
     };
     // TODO Display snack bar error on error load
     reader.onerror = () => {
