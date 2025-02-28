@@ -1,23 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CanDeactivate } from '@angular/router';
+import { CanDeactivateFn } from '@angular/router';
 
 export interface CanComponentDeactivate {
   canNavigate: () => boolean;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
-export class PreventNavigationBackGuard implements CanDeactivate<CanComponentDeactivate> {
-  constructor(private readonly dialog: MatDialog) {}
+export const PreventNavigationBackGuard: CanDeactivateFn<CanComponentDeactivate> = (component, currentRoute, currentState, nextState) => {
+  const dialog = inject(MatDialog);
 
-  canDeactivate(component: CanComponentDeactivate): boolean {
-    if (this.dialog.openDialogs.length) {
-      this.dialog.closeAll();
-      history.pushState(null, '');
-      return false;
-    }
-    return true;
+  if (dialog.openDialogs.length) {
+    dialog.closeAll();
+    history.pushState(null, '');
+    return false;
   }
-}
+  return true;
+};
