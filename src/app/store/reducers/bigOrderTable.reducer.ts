@@ -1,7 +1,5 @@
 import { initialBigOrderTableState } from '../state/bigOrderTable.state';
 import {
-  GetColumnToDisplaySuccess,
-  SetColumnToDisplaySuccess,
   ChangingOrderDataSuccess,
   ChangingOrderPaymentStatus,
   GetColumnsSuccess,
@@ -26,11 +24,6 @@ import { transformAddress } from '../functions';
 
 export const bigOrderTableReducer = createReducer(
   initialBigOrderTableState,
-  on(GetColumnToDisplaySuccess, SetColumnToDisplaySuccess, (state, action) => ({
-    ...state,
-    ordersViewParameters: action.ordersViewParameters
-  })),
-
   on(GetColumnsSuccess, (state, action) => ({
     ...state,
     bigOrderTableParams: action.bigOrderTableParams

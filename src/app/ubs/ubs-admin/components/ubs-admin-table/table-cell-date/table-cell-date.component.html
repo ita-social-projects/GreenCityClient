@@ -2,8 +2,7 @@
   <!-- Clear when back send normal value -->
   <span *ngIf="date === '-'">{{ date }}</span>
   <span *ngIf="date !== '-'">{{ date | date: 'dd.MM.y' }}</span>
-  <button *ngIf="!isEditable && !isBlocked && !uneditableStatus" class="pencil" (click)="edit()" (keydown)="edit($event)"></button>
-  <mat-spinner *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>
+  <button *ngIf="!isEditable && !uneditableStatus" class="pencil" (click)="edit()" (keydown)="edit($event)"></button>
 </div>
 
 <div class="editable-date" *ngIf="isEditable && !uneditableStatus">
