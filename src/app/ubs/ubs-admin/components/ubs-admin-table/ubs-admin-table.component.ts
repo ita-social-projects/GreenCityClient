@@ -109,6 +109,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   cancellationReason: string;
   cancellationComment: string;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
+  @ViewChild(MatTable) table!: MatTable<any>;
   defaultColumnWidth = 120; // In px
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
@@ -925,6 +926,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         const newWidth = Math.max(startWidth + deltaX, 50);
 
         this.columnsWidthPreference.set(columnName, newWidth);
+        this.table.updateStickyColumnStyles();
       };
 
       const onMouseUp = () => {
