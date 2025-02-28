@@ -37,7 +37,7 @@ mat-header-row {
   word-wrap: break-word !important;
   white-space: nowrap !important;
   align-items: unset !important;
-  cursor:grab
+  cursor: grab;
 }
 
 mat-header-cell {
@@ -203,10 +203,7 @@ mat-cell:first-of-type {
 
 .icon-row {
   display: flex;
-  justify-content: center;
   margin-top: 5px;
-  white-space: nowrap;
-  padding-top: 5px;
   gap: 5px;
 }
 
@@ -367,11 +364,10 @@ mat-cell:first-of-type {
   height: 36px;
   border: 1px solid var(--ubs-primary-light-grey);
   border-radius: 4px;
-
 }
 
-.order-amount{
- text-align: center;
+.order-amount {
+  text-align: center;
 }
 
 .search-input {
@@ -545,8 +541,9 @@ mat-spinner {
 
 .column_header {
   display: flex;
-  justify-content: space-between;
-  padding: 0 20px;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 5px;
 }
 
 .column_cell {
@@ -560,24 +557,13 @@ mat-spinner {
   position: relative;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     right: 0;
     top: 0;
     width: 10px;
     height: 100%;
     cursor: col-resize;
-  }
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 10px;
-    height: 100%;
-    cursor: col-resize;
-    z-index: 10;
   }
 }
 
