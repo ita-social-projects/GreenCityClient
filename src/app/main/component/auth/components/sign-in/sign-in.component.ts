@@ -1,21 +1,21 @@
 import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { GoogleSignInService } from '@auth-service/google-sign-in.service';
-import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { GoogleSignInService } from 'src/app/shared/services/auth/google-sign-in.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
 import { Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { SignInAction, SignInSuccessAction, SignInWithGoogleAction } from 'src/app/store/actions/auth.actions';
 import { errorSelector, isLoadingSelector } from 'src/app/store/selectors/auth.selectors';
 import { googleProvider } from './GoogleOAuthProvider/GoogleOAuthProvider';
-import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
+import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign-in.service';
 import { TurnstileCaptchaComponent } from '@global-auth/turnstile-captcha/turnstile-captcha.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 

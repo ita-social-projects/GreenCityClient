@@ -6,7 +6,7 @@ import { CommonService } from './chat/service/common/common.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { distinctUntilChanged, filter, map, take, takeUntil } from 'rxjs';
 import { ChatsService } from './chat/service/chats/chats.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MetaService } from 'src/app/shared/services/meta/meta.service';
 
 @Component({

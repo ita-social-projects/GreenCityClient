@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject, takeUntil } from 'rxjs';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Directive({
   selector: '[appLangValue]'

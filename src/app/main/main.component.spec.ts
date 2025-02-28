@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MainComponent } from './main.component';
-import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
+import { TitleAndMetaTagsService } from './title-meta-tags/title-and-meta-tags.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { UserService } from '@global-service/user/user.service';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';

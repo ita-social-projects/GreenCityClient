@@ -302,7 +302,7 @@ export class OrderService {
   }
 
   getOrderAddress(orderId: number): Observable<IShortAddress> {
-    return this.http.get<IShortAddress>(`${this.backendUbs}/get-address-for-order/`+ orderId);
+    return this.http.get<IShortAddress>(`${this.backendUbs}/get-address-for-order/` + orderId);
   }
 
   updateOrderAddress(address: IShortAddress): Observable<void> {

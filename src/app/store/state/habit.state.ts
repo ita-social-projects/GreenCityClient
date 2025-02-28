@@ -1,4 +1,4 @@
-import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
+import { HabitInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit.interface';
 
 export const initialHabitState: HabitInterface = {
   defaultDuration: 7,

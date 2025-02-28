@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {

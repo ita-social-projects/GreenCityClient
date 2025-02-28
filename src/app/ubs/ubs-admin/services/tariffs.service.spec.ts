@@ -4,7 +4,7 @@ import { TariffsService } from './tariffs.service';
 import { mainUbsLink } from '../../../main/links';
 import { DatePipe } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 const service1 = {
   name: 'fake1',

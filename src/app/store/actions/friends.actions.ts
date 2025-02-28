@@ -1,4 +1,4 @@
-import { FriendArrayModel } from '@global-user/models/friend.model';
+import { FriendArrayModel } from 'src/app/greencity/modules/user/models/friend.model';
 import { createAction, props } from '@ngrx/store';
 
 export enum FriendsListActions {

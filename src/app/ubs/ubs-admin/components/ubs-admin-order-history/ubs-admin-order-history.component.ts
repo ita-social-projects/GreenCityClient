@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-order-history',

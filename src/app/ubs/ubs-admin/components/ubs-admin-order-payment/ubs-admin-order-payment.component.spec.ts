@@ -4,8 +4,8 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angu
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
-import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
-import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
+import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
+import { LocalizedCurrencyPipe } from '@ubs/shared/pipes/localized-currency-pipe/localized-currency.pipe';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { IPaymentInfoDto } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';

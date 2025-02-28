@@ -1,6 +1,9 @@
-import { HabitPopupInterface, HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
-import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
-import { BaseCalendar } from '@global-user/components/profile/calendar/calendar-week/calendar-week-interface';
+import {
+  HabitPopupInterface,
+  HabitsForDateInterface
+} from 'src/app/greencity/modules/user/components/profile/calendar/habit-popup-interface';
+import { CalendarInterface } from 'src/app/greencity/modules/user/components/profile/calendar/calendar-interface';
+import { BaseCalendar } from 'src/app/greencity/modules/user/components/profile/calendar/calendar-week/calendar-week-interface';
 
 export const mockHabits = {
   id: 1,

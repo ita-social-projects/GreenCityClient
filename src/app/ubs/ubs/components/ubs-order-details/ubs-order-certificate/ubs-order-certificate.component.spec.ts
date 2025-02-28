@@ -1,8 +1,8 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of, Subject } from 'rxjs';
 import { UbsOrderCertificateComponent } from './ubs-order-certificate.component';
 import { OrderService } from '../../../services/order.service';
 import { GetUserBonuses } from 'src/app/store/actions/ubs-user.actions';

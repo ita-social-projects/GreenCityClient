@@ -3,7 +3,7 @@ import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { Bag, CreateCard, Service, Couriers, Stations, Locations, DeactivateCard } from '../models/tariffs.interface';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { TariffPlaceholderSelected } from '../components/ubs-admin-tariffs/ubs-tariffs.enum';

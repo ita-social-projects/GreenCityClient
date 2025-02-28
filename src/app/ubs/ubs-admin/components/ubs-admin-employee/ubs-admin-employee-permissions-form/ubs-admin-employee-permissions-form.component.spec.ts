@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { By } from '@angular/platform-browser';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 class MatDialogMock {
   open() {

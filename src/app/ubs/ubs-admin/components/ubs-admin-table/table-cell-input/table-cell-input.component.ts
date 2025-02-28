@@ -3,13 +3,12 @@ import { IAlertInfo, IEditCell } from '@ubs/ubs-admin/models/edit-cell.model';
 import { IColumnBelonging } from '@ubs/ubs-admin/models/ubs-admin.interface';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
 import { catchError, map, of, switchMap, take } from 'rxjs';
-import { CommentPopUpComponent } from '../../shared/components/comment-pop-up/comment-pop-up.component';
+import { CommentPopUpComponent } from '@ubs/ubs-admin/components/shared/components/comment-pop-up/comment-pop-up.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { OrderService } from '@ubs/ubs-admin/services/order.service';
-import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { UBSAddAddressPopUpComponent } from '@ubs/shared/components/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
+import { OrderService } from '@ubs/ubs-admin/services/order.service';
 import { Store } from '@ngrx/store';
 import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
 @Component({

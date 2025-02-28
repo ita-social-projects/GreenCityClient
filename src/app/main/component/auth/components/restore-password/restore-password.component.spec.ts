@@ -1,4 +1,4 @@
-import { UserSuccessSignIn } from 'src/app/main/model/user-success-sign-in';
+import { UserSuccessSignIn } from 'src/app/shared/models/singIn-singUp/user-success-sign-in';
 import { RestorePasswordComponent } from './restore-password.component';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -10,13 +10,13 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { RestorePasswordService } from '@auth-service/restore-password.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { RestorePasswordService } from '@auth-service/restore-password/restore-password.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { GoogleSignInService } from '@auth-service/google-sign-in.service';
+import { GoogleSignInService } from 'src/app/shared/services/auth/google-sign-in.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign-in.service';
 
 describe('RestorePasswordComponent', () => {
   let component: RestorePasswordComponent;

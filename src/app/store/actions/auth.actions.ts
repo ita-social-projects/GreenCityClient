@@ -1,5 +1,5 @@
-import { ISignInResponse } from '@global-models/auth/sign-in-response.interface';
-import { ISignIn } from '@global-models/auth/sign-in.interface';
+import { ISignInResponse } from 'src/app/shared/models/auth/sign-in-response.interface';
+import { ISignIn } from 'src/app/shared/models/auth/sign-in.interface';
 import { createAction, props } from '@ngrx/store';
 
 export enum AuthActions {

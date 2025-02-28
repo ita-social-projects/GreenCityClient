@@ -11,10 +11,10 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { UbsAdminEmployeeTableComponent } from './ubs-admin-employee-table.component';
 import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
-import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { Actions } from '@ngrx/effects';
 
 describe('UbsAdminEmployeeTableComponent', () => {

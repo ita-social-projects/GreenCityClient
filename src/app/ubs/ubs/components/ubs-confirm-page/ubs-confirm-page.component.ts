@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { JwtService } from '@global-service/jwt/jwt.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
@@ -37,7 +37,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
       const isAdmin = userRole === 'ROLE_UBS_EMPLOYEE';
       this.saveDataOnLocalStorage();
       this.localStorageService.clearPaymentInfo();
-      this.router.navigate([isAdmin ? 'ubs-admin' : 'ubs-user', 'orders']);
+      this.router.navigate([isAdmin ? 'ubs/admin' : 'ubs/user', 'ubs/orders']);
     });
   }
 

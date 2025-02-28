@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
@@ -10,9 +10,9 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { TariffPlaceholderSelected, TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../ubs-tariffs.enum';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { statusOfTariff } from '../tariff-status.enum';
 
 @Component({

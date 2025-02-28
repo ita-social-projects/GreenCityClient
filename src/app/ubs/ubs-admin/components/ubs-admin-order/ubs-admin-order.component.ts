@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { OrderService } from '../../services/order.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import {
   IEmployee,
   IExportDetails,
@@ -29,7 +29,7 @@ import {
 import { IAppState } from 'src/app/store/state/app.state';
 import { UpdateOrderInfo, UpdateOrderInfoSuccess } from 'src/app/store/actions/bigOrderTable.actions';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
+import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { AdminTableService } from '../../services/admin-table.service';
@@ -334,7 +334,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   goBack(): void {
-    this.router.navigate(['ubs-admin', 'orders']);
+    this.router.navigate(['ubs/admin', 'orders']);
   }
 
   @HostListener('window:beforeunload')

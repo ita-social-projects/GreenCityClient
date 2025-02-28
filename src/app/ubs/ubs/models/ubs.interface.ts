@@ -1,4 +1,4 @@
-import { Coordinates } from '@global-user/models/edit-profile.model';
+import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.model';
 
 export interface Bag {
   id: number;

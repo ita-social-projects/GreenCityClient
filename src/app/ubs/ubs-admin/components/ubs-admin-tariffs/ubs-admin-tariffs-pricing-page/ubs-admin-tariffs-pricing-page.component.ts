@@ -7,7 +7,7 @@ import { TariffsService } from '../../../services/tariffs.service';
 import { takeUntil, skip, startWith } from 'rxjs/operators';
 import { Bag, Service, Locations, TariffCard, BagLimitDto, ILimit } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
@@ -15,7 +15,7 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
 import { abilityDelAuthorities, abilityEditAuthorities } from '../../../models/ubs-admin.interface';
 
@@ -308,7 +308,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   navigateToBack(): void {
-    this.router.navigate([`ubs-admin/tariffs`]);
+    this.router.navigate([`ubs/admin/tariffs`]);
   }
 
   openAddTariffForServicePopup(): void {

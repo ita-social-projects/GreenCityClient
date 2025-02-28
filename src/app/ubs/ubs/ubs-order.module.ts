@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
-
 import { IMaskModule } from 'angular-imask';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -16,7 +15,6 @@ import { UBSPersonalInformationComponent } from './components/ubs-personal-infor
 import { UBSSubmitOrderComponent } from './components/ubs-submit-order/ubs-submit-order.component';
 import { AddressComponent } from './components/ubs-personal-information/address/address.component';
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
-import { SharedMainModule } from '@shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.component';
 import { UbsOrderLocationPopupComponent } from './components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
@@ -29,14 +27,15 @@ import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-ord
 import { UbsOrderCertificateComponent } from './components/ubs-order-details/ubs-order-certificate/ubs-order-certificate.component';
 import { ExtraPackagesPopUpComponent } from './components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
 import { InterceptorService } from 'src/app/shared/interceptors/interceptor.service';
-import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
-import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
+import { PendingChangesGuard } from 'src/app/shared/guards/pending-changes-guard/pending-changes.guard';
+import { ConfirmRestorePasswordGuard } from 'src/app/shared/guards/route-guards/confirm-restore-password.guard';
 import { UbsMainPageSpinnerComponent } from './components/ubs-main-page-spinner/ubs-main-page-spinner.component';
 import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 import { UbsOrderAddressComponent } from './components/ubs-personal-information/ubs-order-address/ubs-order-address.component';
 import { ValidateAddressDirective } from 'src/app/ubs/ubs/directives/validate-address/validate-address.directive';
 import { UbsUserAgreementComponent } from './components/ubs-user-agreement/ubs-user-agreement.component';
-import { PhoneNumberTreatPipe } from 'src/app/shared/phone-number-treat/phone-number-treat.pipe';
+import { PhoneNumberTreatPipe } from '@ubs/shared/pipes/phone-number-treat/phone-number-treat.pipe';
+import { UbsSharedModule } from '../shared/ubs-shared.module';
 
 @NgModule({
   declarations: [
@@ -72,7 +71,6 @@ import { PhoneNumberTreatPipe } from 'src/app/shared/phone-number-treat/phone-nu
     FormsModule,
     ReactiveFormsModule,
     IMaskModule,
-    // GoogleMapsModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -81,8 +79,8 @@ import { PhoneNumberTreatPipe } from 'src/app/shared/phone-number-treat/phone-nu
       },
       isolate: true
     }),
-    SharedMainModule,
-    SharedModule
+    SharedModule,
+    UbsSharedModule
   ],
   exports: [],
   providers: [

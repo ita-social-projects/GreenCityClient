@@ -1,13 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalTextComponent } from '../modal-text/modal-text.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../../../ubs-admin-tariffs/ubs-tariffs.enum';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-tariff-deactivate-confirmation-pop-up',

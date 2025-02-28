@@ -1,7 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
@@ -13,10 +13,10 @@ import { AddLocations, GetLocations } from 'src/app/store/actions/tariff.actions
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
-import { Language } from 'src/app/main/i18n/Language';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { Language } from 'src/app/shared/i18n/Language';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 interface LocationItem {

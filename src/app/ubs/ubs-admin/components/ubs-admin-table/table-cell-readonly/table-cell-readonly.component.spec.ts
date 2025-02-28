@@ -1,9 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
+import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
 import { TableCellReadonlyComponent } from './table-cell-readonly.component';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '@ubs/ubs-admin/services/table-keys.enum';
 import { PaymnetStatus } from '@ubs/ubs/order-status.enum';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';

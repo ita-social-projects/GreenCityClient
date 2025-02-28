@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { columnsParamsViolations } from '../../columnsParams';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { AddViolationsComponent } from '../../../add-violations/add-violations.component';
@@ -106,12 +106,12 @@ export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['ubs-admin', 'customers']);
+    this.router.navigate(['ubs/admin', 'customers']);
   }
 
   openOrder(id: number): void {
     this.router.navigate([]).then((result) => {
-      window.open(`/GreenCityClient/#/ubs-admin/order/${id}`, '_blank');
+      window.open(`/GreenCityClient/#/ubs/admin/order/${id}`, '_blank');
     });
   }
 

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Location } from '@angular/common';
 import { CommentPopUpComponent } from '../../shared/components/comment-pop-up/comment-pop-up.component';
 import { EMPTY, mergeMap, take, tap } from 'rxjs';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AdminCustomersService } from '@ubs/ubs-admin/services/admin-customers.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-ubs-admin-customer-details',

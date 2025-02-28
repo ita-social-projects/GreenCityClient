@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Coordinates } from '@global-user/models/edit-profile.model';
+import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.model';
 
 @Injectable({ providedIn: 'any' })
 export class VincentySerivce {

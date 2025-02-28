@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { Bag, CourierLocations, KyivNamesEnum, LocationsDtosList, OrderDetails } from '../../models/ubs.interface';
@@ -38,10 +38,10 @@ import {
 } from 'src/app/store/selectors/order.selectors';
 import { courierLimitValidator, uniqueArrayValidator } from 'src/app/ubs/ubs/services/order-validators';
 import { ICourierInfo, IValidationConfig } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
-import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
-import { WarningPopUpComponent } from '@shared/components';
-import { emptyOrValid } from 'src/app/shared/validators/empthy-or-valid.validator';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
+import { emptyOrValid } from '@ubs/shared/validators/empthy-or-valid.validator';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-order-details',

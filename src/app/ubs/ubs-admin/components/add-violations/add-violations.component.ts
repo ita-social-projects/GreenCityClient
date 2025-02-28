@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
-import { FileHandle } from '../../models/file-handle.model';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 import { iif, of, Subject } from 'rxjs';
 import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ShowImgsPopUpComponent } from 'src/app/shared/show-imgs-pop-up/show-imgs-pop-up.component';
-import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 
 interface InitialData {

@@ -5,10 +5,10 @@ import { environment } from '@environment/environment';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue, IFilters, ILocationDetails } from '../models/ubs-admin.interface';
 import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import moment from 'moment';
 import { Observable } from 'rxjs';
-import { MouseEvents } from 'src/app/shared/mouse-events';
+import { MouseEvents } from 'src/app/shared/models/mouse-events';
 
 const columnMapping: { [key: string]: string } = {
   dateOfExportFrom: 'deliveryDate.from',
