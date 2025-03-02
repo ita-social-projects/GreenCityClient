@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   enableUBS: true,
-  enableGreenCity: true,
+  enableGreenCity: false,
   apiKeys: 'AIzaSyAkfqpSGHVE28AjQoPcZFZd8AaPB_RU39k',
   apiMapKey: 'AIzaSyDaqjlemyxH1pLvF1EWfBDW2IPlgwJYXnU',
   backendLink: 'https://greencity.pick-up.city/',
