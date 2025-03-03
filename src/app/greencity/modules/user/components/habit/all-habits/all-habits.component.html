@@ -1,6 +1,6 @@
 <div class="habits-wrapper container" (window:resize)="onResize()">
   <div class="habits_header-wrapper">
-    <a [routerLink]="['/profile', profileService.userId]">
+    <a [routerLink]="['/greenCity/profile', profileService.userId]">
       <div class="button-arrow">
         <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
         <div class="back-button">{{ 'user.habit.btn.back-to-habit' | translate }}</div>

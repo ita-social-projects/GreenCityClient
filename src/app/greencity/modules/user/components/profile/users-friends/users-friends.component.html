@@ -5,7 +5,7 @@
         <p class="text-title">
           {{ 'profile.my-eco-friends' | translate }}
         </p>
-        <a class="text-more" [routerLink]="['/profile', userId, 'friends']">
+        <a class="text-more" [routerLink]="['/greenCity/profile', userId, 'friends']">
           {{ 'profile.see-all' | translate }}
         </a>
       </div>
@@ -39,7 +39,7 @@
       <span class="text-number">0 {{ 'profile.friends-quantity' | correctUnit: 0 : currentLang | translate }}</span>
       <div class="error-message">
         <div class="add-friends">
-          <a [routerLink]="['/profile', userId, 'friends', 'recommended']">+</a>
+          <a [routerLink]="['/greenCity/profile', userId, 'friends', 'recommended']">+</a>
         </div>
       </div>
     </div>
