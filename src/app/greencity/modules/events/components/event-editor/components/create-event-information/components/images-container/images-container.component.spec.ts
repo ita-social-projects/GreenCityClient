@@ -35,7 +35,7 @@ describe('ImagesContainerComponent', () => {
   const event = { target: { files: [dataFileMock] } };
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = () => of();
+  MatSnackBarMock.openSnackBar = jasmine.createSpy();
   const eventsServiceMock = jasmine.createSpyObj('EventsService', ['getImageAsFile']);
   eventsServiceMock.getImageAsFile = () => of();
 
