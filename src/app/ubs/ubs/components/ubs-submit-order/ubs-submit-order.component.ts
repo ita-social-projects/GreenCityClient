@@ -24,7 +24,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   @Input() public orderIdFromNotification: number;
 
   convertPaymentSystem = {
-    [PaymentSystem.MONOBANK]: 'Monobank',
+    // [PaymentSystem.MONOBANK]: 'Monobank',
     [PaymentSystem.WAY_FOR_PAY]: 'WayForPay'
   };
 
