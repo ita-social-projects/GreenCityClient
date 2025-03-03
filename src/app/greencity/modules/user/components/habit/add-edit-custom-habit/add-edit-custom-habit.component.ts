@@ -18,7 +18,6 @@ import { ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.inter
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
 import { TodoStatus } from '../models/todo-status.enum';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import {
   HABIT_COMPLEXITY_LIST,
   HABIT_DEFAULT_DURATION,
@@ -27,12 +26,12 @@ import {
   STAR_IMAGES
 } from '../add-new-habit/habit-const/habit.const';
 import { ImageService } from '@shared/service/image/image.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
   templateUrl: './add-edit-custom-habit.component.html',
-  styleUrls: ['./add-edit-custom-habit.component.scss'],
-  providers: [MatSnackBarComponent]
+  styleUrls: ['./add-edit-custom-habit.component.scss']
 })
 export class AddEditCustomHabitComponent extends FormBaseComponent implements OnInit {
   habitForm: FormGroup;
@@ -78,7 +77,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private translate: TranslateService,
     private habitService: HabitService,
     private userFriendsService: UserFriendsService,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     private imageService: ImageService,
     private activatedRoute: ActivatedRoute
   ) {

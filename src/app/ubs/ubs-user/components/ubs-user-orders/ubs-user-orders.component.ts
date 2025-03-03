@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, forkJoin } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { UserOrdersService } from '../../services/user-orders.service';
 import { Router } from '@angular/router';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
@@ -14,6 +13,7 @@ import { UbsOrderLocationPopupComponent } from '../../../ubs/components/ubs-orde
 import { AllActiveLocationsDtosResponse } from '../../../ubs/models/ubs.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -40,7 +40,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     private bonusesService: BonusesService,
     private userOrdersService: UserOrdersService,
     private translate: TranslateService,

@@ -27,6 +27,7 @@ import { LangValueDirective } from './directives/lang-value/lang-value.directive
 import { GoogleMapsModule } from '@angular/google-maps';
 import { InputGoogleAutocompleteComponent } from './components/input-google-autocomplete/input-google-autocomplete.component';
 import { InputErrorComponent } from './components/input-error/input-error.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { InputErrorComponent } from './components/input-error/input-error.compon
     RelativeDatePipe,
     LangValueDirective,
     InputErrorComponent
-  ]
+  ],
+  providers: []
 })
 export class SharedModule {}

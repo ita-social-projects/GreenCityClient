@@ -1,6 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
 import { BehaviorSubject, of, throwError } from 'rxjs';
@@ -8,12 +7,13 @@ import { RecommendedFriendsComponent } from './recommended-friends.component';
 import { FIRSTFRIEND, FRIENDS, SECONDFRIEND } from 'src/app/greencity/modules/user/mocks/friends-mock';
 import { UserOnlineStatusService } from 'src/app/greencity/modules/user/services/user-online-status/user-online-status.service';
 import { UsersCategOnlineStatus } from 'src/app/greencity/modules/user/models/friend.model';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('RecommendedFriendsComponent', () => {
   let component: RecommendedFriendsComponent;
   let fixture: ComponentFixture<RecommendedFriendsComponent>;
   let userFriendsService: jasmine.SpyObj<UserFriendsService>;
-  let matSnackBar: jasmine.SpyObj<MatSnackBarComponent>;
+  let matSnackBar: jasmine.SpyObj<MatSnackBarService>;
   let userOnlineStatusService: jasmine.SpyObj<UserOnlineStatusService>;
 
   beforeEach(async () => {
@@ -23,14 +23,14 @@ describe('RecommendedFriendsComponent', () => {
       'removeFriendSubj$'
     ]);
     const localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
-    const matSnackBarSpy = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+    const matSnackBarSpy = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
     const userOnlineStatusServiceSpy = jasmine.createSpyObj('UserOnlineStatusService', ['addUsersId', 'removeUsersId']);
     await TestBed.configureTestingModule({
       declarations: [RecommendedFriendsComponent],
       providers: [
         { provide: UserFriendsService, useValue: userFriendsServiceSpy },
         { provide: LocalStorageService, useValue: localStorageServiceSpy },
-        { provide: MatSnackBarComponent, useValue: matSnackBarSpy },
+        { provide: MatSnackBarService, useValue: matSnackBarSpy },
         {
           provide: UserOnlineStatusService,
           useValue: userOnlineStatusServiceSpy
@@ -42,7 +42,7 @@ describe('RecommendedFriendsComponent', () => {
     fixture = TestBed.createComponent(RecommendedFriendsComponent);
     component = fixture.componentInstance;
     userFriendsService = TestBed.inject(UserFriendsService) as jasmine.SpyObj<UserFriendsService>;
-    matSnackBar = TestBed.inject(MatSnackBarComponent) as jasmine.SpyObj<MatSnackBarComponent>;
+    matSnackBar = TestBed.inject(MatSnackBarService) as jasmine.SpyObj<MatSnackBarService>;
     userOnlineStatusService = TestBed.inject(UserOnlineStatusService) as jasmine.SpyObj<UserOnlineStatusService>;
     localStorageServiceSpy.userIdBehaviourSubject = new BehaviorSubject(1);
   });

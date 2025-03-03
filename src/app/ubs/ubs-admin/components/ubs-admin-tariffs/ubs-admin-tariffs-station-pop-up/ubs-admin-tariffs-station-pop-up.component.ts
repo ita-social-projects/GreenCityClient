@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { TariffsService } from '../../../services/tariffs.service';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-station-pop-up',
@@ -45,7 +45,7 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<UbsAdminTariffsStationPopUpComponent>,
     private tariffsService: TariffsService,
     private languageService: LanguageService,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       headerText: string;

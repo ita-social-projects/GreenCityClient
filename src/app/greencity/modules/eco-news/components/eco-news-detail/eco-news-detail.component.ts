@@ -11,8 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { Store } from '@ngrx/store';
 import { DeleteEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MetaService } from 'src/app/shared/services/meta/meta.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -50,7 +50,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     private ecoNewsService: EcoNewsService,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     private dialog: MatDialog,
     private store: Store,
     private readonly router: Router,

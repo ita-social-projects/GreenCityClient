@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-confirm-page',
@@ -23,7 +24,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     private jwtService: JwtService,
     private ubsOrderFormService: UBSOrderFormService,
     private shareFormService: UBSOrderFormService,

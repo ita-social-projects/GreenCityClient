@@ -4,8 +4,8 @@ import { FriendArrayModel, FriendModel, UsersCategOnlineStatus } from 'src/app/g
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { UserOnlineStatusService } from 'src/app/greencity/modules/user/services/user-online-status/user-online-status.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-recommended-friends',
@@ -31,7 +31,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   constructor(
     private userFriendsService: UserFriendsService,
     private localStorageService: LocalStorageService,
-    private matSnackBar: MatSnackBarComponent,
+    private matSnackBar: MatSnackBarService,
     private userOnlineStatusService: UserOnlineStatusService
   ) {}
 

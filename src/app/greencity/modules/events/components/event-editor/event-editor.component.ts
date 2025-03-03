@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -22,6 +21,7 @@ import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/di
 import { DateInformation, FormControllers, EventDto } from '../../models/events.interface';
 import { customTextValidator, locationOrOnlineLinkValidator } from './validators/event-custom-validators';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 @Component({
   selector: 'app-event-editor',
   templateUrl: './event-editor.component.html',
@@ -53,7 +53,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
     public localStorageService: LocalStorageService,
     private actionsSubj: ActionsSubject,
     private store: Store,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     public dialogRef: MatDialogRef<DialogPopUpComponent>,
     private eventsService: EventsService,
     private languageService: LanguageService,

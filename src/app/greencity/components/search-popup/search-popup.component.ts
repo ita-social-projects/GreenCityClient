@@ -5,7 +5,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, forkJoin } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { PlacesSearchModel } from 'src/app/greencity/components/search-popup/model/placesSearch.model';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { SearchService } from 'src/app/shared/services/search/search.service';
@@ -14,6 +13,7 @@ import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs
 import { searchIcons } from '../../image-paths/search-icons';
 import { SearchCategory } from './search-consts';
 import { PopupSearchResults } from './model/search-popup.model';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-search-popup',
@@ -42,7 +42,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   constructor(
     public searchService: SearchService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     private localStorageService: LocalStorageService,
     public announcer: LiveAnnouncer
   ) {}

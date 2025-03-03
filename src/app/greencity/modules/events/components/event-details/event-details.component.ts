@@ -20,7 +20,6 @@ import {
 } from 'src/app/store/actions/ecoEvents.actions';
 import { EventsService } from '../../services/events.service';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from 'src/app/greencity/shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
@@ -28,6 +27,7 @@ import { ICONS } from '../../models/event-consts';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { EventAttender, EventForm, EventDto, PlaceOnline } from '../../models/events.interface';
 import { EventStoreService } from '../../services/event-store.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-event-details',
@@ -107,7 +107,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly actionsSubj: ActionsSubject,
     private readonly jwtService: JwtService,
-    private readonly snackBar: MatSnackBarComponent,
+    private readonly snackBar: MatSnackBarService,
     private readonly modalService: BsModalService,
     private readonly metaService: MetaService
   ) {}

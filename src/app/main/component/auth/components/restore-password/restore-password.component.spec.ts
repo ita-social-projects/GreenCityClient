@@ -15,8 +15,8 @@ import { RestorePasswordService } from '@auth-service/restore-password/restore-p
 import { HttpErrorResponse } from '@angular/common/http';
 import { GoogleSignInService } from 'src/app/shared/services/auth/google-sign-in.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign-in.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('RestorePasswordComponent', () => {
   let component: RestorePasswordComponent;
@@ -24,7 +24,7 @@ describe('RestorePasswordComponent', () => {
   let router: Router;
   let dialog: MatDialog;
 
-  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
   const userSuccessSignIn = new UserSuccessSignIn();
@@ -61,7 +61,7 @@ describe('RestorePasswordComponent', () => {
       providers: [
         MatDialog,
         { provide: MatDialogRef, useValue: matDialogMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock },
         { provide: UserOwnSignInService, useValue: userOwnSignInServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]

@@ -16,7 +16,6 @@ import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.s
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { AddAttenderEcoEventsByIdAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MaxTextLengthPipe } from 'src/app/shared/pipes/max-text-length-pipe/max-text-length.pipe';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
@@ -24,6 +23,7 @@ import { EVENT_MOCK } from '@assets/mocks/events/mock-events';
 import { TagObj } from 'src/app/greencity/modules/events/models/events.interface';
 import { EventStoreService } from 'src/app/greencity/modules/events/services/event-store.service';
 import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Injectable()
 class TranslationServiceStub {
@@ -56,7 +56,7 @@ describe('EventsListItemComponent', () => {
   jwtServiceMock.getUserRole = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('ROLE_UBS_EMPLOYEE');
 
-  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   const styleBtnMock = {
     secondary: 'secondary-global-button',
     primary: 'primary-global-button',
@@ -178,7 +178,7 @@ describe('EventsListItemComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: ActionsSubject, useValue: actionsSubj },
         { provide: MatDialog, useValue: dialogSpyObj },

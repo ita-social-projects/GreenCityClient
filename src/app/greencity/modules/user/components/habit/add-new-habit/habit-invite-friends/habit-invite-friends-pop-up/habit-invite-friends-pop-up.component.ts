@@ -6,8 +6,8 @@ import { UserFriendsService } from 'src/app/greencity/modules/user/services/user
 import { Subject } from 'rxjs';
 import { searchIcon } from 'src/app/greencity/image-paths/places-icons';
 import { takeUntil } from 'rxjs/operators';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HabitService } from '@shared/service/habit/habit.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-habit-invite-friends-pop-up',
@@ -31,7 +31,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
     private readonly localStorageService: LocalStorageService,
     private readonly habitService: HabitService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private readonly snackBar: MatSnackBarComponent,
+    private readonly snackBar: MatSnackBarService,
     private readonly dialogRef: MatDialogRef<HabitInviteFriendsPopUpComponent>
   ) {}
 

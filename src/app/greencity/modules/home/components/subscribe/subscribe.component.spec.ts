@@ -3,8 +3,8 @@ import { SubscribeComponent } from './subscribe.component';
 import { SubscriptionService } from 'src/app/greencity/modules/home/services/subscription/subscription.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { BehaviorSubject } from 'rxjs';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('SubscribeComponent', () => {
   let component: SubscribeComponent;
@@ -12,7 +12,7 @@ describe('SubscribeComponent', () => {
 
   const emailMock = 'example12@gmail.com';
   const subscriptionServiceMock = jasmine.createSpyObj('SubscriptionService', ['subscribeToNewsletter']);
-  const snackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,7 +20,7 @@ describe('SubscribeComponent', () => {
       imports: [TranslateModule.forRoot(), FormsModule],
       providers: [
         { provide: SubscriptionService, useValue: subscriptionServiceMock },
-        { provide: MatSnackBarComponent, useValue: snackBarMock }
+        { provide: MatSnackBarService, useValue: snackBarMock }
       ]
     }).compileComponents();
 

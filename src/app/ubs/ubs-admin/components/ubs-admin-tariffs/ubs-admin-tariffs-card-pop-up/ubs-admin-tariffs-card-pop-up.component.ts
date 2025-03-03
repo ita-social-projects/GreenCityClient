@@ -16,8 +16,8 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { TranslateService } from '@ngx-translate/core';
 import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { TariffConfirmationPopUpInterface } from 'src/app/ubs/ubs-admin/models/ubs-pop-up.interface';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 interface IModalData {
   edit: boolean;
@@ -107,7 +107,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsCardPopUpComponent>,
     public languageService: LanguageService,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarService
   ) {}
 
   get courier() {

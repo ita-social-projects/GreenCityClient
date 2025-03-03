@@ -10,11 +10,11 @@ import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-
 import { NotificationTemplate, NotificationTemplateUpdate } from '../../models/notifications.model';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationsService, notificationTriggerTimeMock, notificationTriggersMock } from '../../services/notifications.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
 import { formatSpringCron, formatUnixCron } from '@ubs/ubs-admin/services/cron/cron.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -49,7 +49,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     private router: Router,
     private location: Location,
     private dialog: MatDialog,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     private store: Store<IAppState>
   ) {}
 

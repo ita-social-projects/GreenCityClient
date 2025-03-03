@@ -1,4 +1,3 @@
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -24,6 +23,7 @@ import { TodoStatus } from '../models/todo-status.enum';
 import { HabitInterface, HabitTranslationInterface } from '../models/interfaces/habit.interface';
 import { MOCK_CUSTOM_HABIT_RESPONSE } from '../mocks/habit-mock';
 import { ECONEWSMOCK } from 'src/app/greencity/modules/eco-news/mocks/eco-news-mock';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -76,7 +76,7 @@ describe('AddNewHabitComponent', () => {
   fakeLocalStorageService.languageSubject = new Subject<string>();
   fakeLocalStorageService.languageSubject.next('ua');
 
-  const matSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const matSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
   const fakeToDoListService: ToDoListService = jasmine.createSpyObj('fakeToDoListService', [
     'getHabitAllToDoLists',
@@ -109,7 +109,7 @@ describe('AddNewHabitComponent', () => {
         FormsModule
       ],
       providers: [
-        { provide: MatSnackBarComponent, useValue: matSnackBarMock },
+        { provide: MatSnackBarService, useValue: matSnackBarMock },
         { provide: HabitService, useValue: fakeHabitService },
         { provide: HabitAssignService, useValue: fakeHabitAssignService },
         { provide: EcoNewsService, useValue: ecoNewsServiceMock },

@@ -31,12 +31,12 @@ import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/di
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { userAssignedCardsIcons } from 'src/app/greencity/image-paths/profile-icons';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { habitImages } from 'src/app/greencity/image-paths/habits-images';
 import { EventStoreService } from 'src/app/greencity/modules/events/services/event-store.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-events-list-item',
@@ -119,7 +119,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private eventService: EventsService,
     private eventStoreService: EventStoreService,
     private translate: TranslateService,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     private jwtService: JwtService,
     private actionsSubj: ActionsSubject
   ) {

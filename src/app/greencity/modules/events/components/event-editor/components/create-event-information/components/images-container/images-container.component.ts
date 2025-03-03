@@ -1,12 +1,12 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
 import { EditImagePopUpComponent } from 'src/app/greencity/modules/events/components/event-editor/components/edit-image-pop-up/edit-image-pop-up.component';
 import { ImagesContainer } from 'src/app/greencity/modules/events/models/events.interface';
 import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 import { FormArray, FormControl } from '@angular/forms';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-images-container',
@@ -34,7 +34,7 @@ export class ImagesContainerComponent implements OnInit {
     return this.imagesArray.value;
   }
   constructor(
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     private eventService: EventsService,
     private matDialog: MatDialog
   ) {}

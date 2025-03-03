@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { UpdatePasswordDto } from 'src/app/shared/models/updatePasswordDto';
 import { ChangePasswordService } from 'src/app/shared/services/auth/change-password.service';
 import { iif, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-profile-change-password-pop-up',
@@ -25,7 +25,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     @Optional() public dialogRef: MatDialogRef<UbsProfileChangePasswordPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarService
   ) {}
 
   ngOnInit() {

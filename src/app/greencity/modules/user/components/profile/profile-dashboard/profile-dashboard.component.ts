@@ -39,6 +39,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     news: false,
     articles: false
   };
+
   isActiveNewsScroll = false;
   isActiveEventsScroll = false;
   userId: number;

@@ -1,4 +1,3 @@
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -20,12 +19,13 @@ import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 xdescribe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
   let fixture: ComponentFixture<UBSAddAddressPopUpComponent>;
 
-  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
   const fakeAddress = {
@@ -103,7 +103,7 @@ xdescribe('UBSAddAddressPopUpComponent', () => {
         OrderService,
         { provide: MatDialogRef, useValue: fakeMatDialogRef },
         { provide: MAT_DIALOG_DATA, useValue: fakeInitData },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: GoogleScript, useValue: fakeGoogleScript },
         { provide: LocationService, useValue: fakeLocationServiceMock },

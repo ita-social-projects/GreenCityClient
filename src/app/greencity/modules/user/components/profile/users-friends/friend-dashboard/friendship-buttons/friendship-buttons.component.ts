@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { FriendStatusValues, UserDataAsFriend } from 'src/app/greencity/modules/user/models/friend.model';
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
@@ -21,6 +20,7 @@ import {
   DeleteFriendSuccess,
   FriendsListActions
 } from 'src/app/store/actions/friends.actions';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-friendship-buttons',
@@ -59,7 +59,7 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
   constructor(
     private store: Store,
     private userFriendsService: UserFriendsService,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     private dialog: MatDialog,
     private localStorageService: LocalStorageService,
     private actionsSubj: ActionsSubject,

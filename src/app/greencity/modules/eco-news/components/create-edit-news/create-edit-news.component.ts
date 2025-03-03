@@ -12,7 +12,6 @@ import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { ACTION_TOKEN, TEXT_AREAS_HEIGHT } from './action.constants';
 import { ActionInterface } from '../../models/action.interface';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ContentChange, EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
@@ -29,6 +28,7 @@ import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
 import { ImageService } from '@shared/service/image/image.service';
 import { EVENT_LOCALE, EventLocaleKeys } from '../../../events/models/event-consts';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -45,6 +45,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     private langService: LanguageService,
     private fb: FormBuilder,
     private imageService: ImageService,
+    private snackBar: MatSnackBarService,
     @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);
@@ -53,7 +54,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.ecoNewsService = injector.get(EcoNewsService);
     this.route = injector.get(ActivatedRoute);
     this.localStorageService = injector.get(LocalStorageService);
-    this.snackBar = injector.get(MatSnackBarComponent);
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
   }
@@ -96,7 +96,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   private ecoNewsService: EcoNewsService;
   private route: ActivatedRoute;
   private localStorageService: LocalStorageService;
-  private snackBar: MatSnackBarComponent;
   quillModules = quillConfig;
   isQuillUnfilled = false;
   quillLength = 0;

@@ -5,7 +5,7 @@ import { switchMap } from 'rxjs/operators';
 import { VerifyEmailService } from 'src/app/shared/services/auth/verify-email/verify-email.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class CheckTokenService {
   constructor(
     private activatedRoute: ActivatedRoute,
     private verifyEmailService: VerifyEmailService,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     public dialog: MatDialog
   ) {}
 

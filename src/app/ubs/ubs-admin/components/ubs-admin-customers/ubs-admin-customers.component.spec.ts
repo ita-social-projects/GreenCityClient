@@ -14,13 +14,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
 import { AdminCustomersService } from '@ubs/ubs-admin/services/admin-customers.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ColumnParam } from './columnsParams';
 import { ICustomerViolationTable } from '@ubs/ubs-admin/models/customer-violations-table.model';
 import { ICustomerOrdersTable } from '@ubs/ubs-admin/models/customer-orders-table.model';
 import { ICustomersTable } from '@ubs/ubs-admin/models/customers-table.model';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UbsAdminCustomersComponent', () => {
   let component: UbsAdminCustomersComponent;
@@ -28,7 +28,7 @@ describe('UbsAdminCustomersComponent', () => {
   let adminCustomersServiceMock: AdminCustomersService;
   let matDialogMock: jasmine.SpyObj<MatDialog>;
   let dialogRefMock: jasmine.SpyObj<any>;
-  let snackBarSpy: jasmine.SpyObj<MatSnackBarComponent>;
+  let snackBarSpy: jasmine.SpyObj<MatSnackBarService>;
 
   const column: ColumnParam = { title: { ua: 'Заголовок', en: 'Title', key: 'titleKey' }, width: 60 };
   const chatLink = 'https://example.com';
@@ -61,7 +61,7 @@ describe('UbsAdminCustomersComponent', () => {
     matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
     dialogRefMock = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
 
-    snackBarSpy = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+    snackBarSpy = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
     dialogRefMock.componentInstance = {
       comment: null,
@@ -93,7 +93,7 @@ describe('UbsAdminCustomersComponent', () => {
       ],
       declarations: [UbsAdminCustomersComponent, CommentPopUpComponent],
       providers: [
-        { provide: MatSnackBarComponent, useValue: snackBarSpy },
+        { provide: MatSnackBarService, useValue: snackBarSpy },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: AdminCustomersService, useValue: adminCustomersServiceMock },
         provideMockStore({ initialState: {} })

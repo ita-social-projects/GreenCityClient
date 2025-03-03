@@ -6,9 +6,9 @@ import { of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
 import { ImagesContainerComponent } from './images-container.component';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 import { FormBuilder } from '@angular/forms';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -34,7 +34,7 @@ describe('ImagesContainerComponent', () => {
   const dataFileMock = new File([''], 'test-file.jpeg');
   const event = { target: { files: [dataFileMock] } };
 
-  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = () => of();
   const eventsServiceMock = jasmine.createSpyObj('EventsService', ['getImageAsFile']);
   eventsServiceMock.getImageAsFile = () => of();
@@ -44,7 +44,7 @@ describe('ImagesContainerComponent', () => {
       declarations: [ImagesContainerComponent, TranslatePipeMock],
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock },
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: EventsService, useValue: eventsServiceMock },
         { provide: MatDialog, useValue: {} }

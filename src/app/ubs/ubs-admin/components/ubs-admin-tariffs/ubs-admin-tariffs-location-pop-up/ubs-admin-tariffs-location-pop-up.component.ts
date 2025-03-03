@@ -16,8 +16,8 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/shared/i18n/Language';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 interface LocationItem {
   location: string;
@@ -114,7 +114,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     private store: Store<IAppState>,
     @Inject(MAT_DIALOG_DATA)
     public data: {

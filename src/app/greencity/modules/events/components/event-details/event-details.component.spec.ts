@@ -4,7 +4,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EVENT_FORM_MOCK, EVENT_MOCK, eventStateMock } from '@assets/mocks/events/mock-events';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -20,6 +19,7 @@ import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 import { EventDetailsComponent } from './event-details.component';
 import { EventDto } from '../../models/events.interface';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -44,7 +44,7 @@ describe('EventDetailsComponent', () => {
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(eventStateMock);
-  const snackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
   const EventsServiceMock = jasmine.createSpyObj('EventsService', [
     'getEventById',
@@ -112,7 +112,7 @@ describe('EventDetailsComponent', () => {
   translateServiceMock.setDefaultLang = (lang: string) => of(lang);
   translateServiceMock.get = () => of(true);
 
-  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
   const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
@@ -146,7 +146,7 @@ describe('EventDetailsComponent', () => {
         { provide: Store, useValue: storeMock },
         { provide: ActionsSubject, useValue: actionSub },
         { provide: BsModalRef, useValue: bsModalRefMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock },
         { provide: BsModalService, useValue: bsModalBsModalServiceMock },
         { provide: MatDialog, useValue: dialogSpyObj },
         { provide: LanguageService, useValue: languageServiceMock },
