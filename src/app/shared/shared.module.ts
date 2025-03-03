@@ -82,7 +82,6 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
     RelativeDatePipe,
     LangValueDirective,
     InputErrorComponent
-  ],
-  providers: []
+  ]
 })
 export class SharedModule {}
