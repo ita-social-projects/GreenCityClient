@@ -66,6 +66,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentLanguage: string;
   imgAlt: string;
   canChangeLang: boolean;
+  isUBSUserPage: boolean;
+  ubsUserUrl = 'ubs-user';
 
   private localeStorageService: LocalStorageService;
   private jwtService: JwtService;
@@ -102,6 +104,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isUBS = this.router.url.includes(this.ubsUrl);
+    this.isUBSUserPage = this.router.url.includes(this.ubsUserUrl);
     this.imgAlt = this.isUBS ? 'Image ubs logo' : 'Image green city logo';
     this.localeStorageService.setUbsRegistration(this.isUBS);
     this.toggleHeader();
