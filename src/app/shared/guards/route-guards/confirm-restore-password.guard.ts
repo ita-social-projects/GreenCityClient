@@ -13,9 +13,9 @@ export class ConfirmRestorePasswordGuard {
   millisecondsOfDay = 86400000;
   isUbs: boolean;
   constructor(
-    private router: Router,
-    public dialog: MatDialog,
-    private snackBar: MatSnackBarService
+    private readonly router: Router,
+    public readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   canActivate(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

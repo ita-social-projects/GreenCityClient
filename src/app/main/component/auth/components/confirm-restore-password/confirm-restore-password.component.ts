@@ -40,11 +40,11 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   }
 
   constructor(
-    private router: Router,
-    private changePasswordService: ChangePasswordService,
-    private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute,
-    private snackBar: MatSnackBarService
+    private readonly router: Router,
+    private readonly changePasswordService: ChangePasswordService,
+    private readonly formBuilder: FormBuilder,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   ngOnInit() {

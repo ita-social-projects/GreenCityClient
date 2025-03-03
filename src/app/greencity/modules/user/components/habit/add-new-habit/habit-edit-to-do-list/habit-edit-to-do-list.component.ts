@@ -52,10 +52,10 @@ export class HabitEditToDoListComponent implements OnInit, OnChanges, OnDestroy 
   @Output() newList = new EventEmitter<ToDoList[]>();
 
   constructor(
-    private snackBar: MatSnackBarService,
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService,
-    private dialog: MatDialog
+    private readonly snackBar: MatSnackBarService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly translate: TranslateService,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit() {

@@ -73,14 +73,14 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   constructor(
-    private matDialogRef: MatDialogRef<SignUpComponent>,
-    private formBuilder: FormBuilder,
-    private userOwnSignInService: UserOwnSignInService,
-    private userOwnSignUpService: UserOwnSignUpService,
-    private router: Router,
-    private googleService: GoogleSignInService,
-    private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarService
+    private readonly matDialogRef: MatDialogRef<SignUpComponent>,
+    private readonly formBuilder: FormBuilder,
+    private readonly userOwnSignInService: UserOwnSignInService,
+    private readonly userOwnSignUpService: UserOwnSignUpService,
+    private readonly router: Router,
+    private readonly googleService: GoogleSignInService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   ngOnInit() {
