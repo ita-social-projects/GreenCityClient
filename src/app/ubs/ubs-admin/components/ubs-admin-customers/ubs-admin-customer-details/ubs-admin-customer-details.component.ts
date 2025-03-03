@@ -23,7 +23,7 @@ export class UbsAdminCustomerDetailsComponent implements OnInit {
     private readonly translate: TranslateService,
     private readonly location: Location,
     private readonly snackBar: MatSnackBarService,
-    public dialog: MatDialog
+    public readonly dialog: MatDialog
   ) {}
 
   ngOnInit(): void {

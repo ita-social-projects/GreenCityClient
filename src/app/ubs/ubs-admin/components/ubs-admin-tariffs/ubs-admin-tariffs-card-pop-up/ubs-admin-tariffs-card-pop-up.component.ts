@@ -98,16 +98,16 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   constructor(
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public modalData: IModalData,
-    private localeStorageService: LocalStorageService,
-    private tariffsService: TariffsService,
-    private store: Store<IAppState>,
-    private translate: TranslateService,
-    public dialog: MatDialog,
-    public dialogRef: MatDialogRef<UbsAdminTariffsCardPopUpComponent>,
-    public languageService: LanguageService,
-    private snackBar: MatSnackBarService
+    private readonly localeStorageService: LocalStorageService,
+    private readonly tariffsService: TariffsService,
+    private readonly store: Store<IAppState>,
+    private readonly translate: TranslateService,
+    public readonly dialog: MatDialog,
+    public readonly dialogRef: MatDialogRef<UbsAdminTariffsCardPopUpComponent>,
+    public readonly languageService: LanguageService,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   get courier() {

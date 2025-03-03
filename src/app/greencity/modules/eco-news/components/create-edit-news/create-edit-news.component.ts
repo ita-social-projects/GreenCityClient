@@ -37,15 +37,15 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
 })
 export class CreateEditNewsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   constructor(
-    private actionsSubj: ActionsSubject,
-    private store: Store,
-    public router: Router,
-    public dialog: MatDialog,
-    private injector: Injector,
-    private langService: LanguageService,
-    private fb: FormBuilder,
-    private imageService: ImageService,
-    private snackBar: MatSnackBarService,
+    private readonly actionsSubj: ActionsSubject,
+    private readonly store: Store,
+    public readonly router: Router,
+    public readonly dialog: MatDialog,
+    private readonly injector: Injector,
+    private readonly langService: LanguageService,
+    private readonly fb: FormBuilder,
+    private readonly imageService: ImageService,
+    private readonly snackBar: MatSnackBarService,
     @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);

@@ -24,9 +24,9 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private snackBar: MatSnackBarService,
-    private bonusesService: BonusesService,
-    private localStorage: LocalStorageService
+    private readonly snackBar: MatSnackBarService,
+    private readonly bonusesService: BonusesService,
+    private readonly localStorage: LocalStorageService
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;

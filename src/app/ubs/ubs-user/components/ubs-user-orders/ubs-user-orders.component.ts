@@ -39,16 +39,16 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   courierUBSName = 'UBS';
 
   constructor(
-    private router: Router,
-    private snackBar: MatSnackBarService,
-    private bonusesService: BonusesService,
-    private userOrdersService: UserOrdersService,
-    private translate: TranslateService,
-    private localStorage: LocalStorageService,
-    private orderService: OrderService,
-    private dialog: MatDialog,
-    private localStorageService: LocalStorageService,
-    private store: Store
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBarService,
+    private readonly bonusesService: BonusesService,
+    private readonly userOrdersService: UserOrdersService,
+    private readonly translate: TranslateService,
+    private readonly localStorage: LocalStorageService,
+    private readonly orderService: OrderService,
+    private readonly dialog: MatDialog,
+    private readonly localStorageService: LocalStorageService,
+    private readonly store: Store
   ) {}
 
   onScroll() {

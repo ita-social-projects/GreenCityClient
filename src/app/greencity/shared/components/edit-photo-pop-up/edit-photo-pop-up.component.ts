@@ -25,9 +25,9 @@ export class EditPhotoPopUpComponent implements OnInit {
   @ViewChild(DragAndDropComponent) dragAndDropComponent: DragAndDropComponent;
 
   constructor(
-    private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
-    private editProfileService: EditProfileService,
-    private snackBar: MatSnackBarService,
+    private readonly matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
+    private readonly editProfileService: EditProfileService,
+    private readonly snackBar: MatSnackBarService,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
 

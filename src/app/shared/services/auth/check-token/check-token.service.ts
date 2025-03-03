@@ -12,10 +12,10 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
 })
 export class CheckTokenService {
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private verifyEmailService: VerifyEmailService,
-    private snackBar: MatSnackBarService,
-    public dialog: MatDialog
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly verifyEmailService: VerifyEmailService,
+    private readonly snackBar: MatSnackBarService,
+    public readonly dialog: MatDialog
   ) {}
 
   onCheckToken(): void {

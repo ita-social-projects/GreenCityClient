@@ -106,16 +106,16 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   };
 
   constructor(
-    private tariffsService: TariffsService,
-    private fb: FormBuilder,
-    private localeStorageService: LocalStorageService,
-    public langService: LanguageService,
-    private googleScript: GoogleScript,
-    private cdr: ChangeDetectorRef,
-    public dialog: MatDialog,
-    public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
-    private snackBar: MatSnackBarService,
-    private store: Store<IAppState>,
+    private readonly tariffsService: TariffsService,
+    private readonly fb: FormBuilder,
+    private readonly localeStorageService: LocalStorageService,
+    public readonly langService: LanguageService,
+    private readonly googleScript: GoogleScript,
+    private readonly cdr: ChangeDetectorRef,
+    public readonly dialog: MatDialog,
+    public readonly dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
+    private readonly snackBar: MatSnackBarService,
+    private readonly store: Store<IAppState>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       headerText: string;

@@ -57,15 +57,15 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
   @Input() userAsFriend: UserDataAsFriend;
 
   constructor(
-    private store: Store,
-    private userFriendsService: UserFriendsService,
-    private snackBar: MatSnackBarService,
-    private dialog: MatDialog,
-    private localStorageService: LocalStorageService,
-    private actionsSubj: ActionsSubject,
-    private socketService: SocketService,
-    private chatsService: ChatsService,
-    private commonService: CommonService
+    private readonly store: Store,
+    private readonly userFriendsService: UserFriendsService,
+    private readonly snackBar: MatSnackBarService,
+    private readonly dialog: MatDialog,
+    private readonly localStorageService: LocalStorageService,
+    private readonly actionsSubj: ActionsSubject,
+    private readonly socketService: SocketService,
+    private readonly chatsService: ChatsService,
+    private readonly commonService: CommonService
   ) {}
 
   ngOnInit(): void {

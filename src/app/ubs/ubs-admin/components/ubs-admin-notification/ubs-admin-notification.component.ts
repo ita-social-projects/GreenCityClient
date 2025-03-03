@@ -43,14 +43,14 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   private employeeAuthorities: string[];
 
   constructor(
-    private notificationsService: NotificationsService,
-    private localStorageService: LocalStorageService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private location: Location,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBarService,
-    private store: Store<IAppState>
+    private readonly notificationsService: NotificationsService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly location: Location,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBarService,
+    private readonly store: Store<IAppState>
   ) {}
 
   ngOnInit(): void {

@@ -40,12 +40,12 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private fb: FormBuilder,
-    private localeStorageService: LocalStorageService,
-    public dialogRef: MatDialogRef<UbsAdminTariffsStationPopUpComponent>,
-    private tariffsService: TariffsService,
-    private languageService: LanguageService,
-    private snackBar: MatSnackBarService,
+    private readonly fb: FormBuilder,
+    private readonly localeStorageService: LocalStorageService,
+    public readonly dialogRef: MatDialogRef<UbsAdminTariffsStationPopUpComponent>,
+    private readonly tariffsService: TariffsService,
+    private readonly languageService: LanguageService,
+    private readonly snackBar: MatSnackBarService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       headerText: string;

@@ -46,14 +46,14 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   constructor(
-    private matDialogRef: MatDialogRef<RestorePasswordComponent>,
-    public dialog: MatDialog,
-    private googleService: GoogleSignInService,
-    private userOwnSignInService: UserOwnSignInService,
-    private router: Router,
-    private restorePasswordService: RestorePasswordService,
-    private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarService
+    private readonly matDialogRef: MatDialogRef<RestorePasswordComponent>,
+    public readonly dialog: MatDialog,
+    private readonly googleService: GoogleSignInService,
+    private readonly userOwnSignInService: UserOwnSignInService,
+    private readonly router: Router,
+    private readonly restorePasswordService: RestorePasswordService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   ngOnInit() {

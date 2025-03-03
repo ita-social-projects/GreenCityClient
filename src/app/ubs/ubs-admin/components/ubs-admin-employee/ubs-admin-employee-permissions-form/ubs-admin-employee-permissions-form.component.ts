@@ -29,13 +29,13 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private fb: FormBuilder,
-    public translate: TranslateService,
+    private readonly fb: FormBuilder,
+    public readonly translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: Page,
-    private employeeService: UbsAdminEmployeeService,
-    private dialogRef: MatDialogRef<UbsAdminEmployeePermissionsFormComponent>,
-    private snackBar: MatSnackBarService,
-    private dialog: MatDialog
+    private readonly employeeService: UbsAdminEmployeeService,
+    private readonly dialogRef: MatDialogRef<UbsAdminEmployeePermissionsFormComponent>,
+    private readonly snackBar: MatSnackBarService,
+    private readonly dialog: MatDialog
   ) {
     this.employee = data;
     this.form = this.fb.group(

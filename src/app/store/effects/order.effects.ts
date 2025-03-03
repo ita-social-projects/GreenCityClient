@@ -38,10 +38,10 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
 @Injectable()
 export class OrderEffects {
   constructor(
-    private actions: Actions,
-    private orderService: OrderService,
-    private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarService
+    private readonly actions: Actions,
+    private readonly orderService: OrderService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   getOrderDetails = createEffect(() =>

@@ -71,18 +71,18 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   isPrivate = true;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private dialog: MatDialog,
-    private habitService: HabitService,
-    private snackBar: MatSnackBarService,
-    private habitAssignService: HabitAssignService,
-    private newsService: EcoNewsService,
-    private toDoListService: ToDoListService,
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService,
-    private location: Location,
-    public userFriendsService: UserFriendsService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly dialog: MatDialog,
+    private readonly habitService: HabitService,
+    private readonly snackBar: MatSnackBarService,
+    private readonly habitAssignService: HabitAssignService,
+    private readonly newsService: EcoNewsService,
+    private readonly toDoListService: ToDoListService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly translate: TranslateService,
+    private readonly location: Location,
+    public readonly userFriendsService: UserFriendsService
   ) {}
 
   ngOnInit() {

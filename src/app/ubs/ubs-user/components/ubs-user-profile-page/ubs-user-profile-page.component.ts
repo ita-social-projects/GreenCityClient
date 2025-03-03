@@ -82,12 +82,12 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private dialog: MatDialog,
-    private clientProfileService: ClientProfileService,
-    private snackBar: MatSnackBarService,
-    private orderService: OrderService,
-    private languageService: LanguageService,
-    private store: Store
+    private readonly dialog: MatDialog,
+    private readonly clientProfileService: ClientProfileService,
+    private readonly snackBar: MatSnackBarService,
+    private readonly orderService: OrderService,
+    private readonly languageService: LanguageService,
+    private readonly store: Store
   ) {}
 
   ngOnInit(): void {

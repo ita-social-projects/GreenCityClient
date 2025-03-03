@@ -46,13 +46,13 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private isPosting: boolean;
 
   constructor(
-    private route: ActivatedRoute,
-    private ecoNewsService: EcoNewsService,
-    private localStorageService: LocalStorageService,
-    private langService: LanguageService,
-    private snackBar: MatSnackBarService,
-    private dialog: MatDialog,
-    private store: Store,
+    private readonly route: ActivatedRoute,
+    private readonly ecoNewsService: EcoNewsService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly langService: LanguageService,
+    private readonly snackBar: MatSnackBarService,
+    private readonly dialog: MatDialog,
+    private readonly store: Store,
     private readonly router: Router,
     private readonly metaService: MetaService
   ) {}

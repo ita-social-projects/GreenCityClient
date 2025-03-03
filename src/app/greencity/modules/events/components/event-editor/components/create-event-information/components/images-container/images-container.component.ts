@@ -34,9 +34,9 @@ export class ImagesContainerComponent implements OnInit {
     return this.imagesArray.value;
   }
   constructor(
-    private snackBar: MatSnackBarService,
-    private eventService: EventsService,
-    private matDialog: MatDialog
+    private readonly snackBar: MatSnackBarService,
+    private readonly eventService: EventsService,
+    private readonly matDialog: MatDialog
   ) {}
 
   selectImg(img: number): void {

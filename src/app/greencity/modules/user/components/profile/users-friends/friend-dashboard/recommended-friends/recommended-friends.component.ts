@@ -29,10 +29,10 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
 
   readonly absent = 'assets/img/noNews.svg';
   constructor(
-    private userFriendsService: UserFriendsService,
-    private localStorageService: LocalStorageService,
-    private matSnackBar: MatSnackBarService,
-    private userOnlineStatusService: UserOnlineStatusService
+    private readonly userFriendsService: UserFriendsService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly matSnackBar: MatSnackBarService,
+    private readonly userOnlineStatusService: UserOnlineStatusService
   ) {}
 
   ngOnInit(): void {

@@ -70,16 +70,16 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   private editorText = '';
 
   constructor(
-    public dialog: MatDialog,
-    public router: Router,
-    private fb: FormBuilder,
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService,
-    private habitService: HabitService,
-    private userFriendsService: UserFriendsService,
-    private snackBar: MatSnackBarService,
-    private imageService: ImageService,
-    private activatedRoute: ActivatedRoute
+    public readonly dialog: MatDialog,
+    public readonly router: Router,
+    private readonly fb: FormBuilder,
+    private readonly localStorageService: LocalStorageService,
+    private readonly translate: TranslateService,
+    private readonly habitService: HabitService,
+    private readonly userFriendsService: UserFriendsService,
+    private readonly snackBar: MatSnackBarService,
+    private readonly imageService: ImageService,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     super(router, dialog);
 

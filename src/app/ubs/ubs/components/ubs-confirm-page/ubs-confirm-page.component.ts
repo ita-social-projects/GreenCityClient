@@ -24,13 +24,13 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private snackBar: MatSnackBarService,
-    private jwtService: JwtService,
-    private ubsOrderFormService: UBSOrderFormService,
-    private shareFormService: UBSOrderFormService,
-    public localStorageService: LocalStorageService,
-    private orderService: OrderService,
-    public router: Router
+    private readonly snackBar: MatSnackBarService,
+    private readonly jwtService: JwtService,
+    private readonly ubsOrderFormService: UBSOrderFormService,
+    private readonly shareFormService: UBSOrderFormService,
+    public readonly localStorageService: LocalStorageService,
+    private readonly orderService: OrderService,
+    public readonly router: Router
   ) {}
 
   toPersonalAccount(): void {

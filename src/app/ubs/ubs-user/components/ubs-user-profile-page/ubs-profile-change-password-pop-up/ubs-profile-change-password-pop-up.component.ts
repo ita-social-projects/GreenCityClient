@@ -21,11 +21,11 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   hasWrongCurrentPassword = false;
 
   constructor(
-    private changePasswordService: ChangePasswordService,
+    private readonly changePasswordService: ChangePasswordService,
     @Optional() public dialogRef: MatDialogRef<UbsProfileChangePasswordPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder,
-    private snackBar: MatSnackBarService
+    private readonly fb: FormBuilder,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   ngOnInit() {

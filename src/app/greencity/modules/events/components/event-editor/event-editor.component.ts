@@ -45,18 +45,18 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
   routedFromProfile: boolean;
 
   constructor(
-    private eventStore: EventStoreService,
-    public dialog: MatDialog,
+    private readonly eventStore: EventStoreService,
+    public readonly dialog: MatDialog,
     router: Router,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    public localStorageService: LocalStorageService,
-    private actionsSubj: ActionsSubject,
-    private store: Store,
-    private snackBar: MatSnackBarService,
-    public dialogRef: MatDialogRef<DialogPopUpComponent>,
-    private eventsService: EventsService,
-    private languageService: LanguageService,
+    private readonly route: ActivatedRoute,
+    private readonly fb: FormBuilder,
+    public readonly localStorageService: LocalStorageService,
+    private readonly actionsSubj: ActionsSubject,
+    private readonly store: Store,
+    private readonly snackBar: MatSnackBarService,
+    public readonly dialogRef: MatDialogRef<DialogPopUpComponent>,
+    private readonly eventsService: EventsService,
+    private readonly languageService: LanguageService,
     private readonly cdRef: ChangeDetectorRef
   ) {
     super(router, dialog);

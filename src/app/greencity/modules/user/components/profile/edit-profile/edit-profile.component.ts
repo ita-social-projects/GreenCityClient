@@ -88,11 +88,11 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   constructor(
     private readonly injector: Injector,
-    public dialog: MatDialog,
-    public router: Router,
+    public readonly dialog: MatDialog,
+    public readonly router: Router,
     private readonly translate: TranslateService,
     private readonly cdr: ChangeDetectorRef,
-    private snackBar: MatSnackBarService
+    private readonly snackBar: MatSnackBarService
   ) {
     super(router, dialog);
     this.builder = injector.get(EditProfileFormBuilder);

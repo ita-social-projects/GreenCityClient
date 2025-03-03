@@ -45,12 +45,12 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
 @Injectable()
 export class BigOrderTableEffects {
   constructor(
-    private actions: Actions,
-    private adminTableService: AdminTableService,
-    private orderService: OrderService,
-    private localStorageService: LocalStorageService,
-    private store: Store,
-    private snackBar: MatSnackBarService
+    private readonly actions: Actions,
+    private readonly adminTableService: AdminTableService,
+    private readonly orderService: OrderService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly store: Store,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   getColumns = createEffect(() => {

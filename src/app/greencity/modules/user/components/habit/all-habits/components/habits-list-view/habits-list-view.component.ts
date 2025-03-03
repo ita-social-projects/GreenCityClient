@@ -12,11 +12,11 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
 })
 export class HabitsListViewComponent extends HabitsGalleryViewComponent {
   constructor(
-    public router: Router,
-    public route: ActivatedRoute,
-    public snackBar: MatSnackBarService,
-    public localStorageService: LocalStorageService,
-    public habitAssignService: HabitAssignService
+    public readonly router: Router,
+    public readonly route: ActivatedRoute,
+    public readonly snackBar: MatSnackBarService,
+    public readonly localStorageService: LocalStorageService,
+    public readonly habitAssignService: HabitAssignService
   ) {
     super(router, route, snackBar, localStorageService, habitAssignService);
   }

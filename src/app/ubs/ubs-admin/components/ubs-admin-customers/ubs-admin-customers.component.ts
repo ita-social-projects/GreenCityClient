@@ -83,7 +83,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   constructor(
     private readonly adapter: DateAdapter<any>,
-    public dialog: MatDialog,
+    public readonly dialog: MatDialog,
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
     private readonly renderer: Renderer2,

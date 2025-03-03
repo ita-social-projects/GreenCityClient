@@ -110,18 +110,18 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   defaultImage = habitImages.defaultImage;
 
   constructor(
-    public router: Router,
-    private localStorageService: LocalStorageService,
-    private userOwnAuthService: UserOwnAuthService,
-    private modalService: BsModalService,
-    private dialog: MatDialog,
-    private store: Store,
-    private eventService: EventsService,
-    private eventStoreService: EventStoreService,
-    private translate: TranslateService,
-    private snackBar: MatSnackBarService,
-    private jwtService: JwtService,
-    private actionsSubj: ActionsSubject
+    public readonly router: Router,
+    private readonly localStorageService: LocalStorageService,
+    private readonly userOwnAuthService: UserOwnAuthService,
+    private readonly modalService: BsModalService,
+    private readonly dialog: MatDialog,
+    private readonly store: Store,
+    private readonly eventService: EventsService,
+    private readonly eventStoreService: EventStoreService,
+    private readonly translate: TranslateService,
+    private readonly snackBar: MatSnackBarService,
+    private readonly jwtService: JwtService,
+    private readonly actionsSubj: ActionsSubject
   ) {
     this.actionsSubj
       .pipe(ofType(EventsActions.AddAttenderEcoEventsByIdSuccess), takeUntil(this.destroyed$))

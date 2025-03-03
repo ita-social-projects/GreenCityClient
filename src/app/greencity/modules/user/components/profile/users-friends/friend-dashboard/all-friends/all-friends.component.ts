@@ -30,11 +30,11 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   friendsStore$ = this.store.select((state: IAppState) => state.friend);
 
   constructor(
-    private userFriendsService: UserFriendsService,
-    private localStorageService: LocalStorageService,
-    private matSnackBar: MatSnackBarService,
-    private store: Store,
-    private userOnlineStatusService: UserOnlineStatusService
+    private readonly userFriendsService: UserFriendsService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly matSnackBar: MatSnackBarService,
+    private readonly store: Store,
+    private readonly userOnlineStatusService: UserOnlineStatusService
   ) {}
 
   ngOnInit() {
