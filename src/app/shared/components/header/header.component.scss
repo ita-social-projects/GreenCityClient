@@ -60,8 +60,7 @@ header {
   z-index: 5;
   font-size: 14px;
   box-shadow: 1px 4px 8px 0 var(--shadow-dark-grey);
-  display: flex;
-  align-items: center;
+  text-transform: uppercase;
 
   .warning {
     margin: 0 auto;
@@ -591,6 +590,7 @@ header {
 
 .admin-container-fluid {
   width: 100%;
+  padding: 0 24px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
