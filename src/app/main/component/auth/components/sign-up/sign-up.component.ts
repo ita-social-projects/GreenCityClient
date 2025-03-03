@@ -14,11 +14,10 @@ import { GoogleSignInService } from 'src/app/shared/services/auth/google-sign-in
 import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign-in.service';
 import { UserOwnSignUpService } from 'src/app/shared/services/auth/user-own-sign-up.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
-
 import { googleProvider } from '@global-auth/sign-in/GoogleOAuthProvider/GoogleOAuthProvider';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 declare let google: any;
 @Component({
@@ -74,14 +73,14 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   constructor(
-    private matDialogRef: MatDialogRef<SignUpComponent>,
-    private formBuilder: FormBuilder,
-    private userOwnSignInService: UserOwnSignInService,
-    private userOwnSignUpService: UserOwnSignUpService,
-    private router: Router,
-    private googleService: GoogleSignInService,
-    private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent
+    private readonly matDialogRef: MatDialogRef<SignUpComponent>,
+    private readonly formBuilder: FormBuilder,
+    private readonly userOwnSignInService: UserOwnSignInService,
+    private readonly userOwnSignUpService: UserOwnSignUpService,
+    private readonly router: Router,
+    private readonly googleService: GoogleSignInService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   ngOnInit() {

@@ -29,12 +29,11 @@ import { Filters } from './filters.interface';
 import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-from-date-to-string/convert-from-date-to-string.service';
 import { DateAdapter } from '@angular/material/core';
 import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
-
 import { Store } from '@ngrx/store';
 import { adminTableOfCustomersSelector } from 'src/app/store/selectors/ubs-admin.selectors';
 import { GetCustomerTable } from 'src/app/store/actions/ubs-admin.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-admin-customers',
@@ -84,12 +83,12 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   constructor(
     private readonly adapter: DateAdapter<any>,
-    public dialog: MatDialog,
+    public readonly dialog: MatDialog,
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
     private readonly renderer: Renderer2,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBarComponent,
+    private readonly snackBar: MatSnackBarService,
     private readonly store: Store,
     private readonly destroyRef: DestroyRef,
     private readonly convertFromDateToStringService: ConvertFromDateToStringService,

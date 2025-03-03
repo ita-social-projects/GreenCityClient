@@ -16,8 +16,8 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/shared/i18n/Language';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 interface LocationItem {
   location: string;
@@ -106,16 +106,16 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   };
 
   constructor(
-    private tariffsService: TariffsService,
-    private fb: FormBuilder,
-    private localeStorageService: LocalStorageService,
-    public langService: LanguageService,
-    private googleScript: GoogleScript,
-    private cdr: ChangeDetectorRef,
-    public dialog: MatDialog,
-    public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
-    private snackBar: MatSnackBarComponent,
-    private store: Store<IAppState>,
+    private readonly tariffsService: TariffsService,
+    private readonly fb: FormBuilder,
+    private readonly localeStorageService: LocalStorageService,
+    public readonly langService: LanguageService,
+    private readonly googleScript: GoogleScript,
+    private readonly cdr: ChangeDetectorRef,
+    public readonly dialog: MatDialog,
+    public readonly dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
+    private readonly snackBar: MatSnackBarService,
+    private readonly store: Store<IAppState>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       headerText: string;

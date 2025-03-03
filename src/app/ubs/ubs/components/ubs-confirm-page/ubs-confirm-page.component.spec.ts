@@ -4,7 +4,6 @@ import { Router, NavigationEnd } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
@@ -12,6 +11,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store, StoreModule } from '@ngrx/store';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UbsConfirmPageComponent', () => {
   let component: UbsConfirmPageComponent;
@@ -41,7 +41,7 @@ describe('UbsConfirmPageComponent', () => {
       declarations: [UbsConfirmPageComponent],
       imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule, StoreModule.forRoot({})],
       providers: [
-        { provide: MatSnackBarComponent, useValue: fakeSnackBar },
+        { provide: MatSnackBarService, useValue: fakeSnackBar },
         { provide: UBSOrderFormService, useValue: fakeUBSOrderFormService },
         { provide: JwtService, useValue: fakeJwtService },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },

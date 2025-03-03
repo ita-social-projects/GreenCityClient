@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angu
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { PlaceService } from 'src/app/shared/services/place/place.service';
 import { EditProfileFormBuilder } from 'src/app/greencity/modules/user/components/profile/edit-profile/edit-profile-form-builder';
@@ -27,6 +26,7 @@ import {
   privacyOptions,
   privacySettingsList
 } from 'src/app/greencity/modules/user/models/edit-profile-const';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -49,7 +49,6 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   privacySettingsList = privacySettingsList;
   private editProfileService: EditProfileService;
   private profileService: ProfileService;
-  private snackBar: MatSnackBarComponent;
   private localStorageService: LocalStorageService;
   private readonly destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   cityOptions: google.maps.places.AutocompletionRequest = {
@@ -89,16 +88,16 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   constructor(
     private readonly injector: Injector,
-    public dialog: MatDialog,
-    public router: Router,
+    public readonly dialog: MatDialog,
+    public readonly router: Router,
     private readonly translate: TranslateService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly snackBar: MatSnackBarService
   ) {
     super(router, dialog);
     this.builder = injector.get(EditProfileFormBuilder);
     this.editProfileService = injector.get(EditProfileService);
     this.profileService = injector.get(ProfileService);
-    this.snackBar = injector.get(MatSnackBarComponent);
     this.localStorageService = injector.get(LocalStorageService);
   }
 

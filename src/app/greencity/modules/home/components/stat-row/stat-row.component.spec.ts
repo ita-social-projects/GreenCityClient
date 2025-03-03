@@ -6,11 +6,11 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { BehaviorSubject, of } from 'rxjs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { APP_BASE_HREF } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 class MatDialogMock {
   open() {
@@ -24,7 +24,7 @@ describe('StatRowComponent', () => {
   let component: StatRowComponent;
   let fixture: ComponentFixture<StatRowComponent>;
 
-  const snackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   snackBarMock.openSnackBar = () => true;
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject']);
@@ -50,7 +50,7 @@ describe('StatRowComponent', () => {
       imports: [TranslateModule.forRoot(), RouterModule.forRoot([], {}), HttpClientTestingModule, MatSnackBarModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: MatSnackBarComponent, useValue: snackBarMock },
+        { provide: MatSnackBarService, useValue: snackBarMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useClass: MatDialogMock },

@@ -1,17 +1,14 @@
-import { Component } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { SnackbarClassName } from './error-constants';
 
-@Component({
-  selector: 'app-mat-snack-bar',
-  templateUrl: './mat-snack-bar.component.html',
-  styleUrls: ['./mat-snack-bar.component.scss'],
-  providers: [TranslateService]
+@Injectable({
+  providedIn: 'root'
 })
-export class MatSnackBarComponent {
+export class MatSnackBarService {
   message: string;
-  snackType = {
+  private readonly snackType = {
     error: { classname: SnackbarClassName.error, key: 'snack-bar.error.default' },
     createEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.create-news' },
     attention: { classname: SnackbarClassName.attention, key: 'snack-bar.attention.default' },

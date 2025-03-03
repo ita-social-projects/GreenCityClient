@@ -10,11 +10,11 @@ import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-
 import { NotificationTemplate, NotificationTemplateUpdate } from '../../models/notifications.model';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationsService, notificationTriggerTimeMock, notificationTriggersMock } from '../../services/notifications.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
 import { formatSpringCron, formatUnixCron } from '@ubs/ubs-admin/services/cron/cron.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -43,14 +43,14 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   private employeeAuthorities: string[];
 
   constructor(
-    private notificationsService: NotificationsService,
-    private localStorageService: LocalStorageService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private location: Location,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBarComponent,
-    private store: Store<IAppState>
+    private readonly notificationsService: NotificationsService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly location: Location,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBarService,
+    private readonly store: Store<IAppState>
   ) {}
 
   ngOnInit(): void {

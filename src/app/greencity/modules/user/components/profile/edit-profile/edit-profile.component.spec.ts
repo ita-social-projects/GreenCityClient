@@ -1,6 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -21,6 +20,7 @@ import { InputGoogleAutocompleteComponent } from 'src/app/shared/components/inpu
 import { MatSelectModule } from '@angular/material/select';
 import { ProfilePrivacyPolicy } from 'src/app/greencity/modules/user/models/edit-profile-const';
 import { mockUserData } from 'src/app/greencity/modules/user/mocks/edit-profile-mock';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 class Test {}
 
@@ -67,7 +67,7 @@ describe('EditProfileComponent', () => {
       providers: [
         EditProfileFormBuilder,
         EditProfileService,
-        MatSnackBarComponent,
+        MatSnackBarService,
         SocialNetworksComponent,
         ProfileService,
         { provide: 'google', useValue: google }

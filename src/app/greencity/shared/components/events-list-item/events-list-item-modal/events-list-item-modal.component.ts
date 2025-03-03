@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { ReplaySubject, Subscription, pipe, take } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-events-list-item-modal',
@@ -35,7 +35,7 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     public bsModalRef: BsModalRef,
     private translate: TranslateService,
-    private matSnackBar: MatSnackBarComponent,
+    private matSnackBar: MatSnackBarService,
     private dialog: MatDialog
   ) {}
 

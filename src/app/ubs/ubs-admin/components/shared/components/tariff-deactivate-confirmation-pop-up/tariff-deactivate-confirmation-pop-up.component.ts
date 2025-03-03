@@ -7,7 +7,7 @@ import { ModalTextComponent } from '../modal-text/modal-text.component';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../../../ubs-admin-tariffs/ubs-tariffs.enum';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-tariff-deactivate-confirmation-pop-up',
@@ -36,13 +36,13 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   cityLabelUa = TariffLocationLabelName.ua;
 
   constructor(
-    private tariffsService: TariffsService,
-    private languageService: LanguageService,
-    private localeStorageService: LocalStorageService,
+    private readonly tariffsService: TariffsService,
+    private readonly languageService: LanguageService,
+    private readonly localeStorageService: LocalStorageService,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
-    public dialog: MatDialog,
-    public dialogRef: MatDialogRef<TariffDeactivateConfirmationPopUpComponent>,
-    private snackBar: MatSnackBarComponent
+    public readonly dialog: MatDialog,
+    public readonly dialogRef: MatDialogRef<TariffDeactivateConfirmationPopUpComponent>,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   ngOnInit(): void {

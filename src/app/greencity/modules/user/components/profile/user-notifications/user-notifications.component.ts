@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 import {
@@ -22,6 +21,7 @@ import { NotificationBody, Notifications } from '@ubs/ubs-admin/models/ubs-user.
 import { HttpParams } from '@angular/common/http';
 import { formatNotificationDate } from './format-notification-date/format-notification-date';
 import { HabitService } from '@shared/service/habit/habit.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-user-notifications',
@@ -51,7 +51,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     private readonly localStorageService: LocalStorageService,
     public readonly translate: TranslateService,
     private readonly userNotificationService: UserNotificationService,
-    private readonly matSnackBar: MatSnackBarComponent,
+    private readonly matSnackBar: MatSnackBarService,
     private readonly userFriendsService: UserFriendsService,
     private readonly router: Router,
     private readonly userService: UserService,

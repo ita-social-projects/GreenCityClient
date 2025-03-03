@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,6 +24,7 @@ import { UbsAdminTableComponent } from '../ubs-admin-table/ubs-admin-table.compo
 import { UBSAdminRoutingModule } from '@ubs/ubs-admin/ubs-admin-routing.module';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
 import { UnsavedChangesGuard } from '@ubs/ubs-admin/unsaved-changes-guard.guard';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UbsAdminOrderComponent', () => {
   let component: UbsAdminOrderComponent;
@@ -89,7 +89,7 @@ describe('UbsAdminOrderComponent', () => {
       providers: [
         provideMockStore({ initialState }),
         { provide: Store, useValue: storeMock },
-        MatSnackBarComponent,
+        MatSnackBarService,
         FormBuilder,
         OrderService,
         provideMockStore({}),

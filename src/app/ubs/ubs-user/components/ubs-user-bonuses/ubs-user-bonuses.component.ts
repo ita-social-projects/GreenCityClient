@@ -6,8 +6,8 @@ import { BonusModel } from './models/BonusModel';
 import { BonusesService } from './services/bonuses.service';
 import { Subject, throwError } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-user-bonuses',
@@ -24,9 +24,9 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private snackBar: MatSnackBarComponent,
-    private bonusesService: BonusesService,
-    private localStorage: LocalStorageService
+    private readonly snackBar: MatSnackBarService,
+    private readonly bonusesService: BonusesService,
+    private readonly localStorage: LocalStorageService
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;

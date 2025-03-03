@@ -2,8 +2,8 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EditProfileService } from 'src/app/greencity/modules/user/services/edit-profile/edit-profile.service';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { DragAndDropComponent } from '../drag-and-drop/drag-and-drop.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-edit-photo-pop-up',
@@ -25,9 +25,9 @@ export class EditPhotoPopUpComponent implements OnInit {
   @ViewChild(DragAndDropComponent) dragAndDropComponent: DragAndDropComponent;
 
   constructor(
-    private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
-    private editProfileService: EditProfileService,
-    private snackBar: MatSnackBarComponent,
+    private readonly matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
+    private readonly editProfileService: EditProfileService,
+    private readonly snackBar: MatSnackBarService,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
 

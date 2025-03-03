@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { By } from '@angular/platform-browser';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 class MatDialogMock {
   open() {
@@ -46,7 +46,7 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: mockedEmployee },
         { provide: UbsAdminEmployeeService, useValue: employeeServiceMock },
         { provide: MatDialogRef, useValue: dialogRefStub },
-        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
+        { provide: MatSnackBarService, useValue: { openSnackBar: () => {} } },
         FormBuilder
       ]
     }).compileComponents();

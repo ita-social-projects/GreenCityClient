@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { UnblockAccountComponent } from './unblock-account.component';
@@ -9,18 +8,19 @@ import { authImages } from 'src/app/shared/image-paths/auth-images';
 import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 import { unblockAccountLink } from 'src/app/main/links';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UnblockAccountComponent', () => {
   let component: UnblockAccountComponent;
   let fixture: ComponentFixture<UnblockAccountComponent>;
   let httpTestingController: HttpTestingController;
-  let snackBarSpy: jasmine.SpyObj<MatSnackBarComponent>;
+  let snackBarSpy: jasmine.SpyObj<MatSnackBarService>;
   let router: Router;
 
   class Fake {}
 
   beforeEach(async () => {
-    snackBarSpy = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+    snackBarSpy = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
     await TestBed.configureTestingModule({
       imports: [
@@ -35,7 +35,7 @@ describe('UnblockAccountComponent', () => {
       ],
       declarations: [UnblockAccountComponent],
       providers: [
-        { provide: MatSnackBarComponent, useValue: snackBarSpy },
+        { provide: MatSnackBarService, useValue: snackBarSpy },
         {
           provide: ActivatedRoute,
           useValue: { queryParams: of({ token: 'testToken' }) }

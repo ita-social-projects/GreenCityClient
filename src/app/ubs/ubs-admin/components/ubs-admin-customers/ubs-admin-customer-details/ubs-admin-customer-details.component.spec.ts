@@ -8,9 +8,9 @@ import { UbsAdminCustomerDetailsComponent } from './ubs-admin-customer-details.c
 import { AdminCustomersService } from '@ubs/ubs-admin/services/admin-customers.service';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { CommentPopUpComponent } from '../../shared/components/comment-pop-up/comment-pop-up.component';
 import { of, throwError } from 'rxjs';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 describe('UbsAdminCustomerDetailsComponent', () => {
   let component: UbsAdminCustomerDetailsComponent;
   let fixture: ComponentFixture<UbsAdminCustomerDetailsComponent>;
@@ -18,7 +18,7 @@ describe('UbsAdminCustomerDetailsComponent', () => {
   let httpClientMock: jasmine.SpyObj<HttpClient>;
   let matDialogMock: jasmine.SpyObj<MatDialog>;
   let dialogRefMock: jasmine.SpyObj<any>;
-  let snackBarSpy: jasmine.SpyObj<MatSnackBarComponent>;
+  let snackBarSpy: jasmine.SpyObj<MatSnackBarService>;
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCustomer',
@@ -31,7 +31,7 @@ describe('UbsAdminCustomerDetailsComponent', () => {
     adminCustomerServiceMock = jasmine.createSpyObj('AdminCustomerService', ['openChat', 'addChatLink']);
     matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
     dialogRefMock = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
-    snackBarSpy = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+    snackBarSpy = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
     dialogRefMock.componentInstance = {
       comment: '',
@@ -54,7 +54,7 @@ describe('UbsAdminCustomerDetailsComponent', () => {
         { provide: AdminCustomersService, useValue: adminCustomerServiceMock },
         { provide: HttpClient, useValue: httpClientMock },
         { provide: MatDialog, useValue: matDialogMock },
-        { provide: MatSnackBarComponent, useValue: snackBarSpy },
+        { provide: MatSnackBarService, useValue: snackBarSpy },
         Location
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
