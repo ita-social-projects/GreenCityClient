@@ -117,7 +117,7 @@ export class CommentsListComponent {
     const userId = (event.target as HTMLElement).getAttribute('data-userid');
     const userName = (event.target as HTMLElement).textContent;
     if (userId) {
-      this.router.navigate(['profile', this.userId, 'users', userName, userId]);
+      this.router.navigate(['/greenCity', 'profile', this.userId, 'users', userName, userId]);
     }
   }
 
