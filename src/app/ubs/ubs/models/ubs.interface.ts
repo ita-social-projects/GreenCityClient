@@ -12,7 +12,6 @@ export interface Bag {
 }
 
 export enum PaymentSystem {
-  // MONOBANK = 'MONOBANK',
   WAY_FOR_PAY = 'WAY_FOR_PAY'
 }
 
