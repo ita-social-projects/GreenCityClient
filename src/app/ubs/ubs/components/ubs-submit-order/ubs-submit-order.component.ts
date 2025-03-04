@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { iif, Subject } from 'rxjs';
@@ -23,13 +23,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   @Input() public isNotification: boolean;
   @Input() public orderIdFromNotification: number;
 
-  convertPaymentSystem = {
-    // [PaymentSystem.MONOBANK]: 'Monobank',
-    [PaymentSystem.WAY_FOR_PAY]: 'WayForPay'
-  };
-
-  paymentForm: FormGroup;
-  paymentSystemOptions = Object.values(PaymentSystem);
+  paymentForm: FormGroup = this.fb.group({});
 
   bags: Bag[] = [];
   personalData: PersonalData;
@@ -71,6 +65,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     private readonly store: Store,
     private readonly cdr: ChangeDetectorRef,
     private readonly phoneNumberTreat: PhoneNumberTreatPipe,
+    private fb: FormBuilder,
     router: Router,
     dialog: MatDialog
   ) {
@@ -79,10 +74,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   ngOnInit(): void {
     this.route.queryParams.pipe(take(1)).subscribe((params) => (this.existingOrderId = params.existingOrderId));
-    this.paymentForm = new FormGroup({
-      paymentSystem: new FormControl(this.paymentSystemOptions[0], Validators.required)
-    });
-
     this.initListeners();
   }
 
@@ -179,7 +170,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       locationId: this.locationId,
       addressId: this.addressId,
       shouldBePaid,
-      paymentSystem: this.paymentForm.get('paymentSystem').value,
+      paymentSystem: PaymentSystem.WAY_FOR_PAY,
       bags: this.bags.map((bag) => ({ id: bag.id, amount: bag.quantity }))
     };
   }
