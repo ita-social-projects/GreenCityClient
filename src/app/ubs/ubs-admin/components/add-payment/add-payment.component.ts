@@ -24,6 +24,7 @@ interface InputData {
   viewMode: boolean;
   payment: IPaymentInfoDto | null;
   isCanPaymentEdit?: boolean;
+  dateFormed: string;
 }
 
 interface PostData {
@@ -40,7 +41,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   private convertFromDateToStringService: ConvertFromDateToStringService;
   private localeStorageService: LocalStorageService;
   private orderService: OrderService;
-
+  minDate: Date;
+  maxDate = new Date();
   closeButton = './assets/img/profile/icons/cancel.svg';
   orderId: number;
   viewMode: boolean;
@@ -100,6 +102,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.viewMode = this.data.viewMode;
     this.payment = this.data.payment;
     this.isCanPaymentEdit = this.data.isCanPaymentEdit;
+    this.minDate = new Date(this.data.dateFormed);
+    this.minDate.setDate(this.minDate.getDate() - 10);
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.adminName = firstName;
     });
