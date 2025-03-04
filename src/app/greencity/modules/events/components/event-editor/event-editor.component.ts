@@ -219,12 +219,14 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
         finishDate: [date?.finishDate ? new Date(date.finishDate) : new Date(), [Validators.required]],
         startTime: [
           date?.startDate
-            ? `${new Date(date.startDate).getHours()}:${new Date(date.startDate).getMinutes().toString().padStart(2, '0')}`
+            ? // eslint-disable-next-line max-len
+              `${new Date(date.startDate).getHours().toString().padStart(2, '0')}:${new Date(date.startDate).getMinutes().toString().padStart(2, '0')}`
             : ''
         ],
         finishTime: [
           date?.finishDate
-            ? `${new Date(date.finishDate).getHours()}:${new Date(date.finishDate).getMinutes().toString().padStart(2, '0')}`
+            ? // eslint-disable-next-line max-len
+              `${new Date(date.finishDate).getHours().toString().padStart(2, '0')}:${new Date(date.finishDate).getMinutes().toString().padStart(2, '0')}`
             : ''
         ],
         allDay: [date?.allDay ?? false],

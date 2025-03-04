@@ -85,7 +85,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     this.isPlaceSelected = !!this.coordinates.value.latitude;
     this.setMapOptions();
     this.mapMarkerCoords = { lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude };
-
     if (this.dayNumber !== 0) {
       const firstDay = this.daysForm.value[0];
       this.applyInitialSettings(firstDay);
@@ -104,12 +103,11 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   }
 
   applyInitialSettings(firstDay: any): void {
-    this.isOnline = firstDay.appliedLinkForAll;
+    this.isOnline = this.isOnline ? this.isOnline : firstDay.appliedLinkForAll;
     this.isLinkDisabled = firstDay.appliedLinkForAll;
-    this.link[firstDay.appliedLinkForAll ? 'disable' : 'enable']();
 
     this.isPlaceDisabled = firstDay.appliedPlaceForAll;
-    this.isPlaceSelected = firstDay.appliedPlaceForAll;
+    this.isPlaceSelected = this.isPlaceSelected ? this.isPlaceSelected : firstDay.appliedPlaceForAll;
     this.place[firstDay.appliedPlaceForAll ? 'disable' : 'enable']();
 
     if (firstDay.appliedLinkForAll) {

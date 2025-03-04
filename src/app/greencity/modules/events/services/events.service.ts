@@ -31,10 +31,7 @@ export class EventsService implements OnDestroy {
   ) {}
 
   setEvent(event: EventForm): void {
-    if (!event) {
-      this.event = null;
-    }
-    this.event = { ...this.event, ...event };
+    this.event = event ? { ...this.event, ...event } : null;
   }
 
   getEvent(): EventDto {
@@ -94,11 +91,12 @@ export class EventsService implements OnDestroy {
   }
 
   createEvent(formData: FormData): Observable<EventDto> {
-    this.event = null;
+    this.setEvent(null);
     return this.http.post<EventDto>(`${this.backEnd}events/createV2`, formData);
   }
 
   editEvent(formData: FormData, eventId: number): Observable<EventDto> {
+    this.setEvent(null);
     return this.http.put<EventDto>(`${this.backEnd}events/updateV2/${eventId}`, formData);
   }
 

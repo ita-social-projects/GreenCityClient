@@ -24,6 +24,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   @Input() isEmployeeCanEditOrder: boolean;
   @Input() paymentInfo: orderPaymentInfo;
   @Input() orderForm: FormGroup;
+  @Input() dateFormed: string;
   @Output() newPaymentStatus = new EventEmitter<string>();
   @Output() returnMoneyOrBonusesChange = new EventEmitter<ReturnMoneyOrBonuses>();
   @Output() paymentInfoChanged = new EventEmitter<orderPaymentInfo>();
@@ -179,7 +180,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
           orderId: this.orderId,
           viewMode,
           payment: viewMode ? this.paymentsArray[paymentIndex] : null,
-          isCanPaymentEdit: this.isOrderCanBePaid
+          isCanPaymentEdit: this.isOrderCanBePaid,
+          dateFormed: this.dateFormed
         }
       })
       .afterClosed()

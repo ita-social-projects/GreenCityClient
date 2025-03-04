@@ -122,6 +122,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
     const viewMode = true;
     const paymentIndex = 3;
     component.orderId = 1;
+    component.dateFormed = '2025-03-04';
     component.openPopup(true);
     expect(matDialogMock.open).toHaveBeenCalled();
     expect(matDialogMock.open).toHaveBeenCalledWith(AddPaymentComponent, {
@@ -134,7 +135,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
         orderId: 1,
         viewMode,
         payment: viewMode ? component.paymentsArray[paymentIndex] : null,
-        isCanPaymentEdit: component.isOrderCanBePaid
+        isCanPaymentEdit: component.isOrderCanBePaid,
+        dateFormed: '2025-03-04'
       }
     });
   });
