@@ -22,6 +22,7 @@ import { DateInformation, FormControllers, EventDto } from '../../models/events.
 import { customTextValidator, locationOrOnlineLinkValidator } from './validators/event-custom-validators';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { defaultCoordinates } from '@assets/mocks/events/mock-events';
 @Component({
   selector: 'app-event-editor',
   templateUrl: './event-editor.component.html',
@@ -143,23 +144,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
                   allDay: [false],
                   minDate: [nextDate],
                   maxDate: [null],
-                  coordinates: [
-                    {
-                      latitude: null,
-                      longitude: null,
-                      streetEn: '',
-                      streetUa: '',
-                      houseNumber: '',
-                      cityEn: '',
-                      cityUa: '',
-                      regionEn: '',
-                      regionUa: '',
-                      countryEn: '',
-                      countryUa: '',
-                      formattedAddressEn: '',
-                      formattedAddressUa: ''
-                    }
-                  ],
+                  coordinates: [defaultCoordinates],
                   onlineLink: new FormControl(''),
                   place: new FormControl(''),
                   appliedLinkForAll: [false],
@@ -232,23 +217,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
         allDay: [date?.allDay ?? false],
         minDate: [date?.minDate ? new Date(date.minDate) : new Date()],
         maxDate: [date?.maxDate ? new Date(date.maxDate) : null],
-        coordinates: [
-          date?.coordinates ?? {
-            latitude: null,
-            longitude: null,
-            streetEn: '',
-            streetUa: '',
-            houseNumber: '',
-            cityEn: '',
-            cityUa: '',
-            regionEn: '',
-            regionUa: '',
-            countryEn: '',
-            countryUa: '',
-            formattedAddressEn: '',
-            formattedAddressUa: ''
-          }
-        ],
+        coordinates: [date?.coordinates ?? defaultCoordinates],
         onlineLink: new FormControl(date?.onlineLink ?? ''),
         place: new FormControl(''),
         appliedLinkForAll: [date?.appliedLinkForAll ?? false],

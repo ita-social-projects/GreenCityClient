@@ -1,7 +1,8 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GoogleMap } from '@angular/google-maps';
 import { GoogleScript } from '@assets/google-script/google-script';
+import { defaultCoordinates } from '@assets/mocks/events/mock-events';
 import { Patterns } from '@assets/patterns/patterns';
 import { Subject, takeUntil } from 'rxjs';
 import { DateInformation, FormControllers, PlaceOnline } from 'src/app/greencity/modules/events/models/events.interface';
@@ -28,6 +29,9 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   @Input() formDisabled: boolean;
   formGroup: FormGroup<FormControllers<DateInformation>>;
   mapOptions: google.maps.MapOptions;
+  private subLink;
+  private subPlace;
+  private subCoordinates;
   private _autocomplete: google.maps.places.Autocomplete;
   private _regionOptions: google.maps.places.AutocompleteOptions = {
     types: ['address'],
@@ -37,7 +41,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     coordinates: null,
     place: ''
   };
-  private $destroy: Subject<boolean> = new Subject();
+  private $destroy: Subject<void> = new Subject();
   constructor(
     private languageService: LanguageService,
     private googleScript: GoogleScript
@@ -66,16 +70,14 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   toggleForAllLink() {
     const isApplied = !this.appliedLinkForAll.value;
     this.applyLinkToAllDays(isApplied ? this.link.value : '', isApplied);
+    isApplied ? this.subscribeToLinkChanges() : this.unsubscribeFromLinkChanges();
     this.appliedLinkForAll.setValue(isApplied);
   }
 
   toggleForAllLocations(): void {
     const isApplied = !this.appliedPlaceForAll.value;
-    this.applyLocationToAllDays(
-      isApplied ? this.coordinates.value : { latitude: null, longitude: null },
-      isApplied ? this.place.value : '',
-      isApplied
-    );
+    this.applyLocationToAllDays(isApplied ? this.coordinates.value : defaultCoordinates, isApplied ? this.place.value : '', isApplied);
+    isApplied ? this.subscribeToPlaceChanges() : this.unsubscribeFromPlaceChanges();
     this.appliedPlaceForAll.setValue(isApplied);
   }
 
@@ -126,7 +128,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     }
   }
 
-  subscribeToFormChanges(): void {
+  private subscribeToFormChanges(): void {
     this.appliedLinkForAll.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((data) => {
       this.isOnline = data;
       this.isLinkDisabled = data;
@@ -137,6 +139,34 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
       this.isPlaceSelected = data;
       this.place[data ? 'disable' : 'enable']();
     });
+  }
+
+  private subscribeToPlaceChanges(): void {
+    const place = (this.daysForm.controls[0] as FormGroup).controls.place as FormControl;
+    const coordinates = (this.daysForm.controls[0] as FormGroup).controls.coordinates as FormGroup;
+    this.subCoordinates = coordinates.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((data: PlaceOnline) => {
+      if (!this.subPlace) {
+        this.subPlace = place.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((place: string) => {
+          this.applyLocationToAllDays(data, place, true);
+        });
+      }
+    });
+  }
+  private subscribeToLinkChanges(): void {
+    const link = (this.daysForm.controls[0] as FormGroup).controls.onlineLink as FormControl;
+    this.subLink = link.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((link: string) => {
+      this.applyLinkToAllDays(link, true);
+    });
+  }
+  private unsubscribeFromPlaceChanges(): void {
+    this.subCoordinates.unsubscribe();
+    if (this.subPlace) {
+      this.subPlace.unsubscribe();
+      this.subPlace = null;
+    }
+  }
+  private unsubscribeFromLinkChanges(): void {
+    this.subLink.unsubscribe();
   }
 
   applyLocationToAllDays(coordinates: PlaceOnline, place: string, is: boolean): void {
@@ -188,12 +218,12 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
       }, 0);
     } else {
       this.formGroup.controls.place.clearValidators();
-      if (this.appliedPlaceForAll) {
+      if (this.appliedPlaceForAll.value) {
         this.toggleForAllLocations();
       }
       this._autocomplete.unbindAll();
       this.formGroup.patchValue({
-        coordinates: null,
+        coordinates: defaultCoordinates,
         place: ''
       });
     }
@@ -302,7 +332,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     };
   }
   ngOnDestroy(): void {
-    this.$destroy.next(true);
+    this.$destroy.next();
     this.$destroy.complete();
   }
 }
