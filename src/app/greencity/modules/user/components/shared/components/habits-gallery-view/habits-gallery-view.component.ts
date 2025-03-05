@@ -43,7 +43,7 @@ export class HabitsGalleryViewComponent implements OnInit {
   }
 
   goHabitMore(): void {
-    const link = `/profile/${this.userId}/allhabits/`;
+    const link = `/greenCity/profile/${this.userId}/allhabits/`;
     this.router.navigate(this.habit.assignId ? [`${link}edithabit`, this.habit.assignId] : [`${link}addhabit`, this.habit.id], {
       relativeTo: this.route
     });
@@ -60,7 +60,7 @@ export class HabitsGalleryViewComponent implements OnInit {
       .subscribe({
         next: (): void => {
           isAssigned = true;
-          this.router.navigate(['profile', this.userId]);
+          this.router.navigate(['/greenCity/profile', this.userId]);
         },
         complete: (): void => {
           this.snackBar.openSnackBar(isAssigned ? 'habitAdded' : 'habitLimitReached');

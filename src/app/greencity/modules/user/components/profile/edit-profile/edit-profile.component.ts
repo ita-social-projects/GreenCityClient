@@ -209,7 +209,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
     this.editProfileService.postDataUserProfile(JSON.stringify(body)).subscribe({
       next: (): void => {
-        this.router.navigate(['profile', this.profileService.userId]);
+        this.router.navigate(['greenCity', 'profile', this.profileService.userId]);
         this.snackBar.openSnackBar('changesSaved');
         this.localStorageService.setFirstName(form.value.name);
       },

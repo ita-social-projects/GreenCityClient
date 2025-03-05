@@ -337,7 +337,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.allowUserEscape();
     this.createEcoNewsService.setForm(this.form);
     this.createEcoNewsService.setNewsId(this.newsId);
-    this.router.navigate(['news', 'preview']).catch((err) => console.error(err));
+    this.router.navigate(['greenCity', 'news', 'preview']).catch((err) => console.error(err));
   }
 
   isImageValid(): boolean {
