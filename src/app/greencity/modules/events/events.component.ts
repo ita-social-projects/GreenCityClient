@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '../../../shared/services/localstorage/local-storage.service';
-import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
