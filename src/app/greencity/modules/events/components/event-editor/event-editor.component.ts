@@ -229,7 +229,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
 
   onPreview(): void {
     this.eventsService.setEvent(this.eventForm.value);
-    this.router.navigate(['events', 'preview']);
+    this.router.navigate(['greenCity/events/', 'preview']);
   }
 
   submitEvent(): void {
@@ -275,6 +275,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
   }
 
   ngOnDestroy(): void {
-    this.eventsService.setEvent(null);
+    if (this.router.url !== '/greenCity/events/preview') {
+      this.eventsService.setEvent(null);
+    }
   }
 }

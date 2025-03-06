@@ -60,7 +60,8 @@ describe('EventDetailsComponent', () => {
     'setBackFromPreview',
     'setSubmitFromPreview',
     'convertEventToFormEvent',
-    'prepareEventForSubmit'
+    'prepareEventForSubmit',
+    'setEvent'
   ]);
 
   EventsServiceMock.getEventById.and.returnValue(of(EVENT_MOCK));
@@ -72,7 +73,7 @@ describe('EventDetailsComponent', () => {
   EventsServiceMock.getFormattedAddress = () => of('');
   EventsServiceMock.convertEventToFormEvent.and.returnValue({ value: {} });
   EventsServiceMock.prepareEventForSubmit.and.returnValue(new FormData());
-
+  EventsServiceMock.setEvent.and.returnValue();
   const jwtServiceFake = jasmine.createSpyObj('jwtService', ['getUserRole']);
   jwtServiceFake.getUserRole = () => '123';
 
