@@ -16,7 +16,6 @@ import { SignInAction, SignInSuccessAction, SignInWithGoogleAction } from 'src/a
 import { errorSelector, isLoadingSelector } from 'src/app/store/selectors/auth.selectors';
 import { googleProvider } from './GoogleOAuthProvider/GoogleOAuthProvider';
 import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign-in.service';
-import { TurnstileCaptchaComponent } from '@global-auth/turnstile-captcha/turnstile-captcha.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
 declare let google: any;
@@ -28,7 +27,6 @@ declare let google: any;
 export class SignInComponent implements OnInit, OnDestroy {
   @Output() private readonly pageName = new EventEmitter();
   @Input() isUbs: boolean;
-  @ViewChild(TurnstileCaptchaComponent) captchaComponent!: TurnstileCaptchaComponent;
 
   private readonly store: Store = inject(Store);
   private readonly actions: Actions = inject(Actions);
@@ -61,21 +59,12 @@ export class SignInComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.signInForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
-      captchaToken: new FormControl<null | string>(null, [Validators.required])
+      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
     });
 
     this.initGooglePopup();
 
     this.actions.pipe(ofType(SignInSuccessAction), take(1)).subscribe(() => this.matDialogRef.close());
-  }
-
-  onCaptchaError(): void {
-    console.error('Captcha validation failed.');
-  }
-
-  clearCaptchaToken() {
-    this.captchaComponent.clearToken();
   }
 
   signIn(): void {
@@ -87,8 +76,6 @@ export class SignInComponent implements OnInit, OnDestroy {
         this.jwtService.setAuthenticating(false);
         this.matDialogRef.close();
       });
-
-      this.clearCaptchaToken();
     } else {
       console.error('Form is invalid, unable to submit.');
     }
