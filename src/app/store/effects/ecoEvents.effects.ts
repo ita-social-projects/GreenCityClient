@@ -43,7 +43,7 @@ export class EventsEffects {
       mergeMap((actions: { data: FormData }) =>
         this.eventsService.createEvent(actions.data).pipe(
           map((event: EventDto) => CreateEcoEventSuccessAction({ event })),
-          catchError((error) => of(ReceivedFailureAction(error)))
+          catchError((error) => of(ReceivedFailureAction({ error: String(error.status) })))
         )
       )
     )
