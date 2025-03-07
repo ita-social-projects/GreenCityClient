@@ -201,7 +201,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
   goToCreateHabit(): void {
     const userId = localStorage.getItem('userId');
-    this.router.navigate([`profile/${userId}/create-habit`]);
+    this.router.navigate([`/greenCity/profile/${userId}/create-habit`]);
   }
 
   ngOnDestroy(): void {
