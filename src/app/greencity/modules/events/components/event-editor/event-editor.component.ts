@@ -281,7 +281,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
 
   escapeFromCreateEvent(): void {
     this.router.navigate(['/greenCity/events']);
-    this.eventSuccessfullyAdded();
   }
 
   private eventSuccessfullyAdded(): void {
@@ -301,6 +300,12 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
 
     this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess), take(1)).subscribe(() => {
       this.isPosting = false;
+      this.eventSuccessfullyAdded();
+      this.escapeFromCreateEvent();
+    });
+    this.actionsSubj.pipe(ofType(EventsActions.ReceivedFailure), take(1)).subscribe(({ error }) => {
+      this.isPosting = false;
+      this.snackBar.openSnackBar(error);
       this.escapeFromCreateEvent();
     });
   }
