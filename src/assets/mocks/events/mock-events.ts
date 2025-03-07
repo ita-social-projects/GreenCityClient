@@ -8,7 +8,8 @@ import {
   EventAttender,
   EventForm,
   EventResponse,
-  EventResponseDto
+  EventResponseDto,
+  PlaceOnline
 } from 'src/app/greencity/modules/events/models/events.interface';
 import moment from 'moment';
 
@@ -577,3 +578,19 @@ export const MOCK_EVENT_FORM_GROUP = formBuilder.group({
 });
 
 export const mockAttendees: EventAttender[] = [{ name: 'Stetsenka Street', imagePath: 'http://example.com/image.jpg' }];
+
+export const defaultCoordinates: PlaceOnline = {
+  latitude: null,
+  longitude: null,
+  streetEn: '',
+  streetUa: '',
+  houseNumber: '',
+  cityEn: '',
+  cityUa: '',
+  regionEn: '',
+  regionUa: '',
+  countryEn: '',
+  countryUa: '',
+  formattedAddressEn: '',
+  formattedAddressUa: ''
+};

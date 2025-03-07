@@ -410,6 +410,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.router.url !== '/greenCity/events/create-update-event') {
+      this.eventService.setEvent(null);
+    }
     this.destroy.next(true);
     this.destroy.complete();
   }
