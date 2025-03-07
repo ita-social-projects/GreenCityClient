@@ -3,7 +3,7 @@ import { AddOrderNotTakenOutReasonComponent } from './add-order-not-taken-out-re
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BehaviorSubject } from 'rxjs';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NotTakenOutReasonImage } from '../../models/not-taken-out-reason.model';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
 describe('AddOrderNotTakenOutReasonComponent', () => {
   let component: AddOrderNotTakenOutReasonComponent;
@@ -50,6 +51,7 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
         HttpClientTestingModule,
         ReactiveFormsModule,
         SharedModule,
+        UbsSharedModule,
         BrowserAnimationsModule,
         TranslateModule.forRoot(),
         RouterTestingModule

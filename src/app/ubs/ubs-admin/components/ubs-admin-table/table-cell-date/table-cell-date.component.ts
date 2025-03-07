@@ -2,10 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import {
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateAdapter
-} from 'src/app/main/component/events/components/event-editor/components/create-event-dates/components/date-time/moment-date-adapter';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from 'src/app/shared/services/moment-date-adapter';
 import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';

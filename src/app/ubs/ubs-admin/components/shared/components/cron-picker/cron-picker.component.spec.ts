@@ -16,7 +16,7 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonToggleGroupHarness } from '@angular/material/button-toggle/testing';
-import { CronService } from 'src/app/shared/cron/cron.service';
+import { CronService } from '@ubs/ubs-admin/services/cron/cron.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';

@@ -10,11 +10,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { DatePipe } from '@angular/common';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UbsAdminTariffsStationPopUpComponent', () => {
   let component: UbsAdminTariffsStationPopUpComponent;
@@ -55,7 +55,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         {
-          provide: MatSnackBarComponent,
+          provide: MatSnackBarService,
           useValue: {
             openSnackBar: () => {
               ('');

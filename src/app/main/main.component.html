@@ -6,10 +6,8 @@
     </a>
   </div>
   <app-header *ngIf="!isUnsubscribe && !isUBS"></app-header>
-  <app-search-popup></app-search-popup>
   <div class="main-content app-container">
     <div #focusLast tabindex="-1" aria-label="Tab To Main"></div>
     <router-outlet (activate)="setFocus()"></router-outlet>
   </div>
-  <app-footer *ngIf="!isUBS"></app-footer>
 </div>

@@ -1,4 +1,4 @@
-import { EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { EventResponseDto } from 'src/app/greencity/modules/events/models/events.interface';
 
 export interface IEcoEventsState {
   eventState: EventResponseDto;

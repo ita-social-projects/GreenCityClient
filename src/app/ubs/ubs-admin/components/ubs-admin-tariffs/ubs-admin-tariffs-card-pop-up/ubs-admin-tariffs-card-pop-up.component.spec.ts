@@ -4,15 +4,15 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angul
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up.component';
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UbsAdminTariffsCardPopUpComponent', () => {
   let component: UbsAdminTariffsCardPopUpComponent;
@@ -202,7 +202,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
+        { provide: MatSnackBarService, useValue: { openSnackBar: () => {} } },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

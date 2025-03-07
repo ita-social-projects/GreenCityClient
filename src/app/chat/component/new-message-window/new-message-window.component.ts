@@ -7,13 +7,13 @@ import { Subject } from 'rxjs';
 import { CommonService } from '../../service/common/common.service';
 import { SocketService } from '../../service/socket/socket.service';
 import { Message, MessageExtended } from '../../model/Message.model';
-import { UserService } from '@global-service/user/user.service';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { insertEmoji } from 'src/app/main/component/comments/components/add-emoji/add-emoji';
-import { EmojiEvent } from 'src/app/main/component/comments/models/comments-model';
+import { insertEmoji } from 'src/app/greencity/modules/comments/components/add-emoji/add-emoji';
+import { EmojiEvent } from 'src/app/greencity/modules/comments/models/comments-model';
 
 @Component({
   selector: 'app-new-message-window',

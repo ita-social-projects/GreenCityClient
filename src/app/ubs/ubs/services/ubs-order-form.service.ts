@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { OrderDetails, PersonalData } from '../models/ubs.interface';
 

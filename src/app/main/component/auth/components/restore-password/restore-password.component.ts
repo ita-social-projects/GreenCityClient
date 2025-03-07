@@ -1,6 +1,6 @@
-import { UserOwnSignIn } from 'src/app/main/model/user-own-sign-in';
-import { UserSuccessSignIn } from 'src/app/main/model/user-success-sign-in';
-import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { UserOwnSignIn } from 'src/app/shared/models/singIn-singUp/user-own-sign-in';
+import { UserSuccessSignIn } from 'src/app/shared/models/singIn-singUp/user-success-sign-in';
+import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -8,13 +8,13 @@ import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { GoogleSignInService } from '@auth-service/google-sign-in.service';
-import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
-import { RestorePasswordService } from '@auth-service/restore-password.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { GoogleSignInService } from 'src/app/shared/services/auth/google-sign-in.service';
+import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign-in.service';
+import { RestorePasswordService } from '@auth-service/restore-password/restore-password.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 declare let google: any;
 
@@ -46,14 +46,14 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   constructor(
-    private matDialogRef: MatDialogRef<RestorePasswordComponent>,
-    public dialog: MatDialog,
-    private googleService: GoogleSignInService,
-    private userOwnSignInService: UserOwnSignInService,
-    private router: Router,
-    private restorePasswordService: RestorePasswordService,
-    private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent
+    private readonly matDialogRef: MatDialogRef<RestorePasswordComponent>,
+    public readonly dialog: MatDialog,
+    private readonly googleService: GoogleSignInService,
+    private readonly userOwnSignInService: UserOwnSignInService,
+    private readonly router: Router,
+    private readonly restorePasswordService: RestorePasswordService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   ngOnInit() {

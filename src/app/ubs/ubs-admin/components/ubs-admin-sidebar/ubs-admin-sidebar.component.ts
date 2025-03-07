@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnInit, Input } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { UserMessagesService } from '../../../../ubs/ubs-user/services/user-messages.service';
-import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { UbsBaseSidebarComponent } from '@ubs/shared/components/ubs-base-sidebar/ubs-base-sidebar.component';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { listElementsAdmin } from '../../../ubs/models/ubs-sidebar-links';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { AdminSideBarMenu, EnablingSeeAuthorities, SideMenuElementsNames } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';

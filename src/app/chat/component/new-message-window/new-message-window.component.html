@@ -3,8 +3,8 @@
   [ngClass]="{
     'current-chat': isModal,
     'message-window': !isModal,
-    'chat-admin': isAdmin && currentPath.includes('/ubs-admin'),
-    'chat-user': !isAdmin && currentPath.includes('/ubs-user')
+    'chat-admin': isAdmin && currentPath.includes('/ubs/admin'),
+    'chat-user': !isAdmin && currentPath.includes('/ubs/user')
   }"
 >
   <div *ngIf="!isModal" class="new-msg-title">

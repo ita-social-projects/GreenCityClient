@@ -4,19 +4,18 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { Language } from 'src/app/main/i18n/Language';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Language } from 'src/app/shared/i18n/Language';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { Locations } from '../../../models/tariffs.interface';
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
-
 import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up.component';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   let component: UbsAdminTariffsLocationPopUpComponent;
@@ -141,7 +140,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
         { provide: Store, useValue: storeMock },
         { provide: TariffsService, useValue: tariifsServiceMock },
         { provide: GoogleScript, useValue: googleScriptMock },
-        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } }
+        { provide: MatSnackBarService, useValue: { openSnackBar: () => {} } }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();

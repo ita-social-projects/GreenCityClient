@@ -5,29 +5,25 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MainComponent } from './main.component';
-import { ConfirmRestorePasswordGuard } from './service/route-guards/confirm-restore-password.guard';
+import { ConfirmRestorePasswordGuard } from '../shared/guards/route-guards/confirm-restore-password.guard';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogRef } from '@angular/material/dialog';
 import { CoreModule } from '@global-core/core.module';
-import { ErrorComponent } from '@global-errors/error/error.component';
-import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
+import { PendingChangesGuard } from 'src/app/shared/guards/pending-changes-guard/pending-changes.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from '../material.module';
 import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { AuthModule } from './component/auth/auth.module';
-import { HomeModule } from './component/home/home.module';
-import { LayoutModule } from './component/layout/layout.module';
+import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
 @NgModule({
-  declarations: [MainComponent, ErrorComponent],
+  declarations: [MainComponent],
   imports: [
     NgbModule,
-    LayoutModule,
     AuthModule,
     CoreModule,
-    HomeModule,
     InfiniteScrollModule,
     HttpClientModule,
     FormsModule,
@@ -35,7 +31,8 @@ import { LayoutModule } from './component/layout/layout.module';
     DragDropModule,
     NgxPaginationModule,
     MaterialModule,
-    SharedModule
+    SharedModule,
+    UbsSharedModule
   ],
   providers: [
     {

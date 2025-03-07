@@ -17,14 +17,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
+import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { DateAdapter } from '@angular/material/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/order-status.enum';
 import { TableHeightService } from '../../services/table-height.service';
 import { Router } from '@angular/router';
 import { IColumnDTO, IFilteredColumn } from '../../models/ubs-admin.interface';
@@ -583,7 +583,7 @@ xdescribe('UbsAdminTableComponent', () => {
 
   it('checkStatusOfOrders', () => {
     component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE } as any];
-    const Res = component.checkStatusOfOrders(OrderStatus.DONE );
+    const Res = component.checkStatusOfOrders(OrderStatus.DONE);
     expect(Res).toBe(true);
   });
 

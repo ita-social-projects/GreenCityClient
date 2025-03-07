@@ -6,7 +6,6 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
-import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
 import { OrderService } from '../../../services/order.service';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.component';
 import { Router } from '@angular/router';
@@ -45,7 +44,7 @@ describe('UbsOrderLocationPopupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UbsOrderLocationPopupComponent, FilterLocationListByLangPipe],
+      declarations: [UbsOrderLocationPopupComponent],
       imports: [HttpClientTestingModule, MatDialogModule, MatAutocompleteModule, TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogMock },

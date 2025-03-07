@@ -1,6 +1,6 @@
-import { Language } from 'src/app/main/i18n/Language';
-import { UserOwnSignUp } from '@global-models/user-own-sign-up';
-import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
+import { Language } from 'src/app/shared/i18n/Language';
+import { UserOwnSignUp } from 'src/app/shared/models/singIn-singUp/user-own-sign-up';
+import { UserSuccessSignIn } from 'src/app/shared/models/singIn-singUp/user-success-sign-in';
 import { ComponentFixture, TestBed, fakeAsync, flush, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,12 +13,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
-import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
+import { UserOwnSignUpService } from 'src/app/shared/services/auth/user-own-sign-up.service';
 import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.component';
 import { SignUpComponent } from './sign-up.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 class UserOwnSignUpServiceMock {
   mockFormData = {
@@ -55,7 +55,7 @@ describe('SignUpComponent', () => {
     password: '123456qW@'
   };
 
-  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
   beforeEach(waitForAsync(() => {
@@ -72,7 +72,7 @@ describe('SignUpComponent', () => {
       ],
       providers: [
         { provide: MatDialogRef, useClass: MatDialogRefMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock },
         { provide: UserOwnSignUpService, useClass: UserOwnSignUpServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],

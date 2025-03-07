@@ -3,7 +3,7 @@ import { ICustomersTable } from '@ubs/ubs-admin/models/customers-table.model';
 
 export enum UbsAdminActions {
   GetCustomerTable = '[UBS Admin] Get Customer Table',
-  SetCursorWaite = '[UBS Admin] Set Cursor Waite',
+  SetCursorWaite = '[UBS Admin] Set Cursor Waite'
 }
 
 export const GetCustomerTable = createAction(UbsAdminActions.GetCustomerTable, props<{ table: ICustomersTable }>());

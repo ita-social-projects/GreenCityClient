@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { filter, take } from 'rxjs';
 import { ConfirmationDialogComponent } from '@ubs/ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { TUserAgreementText } from '@ubs/ubs-admin/models/user-agreement.interface';
 import { AdminUserAgreementService } from '@ubs/ubs-admin/services/admin-user-agreement/admin-user-agreement.service';
-import { filter, take } from 'rxjs';
-import { quillConfigAdmin } from 'src/app/main/component/eco-news/components/create-edit-news/quillEditorFunc';
+import { quillConfigAdmin } from 'src/app/shared/helpers/quillEditorFunc';
 
 @Component({
   selector: 'app-ubs-admin-edit-user-agreement',

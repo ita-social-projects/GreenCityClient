@@ -2,28 +2,29 @@ import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { iif, of, Subject } from 'rxjs';
 import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { IPaymentInfoDto, PaymentDetails } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
-import { ShowImgsPopUpComponent } from 'src/app/shared/show-imgs-pop-up/show-imgs-pop-up.component';
+import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { ShowPdfPopUpComponent } from '../shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
-import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { formatDate } from '@angular/common';
 import { DateAdapter } from '@angular/material/core';
-import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
+import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-from-date-to-string/convert-from-date-to-string.service';
 import { MatRadioChange } from '@angular/material/radio';
 import { EditPaymentConfirmationPopUpComponent } from '../shared/components/edit-payment-confirmation-pop-up/edit-payment-confirmation-pop-up.component';
 import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
-import { FileHandle } from '../../models/file-handle.model';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 
 interface InputData {
   orderId: number;
   viewMode: boolean;
   payment: IPaymentInfoDto | null;
   isCanPaymentEdit?: boolean;
+  dateFormed: string;
 }
 
 interface PostData {
@@ -40,7 +41,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   private convertFromDateToStringService: ConvertFromDateToStringService;
   private localeStorageService: LocalStorageService;
   private orderService: OrderService;
-
+  minDate: Date;
+  maxDate = new Date();
   closeButton = './assets/img/profile/icons/cancel.svg';
   orderId: number;
   viewMode: boolean;
@@ -100,6 +102,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.viewMode = this.data.viewMode;
     this.payment = this.data.payment;
     this.isCanPaymentEdit = this.data.isCanPaymentEdit;
+    this.minDate = new Date(this.data.dateFormed);
+    this.minDate.setDate(this.minDate.getDate() - 10);
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.adminName = firstName;
     });

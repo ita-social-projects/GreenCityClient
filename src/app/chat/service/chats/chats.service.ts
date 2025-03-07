@@ -4,11 +4,11 @@ import { Chat, ChatDto, LocationForChat } from '../../model/Chat.model';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Message, MessageExtended, MessagesToSave } from '../../model/Message.model';
-import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel } from 'src/app/greencity/modules/user/models/friend.model';
 import { Messages } from './../../model/Message.model';
 import { concatMap, map } from 'rxjs/operators';
 import { OrderService } from '@ubs/ubs/services/order.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'

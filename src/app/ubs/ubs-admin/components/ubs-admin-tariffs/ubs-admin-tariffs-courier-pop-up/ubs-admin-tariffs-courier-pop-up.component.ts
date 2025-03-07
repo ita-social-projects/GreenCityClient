@@ -3,13 +3,13 @@ import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { TariffsService } from '../../../services/tariffs.service';
 import { Couriers } from '../../../models/tariffs.interface';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-courier-pop-up',
@@ -46,12 +46,12 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private fb: FormBuilder,
-    private localStorageService: LocalStorageService,
-    public dialogRef: MatDialogRef<UbsAdminTariffsCourierPopUpComponent>,
-    private snackBar: MatSnackBarComponent,
-    private localeStorageService: LocalStorageService,
-    private tariffsService: TariffsService,
+    private readonly fb: FormBuilder,
+    private readonly localStorageService: LocalStorageService,
+    public readonly dialogRef: MatDialogRef<UbsAdminTariffsCourierPopUpComponent>,
+    private readonly snackBar: MatSnackBarService,
+    private readonly localeStorageService: LocalStorageService,
+    private readonly tariffsService: TariffsService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       headerText: string;

@@ -3,13 +3,13 @@ import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { TariffsService } from '../../../services/tariffs.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-station-pop-up',
@@ -40,12 +40,12 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private fb: FormBuilder,
-    private localeStorageService: LocalStorageService,
-    public dialogRef: MatDialogRef<UbsAdminTariffsStationPopUpComponent>,
-    private tariffsService: TariffsService,
-    private languageService: LanguageService,
-    private snackBar: MatSnackBarComponent,
+    private readonly fb: FormBuilder,
+    private readonly localeStorageService: LocalStorageService,
+    public readonly dialogRef: MatDialogRef<UbsAdminTariffsStationPopUpComponent>,
+    private readonly tariffsService: TariffsService,
+    private readonly languageService: LanguageService,
+    private readonly snackBar: MatSnackBarService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       headerText: string;

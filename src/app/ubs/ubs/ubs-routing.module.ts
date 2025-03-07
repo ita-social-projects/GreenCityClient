@@ -1,18 +1,21 @@
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthPageGuardService } from '@global-service/route-guards/auth-page-guard.service';
+import { AuthPageGuardService } from 'src/app/shared/guards/route-guards/auth-page-guard.service';
 import { UBSOrderFormComponent } from './components/ubs-order-form/ubs-order-form.component';
 import { UbsOrderComponent } from './ubs-order.component';
 import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.component';
 import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-order/ubs-submit-order-notification/ubs-submit-order-notification.component';
 import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
-import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
+import { ConfirmRestorePasswordGuard } from 'src/app/shared/guards/route-guards/confirm-restore-password.guard';
 import { UBSOrderDetailsComponent } from './components/ubs-order-details/ubs-order-details.component';
-import { PreventNavigationBackGuard } from 'src/app/shared/guards/prevent-navigation-back.guard';
-import { stepperGuard } from 'src/app/shared/guards/stepper/stepper.guard';
+import { PreventNavigationBackGuard } from '@ubs/ubs/guards/prevent-navigation-back/prevent-navigation-back.guard';
+import { stepperGuard } from '@ubs/ubs/guards/stepper/stepper.guard';
 import { UbsUserAgreementComponent } from '@ubs/ubs/components/ubs-user-agreement/ubs-user-agreement.component';
 import { UnblockAccountComponent } from '@global-auth/unblock-account/unblock-account.component';
+import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
+import { UbsUserGuard } from '@ubs/ubs-user/guards/ubs-user-guard.guard';
+import { NonAdminGuard } from 'src/app/shared/guards/non-admin.guard';
 
 const ubsRoutes: Routes = [
   {
@@ -23,15 +26,49 @@ const ubsRoutes: Routes = [
       {
         path: 'order',
         component: UBSOrderFormComponent,
-        canActivate: [AuthPageGuardService],
+        canActivate: [AuthPageGuardService, NonAdminGuard],
         canDeactivate: [PreventNavigationBackGuard, stepperGuard]
       },
-      { path: 'confirm', component: UbsConfirmPageComponent, canActivate: [AuthPageGuardService] },
-      { path: `notification/confirm/:orderId`, component: UbsSubmitOrderNotificationComponent, canActivate: [AuthPageGuardService] },
-      { path: 'auth/restore', component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard] },
-      { path: 'auth/unblock', component: UnblockAccountComponent },
-      { path: 'ubs/order/:isThisExistingOrder', component: UBSOrderDetailsComponent },
-      { path: 'user-agreement', component: UbsUserAgreementComponent }
+      {
+        path: 'confirm',
+        component: UbsConfirmPageComponent,
+        canActivate: [AuthPageGuardService, NonAdminGuard]
+      },
+      {
+        path: `notification/confirm/:orderId`,
+        component: UbsSubmitOrderNotificationComponent,
+        canActivate: [AuthPageGuardService, NonAdminGuard]
+      },
+      {
+        path: 'auth/restore',
+        component: ConfirmRestorePasswordComponent,
+        canActivate: [ConfirmRestorePasswordGuard, NonAdminGuard]
+      },
+      {
+        path: 'auth/unblock',
+        component: UnblockAccountComponent,
+        canActivate: [NonAdminGuard]
+      },
+      {
+        path: 'order/:isThisExistingOrder',
+        component: UBSOrderDetailsComponent,
+        canActivate: [NonAdminGuard]
+      },
+      {
+        path: 'user-agreement',
+        component: UbsUserAgreementComponent,
+        canActivate: [NonAdminGuard]
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('../ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule),
+        canLoad: [UbsAdminGuard]
+      },
+      {
+        path: 'user',
+        loadChildren: () => import('../ubs-user/ubs-user.module').then((mod) => mod.UbsUserModule),
+        canLoad: [UbsUserGuard]
+      }
     ]
   }
 ];

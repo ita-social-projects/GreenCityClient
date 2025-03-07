@@ -4,9 +4,9 @@ import { CHAT_ICONS } from '../../chat-icons';
 import { Message } from '../../model/Message.model';
 import { FormControl } from '@angular/forms';
 import { SocketService } from '../../service/socket/socket.service';
-import { UserService } from '@global-service/user/user.service';
-import { insertEmoji } from 'src/app/main/component/comments/components/add-emoji/add-emoji';
-import { EmojiEvent } from 'src/app/main/component/comments/models/comments-model';
+import { UserService } from 'src/app/shared/services/user/user.service';
+import { EmojiEvent } from 'src/app/greencity/modules/comments/models/comments-model';
+import { insertEmoji } from 'src/app/greencity/modules/comments/components/add-emoji/add-emoji';
 
 @Component({
   selector: 'app-chat',

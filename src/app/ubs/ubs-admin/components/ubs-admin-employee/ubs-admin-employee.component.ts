@@ -2,13 +2,13 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Subject } from 'rxjs';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { Couriers, Locations, City, FilterData } from '../../models/tariffs.interface';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -24,7 +24,7 @@ import {
   filtersStateEmployeeOptions,
   EmployeeStatus
 } from './ubs-admin-employee-table/employee-models.enum';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 
 @Component({
   selector: 'app-ubs-admin-employee',

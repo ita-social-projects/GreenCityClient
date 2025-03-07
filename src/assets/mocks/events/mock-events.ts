@@ -1,15 +1,17 @@
+import { HttpParams } from '@angular/common/http';
+import { HabitAssignInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit-assign.interface';
+import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
+import { HabitInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit.interface';
+import { FormBuilder, FormControl } from '@angular/forms';
 import {
   Addresses,
   EventAttender,
   EventForm,
   EventResponse,
-  EventResponseDto
-} from '../../../app/main/component/events/models/events.interface';
-import { HttpParams } from '@angular/common/http';
-import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
-import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
-import { FormBuilder, FormControl } from '@angular/forms';
+  EventResponseDto,
+  PlaceOnline
+} from 'src/app/greencity/modules/events/models/events.interface';
+import moment from 'moment';
 
 export const testCases = [
   {
@@ -515,34 +517,32 @@ export const EVENT_MOCK: EventResponse = {
 export const EVENT_FORM_MOCK: EventForm = {
   eventInformation: {
     title: 'Sample Event Title',
-    duration: 120,
+    duration: 1,
     description: 'This is a sample event description.',
     open: true,
-    tags: ['Technology', 'Education'],
-    editorText: 'Detailed editor text for the event.',
-    images: []
+    tags: [{ name: 'Technology' }, { name: 'Education' }]
   },
-  dateInformation: [
+  dates: [
     {
-      day: {
-        date: new Date('2024-11-30'),
-        startTime: '10:00 AM',
-        endTime: '12:00 PM',
-        allDay: false
+      day: moment('2024-11-30'),
+      startTime: '10:00 AM',
+      finishTime: '12:00 PM',
+      allDay: false,
+      coordinates: {
+        latitude: 40.712776,
+        longitude: -74.005974
       },
-      placeOnline: {
-        coordinates: {
-          lat: 40.712776,
-          lng: -74.005974
-        },
-        onlineLink: 'https://example.com/event',
-        place: 'Sample Place',
-        appliedLinkForAll: true,
-        appliedPlaceForAll: false
-      },
-      pastDate: false
+      onlineLink: 'https://example.com/event',
+      place: 'Sample Place',
+      appliedLinkForAll: false,
+      appliedPlaceForAll: false,
+      startDate: new Date('2024-11-30'),
+      finishDate: new Date('2024-11-30'),
+      minDate: new Date('2024-11-30'),
+      maxDate: null
     }
-  ]
+  ],
+  images: []
 };
 
 const formBuilder = new FormBuilder();
@@ -578,3 +578,19 @@ export const MOCK_EVENT_FORM_GROUP = formBuilder.group({
 });
 
 export const mockAttendees: EventAttender[] = [{ name: 'Stetsenka Street', imagePath: 'http://example.com/image.jpg' }];
+
+export const defaultCoordinates: PlaceOnline = {
+  latitude: null,
+  longitude: null,
+  streetEn: '',
+  streetUa: '',
+  houseNumber: '',
+  cityEn: '',
+  cityUa: '',
+  regionEn: '',
+  regionUa: '',
+  countryEn: '',
+  countryUa: '',
+  formattedAddressEn: '',
+  formattedAddressUa: ''
+};

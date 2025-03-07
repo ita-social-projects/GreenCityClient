@@ -54,5 +54,5 @@ export const Masks = {
   certificateMask: '0000-0000',
   ecoStoreMask: '00000000',
   servicesMask: '000',
-  phoneMask: '+{38\\0} (00) 000 00 00'
+  phoneMask: '{+380} (00) 000 00 00'
 };

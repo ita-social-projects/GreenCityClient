@@ -14,14 +14,14 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { AddEmployee, UpdateEmployee } from 'src/app/store/actions/employee.actions';
 import { skip, takeUntil } from 'rxjs/operators';
-import { ShowImgsPopUpComponent } from 'src/app/shared/show-imgs-pop-up/show-imgs-pop-up.component';
+import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { Subject } from 'rxjs';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
+import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { UploadPhotoContainerComponent } from 'src/app/shared/upload-photo-container/upload-photo-container.component';
-import { FileHandle } from '@eco-news-models/create-news-interface';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
+import { UploadPhotoContainerComponent } from '@ubs/shared/components/upload-photo-container/upload-photo-container.component';
+import { FileHandle } from 'src/app/shared/models/file-handle.model';
 
 @Component({
   selector: 'app-ubs-admin-employee-edit-form',

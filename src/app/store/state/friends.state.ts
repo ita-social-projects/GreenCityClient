@@ -1,4 +1,4 @@
-import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel } from 'src/app/greencity/modules/user/models/friend.model';
 
 export interface IFriendState {
   FriendState: FriendArrayModel;

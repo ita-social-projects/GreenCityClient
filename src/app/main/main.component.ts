@@ -1,9 +1,9 @@
-import { TitleAndMetaTagsService } from './service/title-meta-tags/title-and-meta-tags.service';
+import { TitleAndMetaTagsService } from './title-meta-tags/title-and-meta-tags.service';
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { UserService } from '@global-service/user/user.service';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
+import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-main',
@@ -41,7 +41,7 @@ export class MainComponent implements OnInit, AfterViewChecked {
     this.titleAndMetaTagsService.useTitleMetasData();
     this.checkLogin();
   }
-  
+
   ngAfterViewChecked(): void {
     this.cdr.detectChanges();
   }
@@ -69,5 +69,4 @@ export class MainComponent implements OnInit, AfterViewChecked {
       this.isLogin = status;
     });
   }
-
 }

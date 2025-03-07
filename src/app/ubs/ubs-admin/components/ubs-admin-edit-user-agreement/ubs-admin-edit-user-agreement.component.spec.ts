@@ -5,7 +5,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { TUserAgreementAdmin } from '@ubs/ubs-admin/models/user-agreement.interface';
 import { AdminUserAgreementService } from '@ubs/ubs-admin/services/admin-user-agreement/admin-user-agreement.service';
 import { of } from 'rxjs';
-import { SpinnerComponent } from 'src/app/shared/spinner/spinner.component';
+import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
 import { UbsAdminEditUserAgreementComponent } from './ubs-admin-edit-user-agreement.component';
 
 const mockUserAgreement: TUserAgreementAdmin = {

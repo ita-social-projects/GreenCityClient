@@ -1,0 +1,33 @@
+<footer role="contentinfo" class="footer" (window:resize)="onResize()">
+  <div class="footer__menu menu">
+    <div class="menu__logo">
+      <a [routerLink]="['/ubs']" role="button">
+        <img [src]="footerPicture.ubsLogoFooter" alt="Footer logo" />
+      </a>
+    </div>
+    <ul class="menu__links">
+      <li>
+        <a href #serviceref (click)="openAboutServicePopUp($event)" (keydown.enter)="onPressEnter($event)">{{
+          'user.lower-nav-bar.about-us' | translate
+        }}</a>
+      </li>
+      <li *ngFor="let link of ubsNavLinks" role="listitem">
+        <a *ngIf="link.url" [href]="link.route" target="_blank" rel="noopener">
+          {{ link.name | translate }}
+        </a>
+
+        <a *ngIf="!link.url" [routerLink]="link.route" rel="noopener">
+          {{ link.name | translate }}
+        </a>
+      </li>
+    </ul>
+    <div class="menu__social-media">
+      <div *ngFor="let link of socialLinks">
+        <a target="_blank" [href]="link.url" rel="noopener">
+          <img [src]="link.icon" [alt]="link.name + ' icon'" />
+        </a>
+      </div>
+    </div>
+  </div>
+  <p class="footer__bottom-part" tabindex="0">Copyright © {{ currentYear }} · All Rights Reserved</p>
+</footer>

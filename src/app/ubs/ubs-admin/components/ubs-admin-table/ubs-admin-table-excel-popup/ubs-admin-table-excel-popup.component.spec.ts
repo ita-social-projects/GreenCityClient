@@ -6,7 +6,7 @@ import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup.
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { AdminCertificateService } from 'src/app/ubs/ubs-admin/services/admin-certificate.service';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { of } from 'rxjs';

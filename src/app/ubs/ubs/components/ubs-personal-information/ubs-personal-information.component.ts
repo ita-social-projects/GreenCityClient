@@ -1,20 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
 import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
 import { Subject, combineLatest } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { PersonalData } from '../../models/ubs.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { Store, select } from '@ngrx/store';
 import { GetPersonalData, SetPersonalData, GetExistingOrderInfo, SetSecondFormStatus } from 'src/app/store/actions/order.actions';
 import { addressIdSelector, existingOrderInfoSelector, personalDataSelector } from 'src/app/store/selectors/order.selectors';
-import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
-import { WarningPopUpComponent } from '@shared/components';
+import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 
 @Component({
   selector: 'app-ubs-personal-information',
