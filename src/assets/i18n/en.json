@@ -580,7 +580,6 @@
         "sign-up": "Sign up",
         "sign-in-with-google": "Sign in with Google",
         "bad-email-or-password": "Bad email or password",
-        "wrong-captcha": "Wrong captcha",
         "bad-password": "Bad password",
         "account-blocked": "User account is blocked due to too many failed login attempts. Try again in 15 minutes.",
         "user-not-activated": "Account is not activated",
