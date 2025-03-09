@@ -179,14 +179,17 @@ export const mockEvent: EventResponseDto = {
         }
       ],
       title: 'title',
+      likes: 8,
+      dislikes: 10,
       titleImage: 'image title',
       isSubscribed: true,
       isFavorite: false,
-      likes: 8,
       countComments: 9,
       isRelevant: true,
       isOrganizedByFriend: false,
-      eventRate: 0
+      eventRate: 0,
+      isLiked: false,
+      isDisliked: false
     }
   ],
   totalElements: 12,
@@ -241,10 +244,13 @@ export const mockFavouriteEvents: EventResponse[] = [
     isSubscribed: true,
     isFavorite: true,
     likes: 8,
+    dislikes: 10,
     countComments: 9,
     isRelevant: true,
     isOrganizedByFriend: false,
-    eventRate: 0
+    eventRate: 0,
+    isLiked: false,
+    isDisliked: false
   },
   {
     additionalImages: [],
@@ -293,10 +299,13 @@ export const mockFavouriteEvents: EventResponse[] = [
     isSubscribed: true,
     isFavorite: true,
     likes: 8,
+    dislikes: 5,
     countComments: 9,
     isRelevant: true,
     isOrganizedByFriend: false,
-    eventRate: 0
+    eventRate: 0,
+    isLiked: false,
+    isDisliked: false
   }
 ];
 
@@ -352,13 +361,16 @@ export const mockEventResponse: EventResponseDto = {
       titleImage: 'http://example.com/image.jpg',
       additionalImages: ['http://example.com/image1.jpg', 'http://example.com/image2.jpg'],
       isRelevant: true,
-      likes: 123,
+      likes: 8,
+      dislikes: 5,
       countComments: 45,
       eventRate: 4.5,
       open: true,
       isSubscribed: false,
       isFavorite: true,
-      isOrganizedByFriend: false
+      isOrganizedByFriend: false,
+      isLiked: false,
+      isDisliked: false
     }
   ],
   totalElements: 1,
@@ -468,6 +480,9 @@ export const eventStateMock = {
 };
 
 export const EVENT_MOCK: EventResponse = {
+  dislikes: 0,
+  isDisliked: false,
+  isLiked: false,
   description: 'tralalalal',
   additionalImages: [],
   creationDate: '2022-05-31',

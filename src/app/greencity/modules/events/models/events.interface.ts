@@ -34,6 +34,7 @@ export interface EventForm {
   additionalImages?: Array<string>;
   images?: Array<any>;
 }
+
 export interface DateInformation {
   day: Moment;
   startDate: Date;
@@ -67,6 +68,7 @@ export interface PlaceOnline {
   formattedAddressEn?: string;
   formattedAddressUa?: string;
 }
+
 export interface ImagesContainer {
   file: File;
   url: string;
@@ -146,6 +148,9 @@ export interface EventResponse {
   additionalImages: string[];
   isRelevant: boolean;
   likes: number;
+  dislikes: number;
+  isLiked: boolean;
+  isDisliked: boolean;
   countComments: number;
   eventRate: number;
   open: boolean;

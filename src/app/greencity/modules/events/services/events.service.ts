@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from '@environment/environment';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, throwError } from 'rxjs';
 import {
   Addresses,
   EventAttender,
@@ -13,6 +13,8 @@ import {
   PlaceOnline
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
+import { catchError } from 'rxjs/operators';
+import { LikeResponse } from './LikeResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -154,7 +156,18 @@ export class EventsService implements OnDestroy {
       coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
     );
   }
+  likeEvent(eventId: number): Observable<LikeResponse> {
+    return this.http.post<LikeResponse>(`${this.backEnd}events/${eventId}/like`, {}).pipe(
+      catchError((error) => {
+        console.error('Error liking event:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 
+  dislikeEvent(eventId: number): Observable<any> {
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike`, {}).pipe(catchError((error) => throwError(() => error)));
+  }
   getFormattedAddressEventsList(coordinates: LocationResponse): string {
     return this.langService.getLangValue(
       coordinates.streetUa

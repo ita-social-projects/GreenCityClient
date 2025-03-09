@@ -14,6 +14,14 @@
     overflow: hidden;
   }
 }
+.rotate-icon {
+  transform: rotate(180deg);
+}
+
+#like,
+#dislike {
+  border: none;
+}
 
 .additional-info {
   padding: 16px;
