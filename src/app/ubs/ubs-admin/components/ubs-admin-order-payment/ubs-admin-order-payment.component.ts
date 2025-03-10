@@ -97,7 +97,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
 
   setDateInPaymentArray(): void {
     this.paymentsArray.forEach((payment: IPaymentInfoDto) => {
-      payment.settlementdate = this.formatDate(payment.settlementdate);
+      payment.settlementDate = this.formatDate(payment.settlementDate);
     });
   }
 
@@ -145,7 +145,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     const paymentDetails: IPaymentInfoDto = {
       id: null,
       comment: null,
-      settlementdate: currentDate.replace('-', '.'),
+      settlementDate: currentDate.replace('-', '.'),
       amount: this.isBroughtItHimSelf ? this.returnMoneyOrBonuses.amount : this.overpayment,
       paymentId: null,
       receiptLink: `return-payment.${[isMoney ? 'reqeust-return-money' : 'reqeust-return-bonuses']}`,

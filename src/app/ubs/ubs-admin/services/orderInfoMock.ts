@@ -147,7 +147,7 @@ export const OrderInfoMockedData: IOrderInfo = {
         imagePath: null,
         paymentId: '436436436',
         receiptLink: '',
-        settlementdate: '2022-02-01',
+        settlementDate: '2022-02-01',
         currentDate: '2022-02-09'
       }
     ],
@@ -203,7 +203,7 @@ export const activeCouriersMock = [
 export const IPaymentInfoDtoMock: IPaymentInfoDto = {
   id: 1,
   currentDate: '2022-02-09',
-  settlementdate: '2022-02-01',
+  settlementDate: '2022-02-01',
   amount: 200,
   receiptLink: 'Enrollment to the bonus account'
 };

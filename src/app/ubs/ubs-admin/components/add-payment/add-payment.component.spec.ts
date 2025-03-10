@@ -28,7 +28,7 @@ xdescribe('AddPaymentComponent', () => {
     comment: 'fakeComment',
     paymentId: 'fakeID',
     id: 123,
-    settlementdate: '1-1-1',
+    settlementDate: '1-1-1',
     imagePath: 'fakePath',
     receiptLink: 'fakeLink'
   };
@@ -121,7 +121,7 @@ xdescribe('AddPaymentComponent', () => {
   describe('save', () => {
     it('makes expected calls', () => {
       const spy = spyOn(component, 'processPayment');
-      component.addPaymentForm.controls.settlementdate.setValue(new Date());
+      component.addPaymentForm.controls.settlementDate.setValue(new Date());
       component.save();
       expect(spy).toHaveBeenCalled();
     });
@@ -163,7 +163,7 @@ xdescribe('AddPaymentComponent', () => {
   describe('editPayment', () => {
     it(`payment has been edited`, () => {
       component.payment = {
-        settlementdate: '',
+        settlementDate: '',
         amount: 13,
         receiptLink: '',
         paymentId: ''
@@ -263,14 +263,14 @@ xdescribe('AddPaymentComponent', () => {
   });
 
   describe('isFormValid', () => {
-    it('should return true if settlementdate, amount, or paymentId controls are invalid and touched', () => {
-      component.addPaymentForm.get('settlementdate').setErrors({ invalid: true });
-      component.addPaymentForm.get('settlementdate').markAsTouched();
+    it('should return true if settlementDate, amount, or paymentId controls are invalid and touched', () => {
+      component.addPaymentForm.get('settlementDate').setErrors({ invalid: true });
+      component.addPaymentForm.get('settlementDate').markAsTouched();
       expect(component.isFormValid()).toBeTruthy();
     });
 
-    it('should return false if settlementdate, amount, and paymentId controls are all valid and touched', () => {
-      component.addPaymentForm.get('settlementdate').setValue(new Date());
+    it('should return false if settlementDate, amount, and paymentId controls are all valid and touched', () => {
+      component.addPaymentForm.get('settlementDate').setValue(new Date());
       component.addPaymentForm.get('amount').setValue(100);
       component.addPaymentForm.get('paymentId').setValue('12345');
       expect(component.isFormValid()).toBeFalsy();

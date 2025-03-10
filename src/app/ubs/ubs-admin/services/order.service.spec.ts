@@ -120,7 +120,7 @@ describe('OrderService', () => {
           comment: 'Paid in full',
           currentDate: '2024-11-01',
           amount: 90,
-          settlementdate: '2024-11-01',
+          settlementDate: '2024-11-01',
           receiptLink: 'https://example.com/receipt/123'
         }
       ],

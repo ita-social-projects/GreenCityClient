@@ -258,7 +258,7 @@ export interface IPaymentInfo {
 
 export interface PaymentDetails {
   amount: number;
-  settlementdate: string;
+  settlementDate: string;
   paymentId?: string;
   receiptLink: string;
   imagePath?: string;
