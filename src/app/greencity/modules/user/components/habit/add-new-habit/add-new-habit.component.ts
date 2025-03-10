@@ -284,11 +284,11 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   editUsersCustomHabit(url: string, id: number): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    this.router.navigate([`profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
+    this.router.navigate([`/greenCity/profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
   }
 
   goToProfile(): void {
-    this.router.navigate(['profile', this.userId]);
+    this.router.navigate(['greenCity', 'profile', this.userId]);
   }
 
   assignCustomHabit(): void {
@@ -326,7 +326,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   goToAllHabits(): void {
-    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.router.navigate([`/greenCity/profile/${this.userId}/allhabits`]);
   }
 
   deleteHabit(): void {
