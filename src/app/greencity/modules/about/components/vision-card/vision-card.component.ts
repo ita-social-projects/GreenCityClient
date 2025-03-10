@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { VisionCard } from '../../models/vision-card.interface';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-vision-card',
@@ -7,7 +8,18 @@ import { VisionCard } from '../../models/vision-card.interface';
   styleUrls: ['./vision-card.component.scss']
 })
 export class VisionCardComponent {
+  private userId: number;
   @Input() card: VisionCard;
+
+  constructor(private localStorageService: LocalStorageService) {}
+
+  getDynamicLink(): string[] {
+    if (this.card.linkPath[0] === '/greenCity/profile') {
+      this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
+      return [`/greenCity/profile/${this.userId}/friends`];
+    }
+    return this.card.linkPath;
+  }
 
   get isEven(): boolean {
     return this.card.id % 2 === 0;

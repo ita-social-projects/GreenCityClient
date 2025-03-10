@@ -6,7 +6,7 @@ export const visionCards: VisionCard[] = [
     title: 'about-us.steps.block-1.header',
     description: 'about-us.steps.block-1.text',
     linkText: 'about-us.steps.block-1.button',
-    linkPath: ['/places'],
+    linkPath: ['/greenCity/places'],
     imgUrl: 'assets/img/illustration-store.png',
     alt: 'illustration store',
     navigationExtras: {
@@ -21,7 +21,7 @@ export const visionCards: VisionCard[] = [
     title: 'about-us.steps.block-3.header',
     description: 'about-us.steps.block-3.text',
     linkText: 'about-us.steps.block-3.button',
-    linkPath: [],
+    linkPath: ['/greenCity/profile'],
     imgUrl: 'assets/img/illustration-money.png',
     alt: 'illustration money'
   },
@@ -30,7 +30,7 @@ export const visionCards: VisionCard[] = [
     title: 'about-us.steps.block-4.header',
     description: 'about-us.steps.block-4.text',
     linkText: 'about-us.steps.block-4.button',
-    linkPath: [],
+    linkPath: ['/greenCity/news'],
     imgUrl: 'assets/img/illustration-recycle.png',
     alt: 'illustration recycle'
   },
@@ -39,7 +39,7 @@ export const visionCards: VisionCard[] = [
     title: 'about-us.steps.block-5.header',
     description: 'about-us.steps.block-5.text',
     linkText: 'about-us.steps.block-5.button',
-    linkPath: [],
+    linkPath: ['/greenCity/profile'],
     imgUrl: 'assets/img/illustration-people.png',
     alt: 'illustration people'
   }

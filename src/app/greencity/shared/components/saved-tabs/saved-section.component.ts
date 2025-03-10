@@ -42,7 +42,7 @@ export class SavedSectionComponent implements OnInit, OnDestroy {
   }
 
   navigateToSaved(section: string): void {
-    this.router.navigate([`/${section}`], {
+    this.router.navigate([`/greenCity/${section}`], {
       queryParams: { isBookmark: true, section }
     });
     this.currentTab = section;
