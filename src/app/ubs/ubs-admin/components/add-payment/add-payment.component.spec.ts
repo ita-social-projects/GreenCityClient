@@ -263,7 +263,7 @@ xdescribe('AddPaymentComponent', () => {
   });
 
   describe('isFormValid', () => {
-    it('should return true if settlementdate, amount, or paymentId controls are invalid and touched', () => {
+    it('should return true if settlementDate, amount, or paymentId controls are invalid and touched', () => {
       component.addPaymentForm.get('settlementDate').setErrors({ invalid: true });
       component.addPaymentForm.get('settlementDate').markAsTouched();
       expect(component.isFormValid()).toBeTruthy();
