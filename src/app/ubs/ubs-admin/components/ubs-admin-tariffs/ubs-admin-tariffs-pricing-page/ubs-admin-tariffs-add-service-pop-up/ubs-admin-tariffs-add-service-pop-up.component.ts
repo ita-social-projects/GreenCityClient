@@ -116,7 +116,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
       descriptionUk: this.isLangEn ? descriptionEng : description,
       descriptionEn: this.isLangEn ? description : descriptionEng,
       nameUk: this.isLangEn ? nameEn : nameUk,
-      nameEn: this.isLangEn ? nameEn : nameEn
+      nameEn: this.isLangEn ? nameEn : nameUk
     };
     this.loadingAnim = true;
     this.tariffsService
