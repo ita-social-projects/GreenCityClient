@@ -1,5 +1,5 @@
 export type TUserAgreementText = {
-  textUa: string;
+  textUk: string;
   textEn: string;
 };
 

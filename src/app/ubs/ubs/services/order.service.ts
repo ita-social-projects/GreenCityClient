@@ -137,12 +137,12 @@ export class OrderService {
         map((districts) => {
           if (districts.length > 1) {
             return districts.map((item) => ({
-              nameUa: item.nameUa + DistrictEnum.UA,
+              nameUk: item.nameUk + DistrictEnum.UA,
               nameEn: item.nameEn + DistrictEnum.EN
             }));
           } else {
             return districts.map((item) => ({
-              nameUa: item.nameUa,
+              nameUk: item.nameUk,
               nameEn: item.nameEn
             }));
           }

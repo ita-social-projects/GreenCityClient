@@ -68,7 +68,7 @@ export class TableCellInputComponent {
   private openPopUp(): void {
     this.dialogConfig.disableClose = true;
     const modalRef = this.dialog.open(CommentPopUpComponent, this.dialogConfig);
-    modalRef.componentInstance.header = this.localStorageService.getCurrentLanguage() === 'ua' ? this.column.ua : this.column.en;
+    modalRef.componentInstance.header = this.localStorageService.getCurrentLanguage() === 'ua' ? this.column.uk : this.column.en;
     modalRef.componentInstance.comment = this.data;
     modalRef.afterClosed().subscribe((updatedData) => {
       if (updatedData !== null && updatedData !== this.data) {
