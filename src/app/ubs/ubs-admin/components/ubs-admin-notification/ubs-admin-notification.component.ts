@@ -103,7 +103,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   }
 
   onEditNotificationText(platform: string): void {
-    const platformToUpdate = this.notification.platforms.find((pf) => pf.nameEng === platform);
+    const platformToUpdate = this.notification.platforms.find((pf) => pf.nameEn === platform);
 
     this.dialog
       .open(UbsAdminNotificationEditFormComponent, {
@@ -111,8 +111,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         data: {
           platform,
           text: {
-            ua: platformToUpdate.body,
-            en: platformToUpdate.bodyEng
+            ua: platformToUpdate.bodyUk,
+            en: platformToUpdate.bodyEn
           }
         }
       })
@@ -121,8 +121,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         if (!updates) {
           return;
         }
-        platformToUpdate.body = updates.text.ua;
-        platformToUpdate.bodyEng = updates.text.en;
+        platformToUpdate.bodyUk = updates.text.ua;
+        platformToUpdate.bodyEn = updates.text.en;
       });
   }
 
@@ -132,8 +132,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         hasBackdrop: true,
         data: {
           title: {
-            en: this.notification.notificationTemplateMainInfoDto.titleEng,
-            ua: this.notification.notificationTemplateMainInfoDto.title
+            en: this.notification.notificationTemplateMainInfoDto.titleEn,
+            ua: this.notification.notificationTemplateMainInfoDto.titleUk
           },
           trigger: this.notification.notificationTemplateMainInfoDto.trigger,
           time: this.notification.notificationTemplateMainInfoDto.time,
@@ -146,8 +146,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
           return;
         }
         this.findNewDescription(updates);
-        this.notification.notificationTemplateMainInfoDto.title = updates.title.ua;
-        this.notification.notificationTemplateMainInfoDto.titleEng = updates.title.en;
+        this.notification.notificationTemplateMainInfoDto.titleUk = updates.title.ua;
+        this.notification.notificationTemplateMainInfoDto.titleEn = updates.title.en;
         this.notification.notificationTemplateMainInfoDto.trigger = updates.trigger;
         this.notification.notificationTemplateMainInfoDto.time = updates.time;
         this.notification.notificationTemplateMainInfoDto.schedule = updates.schedule;
@@ -159,23 +159,23 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     const indexTime = this.notificationTriggerTime.findIndex((item) => item.time === updatedNotification.time);
 
     if (indexTrigger !== -1 && this.notification.notificationTemplateMainInfoDto) {
-      this.notification.notificationTemplateMainInfoDto.triggerDescription = this.notificationTriggers[indexTrigger]?.triggerDescription;
-      this.notification.notificationTemplateMainInfoDto.triggerDescriptionEng =
+      this.notification.notificationTemplateMainInfoDto.triggerDescriptionUk = this.notificationTriggers[indexTrigger]?.triggerDescription;
+      this.notification.notificationTemplateMainInfoDto.triggerDescriptionEn =
         this.notificationTriggers[indexTrigger]?.triggerDescriptionEng;
     }
 
     if (indexTime !== -1 && this.notification.notificationTemplateMainInfoDto) {
-      this.notification.notificationTemplateMainInfoDto.timeDescription = this.notificationTriggerTime[indexTime]?.timeDescription;
-      this.notification.notificationTemplateMainInfoDto.timeDescriptionEng = this.notificationTriggerTime[indexTime]?.timeDescriptionEng;
+      this.notification.notificationTemplateMainInfoDto.timeDescriptionUk = this.notificationTriggerTime[indexTime]?.timeDescription;
+      this.notification.notificationTemplateMainInfoDto.timeDescriptionEn = this.notificationTriggerTime[indexTime]?.timeDescriptionEng;
     }
   }
 
   onActivatePlatform(platform: string): void {
-    this.notification.platforms.find((pf) => pf.nameEng === platform).status = 'ACTIVE';
+    this.notification.platforms.find((pf) => pf.nameEn === platform).status = 'ACTIVE';
   }
 
   onDeactivatePlatform(platform: string): void {
-    this.notification.platforms.find((pf) => pf.nameEng === platform).status = 'INACTIVE';
+    this.notification.platforms.find((pf) => pf.nameEn === platform).status = 'INACTIVE';
   }
 
   onDeactivateNotification() {
@@ -236,9 +236,9 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   }
 
   mapNotification(notification: NotificationTemplate): NotificationTemplateUpdate {
-    const { title, titleEng, trigger, type, time, schedule } = notification.notificationTemplateMainInfoDto;
+    const { titleUk, titleEn, trigger, type, time, schedule } = notification.notificationTemplateMainInfoDto;
     return {
-      notificationTemplateUpdateInfo: { title, titleEng, trigger, type, time, schedule: formatSpringCron(schedule) },
+      notificationTemplateUpdateInfo: { titleUk, titleEn, trigger, type, time, schedule: formatSpringCron(schedule) },
       platforms: notification.platforms
     };
   }

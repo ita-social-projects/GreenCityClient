@@ -17,7 +17,7 @@ describe('TableCellReadonlyComponent', () => {
   const fakeStrValue = '20л - 0шт; 120л - 3шт';
   const fakeColumn = {
     key: 'fakeKey',
-    ua: 'ua',
+    uk: 'ua',
     en: 'en'
   };
   const adminTableServiceSpy = jasmine.createSpyObj('AdminTableService', ['howChangeCell', 'blockOrders', 'showTooltip']);

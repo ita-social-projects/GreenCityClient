@@ -241,14 +241,14 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getAddressChange()
       .pipe(takeUntil(this.$destroy))
       .subscribe((addressData) => {
-        const region = this.currentLanguage === 'ua' ? addressData.region : addressData.regionEn;
-        const city = this.currentLanguage === 'ua' ? addressData.city : addressData.cityEn;
-        const street = this.currentLanguage === 'ua' ? addressData.street : addressData.streetEn;
+        const region = this.currentLanguage === 'ua' ? addressData.regionUk : addressData.regionEn;
+        const city = this.currentLanguage === 'ua' ? addressData.cityUk : addressData.cityEn;
+        const street = this.currentLanguage === 'ua' ? addressData.streetUk : addressData.streetEn;
 
         this.onRegionValueSet(region);
         this.onCityValueSet(city);
         this.onStreetValueSet(street);
-        this.district.setValue(this.langService.getLangValue(addressData.district, addressData.districtEn));
+        this.district.setValue(this.langService.getLangValue(addressData.districtUk, addressData.districtEn));
         this.houseNumber.setValue(addressData.houseNumber);
 
         this.onChange(this.addressData.getValues());
@@ -437,7 +437,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   districtComparator(option: DistrictsDtos, value: DistrictsDtos): boolean {
-    return option?.nameUa === value?.nameUa;
+    return option?.nameUk === value?.nameUk;
   }
 
   getCityPrefix(): string {

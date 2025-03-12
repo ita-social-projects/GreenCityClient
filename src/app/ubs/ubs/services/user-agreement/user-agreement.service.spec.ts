@@ -27,7 +27,7 @@ describe('UserAgreementService', () => {
 
   it('should fetch the user agreement text', () => {
     const mockUserAgreement: TUserAgreementText = {
-      textUa: 'Деякий текст українською',
+      textUk: 'Деякий текст українською',
       textEn: 'Some text in English'
     };
 

@@ -9,7 +9,7 @@ import { Language } from 'src/app/shared/i18n/Language';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 const mockUserAgreement = {
-  textUa: 'textUa',
+  textUk: 'textUa',
   textEn: 'textEn'
 };
 

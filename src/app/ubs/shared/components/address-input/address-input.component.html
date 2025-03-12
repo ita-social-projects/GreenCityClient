@@ -103,11 +103,11 @@
       *ngIf="allowDistrictEdit"
       formControlName="district"
       class="shadow-none form-control"
-      (selectionChange)="onDistrictChange($event.value.nameUa, $event.value.nameEn)"
+      (selectionChange)="onDistrictChange($event.value.nameUk, $event.value.nameEn)"
       [placeholder]="district.value ? district.value + ', ' + ('personal-info.info-district-placeholder' | translate) : ''"
     >
       <mat-option *ngFor="let district of districtsForKyiv" [value]="district">
-        {{ currentLanguage === 'en' ? district.nameEn : district.nameUa }}
+        {{ currentLanguage === 'en' ? district.nameEn : district.nameUk }}
       </mat-option>
     </mat-select>
 

@@ -208,7 +208,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         const filteredColumn = {
           key: column.title.key,
           en: column.title.en,
-          ua: column.title.ua,
+          uk: column.title.uk,
           values: [...column.checked]
         };
         columnsForFiltering.push(filteredColumn);
@@ -741,7 +741,8 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   showTooltip(event, title, tooltip) {
     event.stopImmediatePropagation();
-    const lengthStrUa = title.ua.split('').length;
+    console.log(title);
+    const lengthStrUa = title.uk.split('').length;
     const lengthStrEn = title.en.split('').length;
     if ((this.currentLang === 'ua' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
       tooltip.toggle();

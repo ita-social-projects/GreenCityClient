@@ -122,9 +122,9 @@ describe('LocationService', () => {
     const districtsWithLabel = locations.appendDistrictLabel(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
 
     expect(districtsWithLabel).toEqual([
-      { nameUa: 'Голосіївський район', nameEn: 'Holosiivskyi district' },
-      { nameUa: 'Дарницький район', nameEn: 'Darnytskyi district' },
-      { nameUa: 'Деснянський район', nameEn: 'Desnyan district' }
+      { nameUk: 'Голосіївський район', nameEn: 'Holosiivskyi district' },
+      { nameUk: 'Дарницький район', nameEn: 'Darnytskyi district' },
+      { nameUk: 'Деснянський район', nameEn: 'Desnyan district' }
     ]);
   });
 
@@ -167,7 +167,7 @@ describe('LocationService', () => {
 
   it('should correctly append district label', () => {
     const districtsWithLabel = locations.appendDistrictLabel(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
-    expect(districtsWithLabel[0].nameUa).toEqual('Голосіївський район');
+    expect(districtsWithLabel[0].nameUk).toEqual('Голосіївський район');
     expect(districtsWithLabel[0].nameEn).toEqual('Holosiivskyi district');
   });
 });

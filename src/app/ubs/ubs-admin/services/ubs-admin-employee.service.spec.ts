@@ -25,7 +25,7 @@ describe('UbsAdminEmployeeService', () => {
   const positionMock = [
     {
       id: 0,
-      name: 'fake',
+      nameUk: 'fake',
       nameEn: 'fakeEn'
     }
   ];

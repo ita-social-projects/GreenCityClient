@@ -165,11 +165,11 @@ describe('AdminTableService', () => {
       {
         en: 'Order status',
         key: 'orderStatus',
-        ua: 'Статус замовлення',
+        uk: 'Статус замовлення',
         values: [
-          { en: 'Formed', filtered: false, key: OrderStatus.FORMED, ua: 'Сформовано' },
-          { en: 'Canceled', filtered: false, key: OrderStatus.CANCELED, ua: 'Скасовано' },
-          { en: 'Completed', filtered: false, key: OrderStatus.DONE, ua: 'Завершено' }
+          { en: 'Formed', filtered: false, key: OrderStatus.FORMED, uk: 'Сформовано' },
+          { en: 'Canceled', filtered: false, key: OrderStatus.CANCELED, uk: 'Скасовано' },
+          { en: 'Completed', filtered: false, key: OrderStatus.DONE, uk: 'Завершено' }
         ]
       }
     ];
@@ -226,11 +226,11 @@ describe('AdminTableService', () => {
       {
         en: 'Order status',
         key: 'orderStatus',
-        ua: 'Статус замовлення',
+        uk: 'Статус замовлення',
         values: [
-          { en: 'Formed', filtered: false, key: 'FORMED', ua: 'Сформовано' },
-          { en: 'Canceled', filtered: false, key: 'CANCELED', ua: 'Скасовано' },
-          { en: 'Completed', filtered: false, key: 'DONE', ua: 'Завершено' }
+          { en: 'Formed', filtered: false, key: 'FORMED', uk: 'Сформовано' },
+          { en: 'Canceled', filtered: false, key: 'CANCELED', uk: 'Скасовано' },
+          { en: 'Completed', filtered: false, key: 'DONE', uk: 'Завершено' }
         ]
       }
     ];
@@ -283,7 +283,7 @@ describe('AdminTableService', () => {
   });
 
   it('method changeFilters should set value to localStorageService', () => {
-    const option: IFilteredColumnValue = { key: OrderStatus.FORMED, ua: 'Сформовано', en: 'Formed', filtered: false };
+    const option: IFilteredColumnValue = { key: OrderStatus.FORMED, uk: 'Сформовано', en: 'Formed', filtered: false };
     service.changeFilters(true, 'orderStatus', option);
     expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toContain({ orderStatus: option.key });
   });

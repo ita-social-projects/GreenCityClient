@@ -164,7 +164,7 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   }
 
   getDataByColumnName(position: string): string[] {
-    return this.dataFromTable.find((element) => element.title === position).arrayData.map((e) => e.ua);
+    return this.dataFromTable.find((element) => element.title === position).arrayData.map((e) => e.uk);
   }
 
   getFilledEmployeeData(responsibleEmployee: string, responiblePersonId: number, positionName: string): IUpdateResponsibleEmployee {
@@ -173,7 +173,7 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
       positionId: responiblePersonId
     };
     const employeeId =
-      this.dataFromTable.find((e) => e.title === positionName).arrayData.find((element) => element.ua === responsibleEmployee)?.key ?? 0;
+      this.dataFromTable.find((e) => e.title === positionName).arrayData.find((element) => element.uk === responsibleEmployee)?.key ?? 0;
     newEmployee.employeeId = Number(employeeId);
     return newEmployee;
   }
@@ -205,7 +205,7 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   getReceivingStationId(receivingStationName: string): number {
     const receivingStationId = this.dataFromTable
       .find((e) => e.title === FormFieldsName.ReceivingStation)
-      .arrayData.find((element) => element.ua === receivingStationName).key;
+      .arrayData.find((element) => element.uk === receivingStationName).key;
     return Number(receivingStationId);
   }
 

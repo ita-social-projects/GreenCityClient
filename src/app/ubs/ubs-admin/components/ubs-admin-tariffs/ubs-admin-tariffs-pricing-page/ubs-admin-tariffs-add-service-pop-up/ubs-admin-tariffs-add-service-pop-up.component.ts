@@ -110,13 +110,13 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
   addNewService() {
     const tariffId = this.receivedData.tariffId;
 
-    const { name, nameEng, price, description, descriptionEng } = this.addServiceForm.value;
+    const { nameUk, nameEn, price, description, descriptionEng } = this.addServiceForm.value;
     this.service = {
       price,
-      description: this.isLangEn ? descriptionEng : description,
-      descriptionEng: this.isLangEn ? description : descriptionEng,
-      name: this.isLangEn ? nameEng : name,
-      nameEng: this.isLangEn ? name : nameEng
+      descriptionUk: this.isLangEn ? descriptionEng : description,
+      descriptionEn: this.isLangEn ? description : descriptionEng,
+      nameUk: this.isLangEn ? nameEn : nameUk,
+      nameEn: this.isLangEn ? nameEn : nameEn
     };
     this.loadingAnim = true;
     this.tariffsService
@@ -142,13 +142,13 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
 
   editService() {
     const id = this.receivedData.serviceData.id;
-    const { name, nameEng, price, description, descriptionEng } = this.addServiceForm.getRawValue();
+    const { nameUk, nameEn, price, description, descriptionEng } = this.addServiceForm.getRawValue();
     this.service = {
-      name,
-      nameEng,
+      nameUk,
+      nameEn,
       price,
-      description,
-      descriptionEng
+      descriptionUk: description,
+      descriptionEn: descriptionEng
     };
     this.loadingAnim = true;
     this.tariffsService

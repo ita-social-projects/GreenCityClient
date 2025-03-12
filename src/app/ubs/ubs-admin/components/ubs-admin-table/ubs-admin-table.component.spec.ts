@@ -39,8 +39,8 @@ xdescribe('UbsAdminTableComponent', () => {
   let adminTableService: AdminTableService;
 
   const columnsForFiltering: IFilteredColumn[] = [
-    { key: 'column1', en: 'column1En', ua: 'column1Ua', values: [{ key: 'value1', en: 'value1En', ua: 'value1Ua', filtered: true }] },
-    { key: 'column2', en: 'column2En', ua: 'column2Ua', values: [{ key: 'value2', en: 'value2En', ua: 'value2Ua', filtered: true }] }
+    { key: 'column1', en: 'column1En', uk: 'column1Ua', values: [{ key: 'value1', en: 'value1En', uk: 'value1Ua', filtered: true }] },
+    { key: 'column2', en: 'column2En', uk: 'column2Ua', values: [{ key: 'value2', en: 'value2En', uk: 'value2Ua', filtered: true }] }
   ];
   const mockColumns = [{ title: { key: 'key' } }, { title: { key: 'gg' } }, { title: { key: 'dd' } }] as IColumnDTO[];
   const mockColumnDTO: IColumnDTO[] = [
@@ -54,7 +54,7 @@ xdescribe('UbsAdminTableComponent', () => {
       titleForSorting: 'sampleTitleForSorting',
       visible: true,
       weight: 0,
-      title: { key: 'receivingStation', ua: 'sampleUa', en: 'sampleEn', filtered: false }
+      title: { key: 'receivingStation', uk: 'sampleUa', en: 'sampleEn', filtered: false }
     }
   ];
   const initDateMock = {

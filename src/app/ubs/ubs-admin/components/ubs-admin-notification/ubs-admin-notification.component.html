@@ -20,18 +20,20 @@
     <tbody>
       <tr>
         <td>
-          <ng-container *ngIf="isLangUa; else englishTitle">{{ notification.notificationTemplateMainInfoDto.title }}</ng-container>
-          <ng-template #englishTitle>{{ notification.notificationTemplateMainInfoDto.titleEng }}</ng-template>
+          <ng-container *ngIf="isLangUa; else englishTitle">{{ notification.notificationTemplateMainInfoDto.titleUk }}</ng-container>
+          <ng-template #englishTitle>{{ notification.notificationTemplateMainInfoDto.titleEn }}</ng-template>
         </td>
         <td>
           <ng-container *ngIf="isLangUa; else engTriggerDesc">{{
-            notification.notificationTemplateMainInfoDto.triggerDescription
+            notification.notificationTemplateMainInfoDto.triggerDescriptionUk
           }}</ng-container>
-          <ng-template #engTriggerDesc>{{ notification.notificationTemplateMainInfoDto.triggerDescriptionEng }}</ng-template>
+          <ng-template #engTriggerDesc>{{ notification.notificationTemplateMainInfoDto.triggerDescriptionEn }}</ng-template>
         </td>
         <td>
-          <ng-container *ngIf="isLangUa; else engTimeDesc">{{ notification.notificationTemplateMainInfoDto.timeDescription }}</ng-container>
-          <ng-template #engTimeDesc>{{ notification.notificationTemplateMainInfoDto.timeDescriptionEng }}</ng-template>
+          <ng-container *ngIf="isLangUa; else engTimeDesc">{{
+            notification.notificationTemplateMainInfoDto.timeDescriptionUk
+          }}</ng-container>
+          <ng-template #engTimeDesc>{{ notification.notificationTemplateMainInfoDto.timeDescriptionEn }}</ng-template>
         </td>
         <td>
           {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}
@@ -74,13 +76,13 @@
     </thead>
     <tbody>
       <tr *ngFor="let platform of notification.platforms" [ngClass]="{ 'platform-inactive': platform.status !== 'ACTIVE' }">
-        <td>{{ platform.nameEng | titlecase }}</td>
+        <td>{{ platform.nameEn | titlecase }}</td>
 
         <ng-container *ngIf="isLangUa; else englishBody"
-          ><td>{{ platform.body }}</td></ng-container
+          ><td>{{ platform.bodyUk }}</td></ng-container
         >
         <ng-template #englishBody
-          ><td>{{ platform.bodyEng }}</td></ng-template
+          ><td>{{ platform.bodyEn }}</td></ng-template
         >
 
         <td *ngIf="isThisEmployeeHasRights" class="col-action">
@@ -88,14 +90,14 @@
             <button
               *ngIf="isThisEmployeeCanEditNotification"
               class="action-button edit-button"
-              (click)="onEditNotificationText(platform.nameEng)"
+              (click)="onEditNotificationText(platform.nameEn)"
             >
               <img [src]="icons.edit" alt="" />
             </button>
             <button
               *ngIf="isThisEmployeeCanActivateNotification"
               class="action-button deactivate-button"
-              (click)="onDeactivatePlatform(platform.nameEng)"
+              (click)="onDeactivatePlatform(platform.nameEn)"
             >
               <img [src]="icons.delete" alt="" />
             </button>
@@ -105,7 +107,7 @@
               <button
                 *ngIf="isThisEmployeeCanActivateNotification"
                 class="action-button activate-button"
-                (click)="onActivatePlatform(platform.nameEng)"
+                (click)="onActivatePlatform(platform.nameEn)"
               >
                 <img [src]="icons.activate" alt="" />
               </button>
