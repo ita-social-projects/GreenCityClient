@@ -439,16 +439,12 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   formatTableData() {
-    const currency = {
-      ua: 'грн',
-      en: 'UAH'
-    };
     this.dataSource = new MatTableDataSource(
       this.tableData.map((row) => {
         const newRow = structuredClone(row);
         const priceKeys = [TableKeys.amountDue, TableKeys.totalOrderSum, TableKeys.generalDiscount, TableKeys.totalPayment];
         for (const key of priceKeys) {
-          newRow[key] = parseFloat(newRow[key]).toFixed(2) + ' ' + currency[this.currentLang];
+          newRow[key] = parseFloat(newRow[key]).toFixed(2);
         }
         const arr = newRow.orderCertificateCode?.split(', ');
         if (arr && arr.length > 0) {
