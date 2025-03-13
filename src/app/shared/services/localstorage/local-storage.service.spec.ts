@@ -10,52 +10,52 @@ describe('LocalStorageService', () => {
   let service: LocalStorageService;
   const ACCESS_TOKEN = 'accessToken';
 
-  const mockEvent: EventResponse = {
-    additionalImages: ['image1.jpg', 'image2.jpg'],
-    creationDate: '2022-05-31',
-    dates: [
-      {
-        coordinates: {
-          latitude: 0,
-          longitude: 0,
-          cityEn: 'cityUa',
-          cityUa: 'cityEn',
-          countryEn: 'Ukraine',
-          countryUa: 'Україна',
-          houseNumber: '55',
-          regionEn: 'Lvivska oblast',
-          regionUa: 'Львівська область',
-          streetEn: 'Svobody Ave',
-          streetUa: 'Свободи',
-          formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-          formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
-        },
-        event: null,
-        finishDate: 'finishDate',
-        id: null,
-        onlineLink: 'link',
-        startDate: '2022-02-01T00:00:00Z'
-      }
-    ],
-    description: 'Test event description',
-    id: 123,
-    open: true,
-    organizer: {
-      id: 456,
-      name: 'Test organizer',
-      organizerRating: 3
-    },
-    tags: [{ id: 789, nameUa: 'Test tag UA', nameEn: 'Test tag EN' }],
-    title: 'Test event title',
-    titleImage: 'testImage.jpg',
-    isSubscribed: true,
-    isFavorite: false,
-    countComments: 5,
-    likes: 8,
-    isRelevant: true,
-    isOrganizedByFriend: false,
-    eventRate: 0
-  };
+  // const mockEvent: EventResponse = {
+  //   additionalImages: ['image1.jpg', 'image2.jpg'],
+  //   creationDate: '2022-05-31',
+  //   dates: [
+  //     {
+  //       coordinates: {
+  //         latitude: 0,
+  //         longitude: 0,
+  //         cityEn: 'cityUa',
+  //         cityUa: 'cityEn',
+  //         countryEn: 'Ukraine',
+  //         countryUa: 'Україна',
+  //         houseNumber: '55',
+  //         regionEn: 'Lvivska oblast',
+  //         regionUa: 'Львівська область',
+  //         streetEn: 'Svobody Ave',
+  //         streetUa: 'Свободи',
+  //         formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+  //         formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
+  //       },
+  //       event: null,
+  //       finishDate: 'finishDate',
+  //       id: null,
+  //       onlineLink: 'link',
+  //       startDate: '2022-02-01T00:00:00Z'
+  //     }
+  //   ],
+  //   description: 'Test event description',
+  //   id: 123,
+  //   open: true,
+  //   organizer: {
+  //     id: 456,
+  //     name: 'Test organizer',
+  //     organizerRating: 3
+  //   },
+  //   tags: [{ id: 789, nameUa: 'Test tag UA', nameEn: 'Test tag EN' }],
+  //   title: 'Test event title',
+  //   titleImage: 'testImage.jpg',
+  //   isSubscribed: true,
+  //   isFavorite: false,
+  //   countComments: 5,
+  //   likes: 8,
+  //   isRelevant: true,
+  //   isOrganizedByFriend: false,
+  //   eventRate: 0
+  // };
 
   const factMock: FactOfTheDay = {
     id: 1,
