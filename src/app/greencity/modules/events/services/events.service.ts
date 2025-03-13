@@ -157,7 +157,7 @@ export class EventsService implements OnDestroy {
     );
   }
   likeEvent(eventId: number): Observable<LikeResponse> {
-    return this.http.post<LikeResponse>(`${this.backEnd}events/${eventId}/like`, {}).pipe(
+    return this.http.post<LikeResponse>(`${this.backEnd}events/${eventId}/like-v2`, {}).pipe(
       catchError((error) => {
         console.error('Error liking event:', error);
         return throwError(() => error);
@@ -166,7 +166,7 @@ export class EventsService implements OnDestroy {
   }
 
   dislikeEvent(eventId: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike`, {}).pipe(catchError((error) => throwError(() => error)));
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike-v2`, {}).pipe(catchError((error) => throwError(() => error)));
   }
   getFormattedAddressEventsList(coordinates: LocationResponse): string {
     return this.langService.getLangValue(
