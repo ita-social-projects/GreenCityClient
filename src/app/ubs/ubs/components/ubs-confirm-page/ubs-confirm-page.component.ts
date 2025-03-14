@@ -38,7 +38,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
       const isAdmin = userRole === 'ROLE_UBS_EMPLOYEE';
       this.saveDataOnLocalStorage();
       this.localStorageService.clearPaymentInfo();
-      this.router.navigate([isAdmin ? 'ubs/admin' : 'ubs/user', 'ubs/orders']);
+      this.router.navigate([isAdmin ? 'ubs/admin' : 'ubs/user', 'orders']);
     });
   }
 
