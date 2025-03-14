@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { formatNotificationCron } from 'src/app/shared/cron/cron.service';
 import { NotificationPage, NotificationTemplatesPage } from '../../models/notifications.model';
 import { NotificationsService, notificationStatuses } from '../../services/notifications.service';
+import { formatNotificationCron } from '@ubs/ubs-admin/services/cron/cron.service';
 
 @Component({
   selector: 'app-ubs-admin-notification-list',

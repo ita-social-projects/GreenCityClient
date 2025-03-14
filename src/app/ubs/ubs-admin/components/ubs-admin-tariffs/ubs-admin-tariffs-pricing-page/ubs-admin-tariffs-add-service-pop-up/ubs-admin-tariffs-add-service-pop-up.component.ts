@@ -5,10 +5,10 @@ import { TariffsService } from '../../../../services/tariffs.service';
 import { Service } from '../../../../models/tariffs.interface';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-service-pop-up',

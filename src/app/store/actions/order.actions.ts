@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
+import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { Address, AddressData, CourierLocations, OrderDetails, PersonalData } from 'src/app/ubs/ubs/models/ubs.interface';
 import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
 

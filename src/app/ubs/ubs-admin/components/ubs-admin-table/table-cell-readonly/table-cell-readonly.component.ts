@@ -1,6 +1,7 @@
 import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
 import { IColumnBelonging } from '../../../models/ubs-admin.interface';
-import { Language } from 'src/app/main/i18n/Language';
+
+import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '../../../services/table-keys.enum';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
@@ -24,7 +25,6 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   data: string | number | { ua: string; en: string } | null;
   private readonly font = '12px Lato, sans-serif';
   adminTableService = inject(AdminTableService);
-
 
   ngOnInit(): void {
     if (this.optional?.length) {

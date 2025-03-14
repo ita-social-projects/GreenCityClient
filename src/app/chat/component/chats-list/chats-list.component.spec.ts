@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { ChatsListComponent } from './chats-list.component';
-import { SocketService } from '@global-service/socket/socket.service';
-import { JwtService } from '@global-service/jwt/jwt.service';
-import { UserService } from '@global-service/user/user.service';
+import { SocketService } from 'src/app/shared/services/socket/socket.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import { ChatsService } from '../../service/chats/chats.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';

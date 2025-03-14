@@ -8,9 +8,10 @@ import { GeneralInfoMock } from '../../services/orderInfoMock';
 import { OrderService } from '../../services/order.service';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
 describe('UbsAdminOrderStatusComponent', () => {
   let component: UbsAdminOrderStatusComponent;
@@ -51,7 +52,7 @@ describe('UbsAdminOrderStatusComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminOrderStatusComponent],
-      imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NoopAnimationsModule, SharedModule],
+      imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NoopAnimationsModule, SharedModule, UbsSharedModule],
       providers: [
         { provide: OrderService, useValue: OrderServiceFake },
         { provide: MatDialog, useValue: matDialogMock },

@@ -16,7 +16,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { EMPTY, Subject } from 'rxjs';
 import { debounceTime, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
@@ -26,14 +26,14 @@ import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { ColumnParam, columnsParams } from './columnsParams';
 import { Filters } from './filters.interface';
-import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
+import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-from-date-to-string/convert-from-date-to-string.service';
 import { DateAdapter } from '@angular/material/core';
 import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Store } from '@ngrx/store';
 import { adminTableOfCustomersSelector } from 'src/app/store/selectors/ubs-admin.selectors';
 import { GetCustomerTable } from 'src/app/store/actions/ubs-admin.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-admin-customers',
@@ -83,12 +83,12 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   constructor(
     private readonly adapter: DateAdapter<any>,
-    public dialog: MatDialog,
+    public readonly dialog: MatDialog,
     private readonly fb: FormBuilder,
     private readonly cdr: ChangeDetectorRef,
     private readonly renderer: Renderer2,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBarComponent,
+    private readonly snackBar: MatSnackBarService,
     private readonly store: Store,
     private readonly destroyRef: DestroyRef,
     private readonly convertFromDateToStringService: ConvertFromDateToStringService,
@@ -464,16 +464,16 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   private openCustomer(row, username): void {
     this.localStorageService.setCustomer(row);
-    this.router.navigate(['ubs-admin', 'customers', `${username.replaceAll(' ', '')}`]);
+    this.router.navigate(['ubs/admin', 'customers', `${username.replaceAll(' ', '')}`]);
   }
 
   private openOrders(user): void {
-    this.router.navigate(['ubs-admin', 'customerOrders', `${user.userId}`]);
+    this.router.navigate(['ubs/admin', 'customerOrders', `${user.userId}`]);
   }
 
   private openViolations(user): void {
     if (user.violations) {
-      this.router.navigate(['ubs-admin', 'customerViolations', `${user.userId}`]);
+      this.router.navigate(['ubs/admin', 'customerViolations', `${user.userId}`]);
     }
   }
 

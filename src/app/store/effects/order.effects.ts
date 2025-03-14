@@ -31,17 +31,17 @@ import {
   UpdateAddressFail
 } from 'src/app/store/actions/order.actions';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Address, AddressData } from 'src/app/ubs/ubs/models/ubs.interface';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Injectable()
 export class OrderEffects {
   constructor(
-    private actions: Actions,
-    private orderService: OrderService,
-    private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent
+    private readonly actions: Actions,
+    private readonly orderService: OrderService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   getOrderDetails = createEffect(() =>

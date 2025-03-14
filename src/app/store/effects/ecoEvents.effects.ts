@@ -3,8 +3,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { EventResponse } from 'src/app/main/component/events/models/events.interface';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { EventDto } from 'src/app/greencity/modules/events/models/events.interface';
+import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
+
 import {
   AddAttenderEcoEventsByIdAction,
   AddAttenderEventsByIdSuccessAction,
@@ -30,7 +31,7 @@ export class EventsEffects {
       ofType(GetEcoEventsByIdAction),
       mergeMap((actions: { eventId: number; reset: boolean }) =>
         this.eventsService.getEventById(actions.eventId).pipe(
-          map((ecoEvents: EventResponse) => GetEcoEventsByIdSuccessAction({ ecoEvents, reset: actions.reset })),
+          map((ecoEvents: EventDto) => GetEcoEventsByIdSuccessAction({ ecoEvents, reset: actions.reset })),
           catchError((error) => of(ReceivedFailureAction(error)))
         )
       )
@@ -41,8 +42,8 @@ export class EventsEffects {
       ofType(CreateEcoEventAction),
       mergeMap((actions: { data: FormData }) =>
         this.eventsService.createEvent(actions.data).pipe(
-          map((event: EventResponse) => CreateEcoEventSuccessAction({ event })),
-          catchError((error) => of(ReceivedFailureAction(error)))
+          map((event: EventDto) => CreateEcoEventSuccessAction({ event })),
+          catchError((error) => of(ReceivedFailureAction({ error: String(error.status) })))
         )
       )
     )
@@ -52,8 +53,8 @@ export class EventsEffects {
       ofType(EditEcoEventAction),
       mergeMap((actions: { data: FormData; id: number }) =>
         this.eventsService.editEvent(actions.data, actions.id).pipe(
-          map((event: EventResponse) => EditEcoEventSuccessAction({ event })),
-          catchError((error) => of(ReceivedFailureAction(error)))
+          map((event: EventDto) => EditEcoEventSuccessAction({ event })),
+          catchError((error) => of(ReceivedFailureAction({ error: String(error.status) })))
         )
       )
     )

@@ -5,11 +5,11 @@ import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Chat, LocationForChat } from '../../model/Chat.model';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { Title } from '@angular/platform-browser';
-import { UserService } from '@global-service/user/user.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import { Subject } from 'rxjs';
-import { FriendModel } from '@global-user/models/friend.model';
+import { FriendModel } from 'src/app/greencity/modules/user/models/friend.model';
 
 @Component({
   selector: 'app-chats-list',

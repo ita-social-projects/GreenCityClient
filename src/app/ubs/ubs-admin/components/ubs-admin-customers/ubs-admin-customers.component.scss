@@ -379,6 +379,7 @@ mat-spinner {
   min-width: 25px;
 }
 
-::ng-deep .mdc-data-table__cell, .mdc-data-table__header-cell {
-    padding: 10px;
+::ng-deep .mdc-data-table__cell,
+.mdc-data-table__header-cell {
+  padding: 10px;
 }

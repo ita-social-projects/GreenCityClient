@@ -11,20 +11,19 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
-import { FilterListByLangPipe } from 'src/app/shared/sort-list-by-lang/filter-list-by-lang.pipe';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { VolumePipe } from 'src/app/shared/volume-pipe/volume.pipe';
-import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
+import { VolumePipe } from '@ubs/shared/pipes/volume-pipe/volume.pipe';
+import { LocalizedCurrencyPipe } from '@ubs/shared/pipes/localized-currency-pipe/localized-currency.pipe';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Bag, BagLimitDto, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
 import { provideMockStore } from '@ngrx/store/testing';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
@@ -243,7 +242,6 @@ describe('UbsAdminPricingPageComponent', () => {
         UbsAdminTariffsPricingPageComponent,
         UbsAdminTariffsAddServicePopUpComponent,
         UbsAdminTariffsAddTariffServicePopUpComponent,
-        FilterListByLangPipe,
         VolumePipe,
         LocalizedCurrencyPipe,
         LangValueDirective
@@ -472,7 +470,7 @@ describe('UbsAdminPricingPageComponent', () => {
   it('navigate to tariffs page', () => {
     const spy = spyOn(router, 'navigate');
     component.navigateToBack();
-    expect(spy).toHaveBeenCalledWith(['ubs-admin/tariffs']);
+    expect(spy).toHaveBeenCalledWith(['ubs/admin/tariffs']);
   });
 
   it('should call openAddTariffForServicePopup', () => {

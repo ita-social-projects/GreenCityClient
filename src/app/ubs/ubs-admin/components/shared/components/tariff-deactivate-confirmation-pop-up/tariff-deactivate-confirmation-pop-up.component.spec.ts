@@ -4,11 +4,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { TariffDeactivateConfirmationPopUpComponent } from './tariff-deactivate-confirmation-pop-up.component';
 import { ModalTextComponent } from '../modal-text/modal-text.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { DialogTariffComponent } from 'src/app/ubs/ubs-admin/components/shared/components/dialog-tariff/dialog-tariff.component';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('TariffDeactivateConfirmationPopUpComponent', () => {
   let component: TariffDeactivateConfirmationPopUpComponent;
@@ -32,7 +32,7 @@ describe('TariffDeactivateConfirmationPopUpComponent', () => {
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MatDialogRef, useValue: fakeMatDialog },
         { provide: LanguageService, useValue: languageServiceMock },
-        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } }
+        { provide: MatSnackBarService, useValue: { openSnackBar: () => {} } }
       ]
     }).compileComponents();
   }));

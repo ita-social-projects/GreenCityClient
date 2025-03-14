@@ -6,12 +6,7 @@
   (mouseleave)="tooltip.hide()"
 >
   <span>{{ data | serverTranslate: lang }}</span>
-  <button
-    *ngIf="!isEditable && !isUneditableStatus"
-    (keydown.enter)="edit()"
-    (click)="edit()"
-    class="pencil"
-  ></button>
+  <button *ngIf="!isEditable && !isUneditableStatus" (keydown.enter)="edit()" (click)="edit()" class="pencil"></button>
   <button
     *ngIf="isAddressKey() && !isEditable && !isUneditableStatus"
     (keydown.enter)="openEditAddressWindow()"

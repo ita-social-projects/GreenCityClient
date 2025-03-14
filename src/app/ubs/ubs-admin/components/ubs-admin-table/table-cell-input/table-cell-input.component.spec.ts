@@ -10,7 +10,7 @@ import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } fr
 import { IColumnBelonging } from '@ubs/ubs-admin/models/ubs-admin.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
+import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
 import { provideMockStore } from '@ngrx/store/testing';
 
 describe('TableCellInputComponent', () => {

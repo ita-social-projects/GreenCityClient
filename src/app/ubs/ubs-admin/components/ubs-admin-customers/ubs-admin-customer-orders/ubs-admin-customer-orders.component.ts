@@ -6,7 +6,7 @@ import { Component, OnInit, ChangeDetectorRef, AfterViewChecked, OnDestroy } fro
 import { columnsParamsOrders } from '../columnsParams';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { ICustomerOrdersTable } from 'src/app/ubs/ubs-admin/models/customer-orders-table.model';
-import { LocalStorageService } from 'src/app/main/service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-admin-customer-orders',
@@ -105,7 +105,7 @@ export class UbsAdminCustomerOrdersComponent implements OnInit, AfterViewChecked
   }
 
   goBack(): void {
-    this.router.navigate(['ubs-admin', 'customers']);
+    this.router.navigate(['ubs/admin', 'customers']);
   }
 
   private setDisplayedColumns() {
@@ -117,7 +117,7 @@ export class UbsAdminCustomerOrdersComponent implements OnInit, AfterViewChecked
 
   openOrder(id: number): void {
     this.router.navigate([]).then((result) => {
-      window.open(`/GreenCityClient/#/ubs-admin/order/${id}`, '_blank');
+      window.open(`/GreenCityClient/#/ubs/admin/order/${id}`, '_blank');
     });
   }
 

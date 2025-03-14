@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserService } from '@global-service/user/user.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ChatPopupComponent } from './chat-popup.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { of, Subject } from 'rxjs';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReferenceDirective } from '../../directive/reference/reference.directive';
 import { StoreModule } from '@ngrx/store';

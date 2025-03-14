@@ -12,7 +12,6 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { MaterialModule } from '../../material.module';
 import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../../shared/shared.module';
-import { SharedMainModule } from '@shared/shared-main.module';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
@@ -60,7 +59,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from './components/add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
-import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
+import { ResizeColumnDirective } from './directives/resize-table-columns.directive';
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
 import { ModalTextComponent } from './components/shared/components/modal-text/modal-text.component';
@@ -82,7 +81,7 @@ import { TariffConfirmationPopUpComponent } from './components/shared/components
 import { TariffDeactivateConfirmationPopUpComponent } from './components/shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { UbsAdminEmployeePermissionsFormComponent } from './components/ubs-admin-employee/ubs-admin-employee-permissions-form/ubs-admin-employee-permissions-form.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
+import { TariffStatusPipe } from '@ubs/shared/pipes/tariff-status-pipe/tariff-status.pipe';
 import { UbsAdminTariffsDeactivatePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 import { UbsAdminNotificationListComponent } from './components/ubs-admin-notification-list/ubs-admin-notification-list.component';
 import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
@@ -92,7 +91,7 @@ import { UbsAdminNotificationEditFormComponent } from './components/ubs-admin-no
 import { UbsAdminNotificationSettingsComponent } from './components/ubs-admin-notification/ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { ConfirmationDialogComponent } from './components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { TariffSelectorComponent } from './components/ubs-admin-employee/ubs-admin-employee-edit-form/tariff-selector/tariff-selector.component';
-import { ClickOutsideDirective } from './derictives/clickOutside.directive';
+import { ClickOutsideDirective } from './directives/clickOutside.directive';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -103,6 +102,7 @@ import { QuillModule } from 'ngx-quill';
 import { UbsAdminConfirmStatusChangePopUpComponent } from './components/ubs-admin-confirm-status-change-pop-up/ubs-admin-confirm-status-change-pop-up.component';
 import { TableCellInputComponent } from './components/ubs-admin-table/table-cell-input/table-cell-input.component';
 import { CommentPopUpComponent } from './components/shared/components/comment-pop-up/comment-pop-up.component';
+import { UbsSharedModule } from '../shared/ubs-shared.module';
 
 @NgModule({
   declarations: [
@@ -180,7 +180,6 @@ import { CommentPopUpComponent } from './components/shared/components/comment-po
     CommonModule,
     MaterialModule,
     SharedModule,
-    SharedMainModule,
     RouterModule,
     IMaskModule,
     HttpClientModule,
@@ -198,7 +197,6 @@ import { CommentPopUpComponent } from './components/shared/components/comment-po
     MatTableModule,
     MatDialogModule,
     MatMenuModule,
-    SharedMainModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -216,7 +214,8 @@ import { CommentPopUpComponent } from './components/shared/components/comment-po
     CdkAccordionModule,
     MatInputModule,
     MatFormFieldModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    UbsSharedModule
   ],
   providers: [
     AdminCertificateService,

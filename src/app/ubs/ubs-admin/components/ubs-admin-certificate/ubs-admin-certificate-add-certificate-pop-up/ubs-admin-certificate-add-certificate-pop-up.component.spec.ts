@@ -6,10 +6,10 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { IMaskModule } from 'angular-imask';
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Language } from 'src/app/main/i18n/Language';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { Language } from 'src/app/shared/i18n/Language';
 
 @Injectable()
 class TranslationServiceStub {

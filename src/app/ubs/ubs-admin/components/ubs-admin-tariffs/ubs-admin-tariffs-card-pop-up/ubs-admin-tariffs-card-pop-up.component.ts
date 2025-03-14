@@ -1,8 +1,8 @@
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, ValidatorFn, Validators } from '@angular/forms';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
@@ -15,9 +15,9 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { TranslateService } from '@ngx-translate/core';
 import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { TariffConfirmationPopUpInterface } from 'src/app/ubs/ubs-admin/models/ubs-pop-up.interface';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 interface IModalData {
   edit: boolean;
@@ -98,16 +98,16 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   constructor(
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public modalData: IModalData,
-    private localeStorageService: LocalStorageService,
-    private tariffsService: TariffsService,
-    private store: Store<IAppState>,
-    private translate: TranslateService,
-    public dialog: MatDialog,
-    public dialogRef: MatDialogRef<UbsAdminTariffsCardPopUpComponent>,
-    public languageService: LanguageService,
-    private snackBar: MatSnackBarComponent
+    private readonly localeStorageService: LocalStorageService,
+    private readonly tariffsService: TariffsService,
+    private readonly store: Store<IAppState>,
+    private readonly translate: TranslateService,
+    public readonly dialog: MatDialog,
+    public readonly dialogRef: MatDialogRef<UbsAdminTariffsCardPopUpComponent>,
+    public readonly languageService: LanguageService,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   get courier() {

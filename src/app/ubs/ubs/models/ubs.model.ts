@@ -1,9 +1,9 @@
 import { CertificateStatus } from 'src/app/ubs/ubs/certificate-status.enum';
 import { Address, AddressData, ICertificateResponse } from './ubs.interface';
-import { Language } from 'src/app/main/i18n/Language';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Language } from 'src/app/shared/i18n/Language';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { Subject } from 'rxjs';
-import { Coordinates } from '@global-user/models/edit-profile.model';
+import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.model';
 
 export class CCertificate {
   get code(): string {

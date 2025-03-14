@@ -11,7 +11,7 @@ import { TariffsService } from '../../../../services/tariffs.service';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 describe('UbsAdminTariffsAddServicePopupComponent', () => {
   let component: UbsAdminTariffsAddServicePopUpComponent;

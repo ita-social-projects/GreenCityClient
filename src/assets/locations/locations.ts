@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 
 @Injectable({ providedIn: 'any' })
 export class Locations {

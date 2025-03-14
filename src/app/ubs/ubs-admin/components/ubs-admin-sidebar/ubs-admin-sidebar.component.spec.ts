@@ -9,8 +9,8 @@ import { employeePositionsName, SideMenuElementsNames } from '../../models/ubs-a
 import { listElementsAdmin } from 'src/app/ubs/ubs/models/ubs-sidebar-links';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { listElements } from 'src/app/shared/interface/ubs-base-sidebar-interface';
-import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
+import { listElements } from '@ubs/ubs/interface/ubs-base-sidebar-interface';
+import { UbsBaseSidebarComponent } from '@ubs/shared/components/ubs-base-sidebar/ubs-base-sidebar.component';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';

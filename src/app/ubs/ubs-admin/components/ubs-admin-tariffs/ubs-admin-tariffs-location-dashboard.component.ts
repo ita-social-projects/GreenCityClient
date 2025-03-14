@@ -17,13 +17,13 @@ import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-statio
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { statusOfTariff, actionsWithTariffs, switchTariffStatus } from './tariff-status.enum';
-import { Language } from 'src/app/main/i18n/Language';
+import { Language } from 'src/app/shared/i18n/Language';
 import { TariffRegionAll } from './ubs-tariffs.enum';
 import { abilityAddAuthorities, abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
 
@@ -543,7 +543,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     if (className === 'tariff-img mr-3') {
       return;
     }
-    this.router.navigate([`ubs-admin/tariffs/location/${cardID}`]);
+    this.router.navigate([`ubs/admin/tariffs/location/${cardID}`]);
   }
 
   getCouriers(): void {

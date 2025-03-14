@@ -29,6 +29,8 @@
         matInput
         readonly
         [matDatepicker]="dp"
+        [max]="maxDate"
+        [min]="minDate"
       />
       <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
       <mat-datepicker #dp></mat-datepicker>

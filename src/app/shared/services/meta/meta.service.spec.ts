@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { MetaService } from './meta.service';
 import { Title, Meta } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { of, Subject } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
 

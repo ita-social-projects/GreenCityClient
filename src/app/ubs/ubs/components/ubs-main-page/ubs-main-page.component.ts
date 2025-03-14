@@ -1,11 +1,11 @@
-import { CheckTokenService } from 'src/app/main/service/auth/check-token/check-token.service';
+import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
 import { Component, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil, finalize, tap, concatMap, switchMap } from 'rxjs/operators';
-import { ubsMainPageImages } from 'src/app/main/image-pathes/ubs-main-page-images';
+import { ubsMainPageImages } from '@ubs/shared/image-paths/ubs-main-page-images';
 import {
   Bag,
   OrderDetails,
@@ -16,11 +16,11 @@ import {
 } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
-import { JwtService } from '@global-service/jwt/jwt.service';
+import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 

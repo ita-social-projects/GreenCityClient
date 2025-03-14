@@ -4,9 +4,9 @@ import { UbsUserAgreementComponent } from './ubs-user-agreement.component';
 import { of } from 'rxjs';
 import { UserAgreementService } from '@ubs/ubs/services/user-agreement/user-agreement.service';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Language } from 'src/app/main/i18n/Language';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
+import { Language } from 'src/app/shared/i18n/Language';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 
 const mockUserAgreement = {
   textUa: 'textUa',

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
-import { IUserOrdersInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
+import { IUserOrdersInfo } from '../components/ubs-user-orders-list/models/UserOrder.interface';
 
 @Injectable({
   providedIn: 'root'

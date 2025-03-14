@@ -7,7 +7,7 @@ import { IEcoEventsState, initialEventsState } from './ecoEvents.state';
 import { IOrderState, initialOrderState } from './order.state';
 import { IFriendState, initialFriendState } from './friends.state';
 import { initialHabitState } from './habit.state';
-import { HabitInterface as IHabitState } from '@global-user/components/habit/models/interfaces/habit.interface';
+import { HabitInterface as IHabitState } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit.interface';
 import { initialUbsUserState, IUbsUserState } from 'src/app/store/state/ubs-user.state';
 import { IAuthState, initialAuthState } from 'src/app/store/state/auth.state';
 import { initialUbsAdminState, IUbsAdminState } from './ubs-admin.state';

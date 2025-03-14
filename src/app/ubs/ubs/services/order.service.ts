@@ -1,4 +1,4 @@
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import {
   Address,
   AddressData,
@@ -20,12 +20,12 @@ import { Observable, Subject, of, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { UBSOrderFormService } from './ubs-order-form.service';
-import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/OrderClientDto';
-import { ResponceOrderFondyModel } from '@ubs/ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
+import { OrderClientDto } from '@ubs/ubs-user/components/ubs-user-orders-list/models/OrderClientDto';
+import { ResponceOrderFondyModel } from '@ubs/ubs-user/components/ubs-user-orders-list/models/ResponceOrderFondyModel';
 import { Store } from '@ngrx/store';
 import { ClearOrderDetails, ClearPersonalData } from 'src/app/store/actions/order.actions';
-import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 @Injectable({
   providedIn: 'root'
