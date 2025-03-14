@@ -37,6 +37,7 @@ export interface EventForm {
   titleImage?: string;
   additionalImages?: Array<string>;
   images?: Array<any>;
+  dateInformation?: DateInformation;
 }
 
 export interface DateInformation {
@@ -84,6 +85,7 @@ export interface EventInformation {
   duration: number;
   description: string;
   open: boolean;
+  editorText: string;
   tags: Array<{
     id?: number;
     name: string;
@@ -142,7 +144,7 @@ export interface EventDatesResponse {
 
 export interface EventResponse {
   id?: number;
-  title: string;
+  title?: string;
   organizer: OrganizerInfo;
   creationDate: string;
   description: string;

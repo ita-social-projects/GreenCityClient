@@ -26,7 +26,6 @@ interface LikeResponse {
   providedIn: 'root'
 })
 export class EventsService implements OnDestroy {
-  currentForm: PagePreviewDTO | EventResponse;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private divider = `, `;
