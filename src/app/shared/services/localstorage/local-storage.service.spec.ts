@@ -11,6 +11,7 @@ describe('LocalStorageService', () => {
   const ACCESS_TOKEN = 'accessToken';
 
   const mockEvent: EventResponse = {
+    isDisliked: false, isLiked: false,
     description: 'tralalalal',
     additionalImages: [],
     creationDate: '2022-05-31',

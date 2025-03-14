@@ -68,7 +68,9 @@ describe('CommentsListComponent', () => {
     status: 'EDITED',
     text: 'string',
     isEdit: true,
-    showRelyButton: true
+    showRelyButton: true,
+    isLiked: false,
+    isDisliked: false
   };
 
   beforeEach(waitForAsync(() => {

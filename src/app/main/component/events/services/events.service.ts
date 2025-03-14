@@ -2,27 +2,26 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, Observable, ReplaySubject, throwError } from 'rxjs';
 import { environment } from '@environment/environment';
-import { DefaultCoordinates } from '../models/event-consts';
+import { DateInformation, EventDto as EventDTO } from '../../../../greencity/modules/events/models/events.interface';
 
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { tap } from 'rxjs/operators';
 import {
   Addresses,
-  DateInformation,
-  Dates,
   EventAttender,
-  EventDTO,
   EventForm,
   EventResponse,
   EventResponseDto,
-  LocationResponse,
-  PagePreviewDTO
-} from '../models/events.interface';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { tap } from 'rxjs/operators';
+  LocationResponse
+} from '../../../../greencity/modules/events/models/events.interface';
+import { LanguageService } from '../../../../shared/i18n/language.service';
+import { DefaultCoordinates } from '../../../../greencity/modules/events/models/event-consts';
+
 interface LikeResponse {
   id: number;
   liked: boolean;
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,6 +45,7 @@ export class EventsService implements OnDestroy {
   getIsFromCreateEvent(): boolean {
     return this.isFromCreateEvent;
   }
+
   likeEvent(eventId: number): Observable<LikeResponse> {
     return this.http.post<LikeResponse>(`${this.backEnd}events/${eventId}/like`, {}).pipe(
       catchError((error) => {
@@ -56,10 +56,9 @@ export class EventsService implements OnDestroy {
   }
 
   dislikeEvent(eventId: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike`, {}).pipe(
-      catchError((error) => throwError(() => error))
-    );
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike`, {}).pipe(catchError((error) => throwError(() => error)));
   }
+
   private convertEventToPreview(event: EventForm): PagePreviewDTO {
     const { eventInformation, dateInformation } = event;
 

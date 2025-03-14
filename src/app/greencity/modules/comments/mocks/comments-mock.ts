@@ -1,6 +1,7 @@
 import { CommentsDTO } from '../models/comments-model';
 
 export const MOCK_COMMENTS_DTO: CommentsDTO = {
+  isDisliked: false, isLiked: false,
   author: {
     id: 0,
     name: 'fake_author',

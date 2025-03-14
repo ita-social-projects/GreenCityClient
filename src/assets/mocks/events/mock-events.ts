@@ -137,6 +137,8 @@ export const mockEvent: EventResponseDto = {
   page: [
     {
       additionalImages: [],
+      isLiked: false,
+      isDisliked: false,
       creationDate: '2022-05-31',
       dates: [
         {
@@ -241,11 +243,13 @@ export const mockFavouriteEvents: EventResponse[] = [
     isSubscribed: true,
     isFavorite: true,
     likes: 8,
-    dislikes: 2, // Added this property
+    dislikes: 2,
     countComments: 9,
     isRelevant: true,
     isOrganizedByFriend: false,
-    eventRate: 0
+    eventRate: 0,
+    isDisliked: false,
+    isLiked: false
   },
   {
     additionalImages: [],
@@ -298,7 +302,9 @@ export const mockFavouriteEvents: EventResponse[] = [
     countComments: 9,
     isRelevant: true,
     isOrganizedByFriend: false,
-    eventRate: 0
+    eventRate: 0,
+    isDisliked: false,
+    isLiked: false
   }
 ];
 
@@ -361,7 +367,9 @@ export const mockEventResponse: EventResponseDto = {
       open: true,
       isSubscribed: false,
       isFavorite: true,
-      isOrganizedByFriend: false
+      isOrganizedByFriend: false,
+      isDisliked: false,
+      isLiked: false
     }
   ],
   totalElements: 1,
@@ -471,6 +479,8 @@ export const eventStateMock = {
 };
 
 export const EVENT_MOCK: EventResponse = {
+  isDisliked: false,
+  isLiked: false,
   description: 'tralalalal',
   additionalImages: [],
   creationDate: '2022-05-31',

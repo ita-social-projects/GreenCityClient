@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from '@environment/environment';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, throwError } from 'rxjs';
 import {
   Addresses,
   EventAttender,
@@ -13,6 +13,8 @@ import {
   PlaceOnline
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
+import { LikeResponse } from './LikeResponse';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -74,6 +76,7 @@ export class EventsService implements OnDestroy {
     });
     return formData;
   }
+
   setIsFromCreateEvent(value: boolean): void {
     this.isFromCreateEvent = value;
   }
@@ -164,6 +167,19 @@ export class EventsService implements OnDestroy {
         ? this.createEventsListAddresses(coordinates, 'En')
         : coordinates.formattedAddressEn?.split(', ').slice(0, 2).reverse().join(', ') || ''
     );
+  }
+
+  likeEvent(eventId: number): Observable<LikeResponse> {
+    return this.http.post<LikeResponse>(`${this.backEnd}events/${eventId}/like-v2`, {}).pipe(
+      catchError((error) => {
+        console.error('Error liking event:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  dislikeEvent(eventId: number): Observable<any> {
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike-v2`, {}).pipe(catchError((error) => throwError(() => error)));
   }
 
   createAddresses(location: PlaceOnline | null, lang: string): string {
