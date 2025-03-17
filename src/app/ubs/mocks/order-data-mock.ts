@@ -1,3 +1,4 @@
+import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { CourierLocations, OrderDetails, PersonalData } from '@ubs/ubs/models/ubs.interface';
 import { OrderStatus } from '@ubs/ubs/order-status.enum';
 
@@ -89,8 +90,8 @@ export const orderDetailsMock: OrderDetails = {
       id: 0,
       price: 300,
       quantity: 10,
-      nameEng: 'def',
-      name: 'def'
+      nameEn: 'def',
+      nameUk: 'def'
     },
     {
       code: 'ua',
@@ -98,21 +99,28 @@ export const orderDetailsMock: OrderDetails = {
       id: 1,
       price: 300,
       quantity: 10,
-      nameEng: 'def',
-      name: 'def'
+      nameEn: 'def',
+      nameUk: 'def'
     }
   ],
   points: 0
 };
 
-export const fakeInputOrderData = {
+export const fakeInputOrderData: IUserOrderInfo = {
   additionalOrders: [],
   address: {
-    addressCity: 'Lviv',
+    addressCityUk: 'Львів',
+    addressCityEn: 'Lviv',
     addressComment: 'qweqe223',
-    addressDistinct: 'Darnitsk',
-    addressRegion: 'Lviv region',
-    addressStreet: 'King Danylo'
+    addressDistinctUk: 'Дарницький',
+    addressDistinctEn: 'Darnitsk',
+    addressRegionUk: 'Львівська область',
+    addressRegionEn: 'Lviv region',
+    addressStreetUk: 'Короля Данила',
+    addressStreetEn: 'King Danylo',
+    entranceNumber: '1A',
+    houseCorpus: 'B',
+    houseNumber: '15'
   },
   amountBeforePayment: 1100,
   bags: [
@@ -120,8 +128,10 @@ export const fakeInputOrderData = {
       capacity: 120,
       count: 2,
       price: 250,
-      service: 'Safe',
-      totalPrice: 500
+      serviceUk: 'Безпечний',
+      serviceEn: 'Safe',
+      totalPrice: 500,
+      fullPrice: 600
     }
   ],
   bonuses: 0,
@@ -135,15 +145,19 @@ export const fakeInputOrderData = {
   id: 1,
   orderComment: '',
   orderFullPrice: 1100,
-  orderStatus: OrderStatus.ADJUSTMENT,
+  orderStatusUk: 'Коригування',
+  orderStatusEn: 'Adjustment',
   paidAmount: 1100,
-  paymentStatus: 'Paid',
+  paymentStatusUk: 'Оплачено',
+  paymentStatusEn: 'Paid',
   sender: {
     senderEmail: 'm.kovalushun@gmail.com',
-    senderName: 'mukola',
+    senderName: 'Mykola',
     senderPhone: '+380977777777',
     senderSurname: 'Kovalushun'
-  }
+  },
+  refundedBonuses: 0,
+  refundedMoney: 0
 };
 
 export const personalMockData: PersonalData = {

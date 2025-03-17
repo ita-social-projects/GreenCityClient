@@ -209,7 +209,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         const filteredColumn = {
           key: column.title.key,
           en: column.title.en,
-          ua: column.title.ua,
+          uk: column.title.uk,
           values: [...column.checked]
         };
         columnsForFiltering.push(filteredColumn);
@@ -439,16 +439,12 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   formatTableData() {
-    const currency = {
-      ua: 'грн',
-      en: 'UAH'
-    };
     this.dataSource = new MatTableDataSource(
       this.tableData.map((row) => {
         const newRow = structuredClone(row);
         const priceKeys = [TableKeys.amountDue, TableKeys.totalOrderSum, TableKeys.generalDiscount, TableKeys.totalPayment];
         for (const key of priceKeys) {
-          newRow[key] = parseFloat(newRow[key]).toFixed(2) + ' ' + currency[this.currentLang];
+          newRow[key] = parseFloat(newRow[key]).toFixed(2);
         }
         const arr = newRow.orderCertificateCode?.split(', ');
         if (arr && arr.length > 0) {
@@ -738,7 +734,8 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   showTooltip(event, title, tooltip) {
     event.stopImmediatePropagation();
-    const lengthStrUa = title.ua.split('').length;
+    console.log(title);
+    const lengthStrUa = title.uk.split('').length;
     const lengthStrEn = title.en.split('').length;
     if ((this.currentLang === 'ua' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
       tooltip.toggle();

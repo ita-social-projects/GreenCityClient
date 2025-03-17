@@ -86,7 +86,7 @@ describe('FriendsListPopUpComponent', () => {
       const friendsId = component.friends[1].id;
       const friendsName = component.friends[1].name;
       component.navigateToFriendsPage(friendsId, friendsName);
-      expect(navigateSpy).toHaveBeenCalledWith(['/profile', component.data.habitId, 'friends', friendsName, friendsId]);
+      expect(navigateSpy).toHaveBeenCalledWith(['greenCity', 'profile', component.data.habitId, 'friends', friendsName, friendsId]);
     });
   });
 });

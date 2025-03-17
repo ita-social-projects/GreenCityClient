@@ -206,7 +206,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
         next: (roles) => {
           this.employeePositions = roles;
           this.positionName = this.employeePositions.map((position: EmployeePositions) =>
-            this.languageService.getLangValue(position.name, position.nameEn)
+            this.languageService.getLangValue(position.nameUk, position.nameEn)
           );
         },
         error: (error) => console.error('Observer for role got an error: ' + error)
@@ -504,8 +504,8 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
 
   selectPosition(event: MatAutocompleteSelectedEvent): void {
     const newValue = event.option.viewValue;
-    const selectedValue = this.employeePositions.find((ob) => this.languageService.getLangValue(ob.name, ob.nameEn) === newValue);
-    const positionNameUk = selectedValue.name;
+    const selectedValue = this.employeePositions.find((ob) => this.languageService.getLangValue(ob.nameUk, ob.nameEn) === newValue);
+    const positionNameUk = selectedValue.nameUk;
     const positionNameEng = selectedValue.nameEn;
     const positionId = selectedValue.id;
 

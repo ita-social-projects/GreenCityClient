@@ -12,7 +12,7 @@
       <a
         class="disabled-link vision-card__link"
         title="{{ 'about-us.disabled-link' | translate }}"
-        [routerLink]="card.linkPath"
+        [routerLink]="getDynamicLink()"
         [fragment]="card.navigationExtras?.fragment"
         routerLinkActive="active-link"
       >

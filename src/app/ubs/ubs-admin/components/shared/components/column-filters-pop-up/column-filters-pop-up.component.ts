@@ -128,7 +128,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   onSearchTermChange(): void {
     const term = this.searchTerm.trim().toLowerCase();
     this.displayedOptionsForFiltering = this.optionsForFiltering
-      .filter((option) => option.ua.toLowerCase().includes(term) || option.en.toLowerCase().includes(term))
+      .filter((option) => option.uk.toLowerCase().includes(term) || option.en.toLowerCase().includes(term))
       .slice(0, 100);
   }
 
@@ -233,7 +233,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
   private toFilteredColumnValue(location: ILocationBase): IFilteredColumnValue {
     return {
       key: location.id.toString(),
-      ua: location.nameUk,
+      uk: location.nameUk,
       en: location.nameEn
     };
   }

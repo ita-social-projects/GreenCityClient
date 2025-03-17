@@ -37,7 +37,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let payment of paymentsArray; let i = index">
-            <td>{{ payment.settlementdate }}</td>
+            <td>{{ payment.settlementDate }}</td>
             <td *ngIf="payment.paymentId" class="paymentId" (click)="openPopup(true, i)">№{{ payment.paymentId }}</td>
             <td *ngIf="!payment.paymentId"></td>
             <td>{{ payment.amount | localizedCurrency }}</td>

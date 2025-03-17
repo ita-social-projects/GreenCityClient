@@ -360,19 +360,19 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     }
 
     if (targetUserId === userId) {
-      this.router.navigate(['profile', userId]);
+      this.router.navigate(['greenCity', 'profile', userId]);
       return;
     }
     if (targetUserId) {
-      this.router.navigate(['profile', userId, 'users', targetTextContent, targetUserId]);
+      this.router.navigate(['greenCity', 'profile', userId, 'users', targetTextContent, targetUserId]);
       return;
     }
 
     if (targetId && notificationType) {
       const routes = {
-        EVENT: ['events', targetId],
-        ECONEWS: ['news', targetId],
-        HABIT: ['profile', userId, 'allhabits', 'addhabit', targetId]
+        EVENT: ['greenCity', 'events', targetId],
+        ECONEWS: ['greenCity', 'news', targetId],
+        HABIT: ['greenCity', 'profile', userId, 'allhabits', 'addhabit', targetId]
       };
 
       for (const type in routes) {

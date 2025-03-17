@@ -95,13 +95,13 @@ export class CAddressData {
   constructor(private readonly languageService: LanguageService) {}
 
   initAddressData(address: Address): void {
-    this.region = address.region;
+    this.region = address.regionUk;
     this.regionEn = address.regionEn;
-    this.city = address.city;
+    this.city = address.cityUk;
     this.cityEn = address.cityEn;
-    this.street = address.street;
+    this.street = address.streetUk;
     this.streetEn = address.streetEn;
-    this.district = address.district;
+    this.district = address.districtUk;
     this.districtEn = address.districtEn;
     this.houseNumber = address.houseNumber;
     this.entranceNumber = address.entranceNumber;
@@ -248,13 +248,13 @@ export class CAddressData {
   getValues(): AddressData {
     return {
       regionEn: this.regionEn,
-      region: this.region,
-      city: this.city,
+      regionUk: this.region,
+      cityUk: this.city,
       cityEn: this.cityEn,
-      street: this.street,
+      streetUk: this.street,
       streetEn: this.streetEn,
       districtEn: this.districtEn,
-      district: this.district,
+      districtUk: this.district,
       houseNumber: this.houseNumber,
       entranceNumber: this.entranceNumber,
       houseCorpus: this.houseCorpus,

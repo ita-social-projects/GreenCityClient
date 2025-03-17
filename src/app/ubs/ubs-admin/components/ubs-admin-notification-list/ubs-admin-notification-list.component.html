@@ -19,14 +19,14 @@
       (click)="navigateToNotification(notification.id)"
     >
       <ng-container *ngIf="isLangUa; else englishContainer">
-        <td>{{ notification.notificationTemplateMainInfoDto.title }}</td>
-        <td>{{ notification.notificationTemplateMainInfoDto.triggerDescription }}</td>
-        <td>{{ notification.notificationTemplateMainInfoDto.timeDescription }}</td>
+        <td>{{ notification.notificationTemplateMainInfoDto.titleUk }}</td>
+        <td>{{ notification.notificationTemplateMainInfoDto.triggerDescriptionUk }}</td>
+        <td>{{ notification.notificationTemplateMainInfoDto.timeDescriptionUk }}</td>
       </ng-container>
       <ng-template #englishContainer>
-        <td>{{ notification.notificationTemplateMainInfoDto.titleEng }}</td>
-        <td>{{ notification.notificationTemplateMainInfoDto.triggerDescriptionEng }}</td>
-        <td>{{ notification.notificationTemplateMainInfoDto.timeDescriptionEng }}</td>
+        <td>{{ notification.notificationTemplateMainInfoDto.titleEn }}</td>
+        <td>{{ notification.notificationTemplateMainInfoDto.triggerDescriptionEn }}</td>
+        <td>{{ notification.notificationTemplateMainInfoDto.timeDescriptionEn }}</td>
       </ng-template>
       <td>
         {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}

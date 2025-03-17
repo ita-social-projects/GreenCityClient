@@ -40,10 +40,10 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
 
   const fakeService: Service = {
     price: 1,
-    description: 'Ua',
-    descriptionEng: 'Eng',
-    name: 'Name',
-    nameEng: 'NameEng',
+    descriptionUk: 'Ua',
+    descriptionEn: 'Eng',
+    nameUk: 'Name',
+    nameEn: 'NameEng',
     tariffId: 1
   };
 
@@ -155,11 +155,11 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   it('should call editService correctly', () => {
     const id = 1;
     component.service = {
-      name: 'Назва сервісу',
-      nameEng: 'Service name',
+      nameUk: 'Назва сервісу',
+      nameEn: 'Service name',
       price: 200,
-      description: 'Опис сервісу',
-      descriptionEng: 'Service discr'
+      descriptionUk: 'Опис сервісу',
+      descriptionEn: 'Service discr'
     };
     const editServiceSpy = spyOn(component, 'editService');
     component.editService();

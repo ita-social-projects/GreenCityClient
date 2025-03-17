@@ -62,18 +62,18 @@
                 <ng-container *ngFor="let position of employee.employeePositions; let i = index">
                   <ng-container *ngIf="!employee.expanded; else allPositions">
                     <span class="link" *ngIf="employee.employeePositions.length > 2 && i <= 2">
-                      <span *ngIf="i < 2" [appLangValue]="{ ua: position.name, en: position.nameEn }"></span>
-                      <span *ngIf="i >= 2" [appLangValue]="{ ua: position.name, en: position.nameEn }" suffix="..."></span>
+                      <span *ngIf="i < 2" [appLangValue]="{ ua: position.nameUk, en: position.nameEn }"></span>
+                      <span *ngIf="i >= 2" [appLangValue]="{ ua: position.nameUk, en: position.nameEn }" suffix="..."></span>
                     </span>
                     <span
                       class="link"
                       *ngIf="employee.employeePositions.length <= 2"
-                      [appLangValue]="{ ua: position.name, en: position.nameEn }"
+                      [appLangValue]="{ ua: position.nameUk, en: position.nameEn }"
                     >
                     </span>
                   </ng-container>
                   <ng-template #allPositions>
-                    <span class="link" [appLangValue]="{ ua: position.name, en: position.nameEn }"></span>
+                    <span class="link" [appLangValue]="{ ua: position.nameUk, en: position.nameEn }"></span>
                   </ng-template>
                 </ng-container>
               </div>

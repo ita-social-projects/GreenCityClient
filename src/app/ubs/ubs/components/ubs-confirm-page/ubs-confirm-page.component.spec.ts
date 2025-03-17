@@ -125,7 +125,7 @@ describe('UbsConfirmPageComponent', () => {
     const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
     component.toPersonalAccount();
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledWith(['ubs/admin', 'ubs/orders']);
+    expect(navigateSpy).toHaveBeenCalledWith(['ubs/admin', 'orders']);
   });
 
   it('should redirect to ubs-user/orders', () => {
@@ -134,6 +134,6 @@ describe('UbsConfirmPageComponent', () => {
     const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
     component.toPersonalAccount();
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledWith(['ubs/user', 'ubs/orders']);
+    expect(navigateSpy).toHaveBeenCalledWith(['ubs/user', 'orders']);
   });
 });
