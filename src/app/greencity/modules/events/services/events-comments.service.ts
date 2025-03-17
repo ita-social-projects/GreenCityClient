@@ -54,6 +54,9 @@ export class EventsCommentsService implements CommentsService {
   postLike(parentCommentId: number): Observable<void> {
     return this.http.post<void>(`${this.backEnd}events/comments/like/${parentCommentId}`, {});
   }
+  postDislike(commentId: number): Observable<void> {
+    return this.http.post<void>(`${this.backEnd}events/comments/dislike/${commentId}`, {});
+  }
 
   editComment(parentCommentId: number, text: string): Observable<void> {
     return this.http.patch<void>(`${this.backEnd}events/comments/${parentCommentId}`, text);

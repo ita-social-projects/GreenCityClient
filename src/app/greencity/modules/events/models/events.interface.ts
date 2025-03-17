@@ -25,6 +25,10 @@ export interface EventDto extends EventForm {
   isSubscribed?: boolean;
   isFavorite?: boolean;
   isOrganizedByFriend?: boolean;
+  title?: string;
+  tags?: string[];
+  isLiked?: boolean;
+  isDisliked?: boolean;
 }
 
 export interface EventForm {
@@ -33,7 +37,9 @@ export interface EventForm {
   titleImage?: string;
   additionalImages?: Array<string>;
   images?: Array<any>;
+  dateInformation?: DateInformation;
 }
+
 export interface DateInformation {
   day: Moment;
   startDate: Date;
@@ -67,6 +73,7 @@ export interface PlaceOnline {
   formattedAddressEn?: string;
   formattedAddressUa?: string;
 }
+
 export interface ImagesContainer {
   file: File;
   url: string;
@@ -78,6 +85,7 @@ export interface EventInformation {
   duration: number;
   description: string;
   open: boolean;
+  editorText: string;
   tags: Array<{
     id?: number;
     name: string;
@@ -135,8 +143,8 @@ export interface EventDatesResponse {
 }
 
 export interface EventResponse {
-  id: number;
-  title: string;
+  id?: number;
+  title?: string;
   organizer: OrganizerInfo;
   creationDate: string;
   description: string;
@@ -146,6 +154,7 @@ export interface EventResponse {
   additionalImages: string[];
   isRelevant: boolean;
   likes: number;
+  dislikes: number;
   countComments: number;
   eventRate: number;
   open: boolean;
@@ -153,6 +162,8 @@ export interface EventResponse {
   isFavorite: boolean;
   isOrganizedByFriend: boolean;
   currentUserGrade?: number | null;
+  isLiked: boolean;
+  isDisliked: boolean;
 }
 
 export type EventListResponse = Omit<EventResponse, 'additionalImages' | 'description'>;

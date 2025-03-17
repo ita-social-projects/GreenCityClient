@@ -625,6 +625,7 @@ xdescribe('UbsAdminTableComponent', () => {
     component.displayedColumns = ['key', 'gg', 'dd'];
     component.nestedSortProperty = 'title.key';
     component.columns = mockColumns;
+    // @ts-ignore
     spyOn(component, 'applyColumnsWidthPreference');
     spyOn(component, 'checkAllColumnsDisplayed');
     spyOn(component, 'stickColumns');
@@ -635,6 +636,7 @@ xdescribe('UbsAdminTableComponent', () => {
     expect(component.columns[0].title.key).toEqual('key');
     expect(component.columns[1].title.key).toEqual('gg');
     expect(component.columns[2].title.key).toEqual('dd');
+    // @ts-ignore
     expect(component.applyColumnsWidthPreference).toHaveBeenCalled();
     expect(component.checkAllColumnsDisplayed).toHaveBeenCalled();
     expect(component.stickColumns).toHaveBeenCalled();

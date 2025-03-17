@@ -127,7 +127,6 @@ export const mockHabitAssign: HabitAssignInterface[] = [
     toDoListItems: []
   }
 ];
-
 export const mockEvent: EventResponseDto = {
   currentPage: 0,
   first: true,
@@ -138,6 +137,8 @@ export const mockEvent: EventResponseDto = {
   page: [
     {
       additionalImages: [],
+      isLiked: false,
+      isDisliked: false,
       creationDate: '2022-05-31',
       dates: [
         {
@@ -183,6 +184,7 @@ export const mockEvent: EventResponseDto = {
       isSubscribed: true,
       isFavorite: false,
       likes: 8,
+      dislikes: 2,
       countComments: 9,
       isRelevant: true,
       isOrganizedByFriend: false,
@@ -241,10 +243,13 @@ export const mockFavouriteEvents: EventResponse[] = [
     isSubscribed: true,
     isFavorite: true,
     likes: 8,
+    dislikes: 2,
     countComments: 9,
     isRelevant: true,
     isOrganizedByFriend: false,
-    eventRate: 0
+    eventRate: 0,
+    isDisliked: false,
+    isLiked: false
   },
   {
     additionalImages: [],
@@ -293,10 +298,13 @@ export const mockFavouriteEvents: EventResponse[] = [
     isSubscribed: true,
     isFavorite: true,
     likes: 8,
+    dislikes: 1,
     countComments: 9,
     isRelevant: true,
     isOrganizedByFriend: false,
-    eventRate: 0
+    eventRate: 0,
+    isDisliked: false,
+    isLiked: false
   }
 ];
 
@@ -353,12 +361,15 @@ export const mockEventResponse: EventResponseDto = {
       additionalImages: ['http://example.com/image1.jpg', 'http://example.com/image2.jpg'],
       isRelevant: true,
       likes: 123,
+      dislikes: 10,
       countComments: 45,
       eventRate: 4.5,
       open: true,
       isSubscribed: false,
       isFavorite: true,
-      isOrganizedByFriend: false
+      isOrganizedByFriend: false,
+      isDisliked: false,
+      isLiked: false
     }
   ],
   totalElements: 1,
@@ -468,6 +479,8 @@ export const eventStateMock = {
 };
 
 export const EVENT_MOCK: EventResponse = {
+  isDisliked: false,
+  isLiked: false,
   description: 'tralalalal',
   additionalImages: [],
   creationDate: '2022-05-31',
@@ -509,6 +522,7 @@ export const EVENT_MOCK: EventResponse = {
   isRelevant: true,
   open: true,
   likes: 5,
+  dislikes: 1,
   countComments: 7,
   isOrganizedByFriend: false,
   eventRate: 0
@@ -518,6 +532,7 @@ export const EVENT_FORM_MOCK: EventForm = {
   eventInformation: {
     title: 'Sample Event Title',
     duration: 1,
+    editorText: 'Hello world',
     description: 'This is a sample event description.',
     open: true,
     tags: [{ name: 'Technology' }, { name: 'Education' }]

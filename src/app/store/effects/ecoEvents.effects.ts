@@ -3,7 +3,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { EventDto } from 'src/app/greencity/modules/events/models/events.interface';
 import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 
 import {
@@ -23,6 +22,7 @@ import {
   RemoveAttenderEcoEventsByIdAction,
   RemoveAttenderEventsByIdSuccessAction
 } from '../actions/ecoEvents.actions';
+import { EventDto } from '../../greencity/modules/events/models/events.interface';
 
 @Injectable()
 export class EventsEffects {

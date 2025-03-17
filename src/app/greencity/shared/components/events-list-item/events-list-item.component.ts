@@ -48,7 +48,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() userId: number;
   @Input() isUserAssignList: boolean;
   @Input() isGalleryView: boolean;
-
+  @Output() likeStatusChange = new EventEmitter<EventListResponse>();
+  @Output() dislikeStatusChange = new EventEmitter<EventListResponse>();
   profileIcons = userAssignedCardsIcons;
 
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
@@ -376,6 +377,39 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
             }
           });
       }
+    }
+  }
+
+  likePost(): void {
+    console.log('Before like click, event state:', this.event);
+    this.eventService.likeEvent(this.event.id).subscribe(
+      (response) => {
+        this.event.isLiked = true;
+        this.event.likes += 1;
+        this.event.isDisliked = false;
+      },
+      (error) => {
+        console.error('Error in likeEvent:', error);
+      }
+    );
+  }
+
+  dislikePost() {
+    if (!this.event.isDisliked) {
+      this.eventService.dislikeEvent(this.event.id).subscribe(
+        () => {
+          this.event.isDisliked = true;
+          if (this.event.isLiked) {
+            this.event.isLiked = false;
+            this.event.likes--;
+          }
+          this.event.dislikes++;
+          this.dislikeStatusChange.emit(this.event);
+        },
+        () => {
+          this.snackBar.openSnackBar('error');
+        }
+      );
     }
   }
 
