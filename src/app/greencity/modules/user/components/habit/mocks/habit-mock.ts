@@ -19,6 +19,7 @@ export const MOCK_HABIT_ADDED_COMMENT: AddedCommentDTO = {
 
 export const MOCK_HABIT_COMMENTS_MODEL: CommentsModel = {
   currentPage: 0,
+
   page: [
     {
       author: { id: 1, name: 'User', profilePicturePath: null },
@@ -28,7 +29,9 @@ export const MOCK_HABIT_COMMENTS_MODEL: CommentsModel = {
       modifiedDate: new Date().toISOString(),
       status: 'ORIGINAL',
       replies: 0,
-      currentUserLiked: false
+      currentUserLiked: false,
+      isLiked: false,
+      isDisliked: false
     }
   ],
   totalElements: 1

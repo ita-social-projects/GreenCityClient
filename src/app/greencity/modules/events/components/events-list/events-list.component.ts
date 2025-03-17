@@ -122,6 +122,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.eventService.likeEvent(event.id).subscribe(() => {
       this.updateEventReaction(event, 'like');
       this.eventService.getEventById(event.id).subscribe((updatedEvent) => {
+        //@ts-ignore
         this.refreshEventInList(updatedEvent);
       });
     });

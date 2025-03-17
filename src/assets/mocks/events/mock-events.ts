@@ -532,6 +532,7 @@ export const EVENT_FORM_MOCK: EventForm = {
   eventInformation: {
     title: 'Sample Event Title',
     duration: 1,
+    editorText: 'Hello world',
     description: 'This is a sample event description.',
     open: true,
     tags: [{ name: 'Technology' }, { name: 'Education' }]
