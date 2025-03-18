@@ -21,7 +21,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running unit tests with code coverage
 
 Run `ng test --code-coverage` to execute the unit tests via [Karma](https://karma-runner.github.io) and to display test coverage via [karma-coverage-istanbul-reporter](https://github.com/mattlewis92/karma-coverage-istanbul-reporter).
-After passing all tests run `cd coverage/GreenCityClient/ && start index.html` for Windows or `cd coverage/GreenCityClient/ && open index.html` for MacOS
+After passing all tests run `cd coverage/GreenCityClient/ && start index.html` for Windows or `cd coverage/GreenCityClient/ && open index.html` for MacOS:
 
 ## Running end-to-end tests
 
