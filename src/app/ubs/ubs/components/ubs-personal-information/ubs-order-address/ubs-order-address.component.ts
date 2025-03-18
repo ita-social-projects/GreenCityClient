@@ -86,6 +86,10 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   }
 
   initLocation(): void {
+    if (!this.addresses || this.addresses.length === 0) {
+      return;
+    }
+
     let address = this.selectedAddress && this.isAddressAvailable(this.selectedAddress) ? this.selectedAddress : null;
 
     if (!address) {
@@ -117,7 +121,6 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
         address.districtEn === addressDetails.addressDistinctEn &&
         address.houseNumber === addressDetails.houseNumber
     );
-
     address && this.isAddressAvailable(address) ? this.setCurrentAddress(address) : this.initLocation();
   }
 

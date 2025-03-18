@@ -165,6 +165,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       )
       .subscribe((orderData: OrderDetails) => {
         this.bags = orderData.bags;
+        console.log(this.bags);
         this.isTarriffLoading = false;
       });
   }
