@@ -69,7 +69,7 @@ describe('UBSOrderFormComponent ', () => {
       let result: boolean | undefined;
       component.thirdStepCompleted$.subscribe((res) => (result = res));
 
-      tick(); // Ensure all emissions happen
+      tick();
       expect(result).toBeFalse();
     }));
 
@@ -87,7 +87,7 @@ describe('UBSOrderFormComponent ', () => {
     it('should return false if third step was not visited', fakeAsync(() => {
       component.isSecondStepDisabled = false;
       component.isSecondFormValid$ = of(true);
-      (component as any).visitedThirdStep = false; // Ensure it's unvisited
+      (component as any).visitedThirdStep = false;
 
       let result: boolean | undefined;
       component.thirdStepCompleted$.subscribe((res) => (result = res));
@@ -99,7 +99,7 @@ describe('UBSOrderFormComponent ', () => {
     it('should return true if all conditions are met', fakeAsync(() => {
       component.isSecondStepDisabled = false;
       component.isSecondFormValid$ = of(true);
-      (component as any).visitedThirdStep = true; // Ensure this condition is now true
+      (component as any).visitedThirdStep = true;
 
       let result: boolean | undefined;
       component.thirdStepCompleted$.subscribe((res) => (result = res));
