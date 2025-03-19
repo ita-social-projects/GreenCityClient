@@ -1,5 +1,5 @@
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderFormComponent } from './ubs-order-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,5 +53,59 @@ describe('UBSOrderFormComponent ', () => {
     component.ngAfterViewInit();
 
     expect(detectChangesSpy).toHaveBeenCalled();
+  });
+
+  describe('get thirdStepCompleted$', () => {
+    beforeEach(() => {
+      component.isSecondStepDisabled = false;
+      component.isSecondFormValid$ = of(true);
+      (component as any).visitedThirdStep = false;
+    });
+
+    it('should return false if second step is disabled', fakeAsync(() => {
+      component.isSecondStepDisabled = true;
+      (component as any).visitedThirdStep = true;
+
+      let result: boolean | undefined;
+      component.thirdStepCompleted$.subscribe((res) => (result = res));
+
+      tick(); // Ensure all emissions happen
+      expect(result).toBeFalse();
+    }));
+
+    it('should return false if form is invalid', fakeAsync(() => {
+      component.isSecondFormValid$ = of(false);
+      (component as any).visitedThirdStep = true;
+
+      let result: boolean | undefined;
+      component.thirdStepCompleted$.subscribe((res) => (result = res));
+
+      tick();
+      expect(result).toBeFalse();
+    }));
+
+    it('should return false if third step was not visited', fakeAsync(() => {
+      component.isSecondStepDisabled = false;
+      component.isSecondFormValid$ = of(true);
+      (component as any).visitedThirdStep = false; // Ensure it's unvisited
+
+      let result: boolean | undefined;
+      component.thirdStepCompleted$.subscribe((res) => (result = res));
+
+      tick();
+      expect(result).toBeFalse();
+    }));
+
+    it('should return true if all conditions are met', fakeAsync(() => {
+      component.isSecondStepDisabled = false;
+      component.isSecondFormValid$ = of(true);
+      (component as any).visitedThirdStep = true; // Ensure this condition is now true
+
+      let result: boolean | undefined;
+      component.thirdStepCompleted$.subscribe((res) => (result = res));
+
+      tick();
+      expect(result).toBeTrue();
+    }));
   });
 });

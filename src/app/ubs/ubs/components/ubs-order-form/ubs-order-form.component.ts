@@ -12,7 +12,7 @@ import { OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { ClearOrderData, SetCurrentStep } from 'src/app/store/actions/order.actions';
 import { currentStepSelector, isSecondFormValidSelector } from 'src/app/store/selectors/order.selectors';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import { Subject, takeUntil } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-order-form',
@@ -30,6 +30,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
 
   private statePersonalData: PersonalData;
   private stateOrderDetails: OrderDetails;
+  private visitedThirdStep = false;
   private destroy$ = new Subject<void>();
 
   @ViewChild('firstStep') stepOneComponent: UBSOrderDetailsComponent;
@@ -63,8 +64,15 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
     }, 0);
   }
 
-  onSelectionChange($event: StepperSelectionEvent): void {
-    this.store.dispatch(SetCurrentStep({ step: $event.selectedIndex }));
+  onSelectionChange(event: StepperSelectionEvent): void {
+    this.currentStep = event.selectedIndex;
+    if (this.currentStep === 2) {
+      this.visitedThirdStep = true;
+    }
+  }
+
+  get thirdStepCompleted$(): Observable<boolean> {
+    return this.isSecondFormValid$.pipe(map((isValid) => !this.isSecondStepDisabled && isValid && this.visitedThirdStep));
   }
 
   private getOrderDetailsFromState(): void {

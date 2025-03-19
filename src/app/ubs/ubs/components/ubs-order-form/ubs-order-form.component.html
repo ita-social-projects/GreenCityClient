@@ -12,7 +12,7 @@
       <ng-template matStepLabel>{{ 'order-form.personal-data' | translate }}</ng-template>
       <app-ubs-personal-information #secondStep></app-ubs-personal-information>
     </mat-step>
-    <mat-step [stepControl]="thirdStepForm" state="finalStep">
+    <mat-step [stepControl]="thirdStepForm" state="finalStep" [completed]="thirdStepCompleted$ | async">
       <ng-template matStepLabel>{{ 'order-form.confirm' | translate }}</ng-template>
       <app-ubs-submit-order #thirdStep></app-ubs-submit-order>
     </mat-step>
