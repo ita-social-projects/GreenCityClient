@@ -3,7 +3,7 @@ export const environment = {
   enableUBS: true,
   enableGreenCity: false,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
-  apiMapKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
+  apiMapKey: 'AIzaSyDaqjlemyxH1pLvF1EWfBDW2IPlgwJYXnU',
   backendLink: 'https://greencity.greencity.cx.ua/',
   backendChatLink: 'https://greencity-chat.greencity.cx.ua/',
   backendUserLink: 'https://greencity-user.greencity.cx.ua/',
