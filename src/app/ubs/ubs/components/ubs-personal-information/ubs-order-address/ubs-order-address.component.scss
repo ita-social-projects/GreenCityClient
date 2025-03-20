@@ -171,6 +171,7 @@ input:disabled {
   flex-direction: row;
   align-items: start;
   gap: 8px;
+  margin-left: 5%;
 
   .custom-radio {
     .custom-radio-button {
@@ -198,10 +199,6 @@ input:disabled {
       }
     }
   }
-}
-
-.address-position {
-  margin-left: 5%;
 }
 
 .spinner-wrapper {
