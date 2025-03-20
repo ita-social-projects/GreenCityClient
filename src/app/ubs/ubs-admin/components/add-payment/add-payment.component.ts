@@ -379,4 +379,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.paymentSum = parseFloat(target.value).toFixed(2);
     target.value = this.paymentSum;
   }
+
+  isRadioButtonDisabled(): boolean {
+    return !this.editMode && !!this.payment;
+  }
 }
