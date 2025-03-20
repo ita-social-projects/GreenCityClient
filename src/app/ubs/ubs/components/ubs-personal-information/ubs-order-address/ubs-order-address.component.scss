@@ -54,8 +54,8 @@ textarea {
 }
 
 label,
-.adress-title,
-.adress-notice,
+.address-title,
+.address-notice,
 .comment-title,
 .city-notice {
   font-family: var(--ubs-tertiary-font);
@@ -67,6 +67,8 @@ label,
 
 input:disabled {
   cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.6;
 }
 
 .comment-title,
@@ -85,7 +87,7 @@ input:disabled {
   margin: 0 0 20px;
 }
 
-.adress-section {
+.address-section {
   max-width: 100%;
   margin: 0 auto;
 
@@ -94,18 +96,18 @@ input:disabled {
     font-size: 14px;
   }
 
-  .adress {
+  .address {
     margin: 0 0 32px;
 
     .item {
       width: 48%;
     }
 
-    .adress-title {
+    .address-title {
       margin: 5px 0 20px 15px;
     }
 
-    .adress-notice {
+    .address-notice {
       margin: 15px 0 15px 15px;
     }
 
@@ -198,7 +200,7 @@ input:disabled {
   }
 }
 
-.adress-position {
+.address-position {
   margin-left: 5%;
 }
 
