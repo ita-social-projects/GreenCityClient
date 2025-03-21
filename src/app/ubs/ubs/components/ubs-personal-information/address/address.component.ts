@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Address } from '@ubs/ubs/models/ubs.interface';
 
 @Component({
   selector: 'app-address',
@@ -6,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./address.component.scss']
 })
 export class AddressComponent {
-  @Input() address: any;
+  @Input() address: Address;
 }
