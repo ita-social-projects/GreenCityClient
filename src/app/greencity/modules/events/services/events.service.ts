@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from '@environment/environment';
 import { Observable, ReplaySubject, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import {
   Addresses,
   EventAttender,
@@ -13,7 +14,6 @@ import {
   PlaceOnline
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { catchError } from 'rxjs/operators';
 import { LikeResponse } from './LikeResponse';
 
 @Injectable({
@@ -54,7 +54,6 @@ export class EventsService implements OnDestroy {
       })
     };
 
-    //TODO:
     if (isUpdating) {
       const currentImages = (images || []).filter((value) => !value.file).map((value) => value.url);
       sendEventDto = {
@@ -76,6 +75,7 @@ export class EventsService implements OnDestroy {
     });
     return formData;
   }
+
   setIsFromCreateEvent(value: boolean): void {
     this.isFromCreateEvent = value;
   }
@@ -156,6 +156,18 @@ export class EventsService implements OnDestroy {
       coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
     );
   }
+
+  getFormattedAddressEventsList(coordinates: LocationResponse): string {
+    return this.langService.getLangValue(
+      coordinates.streetUa
+        ? this.createEventsListAddresses(coordinates, 'Ua')
+        : coordinates.formattedAddressUa?.split(', ').slice(0, 2).reverse().join(', ') || '',
+      coordinates.streetEn
+        ? this.createEventsListAddresses(coordinates, 'En')
+        : coordinates.formattedAddressEn?.split(', ').slice(0, 2).reverse().join(', ') || ''
+    );
+  }
+
   likeEvent(eventId: number): Observable<LikeResponse> {
     return this.http.post<LikeResponse>(`${this.backEnd}events/${eventId}/like-v2`, {}).pipe(
       catchError((error) => {
@@ -167,16 +179,6 @@ export class EventsService implements OnDestroy {
 
   dislikeEvent(eventId: number): Observable<any> {
     return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike-v2`, {}).pipe(catchError((error) => throwError(() => error)));
-  }
-  getFormattedAddressEventsList(coordinates: LocationResponse): string {
-    return this.langService.getLangValue(
-      coordinates.streetUa
-        ? this.createEventsListAddresses(coordinates, 'Ua')
-        : coordinates.formattedAddressUa?.split(', ').slice(0, 2).reverse().join(', ') || '',
-      coordinates.streetEn
-        ? this.createEventsListAddresses(coordinates, 'En')
-        : coordinates.formattedAddressEn?.split(', ').slice(0, 2).reverse().join(', ') || ''
-    );
   }
 
   createAddresses(location: PlaceOnline | null, lang: string): string {

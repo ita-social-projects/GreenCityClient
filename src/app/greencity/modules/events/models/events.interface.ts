@@ -137,8 +137,8 @@ export interface EventDatesResponse {
 }
 
 export interface EventResponse {
-  id: number;
-  title: string;
+  id?: number;
+  title?: string;
   organizer: OrganizerInfo;
   creationDate: string;
   description: string;
