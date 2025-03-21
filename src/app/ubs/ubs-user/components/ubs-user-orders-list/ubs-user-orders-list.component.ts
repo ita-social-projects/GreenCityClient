@@ -51,20 +51,20 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   isOrderUnpaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatusEng === PaymentStatusEn.UNPAID;
+    return order.paymentStatusEn === PaymentStatusEn.UNPAID;
   }
 
   isOrderHalfPaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatusEng === PaymentStatusEn.HALFPAID;
+    return order.paymentStatusEn === PaymentStatusEn.HALFPAID;
   }
 
   isOrderCanceled(order: IUserOrderInfo): boolean {
-    return order.orderStatusEng === OrderStatusEn.CANCELED;
+    return order.orderStatusEn === OrderStatusEn.CANCELED;
   }
 
   isOrderDoneOrCancel(order: IUserOrderInfo): boolean {
-    const isOrderDone = order.orderStatusEng === OrderStatusEn.DONE;
-    const isOrderCancelled = order.orderStatusEng === OrderStatusEn.CANCELED;
+    const isOrderDone = order.orderStatusEn === OrderStatusEn.DONE;
+    const isOrderCancelled = order.orderStatusEn === OrderStatusEn.CANCELED;
     return isOrderDone || isOrderCancelled;
   }
 
@@ -80,12 +80,12 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   canOrderBeCancel(order: IUserOrderInfo): boolean {
     return (
-      order.paymentStatusEng !== PaymentStatusEn.HALFPAID &&
-      order.orderStatusEng !== OrderStatusEn.ADJUSTMENT &&
-      order.orderStatusEng !== OrderStatusEn.BROUGHT_IT_HIMSELF &&
-      order.orderStatusEng !== OrderStatusEn.NOT_TAKEN_OUT &&
-      order.orderStatusEng !== OrderStatusEn.CANCELED &&
-      order.orderStatusEng !== OrderStatusEn.DONE
+      order.paymentStatusEn !== PaymentStatusEn.HALFPAID &&
+      order.orderStatusEn !== OrderStatusEn.ADJUSTMENT &&
+      order.orderStatusEn !== OrderStatusEn.BROUGHT_IT_HIMSELF &&
+      order.orderStatusEn !== OrderStatusEn.NOT_TAKEN_OUT &&
+      order.orderStatusEn !== OrderStatusEn.CANCELED &&
+      order.orderStatusEn !== OrderStatusEn.DONE
     );
   }
 
@@ -106,14 +106,14 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   openOrderPaymentDialog(order: IUserOrderInfo): void {
-    const isOrderFormed = order.orderStatusEng === OrderStatusEn.FORMED;
+    const isOrderFormed = order.orderStatusEn === OrderStatusEn.FORMED;
     this.isOrderUnpaid(order) && isOrderFormed ? this.getDataForLocalStorage(order) : this.openOrderPaymentPopUp(order);
     this.orderService.cleanOrderState();
   }
 
   getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
     const bags = order.bags;
-    const bag = bags.find((item) => item.capacity === capacity && item.service === bagTypeName);
+    const bag = bags.find((item) => item.capacity === capacity && item.serviceUk === bagTypeName);
     return bag ? bag.count : null;
   }
 
@@ -143,7 +143,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     forkJoin([orderDataRequest, personalDataRequest]).subscribe(() => {
       this.bags = orderDataResponse.bags;
       this.bags.forEach((item) => {
-        const bagsQuantity = this.getBagsQuantity(item.name, item.capacity, order);
+        const bagsQuantity = this.getBagsQuantity(item.nameUk, item.capacity, order);
         item.quantity = bagsQuantity;
       });
 

@@ -111,6 +111,57 @@ export class EventsListComponent implements OnInit, OnDestroy {
       value.trim() !== '' ? this.searchEventsByTitle() : this.getEvents();
     });
   }
+  private refreshEventInList(updatedEvent: EventListResponse): void {
+    const index = this.eventsList.findIndex((e) => e.id === updatedEvent.id);
+    if (index !== -1) {
+      this.eventsList[index] = updatedEvent;
+    }
+  }
+
+  likeEvent(event: EventListResponse): void {
+    this.eventService.likeEvent(event.id).subscribe(() => {
+      this.updateEventReaction(event, 'like');
+      this.eventService.getEventById(event.id).subscribe((updatedEvent) => {
+        //@ts-ignore
+        this.refreshEventInList(updatedEvent);
+      });
+    });
+  }
+
+  dislikeEvent(event: EventListResponse): void {
+    this.eventService.dislikeEvent(event.id).subscribe(
+      () => {
+        this.updateEventReaction(event, 'dislike');
+      },
+      (error) => {
+        console.error('Dislike API request failed:', error);
+      }
+    );
+  }
+
+  private updateEventReaction(event: EventListResponse, reactionType: 'like' | 'dislike'): void {
+    const i = this.eventsList.findIndex((e) => e.id === event.id);
+    if (i !== -1) {
+      const current = this.eventsList[i];
+      if (reactionType === 'like') {
+        if (!current.isLiked) {
+          current.likes++;
+          current.isLiked = true;
+          current.isDisliked = false;
+        }
+      } else {
+        if (current.isDisliked) {
+          current.isDisliked = false;
+        } else {
+          if (current.isLiked && current.likes > 0) {
+            current.likes--;
+            current.isLiked = false;
+          }
+          current.isDisliked = true;
+        }
+      }
+    }
+  }
 
   getEvents(): void {
     if (this.bookmarkSelected) {

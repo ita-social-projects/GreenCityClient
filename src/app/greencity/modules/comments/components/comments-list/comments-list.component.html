@@ -24,8 +24,16 @@
         </span>
       </div>
       <div class="comment-likes">
-        <img [src]="likeImg" alt="like" aria-hidden="true" />
+        <img [src]="comment.isLiked ? likedImg : likeImg" alt="like" aria-hidden="true" (click)="likeComment(comment.id)" />
         <span class="like-amount">{{ comment.likes }}</span>
+
+        <img
+          [src]="comment.isDisliked ? dislikedImg : likeImg"
+          alt="dislike"
+          aria-hidden="true"
+          class="dislike-img"
+          (click)="dislikeComment(comment.id)"
+        />
       </div>
     </div>
   </div>

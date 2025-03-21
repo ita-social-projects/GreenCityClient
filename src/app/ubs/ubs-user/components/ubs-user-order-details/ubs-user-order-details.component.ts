@@ -16,6 +16,6 @@ export class UbsUserOrderDetailsComponent implements OnInit {
   }
 
   isPaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatus === PaymentStatusEn.PAID;
+    return order.paymentStatusEn === PaymentStatusEn.PAID;
   }
 }

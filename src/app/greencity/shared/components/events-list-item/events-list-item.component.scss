@@ -19,12 +19,12 @@
   transform: rotate(180deg);
 }
 
-#like,
+<<<<<<< HEAD #like,
 #dislike {
   border: none;
 }
 
-.additional-info {
+=======>>>>>>>dev .additional-info {
   padding: 16px;
   display: flex;
   align-items: center;
@@ -273,6 +273,11 @@
     width: 25px;
     height: 25px;
   }
+}
+
+#like,
+#dislike {
+  border: none;
 }
 
 .tag-divider {

@@ -18,7 +18,7 @@ import { CreateEcoEventAction, EditEcoEventAction } from 'src/app/store/actions/
 import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 import { EventDetailsComponent } from './event-details.component';
-import { EventDto } from '../../models/events.interface';
+import { EventDto as EventDTO } from '../../models/events.interface';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 export function mockPipe(options: Pipe): Pipe {
@@ -294,7 +294,7 @@ describe('EventDetailsComponent', () => {
 
   it('should update likes and not revert isLiked if postToggleLike succeeds', () => {
     component.isLiked = false;
-    component.event = { likes: 10 } as EventDto;
+    component.event = { likes: 10 } as unknown as EventDTO;
     component.eventId = 2;
 
     EventsServiceMock.postToggleLike.and.returnValue(of(true));
@@ -306,7 +306,7 @@ describe('EventDetailsComponent', () => {
   });
 
   it('should correctly toggle likes and isLiked based on the current state', () => {
-    component.event = { likes: 10 } as EventDto;
+    component.event = { likes: 10 } as unknown as EventDTO;
     component.eventId = 2;
     component.isLiked = false;
     EventsServiceMock.postToggleLike.and.returnValue(of(true));

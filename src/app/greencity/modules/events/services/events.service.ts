@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from '@environment/environment';
 import { Observable, ReplaySubject, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import {
   Addresses,
   EventAttender,
@@ -15,6 +14,7 @@ import {
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { LikeResponse } from './LikeResponse';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

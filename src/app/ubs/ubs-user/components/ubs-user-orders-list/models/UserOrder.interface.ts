@@ -11,11 +11,11 @@ export interface IUserOrderInfo {
   id: number;
   orderComment: string;
   orderFullPrice: number;
-  orderStatus: string;
-  orderStatusEng: string;
+  orderStatusUk: string;
+  orderStatusEn: string;
   paidAmount: number;
-  paymentStatus: string;
-  paymentStatusEng: string;
+  paymentStatusUk: string;
+  paymentStatusEn: string;
   sender: IUserInfo;
   refundedBonuses: number;
   refundedMoney: number;
@@ -29,15 +29,15 @@ export interface IUserInfo {
 }
 
 export interface IAddressExportDetails {
-  addressCity: string;
-  addressCityEng: string;
+  addressCityUk: string;
+  addressCityEn: string;
   addressComment: string;
-  addressDistinct: string;
-  addressDistinctEng: string;
-  addressRegion: string;
-  addressRegionEng: string;
-  addressStreet: string;
-  addressStreetEng: string;
+  addressDistinctUk: string;
+  addressDistinctEn: string;
+  addressRegionUk: string;
+  addressRegionEn: string;
+  addressStreetUk: string;
+  addressStreetEn: string;
   entranceNumber: string;
   houseCorpus: string;
   houseNumber: string;
@@ -47,8 +47,8 @@ export interface IBags {
   capacity: number;
   count: number;
   price: number;
-  service: string;
-  serviceEng: string;
+  serviceUk: string;
+  serviceEn: string;
   totalPrice: number;
   fullPrice: number;
 }

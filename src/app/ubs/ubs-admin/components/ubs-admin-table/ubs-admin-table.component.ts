@@ -110,6 +110,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   cancellationReason: string;
   cancellationComment: string;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
+  @ViewChild(MatTable) table!: MatTable<any>;
   defaultColumnWidth = 120; // In px
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
@@ -208,7 +209,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         const filteredColumn = {
           key: column.title.key,
           en: column.title.en,
-          ua: column.title.ua,
+          uk: column.title.uk,
           values: [...column.checked]
         };
         columnsForFiltering.push(filteredColumn);
@@ -311,7 +312,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
     this.sortColumnsToDisplay();
-    setTimeout(() => this.applyColumnsWidthPreference(), 0);
   }
 
   stickColumns() {
@@ -439,16 +439,12 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   formatTableData() {
-    const currency = {
-      ua: 'грн',
-      en: 'UAH'
-    };
     this.dataSource = new MatTableDataSource(
       this.tableData.map((row) => {
         const newRow = structuredClone(row);
         const priceKeys = [TableKeys.amountDue, TableKeys.totalOrderSum, TableKeys.generalDiscount, TableKeys.totalPayment];
         for (const key of priceKeys) {
-          newRow[key] = parseFloat(newRow[key]).toFixed(2) + ' ' + currency[this.currentLang];
+          newRow[key] = parseFloat(newRow[key]).toFixed(2);
         }
         const arr = newRow.orderCertificateCode?.split(', ');
         if (arr && arr.length > 0) {
@@ -457,9 +453,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         return newRow;
       })
     );
-    setTimeout(() => {
-      this.applyColumnsWidthPreference();
-    }, 0);
     this.isLoading = false;
   }
 
@@ -741,7 +734,8 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   showTooltip(event, title, tooltip) {
     event.stopImmediatePropagation();
-    const lengthStrUa = title.ua.split('').length;
+    console.log(title);
+    const lengthStrUa = title.uk.split('').length;
     const lengthStrEn = title.en.split('').length;
     if ((this.currentLang === 'ua' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
       tooltip.toggle();
@@ -885,7 +879,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     const displayedColumnsCopy = JSON.parse(JSON.stringify(this.displayedColumns));
     const prop = this.nestedSortProperty.split('.');
     const len = prop.length;
-    setTimeout(() => this.applyColumnsWidthPreference(), 0);
     this.columns.sort((a, b) => {
       let i = 0;
       while (i < len) {
@@ -918,133 +911,39 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.stickColumns();
   }
 
-  onResizeColumn(event: MouseEvent, columnIndex: number): void {
-    if (!this.isTimePickerOpened) {
-      const resizeHandleWidth = 15;
-      const resizeStartX = event.pageX;
-      let lastStickyOffsetShift = 0;
+  onResizeColumn(event: MouseEvent, columnName: string): void {
+    const cellWidth = (event.target as HTMLElement).offsetWidth;
+    const clickPosition = event.offsetX;
 
-      columnIndex = this.isResizingTargetColumn(event) ? columnIndex : columnIndex - 1;
+    if (cellWidth - clickPosition <= 10) {
+      const startX = event.clientX;
+      const startWidth = this.columnsWidthPreference.get(columnName) || 100;
 
-      const {
-        left: leftColumnBoundary,
-        right: rightColumnBoundary,
-        width: originalColumnWidth
-      } = this.getColumnHeaderBoundaries(columnIndex);
+      const onMouseMove = (event: MouseEvent) => {
+        const deltaX = event.clientX - startX;
+        const newWidth = Math.max(startWidth + deltaX, 50);
 
-      const isResizingLeft = resizeStartX <= leftColumnBoundary + resizeHandleWidth;
-      const isResizingRight = resizeStartX >= rightColumnBoundary - resizeHandleWidth;
-
-      if (!isResizingLeft && !isResizingRight) {
-        return;
-      }
-
-      event.preventDefault();
-
-      let newColumnWidth = originalColumnWidth;
-      // eslint-disable-next-line prefer-const
-      let cleanupMouseMoveFn;
-      // eslint-disable-next-line prefer-const
-      let cleanupMouseUpFn;
-
-      const onMouseMove = (moveEvent) => {
-        const movedToX = moveEvent.pageX;
-        const diffX = isResizingRight ? movedToX - resizeStartX : -movedToX + resizeStartX;
-
-        newColumnWidth = originalColumnWidth + diffX > 100 ? originalColumnWidth + diffX : 100;
-
-        this.setColumnWidth(columnIndex, newColumnWidth);
-
-        if (columnIndex < this.stickyColumnsAmount - 1) {
-          const actualResize = newColumnWidth - originalColumnWidth;
-
-          for (let i = columnIndex + 1; i < this.stickyColumnsAmount; i++) {
-            this.shiftStickyColumnX(i, actualResize - lastStickyOffsetShift);
-          }
-
-          lastStickyOffsetShift = actualResize;
-        }
+        this.columnsWidthPreference.set(columnName, newWidth);
+        this.table.updateStickyColumnStyles();
       };
+
       const onMouseUp = () => {
-        this.updateColumnsWidthPreference(columnIndex, newColumnWidth);
-        cleanupMouseMoveFn();
-        cleanupMouseUpFn();
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+
+        const cancelClick = (event: MouseEvent) => {
+          event.stopPropagation();
+          event.preventDefault();
+          document.removeEventListener('click', cancelClick, true);
+        };
+
+        document.addEventListener('click', cancelClick, true);
       };
-      cleanupMouseMoveFn = this.renderer.listen('document', 'mousemove', onMouseMove);
-      cleanupMouseUpFn = this.renderer.listen('document', 'mouseup', onMouseUp);
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     }
   }
-
-  private isResizingTargetColumn(event: MouseEvent) {
-    const column = event.target as HTMLElement;
-
-    if (!column) {
-      return;
-    }
-
-    const columnBounds = column.getBoundingClientRect();
-    const columnMidpoint = columnBounds.left + columnBounds.width / 2;
-
-    return event.clientX > columnMidpoint;
-  }
-
-  private getColumnHeaderBoundaries(index: number) {
-    const headerRow = this.matTableRef?.nativeElement.children[0];
-    const cell = headerRow?.children[0]?.children[index];
-    return cell?.getBoundingClientRect();
-  }
-
-  private setStickyColumnOffsetX(index: number, offset: number): void {
-    // Relative to table start
-    const columnKey = this.columns[index].title.key;
-    const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
-    columnCells.forEach((cell) => {
-      this.renderer.setStyle(cell, 'left', `${offset}px`);
-    });
-  }
-
-  private shiftStickyColumnX(index: number, shift: number): void {
-    const columnKey = this.columns[index].title.key;
-    const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
-    columnCells.forEach((cell) => {
-      const currentLeft = parseInt((cell as HTMLElement).style.left, 10) || 100;
-      const newLeft = currentLeft + shift;
-      this.renderer.setStyle(cell, 'left', `${newLeft}px`);
-    });
-  }
-
-  private setColumnWidth(index: number, width: number): void {
-    const columnKey = this.columns[index].title.key;
-    const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
-    columnCells.forEach((cell) => {
-      this.renderer.setStyle(cell, 'width', `${width}px`);
-    });
-  }
-
-  applyColumnsWidthPreference(): void {
-    for (const [idx, col] of this.columns.entries()) {
-      const width = this.columnsWidthPreference.get(col.title.key) ?? this.defaultColumnWidth;
-      this.setColumnWidth(idx, width);
-    }
-    const tableOffsetX = this.getColumnHeaderBoundaries(0)?.left;
-    if (tableOffsetX === undefined) {
-      return;
-    }
-    for (let idx = 1; idx < this.stickyColumnsAmount; idx++) {
-      const columnHeaderBoundaries = this.getColumnHeaderBoundaries(idx - 1);
-      if (columnHeaderBoundaries) {
-        this.setStickyColumnOffsetX(idx, columnHeaderBoundaries.right - tableOffsetX);
-      }
-    }
-  }
-
-  updateColumnsWidthPreference(columnIndex: number, newWidth: number) {
-    const column: IColumnDTO = this.columns[columnIndex];
-    column.weight = newWidth;
-    this.columnsWidthPreference.set(column.title.key, newWidth);
-    this.store.dispatch(GetTableColumnWidthSuccess({ columnsWidth: this.columnsWidthPreference }));
-  }
-
   setColumnsForFiltering(columns): void {
     this.adminTableService.setColumnsForFiltering(columns);
   }
@@ -1079,14 +978,13 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   resetDefaultWidth(): void {
     this.showAllColumns(false);
-    this.columnsWidthPreference = this.defaultColumnsWidth;
+    this.columnsWidthPreference = new Map(this.defaultColumnsWidth);
     for (let i = 1; i < this.columns.length - 1; i++) {
       const cols = document.querySelectorAll('.column_cell.ng-star-inserted');
       const col = cols[i - 1] as HTMLElement;
       const width = this.defaultColumnsWidth.get(this.columns[i].title.key);
       col.style.width = width + 'px';
     }
-    this.applyColumnsWidthPreference();
     this.adminTableService
       .setUbsAdminOrdersTableColumnsWidthPreference(this.defaultColumnsWidth)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -1114,6 +1012,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   saveColumnsWidthPreference(): void {
     this.adminTableService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference).subscribe();
+    this.store.dispatch(GetTableColumnWidthSuccess({ columnsWidth: this.columnsWidthPreference }));
   }
 
   @HostListener('window:beforeunload', ['$event'])

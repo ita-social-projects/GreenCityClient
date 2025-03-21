@@ -180,7 +180,7 @@ describe('UserNotificationsComponent', () => {
 
     component.navigate(customEvent);
 
-    expect(routerMock.navigate).toHaveBeenCalledWith(['news', 5]);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['greenCity', 'news', 5]);
   }));
 
   it('should navigate to habit editing page when notification type is HABIT', waitForAsync(() => {
@@ -200,7 +200,7 @@ describe('UserNotificationsComponent', () => {
 
     component.navigate(customEvent);
 
-    expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 1, 'allhabits', 'addhabit', 3]);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['greenCity', 'profile', 1, 'allhabits', 'addhabit', 3]);
   }));
 
   it('should return checkSelectedFilter', () => {

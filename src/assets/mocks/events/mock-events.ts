@@ -127,7 +127,6 @@ export const mockHabitAssign: HabitAssignInterface[] = [
     toDoListItems: []
   }
 ];
-
 export const mockEvent: EventResponseDto = {
   currentPage: 0,
   first: true,
@@ -138,6 +137,8 @@ export const mockEvent: EventResponseDto = {
   page: [
     {
       additionalImages: [],
+      isLiked: false,
+      isDisliked: false,
       creationDate: '2022-05-31',
       dates: [
         {
@@ -187,9 +188,7 @@ export const mockEvent: EventResponseDto = {
       countComments: 9,
       isRelevant: true,
       isOrganizedByFriend: false,
-      eventRate: 0,
-      isLiked: false,
-      isDisliked: false
+      eventRate: 0
     }
   ],
   totalElements: 12,
@@ -524,6 +523,7 @@ export const EVENT_MOCK: EventResponse = {
   isRelevant: true,
   open: true,
   likes: 5,
+
   countComments: 7,
   isOrganizedByFriend: false,
   eventRate: 0
@@ -533,6 +533,7 @@ export const EVENT_FORM_MOCK: EventForm = {
   eventInformation: {
     title: 'Sample Event Title',
     duration: 1,
+    editorText: 'Hello world',
     description: 'This is a sample event description.',
     open: true,
     tags: [{ name: 'Technology' }, { name: 'Education' }]

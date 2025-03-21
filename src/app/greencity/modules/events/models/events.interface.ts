@@ -25,6 +25,10 @@ export interface EventDto extends EventForm {
   isSubscribed?: boolean;
   isFavorite?: boolean;
   isOrganizedByFriend?: boolean;
+  title?: string;
+  tags?: string[];
+  isLiked?: boolean;
+  isDisliked?: boolean;
 }
 
 export interface EventForm {
@@ -33,6 +37,7 @@ export interface EventForm {
   titleImage?: string;
   additionalImages?: Array<string>;
   images?: Array<any>;
+  dateInformation?: DateInformation;
 }
 
 export interface DateInformation {
@@ -80,6 +85,7 @@ export interface EventInformation {
   duration: number;
   description: string;
   open: boolean;
+  editorText: string;
   tags: Array<{
     id?: number;
     name: string;

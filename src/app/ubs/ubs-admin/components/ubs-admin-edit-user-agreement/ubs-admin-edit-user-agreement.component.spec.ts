@@ -12,7 +12,7 @@ const mockUserAgreement: TUserAgreementAdmin = {
   id: 1,
   createdAt: '2024-08-16T18:45:16.840366',
   authorEmail: 'admin@example.com',
-  textUa: 'some text in Ukrainian',
+  textUk: 'some text in Ukrainian',
   textEn: 'some text in English'
 };
 

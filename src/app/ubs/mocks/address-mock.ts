@@ -4,19 +4,19 @@ export const ADDRESSESMOCK = {
     { name: 'місто Київ', key: 2 }
   ],
   DISTRICTSMOCK: [
-    { nameUa: 'Бориспіль', nameEn: 'Boryspil' },
-    { nameUa: 'Бровари', nameEn: 'Breweries' },
-    { nameUa: 'Буча', nameEn: 'Bucha' }
+    { nameUk: 'Бориспіль', nameEn: 'Boryspil' },
+    { nameUk: 'Бровари', nameEn: 'Breweries' },
+    { nameUk: 'Буча', nameEn: 'Bucha' }
   ],
   DISTRICTSKYIVMOCK: [
-    { nameUa: 'Голосіївський', nameEn: 'Holosiivskyi' },
-    { nameUa: 'Дарницький', nameEn: 'Darnytskyi' },
-    { nameUa: 'Деснянський', nameEn: 'Desnyan' }
+    { nameUk: 'Голосіївський', nameEn: 'Holosiivskyi' },
+    { nameUk: 'Дарницький', nameEn: 'Darnytskyi' },
+    { nameUk: 'Деснянський', nameEn: 'Desnyan' }
   ],
   DISTRICTSKYIVMOCKLABLED: [
-    { nameUa: 'Голосіївський район', nameEn: 'Holosiivskyi district' },
-    { nameUa: 'Дарницький район', nameEn: 'Darnytskyi district' },
-    { nameUa: 'Деснянський район', nameEn: 'Desnyan district' }
+    { nameUk: 'Голосіївський район', nameEn: 'Holosiivskyi district' },
+    { nameUk: 'Дарницький район', nameEn: 'Darnytskyi district' },
+    { nameUk: 'Деснянський район', nameEn: 'Desnyan district' }
   ],
   KYIVREGIONSLIST: [
     {

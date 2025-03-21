@@ -43,7 +43,7 @@ xdescribe('UbsAdminEmployeeComponent', () => {
   const positionMock = [
     {
       id: 0,
-      name: 'fake',
+      nameUk: 'fake',
       nameEn: 'fakeEn'
     }
   ];
@@ -366,8 +366,8 @@ xdescribe('UbsAdminEmployeeComponent', () => {
       { name: 'fake2', id: 5 }
     ];
     component.employeePositions = [
-      { name: 'fake', nameEn: 'fakeEn', id: 154 },
-      { name: 'fake2', nameEn: 'fake2En', id: 5 }
+      { nameUk: 'fake', nameEn: 'fakeEn', id: 154 },
+      { nameUk: 'fake2', nameEn: 'fake2En', id: 5 }
     ];
     const result = component.isPositionChecked();
     expect(result).toEqual(true);
@@ -375,8 +375,8 @@ xdescribe('UbsAdminEmployeeComponent', () => {
 
   it('should check if isPositionChecked(), isCityChecked(), ', () => {
     component.employeePositions = [
-      { name: 'fake', nameEn: 'fakeEn', id: 154 },
-      { name: 'fake2', nameEn: 'fake2En', id: 5 }
+      { nameUk: 'fake', nameEn: 'fakeEn', id: 154 },
+      { nameUk: 'fake2', nameEn: 'fake2En', id: 5 }
     ];
     component.isPositionChecked();
     expect(component.selectedPositions.length).toEqual(0);
