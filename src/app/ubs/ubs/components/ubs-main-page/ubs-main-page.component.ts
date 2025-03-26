@@ -100,11 +100,13 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   howWorksPickUp = [
     {
       header: 'ubs-homepage.ubs-courier.how-works.header.pre_1',
-      content: 'ubs-homepage.ubs-courier.how-works.time.pre_1'
+      content: 'ubs-homepage.ubs-courier.how-works.time.pre_1',
+      content_2: null
     },
     {
       header: 'ubs-homepage.ubs-courier.how-works.header.pre_2',
-      content: 'ubs-homepage.ubs-courier.how-works.time.pre_2'
+      content: 'ubs-homepage.ubs-courier.how-works.time.pre_2',
+      content_2: 'ubs-homepage.ubs-courier.how-works.time.pre_3'
     }
   ];
 

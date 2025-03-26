@@ -381,8 +381,9 @@
           "pre_2": "Route forming time"
         },
         "time": {
-          "pre_1": "Monday-Friday from 10:00 to 17:00.",
-          "pre_2": "From 2 to 5 business days."
+          "pre_1": "Monday-Friday from 09:30 to 17:30",
+          "pre_2": "From 2 to 5 business days",
+          "pre_3": "For suburbs - from 10 working days"
         },
         "content": {
           "pre_1": "Get free products shipping",

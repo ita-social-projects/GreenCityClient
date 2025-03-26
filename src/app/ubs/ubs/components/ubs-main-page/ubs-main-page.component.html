@@ -197,9 +197,10 @@
   <section id="how-works">
     <div class="box-how-works">
       <div id="main-content">
-        <div class="time-frame" *ngFor="let elemTime of howWorksPickUp">
+        <div class="time-frame" *ngFor="let elemTime of howWorksPickUp; let i = index" [class.first]="i === 0">
           <h2 class="header-how-works">{{ elemTime.header | translate }}</h2>
           <p class="content-time">{{ elemTime.content | translate }}</p>
+          <p class="content-time">{{ elemTime.content_2 | translate }}</p>
         </div>
       </div>
       <div id="how-works-content">
