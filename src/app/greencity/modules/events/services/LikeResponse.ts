@@ -1,4 +1,6 @@
 export interface LikeResponse {
-  id: number;
-  liked: boolean;
+  likes: number;
+  dislikes: number;
+  isLiked: boolean;
+  isDisliked: boolean;
 }

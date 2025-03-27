@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from '@environment/environment';
 import { Observable, ReplaySubject, throwError } from 'rxjs';
@@ -168,17 +168,12 @@ export class EventsService implements OnDestroy {
     );
   }
 
-  likeEvent(eventId: number): Observable<LikeResponse> {
-    return this.http.post<LikeResponse>(`${this.backEnd}events/${eventId}/like-v2`, {}).pipe(
-      catchError((error) => {
-        console.error('Error liking event:', error);
-        return throwError(() => error);
-      })
-    );
+  likeEvent(eventId: number): Observable<HttpResponse<EventDto>> {
+    return this.http.post<EventDto>(`${this.backEnd}events/${eventId}/like-v2`, {}, { observe: 'response' });
   }
 
-  dislikeEvent(eventId: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike-v2`, {}).pipe(catchError((error) => throwError(() => error)));
+  dislikeEvent(eventId: number): Observable<HttpResponse<EventDto>> {
+    return this.http.post<EventDto>(`${this.backEnd}events/${eventId}/dislike-v2`, {}, { observe: 'response' });
   }
 
   createAddresses(location: PlaceOnline | null, lang: string): string {

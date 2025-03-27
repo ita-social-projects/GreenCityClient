@@ -337,10 +337,39 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
   likePost(): void {
     this.eventService.likeEvent(this.event.id).subscribe(
-      (response) => {
-        this.event.isLiked = true;
-        this.event.likes += 1;
-        this.event.isDisliked = false;
+      (res) => {
+        if (res.status === 200 && res.body) {
+          this.event.isLiked = res.body.isLiked;
+          this.event.likes = res.body.likes;
+          this.event.isDisliked = res.body.isDisliked;
+          this.event.dislikes = res.body.dislikes;
+        } else if (res.status === 204) {
+          this.event.isLiked = false;
+          this.event.likes = Math.max(0, this.event.likes - 1);
+        }
+        this.likeStatusChange.emit(this.event);
+      },
+      (error) => console.error('Error in likeEvent:', error)
+    );
+  }
+
+  dislikePost(): void {
+    this.eventService.dislikeEvent(this.event.id).subscribe(
+      (res) => {
+        if (res.status === 200 && res.body) {
+          this.event = {
+            ...this.event,
+            likes: res.body.likes,
+            dislikes: res.body.dislikes,
+            isLiked: res.body.isLiked,
+            isDisliked: res.body.isDisliked
+          };
+        } else if (res.status === 204) {
+          this.event.isLiked = false;
+          this.event.likes = Math.max(0, this.event.likes - 1);
+        }
+
+        this.likeStatusChange.emit(this.event);
       },
       (error) => {
         console.error('Error in likeEvent:', error);
@@ -348,24 +377,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  dislikePost() {
-    if (!this.event.isDisliked) {
-      this.eventService.dislikeEvent(this.event.id).subscribe(
-        () => {
-          this.event.isDisliked = true;
-          if (this.event.isLiked) {
-            this.event.isLiked = false;
-            this.event.likes--;
-          }
-          this.event.dislikes++;
-          this.dislikeStatusChange.emit(this.event);
-        },
-        () => {
-          this.snackBar.openSnackBar('error');
-        }
-      );
-    }
-  }
   changeFavouriteStatus(event?: Event) {
     event?.stopPropagation();
     if (!this.isRegistered) {
