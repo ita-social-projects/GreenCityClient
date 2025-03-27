@@ -142,8 +142,8 @@
         <app-events-list-item
           [isGalleryView]="isGalleryView"
           [event]="eventItem"
-          (likeStatusChange)="likeEvent($event)"
-          (dislikeStatusChange)="dislikeEvent($event)"
+          (likeStatusChange)="onLikeStatusChange($event)"
+          (dislikeStatusChange)="onDislikeStatusChange($event)"
           [userId]="userId"
           [isUserAssignList]="false"
         ></app-events-list-item>

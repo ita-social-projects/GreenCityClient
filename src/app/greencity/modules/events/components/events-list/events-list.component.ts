@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Addresses, EventListResponse, FilterItem } from '../../models/events.interface';
+import { Addresses, EventDto, EventListResponse, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { Observable, ReplaySubject, Subscription, take } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -18,6 +18,7 @@ import { MatOption } from '@angular/material/core';
 import { HttpParams } from '@angular/common/http';
 import { EventStoreService } from '../../services/event-store.service';
 import { initializeSavedState } from 'src/app/greencity/shared/components/saved-tabs/saved-section-const';
+import { LikeResponse } from '../../services/LikeResponse';
 
 @Component({
   selector: 'app-events-list',
@@ -111,55 +112,30 @@ export class EventsListComponent implements OnInit, OnDestroy {
       value.trim() !== '' ? this.searchEventsByTitle() : this.getEvents();
     });
   }
-  private refreshEventInList(updatedEvent: EventListResponse): void {
-    const index = this.eventsList.findIndex((e) => e.id === updatedEvent.id);
+
+  private updateEventFromServer(eventId: number, updatedEvent: EventDto): void {
+    const index = this.eventsList.findIndex((e) => e.id === eventId);
     if (index !== -1) {
-      this.eventsList[index] = updatedEvent;
+      this.eventsList[index] = {
+        ...this.eventsList[index],
+        likes: updatedEvent.likes,
+        dislikes: updatedEvent.dislikes,
+        isLiked: updatedEvent.isLiked,
+        isDisliked: updatedEvent.isDisliked
+      };
+    }
+  }
+  onLikeStatusChange(updatedEvent: EventListResponse): void {
+    const index = this.eventsList.findIndex(e => e.id === updatedEvent.id);
+    if (index !== -1) {
+      this.eventsList[index] = { ...this.eventsList[index], ...updatedEvent };
     }
   }
 
-  likeEvent(event: EventListResponse): void {
-    this.eventService.likeEvent(event.id).subscribe(() => {
-      this.updateEventReaction(event, 'like');
-      this.eventService.getEventById(event.id).subscribe((updatedEvent) => {
-        //@ts-ignore
-        this.refreshEventInList(updatedEvent);
-      });
-    });
-  }
-
-  dislikeEvent(event: EventListResponse): void {
-    this.eventService.dislikeEvent(event.id).subscribe(
-      () => {
-        this.updateEventReaction(event, 'dislike');
-      },
-      (error) => {
-        console.error('Dislike API request failed:', error);
-      }
-    );
-  }
-
-  private updateEventReaction(event: EventListResponse, reactionType: 'like' | 'dislike'): void {
-    const i = this.eventsList.findIndex((e) => e.id === event.id);
-    if (i !== -1) {
-      const current = this.eventsList[i];
-      if (reactionType === 'like') {
-        if (!current.isLiked) {
-          current.likes++;
-          current.isLiked = true;
-          current.isDisliked = false;
-        }
-      } else {
-        if (current.isDisliked) {
-          current.isDisliked = false;
-        } else {
-          if (current.isLiked && current.likes > 0) {
-            current.likes--;
-            current.isLiked = false;
-          }
-          current.isDisliked = true;
-        }
-      }
+  onDislikeStatusChange(updatedEvent: EventListResponse): void {
+    const index = this.eventsList.findIndex(e => e.id === updatedEvent.id);
+    if (index !== -1) {
+      this.eventsList[index] = { ...this.eventsList[index], ...updatedEvent };
     }
   }
 
