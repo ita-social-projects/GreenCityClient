@@ -4,7 +4,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { CommentsService } from '../../comments/services/comments.service';
-import { AddedCommentDTO, CommentFormData, CommentsModel } from '../../comments/models/comments-model';
+import { AddedCommentDTO, CommentFormData, CommentsDTO, CommentsModel } from '../../comments/models/comments-model';
 import { CommentService } from '@shared/service/comment/comment.service';
 
 @Injectable({
@@ -60,8 +60,12 @@ export class EcoNewsCommentsService implements CommentsService {
     return this.http.get<number>(`${this.backEnd}eco-news/comments/${parentCommentId}/replies/active/count`);
   }
 
-  postLike(parentCommentId: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}eco-news/comments/like?commentId=${parentCommentId}`, {});
+  postLikeV2(parentCommentId: number): Observable<CommentsDTO> {
+    return this.http.post<CommentsDTO>(`${this.backEnd}eco-news/comments/like?commentId=${parentCommentId}`, {});
+  }
+
+  postDislikeV2(parentCommentId: number): Observable<CommentsDTO> {
+    return this.http.post<CommentsDTO>(`${this.backEnd}eco-news/comments/dislike?commentId=${parentCommentId}`, {});
   }
 
   editComment(parentCommentId: number, text: string): Observable<void> {

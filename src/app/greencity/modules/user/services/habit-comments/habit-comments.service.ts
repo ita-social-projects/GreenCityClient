@@ -46,12 +46,14 @@ export class HabitCommentsService implements CommentsService {
     return this.http.get<number>(`${this.backEnd}habits/comments/${parentCommentId}/replies/active/count`);
   }
 
-  postLike(parentCommentId: number): Observable<void> {
+  postLikeV2(parentCommentId: number): Observable<void> {
     return this.http.post<void>(`${this.backEnd}habits/comments/like?commentId=${parentCommentId}`, {});
   }
-  postDislike(parentCommentId: number): Observable<void> {
+
+  postDislikeV2(parentCommentId: number): Observable<void> {
     return this.http.post<void>(`${this.backEnd}habits/comments/dislike?commentId=${parentCommentId}`, {});
   }
+
   getCommentLikes(parentCommentId: number): Observable<number> {
     return this.http.get<number>(`${this.backEnd}habits/comments/${parentCommentId}/likes/count`);
   }

@@ -13,8 +13,10 @@ export interface AuthorDTO {
 export interface CommentsDTO {
   author: AuthorDTO;
   currentUserLiked: boolean;
+  currentUserDisliked: boolean;
   id: number;
   likes: number;
+  dislikes: number;
   isLiked: boolean;
   isDisliked: boolean;
   modifiedDate: string;
@@ -27,6 +29,7 @@ export interface CommentsDTO {
   numberOfLikes?: number;
   additionalImages?: string[];
 }
+
 
 export interface AddedCommentDTO {
   author: AuthorDTO;

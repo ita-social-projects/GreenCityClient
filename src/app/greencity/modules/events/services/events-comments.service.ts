@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { CommentsService } from '../../comments/services/comments.service';
-import { AddedCommentDTO, CommentFormData, CommentsModel } from '../../comments/models/comments-model';
+import { AddedCommentDTO, CommentFormData, CommentsDTO, CommentsModel } from '../../comments/models/comments-model';
 import { CommentService } from '@shared/service/comment/comment.service';
 
 @Injectable({
@@ -51,13 +51,14 @@ export class EventsCommentsService implements CommentsService {
     return this.http.get<number>(`${this.backEnd}events/comments/${parentCommentId}/replies/count`);
   }
 
-  postLike(parentCommentId: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}events/comments/like/${parentCommentId}`, {});
+  postLikeV2(commentId: number) {
+    return this.http.post<CommentsDTO>(`${this.backEnd}events/comments/likeV2/${commentId}`, {});
   }
 
-  postDislike(commentId: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}events/comments/dislike/${commentId}`, {});
+  postDislikeV2(commentId: number) {
+    return this.http.post<CommentsDTO>(`${this.backEnd}events/comments/dislikeV2/${commentId}`, {});
   }
+
 
   editComment(parentCommentId: number, text: string): Observable<void> {
     return this.http.patch<void>(`${this.backEnd}events/comments/${parentCommentId}`, text);

@@ -83,13 +83,10 @@ export class CommentsListComponent {
     return element.status === 'EDITED';
   }
 
-  private updateLikeDislikeCount(commentId: number, type: ReactionType, isAdd: boolean): void {
-    this.elementsList = this.elementsList.map((comment) => {
-      if (comment?.id === commentId) {
-        comment[type] = Math.max(0, comment[type] + (isAdd ? 1 : -1));
-      }
-      return comment;
-    });
+  private updateCommentData(updated: CommentsDTO): void {
+    this.elementsList = this.elementsList.map((comment) =>
+      comment.id === updated.id ? { ...comment, ...updated } : comment
+    );
   }
 
   private showErrorMessage(message: string): void {
@@ -102,27 +99,16 @@ export class CommentsListComponent {
     }
     this.isProcessing.add(commentId);
 
-    const comment = this.elementsList.find((c) => c.id === commentId);
-    if (!comment) {
-      return;
-    }
-
-    const isLiking = !comment.isLiked;
-    this.commentsService
-      .postLike(commentId)
-      .pipe(
-        take(1),
-        finalize(() => this.isProcessing.delete(commentId))
-      )
-      .subscribe(
-        () => {
-          comment.isLiked = isLiking;
-          comment.isDisliked = false;
-          comment.likes += isLiking ? 1 : -1;
-          this.snackBar.open(isLiking ? 'Comment liked' : 'Like removed', 'Close', { duration: 3000 });
-        },
-        () => this.showErrorMessage('Failed to update like. Please try again.')
-      );
+    this.commentsService.postLikeV2(commentId).pipe(
+      take(1),
+      finalize(() => this.isProcessing.delete(commentId))
+    ).subscribe({
+      next: (updatedComment) => {
+        this.updateCommentData(updatedComment);
+        this.snackBar.open(updatedComment.currentUserLiked ? 'Comment liked' : 'Like removed', 'Close', { duration: 3000 });
+      },
+      error: () => this.showErrorMessage('Failed to update like. Please try again.')
+    });
   }
 
   dislikeComment(commentId: number): void {
@@ -131,26 +117,16 @@ export class CommentsListComponent {
     }
     this.isProcessing.add(commentId);
 
-    const comment = this.elementsList.find((c) => c.id === commentId);
-    if (!comment) {
-      return;
-    }
-
-    const isDisliking = !comment.isDisliked;
-    this.commentsService
-      .postDislike(commentId)
-      .pipe(
-        take(1),
-        finalize(() => this.isProcessing.delete(commentId))
-      )
-      .subscribe(
-        () => {
-          comment.isDisliked = isDisliking;
-          comment.isLiked = false;
-          this.snackBar.open(isDisliking ? 'Comment disliked' : 'Dislike removed', 'Close', { duration: 3000 });
-        },
-        () => this.showErrorMessage('Failed to update dislike. Please try again.')
-      );
+    this.commentsService.postDislikeV2(commentId).pipe(
+      take(1),
+      finalize(() => this.isProcessing.delete(commentId))
+    ).subscribe({
+      next: (updatedComment) => {
+        this.updateCommentData(updatedComment);
+        this.snackBar.open(updatedComment.currentUserDisliked ? 'Comment disliked' : 'Dislike removed', 'Close', { duration: 3000 });
+      },
+      error: () => this.showErrorMessage('Failed to update dislike. Please try again.')
+    });
   }
 
   saveEditedComment(element: CommentsDTO): void {

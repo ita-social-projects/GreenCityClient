@@ -65,6 +65,7 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
 
   updateElementsListReply(comment: AddedCommentDTO): void {
     const reply: CommentsDTO = {
+      currentUserDisliked: false, dislikes: 0,
       ...comment,
       currentUserLiked: false,
       likes: 0,

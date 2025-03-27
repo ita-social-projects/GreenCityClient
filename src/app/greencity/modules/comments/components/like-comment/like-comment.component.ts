@@ -68,16 +68,6 @@ export class LikeCommentComponent implements OnInit {
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
   }
 
-  pressLike(): void {
-    this.commentsService.postLike(this.comment.id).subscribe(() => {
-      this.getUserId();
-      this.socketService.send(this.socketService.connection.greenCity, this.socketMessageToSend, {
-        id: this.comment.id,
-        amountLikes: this.likeState ? 0 : 1,
-        userId: this.userId
-      });
-    });
-  }
 
   changeLkeBtn(msg: SocketAmountLikes): void {
     if (msg.liked) {

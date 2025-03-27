@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddedCommentDTO, CommentFormData, CommentsModel } from '../models/comments-model';
+import { AddedCommentDTO, CommentFormData, CommentsDTO, CommentsModel } from '../models/comments-model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +20,9 @@ export abstract class CommentsService {
 
   abstract getRepliesAmount(parentCommentId: number): Observable<number>;
 
-  abstract postLike(parentCommentId: number): Observable<void>;
+  abstract postLikeV2(parentCommentId: number): Observable<CommentsDTO>;
 
-  abstract postDislike(parentCommentId: number): Observable<void>;
+  abstract postDislikeV2(parentCommentId: number): Observable<CommentsDTO>;
 
   abstract editComment(parentCommentId: number, text: string): Observable<void>;
 }
