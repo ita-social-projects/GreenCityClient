@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { CommentService } from '@shared/service/comment/comment.service';
 import { CommentsService } from 'src/app/greencity/modules/comments/services/comments.service';
-import { AddedCommentDTO, CommentFormData, CommentsModel } from 'src/app/greencity/modules/comments/models/comments-model';
+import { AddedCommentDTO, CommentFormData, CommentsDTO, CommentsModel } from 'src/app/greencity/modules/comments/models/comments-model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,12 +46,12 @@ export class HabitCommentsService implements CommentsService {
     return this.http.get<number>(`${this.backEnd}habits/comments/${parentCommentId}/replies/active/count`);
   }
 
-  postLikeV2(parentCommentId: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}habits/comments/like?commentId=${parentCommentId}`, {});
+  postLikeV2(parentCommentId: number): Observable<CommentsDTO> {
+    return this.http.post<CommentsDTO>(`${this.backEnd}habits/comments/likeV2/${parentCommentId}`, {});
   }
 
-  postDislikeV2(parentCommentId: number): Observable<void> {
-    return this.http.post<void>(`${this.backEnd}habits/comments/dislike?commentId=${parentCommentId}`, {});
+  postDislikeV2(parentCommentId: number): Observable<CommentsDTO> {
+    return this.http.post<CommentsDTO>(`${this.backEnd}habits/comments/dislikeV2/${parentCommentId}`, {});
   }
 
   getCommentLikes(parentCommentId: number): Observable<number> {
