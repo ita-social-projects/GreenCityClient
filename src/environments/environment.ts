@@ -4,16 +4,16 @@ export const environment = {
   enableGreenCity: false,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
   apiMapKey: 'AIzaSyDaqjlemyxH1pLvF1EWfBDW2IPlgwJYXnU',
-  backendLink: 'https://greencity.greencity.cx.ua/',
-  backendChatLink: 'https://greencity-chat.greencity.cx.ua/',
-  backendUserLink: 'https://greencity-user.greencity.cx.ua/',
-  backendUbsLink: 'https://greencity-ubs.greencity.cx.ua',
-  frontendLink: 'https://www.greencity.cx.ua/',
-  socket: 'https://greencity.greencity.cx.ua/socket',
+  backendLink: 'https://greencity.pick-up.city/',
+  backendChatLink: 'https://greencity-chat.pick-up.city/',
+  backendUserLink: 'https://greencity-user.pick-up.city/',
+  backendUbsLink: 'https://greencity-ubs.pick-up.city',
+  frontendLink: 'https://www.pick-up.city/',
+  socket: 'https://greencity.pick-up.city/socket',
   userSocket: 'https://greencity-user.greencity.cx.ua/socket',
-  chatSocket: 'https://greencity-chat.greencity.cx.ua/socket',
+  chatSocket: 'https://greencity-chat.pick-up.city/socket',
   ubsAdmin: {
-    backendUbsAdminLink: 'https://greencity-ubs.greencity.cx.ua/ubs'
+    backendUbsAdminLink: 'https://greencity-ubs.pick-up.city/ubs'
   },
   googleClientId: '129513550972-pg3ueh62gbde1jukmr49vem2rclde123.apps.googleusercontent.com'
 };
