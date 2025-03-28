@@ -82,9 +82,8 @@ describe('NewsListListViewComponent', () => {
       likes: 10,
       shortInfo: 'Short info',
       source: 'News source',
-      tags: ['tag1', 'tag2'],
       tagsEn: ['tag1', 'tag2'],
-      tagsUa: ['tag1', 'tag2'],
+      tagsUk: ['tag1', 'tag2'],
       title: 'News Title'
     };
 

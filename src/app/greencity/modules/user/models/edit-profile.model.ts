@@ -27,11 +27,11 @@ export class EditProfileDto {
 export class UserLocationDto {
   id: number | null;
   cityEn: string | null;
-  cityUa: string | null;
+  cityUk: string | null;
   regionEn: string | null;
-  regionUa: string | null;
+  regionUk: string | null;
   countryEn: string | null;
-  countryUa: string | null;
+  countryUk: string | null;
   latitude: number | null;
   longitude: number | null;
 }

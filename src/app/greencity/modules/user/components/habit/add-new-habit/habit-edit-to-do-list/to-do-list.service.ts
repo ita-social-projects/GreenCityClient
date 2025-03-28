@@ -10,8 +10,8 @@ import { AllToDoLists, HabitUpdateToDoList, ToDoList } from 'src/app/greencity/m
 export class ToDoListService {
   constructor(private http: HttpClient) {}
 
-  getHabitToDoList(habitId: number): Observable<ToDoList[]> {
-    return this.http.get<ToDoList[]>(`${mainLink}habit/${habitId}/to-do-list`);
+  getHabitToDoList(habitId: number, lang: string): Observable<ToDoList[]> {
+    return this.http.get<ToDoList[]>(`${mainLink}habit/${habitId}/to-do-list?lang=${lang}`);
   }
 
   getHabitAllToDoLists(habitAssignId: number, lang: string): Observable<AllToDoLists> {

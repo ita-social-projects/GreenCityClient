@@ -13,7 +13,7 @@ describe('AchievementItemComponent', () => {
 
   const categoryItemMock: AchievementCategoryDto = {
     id: 2,
-    title: 'Category 1',
+    titleUk: 'Category 1',
     titleEn: 'Category 1 EN',
     achieved: 5,
     totalQuantity: 20
@@ -23,8 +23,8 @@ describe('AchievementItemComponent', () => {
     id: 1,
     title: 'title',
     achievementCategory: { id: 1, name: 'category 1' },
-    name: 'Achievement 1',
-    nameEng: 'Achievement 1 EN',
+    nameUk: 'Achievement 1',
+    nameEn: 'Achievement 1 EN',
     progress: 2,
     condition: 10
   };
@@ -60,7 +60,7 @@ describe('AchievementItemComponent', () => {
 
       expect(result).toEqual({
         categoryId: categoryItemMock.id,
-        title: categoryItemMock.title,
+        title: categoryItemMock.titleUk,
         titleEn: categoryItemMock.titleEn,
         achieved: categoryItemMock.achieved,
         totalQuantity: categoryItemMock.totalQuantity
@@ -73,8 +73,8 @@ describe('AchievementItemComponent', () => {
 
       expect(result).toEqual({
         categoryId: achievementItemMock.achievementCategory.id,
-        title: achievementItemMock.name,
-        titleEn: achievementItemMock.nameEng,
+        title: achievementItemMock.nameUk,
+        titleEn: achievementItemMock.nameEn,
         achieved: achievementItemMock.progress,
         totalQuantity: achievementItemMock.condition
       });

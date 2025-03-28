@@ -33,7 +33,7 @@ export class AchievementItemComponent implements OnInit {
       const categoryItem = item as AchievementCategoryDto;
       return {
         categoryId: categoryItem.id,
-        title: categoryItem.title,
+        title: categoryItem.titleUk,
         titleEn: categoryItem.titleEn,
         achieved: categoryItem.achieved,
         totalQuantity: categoryItem.totalQuantity
@@ -42,8 +42,8 @@ export class AchievementItemComponent implements OnInit {
       const achievementItem = item as AchievementDto;
       return {
         categoryId: achievementItem.achievementCategory.id,
-        title: achievementItem.name,
-        titleEn: achievementItem.nameEng,
+        title: achievementItem.nameUk,
+        titleEn: achievementItem.nameEn,
         achieved: achievementItem.progress,
         totalQuantity: achievementItem.condition
       };

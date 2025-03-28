@@ -316,11 +316,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   setActiveFilters(itemToUpdate: EcoNewsModel): void {
-    if (!itemToUpdate.tags.length) {
+    if (!itemToUpdate.tagsEn.length) {
       return;
     }
 
-    this.filters = this.filters.map((tag) => ({ ...tag, isActive: itemToUpdate.tags.includes(tag.name) }));
+    this.filters = this.filters.map((tag) => ({ ...tag, isActive: itemToUpdate.tagsEn.includes(tag.nameEn) }));
   }
 
   tags(): FormArray {
@@ -328,7 +328,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   getTagsList(list: FilterModel[]): void {
-    const selectedTagsList = list.map((el) => this.langService.getLangValue(el.nameUa, el.name));
+    const selectedTagsList = list.map((el) => this.langService.getLangValue(el.nameUk, el.nameEn));
     this.form.setControl('tags', this.fb.array(selectedTagsList));
     this.createEcoNewsService.setTags(list);
   }

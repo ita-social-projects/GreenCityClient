@@ -59,6 +59,8 @@ export class HabitService {
   }
 
   getHabitToDoList(id: number): Observable<Array<ToDoList>> {
+    console.log(this.language);
+    console.log(id);
     return this.http.get<Array<ToDoList>>(`${habitLink}/${id}/to-do-list?lang=${this.language}`);
   }
 

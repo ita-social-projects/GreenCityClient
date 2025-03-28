@@ -40,7 +40,7 @@
               [value]="eventTimeStatusFilter.nameEn"
               *ngFor="let eventTimeStatusFilter of eventTimeStatusFiltersList"
               (click)="updateListOfFilters(eventTimeStatusFilter)"
-              ><span [appLangValue]="{ ua: eventTimeStatusFilter.nameUa, en: eventTimeStatusFilter.nameEn }"></span>
+              ><span [appLangValue]="{ ua: eventTimeStatusFilter.nameUk, en: eventTimeStatusFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
         </div>
@@ -59,7 +59,7 @@
               *ngFor="let locationFilter of locationFiltersList"
               (click)="updateListOfFilters(locationFilter)"
             >
-              <span [appLangValue]="{ ua: locationFilter.nameUa, en: locationFilter.nameEn }"></span>
+              <span [appLangValue]="{ ua: locationFilter.nameUk, en: locationFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
         </div>
@@ -74,7 +74,7 @@
               [value]="statusFilter.nameEn"
               *ngFor="let statusFilter of statusFiltersList"
               (click)="updateListOfFilters(statusFilter)"
-              ><span [appLangValue]="{ ua: statusFilter.nameUa, en: statusFilter.nameEn }"></span>
+              ><span [appLangValue]="{ ua: statusFilter.nameUk, en: statusFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
         </div>
@@ -86,7 +86,7 @@
             </mat-option>
             <mat-divider></mat-divider>
             <mat-option [value]="typeFilter.nameEn" *ngFor="let typeFilter of typeFiltersList" (click)="updateListOfFilters(typeFilter)">
-              <span [appLangValue]="{ ua: typeFilter.nameUa, en: typeFilter.nameEn }"></span>
+              <span [appLangValue]="{ ua: typeFilter.nameUk, en: typeFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
         </div>
@@ -115,7 +115,7 @@
       <div class="active-filter-list">
         <div class="chips">
           <div class="active-filter" *ngFor="let selectedFilter of selectedFilters; let i = index">
-            <div [appLangValue]="{ ua: selectedFilter.nameUa, en: selectedFilter.nameEn }"></div>
+            <div [appLangValue]="{ ua: selectedFilter.nameUk, en: selectedFilter.nameEn }"></div>
             <div class="cross-container" (click)="removeItemFromSelectedFiltersList(selectedFilter, i)">
               <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
             </div>

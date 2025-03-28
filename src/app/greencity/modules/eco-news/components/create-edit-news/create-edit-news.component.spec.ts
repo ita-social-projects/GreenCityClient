@@ -53,7 +53,7 @@ describe('CreateEditNewsComponent', () => {
   let http: HttpTestingController;
 
   const validNews: NewsDTO = {
-    tags: [{ id: 1, name: 'News', nameUa: 'Новини' }],
+    tags: [{ id: 1, nameEn: 'News', nameUk: 'Новини' }],
     text: 'Detailed content about the news...',
     title: 'New Title',
     source: 'sourceURL',
@@ -63,8 +63,8 @@ describe('CreateEditNewsComponent', () => {
   };
 
   const selectedTags: FilterModel[] = [
-    { name: 'Events', nameUa: 'Події', isActive: true },
-    { name: 'Education', nameUa: 'Освіта', isActive: true }
+    { nameEn: 'Events', nameUk: 'Події', isActive: true },
+    { nameEn: 'Education', nameUk: 'Освіта', isActive: true }
   ];
 
   const createEcoNewsServiceMock: CreateEcoNewsService = jasmine.createSpyObj('CreateEcoNewsService', [

@@ -77,7 +77,7 @@ describe('CreateEcoNewsService', () => {
 
   it('should make PUT request', () => {
     service.editNews(form.value).subscribe((newsData) => {
-      expect(newsData.tags[0]).toEqual('News');
+      expect(newsData.tagsEn[0]).toEqual('News');
     });
 
     const req = httpTestingController.expectOne(environment.backendLink + `eco-news/123`);

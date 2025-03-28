@@ -128,7 +128,7 @@ describe('AddNewHabitComponent', () => {
     fixture = TestBed.createComponent(AddNewHabitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.habitResponse = { habitTranslation: { name: 'fake-name' } as HabitTranslationInterface } as HabitInterface;
+    component.habitResponse = { habitTranslation: { nameEn: 'fake-name' } as HabitTranslationInterface } as HabitInterface;
   });
 
   afterEach(() => {
