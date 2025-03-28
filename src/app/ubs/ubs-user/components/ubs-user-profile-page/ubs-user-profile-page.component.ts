@@ -139,17 +139,12 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         Validators.maxLength(30)
       ]),
       recipientSurname: new FormControl(this.userProfile?.recipientSurname, [
-        Validators.required,
         Validators.pattern(Patterns.NamePattern),
         Validators.maxLength(30)
       ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
       alternativeEmail: new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(Patterns.ubsMailPattern)]),
-      recipientPhone: new FormControl(`${this.userProfile?.recipientPhone}`, [
-        Validators.required,
-        Validators.minLength(12),
-        PhoneNumberValidator('UA')
-      ]),
+      recipientPhone: new FormControl(`${this.userProfile?.recipientPhone}`, [PhoneNumberValidator('UA')]),
       telegramIsNotify: new FormControl(this.userProfile.telegramIsNotify)
     });
 
@@ -357,9 +352,9 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   formatedPhoneNumber(num: string): string | void {
-    const match = RegExp(/^(\d{2})(\d{3})(\d{2})(\d{2})$/).exec(num);
+    const match = RegExp(/^\+380(\d{2})(\d{3})(\d{2})(\d{2})$/).exec(num);
     if (match) {
-      return ` +380 (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
+      return `+380 (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
     }
   }
 
