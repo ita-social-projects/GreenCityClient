@@ -4,7 +4,10 @@ import { PhoneNumberUtil } from 'google-libphonenumber';
 const phoneNumberUtil = PhoneNumberUtil.getInstance();
 
 export function PhoneNumberValidator(regionCode: string): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } => {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (!control.value || control.value.trim() === '') {
+      return null;
+    }
     let validNumber = false;
     try {
       const phoneNumber = phoneNumberUtil.parseAndKeepRawInput(control.value, regionCode);
