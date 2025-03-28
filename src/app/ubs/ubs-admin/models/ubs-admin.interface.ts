@@ -590,7 +590,7 @@ export enum ordersStatuses {
   NotTakenOutUA = 'Не вивезли',
   NotTakenOutEN = 'Not taken out',
   CancelUA = 'Скасовано',
-  CancelEN = 'Canceled'
+  CancelEN = 'Cancelled'
 }
 
 export interface AdminSideBarMenu {
