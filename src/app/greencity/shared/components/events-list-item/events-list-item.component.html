@@ -102,7 +102,7 @@
           [attr.aria-pressed]="event.isLiked"
         >
           <img src="assets/events-icons/like.png" alt="Like" />
-          <span>{{ event.likes }}</span>
+          <span>{{ event.likes - event.dislikes }}</span>
         </button>
         <button
           class="dislike"
@@ -113,7 +113,6 @@
           [attr.aria-pressed]="event.isDisliked"
         >
           <img src="assets/events-icons/like.png" class="rotate-icon" alt="Dislike" />
-          <span>{{ event.dislikes }}</span>
         </button>
       </div>
     </div>
