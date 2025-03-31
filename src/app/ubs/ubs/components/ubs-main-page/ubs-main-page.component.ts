@@ -100,11 +100,13 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   howWorksPickUp = [
     {
       header: 'ubs-homepage.ubs-courier.how-works.header.pre_1',
-      content: 'ubs-homepage.ubs-courier.how-works.time.pre_1'
+      content: 'ubs-homepage.ubs-courier.how-works.time.pre_1',
+      content_2: null
     },
     {
       header: 'ubs-homepage.ubs-courier.how-works.header.pre_2',
-      content: 'ubs-homepage.ubs-courier.how-works.time.pre_2'
+      content: 'ubs-homepage.ubs-courier.how-works.time.pre_2',
+      content_2: 'ubs-homepage.ubs-courier.how-works.time.pre_3'
     }
   ];
 
@@ -315,8 +317,8 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     let nameUk1 = nameUk.toLowerCase();
     nameUk1 = nameUk1.charAt(0).toUpperCase() + nameUk1.slice(1);
 
-    const ukrDescription = `${nameUk1} об'ємом ${capacity} л.`;
-    const engDescription = `With ${nameEng.toLowerCase()} with a volume of ${capacity} l.`;
+    const ukrDescription = `${nameUk1} об'ємом ${capacity} л`;
+    const engDescription = `With ${nameEng.toLowerCase()} with a volume of ${capacity} l`;
     return this.languageService.getLangValue(ukrDescription, engDescription);
   }
 
