@@ -12,8 +12,8 @@ describe('AchievementService', () => {
   const mockAchievementDto: AchievementDto[] = [
     {
       id: 1,
-      name: 'Achievement 1',
-      nameEng: 'Eng',
+      nameUk: 'Achievement 1',
+      nameEn: 'Eng',
       title: 'Title 1',
       achievementCategory: { id: 1, name: 'Category 1' },
       progress: 100,
@@ -21,8 +21,8 @@ describe('AchievementService', () => {
     },
     {
       id: 2,
-      name: 'Achievement 2',
-      nameEng: 'Eng',
+      nameUk: 'Achievement 2',
+      nameEn: 'Eng',
       title: 'Title 2',
       achievementCategory: { id: 2, name: 'Category 2' },
       progress: 50,

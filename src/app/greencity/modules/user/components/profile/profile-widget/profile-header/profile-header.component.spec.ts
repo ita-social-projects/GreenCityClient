@@ -23,7 +23,7 @@ describe('ProfileHeaderComponent', () => {
   let fixture: ComponentFixture<ProfileHeaderComponent>;
   let profileService: ProfileService;
   const mockId = 123;
-  const userLocationDto = { id: 1, cityEn: 'City', cityUa: 'Місто', countryEn: 'Country', countryUa: 'Країна' } as UserLocationDto;
+  const userLocationDto = { id: 1, cityEn: 'City', cityUk: 'Місто', countryEn: 'Country', countryUk: 'Країна' } as UserLocationDto;
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.getUserId = () => mockId;
@@ -97,12 +97,12 @@ describe('ProfileHeaderComponent', () => {
   });
 
   it('should return empty string if cityUa and cityEn are both undefined', () => {
-    const result = component.getUserCity({ ...userLocationDto, cityEn: undefined, cityUa: undefined });
+    const result = component.getUserCity({ ...userLocationDto, cityEn: undefined, cityUk: undefined });
     expect(result).toEqual('');
   });
 
   it('should return city and country when both cityUa and cityEn are defined', () => {
-    const result = component.getUserCity({ ...userLocationDto, cityEn: 'Kiev', cityUa: 'Kyiv' });
+    const result = component.getUserCity({ ...userLocationDto, cityEn: 'Kiev', cityUk: 'Kyiv' });
     languageServiceMock.getUserCity(userLocationDto);
 
     expect(languageServiceMock.getUserCity).toHaveBeenCalledTimes(1);

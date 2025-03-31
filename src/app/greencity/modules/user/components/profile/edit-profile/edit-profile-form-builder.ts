@@ -94,9 +94,9 @@ export class EditProfileFormBuilder {
 
   getFormatedCity(editForm: UserLocationDto): string {
     if (editForm) {
-      const city = this.langService.getLangValue(editForm?.cityUa, editForm?.cityEn);
-      const country = this.langService.getLangValue(editForm?.countryUa, editForm?.countryEn);
-      return editForm.cityUa && editForm.cityEn ? `${city}, ${country}` : '';
+      const city = this.langService.getLangValue(editForm?.cityUk, editForm?.cityEn);
+      const country = this.langService.getLangValue(editForm?.countryUk, editForm?.countryEn);
+      return editForm.cityUk && editForm.cityEn ? `${city}, ${country}` : '';
     }
     return '';
   }

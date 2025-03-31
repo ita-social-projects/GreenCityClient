@@ -42,8 +42,8 @@ export class AchievementItemComponent implements OnInit {
       const achievementItem = item as AchievementDto;
       return {
         categoryId: achievementItem.achievementCategory.id,
-        title: achievementItem.name,
-        titleEn: achievementItem.nameEng,
+        title: achievementItem.nameUk,
+        titleEn: achievementItem.nameEn,
         achieved: achievementItem.progress,
         totalQuantity: achievementItem.condition
       };

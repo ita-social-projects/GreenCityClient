@@ -1,7 +1,7 @@
 export class AchievementDto {
   id: number;
-  name: string;
-  nameEng: string;
+  nameUk: string;
+  nameEn: string;
   title: string;
   achievementCategory: {
     id: number;

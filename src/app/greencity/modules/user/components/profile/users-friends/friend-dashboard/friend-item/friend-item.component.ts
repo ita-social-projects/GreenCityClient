@@ -80,7 +80,7 @@ export class FriendItemComponent implements OnInit {
   }
 
   getFriendCity(locationDto: UserLocationDto): string {
-    return this.langService.getLangValue(locationDto?.cityUa, locationDto?.cityEn);
+    return this.langService.getLangValue(locationDto?.cityUk, locationDto?.cityEn);
   }
 
   checkIsOnline(friendId: number): boolean {

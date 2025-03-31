@@ -87,7 +87,7 @@ describe('AchievementsPopupComponent', () => {
 
   it('should assign achievements and update achievedAmountToShow and totalAmountToShow', () => {
     const mockCategory: AchievementCategoryDto = { id: 1, title: 'Category 1', achieved: 3, totalQuantity: 5 } as AchievementCategoryDto;
-    const mockAchievements = [{ id: 1, name: 'Achievement 1' }] as AchievementDto[];
+    const mockAchievements = [{ id: 1, nameUk: 'Achievement 1' }] as AchievementDto[];
     achievementServiceMock.getAchievementsByCategory.and.returnValue(of(mockAchievements));
 
     component.getAchievements(mockCategory);
