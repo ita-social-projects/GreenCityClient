@@ -18,7 +18,7 @@ describe('CreateEcoNewsService', () => {
     id: new FormControl('123'),
     title: new FormControl('mock news'),
     content: new FormControl('This is mock news content Greencity!!!!!!!!!!!!'),
-    tags: new FormArray([new FormControl('News'), new FormControl('Ads')]),
+    tagsEn: new FormArray([new FormControl('News'), new FormControl('Ads')]),
     image: new FormControl(''),
     source: new FormControl('http://mocknews.com')
   });
