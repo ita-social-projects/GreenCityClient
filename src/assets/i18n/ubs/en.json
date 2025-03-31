@@ -278,7 +278,7 @@
         "content": {
           "li_1": "collect clean and dry",
           "li_1.1": "waste",
-          "li_1.2": "in dense 120 liters.",
+          "li_1.2": "in dense 120 liters",
           "li_1.3": "packages",
           "li_2": "collect and pay service online",
           "li_3": "receive delivery within 5 working days "
@@ -299,9 +299,9 @@
       },
       "price": {
         "title": "The cost of the service",
-        "li_1": "1 bag with a volume of 120 liters with recycled materials and non-liquid plastics - UAH 280.",
-        "li_2": "1 bag of 60 liters with textile waste - UAH 220.",
-        "li_3": "1 bag of 20 liters with textile waste - UAH 110."
+        "li_1": "1 bag with a volume of 120 liters with recycled materials and non-liquid plastics - UAH 280",
+        "li_2": "1 bag of 60 liters with textile waste - UAH 220",
+        "li_3": "1 bag of 20 liters with textile waste - UAH 110"
       },
       "extraoffer": {
         "title": "In addition to packages, the courier can pick up an unlimited number of extra items (except styrofoam) for FREE, these are:",
@@ -333,26 +333,26 @@
           "li_1": "Check out",
           "li_1.1": "the list",
           "li_1.2": "of what we accept",
-          "li_2": "Collect a mix of clean and dry waste in bags.",
-          "li_3": "Collect textile waste in a separate bag.",
+          "li_2": "Collect a mix of clean and dry waste in bags",
+          "li_3": "Collect textile waste in a separate bag",
           "li_4": "Order and pay for the service",
-          "li_5": "Wait for feedback and a meeting with the courier."
+          "li_5": "Wait for feedback and a meeting with the courier"
         }
       },
       "rules": {
         "caption": "Rules",
         "content": {
           "li_1": "Minimum order within Kyiv - 240 l",
-          "li_2": "Minimum order within a radius of 20 km from Kyiv (2400 l).",
+          "li_2": "Minimum order within a radius of 20 km from Kyiv (2400 l)",
           "li_2.1": "Lifehack: team up with your neighbors ☝️",
-          "li_3": "One package should not weigh more than 30 kg"
+          "li_3": "One package should not weigh more than 5 kg"
         }
       },
       "bonuses": {
         "caption": "Bonus",
         "content": {
           "li_1": "Along with paid packages, the courier can pick up an unlimited number of some extrapositions of raw materials for processing for free.",
-          "li_2": "Mandatory condition: they must be clean, dry and packed in a frame bag.",
+          "li_2": "Mandatory condition: they must be clean, dry and packed in a frame bag",
           "li_3": "See the list ",
           "li_3.1": "here"
         }
@@ -369,10 +369,10 @@
           "li_4": "View your statistics"
         },
         "steps-content": {
-          "li_1": "Create your personal account, where the history of your orders will be stored.",
-          "li_2": "Preparation of the route will take from 2 to 9 days.",
-          "li_3": "If you can’t be there at the agreed time, then leave the packages at the concierge but be sure to notify the Courier.",
-          "li_4": "Keep track of your order history."
+          "li_1": "Create your personal account, where the history of your orders will be stored",
+          "li_2": "Preparation of the route will take from 2 to 9 days",
+          "li_3": "If you can’t be there at the agreed time, then leave the packages at the concierge but be sure to notify the Courier",
+          "li_4": "Keep track of your order history"
         }
       },
       "how-works": {
@@ -387,7 +387,7 @@
         },
         "content": {
           "pre_1": "Get free products shipping",
-          "link": "NOWASTE SHOP."
+          "link": "NOWASTE SHOP"
         },
         "button": "Order"
       }
