@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AddressValidator } from 'src/app/ubs/ubs/validators/address-validators';
+import { Address } from '@ubs/ubs/models/ubs.interface';
 
 describe('UbsOrderAddressComponent', () => {
   let component: UbsOrderAddressComponent;
@@ -58,6 +59,8 @@ describe('UbsOrderAddressComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsOrderAddressComponent);
     component = fixture.componentInstance;
+    spyOn(component, 'setCurrentAddress');
+    spyOn(component, 'findAvailableAddress');
     fixture.detectChanges();
   });
 
@@ -128,5 +131,60 @@ describe('UbsOrderAddressComponent', () => {
     component.selectedAddress = null;
     component.ngOnInit();
     expect(component.addressComment.disabled).toBeTrue();
+  });
+
+  describe('initLocation', () => {
+    it('should clear selectedAddress when addresses array is empty', () => {
+      component.addresses = [];
+      component.selectedAddress = { id: 1 } as Address;
+
+      component.initLocation();
+
+      expect(component.selectedAddress).toBeNull();
+      expect(component.setCurrentAddress).not.toHaveBeenCalled();
+      expect(component.findAvailableAddress).not.toHaveBeenCalled();
+    });
+
+    it('should use the valid selectedAddress if available', () => {
+      const validAddress: Address = { id: 1 } as Address;
+      component.addresses = [validAddress, { id: 2 } as Address];
+      component.selectedAddress = validAddress;
+
+      spyOn(component, 'isAddressAvailable').and.returnValue(true);
+
+      component.initLocation();
+
+      expect(component.setCurrentAddress).toHaveBeenCalledWith(validAddress);
+      expect(component.findAvailableAddress).not.toHaveBeenCalled();
+    });
+
+    it('should reset selectedAddress and use available actual address when selectedAddress is invalid', () => {
+      const invalidAddress: Address = { id: 1 } as Address;
+      const actualAddress: Address = { id: 2, actual: true } as Address;
+      component.addresses = [invalidAddress, actualAddress];
+      component.selectedAddress = invalidAddress;
+
+      spyOn(component, 'isAddressAvailable').and.callFake((address: Address) => address.id === actualAddress.id);
+
+      component.initLocation();
+
+      expect(component.selectedAddress).toBeNull();
+      expect(component.setCurrentAddress).toHaveBeenCalledWith(actualAddress);
+      expect(component.findAvailableAddress).not.toHaveBeenCalled();
+    });
+
+    it('should call findAvailableAddress when no valid address is found', () => {
+      const invalidAddress: Address = { id: 1 } as Address;
+      component.addresses = [invalidAddress];
+      component.selectedAddress = invalidAddress;
+
+      spyOn(component, 'isAddressAvailable').and.returnValue(false);
+
+      component.initLocation();
+
+      expect(component.selectedAddress).toBeNull();
+      expect(component.setCurrentAddress).not.toHaveBeenCalled();
+      expect(component.findAvailableAddress).toHaveBeenCalled();
+    });
   });
 });

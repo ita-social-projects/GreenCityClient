@@ -27,7 +27,22 @@ describe('AddressComponent', () => {
     component = fixture.componentInstance;
 
     component.address = {
-      city: 'someCity'
+      city: 'Місто',
+      cityEn: 'City',
+      district: 'Район',
+      districtEn: 'District',
+      region: 'Область',
+      regionEn: 'Region',
+      entranceNumber: '1',
+      street: 'Вулиця',
+      streetEn: 'Street',
+      houseCorpus: 'A',
+      houseNumber: '10',
+      actual: true,
+      coordinates: {
+        latitude: 50.45,
+        longitude: 30.52
+      }
     };
     fixture.detectChanges();
   });
