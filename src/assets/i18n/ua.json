@@ -557,7 +557,8 @@
       "friend-added-success": "Запит на дружбу прийнято",
       "friend-declined-success": "Запит на дружбу відхилено",
       "habit-invite-success": "Запит на запрошення надіслано"
-    }
+    },
+    "saved-order": "Замовлення успішно збережене"
   },
   "user": {
     "add-comment": {

@@ -548,7 +548,8 @@
       "friend-added-success": "Friend invitation accepted",
       "friend-declined-success": "Friend invitation declined",
       "habit-invite-success": "Invite request sent"
-    }
+    },
+    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time"
   },
   "user": {
     "add-comment": {
