@@ -42,7 +42,7 @@
       <div *ngIf="!selectedAddress && addresses?.length" class="validate-address">
         {{ 'personal-info.no-any-address-for-current-tariff' | translate }}
       </div>
-      <button type="button" class="s-link add-address-btn" (click)="addNewAddress()" [disabled]="addresses.length >= maxAddressLength">
+      <button *ngIf="addresses.length < maxAddressLength" type="button" class="s-link add-address-btn" (click)="addNewAddress()">
         {{ (!addresses.length ? 'personal-info.info-add-address' : 'personal-info.info-add-new-address') | translate }}
       </button>
     </div>
