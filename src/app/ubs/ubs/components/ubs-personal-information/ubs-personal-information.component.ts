@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
-import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
 import { Subject, combineLatest } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { PersonalData } from '../../models/ubs.interface';
@@ -175,10 +175,18 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.dispatchPersonalData();
     });
 
-    this.personalDataForm.statusChanges.pipe(debounceTime(500), takeUntil(this.$destroy)).subscribe(() => {
-      this.store.dispatch(SetSecondFormStatus({ isValid: this.personalDataForm.valid }));
-    });
-    this.store.dispatch(SetSecondFormStatus({ isValid: this.personalDataForm.valid }));
+    combineLatest([
+      this.store.pipe(select(addressIdSelector), startWith(null), distinctUntilChanged()),
+      this.personalDataForm.statusChanges.pipe(startWith(this.personalDataForm.status))
+    ])
+      .pipe(switchMap(() => this.store.pipe(select(addressIdSelector), take(1))))
+      .subscribe((addressId) => {
+        this.store.dispatch(
+          SetSecondFormStatus({
+            isValid: this.personalDataForm.valid && !!addressId
+          })
+        );
+      });
   }
 
   dispatchPersonalData(): void {

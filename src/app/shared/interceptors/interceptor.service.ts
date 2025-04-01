@@ -128,7 +128,7 @@ export class InterceptorService implements HttpInterceptor {
     }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 400 && error.error?.message.includes(`Tariff or location is deactivated.`)) {
+        if (error.status === 400 && error.error?.message?.includes(`Tariff or location is deactivated.`)) {
           return throwError(() => error);
         }
 
