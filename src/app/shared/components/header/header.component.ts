@@ -408,11 +408,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.habitStatisticService.onLogout();
       this.orderService.cancelUBSwithoutSaving();
       this.userOwnAuthService.getDataFromLocalStorage();
+
+      this.clearCache();
     });
 
     this.store.dispatch(SignOutAction());
     this.store.dispatch(ResetEmployeePermissions());
     this.store.dispatch(ResetFriends());
+  }
+
+  async clearCache(): Promise<void> {
+    try {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((key) => caches.delete(key)));
+    } catch (error) {
+      console.error('Cache clearing failed:', error);
+    }
   }
 
   toggleLangDropdown(event: Event): void {
