@@ -1,0 +1,46 @@
+<div class="chat-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="search-bar">
+      <input type="text" placeholder="Search chats..." />
+    </div>
+    <ul class="chat-list">
+      <li class="chat-item" *ngFor="let chat of chats" [class.selected]="chat.name === selectedChat?.name" (click)="selectChat(chat)">
+        <div class="avatar">{{ chat.initial }}</div>
+        <div class="chat-details">
+          <div class="chat-name">{{ chat.name }}</div>
+          <div class="last-message">{{ chat.lastMessage }}</div>
+        </div>
+        <div class="timestamp">{{ chat.time }}</div>
+      </li>
+    </ul>
+  </aside>
+  <section class="chat-view">
+    <div *ngIf="selectedChat; else placeholder" class="chat-box">
+      <div class="chat-header">{{ selectedChat.name }}</div>
+
+      <div class="messages">
+        <div
+          *ngFor="let message of selectedChat.messages"
+          [ngClass]="{
+            message: true,
+            sent: message.from === 'Me',
+            received: message.from !== 'Me'
+          }"
+        >
+          <div class="message-text">{{ message.text }}</div>
+          <div class="message-time">{{ message.time }}</div>
+        </div>
+      </div>
+
+      <div class="message-input-container">
+        <input type="text" placeholder="Write a message..." [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" />
+        <button (click)="sendMessage()">➤</button>
+      </div>
+    </div>
+
+    <ng-template #placeholder>
+      <p class="placeholder-text">Select a chat to start messaging</p>
+    </ng-template>
+  </section>
+</div>

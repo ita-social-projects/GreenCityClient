@@ -5,6 +5,7 @@ import { NonAdminGuard } from '../shared/guards/non-admin.guard';
 import { SearchAllResultsComponent } from './components/search-all-results/search-all-results.component';
 import { UnsubscribeComponent } from './modules/home/components/unsubscribe/unsubscribe.component';
 import { GreencityMainComponent } from './components/greencity-main/greencity-main.component';
+import { ChatComponent } from '../chat/component/chat-page/chat-page.component';
 
 const greencityRoutes: Routes = [
   {
@@ -14,6 +15,11 @@ const greencityRoutes: Routes = [
       {
         path: '',
         component: HomepageComponent,
+        canActivate: [NonAdminGuard]
+      },
+      {
+        path: 'chat-page',
+        component: ChatComponent,
         canActivate: [NonAdminGuard]
       },
       {
