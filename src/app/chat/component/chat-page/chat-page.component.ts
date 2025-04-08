@@ -42,7 +42,9 @@ export class ChatComponent {
   }
 
   sendMessage(): void {
-    if (!this.newMessage.trim() || !this.selectedChat) return;
+    if (!this.newMessage.trim() || !this.selectedChat) {
+      return;
+    }
 
     const now = new Date();
     const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
