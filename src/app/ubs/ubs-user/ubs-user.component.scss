@@ -4,6 +4,7 @@
 
 .footer {
   display: flex;
+  z-index: 3;
 }
 
 @media (max-width: 480px) {
