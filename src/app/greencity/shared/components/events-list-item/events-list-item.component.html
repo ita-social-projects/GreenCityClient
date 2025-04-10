@@ -25,7 +25,7 @@
       <ul class="ul-eco-buttons" aria-label="filter by items">
         <li *ngFor="let tag of activeTags">
           <a role="button" class="tag" tabindex="0">
-            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }" [appLangValue]="{ ua: tag.nameUa, en: tag.nameEn }"></span>
+            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }" [appLangValue]="{ ua: tag.nameUk, en: tag.nameEn }"></span>
             <span
               class="tag-divider"
               *ngIf="activeTags.length > 1"
@@ -165,7 +165,7 @@
         <div *ngIf="address && !isOnline" class="event-assign__content__address-container">
           <span class="place"></span>
           <p
-            [appLangValue]="{ ua: address.cityUa + ', ' + address.streetUa, en: address.cityEn + ', ' + address.streetEn }"
+            [appLangValue]="{ ua: address.cityUk + ', ' + address.streetUk, en: address.cityEn + ', ' + address.streetEn }"
             [suffix]="', ' + address.houseNumber"
           ></p>
         </div>

@@ -2,14 +2,14 @@ import { TagInterface } from 'src/app/greencity/shared/components/tag-filter/tag
 
 export const FIRSTTAGITEM: TagInterface = {
   id: 1,
-  name: 'Reusable',
-  nameUa: 'Багаторазове використання'
+  nameEn: 'Reusable',
+  nameUk: 'Багаторазове використання'
 };
 
 export const SECONDTAGITEM: TagInterface = {
   id: 2,
-  name: 'Testing',
-  nameUa: 'Тестінг'
+  nameEn: 'Testing',
+  nameUk: 'Тестінг'
 };
 
 export const TAGLIST: TagInterface[] = [FIRSTTAGITEM, SECONDTAGITEM];

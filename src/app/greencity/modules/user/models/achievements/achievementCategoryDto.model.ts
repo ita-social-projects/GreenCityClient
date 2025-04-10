@@ -1,6 +1,6 @@
 export class AchievementCategoryDto {
   id: number;
-  title: string;
+  titleUk: string;
   titleEn: string;
   totalQuantity: number;
   achieved: number;

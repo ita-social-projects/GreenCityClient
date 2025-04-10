@@ -76,17 +76,17 @@ describe('EventsListItemComponent', () => {
   const fakeItemTags: TagObj[] = [
     {
       nameEn: 'Environmental',
-      nameUa: 'Екологічний',
+      nameUk: 'Екологічний',
       isActive: true
     },
     {
       nameEn: 'Social',
-      nameUa: 'Соціальний',
+      nameUk: 'Соціальний',
       isActive: true
     },
     {
       nameEn: 'eco',
-      nameUa: 'Соціальний',
+      nameUk: 'Соціальний',
       isActive: false
     }
   ];
@@ -94,12 +94,12 @@ describe('EventsListItemComponent', () => {
   const fakeActiveTags: TagObj[] = [
     {
       nameEn: 'Environmental',
-      nameUa: 'Екологічний',
+      nameUk: 'Екологічний',
       isActive: true
     },
     {
       nameEn: 'Social',
-      nameUa: 'Соціальний',
+      nameUk: 'Соціальний',
       isActive: true
     }
   ];

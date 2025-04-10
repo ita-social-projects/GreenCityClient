@@ -88,20 +88,20 @@ describe('EventsListComponent', () => {
 
   it('should return unique locations', () => {
     const expectedLocations: FilterItem[] = [
-      { type: 'location', nameEn: 'Online', nameUa: 'Онлайн' },
-      { type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' },
-      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' },
-      { type: 'location', nameEn: 'Ternopil', nameUa: 'Тернопіль' }
+      { type: 'location', nameEn: 'Online', nameUk: 'Онлайн' },
+      { type: 'location', nameEn: 'Kyiv', nameUk: 'Київ' },
+      { type: 'location', nameEn: 'Lviv', nameUk: 'Львів' },
+      { type: 'location', nameEn: 'Ternopil', nameUk: 'Тернопіль' }
     ];
     expect(component.getUniqueLocations(addressesMock)).toEqual(expectedLocations);
   });
 
   it('should update selected filters list', () => {
     const clickedFiltersList: FilterItem[] = [
-      { type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' },
-      { type: 'eventTimeStatus', nameEn: 'Upcoming', nameUa: 'Майбутній' },
-      { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' },
-      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' }
+      { type: 'location', nameEn: 'Kyiv', nameUk: 'Київ' },
+      { type: 'eventTimeStatus', nameEn: 'Upcoming', nameUk: 'Майбутній' },
+      { type: 'eventTimeStatus', nameEn: 'Past', nameUk: 'Завершений' },
+      { type: 'location', nameEn: 'Lviv', nameUk: 'Львів' }
     ];
     component.selectedFilters = [];
     clickedFiltersList.forEach((clickedFilter) => {
@@ -112,10 +112,10 @@ describe('EventsListComponent', () => {
 
   it('should remove all selection in type', () => {
     component.selectedFilters = [
-      { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' },
-      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' }
+      { type: 'eventTimeStatus', nameEn: 'Past', nameUk: 'Завершений' },
+      { type: 'location', nameEn: 'Lviv', nameUk: 'Львів' }
     ];
-    const expectedSelectedFiltersList: FilterItem[] = [{ type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' }];
+    const expectedSelectedFiltersList: FilterItem[] = [{ type: 'eventTimeStatus', nameEn: 'Past', nameUk: 'Завершений' }];
     component.selectedEventTimeStatusFiltersList = ['Past'];
     component.selectedLocationFiltersList = ['Lviv'];
     component.unselectAllFiltersInType('location');
@@ -124,10 +124,10 @@ describe('EventsListComponent', () => {
 
   it('should reset all filters', () => {
     component.selectedFilters = [
-      { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' },
-      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' },
-      { type: 'type', nameEn: 'Economic', nameUa: 'Економічний' },
-      { type: 'status', nameEn: 'Closed', nameUa: 'Закритa' }
+      { type: 'eventTimeStatus', nameEn: 'Past', nameUk: 'Завершений' },
+      { type: 'location', nameEn: 'Lviv', nameUk: 'Львів' },
+      { type: 'type', nameEn: 'Economic', nameUk: 'Економічний' },
+      { type: 'status', nameEn: 'Closed', nameUk: 'Закритa' }
     ];
     component.resetAllFilters();
     expect(component.selectedFilters.length).toEqual(0);
@@ -135,9 +135,9 @@ describe('EventsListComponent', () => {
 
   it('should return unique locations including Online', () => {
     const result = component.getUniqueLocations(addressesMock);
-    expect(result).toContain({ type: 'location', nameEn: 'Online', nameUa: 'Онлайн' });
-    expect(result).toContain({ type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' });
-    expect(result).toContain({ type: 'location', nameEn: 'Lviv', nameUa: 'Львів' });
+    expect(result).toContain({ type: 'location', nameEn: 'Online', nameUk: 'Онлайн' });
+    expect(result).toContain({ type: 'location', nameEn: 'Kyiv', nameUk: 'Київ' });
+    expect(result).toContain({ type: 'location', nameEn: 'Lviv', nameUk: 'Львів' });
   });
 
   it('should open auth modal with correct page name', () => {

@@ -22,16 +22,16 @@ describe('AddPlaceComponent', () => {
   let component: AddPlaceComponent;
   let fixture: ComponentFixture<AddPlaceComponent>;
   const mockedFilterCategories: FilterPlaceCategories[] = [
-    { id: 1, name: 'Vegan products', nameUa: 'Вегетаріанські продукти' },
-    { id: 2, name: 'Charging station', nameUa: 'Зарядні станції' },
-    { id: 3, name: 'Bike parking', nameUa: 'Парковка для мотоциклів' },
-    { id: 4, name: 'Cycling routes', nameUa: 'Велосипедні маршрути' },
-    { id: 5, name: 'Hotels', nameUa: 'Готелі' },
-    { id: 6, name: 'Shops', nameUa: 'Магазини' },
-    { id: 7, name: 'Restaurants', nameUa: 'Ресторани' },
-    { id: 8, name: 'Recycling points', nameUa: 'Станції приймання' },
-    { id: 9, name: 'Events', nameUa: 'Події' },
-    { id: 10, name: 'Bike rentals', nameUa: 'Оренда мотоциклів' }
+    { id: 1, nameEn: 'Vegan products', nameUk: 'Вегетаріанські продукти' },
+    { id: 2, nameEn: 'Charging station', nameUk: 'Зарядні станції' },
+    { id: 3, nameEn: 'Bike parking', nameUk: 'Парковка для мотоциклів' },
+    { id: 4, nameEn: 'Cycling routes', nameUk: 'Велосипедні маршрути' },
+    { id: 5, nameEn: 'Hotels', nameUk: 'Готелі' },
+    { id: 6, nameEn: 'Shops', nameUk: 'Магазини' },
+    { id: 7, nameEn: 'Restaurants', nameUk: 'Ресторани' },
+    { id: 8, nameEn: 'Recycling points', nameUk: 'Станції приймання' },
+    { id: 9, nameEn: 'Events', nameUk: 'Події' },
+    { id: 10, nameEn: 'Bike rentals', nameUk: 'Оренда мотоциклів' }
   ];
   const tagsArray: Array<FilterModel> = tagsListPlacesData;
   const workingHour: WorkingTime = {

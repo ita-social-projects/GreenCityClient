@@ -24,6 +24,7 @@ import { HabitInterface, HabitTranslationInterface } from '../models/interfaces/
 import { MOCK_CUSTOM_HABIT_RESPONSE } from '../mocks/habit-mock';
 import { ECONEWSMOCK } from 'src/app/greencity/modules/eco-news/mocks/eco-news-mock';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -96,7 +97,7 @@ describe('AddNewHabitComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AddNewHabitComponent],
+      declarations: [AddNewHabitComponent, LangValueDirective],
       imports: [
         RouterTestingModule,
         HttpClientTestingModule,
@@ -128,7 +129,7 @@ describe('AddNewHabitComponent', () => {
     fixture = TestBed.createComponent(AddNewHabitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.habitResponse = { habitTranslation: { name: 'fake-name' } as HabitTranslationInterface } as HabitInterface;
+    component.habitResponse = { habitTranslation: { nameEn: 'fake-name' } as HabitTranslationInterface } as HabitInterface;
   });
 
   afterEach(() => {

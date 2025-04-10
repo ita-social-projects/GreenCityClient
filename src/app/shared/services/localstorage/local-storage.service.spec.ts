@@ -11,14 +11,15 @@ describe('LocalStorageService', () => {
   const ACCESS_TOKEN = 'accessToken';
 
   const mockEvent: EventResponse = {
-    isDisliked: false, isLiked: false,
+    isDisliked: false,
+    isLiked: false,
     description: 'tralalalal',
     additionalImages: [],
     creationDate: '2022-05-31',
     tags: [
-      { id: 1, nameUa: 'Соціальний', nameEn: 'Social' },
-      { id: 13, nameUa: 'Екологічний', nameEn: 'Environmental' },
-      { id: 14, nameUa: 'Економічний', nameEn: 'Economic' }
+      { id: 1, nameUk: 'Соціальний', nameEn: 'Social' },
+      { id: 13, nameUk: 'Екологічний', nameEn: 'Environmental' },
+      { id: 14, nameUk: 'Економічний', nameEn: 'Economic' }
     ],
     dates: [
       {
@@ -26,16 +27,16 @@ describe('LocalStorageService', () => {
           latitude: 0,
           longitude: 0,
           cityEn: 'Lviv',
-          cityUa: 'Львів',
+          cityUk: 'Львів',
           countryEn: 'Ukraine',
-          countryUa: 'Україна',
+          countryUk: 'Україна',
           houseNumber: '55',
           regionEn: 'Lvivska oblast',
-          regionUa: 'Львівська область',
+          regionUk: 'Львівська область',
           streetEn: 'Svobody Ave',
-          streetUa: 'Свободи',
+          streetUk: 'Свободи',
           formattedAddressEn: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine',
-          formattedAddressUa: 'Свободи, 55, Львів, Львівська область, Україна'
+          formattedAddressUk: 'Свободи, 55, Львів, Львівська область, Україна'
         },
         id: null,
         event: null,

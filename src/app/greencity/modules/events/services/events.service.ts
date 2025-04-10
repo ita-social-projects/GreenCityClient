@@ -153,16 +153,16 @@ export class EventsService implements OnDestroy {
 
   getFormattedAddress(coordinates: PlaceOnline): string {
     return this.langService.getLangValue(
-      coordinates?.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUa,
+      coordinates?.streetUk ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUk,
       coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
     );
   }
 
   getFormattedAddressEventsList(coordinates: LocationResponse): string {
     return this.langService.getLangValue(
-      coordinates.streetUa
+      coordinates.streetUk
         ? this.createEventsListAddresses(coordinates, 'Ua')
-        : coordinates.formattedAddressUa?.split(', ').slice(0, 2).reverse().join(', ') || '',
+        : coordinates.formattedAddressUk?.split(', ').slice(0, 2).reverse().join(', ') || '',
       coordinates.streetEn
         ? this.createEventsListAddresses(coordinates, 'En')
         : coordinates.formattedAddressEn?.split(', ').slice(0, 2).reverse().join(', ') || ''

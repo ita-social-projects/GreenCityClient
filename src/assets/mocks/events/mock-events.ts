@@ -146,16 +146,16 @@ export const mockEvent: EventResponseDto = {
             latitude: 1,
             longitude: 1,
             cityEn: 'Lviv',
-            cityUa: 'Львів',
+            cityUk: 'Львів',
             countryEn: 'Ukraine',
-            countryUa: 'Україна',
+            countryUk: 'Україна',
             houseNumber: '55',
             regionEn: 'Lvivska oblast',
-            regionUa: 'Львівська область',
+            regionUk: 'Львівська область',
             streetEn: 'Svobody Ave',
-            streetUa: 'Свободи',
+            streetUk: 'Свободи',
             formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
+            formattedAddressUk: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
           },
           event: null,
           finishDate: '2022-06-29T04:00:00Z',
@@ -175,7 +175,7 @@ export const mockEvent: EventResponseDto = {
       tags: [
         {
           id: 1,
-          nameUa: 'Укр тег',
+          nameUk: 'Укр тег',
           nameEn: 'Eng Tag'
         }
       ],
@@ -205,16 +205,16 @@ export const mockFavouriteEvents: EventResponse[] = [
           latitude: 1,
           longitude: 1,
           cityEn: 'Lviv',
-          cityUa: 'Львів',
+          cityUk: 'Львів',
           countryEn: 'Ukraine',
-          countryUa: 'Україна',
+          countryUk: 'Україна',
           houseNumber: '55',
           regionEn: 'Lvivska oblast',
-          regionUa: 'Львівська область',
+          regionUk: 'Львівська область',
           streetEn: 'Svobody Ave',
-          streetUa: 'Свободи',
+          streetUk: 'Свободи',
           formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-          formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
+          formattedAddressUk: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
         },
         event: null,
         finishDate: '2022-06-29T04:00:00Z',
@@ -234,7 +234,7 @@ export const mockFavouriteEvents: EventResponse[] = [
     tags: [
       {
         id: 1,
-        nameUa: 'Укр тег',
+        nameUk: 'Укр тег',
         nameEn: 'Eng Tag'
       }
     ],
@@ -260,16 +260,16 @@ export const mockFavouriteEvents: EventResponse[] = [
           latitude: 1,
           longitude: 1,
           cityEn: 'Lviv',
-          cityUa: 'Львів',
+          cityUk: 'Львів',
           countryEn: 'Ukraine',
-          countryUa: 'Україна',
+          countryUk: 'Україна',
           houseNumber: '55',
           regionEn: 'Lvivska oblast',
-          regionUa: 'Львівська область',
+          regionUk: 'Львівська область',
           streetEn: 'Svobody Ave',
-          streetUa: 'Свободи',
+          streetUk: 'Свободи',
           formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-          formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
+          formattedAddressUk: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
         },
         event: null,
         finishDate: '2022-06-29T04:00:00Z',
@@ -289,7 +289,7 @@ export const mockFavouriteEvents: EventResponse[] = [
     tags: [
       {
         id: 1,
-        nameUa: 'Укр тег',
+        nameUk: 'Укр тег',
         nameEn: 'Eng Tag'
       }
     ],
@@ -331,18 +331,18 @@ export const mockEventResponse: EventResponseDto = {
           onlineLink: 'http://example.com',
           coordinates: {
             countryEn: 'CountryName',
-            countryUa: 'НазваКраїни',
+            countryUk: 'НазваКраїни',
             latitude: 50.0,
             longitude: 10.0,
             regionEn: 'RegionName',
-            regionUa: 'НазваРегіону',
+            regionUk: 'НазваРегіону',
             houseNumber: '123',
             streetEn: 'Street Name',
-            streetUa: 'НазваВулиці',
+            streetUk: 'НазваВулиці',
             formattedAddressEn: 'Street Name, 123, CityName, RegionName, CountryName',
-            formattedAddressUa: 'НазваВулиці, 123, Місто, НазваРегіону, НазваКраїни',
+            formattedAddressUk: 'НазваВулиці, 123, Місто, НазваРегіону, НазваКраїни',
             cityEn: 'CityName',
-            cityUa: 'Місто'
+            cityUk: 'Місто'
           },
           startDate: '2024-08-23T10:00:00Z',
           finishDate: '2024-08-23T18:00:00Z',
@@ -353,7 +353,7 @@ export const mockEventResponse: EventResponseDto = {
       tags: [
         {
           id: 1,
-          nameUa: 'Тег',
+          nameUk: 'Тег',
           nameEn: 'Tag'
         }
       ],
@@ -381,61 +381,61 @@ export const addressesMock: Array<Addresses> = [
     latitude: 50.4911190426373,
     longitude: 30.38957457031249,
     streetEn: 'Stetsenka Street',
-    streetUa: 'вулиця Стеценка',
+    streetUk: 'вулиця Стеценка',
     houseNumber: '20',
     cityEn: 'Kyiv',
-    cityUa: 'Київ',
+    cityUk: 'Київ',
     regionEn: 'Kyiv',
-    regionUa: 'місто Київ',
+    regionUk: 'місто Київ',
     countryEn: 'Ukraine',
-    countryUa: 'Україна',
+    countryUk: 'Україна',
     formattedAddressEn: 'Stetsenka St, 20, Kyiv, Ukraine, 02000',
-    formattedAddressUa: 'вулиця Стеценка, 20, Київ, Україна, 02000'
+    formattedAddressUk: 'вулиця Стеценка, 20, Київ, Україна, 02000'
   },
   {
     latitude: 49.8555208,
     longitude: 24.0340401,
     streetEn: 'Zavodska Street',
-    streetUa: 'вулиця Заводська',
+    streetUk: 'вулиця Заводська',
     houseNumber: '31',
     cityEn: 'Lviv',
-    cityUa: 'Львів',
+    cityUk: 'Львів',
     regionEn: 'Lvivska oblast',
-    regionUa: 'Львівська область',
+    regionUk: 'Львівська область',
     countryEn: 'Ukraine',
-    countryUa: 'Україна',
+    countryUk: 'Україна',
     formattedAddressEn: 'Zavodska St, 31, Lviv, Lvivska oblast, Ukraine, 79000',
-    formattedAddressUa: 'вулиця Заводська, 31, Львів, Львівська область, Україна, 79000'
+    formattedAddressUk: 'вулиця Заводська, 31, Львів, Львівська область, Україна, 79000'
   },
   {
     latitude: 49.7998806,
     longitude: 23.9901827,
     streetEn: 'Ivana Puliuia Street',
-    streetUa: 'вулиця Івана Пулюя',
+    streetUk: 'вулиця Івана Пулюя',
     houseNumber: '31',
     cityEn: 'Lviv',
-    cityUa: 'Львів',
+    cityUk: 'Львів',
     regionEn: 'Lvivska oblast',
-    regionUa: 'Львівська область',
+    regionUk: 'Львівська область',
     countryEn: 'Ukraine',
-    countryUa: 'Україна',
+    countryUk: 'Україна',
     formattedAddressEn: `Ivana Puliuia St, 38, L'viv, L'vivs'ka oblast, Ukraine, 79000`,
-    formattedAddressUa: 'вулиця Івана Пулюя, 38, Львів, Львівська область, Україна, 79000'
+    formattedAddressUk: 'вулиця Івана Пулюя, 38, Львів, Львівська область, Україна, 79000'
   },
   {
     latitude: 49.550731,
     longitude: 25.61935,
     streetEn: 'Stepana Bandery Avenue',
-    streetUa: 'проспект Степана Бандери',
+    streetUk: 'проспект Степана Бандери',
     houseNumber: '58',
     cityEn: 'Ternopil',
-    cityUa: 'Тернопіль',
+    cityUk: 'Тернопіль',
     regionEn: `Ternopil's'ka oblas`,
-    regionUa: 'Тернопільська область',
+    regionUk: 'Тернопільська область',
     countryEn: 'Ukraine',
-    countryUa: 'Україна',
+    countryUk: 'Україна',
     formattedAddressEn: `Stepana Bandery Ave, 58, Ternopil, Ternopil's'ka oblast, Ukraine, 46000`,
-    formattedAddressUa: 'проспект Степана Бандери, 58, Тернопіль, Тернопільська область, Україна, 46000'
+    formattedAddressUk: 'проспект Степана Бандери, 58, Тернопіль, Тернопільська область, Україна, 46000'
   }
 ];
 
@@ -485,9 +485,9 @@ export const EVENT_MOCK: EventResponse = {
   additionalImages: [],
   creationDate: '2022-05-31',
   tags: [
-    { id: 1, nameUa: 'Соціальний', nameEn: 'Social' },
-    { id: 13, nameUa: 'Екологічний', nameEn: 'Environmental' },
-    { id: 14, nameUa: 'Економічний', nameEn: 'Economic' }
+    { id: 1, nameUk: 'Соціальний', nameEn: 'Social' },
+    { id: 13, nameUk: 'Екологічний', nameEn: 'Environmental' },
+    { id: 14, nameUk: 'Економічний', nameEn: 'Economic' }
   ],
   dates: [
     {
@@ -495,16 +495,16 @@ export const EVENT_MOCK: EventResponse = {
         latitude: 0,
         longitude: 0,
         cityEn: 'Lviv',
-        cityUa: 'Львів',
+        cityUk: 'Львів',
         countryEn: 'Ukraine',
-        countryUa: 'Україна',
+        countryUk: 'Україна',
         houseNumber: '55',
         regionEn: 'Lvivska oblast',
-        regionUa: 'Львівська область',
+        regionUk: 'Львівська область',
         streetEn: 'Svobody Ave',
-        streetUa: 'Свободи',
+        streetUk: 'Свободи',
         formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-        formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
+        formattedAddressUk: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
       },
       id: null,
       event: null,
@@ -598,14 +598,14 @@ export const defaultCoordinates: PlaceOnline = {
   latitude: null,
   longitude: null,
   streetEn: '',
-  streetUa: '',
+  streetUk: '',
   houseNumber: '',
   cityEn: '',
-  cityUa: '',
+  cityUk: '',
   regionEn: '',
-  regionUa: '',
+  regionUk: '',
   countryEn: '',
-  countryUa: '',
+  countryUk: '',
   formattedAddressEn: '',
-  formattedAddressUa: ''
+  formattedAddressUk: ''
 };

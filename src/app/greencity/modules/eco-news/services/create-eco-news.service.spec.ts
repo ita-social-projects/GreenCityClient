@@ -18,7 +18,7 @@ describe('CreateEcoNewsService', () => {
     id: new FormControl('123'),
     title: new FormControl('mock news'),
     content: new FormControl('This is mock news content Greencity!!!!!!!!!!!!'),
-    tags: new FormArray([new FormControl('News'), new FormControl('Ads')]),
+    tagsEn: new FormArray([new FormControl('News'), new FormControl('Ads')]),
     image: new FormControl(''),
     source: new FormControl('http://mocknews.com')
   });
@@ -77,7 +77,7 @@ describe('CreateEcoNewsService', () => {
 
   it('should make PUT request', () => {
     service.editNews(form.value).subscribe((newsData) => {
-      expect(newsData.tags[0]).toEqual('News');
+      expect(newsData.tagsEn[0]).toEqual('News');
     });
 
     const req = httpTestingController.expectOne(environment.backendLink + `eco-news/123`);

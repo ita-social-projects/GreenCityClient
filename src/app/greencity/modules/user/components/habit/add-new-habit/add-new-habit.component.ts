@@ -242,7 +242,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private getStandardToDoList(): void {
     this.toDoListService
-      .getHabitToDoList(this.habitId)
+      .getHabitToDoList(this.habitId, this.currentLang)
       .pipe(take(1))
       .subscribe((res) => {
         this.initialToDoList = res;
@@ -381,7 +381,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
         popupConfirm: dialogConfig.confirm,
         popupCancel: dialogConfig.cancel,
         isHabit: isHabitNameNeeded,
-        habitName: this.habitResponse?.habitTranslation?.name || ''
+        habitName: this.habitResponse?.habitTranslation?.nameEn || ''
       }
     });
   }

@@ -19,7 +19,7 @@ export class MoreOptionsFilterComponent implements OnInit, OnChanges {
   filtersForm: FormGroup = new FormGroup({
     baseFilters: new FormGroup(
       this.baseFilters.reduce((filters: any, filterName: FilterModel) => {
-        filters[filterName.name] = new FormControl(false);
+        filters[filterName.nameEn] = new FormControl(false);
         return filters;
       }, {})
     ),
@@ -29,7 +29,7 @@ export class MoreOptionsFilterComponent implements OnInit, OnChanges {
     }),
     servicesFilters: new FormGroup(
       this.servicesFilters.reduce((filters: any, filterName: FilterModel) => {
-        filters[filterName.name] = new FormControl(false);
+        filters[filterName.nameEn] = new FormControl(false);
         return filters;
       }, {})
     )

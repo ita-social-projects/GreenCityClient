@@ -23,7 +23,6 @@ describe('EcoNewsWidgetComponent', () => {
       id: 1,
       name: 'test'
     },
-    tags: ['test'],
     creationDate: '11111',
     content: 'test',
     countComments: 0,
@@ -31,7 +30,7 @@ describe('EcoNewsWidgetComponent', () => {
     shortInfo: 'test',
     source: 'test',
     tagsEn: ['test'],
-    tagsUa: ['test']
+    tagsUk: ['test']
   };
   const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getRecommendedNews']);
   ecoNewsServiceMock.getRecommendedNews = () => of([mockData]);

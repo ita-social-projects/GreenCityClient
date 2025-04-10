@@ -22,8 +22,9 @@
         <img src="/assets/img/profile/icons/edit-line.svg" alt="edit habit progress" />
       </button>
     </div>
-    <div class="second-row">
-      {{ habit.habit.habitTranslation.name }}
+    <div class="second-row" [appLangValue]="{ ua: habit.habit.habitTranslation.nameUk, en: habit.habit.habitTranslation.nameEn }">
+      <!-- {{ habit.habit.habitTranslation.nameUk }} -->
+      <!-- {{ localStorage.getCurrentLanguage() === 'en' ? habit.habit.habitTranslation.nameUk : habit.habit.habitTranslation.nameUk }} -->
     </div>
   </div>
   <div class="third-row" [ngSwitch]="habitMark">
