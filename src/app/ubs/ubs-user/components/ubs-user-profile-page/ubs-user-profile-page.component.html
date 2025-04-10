@@ -36,7 +36,9 @@
               </div>
             </div>
             <div [ngClass]="{ inputMargin: isEditing }" class="form-group">
-              <label for="recipientSurname">{{ 'ubs-client-profile.surname' | translate }}</label>
+              <label *ngIf="isEditing || userProfile?.recipientSurname" for="recipientSurname">
+                {{ 'ubs-client-profile.surname' | translate }}
+              </label>
               <input
                 *ngIf="isEditing"
                 type="text"
@@ -98,7 +100,9 @@
             }}</label>
             <p *ngIf="!isEditing">{{ userProfile?.alternateEmail }}</p>
             <div class="form-group col-sm-6" id="form-group">
-              <label for="recipientPhone" class="form-label">{{ 'ubs-client-profile.phone' | translate }}</label>
+              <label *ngIf="isEditing || userProfile?.recipientPhone" for="recipientPhone" class="form-label">{{
+                'ubs-client-profile.phone' | translate
+              }}</label>
               <input
                 *ngIf="isEditing"
                 type="tel"

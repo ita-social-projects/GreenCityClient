@@ -1,4 +1,4 @@
-<div class="row adress-section">
+<div class="row address-section">
   <div class="w-100">
     <h2 class="address-title">{{ 'personal-info.info-address' | translate }}</h2>
     <p class="ml-3">{{ 'personal-info.first-order' | translate }}</p>
@@ -22,13 +22,14 @@
             type="radio"
             [value]="address"
             [checked]="address.id === selectedAddress?.id"
+            [disabled]="!isAddressAvailable(address)"
             (click)="setCurrentAddress(address)"
             appValidateAddress
             [currentLocationId]="currentLocationId"
             [address]="address"
           />
         </div>
-        <app-address [address]="address" class=""></app-address>
+        <app-address [address]="address"></app-address>
       </label>
       <div class="edit-address" (click)="editAddress(address.id)">
         <img src="assets/img/comments/edit.png" alt="edit" />
@@ -42,7 +43,7 @@
       <div *ngIf="!selectedAddress && addresses?.length" class="validate-address">
         {{ 'personal-info.no-any-address-for-current-tariff' | translate }}
       </div>
-      <button type="button" class="s-link add-address-btn" (click)="addNewAddress()" [disabled]="addresses.length >= maxAddressLength">
+      <button *ngIf="addresses.length < maxAddressLength" type="button" class="s-link add-address-btn" (click)="addNewAddress()">
         {{ (!addresses.length ? 'personal-info.info-add-address' : 'personal-info.info-add-new-address') | translate }}
       </button>
     </div>

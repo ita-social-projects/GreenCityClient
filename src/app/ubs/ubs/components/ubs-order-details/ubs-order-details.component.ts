@@ -1,6 +1,6 @@
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, switchMap, take, takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
@@ -142,19 +142,17 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         select(UBSCourierIdSelector),
         filter((id) => typeof id === 'number' && !isNaN(id)),
         distinctUntilChanged(),
-        takeUntil(this.$destroy)
-      )
-      .subscribe((courierId) => {
-        this.courierId = courierId;
-        this.store.dispatch(GetLocationId({ courierId }));
-      });
-
-    this.store
-      .pipe(
-        select(locationIdSelector),
-        filter((id) => typeof id === 'number' && !isNaN(id)),
-        distinctUntilChanged(),
-        takeUntil(this.$destroy)
+        takeUntil(this.$destroy),
+        switchMap((courierId) => {
+          this.courierId = courierId;
+          this.store.dispatch(GetLocationId({ courierId }));
+          return this.store.pipe(
+            select(locationIdSelector),
+            filter((id) => typeof id === 'number' && !isNaN(id)),
+            distinctUntilChanged(),
+            takeUntil(this.$destroy)
+          );
+        })
       )
       .subscribe((locationId) => {
         this.locationId = locationId;

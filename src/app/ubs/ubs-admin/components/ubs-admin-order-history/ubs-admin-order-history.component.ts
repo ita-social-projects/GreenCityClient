@@ -25,7 +25,9 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
   cancellationReason: string;
   cancellationComment: string;
   statusNotTakenOut = ordersStatuses.NotTakenOutUA;
+  statusNotTakenOutEn = ordersStatuses.NotTakenOutEN;
   statusCancel = ordersStatuses.CancelUA;
+  statusCancelEn = ordersStatuses.CancelEN;
   orderId: number;
   constructor(
     private orderService: OrderService,
@@ -46,7 +48,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
   }
 
   parseEventName(eventName: string, index: number) {
-    if (eventName.includes(' - ') && this.isParsableFormat(eventName)) {
+    if (eventName.includes(' - ') && this.isParsableFormat(eventName.toLowerCase())) {
       const parts = eventName.split('-').map((part) => part.trim());
       const [status, result] = parts;
 
@@ -59,7 +61,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
   }
 
   private isParsableFormat(eventName: string): boolean {
-    const parsablePatterns = ['Статус Замовлення', 'Order Status'];
+    const parsablePatterns = ['статус замовлення', 'order status'];
 
     return parsablePatterns.some((pattern) => eventName.startsWith(pattern));
   }
@@ -84,10 +86,11 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
       if (order.id !== orderHistoryId) {
         return;
       }
-      if (order.result === ordersStatuses.CancelUA) {
+      console.log(order.result);
+      if (order.result === ordersStatuses.CancelUA || order.result === ordersStatuses.CancelEN) {
         this.openCancelReason();
       }
-      if (order.result === ordersStatuses.NotTakenOutUA) {
+      if (order.result === ordersStatuses.NotTakenOutUA || order.result === ordersStatuses.NotTakenOutEN) {
         this.openNotTakenOutReason(orderHistoryId);
       }
     });

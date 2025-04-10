@@ -86,14 +86,27 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   }
 
   initLocation(): void {
-    let address = this.selectedAddress && this.isAddressAvailable(this.selectedAddress) ? this.selectedAddress : null;
-
-    if (!address) {
-      const actualAddress = this.addresses.find((address) => address.actual);
-      address = actualAddress && this.isAddressAvailable(actualAddress) ? actualAddress : null;
+    if (!this.addresses?.length) {
+      this.selectedAddress = null;
+      return;
     }
 
-    address ? this.setCurrentAddress(address) : this.findAvailableAddress();
+    const validAddress = this.getValidAddress();
+
+    validAddress ? this.setCurrentAddress(validAddress) : this.findAvailableAddress();
+  }
+
+  private getValidAddress(): Address | null {
+    if (this.isAddressValid(this.selectedAddress)) {
+      return this.selectedAddress;
+    }
+
+    this.selectedAddress = null;
+    return this.addresses.find((addr) => addr.actual && this.isAddressAvailable(addr)) || null;
+  }
+
+  private isAddressValid(address: Address | null): boolean {
+    return Boolean(address && this.addresses.some((addr) => addr.id === address.id) && this.isAddressAvailable(address));
   }
 
   findAvailableAddress(): void {
@@ -117,7 +130,6 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
         address.districtEn === addressDetails.addressDistinctEn &&
         address.houseNumber === addressDetails.houseNumber
     );
-
     address && this.isAddressAvailable(address) ? this.setCurrentAddress(address) : this.initLocation();
   }
 
@@ -174,6 +186,7 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
 
   deleteAddress(address: Address): void {
     this.store.dispatch(DeleteAddress({ address }));
+    this.findAvailableAddress();
   }
 
   addNewAddress(): void {
