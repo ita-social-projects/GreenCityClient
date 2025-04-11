@@ -43,13 +43,10 @@ export const MOCK_HABITS: HabitListInterface = {
     {
       defaultDuration: 30,
       habitTranslation: {
-        nameEn: 'testName',
-        descriptionEn: 'testDescription',
-        habitItemEn: 'testHabitItem',
-        languageCode: 'testLanguageCode',
-        nameUk: '',
-        descriptionUk: '',
-        habitItemUk: 'testHabitItem'
+        name: 'testName',
+        description: 'testDescription',
+        habitItem: 'testHabitItem',
+        languageCode: 'testLanguageCode'
       },
       id: 1,
       image: 'testImage',
@@ -82,13 +79,10 @@ export const MOCK_CUSTOM_HABIT: CustomHabit = {
 export const MOCK_CUSTOM_HABIT_RESPONSE: CustomHabitDtoRequest = {
   habitTranslations: [
     {
-      nameEn: MOCK_CUSTOM_HABIT.title,
-      descriptionEn: MOCK_CUSTOM_HABIT.description,
-      habitItemEn: 'testHabitItem',
-      languageCode: 'en',
-      nameUk: MOCK_CUSTOM_HABIT.title,
-      descriptionUk: MOCK_CUSTOM_HABIT.description,
-      habitItemUk: 'testHabitItem'
+      name: MOCK_CUSTOM_HABIT.title,
+      description: MOCK_CUSTOM_HABIT.description,
+      habitItem: 'testHabitItem',
+      languageCode: 'en'
     }
   ],
   complexity: MOCK_CUSTOM_HABIT.complexity,
