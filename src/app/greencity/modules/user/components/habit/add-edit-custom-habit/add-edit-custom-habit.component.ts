@@ -176,12 +176,12 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   goToAllHabits(): void {
     this.userFriendsService.addedFriends.length = 0;
-    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.router.navigate([`/greenCity/profile/${this.userId}/allhabits`]);
     this.habitSuccessfullyAdded();
   }
 
   handleHabitDelete() {
-    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.router.navigate([`/greenCity/profile/${this.userId}/allhabits`]);
     this.snackBar.openSnackBar('habitDeleted');
   }
 
