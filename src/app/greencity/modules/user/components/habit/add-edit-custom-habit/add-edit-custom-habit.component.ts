@@ -63,6 +63,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     }
   };
   imageFile: FileHandle;
+  isPosting = false;
   private habitId: number;
   private userId: number;
   private currentLang: string;
@@ -186,20 +187,38 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   addHabit(): void {
+    if (this.isPosting) {
+      return;
+    }
+    this.isPosting = true;
     this.habitService
       .addCustomHabit(this.habitForm.value, this.currentLang)
       .pipe(take(1))
-      .subscribe(() => {
-        this.goToAllHabits();
+      .subscribe({
+        next: () => {
+          this.goToAllHabits();
+        },
+        complete: () => {
+          this.isPosting = false;
+        }
       });
   }
 
   saveHabit(): void {
+    if (this.isPosting) {
+      return;
+    }
+    this.isPosting = true;
     this.habitService
       .changeCustomHabit(this.habitForm.value, this.currentLang, this.habitId)
       .pipe(take(1))
-      .subscribe(() => {
-        this.goToAllHabits();
+      .subscribe({
+        next: () => {
+          this.goToAllHabits();
+        },
+        complete: () => {
+          this.isPosting = false;
+        }
       });
   }
 
