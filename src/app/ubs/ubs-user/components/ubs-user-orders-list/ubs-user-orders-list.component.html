@@ -69,6 +69,11 @@
               {{ 'user-orders.btn.pay' | translate }}
             </button>
           </div>
+          <div *ngIf="!isOrderCanceled(order)" class="btn-box">
+            <button class="ubs-primary-global-button s-btn" (click)="exportAsPDF(order)">
+              {{ 'user-orders.btn.pdf' | translate }}
+            </button>
+          </div>
         </div>
       </mat-expansion-panel-header>
 

@@ -472,6 +472,7 @@
     "btn": {
       "cancel": "Скасувати",
       "pay": "Оплатити",
+      "pdf": "Export as PDF",
       "order-again": "Замовити ще раз",
       "new-order": "Нове замовлення"
     },

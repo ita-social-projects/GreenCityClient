@@ -32,6 +32,7 @@ import { LanguageService } from 'src/app/shared/i18n/language.service';
 })
 export class OrderService {
   private readonly url = environment.ubsAdmin.backendUbsAdminLink;
+  private readonly greenCityUrl = environment.backendLink;
   private readonly standaloneCities = [KyivNamesEnum.KyivEn.toString(), KyivNamesEnum.KyivUa.toString()];
   locationSubject = new Subject();
   locationSub = new Subject();
@@ -50,6 +51,17 @@ export class OrderService {
     const params = new HttpParams().set('locationId', locationId.toString()).set('tariffId', tariffId.toString());
 
     return this.http.get<OrderDetails>(`${this.url}/order-details-for-tariff`, { params });
+  }
+
+  getOrderPdf(orderId: number, lang: string): Observable<Blob> {
+    console.log(orderId, lang);
+    const url = `${this.greenCityUrl}ubs/order/pdf/export`;
+    const params = new HttpParams().set('id', orderId.toString()).set('lang', lang);
+
+    return this.http.get(url, {
+      params,
+      responseType: 'blob'
+    });
   }
 
   getUBSCouriedId(name: string): Observable<number> {
