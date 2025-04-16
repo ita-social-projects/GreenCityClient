@@ -22,7 +22,7 @@ export class TagFilterComponent implements OnInit {
   }
 
   emitTrueFilterValues(): Array<string> {
-    return this.filters.filter((active) => active.isActive).map((filter) => this.langService.getLangValue(filter.nameUa, filter.name));
+    return this.filters.filter((active) => active.isActive).map((filter) => this.langService.getLangValue(filter.nameUk, filter.nameEn));
   }
 
   emitActiveFilters(): void {
@@ -30,7 +30,7 @@ export class TagFilterComponent implements OnInit {
   }
 
   toggleFilter(currentFilter: string): void {
-    this.filters.forEach((el) => (el.isActive = el.name === currentFilter ? !el.isActive : el.isActive));
+    this.filters.forEach((el) => (el.isActive = el.nameEn === currentFilter ? !el.isActive : el.isActive));
     this.emitActiveFilters();
     const isAnyFilterSelcted = this.filters.some((item) => item.isActive === true);
     isAnyFilterSelcted ? this.setSessionStorageFilters() : this.cleanSessionStorageFilters();

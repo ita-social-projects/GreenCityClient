@@ -1,7 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { HabitsListViewComponent } from './habits-list-view.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -20,7 +20,7 @@ describe('HabitsListViewComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HabitsListViewComponent],
+      declarations: [HabitsListViewComponent, LangValueDirective],
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatSnackBarModule, HttpClientTestingModule],
       providers: [{ provide: MatSnackBarService, useValue: MatSnackBarMock }]
     }).compileComponents();

@@ -6,7 +6,7 @@ export const defaultImagePath =
 
 export const mockUserData: EditProfileModel = {
   userLocationDto: {
-    cityUa: 'Місто'
+    cityUk: 'Місто'
   },
   name: 'string',
   userCredo: 'string',

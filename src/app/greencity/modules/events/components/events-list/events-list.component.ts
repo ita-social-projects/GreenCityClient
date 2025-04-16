@@ -202,13 +202,13 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   getUniqueLocations(addresses: Array<Addresses>): FilterItem[] {
     const uniqueLocationsName = new Set<string>();
-    const uniqueLocations: FilterItem[] = [{ type: 'location', nameEn: 'Online', nameUa: 'Онлайн' }];
+    const uniqueLocations: FilterItem[] = [{ type: 'location', nameEn: 'Online', nameUk: 'Онлайн' }];
     addresses.forEach((address: Addresses) => {
-      if (address.cityEn && address.cityUa) {
-        if (!uniqueLocationsName.has(address.cityEn) && !uniqueLocationsName.has(address.cityUa)) {
+      if (address.cityEn && address.cityUk) {
+        if (!uniqueLocationsName.has(address.cityEn) && !uniqueLocationsName.has(address.cityUk)) {
           uniqueLocationsName.add(address.cityEn);
-          uniqueLocationsName.add(address.cityUa);
-          uniqueLocations.push({ type: 'location', nameEn: address.cityEn, nameUa: address.cityUa });
+          uniqueLocationsName.add(address.cityUk);
+          uniqueLocations.push({ type: 'location', nameEn: address.cityEn, nameUk: address.cityUk });
         }
       }
     });

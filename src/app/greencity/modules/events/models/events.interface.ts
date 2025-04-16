@@ -62,16 +62,16 @@ export interface PlaceOnline {
   latitude?: number;
   longitude?: number;
   streetEn?: string;
-  streetUa?: string;
+  streetUk?: string;
   houseNumber?: string;
   cityEn?: string;
-  cityUa?: string;
+  cityUk?: string;
   regionEn?: string;
-  regionUa?: string;
+  regionUk?: string;
   countryEn?: string;
-  countryUa?: string;
+  countryUk?: string;
   formattedAddressEn?: string;
-  formattedAddressUa?: string;
+  formattedAddressUk?: string;
 }
 
 export interface ImagesContainer {
@@ -89,7 +89,7 @@ export interface EventInformation {
   tags: Array<{
     id?: number;
     name: string;
-    nameUa?: string;
+    nameUk?: string;
     nameEn?: string;
   }>;
 }
@@ -119,18 +119,18 @@ export interface OrganizerInfo {
 
 export interface LocationResponse {
   countryEn: string;
-  countryUa: string;
+  countryUk: string;
   latitude: number;
   longitude: number;
   regionEn: string;
-  regionUa: string;
+  regionUk: string;
   houseNumber: string | null;
   streetEn: string | null;
-  streetUa: string | null;
+  streetUk: string | null;
   formattedAddressEn: string;
-  formattedAddressUa: string;
+  formattedAddressUk: string;
   cityEn: string;
-  cityUa: string;
+  cityUk: string;
 }
 
 export interface EventDatesResponse {
@@ -149,7 +149,7 @@ export interface EventResponse {
   creationDate: string;
   description: string;
   dates: EventDatesResponse[];
-  tags: { nameUa: string; id: number; nameEn: string }[];
+  tags: { nameUk: string; id: number; nameEn: string }[];
   titleImage: string;
   additionalImages: string[];
   isRelevant: boolean;
@@ -170,12 +170,12 @@ export type EventListResponse = Omit<EventResponse, 'additionalImages' | 'descri
 
 export interface TagDto {
   id: number;
-  nameUa: string;
+  nameUk: string;
   nameEn: string;
 }
 
 export interface TagObj {
-  nameUa: string;
+  nameUk: string;
   nameEn: string;
   isActive: boolean;
 }
@@ -189,22 +189,22 @@ export interface EventFilterCriteriaInterface {
 
 export interface Addresses {
   cityEn: string;
-  cityUa: string;
+  cityUk: string;
   countryEn: string;
-  countryUa: string;
+  countryUk: string;
   formattedAddressEn: string;
-  formattedAddressUa: string;
+  formattedAddressUk: string;
   houseNumber: string;
   latitude: number;
   longitude: number;
   regionEn: string;
-  regionUa: string;
+  regionUk: string;
   streetEn: string;
-  streetUa: string;
+  streetUk: string;
 }
 
 export interface FilterItem {
   type: string;
-  nameUa: string;
+  nameUk: string;
   nameEn: string;
 }

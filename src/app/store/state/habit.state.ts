@@ -3,13 +3,13 @@ import { HabitInterface } from 'src/app/greencity/modules/user/components/habit/
 export const initialHabitState: HabitInterface = {
   defaultDuration: 7,
   habitTranslation: {
-    description: '',
-    habitItem: null,
+    descriptionEn: '',
+    habitItemEn: null,
     languageCode: '',
-    name: '',
-    nameUa: '',
-    descriptionUa: '',
-    habitItemUa: undefined
+    nameEn: '',
+    nameUk: '',
+    descriptionUk: '',
+    habitItemUk: undefined
   },
   id: null,
   image: '',

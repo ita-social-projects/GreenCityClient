@@ -289,12 +289,12 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
       if (status === google.maps.GeocoderStatus.OK && results[0]) {
         const address_components = results[0].address_components;
         this.coordinates.patchValue({
-          formattedAddressUa: results[0].formatted_address,
+          formattedAddressUk: results[0].formatted_address,
           houseNumber: address_components[0]?.long_name,
-          streetUa: address_components[2]?.long_name,
-          cityUa: address_components[4]?.long_name,
-          regionUa: address_components[6]?.long_name,
-          countryUa: address_components[7]?.long_name
+          streetUk: address_components[2]?.long_name,
+          cityUk: address_components[4]?.long_name,
+          regionUk: address_components[6]?.long_name,
+          countryUk: address_components[7]?.long_name
         });
       }
     });
@@ -318,7 +318,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
 
   private setPlace(): void {
     this.place.setValue(
-      this.languageService.getLangValue(this.coordinates.value.formattedAddressUa, this.coordinates.value.formattedAddressEn)
+      this.languageService.getLangValue(this.coordinates.value.formattedAddressUk, this.coordinates.value.formattedAddressEn)
     );
   }
 

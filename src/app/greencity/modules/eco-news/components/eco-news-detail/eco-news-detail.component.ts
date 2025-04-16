@@ -95,8 +95,8 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   getAllTags(): Array<string> {
-    const tagsUa = this.newsItem?.tagsUa || [];
-    const tags = this.newsItem?.tags || [];
+    const tagsUa = this.newsItem?.tagsUk || [];
+    const tags = this.newsItem?.tagsEn || [];
     return this.langService.getLangValue(tagsUa, tags);
   }
 

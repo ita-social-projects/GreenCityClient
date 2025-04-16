@@ -115,13 +115,13 @@ describe('EcoNewsDetailComponent', () => {
   it('getAllTags should return array of tags', () => {
     component.currentLang = 'en';
     languageServiceMock.getLangValue.and.returnValue(['Events', 'Education']);
-    component.newsItem.tags = ['Events', 'Education'];
+    component.newsItem.tagsEn = ['Events', 'Education'];
     expect(component.getAllTags()).toEqual(['Events', 'Education']);
   });
 
   it('getAllTags should return array of ua tags', () => {
     languageServiceMock.getLangValue.and.returnValue(['Події', 'Освіта']);
-    component.newsItem.tagsUa = ['Події', 'Освіта'];
+    component.newsItem.tagsUk = ['Події', 'Освіта'];
     expect(component.getAllTags()).toEqual(['Події', 'Освіта']);
   });
 
