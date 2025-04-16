@@ -99,14 +99,14 @@ describe('AchievementService', () => {
     const mockCategories = [
       {
         id: 1,
-        title: 'Category 1',
+        titleUk: 'Category 1',
         titleEn: 'Category 1 EN',
         achieved: 5,
         totalQuantity: 7
       },
       {
         id: 2,
-        title: 'Category 2',
+        titleUk: 'Category 2',
         titleEn: 'Category 2 EN',
         achieved: 5,
         totalQuantity: 7

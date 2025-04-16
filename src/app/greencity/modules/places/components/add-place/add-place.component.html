@@ -3,8 +3,8 @@
     <div class="form-field">
       <label for="type" class="label"> {{ 'places.category' | translate }} <span class="hint">Hint</span></label>
       <select formControlName="type" class="input" [class.ng-invalid]="type.invalid && type.touched">
-        <option *ngFor="let categories of filterCategories" value="{{ categories.name }}">
-          {{ localStorageService.getCurrentLanguage() === 'en' ? categories.name : categories.nameUa }}
+        <option *ngFor="let categories of filterCategories" value="{{ categories.nameEn }}">
+          {{ localStorageService.getCurrentLanguage() === 'en' ? categories.nameEn : categories.nameUk }}
         </option>
       </select>
     </div>

@@ -71,8 +71,8 @@ describe('PlacesComponent', () => {
       address: 'Universytetska St, 1, Lviv, Lvivska oblast, Ukraine, 79000'
     },
     category: {
-      name: 'Charging station',
-      nameUa: 'Зарядні станції',
+      nameEn: 'Charging station',
+      nameUk: 'Зарядні станції',
       parentCategoryId: null
     },
     openingHoursList: [
@@ -168,7 +168,7 @@ describe('PlacesComponent', () => {
   it('should initialize with correct parameters', () => {
     component.ngOnInit();
     if (!component.userId) {
-      tagsArray = tagsArray.filter((item) => item.name !== 'Saved places');
+      tagsArray = tagsArray.filter((item) => item.nameEn !== 'Saved places');
     }
     expect(component.tagList).toEqual(tagsArray);
   });

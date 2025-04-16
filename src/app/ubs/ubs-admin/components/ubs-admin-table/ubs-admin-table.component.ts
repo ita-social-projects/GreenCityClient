@@ -734,7 +734,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   showTooltip(event, title, tooltip) {
     event.stopImmediatePropagation();
-    console.log(title);
     const lengthStrUa = title.uk.split('').length;
     const lengthStrEn = title.en.split('').length;
     if ((this.currentLang === 'ua' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {

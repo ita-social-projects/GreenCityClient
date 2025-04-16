@@ -2,74 +2,74 @@ import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-
 
 export const tagsListPlacesData: Array<FilterModel> = [
   {
-    name: 'Shops',
-    nameUa: 'Магазини',
+    nameEn: 'Shops',
+    nameUk: 'Магазини',
     isActive: false
   },
   {
-    name: 'Restaurants',
-    nameUa: 'Ресторани',
+    nameEn: 'Restaurants',
+    nameUk: 'Ресторани',
     isActive: false
   },
   {
-    name: 'Recycling points',
-    nameUa: 'Пункти приймання',
+    nameEn: 'Recycling points',
+    nameUk: 'Пункти приймання',
     isActive: false
   },
   {
-    name: 'Events',
-    nameUa: 'Події',
+    nameEn: 'Events',
+    nameUk: 'Події',
     isActive: false
   },
   {
-    name: 'Saved places',
-    nameUa: 'Збереженні місця',
+    nameEn: 'Saved places',
+    nameUk: 'Збереженні місця',
     isActive: false
   }
 ];
 
 export const baseFiltersForPlaces: Array<FilterModel> = [
   {
-    name: 'Open now',
-    nameUa: 'Відкрито зараз',
+    nameEn: 'Open now',
+    nameUk: 'Відкрито зараз',
     isActive: false
   },
   {
-    name: 'Special offers',
-    nameUa: 'Спеціальні пропозиції',
+    nameEn: 'Special offers',
+    nameUk: 'Спеціальні пропозиції',
     isActive: false
   }
 ];
 
 export const servicesFiltersForPlaces: Array<FilterModel> = [
   {
-    name: 'Vegan products',
-    nameUa: 'Веганські продукти',
+    nameEn: 'Vegan products',
+    nameUk: 'Веганські продукти',
     isActive: false
   },
   {
-    name: 'Bike rentals',
-    nameUa: 'Прокат велосипедів',
+    nameEn: 'Bike rentals',
+    nameUk: 'Прокат велосипедів',
     isActive: false
   },
   {
-    name: 'Bike parking',
-    nameUa: 'Стоянка для велосипедів',
+    nameEn: 'Bike parking',
+    nameUk: 'Стоянка для велосипедів',
     isActive: false
   },
   {
-    name: 'Hotels',
-    nameUa: 'Готелі',
+    nameEn: 'Hotels',
+    nameUk: 'Готелі',
     isActive: false
   },
   {
-    name: 'Charging station',
-    nameUa: 'Зарядна станція',
+    nameEn: 'Charging station',
+    nameUk: 'Зарядна станція',
     isActive: false
   },
   {
-    name: 'Cycling routes',
-    nameUa: 'Велосипедні маршрути',
+    nameEn: 'Cycling routes',
+    nameUk: 'Велосипедні маршрути',
     isActive: false
   }
 ];

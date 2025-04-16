@@ -23,8 +23,8 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
   newsImage: string;
   likeImg = 'assets/events-icons/like.png';
   commentImg = 'assets/events-icons/frame.png';
-  tags: Array<string>;
   currentLang: string;
+  tags = [];
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   newDate;
@@ -38,9 +38,9 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
-      this.tags = this.langService.getLangValue(this.ecoNewsModel.tagsUa, this.ecoNewsModel.tagsEn);
       this.datePipe = new DatePipe(this.currentLang);
       this.newDate = this.datePipe.transform(this.ecoNewsModel.creationDate, 'MMM dd, yyyy');
+      this.tags = this.langService.getLangValue(this.ecoNewsModel.tagsUk, this.ecoNewsModel.tagsEn);
     });
   }
 

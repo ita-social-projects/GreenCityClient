@@ -13,7 +13,7 @@ describe('AchievementItemComponent', () => {
 
   const categoryItemMock: AchievementCategoryDto = {
     id: 2,
-    title: 'Category 1',
+    titleUk: 'Category 1',
     titleEn: 'Category 1 EN',
     achieved: 5,
     totalQuantity: 20
@@ -60,7 +60,7 @@ describe('AchievementItemComponent', () => {
 
       expect(result).toEqual({
         categoryId: categoryItemMock.id,
-        title: categoryItemMock.title,
+        title: categoryItemMock.titleUk,
         titleEn: categoryItemMock.titleEn,
         achieved: categoryItemMock.achieved,
         totalQuantity: categoryItemMock.totalQuantity

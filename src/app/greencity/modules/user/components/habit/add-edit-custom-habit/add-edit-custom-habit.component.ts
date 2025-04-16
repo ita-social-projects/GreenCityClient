@@ -126,7 +126,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   convertTagNamesToId(tagNames: string[]) {
     this.habitService.getAllTags().subscribe((tags) => {
-      this.selectedTagsList = tags.filter((tag) => tagNames.includes(tag.name)).map(({ id }) => id);
+      this.selectedTagsList = tags.filter((tag) => tagNames.includes(tag.nameEn)).map(({ id }) => id);
     });
   }
 
@@ -266,10 +266,10 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       .pipe(take(1))
       .subscribe((tags: TagInterface[]) => {
         this.tagsList = tags;
-        this.tagsList.forEach((tag) => (tag.isActive = this.habitForm.value.tagIds.some((el) => el === tag.name || el === tag.nameUa)));
+        this.tagsList.forEach((tag) => (tag.isActive = this.habitForm.value.tagIds.some((el) => el === tag.nameEn || el === tag.nameUk)));
         if (this.isEditing) {
           const newList = this.tagsList.filter(
-            (el) => this.habitForm.value.tagIds.includes(el.name) || this.habitForm.value.tagIds.includes(el.nameUa)
+            (el) => this.habitForm.value.tagIds.includes(el.nameEn) || this.habitForm.value.tagIds.includes(el.nameUk)
           );
           this.getTagsList(newList);
         }

@@ -47,7 +47,7 @@ describe('AddEditCustomHabitComponent', () => {
     oldDelta: null,
     source: null
   };
-  const tagsMock: TagInterface[] = [{ id: 1, name: 'Tag', nameUa: 'Тег', isActive: true }];
+  const tagsMock: TagInterface[] = [{ id: 1, nameEn: 'Tag', nameUk: 'Тег', isActive: true }];
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getUserId', 'getCurrentLanguage', 'pipe']);
 
   localStorageServiceMock.getUserId = () => 2;

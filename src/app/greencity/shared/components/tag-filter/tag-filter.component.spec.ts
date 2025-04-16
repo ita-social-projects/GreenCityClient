@@ -16,8 +16,8 @@ describe('TagFilterComponent', () => {
   languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
 
   const tagsListDataMock: Array<FilterModel> = [
-    { name: 'test', nameUa: 'тест', isActive: false },
-    { name: 'test2', nameUa: 'тест2', isActive: false }
+    { nameEn: 'test', nameUk: 'тест', isActive: false },
+    { nameEn: 'test2', nameUk: 'тест2', isActive: false }
   ];
 
   beforeEach(waitForAsync(() => {
