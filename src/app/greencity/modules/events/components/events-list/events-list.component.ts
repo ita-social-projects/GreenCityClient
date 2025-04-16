@@ -36,6 +36,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
   typeFilterControl = new FormControl();
   searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
+  relevantLocationFiltersList: FilterItem[] = [];
+
   eventsList: EventListResponse[] = [];
   isLoggedIn: boolean;
   selectedEventTimeStatusFiltersList: string[] = [];
@@ -102,6 +104,14 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.eventService.getAddresses().subscribe((addresses) => {
       this.locationFiltersList = this.getUniqueLocations(addresses);
     });
+
+    this.eventService.getRelevantAddresses().subscribe((data: Addresses[]) => {
+      console.log(data);
+      this.relevantLocationFiltersList = this.getUniqueLocations(data);
+
+      console.log('result list', this.relevantLocationFiltersList);
+    });
+
     this.searchEventControl.valueChanges.subscribe((value) => {
       if (this.searchResultSubscription) {
         this.searchResultSubscription.unsubscribe();
@@ -111,6 +121,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       value.trim() !== '' ? this.searchEventsByTitle() : this.getEvents();
     });
   }
+
   private refreshEventInList(updatedEvent: EventListResponse): void {
     const index = this.eventsList.findIndex((e) => e.id === updatedEvent.id);
     if (index !== -1) {
@@ -201,6 +212,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   getUniqueLocations(addresses: Array<Addresses>): FilterItem[] {
+    console.log('addresses in another function', addresses);
     const uniqueLocationsName = new Set<string>();
     const uniqueLocations: FilterItem[] = [{ type: 'location', nameEn: 'Online', nameUk: 'Онлайн' }];
     addresses.forEach((address: Addresses) => {
@@ -212,6 +224,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
         }
       }
     });
+    console.log('uniqueLocations', uniqueLocations);
 
     return uniqueLocations;
   }

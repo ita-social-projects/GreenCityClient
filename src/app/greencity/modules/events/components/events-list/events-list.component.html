@@ -44,6 +44,8 @@
             </mat-option>
           </mat-select>
         </div>
+
+        <!--        &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
         <div class="dropdown" (click)="locationFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
           <mat-select #locationFilter [formControl]="locationFilterControl" [multiple]="true">
@@ -56,13 +58,26 @@
             <mat-divider></mat-divider>
             <mat-option
               [value]="locationFilter.nameEn"
-              *ngFor="let locationFilter of locationFiltersList"
+              *ngFor="let locationFilter of relevantLocationFiltersList"
               (click)="updateListOfFilters(locationFilter)"
             >
               <span [appLangValue]="{ ua: locationFilter.nameUk, en: locationFilter.nameEn }"></span>
             </mat-option>
+
+            <mat-divider></mat-divider>
+
+            <!-- Кнопка Додати місце -->
+            <!--            <mat-option disabled class="add-location-option" (click)="openAddLocationDialog()">-->
+            <mat-option disabled class="add-location-option">
+              <div class="add-location-content">
+                <span>Додати місце</span>
+                <span class="plus">+</span>
+              </div>
+            </mat-option>
           </mat-select>
         </div>
+        <!--        -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
         <div class="dropdown" (click)="statusFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
           <mat-select #statusFilter [formControl]="statusFilterControl" [multiple]="true">
