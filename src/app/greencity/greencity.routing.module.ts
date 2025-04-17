@@ -19,8 +19,7 @@ const greencityRoutes: Routes = [
       },
       {
         path: 'chat-page',
-        component: ChatComponent,
-        canActivate: [NonAdminGuard]
+        component: ChatComponent
       },
       {
         path: 'about',
