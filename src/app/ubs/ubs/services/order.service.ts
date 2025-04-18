@@ -55,7 +55,7 @@ export class OrderService {
 
   getOrderPdf(orderId: number, lang: string): Observable<Blob> {
     console.log(orderId, lang);
-    const url = `${this.url}ubs/order/pdf/export`;
+    const url = `${this.url}/order/pdf/export`;
     const params = new HttpParams().set('id', orderId.toString()).set('lang', lang);
 
     return this.http.get(url, {
