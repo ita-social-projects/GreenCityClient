@@ -1,6 +1,8 @@
 <h2 *ngIf="tableDataResponse">{{ tableDataResponse.tableName }}</h2>
 
-<table class="data-table" *ngIf="tableDataResponse?.tableData?.length">
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<table class="data-table" *ngIf="!isLoading && tableDataResponse?.tableData?.length">
   <thead>
     <tr>
       <th *ngFor="let key of tableDataResponse.tableData[0] | keyvalue">
@@ -17,4 +19,4 @@
   </tbody>
 </table>
 
-<p *ngIf="tableDataResponse && !tableDataResponse.tableData.length">No data found for this table.</p>
+<p *ngIf="!isLoading && tableDataResponse && !tableDataResponse.tableData.length">No data found for this table.</p>

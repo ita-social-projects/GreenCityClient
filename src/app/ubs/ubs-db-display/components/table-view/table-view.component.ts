@@ -10,14 +10,25 @@ import { TableService } from '@ubs/ubs-db-display/services/table.service';
 export class TableViewComponent implements OnChanges {
   @Input() tableName: string | null = null;
   tableDataResponse: TableDataResponse | null = null;
+  isLoading = false;
 
   constructor(private readonly tableService: TableService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.tableName && this.tableName) {
       console.log('get data from table: ', this.tableName);
-      this.tableService.getTableData(this.tableName).subscribe((res: TableDataResponse) => {
-        this.tableDataResponse = res;
+      this.isLoading = true;
+
+      this.tableService.getTableData(this.tableName).subscribe({
+        next: (res: TableDataResponse) => {
+          this.tableDataResponse = res;
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Failed to load table data:', err);
+          this.tableDataResponse = { tableName: this.tableName, tableData: [] };
+          this.isLoading = false;
+        }
       });
     }
   }
