@@ -1,1 +1,8 @@
-<p>db-tables works!</p>
+<div class="layout">
+  <div class="sidebar">
+    <app-table-list [tables]="tableNames" (selectTable)="onTableSelected($event)"> </app-table-list>
+  </div>
+  <div class="content">
+    <app-table-view [tableName]="selectedTable$ | async"> </app-table-view>
+  </div>
+</div>

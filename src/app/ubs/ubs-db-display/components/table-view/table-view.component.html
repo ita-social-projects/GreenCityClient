@@ -1,1 +1,20 @@
-<p>table-view works!</p>
+<h2 *ngIf="tableDataResponse">{{ tableDataResponse.tableName }}</h2>
+
+<table class="data-table" *ngIf="tableDataResponse?.tableData?.length">
+  <thead>
+    <tr>
+      <th *ngFor="let key of tableDataResponse.tableData[0] | keyvalue">
+        {{ key.key }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of tableDataResponse.tableData">
+      <td *ngFor="let cell of row | keyvalue">
+        {{ cell.value }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="tableDataResponse && !tableDataResponse.tableData.length">No data found for this table.</p>

@@ -1,0 +1,21 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  gap: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.sidebar {
+  width: 270px;
+  flex-shrink: 0;
+  border-right: 1px solid #ddd;
+  padding-right: 12px;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.content {
+  flex: 1;
+  overflow: auto;
+}
