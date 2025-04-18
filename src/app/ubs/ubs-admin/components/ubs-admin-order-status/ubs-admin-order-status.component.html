@@ -27,7 +27,7 @@
                     *ngFor="let status of availableOrderStatuses"
                     [selected]="status?.key === generalInfo.orderStatus"
                     [value]="status?.key"
-                    [appLangValue]="{ ua: status?.ua, en: status?.eng }"
+                    [appLangValue]="{ ua: status?.uk, en: status?.en }"
                   ></option>
                 </select>
               </div>
@@ -51,7 +51,7 @@
                     [selected]="status?.key === generalInfo.orderPaymentStatus"
                     [value]="status?.key"
                     [disabled]="true"
-                    [appLangValue]="{ ua: status?.ua, en: status?.eng }"
+                    [appLangValue]="{ ua: status?.uk, en: status?.en }"
                   ></option>
                 </select>
               </div>

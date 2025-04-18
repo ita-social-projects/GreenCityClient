@@ -211,8 +211,8 @@ export interface IOrderPaymentStatusesDto {
 
 export interface IPaymentStatus {
   key?: string;
-  ua?: string;
-  eng?: string;
+  uk?: string;
+  en?: string;
 }
 
 export interface IUserInfo {
