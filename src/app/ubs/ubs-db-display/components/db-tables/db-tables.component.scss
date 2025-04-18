@@ -9,7 +9,7 @@
 .sidebar {
   width: 270px;
   flex-shrink: 0;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid var(--ubs-primary-light-grey);
   padding-right: 12px;
   overflow-y: auto;
   max-height: 100%;

@@ -1,5 +1,9 @@
-<ul class="table-list">
-  <li *ngFor="let t of tables" (click)="selectTable.emit(t)" class="table-button">
-    {{ t }}
-  </li>
-</ul>
+<div class="table-search-container">
+  <input type="text" placeholder="Search table..." [(ngModel)]="searchTerm" class="table-search-input" />
+
+  <ul class="table-list">
+    <li *ngFor="let t of filteredTables" (click)="onSelect(t)" [class.active]="t === selectedTable" class="table-button">
+      {{ t }}
+    </li>
+  </ul>
+</div>
