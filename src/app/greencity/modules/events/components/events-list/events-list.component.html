@@ -68,12 +68,25 @@
 
             <!-- Кнопка Додати місце -->
             <!--            <mat-option disabled class="add-location-option" (click)="openAddLocationDialog()">-->
-            <mat-option disabled class="add-location-option">
+
+            <!-- Кнопка "Додати місце" -->
+            <!-- Кнопка "Додати місце" -->
+            <!-- Кнопка "Додати місце" -->
+            <mat-option (click)="showAddCityInput = true" *ngIf="!showAddCityInput" class="add-location-option">
               <div class="add-location-content">
                 <span>Додати місце</span>
                 <span class="plus">+</span>
               </div>
             </mat-option>
+
+            <!-- Інпут для введення нового міста -->
+            <app-input-google-autocomplete
+              *ngIf="showAddCityInput"
+              formControlName="city"
+              [isInitAutoTranslate]="true"
+              (predictionSelected)="onCitySelected($event)"
+              ngDefaultControl
+            ></app-input-google-autocomplete>
           </mat-select>
         </div>
         <!--        -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->

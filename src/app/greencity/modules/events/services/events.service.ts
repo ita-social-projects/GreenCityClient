@@ -10,7 +10,8 @@ import {
   EventResponseDto,
   LocationResponse,
   EventDto,
-  PlaceOnline
+  PlaceOnline,
+  FilterItem
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { LikeResponse } from './LikeResponse';
@@ -90,7 +91,14 @@ export class EventsService implements OnDestroy {
   }
 
   getRelevantAddresses(): Observable<Addresses[]> {
-    return this.http.get<any[]>(`${this.backEnd}events/addresses/get-relevant`);
+    return this.http.get<Addresses[]>(`${this.backEnd}events/addresses/get-relevant`);
+  }
+
+  postRelevantAddresses(page: number, quantity: number, userId: number, city: FilterItem): Observable<void> {
+    const url = `${this.backEnd}events?page=${page}&size=${quantity}&user-id=${userId}&type=${city.type}`;
+    const body = [city]; // або масив міст
+
+    return this.http.post<void>(url, body);
   }
 
   getImageAsFile(img: string): Observable<Blob> {

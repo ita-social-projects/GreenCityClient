@@ -18,6 +18,8 @@ import { MatOption } from '@angular/material/core';
 import { HttpParams } from '@angular/common/http';
 import { EventStoreService } from '../../services/event-store.service';
 import { initializeSavedState } from 'src/app/greencity/shared/components/saved-tabs/saved-section-const';
+import { GooglePrediction } from '@ubs/mocks/google-types';
+import { LanguageService } from '../../../../../shared/i18n/language.service';
 
 @Component({
   selector: 'app-events-list',
@@ -37,6 +39,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
   searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
   relevantLocationFiltersList: FilterItem[] = [];
+  showAddCityInput = false;
+  newCity = '';
 
   eventsList: EventListResponse[] = [];
   isLoggedIn: boolean;
@@ -76,7 +80,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private readonly eventService: EventsService,
     private readonly eventStoreService: EventStoreService,
     private readonly dialog: MatDialog,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -121,6 +126,59 @@ export class EventsListComponent implements OnInit, OnDestroy {
       value.trim() !== '' ? this.searchEventsByTitle() : this.getEvents();
     });
   }
+
+  // addCity() {
+  //   const city = this.newCity.trim();
+  //   if (city && !this.relevantLocationFiltersList.some(item => item.nameEn === city || item.nameUk === city)) {
+  //     // this.relevantLocationFiltersList.push(city);
+  //     this.sendCityToServer(city);
+  //   }
+  //
+  //   this.newCity = '';
+  //   this.showAddCityInput = false;
+  // }
+  // locationForm;
+
+  onCitySelected(prediction: GooglePrediction | null) {
+    if (!prediction) {
+      return;
+    }
+
+    const cityName = prediction.structured_formatting.main_text;
+    const lang = this.languageService.getCurrentLanguage();
+
+    const city: FilterItem = {
+      type: 'location',
+      nameUk: lang === 'uk' ? cityName : '',
+      nameEn: lang === 'en' ? cityName : ''
+    };
+
+    if (prediction.place_id) {
+      new google.maps.Geocoder()
+        .geocode({
+          placeId: prediction.place_id,
+          language: lang === 'uk' ? 'en' : 'uk'
+        })
+        .then((response) => {
+          const translatedName = response.results[0]?.address_components?.[0]?.long_name || cityName;
+          if (lang === 'uk') {
+            city.nameEn = translatedName;
+          } else {
+            city.nameUk = translatedName;
+          }
+
+          this.relevantLocationFiltersList.push(city);
+          this.sendCityToServer(city);
+          this.showAddCityInput = false; // <-- сховати інпут
+        });
+    } else {
+      this.relevantLocationFiltersList.push(city);
+      this.sendCityToServer(city);
+      this.showAddCityInput = false; // <-- сховати інпут
+    }
+  }
+
+  sendCityToServer(city: FilterItem) {}
 
   private refreshEventInList(updatedEvent: EventListResponse): void {
     const index = this.eventsList.findIndex((e) => e.id === updatedEvent.id);
