@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Addresses, EventListResponse, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { Observable, ReplaySubject, Subscription, take } from 'rxjs';
@@ -10,7 +10,7 @@ import { statusFiltersData, timeStatusFiltersData, typeFiltersData } from '../..
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
@@ -40,7 +40,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   relevantLocationFiltersList: FilterItem[] = [];
   showAddCityInput = false;
-  newCity = '';
+  selectedCities: FilterItem[] = [];
+  cityForm: FormGroup;
 
   eventsList: EventListResponse[] = [];
   isLoggedIn: boolean;
@@ -72,6 +73,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
   private searchQuery: string;
   private readonly dialogRef: MatDialogRef<unknown>;
 
+  @ViewChild('cityModal') cityModal: TemplateRef<any>;
+
   constructor(
     private readonly store: Store,
     private readonly userOwnAuthService: UserOwnAuthService,
@@ -81,7 +84,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private readonly eventStoreService: EventStoreService,
     private readonly dialog: MatDialog,
     private readonly route: ActivatedRoute,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -110,12 +114,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.locationFiltersList = this.getUniqueLocations(addresses);
     });
 
-    this.eventService.getRelevantAddresses().subscribe((data: Addresses[]) => {
-      console.log(data);
-      this.relevantLocationFiltersList = this.getUniqueLocations(data);
-
-      console.log('result list', this.relevantLocationFiltersList);
-    });
+    this.initializeLocationData();
 
     this.searchEventControl.valueChanges.subscribe((value) => {
       if (this.searchResultSubscription) {
@@ -127,19 +126,35 @@ export class EventsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  // addCity() {
-  //   const city = this.newCity.trim();
-  //   if (city && !this.relevantLocationFiltersList.some(item => item.nameEn === city || item.nameUk === city)) {
-  //     // this.relevantLocationFiltersList.push(city);
-  //     this.sendCityToServer(city);
-  //   }
-  //
-  //   this.newCity = '';
-  //   this.showAddCityInput = false;
-  // }
-  // locationForm;
+  private initializeLocationData(): void {
+    this.eventService.getRelevantAddresses().subscribe((data: Addresses[]) => {
+      this.relevantLocationFiltersList = this.getUniqueLocations(data);
+    });
+    this.cityForm = this.fb.group({
+      city: ['', Validators.required]
+    });
+    const saved = localStorage.getItem('selectedCities');
+    this.selectedCities = saved ? JSON.parse(saved) : [];
 
-  onCitySelected(prediction: GooglePrediction | null) {
+    this.relevantLocationFiltersList = [
+      ...this.relevantLocationFiltersList,
+      ...this.selectedCities.filter(
+        (city) => !this.relevantLocationFiltersList.some((c) => c.nameEn === city.nameEn || c.nameUk === city.nameUk)
+      )
+    ];
+  }
+
+  openCityModal(): void {
+    this.dialog.open(this.cityModal, {
+      panelClass: 'custom-city-modal'
+    });
+  }
+
+  get currentLanguage(): string {
+    return this.languageService.getCurrentLanguage();
+  }
+
+  onCitySelected(prediction: GooglePrediction | null): void {
     if (!prediction) {
       return;
     }
@@ -149,36 +164,56 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
     const city: FilterItem = {
       type: 'location',
-      nameUk: lang === 'uk' ? cityName : '',
+      nameUk: lang === 'ua' ? cityName : '',
       nameEn: lang === 'en' ? cityName : ''
     };
+
+    this.selectedCities.push(city);
+    this.cityForm.get('city')?.setValue('');
 
     if (prediction.place_id) {
       new google.maps.Geocoder()
         .geocode({
           placeId: prediction.place_id,
-          language: lang === 'uk' ? 'en' : 'uk'
+          language: lang === 'ua' ? 'en' : 'uk'
         })
         .then((response) => {
-          const translatedName = response.results[0]?.address_components?.[0]?.long_name || cityName;
-          if (lang === 'uk') {
-            city.nameEn = translatedName;
-          } else {
-            city.nameUk = translatedName;
+          const translatedName =
+            response.results[0]?.address_components?.find((component) => component.types.includes('locality'))?.long_name || cityName;
+
+          const cityIndex = this.selectedCities.findIndex((c) => c.nameUk === city.nameUk && c.nameEn === city.nameEn);
+          if (cityIndex !== -1) {
+            if (lang === 'ua') {
+              this.selectedCities[cityIndex].nameEn = translatedName;
+            } else {
+              this.selectedCities[cityIndex].nameUk = translatedName;
+            }
           }
 
-          this.relevantLocationFiltersList.push(city);
-          this.sendCityToServer(city);
-          this.showAddCityInput = false; // <-- сховати інпут
+          localStorage.setItem('selectedCities', JSON.stringify(this.selectedCities));
+        })
+        .catch((error) => {
+          console.error('Geocoder error:', error);
         });
-    } else {
-      this.relevantLocationFiltersList.push(city);
-      this.sendCityToServer(city);
-      this.showAddCityInput = false; // <-- сховати інпут
     }
   }
 
-  sendCityToServer(city: FilterItem) {}
+  removeCity(index: number): void {
+    this.selectedCities.splice(index, 1);
+  }
+
+  saveCities(): void {
+    localStorage.setItem('selectedCities', JSON.stringify(this.selectedCities));
+    this.cityForm.reset();
+    this.dialog.closeAll();
+    this.showAddCityInput = false;
+
+    this.relevantLocationFiltersList = [...this.selectedCities];
+  }
+
+  closeCityModal() {
+    this.dialog.closeAll();
+  }
 
   private refreshEventInList(updatedEvent: EventListResponse): void {
     const index = this.eventsList.findIndex((e) => e.id === updatedEvent.id);
@@ -270,7 +305,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   getUniqueLocations(addresses: Array<Addresses>): FilterItem[] {
-    console.log('addresses in another function', addresses);
     const uniqueLocationsName = new Set<string>();
     const uniqueLocations: FilterItem[] = [{ type: 'location', nameEn: 'Online', nameUk: 'Онлайн' }];
     addresses.forEach((address: Addresses) => {
@@ -282,8 +316,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
         }
       }
     });
-    console.log('uniqueLocations', uniqueLocations);
-
     return uniqueLocations;
   }
 

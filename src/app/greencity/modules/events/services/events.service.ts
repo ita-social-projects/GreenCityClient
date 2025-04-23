@@ -94,13 +94,6 @@ export class EventsService implements OnDestroy {
     return this.http.get<Addresses[]>(`${this.backEnd}events/addresses/get-relevant`);
   }
 
-  postRelevantAddresses(page: number, quantity: number, userId: number, city: FilterItem): Observable<void> {
-    const url = `${this.backEnd}events?page=${page}&size=${quantity}&user-id=${userId}&type=${city.type}`;
-    const body = [city]; // або масив міст
-
-    return this.http.post<void>(url, body);
-  }
-
   getImageAsFile(img: string): Observable<Blob> {
     return this.http.get(img, { responseType: 'blob' });
   }

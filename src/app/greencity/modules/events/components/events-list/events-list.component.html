@@ -45,7 +45,6 @@
           </mat-select>
         </div>
 
-        <!--        &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
         <div class="dropdown" (click)="locationFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
           <mat-select #locationFilter [formControl]="locationFilterControl" [multiple]="true">
@@ -63,33 +62,48 @@
             >
               <span [appLangValue]="{ ua: locationFilter.nameUk, en: locationFilter.nameEn }"></span>
             </mat-option>
-
             <mat-divider></mat-divider>
-
-            <!-- Кнопка Додати місце -->
-            <!--            <mat-option disabled class="add-location-option" (click)="openAddLocationDialog()">-->
-
-            <!-- Кнопка "Додати місце" -->
-            <!-- Кнопка "Додати місце" -->
-            <!-- Кнопка "Додати місце" -->
-            <mat-option (click)="showAddCityInput = true" *ngIf="!showAddCityInput" class="add-location-option">
+            <div (click)="openCityModal()" class="add-location-option" *ngIf="!showAddCityInput">
               <div class="add-location-content">
-                <span>Додати місце</span>
-                <span class="plus">+</span>
+                <span>{{ 'add-cities-modal.dropdown' | translate }}</span>
               </div>
-            </mat-option>
-
-            <!-- Інпут для введення нового міста -->
-            <app-input-google-autocomplete
-              *ngIf="showAddCityInput"
-              formControlName="city"
-              [isInitAutoTranslate]="true"
-              (predictionSelected)="onCitySelected($event)"
-              ngDefaultControl
-            ></app-input-google-autocomplete>
+            </div>
           </mat-select>
         </div>
-        <!--        -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+        <ng-template #cityModal>
+          <div class="city-modal">
+            <button mat-icon-button class="close-btn" (click)="closeCityModal()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div class="city-modal-header">
+              <h2>{{ 'add-cities-modal.dropdown' | translate }}</h2>
+            </div>
+
+            <form [formGroup]="cityForm">
+              <div class="city-input-row">
+                <app-input-google-autocomplete
+                  formControlName="city"
+                  [isInitAutoTranslate]="true"
+                  (predictionSelected)="onCitySelected($event)"
+                  ngDefaultControl
+                  class="autocomplete-input"
+                ></app-input-google-autocomplete>
+              </div>
+            </form>
+
+            <div class="city-list">
+              <div class="city-tag" *ngFor="let city of selectedCities; let i = index">
+                {{ currentLanguage === 'ua' ? city.nameUk : city.nameEn }}
+                <button mat-icon-button (click)="removeCity(i)" class="remove-btn"><mat-icon>close</mat-icon></button>
+              </div>
+            </div>
+
+            <button mat-raised-button color="accent" (click)="saveCities()" class="save-cities-button">
+              {{ 'add-cities-modal.add-button' | translate }}
+            </button>
+          </div>
+        </ng-template>
 
         <div class="dropdown" (click)="statusFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
@@ -106,6 +120,7 @@
             </mat-option>
           </mat-select>
         </div>
+
         <div class="dropdown" (click)="typeFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-type' | translate }}</mat-label>
           <mat-select #typeFilter [formControl]="typeFilterControl" [multiple]="true">
