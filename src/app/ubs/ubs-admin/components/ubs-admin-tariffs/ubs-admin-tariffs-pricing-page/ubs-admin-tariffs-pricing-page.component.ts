@@ -350,6 +350,16 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  transformBag(bag: any): Bag {
+    return {
+      ...bag,
+      name: bag.nameUk || bag.name,
+      nameEng: bag.nameEn || bag.nameEng,
+      description: bag.descriptionUk || bag.description,
+      descriptionEng: bag.descriptionEn || bag.descriptionEng
+    };
+  }
+
   getAllTariffsForService(): void {
     const tariffId = this.selectedCardId;
     this.isLoadBar = true;
@@ -357,7 +367,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .getAllTariffsForService(tariffId)
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Bag[]) => {
-        this.bags = res;
+        this.bags = res.map((bag) => this.transformBag(bag));
         this.filterBags();
         this.isLoadBar = false;
       });
