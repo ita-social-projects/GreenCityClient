@@ -537,10 +537,35 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should get all tariffs for service', () => {
+    const fakeResponse = [
+      {
+        id: 1,
+        limitIncluded: false,
+        capacity: 20,
+        price: 100,
+        commission: 10,
+        nameUk: 'Назва',
+        nameEn: 'Name',
+        descriptionUk: 'Опис',
+        descriptionEn: 'Description'
+      }
+    ];
+
+    const fakeTransformedBag = {
+      ...fakeResponse[0],
+      name: fakeResponse[0].nameUk,
+      nameEng: fakeResponse[0].nameEn,
+      description: fakeResponse[0].descriptionUk,
+      descriptionEng: fakeResponse[0].descriptionEn
+    };
+
+    spyOn(tariffsServiceMock, 'getAllTariffsForService').and.returnValue(of(fakeResponse));
+
     component.bags = [];
     component.getAllTariffsForService();
+
     expect(component.isLoadBar).toEqual(false);
-    expect(component.bags).toEqual([fakeBag]);
+    expect(component.bags).toEqual([fakeTransformedBag]);
   });
 
   it('should get all services', () => {
@@ -556,12 +581,22 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(component.couriers).toEqual([fakeCouriers]);
   });
 
-  it('onCheck should set limitIncluded to true of checked is true', () => {
+  it('onChecked should set limitIncluded to true if checked is true', () => {
+    const fakeBag = {
+      id: 1,
+      limitIncluded: false,
+      capacity: 20,
+      price: 100,
+      commission: 10
+    };
+    component.bags = [fakeBag];
+
     const fakeEvent = {
       checked: true
     };
+
     component.onChecked(fakeBag.id, fakeEvent);
-    expect(fakeBag.limitIncluded).toEqual(true);
+    expect(component.bags[0].limitIncluded).toEqual(true);
   });
 
   it('onCheck should set limitIncluded to false of checked is false', () => {
