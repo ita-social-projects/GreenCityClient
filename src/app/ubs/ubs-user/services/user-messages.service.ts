@@ -16,7 +16,7 @@ export class UserMessagesService implements OnDestroy {
   constructor(private readonly http: HttpClient) {}
 
   getNotification(currentPage: number, size: number, language: string): Observable<Notifications> {
-    return this.http.get<Notifications>(`${this.url}/notifications?lang=${language}&page=${currentPage}&size=${size}`);
+    return this.http.get<Notifications>(`${this.url}/notifications/images?lang=${language}&page=${currentPage}&size=${size}`);
   }
 
   getCountUnreadNotification(): Observable<number> {
