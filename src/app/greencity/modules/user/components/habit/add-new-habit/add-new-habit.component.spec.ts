@@ -8,7 +8,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { ToDoListService } from './habit-edit-to-do-list/to-do-list.service';
 import { HabitService } from '@shared/service/habit/habit.service';
 import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -74,8 +74,8 @@ describe('AddNewHabitComponent', () => {
     localStorage.setItem(key, `${permission}`);
   };
   fakeLocalStorageService.getUserId = () => 2;
-  fakeLocalStorageService.languageSubject = new Subject<string>();
-  fakeLocalStorageService.languageSubject.next('ua');
+  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject<string>('ua');
+  fakeLocalStorageService.languageBehaviourSubject.next('ua');
 
   const matSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
@@ -129,7 +129,7 @@ describe('AddNewHabitComponent', () => {
     fixture = TestBed.createComponent(AddNewHabitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.habitResponse = { habitTranslation: { nameEn: 'fake-name' } as HabitTranslationInterface } as HabitInterface;
+    component.habitResponse = { habitTranslation: { name: 'fake-name' } as HabitTranslationInterface } as HabitInterface;
   });
 
   afterEach(() => {
