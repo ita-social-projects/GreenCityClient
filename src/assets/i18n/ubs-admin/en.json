@@ -472,6 +472,7 @@
     "btn": {
       "cancel": "Cancel",
       "pay": "Pay",
+      "pdf": "Export as PDF",
       "order-again": "Order again",
       "new-order": "New order"
     },
