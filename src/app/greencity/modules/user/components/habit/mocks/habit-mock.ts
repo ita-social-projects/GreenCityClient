@@ -97,13 +97,10 @@ export const MOCK_CUSTOM_HABIT: CustomHabit = {
 export const MOCK_CUSTOM_HABIT_RESPONSE: CustomHabitDtoRequest = {
   habitTranslations: [
     {
-      nameEn: MOCK_CUSTOM_HABIT.title,
-      descriptionEn: MOCK_CUSTOM_HABIT.description,
-      habitItemEn: 'testHabitItem',
-      languageCode: 'en',
-      nameUk: MOCK_CUSTOM_HABIT.title,
-      descriptionUk: MOCK_CUSTOM_HABIT.description,
-      habitItemUk: 'testHabitItem'
+      name: MOCK_CUSTOM_HABIT.title,
+      description: MOCK_CUSTOM_HABIT.description,
+      habitItem: 'testHabitItem',
+      languageCode: 'en'
     }
   ],
   complexity: MOCK_CUSTOM_HABIT.complexity,
