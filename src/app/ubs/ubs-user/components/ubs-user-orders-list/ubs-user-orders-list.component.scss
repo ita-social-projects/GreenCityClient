@@ -193,6 +193,10 @@ button {
     button {
       max-width: 114px;
     }
+
+    .export-btn {
+      margin: 10px 0 0 12px;
+    }
   }
 }
 
@@ -286,6 +290,25 @@ button {
         max-width: none;
         width: 100%;
       }
+    }
+    
+    .export-btn {
+      margin-top: 20px;
+    }
+  }
+}
+
+@media (max-width: 533px) {
+  .btns-group {
+    flex-wrap: wrap;
+    width: 100%;
+
+    .btn-box {
+      width: 100%;
+    }
+
+    .export-btn {
+      margin-top: 0;
     }
   }
 }
