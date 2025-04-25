@@ -15,13 +15,10 @@ export const DEFAULTHABIT: HabitInterface = {
   amountAcquiredUsers: 10,
   habitAssignStatus: 'INPROGRESS',
   habitTranslation: {
-    descriptionEn: 'Default habit description',
-    habitItemEn: '',
+    description: 'Default habit description',
+    habitItem: '',
     languageCode: 'en',
-    nameEn: 'Default habit',
-    nameUk: '',
-    descriptionUk: '',
-    habitItemUk: ''
+    name: 'Default habit'
   },
   id: 1,
   usersIdWhoCreatedCustomHabit: 33,
@@ -38,13 +35,10 @@ export const CUSTOMHABIT: HabitInterface = {
   amountAcquiredUsers: 3,
   habitAssignStatus: 'INPROGRESS',
   habitTranslation: {
-    descriptionEn: 'Custom habit description',
-    habitItemEn: 'test',
+    description: 'Custom habit description',
+    habitItem: 'test',
     languageCode: 'en',
-    nameEn: 'Custom habit',
-    nameUk: '',
-    descriptionUk: '',
-    habitItemUk: 'test'
+    name: 'Custom habit'
   },
   id: 2,
   usersIdWhoCreatedCustomHabit: 50,

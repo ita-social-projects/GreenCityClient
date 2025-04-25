@@ -21,14 +21,10 @@
           </div>
         </div>
       </div>
-      <div
-        class="habit-title"
-        [appLangValue]="{ ua: habitResponse.habitTranslation.nameUk, en: habitResponse.habitTranslation.nameEn }"
-      ></div>
-      <div
-        class="description"
-        [appLangValue]="{ ua: habitResponse.habitTranslation.descriptionUk, en: habitResponse.habitTranslation.descriptionEn }"
-      ></div>
+      <div class="habit-title">{{ habitResponse.habitTranslation.name }}</div>
+      <div class="description">
+        {{ habitResponse.habitTranslation.description }}
+      </div>
     </div>
     <div class="habit-img">
       <img class="img" [src]="habitImage" (error)="habitImage = defaultImage" alt="habit picture" />

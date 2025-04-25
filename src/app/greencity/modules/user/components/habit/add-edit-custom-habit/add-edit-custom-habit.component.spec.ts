@@ -17,7 +17,6 @@ import { HabitEditToDoListComponent } from 'src/app/greencity/modules/user/compo
 import { HabitInviteFriendsComponent } from 'src/app/greencity/modules/user/components/habit/add-new-habit/habit-invite-friends/habit-invite-friends.component';
 import { HabitProgressComponent } from 'src/app/greencity/modules/user/components/habit/add-new-habit/habit-progress/habit-progress.component';
 import { CalendarWeekComponent } from 'src/app/greencity/modules/user/components/profile/calendar/calendar-week/calendar-week.component';
-import { ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.interface';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -29,7 +28,6 @@ import { EditorChangeContent, QuillModule } from 'ngx-quill';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { Language } from 'src/app/shared/i18n/Language';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
-import { TodoStatus } from '../models/todo-status.enum';
 import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';
 import { CalendarComponent } from 'src/app/greencity/modules/user/components';
 
@@ -191,6 +189,6 @@ describe('AddEditCustomHabitComponent', () => {
 
   it('should navigate to all habits after habit has been deleted', () => {
     component.handleHabitDelete();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/profile/2/allhabits']);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/greenCity/profile/2/allhabits']);
   });
 });

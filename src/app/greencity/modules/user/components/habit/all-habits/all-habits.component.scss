@@ -110,6 +110,7 @@ h1 {
   grid-template-columns: 290px;
   grid-gap: 30px;
   justify-content: center;
+  margin-bottom: 16px;
 
   @media (min-width: 576px) {
     grid-template-columns: repeat(2, 50%);
