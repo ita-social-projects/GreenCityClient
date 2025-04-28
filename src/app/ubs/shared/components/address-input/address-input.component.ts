@@ -69,6 +69,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   };
 
   private readonly buildingPattern = Patterns.ubsHouseNumberPattern;
+  private readonly numericPattern = Patterns.numeric;
   private readonly $destroy: Subject<void> = new Subject();
   private viewInitialized = false;
 
@@ -275,7 +276,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       houseCorpus: [this.address?.houseCorpus ?? '', emptyOrValid([Validators.maxLength(4), Validators.pattern(this.buildingPattern)])],
       entranceNumber: [
         this.address?.entranceNumber ?? '',
-        emptyOrValid([Validators.maxLength(2), Validators.pattern(this.buildingPattern)])
+        emptyOrValid([Validators.maxLength(3), Validators.pattern(this.numericPattern)])
       ],
       placeId: [this.address?.placeId ?? ''],
       addressComment: [this.address?.addressComment ?? '', Validators.maxLength(255)]
