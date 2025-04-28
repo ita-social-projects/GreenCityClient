@@ -10,7 +10,7 @@
     "entrance-wrong": "Only numbers are allowed",
     "letters-and-numeric-only": "Only letters and numbers are allowed",
     "max-length-street": "The field should contain 1-120 characters",
-    "max-length-house": "The field should contain 1-4 characters",
+    "max-length-house": "The field should contain 1-10 characters",
     "max-length-house-corpus": "The field should contain 1-4 characters",
     "max-length-entrance": "The field should contain 1-3 characters",
     "max-length-comment": "Maximum 255 characters are allowed",
