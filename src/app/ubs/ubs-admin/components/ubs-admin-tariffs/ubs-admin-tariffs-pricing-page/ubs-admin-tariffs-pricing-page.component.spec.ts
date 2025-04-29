@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -118,12 +118,16 @@ describe('UbsAdminPricingPageComponent', () => {
     descriptionEng: 'fake1'
   };
 
-  const fakeBag: Bag = {
-    capacity: 111,
-    price: 478,
-    commission: 15,
+  const fakeBag = {
+    id: 1,
     limitIncluded: false,
-    id: 1
+    capacity: 20,
+    price: 100,
+    commission: 10,
+    name: 'Назва',
+    nameEng: 'Name',
+    description: 'Опис',
+    descriptionEng: 'Description'
   };
   const fakeDescription = {
     limitDescription: 'fake'
@@ -536,7 +540,8 @@ describe('UbsAdminPricingPageComponent', () => {
     });
   });
 
-  it('should get all tariffs for service', () => {
+  it('should get all tariffs for service', fakeAsync(() => {
+    component.bags = [];
     const fakeResponse = [
       {
         id: 1,
@@ -544,29 +549,21 @@ describe('UbsAdminPricingPageComponent', () => {
         capacity: 20,
         price: 100,
         commission: 10,
-        nameUk: 'Назва',
-        nameEn: 'Name',
-        descriptionUk: 'Опис',
-        descriptionEn: 'Description'
+        name: 'Назва',
+        nameEng: 'Name',
+        description: 'Опис',
+        descriptionEng: 'Description'
       }
     ];
+    component.selectedCardId = 1; // Встановлюємо selectedCardId
+    tariffsServiceMock.getAllTariffsForService.and.returnValue(of(fakeResponse));
 
-    const fakeTransformedBag = {
-      ...fakeResponse[0],
-      name: fakeResponse[0].nameUk,
-      nameEng: fakeResponse[0].nameEn,
-      description: fakeResponse[0].descriptionUk,
-      descriptionEng: fakeResponse[0].descriptionEn
-    };
-
-    spyOn(tariffsServiceMock, 'getAllTariffsForService').and.returnValue(of(fakeResponse));
-
-    component.bags = [];
     component.getAllTariffsForService();
+    tick(); // Чекаємо завершення subscribe
 
     expect(component.isLoadBar).toEqual(false);
-    expect(component.bags).toEqual([fakeTransformedBag]);
-  });
+    expect(component.bags).toEqual([fakeBag]);
+  }));
 
   it('should get all services', () => {
     component.getService();
@@ -581,8 +578,8 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(component.couriers).toEqual([fakeCouriers]);
   });
 
-  it('onChecked should set limitIncluded to true if checked is true', () => {
-    const fakeBag = {
+  it('onCheck should set limitIncluded to true if checked is true', () => {
+    const fakeBag: Bag = {
       id: 1,
       limitIncluded: false,
       capacity: 20,
@@ -594,7 +591,6 @@ describe('UbsAdminPricingPageComponent', () => {
     const fakeEvent = {
       checked: true
     };
-
     component.onChecked(fakeBag.id, fakeEvent);
     expect(component.bags[0].limitIncluded).toEqual(true);
   });

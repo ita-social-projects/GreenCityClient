@@ -240,9 +240,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.areAllCheckBoxEmpty = !filteredCheckBoxes.length;
   }
 
-  onChecked(id, event): void {
+  onChecked(id: number, event: any): void {
     this.limitsForm.markAsDirty();
+
     const currentBag = this.bags.find((bag) => bag.id === id);
+    if (!currentBag) {
+      return;
+    }
+
     currentBag.limitIncluded = event.checked;
     this.unClickSaveBTN(event);
     this.limitsForm.markAsDirty();
