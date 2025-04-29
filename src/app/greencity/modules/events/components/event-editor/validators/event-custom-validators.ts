@@ -31,3 +31,15 @@ export const locationOrOnlineLinkValidator: ValidatorFn = (control: AbstractCont
 
   return null;
 };
+
+export function dateFormatValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+
+    if (!value || value.isValid?.() === false) {
+      return { dateIncorrect: true };
+    }
+
+    return null;
+  };
+}

@@ -7,13 +7,14 @@ import 'moment/locale/uk';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { MomentDateAdapter } from 'src/app/shared/services/moment-date-adapter';
 import { Subject, takeUntil } from 'rxjs';
+import { dateFormatValidator } from '../../../validators/event-custom-validators';
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'MMM DD, YYYY'
+    dateInput: ['DD MMM, YYYY', 'DD.MM.YYYY', 'MMM DD, YYYY', 'MM/DD/YYYY']
   },
   display: {
-    dateInput: 'MMM DD, YYYY',
+    dateInput: 'LL',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY'
@@ -129,6 +130,9 @@ export class DateTimeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Subscribe to date value changes
     this.day.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((newDate) => {
+      if (!newDate) {
+        return;
+      }
       const newStartDate = new Date(newDate.toDate());
       newStartDate.setHours(this.startDate.value.getHours(), this.startDate.value.getMinutes(), 0, 0);
 
@@ -146,6 +150,8 @@ export class DateTimeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.startTimeMask = IMask(this.startTimeRef.nativeElement, this.timeMask);
     this.endTimeMask = IMask(this.endTimeRef.nativeElement, this.timeMask);
+    this.day.addValidators(dateFormatValidator());
+    this.day.updateValueAndValidity();
   }
 
   getDateErrors(date: moment.Moment | null) {
