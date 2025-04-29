@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { IMask } from 'angular-imask';
@@ -71,7 +71,8 @@ export class DateTimeComponent implements OnInit, AfterViewInit, OnDestroy {
   mask = IMask.InputMask<any>;
   constructor(
     private ls: LanguageService,
-    private adapter: DateAdapter<any>
+    private adapter: DateAdapter<any>,
+    private cdr: ChangeDetectorRef
   ) {}
 
   get startDate() {
@@ -152,6 +153,7 @@ export class DateTimeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.endTimeMask = IMask(this.endTimeRef.nativeElement, this.timeMask);
     this.day.addValidators(dateFormatValidator());
     this.day.updateValueAndValidity();
+    this.cdr.detectChanges();
   }
 
   getDateErrors(date: moment.Moment | null) {
