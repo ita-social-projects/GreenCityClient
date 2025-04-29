@@ -555,11 +555,11 @@ describe('UbsAdminPricingPageComponent', () => {
         descriptionEng: 'Description'
       }
     ];
-    component.selectedCardId = 1; // Встановлюємо selectedCardId
+    component.selectedCardId = 1;
     tariffsServiceMock.getAllTariffsForService.and.returnValue(of(fakeResponse));
 
     component.getAllTariffsForService();
-    tick(); // Чекаємо завершення subscribe
+    tick();
 
     expect(component.isLoadBar).toEqual(false);
     expect(component.bags).toEqual([fakeBag]);
