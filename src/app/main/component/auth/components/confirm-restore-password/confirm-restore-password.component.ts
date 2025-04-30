@@ -6,8 +6,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AbstractControl, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { ChangePasswordService } from 'src/app/shared/services/auth/change-password.service';
 import { ConfirmPasswordValidator, ValidatorRegExp } from '../sign-up/sign-up.validator';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { take } from 'rxjs/operators';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-confirm-restore-password',
@@ -40,11 +40,11 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   }
 
   constructor(
-    private router: Router,
-    private changePasswordService: ChangePasswordService,
-    private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute,
-    private snackBar: MatSnackBarComponent
+    private readonly router: Router,
+    private readonly changePasswordService: ChangePasswordService,
+    private readonly formBuilder: FormBuilder,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   ngOnInit() {

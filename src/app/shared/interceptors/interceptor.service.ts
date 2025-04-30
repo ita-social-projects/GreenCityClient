@@ -6,11 +6,11 @@ import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { updateAccessTokenLink } from '../../main/links';
 import { LocalStorageService } from '../services/localstorage/local-storage.service';
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../main/http-response-status';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 interface NewTokenPair {
   accessToken: string;
@@ -33,7 +33,7 @@ export class InterceptorService implements HttpInterceptor {
 
   constructor(
     private http: HttpClient,
-    private snackBar: MatSnackBarComponent,
+    private snackBar: MatSnackBarService,
     private localStorageService: LocalStorageService,
     private router: Router,
     private userOwnAuthService: UserOwnAuthService,

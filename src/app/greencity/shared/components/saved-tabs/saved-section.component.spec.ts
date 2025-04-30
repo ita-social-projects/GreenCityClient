@@ -66,7 +66,7 @@ describe('SavedSectionComponent', () => {
 
       component.navigateToSaved('places');
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/places'], {
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/greenCity/places'], {
         queryParams: { isBookmark: true, section: 'places' }
       });
       expect(component.currentTab).toBe('places');

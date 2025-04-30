@@ -126,7 +126,7 @@
       <div *ngIf="!isTarriffLoading; else spinner" class="box-card">
         <div id="price-frame" *ngFor="let elemPrice of bags">
           <div class="content-price">
-            <div>{{ getElementDescription(elemPrice.name, elemPrice.nameEng, elemPrice.capacity) }}</div>
+            <div>{{ getElementDescription(elemPrice.nameUk, elemPrice.nameEn, elemPrice.capacity) }}</div>
           </div>
           <div class="header-price">
             <div class="price" [appLangValue]="{ ua: elemPrice.price.toString() + ' грн', en: elemPrice.price.toString() + ' UAH' }"></div>

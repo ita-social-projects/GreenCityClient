@@ -8,8 +8,8 @@ export class Place {
 
 export interface FilterPlaceCategories {
   id: number;
-  name: string;
-  nameUa: string;
+  nameEn: string;
+  nameUk: string;
 }
 
 export interface AllAboutPlace {
@@ -19,8 +19,8 @@ export interface AllAboutPlace {
     name: string;
   };
   category: {
-    name: string;
-    nameUa: string;
+    nameEn: string;
+    nameUk: string;
     parentCategoryId: number;
   };
   id: number;

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from '@environment/environment';
-import { Observable, ReplaySubject } from 'rxjs';
+import { map, Observable, ReplaySubject, throwError } from 'rxjs';
 import {
   Addresses,
   EventAttender,
@@ -10,9 +10,12 @@ import {
   EventResponseDto,
   LocationResponse,
   EventDto,
-  PlaceOnline
+  PlaceOnline,
+  FilterItem
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
+import { LikeResponse } from './LikeResponse';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -31,10 +34,7 @@ export class EventsService implements OnDestroy {
   ) {}
 
   setEvent(event: EventForm): void {
-    if (!event) {
-      this.event = null;
-    }
-    this.event = { ...this.event, ...event };
+    this.event = event ? { ...this.event, ...event } : null;
   }
 
   getEvent(): EventDto {
@@ -77,6 +77,7 @@ export class EventsService implements OnDestroy {
     });
     return formData;
   }
+
   setIsFromCreateEvent(value: boolean): void {
     this.isFromCreateEvent = value;
   }
@@ -89,16 +90,21 @@ export class EventsService implements OnDestroy {
     return this.http.get<Addresses[]>(`${this.backEnd}events/addresses`);
   }
 
+  getRelevantAddresses(): Observable<Addresses[]> {
+    return this.http.get<Addresses[]>(`${this.backEnd}events/addresses/get-relevant`);
+  }
+
   getImageAsFile(img: string): Observable<Blob> {
     return this.http.get(img, { responseType: 'blob' });
   }
 
   createEvent(formData: FormData): Observable<EventDto> {
-    this.event = null;
+    this.setEvent(null);
     return this.http.post<EventDto>(`${this.backEnd}events/createV2`, formData);
   }
 
   editEvent(formData: FormData, eventId: number): Observable<EventDto> {
+    this.setEvent(null);
     return this.http.put<EventDto>(`${this.backEnd}events/updateV2/${eventId}`, formData);
   }
 
@@ -152,20 +158,33 @@ export class EventsService implements OnDestroy {
 
   getFormattedAddress(coordinates: PlaceOnline): string {
     return this.langService.getLangValue(
-      coordinates?.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUa,
+      coordinates?.streetUk ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUk,
       coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
     );
   }
 
   getFormattedAddressEventsList(coordinates: LocationResponse): string {
     return this.langService.getLangValue(
-      coordinates.streetUa
+      coordinates.streetUk
         ? this.createEventsListAddresses(coordinates, 'Ua')
-        : coordinates.formattedAddressUa?.split(', ').slice(0, 2).reverse().join(', ') || '',
+        : coordinates.formattedAddressUk?.split(', ').slice(0, 2).reverse().join(', ') || '',
       coordinates.streetEn
         ? this.createEventsListAddresses(coordinates, 'En')
         : coordinates.formattedAddressEn?.split(', ').slice(0, 2).reverse().join(', ') || ''
     );
+  }
+
+  likeEvent(eventId: number): Observable<LikeResponse> {
+    return this.http.post<LikeResponse>(`${this.backEnd}events/${eventId}/like-v2`, {}).pipe(
+      catchError((error) => {
+        console.error('Error liking event:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  dislikeEvent(eventId: number): Observable<any> {
+    return this.http.post<any>(`${this.backEnd}events/${eventId}/dislike-v2`, {}).pipe(catchError((error) => throwError(() => error)));
   }
 
   createAddresses(location: PlaceOnline | null, lang: string): string {

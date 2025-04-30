@@ -12,9 +12,9 @@ import { GoogleSignInService } from 'src/app/shared/services/auth/google-sign-in
 import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign-in.service';
 import { RestorePasswordService } from '@auth-service/restore-password/restore-password.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 declare let google: any;
 
@@ -46,14 +46,14 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   constructor(
-    private matDialogRef: MatDialogRef<RestorePasswordComponent>,
-    public dialog: MatDialog,
-    private googleService: GoogleSignInService,
-    private userOwnSignInService: UserOwnSignInService,
-    private router: Router,
-    private restorePasswordService: RestorePasswordService,
-    private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent
+    private readonly matDialogRef: MatDialogRef<RestorePasswordComponent>,
+    public readonly dialog: MatDialog,
+    private readonly googleService: GoogleSignInService,
+    private readonly userOwnSignInService: UserOwnSignInService,
+    private readonly router: Router,
+    private readonly restorePasswordService: RestorePasswordService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   ngOnInit() {

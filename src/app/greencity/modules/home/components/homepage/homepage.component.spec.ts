@@ -13,7 +13,6 @@ import { EcoEventsItemComponent } from '../eco-events/eco-events-item/eco-events
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of } from 'rxjs';
 import { VerifyEmailService } from 'src/app/shared/services/auth/verify-email/verify-email.service';
@@ -23,6 +22,7 @@ import { AuthModule } from 'src/app/main/component/auth/auth.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { APP_BASE_HREF } from '@angular/common';
 import { EcoNewsModule } from '../../../eco-news/eco-news.module';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 class MatDialogMock {
   open() {
@@ -35,7 +35,7 @@ class MatDialogMock {
 describe('HomepageComponent', () => {
   let component: HomepageComponent;
   let fixture: ComponentFixture<HomepageComponent>;
-  const snackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   snackBarMock.openSnackBar = () => true;
 
   const verifyEmailServiceMock: VerifyEmailService = jasmine.createSpyObj('VerifyEmailService', ['onCheckToken']);
@@ -81,7 +81,7 @@ describe('HomepageComponent', () => {
         EcoEventsItemComponent
       ],
       providers: [
-        { provide: MatSnackBarComponent, useValue: snackBarMock },
+        { provide: MatSnackBarService, useValue: snackBarMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: VerifyEmailService, useValue: verifyEmailServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },

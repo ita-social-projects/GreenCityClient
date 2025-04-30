@@ -31,12 +31,12 @@ import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/di
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { userAssignedCardsIcons } from 'src/app/greencity/image-paths/profile-icons';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { habitImages } from 'src/app/greencity/image-paths/habits-images';
 import { EventStoreService } from 'src/app/greencity/modules/events/services/event-store.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-events-list-item',
@@ -48,7 +48,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() userId: number;
   @Input() isUserAssignList: boolean;
   @Input() isGalleryView: boolean;
-
+  @Output() likeStatusChange = new EventEmitter<EventListResponse>();
+  @Output() dislikeStatusChange = new EventEmitter<EventListResponse>();
   profileIcons = userAssignedCardsIcons;
 
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
@@ -110,18 +111,18 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   defaultImage = habitImages.defaultImage;
 
   constructor(
-    public router: Router,
-    private localStorageService: LocalStorageService,
-    private userOwnAuthService: UserOwnAuthService,
-    private modalService: BsModalService,
-    private dialog: MatDialog,
-    private store: Store,
-    private eventService: EventsService,
-    private eventStoreService: EventStoreService,
-    private translate: TranslateService,
-    private snackBar: MatSnackBarComponent,
-    private jwtService: JwtService,
-    private actionsSubj: ActionsSubject
+    public readonly router: Router,
+    private readonly localStorageService: LocalStorageService,
+    private readonly userOwnAuthService: UserOwnAuthService,
+    private readonly modalService: BsModalService,
+    private readonly dialog: MatDialog,
+    private readonly store: Store,
+    private readonly eventService: EventsService,
+    private readonly eventStoreService: EventStoreService,
+    private readonly translate: TranslateService,
+    private readonly snackBar: MatSnackBarService,
+    private readonly jwtService: JwtService,
+    private readonly actionsSubj: ActionsSubject
   ) {
     this.actionsSubj
       .pipe(ofType(EventsActions.AddAttenderEcoEventsByIdSuccess), takeUntil(this.destroyed$))
@@ -239,7 +240,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       case this.btnName.edit:
         this.localStorageService.setEditMode('canUserEdit', true);
         this.eventStoreService.setEventListResponse(this.event);
-        this.router.navigate(['/events', 'update-event', this.event.id]);
+        this.router.navigate(['/greenCity/events', 'create-update-event', this.event.id]);
         break;
       default:
         break;
@@ -376,6 +377,39 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
             }
           });
       }
+    }
+  }
+
+  likePost(): void {
+    console.log('Before like click, event state:', this.event);
+    this.eventService.likeEvent(this.event.id).subscribe(
+      (response) => {
+        this.event.isLiked = true;
+        this.event.likes += 1;
+        this.event.isDisliked = false;
+      },
+      (error) => {
+        console.error('Error in likeEvent:', error);
+      }
+    );
+  }
+
+  dislikePost() {
+    if (!this.event.isDisliked) {
+      this.eventService.dislikeEvent(this.event.id).subscribe(
+        () => {
+          this.event.isDisliked = true;
+          if (this.event.isLiked) {
+            this.event.isLiked = false;
+            this.event.likes--;
+          }
+          this.event.dislikes++;
+          this.dislikeStatusChange.emit(this.event);
+        },
+        () => {
+          this.snackBar.openSnackBar('error');
+        }
+      );
     }
   }
 

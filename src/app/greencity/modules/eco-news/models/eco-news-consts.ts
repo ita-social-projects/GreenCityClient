@@ -2,28 +2,28 @@ import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-
 
 export const tagsListEcoNewsData: Array<FilterModel> = [
   {
-    name: 'News',
-    nameUa: 'Новини',
+    nameEn: 'News',
+    nameUk: 'Новини',
     isActive: false
   },
   {
-    name: 'Events',
-    nameUa: 'Події',
+    nameEn: 'Events',
+    nameUk: 'Події',
     isActive: false
   },
   {
-    name: 'Education',
-    nameUa: 'Освіта',
+    nameEn: 'Education',
+    nameUk: 'Освіта',
     isActive: false
   },
   {
-    name: 'Initiatives',
-    nameUa: 'Ініціативи',
+    nameEn: 'Initiatives',
+    nameUk: 'Ініціативи',
     isActive: false
   },
   {
-    name: 'Ads',
-    nameUa: 'Реклама',
+    nameEn: 'Ads',
+    nameUk: 'Реклама',
     isActive: false
   }
 ];

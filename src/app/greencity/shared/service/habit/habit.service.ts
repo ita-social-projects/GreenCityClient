@@ -106,7 +106,7 @@ export class HabitService {
         {
           name: habit.title,
           description: habit.description,
-          habitItem: '',
+          habitItem: 'Item',
           languageCode: lang
         }
       ],

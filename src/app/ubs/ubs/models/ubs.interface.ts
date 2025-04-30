@@ -2,8 +2,8 @@ import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.
 
 export interface Bag {
   id: number;
-  name?: string;
-  nameEng?: string;
+  nameUk?: string;
+  nameEn?: string;
   capacity?: number;
   price?: number;
   quantity?: number;
@@ -91,14 +91,14 @@ export interface PersonalData {
 
 export interface Address {
   id?: number;
-  city: string;
+  cityUk: string;
   cityEn: string;
-  district: string;
+  districtUk: string;
   districtEn: string;
-  region: string;
+  regionUk: string;
   regionEn: string;
   entranceNumber: string;
-  street: string;
+  streetUk: string;
   streetEn: string;
   houseCorpus: string;
   houseNumber: string;
@@ -116,13 +116,13 @@ export interface Address {
 
 export interface AddressData {
   regionEn: string;
-  region: string;
-  city: string;
+  regionUk: string;
+  cityUk: string;
   cityEn: string;
-  street: string;
+  streetUk: string;
   streetEn: string;
   districtEn: string;
-  district: string;
+  districtUk: string;
   houseNumber: string;
   entranceNumber: string;
   houseCorpus: string;
@@ -174,7 +174,7 @@ export interface CourierLocations {
 }
 
 export interface DistrictsDtos {
-  nameUa: string;
+  nameUk: string;
   nameEn: string;
 }
 

@@ -22,5 +22,7 @@ export abstract class CommentsService {
 
   abstract postLike(parentCommentId: number): Observable<void>;
 
+  abstract postDislike(parentCommentId: number): Observable<void>;
+
   abstract editComment(parentCommentId: number, text: string): Observable<void>;
 }

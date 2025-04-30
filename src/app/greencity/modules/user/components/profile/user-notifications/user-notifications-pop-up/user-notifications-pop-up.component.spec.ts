@@ -5,11 +5,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
 import { HttpClientModule } from '@angular/common/http';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { NotificationsService } from 'src/app/ubs/ubs-admin/services/notifications.service';
 import { UserNotificationService } from 'src/app/greencity/modules/user/services/user-notification/user-notification.service';
 import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UserNotificationsPopUpComponent', () => {
   let component: UserNotificationsPopUpComponent;
@@ -29,7 +29,7 @@ describe('UserNotificationsPopUpComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRefStub },
         { provide: MAT_DIALOG_DATA, useValue: [] },
-        { provide: MatSnackBarComponent, useValue: {} },
+        { provide: MatSnackBarService, useValue: {} },
         { provide: NotificationsService, useValue: notificationServiceMock }
       ]
     }).compileComponents();

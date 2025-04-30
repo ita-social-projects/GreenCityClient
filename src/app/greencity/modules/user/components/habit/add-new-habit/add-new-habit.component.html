@@ -21,10 +21,10 @@
           </div>
         </div>
       </div>
-      <div class="habit-title">
-        {{ habitResponse.habitTranslation.name }}
+      <div class="habit-title">{{ habitResponse.habitTranslation.name }}</div>
+      <div class="description">
+        {{ habitResponse.habitTranslation.description }}
       </div>
-      <div class="description" [innerHTML]="habitResponse.habitTranslation.description"></div>
     </div>
     <div class="habit-img">
       <img class="img" [src]="habitImage" (error)="habitImage = defaultImage" alt="habit picture" />

@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -22,6 +21,8 @@ import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/di
 import { DateInformation, FormControllers, EventDto } from '../../models/events.interface';
 import { customTextValidator, locationOrOnlineLinkValidator } from './validators/event-custom-validators';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { defaultCoordinates } from '@assets/mocks/events/mock-events';
 @Component({
   selector: 'app-event-editor',
   templateUrl: './event-editor.component.html',
@@ -45,18 +46,18 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
   routedFromProfile: boolean;
 
   constructor(
-    private eventStore: EventStoreService,
-    public dialog: MatDialog,
+    private readonly eventStore: EventStoreService,
+    public readonly dialog: MatDialog,
     router: Router,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    public localStorageService: LocalStorageService,
-    private actionsSubj: ActionsSubject,
-    private store: Store,
-    private snackBar: MatSnackBarComponent,
-    public dialogRef: MatDialogRef<DialogPopUpComponent>,
-    private eventsService: EventsService,
-    private languageService: LanguageService,
+    private readonly route: ActivatedRoute,
+    private readonly fb: FormBuilder,
+    public readonly localStorageService: LocalStorageService,
+    private readonly actionsSubj: ActionsSubject,
+    private readonly store: Store,
+    private readonly snackBar: MatSnackBarService,
+    public readonly dialogRef: MatDialogRef<DialogPopUpComponent>,
+    private readonly eventsService: EventsService,
+    private readonly languageService: LanguageService,
     private readonly cdRef: ChangeDetectorRef
   ) {
     super(router, dialog);
@@ -143,23 +144,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
                   allDay: [false],
                   minDate: [nextDate],
                   maxDate: [null],
-                  coordinates: [
-                    {
-                      latitude: null,
-                      longitude: null,
-                      streetEn: '',
-                      streetUa: '',
-                      houseNumber: '',
-                      cityEn: '',
-                      cityUa: '',
-                      regionEn: '',
-                      regionUa: '',
-                      countryEn: '',
-                      countryUa: '',
-                      formattedAddressEn: '',
-                      formattedAddressUa: ''
-                    }
-                  ],
+                  coordinates: [defaultCoordinates],
                   onlineLink: new FormControl(''),
                   place: new FormControl(''),
                   appliedLinkForAll: [false],
@@ -219,34 +204,20 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
         finishDate: [date?.finishDate ? new Date(date.finishDate) : new Date(), [Validators.required]],
         startTime: [
           date?.startDate
-            ? `${new Date(date.startDate).getHours()}:${new Date(date.startDate).getMinutes().toString().padStart(2, '0')}`
+            ? // eslint-disable-next-line max-len
+              `${new Date(date.startDate).getHours().toString().padStart(2, '0')}:${new Date(date.startDate).getMinutes().toString().padStart(2, '0')}`
             : ''
         ],
         finishTime: [
           date?.finishDate
-            ? `${new Date(date.finishDate).getHours()}:${new Date(date.finishDate).getMinutes().toString().padStart(2, '0')}`
+            ? // eslint-disable-next-line max-len
+              `${new Date(date.finishDate).getHours().toString().padStart(2, '0')}:${new Date(date.finishDate).getMinutes().toString().padStart(2, '0')}`
             : ''
         ],
         allDay: [date?.allDay ?? false],
         minDate: [date?.minDate ? new Date(date.minDate) : new Date()],
         maxDate: [date?.maxDate ? new Date(date.maxDate) : null],
-        coordinates: [
-          date?.coordinates ?? {
-            latitude: null,
-            longitude: null,
-            streetEn: '',
-            streetUa: '',
-            houseNumber: '',
-            cityEn: '',
-            cityUa: '',
-            regionEn: '',
-            regionUa: '',
-            countryEn: '',
-            countryUa: '',
-            formattedAddressEn: '',
-            formattedAddressUa: ''
-          }
-        ],
+        coordinates: [date?.coordinates ?? defaultCoordinates],
         onlineLink: new FormControl(date?.onlineLink ?? ''),
         place: new FormControl(''),
         appliedLinkForAll: [date?.appliedLinkForAll ?? false],
@@ -258,7 +229,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
 
   onPreview(): void {
     this.eventsService.setEvent(this.eventForm.value);
-    this.router.navigate(['events', 'preview']);
+    this.router.navigate(['greenCity/events/', 'preview']);
   }
 
   submitEvent(): void {
@@ -279,7 +250,6 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
 
   escapeFromCreateEvent(): void {
     this.router.navigate(['/greenCity/events']);
-    this.eventSuccessfullyAdded();
   }
 
   private eventSuccessfullyAdded(): void {
@@ -299,11 +269,19 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
 
     this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess), take(1)).subscribe(() => {
       this.isPosting = false;
+      this.eventSuccessfullyAdded();
+      this.escapeFromCreateEvent();
+    });
+    this.actionsSubj.pipe(ofType(EventsActions.ReceivedFailure), take(1)).subscribe(({ error }) => {
+      this.isPosting = false;
+      this.snackBar.openSnackBar(error);
       this.escapeFromCreateEvent();
     });
   }
 
   ngOnDestroy(): void {
-    this.eventsService.setEvent(null);
+    if (this.router.url !== '/greenCity/events/preview') {
+      this.eventsService.setEvent(null);
+    }
   }
 }

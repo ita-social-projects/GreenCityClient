@@ -15,6 +15,8 @@ export interface CommentsDTO {
   currentUserLiked: boolean;
   id: number;
   likes: number;
+  isLiked: boolean;
+  isDisliked: boolean;
   modifiedDate: string;
   replies: number;
   status: string;
@@ -46,6 +48,7 @@ export interface SocketAmountLikes {
   liked: boolean;
   userId: number;
 }
+
 export interface TaggedUser {
   userId: number;
   userName: string;

@@ -1418,6 +1418,10 @@
     "updated-event": "You have successfully updated an event",
     "min-photo-error": "1 image minimum"
   },
+  "add-cities-modal": {
+    "dropdown": "Filter cities",
+    "add-button": "Add selected cities"
+  },
   "input-error": {
     "required": "This field is required",
     "min-length-short": "The field contains insufficient characters",

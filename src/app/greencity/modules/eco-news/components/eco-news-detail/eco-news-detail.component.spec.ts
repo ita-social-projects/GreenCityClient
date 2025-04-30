@@ -18,8 +18,8 @@ import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { singleNewsImages } from 'src/app/greencity/image-paths/single-news-images';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MetaService } from 'src/app/shared/services/meta/meta.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -70,7 +70,7 @@ describe('EcoNewsDetailComponent', () => {
         { provide: DomSanitizer, useValue: sanitaizerMock },
         { provide: LocalStorageService, useValue: backLink },
         { provide: LanguageService, useValue: languageServiceMock },
-        { provide: MatSnackBarComponent, useValue: { openSnackBar: jasmine.createSpy('openSnackBar') } },
+        { provide: MatSnackBarService, useValue: { openSnackBar: jasmine.createSpy('openSnackBar') } },
         { provide: MetaService, useValue: metaServiceMock }
       ]
     }).compileComponents();
@@ -115,13 +115,13 @@ describe('EcoNewsDetailComponent', () => {
   it('getAllTags should return array of tags', () => {
     component.currentLang = 'en';
     languageServiceMock.getLangValue.and.returnValue(['Events', 'Education']);
-    component.newsItem.tags = ['Events', 'Education'];
+    component.newsItem.tagsEn = ['Events', 'Education'];
     expect(component.getAllTags()).toEqual(['Events', 'Education']);
   });
 
   it('getAllTags should return array of ua tags', () => {
     languageServiceMock.getLangValue.and.returnValue(['Події', 'Освіта']);
-    component.newsItem.tagsUa = ['Події', 'Освіта'];
+    component.newsItem.tagsUk = ['Події', 'Освіта'];
     expect(component.getAllTags()).toEqual(['Події', 'Освіта']);
   });
 

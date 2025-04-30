@@ -11,7 +11,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollDirective, InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UbsUserOrdersComponent } from './ubs-user-orders.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { of, throwError } from 'rxjs';
@@ -24,6 +23,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store, StoreModule } from '@ngrx/store';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
@@ -53,7 +53,7 @@ describe('UbsUserOrdersComponent', () => {
 
   const RouterMock = jasmine.createSpyObj('Router', ['navigate']);
 
-  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
   const userOrderServiceMock = {
     getCurrentUserOrders: (page) => of({ page: page === 0 ? fakeCurrentOrdersData : fakeCurrentOrdersDataPage2 }),
@@ -105,7 +105,7 @@ describe('UbsUserOrdersComponent', () => {
       providers: [
         { provide: Store, useValue: storeMock },
         { provide: Router, useValue: RouterMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock },
         { provide: UserOrdersService, useValue: userOrderServiceMock },
         { provide: BonusesService, useValue: bonusesServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },

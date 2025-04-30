@@ -31,7 +31,7 @@ describe('TagsSelectComponent', () => {
   });
 
   it('should check tag', () => {
-    const tags = { id: 1, name: 'Reusable', nameUa: 'Багаторазове використання', isActive: true };
+    const tags = { id: 1, nameEn: 'Reusable', nameUk: 'Багаторазове використання', isActive: true };
     component.selectedList = null;
     component.tagsList = [tags];
     component.checkTab(FIRSTTAGITEM);

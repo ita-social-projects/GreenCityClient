@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { HabitInviteFriendsPopUpComponent } from './habit-invite-friends-pop-up.component';
@@ -11,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { HabitService } from '@shared/service/habit/habit.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('HabitInviteFriendsPopUpComponent', () => {
   let component: HabitInviteFriendsPopUpComponent;
@@ -22,7 +22,7 @@ describe('HabitInviteFriendsPopUpComponent', () => {
 
   const userFriendsServiceMock = jasmine.createSpyObj('userFriendsService', ['getAllFriends']);
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
-  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
   userFriendsServiceMock.inviteFriendsToHabit = jasmine.createSpy('inviteFriendsToHabit').and.returnValue(of({}));
   userFriendsServiceMock.addedFriends = [];
@@ -39,7 +39,7 @@ describe('HabitInviteFriendsPopUpComponent', () => {
         { provide: HabitService, useValue: mockHabitService },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Router, useValue: routerSpy },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock },
         { provide: MAT_DIALOG_DATA, useValue: { habitId: 1 } },
         { provide: MatDialogRef, useValue: jasmine.createSpyObj('MatDialogRef', ['close']) }
       ]

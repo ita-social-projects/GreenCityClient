@@ -11,7 +11,7 @@
                   {{ 'profile.dashboard.habits-inprogress' | translate }} <br />
                 </app-set-count>
               </p>
-              <a [routerLink]="['/profile', userId, 'allhabits']">
+              <a [routerLink]="['/greenCity/profile', userId, 'allhabits']">
                 <div id="create-button-new-habit" class="secondary-global-button s-btn">
                   <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
                 </div>
@@ -73,7 +73,7 @@
                 </app-set-count>
               </p>
               <div class="buttons-wrapper">
-                <a [routerLink]="['/news/create-news']">
+                <a [routerLink]="['/greenCity/news/create-news']">
                   <div id="create-button-news" class="secondary-global-button s-btn">
                     <span>{{ 'profile.dashboard.add-news' | translate }}</span>
                   </div>

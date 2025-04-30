@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserMessagesService } from '../../services/user-messages.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { NotificationBody } from '@ubs/ubs-admin/models/ubs-user.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '../../../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-user-messages',
@@ -38,7 +38,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   constructor(
     private readonly userMessagesService: UserMessagesService,
     private readonly localStorageService: LocalStorageService,
-    private readonly matSnackBar: MatSnackBarComponent,
+    private readonly matSnackBar: MatSnackBarService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly dialog: MatDialog

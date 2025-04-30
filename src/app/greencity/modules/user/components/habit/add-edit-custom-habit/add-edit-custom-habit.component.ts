@@ -18,7 +18,6 @@ import { ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.inter
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
 import { TodoStatus } from '../models/todo-status.enum';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import {
   HABIT_COMPLEXITY_LIST,
   HABIT_DEFAULT_DURATION,
@@ -27,12 +26,12 @@ import {
   STAR_IMAGES
 } from '../add-new-habit/habit-const/habit.const';
 import { ImageService } from '@shared/service/image/image.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
   templateUrl: './add-edit-custom-habit.component.html',
-  styleUrls: ['./add-edit-custom-habit.component.scss'],
-  providers: [MatSnackBarComponent]
+  styleUrls: ['./add-edit-custom-habit.component.scss']
 })
 export class AddEditCustomHabitComponent extends FormBaseComponent implements OnInit {
   habitForm: FormGroup;
@@ -64,6 +63,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     }
   };
   imageFile: FileHandle;
+  isPosting = false;
   private habitId: number;
   private userId: number;
   private currentLang: string;
@@ -71,16 +71,16 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   private editorText = '';
 
   constructor(
-    public dialog: MatDialog,
-    public router: Router,
-    private fb: FormBuilder,
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService,
-    private habitService: HabitService,
-    private userFriendsService: UserFriendsService,
-    private snackBar: MatSnackBarComponent,
-    private imageService: ImageService,
-    private activatedRoute: ActivatedRoute
+    public readonly dialog: MatDialog,
+    public readonly router: Router,
+    private readonly fb: FormBuilder,
+    private readonly localStorageService: LocalStorageService,
+    private readonly translate: TranslateService,
+    private readonly habitService: HabitService,
+    private readonly userFriendsService: UserFriendsService,
+    private readonly snackBar: MatSnackBarService,
+    private readonly imageService: ImageService,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     super(router, dialog);
 
@@ -127,7 +127,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   convertTagNamesToId(tagNames: string[]) {
     this.habitService.getAllTags().subscribe((tags) => {
-      this.selectedTagsList = tags.filter((tag) => tagNames.includes(tag.name)).map(({ id }) => id);
+      this.selectedTagsList = tags.filter((tag) => tagNames.includes(tag.nameEn)).map(({ id }) => id);
     });
   }
 
@@ -177,30 +177,48 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   goToAllHabits(): void {
     this.userFriendsService.addedFriends.length = 0;
-    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.router.navigate([`/greenCity/profile/${this.userId}/allhabits`]);
     this.habitSuccessfullyAdded();
   }
 
   handleHabitDelete() {
-    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.router.navigate([`/greenCity/profile/${this.userId}/allhabits`]);
     this.snackBar.openSnackBar('habitDeleted');
   }
 
   addHabit(): void {
+    if (this.isPosting) {
+      return;
+    }
+    this.isPosting = true;
     this.habitService
       .addCustomHabit(this.habitForm.value, this.currentLang)
       .pipe(take(1))
-      .subscribe(() => {
-        this.goToAllHabits();
+      .subscribe({
+        next: () => {
+          this.goToAllHabits();
+        },
+        complete: () => {
+          this.isPosting = false;
+        }
       });
   }
 
   saveHabit(): void {
+    if (this.isPosting) {
+      return;
+    }
+    this.isPosting = true;
     this.habitService
       .changeCustomHabit(this.habitForm.value, this.currentLang, this.habitId)
       .pipe(take(1))
-      .subscribe(() => {
-        this.goToAllHabits();
+      .subscribe({
+        next: () => {
+          this.goToAllHabits();
+        },
+        complete: () => {
+          this.isPosting = false;
+        }
       });
   }
 
@@ -267,10 +285,10 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       .pipe(take(1))
       .subscribe((tags: TagInterface[]) => {
         this.tagsList = tags;
-        this.tagsList.forEach((tag) => (tag.isActive = this.habitForm.value.tagIds.some((el) => el === tag.name || el === tag.nameUa)));
+        this.tagsList.forEach((tag) => (tag.isActive = this.habitForm.value.tagIds.some((el) => el === tag.nameEn || el === tag.nameUk)));
         if (this.isEditing) {
           const newList = this.tagsList.filter(
-            (el) => this.habitForm.value.tagIds.includes(el.name) || this.habitForm.value.tagIds.includes(el.nameUa)
+            (el) => this.habitForm.value.tagIds.includes(el.nameEn) || this.habitForm.value.tagIds.includes(el.nameUk)
           );
           this.getTagsList(newList);
         }

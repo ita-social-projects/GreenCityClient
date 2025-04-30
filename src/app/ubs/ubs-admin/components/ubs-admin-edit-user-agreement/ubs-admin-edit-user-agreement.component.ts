@@ -64,7 +64,7 @@ export class UbsAdminEditUserAgreementComponent implements OnInit {
 
   onSave(): void {
     const userAgreement: TUserAgreementText = {
-      textUa: '',
+      textUk: '',
       textEn: ''
     };
 

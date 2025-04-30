@@ -2,11 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HabitInterface } from 'src/app/greencity/modules/user/components/habit/models/interfaces/habit.interface';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { habitImages, starIcons } from 'src/app/greencity/image-paths/habits-images';
 import { Observable } from 'rxjs';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-habits-gallery-view',
@@ -24,11 +24,11 @@ export class HabitsGalleryViewComponent implements OnInit {
   private userId: number;
 
   constructor(
-    public router: Router,
-    public route: ActivatedRoute,
-    public snackBar: MatSnackBarComponent,
-    public localStorageService: LocalStorageService,
-    public habitAssignService: HabitAssignService
+    public readonly router: Router,
+    public readonly route: ActivatedRoute,
+    public readonly snackBar: MatSnackBarService,
+    public readonly localStorageService: LocalStorageService,
+    public readonly habitAssignService: HabitAssignService
   ) {}
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class HabitsGalleryViewComponent implements OnInit {
   }
 
   goHabitMore(): void {
-    const link = `/profile/${this.userId}/allhabits/`;
+    const link = `/greenCity/profile/${this.userId}/allhabits/`;
     this.router.navigate(this.habit.assignId ? [`${link}edithabit`, this.habit.assignId] : [`${link}addhabit`, this.habit.id], {
       relativeTo: this.route
     });
@@ -60,7 +60,7 @@ export class HabitsGalleryViewComponent implements OnInit {
       .subscribe({
         next: (): void => {
           isAssigned = true;
-          this.router.navigate(['profile', this.userId]);
+          this.router.navigate(['/greenCity/profile', this.userId]);
         },
         complete: (): void => {
           this.snackBar.openSnackBar(isAssigned ? 'habitAdded' : 'habitLimitReached');

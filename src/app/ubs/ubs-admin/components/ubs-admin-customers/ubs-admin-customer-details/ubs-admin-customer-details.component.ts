@@ -6,7 +6,7 @@ import { EMPTY, mergeMap, take, tap } from 'rxjs';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AdminCustomersService } from '@ubs/ubs-admin/services/admin-customers.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-admin-customer-details',
@@ -22,8 +22,8 @@ export class UbsAdminCustomerDetailsComponent implements OnInit {
     private readonly adminCustomerService: AdminCustomersService,
     private readonly translate: TranslateService,
     private readonly location: Location,
-    private readonly snackBar: MatSnackBarComponent,
-    public dialog: MatDialog
+    private readonly snackBar: MatSnackBarService,
+    public readonly dialog: MatDialog
   ) {}
 
   ngOnInit(): void {

@@ -24,6 +24,7 @@ interface InputData {
   viewMode: boolean;
   payment: IPaymentInfoDto | null;
   isCanPaymentEdit?: boolean;
+  dateFormed: string;
 }
 
 interface PostData {
@@ -40,7 +41,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   private convertFromDateToStringService: ConvertFromDateToStringService;
   private localeStorageService: LocalStorageService;
   private orderService: OrderService;
-
+  minDate: Date;
+  maxDate = new Date();
   closeButton = './assets/img/profile/icons/cancel.svg';
   orderId: number;
   viewMode: boolean;
@@ -100,6 +102,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.viewMode = this.data.viewMode;
     this.payment = this.data.payment;
     this.isCanPaymentEdit = this.data.isCanPaymentEdit;
+    this.minDate = new Date(this.data.dateFormed);
+    this.minDate.setDate(this.minDate.getDate() - 10);
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.adminName = firstName;
     });
@@ -113,8 +117,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.addPaymentForm = this.fb.group({
-      settlementdate: [
-        this.payment?.settlementdate ? formatDate(this.convertDate(this.payment.settlementdate), 'yyyy-MM-dd', 'ua') : null,
+      settlementDate: [
+        this.payment?.settlementDate ? formatDate(this.convertDate(this.payment.settlementDate), 'yyyy-MM-dd', 'ua') : null,
         [Validators.required]
       ],
       amount: [this.payment?.amount ?? '', [Validators.required, Validators.pattern(Patterns.paymentAmountPattern)]],
@@ -167,7 +171,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   }
 
   isFormValid(): boolean {
-    const settlementDateControl = this.addPaymentForm.get('settlementdate');
+    const settlementDateControl = this.addPaymentForm.get('settlementDate');
     const amountControl = this.addPaymentForm.get('amount');
     const paymentIdControl = this.addPaymentForm.get('paymentId');
 
@@ -183,7 +187,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     const paymentDetails = this.addPaymentForm.value;
     paymentDetails.amount *= 100;
 
-    paymentDetails.settlementdate = this.convertFromDateToStringService.toISOStringWithTimezoneOffset(paymentDetails.settlementdate);
+    paymentDetails.settlementDate = this.convertFromDateToStringService.toISOStringWithTimezoneOffset(paymentDetails.settlementDate);
 
     result.form = paymentDetails;
     result.file = this.file;
@@ -317,7 +321,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.addPaymentForm.markAsTouched();
     this.addPaymentForm.valueChanges.pipe(takeUntil(this.destroySub)).subscribe((values) => {
       this.isInitialDataChanged =
-        this.payment.settlementdate !== values.paymentDate ||
+        this.payment.settlementDate !== values.paymentDate ||
         this.payment.amount !== +values.amount ||
         (this.payment.receiptLink ?? '') !== values.receiptLink ||
         this.payment.paymentId !== values.paymentId;
@@ -374,5 +378,9 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     const target = event.target as HTMLInputElement;
     this.paymentSum = parseFloat(target.value).toFixed(2);
     target.value = this.paymentSum;
+  }
+
+  isRadioButtonDisabled(): boolean {
+    return !this.editMode && !!this.payment;
   }
 }

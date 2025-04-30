@@ -15,7 +15,6 @@ import { GetPersonalData, SetPersonalData, GetExistingOrderInfo, SetSecondFormSt
 import { addressIdSelector, existingOrderInfoSelector, personalDataSelector } from 'src/app/store/selectors/order.selectors';
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
-
 @Component({
   selector: 'app-ubs-personal-information',
   templateUrl: './ubs-personal-information.component.html',

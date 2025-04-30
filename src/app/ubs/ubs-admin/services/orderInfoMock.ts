@@ -16,8 +16,8 @@ export const OrderInfoMockedData: IOrderInfo = {
     dateFormed: '2022-02-08T15:21:44.85458',
     adminComment: null,
     orderStatus: OrderStatus.FORMED,
-    orderStatusName: 'Сформовано',
-    orderStatusNameEng: 'Formed',
+    orderStatusNameUk: 'Сформовано',
+    orderStatusNameEn: 'Formed',
     blocked: true,
     orderStatusesDtos: [
       {
@@ -62,8 +62,8 @@ export const OrderInfoMockedData: IOrderInfo = {
       }
     ],
     orderPaymentStatus: PaymnetStatus.PAID,
-    orderPaymentStatusName: 'Оплачено',
-    orderPaymentStatusNameEng: 'Paid',
+    orderPaymentStatusNameUk: 'Оплачено',
+    orderPaymentStatusNameEn: 'Paid',
     orderPaymentStatusesDto: [
       {
         key: PaymnetStatus.PAID,
@@ -86,16 +86,16 @@ export const OrderInfoMockedData: IOrderInfo = {
   },
   addressExportDetailsDto: {
     id: 32,
-    city: 'Київ',
+    cityUk: 'Київ',
     cityEn: 'Kyiv',
-    district: 'Шевченківський',
+    districtUk: 'Шевченківський',
     districtEn: 'Shevchenkivskyi',
     entranceNumber: '1',
     houseCorpus: '3',
     houseNumber: '42',
-    region: 'Київська область',
+    regionUk: 'Київська область',
     regionEn: 'Kyiv Oblast',
-    street: 'Січових Стрільців вул',
+    streetUk: 'Січових Стрільців вул',
     streetEn: 'Sichovyh Streltsyv str',
     addressRegionDistrictList: ADDRESSESMOCK.DISTRICTSKYIVMOCK,
     coordinates: {
@@ -147,7 +147,7 @@ export const OrderInfoMockedData: IOrderInfo = {
         imagePath: null,
         paymentId: '436436436',
         receiptLink: '',
-        settlementdate: '2022-02-01',
+        settlementDate: '2022-02-01',
         currentDate: '2022-02-09'
       }
     ],
@@ -203,7 +203,7 @@ export const activeCouriersMock = [
 export const IPaymentInfoDtoMock: IPaymentInfoDto = {
   id: 1,
   currentDate: '2022-02-09',
-  settlementdate: '2022-02-01',
+  settlementDate: '2022-02-01',
   amount: 200,
   receiptLink: 'Enrollment to the bonus account'
 };

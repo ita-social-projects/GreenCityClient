@@ -2,7 +2,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { AllFriendsComponent } from './all-friends.component';
 import { FIRSTFRIEND, FRIENDS, SECONDFRIEND } from 'src/app/greencity/modules/user/mocks/friends-mock';
 import { UserOnlineStatusService } from 'src/app/greencity/modules/user/services/user-online-status/user-online-status.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('AllFriendsComponent', () => {
   let component: AllFriendsComponent;
@@ -43,7 +43,7 @@ describe('AllFriendsComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarComponent },
+        { provide: MatSnackBarService, useValue: MatSnackBarService },
         { provide: Store, useValue: storeMock },
         { provide: UserOnlineStatusService, useValue: userOnlineStatusServiceMock }
       ],

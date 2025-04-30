@@ -76,9 +76,9 @@ export class LocationService {
     const selectedDistrict = this.langService.getLangValue(districtUa.value, districtEn.value);
 
     const correspondingDistrict =
-      districts.find((d) => d.nameEn === selectedDistrict) || districts.find((d) => d.nameUa === selectedDistrict);
+      districts.find((d) => d.nameEn === selectedDistrict) || districts.find((d) => d.nameUk === selectedDistrict);
 
-    districtUa.setValue(correspondingDistrict.nameUa);
+    districtUa.setValue(correspondingDistrict.nameUk);
     districtUa.markAsDirty();
     districtEn.setValue(correspondingDistrict.nameEn);
     districtEn.markAsDirty();
@@ -91,7 +91,7 @@ export class LocationService {
 
     return districtList.map((district) => {
       const districtWithLabel = {
-        nameUa: `${district.nameUa}${DistrictEnum.UA}`,
+        nameUk: `${district.nameUk}${DistrictEnum.UA}`,
         nameEn: `${district.nameEn}${DistrictEnum.EN}`
       };
       return districtWithLabel;

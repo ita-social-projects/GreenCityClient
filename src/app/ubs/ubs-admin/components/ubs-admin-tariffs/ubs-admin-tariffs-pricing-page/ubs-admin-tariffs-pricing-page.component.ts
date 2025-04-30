@@ -447,7 +447,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       title: 'ubs-tariffs-pricing-page-delete-service.delete-service-title',
       text: 'ubs-tariffs-pricing-page-delete-service.delete-service-text1',
       text2: 'ubs-tariffs-pricing-page-delete-service.delete-service-text2',
-      serviceName: this.langService.getLangValue(service.name, service.nameEng),
+      serviceName: this.langService.getLangValue(service.nameUk, service.nameEn),
       action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action',
       isService: true,
       serviceId: this.service.id

@@ -3,7 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HabitsGalleryViewComponent } from './habits-gallery-view.component';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Observable, of } from 'rxjs';
@@ -12,11 +11,12 @@ import { DEFAULTHABIT } from 'src/app/greencity/modules/user/components/habit/mo
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { HabitStatus } from '@global-user/models/habit/HabitStatus.enum';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('HabitsGalleryViewComponent', () => {
   let component: HabitsGalleryViewComponent;
   let fixture: ComponentFixture<HabitsGalleryViewComponent>;
-  const matSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const matSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   const habitAssignServiceMock: HabitAssignService = jasmine.createSpyObj('HabitAssignService', ['assignHabit']);
   habitAssignServiceMock.assignHabit = () => new Observable();
 
@@ -53,7 +53,7 @@ describe('HabitsGalleryViewComponent', () => {
       declarations: [HabitsGalleryViewComponent, LangValueDirective],
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatSnackBarModule, HttpClientTestingModule],
       providers: [
-        { provide: MatSnackBarComponent, useValue: matSnackBarMock },
+        { provide: MatSnackBarService, useValue: matSnackBarMock },
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },

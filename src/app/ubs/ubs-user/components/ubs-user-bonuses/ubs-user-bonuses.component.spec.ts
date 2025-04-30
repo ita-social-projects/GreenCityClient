@@ -4,13 +4,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BonusesService } from './services/bonuses.service';
 import { BonusesModel } from './models/BonusesModel';
 import { throwError } from 'rxjs';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { of, Subject } from 'rxjs';
 import { EMPTY } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 const testBonuses: BonusesModel = {
   ubsUserBonuses: [
@@ -30,16 +30,16 @@ describe('UbsUserBonusesComponent', () => {
 
   const bonusesServiceMock: BonusesService = jasmine.createSpyObj('BonusesService', ['getUserBonusesWithPaymentHistory']);
   bonusesServiceMock.getUserBonusesWithPaymentHistory = () => of(testBonuses);
-  const matSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const matSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   matSnackBarMock.openSnackBar = (type: string) => {};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UbsUserBonusesComponent, MatSnackBarComponent],
+      declarations: [UbsUserBonusesComponent],
       imports: [MatTableModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
       providers: [
         { provide: BonusesService, useValue: bonusesServiceMock },
-        { provide: MatSnackBarComponent, useValue: matSnackBarMock }
+        { provide: MatSnackBarService, useValue: matSnackBarMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

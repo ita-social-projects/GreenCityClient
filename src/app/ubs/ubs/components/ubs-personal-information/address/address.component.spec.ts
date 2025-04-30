@@ -27,14 +27,14 @@ describe('AddressComponent', () => {
     component = fixture.componentInstance;
 
     component.address = {
-      city: 'Місто',
+      cityUk: 'Місто',
       cityEn: 'City',
-      district: 'Район',
+      districtUk: 'Район',
       districtEn: 'District',
-      region: 'Область',
+      regionUk: 'Область',
       regionEn: 'Region',
       entranceNumber: '1',
-      street: 'Вулиця',
+      streetUk: 'Вулиця',
       streetEn: 'Street',
       houseCorpus: 'A',
       houseNumber: '10',

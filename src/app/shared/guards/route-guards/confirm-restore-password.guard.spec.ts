@@ -4,7 +4,7 @@ import { ConfirmRestorePasswordGuard } from './confirm-restore-password.guard';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarComponent } from '../../components/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('ConfirmRestorePasswordGuard', () => {
   let guard: ConfirmRestorePasswordGuard;
@@ -20,7 +20,7 @@ describe('ConfirmRestorePasswordGuard', () => {
       providers: [
         { provide: Router, useValue: routerMock },
         { provide: MatDialog, useValue: dialogMock },
-        { provide: MatSnackBarComponent, useValue: snackBarMock }
+        { provide: MatSnackBarService, useValue: snackBarMock }
       ],
       imports: [BrowserDynamicTestingModule, MatSnackBarModule]
     });

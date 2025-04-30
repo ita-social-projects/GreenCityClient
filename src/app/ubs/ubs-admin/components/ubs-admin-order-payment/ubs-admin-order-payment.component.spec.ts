@@ -89,13 +89,13 @@ describe('UbsAdminOrderPaymentComponent', () => {
   it('method setDateInPaymentArray', () => {
     const fakeSettlementdateArray: string[] = ['2022-02-01', '2022-08-22', '2020-02-18'];
     component.paymentsArray = [
-      { id: 0, currentDate: '2022-02-01', amount: 0, settlementdate: '2022-02-01', receiptLink: '' },
-      { id: 1, currentDate: '2022-08-22', amount: 0, settlementdate: '2022-08-22', receiptLink: '' },
-      { id: 2, currentDate: '2020-02-18', amount: 0, settlementdate: '2020-02-18', receiptLink: '' }
+      { id: 0, currentDate: '2022-02-01', amount: 0, settlementDate: '2022-02-01', receiptLink: '' },
+      { id: 1, currentDate: '2022-08-22', amount: 0, settlementDate: '2022-08-22', receiptLink: '' },
+      { id: 2, currentDate: '2020-02-18', amount: 0, settlementDate: '2020-02-18', receiptLink: '' }
     ];
     component.setDateInPaymentArray();
     for (let i = 0; i < component.paymentsArray.length; i++) {
-      expect(component.paymentsArray[i].settlementdate).toBe(component.formatDate(fakeSettlementdateArray[i]));
+      expect(component.paymentsArray[i].settlementDate).toBe(component.formatDate(fakeSettlementdateArray[i]));
     }
   });
 
@@ -122,6 +122,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
     const viewMode = true;
     const paymentIndex = 3;
     component.orderId = 1;
+    component.dateFormed = '2025-03-04';
     component.openPopup(true);
     expect(matDialogMock.open).toHaveBeenCalled();
     expect(matDialogMock.open).toHaveBeenCalledWith(AddPaymentComponent, {
@@ -134,7 +135,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
         orderId: 1,
         viewMode,
         payment: viewMode ? component.paymentsArray[paymentIndex] : null,
-        isCanPaymentEdit: component.isOrderCanBePaid
+        isCanPaymentEdit: component.isOrderCanBePaid,
+        dateFormed: '2025-03-04'
       }
     });
   });
@@ -171,9 +173,9 @@ describe('UbsAdminOrderPaymentComponent', () => {
 
   it('should update positive amount value in the paymentsArray correctly', () => {
     component.paymentsArray = [
-      { id: 1, amount: -100, settlementdate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' },
-      { id: 2, amount: -200, settlementdate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' },
-      { id: 3, amount: -300, settlementdate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' }
+      { id: 1, amount: -100, settlementDate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' },
+      { id: 2, amount: -200, settlementDate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' },
+      { id: 3, amount: -300, settlementDate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' }
     ];
     component.positivePaymentsArrayAmount();
 

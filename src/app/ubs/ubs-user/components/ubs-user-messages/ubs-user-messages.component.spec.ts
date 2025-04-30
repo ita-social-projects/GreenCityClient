@@ -3,7 +3,6 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { of, throwError } from 'rxjs';
 import { NotificationBody, Notifications } from '@ubs/ubs-admin/models/ubs-user.model';
 import { UserMessagesService } from '../../services/user-messages.service';
@@ -11,6 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxPaginationModule, PaginatePipe } from 'ngx-pagination';
 import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UbsUserMessagesComponent', () => {
   let component: UbsUserMessagesComponent;
@@ -52,7 +52,7 @@ describe('UbsUserMessagesComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: UserMessagesService, useValue: userMessageServiceMock },
-        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } }
+        { provide: MatSnackBarService, useValue: { openSnackBar: () => {} } }
       ]
     }).compileComponents();
 

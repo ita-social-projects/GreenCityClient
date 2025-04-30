@@ -35,7 +35,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
   const mockedEmployeePositions = [
     {
       id: 2,
-      name: 'fake',
+      nameUk: 'fake',
       nameEn: 'fakeEn'
     }
   ];

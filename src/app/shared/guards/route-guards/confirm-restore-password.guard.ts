@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,9 @@ export class ConfirmRestorePasswordGuard {
   millisecondsOfDay = 86400000;
   isUbs: boolean;
   constructor(
-    private router: Router,
-    public dialog: MatDialog,
-    private snackBar: MatSnackBarComponent
+    private readonly router: Router,
+    public readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   canActivate(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

@@ -44,13 +44,13 @@ describe('UbsUserOrderDetailsComponent', () => {
 
   describe('isOrderPaid', () => {
     it('order  is paid', () => {
-      fakeInputOrderData.paymentStatus = 'Paid';
+      fakeInputOrderData.paymentStatusEn = 'Paid';
       const isOrderPaidRes = component.isPaid(fakeInputOrderData as IUserOrderInfo);
       expect(isOrderPaidRes).toBeTruthy();
     });
 
     it('order is not unpaid', () => {
-      fakeInputOrderData.paymentStatus = 'Unpaid';
+      fakeInputOrderData.paymentStatusEn = 'Unpaid';
       const isOrderPaidRes = component.isPaid(fakeInputOrderData as IUserOrderInfo);
       expect(isOrderPaidRes).toBeFalsy();
     });

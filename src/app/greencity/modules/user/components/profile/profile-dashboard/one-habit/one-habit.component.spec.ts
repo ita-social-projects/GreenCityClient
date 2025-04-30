@@ -11,6 +11,8 @@ import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.se
 import { OneHabitComponent } from './one-habit.component';
 import { DatePipe } from '@angular/common';
 import { By } from '@angular/platform-browser';
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
@@ -99,8 +101,8 @@ describe('OneHabitComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TranslateModule.forRoot(), MatDialogModule, MatTooltipModule],
-      declarations: [OneHabitComponent],
+      imports: [RouterTestingModule, TranslateModule.forRoot(), MatDialogModule, MatTooltipModule, HttpClientTestingModule],
+      declarations: [OneHabitComponent, LangValueDirective],
       providers: [
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
         { provide: HabitService, useValue: habitServiceMock },
@@ -133,7 +135,7 @@ describe('OneHabitComponent', () => {
   it('goToHabitProfile', () => {
     spyOn(localStorage, 'getItem').and.returnValue('777');
     component.goToHabitProfile();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['profile/777/allhabits/edithabit/123']);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/greenCity/profile/777/allhabits/edithabit/123']);
   });
 
   describe('buildHabitDescription', () => {

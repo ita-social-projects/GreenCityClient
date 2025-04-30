@@ -67,6 +67,8 @@ label,
 
 input:disabled {
   cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.6;
 }
 
 .comment-title,
@@ -169,6 +171,7 @@ input:disabled {
   flex-direction: row;
   align-items: start;
   gap: 8px;
+  margin-left: 5%;
 
   .custom-radio {
     .custom-radio-button {

@@ -62,7 +62,7 @@ describe('TableCellInputComponent', () => {
   });
 
   it('should call showBlockedInfo.emit() when orders are blocked', () => {
-    const mockColumn: IColumnBelonging = { key: 'test', ua: 'Test', en: 'Test' };
+    const mockColumn: IColumnBelonging = { key: 'test', uk: 'Test', en: 'Test' };
     const mockData = 'Test Comment';
     component.column = mockColumn;
     component.id = 1;

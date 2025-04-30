@@ -43,7 +43,7 @@
         </div>
       </div>
       <div *ngIf="eventsElements && eventsElements.length > 0">
-        <a [routerLink]="['/events']" (click)="closeSearch()">
+        <a [routerLink]="['/greenCity/events']" (click)="closeSearch()">
           <h3 class="search-title">
             {{ 'search.search-popup.events' | translate }} <span class="counter">({{ resultsCounters.events }})</span>
           </h3>
@@ -60,7 +60,7 @@
         </div>
       </div>
       <div *ngIf="placesElements && placesElements.length > 0">
-        <a [routerLink]="['/places']" (click)="closeSearch()">
+        <a [routerLink]="['/greenCity/places']" (click)="closeSearch()">
           <h3 class="search-title">
             {{ 'search.search-popup.places' | translate }} <span class="counter">({{ resultsCounters.places }})</span>
           </h3>

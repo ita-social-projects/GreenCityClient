@@ -26,7 +26,7 @@ export class OneNewsComponent implements OnInit {
 
   ngOnInit(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.tags = this.langService.getLangValue(this.ecoNewsModel.tagsUa, this.ecoNewsModel.tagsEn);
+      this.tags = this.langService.getLangValue(this.ecoNewsModel.tagsUk, this.ecoNewsModel.tagsEn);
     });
   }
 

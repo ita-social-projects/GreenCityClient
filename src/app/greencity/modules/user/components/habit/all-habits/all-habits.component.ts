@@ -54,12 +54,11 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.onResize();
     this.checkHabitsView();
-    this.getAllHabits(0, this.pageSize);
-
+    this.getAllHabitsTags();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang) => {
       this.translate.setDefaultLang(lang);
       this.lang = lang;
-      this.getAllHabitsTags();
+      this.getAllHabits(0, this.pageSize);
     });
   }
 
@@ -72,9 +71,9 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
         const options = [];
         this.tagList.forEach((tag: TagInterface) => {
           const item = {
-            name: tag.name,
-            nameUa: tag.nameUa,
-            value: tag.name,
+            name: tag.nameEn,
+            nameUa: tag.nameUk,
+            value: tag.nameEn,
             isActive: false
           };
           options.push(item);
@@ -201,7 +200,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
   goToCreateHabit(): void {
     const userId = localStorage.getItem('userId');
-    this.router.navigate([`profile/${userId}/create-habit`]);
+    this.router.navigate([`/greenCity/profile/${userId}/create-habit`]);
   }
 
   ngOnDestroy(): void {

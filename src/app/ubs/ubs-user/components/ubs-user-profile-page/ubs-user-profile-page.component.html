@@ -150,17 +150,17 @@
                 <div class="inline">
                   <div class="form-group input-margin localization">
                     <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
-                    <p [appLangValue]="{ ua: address?.region, en: address?.regionEn }"></p>
+                    <p [appLangValue]="{ ua: address?.regionUk, en: address?.regionEn }"></p>
                   </div>
                   <div class="form-group">
                     <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
-                    <p [appLangValue]="{ ua: address?.city, en: address?.cityEn }"></p>
+                    <p [appLangValue]="{ ua: address?.cityUk, en: address?.cityEn }"></p>
                   </div>
                 </div>
                 <div class="inline">
                   <div class="form-group input-margin localization">
                     <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
-                    <p [appLangValue]="{ ua: address?.street, en: address?.streetEn }"></p>
+                    <p [appLangValue]="{ ua: address?.streetUk, en: address?.streetEn }"></p>
                   </div>
                   <div class="form-group input-margin">
                     <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
@@ -178,7 +178,7 @@
                 <div class="inline">
                   <div class="form-group mrgbtn localization">
                     <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
-                    <p [appLangValue]="{ ua: address?.district, en: address?.districtEn }"></p>
+                    <p [appLangValue]="{ ua: address?.districtUk, en: address?.districtEn }"></p>
                   </div>
                 </div>
                 <div class="inline" *ngIf="address.addressComment">
