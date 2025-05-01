@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
@@ -10,22 +10,44 @@ import { NgClass, NgForOf, NgIf } from '@angular/common';
   imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule],
   styleUrls: ['./chat-page.component.scss']
 })
-export class ChatComponent {
-  chats = [
-    {
-      name: 'Pickup User',
-      initial: 'P',
-      chatId: '6941601046',
-      lastMessage: '',
-      time: '',
-      messages: []
-    }
-  ];
-
+export class ChatComponent implements OnInit {
+  chats: any[] = [];
   selectedChat: any = null;
   newMessage = '';
 
   constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.loadUnauthorizedUsers();
+  }
+
+  loadUnauthorizedUsers(): void {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      return;
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const url = `http://localhost:8055/ubs/telegram/get-all-unauthorized-users`;
+
+    this.http.get<any>(url, { headers }).subscribe({
+      next: (response) => {
+        const users = response.page || [];
+
+        this.chats = users.map((user: any) => ({
+          name: user.userName || `${user.firstName} ${user.lastName}`.trim() || 'Unknown',
+          initial: (user.userName || user.firstName || '?')[0].toUpperCase(),
+          chatId: user.chatId,
+          lastMessage: '',
+          time: '',
+          messages: []
+        }));
+      },
+      error: (error) => {
+        console.error('Failed to load unauthorized users:', error);
+      }
+    });
+  }
 
   selectChat(chat: any): void {
     this.selectedChat = chat;
@@ -37,20 +59,30 @@ export class ChatComponent {
     if (!token) {
       return;
     }
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `http://localhost:8055/ubs/telegram/user-messages/${chatId}?page=0&size=10`;
 
-    this.http.get<any[]>(url, { headers }).subscribe((response) => {
-      this.selectedChat.messages = response.map((msg) => ({
-        from: msg.isManagerMessage ? 'Me' : this.selectedChat.name,
-        text: msg.text,
-        time: new Date(msg.sendAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      }));
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const url = `http://localhost:8055/ubs/telegram/user-messages/${chatId}`;
+
+    this.http.get<any>(url, { headers }).subscribe({
+      next: (response) => {
+        const messages = response.page || [];
+        this.selectedChat.messages = messages.map((msg: any) => ({
+          from: msg.isManagerMessage ? 'Me' : this.selectedChat.name,
+          text: msg.text,
+          time: new Date(msg.sendAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }));
+      },
+      error: (err) => {
+        if (err.status === 400 && err.error?.message?.includes('no messages')) {
+          this.selectedChat.messages = [];
+        } else {
+          console.error('Failed to fetch messages:', err);
+        }
+      }
     });
   }
 
   sendMessage(): void {
-    console.log('Send button clicked');
     if (!this.newMessage.trim() || !this.selectedChat) {
       return;
     }
@@ -65,7 +97,7 @@ export class ChatComponent {
     const message = encodeURIComponent(this.newMessage.trim());
     const url = `http://localhost:8055/ubs/telegram/send-message/${chatId}?message=${message}`;
 
-    this.http.post(url, null, { headers }).subscribe({
+    this.http.post(url, null, { headers, responseType: 'text' }).subscribe({
       next: () => {
         const now = new Date();
         const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
