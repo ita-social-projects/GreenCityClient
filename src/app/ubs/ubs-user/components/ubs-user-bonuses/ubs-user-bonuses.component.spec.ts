@@ -17,7 +17,9 @@ const testBonuses: BonusesModel = {
     {
       amount: 40,
       dateOfEnrollment: new Date(),
-      numberOfOrder: 10
+      numberOfOrder: 10,
+      reasonUk: 'Причина',
+      reasonEn: 'Reason'
     }
   ],
   userBonuses: 100
