@@ -89,6 +89,18 @@
   margin-right: 8px;
 }
 
+.custom-input-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 8px;
+  background: white;
+}
+
+.custom-input-wrapper input {
+  flex: 1;
+}
+
 .unpaid-amount {
   margin-bottom: 8px;
 }

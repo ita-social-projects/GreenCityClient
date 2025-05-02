@@ -111,6 +111,21 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     this.orderService.cleanOrderState();
   }
 
+  exportAsPDF(order: IUserOrderInfo): void {
+    const orderId = order.id;
+    const lang = this.currentLanguage;
+
+    this.orderService.getOrderPdf(orderId, lang).subscribe((pdfBlob) => {
+      const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `order-${orderId}.pdf`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
   getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
     const bags = order.bags;
     const bag = bags.find((item) => item.capacity === capacity && item.serviceUk === bagTypeName);

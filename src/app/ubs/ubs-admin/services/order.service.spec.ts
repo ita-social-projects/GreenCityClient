@@ -89,8 +89,8 @@ describe('OrderService', () => {
       {
         capacity: 10,
         id: 1,
-        name: 'Plastic Bag',
-        nameEng: 'Plastic Bag',
+        nameUk: 'Plastic Bag',
+        nameEn: 'Plastic Bag',
         price: 5,
         confirmed: 2,
         actual: 1

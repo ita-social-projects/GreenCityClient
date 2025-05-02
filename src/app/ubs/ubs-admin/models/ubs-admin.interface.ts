@@ -171,8 +171,8 @@ export interface IOrderDetails {
 export interface IBags {
   capacity: number;
   id: number;
-  name: string;
-  nameEng: string;
+  nameUk: string;
+  nameEn: string;
   price: number;
   planned?: number;
   confirmed?: number;

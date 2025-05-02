@@ -19,13 +19,10 @@ export interface HabitInterface {
 }
 
 export interface HabitTranslationInterface {
-  descriptionEn: string;
-  habitItemEn: string;
+  description: string;
+  habitItem: string;
   languageCode: string;
-  nameEn: string;
-  nameUk: string;
-  descriptionUk: string;
-  habitItemUk: string;
+  name: string;
 }
 
 export interface HabitListInterface {

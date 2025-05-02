@@ -44,6 +44,7 @@
             </mat-option>
           </mat-select>
         </div>
+
         <div class="dropdown" (click)="locationFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
           <mat-select #locationFilter [formControl]="locationFilterControl" [multiple]="true">
@@ -56,13 +57,54 @@
             <mat-divider></mat-divider>
             <mat-option
               [value]="locationFilter.nameEn"
-              *ngFor="let locationFilter of locationFiltersList"
+              *ngFor="let locationFilter of relevantLocationFiltersList"
               (click)="updateListOfFilters(locationFilter)"
             >
               <span [appLangValue]="{ ua: locationFilter.nameUk, en: locationFilter.nameEn }"></span>
             </mat-option>
+            <mat-divider></mat-divider>
+            <div (click)="openCityModal()" class="add-location-option" *ngIf="!showAddCityInput">
+              <div class="add-location-content">
+                <span>{{ 'add-cities-modal.dropdown' | translate }}</span>
+              </div>
+            </div>
           </mat-select>
         </div>
+
+        <ng-template #cityModal>
+          <div class="city-modal">
+            <button mat-icon-button class="close-btn" (click)="closeCityModal()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div class="city-modal-header">
+              <h2>{{ 'add-cities-modal.dropdown' | translate }}</h2>
+            </div>
+
+            <form [formGroup]="cityForm">
+              <div class="city-input-row">
+                <app-input-google-autocomplete
+                  formControlName="city"
+                  [isInitAutoTranslate]="true"
+                  (predictionSelected)="onCitySelected($event)"
+                  ngDefaultControl
+                  class="autocomplete-input"
+                ></app-input-google-autocomplete>
+              </div>
+            </form>
+
+            <div class="city-list">
+              <div class="city-tag" *ngFor="let city of selectedCities; let i = index">
+                {{ currentLanguage === 'ua' ? city.nameUk : city.nameEn }}
+                <button mat-icon-button (click)="removeCity(i)" class="remove-btn"><mat-icon>close</mat-icon></button>
+              </div>
+            </div>
+
+            <button mat-raised-button color="accent" (click)="saveCities()" class="save-cities-button">
+              {{ 'add-cities-modal.add-button' | translate }}
+            </button>
+          </div>
+        </ng-template>
+
         <div class="dropdown" (click)="statusFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
           <mat-select #statusFilter [formControl]="statusFilterControl" [multiple]="true">
@@ -78,6 +120,7 @@
             </mat-option>
           </mat-select>
         </div>
+
         <div class="dropdown" (click)="typeFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-type' | translate }}</mat-label>
           <mat-select #typeFilter [formControl]="typeFilterControl" [multiple]="true">
