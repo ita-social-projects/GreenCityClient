@@ -115,8 +115,8 @@ export const OrderInfoMockedData: IOrderInfo = {
       capacity: 120,
       confirmed: 1,
       id: 1,
-      name: 'Безпечні відходи',
-      nameEng: 'Safe waste',
+      nameUk: 'Безпечні відходи',
+      nameEn: 'Safe waste',
       planned: 1,
       price: 250
     }
