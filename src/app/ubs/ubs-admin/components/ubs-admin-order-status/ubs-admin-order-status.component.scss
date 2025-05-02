@@ -60,3 +60,10 @@ p {
 .readonly {
   pointer-events: none;
 }
+
+.payment {
+  background-color: var(--ubs-light-grey);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

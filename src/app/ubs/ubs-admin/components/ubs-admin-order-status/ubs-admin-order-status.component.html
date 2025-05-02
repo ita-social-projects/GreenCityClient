@@ -36,24 +36,10 @@
           <div class="col-12">
             <div class="form-row">
               <div class="form-group col-sm-10 col-md-7">
-                <label for="payment" class="form__label">
+                <label class="form__label">
                   {{ 'order-edit.status.payment-label' | translate }}
                 </label>
-                <select
-                  id="payment"
-                  class="form-control payment"
-                  formControlName="paymentStatus"
-                  [disabled]="true"
-                  *ngIf="availablePaymentOrderStatuses?.length"
-                >
-                  <option
-                    *ngFor="let status of availablePaymentOrderStatuses"
-                    [selected]="status?.key === generalInfo.orderPaymentStatus"
-                    [value]="status?.key"
-                    [disabled]="true"
-                    [appLangValue]="{ ua: status?.uk, en: status?.en }"
-                  ></option>
-                </select>
+                <div class="form-control readonly payment" *ngIf="currentPaymentStatus" [appLangValue]="currentPaymentStatus"></div>
               </div>
             </div>
           </div>
