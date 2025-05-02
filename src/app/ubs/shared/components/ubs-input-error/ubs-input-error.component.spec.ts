@@ -48,7 +48,7 @@ describe('ErrorComponent ', () => {
   }));
 
   it('errorMessage should have correct value if we have maxlength error in "Entrance" field', () => {
-    Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 2 } } } });
+    Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 3 } } } });
     fixture.detectChanges();
     component.getType();
     expect(component.errorMessage).toBe('input-error.max-length-entrance');

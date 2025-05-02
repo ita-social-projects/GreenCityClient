@@ -35,7 +35,7 @@ export class UBSInputErrorComponent implements OnInit {
     minlength: 'input-error.minlength-short',
     maxlength: 'input-error.max-length',
     maxlengthEntrance: 'input-error.max-length-entrance',
-    maxlengthHouse: 'input-error.max-length-house-number',
+    maxlengthHouse: 'input-error.max-length-house',
     maxlengthHouseCorpus: 'input-error.max-length-house-corpus',
     maxlengthStreet: 'input-error.max-length-street',
     maxlengthCity: 'input-error.max-length-city',
@@ -53,7 +53,7 @@ export class UBSInputErrorComponent implements OnInit {
     confirmPasswordMistmatch: 'ubs-client-profile.password-error-confirm',
     requiredFromDropdown: 'personal-info.required-from-dropdown',
     emailExist: 'input-error.email-exist',
-    invalidBinotelLink: 'input-error.binotel-link'
+    numericOnly: 'input-error.entrance-wrong'
   };
 
   ngOnInit() {
@@ -112,8 +112,8 @@ export class UBSInputErrorComponent implements OnInit {
         return this.validationErrors.wrongNumber;
       case Patterns.regexpPass.toString():
         return this.validationErrors.passwordRequirements;
-      case Patterns.binotelLinkPattern.toString():
-        return this.validationErrors.invalidBinotelLink;
+      case Patterns.numeric.toString():
+        return this.validationErrors.numericOnly;
       default:
         return this.validationErrors.pattern;
     }
@@ -121,11 +121,11 @@ export class UBSInputErrorComponent implements OnInit {
 
   getMaxlengthErrorMessage(maxlength: number): string {
     switch (maxlength) {
-      case 2:
+      case 3:
         return this.validationErrors.maxlengthEntrance;
       case 4:
         return this.validationErrors.maxlengthHouseCorpus;
-      case 5:
+      case 10:
         return this.validationErrors.maxlengthHouse;
       case 30:
         return this.validationErrors.maxlengthCity;
