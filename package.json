@@ -77,6 +77,24 @@
     "xlsx": "^0.17.1",
     "zone.js": "~0.13.3"
   },
+  {
+  "name": "green-city-client",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "ng serve",
+    "build": "ng build --prod",
+    "test": "ng test --code-coverage",
+    "clean": "rimraf dist",
+    "lint": "ng lint",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "dependencies": {
+    // Your dependencies go here
+  },
+  "devDependencies": {
+    // Your dev dependencies go here
+  }
+};
   "devDependencies": {
     "@angular-devkit/build-angular": "16.2.11",
     "@angular-eslint/builder": "16.3.1",
