@@ -20,6 +20,7 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
   myControl = new FormControl();
   cities: LocationsName[] = [];
   currentLanguage: string;
+  isFetching: boolean;
   private readonly destroy$ = new Subject<void>();
 
   howWorksPickUp = howWorksPickUp;
@@ -85,7 +86,7 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
 
   updateDataBasedOnLocation(locationId: number): void {
     const courierId = this.courierUBS.courierId;
-
+    this.isFetching = true;
     this.store.dispatch(GetCourierLocations({ courierId, locationId }));
 
     this.store
@@ -111,6 +112,7 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
           )
           .subscribe((orderDetails) => {
             this.bags = orderDetails.bags;
+            this.isFetching = false;
           });
       });
   }

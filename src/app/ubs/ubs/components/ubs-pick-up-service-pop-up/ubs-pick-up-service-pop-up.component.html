@@ -83,10 +83,16 @@
           </select>
         </div>
         <div class="price-conditions">
-          <div class="box-item numbered-columns" *ngFor="let bag of bags; let i = index">
-            <div class="box-number">0{{ i + 1 }}</div>
-            <div class="box-text">{{ currentLanguage === 'ua' ? bag.nameUk : bag.nameEn }}: {{ bag.capacity }} - {{ bag.price }}</div>
-          </div>
+          <ng-container *ngIf="isFetching; else showBags">
+            <app-spinner />
+          </ng-container>
+
+          <ng-template #showBags>
+            <div class="box-item numbered-columns" *ngFor="let bag of bags; let i = index">
+              <div class="box-number">0{{ i + 1 }}</div>
+              <div class="box-text">{{ currentLanguage === 'ua' ? bag.nameUk : bag.nameEn }}: {{ bag.capacity }} - {{ bag.price }}</div>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>
