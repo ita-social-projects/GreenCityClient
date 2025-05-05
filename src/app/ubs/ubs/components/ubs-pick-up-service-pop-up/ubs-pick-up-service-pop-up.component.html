@@ -73,13 +73,19 @@
           </li>
         </ol>
       </div>
-
       <div class="price box">
         <h6 class="caption">{{ pricePickUp[0] | translate }}</h6>
+        <div *ngIf="cities.length > 0">
+          <select [formControl]="myControl" id="citySelect" class="form-control payment">
+            <option *ngFor="let city of cities" [ngValue]="city">
+              {{ city.locationName }}
+            </option>
+          </select>
+        </div>
         <div class="price-conditions">
-          <div class="box-item numbered-columns" *ngFor="let box of pricePickUp | slice: 1; let i = index">
+          <div class="box-item numbered-columns" *ngFor="let bag of bags; let i = index">
             <div class="box-number">0{{ i + 1 }}</div>
-            <div class="box-text">{{ box | translate }}</div>
+            <div class="box-text">{{ currentLanguage === 'ua' ? bag.nameUk : bag.nameEn }}: {{ bag.capacity }} - {{ bag.price }}</div>
           </div>
         </div>
       </div>
