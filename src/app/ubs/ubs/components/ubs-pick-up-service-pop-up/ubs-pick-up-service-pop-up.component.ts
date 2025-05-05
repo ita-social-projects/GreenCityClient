@@ -3,7 +3,7 @@ import { howWorksPickUp, courierPickUp, pricePickUp, extraoffer, minimumVolume, 
 import { Store } from '@ngrx/store';
 import { GetCourierLocations, GetOrderDetails } from 'src/app/store/actions/order.actions';
 import { orderDetailsSelector, tariffIdIdSelector } from 'src/app/store/selectors/order.selectors';
-import { filter, map, pairwise, Subject, take, takeUntil } from 'rxjs';
+import { filter, map, pairwise, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { AllActiveLocationsDtosResponse, Bag, CourierDto, LocationsName } from '@ubs/ubs/models/ubs.interface';
 import { OrderService } from '@ubs/ubs/services/order.service';
 import { FormControl } from '@angular/forms';
@@ -88,7 +88,6 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
     const courierId = this.courierUBS.courierId;
     this.isFetching = true;
     this.store.dispatch(GetCourierLocations({ courierId, locationId }));
-
     this.store
       .select(tariffIdIdSelector)
       .pipe(
@@ -96,24 +95,21 @@ export class UbsPickUpServicePopUpComponent implements OnInit, OnDestroy {
         filter(([prev, curr]) => curr !== prev),
         map(([, curr]) => curr),
         take(1),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((tariffId) => {
-        this.store.dispatch(GetOrderDetails({ locationId, tariffId }));
-
-        this.store
-          .select(orderDetailsSelector)
-          .pipe(
+        takeUntil(this.destroy$),
+        switchMap((tariffId) => {
+          this.store.dispatch(GetOrderDetails({ locationId, tariffId }));
+          return this.store.select(orderDetailsSelector).pipe(
             pairwise(),
             filter(([prev, curr]) => prev?.bags !== curr?.bags),
             map(([, curr]) => curr),
             take(1),
             takeUntil(this.destroy$)
-          )
-          .subscribe((orderDetails) => {
-            this.bags = orderDetails.bags;
-            this.isFetching = false;
-          });
+          );
+        })
+      )
+      .subscribe((orderDetails) => {
+        this.bags = orderDetails.bags;
+        this.isFetching = false;
       });
   }
 
