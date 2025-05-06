@@ -5,10 +5,9 @@ import { OrderService } from '@ubs/ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { CourierDto } from '@ubs/ubs/models/ubs.interface';
 import { orderDetailsSelector, tariffIdIdSelector } from 'src/app/store/selectors/order.selectors';
-import { GetCourierLocations, GetOrderDetails } from 'src/app/store/actions/order.actions';
 import { Component } from '@angular/core';
 
 @Component({
@@ -52,7 +51,6 @@ describe('UbsPickUpServicePopUpComponent', () => {
     fixture = TestBed.createComponent(UbsPickUpServicePopUpComponent);
     component = fixture.componentInstance;
     component.myControl = new FormControl();
-    // component.destroy$ = new Subject();
     fixture.detectChanges();
   });
 
@@ -126,17 +124,17 @@ describe('UbsPickUpServicePopUpComponent', () => {
 
     mockStore.select.and.callFake((selector) => {
       if (selector === tariffIdIdSelector) {
-        return of(1, 2); // emits [1, 2] for pairwise
+        return of(1, 2);
       }
       if (selector === orderDetailsSelector) {
-        return of({ bags: [{ id: 1 }] }, { bags: [{ id: 1 }, { id: 2 }, { id: 3 }] }); // emits [prev, curr] for pairwise
+        return of({ bags: [{ id: 1 }] }, { bags: [{ id: 1 }, { id: 2 }, { id: 3 }] });
       }
       return of();
     });
 
     component.updateDataBasedOnLocation(123);
 
-    tick(); // flush all observables
+    tick();
 
     expect(component.bags).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
     expect(component.isFetching).toBeFalse();
