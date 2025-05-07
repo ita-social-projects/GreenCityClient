@@ -38,6 +38,16 @@
         <button (click)="sendMessage()">➤</button>
       </div>
     </div>
+    <div class="photo-upload">
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+      <input type="text" placeholder="Caption" [(ngModel)]="caption" />
+      <button (click)="uploadPhoto()" [disabled]="!selectedFile">Upload Photo</button>
+    </div>
+    <div class="photo-url-send">
+      <input type="text" placeholder="Photo URL" [(ngModel)]="photoUrl" />
+      <input type="text" placeholder="Caption" [(ngModel)]="caption" />
+      <button (click)="sendUploadedPhoto(photoUrl)" [disabled]="!photoUrl">Send Photo by URL</button>
+    </div>
 
     <ng-template #placeholder>
       <p class="placeholder-text">Select a chat to start messaging</p>
