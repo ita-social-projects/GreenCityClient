@@ -102,43 +102,34 @@ export class ChatComponent implements OnInit {
       return;
     }
 
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      return;
-    }
-
     const reader = new FileReader();
     reader.onload = () => {
-      const base64File = (reader.result as string).split(',')[1];
+      const base64 = reader.result as string;
 
-      const body = {
-        file: base64File
-      };
+      const token = localStorage.getItem('accessToken');
+      if (!token) {
+        return;
+      }
 
       const chatId = this.selectedChat.chatId;
-      const captionSafe = this.caption?.trim() || ' ';
-      const url = `http://localhost:8055/ubs/telegram/upload-photo/${chatId}?caption=${encodeURIComponent(captionSafe)}`;
+      const url = `http://localhost:8055/ubs/telegram/upload-photo/${chatId}?caption=${encodeURIComponent(this.caption)}`;
       const headers = new HttpHeaders({
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       });
 
+      const body = { file: base64 };
+
       this.http.post(url, body, { headers }).subscribe({
         next: () => {
+          alert('Photo sent!');
           this.caption = '';
           this.selectedFile = null;
-          alert('Photo sent successfully!');
         },
         error: (err) => {
           console.error('Failed to upload photo:', err);
-          alert('Upload failed. Check console for details.');
         }
       });
-    };
-
-    reader.onerror = (err) => {
-      console.error('FileReader error:', err);
-      alert('Could not read the selected file.');
     };
 
     reader.readAsDataURL(this.selectedFile);
