@@ -102,37 +102,30 @@ export class ChatComponent implements OnInit {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64 = reader.result as string;
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      return;
+    }
 
-      const token = localStorage.getItem('accessToken');
-      if (!token) {
-        return;
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+
+    const chatId = this.selectedChat.chatId;
+    console.log('Uploading photo to chatId:', chatId); // 👈 This line logs the selected chat ID
+
+    const url = `http://localhost:8055/ubs/telegram/upload-photo/${chatId}?caption=${encodeURIComponent(this.caption)}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http.post(url, formData, { headers }).subscribe({
+      next: () => {
+        alert('Photo sent!');
+        this.caption = '';
+        this.selectedFile = null;
+      },
+      error: (err) => {
+        console.error('Failed to upload photo:', err);
       }
-
-      const chatId = this.selectedChat.chatId;
-      const url = `http://localhost:8055/ubs/telegram/upload-photo/${chatId}?caption=${encodeURIComponent(this.caption)}`;
-      const headers = new HttpHeaders({
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      });
-
-      const body = { file: base64 };
-
-      this.http.post(url, body, { headers }).subscribe({
-        next: () => {
-          alert('Photo sent!');
-          this.caption = '';
-          this.selectedFile = null;
-        },
-        error: (err) => {
-          console.error('Failed to upload photo:', err);
-        }
-      });
-    };
-
-    reader.readAsDataURL(this.selectedFile);
+    });
   }
 
   loadUnauthorizedUsers(): void {
