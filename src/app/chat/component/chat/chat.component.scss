@@ -1,4 +1,48 @@
 @import '../../../chat/chat-styles-reset';
+// Add this outside any nesting
+.photo-upload-section {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: #f7f7f7;
+  border-top: 1px solid #ccc;
+
+  .photo-upload,
+  .photo-url-send {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+
+    input[type='text'],
+    input[type='file'] {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 8px 14px;
+      font-size: 14px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:disabled {
+        background: #bbb;
+        cursor: not-allowed;
+      }
+
+      &:hover:not(:disabled) {
+        background-color: #3f9a42;
+      }
+    }
+  }
+}
 
 :host {
   @include flex(column, center, center);
@@ -166,4 +210,52 @@
 
 .sender-additional-buttons {
   @include flex(row, center, center);
+}
+
+::ng-deep .photo-upload-section {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: #f7f7f7;
+  border-top: 1px solid #ccc;
+}
+
+::ng-deep .photo-upload,
+::ng-deep .photo-url-send {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+::ng-deep .photo-upload input[type='text'],
+::ng-deep .photo-upload input[type='file'],
+::ng-deep .photo-url-send input[type='text'] {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+::ng-deep .photo-upload button,
+::ng-deep .photo-url-send button {
+  padding: 8px 14px;
+  font-size: 14px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+::ng-deep .photo-upload button:disabled,
+::ng-deep .photo-url-send button:disabled {
+  background: #bbb;
+  cursor: not-allowed;
+}
+
+::ng-deep .photo-upload button:hover:not(:disabled),
+::ng-deep .photo-url-send button:hover:not(:disabled) {
+  background-color: #3f9a42;
 }

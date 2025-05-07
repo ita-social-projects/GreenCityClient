@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat-page.component.html',
+  encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule],
+  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, NgStyle],
   styleUrls: ['./chat-page.component.scss']
 })
 export class ChatComponent implements OnInit {
@@ -69,7 +70,7 @@ export class ChatComponent implements OnInit {
     const params = {
       page: 0,
       size: 50,
-      sort: ['id,asc'] // optional sort field
+      sort: ['id,asc']
     };
 
     const url = `http://localhost:8055/ubs/telegram/get-all-authorized-users`;
@@ -106,23 +107,41 @@ export class ChatComponent implements OnInit {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', this.selectedFile);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64File = (reader.result as string).split(',')[1];
 
-    const chatId = this.selectedChat.chatId;
-    const url = `http://localhost:8055/ubs/telegram/upload-photo/${chatId}?caption=${encodeURIComponent(this.caption)}`;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      const body = {
+        file: base64File
+      };
 
-    this.http.post(url, formData, { headers }).subscribe({
-      next: () => {
-        this.caption = '';
-        this.selectedFile = null;
-        alert('Photo sent!');
-      },
-      error: (err) => {
-        console.error('Failed to upload photo:', err);
-      }
-    });
+      const chatId = this.selectedChat.chatId;
+      const captionSafe = this.caption?.trim() || ' ';
+      const url = `http://localhost:8055/ubs/telegram/upload-photo/${chatId}?caption=${encodeURIComponent(captionSafe)}`;
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      });
+
+      this.http.post(url, body, { headers }).subscribe({
+        next: () => {
+          this.caption = '';
+          this.selectedFile = null;
+          alert('Photo sent successfully!');
+        },
+        error: (err) => {
+          console.error('Failed to upload photo:', err);
+          alert('Upload failed. Check console for details.');
+        }
+      });
+    };
+
+    reader.onerror = (err) => {
+      console.error('FileReader error:', err);
+      alert('Could not read the selected file.');
+    };
+
+    reader.readAsDataURL(this.selectedFile);
   }
 
   loadUnauthorizedUsers(): void {

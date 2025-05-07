@@ -38,15 +38,82 @@
         <button (click)="sendMessage()">➤</button>
       </div>
     </div>
-    <div class="photo-upload">
-      <input type="file" (change)="onFileSelected($event)" accept="image/*" />
-      <input type="text" placeholder="Caption" [(ngModel)]="caption" />
-      <button (click)="uploadPhoto()" [disabled]="!selectedFile">Upload Photo</button>
-    </div>
-    <div class="photo-url-send">
-      <input type="text" placeholder="Photo URL" [(ngModel)]="photoUrl" />
-      <input type="text" placeholder="Caption" [(ngModel)]="caption" />
-      <button (click)="sendUploadedPhoto(photoUrl)" [disabled]="!photoUrl">Send Photo by URL</button>
+    <div
+      *ngIf="selectedChat"
+      style="display: flex; flex-direction: column; padding: 16px; background: #f7f7f7; border-top: 1px solid #ccc; gap: 10px"
+    >
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px">
+        <label
+          style="
+            display: inline-block;
+            padding: 8px 14px;
+            font-size: 14px;
+            background-color: #4caf50;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+          "
+        >
+          Choose File
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none" />
+        </label>
+
+        <input
+          type="text"
+          placeholder="Caption"
+          [(ngModel)]="caption"
+          style="flex: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px"
+        />
+        <button
+          (click)="uploadPhoto()"
+          [disabled]="!selectedFile"
+          style="
+            padding: 8px 14px;
+            font-size: 14px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          "
+          [ngStyle]="{ backgroundColor: !selectedFile ? '#bbb' : '#4caf50', cursor: !selectedFile ? 'not-allowed' : 'pointer' }"
+        >
+          Upload Photo
+        </button>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px">
+        <input
+          type="text"
+          placeholder="Photo URL"
+          [(ngModel)]="photoUrl"
+          style="flex: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px"
+        />
+        <input
+          type="text"
+          placeholder="Caption"
+          [(ngModel)]="caption"
+          style="flex: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px"
+        />
+        <button
+          (click)="sendUploadedPhoto(photoUrl)"
+          [disabled]="!photoUrl"
+          style="
+            padding: 8px 14px;
+            font-size: 14px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          "
+          [ngStyle]="{ backgroundColor: !photoUrl ? '#bbb' : '#4caf50', cursor: !photoUrl ? 'not-allowed' : 'pointer' }"
+        >
+          Send Photo by URL
+        </button>
+      </div>
     </div>
 
     <ng-template #placeholder>
