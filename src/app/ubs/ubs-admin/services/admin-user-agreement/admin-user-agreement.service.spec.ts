@@ -46,7 +46,7 @@ describe('AdminUserAgreementService', () => {
       id: 1,
       createdAt: '2024-08-16T18:45:16.840366',
       authorEmail: 'mock@gmail.com',
-      textUa: 'textUa',
+      textUk: 'textUa',
       textEn: 'textEn'
     };
 
@@ -64,7 +64,7 @@ describe('AdminUserAgreementService', () => {
 
   it('should update user agreement', () => {
     const mockUserAgreement = {
-      textUa: 'textUa',
+      textUk: 'textUa',
       textEn: 'textEn'
     };
 

@@ -13,7 +13,7 @@ import {
   // MatAutocompleteSelectedEvent,
   MatAutocompleteTrigger
 } from '@angular/material/autocomplete';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UbsAdminTariffsCourierPopUpComponent', () => {
   let component: UbsAdminTariffsCourierPopUpComponent;
@@ -73,7 +73,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
-        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
+        { provide: MatSnackBarService, useValue: { openSnackBar: () => {} } },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

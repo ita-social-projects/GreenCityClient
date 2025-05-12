@@ -22,13 +22,15 @@
     <div class="form-container block">
       <label class="label" for="date">{{ 'add-payment.payment-date' | translate }}</label>
       <input
-        formControlName="settlementdate"
+        formControlName="settlementDate"
         id="date"
         class="date"
         placeholder="{{ 'add-payment.date-placeholder' | translate }}"
         matInput
         readonly
         [matDatepicker]="dp"
+        [max]="maxDate"
+        [min]="minDate"
       />
       <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
       <mat-datepicker #dp></mat-datepicker>
@@ -55,7 +57,12 @@
         <label for="radio-btn-group" class="add-confirmation">{{ 'add-payment.confirm-payment' | translate }}</label>
         <div>
           <div id="radio-btn-group" class="radio-btn-group">
-            <mat-radio-button name="linkToBill" value="linkToBill" [checked]="isLinkToBillChoosed"></mat-radio-button>
+            <mat-radio-button
+              name="linkToBill"
+              value="linkToBill"
+              [checked]="isLinkToBillChoosed"
+              [disabled]="isRadioButtonDisabled()"
+            ></mat-radio-button>
             <label class="label" for="link">{{ 'add-payment.link-to-bill' | translate }}</label>
           </div>
           <input
@@ -69,7 +76,12 @@
         </div>
         <div>
           <div class="radio-btn-group">
-            <mat-radio-button name="photoBill" value="photoBill" [checked]="isPhotoContainerChoosen"></mat-radio-button>
+            <mat-radio-button
+              name="photoBill"
+              value="photoBill"
+              [checked]="isPhotoContainerChoosen"
+              [disabled]="isRadioButtonDisabled()"
+            ></mat-radio-button>
             <span class="label">{{ 'add-payment.label-for-photo' | translate }}</span>
           </div>
           <div *ngIf="isPhotoContainerChoosen" appDrag (files)="filesDropped($event)">

@@ -103,9 +103,9 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
 
   getUserCity(locationDto: UserLocationDto): string {
     if (locationDto) {
-      const city = this.langService.getLangValue(locationDto?.cityUa, locationDto?.cityEn);
-      const country = this.langService.getLangValue(locationDto?.countryUa, locationDto?.countryEn);
-      return locationDto.cityUa && locationDto.cityEn ? `${city}, ${country}` : '';
+      const city = this.langService.getLangValue(locationDto?.cityUk, locationDto?.cityEn);
+      const country = this.langService.getLangValue(locationDto?.countryUk, locationDto?.countryEn);
+      return locationDto.cityUk && locationDto.cityEn ? `${city}, ${country}` : '';
     }
     return '';
   }

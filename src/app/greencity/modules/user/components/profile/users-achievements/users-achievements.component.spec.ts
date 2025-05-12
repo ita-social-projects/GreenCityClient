@@ -21,8 +21,8 @@ describe('UsersAchievementsComponent', () => {
   const mockAchievements: AchievementDto[] = [
     {
       id: 1,
-      name: 'Achievement 1',
-      nameEng: 'Eng 1',
+      nameUk: 'Achievement 1',
+      nameEn: 'Eng 1',
       title: 'title1',
       achievementCategory: { id: 1, name: 'name' },
       progress: 2,
@@ -30,8 +30,8 @@ describe('UsersAchievementsComponent', () => {
     },
     {
       id: 2,
-      name: 'Achievement 2',
-      nameEng: 'Eng 2',
+      nameUk: 'Achievement 2',
+      nameEn: 'Eng 2',
       title: 'title2',
       achievementCategory: { id: 1, name: 'name' },
       progress: 2,
@@ -39,8 +39,8 @@ describe('UsersAchievementsComponent', () => {
     },
     {
       id: 3,
-      name: 'Achievement 3',
-      nameEng: 'Eng 3',
+      nameUk: 'Achievement 3',
+      nameEn: 'Eng 3',
       title: 'title3',
       achievementCategory: { id: 1, name: 'name' },
       progress: 4,

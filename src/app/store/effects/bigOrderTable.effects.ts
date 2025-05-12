@@ -5,7 +5,6 @@ import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import {
   IBigOrderTable,
   IBigOrderTableParams,
@@ -41,16 +40,17 @@ import {
   UpdateOrderInfo,
   UpdateOrderInfoSuccess
 } from '../actions/bigOrderTable.actions';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Injectable()
 export class BigOrderTableEffects {
   constructor(
-    private actions: Actions,
-    private adminTableService: AdminTableService,
-    private orderService: OrderService,
-    private localStorageService: LocalStorageService,
-    private store: Store,
-    private snackBar: MatSnackBarComponent
+    private readonly actions: Actions,
+    private readonly adminTableService: AdminTableService,
+    private readonly orderService: OrderService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly store: Store,
+    private readonly snackBar: MatSnackBarService
   ) {}
 
   getColumns = createEffect(() => {

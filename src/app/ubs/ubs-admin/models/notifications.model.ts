@@ -1,15 +1,15 @@
 export interface Platform {
   name: string;
-  nameEng: string;
+  nameEn: string;
   status: string;
-  body: string;
-  bodyEng: string;
+  bodyUk: string;
+  bodyEn: string;
   receiverType: string;
 }
 
 export interface NotificationTemplateUpdateInfoDto {
-  title: string;
-  titleEng: string;
+  titleUk: string;
+  titleEn: string;
   trigger: string;
   type: string;
   time: string;
@@ -17,10 +17,10 @@ export interface NotificationTemplateUpdateInfoDto {
 }
 
 export interface NotificationTemplateMainInfoDto extends NotificationTemplateUpdateInfoDto {
-  triggerDescription: string;
-  triggerDescriptionEng: string;
-  timeDescription: string;
-  timeDescriptionEng: string;
+  triggerDescriptionUk: string;
+  triggerDescriptionEn: string;
+  timeDescriptionUk: string;
+  timeDescriptionEn: string;
   notificationStatus: string;
 }
 

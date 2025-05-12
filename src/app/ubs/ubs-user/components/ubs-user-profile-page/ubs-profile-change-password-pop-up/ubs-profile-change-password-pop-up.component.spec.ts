@@ -8,8 +8,8 @@ import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-pas
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UpdatePasswordDto } from 'src/app/shared/models/updatePasswordDto';
 import { of } from 'rxjs';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('UbsProfileChangePasswordPopUpComponent', () => {
   let component: UbsProfileChangePasswordPopUpComponent;
@@ -20,7 +20,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
 
   const changePasswordServiceFake = jasmine.createSpyObj('ChangePasswordService', ['changePassword']);
   changePasswordServiceFake.changePassword.and.returnValue(of({}));
-  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -29,7 +29,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: ChangePasswordService, useValue: changePasswordServiceFake },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

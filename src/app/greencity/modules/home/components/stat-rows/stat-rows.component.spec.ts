@@ -5,11 +5,10 @@ import { UserService } from 'src/app/shared/services/user/user.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { StatRowComponent } from '..';
-
 import { StatRowsComponent } from './stat-rows.component';
 import { RouterModule } from '@angular/router';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 class MatDialogMock {
   open() {
@@ -22,7 +21,7 @@ class MatDialogMock {
 describe('StatRowsComponent', () => {
   let component: StatRowsComponent;
   let fixture: ComponentFixture<StatRowsComponent>;
-  const snackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   snackBarMock.openSnackBar = () => true;
   const userServiceMock: UserService = jasmine.createSpyObj('UserService', ['getTodayStatisticsForAllHabitItems']);
   userServiceMock.getTodayStatisticsForAllHabitItems = (): Observable<Array<HabitItemsAmountStatisticDto>> =>
@@ -39,7 +38,7 @@ describe('StatRowsComponent', () => {
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterModule.forRoot([], {})],
       providers: [
         { provide: UserService, useValue: userServiceMock },
-        { provide: MatSnackBarComponent, useValue: snackBarMock },
+        { provide: MatSnackBarService, useValue: snackBarMock },
         { provide: MatDialog, useClass: MatDialogMock }
       ]
     }).compileComponents();

@@ -19,13 +19,8 @@
         </span>
       </div>
       <div class="title">
-        <h2
-          [appLangValue]="{
-            ua: habit.habitTranslation.nameUa ? habit.habitTranslation.nameUa : habit.habitTranslation.name,
-            en: habit.habitTranslation.name
-          }"
-        >
-          habit name
+        <h2>
+          {{ habit.habitTranslation.name }}
         </h2>
       </div>
       <div class="acquired">

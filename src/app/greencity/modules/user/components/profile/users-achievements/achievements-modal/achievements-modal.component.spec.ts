@@ -54,7 +54,7 @@ describe('AchievementsPopupComponent', () => {
   });
 
   it('should assign categories when getCategories returns data', () => {
-    const mockCategories: AchievementCategoryDto[] = [{ id: 1, title: 'Category 1' } as AchievementCategoryDto];
+    const mockCategories: AchievementCategoryDto[] = [{ id: 1, titleUk: 'Category 1' } as AchievementCategoryDto];
     achievementServiceMock.getCategories.and.returnValue(of(mockCategories));
 
     component.showCategories();
@@ -77,7 +77,7 @@ describe('AchievementsPopupComponent', () => {
 
   it('should set selectedCategory and call getAchievements', () => {
     spyOn(component, 'getAchievements');
-    const mockCategory: AchievementCategoryDto = { id: 1, title: 'Category 1' } as AchievementCategoryDto;
+    const mockCategory: AchievementCategoryDto = { id: 1, titleUk: 'Category 1' } as AchievementCategoryDto;
 
     component.onCategorySelect(mockCategory);
 
@@ -86,8 +86,8 @@ describe('AchievementsPopupComponent', () => {
   });
 
   it('should assign achievements and update achievedAmountToShow and totalAmountToShow', () => {
-    const mockCategory: AchievementCategoryDto = { id: 1, title: 'Category 1', achieved: 3, totalQuantity: 5 } as AchievementCategoryDto;
-    const mockAchievements = [{ id: 1, name: 'Achievement 1' }] as AchievementDto[];
+    const mockCategory: AchievementCategoryDto = { id: 1, titleUk: 'Category 1', achieved: 3, totalQuantity: 5 } as AchievementCategoryDto;
+    const mockAchievements = [{ id: 1, nameUk: 'Achievement 1' }] as AchievementDto[];
     achievementServiceMock.getAchievementsByCategory.and.returnValue(of(mockAchievements));
 
     component.getAchievements(mockCategory);

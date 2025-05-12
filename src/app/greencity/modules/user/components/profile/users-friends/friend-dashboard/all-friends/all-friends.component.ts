@@ -4,11 +4,11 @@ import { FriendArrayModel, FriendModel, UsersCategOnlineStatus } from 'src/app/g
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { GetAllFriends } from 'src/app/store/actions/friends.actions';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { UserOnlineStatusService } from 'src/app/greencity/modules/user/services/user-online-status/user-online-status.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-all-friends',
@@ -30,11 +30,11 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   friendsStore$ = this.store.select((state: IAppState) => state.friend);
 
   constructor(
-    private userFriendsService: UserFriendsService,
-    private localStorageService: LocalStorageService,
-    private matSnackBar: MatSnackBarComponent,
-    private store: Store,
-    private userOnlineStatusService: UserOnlineStatusService
+    private readonly userFriendsService: UserFriendsService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly matSnackBar: MatSnackBarService,
+    private readonly store: Store,
+    private readonly userOnlineStatusService: UserOnlineStatusService
   ) {}
 
   ngOnInit() {

@@ -18,10 +18,7 @@ export const DEFAULTHABIT: HabitInterface = {
     description: 'Default habit description',
     habitItem: '',
     languageCode: 'en',
-    name: 'Default habit',
-    nameUa: '',
-    descriptionUa: '',
-    habitItemUa: ''
+    name: 'Default habit'
   },
   id: 1,
   usersIdWhoCreatedCustomHabit: 33,
@@ -41,10 +38,7 @@ export const CUSTOMHABIT: HabitInterface = {
     description: 'Custom habit description',
     habitItem: 'test',
     languageCode: 'en',
-    name: 'Custom habit',
-    nameUa: '',
-    descriptionUa: '',
-    habitItemUa: 'test'
+    name: 'Custom habit'
   },
   id: 2,
   usersIdWhoCreatedCustomHabit: 50,

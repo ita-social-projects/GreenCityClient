@@ -15,6 +15,10 @@
   }
 }
 
+.rotate-icon {
+  transform: rotate(180deg);
+}
+
 .additional-info {
   padding: 16px;
   display: flex;
@@ -264,6 +268,11 @@
     width: 25px;
     height: 25px;
   }
+}
+
+#like,
+#dislike {
+  border: none;
 }
 
 .tag-divider {

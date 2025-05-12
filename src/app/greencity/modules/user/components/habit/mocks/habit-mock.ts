@@ -19,6 +19,7 @@ export const MOCK_HABIT_ADDED_COMMENT: AddedCommentDTO = {
 
 export const MOCK_HABIT_COMMENTS_MODEL: CommentsModel = {
   currentPage: 0,
+
   page: [
     {
       author: { id: 1, name: 'User', profilePicturePath: null },
@@ -28,7 +29,9 @@ export const MOCK_HABIT_COMMENTS_MODEL: CommentsModel = {
       modifiedDate: new Date().toISOString(),
       status: 'ORIGINAL',
       replies: 0,
-      currentUserLiked: false
+      currentUserLiked: false,
+      isLiked: false,
+      isDisliked: false
     }
   ],
   totalElements: 1
@@ -97,10 +100,7 @@ export const MOCK_CUSTOM_HABIT_RESPONSE: CustomHabitDtoRequest = {
       name: MOCK_CUSTOM_HABIT.title,
       description: MOCK_CUSTOM_HABIT.description,
       habitItem: 'testHabitItem',
-      languageCode: 'en',
-      nameUa: MOCK_CUSTOM_HABIT.title,
-      descriptionUa: MOCK_CUSTOM_HABIT.description,
-      habitItemUa: 'testHabitItem'
+      languageCode: 'en'
     }
   ],
   complexity: MOCK_CUSTOM_HABIT.complexity,

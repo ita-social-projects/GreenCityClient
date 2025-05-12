@@ -46,10 +46,7 @@ export const MOCK_HABITS: HabitListInterface = {
         name: 'testName',
         description: 'testDescription',
         habitItem: 'testHabitItem',
-        languageCode: 'testLanguageCode',
-        nameUa: '',
-        descriptionUa: '',
-        habitItemUa: 'testHabitItem'
+        languageCode: 'testLanguageCode'
       },
       id: 1,
       image: 'testImage',
@@ -85,10 +82,7 @@ export const MOCK_CUSTOM_HABIT_RESPONSE: CustomHabitDtoRequest = {
       name: MOCK_CUSTOM_HABIT.title,
       description: MOCK_CUSTOM_HABIT.description,
       habitItem: 'testHabitItem',
-      languageCode: 'en',
-      nameUa: MOCK_CUSTOM_HABIT.title,
-      descriptionUa: MOCK_CUSTOM_HABIT.description,
-      habitItemUa: 'testHabitItem'
+      languageCode: 'en'
     }
   ],
   complexity: MOCK_CUSTOM_HABIT.complexity,

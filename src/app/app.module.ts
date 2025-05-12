@@ -26,7 +26,6 @@ import { OrderEffects } from 'src/app/store/effects/order.effects';
 import { UbsUserEffects } from 'src/app/store/effects/ubs-user.effects';
 import { AuthEffects } from './store/effects/auth.effects';
 import { ChatModule } from './chat/chat.module';
-import { MatSnackBarComponent } from './shared/components/mat-snack-bar/mat-snack-bar.component';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector, languageService: LanguageService) {
   return () =>
@@ -90,7 +89,6 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     })
   ],
   providers: [
-    MatSnackBarComponent,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

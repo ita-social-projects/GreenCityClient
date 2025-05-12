@@ -105,7 +105,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   getBagQuantity(id: number): number {
-    return +this.getBagQuantityFormControl(id).value;
+    const control = this.getBagQuantityFormControl(id);
+    return control ? +control.value : 0;
   }
 
   constructor(
@@ -128,14 +129,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
 
     this.initForm();
-    this.initListeners();
-
     this.subscribeToLangChange();
   }
 
   fetchDataForNewOrder(): void {
     this.store.dispatch(GetUbsCourierId({ name: this.courierUBSName }));
-
     this.store
       .pipe(
         select(UBSCourierIdSelector),
@@ -155,6 +153,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       )
       .subscribe((locationId) => {
         this.locationId = locationId;
+        this.initListeners();
         this.store.dispatch(GetCourierLocations({ courierId: this.courierId, locationId }));
       });
 
@@ -185,6 +184,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       )
       .subscribe((locationId) => {
         this.locationId = locationId;
+        this.initListeners();
       });
 
     this.store.pipe(select(existingOrderInfoSelector), takeUntil(this.$destroy)).subscribe((orderInfo: IUserOrderInfo) => {
@@ -285,7 +285,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const newBagsGroup = this.fb.group({}, { validators: courierLimitValidator(this.bags, validationConfig) });
 
     this.bags.forEach((bag: Bag) => {
-      newBagsGroup.addControl(`quantity${bag.id}`, new FormControl(String(bag.quantity ?? 0), [Validators.min(0), Validators.max(999)]));
+      newBagsGroup.addControl(
+        `quantity${bag.id}`,
+        new FormControl(String(this.getBagQuantity(bag.id) ?? 0), [Validators.min(0), Validators.max(999)])
+      );
     });
     this.orderDetailsForm.setControl('bags', newBagsGroup);
   }
@@ -313,7 +316,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   getLocationById(): LocationsDtosList | undefined {
-    return this.locations?.locationsDtosList.find((el) => el.locationId === this.locationId);
+    return this.locations.locationsDtosList.find((el) => el.locationId === this.locationId);
   }
 
   changeQuantity(id: number, value: number): void {

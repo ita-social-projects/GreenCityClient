@@ -124,13 +124,12 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
     const addressDetails: IAddressExportDetails = this.existingOrderInfo.address;
     const address = this.addresses.find(
       (address) =>
-        address.cityEn === addressDetails.addressCityEng &&
-        address.regionEn === addressDetails.addressRegionEng &&
-        address.streetEn === addressDetails.addressStreetEng &&
-        address.districtEn === addressDetails.addressDistinctEng &&
+        address.cityEn === addressDetails.addressCityEn &&
+        address.regionEn === addressDetails.addressRegionEn &&
+        address.streetEn === addressDetails.addressStreetEn &&
+        address.districtEn === addressDetails.addressDistinctEn &&
         address.houseNumber === addressDetails.houseNumber
     );
-
     address && this.isAddressAvailable(address) ? this.setCurrentAddress(address) : this.initLocation();
   }
 

@@ -42,7 +42,7 @@
 
       <div *ngIf="selectedCategory">
         <div class="achievements__title">
-          {{ langService.getLangValue(selectedCategory.title, selectedCategory.titleEn) }}
+          {{ langService.getLangValue(selectedCategory.titleUk, selectedCategory.titleEn) }}
           <button mat-icon-button class="btn" (click)="backToCategories()">
             <mat-icon>keyboard_backspace</mat-icon>
           </button>

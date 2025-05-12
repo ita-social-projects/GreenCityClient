@@ -32,10 +32,7 @@ export class CommentPopUpComponent implements OnInit {
 
   initForm(): void {
     this.commentForm = this.fb.group({
-      comment: [
-        this.comment?.trim(),
-        this.isLink ? [Validators.maxLength(255), Validators.pattern(Patterns.binotelLinkPattern)] : [Validators.maxLength(255)]
-      ]
+      comment: [this.comment?.trim(), [Validators.maxLength(255)]]
     });
   }
 

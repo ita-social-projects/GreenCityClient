@@ -36,7 +36,7 @@ export interface Page {
 
 export interface EmployeePositions {
   id: number;
-  name: string;
+  nameUk: string;
   nameEn: string;
 }
 
@@ -57,7 +57,7 @@ export interface TariffItem {
 
 export interface SelectedItem {
   nameEn: string;
-  nameUa: string;
+  nameUk: string;
 }
 
 export interface InitialData {
@@ -171,8 +171,8 @@ export interface IOrderDetails {
 export interface IBags {
   capacity: number;
   id: number;
-  name: string;
-  nameEng: string;
+  nameUk: string;
+  nameEn: string;
   price: number;
   planned?: number;
   confirmed?: number;
@@ -185,12 +185,12 @@ export interface IGeneralOrderInfo {
   dateFormed: string;
   adminComment: string;
   orderStatus: string;
-  orderStatusName: string;
-  orderStatusNameEng: string;
+  orderStatusNameUk: string;
+  orderStatusNameEn: string;
   orderStatusesDtos: IOrderStatusesDtos[];
   orderPaymentStatus: string;
-  orderPaymentStatusName: string;
-  orderPaymentStatusNameEng: string;
+  orderPaymentStatusNameUk: string;
+  orderPaymentStatusNameEn: string;
   orderPaymentStatusesDto: IOrderPaymentStatusesDto[];
 }
 
@@ -198,21 +198,21 @@ export interface IOrderStatusesDtos {
   ableActualChange: boolean;
   key: string;
   translation?: string;
-  ua?: string;
-  eng?: string;
+  uk?: string;
+  en?: string;
 }
 
 export interface IOrderPaymentStatusesDto {
   key: string;
   translation?: string;
-  ua?: string;
-  eng?: string;
+  uk?: string;
+  en?: string;
 }
 
 export interface IPaymentStatus {
   key?: string;
-  ua?: string;
-  eng?: string;
+  uk?: string;
+  en?: string;
 }
 
 export interface IUserInfo {
@@ -258,7 +258,7 @@ export interface IPaymentInfo {
 
 export interface PaymentDetails {
   amount: number;
-  settlementdate: string;
+  settlementDate: string;
   paymentId?: string;
   receiptLink: string;
   imagePath?: string;
@@ -354,15 +354,15 @@ export interface SocialLink {
 
 export interface Address {
   actual: boolean;
-  city: string;
+  cityUk: string;
   cityEn: string;
   coordinates: {
     latitude?: number;
     longitude?: number;
   };
-  region: string;
+  regionUk: string;
   regionEn: string;
-  district: string;
+  districtUk: string;
   districtEn: string;
   entranceNumber: string;
   houseCorpus: string;
@@ -375,22 +375,22 @@ export interface Address {
   placeId: string;
   searchAddress?: string;
   isHouseSelected?: boolean;
-  street: string;
+  streetUk: string;
   streetEn: string;
 }
 export interface IShortAddress {
   orderAddressExportDetails: {
     id: number;
-    district: string;
+    districtUk: string;
     districtEn: string;
-    street: string;
+    streetUk: string;
     streetEn: string;
     houseCorpus: string;
     entranceNumber: string;
     houseNumber: string;
-    city: string;
+    cityUk: string;
     cityEn: string;
-    region: string;
+    regionUk: string;
     regionEn: string;
     addressComment: string;
   };
@@ -420,14 +420,14 @@ export interface IFilters {
 export interface IFilteredColumn {
   key: string;
   en: string;
-  ua: string;
+  uk: string;
   values: Array<IFilteredColumnValue>;
 }
 
 export interface IFilteredColumnValue {
   key?: string;
   en?: string;
-  ua?: string;
+  uk?: string;
   filtered?: boolean;
 }
 
@@ -497,7 +497,7 @@ export interface IBigOrderTable {
 
 export interface IColumnBelonging {
   key: string;
-  ua: string;
+  uk: string;
   en: string;
   filtered?: boolean;
 }
@@ -516,10 +516,10 @@ export interface IColumnDTO {
 }
 
 export interface IOrderSearchCriteria {
-  city: string;
+  citiesUk: string;
   deliveryDateFrom: string;
   deliveryDateTo: string;
-  districts: string;
+  districtsUk: string;
   orderDateFrom: string;
   orderDateTo: string;
   orderPaymentStatus: string;
@@ -527,7 +527,7 @@ export interface IOrderSearchCriteria {
   paymentDateFrom: string;
   paymentDateTo: string;
   receivingStation: string;
-  region: string;
+  regionUk: string;
   responsibleCallerId: string;
   responsibleDriverId: string;
   responsibleLogicManId: string;
@@ -590,7 +590,7 @@ export enum ordersStatuses {
   NotTakenOutUA = 'Не вивезли',
   NotTakenOutEN = 'Not taken out',
   CancelUA = 'Скасовано',
-  CancelEN = 'Canceled'
+  CancelEN = 'Cancelled'
 }
 
 export interface AdminSideBarMenu {

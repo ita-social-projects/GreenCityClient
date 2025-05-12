@@ -18,7 +18,7 @@ import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.com
 import { SignUpComponent } from './sign-up.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 class UserOwnSignUpServiceMock {
   mockFormData = {
@@ -55,7 +55,7 @@ describe('SignUpComponent', () => {
     password: '123456qW@'
   };
 
-  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
   beforeEach(waitForAsync(() => {
@@ -72,7 +72,7 @@ describe('SignUpComponent', () => {
       ],
       providers: [
         { provide: MatDialogRef, useClass: MatDialogRefMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock },
         { provide: UserOwnSignUpService, useClass: UserOwnSignUpServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],

@@ -25,7 +25,7 @@
       <ul class="ul-eco-buttons" aria-label="filter by items">
         <li *ngFor="let tag of activeTags">
           <a role="button" class="tag" tabindex="0">
-            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }" [appLangValue]="{ ua: tag.nameUa, en: tag.nameEn }"></span>
+            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }" [appLangValue]="{ ua: tag.nameUk, en: tag.nameEn }"></span>
             <span
               class="tag-divider"
               *ngIf="activeTags.length > 1"
@@ -92,9 +92,29 @@
         <img src="assets/events-icons/frame.png" class="frame-image" alt="frame" />
         <p>{{ event.countComments }}</p>
       </div>
-      <div class="like">
-        <img src="assets/events-icons/like.png" class="like-image" alt="like" />
-        <p>{{ event.likes }}</p>
+      <div class="like-group">
+        <button
+          id="like"
+          class="like"
+          [ngClass]="{ liked: event.isLiked }"
+          (click)="$event.stopPropagation(); likePost()"
+          [attr.aria-label]="'Like this event'"
+          [attr.aria-pressed]="event.isLiked"
+        >
+          <img src="assets/events-icons/like.png" alt="Like" />
+          <span>{{ event.likes }}</span>
+        </button>
+        <button
+          class="dislike"
+          id="dislike"
+          [ngClass]="{ disliked: event.isDisliked }"
+          (click)="$event.stopPropagation(); dislikePost()"
+          [attr.aria-label]="'Dislike this event'"
+          [attr.aria-pressed]="event.isDisliked"
+        >
+          <img src="assets/events-icons/like.png" class="rotate-icon" alt="Dislike" />
+          <span>{{ event.dislikes }}</span>
+        </button>
       </div>
     </div>
   </div>
@@ -145,7 +165,7 @@
         <div *ngIf="address && !isOnline" class="event-assign__content__address-container">
           <span class="place"></span>
           <p
-            [appLangValue]="{ ua: address.cityUa + ', ' + address.streetUa, en: address.cityEn + ', ' + address.streetEn }"
+            [appLangValue]="{ ua: address.cityUk + ', ' + address.streetUk, en: address.cityEn + ', ' + address.streetEn }"
             [suffix]="', ' + address.houseNumber"
           ></p>
         </div>

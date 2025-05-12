@@ -12,9 +12,9 @@ import { BehaviorSubject, of } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
 import { UbsAdminNotificationComponent } from './ubs-admin-notification.component';
 import { NotificationMock } from '../../services/notificationsMock';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -48,7 +48,7 @@ describe('UbsAdminNotificationComponent', () => {
     changeStatusOfNotificationTemplate: jasmine.createSpy('changeStatusOfNotificationTemplate')
   };
 
-  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
   const activatedRouteMock = { params: of({ id: 1 }) };
 
@@ -83,7 +83,7 @@ describe('UbsAdminNotificationComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Router, useValue: routerMock },
         { provide: MatDialog, useValue: dialogMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
+        { provide: MatSnackBarService, useValue: MatSnackBarMock }
       ]
     }).compileComponents();
   }));

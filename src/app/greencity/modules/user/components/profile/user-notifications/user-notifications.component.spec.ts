@@ -6,7 +6,6 @@ import { of, BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Language } from 'src/app/shared/i18n/Language';
 import { PipeTransform, Pipe, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { FilterCriteria } from 'src/app/greencity/modules/user/models/notification.model';
 import { Router } from '@angular/router';
 import { UserNotificationService } from 'src/app/greencity/modules/user/services/user-notification/user-notification.service';
@@ -17,6 +16,7 @@ import { RelativeDatePipe } from 'src/app/shared/pipes/relative-date/relative-da
 import { By } from '@angular/platform-browser';
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
 import { HabitService } from '@shared/service/habit/habit.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -28,7 +28,7 @@ class TranslatePipeMock implements PipeTransform {
 describe('UserNotificationsComponent', () => {
   let component: UserNotificationsComponent;
   let fixture: ComponentFixture<UserNotificationsComponent>;
-  let matSnackBarMock: jasmine.SpyObj<MatSnackBarComponent>;
+  let matSnackBarMock: jasmine.SpyObj<MatSnackBarService>;
 
   const notifications = [
     {
@@ -122,7 +122,7 @@ describe('UserNotificationsComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: TranslateService, useValue: translateMock },
-        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
+        { provide: MatSnackBarService, useValue: { openSnackBar: () => {} } },
         { provide: Router, useValue: routerMock },
         { provide: UserNotificationService, useValue: userNotificationServiceMock },
         { provide: UserService, useValue: { userId: 1 } },
@@ -134,7 +134,7 @@ describe('UserNotificationsComponent', () => {
   }));
 
   beforeEach(() => {
-    matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+    matSnackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
     fixture = TestBed.createComponent(UserNotificationsComponent);
     component = fixture.componentInstance;
     component.currentLang = 'en';
@@ -180,7 +180,7 @@ describe('UserNotificationsComponent', () => {
 
     component.navigate(customEvent);
 
-    expect(routerMock.navigate).toHaveBeenCalledWith(['news', 5]);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['greenCity', 'news', 5]);
   }));
 
   it('should navigate to habit editing page when notification type is HABIT', waitForAsync(() => {
@@ -200,7 +200,7 @@ describe('UserNotificationsComponent', () => {
 
     component.navigate(customEvent);
 
-    expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 1, 'allhabits', 'addhabit', 3]);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['greenCity', 'profile', 1, 'allhabits', 'addhabit', 3]);
   }));
 
   it('should return checkSelectedFilter', () => {

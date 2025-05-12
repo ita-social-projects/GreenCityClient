@@ -11,9 +11,8 @@ export interface EcoNewsModel {
   likes: number;
   shortInfo: string;
   source: string;
-  tags: Array<string>;
   tagsEn: Array<string>;
-  tagsUa: Array<string>;
+  tagsUk: Array<string>;
   title: string;
   countOfEcoNews?: number;
   favorite?: boolean;

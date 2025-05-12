@@ -5,17 +5,16 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { TranslateService } from '@ngx-translate/core';
 import { ToDoList } from 'src/app/greencity/modules/user/models/to-do-list.interface';
 import { TodoStatus } from '../../models/todo-status.enum';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { FIELD_SYMBOLS_LIMIT, HABIT_TO_DO_LIST_CHECK, TO_DO_ITEM_NAME_LIMIT } from '../habit-const/habit.const';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { take } from 'rxjs/operators';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-habit-edit-to-do-list',
   templateUrl: './habit-edit-to-do-list.component.html',
-  styleUrls: ['./habit-edit-to-do-list.component.scss'],
-  providers: [MatSnackBarComponent]
+  styleUrls: ['./habit-edit-to-do-list.component.scss']
 })
 export class HabitEditToDoListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() toDoList: ToDoList[] = [];
@@ -53,10 +52,10 @@ export class HabitEditToDoListComponent implements OnInit, OnChanges, OnDestroy 
   @Output() newList = new EventEmitter<ToDoList[]>();
 
   constructor(
-    private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService,
-    private dialog: MatDialog
+    private readonly snackBar: MatSnackBarService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly translate: TranslateService,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit() {

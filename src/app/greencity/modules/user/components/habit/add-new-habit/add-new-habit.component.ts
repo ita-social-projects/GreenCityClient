@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
-import { take, takeUntil } from 'rxjs/operators';
+import { skip, take, takeUntil } from 'rxjs/operators';
 import { HabitService } from '@shared/service/habit/habit.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -31,6 +30,7 @@ import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@globa
 import { singleNewsImages } from 'src/app/greencity/image-paths/single-news-images';
 import { STAR_IMAGES } from './habit-const/habit.const';
 import { HttpParams } from '@angular/common/http';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -71,18 +71,18 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   isPrivate = true;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private dialog: MatDialog,
-    private habitService: HabitService,
-    private snackBar: MatSnackBarComponent,
-    private habitAssignService: HabitAssignService,
-    private newsService: EcoNewsService,
-    private toDoListService: ToDoListService,
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService,
-    private location: Location,
-    public userFriendsService: UserFriendsService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly dialog: MatDialog,
+    private readonly habitService: HabitService,
+    private readonly snackBar: MatSnackBarService,
+    private readonly habitAssignService: HabitAssignService,
+    private readonly newsService: EcoNewsService,
+    private readonly toDoListService: ToDoListService,
+    private readonly localStorageService: LocalStorageService,
+    private readonly translate: TranslateService,
+    private readonly location: Location,
+    public readonly userFriendsService: UserFriendsService
   ) {}
 
   ngOnInit() {
@@ -113,8 +113,9 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLangChange(): void {
-    this.localStorageService.languageSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang: string) => {
+    this.localStorageService.languageBehaviourSubject.pipe(skip(1), takeUntil(this.destroyed$)).subscribe((lang: string) => {
       this.bindLang(lang);
+      this.checkIfAssigned();
     });
   }
 
@@ -242,7 +243,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private getStandardToDoList(): void {
     this.toDoListService
-      .getHabitToDoList(this.habitId)
+      .getHabitToDoList(this.habitId, this.currentLang)
       .pipe(take(1))
       .subscribe((res) => {
         this.initialToDoList = res;
@@ -284,11 +285,11 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   editUsersCustomHabit(url: string, id: number): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    this.router.navigate([`profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
+    this.router.navigate([`/greenCity/profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
   }
 
   goToProfile(): void {
-    this.router.navigate(['profile', this.userId]);
+    this.router.navigate(['greenCity', 'profile', this.userId]);
   }
 
   assignCustomHabit(): void {
@@ -326,7 +327,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   goToAllHabits(): void {
-    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.router.navigate([`/greenCity/profile/${this.userId}/allhabits`]);
   }
 
   deleteHabit(): void {

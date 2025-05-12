@@ -3,7 +3,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { EventDto } from 'src/app/greencity/modules/events/models/events.interface';
 import { EventsService } from 'src/app/greencity/modules/events/services/events.service';
 
 import {
@@ -23,6 +22,7 @@ import {
   RemoveAttenderEcoEventsByIdAction,
   RemoveAttenderEventsByIdSuccessAction
 } from '../actions/ecoEvents.actions';
+import { EventDto } from '../../greencity/modules/events/models/events.interface';
 
 @Injectable()
 export class EventsEffects {
@@ -43,7 +43,7 @@ export class EventsEffects {
       mergeMap((actions: { data: FormData }) =>
         this.eventsService.createEvent(actions.data).pipe(
           map((event: EventDto) => CreateEcoEventSuccessAction({ event })),
-          catchError((error) => of(ReceivedFailureAction(error)))
+          catchError((error) => of(ReceivedFailureAction({ error: String(error.status) })))
         )
       )
     )
@@ -54,7 +54,7 @@ export class EventsEffects {
       mergeMap((actions: { data: FormData; id: number }) =>
         this.eventsService.editEvent(actions.data, actions.id).pipe(
           map((event: EventDto) => EditEcoEventSuccessAction({ event })),
-          catchError((error) => of(ReceivedFailureAction(error)))
+          catchError((error) => of(ReceivedFailureAction({ error: String(error.status) })))
         )
       )
     )

@@ -4,7 +4,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EVENT_FORM_MOCK, EVENT_MOCK, eventStateMock } from '@assets/mocks/events/mock-events';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -19,7 +18,8 @@ import { CreateEcoEventAction, EditEcoEventAction } from 'src/app/store/actions/
 import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 import { EventDetailsComponent } from './event-details.component';
-import { EventDto } from '../../models/events.interface';
+import { EventDto as EventDTO } from '../../models/events.interface';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -44,7 +44,7 @@ describe('EventDetailsComponent', () => {
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(eventStateMock);
-  const snackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
   const EventsServiceMock = jasmine.createSpyObj('EventsService', [
     'getEventById',
@@ -60,7 +60,8 @@ describe('EventDetailsComponent', () => {
     'setBackFromPreview',
     'setSubmitFromPreview',
     'convertEventToFormEvent',
-    'prepareEventForSubmit'
+    'prepareEventForSubmit',
+    'setEvent'
   ]);
 
   EventsServiceMock.getEventById.and.returnValue(of(EVENT_MOCK));
@@ -72,7 +73,7 @@ describe('EventDetailsComponent', () => {
   EventsServiceMock.getFormattedAddress = () => of('');
   EventsServiceMock.convertEventToFormEvent.and.returnValue({ value: {} });
   EventsServiceMock.prepareEventForSubmit.and.returnValue(new FormData());
-
+  EventsServiceMock.setEvent.and.returnValue();
   const jwtServiceFake = jasmine.createSpyObj('jwtService', ['getUserRole']);
   jwtServiceFake.getUserRole = () => '123';
 
@@ -112,7 +113,7 @@ describe('EventDetailsComponent', () => {
   translateServiceMock.setDefaultLang = (lang: string) => of(lang);
   translateServiceMock.get = () => of(true);
 
-  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
   const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
@@ -146,7 +147,7 @@ describe('EventDetailsComponent', () => {
         { provide: Store, useValue: storeMock },
         { provide: ActionsSubject, useValue: actionSub },
         { provide: BsModalRef, useValue: bsModalRefMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock },
         { provide: BsModalService, useValue: bsModalBsModalServiceMock },
         { provide: MatDialog, useValue: dialogSpyObj },
         { provide: LanguageService, useValue: languageServiceMock },
@@ -293,7 +294,7 @@ describe('EventDetailsComponent', () => {
 
   it('should update likes and not revert isLiked if postToggleLike succeeds', () => {
     component.isLiked = false;
-    component.event = { likes: 10 } as EventDto;
+    component.event = { likes: 10 } as unknown as EventDTO;
     component.eventId = 2;
 
     EventsServiceMock.postToggleLike.and.returnValue(of(true));
@@ -305,7 +306,7 @@ describe('EventDetailsComponent', () => {
   });
 
   it('should correctly toggle likes and isLiked based on the current state', () => {
-    component.event = { likes: 10 } as EventDto;
+    component.event = { likes: 10 } as unknown as EventDTO;
     component.eventId = 2;
     component.isLiked = false;
     EventsServiceMock.postToggleLike.and.returnValue(of(true));

@@ -69,6 +69,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   };
 
   private readonly buildingPattern = Patterns.ubsHouseNumberPattern;
+  private readonly numericPattern = Patterns.numeric;
   private readonly $destroy: Subject<void> = new Subject();
   private viewInitialized = false;
 
@@ -241,14 +242,14 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getAddressChange()
       .pipe(takeUntil(this.$destroy))
       .subscribe((addressData) => {
-        const region = this.currentLanguage === 'ua' ? addressData.region : addressData.regionEn;
-        const city = this.currentLanguage === 'ua' ? addressData.city : addressData.cityEn;
-        const street = this.currentLanguage === 'ua' ? addressData.street : addressData.streetEn;
+        const region = this.currentLanguage === 'ua' ? addressData.regionUk : addressData.regionEn;
+        const city = this.currentLanguage === 'ua' ? addressData.cityUk : addressData.cityEn;
+        const street = this.currentLanguage === 'ua' ? addressData.streetUk : addressData.streetEn;
 
         this.onRegionValueSet(region);
         this.onCityValueSet(city);
         this.onStreetValueSet(street);
-        this.district.setValue(this.langService.getLangValue(addressData.district, addressData.districtEn));
+        this.district.setValue(this.langService.getLangValue(addressData.districtUk, addressData.districtEn));
         this.houseNumber.setValue(addressData.houseNumber);
 
         this.onChange(this.addressData.getValues());
@@ -270,12 +271,12 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       district: [this.addressData.getDistrict() ?? '', Validators.required],
       houseNumber: [
         this.address?.houseNumber ?? '',
-        [Validators.required, Validators.maxLength(4), Validators.pattern(this.buildingPattern)]
+        [Validators.required, Validators.maxLength(10), Validators.pattern(this.buildingPattern)]
       ],
       houseCorpus: [this.address?.houseCorpus ?? '', emptyOrValid([Validators.maxLength(4), Validators.pattern(this.buildingPattern)])],
       entranceNumber: [
         this.address?.entranceNumber ?? '',
-        emptyOrValid([Validators.maxLength(2), Validators.pattern(this.buildingPattern)])
+        emptyOrValid([Validators.maxLength(3), Validators.pattern(this.numericPattern)])
       ],
       placeId: [this.address?.placeId ?? ''],
       addressComment: [this.address?.addressComment ?? '', Validators.maxLength(255)]
@@ -437,7 +438,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   districtComparator(option: DistrictsDtos, value: DistrictsDtos): boolean {
-    return option?.nameUa === value?.nameUa;
+    return option?.nameUk === value?.nameUk;
   }
 
   getCityPrefix(): string {

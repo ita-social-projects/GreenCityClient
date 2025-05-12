@@ -3,7 +3,6 @@ import { waitForAsync, ComponentFixture, fakeAsync, flush, TestBed, tick } from 
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { IMaskModule } from 'angular-imask';
 import { of } from 'rxjs';
@@ -24,24 +23,25 @@ import { InputGoogleAutocompleteComponent } from 'src/app/shared/components/inpu
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 xdescribe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
     addressDto: [
       {
         id: 2276,
-        city: 'Kyiv',
+        cityUk: 'Kyiv',
         cityEn: 'Kyiv',
-        district: 'Troeshchina',
+        districtUk: 'Troeshchina',
         districtEn: 'Troeshchina',
         entranceNumber: '65',
         houseCorpus: '3',
         houseNumber: '8',
         actual: false,
-        region: 'Kyiv',
+        regionUk: 'Kyiv',
         regionEn: 'Kyiv',
         coordinates: { latitude: 0, longitude: 0 },
-        street: 'Jhohn Lenon',
+        streetUk: 'Jhohn Lenon',
         streetEn: 'Jhohn Lenon',
         placeId: null,
         searchAddress: null,
@@ -127,7 +127,7 @@ xdescribe('UbsUserProfilePageComponent', () => {
         { provide: MatDialog, useValue: dialogMock },
         { provide: MatDialogRef, useValue: {} },
         { provide: ClientProfileService, useValue: clientProfileServiceMock },
-        { provide: MatSnackBarComponent, useValue: snackBarMock },
+        { provide: MatSnackBarService, useValue: snackBarMock },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: LocationService, useValue: fakeLocationServiceMock },

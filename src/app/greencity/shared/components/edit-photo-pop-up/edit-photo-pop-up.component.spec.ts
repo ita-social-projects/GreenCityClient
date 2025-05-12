@@ -5,18 +5,18 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { EditPhotoPopUpComponent } from 'src/app/greencity/shared/components';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { EditProfileService } from 'src/app/greencity/modules/user/services/edit-profile/edit-profile.service';
 import { of, throwError } from 'rxjs';
 import { SafeUrl } from '@angular/platform-browser';
 import { FileHandle } from 'src/app/shared/models/file-handle.model';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('EditPhotoPopUpComponent', () => {
   let component: EditPhotoPopUpComponent;
   let fixture: ComponentFixture<EditPhotoPopUpComponent>;
   let mockDialogRef: jasmine.SpyObj<MatDialogRef<EditPhotoPopUpComponent>>;
   let mockEditProfileService: jasmine.SpyObj<EditProfileService>;
-  let mockSnackBar: jasmine.SpyObj<MatSnackBarComponent>;
+  let mockSnackBar: jasmine.SpyObj<MatSnackBarService>;
   const mockFile: File = new File([''], 'filename.png', { type: 'image/png' });
   const safeUrl: SafeUrl = 'data:image/png;base64,abc123' as SafeUrl;
   const fileHandle: FileHandle = { file: mockFile, url: safeUrl };
@@ -32,7 +32,7 @@ describe('EditPhotoPopUpComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: mockDialogRef },
         { provide: EditProfileService, useValue: mockEditProfileService },
-        { provide: MatSnackBarComponent, useValue: mockSnackBar }
+        { provide: MatSnackBarService, useValue: mockSnackBar }
       ]
     }).compileComponents();
   }));

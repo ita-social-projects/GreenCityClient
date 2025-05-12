@@ -14,7 +14,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
 import { DragAndDropComponent } from 'src/app/greencity/shared/components/drag-and-drop/drag-and-drop.component';
 import { routes } from 'src/app/app-routing.module';
@@ -35,6 +34,7 @@ import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 import { NewsDTO } from '@eco-news-models/create-news-interface';
 import { CreateEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 function getEmptyFormGroup() {
   return new FormGroup({
@@ -53,7 +53,7 @@ describe('CreateEditNewsComponent', () => {
   let http: HttpTestingController;
 
   const validNews: NewsDTO = {
-    tags: [{ id: 1, name: 'News', nameUa: 'Новини' }],
+    tags: [{ id: 1, nameEn: 'News', nameUk: 'Новини' }],
     text: 'Detailed content about the news...',
     title: 'New Title',
     source: 'sourceURL',
@@ -63,8 +63,8 @@ describe('CreateEditNewsComponent', () => {
   };
 
   const selectedTags: FilterModel[] = [
-    { name: 'Events', nameUa: 'Події', isActive: true },
-    { name: 'Education', nameUa: 'Освіта', isActive: true }
+    { nameEn: 'Events', nameUk: 'Події', isActive: true },
+    { nameEn: 'Education', nameUk: 'Освіта', isActive: true }
   ];
 
   const createEcoNewsServiceMock: CreateEcoNewsService = jasmine.createSpyObj('CreateEcoNewsService', [
@@ -166,7 +166,7 @@ describe('CreateEditNewsComponent', () => {
         { provide: Store, useValue: storeMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: LanguageService, useVale: languageServiceMock },
-        MatSnackBarComponent,
+        MatSnackBarService,
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]

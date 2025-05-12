@@ -27,8 +27,8 @@ export const ROLES = {
 };
 
 export const timeStatusFiltersData: FilterItem[] = [
-  { type: 'eventTimeStatus', nameEn: 'Upcoming', nameUa: 'Майбутні' },
-  { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершені' }
+  { type: 'eventTimeStatus', nameEn: 'Upcoming', nameUk: 'Майбутні' },
+  { type: 'eventTimeStatus', nameEn: 'Past', nameUk: 'Завершені' }
 ];
 
 export enum DefaultCoordinates {
@@ -37,17 +37,17 @@ export enum DefaultCoordinates {
 }
 
 export const statusFiltersData: FilterItem[] = [
-  { type: 'status', nameEn: 'Open', nameUa: 'Відкритa' },
-  { type: 'status', nameEn: 'Closed', nameUa: 'Закритa' },
-  { type: 'status', nameEn: 'Joined', nameUa: 'Вже доєднані' },
-  { type: 'status', nameEn: 'Created', nameUa: 'Створенa' },
-  { type: 'status', nameEn: 'Saved', nameUa: 'Збережена' }
+  { type: 'status', nameEn: 'Open', nameUk: 'Відкритa' },
+  { type: 'status', nameEn: 'Closed', nameUk: 'Закритa' },
+  { type: 'status', nameEn: 'Joined', nameUk: 'Вже доєднані' },
+  { type: 'status', nameEn: 'Created', nameUk: 'Створенa' },
+  { type: 'status', nameEn: 'Saved', nameUk: 'Збережена' }
 ];
 
 export const typeFiltersData: FilterItem[] = [
-  { type: 'type', nameEn: 'Economic', nameUa: 'Економічний' },
-  { type: 'type', nameEn: 'Social', nameUa: 'Соціальний' },
-  { type: 'type', nameEn: 'Environmental', nameUa: 'Екологічний' }
+  { type: 'type', nameEn: 'Economic', nameUk: 'Економічний' },
+  { type: 'type', nameEn: 'Social', nameUk: 'Соціальний' },
+  { type: 'type', nameEn: 'Environmental', nameUk: 'Екологічний' }
 ];
 
 export const DateObj = {

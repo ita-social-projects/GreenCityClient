@@ -188,7 +188,7 @@ export class OrderService {
   }
 
   readAddressOrder(orderId: number) {
-    return this.http.get<any>(`${this.backendUbs}/management/read-address-order/${orderId}`);
+    return this.http.get<any>(`${this.backendUbs}/read-address-order/${orderId}`);
   }
 
   getOrderExportDetails(orderId: number): Observable<any> {

@@ -43,8 +43,8 @@
             <img *ngIf="!isLoadBar1" [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteService(service)" />
           </div>
         </td>
-        <td [appLangValue]="{ ua: service.name, en: service.nameEng }"></td>
-        <td [appLangValue]="{ ua: service.description, en: service.descriptionEng }"></td>
+        <td [appLangValue]="{ ua: service.nameUk, en: service.nameEn }"></td>
+        <td [appLangValue]="{ ua: service.descriptionUk, en: service.descriptionEn }"></td>
         <td>{{ servicePrice | localizedCurrency }}</td>
       </tr>
     </table>

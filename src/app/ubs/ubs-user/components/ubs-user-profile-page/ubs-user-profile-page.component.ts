@@ -2,7 +2,6 @@ import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@an
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -24,6 +23,7 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { ConfirmationDialogComponent } from '../../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -82,12 +82,12 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private dialog: MatDialog,
-    private clientProfileService: ClientProfileService,
-    private snackBar: MatSnackBarComponent,
-    private orderService: OrderService,
-    private languageService: LanguageService,
-    private store: Store
+    private readonly dialog: MatDialog,
+    private readonly clientProfileService: ClientProfileService,
+    private readonly snackBar: MatSnackBarService,
+    private readonly orderService: OrderService,
+    private readonly languageService: LanguageService,
+    private readonly store: Store
   ) {}
 
   ngOnInit(): void {
@@ -139,7 +139,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         Validators.maxLength(30)
       ]),
       recipientSurname: new FormControl(this.userProfile?.recipientSurname, [
-        Validators.required,
         Validators.pattern(Patterns.NamePattern),
         Validators.maxLength(30)
       ]),

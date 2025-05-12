@@ -90,7 +90,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.getDataFromLocalStorage();
     this.getPlaceList();
     if (!this.userId) {
-      this.tagList = this.tagList.filter((item) => item.name !== 'Saved places');
+      this.tagList = this.tagList.filter((item) => item.nameEn !== 'Saved places');
     }
     this.filterPlaceService.filtersDto$.pipe(debounceTime(300)).subscribe((filtersDto: any) => {
       this.placeService.updatePlaces(filtersDto);

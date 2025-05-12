@@ -132,7 +132,7 @@ describe('AllHabitsComponent', () => {
     const navigateSpy = spyOn(component.router, 'navigate');
     localStorage.setItem('userId', '123');
     component.goToCreateHabit();
-    expect(navigateSpy).toHaveBeenCalledWith(['profile/123/create-habit']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/greenCity/profile/123/create-habit']);
   });
 
   it('should reset filters', () => {

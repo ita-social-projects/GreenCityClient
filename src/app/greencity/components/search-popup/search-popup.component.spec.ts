@@ -1,6 +1,4 @@
 import { Language } from '../../../shared/i18n/Language';
-
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchPopupComponent } from './search-popup.component';
@@ -21,6 +19,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { EventsSearchModel } from 'src/app/greencity/components/search-popup/model/eventsSearch.model';
 import { SearchDataModel } from 'src/app/greencity/components/search-popup/model/search.model';
 import { SearchCategory } from './search-consts';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
@@ -64,7 +63,7 @@ describe('SearchPopupComponent', () => {
       ],
       providers: [
         { provide: SearchService, useValue: searchMock },
-        MatSnackBarComponent,
+        MatSnackBarService,
         { provide: MatSnackBar, useValue: matSnackBarMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],

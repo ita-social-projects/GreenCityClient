@@ -32,8 +32,8 @@ describe('OrderService', () => {
       dateFormed: '2024-11-01',
       adminComment: 'Admin comment example',
       orderStatus: 'CONFIRMED',
-      orderStatusName: 'Confirmed',
-      orderStatusNameEng: 'Confirmed',
+      orderStatusNameUk: 'Confirmed',
+      orderStatusNameEn: 'Confirmed',
       orderStatusesDtos: [
         {
           ableActualChange: true,
@@ -42,8 +42,8 @@ describe('OrderService', () => {
         }
       ],
       orderPaymentStatus: 'PAID',
-      orderPaymentStatusName: 'Paid',
-      orderPaymentStatusNameEng: 'Paid',
+      orderPaymentStatusNameUk: 'Paid',
+      orderPaymentStatusNameEn: 'Paid',
       orderPaymentStatusesDto: [
         {
           key: 'PAID',
@@ -66,19 +66,19 @@ describe('OrderService', () => {
     },
     addressExportDetailsDto: {
       actual: true,
-      city: 'Kyiv',
+      cityUk: 'Kyiv',
       cityEn: 'Kyiv',
       coordinates: { latitude: 50.45, longitude: 30.52 },
-      region: 'Kyiv Region',
+      regionUk: 'Kyiv Region',
       regionEn: 'Kyiv Region',
-      district: 'Shevchenkivskyi',
+      districtUk: 'Shevchenkivskyi',
       districtEn: 'Shevchenkivskyi',
       entranceNumber: '5',
       houseCorpus: 'A',
       houseNumber: '10',
       id: 1,
       placeId: 'place123',
-      street: 'Main Street',
+      streetUk: 'Main Street',
       streetEn: 'Main Street'
     },
     addressComment: 'Please leave at the door.',
@@ -89,8 +89,8 @@ describe('OrderService', () => {
       {
         capacity: 10,
         id: 1,
-        name: 'Plastic Bag',
-        nameEng: 'Plastic Bag',
+        nameUk: 'Plastic Bag',
+        nameEn: 'Plastic Bag',
         price: 5,
         confirmed: 2,
         actual: 1
@@ -120,7 +120,7 @@ describe('OrderService', () => {
           comment: 'Paid in full',
           currentDate: '2024-11-01',
           amount: 90,
-          settlementdate: '2024-11-01',
+          settlementDate: '2024-11-01',
           receiptLink: 'https://example.com/receipt/123'
         }
       ],
@@ -246,7 +246,7 @@ describe('OrderService', () => {
     service.readAddressOrder(2270).subscribe((data) => {
       expect(data).toBe(address);
     });
-    const req = httpMock.expectOne(`${urlMock}/management/read-address-order/2270`);
+    const req = httpMock.expectOne(`${urlMock}/read-address-order/2270`);
     expect(req.request.method).toBe('GET');
     req.flush(address);
   });

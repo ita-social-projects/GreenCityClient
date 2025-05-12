@@ -39,10 +39,10 @@ export interface ILimit {
 
 export interface Service {
   price: number;
-  description?: string;
-  descriptionEng?: string;
-  name?: string;
-  nameEng?: string;
+  descriptionUk?: string;
+  descriptionEn?: string;
+  nameUk?: string;
+  nameEn?: string;
   languageCode?: string;
   id?: number;
   tariffId?: number;

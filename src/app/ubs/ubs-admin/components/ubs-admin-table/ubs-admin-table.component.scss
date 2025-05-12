@@ -203,10 +203,7 @@ mat-cell:first-of-type {
 
 .icon-row {
   display: flex;
-  justify-content: center;
   margin-top: 5px;
-  white-space: nowrap;
-  padding-top: 5px;
   gap: 5px;
 }
 
@@ -544,8 +541,9 @@ mat-spinner {
 
 .column_header {
   display: flex;
-  justify-content: space-between;
-  padding: 0 20px;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 5px;
 }
 
 .column_cell {

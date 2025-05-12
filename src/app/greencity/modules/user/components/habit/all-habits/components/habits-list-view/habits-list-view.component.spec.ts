@@ -1,17 +1,17 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { HabitsListViewComponent } from './habits-list-view.component';
-import { MatSnackBarComponent } from 'src/app/shared/components/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DEFAULTHABIT } from 'src/app/greencity/modules/user/components/habit/mocks/habit-assigned-mock';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('HabitsListViewComponent', () => {
   let component: HabitsListViewComponent;
   let fixture: ComponentFixture<HabitsListViewComponent>;
-  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
   let httpTestingController: HttpTestingController;
 
@@ -20,9 +20,9 @@ describe('HabitsListViewComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HabitsListViewComponent],
+      declarations: [HabitsListViewComponent, LangValueDirective],
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatSnackBarModule, HttpClientTestingModule],
-      providers: [{ provide: MatSnackBarComponent, useValue: MatSnackBarMock }]
+      providers: [{ provide: MatSnackBarService, useValue: MatSnackBarMock }]
     }).compileComponents();
     httpTestingController = TestBed.inject(HttpTestingController);
   }));
