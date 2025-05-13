@@ -219,12 +219,15 @@ $inputwidth: 260px;
 }
 
 .delete-address {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin-left: auto;
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 128px 60px auto auto;
   order: 2;
-  margin-right: 60px;
+
+  img {
+    margin: 2px 3.5px 3px;
+  }
 }
 
 .checkmark {
