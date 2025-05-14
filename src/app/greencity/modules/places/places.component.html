@@ -65,7 +65,9 @@
                 </div>
               </div>
               <div class="sidebar-content" *ngIf="activePlaceDetails">
-                <span class="close-mark" (click)="updatePlaceList(true)"></span>
+                <div class="close-mark-wrapper" (click)="closePlaceInformation()">
+                  <span class="close-mark"></span>
+                </div>
                 <div class="title-wrapper">
                   <h6 class="content-title">{{ activePlaceDetails.name }}</h6>
                 </div>
@@ -97,9 +99,10 @@
                   </li>
                 </ul>
                 <h6 class="content-reviews-title">
-                  {{ 'user.places-card.card-rating' | translate }} &nbsp;&nbsp; <span>{{ activePlaceDetails.rating }}</span>
+                  {{ 'user.places-card.card-rating' | translate }}
                 </h6>
                 <div class="stars-container">
+                  <span class="starts-rating">{{ activePlaceDetails.rating }}   </span>
                   <img *ngFor="let star of getStars(activePlaceDetails.rating)" class="star" src="{{ star }}" alt="star" />
                 </div>
                 <span class="content-reviews-amount"
@@ -118,7 +121,6 @@
           (centerChange)="mapCenterChange($event)"
           (boundsChange)="mapBoundsChange($event)"
           (idle)="onMapIdle()"
-          (mapReady)="onMapReady($event)"
         >
           <map-marker
             *ngFor="let place of places"
