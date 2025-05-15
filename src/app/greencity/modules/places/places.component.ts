@@ -141,7 +141,11 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    const map = this.map.googleMap;
+    const map = this.map?.googleMap;
+    if (!map) {
+      return;
+    }
+
     this.googlePlacesService = new google.maps.places.PlacesService(map);
     this.setUserLocation();
   }
