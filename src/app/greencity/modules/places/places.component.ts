@@ -54,7 +54,7 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
   isRenderingMap: boolean;
   isSavedVisible = false;
   currentTab = 'places';
-  mapOptions: google.maps.MapOptions = { disableDefaultUI: true };
+  mapOptions: google.maps.MapOptions = { disableDefaultUI: true, gestureHandling: 'greedy' };
 
   readonly redIconUrl: string = redIcon;
   readonly greenIconUrl: string = greenIcon;
@@ -142,6 +142,14 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onMapIdle(): void {
+    this.googleScript.$isRenderingMap.pipe(takeUntil(this.$destroy)).subscribe((value: boolean) => {
+      setTimeout(() => {
+        this.isRenderingMap = value;
+        if (value === false) {
+          this.setUserLocation();
+        }
+      }, 1000);
+    });
     this.updateFilters();
   }
 
@@ -234,7 +242,6 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   closePlaceInformation(): void {
     this.activePlaceDetails = undefined;
-    this.updatePlaceList(true);
   }
 
   updatePlaceList(isAfterClose: boolean): void {

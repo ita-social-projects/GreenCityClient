@@ -54,10 +54,10 @@
                 <div class="title-container">
                   <p class="title-sidebar">{{ 'user.places-card.card-popular' | translate }}</p>
                 </div>
-                <div class="sidebar-item-content" *ngFor="let place of placesList">
+                <div class="sidebar-item-content" *ngFor="let place of placesList" (click)="selectPlaceFromSideBar(place)">
                   <div class="head">
-                    <p class="content-title" (click)="selectPlaceFromSideBar(place)">{{ place.name }}</p>
-                    <button (click)="toggleFavoriteFromSideBar(place)" class="btn-bookmark">
+                    <p class="content-title">{{ place.name }}</p>
+                    <button (click)="$event.stopPropagation(); toggleFavoriteFromSideBar(place)" class="btn-bookmark">
                       <span class="material-icons">{{ place.isFavorite ? 'bookmark' : 'bookmark_border' }}</span>
                     </button>
                   </div>
@@ -81,7 +81,7 @@
                   </button>
                 </div>
                 <div>
-                  <p class="content-description">{{ activePlaceDetails?.types.join(', ') }}</p>
+                  <p class="content-description">{{ activePlaceDetails?.types.join(', ') | underscoreToSpace }}</p>
                 </div>
                 <div>
                   <a [href]="activePlaceDetails.website" target="_blank" class="content-website" *ngIf="activePlaceDetails.website">{{
