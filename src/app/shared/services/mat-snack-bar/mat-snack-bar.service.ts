@@ -63,6 +63,7 @@ export class MatSnackBarService {
     addedEvent: { classname: SnackbarClassName.success, key: 'create-event.created-event' },
     updatedEvent: { classname: SnackbarClassName.success, key: 'create-event.updated-event' },
     savedChangesToUserProfile: { classname: SnackbarClassName.success, key: 'snack-bar.success.saved-changes' },
+    errorPasswordChange: { classname: SnackbarClassName.error, key: 'snack-bar.error.password-change' },
     updatedNotification: { classname: SnackbarClassName.success, key: 'snack-bar.success.update-notification' },
     deletedNotification: { classname: SnackbarClassName.success, key: 'snack-bar.success.delete-notification' },
     joinedEvent: { classname: SnackbarClassName.success, key: 'snack-bar.success.joined-event' },
