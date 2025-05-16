@@ -58,8 +58,8 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly redIconUrl: string = redIcon;
   readonly greenIconUrl: string = greenIcon;
-  readonly smoothStarIconUrl = starSmoothFilled;
-  readonly heartIconUrl = heart;
+  readonly smoothStarIconUrl: string = starSmoothFilled;
+  readonly heartIconUrl: string = heart;
   activePlace: Place;
   activePlaceDetails: google.maps.places.PlaceResult;
   favoritePlaces: Place[] = [];
