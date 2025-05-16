@@ -7,7 +7,7 @@
     <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp></mat-datepicker>
 
-    <mat-error *ngIf="startDate.hasError('dateIncorrect')">{{ 'create-event.date-error-format' | translate }}</mat-error>
+    <mat-error *ngIf="day.hasError('dateIncorrect')">{{ 'create-event.date-error-format' | translate }}</mat-error>
     <mat-error *ngIf="startDate.hasError('dateInPast')">{{ 'create-event.date-error' | translate }}</mat-error>
   </mat-form-field>
 

@@ -10,8 +10,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { Component } from '@angular/core';
-import { limitStatus } from '@ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
-import { fakeInputOrderData, mockCourierLocations, mockLocations, orderDetailsMock, ubsOrderServiseMock } from '@ubs/mocks/order-data-mock';
+import { fakeInputOrderData, mockCourierLocations, ubsOrderServiseMock } from '@ubs/mocks/order-data-mock';
 import {
   certificateUsedSelector,
   courierLocationsSelector,
@@ -22,13 +21,7 @@ import {
 } from 'src/app/store/selectors/order.selectors';
 import { CourierLocations, OrderDetails } from '@ubs/ubs/models/ubs.interface';
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
-import {
-  GetExistingOrderDetails,
-  GetExistingOrderTariff,
-  SetAdditionalOrders,
-  SetBags,
-  SetOrderComment
-} from 'src/app/store/actions/order.actions';
+import { GetExistingOrderDetails, GetExistingOrderTariff, SetAdditionalOrders, SetOrderComment } from 'src/app/store/actions/order.actions';
 import { ExtraPackagesPopUpComponent } from '@ubs/ubs/components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
 import { UbsOrderLocationPopupComponent } from '@ubs/ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 
@@ -47,6 +40,8 @@ describe('UBSOrderDetailsComponent', () => {
   let dialog: MatDialog;
   let route: ActivatedRoute;
   let mockStore: any;
+  let initListenersSpy: jasmine.Spy;
+  let initExistingOrderValuesSpy: jasmine.Spy;
 
   const orderServiceMock = jasmine.createSpyObj('OrderService', [
     'getOrders',
@@ -235,24 +230,28 @@ describe('UBSOrderDetailsComponent', () => {
   });
 
   describe('fetchDataForExistingOrder', () => {
-    it('should fetch data for existing order', () => {
-      const orderId = 1;
-      component.existingOrderId = orderId;
-      const initExistingOrderValuesSpy = spyOn(component, 'initExistingOrderValues');
+    beforeEach(() => {
+      initListenersSpy = spyOn(component, 'initListeners');
+      initExistingOrderValuesSpy = spyOn(component, 'initExistingOrderValues');
+    });
 
+    it('should dispatch actions and pick up both selectors', () => {
+      component.existingOrderId = 1;
+
+      (mockStore.pipe as jasmine.Spy).and.returnValue(of(null));
       component.fetchDataForExistingOrder();
-
-      expect(store.dispatch).toHaveBeenCalledWith(GetExistingOrderDetails({ orderId }));
-      expect(store.dispatch).toHaveBeenCalledWith(GetExistingOrderTariff({ orderId }));
+      expect(store.dispatch).toHaveBeenCalledWith(GetExistingOrderDetails({ orderId: 1 }));
+      expect(store.dispatch).toHaveBeenCalledWith(GetExistingOrderTariff({ orderId: 1 }));
 
       (mockStore.pipe as jasmine.Spy).and.returnValue(of(1));
       component.fetchDataForExistingOrder();
       expect(component.locationId).toBe(1);
+      expect(initListenersSpy).toHaveBeenCalled();
 
-      const orderInfo = JSON.parse(JSON.stringify(fakeInputOrderData)) as IUserOrderInfo;
-      (mockStore.pipe as jasmine.Spy).and.returnValue(of(orderInfo));
+      const fakeInfo = JSON.parse(JSON.stringify(fakeInputOrderData)) as IUserOrderInfo;
+      (mockStore.pipe as jasmine.Spy).and.returnValue(of(fakeInfo));
       component.fetchDataForExistingOrder();
-      expect(component.existingOrderInfo).toEqual(orderInfo);
+      expect(component.existingOrderInfo).toEqual(fakeInfo);
       expect(initExistingOrderValuesSpy).toHaveBeenCalled();
     });
   });

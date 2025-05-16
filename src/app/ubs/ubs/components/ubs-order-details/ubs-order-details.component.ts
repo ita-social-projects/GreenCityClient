@@ -129,14 +129,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
 
     this.initForm();
-    this.initListeners();
-
     this.subscribeToLangChange();
   }
 
   fetchDataForNewOrder(): void {
     this.store.dispatch(GetUbsCourierId({ name: this.courierUBSName }));
-
     this.store
       .pipe(
         select(UBSCourierIdSelector),
@@ -156,6 +153,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       )
       .subscribe((locationId) => {
         this.locationId = locationId;
+        this.initListeners();
         this.store.dispatch(GetCourierLocations({ courierId: this.courierId, locationId }));
       });
 
@@ -186,6 +184,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       )
       .subscribe((locationId) => {
         this.locationId = locationId;
+        this.initListeners();
       });
 
     this.store.pipe(select(existingOrderInfoSelector), takeUntil(this.$destroy)).subscribe((orderInfo: IUserOrderInfo) => {
@@ -317,7 +316,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   getLocationById(): LocationsDtosList | undefined {
-    return this.locations?.locationsDtosList.find((el) => el.locationId === this.locationId);
+    return this.locations.locationsDtosList.find((el) => el.locationId === this.locationId);
   }
 
   changeQuantity(id: number, value: number): void {

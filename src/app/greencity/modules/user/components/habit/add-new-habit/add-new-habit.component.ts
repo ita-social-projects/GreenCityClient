@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitAssignService } from '@shared/service/habit-assign/habit-assign.service';
-import { take, takeUntil } from 'rxjs/operators';
+import { skip, take, takeUntil } from 'rxjs/operators';
 import { HabitService } from '@shared/service/habit/habit.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -113,8 +113,9 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLangChange(): void {
-    this.localStorageService.languageSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang: string) => {
+    this.localStorageService.languageBehaviourSubject.pipe(skip(1), takeUntil(this.destroyed$)).subscribe((lang: string) => {
       this.bindLang(lang);
+      this.checkIfAssigned();
     });
   }
 
@@ -381,7 +382,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
         popupConfirm: dialogConfig.confirm,
         popupCancel: dialogConfig.cancel,
         isHabit: isHabitNameNeeded,
-        habitName: this.habitResponse?.habitTranslation?.nameEn || ''
+        habitName: this.habitResponse?.habitTranslation?.name || ''
       }
     });
   }
