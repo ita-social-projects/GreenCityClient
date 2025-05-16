@@ -60,6 +60,7 @@ $cardTextColor: #1d2830;
     margin-bottom: 48px;
 
     .google-map {
+      position: relative;
       height: 540px;
       width: 100%;
     }
@@ -364,6 +365,83 @@ $cardTextColor: #1d2830;
     font-style: normal;
     font-weight: 400;
     line-height: 12px;
+  }
+}
+
+.content-info-pop-up {
+  @include set-width-height(429px);
+  max-height: 192px;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  right: 20px;
+  bottom: 3px;
+  top: auto;
+  background: var(--primary-white);
+
+  .heart-img {
+    @include set-width-height(20px);
+    height: auto;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+  }
+
+  .pop-up-photo {
+    height: 100%;
+    width: 192px;
+    flex-shrink: 0;
+
+    img.content-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .content-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 24px 10px 0 24px;
+
+    .content-title {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      margin: 2px 20px 2px 0;
+    }
+
+    .stars-container {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+
+      .starts-rating {
+        margin: 0;
+      }
+
+      .star {
+        width: 18px;
+        margin: 0;
+      }
+    }
+
+    .content-reviews-amount {
+      font-size: 10px;
+      font-weight: 400;
+      margin-bottom: 20px;
+      color: var(--quaternary-dark-grey);
+    }
+
+    .content-address {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--quaternary-dark-grey);
+    }
   }
 }
 

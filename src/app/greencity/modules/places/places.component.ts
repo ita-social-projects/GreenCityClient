@@ -11,7 +11,9 @@ import {
   share,
   star,
   starHalf,
-  starUnfilled
+  starUnfilled,
+  starSmoothFilled,
+  heart
 } from 'src/app/greencity/image-paths/places-icons';
 import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from 'src/app/shared/services/filtering/filter-place.service';
@@ -52,9 +54,12 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
   isRenderingMap: boolean;
   isSavedVisible = false;
   currentTab = 'places';
+  mapOptions: google.maps.MapOptions = { disableDefaultUI: true };
 
   readonly redIconUrl: string = redIcon;
   readonly greenIconUrl: string = greenIcon;
+  readonly smoothStarIconUrl = starSmoothFilled;
+  readonly heartIconUrl = heart;
   activePlace: Place;
   activePlaceDetails: google.maps.places.PlaceResult;
   favoritePlaces: Place[] = [];

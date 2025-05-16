@@ -114,14 +114,7 @@
         </mat-drawer-container>
       </div>
       <div class="google-map" *ngIf="!isRenderingMap">
-        <google-map
-          height="100%"
-          width="100%"
-          [zoom]="zoom"
-          (centerChange)="mapCenterChange($event)"
-          (boundsChange)="mapBoundsChange($event)"
-          (idle)="onMapIdle()"
-        >
+        <google-map height="100%" width="100%" [zoom]="zoom" [options]="mapOptions" (idle)="onMapIdle()">
           <map-marker
             *ngFor="let place of places"
             [position]="place.location"
@@ -129,6 +122,26 @@
             [icon]="place.id === activePlace?.id ? greenIconUrl : redIconUrl"
             class="marker"
           />
+
+          <div class="content-info-pop-up" *ngIf="activePlaceDetails">
+            <img [src]="heartIconUrl" alt="heart" class="heart-img" />
+
+            <div class="pop-up-photo" *ngIf="activePlaceDetails.photos">
+              <img [src]="activePlaceDetails.photos[0]?.getUrl({})" class="content-photo" alt="" />
+            </div>
+
+            <div class="content-info">
+              <h6 class="content-title">{{ activePlaceDetails.name }}</h6>
+              <div class="stars-container">
+                <span class="starts-rating">{{ activePlaceDetails.rating }}</span>
+                <img class="star" src="{{ smoothStarIconUrl }}" alt="star" />
+              </div>
+              <span class="content-reviews-amount"
+                >{{ activePlaceDetails.reviews?.length }} {{ 'user.places-card.card-reviews' | translate }}</span
+              >
+              <h6 class="content-address">{{ activePlaceDetails.vicinity }}</h6>
+            </div>
+          </div>
         </google-map>
       </div>
     </div>
