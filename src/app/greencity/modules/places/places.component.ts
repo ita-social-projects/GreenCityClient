@@ -242,6 +242,7 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   closePlaceInformation(): void {
     this.activePlaceDetails = undefined;
+    this.activePlace = undefined;
   }
 
   updatePlaceList(isAfterClose: boolean): void {
