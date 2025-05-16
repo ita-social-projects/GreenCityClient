@@ -370,6 +370,7 @@ $cardTextColor: #1d2830;
 
 .content-info-pop-up {
   @include set-width-height(429px);
+
   max-height: 192px;
   position: absolute;
   display: flex;
@@ -381,6 +382,7 @@ $cardTextColor: #1d2830;
 
   .heart-img {
     @include set-width-height(20px);
+
     height: auto;
     position: absolute;
     right: 10px;
