@@ -263,6 +263,7 @@ describe('PlacesComponent', () => {
   });
 
   afterEach(() => {
+    delete window.google;
     spyOn(component, 'ngOnDestroy').and.callFake(() => {});
     fixture.destroy();
   });
