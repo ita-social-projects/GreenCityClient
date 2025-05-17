@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { PlacesComponent } from './places.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -15,6 +15,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { tagsListPlacesData } from './models/places-consts';
 import { FilterModel } from 'src/app/greencity/shared/components/tag-filter/tag-filter.model';
 import { ActivatedRoute } from '@angular/router';
+import { GoogleScript } from '@assets/google-script/google-script';
 
 const activatedRouteMock = {
   queryParams: of({ section: 'places' })
@@ -124,6 +125,21 @@ describe('PlacesComponent', () => {
   const matDialogFake = jasmine.createSpyObj('matDialog', ['open']);
   matDialogFake.open.and.returnValue({ afterClosed: () => of(parametersToSend) });
 
+  const mockGoogleScript = { $isRenderingMap: of(false) };
+  const mockPlaceResult = {
+    name: 'Test Place',
+    place_id: 'abc123',
+    geometry: {
+      location: {
+        lat: () => 49.840224,
+        lng: () => 24.022174
+      }
+    }
+  } as google.maps.places.PlaceResult;
+  const fakeGoogleMap = {
+    setCenter: jasmine.createSpy('setCenter')
+  };
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PlacesComponent],
@@ -149,7 +165,8 @@ describe('PlacesComponent', () => {
           provide: MatDialog,
           useValue: matDialogFake
         },
-        { provide: ActivatedRoute, useValue: activatedRouteMock }
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: GoogleScript, useValue: mockGoogleScript }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -159,6 +176,15 @@ describe('PlacesComponent', () => {
     fixture = TestBed.createComponent(PlacesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    window.google = {
+      maps: {
+        places: {
+          PlacesService: jasmine.createSpy('PlacesService').and.callFake(function (map) {
+            this.map = map;
+          })
+        }
+      }
+    };
   });
 
   it('should create', () => {
@@ -184,6 +210,56 @@ describe('PlacesComponent', () => {
     const spy = spyOn(component, 'selectPlace');
     component.selectPlaceFromSideBar(placeMock);
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set isRenderingMap and call updateFilters when map becomes idle', fakeAsync(() => {
+    const updateFiltersSpy = spyOn(component, 'updateFilters');
+
+    component['$destroy'] = new Subject<boolean>();
+    component['isRenderingMap'] = true;
+
+    component.onMapIdle();
+    tick(1000);
+
+    expect(component['isRenderingMap']).toBeFalse();
+    expect(updateFiltersSpy).toHaveBeenCalled();
+  }));
+
+  it('should clear activePlace and activePlaceDetails when closePlaceInformation is called', () => {
+    component.activePlace = placeMock;
+    component.activePlaceDetails = mockPlaceResult;
+
+    component.closePlaceInformation();
+
+    expect(component.activePlace).toBeUndefined();
+    expect(component.activePlaceDetails).toBeUndefined();
+  });
+
+  it('should create googlePlacesService if map.googleMap exists', () => {
+    component.map = { googleMap: fakeGoogleMap } as any;
+
+    component.ngAfterViewInit();
+
+    expect(component._googlePlacesService).toBeDefined();
+    expect(window.google.maps.places.PlacesService).toHaveBeenCalledWith(fakeGoogleMap);
+  });
+
+  it('should not create googlePlacesService if map.googleMap is null', () => {
+    component.map = { googleMap: null } as any;
+
+    component.ngAfterViewInit();
+
+    expect(component._googlePlacesService).toBeUndefined();
+    expect(window.google.maps.places.PlacesService).not.toHaveBeenCalled();
+  });
+
+  it('should not create googlePlacesService if map is undefined', () => {
+    component.map = undefined;
+
+    component.ngAfterViewInit();
+
+    expect(component._googlePlacesService).toBeUndefined();
+    expect(window.google.maps.places.PlacesService).not.toHaveBeenCalled();
   });
 
   afterEach(() => {

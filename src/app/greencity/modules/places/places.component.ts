@@ -72,6 +72,9 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(GoogleMap, { static: false }) map!: GoogleMap;
 
   private googlePlacesService: google.maps.places.PlacesService;
+  get _googlePlacesService() {
+    return this.googlePlacesService;
+  }
   private langChangeSub: Subscription;
   private page = 0;
   private totalPages: number;
