@@ -359,6 +359,10 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setUserLocation(): void {
+    if (!this.map?.googleMap) {
+      return;
+    }
+
     navigator.geolocation.getCurrentPosition(
       (position: any) => {
         this.map.googleMap.setCenter({
