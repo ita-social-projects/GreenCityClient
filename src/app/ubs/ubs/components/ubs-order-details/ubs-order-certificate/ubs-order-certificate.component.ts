@@ -121,7 +121,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   }
 
   clearCertificates(): void {
-    if (this.formArrayCertificates.length >= 0 && this.certificateSum > 0) {
+    if (this.formArrayCertificates.length > 0 && this.certificateSum > 0) {
       const lastEnteredCertificate = this.certificates[0]?.code;
       for (let i = this.formArrayCertificates.length; i >= 0; i--) {
         this.deleteCertificate(i);

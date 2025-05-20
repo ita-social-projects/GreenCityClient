@@ -138,14 +138,20 @@ describe('UbsOrderCertificateComponent (Partial Tests)', () => {
   });
 
   describe('clearCertificates()', () => {
-    it('should clear all certificates', () => {
+    it('should clear all certificates when certificateSum > 0', () => {
       component.initForm();
 
       component.addNewCertificate();
       component.formArrayCertificates.at(0).setValue('TESTCODE1');
       component.formArrayCertificates.at(1).setValue('TESTCODE2');
 
-      const certificateMock = { points: 100, code: '1234-5678' } as CCertificate;
+      const certificateMock = CCertificate.ofResponse({
+        code: '1234-5678',
+        points: 1000,
+        certificateStatus: 'ACTIVE',
+        dateOfUse: null,
+        expirationDate: '2023-12-31'
+      });
       component.certificates.push(certificateMock);
       component.certificateSum = 1000;
 
@@ -156,6 +162,18 @@ describe('UbsOrderCertificateComponent (Partial Tests)', () => {
       expect(spyOnDelete).toHaveBeenCalled();
       expect(component.formArrayCertificates.length).toBe(1);
       expect(component.certificates.length).toBe(0);
+      expect(component.formArrayCertificates.at(0).value).toBe('1234-5678');
+    });
+
+    it('should not clear certificates when certificateSum is 0', () => {
+      component.initForm();
+      component.addNewCertificate();
+      component.certificateSum = 0;
+
+      const spyOnDelete = spyOn(component, 'deleteCertificate').and.callThrough();
+
+      component.clearCertificates();
+      expect(spyOnDelete).not.toHaveBeenCalled();
     });
   });
 });
