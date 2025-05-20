@@ -8,3 +8,7 @@
 app-ubs-footer {
   z-index: 3;
 }
+
+router-outlet {
+  flex: 1;
+}
