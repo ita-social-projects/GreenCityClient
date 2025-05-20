@@ -130,15 +130,29 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
       };
 
       this.autocompleteService.getPlacePredictions(request, (predictions: google.maps.places.AutocompletePrediction[]) => {
-        this.handlePredictions(predictions);
+        this.handlePredictions(predictions, this.requestPrefix);
       });
     });
   }
 
-  private handlePredictions(predictions: google.maps.places.AutocompletePrediction[] | null): void {
+  private handlePredictions(predictions: google.maps.places.AutocompletePrediction[] | null, chosenPlaceValues: string): void {
     if (!predictions) {
       this.predictionList = [];
       return;
+    }
+
+    const wordsSplit = chosenPlaceValues.split(', ');
+
+    if (wordsSplit && wordsSplit.length > 2) {
+      const correctedPredictions = [];
+      const searchHelper = wordsSplit[wordsSplit.length - 2].split(' ')[1];
+
+      predictions.forEach((p) => {
+        if (p.description.includes(searchHelper)) {
+          correctedPredictions.push(p);
+        }
+      });
+      predictions = [...correctedPredictions];
     }
 
     const regex = new RegExp(Patterns.countriesRestriction);
