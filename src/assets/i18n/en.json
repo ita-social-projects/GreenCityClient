@@ -548,7 +548,8 @@
       "friend-added-success": "Friend invitation accepted",
       "friend-declined-success": "Friend invitation declined",
       "habit-invite-success": "Invite request sent"
-    }
+    },
+    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time"
   },
   "user": {
     "add-comment": {
@@ -1359,7 +1360,7 @@
     "edit": "Edit Event",
     "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
     "date-error": "Past date can't be chosen",
-    "date-error-format": "Input correct date!",
+    "date-error-format": "Enter the date in the format MM/DD/YYYY or month DD YYYY",
     "content-placeholder": "e.g. Short description of event, agenda for event",
     "content-tooltip": "Must be minimum 10 and maximum 63 206 symbols",
     "counter": "You typed",

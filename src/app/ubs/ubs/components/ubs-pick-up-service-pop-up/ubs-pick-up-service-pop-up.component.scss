@@ -99,6 +99,7 @@
 
 .numbered-columns {
   flex-direction: row;
+  padding: 5px 0;
 
   .box-number {
     width: 45px;
@@ -117,11 +118,8 @@
 }
 
 .price {
-  min-height: 276px;
-
   .price-conditions {
     margin-top: 24px;
-    min-height: 152px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
