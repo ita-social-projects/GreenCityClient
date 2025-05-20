@@ -135,4 +135,21 @@ describe('UbsOrderCertificateComponent (Partial Tests)', () => {
       expect(bonusControl.value).toBeFalse();
     });
   });
+
+  describe('clearCertificates()', () => {
+    it('should clear all certificates', () => {
+      component.initForm();
+      component.addNewCertificate();
+      component.formArrayCertificates.at(0).setValue('TESTCODE1');
+      component.formArrayCertificates.at(1).setValue('TESTCODE2');
+      component.certificateSum = 1000;
+
+      const spyOnDelete = spyOn(component, 'deleteCertificate').and.callThrough();
+
+      component.clearCertificates();
+
+      expect(spyOnDelete).toHaveBeenCalled();
+      expect(component.formArrayCertificates.length).toBe(1);
+    });
+  });
 });
