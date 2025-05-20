@@ -7,6 +7,7 @@ import { UbsOrderCertificateComponent } from './ubs-order-certificate.component'
 import { OrderService } from '../../../services/order.service';
 import { GetUserBonuses } from 'src/app/store/actions/ubs-user.actions';
 import { TranslateModule } from '@ngx-translate/core';
+import { CCertificate } from '@ubs/ubs/models/ubs.model';
 
 const orderServiceMock = {
   processCertificate: jasmine.createSpy('processCertificate')
@@ -139,9 +140,13 @@ describe('UbsOrderCertificateComponent (Partial Tests)', () => {
   describe('clearCertificates()', () => {
     it('should clear all certificates', () => {
       component.initForm();
+
       component.addNewCertificate();
       component.formArrayCertificates.at(0).setValue('TESTCODE1');
       component.formArrayCertificates.at(1).setValue('TESTCODE2');
+
+      const certificateMock = { points: 100, code: '1234-5678' } as CCertificate;
+      component.certificates.push(certificateMock);
       component.certificateSum = 1000;
 
       const spyOnDelete = spyOn(component, 'deleteCertificate').and.callThrough();
@@ -150,6 +155,7 @@ describe('UbsOrderCertificateComponent (Partial Tests)', () => {
 
       expect(spyOnDelete).toHaveBeenCalled();
       expect(component.formArrayCertificates.length).toBe(1);
+      expect(component.certificates.length).toBe(0);
     });
   });
 });
