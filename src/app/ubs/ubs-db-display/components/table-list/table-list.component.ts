@@ -13,7 +13,7 @@ export class TableListComponent {
   selectedTable: string | null = null;
 
   get filteredTables(): string[] {
-    return this.tables.filter((table) => table.toLowerCase().includes(this.searchTerm.toLowerCase()));
+    return this.tables?.filter((table) => table.toLowerCase().includes(this.searchTerm.toLowerCase()));
   }
 
   onSelect(table: string): void {

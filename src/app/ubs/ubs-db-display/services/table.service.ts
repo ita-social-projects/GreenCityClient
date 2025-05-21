@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
-import { TablesResponse } from '../models/table.model';
+import { TableDataResponse, TablesResponse } from '../models/table.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class TableService {
     return this.http.get<TablesResponse>(`${this.url}export/settings/tables`);
   }
 
-  getTableData(name: string, limit = '10000', offset = '0'): Observable<any> {
-    return this.http.get<any>(`${this.url}export/settings/select?tableName=${name}&limit=${limit}&offset=${offset}`);
+  getTableData(name: string, page = 0, size = 20): Observable<TableDataResponse> {
+    return this.http.get<TableDataResponse>(`${this.url}export/settings/select?tableName=${name}&page=${page}&size=${size}`);
   }
 }

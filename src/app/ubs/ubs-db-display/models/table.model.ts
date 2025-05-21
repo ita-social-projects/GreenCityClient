@@ -4,5 +4,13 @@ export interface TablesResponse {
 
 export interface TableDataResponse {
   tableName: string;
-  tableData: Record<string, string>[];
+  currentPage: number;
+  first: boolean;
+  hasNext: boolean;
+  hasPrevious: boolean;
+  last: boolean;
+  number: number;
+  page: Record<string, string>[];
+  totalElements: number;
+  totalPages: number;
 }
