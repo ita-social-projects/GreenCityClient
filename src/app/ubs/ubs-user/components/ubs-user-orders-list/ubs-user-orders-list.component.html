@@ -73,7 +73,7 @@
           </div>
           <div *ngIf="!isOrderCanceled(order)" class="btn-box export-btn">
             <button class="ubs-primary-global-button s-btn" (click)="exportAsPDF(order)">
-              {{ 'user-orders.btn.pdf' | translate }}
+              <img [src]="pdfExportIcon" alt="To PDF" class="pdfIcon" />
             </button>
           </div>
         </div>
