@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TableListComponent } from './table-list.component';
+import { FormsModule } from '@angular/forms';
 
 describe('TableListComponent', () => {
   let component: TableListComponent;
@@ -8,7 +9,8 @@ describe('TableListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TableListComponent]
+      declarations: [TableListComponent],
+      imports: [FormsModule]
     });
     fixture = TestBed.createComponent(TableListComponent);
     component = fixture.componentInstance;
