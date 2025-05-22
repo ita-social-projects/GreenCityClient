@@ -234,22 +234,22 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         cancellationReason: '' // TODO
       }),
       userInfoDto: this.fb.group({
-        recipientName: new FormControl(this.userInfo.recipientName, [
+        senderName: new FormControl(this.userInfo.senderName, [
           Validators.required,
           Validators.maxLength(30),
           Validators.pattern(Patterns.NamePattern)
         ]),
-        recipientSurName: new FormControl(this.userInfo.recipientSurName, [
+        senderSurname: new FormControl(this.userInfo.senderSurname, [
           Validators.required,
           Validators.maxLength(30),
           Validators.pattern(Patterns.NamePattern)
         ]),
-        recipientPhoneNumber: new FormControl(this.userInfo.recipientPhoneNumber, [
+        senderPhoneNumber: new FormControl(this.userInfo.senderPhoneNumber, [
           Validators.required,
           Validators.pattern(Patterns.adminPhone),
           PhoneNumberValidator('UA')
         ]),
-        recipientEmail: new FormControl(this.userInfo.recipientEmail, [Validators.pattern(Patterns.ubsMailPattern)])
+        senderEmail: new FormControl(this.userInfo.senderEmail, [Validators.pattern(Patterns.ubsMailPattern)])
       }),
       addressExportDetailsDto: [''],
       exportDetailsDto: this.fb.group({
@@ -397,12 +397,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
   addIdForUserAndAdress(order: FormGroup): void {
     const addressId = 'id';
-    const recipientId = 'recipientId';
+    const customerId = 'customerId';
     const keyUserInfo = 'userInfoDto';
     const keyAddressExportDetails = 'addressExportDetailsDto';
 
     if (Object.prototype.hasOwnProperty.call(order, keyUserInfo)) {
-      order[keyUserInfo][recipientId] = this.userInfo.recipientId;
+      order[keyUserInfo][customerId] = this.userInfo.customerId;
     }
 
     if (Object.prototype.hasOwnProperty.call(order, keyAddressExportDetails)) {

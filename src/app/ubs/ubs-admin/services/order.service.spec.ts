@@ -52,15 +52,15 @@ describe('OrderService', () => {
       ]
     },
     userInfoDto: {
-      recipientId: 123,
+      customerId: 123,
       customerEmail: 'customer@example.com',
       customerName: 'John',
       customerPhoneNumber: '+1234567890',
-      customerSurName: 'Doe',
-      recipientEmail: 'recipient@example.com',
-      recipientName: 'Jane',
-      recipientPhoneNumber: '+0987654321',
-      recipientSurName: 'Doe',
+      customerSurname: 'Doe',
+      senderEmail: 'recipient@example.com',
+      senderName: 'Jane',
+      senderPhoneNumber: '+0987654321',
+      senderSurname: 'Doe',
       totalUserViolations: 0,
       userViolationForCurrentOrder: 0
     },

@@ -33,12 +33,12 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
 
   constructor(private dialog: MatDialog) {}
 
-  get recipientEmail() {
-    return this.userInfoDto.get('recipientEmail');
+  get senderEmail() {
+    return this.userInfoDto.get('senderEmail');
   }
 
-  get recipientPhoneNumber(): FormControl {
-    return this.userInfoDto.get('recipientPhoneNumber') as FormControl;
+  get senderPhoneNumber(): FormControl {
+    return this.userInfoDto.get('senderPhoneNumber') as FormControl;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -106,7 +106,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
       return 'input-error.pattern';
     }
 
-    if (abstractControl.errors.pattern && name === 'recipientPhoneNumber') {
+    if (abstractControl.errors.pattern && name === 'senderPhoneNumber') {
       return 'input-error.number-format';
     }
 
