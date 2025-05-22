@@ -44,6 +44,7 @@ import { AddressService } from '../../../../shared/services/address/address.serv
   ]
 })
 export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges, ControlValueAccessor, Validator {
+  @Input() formAddressChangeId?: number;
   @Input() edit: boolean;
   @Input() address: Address;
   @Input() addFromProfile: boolean;
@@ -303,7 +304,9 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   initFormValidators(): void {
     this.store.pipe(select(addressesSelector), takeUntil(this.$destroy)).subscribe((addresses) => {
       if (addresses?.length >= 0) {
-        this.addressForm.setValidators(addressAlreadyExistsValidator(addresses, this.localStorageService.getCurrentLanguage()));
+        this.addressForm.setValidators(
+          addressAlreadyExistsValidator(addresses, this.localStorageService.getCurrentLanguage(), this.formAddressChangeId)
+        );
         this.addressForm.updateValueAndValidity();
       }
     });
