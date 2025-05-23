@@ -84,6 +84,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
     this.store.pipe(select(isFirstFormValidSelector), takeUntil(this.$destroy)).subscribe((isValid) => {
       this.isFirstFormValid = isValid;
+      !isValid && this.clearCertificates();
     });
   }
 
@@ -116,6 +117,17 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.formArrayCertificates.removeAt(index);
     if (this.formArrayCertificates.length === 0) {
       this.addNewCertificate();
+    }
+  }
+
+  clearCertificates(): void {
+    if (this.formArrayCertificates.length > 0 && this.certificateSum > 0) {
+      const lastEnteredCertificate = this.certificates[0]?.code;
+      for (let i = this.formArrayCertificates.length; i >= 0; i--) {
+        this.deleteCertificate(i);
+      }
+      lastEnteredCertificate && this.formArrayCertificates.at(0).setValue(lastEnteredCertificate);
+      this.certificates = [];
     }
   }
 
