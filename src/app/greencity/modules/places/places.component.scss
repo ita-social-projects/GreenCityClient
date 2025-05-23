@@ -60,6 +60,7 @@ $cardTextColor: #1d2830;
     margin-bottom: 48px;
 
     .google-map {
+      position: relative;
       height: 540px;
       width: 100%;
     }
@@ -71,16 +72,23 @@ $cardTextColor: #1d2830;
   max-height: 32px;
 }
 
-.close-mark {
+.close-mark-wrapper {
   position: absolute;
-  top: 33px;
+  top: 15px;
   right: 20px;
-  padding: 0 7px;
-  font-weight: bold;
-  color: var(--primary-green);
-  background-color: var(--pre-secondary-light-grey);
-  border: 1px solid green;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+}
+
+.close-mark {
+  width: 16px;
+  height: 2px;
+  background-color: var(--gray);
+  border-radius: 1px;
 }
 
 .sidebar-container {
@@ -96,6 +104,7 @@ $cardTextColor: #1d2830;
 
 .sidebar-content {
   position: relative;
+  font-family: var(--tertiary-font), sans-serif;
 
   @include flex-options(column, center, flex-start);
 
@@ -109,6 +118,12 @@ $cardTextColor: #1d2830;
     }
   }
 
+  .title-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
   .sidebar-address {
     display: flex;
     justify-content: space-between;
@@ -119,11 +134,17 @@ $cardTextColor: #1d2830;
       border: none;
       background: none;
       padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      margin: 18px 0 10px;
     }
 
     .material-icons {
       color: #13aa57;
-      margin: 18px 0 10px;
+      font-size: 16px;
     }
   }
 
@@ -131,30 +152,29 @@ $cardTextColor: #1d2830;
     font-weight: bold;
     font-size: 20px;
     color: var(--secondary-dark-grey);
+    margin-bottom: 18px;
   }
 
   .content-address {
     margin: 18px 0 10px;
-    height: 20px;
     font-size: 14px;
     color: var(--quaternary-grey);
   }
 
   .content-description {
-    @include set-width-height(239px, 20px);
+    @include set-width-height(239px);
 
-    margin-bottom: 20px;
-    margin-top: 16px;
+    margin-bottom: 10px;
     font-size: 14px;
     color: $cardTextColor;
   }
 
   .content-website {
-    @include set-width-height(154px, 20px);
+    @include set-width-height(154px);
 
     font-size: 14px;
-    color: var(--primary-green);
-    padding-top: 12px;
+    color: var(--gray);
+    margin-bottom: 16px;
   }
 
   .content-list {
@@ -169,7 +189,7 @@ $cardTextColor: #1d2830;
       .event-icon {
         @include set-width-height(16px, 16px);
 
-        margin-right: 7px;
+        margin: 2px 7px 0 0;
       }
 
       .event-description {
@@ -182,7 +202,7 @@ $cardTextColor: #1d2830;
   }
 
   .content-reviews-title {
-    margin: 0 0 14px;
+    margin: 0 0 13px;
     height: 20px;
     font-weight: bold;
     font-size: 14px;
@@ -191,6 +211,12 @@ $cardTextColor: #1d2830;
 
   .stars-container {
     display: flex;
+
+    .starts-rating {
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 24px;
+    }
 
     .star {
       max-width: 20px;
@@ -201,8 +227,9 @@ $cardTextColor: #1d2830;
   .content-reviews-amount {
     @include set-width-height(67px, 20px);
 
-    margin: 15px 0 0;
+    margin-top: 2px;
     font-size: 14px;
+    font-weight: 400;
     color: var(--quintynary-light-grey);
   }
 }
@@ -292,6 +319,7 @@ $cardTextColor: #1d2830;
   border: 1px solid var(--ubs-button-light-grey);
   background: white;
   margin: 0 24px 14px;
+  cursor: pointer;
 
   .head {
     height: 47px;
@@ -341,6 +369,85 @@ $cardTextColor: #1d2830;
   }
 }
 
+.content-info-pop-up {
+  @include set-width-height(429px);
+
+  max-height: 192px;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  right: 20px;
+  bottom: 3px;
+  top: auto;
+  background: var(--primary-white);
+
+  .heart-img {
+    @include set-width-height(20px);
+
+    height: auto;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+  }
+
+  .pop-up-photo {
+    height: 100%;
+    width: 192px;
+    flex-shrink: 0;
+
+    img.content-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .content-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 24px 10px 0 24px;
+
+    .content-title {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      margin: 2px 20px 2px 0;
+    }
+
+    .stars-container {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+
+      .starts-rating {
+        margin: 0;
+      }
+
+      .star {
+        width: 18px;
+        margin: 0;
+      }
+    }
+
+    .content-reviews-amount {
+      font-size: 10px;
+      font-weight: 400;
+      margin-bottom: 20px;
+      color: var(--quaternary-dark-grey);
+    }
+
+    .content-address {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--quaternary-dark-grey);
+    }
+  }
+}
+
 :host ::ng-deep .mat-drawer-inner-container {
   overflow: hidden;
 }
@@ -356,11 +463,5 @@ $cardTextColor: #1d2830;
         width: 90px;
       }
     }
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .close-mark::after {
-    display: block;
   }
 }
