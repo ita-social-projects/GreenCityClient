@@ -132,12 +132,13 @@
     </div>
   </div>
 
+  <div class="address-exists" *ngIf="addressForm?.errors?.addressAlreadyExists && addressForm?.touched && addressForm?.dirty">
+    {{ 'personal-info.address-already-exist' | translate }}
+  </div>
+
   <div *ngIf="isShowMap" class="map-container">
     <google-map (mapClick)="onMapClick($event)" [options]="mapOptions" [width]="'100%'" height="410px">
       <map-marker *ngIf="addressCoords" [position]="addressCoords" />
     </google-map>
   </div>
 </form>
-<div class="address-exists" *ngIf="addressForm?.errors?.addressAlreadyExists && addressForm?.touched">
-  {{ 'personal-info.address-already-exist' | translate }}
-</div>
