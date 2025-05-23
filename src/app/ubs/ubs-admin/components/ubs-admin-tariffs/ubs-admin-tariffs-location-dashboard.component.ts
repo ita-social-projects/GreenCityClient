@@ -319,7 +319,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     const panel = document.querySelector('.mat-autocomplete-panel');
-    this.scrollPosition = panel.scrollTop;
+    this.scrollPosition = panel ? panel.scrollTop : 0;
 
     if (event.option.value === 'all') {
       this.toggleSelectAllCity();
