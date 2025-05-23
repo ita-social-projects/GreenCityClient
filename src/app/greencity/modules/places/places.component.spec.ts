@@ -173,9 +173,6 @@ describe('PlacesComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlacesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
     window.google = {
       maps: {
         places: {
@@ -185,6 +182,10 @@ describe('PlacesComponent', () => {
         }
       }
     };
+
+    fixture = TestBed.createComponent(PlacesComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
