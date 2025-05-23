@@ -127,4 +127,17 @@ describe('ErrorComponent ', () => {
     const result = component.getPatternErrorMessage(pattern);
     expect(result).toEqual('input-error.pattern');
   });
+
+  it('getRequiredErrorMessage should return requiredFromDropdown error', () => {
+    const required = true;
+    const inputName = 'requiredFromDropdown';
+    const result = component.getRequiredErrorMessage(required, inputName);
+    expect(result).toEqual('personal-info.required-from-dropdown');
+  });
+  it('default error should be displayed if we didnt enter inputName', () => {
+    const required = true;
+    const inputName = undefined;
+    const result = component.getRequiredErrorMessage(required, inputName);
+    expect(result).toEqual('input-error.required');
+  });
 });

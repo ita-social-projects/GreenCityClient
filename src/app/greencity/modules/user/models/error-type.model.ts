@@ -8,5 +8,6 @@ export enum errorType {
 export enum inputsName {
   requiredEmailEmployee = 'requiredEmailEmployee',
   requiredPhoneEmployee = 'requiredPhoneEmployee',
-  requiredHouseNumber = 'requiredHouseNumber'
+  requiredHouseNumber = 'requiredHouseNumber',
+  requiredFromDropdown = 'requiredFromDropdown'
 }

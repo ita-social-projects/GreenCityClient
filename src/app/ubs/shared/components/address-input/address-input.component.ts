@@ -61,6 +61,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   isShowMap = false;
   districtsForKyiv: DistrictsDtos[];
   allowDistrictEdit = false;
+  errorType: string | undefined;
 
   mapOptions: google.maps.MapOptions = {
     center: { lat: 50.4501, lng: 30.5234 },
@@ -354,6 +355,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   keyup(keyupText: string): void {
     keyupText ? this.addressForm.get('region').disable() : this.addressForm.get('region').enable();
+    this.errorType = 'requiredFromDropdown';
   }
 
   onStreetSelected(street: GooglePrediction): void {
