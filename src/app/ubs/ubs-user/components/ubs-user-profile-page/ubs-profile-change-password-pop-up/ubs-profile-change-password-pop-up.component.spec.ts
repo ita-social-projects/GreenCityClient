@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChangePasswordService } from 'src/app/shared/services/auth/change-password.service';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -81,5 +81,29 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
     expect(updatePasswordDto.currentPassword).toBe('Qwerty132!');
     expect(updatePasswordDto.password).toBe('Test!2334');
     expect(updatePasswordDto.confirmPassword).toBe('Test!2334');
+  });
+
+  it('error message "password is longer than 20 characters" should not be displayed', () => {
+    (MatSnackBarMock.openSnackBar as jasmine.Spy).calls.reset();
+
+    component.formConfig.controls[currentPassword].setValue('Qwerty132!');
+    component.formConfig.controls[password].setValue('Test!2334');
+    component.formConfig.controls[confirmPassword].setValue('Test!2334');
+
+    component.onSubmit();
+
+    expect(MatSnackBarMock.openSnackBar).not.toHaveBeenCalledWith('errorPasswordChange');
+  });
+
+  it('error message "password is longer than 20 characters" should be displayed', () => {
+    (MatSnackBarMock.openSnackBar as jasmine.Spy).calls.reset();
+
+    component.formConfig.controls[currentPassword].setValue('Qwerty132!');
+    component.formConfig.controls[password].setValue('Test!2334Test!2334Test!2st!2334Test!2334Test!2334Test!2334Tesst');
+    component.formConfig.controls[confirmPassword].setValue('Test!2334Test!2334Test!2st!2334Test!2334Test!2334Test!2334Tesst');
+
+    component.onSubmit();
+
+    expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('errorPasswordChange');
   });
 });
