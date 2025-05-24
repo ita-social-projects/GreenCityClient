@@ -507,7 +507,8 @@
     "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
-    "management": "Management"
+    "management": "Management",
+    "user-profile": "Personal account"
   },
   "footer": {
     "station": "Station",
