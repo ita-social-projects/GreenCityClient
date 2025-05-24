@@ -109,6 +109,18 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     return control ? +control.value : 0;
   }
 
+  get bagErrors(): Array<{ message: string; value?: any }> {
+    const errors = this.orderDetailsForm?.controls.bags.errors;
+
+    if (!errors || typeof errors !== 'object') {
+      return [];
+    }
+
+    return Object.values(errors).filter(
+      (error): error is { message: string; value?: any } => typeof error === 'object' && 'message' in error
+    );
+  }
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly localStorageService: LocalStorageService,
