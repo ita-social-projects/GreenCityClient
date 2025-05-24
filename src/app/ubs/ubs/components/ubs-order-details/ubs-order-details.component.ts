@@ -117,7 +117,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     }
 
     return Object.values(errors).filter(
-      (error): error is { message: string; value?: any } => typeof error === 'object' && 'message' in error
+      (error): error is { message: string; value?: any } => typeof error === 'object' && error !== null && 'message' in error
     );
   }
 
