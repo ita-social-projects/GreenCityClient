@@ -5,11 +5,13 @@ import { TableService } from '@ubs/ubs-db-display/services/table.service';
 import { of } from 'rxjs';
 import { TableDataResponse } from '@ubs/ubs-db-display/models/table.model';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('TableViewComponent', () => {
   let component: TableViewComponent;
   let fixture: ComponentFixture<TableViewComponent>;
   let mockTableService: jasmine.SpyObj<TableService>;
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
   const mockResponsePage1: TableDataResponse = {
     tableName: 'test-table',
@@ -36,7 +38,10 @@ describe('TableViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [TableViewComponent],
       imports: [InfiniteScrollModule],
-      providers: [{ provide: TableService, useValue: mockTableService }]
+      providers: [
+        { provide: TableService, useValue: mockTableService },
+        { provide: MatSnackBarService, useValue: MatSnackBarMock }
+      ]
     });
     fixture = TestBed.createComponent(TableViewComponent);
     component = fixture.componentInstance;

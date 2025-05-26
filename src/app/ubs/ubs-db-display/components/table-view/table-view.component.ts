@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 import { TableDataResponse } from '@ubs/ubs-db-display/models/table.model';
 import { TableService } from '@ubs/ubs-db-display/services/table.service';
 import { catchError, finalize, Subject, takeUntil, throwError } from 'rxjs';
@@ -15,28 +16,15 @@ export class TableViewComponent implements OnChanges, OnDestroy {
   pageLimit = 50;
   private readonly destroy = new Subject<void>();
 
-  constructor(private readonly tableService: TableService) {}
+  constructor(
+    private readonly tableService: TableService,
+    private readonly snackBar: MatSnackBarService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.tableName && this.tableName) {
-      this.resetAndLoadFirstPage();
+      this.loadPage(0);
     }
-  }
-
-  private resetAndLoadFirstPage() {
-    this.tableDataResponse = {
-      tableName: this.tableName,
-      currentPage: 0,
-      first: true,
-      hasNext: false,
-      hasPrevious: false,
-      last: false,
-      number: 0,
-      page: [],
-      totalElements: 0,
-      totalPages: 0
-    };
-    this.loadPage(0);
   }
 
   private loadPage(pageIndex: number) {
@@ -47,7 +35,7 @@ export class TableViewComponent implements OnChanges, OnDestroy {
       .pipe(
         takeUntil(this.destroy),
         catchError((error) => {
-          console.error('Error loading table data:', error);
+          this.snackBar.openSnackBar('snack-bar.error.default');
           return throwError(() => error);
         }),
         finalize(() => {
@@ -55,10 +43,13 @@ export class TableViewComponent implements OnChanges, OnDestroy {
         })
       )
       .subscribe((res: TableDataResponse) => {
-        this.tableDataResponse = {
-          ...res,
-          page: [...this.tableDataResponse.page, ...res.page]
-        };
+        this.tableDataResponse =
+          pageIndex === 0
+            ? res
+            : {
+                ...res,
+                page: [...(this.tableDataResponse?.page ?? []), ...res.page]
+              };
       });
   }
 
