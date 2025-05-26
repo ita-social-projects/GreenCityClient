@@ -42,6 +42,7 @@ export class TableViewComponent implements OnChanges, OnDestroy {
           this.isLoading = false;
         })
       )
+      /* eslint-disable indent */
       .subscribe((res: TableDataResponse) => {
         this.tableDataResponse =
           pageIndex === 0
@@ -51,6 +52,7 @@ export class TableViewComponent implements OnChanges, OnDestroy {
                 page: [...(this.tableDataResponse?.page ?? []), ...res.page]
               };
       });
+    /* eslint-enable indent */
   }
 
   onScroll() {
