@@ -54,10 +54,10 @@
                 <div class="title-container">
                   <p class="title-sidebar">{{ 'user.places-card.card-popular' | translate }}</p>
                 </div>
-                <div class="sidebar-item-content" *ngFor="let place of placesList">
+                <div class="sidebar-item-content" *ngFor="let place of placesList" (click)="selectPlaceFromSideBar(place)">
                   <div class="head">
-                    <p class="content-title" (click)="selectPlaceFromSideBar(place)">{{ place.name }}</p>
-                    <button (click)="toggleFavoriteFromSideBar(place)" class="btn-bookmark">
+                    <p class="content-title">{{ place.name }}</p>
+                    <button (click)="$event.stopPropagation(); toggleFavoriteFromSideBar(place)" class="btn-bookmark">
                       <span class="material-icons">{{ place.isFavorite ? 'bookmark' : 'bookmark_border' }}</span>
                     </button>
                   </div>
@@ -65,7 +65,9 @@
                 </div>
               </div>
               <div class="sidebar-content" *ngIf="activePlaceDetails">
-                <span class="close-mark" (click)="updatePlaceList(true)"></span>
+                <div class="close-mark-wrapper" (click)="closePlaceInformation()">
+                  <span class="close-mark"></span>
+                </div>
                 <div class="title-wrapper">
                   <h6 class="content-title">{{ activePlaceDetails.name }}</h6>
                 </div>
@@ -79,7 +81,7 @@
                   </button>
                 </div>
                 <div>
-                  <p class="content-description">{{ activePlaceDetails?.types.join(', ') }}</p>
+                  <p class="content-description">{{ activePlaceDetails?.types.join(', ') | underscoreToSpace }}</p>
                 </div>
                 <div>
                   <a [href]="activePlaceDetails.website" target="_blank" class="content-website" *ngIf="activePlaceDetails.website">{{
@@ -97,9 +99,10 @@
                   </li>
                 </ul>
                 <h6 class="content-reviews-title">
-                  {{ 'user.places-card.card-rating' | translate }} &nbsp;&nbsp; <span>{{ activePlaceDetails.rating }}</span>
+                  {{ 'user.places-card.card-rating' | translate }}
                 </h6>
                 <div class="stars-container">
+                  <span class="starts-rating">{{ activePlaceDetails.rating }}   </span>
                   <img *ngFor="let star of getStars(activePlaceDetails.rating)" class="star" src="{{ star }}" alt="star" />
                 </div>
                 <span class="content-reviews-amount"
@@ -110,16 +113,8 @@
           </mat-drawer>
         </mat-drawer-container>
       </div>
-      <div class="google-map" #map *ngIf="!isRenderingMap">
-        <google-map
-          height="100%"
-          width="100%"
-          [zoom]="zoom"
-          (centerChange)="mapCenterChange($event)"
-          (boundsChange)="mapBoundsChange($event)"
-          (idle)="onMapIdle()"
-          (mapReady)="onMapReady($event)"
-        >
+      <div class="google-map" *ngIf="!isRenderingMap">
+        <google-map height="100%" width="100%" [zoom]="zoom" [options]="mapOptions" (idle)="onMapIdle()">
           <map-marker
             *ngFor="let place of places"
             [position]="place.location"
@@ -127,6 +122,26 @@
             [icon]="place.id === activePlace?.id ? greenIconUrl : redIconUrl"
             class="marker"
           />
+
+          <div class="content-info-pop-up" *ngIf="activePlaceDetails">
+            <img [src]="heartIconUrl" alt="heart" class="heart-img" />
+
+            <div class="pop-up-photo" *ngIf="activePlaceDetails.photos">
+              <img [src]="activePlaceDetails.photos[0]?.getUrl({})" class="content-photo" alt="" />
+            </div>
+
+            <div class="content-info">
+              <h6 class="content-title">{{ activePlaceDetails.name }}</h6>
+              <div class="stars-container">
+                <span class="starts-rating">{{ activePlaceDetails.rating }}</span>
+                <img class="star" src="{{ smoothStarIconUrl }}" alt="star" />
+              </div>
+              <span class="content-reviews-amount"
+                >{{ activePlaceDetails.reviews?.length }} {{ 'user.places-card.card-reviews' | translate }}</span
+              >
+              <h6 class="content-address">{{ activePlaceDetails.vicinity }}</h6>
+            </div>
+          </div>
         </google-map>
       </div>
     </div>

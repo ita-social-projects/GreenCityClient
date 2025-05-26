@@ -10,6 +10,7 @@ import { UBSOrderFormService } from '../../../ubs/services/ubs-order-form.servic
 import { IUserOrderInfo, OrderStatusEn, PaymentStatusEn } from './models/UserOrder.interface';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
+import { ubsPdfIcon } from '@ubs/shared/image-paths/ubs-user-images';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -20,6 +21,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   @Input() orders: IUserOrderInfo[];
   @Input() bonuses: number;
 
+  pdfExportIcon = ubsPdfIcon;
   currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   orderDetails: OrderDetails;

@@ -80,13 +80,13 @@
       <li>
         <span [appLangValue]="{ ua: order.address.addressStreetUk, en: order.address.addressStreetEn }" suffix=", "></span>
         <span>{{ order.address.houseNumber }},</span><br />
-        <span>{{ 'user-orders.details.block-number' | translate }} {{ order.address.houseCorpus || '-' }}</span
+        <span>{{ 'user-orders.details.block-number' | translate }} {{ order.address.houseCorpus || '-' }}</span
         ><br />
-        <span>{{ 'user-orders.details.entrance' | translate }} {{ order.address.entranceNumber || '-' }}</span
+        <span>{{ 'user-orders.details.entrance' | translate }} {{ order.address.entranceNumber || '-' }}</span
         ><br />
         <span
           [appLangValue]="{ ua: order.address.addressDistinctUk || '-', en: order.address.addressDistinctEn || '-' }"
-          [prefix]="'user-orders.details.district' | translate"
+          [prefix]="('user-orders.details.district' | translate) + ' '"
         >
         </span>
       </li>

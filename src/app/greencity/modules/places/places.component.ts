@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from 'src/app/shared/services/place/place.service';
@@ -11,7 +11,9 @@ import {
   share,
   star,
   starHalf,
-  starUnfilled
+  starUnfilled,
+  starSmoothFilled,
+  heart
 } from 'src/app/greencity/image-paths/places-icons';
 import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from 'src/app/shared/services/filtering/filter-place.service';
@@ -30,13 +32,14 @@ import { tagsListPlacesData } from './models/places-consts';
 import { GoogleScript } from '@assets/google-script/google-script';
 import { ActivatedRoute } from '@angular/router';
 import { initializeSavedState } from 'src/app/greencity/shared/components/saved-tabs/saved-section-const';
+import { GoogleMap } from '@angular/google-maps';
 
 @Component({
   selector: 'app-places',
   templateUrl: './places.component.html',
   styleUrls: ['./places.component.scss']
 })
-export class PlacesComponent implements OnInit, OnDestroy {
+export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
   position: any = {};
   zoom = 13;
   tagList: FilterModel[] = tagsListPlacesData;
@@ -51,9 +54,12 @@ export class PlacesComponent implements OnInit, OnDestroy {
   isRenderingMap: boolean;
   isSavedVisible = false;
   currentTab = 'places';
+  mapOptions: google.maps.MapOptions = { disableDefaultUI: true, gestureHandling: 'greedy' };
 
   readonly redIconUrl: string = redIcon;
   readonly greenIconUrl: string = greenIcon;
+  readonly smoothStarIconUrl: string = starSmoothFilled;
+  readonly heartIconUrl: string = heart;
   activePlace: Place;
   activePlaceDetails: google.maps.places.PlaceResult;
   favoritePlaces: Place[] = [];
@@ -63,9 +69,12 @@ export class PlacesComponent implements OnInit, OnDestroy {
   placesList: AllAboutPlace[] = [];
 
   @ViewChild('drawer') drawer: MatDrawer;
+  @ViewChild(GoogleMap, { static: false }) map!: GoogleMap;
 
-  private map: any;
   private googlePlacesService: google.maps.places.PlacesService;
+  get _googlePlacesService() {
+    return this.googlePlacesService;
+  }
   private langChangeSub: Subscription;
   private page = 0;
   private totalPages: number;
@@ -82,7 +91,8 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private readonly googleScript: GoogleScript,
     private readonly dialog: MatDialog,
     private readonly userOwnAuthService: UserOwnAuthService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
@@ -135,13 +145,25 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   onMapIdle(): void {
+    this.googleScript.$isRenderingMap.pipe(takeUntil(this.$destroy)).subscribe((value: boolean) => {
+      setTimeout(() => {
+        this.isRenderingMap = value;
+        if (value === false) {
+          this.setUserLocation();
+        }
+      }, 1000);
+    });
     this.updateFilters();
   }
 
-  onMapReady(map: any): void {
-    this.map = map;
+  ngAfterViewInit(): void {
+    const map = this.map?.googleMap;
+    if (!map) {
+      return;
+    }
+
+    this.googlePlacesService = new google.maps.places.PlacesService(map);
     this.setUserLocation();
-    this.googlePlacesService = new google.maps.places.PlacesService(this.map);
   }
 
   private checkUserSingIn(): void {
@@ -221,6 +243,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
     }
   }
 
+  closePlaceInformation(): void {
+    this.activePlaceDetails = undefined;
+    this.activePlace = undefined;
+  }
+
   updatePlaceList(isAfterClose: boolean): void {
     if (isAfterClose) {
       this.page = 0;
@@ -277,7 +304,6 @@ export class PlacesComponent implements OnInit, OnDestroy {
     };
     this.selectPlace(sendingPlace);
   }
-
   private getPlaceInfoFromGoogleApi(place: Place) {
     const findByQueryRequest: google.maps.places.FindPlaceFromQueryRequest = {
       query: place.name,
@@ -293,7 +319,9 @@ export class PlacesComponent implements OnInit, OnDestroy {
         fields: ['ALL']
       };
       this.googlePlacesService.getDetails(detailsRequest, (placeDetails: google.maps.places.PlaceResult) => {
-        this.activePlaceDetails = placeDetails;
+        this.ngZone.run(() => {
+          this.activePlaceDetails = placeDetails;
+        });
         this.drawer.toggle(true);
       });
     });
@@ -331,15 +359,19 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   private setUserLocation(): void {
+    if (!this.map?.googleMap) {
+      return;
+    }
+
     navigator.geolocation.getCurrentPosition(
       (position: any) => {
-        this.map.setCenter({
+        this.map.googleMap.setCenter({
           lat: position.coords.latitude,
           lng: position.coords.longitude
         });
       },
       () => {
-        this.map.setCenter({
+        this.map.googleMap.setCenter({
           lat: 49.84579567734425,
           lng: 24.025124653312258
         });
