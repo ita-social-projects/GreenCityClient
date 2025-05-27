@@ -1,5 +1,4 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { timeValidator } from './timeValidator';
 
 export function customTextValidator(control: AbstractControl): ValidationErrors | null {
   if (!control.value) {
