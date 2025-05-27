@@ -33,17 +33,6 @@ export const locationOrOnlineLinkValidator: ValidatorFn = (control: AbstractCont
   return null;
 };
 
-export const startAndFinishTimeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const startTime = control.get('startTime')?.value;
-  const finishTime = control.get('finishTime')?.value;
-
-  if (!startTime.trim() || !finishTime.trim()) {
-    return { timeRequired: true };
-  }
-
-  return null;
-};
-
 export function dateFormatValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;

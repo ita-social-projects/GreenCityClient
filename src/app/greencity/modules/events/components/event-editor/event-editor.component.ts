@@ -2,27 +2,28 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { defaultCoordinates } from '@assets/mocks/events/mock-events';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
 import moment from 'moment';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { singleNewsImages } from 'src/app/greencity/image-paths/single-news-images';
-import { EventsService } from '../../services/events.service';
-import { quillConfig } from 'src/app/shared/helpers/quillEditorFunc';
-import { EventStoreService } from '../../services/event-store.service';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
-import { DateInformation, FormControllers, EventDto } from '../../models/events.interface';
-import { customTextValidator, locationOrOnlineLinkValidator, startAndFinishTimeValidator } from './validators/event-custom-validators';
+import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
+import { quillConfig } from 'src/app/shared/helpers/quillEditorFunc';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
-import { defaultCoordinates } from '@assets/mocks/events/mock-events';
+import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
+import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
+import { DateInformation, EventDto, FormControllers } from '../../models/events.interface';
+import { EventStoreService } from '../../services/event-store.service';
+import { EventsService } from '../../services/events.service';
+import { customTextValidator, locationOrOnlineLinkValidator } from './validators/event-custom-validators';
+import { Patterns } from '@assets/patterns/patterns';
 @Component({
   selector: 'app-event-editor',
   templateUrl: './event-editor.component.html',
@@ -45,6 +46,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
   event: EventDto;
   routedFromProfile: boolean;
 
+  private timePattern = Patterns.timePattern;
   constructor(
     private readonly eventStore: EventStoreService,
     public readonly dialog: MatDialog,
@@ -139,8 +141,8 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
                   day: [moment(nextDate.toISOString()), Validators.required],
                   startDate: [nextDate, Validators.required],
                   finishDate: [nextDate, Validators.required],
-                  startTime: ['', Validators.required],
-                  finishTime: ['', Validators.required],
+                  startTime: ['', [Validators.required, Validators.pattern(this.timePattern)]],
+                  finishTime: ['', [Validators.required, Validators.pattern(this.timePattern)]],
                   allDay: [false],
                   minDate: [nextDate],
                   maxDate: [null],
@@ -207,14 +209,14 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
             ? // eslint-disable-next-line max-len
               `${new Date(date.startDate).getHours().toString().padStart(2, '0')}:${new Date(date.startDate).getMinutes().toString().padStart(2, '0')}`
             : '',
-          [Validators.required]
+          [Validators.required, Validators.pattern(this.timePattern)]
         ],
         finishTime: [
           date?.finishDate
             ? // eslint-disable-next-line max-len
               `${new Date(date.finishDate).getHours().toString().padStart(2, '0')}:${new Date(date.finishDate).getMinutes().toString().padStart(2, '0')}`
             : '',
-          [Validators.required]
+          [Validators.required, Validators.pattern(this.timePattern)]
         ],
         allDay: [date?.allDay ?? false],
         minDate: [date?.minDate ? new Date(date.minDate) : new Date()],
@@ -225,7 +227,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
         appliedLinkForAll: [date?.appliedLinkForAll ?? false],
         appliedPlaceForAll: [date?.appliedPlaceForAll ?? false]
       },
-      { validators: [locationOrOnlineLinkValidator, startAndFinishTimeValidator] }
+      { validators: [locationOrOnlineLinkValidator] }
     );
   }
 
