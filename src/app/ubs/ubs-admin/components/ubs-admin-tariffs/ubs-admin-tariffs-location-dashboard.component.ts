@@ -313,13 +313,17 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   onOpenDropdown(): void {
-    const panel = document.querySelector('.mat-autocomplete-panel');
-    panel.scrollTop = this.scrollPosition;
+    requestAnimationFrame(() => {
+      const panel = document.querySelector('.mat-autocomplete-panel');
+      if (panel) {
+        panel.scrollTop = this.scrollPosition || 0;
+      }
+    });
   }
 
   onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     const panel = document.querySelector('.mat-autocomplete-panel');
-    this.scrollPosition = panel.scrollTop;
+    this.scrollPosition = panel ? panel.scrollTop : 0;
 
     if (event.option.value === 'all') {
       this.toggleSelectAllCity();
