@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { timeValidator } from './timeValidator';
 
 export function customTextValidator(control: AbstractControl): ValidationErrors | null {
   if (!control.value) {
@@ -27,6 +28,17 @@ export const locationOrOnlineLinkValidator: ValidatorFn = (control: AbstractCont
 
   if (!onlineLink && !longitude) {
     return { locationOrOnlineLinkRequired: true };
+  }
+
+  return null;
+};
+
+export const startAndFinishTimeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const startTime = control.get('startTime')?.value;
+  const finishTime = control.get('finishTime')?.value;
+
+  if (!startTime.trim() || !finishTime.trim()) {
+    return { timeRequired: true };
   }
 
   return null;

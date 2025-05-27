@@ -19,7 +19,7 @@ import { quillConfig } from 'src/app/shared/helpers/quillEditorFunc';
 import { EventStoreService } from '../../services/event-store.service';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { DateInformation, FormControllers, EventDto } from '../../models/events.interface';
-import { customTextValidator, locationOrOnlineLinkValidator } from './validators/event-custom-validators';
+import { customTextValidator, locationOrOnlineLinkValidator, startAndFinishTimeValidator } from './validators/event-custom-validators';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 import { defaultCoordinates } from '@assets/mocks/events/mock-events';
@@ -206,13 +206,15 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
           date?.startDate
             ? // eslint-disable-next-line max-len
               `${new Date(date.startDate).getHours().toString().padStart(2, '0')}:${new Date(date.startDate).getMinutes().toString().padStart(2, '0')}`
-            : ''
+            : '',
+          [Validators.required]
         ],
         finishTime: [
           date?.finishDate
             ? // eslint-disable-next-line max-len
               `${new Date(date.finishDate).getHours().toString().padStart(2, '0')}:${new Date(date.finishDate).getMinutes().toString().padStart(2, '0')}`
-            : ''
+            : '',
+          [Validators.required]
         ],
         allDay: [date?.allDay ?? false],
         minDate: [date?.minDate ? new Date(date.minDate) : new Date()],
@@ -223,7 +225,7 @@ export class EventEditorComponent extends FormBaseComponent implements OnInit, O
         appliedLinkForAll: [date?.appliedLinkForAll ?? false],
         appliedPlaceForAll: [date?.appliedPlaceForAll ?? false]
       },
-      { validators: locationOrOnlineLinkValidator }
+      { validators: [locationOrOnlineLinkValidator, startAndFinishTimeValidator] }
     );
   }
 
