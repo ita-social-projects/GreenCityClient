@@ -33,7 +33,7 @@
           (mouseleave)="$event.stopImmediatePropagation()"
           (keydown)="showPopup(historyAction.id, $event)"
         >
-          <span>{{ historyAction.result }} </span>
+          <span>{{ historyAction.eventName }} </span>
           <span *ngIf="historyAction.result"> -</span>
           <span
             [ngClass]="{
