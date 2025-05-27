@@ -17,7 +17,7 @@ import { UserNotificationService } from '@global-user/services/user-notification
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
-import { NotificationBody, Notifications } from '@ubs/ubs-admin/models/ubs-user.model';
+import { NotificationBody } from '@ubs/ubs-admin/models/ubs-user.model';
 import { HttpParams } from '@angular/common/http';
 import { formatNotificationDate } from './format-notification-date/format-notification-date';
 import { HabitService } from '@shared/service/habit/habit.service';
@@ -71,7 +71,6 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this.getNotification(this.currentPage);
     });
-    this.getNotification(this.currentPage);
   }
 
   changeFilterApproach(approach: string, event: Event): void {
@@ -130,11 +129,13 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     const selectedApproach = filterCriteriaOptions.find((el) => el.isSelected)?.name;
 
     if (selectedApproach === this.filterCriteria.TYPE) {
+      const notificationType = this.getAllSelectedFilters(this.filterCriteria.TYPE)
+        .map((el) => (el.filterArr?.length ? el.filterArr : el.name))
+        .flat();
+
       filtersSelected = {
-        notificationType: this.getAllSelectedFilters(this.filterCriteria.TYPE)
-          .map((el) => (el.filterArr?.length ? el.filterArr : el.name))
-          .flat(),
-        projectName: []
+        notificationType,
+        ...(notificationType.length && { projectName: ['GREENCITY'] })
       };
     } else if (selectedApproach === this.filterCriteria.ORIGIN) {
       filtersSelected = {
@@ -142,33 +143,11 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
         notificationType: []
       };
     }
-
-    if (filtersSelected.projectName.includes('PICKUP')) {
-      this.fetchUBSNotifications(page);
-    } else if (filtersSelected.projectName.includes('GREENCITY')) {
-      this.fetchAllNotifications(page, filtersSelected);
-    } else {
-      !filtersSelected.notificationType.length && this.fetchUBSNotifications(page);
-      this.fetchAllNotifications(page, filtersSelected);
-    }
+    this.fetchAllNotifications(page, filtersSelected);
   }
-
   private buildDefaultParamsWithPage(page: number): HttpParams {
     return new HttpParams().set('lang', this.currentLang).set('page', page.toString()).set('size', this.itemsPerPage.toString());
   }
-
-  private fetchUBSNotifications(page: number): void {
-    const params = this.buildDefaultParamsWithPage(page);
-    this.userNotificationService
-      .getUBSNotification(params)
-      .pipe(take(1))
-      .subscribe((data: Notifications) => {
-        this.notifications = [...this.notifications, ...data.page.map(this.mapNotificationBodyToModel)];
-        this.currentPage = data.currentPage;
-        this.isLoading = false;
-      });
-  }
-
   private fetchAllNotifications(page: number, filters: any): void {
     let params = this.buildDefaultParamsWithPage(page);
 
