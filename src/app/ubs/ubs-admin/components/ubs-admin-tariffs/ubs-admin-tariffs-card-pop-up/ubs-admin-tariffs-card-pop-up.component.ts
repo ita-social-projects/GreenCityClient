@@ -124,6 +124,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isCardExist = false;
     this.isEdit = this.modalData.edit;
     this.isCreate = this.modalData.create;
     this.tariffId = this.modalData.tariffId;
@@ -478,7 +479,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     };
   }
 
-  createCardRequest(card) {
+  createCardRequest(card: CreateCard) {
     this.tariffsService.createCard(card).pipe(takeUntil(this.unsubscribe)).subscribe();
   }
 
@@ -535,7 +536,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         this.isCardExist = response;
 
         if (!this.isCardExist) {
-          this.dialogRef.close();
           const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
             disableClose: true,
             hasBackdrop: true,
@@ -555,6 +555,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
             if (res) {
               this.createCardRequest(this.createCardObj);
               this.snackBar.openSnackBar('successUpdateUbsData');
+              this.dialogRef.close(true);
             }
           });
         }
