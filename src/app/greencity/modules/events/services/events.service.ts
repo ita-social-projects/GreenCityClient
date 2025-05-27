@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from '@environment/environment';
-import { Observable, ReplaySubject, throwError } from 'rxjs';
+import { map, Observable, ReplaySubject, throwError } from 'rxjs';
 import {
   Addresses,
   EventAttender,
@@ -10,7 +10,8 @@ import {
   EventResponseDto,
   LocationResponse,
   EventDto,
-  PlaceOnline
+  PlaceOnline,
+  FilterItem
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { LikeResponse } from './LikeResponse';
@@ -87,6 +88,10 @@ export class EventsService implements OnDestroy {
 
   getAddresses(): Observable<Addresses[]> {
     return this.http.get<Addresses[]>(`${this.backEnd}events/addresses`);
+  }
+
+  getRelevantAddresses(): Observable<Addresses[]> {
+    return this.http.get<Addresses[]>(`${this.backEnd}events/addresses/get-relevant`);
   }
 
   getImageAsFile(img: string): Observable<Blob> {

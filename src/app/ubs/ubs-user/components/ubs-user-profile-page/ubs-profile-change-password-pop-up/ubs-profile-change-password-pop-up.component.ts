@@ -58,28 +58,33 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.updatePasswordDto.currentPassword = this.formConfig.value.password;
-    this.updatePasswordDto.confirmPassword = this.formConfig.value.confirmPassword;
-    this.updatePasswordDto.password = this.formConfig.value.password;
-    of(true)
-      .pipe(
-        mergeMap(() =>
-          iif(
-            () => this.hasPassword,
-            this.changePasswordService.changePassword(this.updatePasswordDto),
-            this.changePasswordService.setPasswordForGoogleAuth(this.updatePasswordDto)
+    if (this.formConfig.value.password.length > 20) {
+      this.snackBar.openSnackBar('errorPasswordChange');
+      return;
+    } else {
+      this.updatePasswordDto.currentPassword = this.formConfig.value.password;
+      this.updatePasswordDto.confirmPassword = this.formConfig.value.confirmPassword;
+      this.updatePasswordDto.password = this.formConfig.value.password;
+      of(true)
+        .pipe(
+          mergeMap(() =>
+            iif(
+              () => this.hasPassword,
+              this.changePasswordService.changePassword(this.updatePasswordDto),
+              this.changePasswordService.setPasswordForGoogleAuth(this.updatePasswordDto)
+            )
           )
         )
-      )
-      .subscribe({
-        next: (_) => {
-          this.snackBar.openSnackBar('successConfirmPasswordUbs');
-          this.dialogRef.close();
-        },
-        error: (error) => {
-          this.initForm();
-          this.hasWrongCurrentPassword = true;
-        }
-      });
+        .subscribe({
+          next: (_) => {
+            this.snackBar.openSnackBar('successConfirmPasswordUbs');
+            this.dialogRef.close();
+          },
+          error: (error) => {
+            this.initForm();
+            this.hasWrongCurrentPassword = true;
+          }
+        });
+    }
   }
 }

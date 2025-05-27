@@ -4,3 +4,11 @@
   min-height: 100%;
   flex: 1 1 auto;
 }
+
+app-ubs-footer {
+  z-index: 3;
+}
+
+router-outlet {
+  flex: 1;
+}

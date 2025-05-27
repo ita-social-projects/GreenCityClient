@@ -28,9 +28,17 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TimePickerPopupComponent } from './components/time-picker-pop-up/time-picker-popup.component';
 import { AddressInputComponent } from './components/address-input/address-input.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { UnderscoreToSpacePipe } from './pipes/underscore-to-space.pipe';
 
 @NgModule({
-  declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent, TimePickerPopupComponent, AddressInputComponent],
+  declarations: [
+    PlacesComponent,
+    MoreOptionsFilterComponent,
+    AddPlaceComponent,
+    TimePickerPopupComponent,
+    AddressInputComponent,
+    UnderscoreToSpacePipe
+  ],
   imports: [
     InfiniteScrollModule,
     MatSidenavModule,

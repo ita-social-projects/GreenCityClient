@@ -519,7 +519,8 @@
       "error-create-address": "Oops, An error occurred while creating the address. Please try again.",
       "habit-not-added": "This habit invitation can`t be accepted",
       "habit-already-added": "This habit invitation can`t be declined",
-      "error-edit-address": "Oops, An error occurred while editing the address. Please try again."
+      "error-edit-address": "Oops, An error occurred while editing the address. Please try again.",
+      "password-change": "Password must be less than 20 characters long without spaces."
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
@@ -548,7 +549,8 @@
       "friend-added-success": "Friend invitation accepted",
       "friend-declined-success": "Friend invitation declined",
       "habit-invite-success": "Invite request sent"
-    }
+    },
+    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time"
   },
   "user": {
     "add-comment": {
@@ -1359,7 +1361,7 @@
     "edit": "Edit Event",
     "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
     "date-error": "Past date can't be chosen",
-    "date-error-format": "Input correct date!",
+    "date-error-format": "Enter the date in the format MM/DD/YYYY or month DD YYYY",
     "content-placeholder": "e.g. Short description of event, agenda for event",
     "content-tooltip": "Must be minimum 10 and maximum 63 206 symbols",
     "counter": "You typed",
@@ -1417,6 +1419,10 @@
     "created-event": "You have successfully added a new event",
     "updated-event": "You have successfully updated an event",
     "min-photo-error": "1 image minimum"
+  },
+  "add-cities-modal": {
+    "dropdown": "Filter cities",
+    "add-button": "Add selected cities"
   },
   "input-error": {
     "required": "This field is required",

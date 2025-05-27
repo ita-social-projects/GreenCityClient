@@ -44,6 +44,7 @@ import { AddressService } from '../../../../shared/services/address/address.serv
   ]
 })
 export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges, ControlValueAccessor, Validator {
+  @Input() formAddressChangeId?: number;
   @Input() edit: boolean;
   @Input() address: Address;
   @Input() addFromProfile: boolean;
@@ -69,6 +70,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   };
 
   private readonly buildingPattern = Patterns.ubsHouseNumberPattern;
+  private readonly numericPattern = Patterns.numeric;
   private readonly $destroy: Subject<void> = new Subject();
   private viewInitialized = false;
 
@@ -270,12 +272,12 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       district: [this.addressData.getDistrict() ?? '', Validators.required],
       houseNumber: [
         this.address?.houseNumber ?? '',
-        [Validators.required, Validators.maxLength(4), Validators.pattern(this.buildingPattern)]
+        [Validators.required, Validators.maxLength(10), Validators.pattern(this.buildingPattern)]
       ],
       houseCorpus: [this.address?.houseCorpus ?? '', emptyOrValid([Validators.maxLength(4), Validators.pattern(this.buildingPattern)])],
       entranceNumber: [
         this.address?.entranceNumber ?? '',
-        emptyOrValid([Validators.maxLength(2), Validators.pattern(this.buildingPattern)])
+        emptyOrValid([Validators.maxLength(3), Validators.pattern(this.numericPattern)])
       ],
       placeId: [this.address?.placeId ?? ''],
       addressComment: [this.address?.addressComment ?? '', Validators.maxLength(255)]
@@ -302,7 +304,9 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   initFormValidators(): void {
     this.store.pipe(select(addressesSelector), takeUntil(this.$destroy)).subscribe((addresses) => {
       if (addresses?.length >= 0) {
-        this.addressForm.setValidators(addressAlreadyExistsValidator(addresses, this.localStorageService.getCurrentLanguage()));
+        this.addressForm.setValidators(
+          addressAlreadyExistsValidator(addresses, this.localStorageService.getCurrentLanguage(), this.formAddressChangeId)
+        );
         this.addressForm.updateValueAndValidity();
       }
     });
@@ -442,7 +446,8 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   getCityPrefix(): string {
     const cityValue = this.langService.getLangValue('місто', 'city');
-    return `${this.region.value}, ${cityValue}, `;
+
+    return `${this.region.value} `;
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -118,12 +118,16 @@ describe('UbsAdminPricingPageComponent', () => {
     descriptionEng: 'fake1'
   };
 
-  const fakeBag: Bag = {
-    capacity: 111,
-    price: 478,
-    commission: 15,
+  const fakeBag = {
+    id: 1,
     limitIncluded: false,
-    id: 1
+    capacity: 20,
+    price: 100,
+    commission: 10,
+    name: 'Назва',
+    nameEng: 'Name',
+    description: 'Опис',
+    descriptionEng: 'Description'
   };
   const fakeDescription = {
     limitDescription: 'fake'
@@ -536,12 +540,30 @@ describe('UbsAdminPricingPageComponent', () => {
     });
   });
 
-  it('should get all tariffs for service', () => {
+  it('should get all tariffs for service', fakeAsync(() => {
     component.bags = [];
+    const fakeResponse = [
+      {
+        id: 1,
+        limitIncluded: false,
+        capacity: 20,
+        price: 100,
+        commission: 10,
+        name: 'Назва',
+        nameEng: 'Name',
+        description: 'Опис',
+        descriptionEng: 'Description'
+      }
+    ];
+    component.selectedCardId = 1;
+    tariffsServiceMock.getAllTariffsForService.and.returnValue(of(fakeResponse));
+
     component.getAllTariffsForService();
+    tick();
+
     expect(component.isLoadBar).toEqual(false);
     expect(component.bags).toEqual([fakeBag]);
-  });
+  }));
 
   it('should get all services', () => {
     component.getService();
@@ -556,12 +578,21 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(component.couriers).toEqual([fakeCouriers]);
   });
 
-  it('onCheck should set limitIncluded to true of checked is true', () => {
+  it('onCheck should set limitIncluded to true if checked is true', () => {
+    const fakeBag: Bag = {
+      id: 1,
+      limitIncluded: false,
+      capacity: 20,
+      price: 100,
+      commission: 10
+    };
+    component.bags = [fakeBag];
+
     const fakeEvent = {
       checked: true
     };
     component.onChecked(fakeBag.id, fakeEvent);
-    expect(fakeBag.limitIncluded).toEqual(true);
+    expect(component.bags[0].limitIncluded).toEqual(true);
   });
 
   it('onCheck should set limitIncluded to false of checked is false', () => {

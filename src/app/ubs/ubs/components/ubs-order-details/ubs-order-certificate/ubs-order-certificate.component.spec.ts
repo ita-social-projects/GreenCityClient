@@ -7,6 +7,7 @@ import { UbsOrderCertificateComponent } from './ubs-order-certificate.component'
 import { OrderService } from '../../../services/order.service';
 import { GetUserBonuses } from 'src/app/store/actions/ubs-user.actions';
 import { TranslateModule } from '@ngx-translate/core';
+import { CCertificate } from '@ubs/ubs/models/ubs.model';
 
 const orderServiceMock = {
   processCertificate: jasmine.createSpy('processCertificate')
@@ -133,6 +134,46 @@ describe('UbsOrderCertificateComponent (Partial Tests)', () => {
 
       component.calculateAll();
       expect(bonusControl.value).toBeFalse();
+    });
+  });
+
+  describe('clearCertificates()', () => {
+    it('should clear all certificates when certificateSum > 0', () => {
+      component.initForm();
+
+      component.addNewCertificate();
+      component.formArrayCertificates.at(0).setValue('TESTCODE1');
+      component.formArrayCertificates.at(1).setValue('TESTCODE2');
+
+      const certificateMock = CCertificate.ofResponse({
+        code: '1234-5678',
+        points: 1000,
+        certificateStatus: 'ACTIVE',
+        dateOfUse: null,
+        expirationDate: '2023-12-31'
+      });
+      component.certificates.push(certificateMock);
+      component.certificateSum = 1000;
+
+      const spyOnDelete = spyOn(component, 'deleteCertificate').and.callThrough();
+
+      component.clearCertificates();
+
+      expect(spyOnDelete).toHaveBeenCalled();
+      expect(component.formArrayCertificates.length).toBe(1);
+      expect(component.certificates.length).toBe(0);
+      expect(component.formArrayCertificates.at(0).value).toBe('1234-5678');
+    });
+
+    it('should not clear certificates when certificateSum is 0', () => {
+      component.initForm();
+      component.addNewCertificate();
+      component.certificateSum = 0;
+
+      const spyOnDelete = spyOn(component, 'deleteCertificate').and.callThrough();
+
+      component.clearCertificates();
+      expect(spyOnDelete).not.toHaveBeenCalled();
     });
   });
 });

@@ -146,6 +146,73 @@
   }
 }
 
+::ng-deep .city-modal {
+  width: 600px;
+  padding: 24px;
+  position: relative;
+}
+
+::ng-deep .city-modal-header {
+  margin-bottom: 16px;
+  padding-right: 40px;
+}
+
+::ng-deep .city-modal-header h2 {
+  margin: 0;
+}
+
+::ng-deep .close-btn {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+}
+
+::ng-deep .city-input-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+::ng-deep .autocomplete-input {
+  flex: 1;
+}
+
+.city-list {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+::ng-deep .city-tag {
+  background: #e0e0e0;
+  padding: 4px 6px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+::ng-deep .remove-btn {
+  width: 18px !important;
+  height: 18px !important;
+  line-height: 18px !important;
+  padding: 0 !important;
+  margin-left: 4px !important;
+}
+
+::ng-deep .remove-btn mat-icon {
+  font-size: 15px !important;
+  width: 15px !important;
+  height: 15px !important;
+  line-height: 15px !important;
+}
+
+::ng-deep .save-cities-button {
+  margin-top: 20px !important;
+  padding: 10px !important;
+}
+
 .filter-list {
   display: flex;
   align-items: center;
@@ -176,6 +243,11 @@
   margin-right: 15px;
   white-space: nowrap;
   cursor: pointer;
+}
+
+::ng-deep .add-location-option {
+  text-align: center;
+  padding: 8px;
 }
 
 hr {

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -77,7 +77,8 @@ import { UbsSharedModule } from '../shared/ubs-shared.module';
     MatRadioModule,
     MatAutocompleteModule,
     MatDialogModule,
-    UbsSharedModule
+    UbsSharedModule,
+    NgOptimizedImage
   ],
   providers: [
     {

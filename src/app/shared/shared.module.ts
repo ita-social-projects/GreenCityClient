@@ -80,7 +80,8 @@ import { InputErrorComponent } from './components/input-error/input-error.compon
     RatingDisplayComponent,
     RelativeDatePipe,
     LangValueDirective,
-    InputErrorComponent
+    InputErrorComponent,
+    InfiniteScrollModule
   ]
 })
 export class SharedModule {}

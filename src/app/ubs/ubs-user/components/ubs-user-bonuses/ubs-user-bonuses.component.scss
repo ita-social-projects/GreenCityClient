@@ -16,18 +16,6 @@
   font-weight: 400;
 }
 
-.more-about-bonuses-link {
-  color: var(--ubs-electric-violet);
-  font-weight: 600;
-}
-
-.link-center {
-  display: inline-block;
-  width: 100%;
-  text-align: center;
-  padding: 24px 0 64px;
-}
-
 .bonuses-exist-wrapper {
   display: flex;
   flex-direction: column;
@@ -41,7 +29,7 @@
   box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   text-align: center;
   padding-top: 24px;
-  margin: 0 auto;
+  margin: 0 auto 64px;
 }
 
 .total-bonuses-number__header {

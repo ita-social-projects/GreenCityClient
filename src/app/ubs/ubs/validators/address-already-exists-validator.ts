@@ -4,11 +4,16 @@ import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 
 export function addressAlreadyExistsValidator(
   addresses: Address[],
-  currentLanguage: Language
+  currentLanguage: Language,
+  formAddressChangeId: number | string
 ): (group: FormGroup) => ValidationErrors | null {
   return (group: FormGroup): ValidationErrors | null => {
-    const isAlreadyExist = addresses.some(
-      (address: Address) =>
+    const isAlreadyExist = addresses.some((address: Address, i) => {
+      if (i === formAddressChangeId && formAddressChangeId) {
+        return false;
+      }
+
+      return (
         getLangValue(address.regionUk, address.regionEn, currentLanguage) === group.controls?.region.value &&
         getLangValue(address.cityUk, address.cityEn, currentLanguage) === group.controls?.city.value &&
         getLangValue(address.streetUk, address.streetEn, currentLanguage) === group.controls?.street.value &&
@@ -20,7 +25,8 @@ export function addressAlreadyExistsValidator(
           address.districtEn === group.controls?.district.value?.nameEn ||
           address.districtUk === group.controls?.district.value ||
           address.districtEn === group.controls?.district.value)
-    );
+      );
+    });
 
     return isAlreadyExist ? { addressAlreadyExists: true } : null;
   };
