@@ -29,10 +29,10 @@ describe('UbsAdminOrderClientInfoComponent', () => {
   };
 
   const fakeFormGroup = new FormGroup({
-    recipientPhoneNumber: new FormControl(),
-    recipientName: new FormControl(),
-    recipientSurName: new FormControl(),
-    recipientEmail: new FormControl()
+    senderPhoneNumber: new FormControl(),
+    senderName: new FormControl(),
+    senderSurname: new FormControl(),
+    senderEmail: new FormControl()
   });
 
   const OrderStatusInfoFake = {
