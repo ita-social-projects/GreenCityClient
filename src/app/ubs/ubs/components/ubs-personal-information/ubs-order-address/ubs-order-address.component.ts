@@ -25,7 +25,7 @@ import { of, switchMap, Subject, combineLatest, from, filter, take, takeUntil } 
 })
 export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   selectedAddress: Address;
-  addressComment: FormControl = new FormControl('', [Validators.required, Validators.maxLength(255)]);
+  addressComment: FormControl = new FormControl('', Validators.maxLength(255));
   addresses: Address[] = [];
   currentLocationId: number;
   existingOrderInfo: IUserOrderInfo;

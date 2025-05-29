@@ -11,7 +11,7 @@
         class="shadow-none form-control"
         placeholder="{{ 'personal-info.info-name' | translate }}"
       />
-      <div class="validation" *ngIf="firstName.invalid && firstName.touched">
+      <div class="validation" *ngIf="firstName.invalid">
         <app-ubs-input-error [formElement]="firstName"></app-ubs-input-error>
       </div>
     </div>
@@ -26,7 +26,7 @@
         [unmask]="true"
         [imask]="{ mask: phoneMask }"
       />
-      <div class="validation" *ngIf="phoneNumber.invalid && phoneNumber.touched">
+      <div class="validation" *ngIf="phoneNumber.invalid">
         <app-ubs-input-error [formElement]="phoneNumber"> </app-ubs-input-error>
       </div>
     </div>
@@ -38,14 +38,14 @@
         class="shadow-none form-control"
         placeholder="{{ 'personal-info.info-surname' | translate }}"
       />
-      <div class="validation" *ngIf="lastName.invalid && lastName.touched">
+      <div class="validation" *ngIf="lastName.invalid">
         <app-ubs-input-error [formElement]="lastName"></app-ubs-input-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
       <label for="email">Email</label>
       <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" />
-      <div class="validation" *ngIf="email.invalid && email.touched">
+      <div class="validation" *ngIf="email.invalid">
         <app-ubs-input-error [formElement]="email"></app-ubs-input-error>
       </div>
     </div>
