@@ -216,15 +216,15 @@ export interface IPaymentStatus {
 }
 
 export interface IUserInfo {
-  recipientId: number;
+  customerId: number;
   customerEmail: string;
   customerName: string;
   customerPhoneNumber: string;
-  customerSurName: string;
-  recipientEmail: string;
-  recipientName: string;
-  recipientPhoneNumber: string;
-  recipientSurName: string;
+  customerSurname: string;
+  senderEmail: string;
+  senderName: string;
+  senderPhoneNumber: string;
+  senderSurname: string;
   totalUserViolations: number;
   userViolationForCurrentOrder: number;
 }
