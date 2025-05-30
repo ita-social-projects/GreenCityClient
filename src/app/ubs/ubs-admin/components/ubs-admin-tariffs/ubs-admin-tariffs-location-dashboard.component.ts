@@ -719,8 +719,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       }
     });
     matDialogRef.afterClosed().subscribe((res) => {
-      if (res) {
-        this.createCardRequest(this.createCardObj);
+      if (res === true) {
         this.region.setValue('');
         this.courier.setValue('');
         this.selectedStation = [];
