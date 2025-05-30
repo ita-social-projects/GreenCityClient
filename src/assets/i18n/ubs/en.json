@@ -322,7 +322,7 @@
       },
       "minimum-volume": {
         "title": "Minimum volume for export:",
-        "li_1": "2 packages of 120 l in Kyiv ",
+        "li_1": "2 packages of 120 l in Kyiv or from 600 UAH",
         "li_2": "20 packages of 120 liters in the suburbs within 20 km of Kyiv"
       }
     },
@@ -371,7 +371,7 @@
         },
         "steps-content": {
           "li_1": "Create your personal account, where the history of your orders will be stored",
-          "li_2": "Preparation of the route will take from 2 to 9 days",
+          "li_2": "Preparation of the route will take from 2 to 5 days",
           "li_3": "If you can’t be there at the agreed time, then leave the packages at the concierge but be sure to notify the Courier",
           "li_4": "Keep track of your order history"
         }

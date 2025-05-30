@@ -72,15 +72,15 @@ export const OrderInfoMockedData: IOrderInfo = {
     ]
   },
   userInfoDto: {
-    recipientId: 37,
+    customerId: 37,
     customerEmail: 'greencitytest@gmail.com',
     customerName: 'test',
     customerPhoneNumber: '380964521167',
-    customerSurName: 'test',
-    recipientEmail: 'test@gmail.com',
-    recipientName: 'test',
-    recipientPhoneNumber: '380964523467',
-    recipientSurName: 'test',
+    customerSurname: 'test',
+    senderEmail: 'test@gmail.com',
+    senderName: 'test',
+    senderPhoneNumber: '380964523467',
+    senderSurname: 'test',
     totalUserViolations: 0,
     userViolationForCurrentOrder: 0
   },

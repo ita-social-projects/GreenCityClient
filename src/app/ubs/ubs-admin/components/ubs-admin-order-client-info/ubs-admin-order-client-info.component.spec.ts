@@ -7,31 +7,32 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IMaskModule } from 'angular-imask';
+import { IUserInfo } from '@ubs/ubs-admin/models/ubs-admin.interface';
 
 describe('UbsAdminOrderClientInfoComponent', () => {
   let component: UbsAdminOrderClientInfoComponent;
   let fixture: ComponentFixture<UbsAdminOrderClientInfoComponent>;
   let changes: SimpleChanges;
 
-  const fakeUserInfo = {
+  const fakeUserInfo: IUserInfo = {
     customerEmail: 'nazar@gmail.com',
     customerName: 'Ivan',
     customerPhoneNumber: '380963423532',
-    customerSurName: 'Taras',
-    recipientEmail: 'nazar@gmail.com',
-    recipientId: 259,
-    recipientName: 'Nazar',
-    recipientPhoneNumber: '380963423532',
-    recipientSurName: 'Taras',
+    customerSurname: 'Taras',
+    senderEmail: 'nazar@gmail.com',
+    customerId: 259,
+    senderName: 'Nazar',
+    senderPhoneNumber: '380963423532',
+    senderSurname: 'Taras',
     totalUserViolations: 5,
     userViolationForCurrentOrder: 2
   };
 
   const fakeFormGroup = new FormGroup({
-    recipientPhoneNumber: new FormControl(),
-    recipientName: new FormControl(),
-    recipientSurName: new FormControl(),
-    recipientEmail: new FormControl()
+    senderPhoneNumber: new FormControl(),
+    senderName: new FormControl(),
+    senderSurname: new FormControl(),
+    senderEmail: new FormControl()
   });
 
   const OrderStatusInfoFake = {

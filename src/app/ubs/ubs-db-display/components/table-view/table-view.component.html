@@ -1,0 +1,25 @@
+<div class="component-wrapper">
+  <h2>{{ tableName }}</h2>
+  <div class="table-container" infiniteScroll [infiniteScrollThrottle]="300" (scrolled)="onScroll()" [scrollWindow]="false">
+    <table class="data-table" *ngIf="tableDataResponse?.page?.length">
+      <thead>
+        <tr>
+          <th *ngFor="let key of tableDataResponse.page[0] | keyvalue">
+            {{ key.key }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of tableDataResponse.page">
+          <td *ngFor="let cell of row | keyvalue">
+            {{ cell.value }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="!isLoading && tableDataResponse?.page?.length === 0">No data found for this table.</p>
+
+    <app-spinner *ngIf="isLoading"></app-spinner>
+  </div>
+</div>
