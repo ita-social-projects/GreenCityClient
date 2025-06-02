@@ -112,13 +112,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   get bagErrors(): Array<{ message: string; value?: any }> {
     const errors = this.orderDetailsForm?.controls.bags.errors;
 
-    if (!errors || typeof errors !== 'object') {
+    if (!errors) {
       return [];
     }
 
-    return Object.values(errors).filter(
-      (error): error is { message: string; value?: any } => typeof error === 'object' && error !== null && 'message' in error
-    );
+    return Object.values(errors).filter((error): error is { message: string; value?: any } => error !== null && 'message' in error);
   }
 
   constructor(

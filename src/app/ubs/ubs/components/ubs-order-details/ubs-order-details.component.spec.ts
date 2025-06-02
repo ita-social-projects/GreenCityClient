@@ -498,7 +498,7 @@ describe('UBSOrderDetailsComponent', () => {
       component.orderDetailsForm.get('bags').setErrors({
         someError: { message: 'Invalid quantity', value: 2 },
         anotherError: { message: 'Too many items' },
-        notRelevant: 'string-error'
+        notRelevant: { someString: 'string-error' }
       });
 
       expect(component.bagErrors).toEqual([{ message: 'Invalid quantity', value: 2 }, { message: 'Too many items' }]);
