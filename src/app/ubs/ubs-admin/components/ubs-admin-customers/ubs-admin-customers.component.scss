@@ -383,3 +383,9 @@ mat-spinner {
 .mdc-data-table__header-cell {
   padding: 10px;
 }
+
+@media (max-width: 1100px) {
+  .scrolling {
+    max-height: 45vh;
+  }
+}

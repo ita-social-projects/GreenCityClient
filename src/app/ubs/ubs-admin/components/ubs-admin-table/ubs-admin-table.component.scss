@@ -734,3 +734,9 @@ mat-spinner {
     }
   }
 }
+
+@media (max-width: 1100px) {
+  #table-container {
+    max-height: 45vh;
+  }
+}
