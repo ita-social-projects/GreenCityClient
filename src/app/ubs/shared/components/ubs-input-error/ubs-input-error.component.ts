@@ -91,6 +91,8 @@ export class UBSInputErrorComponent implements OnInit {
         return this.validationErrors.phoneEmployee;
       case inputName === inputsName.requiredHouseNumber:
         return this.validationErrors.houseNumber;
+      case inputName === inputsName.requiredFromDropdown:
+        return this.validationErrors.requiredFromDropdown;
       default:
         return this.validationErrors.required;
     }

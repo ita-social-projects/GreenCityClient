@@ -29,7 +29,7 @@
       (keyupEmitter)="keyup($event)"
     ></app-input-google-autocomplete>
     <div *ngIf="city.invalid && (city.touched || city.dirty)">
-      <app-ubs-input-error [formElement]="city"></app-ubs-input-error>
+      <app-ubs-input-error [formElement]="city" [inputName]="errorType"></app-ubs-input-error>
     </div>
   </div>
   <div class="col-lg-6 col-md-12 col-sm-12 form-group">
@@ -45,7 +45,7 @@
       ngDefaultControl
     ></app-input-google-autocomplete>
     <div *ngIf="isErrorMessageShown(street)">
-      <app-ubs-input-error [formElement]="street"></app-ubs-input-error>
+      <app-ubs-input-error [formElement]="street" [inputName]="errorType"></app-ubs-input-error>
     </div>
   </div>
 
