@@ -42,6 +42,10 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'db-display',
+    loadChildren: () => import('./ubs/ubs-db-display/ubs-db-display.module').then((m) => m.UbsDbDisplayModule)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

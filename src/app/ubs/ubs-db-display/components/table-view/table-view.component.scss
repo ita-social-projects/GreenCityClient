@@ -1,0 +1,36 @@
+.component-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  th,
+  td {
+    padding: 8px 12px;
+    border: 1px solid var(--ubs-light-grey);
+    text-align: left;
+    word-break: break-word;
+    min-width: 100px;
+  }
+
+  thead {
+    background-color: var(--ubs-secondary-white);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  tr:hover {
+    background-color: var(--ubs-secondary-white);
+  }
+}

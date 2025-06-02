@@ -43,7 +43,7 @@ describe('UserMessagesService', () => {
       expect(data).toBeDefined();
       expect(data.page.length).toBe(10);
     });
-    const req = httpMock.expectOne(`${mainUbsLink}/notifications?lang=en&page=0&size=10`);
+    const req = httpMock.expectOne(`${mainUbsLink}/notifications/images?lang=en&page=0&size=10`);
     expect(req.request.method).toBe('GET');
   });
 

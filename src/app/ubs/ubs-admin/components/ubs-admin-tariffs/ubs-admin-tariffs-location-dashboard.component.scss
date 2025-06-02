@@ -1,5 +1,7 @@
 ::ng-deep {
   .address-matDialog-styles-w-100 {
+    overflow-y: auto;
+
     .mat-dialog-container {
       margin: auto !important;
       width: 100% !important;

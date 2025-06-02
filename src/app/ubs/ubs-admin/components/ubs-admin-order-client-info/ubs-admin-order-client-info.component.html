@@ -20,7 +20,7 @@
                 {{ 'customer-info.customer.surname-label' | translate }}
               </label>
               <input class="name-input form-control" type="text" id="customer-surname" placeholder="{{ userInfo.customerName }}" disabled />
-              <input class="name-input form-control" type="text" id="customer-name" placeholder="{{ userInfo.customerSurName }}" disabled />
+              <input class="name-input form-control" type="text" id="customer-name" placeholder="{{ userInfo.customerSurname }}" disabled />
             </div>
           </div>
           <div class="form-group">
@@ -58,11 +58,11 @@
                   type="text"
                   id="recipient-name"
                   [readonly]="isUneditableStatus || !this.isEmployeeCanEditOrder"
-                  formControlName="recipientName"
+                  formControlName="senderName"
                 />
-                <div *ngIf="userInfoDto.controls['recipientName'].invalid && userInfoDto.controls['recipientName'].touched">
+                <div *ngIf="userInfoDto.controls['senderName'].invalid && userInfoDto.controls['senderName'].touched">
                   <div class="error-message">
-                    {{ getErrorMessage(userInfoDto.controls['recipientName']) | translate }}
+                    {{ getErrorMessage(userInfoDto.controls['senderName']) | translate }}
                   </div>
                 </div>
               </div>
@@ -72,11 +72,11 @@
                   [readonly]="isUneditableStatus || !this.isEmployeeCanEditOrder"
                   type="text"
                   id="recipient-surname"
-                  formControlName="recipientSurName"
+                  formControlName="senderSurname"
                 />
-                <div *ngIf="userInfoDto.controls['recipientSurName'].invalid && userInfoDto.controls['recipientSurName'].touched">
+                <div *ngIf="userInfoDto.controls['senderSurname'].invalid && userInfoDto.controls['senderSurname'].touched">
                   <div class="error-message">
-                    {{ getErrorMessage(userInfoDto.controls['recipientSurName']) | translate }}
+                    {{ getErrorMessage(userInfoDto.controls['senderSurname']) | translate }}
                   </div>
                 </div>
               </div>
@@ -92,14 +92,14 @@
               type="tel"
               id="recipient-tel"
               placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
-              [formControl]="recipientPhoneNumber"
+              [formControl]="senderPhoneNumber"
               [unmask]="true"
               [imask]="{ mask: phoneMask }"
             />
           </div>
-          <div *ngIf="userInfoDto.controls['recipientPhoneNumber'].invalid && userInfoDto.controls['recipientPhoneNumber'].touched">
+          <div *ngIf="userInfoDto.controls['senderPhoneNumber'].invalid && userInfoDto.controls['senderPhoneNumber'].touched">
             <div class="error-message">
-              {{ getErrorMessage(userInfoDto.controls['recipientPhoneNumber'], 'recipientPhoneNumber') | translate }}
+              {{ getErrorMessage(userInfoDto.controls['senderPhoneNumber'], 'senderPhoneNumber') | translate }}
             </div>
           </div>
           <div class="form-group">
@@ -112,10 +112,10 @@
               type="email"
               id="recipient-email"
               placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"
-              formControlName="recipientEmail"
+              formControlName="senderEmail"
             />
-            <div class="validation" *ngIf="recipientEmail.invalid && recipientEmail.touched">
-              <app-ubs-input-error [formElement]="recipientEmail"> </app-ubs-input-error>
+            <div class="validation" *ngIf="senderEmail.invalid && senderEmail.touched">
+              <app-ubs-input-error [formElement]="senderEmail"> </app-ubs-input-error>
             </div>
           </div>
         </div>
