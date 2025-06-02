@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UbsPickUpServicePopUpComponent } from 'src/app/ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 import { ubsNavLinks, socialLinks } from './footer-links';
 import { ubsHeaderIcons } from 'src/app/shared/image-paths/header-icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-footer',
@@ -20,7 +21,10 @@ export class UbsFooterComponent {
   private readonly destroySub: Subject<boolean> = new Subject<boolean>();
   @ViewChild('serviceref') serviceref: ElementRef;
 
-  constructor(private readonly dialog: MatDialog) {}
+  constructor(
+    private readonly dialog: MatDialog,
+    public router: Router
+  ) {}
 
   onResize() {
     this.screenWidth = window.innerWidth;
@@ -47,5 +51,9 @@ export class UbsFooterComponent {
   onPressEnter(event: Event): void {
     event.preventDefault();
     this.openAboutServicePopUp(event);
+  }
+
+  isAdminPage(): boolean {
+    return this.router.url.includes('/admin');
   }
 }

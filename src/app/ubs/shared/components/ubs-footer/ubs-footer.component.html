@@ -1,4 +1,4 @@
-<footer role="contentinfo" class="footer" (window:resize)="onResize()">
+<footer role="contentinfo" class="footer" [class.fixed-footer]="isAdminPage()" (window:resize)="onResize()">
   <div class="footer__menu menu">
     <div class="menu__logo">
       <a [routerLink]="['/ubs']" role="button">
