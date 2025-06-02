@@ -10,6 +10,8 @@
   gap: 32px;
   align-items: center;
   z-index: 3;
+  position: fixed;
+  bottom: 0;
 
   &__menu {
     width: 100%;
