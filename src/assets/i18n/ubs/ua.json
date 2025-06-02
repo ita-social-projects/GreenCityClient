@@ -506,7 +506,8 @@
     "user-notifications": "Сповіщення",
     "sign-out": "Вийти",
     "sign-in": "Увійти",
-    "management": "Менеджмент"
+    "management": "Менеджмент",
+    "user-profile": "Особистий кабінет"
   },
   "footer": {
     "station": "Станція",
