@@ -111,11 +111,11 @@ describe('UbsAdminPricingPageComponent', () => {
   ];
 
   const fakeService = {
-    name: 'fake1',
-    nameEng: 'fake',
+    nameUk: 'fake1',
+    nameEn: 'fake',
     price: 2,
-    description: 'fake1',
-    descriptionEng: 'fake1'
+    descriptionUk: 'fake1',
+    descriptionEn: 'fake1'
   };
 
   const fakeBag = {
@@ -124,10 +124,10 @@ describe('UbsAdminPricingPageComponent', () => {
     capacity: 20,
     price: 100,
     commission: 10,
-    name: 'Назва',
-    nameEng: 'Name',
-    description: 'Опис',
-    descriptionEng: 'Description'
+    nameUk: 'Назва',
+    nameEn: 'Name',
+    descriptionUk: 'Опис',
+    descriptionEn: 'Description'
   };
   const fakeDescription = {
     limitDescription: 'fake'
@@ -549,10 +549,10 @@ describe('UbsAdminPricingPageComponent', () => {
         capacity: 20,
         price: 100,
         commission: 10,
-        name: 'Назва',
-        nameEng: 'Name',
-        description: 'Опис',
-        descriptionEng: 'Description'
+        nameUk: 'Назва',
+        nameEn: 'Name',
+        descriptionUk: 'Опис',
+        descriptionEn: 'Description'
       }
     ];
     component.selectedCardId = 1;
