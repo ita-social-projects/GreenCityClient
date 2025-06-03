@@ -88,8 +88,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   regionExist = false;
   citySelected = false;
   cityInvalid = false;
-  cityExist = false;
-  editedCityExist = false;
   cities = [];
   activeCities = [];
   filteredRegions;
@@ -152,10 +150,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.regionExist = !this.regionSelected && item.length > 3;
       const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === item));
       this.selectCities(currentRegion);
-    });
-    this.location.valueChanges.subscribe((item) => {
-      this.cityInvalid = item.length > 3;
-      this.cityExist = this.checkCityExist(item, this.activeCities);
     });
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
       this.currentLang = lang;
@@ -225,8 +219,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     const locationValueExist = this.location.value && this.englishLocation.value;
     const locationValueChanged: boolean = !this.cities.includes(this.location.value) || !this.enCities.includes(this.englishLocation.value);
     if (locationValueExist && locationValueChanged) {
-      this.editedCityExist = false;
-
       const uaLocation = this.langService.getLangValue(this.location.value, this.englishLocation.value);
       const enLocation = this.langService.getLangValue(this.englishLocation.value, this.location.value);
 
@@ -239,18 +231,21 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.selectedCities.push(tempItem);
       this.location.setValue('');
       this.englishLocation.setValue('');
-    } else {
-      this.editedCityExist = true;
     }
   }
 
   deleteCity(index): void {
     this.selectedCities.splice(index, 1);
+    this.snackBar.openSnackBar('deletedCity');
   }
 
   deleteEditedCity(index): void {
     this.tariffsService.deleteCityInLocation(this.editedCities[index].locationId).pipe(takeUntil(this.unsubscribe)).subscribe();
     this.editedCities.splice(index, 1);
+    this.cities.splice(index, 1);
+    console.log(this.editedCities);
+    console.log(this.cities);
+    this.snackBar.openSnackBar('deletedCity');
   }
 
   onClearCity(): void {
@@ -300,9 +295,11 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   onCitySelected(city: GooglePrediction | null): void {
     if (city?.place_id) {
+      this.cityInvalid = false;
       this.setTranslation(city.place_id, this.location, this.langService.getLangValue(Language.UK, Language.EN));
       this.setTranslation(city.place_id, this.englishLocation, this.langService.getLangValue(Language.EN, Language.UK));
     } else {
+      this.cityInvalid = true;
       this.location.setValue('');
       this.englishLocation.setValue('');
     }
@@ -386,13 +383,11 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   isAddCityDisabled(): boolean {
-    return !this.location.value || !this.englishLocation.value || this.cities.includes(this.location.value);
+    return !this.location.value || !this.englishLocation.value || this.checkCityExist();
   }
 
-  private checkCityExist(item, array: Array<string>): boolean {
-    const newCityName = item.locationTranslationDtoList?.locationName.toLowerCase();
-    const cityList = array.map((it) => it.toLowerCase());
-    return cityList.includes(newCityName);
+  checkCityExist(): boolean {
+    return this.cities.includes(this.location.value) || this.cities.includes(this.englishLocation.value);
   }
 
   private updateInputsState(region: string = null): void {

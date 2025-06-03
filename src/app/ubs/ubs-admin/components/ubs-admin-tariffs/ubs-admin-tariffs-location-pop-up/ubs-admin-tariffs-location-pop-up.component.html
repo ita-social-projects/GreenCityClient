@@ -88,7 +88,7 @@
           <label for="location">{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
           <app-input-google-autocomplete
             id="location"
-            [ngClass]="{ 'error-input': cityExist || cityInvalid }"
+            [ngClass]="{ 'error-input': checkCityExist() || cityInvalid }"
             formControlName="location"
             [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location' | translate"
             [autoCompRequest]="cityOptions"
@@ -99,10 +99,10 @@
           </app-input-google-autocomplete>
           <img *ngIf="location.value" [src]="icons.cross" class="cross-img" alt="close-icon" (click)="onClearCity()" />
         </div>
-        <div class="w-100" *ngIf="location.touched && !location.value">
+        <div class="w-100" *ngIf="(location.touched || location.dirty) && cityInvalid">
           <p class="validation-city">{{ 'ubs-tariffs-add-location-pop-up.city_error_message' | translate }}</p>
         </div>
-        <div class="w-100" *ngIf="cityExist || editedCityExist">
+        <div class="w-100" *ngIf="(location.touched || location.dirty) && checkCityExist()">
           <p class="validation-city">{{ 'ubs-tariffs-add-location-pop-up.city_exist' | translate }}</p>
         </div>
       </div>
@@ -133,7 +133,14 @@
       <div *ngFor="let item of selectedCities; let index = index">
         <div class="d-flex">
           <div class="itemList" [appLangValue]="{ ua: item.location, en: item.englishLocation }"></div>
-          <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteCity(index)" />
+          <img
+            [src]="icons.cross"
+            class="delete-button-img"
+            alt="edit-icon"
+            (click)="deleteCity(index)"
+            [matTooltip]="'ubs-tariffs-add-location-pop-up.remove-city' | translate"
+            matTooltipPosition="right"
+          />
           <div class="itemList" [appLangValue]="{ ua: item.englishLocation, en: item.location }"></div>
         </div>
       </div>
@@ -142,7 +149,14 @@
       <div *ngFor="let item of editedCities; let index = index">
         <div class="d-flex">
           <div class="itemList" [appLangValue]="{ ua: item.location, en: item.englishLocation }"></div>
-          <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteEditedCity(index)" />
+          <img
+            [src]="icons.cross"
+            class="delete-button-img"
+            alt="edit-icon"
+            (click)="deleteEditedCity(index)"
+            [matTooltip]="'ubs-tariffs-add-location-pop-up.remove-city' | translate"
+            matTooltipPosition="right"
+          />
           <div class="itemList" [appLangValue]="{ ua: item.englishLocation, en: item.location }"></div>
         </div>
       </div>
