@@ -89,9 +89,9 @@
             />
           </div>
         </td>
-        <td [appLangValue]="{ ua: bag.name, en: bag.nameEng }"></td>
+        <td [appLangValue]="{ ua: bag.nameUk, en: bag.nameEn }"></td>
         <td>{{ bag.capacity | volume }}</td>
-        <td [appLangValue]="{ ua: bag.description, en: bag.descriptionEng }"></td>
+        <td [appLangValue]="{ ua: bag.descriptionUk, en: bag.descriptionEn }"></td>
         <td>{{ bag.price | localizedCurrency }}</td>
         <td>{{ bag.commission | localizedCurrency }}</td>
         <td>{{ bag.fullPrice | localizedCurrency }}</td>
@@ -198,7 +198,7 @@
                 [checked]="bag.limitIncluded"
                 (change)="onChecked(bag.id, $event)"
               >
-                <span [appLangValue]="{ ua: bag.name, en: bag.nameEng }"></span>
+                <span [appLangValue]="{ ua: bag.nameUk, en: bag.nameEn }"></span>
                 <span> {{ bag.capacity | volume }}</span>
               </mat-checkbox>
             </div>

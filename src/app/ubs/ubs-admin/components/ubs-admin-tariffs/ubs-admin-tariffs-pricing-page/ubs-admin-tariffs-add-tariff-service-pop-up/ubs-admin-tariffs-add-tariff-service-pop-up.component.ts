@@ -123,10 +123,10 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       capacity,
       price,
       commission,
-      name: this.isLangEn ? nameEng : name,
-      description: this.isLangEn ? descriptionEng : description,
-      descriptionEng: this.isLangEn ? description : descriptionEng,
-      nameEng: this.isLangEn ? name : nameEng
+      nameUk: this.isLangEn ? nameEng : name,
+      descriptionUk: this.isLangEn ? descriptionEng : description,
+      descriptionEn: this.isLangEn ? description : descriptionEng,
+      nameEn: this.isLangEn ? name : nameEng
     };
     this.loadingAnim = true;
     this.tariffsService
@@ -143,13 +143,13 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     const langCode = receivedData.bagData.languageCode;
     const { name, nameEng, capacity, price, commission, description, descriptionEng } = this.addTariffServiceForm.getRawValue();
     this.tariffService = {
-      name: this.languageService.getLangValue(name, nameEng) as string,
-      nameEng: this.languageService.getLangValue(nameEng, name) as string,
+      nameUk: this.languageService.getLangValue(name, nameEng) as string,
+      nameEn: this.languageService.getLangValue(nameEng, name) as string,
       price,
       capacity,
       commission,
-      description: this.languageService.getLangValue(description, descriptionEng) as string,
-      descriptionEng: this.languageService.getLangValue(descriptionEng, description) as string,
+      descriptionUk: this.languageService.getLangValue(description, descriptionEng) as string,
+      descriptionEn: this.languageService.getLangValue(descriptionEng, description) as string,
       langCode
     };
 

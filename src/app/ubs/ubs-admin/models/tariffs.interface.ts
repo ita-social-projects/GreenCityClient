@@ -1,12 +1,12 @@
 export interface Bag {
-  name?: string;
-  nameEng?: string;
+  nameUk?: string;
+  nameEn?: string;
   capacity: number;
   price: number;
   limitIncluded?: boolean;
   commission: number;
-  description?: string;
-  descriptionEng?: string;
+  descriptionUk?: string;
+  descriptionEn?: string;
   languageId?: 1;
   id?: number;
   fullPrice?: number;
