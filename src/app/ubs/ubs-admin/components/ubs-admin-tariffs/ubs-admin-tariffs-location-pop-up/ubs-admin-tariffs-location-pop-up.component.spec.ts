@@ -342,6 +342,14 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   });
 
   it('should not check if city was chosen from the list', () => {
+    spyOn(component, 'setTranslation').and.callFake((id, control, lang) => {
+      control.setValue('Kyiv');
+      component.currentLatitude = 50.4501;
+      component.currentLongitude = 30.5234;
+    });
+
+    component.location.setValue('Київ');
+    component.englishLocation.setValue('Kyiv');
     const city = {
       description: 'Kyiv, Ukraine',
       matched_substrings: [{ length: 4, offset: 0 }],
@@ -357,7 +365,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
       ],
       types: ['(cities)']
     };
-
     component.onCitySelected(city);
     expect(component.cityInvalid).toEqual(false);
   });
