@@ -77,11 +77,11 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   editForm(): void {
     this.addTariffServiceForm = this.fb.group({
-      name: new FormControl(this.languageService.getLangValue(this.receivedData.bagData.name, this.receivedData.bagData.nameEng), [
+      name: new FormControl(this.languageService.getLangValue(this.receivedData.bagData.nameUk, this.receivedData.bagData.nameEn), [
         Validators.required,
         Validators.maxLength(30)
       ]),
-      nameEng: new FormControl(this.languageService.getLangValue(this.receivedData.bagData.nameEng, this.receivedData.bagData.name), [
+      nameEng: new FormControl(this.languageService.getLangValue(this.receivedData.bagData.nameEn, this.receivedData.bagData.nameUk), [
         Validators.required,
         Validators.maxLength(30)
       ]),
@@ -93,11 +93,11 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       description: new FormControl(
-        this.languageService.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng),
+        this.languageService.getLangValue(this.receivedData.bagData.descriptionUk, this.receivedData.bagData.descriptionEn),
         [Validators.required, Validators.maxLength(255)]
       ),
       descriptionEng: new FormControl(
-        this.languageService.getLangValue(this.receivedData.bagData.descriptionEng, this.receivedData.bagData.description),
+        this.languageService.getLangValue(this.receivedData.bagData.descriptionEn, this.receivedData.bagData.descriptionUk),
         [Validators.required, Validators.maxLength(255)]
       )
     });
@@ -165,15 +165,15 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   fillFields() {
     if (this.receivedData.bagData) {
-      const { name, nameEng, price, capacity, commission, description, descriptionEng } = this.receivedData.bagData;
+      const { nameUk, nameEn, price, capacity, commission, descriptionUk, descriptionEn } = this.receivedData.bagData;
       this.addTariffServiceForm.patchValue({
-        name: this.languageService.getLangValue(name, nameEng),
-        nameEng: this.languageService.getLangValue(nameEng, name),
+        name: this.languageService.getLangValue(nameUk, nameEn),
+        nameEng: this.languageService.getLangValue(nameEn, nameUk),
         price,
         capacity,
         commission,
-        description: this.languageService.getLangValue(description, descriptionEng),
-        descriptionEng: this.languageService.getLangValue(descriptionEng, description)
+        description: this.languageService.getLangValue(descriptionUk, descriptionEn),
+        descriptionEng: this.languageService.getLangValue(descriptionEn, descriptionUk)
       });
     }
   }

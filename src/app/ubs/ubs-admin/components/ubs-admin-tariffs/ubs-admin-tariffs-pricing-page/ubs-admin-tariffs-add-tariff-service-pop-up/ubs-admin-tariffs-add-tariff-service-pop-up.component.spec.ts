@@ -190,10 +190,10 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
 
     component.receivedData = {
       bagData: {
-        name: expectedName,
-        nameEng: expectedNameEng,
-        description: expectedDescription,
-        descriptionEng: expectedDescriptionEng,
+        nameUk: expectedName,
+        nameEn: expectedNameEng,
+        descriptionUk: expectedDescription,
+        descriptionEn: expectedDescriptionEng,
         capacity: expectedCapacity
       }
     };
