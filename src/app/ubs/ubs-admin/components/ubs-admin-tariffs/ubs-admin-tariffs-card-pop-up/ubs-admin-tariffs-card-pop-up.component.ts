@@ -179,6 +179,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     if (!this.selectedCities.length) {
       error = this.city.setErrors({ emptySelectedCity: true });
     }
+    this.checkIfAlreadyExists();
     return error;
   }
 
@@ -384,7 +385,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     });
 
     event.value ? this.city.enable() : this.city.disable();
-    this.checkIfAlreadyExists();
   }
 
   getTranslatedLocationName(city): string {
@@ -461,7 +461,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     if (!flag) {
       event.stopPropagation();
       trigger.openPanel();
-      this.checkIfAlreadyExists();
     }
   }
 
@@ -528,6 +527,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   checkIfAlreadyExists() {
+    this.isCreationAllowed = false;
     if (this.courierId && this.selectedStation && this.regionId && this.selectedCities.length > 0) {
       this.createCardDto();
       this.tariffsService
@@ -536,12 +536,14 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (response) => {
             this.isCardExist = response.toString() === 'true';
+            console.log(this.isCardExist);
           },
           complete: () => {
             this.isCreationAllowed = !this.isCardExist && !this.CardForm.invalid;
           }
         });
     }
+    console.log(`It is checked to be : ${this.isCreationAllowed}`);
   }
 
   createCard(): void {
