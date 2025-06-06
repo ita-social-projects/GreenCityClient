@@ -247,7 +247,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.editedCities.length).toBe(0);
     expect(component.location.value).toBeTruthy();
     expect(component.englishLocation.value).toBeTruthy();
-    expect(component.editedCityExist).toBe(true);
+    expect(component.checkCityExist()).toBe(true);
   });
 
   it('should not add city if city is not selected', () => {
@@ -258,8 +258,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.englishLocation.value).toBe('');
   });
 
-  it('should not add city if edited city  is not selected', () => {
-    component.editedCityExist = true;
+  it('should not add city if edited city is not selected', () => {
     component.addEditedCity();
     expect(component.editedCities.length).toBe(0);
     expect(component.location.value).toBe('');
@@ -336,16 +335,38 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.regionExist).toEqual(false);
   });
 
-  it('should check if city invalid', () => {
-    component.location.setValue('Fake city');
-    component.citySelected = false;
+  it('should check if city wasnt chosen from the list', () => {
+    const city = null;
+    component.onCitySelected(city);
     expect(component.cityInvalid).toEqual(true);
   });
 
-  it('should not check if city invalid if citySelected is true', () => {
-    component.location.setValue('Fake city');
-    component.citySelected = true;
-    expect(component.cityInvalid).toEqual(true);
+  it('should not check if city was chosen from the list', () => {
+    spyOn(component, 'setTranslation').and.callFake((id, control, lang) => {
+      control.setValue('Kyiv');
+      component.currentLatitude = 50.4501;
+      component.currentLongitude = 30.5234;
+    });
+
+    component.location.setValue('Київ');
+    component.englishLocation.setValue('Kyiv');
+    const city = {
+      description: 'Kyiv, Ukraine',
+      matched_substrings: [{ length: 4, offset: 0 }],
+      place_id: 'ChIJBUVa4U7P1EAR_kYBF9IxSXY',
+      structured_formatting: {
+        main_text: 'Kyiv',
+        main_text_matched_substrings: [{ length: 4, offset: 0 }],
+        secondary_text: 'Ukraine'
+      },
+      terms: [
+        { offset: 0, value: 'Kyiv' },
+        { offset: 6, value: 'Ukraine' }
+      ],
+      types: ['(cities)']
+    };
+    component.onCitySelected(city);
+    expect(component.cityInvalid).toEqual(false);
   });
 
   it('should not check if city invalid if inputs length is less than 3', () => {

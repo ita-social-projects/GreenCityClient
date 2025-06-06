@@ -76,6 +76,13 @@ label,
   color: var(--ubs-secondary-grey);
 }
 
+.required-field::after {
+  content: ' *';
+  color: var(--ubs-error-base);
+  font-size: 14px;
+  line-height: 20px;
+}
+
 .validation {
   margin-top: 4px;
 }
