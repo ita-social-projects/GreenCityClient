@@ -243,8 +243,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.tariffsService.deleteCityInLocation(this.editedCities[index].locationId).pipe(takeUntil(this.unsubscribe)).subscribe();
     this.editedCities.splice(index, 1);
     this.cities.splice(index, 1);
-    console.log(this.editedCities);
-    console.log(this.cities);
     this.snackBar.openSnackBar('deletedCity');
   }
 
