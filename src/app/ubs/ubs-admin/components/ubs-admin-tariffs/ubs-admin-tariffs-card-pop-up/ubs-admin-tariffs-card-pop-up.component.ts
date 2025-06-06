@@ -78,7 +78,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   regionId: number;
   createCardObj: CreateCard;
   blurOnOption = false;
-  isCardExist;
+  isCardExist = false;
+  isCreationAllowed = false;
 
   courierNameUk;
   courierNameEn;
@@ -124,7 +125,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isCardExist = false;
     this.isEdit = this.modalData.edit;
     this.isCreate = this.modalData.create;
     this.tariffId = this.modalData.tariffId;
@@ -168,9 +168,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   onBlur(event): void {
-    if (event.relatedTarget.localName === 'mat-option') {
+    if (event.relatedTarget && event.relatedTarget.localName === 'mat-option') {
       this.blurOnOption = true;
     }
+    this.checkIfAlreadyExists();
   }
 
   cityValidator(): ValidatorFn {
@@ -306,7 +307,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.courierUkrainianName = selectedValue.nameUk;
     this.currentCourierNameTranslated = this.languageService.getLangValue(selectedValue.nameEn, selectedValue.nameUk);
     this.courierId = selectedValue.courierId;
-    this.isCardExist = false;
+    this.checkIfAlreadyExists();
   }
 
   setStationPlaceholder(): void {
@@ -341,7 +342,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         trigger.openPanel();
       });
     }
-    this.isCardExist = false;
   }
 
   deleteStation(index): void {
@@ -384,7 +384,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     });
 
     event.value ? this.city.enable() : this.city.disable();
-    this.isCardExist = false;
+    this.checkIfAlreadyExists();
   }
 
   getTranslatedLocationName(city): string {
@@ -434,7 +434,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   checkCity(item): boolean {
-    this.isCardExist = false;
     return this.selectedCities.map((it) => it.location).includes(item);
   }
 
@@ -462,6 +461,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     if (!flag) {
       event.stopPropagation();
       trigger.openPanel();
+      this.checkIfAlreadyExists();
     }
   }
 
@@ -527,39 +527,49 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     }
   }
 
-  createCard(): void {
-    this.createCardDto();
-    this.tariffsService
-      .checkIfCardExist(this.createCardObj)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((response) => {
-        this.isCardExist = response;
+  checkIfAlreadyExists() {
+    if (this.courierId && this.selectedStation && this.regionId && this.selectedCities.length > 0) {
+      this.createCardDto();
+      this.tariffsService
+        .checkIfCardExist(this.createCardObj)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe({
+          next: (response) => {
+            this.isCardExist = response.toString() === 'true';
+          },
+          complete: () => {
+            this.isCreationAllowed = !this.isCardExist && !this.CardForm.invalid;
+          }
+        });
+    }
+  }
 
-        if (!this.isCardExist) {
-          const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
-            disableClose: true,
-            hasBackdrop: true,
-            panelClass: 'address-matDialog-styles-w-100',
-            data: {
-              title: 'ubs-tariffs-add-location-pop-up.create_card_title',
-              courierNameUa: this.courierUkrainianName,
-              courierNameEn: this.courierEnglishName,
-              stationNames: this.selectedStation.map((it) => it.name),
-              regionNameUa: this.regionUkrainianName,
-              regionNameEn: this.regionEnglishName,
-              locationNames: this.selectedCities,
-              action: 'ubs-tariffs-add-location-pop-up.create_button'
-            } as TariffConfirmationPopUpInterface
-          });
-          matDialogRef.afterClosed().subscribe((res) => {
-            if (res) {
-              this.createCardRequest(this.createCardObj);
-              this.snackBar.openSnackBar('successUpdateUbsData');
-              this.dialogRef.close(true);
-            }
-          });
+  createCard(): void {
+    this.checkIfAlreadyExists();
+    if (!this.isCardExist) {
+      const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
+        disableClose: true,
+        hasBackdrop: true,
+        panelClass: 'address-matDialog-styles-w-100',
+        data: {
+          title: 'ubs-tariffs-add-location-pop-up.create_card_title',
+          courierNameUa: this.courierUkrainianName,
+          courierNameEn: this.courierEnglishName,
+          stationNames: this.selectedStation.map((it) => it.name),
+          regionNameUa: this.regionUkrainianName,
+          regionNameEn: this.regionEnglishName,
+          locationNames: this.selectedCities,
+          action: 'ubs-tariffs-add-location-pop-up.create_button'
+        } as TariffConfirmationPopUpInterface
+      });
+      matDialogRef.afterClosed().subscribe((res) => {
+        if (res) {
+          this.createCardRequest(this.createCardObj);
+          this.snackBar.openSnackBar('successUpdateUbsData');
+          this.dialogRef.close(true);
         }
       });
+    }
   }
 
   onNoClick(): void {
