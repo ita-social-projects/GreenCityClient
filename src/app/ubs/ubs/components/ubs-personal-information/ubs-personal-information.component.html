@@ -6,6 +6,7 @@
     <div class="col-12 col-sm-6 form-group">
       <label for="firstName" class="required-field">{{ 'personal-info.info-name' | translate }}</label>
       <input
+        id="firstName"
         formControlName="firstName"
         type="text"
         class="shadow-none form-control"
@@ -16,7 +17,7 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
-      <label for="phoneNumber" class="required-field">{{ 'personal-info.info-phone' | translate }}</label>
+      <label for="info-phone" class="required-field">{{ 'personal-info.info-phone' | translate }}</label>
       <input
         id="info-phone"
         formControlName="phoneNumber"
@@ -33,6 +34,7 @@
     <div class="col-12 col-sm-6 form-group mt-2">
       <label for="lastName" class="required-field">{{ 'personal-info.info-surname' | translate }}</label>
       <input
+        id="lastName"
         formControlName="lastName"
         type="text"
         class="shadow-none form-control"
@@ -44,7 +46,7 @@
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
       <label for="email" class="required-field">Email</label>
-      <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" />
+      <input id="email" formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" />
       <div class="validation" *ngIf="email.invalid">
         <app-ubs-input-error [formElement]="email"></app-ubs-input-error>
       </div>
@@ -60,6 +62,7 @@
     <div class="col-12 col-sm-6 form-group">
       <label for="senderFirstName" class="required-field">{{ 'personal-info.info-name' | translate }}</label>
       <input
+        id="senderFirstName"
         formControlName="senderFirstName"
         type="text"
         class="shadow-none form-control"
@@ -72,6 +75,7 @@
     <div class="col-12 col-sm-6 form-group">
       <label for="senderPhoneNumber" class="required-field">{{ 'personal-info.info-phone' | translate }}</label>
       <input
+        id="senderPhoneNumber"
         formControlName="senderPhoneNumber"
         type="text"
         class="shadow-none form-control"
@@ -86,6 +90,7 @@
     <div class="col-12 col-sm-6 form-group mt-2">
       <label for="senderLastName" class="required-field">{{ 'personal-info.info-surname' | translate }}</label>
       <input
+        id="senderLastName"
         formControlName="senderLastName"
         type="text"
         class="shadow-none form-control"
