@@ -7,16 +7,16 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 const service1 = {
-  name: 'fake1',
-  nameEng: 'fake',
+  nameUk: 'fake1',
+  nameEn: 'fake',
   price: 2,
-  description: 'fake1',
-  descriptionEng: 'fake1',
+  descriptionUk: 'fake1',
+  descriptionEn: 'fake1',
   tariffId: 1
 };
 
 const tariff = {
-  name: 'fake',
+  nameEn: 'fake',
   capacity: 1,
   price: 1,
   commission: 1,
