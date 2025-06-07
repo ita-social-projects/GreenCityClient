@@ -536,14 +536,12 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (response) => {
             this.isCardExist = response.toString() === 'true';
-            console.log(this.isCardExist);
           },
           complete: () => {
             this.isCreationAllowed = !this.isCardExist && !this.CardForm.invalid;
           }
         });
     }
-    console.log(`It is checked to be : ${this.isCreationAllowed}`);
   }
 
   createCard(): void {
