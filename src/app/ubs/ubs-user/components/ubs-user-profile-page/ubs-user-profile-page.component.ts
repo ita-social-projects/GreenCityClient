@@ -144,7 +144,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
       alternativeEmail: new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(Patterns.ubsMailPattern)]),
-      recipientPhone: new FormControl(`${this.userProfile?.recipientPhone}`, [PhoneNumberValidator('UA')]),
+      recipientPhone: new FormControl('', [PhoneNumberValidator('UA')]),
       telegramIsNotify: new FormControl(this.userProfile.telegramIsNotify)
     });
 
