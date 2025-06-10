@@ -571,8 +571,13 @@ body {
 
 .mat-mdc-select-min-line {
   font-family: Lato, sans-serif;
-  font-size: 14px;
-  padding-left: 2px;
+  font-size: 16px;
+  line-height: 24px;
+  padding-left: 15px;
+  color: rgb(29, 40, 48);
+  display: inline-block;
+  box-sizing: border-box;
+  height: 36px;
 }
 
 .cursor-waite * {
@@ -580,9 +585,19 @@ body {
 }
 
 .mat-mdc-select-placeholder {
+  margin-top: 2px !important;
   font-family: Lato, sans-serif !important;
   font-size: 14px !important;
   font-weight: 400 !important;
-  letter-spacing: normal !important;
-  color: rgba(120 120 120 / 43%) !important;
+  line-height: 24px !important;
+  padding-left: 15px !important;
+  color: #cacfd3 !important;
+  display: inline-block !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  opacity: 1 !important;
+  transform: none !important;
+  letter-spacing: -0.1px !important;
 }

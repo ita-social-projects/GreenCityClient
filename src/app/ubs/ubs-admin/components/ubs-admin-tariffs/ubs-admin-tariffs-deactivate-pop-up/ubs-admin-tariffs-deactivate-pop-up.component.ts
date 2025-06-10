@@ -584,8 +584,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   disableCourier(): void {
-    this.courier.setValue('');
     this.selectedCourier = null;
+    this.selectedValue = null;
+    this.couriersName = [];
+    this.courier.reset();
     this.courier.disable();
     this.filteredCouriers = this.couriersName = [];
   }
