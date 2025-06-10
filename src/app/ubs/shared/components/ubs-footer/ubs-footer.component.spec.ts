@@ -90,4 +90,8 @@ describe('UbsFooterComponent', () => {
     window.dispatchEvent(new Event('resize'));
     expect(component.screenWidth).toEqual(1024);
   });
+
+  it('should get value of _isAdminPage', () => {
+    expect(component.isAdminPage).toBe(false);
+  });
 });
