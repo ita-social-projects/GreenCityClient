@@ -314,15 +314,17 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   onUseUserLocation(isUseUserLocation: boolean) {
-    this.isShowMap = isUseUserLocation;
+    if (this.edit) {
+      this.isShowMap = isUseUserLocation;
 
-    if (isUseUserLocation) {
-      this.setCurrentLocation();
-    } else {
-      this.resetCity();
-      this.resetStreet();
-      this.resetDistricts();
-      this.resetHouseInfo();
+      if (isUseUserLocation) {
+        this.setCurrentLocation();
+      } else {
+        this.resetCity();
+        this.resetStreet();
+        this.resetDistricts();
+        this.resetHouseInfo();
+      }
     }
   }
 
