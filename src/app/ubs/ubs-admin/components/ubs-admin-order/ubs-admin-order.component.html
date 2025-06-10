@@ -90,12 +90,17 @@
           <button
             type="reset"
             class="cancel-button"
-            [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder"
+            [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder || orderForm.disabled"
             (click)="$event.preventDefault(); openCancelModal()"
           >
             {{ 'order-edit.btn.cancel' | translate }}
           </button>
-          <button [disabled]="!orderForm.dirty || !orderForm.valid || !isMinOrder" type="submit" class="save-button" (click)="onSubmit()">
+          <button
+            [disabled]="!orderForm.dirty || !orderForm.valid || orderForm.disabled || !isMinOrder"
+            type="submit"
+            class="save-button"
+            (click)="onSubmit()"
+          >
             {{ 'order-edit.btn.save' | translate }}
             <span class="inform-window" *ngIf="!orderForm.valid">
               {{ 'information-window.message' | translate }}
