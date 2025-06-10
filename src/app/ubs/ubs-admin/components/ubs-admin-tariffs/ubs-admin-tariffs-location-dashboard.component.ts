@@ -135,16 +135,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       this.setCard();
     });
     this.initForm();
-    this.getLocations();
-    this.getCouriers();
     this.getReceivingStation();
     this.region.valueChanges.pipe(takeUntil(this.destroy)).subscribe((value) => {
       this.checkRegionValue(value);
       this.selectedCities = [];
       this.setCountOfCheckedCity();
     });
-    this.setCountOfCheckedCity();
-    this.setStationPlaceholder();
     this.setStateValue();
     this.getExistingCard(this.filterData);
     this.languageService
