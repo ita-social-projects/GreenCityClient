@@ -450,7 +450,7 @@ body {
   }
 
   .mdc-button__label {
-    display: none;
+    display: inline-block;
   }
 
   .mat-mdc-focus-indicator {
@@ -463,11 +463,21 @@ body {
   }
 }
 
+.secondary-global-button .mat-mdc-focus-indicator {
+  display: none;
+}
+
 .disagree {
   background: #fff;
   color: var(--ubs-primary-green);
   padding: 8px 28px;
   margin-right: 25px;
+}
+
+.primary-global-button,
+.secondary-global-button {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .agree {
