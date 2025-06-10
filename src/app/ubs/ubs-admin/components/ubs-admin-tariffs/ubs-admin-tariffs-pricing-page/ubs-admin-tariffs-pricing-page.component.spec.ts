@@ -337,42 +337,9 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(component.limitsForm.value).toEqual(fakeCourierForm.value);
   });
 
-  it('should call getCourierId correctly', (done) => {
-    fixture.detectChanges();
-    const getCourierIdSpy = spyOn(component, 'getCourierId').and.returnValue(Promise.resolve());
-    component.getCourierId();
-    getCourierIdSpy.calls.mostRecent().returnValue.then(() => {
-      fixture.detectChanges();
-      expect(getCourierIdSpy).toHaveBeenCalled();
-      done();
-    });
-  });
-
-  it('should call getLocationId correctly', (done) => {
-    fixture.detectChanges();
-    const getLocationIdSpy = spyOn(component, 'getLocationId').and.returnValue(Promise.resolve());
-    component.getLocationId();
-    getLocationIdSpy.calls.mostRecent().returnValue.then(() => {
-      fixture.detectChanges();
-      expect(getLocationIdSpy).toHaveBeenCalled();
-      done();
-    });
-  });
-
   it('should convert to number', () => {
     const numbers = Number(fakeValue);
     expect(typeof numbers).toBe('number');
-  });
-
-  it('should call setCourierId correctly', (done) => {
-    fixture.detectChanges();
-    const setCourierIdSpy = spyOn(component, 'setCourierId').and.returnValue(Promise.resolve());
-    component.setCourierId();
-    setCourierIdSpy.calls.mostRecent().returnValue.then(() => {
-      fixture.detectChanges();
-      expect(setCourierIdSpy).toHaveBeenCalled();
-      done();
-    });
   });
 
   it('should call setLimits for Bag case', () => {
@@ -397,20 +364,6 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(component.limitsForm.get('maxPriceOfOrder').value).toEqual(205);
     expect(component.limitsForm.get('limitDescription').value).toEqual('fake');
     expect(component.limitStatus).toEqual(component.limitEnum.limitByPriceOfOrder);
-  });
-
-  it('should call initializeCourierId', () => {
-    const spy = spyOn(component, 'initializeCourierId').and.returnValue(Promise.resolve(5));
-    component.initializeCourierId();
-    spy.calls.mostRecent().returnValue.then();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should call initializeLocationId', () => {
-    const spy = spyOn(component, 'initializeLocationId').and.returnValue(Promise.resolve(5));
-    component.initializeLocationId();
-    spy.calls.mostRecent().returnValue.then();
-    expect(spy).toHaveBeenCalled();
   });
 
   it('should check whether sumLimitStatus patching values correctly', () => {
