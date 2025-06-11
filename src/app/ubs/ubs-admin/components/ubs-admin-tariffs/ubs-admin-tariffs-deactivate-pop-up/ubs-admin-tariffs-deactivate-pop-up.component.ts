@@ -692,7 +692,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   filterOptions(name: string, items: any[]): any[] {
-    const filterValue = name.toLowerCase();
+    const filterValue = (name ?? '').toLowerCase();
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
