@@ -483,30 +483,32 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   editCard(): void {
-    const body = {
-      courierId: this.courierId,
-      locationIds: this.selectedCities.map((val) => val.locationId),
-      receivingStationIds: this.selectedStation.map((station) => station.id)
-    };
+    this.checkIfAlreadyExists();
+    if (!this.isCardExist) {
+      const body = {
+        courierId: this.courierId,
+        locationIds: this.selectedCities.map((val) => val.locationId),
+        receivingStationIds: this.selectedStation.map((station) => station.id)
+      };
 
-    const newValueOfCard = {
-      citiesEn: this.selectedCities.map((city) => city.englishLocation),
-      citiesUk: this.selectedCities.map((city) => city.location),
-      courierEn: this.courierEnglishName,
-      courierUk: this.courierUkrainianName,
-      regionEn: this.regionEnglishName,
-      regionUk: this.regionUkrainianName,
-      regionId: this.regionId,
-      station: this.selectedStation.map((it) => it.name)
-    };
-
-    this.tariffsService
-      .editTariffInfo(body, this.tariffId)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => {
-        this.dialogRef.close(newValueOfCard);
-        this.snackBar.openSnackBar('successUpdateUbsData');
-      });
+      const newValueOfCard = {
+        citiesEn: this.selectedCities.map((city) => city.englishLocation),
+        citiesUk: this.selectedCities.map((city) => city.location),
+        courierEn: this.courierEnglishName,
+        courierUk: this.courierUkrainianName,
+        regionEn: this.regionEnglishName,
+        regionUk: this.regionUkrainianName,
+        regionId: this.regionId,
+        station: this.selectedStation.map((it) => it.name)
+      };
+      this.tariffsService
+        .editTariffInfo(body, this.tariffId)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe(() => {
+          this.dialogRef.close(newValueOfCard);
+          this.snackBar.openSnackBar('successUpdateUbsData');
+        });
+    }
   }
 
   fillFields(modalData) {
@@ -528,7 +530,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   checkIfAlreadyExists() {
     this.isCreationAllowed = false;
-    if (this.courierId && this.selectedStation && this.regionId && this.selectedCities.length > 0) {
+    if (this.courierId && this.selectedStation && (this.regionId || this.isEdit) && this.selectedCities.length > 0) {
       this.createCardDto();
       this.tariffsService
         .checkIfCardExist(this.createCardObj)
