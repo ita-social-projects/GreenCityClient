@@ -1,6 +1,6 @@
 <form *ngIf="addressForm" [formGroup]="addressForm" class="row adress">
   <div class="map-check">
-    <mat-checkbox [disabled]="!edit" (change)="onUseUserLocation($event.checked)">
+    <mat-checkbox [disabled]="!edit" (change)="edit && onUseUserLocation($event.checked)">
       {{ 'personal-info.pop-up-map-check' | translate }}</mat-checkbox
     >
   </div>
