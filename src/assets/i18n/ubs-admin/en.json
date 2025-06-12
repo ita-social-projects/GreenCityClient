@@ -1015,7 +1015,6 @@
     "entrance-wrong": "Only numbers are allowed",
     "minlength-short": "The field contains insufficient characters",
     "max-length": "The field should contain 1-30 characters",
-    "max-length-city": "The field should contain 1-30 characters",
     "max-length-street": "The field should contain 1-120 characters",
     "max-length-house": "The field should contain 1-10 characters",
     "max-length-house-corpus": "The field should contain 1-4 characters",
