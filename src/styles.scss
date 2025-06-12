@@ -450,7 +450,7 @@ body {
   }
 
   .mdc-button__label {
-    display: none;
+    display: inline-block;
   }
 
   .mat-mdc-focus-indicator {
@@ -463,11 +463,21 @@ body {
   }
 }
 
+.secondary-global-button .mat-mdc-focus-indicator {
+  display: none;
+}
+
 .disagree {
   background: #fff;
   color: var(--ubs-primary-green);
   padding: 8px 28px;
   margin-right: 25px;
+}
+
+.primary-global-button,
+.secondary-global-button {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .agree {
@@ -571,8 +581,13 @@ body {
 
 .mat-mdc-select-min-line {
   font-family: Lato, sans-serif;
-  font-size: 14px;
-  padding-left: 2px;
+  font-size: 16px;
+  line-height: 24px;
+  padding-left: 15px;
+  color: rgb(29 40 48);
+  display: inline-block;
+  box-sizing: border-box;
+  height: 36px;
 }
 
 .cursor-waite * {
@@ -580,9 +595,19 @@ body {
 }
 
 .mat-mdc-select-placeholder {
+  margin-top: 2px !important;
   font-family: Lato, sans-serif !important;
   font-size: 14px !important;
   font-weight: 400 !important;
-  letter-spacing: normal !important;
-  color: rgba(120 120 120 / 43%) !important;
+  line-height: 24px !important;
+  padding-left: 15px !important;
+  color: rgb(202 207 211) !important;
+  display: inline-block !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  opacity: 1 !important;
+  transform: none !important;
+  letter-spacing: -0.1px !important;
 }
