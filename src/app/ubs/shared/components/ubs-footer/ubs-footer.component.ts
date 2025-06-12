@@ -18,7 +18,7 @@ export class UbsFooterComponent implements OnInit {
   currentYear = new Date().getFullYear();
   ubsNavLinks = ubsNavLinks;
   socialLinks = socialLinks;
-  private _isAdminPage: boolean;
+  private _isAdminPage = this.router.url.includes('/admin');
   private readonly destroySub: Subject<boolean> = new Subject<boolean>();
   @ViewChild('serviceref') serviceref: ElementRef;
 
@@ -36,8 +36,6 @@ export class UbsFooterComponent implements OnInit {
       .subscribe(() => {
         this._isAdminPage = this.router.url.includes('/admin');
       });
-
-    this._isAdminPage = this.router.url.includes('/admin');
   }
 
   get isAdminPage(): boolean {
