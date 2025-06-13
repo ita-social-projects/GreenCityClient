@@ -73,16 +73,16 @@
                   {{ 'nav-bar.management' | translate }}
                 </a>
               </li>
-              <li class="header_mobile-menu-item" role="link">
-                <a (click)="signOut()">
-                  {{ 'nav-bar.sign-out' | translate }}
-                </a>
-              </li>
               <li *ngIf="isLoggedIn && isAdmin" class="header_mobile-menu-item" role="navigation to ubs">
                 <a [routerLink]="['/ubs/admin/orders']" routerLinkActive="active-link"> UBS-admin </a>
               </li>
               <li *ngIf="isLoggedIn && !isAdmin && isUbsAvailable" class="header_mobile-menu-item" role="navigation to ubs">
-                <a [routerLink]="['/ubs/user/orders']" routerLinkActive="active-link">UBS-user</a>
+                <a [routerLink]="['/ubs/user/orders']" routerLinkActive="active-link">{{ 'nav-bar.user-profile' | translate }}</a>
+              </li>
+              <li class="header_mobile-menu-item" role="link">
+                <a (click)="signOut()">
+                  {{ 'nav-bar.sign-out' | translate }}
+                </a>
               </li>
             </ng-template>
             <li class="header_mobile-menu-sign-up" *ngIf="toggleBurgerMenu && !isLoggedIn" (click)="openAuthModalWindow('sign-up')">
@@ -231,17 +231,22 @@
                       {{ 'nav-bar.management' | translate }}
                     </a>
                   </li>
-                  <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="button" aria-label="sign-out" tabindex="0">
-                    <a (click)="signOut()">
-                      {{ 'nav-bar.sign-out' | translate }}
-                    </a>
-                  </li>
-                  <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
-                    <a [routerLink]="['/ubs/admin/orders']"> UBS-admin </a>
+                  <li
+                    *ngIf="isLoggedIn && isAdmin"
+                    [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
+                    role="navigation to ubs"
+                    [ngStyle]="{ display: 'block' }"
+                  >
+                    <a [routerLink]="['/ubs/admin/orders']">UBS-admin</a>
                   </li>
                   <li *ngIf="isLoggedIn && !isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation">
                     <a [routerLink]="isUbsAvailable ? ['/ubs/user/orders'] : ['/greenCity/profile']">
-                      {{ isUbsAvailable ? 'UBS-user' : ('user.lower-nav-bar.my-habits' | translate) }}
+                      {{ isUbsAvailable ? ('nav-bar.user-profile' | translate) : ('user.lower-nav-bar.my-habits' | translate) }}
+                    </a>
+                  </li>
+                  <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="button" aria-label="sign-out" tabindex="0">
+                    <a (click)="signOut()">
+                      {{ 'nav-bar.sign-out' | translate }}
                     </a>
                   </li>
                 </ul>

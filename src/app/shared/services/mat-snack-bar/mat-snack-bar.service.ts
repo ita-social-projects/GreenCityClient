@@ -94,7 +94,8 @@ export class MatSnackBarService {
     errorAlreadySubscribed: { classname: SnackbarClassName.error, key: 'homepage.subscription.already-subscribed' },
     successUpdateLink: { classname: SnackbarClassName.success, key: 'snack-bar.update-chat-link' },
     failUpdateLink: { classname: SnackbarClassName.error, key: 'snack-bar.error.fail-update-chat-link' },
-    errorColumnsWidth: { classname: SnackbarClassName.error, key: 'snack-bar.error.fail-column-width' }
+    errorColumnsWidth: { classname: SnackbarClassName.error, key: 'snack-bar.error.fail-column-width' },
+    deletedCity: { classname: SnackbarClassName.success, key: 'snack-bar.success.deleted-city' }
   };
 
   constructor(

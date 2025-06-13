@@ -49,13 +49,13 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     bagData: {
       capacity: 77,
       commission: 89,
-      description: 'Тест опис',
-      descriptionEng: 'Test descr',
+      descriptionUk: 'Тест опис',
+      descriptionEn: 'Test descr',
       fullPrice: 989,
       id: 20,
       limitIncluded: false,
-      name: 'Пластик',
-      nameEng: 'Plastic',
+      nameUk: 'Пластик',
+      nameEn: 'Plastic',
       price: 900
     },
     button: 'update'
@@ -190,10 +190,10 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
 
     component.receivedData = {
       bagData: {
-        name: expectedName,
-        nameEng: expectedNameEng,
-        description: expectedDescription,
-        descriptionEng: expectedDescriptionEng,
+        nameUk: expectedName,
+        nameEn: expectedNameEng,
+        descriptionUk: expectedDescription,
+        descriptionEn: expectedDescriptionEng,
         capacity: expectedCapacity
       }
     };

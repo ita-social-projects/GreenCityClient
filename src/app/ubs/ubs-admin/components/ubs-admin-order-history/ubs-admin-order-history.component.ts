@@ -52,10 +52,10 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
       const parts = eventName.split('-').map((part) => part.trim());
       const [status, result] = parts;
 
-      this.orderHistory[index].status = status;
+      this.orderHistory[index].eventName = status;
       this.orderHistory[index].result = result;
     } else {
-      this.orderHistory[index].status = eventName;
+      this.orderHistory[index].eventName = eventName;
       this.orderHistory[index].result = null;
     }
   }

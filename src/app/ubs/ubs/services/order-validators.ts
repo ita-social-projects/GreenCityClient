@@ -98,20 +98,40 @@ function setErrors(
 ): ValidationErrors | null {
   const bagsList = filtredBags.map((el) => el.capacity).join(', ');
 
-  if (courierInfo.min && limitValue < courierInfo.min) {
+  if (courierInfo.min && courierInfo.max && (limitValue < courierInfo.min || limitValue > courierInfo.max)) {
+    const bagsMinWord = currentLang ? getPackageWord(courierInfo.min, currentLang) : undefined;
+    const bagsMaxWord = currentLang ? getPackageWord(courierInfo.max, currentLang) : undefined;
+
+    return [
+      {
+        courierLimitError: true,
+        message: message.min,
+        value: { totalLimit: courierInfo.min, bags: bagsList, ...(bagsMinWord && { bagsWord: bagsMinWord }) }
+      },
+      {
+        courierLimitError: true,
+        message: message.max,
+        value: { totalLimit: courierInfo.max, bags: bagsList, ...(bagsMaxWord && { bagsWord: bagsMaxWord }) }
+      }
+    ];
+  } else if (courierInfo.min && limitValue < courierInfo.min) {
     const bagsWord = currentLang ? getPackageWord(courierInfo.min, currentLang) : undefined;
-    return {
-      courierLimitError: true,
-      message: message.min,
-      value: { totalLimit: courierInfo.min, bags: bagsList, ...(bagsWord && { bagsWord }) }
-    };
+    return [
+      {
+        courierLimitError: true,
+        message: message.min,
+        value: { totalLimit: courierInfo.min, bags: bagsList, ...(bagsWord && { bagsWord }) }
+      }
+    ];
   } else if (courierInfo.max && limitValue > courierInfo.max) {
     const bagsWord = currentLang ? getPackageWord(courierInfo.max, currentLang) : undefined;
-    return {
-      courierLimitError: true,
-      message: message.max,
-      value: { totalLimit: courierInfo.max, bags: bagsList, ...(bagsWord && { bagsWord }) }
-    };
+    return [
+      {
+        courierLimitError: true,
+        message: message.max,
+        value: { totalLimit: courierInfo.max, bags: bagsList, ...(bagsWord && { bagsWord }) }
+      }
+    ];
   }
   return null;
 }

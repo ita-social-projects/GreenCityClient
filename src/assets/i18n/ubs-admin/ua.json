@@ -819,6 +819,7 @@
     "placeholder_enter_location": "Введіть місто",
     "placeholder_enter_location_translate": "Enter the city",
     "add-city": "Додати місто",
+    "remove-city": "Прибрати місто",
     "error": "Допускаються лише букви та спеціальні символи «-» (дефіс), « » (пробіл) і « ' » (апостроф), цифри. Дозволено від мінімум 3 до максимум 40 символів.",
     "empty_field": "Введіть кур’єра",
     "stationExist": "Станція приймання вже існує в системі",
@@ -919,7 +920,8 @@
     "user-notifications": "Сповіщення",
     "sign-out": "Вийти",
     "sign-in": "Увійти",
-    "management": "Менеджмент"
+    "management": "Менеджмент",
+    "user-profile": "Особистий кабінет"
   },
   "footer": {
     "station": "Станція",

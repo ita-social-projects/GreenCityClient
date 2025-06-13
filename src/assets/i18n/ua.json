@@ -546,6 +546,7 @@
       "added-address": "Адресу додано",
       "updated-address": "Адресу оновлено",
       "deleted-address": "Адресу видалено",
+      "deleted-city": "Місто видалено",
       "update-notification": "Повідомлення було оновлено",
       "delete-notification": "Повідомлення було видалено",
       "rating-send": "Рейтинг надіслано",
@@ -559,7 +560,8 @@
       "friend-declined-success": "Запит на дружбу відхилено",
       "habit-invite-success": "Запит на запрошення надіслано"
     },
-    "saved-order": "Замовлення успішно збережене"
+    "saved-order": "Замовлення успішно збережене",
+    "save-employee-permissons": "Внесені зміни збережено"
   },
   "user": {
     "add-comment": {

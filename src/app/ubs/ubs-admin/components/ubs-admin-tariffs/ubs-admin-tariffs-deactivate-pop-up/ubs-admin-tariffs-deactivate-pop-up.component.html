@@ -38,7 +38,7 @@
         <label for="selected-name" class="label" [appLangValue]="{ ua: courierLabelEn, en: courierLabelUa }"></label>
         <p *ngIf="selectedValue" id="selected-name" class="text"></p>
         <p
-          *ngIf="!selectedValue"
+          *ngIf="selectedValue"
           id="selected-name"
           class="text"
           [appLangValue]="{ ua: selectedValue.nameEn, en: selectedValue.nameUk }"
