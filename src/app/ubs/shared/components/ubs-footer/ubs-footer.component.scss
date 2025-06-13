@@ -11,11 +11,6 @@
   align-items: center;
   z-index: 3;
 
-  &.fixed-footer {
-    position: fixed;
-    bottom: 0;
-  }
-
   &__menu {
     width: 100%;
     max-width: 1440px;
@@ -96,10 +91,6 @@
 @media (max-width: 767px) {
   .footer {
     padding: 15px;
-
-    &.fixed-footer {
-      position: inherit;
-    }
 
     .menu__logo img {
       width: 50px;

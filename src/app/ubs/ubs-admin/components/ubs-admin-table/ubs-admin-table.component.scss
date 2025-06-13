@@ -670,7 +670,7 @@ mat-spinner {
 #table-container {
   margin-top: 17px;
   overflow-inline: scroll;
-  max-height: 53vh;
+  max-height: 77vh;
 }
 
 .highlighted {
@@ -732,11 +732,5 @@ mat-spinner {
       font-size: 40px;
       z-index: -1;
     }
-  }
-}
-
-@media (max-width: 1100px) {
-  #table-container {
-    max-height: 45vh;
   }
 }

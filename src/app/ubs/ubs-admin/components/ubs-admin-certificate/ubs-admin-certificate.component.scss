@@ -295,7 +295,7 @@ mat-spinner {
 }
 
 .scrolling {
-  height: 53vh !important;
+  height: 70vh;
   overflow: scroll;
   margin-top: 20px;
 }
@@ -335,10 +335,4 @@ button[disabled] {
 ::ng-deep .mat-mdc-checkbox-checked:not(.mat-mdc-checkbox-disabled).mat-accent .mat-ripple-element,
 ::ng-deep .mat-mdc-checkbox:active:not(.mat-mdc-checkbox-disabled).mat-accent .mat-ripple-element {
   background-color: var(--ubs-button-light-green) !important;
-}
-
-@media (max-width: 1100px) {
-  .scrolling {
-    max-height: 45vh;
-  }
 }

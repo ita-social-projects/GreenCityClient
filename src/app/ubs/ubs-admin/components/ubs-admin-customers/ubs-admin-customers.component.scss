@@ -319,7 +319,7 @@ mat-spinner {
 }
 
 .scrolling {
-  height: 53vh !important;
+  height: 70vh !important;
   overflow: scroll;
 }
 
@@ -382,10 +382,4 @@ mat-spinner {
 ::ng-deep .mdc-data-table__cell,
 .mdc-data-table__header-cell {
   padding: 10px;
-}
-
-@media (max-width: 1100px) {
-  .scrolling {
-    max-height: 45vh;
-  }
 }
