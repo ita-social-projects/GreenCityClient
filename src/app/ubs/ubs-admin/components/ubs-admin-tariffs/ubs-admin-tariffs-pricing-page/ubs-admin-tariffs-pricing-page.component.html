@@ -107,7 +107,7 @@
         <div class="order-limit-textarea">
           <h6>{{ 'ubs-tariffs.info_about_order_limits' | translate }}</h6>
           <textarea
-            (ngModelChange)="unClickSaveBTN($event)"
+            (input)="unClickSaveBTN($event)"
             maxlength="255"
             formControlName="limitDescription"
             placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"
