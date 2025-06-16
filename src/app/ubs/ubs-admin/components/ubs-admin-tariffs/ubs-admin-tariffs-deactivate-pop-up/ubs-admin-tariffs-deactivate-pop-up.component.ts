@@ -112,7 +112,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     setTimeout(() => this.city.disable());
     this.getCouriers();
     this.getReceivingStation();
-    this.isActivatePopUp ? this.getLocations(false) : this.getLocations(true);
+    this.isActivatePopUp ? this.getLocations(true) : this.getLocations(false);
     this.getTariffCards();
   }
 
