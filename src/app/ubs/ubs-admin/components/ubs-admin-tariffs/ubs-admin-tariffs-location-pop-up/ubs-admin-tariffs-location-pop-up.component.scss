@@ -159,6 +159,7 @@ input.ng-touched.ng-invalid {
 }
 
 .add-city[disabled] {
+  cursor: default;
   color: var(--ubs-quintynary-light-grey);
 }
 

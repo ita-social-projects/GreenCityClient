@@ -457,10 +457,6 @@ header {
       text-overflow: ellipsis;
       overflow: hidden;
       cursor: pointer;
-
-      @media screen and (max-width: 1023px) {
-        cursor: default;
-      }
     }
 
     &.user-name {
@@ -479,6 +475,7 @@ header {
       display: flex;
       align-items: center;
       margin-top: 10px;
+      justify-content: center;
 
       a {
         color: var(--primary-dark-grey);
@@ -746,11 +743,8 @@ header {
   top: 45px;
   right: 0;
   padding: 10px 20px;
-  min-width: 181px;
-
-  @media (max-width: 1023px) {
-    display: none;
-  }
+  min-width: 172px;
+  text-align: center;
 
   &.text-hidde {
     display: none;

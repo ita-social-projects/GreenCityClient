@@ -31,8 +31,8 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   };
 
   const fakeBagForm = new FormGroup({
-    name: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.ServiceNamePattern), Validators.maxLength(255)]),
-    nameEng: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.ServiceNamePattern), Validators.maxLength(255)]),
+    nameUk: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.ServiceNamePattern), Validators.maxLength(255)]),
+    nameEn: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.ServiceNamePattern), Validators.maxLength(255)]),
     price: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
     description: new FormControl('fake', Validators.compose([Validators.required, Validators.maxLength(255)])),
     descriptionEng: new FormControl('fake', Validators.compose([Validators.required, Validators.maxLength(255)]))
@@ -91,8 +91,8 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   it('component should initialize form with correct parameters', () => {
     component.addForm();
     expect(component.addServiceForm.get('price').value).toEqual('');
-    expect(component.addServiceForm.get('name').value).toEqual('');
-    expect(component.addServiceForm.get('nameEng').value).toEqual('');
+    expect(component.addServiceForm.get('nameUk').value).toEqual('');
+    expect(component.addServiceForm.get('nameEn').value).toEqual('');
     expect(component.addServiceForm.get('description').value).toEqual('');
     expect(component.addServiceForm.get('descriptionEng').value).toEqual('');
   });
@@ -100,19 +100,19 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   it('editForm() should invoke with correct parameters', () => {
     component.receivedData = {
       serviceData: {
-        name: 'MockNameUA',
+        nameUk: 'MockNameUA',
         price: 1,
-        nameEng: 'MockNameEng',
-        description: 'MockDescrUA',
-        descriptionEng: 'MockDescrEng'
+        nameEn: 'MockNameEng',
+        descriptionUk: 'MockDescrUA',
+        descriptionEn: 'MockDescrEng'
       }
     };
     component.editForm();
-    expect(component.addServiceForm.get('price').value).toEqual({ value: component.receivedData.serviceData.price });
-    expect(component.addServiceForm.get('name').value).toEqual({ value: component.receivedData.serviceData.name });
-    expect(component.addServiceForm.get('nameEng').value).toEqual({ value: component.receivedData.serviceData.nameEng });
-    expect(component.addServiceForm.get('description').value).toEqual({ value: component.receivedData.serviceData.description });
-    expect(component.addServiceForm.get('descriptionEng').value).toEqual(component.receivedData.serviceData.descriptionEng);
+    expect(component.addServiceForm.get('price').value).toEqual(component.receivedData.serviceData.price);
+    expect(component.addServiceForm.get('nameUk').value).toEqual(component.receivedData.serviceData.nameUk);
+    expect(component.addServiceForm.get('nameEn').value).toEqual(component.receivedData.serviceData.nameEn);
+    expect(component.addServiceForm.get('description').value).toEqual(component.receivedData.serviceData.descriptionUk);
+    expect(component.addServiceForm.get('descriptionEng').value).toEqual(component.receivedData.serviceData.descriptionEn);
   });
 
   it('should set date', () => {
@@ -132,7 +132,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   });
 
   it('should be name field valid', () => {
-    const nameControl = component.addServiceForm.get('name');
+    const nameControl = component.addServiceForm.get('nameUk');
     const partOfName = 'asdfghjkloiuytrewquiopytrefghktasdfghjkloiuytrewquiopytreffffghg';
     nameControl.setValue(`${partOfName + partOfName + partOfName + partOfName}`);
     expect(nameControl.valid).toBe(false);
@@ -185,13 +185,13 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
       const validNames = [`service${char}Name`, `${char}serviceName`, `serviceName${char}`];
 
       validNames.forEach((name) => {
-        component.addServiceForm.controls.name.setValue(name);
-        component.addServiceForm.controls.nameEng.setValue(name);
+        component.addServiceForm.controls.nameUk.setValue(name);
+        component.addServiceForm.controls.nameEn.setValue(name);
         component.addServiceForm.controls.description.setValue(name);
         component.addServiceForm.controls.descriptionEng.setValue(name);
 
-        expect(component.addServiceForm.controls.name.valid).toBeTruthy();
-        expect(component.addServiceForm.controls.nameEng.valid).toBeTruthy();
+        expect(component.addServiceForm.controls.nameUk.valid).toBeTruthy();
+        expect(component.addServiceForm.controls.nameEn.valid).toBeTruthy();
         expect(component.addServiceForm.controls.description.valid).toBeTruthy();
         expect(component.addServiceForm.controls.descriptionEng.valid).toBeTruthy();
       });

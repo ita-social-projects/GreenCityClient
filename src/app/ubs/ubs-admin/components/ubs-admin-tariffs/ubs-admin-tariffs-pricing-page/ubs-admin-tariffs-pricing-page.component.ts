@@ -34,7 +34,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoading = true;
   amount;
   currentCourierId: number;
-  saveBTNClicked: boolean;
+  saveBTNClicked = true;
   areAllCheckBoxEmpty: boolean;
   limitStatus: limitStatus = null;
   description;
@@ -358,10 +358,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   transformBag(bag: any): Bag {
     return {
       ...bag,
-      name: bag.nameUk || bag.name,
-      nameEng: bag.nameEn || bag.nameEng,
-      description: bag.descriptionUk || bag.description,
-      descriptionEng: bag.descriptionEn || bag.descriptionEng
+      nameUk: bag.nameUk || bag.name,
+      nameEn: bag.nameEn || bag.nameEng,
+      descriptionUk: bag.descriptionUk || bag.description,
+      descriptionEn: bag.descriptionEn || bag.descriptionEng
     };
   }
 
@@ -442,7 +442,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       title: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-title',
       text: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text1',
       text2: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text2',
-      bagName: this.langService.getLangValue(bag.name, bag.nameEng),
+      bagName: this.langService.getLangValue(bag.nameUk, bag.nameEn),
       action: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-action',
       isTariffForService: true,
       bagId: bag.id

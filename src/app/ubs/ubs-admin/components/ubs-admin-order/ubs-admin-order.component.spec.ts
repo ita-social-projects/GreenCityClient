@@ -210,6 +210,7 @@ describe('UbsAdminOrderComponent', () => {
   });
 
   it('onUpdatePaymentStatus should update additionalPayment and mark orderForm as dirty', () => {
+    component.generalInfo = OrderInfoMock.generalOrderInfo;
     const newPaymentStatus = 'paid';
     component.onUpdatePaymentStatus(newPaymentStatus);
     expect(component.additionalPayment).toEqual(newPaymentStatus);

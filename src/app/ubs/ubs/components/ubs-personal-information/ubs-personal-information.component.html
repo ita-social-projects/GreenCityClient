@@ -4,8 +4,9 @@
       <h2 class="personal-data-title">{{ 'personal-info.info-personal-data' | translate }}</h2>
     </div>
     <div class="col-12 col-sm-6 form-group">
-      <label for="firstName">{{ 'personal-info.info-name' | translate }}</label>
+      <label for="firstName" class="required-field">{{ 'personal-info.info-name' | translate }}</label>
       <input
+        id="firstName"
         formControlName="firstName"
         type="text"
         class="shadow-none form-control"
@@ -16,7 +17,7 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
-      <label for="phoneNumber">{{ 'personal-info.info-phone' | translate }}</label>
+      <label for="info-phone" class="required-field">{{ 'personal-info.info-phone' | translate }}</label>
       <input
         id="info-phone"
         formControlName="phoneNumber"
@@ -31,8 +32,9 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
-      <label for="lastName">{{ 'personal-info.info-surname' | translate }}</label>
+      <label for="lastName" class="required-field">{{ 'personal-info.info-surname' | translate }}</label>
       <input
+        id="lastName"
         formControlName="lastName"
         type="text"
         class="shadow-none form-control"
@@ -43,8 +45,8 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
-      <label for="email">Email</label>
-      <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" />
+      <label for="email" class="required-field">Email</label>
+      <input id="email" formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" />
       <div class="validation" *ngIf="email.invalid">
         <app-ubs-input-error [formElement]="email"></app-ubs-input-error>
       </div>
@@ -58,8 +60,9 @@
   </div>
   <div class="row personal-data" *ngIf="isAnotherClient.value">
     <div class="col-12 col-sm-6 form-group">
-      <label for="senderFirstName">{{ 'personal-info.info-name' | translate }}</label>
+      <label for="senderFirstName" class="required-field">{{ 'personal-info.info-name' | translate }}</label>
       <input
+        id="senderFirstName"
         formControlName="senderFirstName"
         type="text"
         class="shadow-none form-control"
@@ -70,8 +73,9 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
-      <label for="senderLastName">{{ 'personal-info.info-phone' | translate }}</label>
+      <label for="senderPhoneNumber" class="required-field">{{ 'personal-info.info-phone' | translate }}</label>
       <input
+        id="senderPhoneNumber"
         formControlName="senderPhoneNumber"
         type="text"
         class="shadow-none form-control"
@@ -84,8 +88,9 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
-      <label for="senderLastName">{{ 'personal-info.info-surname' | translate }}</label>
+      <label for="senderLastName" class="required-field">{{ 'personal-info.info-surname' | translate }}</label>
       <input
+        id="senderLastName"
         formControlName="senderLastName"
         type="text"
         class="shadow-none form-control"
