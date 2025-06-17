@@ -34,7 +34,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoading = true;
   amount;
   currentCourierId: number;
-  saveBTNClicked: boolean;
+  saveBTNClicked = true;
   areAllCheckBoxEmpty: boolean;
   limitStatus: limitStatus = null;
   description;

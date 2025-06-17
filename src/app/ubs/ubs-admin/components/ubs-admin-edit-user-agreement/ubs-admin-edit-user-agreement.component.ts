@@ -69,7 +69,7 @@ export class UbsAdminEditUserAgreementComponent implements OnInit {
     };
 
     this.languages.forEach((lang) => {
-      userAgreement[`text${lang}`] = this.getUserAgreementControl(lang).value;
+      userAgreement[`text${lang === 'Ua' ? 'Uk' : lang}`] = this.getUserAgreementControl(lang).value;
     });
 
     this.confirmSave(userAgreement);
@@ -100,7 +100,7 @@ export class UbsAdminEditUserAgreementComponent implements OnInit {
 
         this.languages.forEach((lang) => {
           const control = this.getUserAgreementControl(lang);
-          control.setValue(userAgreement[`text${lang}`]);
+          control.setValue(userAgreement[`text${lang === 'Ua' ? 'Uk' : lang}`]);
           control.markAsPristine();
         });
 
