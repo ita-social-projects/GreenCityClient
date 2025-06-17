@@ -587,7 +587,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.selectedCourier = null;
     this.selectedValue = null;
     this.couriersName = [];
-    this.courier.reset();
+    this.courier.setValue('');
     this.courier.disable();
     this.filteredCouriers = this.couriersName = [];
   }
@@ -692,8 +692,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   filterOptions(name: string, items: any[]): any[] {
-    const filterValue = name.toLowerCase();
-    return items.filter((option) => option.toLowerCase().includes(filterValue));
+    const filterValue = (name ?? '').toLowerCase();
+    return (items ?? []).filter((option) => option.toLowerCase().includes(filterValue));
   }
 
   removeDuplicates(arr: Array<string>): Array<string> {

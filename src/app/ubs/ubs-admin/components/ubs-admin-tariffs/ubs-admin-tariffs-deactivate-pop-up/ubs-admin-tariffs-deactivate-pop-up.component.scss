@@ -120,16 +120,3 @@ input {
   margin-bottom: 32px;
   text-align: end;
 }
-
-::ng-deep .mdc-button__label {
-  display: inline-block !important;
-}
-
-::ng-deep .secondary-global-button .mat-mdc-focus-indicator {
-  display: none !important;
-}
-
-::ng-deep .button[_ngcontent-ng-c185010076] {
-  padding-top: 20px !important;
-  padding-bottom: 20px !important;
-}

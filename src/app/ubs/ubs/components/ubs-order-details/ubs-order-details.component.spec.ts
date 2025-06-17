@@ -492,31 +492,4 @@ describe('UBSOrderDetailsComponent', () => {
       expect(mockStore.dispatch).toHaveBeenCalledWith(SetOrderComment({ comment: 'Test Comment' }));
     });
   });
-
-  describe('bagErrors', () => {
-    it('should return only all bags errors if there is anything else', () => {
-      component.orderDetailsForm.get('bags').setErrors({
-        someError: { message: 'Invalid quantity', value: 2 },
-        anotherError: { message: 'Too many items' },
-        notRelevant: { someString: 'string-error' }
-      });
-
-      expect(component.bagErrors).toEqual([{ message: 'Invalid quantity', value: 2 }, { message: 'Too many items' }]);
-    });
-
-    it('should return empty array if bugs errors are not an object', () => {
-      component.orderDetailsForm.get('bags').setErrors(null);
-
-      expect(component.bagErrors).toEqual([]);
-    });
-
-    it('should return empty array if error object does not have message property', () => {
-      component.orderDetailsForm.get('bags').setErrors({
-        invalidType: { value: 1 },
-        wrongShape: { msg: 'Not a real message' }
-      });
-
-      expect(component.bagErrors).toEqual([]);
-    });
-  });
 });

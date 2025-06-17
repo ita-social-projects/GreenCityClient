@@ -1,3 +1,14 @@
 .page {
-  margin-top: 50px;
+  margin: 50px 50px 0;
+  height: 80vh;
+
+  .page-content {
+    height: 100%;
+  }
+
+  .ql-editor {
+    height: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
 }
