@@ -311,7 +311,7 @@
         >
           <app-table-cell-readonly
             *ngIf="column.editType === 'READ_ONLY'"
-            [title]="row[column.title.key]"
+            [title]="row[column.title.key] !== 0 ? row[column.title.key] : '0'"
             [optional]="column?.checked"
             [lang]="currentLang"
             [key]="column.title.key"
