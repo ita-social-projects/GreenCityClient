@@ -112,7 +112,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     setTimeout(() => this.city.disable());
     this.getCouriers();
     this.getReceivingStation();
-    this.isActivatePopUp ? this.getLocations(true) : this.getLocations(false);
+    this.isActivatePopUp ? this.getLocations(false) : this.getLocations(true);
     this.getTariffCards();
   }
 
@@ -341,6 +341,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   addSelectedRegion(event: MatAutocompleteSelectedEvent): void {
+    if (this.locations.length === 0) {
+      return;
+    }
     let id;
     let name;
     let nameUa;
@@ -379,6 +382,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   enableCity(filteredTariffCards: Array<any>): void {
+    if (this.locations.length === 0) {
+      return;
+    }
     const currentRegion = this.locations.filter((element) => element.regionId === this.selectedRegions[0].id);
     this.currentCities = currentRegion[0].locationsDto;
 
