@@ -332,7 +332,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
     this.getExistingCard(this.filterData);
     this.setCountOfCheckedCity();
-    this.city.setValue('');
+    this.city.setValue(this.translate.instant('ubs-tariffs.states.all'));
     this.checkisCardExist();
     if (trigger) {
       requestAnimationFrame(() => {
@@ -398,7 +398,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       Object.assign(this.filterData, { receivingStation: receivingStationId });
     }
     this.getExistingCard(this.filterData);
-    this.station.setValue('');
+    this.station.setValue(this.translate.instant('ubs-tariffs.states.all'));
     this.setStationPlaceholder();
     if (trigger) {
       requestAnimationFrame(() => {
