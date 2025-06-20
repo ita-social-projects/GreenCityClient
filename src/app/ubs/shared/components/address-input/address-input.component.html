@@ -1,6 +1,6 @@
 <form *ngIf="addressForm" [formGroup]="addressForm" class="row adress">
   <div class="map-check">
-    <mat-checkbox [disabled]="edit ? !edit : false" (change)="onUseUserLocation($event.checked)">
+    <mat-checkbox [disabled]="isUneditableStatus" (change)="onUseUserLocation($event.checked)">
       {{ 'personal-info.pop-up-map-check' | translate }}</mat-checkbox
     >
   </div>
@@ -27,7 +27,7 @@
       [autoCompRequest]="autocompleteCityRequest"
       (predictionSelected)="onCitySelected($event)"
       [isInvalid]="city.invalid && (city.touched || city.dirty)"
-      [disabled]="edit"
+      [disabled]="isUneditableStatus"
       ngDefaultControl
       (keyupEmitter)="keyup($event)"
     ></app-input-google-autocomplete>

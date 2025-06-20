@@ -8,7 +8,7 @@
     *ngIf="pageOpen"
     [formControl]="addressExportDetailsDto"
     [address]="address"
-    [edit]="!isEditableStatus$.value"
+    [edit]="true"
     [isFromAdminPage]="true"
     [isUneditableStatus]="isEditableStatus$ | async"
   ></app-address-input>
