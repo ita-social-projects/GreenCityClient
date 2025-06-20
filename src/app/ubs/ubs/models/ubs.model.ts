@@ -192,7 +192,7 @@ export class CAddressData {
   async setDistrict(place_id: string): Promise<void> {
     try {
       this.resetDistrict();
-      await this.setProperties('district', place_id, 'sublocality', 'administrative_area_level_2', 'locality');
+      await this.setProperties('district', place_id, 'locality', 'sublocality', 'administrative_area_level_2');
     } catch (error) {
       console.error('Error during setting district:', error);
     }
