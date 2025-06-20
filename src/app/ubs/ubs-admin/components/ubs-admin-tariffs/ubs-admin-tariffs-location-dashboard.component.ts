@@ -231,7 +231,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     ].every((el) => el);
     if (this.courier.value && this.selectedCities.length && this.selectedStation.length) {
       this.createCardDto();
-      console.log('createCardObj:', this.createCardObj);
       if (
         !this.createCardObj.courierId ||
         !this.createCardObj.receivingStationsIdList.length ||
@@ -498,13 +497,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         return searchingFilter === event.value;
       });
 
+      this.courierId = selectedValue?.courierId ?? null;
+      Object.assign(this.filterData, { courier: this.courierId ?? '' });
+
       if (selectedValue) {
         this.courierNameEng = selectedValue.nameEn;
         this.courierNameUk = selectedValue.nameUk;
-        this.courierId = selectedValue.courierId;
-        Object.assign(this.filterData, { courier: this.courierId });
-      } else {
-        this.courierId = null;
       }
     }
 
