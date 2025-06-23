@@ -1,6 +1,7 @@
 .main {
   position: relative;
   display: grid;
+  min-height: 80vh;
 
   .active {
     background-color: var(--ubs-secondary-grey);
