@@ -198,7 +198,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   private initializeFieldStates(): void {
     if (!this.edit) {
-      this.region.value ? this.city.enable() : this.city.disable();
+      this.region.value ? (this.isFromAdminPage ? this.city.disable() : this.city.enable()) : this.city.disable();
       this.street.disable();
       this.houseNumber.disable();
       this.houseCorpus.disable();
@@ -297,7 +297,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   setInitialValues() {
-    this.edit
+    this.edit || this.isFromAdminPage
       ? this.addressData.initAddressData(this.address)
       : this.addressData.setRegionWithTranslation(this.locations.regionDto.nameUk, this.locations.regionDto.nameEn);
   }
@@ -314,15 +314,17 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   onUseUserLocation(isUseUserLocation: boolean) {
-    this.isShowMap = isUseUserLocation;
+    if (this.edit) {
+      this.isShowMap = isUseUserLocation;
 
-    if (isUseUserLocation) {
-      this.setCurrentLocation();
-    } else {
-      this.resetCity();
-      this.resetStreet();
-      this.resetDistricts();
-      this.resetHouseInfo();
+      if (isUseUserLocation) {
+        this.setCurrentLocation();
+      } else {
+        this.resetCity();
+        this.resetStreet();
+        this.resetDistricts();
+        this.resetHouseInfo();
+      }
     }
   }
 
@@ -449,7 +451,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   getCityPrefix(): string {
     const cityValue = this.langService.getLangValue('місто', 'city');
 
-    return `${this.region.value} `;
+    return `${this.region.value}, ${cityValue}, `;
   }
 
   ngOnDestroy(): void {

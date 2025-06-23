@@ -352,7 +352,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
   onUpdatePaymentStatus(newPaymentStatus: string): void {
     this.additionalPayment = newPaymentStatus;
-    this.orderForm.markAsDirty();
+    if (
+      !(
+        this.generalInfo.orderStatus === OrderStatus.CANCELED ||
+        this.generalInfo.orderStatus === OrderStatus.DONE ||
+        this.generalInfo.orderStatus === OrderStatus.BROUGHT_IT_HIMSELF
+      )
+    ) {
+      this.orderForm.markAsDirty();
+    }
   }
 
   onReturnMoneyOrBonusesChange(data: ReturnMoneyOrBonuses) {
