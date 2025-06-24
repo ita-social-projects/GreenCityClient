@@ -66,6 +66,16 @@ xdescribe('UbsUserProfilePageComponent', () => {
       }
     ]
   };
+  const userEmptyProfileDataMock: UserProfile = {
+    addressDto: [],
+    recipientEmail: 'blackstar@gmail.com',
+    alternateEmail: null,
+    recipientName: 'Black',
+    recipientPhone: null,
+    recipientSurname: null,
+    hasPassword: true,
+    botList: []
+  };
   let component: UbsUserProfilePageComponent;
   let fixture: ComponentFixture<UbsUserProfilePageComponent>;
   const clientProfileServiceMock: ClientProfileService = jasmine.createSpyObj('ClientProfileService', {
@@ -319,6 +329,21 @@ xdescribe('UbsUserProfilePageComponent', () => {
     component.alternativeEmailDisplay = true;
     component.toggleAlternativeEmail();
     expect(component.alternativeEmailDisplay).toBeFalsy();
+  });
+
+  it('should add 0 to the value of recipientPhone', () => {
+    component.userProfile = userEmptyProfileDataMock;
+    component.onPhoneFocus();
+
+    expect(component.userProfile.recipientPhone).toBe('0');
+  });
+
+  it('should clear the value of recipientPhone', () => {
+    component.userProfile = userEmptyProfileDataMock;
+    component.userProfile.recipientPhone = '+380';
+    component.onPhoneBlur();
+
+    expect(component.userProfile.recipientPhone).toBe('');
   });
 
   describe('Testing controls for the form:', () => {

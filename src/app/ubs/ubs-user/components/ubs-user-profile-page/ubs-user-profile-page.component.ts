@@ -46,7 +46,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   isFetching = false;
   alternativeEmailDisplay = false;
   googleIcon = SignInIcons.picGoogle;
-  phoneMask = Masks.phoneMask;
+  phoneMask: string = Masks.phoneMask;
   resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
 
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -357,6 +357,19 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     const match = RegExp(/^\+380(\d{2})(\d{3})(\d{2})(\d{2})$/).exec(num);
     if (match) {
       return `+380 (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
+    }
+  }
+
+  onPhoneFocus(): void {
+    if (this.recipientPhone.value === '') {
+      this.recipientPhone.setValue('0');
+    }
+  }
+
+  onPhoneBlur(): void {
+    if (this.recipientPhone.value === '+380') {
+      this.recipientPhone.setValue('');
+      this.recipientPhone.markAsUntouched();
     }
   }
 
