@@ -331,19 +331,22 @@ xdescribe('UbsUserProfilePageComponent', () => {
     expect(component.alternativeEmailDisplay).toBeFalsy();
   });
 
-  it('should add 0 to the value of recipientPhone', () => {
+  it('should add +380 to the value of recipientPhone', () => {
     component.userProfile = userEmptyProfileDataMock;
+    component.userInit();
     component.onPhoneFocus();
 
-    expect(component.userProfile.recipientPhone).toBe('0');
+    expect(component.recipientPhone.value).toBe('0');
   });
 
   it('should clear the value of recipientPhone', () => {
     component.userProfile = userEmptyProfileDataMock;
-    component.userProfile.recipientPhone = '+380';
+    component.userInit();
+    component.recipientPhone.setValue('+380');
     component.onPhoneBlur();
 
-    expect(component.userProfile.recipientPhone).toBe('');
+    expect(component.recipientPhone.value).toBe('');
+    expect(component.recipientPhone.untouched).toBe(true);
   });
 
   describe('Testing controls for the form:', () => {

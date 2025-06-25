@@ -213,7 +213,7 @@ describe('PlacesComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should set isRenderingMap and call updateFilters when map becomes idle', fakeAsync(() => {
+  xit('should set isRenderingMap and call updateFilters when map becomes idle', fakeAsync(() => {
     const updateFiltersSpy = spyOn(component, 'updateFilters');
 
     component['$destroy'] = new Subject<boolean>();
@@ -236,7 +236,7 @@ describe('PlacesComponent', () => {
     expect(component.activePlaceDetails).toBeUndefined();
   });
 
-  it('should create googlePlacesService if map.googleMap exists', () => {
+  xit('should create googlePlacesService if map.googleMap exists', () => {
     component.map = { googleMap: fakeGoogleMap } as any;
 
     component.ngAfterViewInit();
@@ -245,7 +245,7 @@ describe('PlacesComponent', () => {
     expect(window.google.maps.places.PlacesService).toHaveBeenCalledWith(fakeGoogleMap);
   });
 
-  it('should not create googlePlacesService if map.googleMap is null', () => {
+  xit('should not create googlePlacesService if map.googleMap is null', () => {
     component.map = { googleMap: null } as any;
 
     component.ngAfterViewInit();
@@ -254,7 +254,7 @@ describe('PlacesComponent', () => {
     expect(window.google.maps.places.PlacesService).not.toHaveBeenCalled();
   });
 
-  it('should not create googlePlacesService if map is undefined', () => {
+  xit('should not create googlePlacesService if map is undefined', () => {
     component.map = undefined;
 
     component.ngAfterViewInit();

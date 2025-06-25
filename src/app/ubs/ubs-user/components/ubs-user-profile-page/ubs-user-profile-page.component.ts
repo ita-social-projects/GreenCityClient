@@ -362,7 +362,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
   onPhoneFocus(): void {
     if (this.recipientPhone.value === '') {
-      this.recipientPhone.setValue('0');
+      this.recipientPhone.setValue('+380');
     }
   }
 
