@@ -37,7 +37,7 @@ function getLangValue(valUA: any, valEN: any, currentLanguage: Language): any {
 }
 
 function compareIfExist(value: string | null, compareTo: string | null): boolean {
-  if ((value === '' || value === null) && (compareTo === '' || compareTo === null)) {
+  if (!value && !compareTo) {
     return true;
   }
 
