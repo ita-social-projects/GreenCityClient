@@ -173,12 +173,48 @@ describe('PlacesComponent', () => {
   }));
 
   beforeEach(() => {
-    window.google = {
+    const predictionList = [
+      { description: 'Place 1', place_id: '1' },
+      { description: 'Place 2', place_id: '2' }
+    ];
+
+    class MockLatLng {
+      private _lat: number;
+      private _lng: number;
+
+      constructor(lat: number, lng: number) {
+        this._lat = lat;
+        this._lng = lng;
+      }
+
+      lat(): number {
+        return this._lat;
+      }
+
+      lng(): number {
+        return this._lng;
+      }
+    }
+
+    class MockAutocompleteSessionToken {}
+
+    (window as any).google = {
       maps: {
+        LatLng: MockLatLng,
         places: {
-          PlacesService: jasmine.createSpy('PlacesService').and.callFake(function (map) {
-            this.map = map;
-          })
+          AutocompleteSessionToken: MockAutocompleteSessionToken,
+          AutocompleteService: class {
+            getPlacePredictions(request, callback) {
+              return Promise.resolve(callback(predictionList, 'OK'));
+            }
+          }
+        },
+        Geocoder: class {
+          geocode(params) {
+            return Promise.resolve({
+              results: [{ geometry: { location: { lat: () => 123, lng: () => 456 } } }]
+            });
+          }
         }
       }
     };
