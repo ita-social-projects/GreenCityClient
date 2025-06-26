@@ -143,7 +143,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         Validators.maxLength(30)
       ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
-      alternativeEmail: new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(Patterns.ubsMailPattern)]),
+      alternateEmail: new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(Patterns.ubsMailPattern)]),
       recipientPhone: new FormControl(`${this.userProfile?.recipientPhone ? this.userProfile?.recipientPhone : ''}`, [
         PhoneNumberValidator('UA')
       ]),

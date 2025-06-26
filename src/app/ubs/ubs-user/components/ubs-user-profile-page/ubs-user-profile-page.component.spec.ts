@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
@@ -69,14 +69,16 @@ describe('UbsUserProfilePageComponent', () => {
   };
   const userEmptyProfileDataMock: UserProfile = {
     addressDto: [],
-    recipientEmail: 'blackstar@gmail.com',
+    recipientEmail: 'emptyuser@example.com',
     alternateEmail: null,
-    recipientName: 'Black',
+    recipientName: 'Empty',
     recipientPhone: null,
     recipientSurname: null,
     hasPassword: true,
-    botList: []
+    botList: [],
+    telegramIsNotify: false
   };
+
   let component: UbsUserProfilePageComponent;
   let fixture: ComponentFixture<UbsUserProfilePageComponent>;
   const clientProfileServiceMock: ClientProfileService = jasmine.createSpyObj('ClientProfileService', {
@@ -376,6 +378,90 @@ describe('UbsUserProfilePageComponent', () => {
 
     expect(component.recipientPhone.value).toBe('');
     expect(component.recipientPhone.untouched).toBe(true);
+  });
+
+  it('should test userInit', () => {
+    component.userProfile = { ...userProfileDataMock };
+    component.userInit();
+
+    expect(component.userForm).toBeTruthy();
+    expect(component.userForm instanceof FormGroup).toBe(true);
+    expect(component.isFetching).toBe(false);
+
+    const addressFormArray = component.userForm.get('address') as FormArray;
+    expect(addressFormArray).toBeTruthy();
+    expect(addressFormArray instanceof FormArray).toBe(true);
+    expect(addressFormArray.length).toBe(userProfileDataMock.addressDto.length);
+    expect(addressFormArray.value).toEqual(userProfileDataMock.addressDto);
+
+    const recipientNameControl = component.recipientName;
+    expect(recipientNameControl.value).toBe(userProfileDataMock.recipientName);
+    recipientNameControl.setValue('');
+    expect(recipientNameControl.hasError('required')).toBeTrue();
+    recipientNameControl.setValue('Invalid$Name');
+    expect(recipientNameControl.hasError('pattern')).toBeTrue();
+    recipientNameControl.setValue('a'.repeat(31));
+    expect(recipientNameControl.hasError('maxlength')).toBeTrue();
+    recipientNameControl.setValue(userProfileDataMock.recipientName);
+    expect(recipientNameControl.valid).toBeTrue();
+
+    const recipientSurnameControl = component.recipientSurname;
+    expect(recipientSurnameControl.value).toBe(userProfileDataMock.recipientSurname);
+    recipientSurnameControl.setValue('Invalid$Surname');
+    expect(recipientSurnameControl.hasError('pattern')).toBeTrue();
+    recipientSurnameControl.setValue('a'.repeat(31));
+    expect(recipientSurnameControl.hasError('maxlength')).toBeTrue();
+    recipientSurnameControl.setValue(userProfileDataMock.recipientSurname);
+    expect(recipientSurnameControl.valid).toBeTrue();
+
+    const recipientEmailControl = component.userForm.get('recipientEmail');
+    expect(recipientEmailControl.value).toBe(userProfileDataMock.recipientEmail);
+    recipientEmailControl.setValue('');
+    expect(recipientEmailControl.hasError('required')).toBeTrue();
+    recipientEmailControl.setValue('invalid-email');
+    expect(recipientEmailControl.hasError('pattern')).toBeTrue();
+    recipientEmailControl.setValue(userProfileDataMock.recipientEmail);
+    expect(recipientEmailControl.valid).toBeTrue();
+    recipientEmailControl.setValue('');
+
+    const alternateEmailControl = component.alternateEmail;
+    expect(alternateEmailControl.value).toBe(userProfileDataMock.alternateEmail);
+    alternateEmailControl.setValue('invalid-alt-email');
+    expect(alternateEmailControl.hasError('pattern')).toBeTrue();
+    alternateEmailControl.setValue(userProfileDataMock.alternateEmail);
+    expect(alternateEmailControl.valid).toBeTrue();
+
+    const recipientPhoneControl = component.recipientPhone;
+    expect(recipientPhoneControl.value).toBe(userProfileDataMock.recipientPhone);
+    expect(recipientPhoneControl.validator).toBeTruthy();
+
+    recipientPhoneControl.setValue('123');
+    expect(recipientPhoneControl.invalid).toBeTrue();
+    recipientPhoneControl.setValue(userProfileDataMock.recipientPhone);
+    expect(recipientPhoneControl.valid).toBeTrue();
+
+    component.userProfile = { ...userEmptyProfileDataMock };
+    component.userInit();
+
+    expect(component.userForm).toBeTruthy();
+    expect(component.userForm instanceof FormGroup).toBe(true);
+    expect(component.isFetching).toBe(false);
+
+    const emptyAddressFormArray = component.userForm.get('address') as FormArray;
+    expect(emptyAddressFormArray).toBeTruthy();
+    expect(emptyAddressFormArray instanceof FormArray).toBe(true);
+    expect(emptyAddressFormArray.length).toBe(userEmptyProfileDataMock.addressDto.length);
+    expect(emptyAddressFormArray.value).toEqual(userEmptyProfileDataMock.addressDto);
+
+    expect(component.recipientName.value).toBe(userEmptyProfileDataMock.recipientName);
+    expect(component.recipientSurname.value).toBe(userEmptyProfileDataMock.recipientSurname);
+    expect(component.userForm.get('recipientEmail').value).toBe(userEmptyProfileDataMock.recipientEmail);
+
+    expect(component.alternateEmail.value).toBe(userEmptyProfileDataMock.alternateEmail);
+    expect(component.recipientPhone.value).toBe('');
+    expect(component.userForm.get('telegramIsNotify').value).toBe(userEmptyProfileDataMock.telegramIsNotify);
+
+    expect(recipientEmailControl.hasError('required')).toBeTrue();
   });
 
   describe('Testing controls for the form:', () => {
