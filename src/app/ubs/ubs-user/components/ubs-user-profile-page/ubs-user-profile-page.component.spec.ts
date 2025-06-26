@@ -24,8 +24,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { MatSelectModule } from '@angular/material/select';
 
-xdescribe('UbsUserProfilePageComponent', () => {
+describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
     addressDto: [
       {
@@ -144,7 +145,14 @@ xdescribe('UbsUserProfilePageComponent', () => {
         { provide: JwtService, useValue: jwtServiceMock },
         provideMockStore({ initialState })
       ],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, HttpClientTestingModule, MatAutocompleteModule],
+      imports: [
+        TranslateModule.forRoot(),
+        ReactiveFormsModule,
+        IMaskModule,
+        HttpClientTestingModule,
+        MatAutocompleteModule,
+        MatSelectModule
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -155,9 +163,31 @@ xdescribe('UbsUserProfilePageComponent', () => {
       { description: 'Place 2', place_id: '2' }
     ];
 
+    class MockLatLng {
+      private _lat: number;
+      private _lng: number;
+
+      constructor(lat: number, lng: number) {
+        this._lat = lat;
+        this._lng = lng;
+      }
+
+      lat(): number {
+        return this._lat;
+      }
+
+      lng(): number {
+        return this._lng;
+      }
+    }
+
+    class MockAutocompleteSessionToken {}
+
     (window as any).google = {
       maps: {
+        LatLng: MockLatLng,
         places: {
+          AutocompleteSessionToken: MockAutocompleteSessionToken,
           AutocompleteService: class {
             getPlacePredictions(request, callback) {
               return Promise.resolve(callback(predictionList, 'OK'));
@@ -201,7 +231,7 @@ xdescribe('UbsUserProfilePageComponent', () => {
     expect(component.userInit).toHaveBeenCalled();
   });
 
-  xit('method onCancel should be called by clicking cancel button', fakeAsync(() => {
+  it('method onCancel should be called by clicking cancel button', fakeAsync(() => {
     component.isEditing = true;
     fixture.detectChanges();
     const spy = spyOn(component, 'onCancel');
@@ -258,7 +288,7 @@ xdescribe('UbsUserProfilePageComponent', () => {
     expect(dialogMock.open).toHaveBeenCalled();
   });
 
-  xit('spiner has to be defined if (isFetching === true)', fakeAsync(() => {
+  it('spiner has to be defined if (isFetching === true)', fakeAsync(() => {
     component.isFetching = true;
     fixture.detectChanges();
     flush();
@@ -266,14 +296,13 @@ xdescribe('UbsUserProfilePageComponent', () => {
     expect(spiner).toBeDefined();
   }));
 
-  xit('method onEdit should get data and invoke methods', fakeAsync(() => {
+  it('method onEdit should get data and invoke methods', fakeAsync(() => {
     component.isEditing = false;
     component.isFetching = true;
     const spy = spyOn(component, 'focusOnFirst');
     component.onEdit();
     expect(component.isEditing).toEqual(true);
     expect(component.isFetching).toEqual(false);
-    fixture.detectChanges();
     tick(500);
     expect(spy).toHaveBeenCalled();
   }));
@@ -286,7 +315,7 @@ xdescribe('UbsUserProfilePageComponent', () => {
     expect(input.focus).toHaveBeenCalled();
   });
 
-  xit('method onSubmit has to be called by clicking submit button', fakeAsync(() => {
+  it('method onSubmit has to be called by clicking submit button', fakeAsync(() => {
     component.isEditing = true;
     fixture.detectChanges();
     if (component.userForm.value.valid) {
@@ -336,7 +365,7 @@ xdescribe('UbsUserProfilePageComponent', () => {
     component.userInit();
     component.onPhoneFocus();
 
-    expect(component.recipientPhone.value).toBe('0');
+    expect(component.recipientPhone.value).toBe('+380');
   });
 
   it('should clear the value of recipientPhone', () => {
