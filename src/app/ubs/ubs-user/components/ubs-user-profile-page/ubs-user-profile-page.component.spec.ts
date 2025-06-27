@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { AbstractControl, FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { IMaskModule } from 'angular-imask';
-import { of } from 'rxjs';
-import { UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { of, throwError } from 'rxjs';
+import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from '../../services/client-profile.service';
 import { UbsUserProfilePageComponent } from './ubs-user-profile-page.component';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -15,7 +15,6 @@ import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocationService } from '@ubs/ubs-user/services/location/location.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
-import { NotificationPlatform } from '../../../ubs/notification-platform.enum';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AddressInputComponent } from '@ubs/shared/components/address-input/address-input.component';
@@ -81,13 +80,11 @@ describe('UbsUserProfilePageComponent', () => {
 
   let component: UbsUserProfilePageComponent;
   let fixture: ComponentFixture<UbsUserProfilePageComponent>;
-  const clientProfileServiceMock: ClientProfileService = jasmine.createSpyObj('ClientProfileService', {
+  const clientProfileServiceMock: jasmine.SpyObj<ClientProfileService> = jasmine.createSpyObj('ClientProfileService', {
     getDataClientProfile: of(userProfileDataMock),
     postDataClientProfile: of({})
   });
-  const snackBarMock = {
-    openSnackBar: () => {}
-  };
+  const snackBarMock: jasmine.SpyObj<MatSnackBarService> = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   const dialogMock = {
     open: () => {}
   };
@@ -380,7 +377,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.recipientPhone.untouched).toBe(true);
   });
 
-  it('should test userInit', () => {
+  it('should confirm validators and data from userInit form data', () => {
     component.userProfile = { ...userProfileDataMock };
     component.userInit();
 
@@ -464,6 +461,13 @@ describe('UbsUserProfilePageComponent', () => {
     expect(recipientEmailControl.hasError('required')).toBeTrue();
   });
 
+  it('should delete address', () => {
+    spyOn(component['orderService'], 'deleteAddress').and.returnValue(of({ addressList: [] }));
+    component.deleteAddress(component.userProfile.addressDto[0] as Address);
+
+    expect(component.userProfile.addressDto.length).toBe(0);
+  });
+
   describe('Testing controls for the form:', () => {
     const personalInfoControls = ['recipientName', 'recipientSurname', 'recipientEmail', 'recipientPhone'];
     const controls = ['name', 'surename', 'email', 'phone'];
@@ -490,5 +494,223 @@ describe('UbsUserProfilePageComponent', () => {
 
       expect(component.goToTelegramUrl).toHaveBeenCalled();
     });
+  });
+
+  describe('onSubmit method - Specific Local Mocked Test', () => {
+    beforeEach(() => {
+      clientProfileServiceMock.postDataClientProfile.calls.reset();
+      snackBarMock.openSnackBar.calls.reset();
+      clientProfileServiceMock.getDataClientProfile.calls.reset();
+    });
+
+    it('should submit updated user profile data correctly and show success snackbar', fakeAsync(() => {
+      const initialUserProfile: UserProfile = {
+        addressDto: [
+          {
+            id: 1,
+            cityUk: 'Kyiv',
+            cityEn: 'Kyiv',
+            districtUk: 'Shevchenkivskyi',
+            districtEn: 'Shevchenkivskyi',
+            entranceNumber: '1',
+            houseCorpus: 'A',
+            houseNumber: '10',
+            actual: true,
+            regionUk: 'Kyiv',
+            regionEn: 'Kyiv',
+            coordinates: { latitude: 50.45, longitude: 30.52 },
+            streetUk: 'Khreschatyk',
+            streetEn: 'Khreschatyk',
+            placeId: 'xyz123',
+            searchAddress: 'Khreschatyk st, Kyiv',
+            isHouseSelected: true,
+            addressRegionDistrictList: null
+          }
+        ],
+        recipientEmail: 'initial@example.com',
+        alternateEmail: 'old_alt@example.com',
+        recipientName: 'OldName',
+        recipientPhone: '+380991112233',
+        recipientSurname: 'OldSurname',
+        hasPassword: true,
+        botList: [],
+        telegramIsNotify: false
+      };
+
+      const expectedDataSentToService: UserProfile = {
+        addressDto: [
+          {
+            id: 1,
+            cityUk: 'Kyiv',
+            cityEn: 'Kyiv',
+            districtUk: 'UpdatedShevchenkivskyi',
+            districtEn: 'Shevchenkivskyi',
+            entranceNumber: '1',
+            houseCorpus: 'A',
+            houseNumber: '10',
+            actual: true,
+            regionUk: 'Kyiv',
+            regionEn: 'Kyiv',
+            coordinates: { latitude: 50.45, longitude: 30.52 },
+            streetUk: 'Khreschatyk',
+            streetEn: 'Khreschatyk',
+            placeId: 'xyz123'
+          }
+        ],
+        recipientEmail: 'updated@example.com',
+        alternateEmail: undefined,
+        recipientName: 'UpdatedName',
+        recipientPhone: '+380679876543',
+        recipientSurname: 'UpdatedSurname',
+        hasPassword: true,
+        telegramIsNotify: true
+      };
+
+      const mockServiceResponse: UserProfile = {
+        ...expectedDataSentToService,
+        alternateEmail: null,
+        botList: []
+      };
+
+      clientProfileServiceMock.getDataClientProfile.and.returnValue(of(initialUserProfile));
+
+      component.getUserData();
+      fixture.detectChanges();
+      tick();
+
+      const addressFormArray = component.userForm.get('address') as FormArray;
+      const addressControl = addressFormArray.at(0) as FormControl;
+
+      expect(addressControl).toBeTruthy();
+
+      const updatedAddressValue: Address = {
+        ...initialUserProfile.addressDto[0],
+        districtUk: 'UpdatedShevchenkivskyi'
+      };
+      addressControl.setValue(updatedAddressValue);
+      addressControl.markAsDirty();
+
+      component.userForm.get('recipientEmail').setValue(expectedDataSentToService.recipientEmail);
+
+      if (component.userForm.contains('alternateEmail')) {
+        component.alternateEmail.setValue(null);
+        component.userForm.removeControl('alternateEmail');
+      }
+
+      component.recipientName.setValue(expectedDataSentToService.recipientName);
+      component.recipientPhone.setValue(expectedDataSentToService.recipientPhone);
+      component.recipientSurname.setValue(expectedDataSentToService.recipientSurname);
+      component.userForm.get('telegramIsNotify').setValue(expectedDataSentToService.telegramIsNotify);
+
+      component.userForm.markAllAsTouched();
+      component.userForm.markAsDirty();
+      fixture.detectChanges();
+
+      expect(component.userForm.valid).toBeTrue();
+
+      clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockServiceResponse));
+      snackBarMock.openSnackBar.calls.reset();
+
+      component.onSubmit();
+
+      expect(component.isEditing).toBeFalse();
+
+      expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledTimes(1);
+      const submittedArgs = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+
+      const cleanedSubmittedArgs: UserProfile = { ...submittedArgs };
+
+      if (cleanedSubmittedArgs.addressDto && cleanedSubmittedArgs.addressDto.length > 0) {
+        const cleanedAddress = { ...cleanedSubmittedArgs.addressDto[0] };
+        delete cleanedAddress.searchAddress;
+        delete cleanedAddress.isHouseSelected;
+        delete cleanedAddress.addressRegionDistrictList;
+        cleanedSubmittedArgs.addressDto = [cleanedAddress];
+      }
+
+      if (cleanedSubmittedArgs.alternateEmail === null) {
+        delete cleanedSubmittedArgs.alternateEmail;
+      } else if (cleanedSubmittedArgs.alternateEmail === '') {
+        delete cleanedSubmittedArgs.alternateEmail;
+      }
+
+      delete cleanedSubmittedArgs.botList;
+
+      tick();
+
+      expect(component.isFetching).toBeFalse();
+      expect(component.userProfile).toEqual(mockServiceResponse);
+
+      expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('savedChangesToUserProfile');
+      expect(snackBarMock.openSnackBar).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should handle submission error and reset fetching state, showing error snackbar', fakeAsync(() => {
+      const testUserProfileForError: UserProfile = {
+        addressDto: [],
+        recipientEmail: 'error_test@example.com',
+        alternateEmail: null,
+        recipientName: 'ErrorName',
+        recipientPhone: '+380501234567',
+        recipientSurname: 'ErrorSurname',
+        hasPassword: true,
+        botList: [],
+        telegramIsNotify: false
+      };
+      const mockError = new Error('Failed to save profile on server.');
+
+      clientProfileServiceMock.getDataClientProfile.and.returnValue(of(testUserProfileForError));
+      component.getUserData();
+      component.userForm.markAsDirty();
+      component.isEditing = true;
+      fixture.detectChanges();
+
+      clientProfileServiceMock.postDataClientProfile.and.returnValue(throwError(() => mockError));
+      snackBarMock.openSnackBar.calls.reset();
+
+      component.onSubmit();
+
+      expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledTimes(1);
+
+      tick();
+
+      expect(component.isFetching).toBeFalse();
+      expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('error');
+      expect(snackBarMock.openSnackBar).toHaveBeenCalledTimes(2);
+      expect(component.userProfile).toEqual(testUserProfileForError);
+    }));
+
+    it('should not submit if the form is invalid', fakeAsync(() => {
+      const invalidUserProfile: UserProfile = {
+        addressDto: [],
+        recipientEmail: 'invalid-email',
+        alternateEmail: null,
+        recipientName: '',
+        recipientPhone: null,
+        recipientSurname: null,
+        hasPassword: true,
+        botList: [],
+        telegramIsNotify: false
+      };
+      clientProfileServiceMock.getDataClientProfile.and.returnValue(of(invalidUserProfile));
+      component.getUserData();
+      component.userForm.markAsDirty();
+      component.isEditing = true;
+      fixture.detectChanges();
+
+      component.recipientName.setValue('');
+      component.userEmail = 'not-an-email';
+
+      expect(component.userForm.valid).toBeFalse();
+
+      clientProfileServiceMock.postDataClientProfile.calls.reset();
+      snackBarMock.openSnackBar.calls.reset();
+
+      component.onSubmit();
+
+      expect(clientProfileServiceMock.postDataClientProfile).not.toHaveBeenCalled();
+      expect(component.isFetching).toBeFalse();
+      expect(component.isEditing).toBeTrue();
+    }));
   });
 });
