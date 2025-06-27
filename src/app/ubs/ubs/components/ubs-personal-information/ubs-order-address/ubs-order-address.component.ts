@@ -106,7 +106,9 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   }
 
   private isAddressValid(address: Address | null): boolean {
-    return Boolean(address && this.addresses.some((addr) => addr.id === address.id) && this.isAddressAvailable(address));
+    return Boolean(
+      address && this.addresses.some((addr) => addr.id === address.id && addr.actual === address.actual) && this.isAddressAvailable(address)
+    );
   }
 
   findAvailableAddress(): void {
