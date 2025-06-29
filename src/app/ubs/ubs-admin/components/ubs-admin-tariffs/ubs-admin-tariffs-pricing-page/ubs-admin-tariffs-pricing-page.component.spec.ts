@@ -213,7 +213,7 @@ describe('UbsAdminPricingPageComponent', () => {
     'setLimitDescription',
     'setLimitsBySumOrder',
     'setLimitsByAmountOfBags',
-    'getCardInfo',
+    'getTariffCardInfo',
     'setTariffLimits'
   ]);
   tariffsServiceMock.editInfo.and.returnValue(of([]));
@@ -223,7 +223,7 @@ describe('UbsAdminPricingPageComponent', () => {
   tariffsServiceMock.setLimitDescription.and.returnValue(of([fakeDescription]));
   tariffsServiceMock.setLimitsBySumOrder.and.returnValue(of([fakeSumInfo]));
   tariffsServiceMock.setLimitsByAmountOfBags.and.returnValue(of([fakeBagInfo]));
-  tariffsServiceMock.getCardInfo.and.returnValue(of([fakeCard]));
+  tariffsServiceMock.getTariffCardInfo.and.returnValue(of(fakeCard));
   tariffsServiceMock.setTariffLimits.and.returnValue(of());
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
