@@ -446,18 +446,44 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(component.station.errors).toEqual({ emptySelectedStation: true });
   });
 
-  it('should call functions on create card method', () => {
-    const spy = spyOn(component, 'createCardDto');
+  it('should call createCardDto and checkIfCardExist on create card method', () => {
+    (tariffsServiceMock.checkIfCardExist as jasmine.Spy).calls.reset();
+    component.courierId = 1;
+    component.selectedStation = [0];
+    component.regionId = 1;
+    component.selectedCities = [0, 1];
+    const spyCreateCardDto = spyOn(component, 'createCardDto');
+
     component.createCard();
-    expect(spy).toHaveBeenCalled();
+
+    expect(spyCreateCardDto).toHaveBeenCalled();
     expect(tariffsServiceMock.checkIfCardExist).toHaveBeenCalled();
   });
 
+  it('shouldnt call service checkIfCardExist if form isnt filled', () => {
+    (tariffsServiceMock.checkIfCardExist as jasmine.Spy).calls.reset();
+    component.courierId = null;
+
+    component.checkIfAlreadyExists();
+
+    expect(tariffsServiceMock.checkIfCardExist).not.toHaveBeenCalled();
+    expect(component.isCardExist).toBeFalsy();
+  });
+
   it('should check if card exist on create card method', fakeAsync(() => {
-    tariffsServiceMock.checkIfCardExist.and.returnValue(of(true));
+    (tariffsServiceMock.checkIfCardExist as jasmine.Spy).calls.reset();
+    component.courierId = 1;
+    component.selectedStation = [1];
+    component.regionId = 1;
+    component.selectedCities = [0, 1];
+
+    const spyCheckIfAlreadyExists = spyOn(component, 'checkIfAlreadyExists').and.callThrough();
     component.createCard();
     tick();
-    expect(component.isCardExist).toEqual(true);
+
+    expect(spyCheckIfAlreadyExists).toHaveBeenCalled();
+    expect(tariffsServiceMock.checkIfCardExist).toHaveBeenCalled();
+    expect(component.isCardExist).toEqual(false);
   }));
 
   it('should call create Card Object', () => {

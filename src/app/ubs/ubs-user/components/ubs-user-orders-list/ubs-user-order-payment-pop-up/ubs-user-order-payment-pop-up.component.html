@@ -98,7 +98,7 @@
       >
         {{
           'ubs-client-profile.payment.already-used'
-            | translate: { certDate: userCertificate.dateOfUse[userCertificate.dateOfUse.length - 1] }
+            | translate: { certDate: userCertificate.dateOfUse[userCertificate.dateOfUse.length - 1] || userCertificate.dateOfUse }
         }}
       </div>
       <div
