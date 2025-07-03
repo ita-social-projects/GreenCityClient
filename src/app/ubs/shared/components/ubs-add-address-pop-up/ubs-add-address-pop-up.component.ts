@@ -80,8 +80,10 @@ export class UBSAddAddressPopUpComponent implements OnInit {
       this.store.dispatch(UpdateAddress({ address: { ...this.data.address, ...this.address.value } }));
       this.dialogRef.close(this.addAddressForm.controls['address']?.value?.addressComment);
     } else {
-      this.store.dispatch(CreateAddress({ address: this.address.value }));
-      this.dialogRef.close('Added');
+      if (!this.data.addFromProfile) {
+        this.store.dispatch(CreateAddress({ address: this.address.value, hideSuccessPopup: false }));
+      }
+      this.dialogRef.close({ status: 'Added', value: this.address.value });
     }
   }
 

@@ -13,7 +13,7 @@ import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 import { UBSAddAddressPopUpComponent } from '@ubs/shared/components/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
-import { GetAddresses } from 'src/app/store/actions/order.actions';
+import { CreateAddress, GetAddresses } from 'src/app/store/actions/order.actions';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
 import { DeletingProfileReasonPopUpComponent } from 'src/app/ubs/ubs-admin/components/shared/components/deleting-profile-reason-pop-up/deleting-profile-reason-pop-up.component';
 import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
@@ -24,6 +24,7 @@ import { ConfirmationDialogComponent } from '../../../ubs-admin/components/share
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { AddressData } from '@ubs/ubs/models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -48,6 +49,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   googleIcon = SignInIcons.picGoogle;
   phoneMask = Masks.phoneMask;
   resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
+  tempAddedAddressHolder: AddressData[] = [];
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -268,6 +270,11 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     } else {
       this.isEditing = true;
     }
+    console.log(this.tempAddedAddressHolder);
+    this.tempAddedAddressHolder.forEach((addedAddress) => {
+      this.store.dispatch(CreateAddress({ address: addedAddress, hideSuccessPopup: true }));
+    });
+
     this.snackBar.openSnackBar('savedChangesToUserProfile');
   }
 
@@ -350,7 +357,14 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       address: {}
     };
 
-    this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
+    const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.value) {
+        this.tempAddedAddressHolder.push(result.value);
+        this.userProfile.addressDto.push(result.value);
+        console.log(this.tempAddedAddressHolder);
+      }
+    });
   }
 
   formatedPhoneNumber(num: string): string | void {
