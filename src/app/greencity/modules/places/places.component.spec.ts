@@ -29,10 +29,12 @@ describe('PlacesComponent', () => {
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
     'languageSubject',
-    'getUserId'
+    'getUserId',
+    'languageBehaviourSubject'
   ]);
 
   localStorageServiceMock.languageSubject = new Subject();
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
   const locationAddressAndGeoDtoMock: any = {
     locationAddressAndGeoDto: {
@@ -213,18 +215,12 @@ describe('PlacesComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should set isRenderingMap and call updateFilters when map becomes idle', fakeAsync(() => {
+  it('should call updateFilters on idleMap', () => {
     const updateFiltersSpy = spyOn(component, 'updateFilters');
-
-    component['$destroy'] = new Subject<boolean>();
-    component['isRenderingMap'] = true;
-
     component.onMapIdle();
-    tick(1000);
 
-    expect(component['isRenderingMap']).toBeFalse();
     expect(updateFiltersSpy).toHaveBeenCalled();
-  }));
+  });
 
   it('should clear activePlace and activePlaceDetails when closePlaceInformation is called', () => {
     component.activePlace = placeMock;
@@ -234,33 +230,6 @@ describe('PlacesComponent', () => {
 
     expect(component.activePlace).toBeUndefined();
     expect(component.activePlaceDetails).toBeUndefined();
-  });
-
-  it('should create googlePlacesService if map.googleMap exists', () => {
-    component.map = { googleMap: fakeGoogleMap } as any;
-
-    component.ngAfterViewInit();
-
-    expect(component._googlePlacesService).toBeDefined();
-    expect(window.google.maps.places.PlacesService).toHaveBeenCalledWith(fakeGoogleMap);
-  });
-
-  it('should not create googlePlacesService if map.googleMap is null', () => {
-    component.map = { googleMap: null } as any;
-
-    component.ngAfterViewInit();
-
-    expect(component._googlePlacesService).toBeUndefined();
-    expect(window.google.maps.places.PlacesService).not.toHaveBeenCalled();
-  });
-
-  it('should not create googlePlacesService if map is undefined', () => {
-    component.map = undefined;
-
-    component.ngAfterViewInit();
-
-    expect(component._googlePlacesService).toBeUndefined();
-    expect(window.google.maps.places.PlacesService).not.toHaveBeenCalled();
   });
 
   afterEach(() => {

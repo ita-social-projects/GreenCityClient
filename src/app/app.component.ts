@@ -1,10 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GetCurrentUserAction } from 'src/app/store/actions/auth.actions';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { CommonService } from './chat/service/common/common.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { distinctUntilChanged, filter, map, take, takeUntil } from 'rxjs';
+import { distinctUntilChanged, filter, map, Subject, take, takeUntil } from 'rxjs';
 import { ChatsService } from './chat/service/chats/chats.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MetaService } from 'src/app/shared/services/meta/meta.service';
@@ -14,7 +14,7 @@ import { MetaService } from 'src/app/shared/services/meta/meta.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   private store: Store = inject(Store);
   private googleScript: GoogleScript = inject(GoogleScript);
   private localeStorageService: LocalStorageService = inject(LocalStorageService);
@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   router: Router = inject(Router);
   chatsService: ChatsService = inject(ChatsService);
   metaService: MetaService = inject(MetaService);
-
+  private destroy$: Subject<void> = new Subject<void>();
   offline: boolean;
 
   ngOnInit(): void {
@@ -30,9 +30,10 @@ export class AppComponent implements OnInit {
     this.onNetworkStatusChange();
     window.addEventListener('online', this.onNetworkStatusChange.bind(this));
     window.addEventListener('offline', this.onNetworkStatusChange.bind(this));
-    this.localeStorageService.languageBehaviourSubject.subscribe((lang: string) => {
-      this.googleScript.load(lang);
-    });
+
+    const initialLang = this.localeStorageService.getCurrentLanguage();
+    this.googleScript.load(initialLang).then(() => {});
+
     this.store.dispatch(GetCurrentUserAction());
     this.router.events
       .pipe(
@@ -49,5 +50,10 @@ export class AppComponent implements OnInit {
 
   onNetworkStatusChange(): void {
     this.offline = !navigator.onLine;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -1,12 +1,15 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GoogleMap } from '@angular/google-maps';
 import { GoogleScript } from '@assets/google-script/google-script';
 import { defaultCoordinates } from '@assets/mocks/events/mock-events';
 import { Patterns } from '@assets/patterns/patterns';
-import { Subject, takeUntil } from 'rxjs';
+import { combineLatest, filter, from, Subject, takeUntil, BehaviorSubject } from 'rxjs';
 import { DateInformation, FormControllers, PlaceOnline } from 'src/app/greencity/modules/events/models/events.interface';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { debounceTime, switchMap, take } from 'rxjs/operators';
+
 @Component({
   selector: 'app-place-online',
   templateUrl: './place-online.component.html',
@@ -20,7 +23,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   isPlaceSelected: boolean;
   isOnline: boolean;
   isPlaceDisabled: boolean;
-  isRenderingMap: boolean;
   isLinkDisabled: boolean;
   mapMarkerCoords: google.maps.LatLngLiteral;
   @Input() daysForm: FormArray;
@@ -31,8 +33,12 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   mapOptions: google.maps.MapOptions;
   private subLink;
   private subPlace;
-  private subCoordinates;
-  private _autocomplete: google.maps.places.Autocomplete;
+  showMap = false;
+  private _autocomplete: google.maps.places.Autocomplete | null = null;
+  private googleGeocoder: google.maps.Geocoder | null = null;
+  private googlePlacesService: google.maps.places.PlacesService | null = null;
+  private defaultPosition = { coords: { lat: 49.84579567734425, lng: 24.025124653312258 } };
+
   private _regionOptions: google.maps.places.AutocompleteOptions = {
     types: ['address'],
     componentRestrictions: { country: 'UA' }
@@ -42,9 +48,14 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     place: ''
   };
   private $destroy: Subject<void> = new Subject();
+  private isPlaceSelected$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   constructor(
     private languageService: LanguageService,
-    private googleScript: GoogleScript
+    private googleScript: GoogleScript,
+    private localStorageService: LocalStorageService,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {}
 
   get coordinates() {
@@ -76,7 +87,11 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
 
   toggleForAllLocations(): void {
     const isApplied = !this.appliedPlaceForAll.value;
-    this.applyLocationToAllDays(isApplied ? this.coordinates.value : defaultCoordinates, isApplied ? this.place.value : '', isApplied);
+    this.applyLocationToAllDays(
+      isApplied ? this.coordinates.value : { ...defaultCoordinates, ...this.defaultPosition },
+      isApplied ? this.place.value : '',
+      isApplied
+    );
     isApplied ? this.subscribeToPlaceChanges() : this.unsubscribeFromPlaceChanges();
     this.appliedPlaceForAll.setValue(isApplied);
   }
@@ -85,23 +100,87 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     this.formGroup = this.dayFormGroup as FormGroup;
     this.isOnline = !!this.link.value;
     this.isPlaceSelected = !!this.coordinates.value.latitude;
+    this.isPlaceSelected$.next(this.isPlaceSelected);
     this.setMapOptions();
-    this.mapMarkerCoords = { lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude };
+
     if (this.dayNumber !== 0) {
       const firstDay = this.daysForm.value[0];
       this.applyInitialSettings(firstDay);
       this.subscribeToFormChanges();
     }
-    if (this.isPlaceSelected) {
-      this.setPlace();
+
+    combineLatest([this.localStorageService.languageBehaviourSubject.pipe(debounceTime(150)), this.isPlaceSelected$])
+      .pipe(
+        switchMap(([lang, placeSelected]) => {
+          if (placeSelected) {
+            this.ngZone.run(() => {
+              this.showMap = false;
+              this.cleanupGoogleMapUtilities();
+              this.cdr.detectChanges();
+            });
+            return from(this.googleScript.load(lang)).pipe(
+              switchMap(() =>
+                this.googleScript.mapReady.pipe(
+                  filter((ready) => ready),
+                  take(1)
+                )
+              )
+            );
+          } else {
+            this.ngZone.run(() => {
+              this.cleanupGoogleMapUtilities();
+              this.showMap = false;
+              this.cdr.detectChanges();
+            });
+            return from(Promise.resolve());
+          }
+        }),
+        takeUntil(this.$destroy)
+      )
+      .subscribe({
+        next: () => {
+          this.ngZone.run(() => {
+            this.showMap = true;
+            this.cdr.detectChanges();
+            this.initializeGoogleMapUtilities();
+          });
+        },
+        error: (e) => {
+          this.ngZone.run(() => {
+            this.showMap = false;
+            this.cleanupGoogleMapUtilities();
+            this.cdr.detectChanges();
+          });
+        }
+      });
+  }
+
+  private cleanupGoogleMapUtilities(): void {
+    if (this._autocomplete) {
+      this._autocomplete.unbindAll();
+      this._autocomplete = null;
     }
-    this.googleScript.$isRenderingMap.pipe(takeUntil(this.$destroy)).subscribe((value: boolean) => {
-      setTimeout(() => {
-        this.isRenderingMap = value;
-        this.setMapOptions();
+    this.googleGeocoder = null;
+    this.googlePlacesService = null;
+    this.map = null;
+  }
+
+  private initializeGoogleMapUtilities(): void {
+    if (typeof window?.google !== 'undefined' && typeof window?.google?.maps !== 'undefined' && this.map) {
+      if (!this.googleGeocoder && this.map) {
+        this.googleGeocoder = new google.maps.Geocoder();
+      }
+
+      if (this.map && this.map?.googleMap && !this.googlePlacesService) {
+        this.googlePlacesService = new google.maps.places.PlacesService(this.map.googleMap);
+      }
+
+      if (typeof window?.google !== 'undefined' && this.map && this.googleGeocoder && this.placesRef && this.placesRef.nativeElement) {
         this.setPlace();
-      }, 1000);
-    });
+        this._setPlaceAutocomplete();
+        this.updateMap({ lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude });
+      }
+    }
   }
 
   applyInitialSettings(firstDay: any): void {
@@ -110,6 +189,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
 
     this.isPlaceDisabled = firstDay.appliedPlaceForAll;
     this.isPlaceSelected = this.isPlaceSelected ? this.isPlaceSelected : firstDay.appliedPlaceForAll;
+    this.isPlaceSelected$.next(this.isPlaceSelected);
     this.place[firstDay.appliedPlaceForAll ? 'disable' : 'enable']();
 
     if (firstDay.appliedLinkForAll) {
@@ -144,29 +224,33 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   private subscribeToPlaceChanges(): void {
     const place = (this.daysForm.controls[0] as FormGroup).controls.place as FormControl;
     const coordinates = (this.daysForm.controls[0] as FormGroup).controls.coordinates as FormGroup;
-    this.subCoordinates = coordinates.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((data: PlaceOnline) => {
-      if (!this.subPlace) {
-        this.subPlace = place.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((place: string) => {
-          this.applyLocationToAllDays(data, place, true);
-        });
-      }
-    });
+
+    if (!this.subPlace) {
+      this.subPlace = place.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((place: string) => {
+        this.applyLocationToAllDays(coordinates.value, place, true);
+      });
+    }
   }
+
   private subscribeToLinkChanges(): void {
     const link = (this.daysForm.controls[0] as FormGroup).controls.onlineLink as FormControl;
     this.subLink = link.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((link: string) => {
       this.applyLinkToAllDays(link, true);
     });
   }
+
   private unsubscribeFromPlaceChanges(): void {
-    this.subCoordinates.unsubscribe();
     if (this.subPlace) {
       this.subPlace.unsubscribe();
       this.subPlace = null;
     }
   }
+
   private unsubscribeFromLinkChanges(): void {
-    this.subLink.unsubscribe();
+    if (this.subLink) {
+      this.subLink.unsubscribe();
+      this.subLink = null;
+    }
   }
 
   applyLocationToAllDays(coordinates: PlaceOnline, place: string, is: boolean): void {
@@ -196,135 +280,116 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
 
   toggleLocation(): void {
     this.isPlaceSelected = !this.isPlaceSelected;
+    this.isPlaceSelected$.next(this.isPlaceSelected);
+    this.formGroup.controls.place.setValidators(Validators.required);
 
-    if (this._lastLocation.place) {
+    if (this._lastLocation.place && this._lastLocation.coordinates) {
       this.formGroup.patchValue({
-        coordinates: {
-          ...this._lastLocation.coordinates
-        },
+        coordinates: { ...this._lastLocation.coordinates },
         place: this._lastLocation.place
       });
-      setTimeout(() => {
-        this.updateMap({ lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude });
-      }, 0);
-    } else {
-      this._setCurrentLocation();
     }
 
-    if (this.isPlaceSelected) {
-      this.formGroup.controls.place.setValidators(Validators.required);
-      setTimeout(() => {
-        this._setPlaceAutocomplete();
-      }, 0);
-    } else {
-      this.formGroup.controls.place.clearValidators();
-      if (this.appliedPlaceForAll.value) {
-        this.toggleForAllLocations();
-      }
-      this._autocomplete.unbindAll();
-      this.formGroup.patchValue({
-        coordinates: defaultCoordinates,
-        place: ''
-      });
-    }
+    this.formGroup.controls.place.updateValueAndValidity();
   }
 
   mapClick(event: google.maps.MapMouseEvent): void {
-    const coords = event.latLng.toJSON();
-    this.updateMapAndLocation(coords);
+    if (this.isPlaceSelected && typeof window !== 'undefined') {
+      const coords = event.latLng.toJSON();
+      this.updateMapAndLocation(coords);
+    }
   }
 
   private _setPlaceAutocomplete(): void {
-    this._autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this._regionOptions);
-    this._autocomplete.addListener('place_changed', () => {
-      const locationName = this._autocomplete.getPlace();
-      if (locationName.formatted_address) {
-        const lat = locationName.geometry.location.lat();
-        const lng = locationName.geometry.location.lng();
-        const coords = { lat, lng };
-        this.updateMapAndLocation(coords);
-        this.formGroup.patchValue({
-          place: locationName.formatted_address,
-          coordinates: { ...this.coordinates.value, latitude: coords.lat, longitude: coords.lng }
-        });
+    if (this.placesRef && this.placesRef.nativeElement && typeof window?.google?.maps?.places !== 'undefined') {
+      if (this._autocomplete) {
+        this._autocomplete.unbindAll();
       }
-    });
-  }
-
-  private _setCurrentLocation(): void {
-    navigator.geolocation.getCurrentPosition(
-      (position) => this.handleGeolocationSuccess(position),
-      (error) => this.handleGeolocationError(error)
-    );
-  }
-
-  private handleGeolocationSuccess(position: GeolocationPosition) {
-    if (!position.coords) {
-      return;
+      this._autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this._regionOptions);
+      this._autocomplete.addListener('place_changed', () => {
+        const locationName = this._autocomplete.getPlace();
+        if (locationName.geometry && locationName.geometry.location) {
+          const lat = locationName.geometry.location.lat();
+          const lng = locationName.geometry.location.lng();
+          const coords = { lat, lng };
+          this.updateMapAndLocation(coords);
+          this.formGroup.patchValue({
+            place: locationName.formatted_address,
+            coordinates: { ...this.coordinates.value, latitude: coords.lat, longitude: coords.lng }
+          });
+        }
+      });
     }
-    const latLngLiteral: google.maps.LatLngLiteral = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
-    };
-    this.updateMapAndLocation(latLngLiteral);
-  }
-
-  private handleGeolocationError(error: GeolocationPositionError) {
-    console.error(error);
   }
 
   private updateMap(latLngLiteral: google.maps.LatLngLiteral) {
-    this.mapMarkerCoords = latLngLiteral;
-    this.map.panTo(latLngLiteral);
-    this.map.center = latLngLiteral;
+    if (this.map && this.map?.googleMap && latLngLiteral.lat && latLngLiteral.lng && typeof window.google !== 'undefined') {
+      this.mapMarkerCoords = latLngLiteral;
+      this.map.panTo(latLngLiteral);
+      this.map.center = latLngLiteral;
+    }
   }
 
   private async updateMapAndLocation(latLngLiteral: google.maps.LatLngLiteral) {
-    this.mapMarkerCoords = latLngLiteral;
-    this.map.panTo(latLngLiteral);
-    this.map.center = latLngLiteral;
-    const geocoder = new google.maps.Geocoder();
+    if (!this.googleGeocoder || !latLngLiteral || !this.map) {
+      return;
+    }
 
-    await geocoder.geocode({ location: latLngLiteral, language: 'ua' }, (results, status) => {
-      if (status === google.maps.GeocoderStatus.OK && results[0]) {
-        const address_components = results[0].address_components;
-        this.coordinates.patchValue({
-          formattedAddressUk: results[0].formatted_address,
-          houseNumber: address_components[0]?.long_name,
-          streetUk: address_components[2]?.long_name,
-          cityUk: address_components[4]?.long_name,
-          regionUk: address_components[6]?.long_name,
-          countryUk: address_components[7]?.long_name
-        });
-      }
+    this.updateMap(latLngLiteral);
+
+    await new Promise<void>((resolve) => {
+      this.googleGeocoder.geocode({ location: latLngLiteral, language: 'uk' }, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK && results[0]) {
+          const address_components = results[0].address_components;
+          this.coordinates.patchValue({
+            formattedAddressUk: results[0].formatted_address,
+            houseNumber: address_components.find((comp) => comp.types.includes('street_number'))?.long_name || '',
+            streetUk: address_components.find((comp) => comp.types.includes('route'))?.long_name || '',
+            cityUk: address_components.find((comp) => comp.types.includes('locality'))?.long_name || '',
+            regionUk: address_components.find((comp) => comp.types.includes('administrative_area_level_1'))?.long_name || '',
+            countryUk: address_components.find((comp) => comp.types.includes('country'))?.long_name || ''
+          });
+        }
+        resolve();
+      });
     });
-    await geocoder.geocode({ location: latLngLiteral, language: 'en' }, (results, status) => {
-      if (status === google.maps.GeocoderStatus.OK && results[0]) {
-        const address_components = results[0].address_components;
-        this.coordinates.patchValue({
-          ...this.coordinates.value,
-          formattedAddressEn: results[0].formatted_address,
-          streetEn: address_components[2]?.long_name,
-          cityEn: address_components[4]?.long_name,
-          regionEn: address_components[6]?.long_name,
-          countryEn: address_components[7]?.long_name
-        });
-      }
+
+    await new Promise<void>((resolve) => {
+      this.googleGeocoder.geocode({ location: latLngLiteral, language: 'en' }, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK && results[0]) {
+          const address_components = results[0].address_components;
+          this.coordinates.patchValue({
+            ...this.coordinates.value,
+            formattedAddressEn: results[0].formatted_address,
+            streetEn: address_components.find((comp) => comp.types.includes('route'))?.long_name || '',
+            cityEn: address_components.find((comp) => comp.types.includes('locality'))?.long_name || '',
+            regionEn: address_components.find((comp) => comp.types.includes('administrative_area_level_1'))?.long_name || '',
+            countryEn: address_components.find((comp) => comp.types.includes('country'))?.long_name || ''
+          });
+        }
+        resolve();
+      });
     });
+
     this.coordinates.patchValue({ ...this.coordinates.value, longitude: latLngLiteral.lng, latitude: latLngLiteral.lat });
     this.setPlace();
     this._lastLocation = { coordinates: this.coordinates.value, place: this.place.value };
   }
 
   private setPlace(): void {
-    this.place.setValue(
-      this.languageService.getLangValue(this.coordinates.value.formattedAddressUk, this.coordinates.value.formattedAddressEn)
-    );
+    if (this.coordinates.value.latitude && this.coordinates.value.longitude) {
+      this.place.setValue(
+        this.languageService.getLangValue(this.coordinates.value.formattedAddressUk, this.coordinates.value.formattedAddressEn)
+      );
+    }
   }
 
   private setMapOptions(): void {
+    const initialLat = this.coordinates.value.latitude || this.defaultPosition.coords.lat;
+    const initialLng = this.coordinates.value.longitude || this.defaultPosition.coords.lng;
+
     this.mapOptions = {
-      center: { lat: this.coordinates.value.latitude, lng: this.coordinates.value.longitude },
+      center: { lat: initialLat, lng: initialLng },
       zoom: 8,
       gestureHandling: 'greedy',
       minZoom: 4,
@@ -334,5 +399,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.$destroy.next();
     this.$destroy.complete();
+    this.isPlaceSelected$.complete();
+    this.cleanupGoogleMapUtilities();
   }
 }
