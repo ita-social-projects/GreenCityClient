@@ -26,6 +26,8 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.loadUnauthorizedUsers();
     this.loadAuthorizedUsers();
+    console.log(this.chats);
+    console.log(this.selectedChat);
   }
 
   onFileSelected(event: Event): void {
@@ -121,6 +123,7 @@ export class ChatComponent implements OnInit {
           messages: [],
           isAuthorized: true
         }));
+        console.log(authorizedChats);
         this.chats.push(...authorizedChats);
       },
       error: (err) => {
