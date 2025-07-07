@@ -173,48 +173,12 @@ describe('PlacesComponent', () => {
   }));
 
   beforeEach(() => {
-    const predictionList = [
-      { description: 'Place 1', place_id: '1' },
-      { description: 'Place 2', place_id: '2' }
-    ];
-
-    class MockLatLng {
-      private _lat: number;
-      private _lng: number;
-
-      constructor(lat: number, lng: number) {
-        this._lat = lat;
-        this._lng = lng;
-      }
-
-      lat(): number {
-        return this._lat;
-      }
-
-      lng(): number {
-        return this._lng;
-      }
-    }
-
-    class MockAutocompleteSessionToken {}
-
-    (window as any).google = {
+    window.google = {
       maps: {
-        LatLng: MockLatLng,
         places: {
-          AutocompleteSessionToken: MockAutocompleteSessionToken,
-          AutocompleteService: class {
-            getPlacePredictions(request, callback) {
-              return Promise.resolve(callback(predictionList, 'OK'));
-            }
-          }
-        },
-        Geocoder: class {
-          geocode(params) {
-            return Promise.resolve({
-              results: [{ geometry: { location: { lat: () => 123, lng: () => 456 } } }]
-            });
-          }
+          PlacesService: jasmine.createSpy('PlacesService').and.callFake(function (map) {
+            this.map = map;
+          })
         }
       }
     };
@@ -249,7 +213,7 @@ describe('PlacesComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  xit('should set isRenderingMap and call updateFilters when map becomes idle', fakeAsync(() => {
+  it('should set isRenderingMap and call updateFilters when map becomes idle', fakeAsync(() => {
     const updateFiltersSpy = spyOn(component, 'updateFilters');
 
     component['$destroy'] = new Subject<boolean>();
@@ -272,7 +236,7 @@ describe('PlacesComponent', () => {
     expect(component.activePlaceDetails).toBeUndefined();
   });
 
-  xit('should create googlePlacesService if map.googleMap exists', () => {
+  it('should create googlePlacesService if map.googleMap exists', () => {
     component.map = { googleMap: fakeGoogleMap } as any;
 
     component.ngAfterViewInit();
@@ -281,7 +245,7 @@ describe('PlacesComponent', () => {
     expect(window.google.maps.places.PlacesService).toHaveBeenCalledWith(fakeGoogleMap);
   });
 
-  xit('should not create googlePlacesService if map.googleMap is null', () => {
+  it('should not create googlePlacesService if map.googleMap is null', () => {
     component.map = { googleMap: null } as any;
 
     component.ngAfterViewInit();
@@ -290,7 +254,7 @@ describe('PlacesComponent', () => {
     expect(window.google.maps.places.PlacesService).not.toHaveBeenCalled();
   });
 
-  xit('should not create googlePlacesService if map is undefined', () => {
+  it('should not create googlePlacesService if map is undefined', () => {
     component.map = undefined;
 
     component.ngAfterViewInit();
