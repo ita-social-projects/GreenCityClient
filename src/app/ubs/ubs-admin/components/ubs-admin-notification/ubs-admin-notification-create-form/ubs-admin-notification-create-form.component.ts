@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { NotificationsService } from 'src/app/ubs/ubs-admin/services/notifications.service';
@@ -11,7 +11,8 @@ import { NotificationsService } from 'src/app/ubs/ubs-admin/services/notificatio
 })
 export class UbsAdminNotificationCreateFormComponent implements OnInit {
   form: FormGroup;
-  currentLanguage: string;
+  userCategories = ['USERS_WITH_ORDERS_MADE_LESS_THAN_3_MONTHS'];
+  receiverTypes = ['EMAIL'];
 
   constructor(
     private fb: FormBuilder,
@@ -21,22 +22,41 @@ export class UbsAdminNotificationCreateFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.form = this.fb.group({
-      titleEn: [''],
-      titleUk: [''],
-      triggerDescriptionEn: [''],
-      triggerDescriptionUk: [''],
-      timeDescriptionEn: [''],
-      timeDescriptionUk: [''],
-      schedule: [''],
-      status: ['INACTIVE'] // or default
+      titleEn: ['', Validators.required],
+      titleUk: ['', Validators.required],
+      schedule: ['', Validators.required],
+      userCategory: [this.userCategories[0], Validators.required],
+      bodyEn: ['', Validators.required],
+      bodyUk: ['', Validators.required],
+      notificationReceiverType: [this.receiverTypes[0], Validators.required]
     });
   }
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.notificationsService.createNotification(this.form.value).subscribe(() => {
+      const payload = {
+        notificationTemplateUpdateInfo: {
+          titleEn: this.form.value.titleEn,
+          titleUk: this.form.value.titleUk,
+          schedule: this.form.value.schedule,
+          trigger: 'SOME_TRIGGER',
+          type: 'SOME_TYPE',
+          time: 'SOME_TIME'
+        },
+        platforms: [
+          {
+            name: '',
+            nameEn: '',
+            status: 'ACTIVE',
+            bodyEn: this.form.value.bodyEn,
+            bodyUk: this.form.value.bodyUk,
+            receiverType: this.form.value.notificationReceiverType
+          }
+        ]
+      };
+
+      this.notificationsService.createNotification(payload).subscribe(() => {
         this.router.navigate(['/ubs-admin/notifications']);
       });
     }
