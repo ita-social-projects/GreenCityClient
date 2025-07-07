@@ -331,9 +331,7 @@ describe('UbsUserProfilePageComponent', () => {
       addressDto: [
         {
           ...component.userForm.value.address[0],
-          id: userProfileDataMock.addressDto[0].id,
-          actual: userProfileDataMock.addressDto[0].actual,
-          coordinates: userProfileDataMock.addressDto[0].coordinates
+          ...userProfileDataMock.addressDto[0]
         }
       ],
       recipientEmail: component.userForm.value.recipientEmail,
@@ -673,6 +671,7 @@ describe('UbsUserProfilePageComponent', () => {
       expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledTimes(1);
 
       tick();
+      flush();
 
       expect(component.isFetching).toBeFalse();
       expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('error');
