@@ -50,6 +50,8 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   phoneMask = Masks.phoneMask;
   resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   tempAddedAddressHolder: AddressData[] = [];
+  tempRemovedAddressHolder: Address[] = [];
+  savedUserAddresses: Address[];
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -111,6 +113,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: UserProfile) => {
           this.userProfile = res;
+          this.savedUserAddresses = [...res.addressDto];
           this.userInit();
           this.setUrlToBot();
           this.isFetching = false;
@@ -155,24 +158,15 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     this.isFetching = false;
   }
 
-  deleteAddress(address: Address) {
-    this.orderService
-      .deleteAddress(address)
-      .pipe(take(1))
-      .subscribe((list: { addressList: Address[] }) => {
-        this.userProfile.addressDto = list.addressList;
-
-        const addressArray = this.userForm.get('address');
-        if (!(addressArray instanceof FormArray)) {
-          return;
-        }
-
-        const index = addressArray.controls.findIndex((ctrl) => ctrl.value?.id === address.id);
-        if (index !== -1) {
-          addressArray.removeAt(index);
-          this.userForm.markAsDirty();
-        }
-      });
+  deleteAddress(address: Address | AddressData) {
+    if (this.tempAddedAddressHolder.find((addr) => addr === address)) {
+      this.tempAddedAddressHolder = this.tempAddedAddressHolder.filter((addr) => addr !== address);
+    } else {
+      this.tempRemovedAddressHolder.push(address as Address);
+    }
+    this.userProfile.addressDto = this.userProfile.addressDto.filter((addr) => addr !== address);
+    this.userInit();
+    this.userForm.markAsDirty();
   }
 
   resetValue(): void {
@@ -203,6 +197,9 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   onCancel(): void {
+    this.userProfile.addressDto = [...this.savedUserAddresses];
+    this.tempAddedAddressHolder.length = 0;
+    this.tempRemovedAddressHolder.length = 0;
     this.userInit();
     this.isEditing = false;
   }
@@ -251,6 +248,9 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         }
       });
 
+      this.saveAddedAddresses();
+      this.deleteChosenAddresses();
+
       this.clientProfileService
         .postDataClientProfile(submitData)
         .pipe(take(1))
@@ -258,6 +258,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
           next: (res: UserProfile) => {
             this.isFetching = false;
             this.userProfile = res;
+            this.savedUserAddresses = [...res.addressDto];
             this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
             this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
           },
@@ -270,12 +271,32 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     } else {
       this.isEditing = true;
     }
-    console.log(this.tempAddedAddressHolder);
-    this.tempAddedAddressHolder.forEach((addedAddress) => {
-      this.store.dispatch(CreateAddress({ address: addedAddress, hideSuccessPopup: true }));
-    });
-
     this.snackBar.openSnackBar('savedChangesToUserProfile');
+  }
+
+  saveAddedAddresses() {
+    if (this.tempAddedAddressHolder.length) {
+      this.tempAddedAddressHolder.forEach((addedAddress) => {
+        this.store.dispatch(CreateAddress({ address: addedAddress, hideSuccessPopup: true }));
+      });
+      this.tempAddedAddressHolder.length = 0;
+    }
+  }
+
+  deleteChosenAddresses() {
+    if (this.tempRemovedAddressHolder.length) {
+      this.tempRemovedAddressHolder.forEach((removedAddress: Address) => {
+        this.orderService
+          .deleteAddress(removedAddress)
+          .pipe(take(1))
+          .subscribe({
+            error: () => {
+              this.snackBar.openSnackBar('error');
+            }
+          });
+      });
+      this.tempRemovedAddressHolder.length = 0;
+    }
   }
 
   goToTelegramUrl() {
@@ -354,15 +375,17 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     dialogConfig.data = {
       edit: false,
       addFromProfile: true,
-      address: {}
+      address: {},
+      addressesFromProfile: this.tempAddedAddressHolder
     };
 
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.value) {
+      if (result && result.value) {
         this.tempAddedAddressHolder.push(result.value);
         this.userProfile.addressDto.push(result.value);
-        console.log(this.tempAddedAddressHolder);
+        this.userInit();
+        this.userForm.markAsDirty();
       }
     });
   }
