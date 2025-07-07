@@ -47,7 +47,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   alternativeEmailDisplay = false;
   googleIcon = SignInIcons.picGoogle;
   phoneMask: string = Masks.phoneMask;
-  phonePrefi: string = phonePrefix;
+  phonePrefix: string = phonePrefix;
   resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
 
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -363,12 +363,12 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
   onPhoneFocus(): void {
     if (!this.recipientPhone.value) {
-      this.recipientPhone.setValue(this.phoneMask);
+      this.recipientPhone.setValue(this.phonePrefix);
     }
   }
 
   onPhoneBlur(): void {
-    if (this.recipientPhone.value === this.phoneMask) {
+    if (this.recipientPhone.value === this.phonePrefix) {
       this.recipientPhone.setValue('');
       this.recipientPhone.markAsUntouched();
     }
