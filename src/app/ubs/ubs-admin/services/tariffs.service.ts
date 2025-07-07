@@ -17,6 +17,10 @@ export class TariffsService {
     private langService: LanguageService
   ) {}
 
+  getTariffCardInfo(tariffId: number) {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/tariff/${tariffId}`);
+  }
+
   getAllTariffsForService(tariffId: number) {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getTariffService`);
   }

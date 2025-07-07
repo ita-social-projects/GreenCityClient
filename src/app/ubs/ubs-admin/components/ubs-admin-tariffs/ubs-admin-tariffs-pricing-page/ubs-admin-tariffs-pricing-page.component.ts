@@ -448,11 +448,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   getSelectedTariffCard(): void {
+    const tariffId = this.selectedCardId;
     this.tariffsService
-      .getCardInfo()
+      .getTariffCardInfo(tariffId)
       .pipe(takeUntil(this.destroy))
-      .subscribe((res: TariffCard[]) => {
-        const card = res.find((it) => it.cardId === this.selectedCardId);
+      .subscribe((card: TariffCard) => {
         this.selectedCard = {
           courierUk: card.courierDto.nameUk,
           courierEn: card.courierDto.nameEn,
