@@ -101,7 +101,9 @@ export class NotificationsService {
   getAllNotificationTemplates(page = 0, size = 10): Observable<NotificationTemplatesPage> {
     return this.http.get<NotificationTemplatesPage>(`${ubsAdminNotificationLink}/get-all-templates?page=${page}&size=${size}`);
   }
-
+  createNotification(notification: NotificationTemplateUpdate): Observable<any> {
+    return this.http.post(`${ubsAdminNotificationLink}/create-template`, notification);
+  }
   getNotificationTemplate(id: number): Observable<NotificationTemplate> {
     return this.http
       .get<NotificationTemplate>(`${ubsAdminNotificationLink}/get-template/${id}`)

@@ -85,4 +85,7 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   navigateToNotification(id: number) {
     this.router.navigate(['..', 'notification', id], { relativeTo: this.route });
   }
+  navigateToCreateNotification(): void {
+    this.router.navigate(['..', 'notification', 'create'], { relativeTo: this.route });
+  }
 }
