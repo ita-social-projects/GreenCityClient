@@ -19,7 +19,7 @@ import { DeletingProfileReasonPopUpComponent } from 'src/app/ubs/ubs-admin/compo
 import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { Masks, Patterns, phonePrefix } from 'src/assets/patterns/patterns';
 import { ConfirmationDialogComponent } from '../../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
@@ -47,6 +47,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   alternativeEmailDisplay = false;
   googleIcon = SignInIcons.picGoogle;
   phoneMask: string = Masks.phoneMask;
+  phonePrefi: string = phonePrefix;
   resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
 
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -361,13 +362,13 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   onPhoneFocus(): void {
-    if (this.recipientPhone.value === '') {
-      this.recipientPhone.setValue('+380');
+    if (!this.recipientPhone.value) {
+      this.recipientPhone.setValue(this.phoneMask);
     }
   }
 
   onPhoneBlur(): void {
-    if (this.recipientPhone.value === '+380') {
+    if (this.recipientPhone.value === this.phoneMask) {
       this.recipientPhone.setValue('');
       this.recipientPhone.markAsUntouched();
     }

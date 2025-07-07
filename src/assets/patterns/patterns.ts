@@ -23,7 +23,7 @@ export const Patterns = {
   orderEcoStorePattern: /^\d{1,8}$/,
 
   // prettier-ignore
-  ubsMailPattern: 
+  ubsMailPattern:
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
   paymentAmountPattern: '^[0-9]+(.[0-9]{1,2})?$',
   certificateMonthCount: '^[0-9]{1,2}$',
@@ -57,3 +57,5 @@ export const Masks = {
   servicesMask: '000',
   phoneMask: '{+380} (00) 000 00 00'
 };
+
+export const phonePrefix = '+380';
