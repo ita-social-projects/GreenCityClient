@@ -743,4 +743,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       this.dialogRef.close();
     }
   }
+
+  onBlur(formControlName: string) {
+    if (this.CardForm.contains(formControlName)) {
+      this.CardForm.get(formControlName).setValue('');
+    }
+  }
 }
