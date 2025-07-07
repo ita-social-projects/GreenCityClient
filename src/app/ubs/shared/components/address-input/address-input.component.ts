@@ -314,7 +314,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   onUseUserLocation(isUseUserLocation: boolean) {
-    if (this.edit) {
+    if (!this.isUneditableStatus) {
       this.isShowMap = isUseUserLocation;
 
       if (isUseUserLocation) {
