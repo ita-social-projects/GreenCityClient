@@ -42,10 +42,8 @@ jobs:
       - name: Install
         run: |
           npm install
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
-          sudo apt-get update
-          sudo apt-get install google-chrome-stable -y
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_125.0.6422.76-1_amd64.deb
+          sudo apt-get install ./google-chrome-stable_125.0.6422.76-1_amd64.deb  -y --allow-downgrades
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.0.0.4432-linux.zip
           unzip sonar-scanner-cli-6.0.0.4432-linux.zip
           sudo mv sonar-scanner-6.0.0.4432-linux /opt/sonar-scanner
