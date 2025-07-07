@@ -341,6 +341,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   addSelectedRegion(event: MatAutocompleteSelectedEvent): void {
+    if (!this.locations?.length) {
+      return;
+    }
     let id;
     let name;
     let nameUa;
@@ -379,6 +382,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   enableCity(filteredTariffCards: Array<any>): void {
+    if (!this.locations?.length) {
+      return;
+    }
     const currentRegion = this.locations.filter((element) => element.regionId === this.selectedRegions[0].id);
     this.currentCities = currentRegion[0].locationsDto;
 
@@ -741,6 +747,12 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       });
     } else {
       this.dialogRef.close();
+    }
+  }
+
+  onBlur(formControlName: string) {
+    if (this.CardForm.contains(formControlName)) {
+      this.CardForm.get(formControlName).setValue('');
     }
   }
 }
