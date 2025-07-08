@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { NotificationsService } from 'src/app/ubs/ubs-admin/services/notifications.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-ubs-admin-notification-create-form',
@@ -18,7 +19,8 @@ export class UbsAdminNotificationCreateFormComponent implements OnInit {
     private fb: FormBuilder,
     private notificationsService: NotificationsService,
     private router: Router,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -27,7 +29,6 @@ export class UbsAdminNotificationCreateFormComponent implements OnInit {
       titleUk: ['', Validators.required],
       schedule: ['', Validators.required],
       userCategory: [this.userCategories[0], Validators.required],
-      // dynamic body fields per receiver type
       bodyUk_EMAIL: ['', Validators.required],
       bodyEn_EMAIL: ['', Validators.required],
       bodyUk_SITE: ['', Validators.required],
@@ -51,10 +52,25 @@ export class UbsAdminNotificationCreateFormComponent implements OnInit {
         }))
       };
 
-      this.notificationsService.createNotification(payload).subscribe(() => {
-        this.router.navigate(['/ubs-admin/notifications']);
+      this.notificationsService.createNotification(payload).subscribe({
+        next: () => {
+          this.snackBar.open('Notification successfully created!', 'Close', {
+            duration: 3000,
+            panelClass: ['snack-success']
+          });
+          this.router.navigate(['/ubs-admin/notifications']);
+        },
+        error: () => {
+          this.snackBar.open('Failed to create notification. Please try again.', 'Close', {
+            duration: 5000,
+            panelClass: ['snack-error']
+          });
+        }
       });
     }
+  }
+  onCancel(): void {
+    this.router.navigate(['/ubs/admin/notifications']);
   }
 
   private capitalize(word: string): string {
