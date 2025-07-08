@@ -135,24 +135,26 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       this.setCard();
     });
     this.initForm();
-    this.getReceivingStation();
     this.region.valueChanges.pipe(takeUntil(this.destroy)).subscribe((value) => {
       this.checkRegionValue(value);
       this.selectedCities = [];
       this.setCountOfCheckedCity();
     });
     this.setStateValue();
-    this.getExistingCard(this.filterData);
-    this.languageService
-      .getCurrentLangObs()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => {
-        this.getLocations();
-        this.translateSelectedCity();
-        this.setCountOfCheckedCity();
-        this.setStationPlaceholder();
-        this.getCouriers();
-      });
+    if (this.showAllTariff) {
+      this.getReceivingStation();
+      this.getExistingCard(this.filterData);
+      this.languageService
+        .getCurrentLangObs()
+        .pipe(takeUntil(this.destroy))
+        .subscribe(() => {
+          this.getLocations();
+          this.translateSelectedCity();
+          this.setCountOfCheckedCity();
+          this.setStationPlaceholder();
+          this.getCouriers();
+        });
+    }
     this.definitionUserAuthorities();
   }
 
@@ -231,11 +233,21 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     ].every((el) => el);
     if (this.courier.value && this.selectedCities.length && this.selectedStation.length) {
       this.createCardDto();
+      if (
+        !this.createCardObj.courierId ||
+        !this.createCardObj.receivingStationsIdList.length ||
+        !this.createCardObj.locationIdList.length ||
+        !this.createCardObj.regionId
+      ) {
+        return;
+      }
       this.tariffsService
         .checkIfCardExist(this.createCardObj)
         .pipe(takeUntil(this.destroy))
-        .subscribe((response) => {
-          this.isCardExist = JSON.parse(JSON.stringify(response));
+        .subscribe({
+          next: (response) => {
+            this.isCardExist = JSON.parse(JSON.stringify(response));
+          }
         });
     } else {
       this.isCardExist = false;
@@ -479,17 +491,23 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   onSelectCourier(event): void {
     if (event.value === 'all') {
+      this.courierId = null;
       Object.assign(this.filterData, { courier: '' });
     } else {
       const selectedValue = this.couriers.find((ob) => {
         const searchingFilter = this.languageService.getLangValue(ob.nameUk, ob.nameEn);
         return searchingFilter === event.value;
       });
-      this.courierNameEng = selectedValue.nameEn;
-      this.courierNameUk = selectedValue.nameUk;
-      this.courierId = selectedValue.courierId;
-      Object.assign(this.filterData, { courier: this.courierId });
+
+      this.courierId = selectedValue?.courierId ?? null;
+      Object.assign(this.filterData, { courier: this.courierId ?? '' });
+
+      if (selectedValue) {
+        this.courierNameEng = selectedValue.nameEn;
+        this.courierNameUk = selectedValue.nameUk;
+      }
     }
+
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
   }
@@ -646,22 +664,30 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  regionSelected(event) {
+  regionSelected(event): void {
     if (this.isRegionValueAll()) {
+      this.regionId = null;
       Object.assign(this.filterData, { region: '' });
     } else {
-      const selectedValue = this.locations.filter((it) =>
-        it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
+      const selectedLocation = this.locations.find((location) =>
+        location.regionTranslationDtos.some((dto) => dto.regionName === event.option.value)
       );
 
-      this.regionEnglishName = selectedValue
-        .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.EN).map((i) => i.regionName))
-        .flat(2)[0];
-      this.regionNameUk = selectedValue
-        .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.UA).map((i) => i.regionName))
-        .flat(2)[0];
-      this.regionId = selectedValue.find((it) => it.regionId).regionId;
-      Object.assign(this.filterData, { region: this.regionId });
+      if (selectedLocation) {
+        this.regionId = selectedLocation.regionId;
+
+        this.regionEnglishName = selectedLocation.regionTranslationDtos
+          .filter((dto) => dto.languageCode === Language.EN)
+          .map((dto) => dto.regionName)[0];
+
+        this.regionNameUk = selectedLocation.regionTranslationDtos
+          .filter((dto) => dto.languageCode === Language.UA)
+          .map((dto) => dto.regionName)[0];
+
+        Object.assign(this.filterData, { region: this.regionId });
+      } else {
+        this.regionId = null;
+      }
     }
 
     this.filteredRegions = of(
@@ -669,6 +695,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         it.regionTranslationDtos.filter((ob) => ob.languageCode === this.currentLang).map((ob) => ob.regionName)
       )
     );
+
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
     this.canRegionInputValueBeRegion = true;
