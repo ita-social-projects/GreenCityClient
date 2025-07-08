@@ -1,42 +1,41 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="notification-form">
   <div class="form-group">
-    <label>Title (UA):</label>
-    <input type="text" class="form-control" formControlName="titleUk" />
+    <label for="titleUk">Title (UA):</label>
+    <input id="titleUk" formControlName="titleUk" type="text" class="form-control" />
   </div>
 
   <div class="form-group">
-    <label>Title (EN):</label>
-    <input type="text" class="form-control" formControlName="titleEn" />
+    <label for="titleEn">Title (EN):</label>
+    <input id="titleEn" formControlName="titleEn" type="text" class="form-control" />
   </div>
 
   <div class="form-group">
-    <label>Schedule (CRON):</label>
-    <input type="text" class="form-control" formControlName="schedule" />
+    <label for="schedule">Schedule (CRON):</label>
+    <input id="schedule" formControlName="schedule" type="text" class="form-control" />
   </div>
 
   <div class="form-group">
-    <label>User Category:</label>
-    <select class="form-control" formControlName="userCategory">
+    <label for="userCategory">User Category:</label>
+    <select id="userCategory" formControlName="userCategory" class="form-control">
       <option *ngFor="let category of userCategories" [value]="category">{{ category }}</option>
     </select>
   </div>
 
-  <div class="form-group">
-    <label>Body (UA):</label>
-    <textarea class="form-control" formControlName="bodyUk"></textarea>
+  <div *ngFor="let platform of receiverTypes" class="platform-group">
+    <fieldset class="platform-fieldset">
+      <legend class="platform-legend">{{ platform }}</legend>
+
+      <div class="form-group">
+        <label [for]="'bodyUk_' + platform">Body (UA):</label>
+        <textarea [id]="'bodyUk_' + platform" [formControlName]="'bodyUk_' + platform" class="form-control textarea"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label [for]="'bodyEn_' + platform">Body (EN):</label>
+        <textarea [id]="'bodyEn_' + platform" [formControlName]="'bodyEn_' + platform" class="form-control textarea"></textarea>
+      </div>
+    </fieldset>
   </div>
 
-  <div class="form-group">
-    <label>Body (EN):</label>
-    <textarea class="form-control" formControlName="bodyEn"></textarea>
-  </div>
-
-  <div class="form-group">
-    <label>Receiver Type:</label>
-    <select class="form-control" formControlName="notificationReceiverType">
-      <option *ngFor="let type of receiverTypes" [value]="type">{{ type }}</option>
-    </select>
-  </div>
-
-  <button class="btn btn-success" type="submit" [disabled]="form.invalid">Create Notification</button>
+  <button type="submit" [disabled]="form.invalid" class="submit-button">Create Notification</button>
 </form>

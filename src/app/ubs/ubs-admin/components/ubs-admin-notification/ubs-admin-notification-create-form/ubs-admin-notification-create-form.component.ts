@@ -12,7 +12,7 @@ import { NotificationsService } from 'src/app/ubs/ubs-admin/services/notificatio
 export class UbsAdminNotificationCreateFormComponent implements OnInit {
   form: FormGroup;
   userCategories = ['USERS_WITH_ORDERS_MADE_LESS_THAN_3_MONTHS'];
-  receiverTypes = ['EMAIL'];
+  receiverTypes = ['EMAIL', 'SITE', 'MOBILE'];
 
   constructor(
     private fb: FormBuilder,
@@ -27,38 +27,37 @@ export class UbsAdminNotificationCreateFormComponent implements OnInit {
       titleUk: ['', Validators.required],
       schedule: ['', Validators.required],
       userCategory: [this.userCategories[0], Validators.required],
-      bodyEn: ['', Validators.required],
-      bodyUk: ['', Validators.required],
-      notificationReceiverType: [this.receiverTypes[0], Validators.required]
+      // dynamic body fields per receiver type
+      bodyUk_EMAIL: ['', Validators.required],
+      bodyEn_EMAIL: ['', Validators.required],
+      bodyUk_SITE: ['', Validators.required],
+      bodyEn_SITE: ['', Validators.required],
+      bodyUk_MOBILE: ['', Validators.required],
+      bodyEn_MOBILE: ['', Validators.required]
     });
   }
 
   onSubmit(): void {
     if (this.form.valid) {
       const payload = {
-        notificationTemplateUpdateInfo: {
-          titleEn: this.form.value.titleEn,
-          titleUk: this.form.value.titleUk,
-          schedule: this.form.value.schedule,
-          trigger: 'SOME_TRIGGER',
-          type: 'SOME_TYPE',
-          time: 'SOME_TIME'
-        },
-        platforms: [
-          {
-            name: '',
-            nameEn: '',
-            status: 'ACTIVE',
-            bodyEn: this.form.value.bodyEn,
-            bodyUk: this.form.value.bodyUk,
-            receiverType: this.form.value.notificationReceiverType
-          }
-        ]
+        titleEn: this.form.value.titleEn,
+        titleUk: this.form.value.titleUk,
+        schedule: this.form.value.schedule,
+        userCategory: this.form.value.userCategory,
+        platforms: this.receiverTypes.map((type) => ({
+          notificationReceiverType: type,
+          bodyUk: this.form.value[`bodyUk_${type}`],
+          bodyEn: this.form.value[`bodyEn_${type}`]
+        }))
       };
 
       this.notificationsService.createNotification(payload).subscribe(() => {
         this.router.navigate(['/ubs-admin/notifications']);
       });
     }
+  }
+
+  private capitalize(word: string): string {
+    return word.charAt(0).toUpperCase() + word.slice(1);
   }
 }
