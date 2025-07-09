@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { NotificationsService } from 'src/app/ubs/ubs-admin/services/notifications.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -19,7 +18,6 @@ export class UbsAdminNotificationCreateFormComponent implements OnInit {
     private fb: FormBuilder,
     private notificationsService: NotificationsService,
     private router: Router,
-    private localStorageService: LocalStorageService,
     private snackBar: MatSnackBar
   ) {}
 
