@@ -1,16 +1,16 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="notification-form">
   <div class="form-group">
-    <label for="titleUk">Title (UA):</label>
+    <label for="titleUk">{{ 'ubs-notifications.form.titleUk' | translate }}</label>
     <input id="titleUk" formControlName="titleUk" type="text" class="form-control" />
   </div>
   <app-input-error *ngIf="form.get('titleUk').invalid && form.get('titleUk').touched" [formElement]="form.get('titleUk')"></app-input-error>
   <div class="form-group">
-    <label for="titleEn">Title (EN):</label>
+    <label for="titleEn">{{ 'ubs-notifications.form.titleEn' | translate }}</label>
     <input id="titleEn" formControlName="titleEn" type="text" class="form-control" />
   </div>
   <app-input-error *ngIf="form.get('titleEn').invalid && form.get('titleEn').touched" [formElement]="form.get('titleEn')"></app-input-error>
   <div class="form-group">
-    <label for="schedule">Schedule (CRON):</label>
+    <label for="schedule">{{ 'ubs-notifications.form.schedule' | translate }}</label>
     <input id="schedule" formControlName="schedule" type="text" class="form-control" />
   </div>
   <app-input-error
@@ -19,7 +19,7 @@
   ></app-input-error>
 
   <div class="form-group">
-    <label for="userCategory">User Category:</label>
+    <label for="userCategory">{{ 'ubs-notifications.form.userCategory' | translate }}</label>
     <select id="userCategory" formControlName="userCategory" class="form-control">
       <option *ngFor="let category of userCategories" [value]="category">{{ category }}</option>
     </select>
@@ -33,7 +33,7 @@
       <legend class="platform-legend">{{ platform }}</legend>
 
       <div class="form-group">
-        <label [for]="'bodyUk_' + platform">Body (UA):</label>
+        <label [for]="'bodyUk_' + platform">{{ 'ubs-notifications.form.bodyUk' | translate }}</label>
         <textarea [id]="'bodyUk_' + platform" [formControlName]="'bodyUk_' + platform" class="form-control textarea"></textarea>
       </div>
       <app-input-error
@@ -42,7 +42,7 @@
       >
       </app-input-error>
       <div class="form-group">
-        <label [for]="'bodyEn_' + platform">Body (EN):</label>
+        <label [for]="'bodyEn_' + platform">{{ 'ubs-notifications.form.bodyEn' | translate }}</label>
         <textarea [id]="'bodyEn_' + platform" [formControlName]="'bodyEn_' + platform" class="form-control textarea"></textarea>
       </div>
       <app-input-error
@@ -53,7 +53,7 @@
     </fieldset>
   </div>
   <div class="button-group">
-    <button type="submit" [disabled]="form.invalid" class="submit-button">Create Notification</button>
-    <button type="button" (click)="onCancel()" class="cancel-button">Cancel</button>
+    <button type="submit" [disabled]="form.invalid" class="submit-button">{{ 'ubs-notifications.form.submit' | translate }}</button>
+    <button type="button" (click)="onCancel()" class="cancel-button">{{ 'ubs-notifications.form.cancel' | translate }}</button>
   </div>
 </form>
