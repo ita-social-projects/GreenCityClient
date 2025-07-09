@@ -160,12 +160,12 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   deleteAddress(address: Address | AddressData) {
-    if (this.tempAddedAddressHolder.find((addr) => addr === address)) {
-      this.tempAddedAddressHolder = this.tempAddedAddressHolder.filter((addr) => addr !== address);
+    if (this.tempAddedAddressHolder.find((addr) => addr.placeId === address.placeId)) {
+      this.tempAddedAddressHolder = this.tempAddedAddressHolder.filter((addr) => addr.placeId !== address.placeId);
     } else {
       this.tempRemovedAddressHolder.push(address as Address);
     }
-    this.userProfile.addressDto = this.userProfile.addressDto.filter((addr) => addr !== address);
+    this.userProfile.addressDto = this.userProfile.addressDto.filter((addr) => addr.placeId !== address.placeId);
     this.userInit();
     this.userForm.markAsDirty();
   }
@@ -259,7 +259,9 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
           next: (res: UserProfile) => {
             this.isFetching = false;
             this.userProfile = res;
-            this.savedUserAddresses = [...res.addressDto];
+            if (res.addressDto) {
+              this.savedUserAddresses = [...res.addressDto];
+            }
             this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
             this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
           },
