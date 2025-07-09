@@ -1036,6 +1036,7 @@
   },
   "ubs-notifications": {
     "page-title": "Повідомлення",
+    "create-button-text": "Створити повідомлення",
     "filters": {
       "topic": "Тема повідомлення",
       "trigger": "Подія для активації",

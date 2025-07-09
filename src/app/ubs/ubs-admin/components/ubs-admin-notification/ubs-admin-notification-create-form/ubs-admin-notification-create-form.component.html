@@ -3,16 +3,20 @@
     <label for="titleUk">Title (UA):</label>
     <input id="titleUk" formControlName="titleUk" type="text" class="form-control" />
   </div>
-
+  <app-input-error *ngIf="form.get('titleUk').invalid && form.get('titleUk').touched" [formElement]="form.get('titleUk')"></app-input-error>
   <div class="form-group">
     <label for="titleEn">Title (EN):</label>
     <input id="titleEn" formControlName="titleEn" type="text" class="form-control" />
   </div>
-
+  <app-input-error *ngIf="form.get('titleEn').invalid && form.get('titleEn').touched" [formElement]="form.get('titleEn')"></app-input-error>
   <div class="form-group">
     <label for="schedule">Schedule (CRON):</label>
     <input id="schedule" formControlName="schedule" type="text" class="form-control" />
   </div>
+  <app-input-error
+    *ngIf="form.get('schedule').invalid && form.get('schedule').touched"
+    [formElement]="form.get('schedule')"
+  ></app-input-error>
 
   <div class="form-group">
     <label for="userCategory">User Category:</label>
@@ -20,7 +24,10 @@
       <option *ngFor="let category of userCategories" [value]="category">{{ category }}</option>
     </select>
   </div>
-
+  <app-input-error
+    *ngIf="form.get('userCategory').invalid && form.get('userCategory').touched"
+    [formElement]="form.get('userCategory')"
+  ></app-input-error>
   <div *ngFor="let platform of receiverTypes" class="platform-group">
     <fieldset class="platform-fieldset">
       <legend class="platform-legend">{{ platform }}</legend>
@@ -29,11 +36,20 @@
         <label [for]="'bodyUk_' + platform">Body (UA):</label>
         <textarea [id]="'bodyUk_' + platform" [formControlName]="'bodyUk_' + platform" class="form-control textarea"></textarea>
       </div>
-
+      <app-input-error
+        *ngIf="form.get('bodyUk_EMAIL')?.invalid && form.get('bodyUk_EMAIL')?.touched"
+        [formElement]="form.get('bodyUk_EMAIL')"
+      >
+      </app-input-error>
       <div class="form-group">
         <label [for]="'bodyEn_' + platform">Body (EN):</label>
         <textarea [id]="'bodyEn_' + platform" [formControlName]="'bodyEn_' + platform" class="form-control textarea"></textarea>
       </div>
+      <app-input-error
+        *ngIf="form.get('bodyEn_EMAIL')?.invalid && form.get('bodyEn_EMAIL')?.touched"
+        [formElement]="form.get('bodyEn_EMAIL')"
+      >
+      </app-input-error>
     </fieldset>
   </div>
   <div class="button-group">
