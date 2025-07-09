@@ -58,7 +58,7 @@ export class UbsAdminNotificationCreateFormComponent implements OnInit {
             duration: 3000,
             panelClass: ['snack-success']
           });
-          this.router.navigate(['/ubs-admin/notifications']);
+          this.router.navigate(['/ubs/admin/notifications']);
         },
         error: () => {
           this.snackBar.open('Failed to create notification. Please try again.', 'Close', {
@@ -71,9 +71,5 @@ export class UbsAdminNotificationCreateFormComponent implements OnInit {
   }
   onCancel(): void {
     this.router.navigate(['/ubs/admin/notifications']);
-  }
-
-  private capitalize(word: string): string {
-    return word.charAt(0).toUpperCase() + word.slice(1);
   }
 }
