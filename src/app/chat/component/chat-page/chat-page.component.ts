@@ -8,7 +8,7 @@ import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
   templateUrl: './chat-page.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, NgStyle],
+  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule],
   styleUrls: ['./chat-page.component.scss']
 })
 export class ChatComponent implements OnInit {
@@ -17,7 +17,6 @@ export class ChatComponent implements OnInit {
   newMessage = '';
   selectedFile: File | null = null;
   caption = '';
-  photoUrl: string;
 
   private readonly baseUrl = 'https://greencity-ubs.greencity.cx.ua/ubs/telegram';
 

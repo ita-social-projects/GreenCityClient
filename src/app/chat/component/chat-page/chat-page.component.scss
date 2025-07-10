@@ -147,6 +147,10 @@
 .placeholder-text {
   color: #999;
   font-size: 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .message-input-container {
