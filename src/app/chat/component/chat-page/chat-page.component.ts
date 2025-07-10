@@ -24,177 +24,74 @@ export class ChatComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.loadUnauthorizedUsers();
-    this.loadAuthorizedUsers();
-    console.log(this.chats);
-    console.log(this.selectedChat);
+    this.loadAllChats();
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.selectedFile = input.files[0];
-    }
-  }
-
-  sendUploadedPhoto(photoUrl: string): void {
-    if (!this.selectedChat || !photoUrl.trim()) {
-      return;
-    }
-
+  loadAllChats(): void {
     const token = localStorage.getItem('accessToken');
-    if (!token) {
-      return;
-    }
-
-    const chatId = this.selectedChat.chatId;
-    const url =
-      `${this.baseUrl}/send-photo/${chatId}` + `?photoUrl=${encodeURIComponent(photoUrl)}` + `&caption=${encodeURIComponent(this.caption)}`;
+    if (!token) return;
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    this.http.post(url, null, { headers, responseType: 'text' }).subscribe({
-      next: () => {
-        alert('Photo with URL sent!');
-        this.caption = '';
-      },
-      error: (err) => {
-        console.error('Failed to send photo by URL:', err);
-      }
-    });
-  }
-
-  uploadPhoto(): void {
-    if (!this.selectedChat || !this.selectedFile) {
-      return;
-    }
-
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', this.selectedFile);
-
-    const chatId = this.selectedChat.chatId;
-    console.log('Uploading photo to chatId:', chatId);
-
-    const url = `${this.baseUrl}/upload-photo/${chatId}?caption=${encodeURIComponent(this.caption)}`;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    this.http.post(url, formData, { headers }).subscribe({
-      next: () => {
-        alert('Photo sent!');
-        this.caption = '';
-        this.selectedFile = null;
-      },
-      error: (err) => {
-        console.error('Failed to upload photo:', err);
-      }
-    });
-  }
-
-  loadAuthorizedUsers(): void {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      return;
-    }
-
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const params = {
-      page: 0,
-      size: 50,
-      sort: ['id,asc']
-    };
-
-    const url = `${this.baseUrl}/get-all-authorized-users`;
-
-    this.http.get<any>(url, { headers, params }).subscribe({
-      next: (response) => {
-        const users = response.page || [];
-
-        const authorizedChats = users.map((user: any) => ({
-          name: user.chatId,
-          initial: user.chatId[0]?.toUpperCase() || '?',
-          chatId: user.chatId,
-          lastMessage: '',
-          time: '',
-          messages: [],
-          isAuthorized: true
-        }));
-        console.log(authorizedChats);
-        this.chats.push(...authorizedChats);
-      },
-      error: (err) => {
-        console.error('Failed to load authorized users:', err);
-      }
-    });
-  }
-
-  loadUnauthorizedUsers(): void {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      return;
-    }
-
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `${this.baseUrl}/get-all-unauthorized-users`;
+    const url = `${this.baseUrl}/chats`;
 
     this.http.get<any>(url, { headers }).subscribe({
       next: (response) => {
-        const users = response.page || [];
-        this.chats = users.map((user: any) => ({
-          name: user.userName || `${user.firstName} ${user.lastName}`.trim() || 'Unknown',
-          initial: (user.userName || user.firstName || '?')[0].toUpperCase(),
-          chatId: user.chatId,
-          lastMessage: '',
-          time: '',
+        const chatList = response.page || [];
+
+        this.chats = chatList.map((chat: any) => ({
+          name: chat.username || `${chat.firstName} ${chat.lastName}`.trim() || chat.chatId || 'Unknown',
+          initial: (chat.username || chat.firstName || chat.chatId || '?')[0].toUpperCase(),
+          chatId: chat.chatId,
+          chatInternalId: chat.id, // internal ID for message fetching
+          lastMessage: chat.lastMessage?.text || '',
+          time: chat.lastMessage?.sendAt
+            ? new Date(chat.lastMessage.sendAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            : '',
           messages: []
         }));
       },
-      error: (error) => {
-        console.error('Failed to load unauthorized users:', error);
+      error: (err) => {
+        console.error('Failed to load chats:', err);
       }
     });
   }
 
   selectChat(chat: any): void {
     this.selectedChat = chat;
-    this.fetchMessages(chat.chatId);
+    this.fetchMessages(chat.chatInternalId);
   }
 
-  fetchMessages(chatId: string): void {
+  fetchMessages(chatInternalId: number): void {
     const token = localStorage.getItem('accessToken');
     if (!token) return;
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `${this.baseUrl}/user-messages/${chatId}`;
+    const url = `${this.baseUrl}/messages/${chatInternalId}`;
 
     this.http.get<any>(url, { headers }).subscribe({
       next: (response) => {
         const messages = response.page || [];
-        if (messages.length === 0) {
-          this.selectedChat.messages = [
-            {
-              from: 'System',
-              text: `There are no messages in the chat ${chatId}`,
-              time: ''
-            }
-          ];
-        } else {
-          this.selectedChat.messages = messages.map((msg: any) => ({
-            from: msg.isManagerMessage ? 'Me' : this.selectedChat.name,
-            text: msg.text,
-            time: new Date(msg.sendAt).toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit'
-            })
-          }));
-        }
+
+        this.selectedChat.messages = messages.length
+          ? messages.map((msg: any) => ({
+              from: msg.fromManager ? 'Me' : this.selectedChat.name,
+              text: msg.text,
+              time: new Date(msg.sendAt).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+              }),
+              images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
+            }))
+          : [
+              {
+                from: 'System',
+                text: 'There are no messages in this chat.',
+                time: ''
+              }
+            ];
       },
       error: (err) => {
-        if (err.status === 400 && err.error?.message?.includes('no messages')) {
+        if (err.status === 404 && err.error?.message?.includes('no messages')) {
           this.selectedChat.messages = [
             {
               from: 'System',
@@ -210,37 +107,101 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage(): void {
-    if (!this.newMessage.trim() || !this.selectedChat) {
-      return;
-    }
+    if (!this.newMessage.trim() || !this.selectedChat) return;
 
     const token = localStorage.getItem('accessToken');
-    if (!token) {
-      return;
-    }
+    if (!token) return;
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    const url = `${this.baseUrl}/messages`;
+
+    const messagePayload = {
+      chatId: this.selectedChat.chatInternalId,
+      text: this.newMessage.trim()
+    };
+
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(messagePayload));
+
+    this.http
+      .post(url, formData, {
+        headers,
+        responseType: 'text' as 'json'
+      })
+      .subscribe({
+        next: () => {
+          const now = new Date();
+          const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+          this.selectedChat.messages.push({
+            from: 'Me',
+            text: this.newMessage.trim(),
+            time,
+            images: []
+          });
+
+          this.selectedChat.lastMessage = this.newMessage.trim();
+          this.selectedChat.time = time;
+          this.newMessage = '';
+        },
+        error: (err) => {
+          console.error('Failed to send message:', err);
+        }
+      });
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
+  sendUploadedPhoto(photoUrl: string): void {
+    if (!this.selectedChat || !photoUrl.trim()) return;
+
+    const token = localStorage.getItem('accessToken');
+    if (!token) return;
+
     const chatId = this.selectedChat.chatId;
-    const message = encodeURIComponent(this.newMessage.trim());
-    const url = `${this.baseUrl}/send-message/${chatId}?message=${message}`;
+    const url = `${this.baseUrl}/send-photo/${chatId}?photoUrl=${encodeURIComponent(photoUrl)}&caption=${encodeURIComponent(this.caption)}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     this.http.post(url, null, { headers, responseType: 'text' }).subscribe({
       next: () => {
-        const now = new Date();
-        const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-        this.selectedChat.messages.push({
-          from: 'Me',
-          text: this.newMessage.trim(),
-          time
-        });
-
-        this.selectedChat.lastMessage = this.newMessage.trim();
-        this.selectedChat.time = time;
-        this.newMessage = '';
+        alert('Photo with URL sent!');
+        this.caption = '';
       },
       error: (err) => {
-        console.error('Failed to send message:', err);
+        console.error('Failed to send photo by URL:', err);
+      }
+    });
+  }
+
+  uploadPhoto(): void {
+    if (!this.selectedChat || !this.selectedFile) return;
+
+    const token = localStorage.getItem('accessToken');
+    if (!token) return;
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+
+    const chatId = this.selectedChat.chatId;
+    const url = `${this.baseUrl}/upload-photo/${chatId}?caption=${encodeURIComponent(this.caption)}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http.post(url, formData, { headers }).subscribe({
+      next: () => {
+        alert('Photo sent!');
+        this.caption = '';
+        this.selectedFile = null;
+      },
+      error: (err) => {
+        console.error('Failed to upload photo:', err);
       }
     });
   }
