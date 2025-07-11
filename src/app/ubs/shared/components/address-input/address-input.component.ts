@@ -314,7 +314,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   onUseUserLocation(isUseUserLocation: boolean) {
-    if (this.edit) {
+    if (!this.isUneditableStatus) {
       this.isShowMap = isUseUserLocation;
 
       if (isUseUserLocation) {
@@ -451,7 +451,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   getCityPrefix(): string {
     const cityValue = this.langService.getLangValue('місто', 'city');
 
-    return `${this.region.value} `;
+    return `${this.region.value}, ${cityValue}, `;
   }
 
   ngOnDestroy(): void {

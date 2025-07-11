@@ -92,13 +92,9 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.routeParams();
     this.initForm();
     this.getSelectedTariffCard();
-    this.initializeCourierId();
-    this.initializeLocationId();
-    this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.getAllTariffsForService();
       this.getService();
-      this.getCouriers();
     });
     this.authoritiesSubscription();
   }
@@ -265,44 +261,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     return this.checkBoxInfo;
   }
 
-  async getCourierId(): Promise<any> {
-    try {
-      const res: any = await this.tariffsService.getCardInfo().toPromise();
-      const card = res.find((value) => {
-        if (this.selectedCardId === value.cardId) {
-          return true;
-        }
-      });
-      return card.courierDto.courierId;
-    } catch (e) {
-      return Error('getCourierId Error');
-    }
-  }
-
-  async initializeCourierId(): Promise<number> {
-    this.currentCourierId = await this.getCourierId();
-    return this.currentCourierId;
-  }
-
-  async getLocationId(): Promise<any> {
-    try {
-      const res = await this.tariffsService.getCardInfo().toPromise();
-      const card = res.find((value) => {
-        if (this.selectedCardId === value.cardId) {
-          return true;
-        }
-      });
-      return card.locationInfoDtos[0].locationId;
-    } catch (e) {
-      return Error('getLocationId Error');
-    }
-  }
-
-  async initializeLocationId(): Promise<number> {
-    this.locationId = await this.getLocationId();
-    return this.locationId;
-  }
-
   routeParams(): void {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.selectedCardId = Number(res.id);
@@ -393,12 +351,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         this.servicePrice = this.service?.price;
         this.isLoadBar1 = false;
       });
-  }
-
-  async setCourierId(): Promise<any> {
-    const id = await this.getCourierId().then((value) => value);
-    this.currentCourierId = id;
-    return this.currentCourierId;
   }
 
   openUpdateTariffForServicePopup(bag: Bag): void {
@@ -496,11 +448,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   getSelectedTariffCard(): void {
+    const tariffId = this.selectedCardId;
     this.tariffsService
-      .getCardInfo()
+      .getTariffCardInfo(tariffId)
       .pipe(takeUntil(this.destroy))
-      .subscribe((res: TariffCard[]) => {
-        const card = res.find((it) => it.cardId === this.selectedCardId);
+      .subscribe((card: TariffCard) => {
         this.selectedCard = {
           courierUk: card.courierDto.nameUk,
           courierEn: card.courierDto.nameEn,

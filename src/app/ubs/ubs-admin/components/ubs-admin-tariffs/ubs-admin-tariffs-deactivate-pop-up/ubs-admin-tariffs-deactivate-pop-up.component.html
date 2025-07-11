@@ -33,6 +33,12 @@
             />
           </div>
         </div>
+        <div
+          class="empty-list-error"
+          *ngIf="filteredCouriers && !filteredCouriers.length && (courier.dirty || courier.touched) && !courier.disabled"
+        >
+          {{ 'ubs-tariffs.error.empty-courier-list' | translate }}
+        </div>
       </div>
       <div class="translation">
         <label for="selected-name" class="label" [appLangValue]="{ ua: courierLabelEn, en: courierLabelUa }"></label>
@@ -57,6 +63,7 @@
             [placeholder]="stationPlaceholder"
             [matAutocomplete]="autoStation"
             #autocompleteTriggerStation="matAutocompleteTrigger"
+            (blur)="onBlur('station')"
           />
           <mat-autocomplete #autoStation="matAutocomplete" (optionSelected)="selectStation($event, autocompleteTriggerStation)">
             <mat-option *ngFor="let option of filteredStations" class="option-state" [value]="option">
@@ -71,6 +78,12 @@
             alt="arrowDown"
             (click)="openAuto($event, autocompleteTriggerStation, false)"
           />
+          <div
+            class="empty-list-error"
+            *ngIf="filteredStations && !filteredStations.length && (station.dirty || station.touched) && !station.disabled"
+          >
+            {{ 'ubs-tariffs.error.empty-station-list' | translate }}
+          </div>
         </div>
       </div>
       <div [ngClass]="selectedStations.length ? 'list' : 'dis-none'" class="list">
@@ -92,6 +105,7 @@
           [placeholder]="regionPlaceholder"
           [matAutocomplete]="autoRegion"
           class="form-control"
+          (blur)="onBlur('region')"
         />
         <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="selectRegion($event, autocompleteTriggerRegion)">
           <mat-option *ngFor="let item of filteredRegions" [value]="item">
@@ -100,6 +114,12 @@
           </mat-option>
         </mat-autocomplete>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion, false)" />
+        <div
+          class="empty-list-error"
+          *ngIf="filteredRegions && !filteredRegions.length && (region.dirty || region.touched) && !region.disabled"
+        >
+          {{ 'ubs-tariffs.error.empty-regions-list' | translate }}
+        </div>
         <div class="list">
           <div *ngFor="let item of selectedRegions; let index = index" class="d-flex selected-element">
             <div class="itemList" [appLangValue]="{ ua: item.nameUa, en: item.name }"></div>
@@ -152,6 +172,9 @@
             <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteCity(index)" />
           </div>
         </div>
+        <div class="empty-list-error" *ngIf="filteredCities && !filteredCities.length && (city.dirty || city.touched) && !city.disabled">
+          {{ 'ubs-tariffs.error.empty-city-list' | translate }}
+        </div>
       </div>
       <div class="translation">
         <label for="selected-cities" class="label" [appLangValue]="{ ua: cityLabelEn, en: cityLabelUa }"></label>
@@ -161,6 +184,7 @@
           *ngIf="selectedCities.length"
           [prefix]="selectedCities.length + ' '"
           [appLangValue]="{ ua: placeholderSelectedEn, en: placeholderSelectedUa }"
+          (blur)="onBlur('city')"
         ></div>
         <div *ngFor="let item of selectedCities">
           <p *ngIf="selectedCities.length" class="text"></p>

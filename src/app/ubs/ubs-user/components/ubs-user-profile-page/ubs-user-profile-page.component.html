@@ -105,12 +105,14 @@
               }}</label>
               <input
                 *ngIf="isEditing"
+                (focus)="onPhoneFocus()"
+                (blur)="onPhoneBlur()"
                 type="tel"
                 class="form-control recipientPhone"
                 id="recipientPhone"
                 formControlName="recipientPhone"
                 placeholder="+380__ ___ __ __"
-                [imask]="{ mask: phoneMask }"
+                [imask]="phoneMask"
               />
               <p *ngIf="!isEditing">{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
               <div *ngIf="recipientPhone.invalid && recipientPhone.touched">

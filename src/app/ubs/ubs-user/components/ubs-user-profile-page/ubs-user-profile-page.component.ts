@@ -19,7 +19,7 @@ import { DeletingProfileReasonPopUpComponent } from 'src/app/ubs/ubs-admin/compo
 import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { Masks, Patterns, phonePrefix } from 'src/assets/patterns/patterns';
 import { ConfirmationDialogComponent } from '../../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
@@ -46,7 +46,8 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   isFetching = false;
   alternativeEmailDisplay = false;
   googleIcon = SignInIcons.picGoogle;
-  phoneMask = Masks.phoneMask;
+  phoneMask: string = Masks.phoneMask;
+  phonePrefix: string = phonePrefix;
   resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
 
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -143,7 +144,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         Validators.maxLength(30)
       ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
-      alternativeEmail: new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(Patterns.ubsMailPattern)]),
+      alternateEmail: new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(Patterns.ubsMailPattern)]),
       recipientPhone: new FormControl(`${this.userProfile?.recipientPhone ? this.userProfile?.recipientPhone : ''}`, [
         PhoneNumberValidator('UA')
       ]),
@@ -357,6 +358,19 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     const match = RegExp(/^\+380(\d{2})(\d{3})(\d{2})(\d{2})$/).exec(num);
     if (match) {
       return `+380 (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
+    }
+  }
+
+  onPhoneFocus(): void {
+    if (!this.recipientPhone.value) {
+      this.recipientPhone.setValue(this.phonePrefix);
+    }
+  }
+
+  onPhoneBlur(): void {
+    if (this.recipientPhone.value === this.phonePrefix) {
+      this.recipientPhone.setValue('');
+      this.recipientPhone.markAsUntouched();
     }
   }
 

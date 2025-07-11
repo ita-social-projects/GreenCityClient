@@ -143,7 +143,12 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
 
     const wordsSplit = chosenPlaceValues.split(', ');
 
-    if (wordsSplit && wordsSplit.length > 2) {
+    if (
+      wordsSplit &&
+      wordsSplit.length > 2 &&
+      wordsSplit[wordsSplit.length - 2] != 'місто' &&
+      wordsSplit[wordsSplit.length - 2] != 'city'
+    ) {
       const correctedPredictions = [];
       const searchHelper = wordsSplit[wordsSplit.length - 2].split(' ')[1];
 

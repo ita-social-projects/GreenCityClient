@@ -285,10 +285,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const newBagsGroup = this.fb.group({}, { validators: courierLimitValidator(this.bags, validationConfig) });
 
     this.bags.forEach((bag: Bag) => {
-      newBagsGroup.addControl(
-        `quantity${bag.id}`,
-        new FormControl(String(this.getBagQuantity(bag.id) ?? 0), [Validators.min(0), Validators.max(999)])
-      );
+      newBagsGroup.addControl(`quantity${bag.id}`, new FormControl(String(bag.quantity ?? 0), [Validators.min(0), Validators.max(999)]));
     });
     this.orderDetailsForm.setControl('bags', newBagsGroup);
   }

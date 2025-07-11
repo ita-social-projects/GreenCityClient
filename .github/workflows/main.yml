@@ -43,7 +43,7 @@ jobs:
         run: |
           npm install
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt-get install ./google-chrome-stable_current_amd64.deb -y
+          sudo apt-get install ./google-chrome-stable_current_amd64.deb -y --allow-downgrades
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.0.0.4432-linux.zip
           unzip sonar-scanner-cli-6.0.0.4432-linux.zip
           sudo mv sonar-scanner-6.0.0.4432-linux /opt/sonar-scanner

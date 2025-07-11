@@ -14,6 +14,12 @@ form {
   margin-bottom: 0;
 }
 
+.empty-list-error {
+  position: absolute;
+  color: var(--ubs-error-ligh-red);
+  font-size: 0.9rem;
+}
+
 .translation {
   width: 45%;
 
