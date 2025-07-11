@@ -138,7 +138,7 @@
       <div class="input-wrapper">
         <input
           class="station"
-          [placeholder]="stationPlaceholder"
+          placeholder="{{ 'ubs-tariffs.placeholder-station' | translate }}"
           #autocompleteTriggerStation="matAutocompleteTrigger"
           formControlName="station"
           [matAutocomplete]="autoStation"
