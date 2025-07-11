@@ -384,7 +384,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((result) => {
-      if (result && result.value) {
+      if (result?.value) {
         this.tempAddedAddressHolder.push(result.value);
         this.userProfile.addressDto.push(result.value);
         this.userInit();
