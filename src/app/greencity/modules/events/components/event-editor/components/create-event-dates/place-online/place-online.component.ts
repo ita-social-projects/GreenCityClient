@@ -115,7 +115,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
           if (placeSelected) {
             this.ngZone.run(() => {
               this.showMap = false;
-              this.cleanupGoogleMapUtilities();
               this.cdr.detectChanges();
             });
             return from(this.googleScript.load(lang)).pipe(
@@ -128,8 +127,8 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
             );
           } else {
             this.ngZone.run(() => {
-              this.cleanupGoogleMapUtilities();
               this.showMap = false;
+              this.cleanupGoogleMapUtilities();
               this.cdr.detectChanges();
             });
             return from(Promise.resolve());
@@ -139,11 +138,13 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          this.ngZone.run(() => {
-            this.showMap = true;
-            this.cdr.detectChanges();
-            this.initializeGoogleMapUtilities();
-          });
+          if (this.isPlaceSelected$.value) {
+            this.ngZone.run(() => {
+              this.showMap = true;
+              this.cdr.detectChanges();
+              this.initializeGoogleMapUtilities();
+            });
+          }
         },
         error: (e) => {
           this.ngZone.run(() => {
@@ -162,11 +163,10 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     }
     this.googleGeocoder = null;
     this.googlePlacesService = null;
-    this.map = null;
   }
 
   private initializeGoogleMapUtilities(): void {
-    if (typeof window?.google !== 'undefined' && typeof window?.google?.maps !== 'undefined' && this.map) {
+    if (typeof window?.google?.maps !== 'undefined' && this.map && this.isPlaceSelected$.value && this.showMap) {
       if (!this.googleGeocoder && this.map) {
         this.googleGeocoder = new google.maps.Geocoder();
       }
@@ -294,7 +294,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   }
 
   mapClick(event: google.maps.MapMouseEvent): void {
-    if (this.isPlaceSelected && typeof window !== 'undefined') {
+    if (this.isPlaceSelected && typeof window?.google !== 'undefined') {
       const coords = event.latLng.toJSON();
       this.updateMapAndLocation(coords);
     }
@@ -323,15 +323,18 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   }
 
   private updateMap(latLngLiteral: google.maps.LatLngLiteral) {
-    if (this.map && this.map?.googleMap && latLngLiteral.lat && latLngLiteral.lng && typeof window.google !== 'undefined') {
+    if (this.map && this.map?.googleMap && latLngLiteral.lat && latLngLiteral.lng && typeof window?.google !== 'undefined') {
       this.mapMarkerCoords = latLngLiteral;
       this.map.panTo(latLngLiteral);
       this.map.center = latLngLiteral;
+    } else {
+      this.mapMarkerCoords = { lat: 0, lng: 0 };
+      this.map.center = { lat: 0, lng: 0 };
     }
   }
 
   private async updateMapAndLocation(latLngLiteral: google.maps.LatLngLiteral) {
-    if (!this.googleGeocoder || !latLngLiteral || !this.map) {
+    if (!this.googleGeocoder || !latLngLiteral || !this.map || window?.google?.maps === 'undefined') {
       return;
     }
 
@@ -397,9 +400,9 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     };
   }
   ngOnDestroy(): void {
+    this.cleanupGoogleMapUtilities();
     this.$destroy.next();
     this.$destroy.complete();
     this.isPlaceSelected$.complete();
-    this.cleanupGoogleMapUtilities();
   }
 }

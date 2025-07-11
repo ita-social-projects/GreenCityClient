@@ -17,8 +17,9 @@ export class GoogleScript {
   private scriptLoaded = false;
   private currentLanguage: string | null = null;
   private mapReadySubject = new BehaviorSubject<boolean>(false);
-  public mapReady = this.mapReadySubject.asObservable();
   private loadMutex: Promise<void> | null = null;
+  private lastLanguage: string | null = null;
+  public mapReady = this.mapReadySubject.asObservable();
 
   private scriptRemovalDelayMs = 50;
   private cleanupDelayMs = 500;
@@ -34,15 +35,19 @@ export class GoogleScript {
 
   private _isApiInitialized(): boolean {
     return (
-      typeof window.google !== 'undefined' &&
-      typeof window.google?.maps !== 'undefined' &&
-      typeof window.google?.maps?.places !== 'undefined'
+      typeof window?.google !== 'undefined' &&
+      typeof window?.google?.maps !== 'undefined' &&
+      typeof window?.google?.maps?.places !== 'undefined'
     );
   }
 
   public async load(language: string): Promise<void> {
-    if (this.currentLanguage === null) {
+    if (!this.currentLanguage) {
       this.currentLanguage = language;
+      return Promise.resolve();
+    }
+
+    if (this.currentLanguage === language && this.lastLanguage) {
       return Promise.resolve();
     }
 
@@ -53,7 +58,7 @@ export class GoogleScript {
     if (this.loadMutex) {
       if (this.currentLanguage === language && this.currentLanguage) {
         return this.loadMutex;
-      } else {
+      } else if (this.currentLanguage) {
         await this.loadMutex;
         return Promise.resolve();
       }
@@ -61,6 +66,7 @@ export class GoogleScript {
 
     this.mapReadySubject.next(false);
     this.scriptLoaded = false;
+    this.lastLanguage = this.currentLanguage;
     this.currentLanguage = language;
 
     // eslint-disable-next-line no-async-promise-executor
@@ -121,11 +127,11 @@ export class GoogleScript {
           existingScript.remove();
 
           try {
-            if (window.google) {
+            if (window?.google) {
               delete window.google;
             }
-            if (window.google && window.google?.maps) {
-              delete window.google?.maps;
+            if (window?.google && window?.google?.maps) {
+              delete window.google.maps;
             }
           } catch (e) {
             console.log('GoogleScript: Error clearing global google object:', e);

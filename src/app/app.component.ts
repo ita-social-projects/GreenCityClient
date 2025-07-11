@@ -33,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     const initialLang = this.localeStorageService.getCurrentLanguage();
     this.googleScript.load(initialLang).then(() => {});
+    this.googleScript.load(initialLang).then(() => {});
 
     this.store.dispatch(GetCurrentUserAction());
     this.router.events
