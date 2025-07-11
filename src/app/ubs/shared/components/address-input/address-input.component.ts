@@ -304,7 +304,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         next: () => {
           if (this.showMapSelected$.value) {
             this.ngZone.run(() => {
-              console.log(this.showMapSelected$.value, this.addressData.getDistrict(), this.addressCoords);
               this.isMapLoaded$.next(true);
               this.cdr.detectChanges();
               this.initializeGoogleMapUtilities();
