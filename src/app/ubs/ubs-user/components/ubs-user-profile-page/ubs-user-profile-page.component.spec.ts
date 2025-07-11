@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
@@ -177,6 +177,40 @@ xdescribe('UbsUserProfilePageComponent', () => {
     const goToTelegramSpy = spyOn(component, 'goToTelegramUrl');
     goToTelegramSpy();
     expect(goToTelegramSpy).toHaveBeenCalled();
+  });
+
+  it('ngOnInit should call getUserData twice due to subscription and dispatch store action', () => {
+    const getUserDataSpy = spyOn(component, 'getUserData');
+    component.ngOnInit();
+    expect(getUserDataSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('userInit should correctly initialize the form with profile data', () => {
+    component.userProfile = userProfileDataMock;
+    component.userInit();
+
+    const form = component.userForm;
+    expect(form.get('recipientName').value).toBe(userProfileDataMock.recipientName);
+    expect(form.get('recipientSurname').value).toBe(userProfileDataMock.recipientSurname);
+    expect(form.get('recipientEmail').value).toBe(userProfileDataMock.recipientEmail);
+    expect(form.get('alternateEmail').value).toBe(userProfileDataMock.alternateEmail);
+    expect(form.get('recipientPhone').value).toBe(userProfileDataMock.recipientPhone);
+
+    const addressArray = form.get('address') as FormArray;
+    expect(addressArray.length).toBe(userProfileDataMock.addressDto.length);
+    expect(addressArray.at(0).value).toEqual(userProfileDataMock.addressDto[0]);
+  });
+
+  it('should validate recipientName maxLength 30', () => {
+    const control = component.userForm.get('recipientName');
+    control.setValue('a'.repeat(31));
+    expect(control.valid).toBeFalse();
+  });
+
+  it('should validate alternateEmail against pattern', () => {
+    const control = component.userForm.get('alternateEmail');
+    control.setValue('not-an-email');
+    expect(control.valid).toBeFalse();
   });
 
   it('if post data set isFetching === false', () => {
