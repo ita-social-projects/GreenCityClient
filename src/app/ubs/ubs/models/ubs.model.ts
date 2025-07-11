@@ -269,11 +269,13 @@ export class CAddressData {
       addressComment: this.addressComment,
       placeId: this.placeId,
       coordinates: this.coordinates
-        ? {
+        ? /* eslint-disable */
+          {
             latitude: 'lat' in this.coordinates ? this.coordinates?.lat : this.coordinates?.latitude,
             longitude: 'lng' in this.coordinates ? this.coordinates?.lng : this.coordinates?.longitude
           }
         : { latitude: 0, longitude: 0 }
+      /* eslint-enable */
     };
   }
 
