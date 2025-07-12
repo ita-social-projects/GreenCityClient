@@ -31,9 +31,11 @@ export class AppComponent implements OnInit, OnDestroy {
     window.addEventListener('online', this.onNetworkStatusChange.bind(this));
     window.addEventListener('offline', this.onNetworkStatusChange.bind(this));
 
+    // google script requires two loads for proper init
     const initialLang = this.localeStorageService.getCurrentLanguage();
-    this.googleScript.load(initialLang).then(() => {});
-    this.googleScript.load(initialLang).then(() => {});
+    this.googleScript.load(initialLang).then(() => {
+      this.googleScript.load(initialLang);
+    });
 
     this.store.dispatch(GetCurrentUserAction());
     this.router.events
