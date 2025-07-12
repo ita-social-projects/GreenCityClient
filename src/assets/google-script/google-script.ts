@@ -55,7 +55,8 @@ export class GoogleScript {
       return Promise.resolve();
     }
 
-    if (this.loadMutex) {
+    // eslint-disable-next-line
+    if (!!this.loadMutex) {
       if (this.currentLanguage === language && this.currentLanguage) {
         return this.loadMutex;
       } else if (this.currentLanguage) {
