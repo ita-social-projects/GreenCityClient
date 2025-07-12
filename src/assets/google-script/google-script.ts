@@ -128,11 +128,11 @@ export class GoogleScript {
           existingScript.remove();
 
           try {
+            if (window?.google?.maps) {
+              delete window.google.maps;
+            }
             if (window?.google) {
               delete window.google;
-            }
-            if (window?.google && window?.google?.maps) {
-              delete window.google.maps;
             }
           } catch (e) {
             console.log('GoogleScript: Error clearing global google object:', e);
