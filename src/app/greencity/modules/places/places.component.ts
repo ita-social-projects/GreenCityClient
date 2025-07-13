@@ -184,7 +184,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   private initializeMapServices(): void {
-    if (typeof window.google !== 'undefined' && typeof window.google.maps !== 'undefined' && this.map?.googleMap) {
+    if (window?.google?.maps !== 'undefined' && this.map?.googleMap) {
       try {
         this.googlePlacesService = new google.maps.places.PlacesService(this.map.googleMap);
         this.setUserLocation();
@@ -398,7 +398,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   private setUserLocation(): void {
-    if (typeof window.google === 'undefined' || typeof window.google.maps === 'undefined' || !this.map?.googleMap) {
+    if (typeof window?.google?.maps === 'undefined' || !this.map?.googleMap) {
       return;
     }
 
