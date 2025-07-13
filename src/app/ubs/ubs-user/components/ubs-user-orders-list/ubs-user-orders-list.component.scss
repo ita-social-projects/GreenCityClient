@@ -170,7 +170,13 @@ button {
   }
 }
 
-@media (min-width: 769px) and (max-width: 1140px) {
+@media (min-width: 1420px) and (max-width: 1540px) {
+  .btns-group {
+    margin-left: auto;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1250px) {
   :host ::ng-deep {
     .mat-content {
       display: flex;

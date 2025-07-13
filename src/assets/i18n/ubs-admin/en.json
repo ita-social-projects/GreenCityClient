@@ -82,7 +82,7 @@
       "btn": {
         "pay": "Pay",
         "cancel": "Cancel",
-        "active": "Active"
+        "active": "Activate"
       }
     },
     "cancel-modal": {
@@ -748,6 +748,12 @@
       "restore-confirmation": "Restore confirmation",
       "delete_page": "Delete page",
       "duplicate_page": "Duplicate page"
+    },
+    "error": {
+      "empty-courier-list": "There are no available couriers to select.",
+      "empty-station-list": "There are no available stations to select.",
+      "empty-regions-list": "There are no available regions to select.",
+      "empty-city-list": "There are no available cities to select."
     },
     "states": {
       "all": "All",
