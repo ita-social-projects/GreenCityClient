@@ -27,7 +27,9 @@ export class ChatComponent implements OnInit {
   }
   loadAllChats(): void {
     const token = localStorage.getItem('accessToken');
-    if (!token) return;
+    if (!token) {
+      return;
+    }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${this.baseUrl}/chats`;
@@ -100,7 +102,9 @@ export class ChatComponent implements OnInit {
 
   fetchMessages(chatInternalId: number): void {
     const token = localStorage.getItem('accessToken');
-    if (!token) return;
+    if (!token) {
+      return;
+    }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${this.baseUrl}/messages/${chatInternalId}`;
@@ -144,10 +148,14 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage(): void {
-    if (!this.newMessage.trim() || !this.selectedChat) return;
+    if (!this.newMessage.trim() || !this.selectedChat) {
+      return;
+    }
 
     const token = localStorage.getItem('accessToken');
-    if (!token) return;
+    if (!token) {
+      return;
+    }
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
