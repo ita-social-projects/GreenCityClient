@@ -66,7 +66,7 @@ p {
     height: 189px;
     grid-template-rows: repeat(2, 1fr);
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px 16px;
+    gap: 16px;
     border-top: 1px solid var(--light-green-grey-color);
 
     .chain {
@@ -90,7 +90,7 @@ p {
 @include responsiveMobileFirst(2xl) {
   .stat {
     width: 220px;
-    gap: 15px 15px;
+    gap: 15px;
   }
 }
 
