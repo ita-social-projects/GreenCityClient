@@ -177,3 +177,5 @@ export class ChatComponent implements OnInit {
     }
   }
 }
+
+// temporary comment to allow commit
