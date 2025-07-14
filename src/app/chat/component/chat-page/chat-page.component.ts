@@ -66,35 +66,6 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  // loadAllChats(): void {
-  //   const token = localStorage.getItem('accessToken');
-  //   if (!token) return;
-  //
-  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  //   const url = `${this.baseUrl}/chats`;
-  //
-  //   this.http.get<any>(url, { headers }).subscribe({
-  //     next: (response) => {
-  //       const chatList = response.page || [];
-  //
-  //       this.chats = chatList.map((chat: any) => ({
-  //         name: chat.username || `${chat.firstName} ${chat.lastName}`.trim() || chat.chatId || 'Unknown',
-  //         initial: (chat.username || chat.firstName || chat.chatId || '?')[0].toUpperCase(),
-  //         chatId: chat.chatId,
-  //         chatInternalId: chat.id,
-  //         lastMessage: chat.lastMessage?.text || '',
-  //         time: chat.lastMessage?.sendAt
-  //           ? new Date(chat.lastMessage.sendAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-  //           : '',
-  //         messages: []
-  //       }));
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to load chats:', err);
-  //     }
-  //   });
-  // }
-
   selectChat(chat: any): void {
     this.selectedChat = chat;
     this.fetchMessages(chat.chatInternalId);
@@ -205,3 +176,4 @@ export class ChatComponent implements OnInit {
     }
   }
 }
+// temp lint fix
