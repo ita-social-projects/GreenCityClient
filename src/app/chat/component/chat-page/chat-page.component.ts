@@ -179,3 +179,4 @@ export class ChatComponent implements OnInit {
 }
 
 // temp lint fix
+// trigger lint-staged
