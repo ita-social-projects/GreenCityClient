@@ -177,6 +177,4 @@ export class ChatComponent implements OnInit {
     }
   }
 }
-
-// temporary comment to allow commit
-//comment
+//empty line at the end of the file is intentional to avoid issues with some linters
