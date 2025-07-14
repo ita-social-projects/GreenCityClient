@@ -177,4 +177,3 @@ export class ChatComponent implements OnInit {
     }
   }
 }
-//empty line at the end of the file is intentional to avoid issues with some linters
