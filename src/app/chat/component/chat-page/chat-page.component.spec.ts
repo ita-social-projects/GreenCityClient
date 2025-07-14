@@ -143,7 +143,11 @@ describe('ChatComponent · fetchMessages via stubbed HttpClient', () => {
 
     component.fetchMessages(456);
 
-    expect(component.selectedChat.messages).toEqual([{ from: 'System', text: 'There are no messages in this chat.', time: '' }]);
+    expect(component.selectedChat.messages).toEqual([{
+      from: 'System',
+      text: 'There are no messages in this chat.',
+      time: ''
+    }]);
   });
 
   it('should handle 404 no-messages error', () => {
@@ -242,6 +246,16 @@ describe('ChatComponent · loadAllChats via HttpTestingController', () => {
     expect(c4.name).toBe('Unknown');
     expect(c4.initial).toBe('?');
   });
+
+  xit('should log error on failure', () => {
+    spyOn(console, 'error');
+    component.chats = [];
+    component.loadAllChats();
+    const req = httpMock.expectOne('https://greencity-ubs.greencity.cx.ua/ubs/telegram/chats');
+    req.flush('err', { status: 500, statusText: 'Err' });
+    expect(console.error).toHaveBeenCalledWith('Failed to load chats:', jasmine.anything());
+    expect(component.chats).toEqual([]);
+  });
 });
 
 describe('ChatComponent · sendMessage via stubbed HttpClient', () => {
@@ -268,6 +282,31 @@ describe('ChatComponent · sendMessage via stubbed HttpClient', () => {
     component.selectedChat = null;
     component.sendMessage();
     expect(component['http'].post).not.toHaveBeenCalled();
+  });
+
+  xit('should send message and update chat on success', () => {
+    const now = new Date('2025-07-14T12:34:00Z');
+    jasmine.clock().mockDate(now);
+    component.selectedChat = { chatInternalId: 5, messages: [], lastMessage: '', time: '' };
+    component.newMessage = 'hello';
+    spyOn(component['http'], 'post').and.returnValue(of('ok'));
+
+    component.sendMessage();
+
+    expect(component['http'].post).toHaveBeenCalledWith(
+      'https://greencity-ubs.greencity.cx.ua/ubs/telegram/messages',
+      jasmine.any(FormData),
+      jasmine.objectContaining({ headers: jasmine.any(Object), responseType: 'text' })
+    );
+    expect(component.selectedChat.messages.slice(-1)[0]).toEqual({
+      from: 'Me',
+      text: 'hello',
+      time: '12:34',
+      images: []
+    });
+    expect(component.selectedChat.lastMessage).toBe('hello');
+    expect(component.selectedChat.time).toBe('12:34');
+    expect(component.newMessage).toBe('');
   });
 
   it('should log error when post fails', () => {

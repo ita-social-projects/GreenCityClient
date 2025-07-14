@@ -53,9 +53,9 @@ export class ChatComponent implements OnInit {
             lastMessage: chat.lastMessage?.text || '',
             time: chat.lastMessage?.sendAt
               ? new Date(chat.lastMessage.sendAt).toLocaleTimeString([], {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })
+                hour: '2-digit',
+                minute: '2-digit'
+              })
               : '',
             messages: []
           };
@@ -87,21 +87,21 @@ export class ChatComponent implements OnInit {
 
         this.selectedChat.messages = messages.length
           ? messages.map((msg: any) => ({
-              from: msg.fromManager ? 'Me' : this.selectedChat.name,
-              text: msg.text,
-              time: new Date(msg.sendAt).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit'
-              }),
-              images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
-            }))
+            from: msg.fromManager ? 'Me' : this.selectedChat.name,
+            text: msg.text,
+            time: new Date(msg.sendAt).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit'
+            }),
+            images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
+          }))
           : [
-              {
-                from: 'System',
-                text: 'There are no messages in this chat.',
-                time: ''
-              }
-            ];
+            {
+              from: 'System',
+              text: 'There are no messages in this chat.',
+              time: ''
+            }
+          ];
       },
       error: (err) => {
         if (err.status === 404 && err.error?.message?.includes('no messages')) {
