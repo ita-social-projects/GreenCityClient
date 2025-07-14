@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.loadAllChats();
   }
+
   loadAllChats(): void {
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -65,10 +66,12 @@ export class ChatComponent implements OnInit {
       }
     });
   }
+
   selectChat(chat: any): void {
     this.selectedChat = chat;
     this.fetchMessages(chat.chatInternalId);
   }
+
   fetchMessages(chatInternalId: number): void {
     const token = localStorage.getItem('accessToken');
     if (!token) {
