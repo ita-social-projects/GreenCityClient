@@ -71,7 +71,9 @@ export class ChatComponent implements OnInit {
   }
   fetchMessages(chatInternalId: number): void {
     const token = localStorage.getItem('accessToken');
-    if (!token) return;
+    if (!token) {
+      return;
+    }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${this.baseUrl}/messages/${chatInternalId}`;
