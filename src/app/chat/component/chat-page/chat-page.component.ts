@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.loadAllChats();
   }
+
   loadAllChats(): void {
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -176,4 +177,5 @@ export class ChatComponent implements OnInit {
     }
   }
 }
+
 // temp lint fix
