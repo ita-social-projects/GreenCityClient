@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Address, CourierLocations, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, AddressData, CourierLocations, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Store } from '@ngrx/store';
 import { CreateAddress, DeleteAddress, UpdateAddress } from 'src/app/store/actions/order.actions';
 import { CAddressData } from 'src/app/ubs/ubs/models/ubs.model';
@@ -47,6 +47,7 @@ export class UBSAddAddressPopUpComponent implements OnInit {
       edit: boolean;
       address: Address;
       addFromProfile?: boolean;
+      addressesFromProfile?: AddressData[];
       orderId?: number;
       addressForOrder?: boolean;
     }
@@ -80,8 +81,10 @@ export class UBSAddAddressPopUpComponent implements OnInit {
       this.store.dispatch(UpdateAddress({ address: { ...this.data.address, ...this.address.value } }));
       this.dialogRef.close(this.addAddressForm.controls['address']?.value?.addressComment);
     } else {
-      this.store.dispatch(CreateAddress({ address: this.address.value }));
-      this.dialogRef.close('Added');
+      if (!this.data.addFromProfile) {
+        this.store.dispatch(CreateAddress({ address: this.address.value, hideSuccessPopup: false }));
+      }
+      this.dialogRef.close({ status: 'Added', value: this.address.value });
     }
   }
 

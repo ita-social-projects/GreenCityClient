@@ -1,14 +1,14 @@
 import { FormGroup, ValidationErrors } from '@angular/forms';
 import { Language } from 'src/app/shared/i18n/Language';
-import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, AddressData } from 'src/app/ubs/ubs/models/ubs.interface';
 
 export function addressAlreadyExistsValidator(
-  addresses: Address[],
+  addresses: Address[] | AddressData[],
   currentLanguage: Language,
   formAddressChangeId: number | string
 ): (group: FormGroup) => ValidationErrors | null {
   return (group: FormGroup): ValidationErrors | null => {
-    const isAlreadyExist = addresses.some((address: Address, i) => {
+    const isAlreadyExist = addresses.some((address, i) => {
       if (i === formAddressChangeId && formAddressChangeId) {
         return false;
       }

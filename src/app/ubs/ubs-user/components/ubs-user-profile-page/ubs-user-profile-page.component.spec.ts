@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,7 +16,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocationService } from '@ubs/ubs-user/services/location/location.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AddressInputComponent } from '@ubs/shared/components/address-input/address-input.component';
 import { InputGoogleAutocompleteComponent } from 'src/app/shared/components/input-google-autocomplete/input-google-autocomplete.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -24,6 +24,8 @@ import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-va
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 import { MatSelectModule } from '@angular/material/select';
+import { CreateAddress } from 'src/app/store/actions/order.actions';
+import { Store } from '@ngrx/store';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -66,6 +68,7 @@ describe('UbsUserProfilePageComponent', () => {
       }
     ]
   };
+  const savedUserAddressMock = [...userProfileDataMock.addressDto];
   const userEmptyProfileDataMock: UserProfile = {
     addressDto: [],
     recipientEmail: 'emptyuser@example.com',
@@ -157,6 +160,8 @@ describe('UbsUserProfilePageComponent', () => {
   }));
 
   beforeEach(() => {
+    userProfileDataMock.addressDto = [...savedUserAddressMock];
+
     const predictionList = [
       { description: 'Place 1', place_id: '1' },
       { description: 'Place 2', place_id: '2' }
@@ -212,41 +217,52 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize alternateEmail with value and validate pattern', () => {
-    const mockProfileWithAltEmail = {
-      ...userEmptyProfileDataMock,
-      alternateEmail: 'alt@example.com'
-    };
+it('should initialize alternateEmail with value and validate pattern', () => {
+  const mockProfileWithAltEmail = {
+    ...userEmptyProfileDataMock,
+    alternateEmail: 'alt@example.com'
+  };
 
-    component.userProfile = mockProfileWithAltEmail;
-    component.userInit();
+  component.userProfile = mockProfileWithAltEmail;
+  component.userInit();
 
-    const alternateEmailControl = component.userForm.get('alternateEmail');
+  const alternateEmailControl = component.userForm.get('alternateEmail');
 
-    expect(alternateEmailControl).toBeTruthy();
-    expect(alternateEmailControl.value).toBe('alt@example.com');
+  expect(alternateEmailControl).toBeTruthy();
+  expect(alternateEmailControl.value).toBe('alt@example.com');
 
-    alternateEmailControl.setValue('invalid-email');
-    expect(alternateEmailControl.hasError('pattern')).toBeTrue();
+  alternateEmailControl.setValue('invalid-email');
+  expect(alternateEmailControl.hasError('pattern')).toBeTrue();
 
-    alternateEmailControl.setValue('valid.email@example.com');
-    expect(alternateEmailControl.valid).toBeTrue();
-  });
+  alternateEmailControl.setValue('valid.email@example.com');
+  expect(alternateEmailControl.valid).toBeTrue();
+});
 
-  it('should initialize alternateEmail with empty value if not present in userProfile', () => {
-    const mockProfileWithoutAltEmail = {
-      ...userEmptyProfileDataMock,
-      alternateEmail: undefined
-    };
+it('should initialize alternateEmail with empty value if not present in userProfile', () => {
+  const mockProfileWithoutAltEmail = {
+    ...userEmptyProfileDataMock,
+    alternateEmail: undefined
+  };
 
-    component.userProfile = mockProfileWithoutAltEmail;
-    component.userInit();
+  component.userProfile = mockProfileWithoutAltEmail;
+  component.userInit();
 
-    const alternateEmailControl = component.userForm.get('alternateEmail');
+  const alternateEmailControl = component.userForm.get('alternateEmail');
 
-    expect(alternateEmailControl).toBeTruthy();
-    expect(component.alternateEmail.value).toBeNull();
-  });
+  expect(alternateEmailControl).toBeTruthy();
+  expect(component.alternateEmail.value).toBeNull();
+});
+
+it('getUserData method should be called on init', () => {
+  const userSpy = spyOn(component, 'getUserData');
+  component.ngOnInit();
+  expect(userSpy).toHaveBeenCalled();
+});
+
+it('userInit should set fetching to false', () => {
+  component.userInit();
+  expect(component.isFetching).toBeFalse();
+});
 
   it('should call "goToTelegramUrl" correctly', () => {
     const goToTelegramSpy = spyOn(component, 'goToTelegramUrl');
@@ -264,6 +280,11 @@ describe('UbsUserProfilePageComponent', () => {
     spyOn(component, 'userInit');
     component.getUserData();
     expect(component.userInit).toHaveBeenCalled();
+  });
+
+  it('method getUserData should fill savedUserAddresses array with addressDTO values', () => {
+    component.getUserData();
+    expect(component.savedUserAddresses).toEqual(component.userProfile.addressDto);
   });
 
   it('method onCancel should be called by clicking cancel button', fakeAsync(() => {
@@ -291,6 +312,62 @@ describe('UbsUserProfilePageComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('after method onCancel is called temporary address holders should be cleared and addressDTO equals savedUserAddresses', () => {
+    const mockTempAddedAddressHolder = [
+      {
+        regionEn: 'Kyiv city',
+        regionUk: 'місто Київ',
+        cityUk: 'Київ',
+        cityEn: 'Kyiv',
+        streetUk: 'вулиця Степана Бандери',
+        streetEn: 'Stepana Bandery street',
+        districtEn: 'Kyiv city',
+        districtUk: 'місто Київ',
+        houseNumber: '5',
+        entranceNumber: '2',
+        houseCorpus: '1',
+        addressComment: '',
+        placeId: 'id',
+        coordinates: {
+          latitude: 54.02,
+          longitude: 54.01
+        }
+      }
+    ];
+    const mockTempRemovedAddressHolder = [
+      {
+        id: 2,
+        actual: false,
+        regionEn: 'Kyiv city',
+        regionUk: 'місто Київ',
+        cityUk: 'Київ',
+        cityEn: 'Kyiv',
+        streetUk: 'вулиця Степана Бандери',
+        streetEn: 'Stepana Bandery street',
+        districtEn: 'Kyiv city',
+        districtUk: 'місто Київ',
+        houseNumber: '1',
+        entranceNumber: '2',
+        houseCorpus: '1',
+        addressComment: '',
+        placeId: 'id',
+        coordinates: {
+          latitude: 54.12,
+          longitude: 54.11
+        }
+      }
+    ];
+    component.tempAddedAddressHolder = mockTempAddedAddressHolder;
+    component.tempRemovedAddressHolder = mockTempRemovedAddressHolder;
+    component.isEditing = true;
+
+    component.onCancel();
+
+    expect(component.tempAddedAddressHolder.length).toEqual(0);
+    expect(component.tempRemovedAddressHolder.length).toEqual(0);
+    expect(component.userProfile.addressDto).toEqual(component.savedUserAddresses);
+  });
+
   it('method onCancel should set isEditing false', () => {
     component.isEditing = true;
     component.onCancel();
@@ -307,6 +384,42 @@ describe('UbsUserProfilePageComponent', () => {
 
     expect(dialogMock.open).toHaveBeenCalled();
     expect(matDialogRefMock.afterClosed).toHaveBeenCalled();
+  });
+
+  it('openAddAddressDialog should save address locally if dialog returns a value', () => {
+    const mockTempAddedAddressHolder = [
+      {
+        regionEn: 'Kyiv city',
+        regionUk: 'місто Київ',
+        cityUk: 'Київ',
+        cityEn: 'Kyiv',
+        streetUk: 'вулиця Степана Бандери',
+        streetEn: 'Stepana Bandery street',
+        districtEn: 'Kyiv city',
+        districtUk: 'місто Київ',
+        houseNumber: '5',
+        entranceNumber: '2',
+        houseCorpus: '1',
+        addressComment: '',
+        placeId: 'id',
+        coordinates: {
+          latitude: 54.02,
+          longitude: 54.01
+        }
+      }
+    ];
+
+    const dialogRefSpyObj = jasmine.createSpyObj({
+      afterClosed: of({ value: mockTempAddedAddressHolder[0] })
+    });
+    dialogRefSpyObj.componentInstance = { body: '' };
+    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
+
+    component.openAddAdressDialog();
+
+    expect(component.tempAddedAddressHolder.length).toBe(1);
+    expect(component.tempAddedAddressHolder).toContain(mockTempAddedAddressHolder[0]);
+    expect(dialogSpy).toHaveBeenCalled();
   });
 
   it('method openChangePasswordDialog should calls by clicking open button', fakeAsync(() => {
@@ -400,6 +513,65 @@ describe('UbsUserProfilePageComponent', () => {
     tick();
     expect(submitData).not.toEqual(userProfileDataMock);
   }));
+
+  it('should call saveAddedAddresses and deleteChosenAddresses when form is valid', () => {
+    const saveSpy = spyOn(component, 'saveAddedAddresses');
+    const deleteSpy = spyOn(component, 'deleteChosenAddresses');
+
+    component.userForm = new FormGroup({
+      recipientName: new FormControl('Name'),
+      recipientSurname: new FormControl('Surname'),
+      recipientEmail: new FormControl('some@gmail.com', [Validators.required]),
+      alternateEmail: new FormControl(''),
+      recipientPhone: new FormControl('1234567890'),
+      address: new FormArray([])
+    });
+
+    component.userProfile = {
+      recipientName: 'Name',
+      recipientSurname: 'Surname',
+      recipientEmail: 'some@gmail.com',
+      recipientPhone: '+380923473666',
+      alternateEmail: '',
+      addressDto: [],
+      telegramIsNotify: true,
+      hasPassword: true
+    };
+
+    expect(component.userForm.valid).toBeTrue();
+
+    component.onSubmit();
+
+    expect(saveSpy).toHaveBeenCalled();
+    expect(deleteSpy).toHaveBeenCalled();
+  });
+
+  it('should set isEditing to true when user form is invalid', () => {
+    component.userForm = new FormGroup({
+      recipientName: new FormControl(''),
+      recipientSurname: new FormControl(''),
+      recipientEmail: new FormControl(null, [Validators.required]),
+      alternateEmail: new FormControl(''),
+      recipientPhone: new FormControl(''),
+      address: new FormArray([])
+    });
+
+    expect(component.userForm.valid).toBeFalse();
+
+    component.onSubmit();
+
+    expect(component.isEditing).toBeTruthy();
+  });
+
+  it('on saveAddedAddresses method CreateAddress shouldnt be called if tempAddedAddressHolder is empty', () => {
+    component.tempAddedAddressHolder.length = 0;
+    const store = TestBed.inject(Store) as MockStore;
+    const dispatchSpy = spyOn(store, 'dispatch');
+
+    component.saveAddedAddresses();
+
+    expect(dispatchSpy).not.toHaveBeenCalled();
+  });
 
   it('should toggle alternativeEmail state', () => {
     component.toggleAlternativeEmail();
@@ -515,11 +687,175 @@ describe('UbsUserProfilePageComponent', () => {
     expect(recipientEmailControl.hasError('required')).toBeTrue();
   });
 
-  it('should delete address', () => {
-    spyOn(component['orderService'], 'deleteAddress').and.returnValue(of({ addressList: [] }));
-    component.deleteAddress(component.userProfile.addressDto[0] as Address);
+  it('method deleteAddress should populate tempRemovedAddressHolder if chosen address wasnt newly added in this edit', () => {
+    const addressToDelete = userProfileDataMock.addressDto[0];
+    component.deleteAddress(addressToDelete);
+    expect(component.tempRemovedAddressHolder).toContain(addressToDelete);
+  });
 
-    expect(component.userProfile.addressDto.length).toBe(0);
+  it('deleteAddress should remove chosen address from tempAdded if it was added in this edit, and shouldnt populate tempRemoved', () => {
+    const mockTempAddedAddressHolder = [
+      {
+        regionEn: 'Kyiv city',
+        regionUk: 'місто Київ',
+        cityUk: 'Київ',
+        cityEn: 'Kyiv',
+        streetUk: 'вулиця Степана Бандери',
+        streetEn: 'Stepana Bandery street',
+        districtEn: 'Kyiv city',
+        districtUk: 'місто Київ',
+        houseNumber: '5',
+        entranceNumber: '2',
+        houseCorpus: '1',
+        addressComment: '',
+        placeId: 'id',
+        coordinates: {
+          latitude: 54.02,
+          longitude: 54.01
+        }
+      }
+    ];
+    component.tempAddedAddressHolder = mockTempAddedAddressHolder;
+    component.tempRemovedAddressHolder.length = 0;
+    const addressToDelete = {
+      regionEn: 'Kyiv city',
+      regionUk: 'місто Київ',
+      cityUk: 'Київ',
+      cityEn: 'Kyiv',
+      streetUk: 'вулиця Степана Бандери',
+      streetEn: 'Stepana Bandery street',
+      districtEn: 'Kyiv city',
+      districtUk: 'місто Київ',
+      houseNumber: '5',
+      entranceNumber: '2',
+      houseCorpus: '1',
+      addressComment: '',
+      placeId: 'id',
+      coordinates: {
+        latitude: 54.02,
+        longitude: 54.01
+      }
+    };
+
+    component.deleteAddress(addressToDelete);
+
+    expect(component.tempAddedAddressHolder).not.toContain(addressToDelete);
+    expect(component.tempRemovedAddressHolder.length).toEqual(0);
+  });
+
+  it('after deleteAddress method call chosen address shouldnt be seen on the page', () => {
+    const addressToDelete = userProfileDataMock.addressDto[0];
+
+    component.deleteAddress(addressToDelete);
+
+    expect(component.userProfile.addressDto).not.toContain(addressToDelete);
+  });
+
+  it('saveAddedAddresses method should save localy added addresses and clear tempAddedAddressHolder', () => {
+    const store = TestBed.inject(Store) as MockStore;
+    const dispatchSpy = spyOn(store, 'dispatch');
+    const mockTempAddedAddressHolder = [
+      {
+        regionEn: 'Kyiv city',
+        regionUk: 'місто Київ',
+        cityUk: 'Київ',
+        cityEn: 'Kyiv',
+        streetUk: 'вулиця Степана Бандери',
+        streetEn: 'Stepana Bandery street',
+        districtEn: 'Kyiv city',
+        districtUk: 'місто Київ',
+        houseNumber: '5',
+        entranceNumber: '2',
+        houseCorpus: '1',
+        addressComment: '',
+        placeId: 'id',
+        coordinates: {
+          latitude: 54.02,
+          longitude: 54.01
+        }
+      }
+    ];
+    component.tempAddedAddressHolder = [...mockTempAddedAddressHolder];
+
+    component.saveAddedAddresses();
+
+    expect(dispatchSpy).toHaveBeenCalledWith(CreateAddress({ address: mockTempAddedAddressHolder[0], hideSuccessPopup: true }));
+    expect(component.tempAddedAddressHolder.length).toEqual(0);
+  });
+
+  it('on deleteChosenAddresses method deleteAddress on the orderService shouldnt be called if tempRemovedAddressHolder is empty', () => {
+    component.tempRemovedAddressHolder.length = 0;
+    const orderSpy = spyOn(component['orderService'], 'deleteAddress');
+
+    component.saveAddedAddresses();
+
+    expect(orderSpy).not.toHaveBeenCalled();
+  });
+
+  it('on deleteChosenAddresses method orderService should show snackBar error on error thrown', () => {
+    const mockTempRemovedAddressHolder = [
+      {
+        id: 2,
+        actual: false,
+        regionEn: 'Kyiv city',
+        regionUk: 'місто Київ',
+        cityUk: 'Київ',
+        cityEn: 'Kyiv',
+        streetUk: 'вулиця Степана Бандери',
+        streetEn: 'Stepana Bandery street',
+        districtEn: 'Kyiv city',
+        districtUk: 'місто Київ',
+        houseNumber: '1',
+        entranceNumber: '2',
+        houseCorpus: '1',
+        addressComment: '',
+        placeId: 'id',
+        coordinates: {
+          latitude: 54.12,
+          longitude: 54.11
+        }
+      }
+    ];
+    component.tempRemovedAddressHolder = [...mockTempRemovedAddressHolder];
+    const orderSpy = spyOn(component['orderService'], 'deleteAddress').and.returnValue(throwError(() => new Error()));
+    snackBarMock.openSnackBar.calls.reset();
+
+    component.deleteChosenAddresses();
+
+    expect(orderSpy).toHaveBeenCalledTimes(1);
+    expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('error');
+  });
+
+  it('deleteChosenAddresses method should delete address and clear tempRemovedAddressHolder', () => {
+    const mockTempRemovedAddressHolder = [
+      {
+        id: 2,
+        actual: false,
+        regionEn: 'Kyiv city',
+        regionUk: 'місто Київ',
+        cityUk: 'Київ',
+        cityEn: 'Kyiv',
+        streetUk: 'вулиця Степана Бандери',
+        streetEn: 'Stepana Bandery street',
+        districtEn: 'Kyiv city',
+        districtUk: 'місто Київ',
+        houseNumber: '1',
+        entranceNumber: '2',
+        houseCorpus: '1',
+        addressComment: '',
+        placeId: 'id',
+        coordinates: {
+          latitude: 54.12,
+          longitude: 54.11
+        }
+      }
+    ];
+    component.tempRemovedAddressHolder = [...mockTempRemovedAddressHolder];
+    spyOn(component['orderService'], 'deleteAddress').and.returnValue(of({ addressList: [] }));
+
+    component.deleteChosenAddresses();
+
+    expect(component.tempRemovedAddressHolder.length).toBe(0);
   });
 
   describe('Testing controls for the form:', () => {
