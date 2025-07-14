@@ -2,9 +2,9 @@
   max-width: 900px;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: #fafafa;
+  background-color: var(--after-primary-light-grey);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 5%);
+  box-shadow: 0 2px 8px var(--shadow-dark-grey);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -17,22 +17,22 @@
   label {
     font-weight: 600;
     margin-bottom: 0.25rem;
-    color: #333;
+    color: var(--tertiary-dark-grey);
   }
 }
 
 .form-control {
   padding: 0.5rem 0.75rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--quaternary-light-grey);
   border-radius: 6px;
   font-size: 1rem;
-  background-color: white;
+  background-color: var(--primary-white);
   width: 100%;
 
   &:focus {
     outline: none;
-    border-color: #2e7d32;
-    box-shadow: 0 0 0 2px rgb(46 125 50 / 20%);
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 2px rgba(19, 170, 87, 0.2);
   }
 }
 
@@ -46,16 +46,16 @@
 }
 
 .platform-fieldset {
-  border: 1px solid #ccc;
+  border: 1px solid var(--quaternary-light-grey);
   padding: 1rem;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: var(--primary-white);
 }
 
 .platform-legend {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #2e7d32;
+  color: var(--primary-green);
   padding: 0 0.5rem;
 }
 
@@ -76,20 +76,20 @@
 }
 
 .submit-button {
-  background-color: #4caf50;
-  color: white;
+  background-color: var(--primary-green);
+  color: var(--primary-white);
 
   &:hover {
-    background-color: #1b5e20;
+    background-color: var(--secondary-dark-green);
   }
 
   &:disabled {
-    background-color: #bdbdbd;
+    background-color: var(--quaternary-medium-grey);
     cursor: not-allowed;
   }
 }
 
 .cancel-button {
-  background-color: #f44336;
-  color: white;
+  background-color: var(--error-red);
+  color: var(--primary-white);
 }
