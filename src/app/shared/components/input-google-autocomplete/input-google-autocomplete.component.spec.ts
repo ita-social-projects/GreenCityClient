@@ -20,7 +20,7 @@ class MockLanguageService {
   }
 }
 
-fdescribe('InputGoogleAutocompleteComponent', () => {
+describe('InputGoogleAutocompleteComponent', () => {
   let component: InputGoogleAutocompleteComponent;
   let fixture: ComponentFixture<InputGoogleAutocompleteComponent>;
   const previousGoogle = (window as any).google;
@@ -138,7 +138,7 @@ fdescribe('InputGoogleAutocompleteComponent', () => {
     input.dispatchEvent(event);
     expect(component.keyupEmitter.emit).toHaveBeenCalledWith('test value');
   });
-  fit('should correctly validate region predictions', () => {
+  it('should correctly validate region predictions', () => {
     const validPredictionsMock = [
       'Київська область, Україна',
       'Kyiv Oblast, Ukraine',
