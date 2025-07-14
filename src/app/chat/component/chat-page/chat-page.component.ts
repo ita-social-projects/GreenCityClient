@@ -25,7 +25,6 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.loadAllChats();
   }
-
   loadAllChats(): void {
     const token = localStorage.getItem('accessToken');
     if (!token) return;
@@ -37,23 +36,62 @@ export class ChatComponent implements OnInit {
       next: (response) => {
         const chatList = response.page || [];
 
-        this.chats = chatList.map((chat: any) => ({
-          name: chat.username || `${chat.firstName} ${chat.lastName}`.trim() || chat.chatId || 'Unknown',
-          initial: (chat.username || chat.firstName || chat.chatId || '?')[0].toUpperCase(),
-          chatId: chat.chatId,
-          chatInternalId: chat.id, // internal ID for message fetching
-          lastMessage: chat.lastMessage?.text || '',
-          time: chat.lastMessage?.sendAt
-            ? new Date(chat.lastMessage.sendAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            : '',
-          messages: []
-        }));
+        this.chats = chatList.map((chat: any) => {
+          const fullName = chat.firstName || chat.lastName ? `${chat.firstName || ''} ${chat.lastName || ''}`.trim() : '';
+          const raw = chat.username || fullName || chat.chatId;
+          const name = raw || 'Unknown';
+          const initial = raw ? raw.charAt(0).toUpperCase() : '?';
+
+          return {
+            name,
+            initial,
+            chatId: chat.chatId,
+            chatInternalId: chat.id,
+            lastMessage: chat.lastMessage?.text || '',
+            time: chat.lastMessage?.sendAt
+              ? new Date(chat.lastMessage.sendAt).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })
+              : '',
+            messages: []
+          };
+        });
       },
       error: (err) => {
         console.error('Failed to load chats:', err);
       }
     });
   }
+
+  // loadAllChats(): void {
+  //   const token = localStorage.getItem('accessToken');
+  //   if (!token) return;
+  //
+  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  //   const url = `${this.baseUrl}/chats`;
+  //
+  //   this.http.get<any>(url, { headers }).subscribe({
+  //     next: (response) => {
+  //       const chatList = response.page || [];
+  //
+  //       this.chats = chatList.map((chat: any) => ({
+  //         name: chat.username || `${chat.firstName} ${chat.lastName}`.trim() || chat.chatId || 'Unknown',
+  //         initial: (chat.username || chat.firstName || chat.chatId || '?')[0].toUpperCase(),
+  //         chatId: chat.chatId,
+  //         chatInternalId: chat.id,
+  //         lastMessage: chat.lastMessage?.text || '',
+  //         time: chat.lastMessage?.sendAt
+  //           ? new Date(chat.lastMessage.sendAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  //           : '',
+  //         messages: []
+  //       }));
+  //     },
+  //     error: (err) => {
+  //       console.error('Failed to load chats:', err);
+  //     }
+  //   });
+  // }
 
   selectChat(chat: any): void {
     this.selectedChat = chat;
