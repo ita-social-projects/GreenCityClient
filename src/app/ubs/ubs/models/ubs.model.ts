@@ -111,8 +111,12 @@ export class CAddressData {
     this.addressComment = address.addressComment;
   }
 
+  private isGoogleDefined(): boolean {
+    return typeof window?.google?.maps === 'undefined';
+  }
+
   setCoordinates(coordinates: google.maps.LatLngLiteral, opts?: { fetch: boolean }): void {
-    if (typeof window?.google?.maps === 'undefined') {
+    if (this.isGoogleDefined()) {
       return;
     }
 
@@ -250,7 +254,7 @@ export class CAddressData {
   }
 
   getValues(): AddressData {
-    if (typeof window?.google?.maps === 'undefined') {
+    if (this.isGoogleDefined()) {
       return;
     }
 
@@ -296,7 +300,7 @@ export class CAddressData {
   }
 
   async getAddressPlaceId(coordinates: google.maps.LatLngLiteral): Promise<string> {
-    if (typeof window?.google?.maps === 'undefined') {
+    if (this.isGoogleDefined()) {
       return;
     }
 
@@ -314,7 +318,7 @@ export class CAddressData {
 
   //Tries to fetch address by selected coordinates
   private async fetchAddress(coordinates: google.maps.LatLngLiteral): Promise<void> {
-    if (typeof window?.google?.maps === 'undefined') {
+    if (this.isGoogleDefined()) {
       return;
     }
 
@@ -340,7 +344,7 @@ export class CAddressData {
 
   //Translates values to achieve consistent view of address in different languages
   private async setProperties(propertyName: string, place_id: string, ...googleLocalityType: string[]): Promise<void> {
-    if (typeof window?.google?.maps === 'undefined') {
+    if (this.isGoogleDefined()) {
       return;
     }
 
@@ -360,7 +364,7 @@ export class CAddressData {
     language: Language,
     ...googleLocalityType: string[]
   ): Promise<void> {
-    if (typeof window?.google?.maps === 'undefined') {
+    if (this.isGoogleDefined()) {
       return;
     }
 
