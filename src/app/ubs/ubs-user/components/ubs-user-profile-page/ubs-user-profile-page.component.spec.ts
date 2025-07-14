@@ -212,6 +212,42 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should initialize alternateEmail with value and validate pattern', () => {
+    const mockProfileWithAltEmail = {
+      ...userEmptyProfileDataMock,
+      alternateEmail: 'alt@example.com'
+    };
+
+    component.userProfile = mockProfileWithAltEmail;
+    component.userInit();
+
+    const alternateEmailControl = component.userForm.get('alternateEmail');
+
+    expect(alternateEmailControl).toBeTruthy();
+    expect(alternateEmailControl.value).toBe('alt@example.com');
+
+    alternateEmailControl.setValue('invalid-email');
+    expect(alternateEmailControl.hasError('pattern')).toBeTrue();
+
+    alternateEmailControl.setValue('valid.email@example.com');
+    expect(alternateEmailControl.valid).toBeTrue();
+  });
+
+  it('should initialize alternateEmail with empty value if not present in userProfile', () => {
+    const mockProfileWithoutAltEmail = {
+      ...userEmptyProfileDataMock,
+      alternateEmail: undefined
+    };
+
+    component.userProfile = mockProfileWithoutAltEmail;
+    component.userInit();
+
+    const alternateEmailControl = component.userForm.get('alternateEmail');
+
+    expect(alternateEmailControl).toBeTruthy();
+    expect(component.alternateEmail.value).toBeNull();
+  });
+
   it('should call "goToTelegramUrl" correctly', () => {
     const goToTelegramSpy = spyOn(component, 'goToTelegramUrl');
     goToTelegramSpy();
@@ -326,7 +362,24 @@ describe('UbsUserProfilePageComponent', () => {
     tick(500);
   }));
 
-  it('method onSubmit should return submitData without alternative email ', () => {
+  it('method onSubmit should return submitData without alternative email ', fakeAsync(() => {
+    component.userProfile = {
+      ...userProfileDataMock,
+      addressDto: [userProfileDataMock.addressDto[0]]
+    };
+
+    component.userForm.patchValue({
+      address: [userProfileDataMock.addressDto[0]],
+      recipientEmail: userProfileDataMock.recipientEmail,
+      recipientName: userProfileDataMock.recipientName,
+      recipientPhone: userProfileDataMock.recipientPhone,
+      recipientSurname: userProfileDataMock.recipientSurname,
+      hasPassword: true,
+      alternateEmail: ''
+    });
+
+    component.userProfile = userProfileDataMock;
+
     const submitData = {
       addressDto: [
         {
@@ -342,10 +395,11 @@ describe('UbsUserProfilePageComponent', () => {
       recipientSurname: component.userForm.value.recipientSurname,
       hasPassword: true
     };
-    component.toggleAlternativeEmail();
+    clientProfileServiceMock.postDataClientProfile.calls.reset();
     component.onSubmit();
+    tick();
     expect(submitData).not.toEqual(userProfileDataMock);
-  });
+  }));
 
   it('should toggle alternativeEmail state', () => {
     component.toggleAlternativeEmail();

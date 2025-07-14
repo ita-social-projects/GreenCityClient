@@ -120,7 +120,7 @@ export const GetExistingOrderInfoSuccess = createAction(OrderActions.GetExisting
 export const GetAddresses = createAction(OrderActions.GetAddresses);
 export const GetAddressesSuccess = createAction(OrderActions.GetAddressesSuccess, props<{ locations: Address[] }>());
 
-export const CreateAddress = createAction(OrderActions.CreateAddress, props<{ address: AddressData }>());
+export const CreateAddress = createAction(OrderActions.CreateAddress, props<{ address: AddressData; hideSuccessPopup: boolean }>());
 export const CreateAddressSuccess = createAction(OrderActions.CreateAddressSuccess, props<{ addresses: Address[] }>());
 export const CreateAddressFail = createAction(OrderActions.CreateAddressFail);
 

@@ -103,6 +103,7 @@ import { UbsAdminConfirmStatusChangePopUpComponent } from './components/ubs-admi
 import { TableCellInputComponent } from './components/ubs-admin-table/table-cell-input/table-cell-input.component';
 import { CommentPopUpComponent } from './components/shared/components/comment-pop-up/comment-pop-up.component';
 import { UbsSharedModule } from '../shared/ubs-shared.module';
+import { UbsAdminNotificationCreateFormComponent } from './components/ubs-admin-notification/ubs-admin-notification-create-form/ubs-admin-notification-create-form.component';
 
 @NgModule({
   declarations: [
@@ -174,7 +175,8 @@ import { UbsSharedModule } from '../shared/ubs-shared.module';
     UbsAdminEditUserAgreementComponent,
     UbsAdminConfirmStatusChangePopUpComponent,
     TableCellInputComponent,
-    CommentPopUpComponent
+    CommentPopUpComponent,
+    UbsAdminNotificationCreateFormComponent
   ],
   imports: [
     CommonModule,

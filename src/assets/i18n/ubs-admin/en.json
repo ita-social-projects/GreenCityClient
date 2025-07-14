@@ -1038,6 +1038,22 @@
   },
   "ubs-notifications": {
     "page-title": "Notifications",
+    "create-button-text": "Create a notification",
+    "form": {
+      "titleUk": "Title (UA)",
+      "titleEn": "Title (EN)",
+      "schedule": "Schedule (CRON)",
+      "userCategory": "User Category",
+      "bodyUk": "Body (UA)",
+      "bodyEn": "Body (EN)",
+      "submit": "Create Notification",
+      "cancel": "Cancel",
+      "platformLegend": {
+        "EMAIL": "EMAIL",
+        "SITE": "SITE",
+        "MOBILE": "MOBILE"
+      }
+    },
     "filters": {
       "topic": "Notification topic",
       "trigger": "Trigger",
@@ -1073,6 +1089,7 @@
     },
     "settings-popup": {
       "title": "Notification settings",
+
       "labels": {
         "titleEn": "Notification topic in english",
         "titleUa": "Notification topic in ukrainian",

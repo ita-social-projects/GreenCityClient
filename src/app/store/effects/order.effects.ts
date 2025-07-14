@@ -123,10 +123,12 @@ export class OrderEffects {
   createAddress = createEffect(() =>
     this.actions.pipe(
       ofType(CreateAddress),
-      mergeMap((action: { address: AddressData }) => {
+      mergeMap((action: { address: AddressData; hideSuccessPopup: boolean }) => {
         return this.orderService.addAddress(action.address).pipe(
           map((response) => {
-            this.snackBar.openSnackBar('addedAddress');
+            if (!action.hideSuccessPopup) {
+              this.snackBar.openSnackBar('addedAddress');
+            }
             return CreateAddressSuccess({ addresses: response.addressList });
           }),
           catchError((error) => {
