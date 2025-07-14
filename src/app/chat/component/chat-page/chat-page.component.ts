@@ -151,7 +151,10 @@ export class ChatComponent implements OnInit {
       .subscribe({
         next: () => {
           const now = new Date();
-          const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          const time = now.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
+          });
 
           this.selectedChat.messages.push({
             from: 'Me',
