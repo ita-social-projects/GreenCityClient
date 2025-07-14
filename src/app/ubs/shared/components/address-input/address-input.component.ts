@@ -20,7 +20,7 @@ import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { emptyOrValid } from '@ubs/shared/validators/empthy-or-valid.validator';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
 import { GooglePrediction } from 'src/app/ubs/mocks/google-types';
-import { Address, CourierLocations, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, AddressData, CourierLocations, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
 import { CAddressData } from 'src/app/ubs/ubs/models/ubs.model';
 import { addressAlreadyExistsValidator } from '@ubs/ubs/validators/address-already-exists-validator';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -50,6 +50,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   @Input() edit: boolean;
   @Input() address: Address;
   @Input() addFromProfile: boolean;
+  @Input() addressesFromProfile?: AddressData[];
   @Input() isShowCommentInput = true;
   @Input() isFromAdminPage: boolean;
   @Input() isUneditableStatus: boolean;
@@ -339,7 +340,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   initForm(): void {
-    if (this.address?.id || this.locations?.regionDto) {
+    if (this.address?.id || this.locations?.regionDto || this.edit) {
       this.setInitialValues();
     }
 
@@ -385,6 +386,15 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.addressForm.setValidators(
           addressAlreadyExistsValidator(addresses, this.localStorageService.getCurrentLanguage(), this.formAddressChangeId)
         );
+        if (this.addressesFromProfile) {
+          this.addressForm.addValidators(
+            addressAlreadyExistsValidator(
+              this.addressesFromProfile,
+              this.localStorageService.getCurrentLanguage(),
+              this.formAddressChangeId
+            )
+          );
+        }
         this.addressForm.updateValueAndValidity();
       }
     });

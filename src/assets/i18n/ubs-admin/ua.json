@@ -1035,7 +1035,23 @@
     "binotel-link": "Введіть посилання у форматі: https://my.binotel.ua"
   },
   "ubs-notifications": {
-    "page-title": "Повідомлення",
+    "page-title": "Сповіщення",
+    "create-button-text": "Створити сповіщення",
+    "form": {
+      "titleUk": "Назва українською",
+      "titleEn": "Назва англійською",
+      "schedule": "Розклад (CRON)",
+      "userCategory": "Користувацька категорія",
+      "bodyUk": "Тіло (UA)",
+      "bodyEn": "Тіло (EN)",
+      "submit": "Створити сповіщення",
+      "cancel": "Скасувати",
+      "platformLegend": {
+        "EMAIL": "EMAIL",
+        "SITE": "SITE",
+        "MOBILE": "MOBILE"
+      }
+    },
     "filters": {
       "topic": "Тема повідомлення",
       "trigger": "Подія для активації",

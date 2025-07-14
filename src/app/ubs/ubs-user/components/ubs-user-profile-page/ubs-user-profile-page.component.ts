@@ -13,7 +13,7 @@ import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
 import { UBSAddAddressPopUpComponent } from '@ubs/shared/components/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
-import { GetAddresses } from 'src/app/store/actions/order.actions';
+import { CreateAddress, GetAddresses } from 'src/app/store/actions/order.actions';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
 import { DeletingProfileReasonPopUpComponent } from 'src/app/ubs/ubs-admin/components/shared/components/deleting-profile-reason-pop-up/deleting-profile-reason-pop-up.component';
 import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
@@ -24,6 +24,7 @@ import { ConfirmationDialogComponent } from '../../../ubs-admin/components/share
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { AddressData } from '@ubs/ubs/models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -49,6 +50,9 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   phoneMask: string = Masks.phoneMask;
   phonePrefix: string = phonePrefix;
   resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
+  tempAddedAddressHolder: AddressData[] = [];
+  tempRemovedAddressHolder: Address[] = [];
+  savedUserAddresses: Address[];
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -110,6 +114,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: UserProfile) => {
           this.userProfile = res;
+          this.savedUserAddresses = [...res.addressDto];
           this.userInit();
           this.setUrlToBot();
           this.isFetching = false;
@@ -154,24 +159,15 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     this.isFetching = false;
   }
 
-  deleteAddress(address: Address) {
-    this.orderService
-      .deleteAddress(address)
-      .pipe(take(1))
-      .subscribe((list: { addressList: Address[] }) => {
-        this.userProfile.addressDto = list.addressList;
-
-        const addressArray = this.userForm.get('address');
-        if (!(addressArray instanceof FormArray)) {
-          return;
-        }
-
-        const index = addressArray.controls.findIndex((ctrl) => ctrl.value?.id === address.id);
-        if (index !== -1) {
-          addressArray.removeAt(index);
-          this.userForm.markAsDirty();
-        }
-      });
+  deleteAddress(address: Address | AddressData) {
+    if (this.tempAddedAddressHolder.find((addr) => addr.placeId === address.placeId)) {
+      this.tempAddedAddressHolder = this.tempAddedAddressHolder.filter((addr) => addr.placeId !== address.placeId);
+    } else {
+      this.tempRemovedAddressHolder.push(address as Address);
+    }
+    this.userProfile.addressDto = this.userProfile.addressDto.filter((addr) => addr.placeId !== address.placeId);
+    this.userInit();
+    this.userForm.markAsDirty();
   }
 
   resetValue(): void {
@@ -202,6 +198,9 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   onCancel(): void {
+    this.userProfile.addressDto = [...this.savedUserAddresses];
+    this.tempAddedAddressHolder.length = 0;
+    this.tempRemovedAddressHolder.length = 0;
     this.userInit();
     this.isEditing = false;
   }
@@ -250,6 +249,9 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         }
       });
 
+      this.saveAddedAddresses();
+      this.deleteChosenAddresses();
+
       this.clientProfileService
         .postDataClientProfile(submitData)
         .pipe(take(1))
@@ -257,6 +259,9 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
           next: (res: UserProfile) => {
             this.isFetching = false;
             this.userProfile = res;
+            if (res.addressDto) {
+              this.savedUserAddresses = [...res.addressDto];
+            }
             this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
             this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
           },
@@ -270,6 +275,31 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       this.isEditing = true;
     }
     this.snackBar.openSnackBar('savedChangesToUserProfile');
+  }
+
+  saveAddedAddresses() {
+    if (this.tempAddedAddressHolder.length) {
+      this.tempAddedAddressHolder.forEach((addedAddress) => {
+        this.store.dispatch(CreateAddress({ address: addedAddress, hideSuccessPopup: true }));
+      });
+      this.tempAddedAddressHolder.length = 0;
+    }
+  }
+
+  deleteChosenAddresses() {
+    if (this.tempRemovedAddressHolder.length) {
+      this.tempRemovedAddressHolder.forEach((removedAddress: Address) => {
+        this.orderService
+          .deleteAddress(removedAddress)
+          .pipe(take(1))
+          .subscribe({
+            error: () => {
+              this.snackBar.openSnackBar('error');
+            }
+          });
+      });
+      this.tempRemovedAddressHolder.length = 0;
+    }
   }
 
   goToTelegramUrl() {
@@ -348,10 +378,19 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     dialogConfig.data = {
       edit: false,
       addFromProfile: true,
-      address: {}
+      address: {},
+      addressesFromProfile: this.tempAddedAddressHolder
     };
 
-    this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
+    const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.value) {
+        this.tempAddedAddressHolder.push(result.value);
+        this.userProfile.addressDto.push(result.value);
+        this.userInit();
+        this.userForm.markAsDirty();
+      }
+    });
   }
 
   formatedPhoneNumber(num: string): string | void {

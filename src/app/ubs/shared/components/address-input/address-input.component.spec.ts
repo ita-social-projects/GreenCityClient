@@ -110,6 +110,40 @@ describe('AddressInputComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should add additional addressAlreadyExistsValidator to the address form when addressesFromProfile is not empty', () => {
+    const addressesFromProfileMock = [
+      {
+        regionEn: 'Kyiv city',
+        regionUk: 'місто Київ',
+        cityUk: 'Київ',
+        cityEn: 'Kyiv',
+        streetUk: 'вулиця Степана Бандери',
+        streetEn: 'Stepana Bandery street',
+        districtEn: 'Kyiv city',
+        districtUk: 'місто Київ',
+        houseNumber: '5',
+        entranceNumber: '2',
+        houseCorpus: '1',
+        addressComment: '',
+        placeId: 'id',
+        coordinates: {
+          latitude: 54.02,
+          longitude: 54.01
+        }
+      }
+    ];
+    component.addressesFromProfile = [...addressesFromProfileMock];
+
+    expect(component.addressesFromProfile).toEqual(addressesFromProfileMock);
+
+    const addValidatorSly = spyOn(component.addressForm, 'addValidators');
+    spyOn(component['store'], 'pipe').and.returnValue(of([]));
+
+    component.initFormValidators();
+
+    expect(addValidatorSly).toHaveBeenCalled();
+  });
+
   it('should validate the form correctly', () => {
     component.addressForm.setValue({
       region: 'Kyiv',
