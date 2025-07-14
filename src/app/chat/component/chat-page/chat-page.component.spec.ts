@@ -143,11 +143,13 @@ describe('ChatComponent · fetchMessages via stubbed HttpClient', () => {
 
     component.fetchMessages(456);
 
-    expect(component.selectedChat.messages).toEqual([{
-      from: 'System',
-      text: 'There are no messages in this chat.',
-      time: ''
-    }]);
+    expect(component.selectedChat.messages).toEqual([
+      {
+        from: 'System',
+        text: 'There are no messages in this chat.',
+        time: ''
+      }
+    ]);
   });
 
   it('should handle 404 no-messages error', () => {
@@ -284,7 +286,7 @@ describe('ChatComponent · sendMessage via stubbed HttpClient', () => {
     expect(component['http'].post).not.toHaveBeenCalled();
   });
 
-  xit('should send message and update chat on success', () => {
+  it('should send message and update chat on success', () => {
     const now = new Date('2025-07-14T12:34:00Z');
     jasmine.clock().mockDate(now);
     component.selectedChat = { chatInternalId: 5, messages: [], lastMessage: '', time: '' };
