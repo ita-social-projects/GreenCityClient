@@ -44,6 +44,15 @@ describe('ProfileDashboardComponent', () => {
     const httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     httpClientSpy.get.and.returnValue(of(mockFavouriteEvents));
 
+    Object.defineProperty(navigator, 'geolocation', {
+      value: {
+        getCurrentPosition: jasmine.createSpy('getCurrentPosition').and.callFake((successCb, errorCb) => {
+          successCb({ coords: { latitude: 10, longitude: 20 } });
+        })
+      },
+      writable: true
+    });
+
     TestBed.configureTestingModule({
       declarations: [ProfileDashboardComponent],
       imports: [

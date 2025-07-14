@@ -90,6 +90,16 @@ describe('AddressInputComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
+
+    Object.defineProperty(navigator, 'geolocation', {
+      value: {
+        getCurrentPosition: jasmine.createSpy('getCurrentPosition').and.callFake((successCb, errorCb) => {
+          successCb({ coords: { latitude: 10, longitude: 20 } });
+        })
+      },
+      writable: true
+    });
+
     fixture = TestBed.createComponent(AddressInputComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
@@ -136,23 +146,6 @@ describe('AddressInputComponent', () => {
   });
 
   it('should call handleGeolocationSuccess when setCurrentLocation is triggered', () => {
-    spyOn(navigator.geolocation, 'getCurrentPosition').and.callFake((success) => {
-      const mockPosition: GeolocationPosition = {
-        coords: {
-          latitude: 50.45,
-          longitude: 30.52,
-          accuracy: 10,
-          altitude: null,
-          altitudeAccuracy: null,
-          heading: null,
-          speed: null,
-          toJSON: () => ({})
-        },
-        timestamp: Date.now()
-      } as GeolocationPosition;
-      success(mockPosition);
-    });
-
     spyOn<any>(component, 'handleGeolocationSuccess');
     component['setCurrentLocation']();
     expect(component['handleGeolocationSuccess']).toHaveBeenCalled();
@@ -566,9 +559,6 @@ describe('AddressInputComponent', () => {
   }));
 
   it('should handle geolocation error gracefully by setting default coordinates', () => {
-    spyOn(navigator.geolocation, 'getCurrentPosition').and.callFake((success, error) => {
-      error({ code: 1, message: 'User denied geolocation' } as GeolocationPositionError);
-    });
     spyOn<any>(component, 'handleGeolocationSuccess');
 
     component['setCurrentLocation']();
