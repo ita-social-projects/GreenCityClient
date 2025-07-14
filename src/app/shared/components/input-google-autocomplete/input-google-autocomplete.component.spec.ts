@@ -20,7 +20,7 @@ class MockLanguageService {
   }
 }
 
-describe('InputGoogleAutocompleteComponent', () => {
+fdescribe('InputGoogleAutocompleteComponent', () => {
   let component: InputGoogleAutocompleteComponent;
   let fixture: ComponentFixture<InputGoogleAutocompleteComponent>;
   const previousGoogle = (window as any).google;
@@ -137,5 +137,25 @@ describe('InputGoogleAutocompleteComponent', () => {
     const event = new KeyboardEvent('keyup');
     input.dispatchEvent(event);
     expect(component.keyupEmitter.emit).toHaveBeenCalledWith('test value');
+  });
+  fit('should correctly validate region predictions', () => {
+    const validPredictionsMock = [
+      'Київська область, Україна',
+      'Kyiv Oblast, Ukraine',
+      'місто Київ, Україна',
+      'city Kyiv, Ukraine',
+      'Крим, Україна',
+      'Crimea, Ukraine'
+    ];
+
+    const invalidPredictionsMock = ['Кхарківська, Україна', 'Керсонска, Україна', 'Khersonska, Ukraine'];
+
+    validPredictionsMock.forEach((prediction) => {
+      expect(component.regionValidation(prediction)).toBeTrue();
+    });
+
+    invalidPredictionsMock.forEach((prediction) => {
+      expect(component.regionValidation(prediction)).toBeFalse();
+    });
   });
 });

@@ -163,14 +163,22 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
     const regex = new RegExp(Patterns.countriesRestriction);
 
     const filteredPredictions = predictions.filter((prediction) => {
+      const regionIsCorrect = this.regionValidation(prediction.description);
       const description = prediction.description || '';
       const isValidText = Patterns.ukrainianText.test(description) || Patterns.englishText.test(description);
 
-      return isValidText && !regex.test(description);
+      return regionIsCorrect && isValidText && !regex.test(description);
     });
 
     this.predictionList =
       this.languageService.getCurrentLanguage() === 'en' ? filteredPredictions : this.filterDuplicates(filteredPredictions);
+  }
+
+  regionValidation(prediction: string) {
+    if (prediction.includes('Крим') || prediction.includes('Crimea') || prediction.includes('Kyiv') || prediction.includes('Київ')) {
+      return true;
+    }
+    return prediction.toLowerCase().includes('oblast') || prediction.toLowerCase().includes('область');
   }
 
   onPredictionSelected(prediction: GooglePrediction): void {
