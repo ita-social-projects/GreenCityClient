@@ -25,10 +25,11 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.loadAllChats();
   }
-
   loadAllChats(): void {
     const token = localStorage.getItem('accessToken');
-    if (!token) return;
+    if (!token) {
+      return;
+    }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${this.baseUrl}/chats`;
@@ -64,12 +65,10 @@ export class ChatComponent implements OnInit {
       }
     });
   }
-
   selectChat(chat: any): void {
     this.selectedChat = chat;
     this.fetchMessages(chat.chatInternalId);
   }
-
   fetchMessages(chatInternalId: number): void {
     const token = localStorage.getItem('accessToken');
     if (!token) return;
