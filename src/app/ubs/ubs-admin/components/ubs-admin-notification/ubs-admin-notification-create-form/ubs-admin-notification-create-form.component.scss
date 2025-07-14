@@ -32,7 +32,7 @@
   &:focus {
     outline: none;
     border-color: var(--primary-green);
-    box-shadow: 0 0 0 2px rgba(19, 170, 87, 0.2);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-green) 20%, transparent);
   }
 }
 
