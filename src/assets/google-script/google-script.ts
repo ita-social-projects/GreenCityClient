@@ -34,11 +34,7 @@ export class GoogleScript {
   }
 
   private _isApiInitialized(): boolean {
-    return (
-      typeof window?.google !== 'undefined' &&
-      typeof window?.google?.maps !== 'undefined' &&
-      typeof window?.google?.maps?.places !== 'undefined'
-    );
+    return typeof window?.google?.maps?.places !== 'undefined';
   }
 
   public async load(language: string): Promise<void> {
@@ -130,8 +126,6 @@ export class GoogleScript {
           try {
             if (window?.google?.maps) {
               delete window.google.maps;
-            }
-            if (window?.google) {
               delete window.google;
             }
           } catch (e) {
