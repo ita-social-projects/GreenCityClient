@@ -38,9 +38,9 @@
       </mat-checkbox>
     </div>
 
-    <div *ngIf="!formDisabled && !isRenderingMap && !isPlaceDisabled" class="map-container">
+    <div *ngIf="!formDisabled && showMap && !isPlaceDisabled" class="map-container">
       <google-map (mapClick)="mapClick($event)" [options]="mapOptions" [width]="'100%'" height="410px">
-        <map-marker [position]="mapMarkerCoords" />
+        <map-marker *ngIf="mapMarkerCoords" [position]="mapMarkerCoords" />
       </google-map>
     </div>
   </div>

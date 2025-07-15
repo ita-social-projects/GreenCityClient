@@ -17,7 +17,8 @@ describe('AppComponent', () => {
   const localStorageMock = jasmine.createSpyObj('LocalStorageService', [
     'userIdBehaviourSubject',
     'getAccessToken',
-    'languageBehaviourSubject'
+    'languageBehaviourSubject',
+    'getCurrentLanguage'
   ]);
   localStorageMock.userIdBehaviourSubject = () => of(1);
   localStorageMock.getAccessToken = () => 1;
