@@ -4,6 +4,7 @@
     <div class="search-bar">
       <input type="text" placeholder="Search chats..." />
     </div>
+
     <ul class="chat-list">
       <li class="chat-item" *ngFor="let chat of chats" [class.selected]="chat.name === selectedChat?.name" (click)="selectChat(chat)">
         <div class="avatar">{{ chat.initial }}</div>
@@ -17,8 +18,11 @@
   </aside>
   <section class="chat-view">
     <div *ngIf="selectedChat; else placeholder" class="chat-box">
-      <div class="chat-header">{{ selectedChat.name }}</div>
-
+      <div class="chat-header">
+        {{ selectedChat.name }}
+        <button class="client-info-button" (click)="toggleClientInfo()" title="Клієнтська інформація">🧠</button>
+      </div>
+      <app-client-info-panel *ngIf="clientInfoVisible" [clientData]="clientInfoData" class="client-info-panel"></app-client-info-panel>
       <div class="messages">
         <div
           *ngFor="let message of selectedChat.messages"

@@ -1,0 +1,29 @@
+<div *ngIf="clientData; else loading">
+  <div *ngIf="clientData.error" class="error">{{ clientData.error }}</div>
+
+  <div *ngIf="!clientData.error">
+    <div *ngFor="let key of objectKeys(clientData)">
+      <div *ngIf="isPrimitive(clientData[key])">
+        <strong>{{ key }}:</strong> {{ clientData[key] }}
+      </div>
+
+      <div *ngIf="isArray(clientData[key])">
+        <strong>{{ key }}:</strong>
+        <ul>
+          <li *ngFor="let item of clientData[key]">
+            <pre>{{ item | json }}</pre>
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="isObject(clientData[key])">
+        <strong>{{ key }}:</strong>
+        <pre>{{ clientData[key] | json }}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Завантаження інформації...</p>
+</ng-template>

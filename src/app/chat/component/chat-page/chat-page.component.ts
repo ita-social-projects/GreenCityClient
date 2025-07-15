@@ -2,13 +2,14 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat-page.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule],
+  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent],
   styleUrls: ['./chat-page.component.scss']
 })
 export class ChatComponent implements OnInit {
@@ -17,7 +18,8 @@ export class ChatComponent implements OnInit {
   newMessage = '';
   selectedFile: File | null = null;
   caption = '';
-
+  clientInfoVisible = false;
+  clientInfoData: any = null;
   private readonly baseUrl = 'https://greencity-ubs.greencity.cx.ua/ubs/telegram';
 
   constructor(private http: HttpClient) {}
@@ -53,9 +55,9 @@ export class ChatComponent implements OnInit {
             lastMessage: chat.lastMessage?.text || '',
             time: chat.lastMessage?.sendAt
               ? new Date(chat.lastMessage.sendAt).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit'
-              })
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })
               : '',
             messages: []
           };
@@ -87,21 +89,21 @@ export class ChatComponent implements OnInit {
 
         this.selectedChat.messages = messages.length
           ? messages.map((msg: any) => ({
-            from: msg.fromManager ? 'Me' : this.selectedChat.name,
-            text: msg.text,
-            time: new Date(msg.sendAt).toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit'
-            }),
-            images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
-          }))
+              from: msg.fromManager ? 'Me' : this.selectedChat.name,
+              text: msg.text,
+              time: new Date(msg.sendAt).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+              }),
+              images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
+            }))
           : [
-            {
-              from: 'System',
-              text: 'There are no messages in this chat.',
-              time: ''
-            }
-          ];
+              {
+                from: 'System',
+                text: 'There are no messages in this chat.',
+                time: ''
+              }
+            ];
       },
       error: (err) => {
         if (err.status === 404 && err.error?.message?.includes('no messages')) {
@@ -175,5 +177,33 @@ export class ChatComponent implements OnInit {
     if (input.files && input.files[0]) {
       this.selectedFile = input.files[0];
     }
+  }
+
+  toggleClientInfo(): void {
+    this.clientInfoVisible = !this.clientInfoVisible;
+
+    if (this.clientInfoVisible && this.selectedChat?.chatId) {
+      this.fetchClientInfo(this.selectedChat.id);
+    }
+  }
+
+  fetchClientInfo(chatId: number): void {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      return;
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const url = `${this.baseUrl}/last-order?chatId=12`;
+
+    this.http.get<any>(url, { headers }).subscribe({
+      next: (response) => {
+        this.clientInfoData = response;
+      },
+      error: (err) => {
+        console.error('Failed to load client info:', err);
+        this.clientInfoData = { error: 'Не вдалося завантажити інформацію.' };
+      }
+    });
   }
 }

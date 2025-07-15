@@ -143,11 +143,13 @@ describe('ChatComponent · fetchMessages via stubbed HttpClient', () => {
 
     component.fetchMessages(456);
 
-    expect(component.selectedChat.messages).toEqual([{
-      from: 'System',
-      text: 'There are no messages in this chat.',
-      time: ''
-    }]);
+    expect(component.selectedChat.messages).toEqual([
+      {
+        from: 'System',
+        text: 'There are no messages in this chat.',
+        time: ''
+      }
+    ]);
   });
 
   it('should handle 404 no-messages error', () => {
@@ -319,5 +321,41 @@ describe('ChatComponent · sendMessage via stubbed HttpClient', () => {
     component.sendMessage();
 
     expect(console.error).toHaveBeenCalledWith('Failed to send message:', err);
+  });
+  xit('should fetch client info and store it in clientInfoData', () => {
+    const mockResponse = { name: 'Ivan', city: 'Kyiv' };
+    spyOn(component['http'], 'get').and.returnValue(of(mockResponse));
+
+    component.fetchClientInfo(12);
+
+    expect(component.clientInfoData).toEqual(mockResponse);
+    expect(component['http'].get).toHaveBeenCalledWith(
+      'https://greencity-ubs.greencity.cx.ua/ubs/telegram/last-order?chatId=12',
+      jasmine.objectContaining({
+        headers: jasmine.objectContaining({
+          Authorization: 'Bearer mock-token'
+        })
+      })
+    );
+  });
+
+  it('should handle error while fetching client info', () => {
+    const err = new HttpErrorResponse({ status: 500, statusText: 'Oops' });
+    spyOn(component['http'], 'get').and.returnValue(throwError(() => err));
+    spyOn(console, 'error');
+
+    component.fetchClientInfo(12);
+
+    expect(console.error).toHaveBeenCalledWith('Failed to load client info:', err);
+    expect(component.clientInfoData).toEqual({ error: 'Не вдалося завантажити інформацію.' });
+  });
+
+  it('should not fetch client info if token is missing', () => {
+    localStorage.removeItem('accessToken');
+    spyOn(component['http'], 'get');
+
+    component.fetchClientInfo(12);
+
+    expect(component['http'].get).not.toHaveBeenCalled();
   });
 });
