@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, NgZone, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -14,8 +14,8 @@ import {
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.model';
 import { select, Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, filter, from, Subject } from 'rxjs';
+import { debounceTime, switchMap, take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { emptyOrValid } from '@ubs/shared/validators/empthy-or-valid.validator';
 import { addressesSelector } from 'src/app/store/selectors/order.selectors';
@@ -24,7 +24,9 @@ import { Address, AddressData, CourierLocations, DistrictsDtos } from 'src/app/u
 import { CAddressData } from 'src/app/ubs/ubs/models/ubs.model';
 import { addressAlreadyExistsValidator } from '@ubs/ubs/validators/address-already-exists-validator';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { AddressService } from '../../../../shared/services/address/address.service';
+import { AddressService } from '@global-service/address/address.service';
+import { GoogleScript } from '@assets/google-script/google-script';
+import { GoogleMap } from '@angular/google-maps';
 
 @Component({
   selector: 'app-address-input',
@@ -53,16 +55,19 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   @Input() isFromAdminPage: boolean;
   @Input() isUneditableStatus: boolean;
 
+  @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
+
   addressForm: FormGroup;
   currentLanguage: string;
   locations: CourierLocations;
   addressData: CAddressData;
-  addressCoords: google.maps.LatLng;
+  addressCoords: google.maps.LatLngLiteral;
   isTouched = false;
   isShowMap = false;
   districtsForKyiv: DistrictsDtos[];
   allowDistrictEdit = false;
   errorType: string | undefined;
+  isMapLoaded$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   mapOptions: google.maps.MapOptions = {
     center: { lat: 50.4501, lng: 30.5234 },
@@ -75,6 +80,8 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   private readonly numericPattern = Patterns.numeric;
   private readonly $destroy: Subject<void> = new Subject();
   private viewInitialized = false;
+  private googlePlacesService: google.maps.places.PlacesService;
+  private readonly showMapSelected$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   autocompleteRegionRequest = {
     input: '',
@@ -139,13 +146,16 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     public langService: LanguageService,
     private readonly store: Store,
     private readonly cdr: ChangeDetectorRef,
-    private readonly addressService: AddressService
+    private readonly addressService: AddressService,
+    private readonly ngZone: NgZone,
+    private readonly googleScript: GoogleScript
   ) {}
 
   ngOnInit(): void {
     this.addressData = new CAddressData(this.langService);
     this.locations = this.localStorageService.getLocations();
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    this.showMapSelected$.next(this.isShowMap);
     this.initForm();
     this.initListeners();
   }
@@ -258,6 +268,75 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.onChange(this.addressData.getValues());
         this.cdr.detectChanges();
       });
+
+    combineLatest([
+      this.localStorageService.languageBehaviourSubject.pipe(debounceTime(150)),
+      this.showMapSelected$.pipe(debounceTime(250))
+    ])
+      .pipe(
+        switchMap(([lang, showMapSelected]) => {
+          if (showMapSelected) {
+            this.ngZone.run(() => {
+              this.isMapLoaded$.next(false);
+              this.cleanupGoogleMapUtilities();
+              this.cdr.detectChanges();
+            });
+
+            return from(this.googleScript.load(lang)).pipe(
+              switchMap(() =>
+                this.googleScript.mapReady.pipe(
+                  filter((ready) => ready),
+                  take(1)
+                )
+              )
+            );
+          } else {
+            this.ngZone.run(() => {
+              this.cleanupGoogleMapUtilities();
+              this.isMapLoaded$.next(false);
+              this.cdr.detectChanges();
+            });
+            return from(Promise.resolve());
+          }
+        }),
+        takeUntil(this.$destroy)
+      )
+      .subscribe({
+        next: () => {
+          if (this.showMapSelected$.value) {
+            this.ngZone.run(() => {
+              this.isMapLoaded$.next(true);
+              this.cdr.detectChanges();
+              this.initializeGoogleMapUtilities();
+            });
+          }
+        },
+        error: (error) => {
+          this.ngZone.run(() => {
+            this.isMapLoaded$.next(false);
+            this.cleanupGoogleMapUtilities();
+            this.cdr.detectChanges();
+          });
+        }
+      });
+  }
+
+  private cleanupGoogleMapUtilities(): void {
+    this.googlePlacesService = null;
+    this.map = null;
+  }
+
+  private initializeGoogleMapUtilities(): void {
+    if (
+      typeof window?.google !== 'undefined' &&
+      typeof window?.google?.maps !== 'undefined' &&
+      this.map?.googleMap &&
+      this.showMapSelected$.value
+    ) {
+      if (!this.googlePlacesService && this?.map) {
+        this.googlePlacesService = new google.maps.places.PlacesService(this.map.googleMap);
+      }
+    }
   }
 
   initForm(): void {
@@ -293,8 +372,6 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
 
     this.initFormValidators();
-
-    this.onChange(this.addressData.getValues());
   }
 
   setInitialValues() {
@@ -326,6 +403,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   onUseUserLocation(isUseUserLocation: boolean) {
     if (!this.isUneditableStatus) {
       this.isShowMap = isUseUserLocation;
+      this.showMapSelected$.next(isUseUserLocation);
 
       if (isUseUserLocation) {
         this.setCurrentLocation();
@@ -386,7 +464,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   onCoordinatesSelected(coordinates: Coordinates) {
-    this.addressData.setCoordinates(new google.maps.LatLng(coordinates.latitude, coordinates.longitude));
+    this.addressData.setCoordinates({ lat: coordinates.latitude, lng: coordinates.longitude });
     this.OnChangeAndTouched();
   }
 
@@ -444,10 +522,14 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     return citiesWithDistricts.includes(this.city.value);
   }
 
-  onMapClick($event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) {
-    this.addressCoords = $event.latLng;
+  onMapClick($event: google.maps.MapMouseEvent) {
+    if (typeof window?.google?.maps === 'undefined' || !this.isMapLoaded$.value || !this.map?.googleMap) {
+      return;
+    }
 
-    this.addressData.setCoordinates(new google.maps.LatLng(this.addressCoords), { fetch: true });
+    this.addressCoords = $event.latLng.toJSON();
+
+    this.addressData.setCoordinates(this.addressCoords, { fetch: true });
   }
 
   isErrorMessageShown(control: AbstractControl): boolean {
@@ -554,12 +636,15 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   private setCurrentLocation(): void {
     navigator.geolocation.getCurrentPosition(
       (position) => this.handleGeolocationSuccess(position),
-      (error) => console.error(error)
+      (error) => {
+        this.handleGeolocationSuccess({ coords: { latitude: 0, longitude: 0 }, timestamp: null } as GeolocationPosition);
+        console.error(error);
+      }
     );
   }
 
   private handleGeolocationSuccess(position: GeolocationPosition): void {
-    this.addressCoords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    this.addressCoords = { lat: position.coords.latitude, lng: position.coords.longitude };
     this.addressData.setCoordinates(this.addressCoords);
   }
 }
