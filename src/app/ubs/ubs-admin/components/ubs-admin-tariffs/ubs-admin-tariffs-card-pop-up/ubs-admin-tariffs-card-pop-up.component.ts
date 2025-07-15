@@ -223,6 +223,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
         if (this.isEdit || this.provideValues) {
           this.setSelectedStation();
+          this.checkIfAlreadyExists();
         }
 
         const stationsName = this.stations.map((it) => it.name);
@@ -252,6 +253,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
         if (this.isEdit || (this.provideValues && this.regionEnglishName)) {
           this.setSelectedCities();
+          this.checkIfAlreadyExists();
         }
       }
     });
@@ -525,12 +527,13 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
       this.currentCourierNameTranslated = this.languageService.getLangValue(courierEnglishName, courierUkrainianName);
       this.currentRegionTranslated = this.languageService.getLangValue(regionEnglishName, regionUkrainianName);
+      this.checkIfAlreadyExists();
     }
   }
 
   checkIfAlreadyExists() {
     this.isCreationAllowed = false;
-    if (this.courierId && this.selectedStation && (this.regionId || this.isEdit) && this.selectedCities.length > 0) {
+    if (this.courierId && this.selectedStation.length && (this.regionId || this.isEdit) && this.selectedCities.length > 0) {
       this.createCardDto();
       this.tariffsService
         .checkIfCardExist(this.createCardObj)
