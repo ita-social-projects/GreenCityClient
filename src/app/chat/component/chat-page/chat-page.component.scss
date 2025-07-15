@@ -105,6 +105,9 @@
   border-bottom: 1px solid #ccc;
   color: #333;
   flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .messages {
@@ -179,5 +182,50 @@
     &:hover {
       background-color: #0056b3;
     }
+  }
+}
+
+.client-info-button {
+  font-size: 1.5rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
+  width: 52px;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+
+  &:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+}
+
+.client-info-panel {
+  background-color: #f3f3f3;
+  border-top: 1px solid #ccc;
+  padding: 1rem;
+  font-size: 0.95rem;
+  animation: fadeInPanel 250ms ease-in-out;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  strong {
+    color: #333;
+  }
+}
+
+@keyframes fadeInPanel {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
