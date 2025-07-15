@@ -121,10 +121,6 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  mockMethod(): void {
-    console.log('Mock method called');
-  }
-
   sendMessage(): void {
     if (!this.newMessage.trim() || !this.selectedChat) {
       return;
