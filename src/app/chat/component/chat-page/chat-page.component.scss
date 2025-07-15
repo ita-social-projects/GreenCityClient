@@ -192,7 +192,7 @@
   border-radius: 50%;
   padding: 0.5rem;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
   transition: background-color 0.2s ease;
   width: 52px;
 
@@ -211,19 +211,20 @@
   border-top: 1px solid #ccc;
   padding: 1rem;
   font-size: 0.95rem;
-  animation: fadeInPanel 250ms ease-in-out;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  animation: fade-in-panel 250ms ease-in-out;
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / 5%);
 
   strong {
     color: #333;
   }
 }
 
-@keyframes fadeInPanel {
+@keyframes fade-in-panel {
   from {
     opacity: 0;
     transform: translateY(-4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
