@@ -33,7 +33,7 @@
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-unused-vars": "off",
-        "indent": ["error", 2, { "SwitchCase": 1 }],
+        "indent": "off",
         "@typescript-eslint/array-type": "off",
         "arrow-parens": "off",
         "arrow-body-style": "off",
