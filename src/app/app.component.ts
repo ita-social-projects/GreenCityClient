@@ -18,11 +18,11 @@ export class AppComponent implements OnInit, OnDestroy {
   private store: Store = inject(Store);
   private googleScript: GoogleScript = inject(GoogleScript);
   private localeStorageService: LocalStorageService = inject(LocalStorageService);
+  private readonly destroy$: Subject<void> = new Subject<void>();
   commonChatSevice: CommonService = inject(CommonService);
   router: Router = inject(Router);
   chatsService: ChatsService = inject(ChatsService);
   metaService: MetaService = inject(MetaService);
-  private destroy$: Subject<void> = new Subject<void>();
   offline: boolean;
 
   ngOnInit(): void {

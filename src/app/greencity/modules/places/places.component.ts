@@ -21,7 +21,7 @@ import { debounceTime, switchMap, take, takeUntil } from 'rxjs/operators';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
 import { FavoritePlaceService } from 'src/app/greencity/modules/places/services/favorite-place/favorite-place.service';
-import { combineLatest, filter, from, Subject, Subscription } from 'rxjs';
+import { combineLatest, filter, from, Subject } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
@@ -95,8 +95,8 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private readonly dialog: MatDialog,
     private readonly userOwnAuthService: UserOwnAuthService,
     private readonly route: ActivatedRoute,
-    private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private readonly ngZone: NgZone,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {

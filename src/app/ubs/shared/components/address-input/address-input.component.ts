@@ -81,7 +81,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   private readonly $destroy: Subject<void> = new Subject();
   private viewInitialized = false;
   private googlePlacesService: google.maps.places.PlacesService;
-  private showMapSelected$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private readonly showMapSelected$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   autocompleteRegionRequest = {
     input: '',
@@ -147,7 +147,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     private readonly store: Store,
     private readonly cdr: ChangeDetectorRef,
     private readonly addressService: AddressService,
-    private ngZone: NgZone,
+    private readonly ngZone: NgZone,
     private readonly googleScript: GoogleScript
   ) {}
 

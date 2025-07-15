@@ -13,18 +13,18 @@ declare global {
   providedIn: 'root'
 })
 export class GoogleScript {
-  private apiKey = environment.apiMapKey;
+  private readonly apiKey = environment.apiMapKey;
   private scriptLoaded = false;
   private currentLanguage: string | null = null;
-  private mapReadySubject = new BehaviorSubject<boolean>(false);
+  private readonly mapReadySubject = new BehaviorSubject<boolean>(false);
   private loadMutex: Promise<void> | null = null;
   private lastLanguage: string | null = null;
   public mapReady = this.mapReadySubject.asObservable();
 
-  private scriptRemovalDelayMs = 50;
-  private cleanupDelayMs = 500;
+  private readonly scriptRemovalDelayMs = 50;
+  private readonly cleanupDelayMs = 500;
 
-  constructor(private ngZone: NgZone) {
+  constructor(private readonly ngZone: NgZone) {
     window.initMap = () =>
       this.ngZone.runOutsideAngular(() => {
         if (this._isApiInitialized() && this.currentLanguage) {

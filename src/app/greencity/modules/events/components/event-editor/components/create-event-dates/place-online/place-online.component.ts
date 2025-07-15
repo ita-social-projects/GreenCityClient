@@ -37,7 +37,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   private _autocomplete: google.maps.places.Autocomplete | null = null;
   private googleGeocoder: google.maps.Geocoder | null = null;
   private googlePlacesService: google.maps.places.PlacesService | null = null;
-  private defaultPosition = { coords: { lat: 49.84579567734425, lng: 24.025124653312258 } };
+  private readonly defaultPosition = { coords: { lat: 49.84579567734425, lng: 24.025124653312258 } };
 
   private _regionOptions: google.maps.places.AutocompleteOptions = {
     types: ['address'],
@@ -48,14 +48,14 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
     place: ''
   };
   private $destroy: Subject<void> = new Subject();
-  private isPlaceSelected$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private readonly isPlaceSelected$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private languageService: LanguageService,
-    private googleScript: GoogleScript,
-    private localStorageService: LocalStorageService,
-    private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private readonly googleScript: GoogleScript,
+    private readonly localStorageService: LocalStorageService,
+    private readonly ngZone: NgZone,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   get coordinates() {

@@ -48,9 +48,9 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
 
   constructor(
     private readonly googleScript: GoogleScript,
-    private languageService: LanguageService,
-    private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private readonly languageService: LanguageService,
+    private readonly ngZone: NgZone,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
