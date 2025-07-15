@@ -121,6 +121,11 @@ export class ChatComponent implements OnInit {
     });
   }
 
+  mockMethod(): void {
+    // This method is a placeholder for future functionality.
+    // It can be used to mock or test features without affecting the main logic.
+    console.log('Mock method called');
+  }
   sendMessage(): void {
     if (!this.newMessage.trim() || !this.selectedChat) {
       return;
