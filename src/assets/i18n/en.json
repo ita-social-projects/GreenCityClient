@@ -487,7 +487,8 @@
     "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
-    "management": "Management"
+    "management": "Management",
+    "user-profile": "Personal account"
   },
   "admin": {
     "errorMessage": "Forbidden"
