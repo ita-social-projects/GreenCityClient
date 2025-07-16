@@ -1,60 +1,75 @@
 <div *ngIf="clientData; else loading" class="client-info-panel">
   <div *ngIf="clientData.error" class="error-message">
-    {{ clientData.error }}
+    {{ 'client-panel.error' | translate }}
   </div>
-
+  <p></p>
   <div *ngIf="!clientData.error">
-    <h3 class="panel-title">Інформація про замовлення</h3>
+    <h3 class="panel-title">{{ 'client-panel.order-info-title' | translate }}</h3>
     <div class="info-grid">
       <div class="info-row">
-        <span class="label">ID</span><span class="value">{{ clientData.id }}</span>
+        <span class="label">{{ 'client-panel.order-id' | translate }}</span>
+        <span class="value">{{ clientData.id }}</span>
       </div>
       <div class="info-row">
-        <span class="label">Дата створення</span><span class="value">{{ clientData.dateForm | date: 'short' }}</span>
+        <span class="label">{{ 'client-panel.date-form' | translate }}</span>
+        <span class="value">{{ clientData.dateForm | date: 'short' }}</span>
       </div>
       <div class="info-row">
-        <span class="label">Дата оплати</span><span class="value">{{ clientData.datePaid | date: 'short' }}</span>
+        <span class="label">{{ 'client-panel.date-paid' | translate }}</span>
+        <span class="value">{{ clientData.datePaid | date: 'short' }}</span>
       </div>
       <div class="info-row">
-        <span class="label">Статус (Укр)</span><span class="value">{{ clientData.orderStatusUk }}</span>
+        <span class="label">{{ 'client-panel.order-status-uk' | translate }}</span>
+        <span class="value">{{ clientData.orderStatusUk }}</span>
       </div>
       <div class="info-row">
-        <span class="label">Статус (En)</span><span class="value">{{ clientData.orderStatusEn }}</span>
+        <span class="label">{{ 'client-panel.order-status-en' | translate }}</span>
+        <span class="value">{{ clientData.orderStatusEn }}</span>
       </div>
       <div class="info-row">
-        <span class="label">Оплата (Укр)</span><span class="value">{{ clientData.paymentStatusUk }}</span>
+        <span class="label">{{ 'client-panel.payment-status-uk' | translate }}</span>
+        <span class="value">{{ clientData.paymentStatusUk }}</span>
       </div>
       <div class="info-row">
-        <span class="label">Оплата (En)</span><span class="value">{{ clientData.paymentStatusEn }}</span>
+        <span class="label">{{ 'client-panel.payment-status-en' | translate }}</span>
+        <span class="value">{{ clientData.paymentStatusEn }}</span>
       </div>
       <div class="info-row">
-        <span class="label">Сума до сплати</span><span class="value">{{ clientData.amountBeforePayment }}</span>
+        <span class="label">{{ 'client-panel.amount-before-payment' | translate }}</span>
+        <span class="value">{{ clientData.amountBeforePayment }}</span>
       </div>
       <div class="info-row">
-        <span class="label">Сума оплачено</span><span class="value">{{ clientData.paidAmount }}</span>
+        <span class="label">{{ 'client-panel.paid-amount' | translate }}</span>
+        <span class="value">{{ clientData.paidAmount }}</span>
       </div>
       <div class="info-row">
-        <span class="label">Загальна сума</span><span class="value">{{ clientData.orderFullPrice }}</span>
+        <span class="label">{{ 'client-panel.order-full-price' | translate }}</span>
+        <span class="value">{{ clientData.orderFullPrice }}</span>
       </div>
     </div>
 
-    <h4 class="section-title">Пакети</h4>
+    <h4 class="section-title">{{ 'client-panel.bags-title' | translate }}</h4>
     <div class="bags">
       <div *ngFor="let bag of clientData.bags" class="bag-item">
         <div class="info-row">
-          <span class="label">Послуга</span><span class="value">{{ bag.serviceUk }} ({{ bag.serviceEn }})</span>
+          <span class="label">{{ 'client-panel.service' | translate }}</span>
+          <span class="value">{{ bag.serviceUk }} ({{ bag.serviceEn }})</span>
         </div>
         <div class="info-row">
-          <span class="label">Обʼєм</span><span class="value">{{ bag.capacity }} л</span>
+          <span class="label">{{ 'client-panel.capacity' | translate }}</span>
+          <span class="value">{{ bag.capacity }} л</span>
         </div>
         <div class="info-row">
-          <span class="label">Ціна за од.</span><span class="value">{{ bag.fullPrice }} грн</span>
+          <span class="label">{{ 'client-panel.unit-price' | translate }}</span>
+          <span class="value">{{ bag.fullPrice }} грн</span>
         </div>
         <div class="info-row">
-          <span class="label">Кількість</span><span class="value">{{ bag.count }}</span>
+          <span class="label">{{ 'client-panel.count' | translate }}</span>
+          <span class="value">{{ bag.count }}</span>
         </div>
         <div class="info-row">
-          <span class="label">Сума</span><span class="value">{{ bag.totalPrice }} грн</span>
+          <span class="label">{{ 'client-panel.total-price' | translate }}</span>
+          <span class="value">{{ bag.totalPrice }} грн</span>
         </div>
       </div>
     </div>
@@ -62,5 +77,5 @@
 </div>
 
 <ng-template #loading>
-  <p class="loading-text">Завантаження інформації...</p>
+  <p class="loading-text">{{ 'client-panel.loading' | translate }}</p>
 </ng-template>

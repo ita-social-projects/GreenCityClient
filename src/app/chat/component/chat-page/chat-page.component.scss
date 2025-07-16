@@ -151,6 +151,7 @@
 .placeholder-text {
   color: #999;
   font-size: 1.2em;
+  text-align: center;
 }
 
 .message-input-container {
@@ -229,4 +230,11 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.empty-chat-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
