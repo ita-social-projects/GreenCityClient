@@ -359,3 +359,65 @@ describe('ChatComponent · sendMessage via stubbed HttpClient', () => {
     expect(component['http'].get).not.toHaveBeenCalled();
   });
 });
+describe('toggleClientInfo', () => {
+  let component: ChatComponent;
+  let fixture: ComponentFixture<ChatComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ChatComponent, NgForOf, FormsModule, NgClass, NgIf, NgStyle]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(ChatComponent);
+    component = fixture.componentInstance;
+    localStorage.setItem('accessToken', 'mock-token');
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+  it('should toggle clientInfoVisible from false to true and call fetchClientInfo when selectedChat has chatId', () => {
+    component.clientInfoVisible = false;
+    component.selectedChat = { id: 123, chatId: 'abc' } as any;
+    spyOn(component, 'fetchClientInfo');
+
+    component.toggleClientInfo();
+
+    expect(component.clientInfoVisible).toBeTrue();
+    expect(component.fetchClientInfo).toHaveBeenCalledWith(123);
+  });
+
+  it('should toggle clientInfoVisible from true to false and NOT call fetchClientInfo', () => {
+    component.clientInfoVisible = true;
+    component.selectedChat = { id: 123, chatId: 'abc' } as any;
+    spyOn(component, 'fetchClientInfo');
+
+    component.toggleClientInfo();
+
+    expect(component.clientInfoVisible).toBeFalse();
+    expect(component.fetchClientInfo).not.toHaveBeenCalled();
+  });
+
+  it('should NOT call fetchClientInfo if selectedChat has no chatId', () => {
+    component.clientInfoVisible = false;
+    component.selectedChat = { id: 456 } as any;
+    spyOn(component, 'fetchClientInfo');
+
+    component.toggleClientInfo();
+
+    expect(component.clientInfoVisible).toBeTrue();
+    expect(component.fetchClientInfo).not.toHaveBeenCalled();
+  });
+
+  it('should NOT call fetchClientInfo if selectedChat is null', () => {
+    component.clientInfoVisible = false;
+    component.selectedChat = null;
+    spyOn(component, 'fetchClientInfo');
+
+    component.toggleClientInfo();
+
+    expect(component.clientInfoVisible).toBeTrue();
+    expect(component.fetchClientInfo).not.toHaveBeenCalled();
+  });
+});
