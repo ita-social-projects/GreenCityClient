@@ -1304,26 +1304,5 @@
       "other": "Інше"
     },
     "specify-reason": "Вкажіть причину"
-  },
-  "client-panel": {
-    "error": "Не вдалося завантажити інформацію.",
-    "loading": "Завантаження інформації...",
-    "order-info-title": "Інформація про замовлення",
-    "order-id": "ID замовлення",
-    "date-form": "Дата створення",
-    "date-paid": "Дата оплати",
-    "order-status-uk": "Статус замовлення (укр)",
-    "order-status-en": "Статус замовлення (англ)",
-    "payment-status-uk": "Статус оплати (укр)",
-    "payment-status-en": "Статус оплати (англ)",
-    "amount-before-payment": "Сума до сплати",
-    "paid-amount": "Сума оплачено",
-    "order-full-price": "Загальна сума",
-    "bags-title": "Мішки",
-    "service": "Послуга",
-    "capacity": "Обʼєм",
-    "unit-price": "Ціна за од.",
-    "count": "Кількість",
-    "total-price": "Сума"
   }
 }

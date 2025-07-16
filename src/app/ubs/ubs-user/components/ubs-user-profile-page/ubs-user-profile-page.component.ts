@@ -432,10 +432,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  mockMethodForCommit(): void {
-    console.log('mockMethodForCommit');
-  }
-
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();

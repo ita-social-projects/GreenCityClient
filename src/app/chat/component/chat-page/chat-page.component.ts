@@ -3,13 +3,14 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat-page.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent],
+  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, TranslateModule],
   styleUrls: ['./chat-page.component.scss']
 })
 export class ChatComponent implements OnInit {

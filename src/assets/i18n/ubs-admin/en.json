@@ -1306,14 +1306,5 @@
       "other": "Other"
     },
     "specify-reason": "Specify the reason"
-  },
-  "client-panel": {
-    "error-loading": "Failed to load client information.",
-    "order-id": "Order ID",
-    "date-paid": "Date Paid",
-    "order-status-uk": "Order Status (UK)",
-    "payment-status-uk": "Payment Status (UK)",
-    "bags": "Bags",
-    "loading": "Loading client info..."
   }
 }
