@@ -40,8 +40,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   private readonly defaultPosition = { coords: { lat: 49.84579567734425, lng: 24.025124653312258 } };
 
   private _regionOptions: google.maps.places.AutocompleteOptions = {
-    types: ['address'],
-    componentRestrictions: { country: 'UA' }
+    types: ['address']
   };
   private _lastLocation: { coordinates: PlaceOnline; place: string } = {
     coordinates: null,
