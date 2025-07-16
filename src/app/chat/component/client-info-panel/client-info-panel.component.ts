@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { NgIf, NgForOf, JsonPipe } from '@angular/common';
+import { NgIf, NgForOf, JsonPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-client-info-panel',
   standalone: true,
-  imports: [NgIf, NgForOf, JsonPipe],
+  imports: [NgIf, NgForOf, JsonPipe, DatePipe],
   templateUrl: './client-info-panel.component.html',
   styleUrls: ['./client-info-panel.component.scss']
 })

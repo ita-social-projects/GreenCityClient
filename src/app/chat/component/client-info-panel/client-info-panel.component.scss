@@ -1,31 +1,72 @@
-/* client-info-panel.component.scss */
 .client-info-panel {
   padding: 1rem;
-  background-color: #fff;
-  border: 1px solid #ddd;
+  background-color: #fdfdfd;
+  border: 1px solid #ccc;
   border-radius: 8px;
   max-height: 500px;
   overflow-y: auto;
+  font-size: 14px;
+  color: #222;
 
-  h3 {
-    margin-top: 0;
+  .panel-title {
+    margin: 0 0 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
   }
 
-  .grid {
+  .section-title {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #444;
+  }
+
+  .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.5rem 1rem;
   }
 
-  .item {
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+
+    .label {
+      color: #666;
+      font-weight: 500;
+    }
+
+    .value {
+      color: #000;
+    }
+  }
+
+  .bags {
     display: flex;
     flex-direction: column;
+    gap: 10px;
+  }
 
-    input {
-      background: #f1f1f1;
-      border: 1px solid #ccc;
-      padding: 0.25rem;
-      font-family: monospace;
-    }
+  .bag-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
+
+  .error-message {
+    background-color: #ffe3e3;
+    color: #a94442;
+    padding: 12px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .loading-text {
+    font-style: italic;
+    color: #888;
   }
 }
