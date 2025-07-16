@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -10,7 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './chat-page.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, TranslateModule],
+  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, TranslateModule, DatePipe],
   styleUrls: ['./chat-page.component.scss']
 })
 export class ChatComponent implements OnInit {
@@ -21,6 +21,8 @@ export class ChatComponent implements OnInit {
   caption = '';
   clientInfoVisible = false;
   clientInfoData: any = null;
+  filteredChats: any[] = [];
+  searchId = '';
   private readonly baseUrl = 'https://greencity-ubs.greencity.cx.ua/ubs/telegram';
 
   constructor(private http: HttpClient) {}
@@ -63,6 +65,7 @@ export class ChatComponent implements OnInit {
             messages: []
           };
         });
+        this.filteredChats = [...this.chats];
       },
       error: (err) => {
         console.error('Failed to load chats:', err);
@@ -75,7 +78,7 @@ export class ChatComponent implements OnInit {
     this.fetchMessages(chat.chatInternalId);
   }
 
-  fetchMessages(chatInternalId: number): void {
+  fetchMessages(chatInternalId: number, callback?: () => void): void {
     const token = localStorage.getItem('accessToken');
     if (!token) {
       return;
@@ -105,6 +108,10 @@ export class ChatComponent implements OnInit {
                 time: ''
               }
             ];
+
+        if (callback) {
+          callback();
+        }
       },
       error: (err) => {
         if (err.status === 404 && err.error?.message?.includes('no messages')) {
@@ -117,6 +124,10 @@ export class ChatComponent implements OnInit {
           ];
         } else {
           console.error('Failed to fetch messages:', err);
+        }
+
+        if (callback) {
+          callback();
         }
       }
     });
@@ -206,5 +217,10 @@ export class ChatComponent implements OnInit {
         this.clientInfoData = { error: 'Не вдалося завантажити інформацію.' };
       }
     });
+  }
+
+  filterChatsById(): void {
+    const trimmed = this.searchId.trim();
+    this.filteredChats = trimmed ? this.chats.filter((chat) => chat.chatInternalId.toString().includes(trimmed)) : [...this.chats];
   }
 }
