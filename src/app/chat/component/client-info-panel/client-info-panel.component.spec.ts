@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+
 import { ClientInfoPanelComponent } from './client-info-panel.component';
+import { By } from '@angular/platform-browser';
 
 describe('ClientInfoPanelComponent', () => {
   let component: ClientInfoPanelComponent;
@@ -54,5 +55,32 @@ describe('ClientInfoPanelComponent', () => {
       const obj = { a: 1, b: 2 };
       expect(component.objectKeys(obj)).toEqual(['a', 'b']);
     });
+  });
+});
+describe('ClientInfoPanelComponent', () => {
+  let component: ClientInfoPanelComponent;
+  let fixture: ComponentFixture<ClientInfoPanelComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ClientInfoPanelComponent]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(ClientInfoPanelComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should create', () => {
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+
+  it('should render loading template if clientData is null', () => {
+    component.clientData = null;
+    fixture.detectChanges();
+
+    const loadingEl = fixture.debugElement.query(By.css('p'));
+    expect(loadingEl).toBeTruthy();
+    expect(loadingEl.nativeElement.textContent).toContain('Завантаження інформації');
   });
 });
