@@ -1,6 +1,6 @@
 module chat
 
-go 1.18
+go 1.23.0
 
 require (
 	github.com/Skyere/helm-testing v1.7.0
@@ -41,7 +41,7 @@ require (
 	github.com/urfave/cli v1.22.2 // indirect
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a // indirect
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
-	golang.org/x/oauth2 v0.0.0-20210514164344-f6687ab2804c // indirect
+	golang.org/x/oauth2 v0.27.0 // indirect
 	golang.org/x/sys v0.0.0-20220517195934-5e4e11fc645e // indirect
 	golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1 // indirect
 	golang.org/x/text v0.3.6 // indirect
