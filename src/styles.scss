@@ -611,3 +611,12 @@ body {
   transform: none !important;
   letter-spacing: -0.1px !important;
 }
+
+router-outlet + * {
+  flex: 1 0 auto;
+}
+
+app-footer {
+  margin-top: auto;
+  flex-shrink: 0;
+}

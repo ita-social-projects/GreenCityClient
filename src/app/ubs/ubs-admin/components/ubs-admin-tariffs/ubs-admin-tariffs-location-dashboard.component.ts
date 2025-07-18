@@ -337,6 +337,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       this.toggleSelectAllCity();
       const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
       Object.assign(this.filterData, { location: locationsId });
+      this.city.setValue(this.translate.instant('ubs-tariffs.states.all'));
     } else {
       this.selectCity(event);
       const locationId = this.selectedCities.map((it) => it.id);
@@ -344,7 +345,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
     this.getExistingCard(this.filterData);
     this.setCountOfCheckedCity();
-    this.city.setValue(this.translate.instant('ubs-tariffs.states.all'));
     this.checkisCardExist();
     if (trigger) {
       requestAnimationFrame(() => {
@@ -404,13 +404,13 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       this.toggleSelectAllStation();
       const stationsId = this.stations.map((station) => station.id);
       Object.assign(this.filterData, { receivingStation: stationsId });
+      this.station.setValue(this.translate.instant('ubs-tariffs.states.all'));
     } else {
       this.onSelectStation(event);
       const receivingStationId = this.selectedStation.map((it) => it.id);
       Object.assign(this.filterData, { receivingStation: receivingStationId });
     }
     this.getExistingCard(this.filterData);
-    this.station.setValue(this.translate.instant('ubs-tariffs.states.all'));
     this.setStationPlaceholder();
     if (trigger) {
       requestAnimationFrame(() => {
