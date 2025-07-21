@@ -448,6 +448,8 @@ describe('UbsUserProfilePageComponent', () => {
       const deleteButton = fixture.debugElement.query(By.css('.submit-btns .ubs-primary-global-button')).nativeElement;
       deleteButton.click();
       expect(spy).toHaveBeenCalled();
+    } else {
+      expect(component.isSubmitBtnDisabled()).toBeTrue();
     }
     tick(500);
   }));
