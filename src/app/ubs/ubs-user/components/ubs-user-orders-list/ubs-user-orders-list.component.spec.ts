@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -14,6 +14,7 @@ import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { of } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
+import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
 xdescribe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
@@ -48,6 +49,15 @@ xdescribe('UbsUserOrdersListComponent', () => {
       orderFullPrice: 55,
       amountBeforePayment: 55,
       extend: false
+    },
+    {
+      id: 18,
+      dateForm: 12,
+      orderStatusEn: 'Formed',
+      paymentStatusEn: 'Unpaid',
+      orderFullPrice: 55,
+      amountBeforePayment: 55,
+      extend: false
     }
   ];
   const fakePoints = 111;
@@ -64,6 +74,7 @@ xdescribe('UbsUserOrdersListComponent', () => {
       declarations: [UbsUserOrdersListComponent, LocalizedCurrencyPipe, LangValueDirective],
       imports: [
         MatDialogModule,
+        UbsSharedModule,
         MatExpansionModule,
         BrowserAnimationsModule,
         TranslateModule.forRoot(),
@@ -77,7 +88,7 @@ xdescribe('UbsUserOrdersListComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: Store, useValue: storeMock }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -191,6 +202,25 @@ xdescribe('UbsUserOrdersListComponent', () => {
         }
       });
     });
+
+    it('if order is unpaid and formed should open editOrPayPopup', () => {
+      const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
+
+      component.openOrderPaymentDialog(fakeIputOrderData[4] as any);
+
+      expect(component.isOrderUnpaid(fakeIputOrderData[4] as any)).toBeTrue();
+      expect(editOrPayPopupSpy).toHaveBeenCalled();
+      expect(editOrPayPopupSpy).toHaveBeenCalledWith(fakeIputOrderData[4] as any);
+    });
+
+    it('if order is half-paid or not formed should open openOrderPaymentPopUp', () => {
+      const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+
+      component.openOrderPaymentDialog(fakeIputOrderData[1] as any);
+
+      expect(openOrderPaymentPopUpSpy).toHaveBeenCalled();
+      expect(openOrderPaymentPopUpSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
+    });
   });
 
   describe('openOrderCancelDialog', () => {
@@ -242,6 +272,61 @@ xdescribe('UbsUserOrdersListComponent', () => {
       ];
       component.sortingOrdersByData();
       expect(component.orders).toEqual(resultOrderData as any);
+    });
+  });
+
+  describe('editOrPayPopup', () => {
+    it('should open editOrPayPopup with correct data', () => {
+      matDialogMock.open.and.returnValue({
+        afterClosed: () => of(true)
+      });
+
+      component.editOrPayPopup(fakeIputOrderData[1] as any);
+
+      expect(matDialogMock.open).toHaveBeenCalledWith(jasmine.any(Function), {
+        data: component.editOrPayDialogData,
+        closeOnNavigation: true,
+        disableClose: true,
+        hasBackdrop: true,
+        panelClass: ''
+      });
+    });
+
+    it('should call openOrderPaymentPopUp if the dialog returned true', () => {
+      matDialogMock.open.and.returnValue({
+        afterClosed: () => of(true)
+      });
+      const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+
+      component.editOrPayPopup(fakeIputOrderData[1] as any);
+
+      expect(orderPaymentPopupSpy).toHaveBeenCalled();
+      expect(orderPaymentPopupSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
+    });
+
+    it('should call getDataForLocalStorage if the dialog returned false', () => {
+      matDialogMock.open.and.returnValue({
+        afterClosed: () => of(false)
+      });
+      const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
+
+      component.editOrPayPopup(fakeIputOrderData[1] as any);
+
+      expect(getDataForLocalStorageSpy).toHaveBeenCalled();
+      expect(getDataForLocalStorageSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
+    });
+
+    it('shouldnt call any method if the dialog was closed and returned undefined', () => {
+      matDialogMock.open.and.returnValue({
+        afterClosed: () => of(undefined)
+      });
+      const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+      const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
+
+      component.editOrPayPopup(fakeIputOrderData[1] as any);
+
+      expect(orderPaymentPopupSpy).not.toHaveBeenCalled();
+      expect(getDataForLocalStorageSpy).not.toHaveBeenCalled();
     });
   });
 });
