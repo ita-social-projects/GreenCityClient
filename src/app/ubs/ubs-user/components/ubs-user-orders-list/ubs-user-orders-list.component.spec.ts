@@ -26,8 +26,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
     {
       id: 7,
       dateForm: 66,
-      orderStatusEng: 'Formed',
-      paymentStatusEng: 'Half paid',
+      orderStatusEn: 'Formed',
+      paymentStatusEn: 'Half paid',
       orderFullPrice: 0,
       amountBeforePayment: 55,
       extend: false
@@ -35,8 +35,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
     {
       id: 1,
       dateForm: 11,
-      orderStatusEng: 'Canceled',
-      paymentStatusEng: 'Paid',
+      orderStatusEn: 'Canceled',
+      paymentStatusEn: 'Paid',
       orderFullPrice: -55,
       amountBeforePayment: 55,
       extend: false
@@ -44,8 +44,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
     {
       id: 12,
       dateForm: 15,
-      orderStatusEng: 'Adjustment',
-      paymentStatusEng: 'Unpaid',
+      orderStatusEn: 'Adjustment',
+      paymentStatusEn: 'Unpaid',
       orderFullPrice: 55,
       amountBeforePayment: 55,
       extend: false
