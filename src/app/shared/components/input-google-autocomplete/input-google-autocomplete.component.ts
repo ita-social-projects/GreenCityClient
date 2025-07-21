@@ -32,6 +32,7 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
   @Output() predictionSelected = new EventEmitter<GooglePrediction | null>();
   @Output() keyupEmitter = new EventEmitter<string>();
 
+  validationLocations = ['Крим', 'Crimea', 'Київ', 'Kyiv'];
   disabled = false;
   touched = false;
   isCitySelected = false;
@@ -175,7 +176,7 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
   }
 
   regionValidation(prediction: string) {
-    if (prediction.includes('Крим') || prediction.includes('Crimea') || prediction.includes('Kyiv') || prediction.includes('Київ')) {
+    if (this.validationLocations.some((location) => prediction.includes(location))) {
       return true;
     }
     return prediction.toLowerCase().includes('oblast') || prediction.toLowerCase().includes('область');
