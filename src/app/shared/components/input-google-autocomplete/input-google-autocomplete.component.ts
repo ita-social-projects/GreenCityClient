@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Coordinates } from 'src/app/greencity/modules/user/models/edit-profile.model';
-import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { filter, Subject } from 'rxjs';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { GoogleAutoService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { GoogleScript } from '@assets/google-script/google-script';
 
 @Component({
   selector: 'app-input-google-autocomplete',
@@ -46,15 +47,35 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
   onChange = (quantity) => {};
   onTouched = () => {};
 
-  constructor(private languageService: LanguageService) {}
+  constructor(
+    private readonly googleScript: GoogleScript,
+    private readonly languageService: LanguageService,
+    private readonly ngZone: NgZone,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.autocompleteService = new google.maps.places.AutocompleteService();
-    this.initPredictList();
+    this.subGoogleScript();
 
     if (this.isInitAutoTranslate) {
       this.initAutoTranslate();
     }
+  }
+
+  subGoogleScript() {
+    this.googleScript.mapReady
+      .pipe(
+        filter((ready) => ready),
+        take(1),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.ngZone.run(() => {
+          this.autocompleteService = new google.maps.places.AutocompleteService();
+          this.initPredictList();
+          this.cdr.detectChanges();
+        });
+      });
   }
 
   initAutoTranslate(): void {

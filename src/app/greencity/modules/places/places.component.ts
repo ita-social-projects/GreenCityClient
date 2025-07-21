@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef, NgZone } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from 'src/app/shared/services/place/place.service';
@@ -17,11 +17,11 @@ import {
 } from 'src/app/greencity/image-paths/places-icons';
 import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from 'src/app/shared/services/filtering/filter-place.service';
-import { debounceTime, take, takeUntil } from 'rxjs/operators';
+import { debounceTime, switchMap, take, takeUntil } from 'rxjs/operators';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
 import { FavoritePlaceService } from 'src/app/greencity/modules/places/services/favorite-place/favorite-place.service';
-import { combineLatest, Subject, Subscription } from 'rxjs';
+import { combineLatest, filter, from, Subject } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
@@ -39,7 +39,7 @@ import { GoogleMap } from '@angular/google-maps';
   templateUrl: './places.component.html',
   styleUrls: ['./places.component.scss']
 })
-export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PlacesComponent implements OnInit, OnDestroy {
   position: any = {};
   zoom = 13;
   tagList: FilterModel[] = tagsListPlacesData;
@@ -51,7 +51,11 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
   basicFilters: string[];
   mapBoundsDto: MapBoundsDto;
   places: Place[] = [];
-  isRenderingMap: boolean;
+
+  showMap = false;
+  isMapLoading = false;
+  mapLoadError = false;
+
   isSavedVisible = false;
   currentTab = 'places';
   mapOptions: google.maps.MapOptions = { disableDefaultUI: true, gestureHandling: 'greedy' };
@@ -75,7 +79,6 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
   get _googlePlacesService() {
     return this.googlePlacesService;
   }
-  private langChangeSub: Subscription;
   private page = 0;
   private totalPages: number;
   private size = 6;
@@ -92,7 +95,8 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly dialog: MatDialog,
     private readonly userOwnAuthService: UserOwnAuthService,
     private readonly route: ActivatedRoute,
-    private ngZone: NgZone
+    private readonly ngZone: NgZone,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -107,11 +111,49 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.getMoreOptionsValueFromSessionStorage();
-    this.googleScript.$isRenderingMap.pipe(takeUntil(this.$destroy)).subscribe((value: boolean) => {
-      setTimeout(() => {
-        this.isRenderingMap = value;
-      }, 1000);
-    });
+    const initialLang = this.localStorageService.getCurrentLanguage();
+    this.bindLang(initialLang);
+    this.localStorageService.languageBehaviourSubject
+      .pipe(
+        switchMap((lang: string) => {
+          this.bindLang(lang);
+
+          this.ngZone.run(() => {
+            this.isMapLoading = true;
+            this.mapLoadError = false;
+            this.showMap = false;
+          });
+
+          return from(this.googleScript.load(lang)).pipe(
+            switchMap(() =>
+              this.googleScript.mapReady.pipe(
+                filter((ready) => ready),
+                take(1)
+              )
+            )
+          );
+        }),
+        takeUntil(this.$destroy)
+      )
+      .subscribe({
+        next: () => {
+          this.ngZone.run(() => {
+            this.isMapLoading = false;
+            this.mapLoadError = false;
+            this.showMap = true;
+            this.cdr.detectChanges();
+            this.initializeMapServices();
+          });
+        },
+        error: (error) => {
+          this.ngZone.run(() => {
+            this.isMapLoading = false;
+            this.mapLoadError = true;
+            this.showMap = false;
+            this.cdr.detectChanges();
+          });
+        }
+      });
 
     combineLatest([
       this.placeService.places$,
@@ -139,53 +181,39 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isSavedVisible = isBookmark;
       this.currentTab = section;
     });
+  }
 
-    this.bindLang(this.localStorageService.getCurrentLanguage());
-    this.subscribeToLangChange();
+  private initializeMapServices(): void {
+    if (window?.google?.maps !== 'undefined' && this.map?.googleMap) {
+      try {
+        this.googlePlacesService = new google.maps.places.PlacesService(this.map.googleMap);
+        this.setUserLocation();
+      } catch (e) {
+        this.ngZone.run(() => {
+          this.mapLoadError = true;
+          this.showMap = false;
+          this.isMapLoading = false;
+          this.cdr.detectChanges();
+        });
+      }
+    } else {
+      this.ngZone.run(() => {
+        this.mapLoadError = true;
+        this.showMap = false;
+        this.isMapLoading = false;
+        this.cdr.detectChanges();
+      });
+    }
   }
 
   onMapIdle(): void {
-    this.googleScript.$isRenderingMap.pipe(takeUntil(this.$destroy)).subscribe((value: boolean) => {
-      setTimeout(() => {
-        this.isRenderingMap = value;
-        if (value === false) {
-          this.setUserLocation();
-        }
-      }, 1000);
-    });
     this.updateFilters();
-  }
-
-  ngAfterViewInit(): void {
-    const map = this.map?.googleMap;
-    if (!map) {
-      return;
-    }
-
-    this.googlePlacesService = new google.maps.places.PlacesService(map);
-    this.setUserLocation();
   }
 
   private checkUserSingIn(): void {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
       this.userId = data.userId;
     });
-  }
-
-  mapCenterChange(newValue: any): void {
-    this.position = {
-      latitude: newValue.lat,
-      longitude: newValue.lng
-    };
-  }
-
-  mapBoundsChange(newValue: any): void {
-    this.mapBoundsDto = {
-      northEastLat: newValue.getNorthEast().lat(),
-      northEastLng: newValue.getNorthEast().lng(),
-      southWestLat: newValue.getSouthWest().lat(),
-      southWestLng: newValue.getSouthWest().lng()
-    };
   }
 
   moreOptionsChange(newValue: MoreOptionsFormValue): void {
@@ -286,10 +314,6 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.translate.setDefaultLang(lang);
   }
 
-  private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
-  }
-
   selectPlace(place: Place): void {
     this.activePlace = place;
     this.updateIsActivePlaceFavorite();
@@ -305,6 +329,10 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectPlace(sendingPlace);
   }
   private getPlaceInfoFromGoogleApi(place: Place) {
+    if (!this.googlePlacesService) {
+      return;
+    }
+
     const findByQueryRequest: google.maps.places.FindPlaceFromQueryRequest = {
       query: place.name,
       locationBias: {
@@ -313,18 +341,29 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       fields: ['ALL']
     };
-    this.googlePlacesService.findPlaceFromQuery(findByQueryRequest, (places: google.maps.places.PlaceResult[]) => {
-      const detailsRequest: google.maps.places.PlaceDetailsRequest = {
-        placeId: places[0].place_id,
-        fields: ['ALL']
-      };
-      this.googlePlacesService.getDetails(detailsRequest, (placeDetails: google.maps.places.PlaceResult) => {
-        this.ngZone.run(() => {
-          this.activePlaceDetails = placeDetails;
-        });
-        this.drawer.toggle(true);
-      });
-    });
+
+    this.googlePlacesService.findPlaceFromQuery(
+      findByQueryRequest,
+      (places: google.maps.places.PlaceResult[] | null, status: google.maps.places.PlacesServiceStatus) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && places && places.length > 0) {
+          const detailsRequest: google.maps.places.PlaceDetailsRequest = {
+            placeId: places[0].place_id,
+            fields: ['ALL']
+          };
+          this.googlePlacesService.getDetails(
+            detailsRequest,
+            (placeDetails: google.maps.places.PlaceResult | null, detailsStatus: google.maps.places.PlacesServiceStatus) => {
+              if (detailsStatus === google.maps.places.PlacesServiceStatus.OK && placeDetails) {
+                this.ngZone.run(() => {
+                  this.activePlaceDetails = placeDetails;
+                });
+                this.drawer.toggle(true);
+              }
+            }
+          );
+        }
+      }
+    );
   }
 
   private setMoreOptionsValueToSessionStorage(formValue: MoreOptionsFormValue): void {
@@ -359,21 +398,31 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setUserLocation(): void {
-    if (!this.map?.googleMap) {
+    if (typeof window?.google?.maps === 'undefined' || !this.map?.googleMap) {
+      return;
+    }
+
+    const map = this.map?.googleMap;
+
+    if (!map) {
       return;
     }
 
     navigator.geolocation.getCurrentPosition(
       (position: any) => {
-        this.map.googleMap.setCenter({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
+        this.ngZone.run(() => {
+          map.setCenter({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
         });
       },
-      () => {
-        this.map.googleMap.setCenter({
-          lat: 49.84579567734425,
-          lng: 24.025124653312258
+      (error) => {
+        this.ngZone.run(() => {
+          map.setCenter({
+            lat: 49.84579567734425,
+            lng: 24.025124653312258
+          });
         });
       }
     );
@@ -398,7 +447,6 @@ export class PlacesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.langChangeSub.unsubscribe();
     this.$destroy.next(true);
     this.$destroy.complete();
   }

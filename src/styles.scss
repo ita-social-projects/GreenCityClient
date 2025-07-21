@@ -460,6 +460,7 @@ body {
     background-size: 11px;
     width: 11px;
     height: 11px;
+    position: initial !important;
   }
 }
 
@@ -610,4 +611,13 @@ body {
   opacity: 1 !important;
   transform: none !important;
   letter-spacing: -0.1px !important;
+}
+
+router-outlet + * {
+  flex: 1 0 auto;
+}
+
+app-footer {
+  margin-top: auto;
+  flex-shrink: 0;
 }

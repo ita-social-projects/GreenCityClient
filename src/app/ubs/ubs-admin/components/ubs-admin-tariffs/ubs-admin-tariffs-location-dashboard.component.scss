@@ -55,11 +55,22 @@ form {
 }
 
 .input-wrapper {
-  height: 36px;
-  border: 1px solid var(--ubs-cool-grey);
+  height: 32px;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
   border-radius: 4px;
   margin-right: 16px;
   position: relative;
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  gap: 8px;
+  box-sizing: border-box;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
+  font-family: var(--primary-font);
+  background-color: white;
 }
 
 .select-item {
@@ -70,14 +81,54 @@ form {
   font-family: var(--primary-font);
 }
 
-.input-wrapper input {
-  padding: 0 34px 0 15px;
-  margin: 0;
+::ng-deep .mat-mdc-select-placeholder {
+  margin-top: 0 !important;
+  padding-left: 0 !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+::ng-deep .mat-mdc-select-min-line {
+  padding-left: 0 !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+::ng-deep .mat-mdc-select-trigger {
+  height: 32px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: 2px;
+  left: -15px;
   width: 100%;
-  height: 100%;
+}
+
+.input-wrapper input,
+.input-wrapper .mat-mdc-select-trigger {
+  border: none !important;
   background: transparent;
-  border: none;
+  padding: 0;
+  height: 100%;
+  flex: 1;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
+  font-family: var(--primary-font);
   color: var(--ubs-quaternary-dark-grey);
+  outline: none;
+  box-shadow: none !important;
+}
+
+.input-wrapper .mat-select-value {
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
@@ -97,10 +148,15 @@ form {
   }
 }
 
+::ng-deep input.city {
+  position: relative;
+  left: -8px;
+}
+
 .input-wrapper input.city,
 .input-wrapper input.station,
 .input-wrapper input.region {
-  padding: 0 56px 0 15px;
+  padding: 0 56px 0 0;
   font-size: medium;
 }
 

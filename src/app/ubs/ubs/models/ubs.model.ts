@@ -87,7 +87,7 @@ export class CAddressData {
   private houseCorpus: string;
   private placeId: string;
   private addressComment = '';
-  private coordinates: google.maps.LatLng | Coordinates;
+  private coordinates: google.maps.LatLngLiteral | Coordinates;
 
   private readonly placeIdChange: Subject<string> = new Subject();
   private readonly addressChange: Subject<AddressData> = new Subject();
@@ -111,7 +111,15 @@ export class CAddressData {
     this.addressComment = address.addressComment;
   }
 
-  setCoordinates(coordinates: google.maps.LatLng, opts?: { fetch: boolean }): void {
+  private isGoogleDefined(): boolean {
+    return typeof window?.google?.maps === 'undefined';
+  }
+
+  setCoordinates(coordinates: google.maps.LatLngLiteral, opts?: { fetch: boolean }): void {
+    if (this.isGoogleDefined()) {
+      return;
+    }
+
     this.coordinates = coordinates;
     if (!opts?.fetch) {
       return;
@@ -246,6 +254,10 @@ export class CAddressData {
   }
 
   getValues(): AddressData {
+    if (this.isGoogleDefined()) {
+      return;
+    }
+
     return {
       regionEn: this.regionEn,
       regionUk: this.region,
@@ -260,14 +272,14 @@ export class CAddressData {
       houseCorpus: this.houseCorpus,
       addressComment: this.addressComment,
       placeId: this.placeId,
-      /* eslint-disable indent */
       coordinates: this.coordinates
-        ? {
-            latitude: this.coordinates instanceof google.maps.LatLng ? this.coordinates.lat() : this.coordinates.latitude,
-            longitude: this.coordinates instanceof google.maps.LatLng ? this.coordinates.lng() : this.coordinates.longitude
+        ? /* eslint-disable */
+          {
+            latitude: 'lat' in this.coordinates ? this.coordinates?.lat : this.coordinates?.latitude,
+            longitude: 'lng' in this.coordinates ? this.coordinates?.lng : this.coordinates?.longitude
           }
         : { latitude: 0, longitude: 0 }
-      /* eslint-enable indent */
+      /* eslint-enable */
     };
   }
 
@@ -287,7 +299,11 @@ export class CAddressData {
     this.placeIdChange.next(this.placeId);
   }
 
-  async getAddressPlaceId(coordinates: google.maps.LatLng): Promise<string> {
+  async getAddressPlaceId(coordinates: google.maps.LatLngLiteral): Promise<string> {
+    if (this.isGoogleDefined()) {
+      return;
+    }
+
     return new google.maps.Geocoder()
       .geocode({ location: coordinates })
       .then((response) => {
@@ -301,7 +317,11 @@ export class CAddressData {
   }
 
   //Tries to fetch address by selected coordinates
-  private async fetchAddress(coordinates: google.maps.LatLng): Promise<void> {
+  private async fetchAddress(coordinates: google.maps.LatLngLiteral): Promise<void> {
+    if (this.isGoogleDefined()) {
+      return;
+    }
+
     const geocoder = new google.maps.Geocoder();
     try {
       const response = await geocoder.geocode({ location: coordinates });
@@ -324,6 +344,10 @@ export class CAddressData {
 
   //Translates values to achieve consistent view of address in different languages
   private async setProperties(propertyName: string, place_id: string, ...googleLocalityType: string[]): Promise<void> {
+    if (this.isGoogleDefined()) {
+      return;
+    }
+
     try {
       await this.translateProperty(propertyName, place_id, Language.UK, ...googleLocalityType);
       await this.translateProperty(propertyName + 'En', place_id, Language.EN, ...googleLocalityType);
@@ -340,6 +364,10 @@ export class CAddressData {
     language: Language,
     ...googleLocalityType: string[]
   ): Promise<void> {
+    if (this.isGoogleDefined()) {
+      return;
+    }
+
     const response = await new google.maps.Geocoder().geocode({ placeId, language });
     this[propertyName] = this.findValue(response.results[0], ...googleLocalityType)?.long_name ?? '';
   }

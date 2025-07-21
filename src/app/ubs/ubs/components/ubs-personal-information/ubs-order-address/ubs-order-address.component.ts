@@ -144,7 +144,7 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((clonedAddress) => {
           if (!clonedAddress.placeId) {
-            const latLng = new google.maps.LatLng(clonedAddress.coordinates.latitude, clonedAddress.coordinates.longitude);
+            const latLng = { lat: clonedAddress.coordinates.latitude, lng: clonedAddress.coordinates.longitude };
             return from(this.addressData.getAddressPlaceId(latLng)).pipe(
               switchMap((placeId: string) => {
                 clonedAddress.placeId = placeId;

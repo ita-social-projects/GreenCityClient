@@ -49,3 +49,7 @@ input:checked + .slider::before {
 input:focus + .slider {
   box-shadow: 0 0 1px #ccb7fa;
 }
+
+.round {
+  cursor: pointer;
+}

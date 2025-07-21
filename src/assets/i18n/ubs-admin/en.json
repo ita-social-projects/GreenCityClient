@@ -69,7 +69,7 @@
       "already-used": "Certificate has already been used {{certDate}}",
       "expired": "Certificate is invalid. Certificate validity is up to {{certDate}}",
       "bonus": {
-        "need": "Do you want to take advantage of bonuses?",
+        "need": "Do you want to use bonuses?",
         "present": "On your bonus account:",
         "used": "Used",
         "left": "Left"
