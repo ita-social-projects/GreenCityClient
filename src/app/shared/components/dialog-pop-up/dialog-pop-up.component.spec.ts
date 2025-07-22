@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 
 import { DialogPopUpComponent } from './dialog-pop-up.component';
 
@@ -13,16 +13,17 @@ describe('DialogPopUpComponent', () => {
     popupTitle: 'popupTitle',
     popupSubtitle: 'popupSubtitle',
     popupConfirm: 'popupSubtitle',
-    popupCancel: 'popupSubtitle'
+    popupCancel: 'popupSubtitle',
+    isEditOrPayPopup: true
   };
-  const dialogRefStub = {
-    keydownEvents() {
-      return of();
-    },
-    backdropClick() {
-      return of();
-    },
-    close() {}
+  const dialogRefStub: {
+    keydownEvents: () => Observable<KeyboardEvent>;
+    backdropClick: () => Observable<void>;
+    close: () => void;
+  } = {
+    keydownEvents: () => of(),
+    backdropClick: () => of(),
+    close: () => {}
   };
 
   beforeEach(waitForAsync(() => {
@@ -44,5 +45,31 @@ describe('DialogPopUpComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call userReply with undefined if isEditOrPayPopup is true on a backdrop click', () => {
+    const mockBackdrop = new Subject<void>();
+    dialogRefStub.backdropClick = () => mockBackdrop.asObservable();
+    spyOn(component, 'userReply');
+
+    component.ngOnInit();
+    mockBackdrop.next();
+
+    expect(component.isEditOrPayPopup).toBeTrue();
+    expect(component.userReply).toHaveBeenCalledWith(undefined);
+  });
+  it('should call userReply with false if isEditOrPayPopup isnt true on a backdrop click', () => {
+    const mockBackdrop = new Subject<void>();
+    dialogRefStub.backdropClick = () => mockBackdrop.asObservable();
+    spyOn(component, 'userReply');
+
+    component.ngOnInit();
+
+    component.isEditOrPayPopup = false;
+
+    mockBackdrop.next();
+
+    expect(component.isEditOrPayPopup).toBeFalsy();
+    expect(component.userReply).toHaveBeenCalledWith(false);
   });
 });

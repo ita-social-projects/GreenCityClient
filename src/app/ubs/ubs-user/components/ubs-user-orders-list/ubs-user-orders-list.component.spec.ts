@@ -16,13 +16,13 @@ import { Store, StoreModule } from '@ngrx/store';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
-xdescribe('UbsUserOrdersListComponent', () => {
+describe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
   let fixture: ComponentFixture<UbsUserOrdersListComponent>;
 
   const matDialogMock = jasmine.createSpyObj('dialog', ['open']);
   const fakeIputOrderData = [
-    { id: 3, dateForm: 55, orderStatusEng: 'Done', paymentStatusEng: 'Unpaid', orderFullPrice: 55, amountBeforePayment: 55, extend: true },
+    { id: 3, dateForm: 55, orderStatusEn: 'Done', paymentStatusEn: 'Unpaid', orderFullPrice: 55, amountBeforePayment: 55, extend: true },
     {
       id: 7,
       dateForm: 66,
@@ -45,15 +45,6 @@ xdescribe('UbsUserOrdersListComponent', () => {
       id: 12,
       dateForm: 15,
       orderStatusEn: 'Adjustment',
-      paymentStatusEn: 'Unpaid',
-      orderFullPrice: 55,
-      amountBeforePayment: 55,
-      extend: false
-    },
-    {
-      id: 18,
-      dateForm: 12,
-      orderStatusEn: 'Formed',
       paymentStatusEn: 'Unpaid',
       orderFullPrice: 55,
       amountBeforePayment: 55,
@@ -204,20 +195,33 @@ xdescribe('UbsUserOrdersListComponent', () => {
     });
 
     it('if order is unpaid and formed should open editOrPayPopup', () => {
+      const orderMock = {
+        id: 18,
+        dateForm: 12,
+        orderStatusEn: 'Formed',
+        paymentStatusEn: 'Unpaid',
+        orderFullPrice: 55,
+        amountBeforePayment: 55,
+        extend: false
+      };
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
+      const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
 
-      component.openOrderPaymentDialog(fakeIputOrderData[4] as any);
+      component.openOrderPaymentDialog(orderMock as any);
 
-      expect(component.isOrderUnpaid(fakeIputOrderData[4] as any)).toBeTrue();
+      expect(openOrderPaymentPopUpSpy).not.toHaveBeenCalled();
+      expect(component.isOrderUnpaid(orderMock as any)).toBeTrue();
       expect(editOrPayPopupSpy).toHaveBeenCalled();
-      expect(editOrPayPopupSpy).toHaveBeenCalledWith(fakeIputOrderData[4] as any);
+      expect(editOrPayPopupSpy).toHaveBeenCalledWith(orderMock as any);
     });
 
     it('if order is half-paid or not formed should open openOrderPaymentPopUp', () => {
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+      const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
 
       component.openOrderPaymentDialog(fakeIputOrderData[1] as any);
 
+      expect(editOrPayPopupSpy).not.toHaveBeenCalled();
       expect(openOrderPaymentPopUpSpy).toHaveBeenCalled();
       expect(openOrderPaymentPopUpSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
     });
@@ -236,8 +240,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
         {
           id: 7,
           dateForm: 66,
-          orderStatusEng: 'Formed',
-          paymentStatusEng: 'Half paid',
+          orderStatusEn: 'Formed',
+          paymentStatusEn: 'Half paid',
           orderFullPrice: 0,
           amountBeforePayment: 55,
           extend: false
@@ -245,8 +249,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
         {
           id: 3,
           dateForm: 55,
-          orderStatusEng: 'Done',
-          paymentStatusEng: 'Unpaid',
+          orderStatusEn: 'Done',
+          paymentStatusEn: 'Unpaid',
           orderFullPrice: 55,
           amountBeforePayment: 55,
           extend: true
@@ -254,8 +258,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
         {
           id: 12,
           dateForm: 15,
-          orderStatusEng: 'Adjustment',
-          paymentStatusEng: 'Unpaid',
+          orderStatusEn: 'Adjustment',
+          paymentStatusEn: 'Unpaid',
           orderFullPrice: 55,
           amountBeforePayment: 55,
           extend: false
@@ -263,8 +267,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
         {
           id: 1,
           dateForm: 11,
-          orderStatusEng: 'Canceled',
-          paymentStatusEng: 'Paid',
+          orderStatusEn: 'Canceled',
+          paymentStatusEn: 'Paid',
           orderFullPrice: -55,
           amountBeforePayment: 55,
           extend: false
@@ -276,12 +280,19 @@ xdescribe('UbsUserOrdersListComponent', () => {
   });
 
   describe('editOrPayPopup', () => {
-    it('should open editOrPayPopup with correct data', () => {
+    it('should open editOrPayPopup with editOrPayDialogData', () => {
       matDialogMock.open.and.returnValue({
         afterClosed: () => of(true)
       });
 
       component.editOrPayPopup(fakeIputOrderData[1] as any);
+
+      expect(component.editOrPayDialogData).toBeDefined();
+
+      expect(component.editOrPayDialogData.popupTitle).toBe('ubs-client-profile.payment.edit-or-payment');
+      expect(component.editOrPayDialogData.popupConfirm).toBe('ubs-client-profile.payment.btn.pay');
+      expect(component.editOrPayDialogData.popupCancel).toBe('add-payment.edit');
+      expect(component.editOrPayDialogData.isEditOrPayPopup).toBeTrue();
 
       expect(matDialogMock.open).toHaveBeenCalledWith(jasmine.any(Function), {
         data: component.editOrPayDialogData,
