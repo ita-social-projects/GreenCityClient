@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClientInfoPanelComponent } from './client-info-panel.component';
 import { By } from '@angular/platform-browser';
-import { MockTranslatePipe } from './mock-translate';
+import { MockTranslatePipe } from './mock-translate.mock';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
 
 describe('ClientInfoPanelComponent', () => {

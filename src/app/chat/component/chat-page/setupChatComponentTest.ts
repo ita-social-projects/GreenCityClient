@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { MockTranslatePipe, MockTranslateService } from './mock-translate';
+import { MockTranslatePipe, MockTranslateService } from './mock-translate.mock';
 
 export async function setupChatComponentTest() {
   await TestBed.configureTestingModule({
