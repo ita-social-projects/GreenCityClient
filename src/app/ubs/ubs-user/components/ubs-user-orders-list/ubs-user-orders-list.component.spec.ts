@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,7 +23,9 @@ describe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
   let fixture: ComponentFixture<UbsUserOrdersListComponent>;
 
-  const matDialogMock = jasmine.createSpyObj('dialog', ['open']);
+  let matDialogMock: jasmine.SpyObj<MatDialog>;
+  let dialogRefSpy: jasmine.SpyObj<any>;
+
   const fakeIputOrderData = [
     { id: 3, dateForm: 55, orderStatusEn: 'Done', paymentStatusEn: 'Unpaid', orderFullPrice: 55, amountBeforePayment: 55, extend: true },
     {
@@ -67,6 +69,11 @@ describe('UbsUserOrdersListComponent', () => {
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 
   beforeEach(waitForAsync(() => {
+    dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+    dialogRefSpy.afterClosed.and.returnValue(of(true));
+
+    matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
+    matDialogMock.open.and.returnValue(dialogRefSpy);
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersListComponent, LocalizedCurrencyPipe, LangValueDirective],
       imports: [
@@ -388,12 +395,15 @@ describe('UbsUserOrdersListComponent', () => {
   });
 
   describe('editOrPayPopup', () => {
-    it('should open editOrPayPopup with editOrPayDialogData', () => {
-      matDialogMock.open.and.returnValue({
-        afterClosed: () => of(true),
-        close: () => {}
-      });
+    it('should open the dialog and handle afterClosed result', fakeAsync(() => {
+      component.editOrPayPopup(fakeIputOrderData[1] as any);
 
+      expect(matDialogMock.open).toHaveBeenCalled();
+      tick();
+      expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
+    }));
+
+    it('should open editOrPayPopup with editOrPayDialogData', () => {
       component.editOrPayPopup(fakeIputOrderData[1] as any);
 
       expect(component.editOrPayDialogData).toBeDefined();
@@ -414,10 +424,6 @@ describe('UbsUserOrdersListComponent', () => {
 
     it('should call openOrderPaymentPopUp if the dialog returned true', () => {
       const afterClosedSubject = new Subject<boolean>();
-      matDialogMock.open.and.returnValue({
-        afterClosed: () => afterClosedSubject.asObservable(),
-        close: () => {}
-      });
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const getDataForLocalStorageSpy = spyOn(component as any, 'getDataForLocalStorage');
 
@@ -432,12 +438,9 @@ describe('UbsUserOrdersListComponent', () => {
 
     it('should call getDataForLocalStorage if the dialog returned false', () => {
       const afterClosedSubject = new Subject<boolean>();
-      matDialogMock.open.and.returnValue({
-        afterClosed: () => afterClosedSubject.asObservable(),
-        close: () => {}
-      });
       const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+      dialogRefSpy.afterClosed.and.returnValue(of(false));
 
       component.editOrPayPopup(fakeIputOrderData[1] as any);
       afterClosedSubject.next(false);
@@ -449,12 +452,9 @@ describe('UbsUserOrdersListComponent', () => {
     });
 
     it('shouldnt call any method if the dialog was closed and returned undefined', () => {
-      matDialogMock.open.and.returnValue({
-        afterClosed: () => of(undefined),
-        close: () => {}
-      });
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
+      dialogRefSpy.afterClosed.and.returnValue(of(undefined));
 
       component.editOrPayPopup(fakeIputOrderData[1] as any);
 
