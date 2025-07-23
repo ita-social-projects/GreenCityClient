@@ -1089,7 +1089,6 @@
     },
     "settings-popup": {
       "title": "Notification settings",
-
       "labels": {
         "titleEn": "Notification topic in english",
         "titleUa": "Notification topic in ukrainian",

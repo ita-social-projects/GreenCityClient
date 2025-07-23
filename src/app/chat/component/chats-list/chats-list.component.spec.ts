@@ -14,7 +14,11 @@ describe('ChatsListComponent', () => {
   let component: ChatsListComponent;
   let fixture: ComponentFixture<ChatsListComponent>;
 
-  const chatServiceMock = jasmine.createSpyObj('ChatsService', ['isSupportChat', 'searchFriends', 'setCurrentChat']);
+  const chatServiceMock = jasmine.createSpyObj('ChatsService', ['searchFriends', 'setCurrentChat', 'getAllSupportChats'], {
+    isSupportChat: true,
+    currentChatPageData$: { getValue: () => ({ totalPages: 2, currentPage: 0 }) }
+  });
+
   chatServiceMock.isSupportChat = () => true;
   chatServiceMock.searchFriends = () => {};
   chatServiceMock.setCurrentChat = () => {};
@@ -76,5 +80,34 @@ describe('ChatsListComponent', () => {
     component.openNewMessageWindow(chat);
     expect(spy).toHaveBeenCalledWith(chat);
     expect(spy1).toHaveBeenCalled();
+  });
+  it('should return early if isUbsAdmin is true', () => {
+    component.isUbsAdmin = true;
+    const chatTarget = {} as any;
+    const socketSpy = spyOn(component['socketService'], 'createNewChat');
+    const emitSpy = spyOn(component.createNewMessageWindow, 'emit');
+
+    component.checkChat(chatTarget);
+
+    expect(socketSpy).not.toHaveBeenCalled();
+    expect(emitSpy).not.toHaveBeenCalled();
+  });
+
+  xit('should call createNewChat when no existing support chat', () => {
+    component.isUbsAdmin = false;
+
+    const chatTarget = {
+      tariffsId: 555,
+      chat: null
+    } as any;
+
+    const socketSpy = spyOn(component['socketService'], 'createNewChat');
+    const emitSpy = spyOn(component.createNewMessageWindow, 'emit');
+    spyOnProperty(component.chatService, 'isSupportChat', 'get').and.returnValue(true);
+
+    component.checkChat(chatTarget);
+
+    expect(socketSpy).toHaveBeenCalledWith(555, false, true);
+    expect(emitSpy).toHaveBeenCalled();
   });
 });
