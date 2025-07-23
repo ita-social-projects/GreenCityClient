@@ -1442,6 +1442,7 @@
   "chat": {
     "empty-chat": "Chat hasn’t got any message yet",
     "messages": "Messages",
+    "select-chat": "Select a chat to start messaging",
     "support-chat": "Support-chat",
     "delete-message-question": "Do you want to remove the message?",
     "delete-message-confirm": "Yes",
