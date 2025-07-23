@@ -19,6 +19,11 @@
 
   .time-item {
     flex: 1;
+    height: fit-content;
+
+    mat-error {
+      position: absolute;
+    }
   }
 }
 
@@ -43,4 +48,16 @@
 
 .hidden-input {
   display: none;
+}
+
+@media (max-width: 500px) {
+  .time {
+    min-height: 5rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .time {
+    min-height: 7rem;
+  }
 }
