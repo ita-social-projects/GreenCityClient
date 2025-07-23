@@ -48,4 +48,11 @@ describe('CurrentChatComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should return translated value', () => {
+    const translated = component.getTranslated('chat.greeting');
+    expect(translated).toBe('chat.greeting');
+  });
+  it('should inject chatsService', () => {
+    expect(component.chatsService).toBeTruthy();
+  });
 });
