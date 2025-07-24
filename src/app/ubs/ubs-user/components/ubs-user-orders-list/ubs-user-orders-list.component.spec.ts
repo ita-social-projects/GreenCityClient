@@ -16,10 +16,9 @@ import { Store, StoreModule } from '@ngrx/store';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
-import { PopUpsStyles } from '@ubs/ubs-admin/components/ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 import { OrderService } from '@ubs/ubs/services/order.service';
 
-describe('UbsUserOrdersListComponent', () => {
+fdescribe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
   let fixture: ComponentFixture<UbsUserOrdersListComponent>;
 
@@ -401,18 +400,15 @@ describe('UbsUserOrdersListComponent', () => {
       expect(matDialogMock.open).toHaveBeenCalled();
       tick();
       expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
+      expect(dialogRefSpy.afterClosed).toHaveBeenCalledTimes(1);
     }));
 
-    it('should open editOrPayPopup with editOrPayDialogData', () => {
+    it('should open dialog with correct configuration options', () => {
       component.editOrPayPopup(fakeIputOrderData[1] as any);
 
-      expect(component.editOrPayDialogData).toBeDefined();
-
-      expect(component.editOrPayDialogData.popupTitle).toBe('ubs-client-profile.payment.edit-or-payment');
-      expect(component.editOrPayDialogData.popupConfirm).toBe('ubs-client-profile.payment.btn.pay');
-      expect(component.editOrPayDialogData.popupCancel).toBe('add-payment.edit');
-      expect(component.editOrPayDialogData.style).toBe(PopUpsStyles.lightGreen);
-      expect(component.editOrPayDialogData.isEditOrPayPopup).toBeTrue();
+      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, jasmine.objectContaining({ closeOnNavigation: true }));
+      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, jasmine.objectContaining({ disableClose: true }));
+      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, jasmine.objectContaining({ hasBackdrop: true }));
       expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, {
         data: component.editOrPayDialogData,
         closeOnNavigation: true,
@@ -422,45 +418,60 @@ describe('UbsUserOrdersListComponent', () => {
       });
     });
 
-    it('should call openOrderPaymentPopUp if the dialog returned true', () => {
-      const afterClosedSubject = new Subject<boolean>();
+    it('should open editOrPayPopup with editOrPayDialogData', () => {
+      component.editOrPayPopup(fakeIputOrderData[1] as any);
+
+      expect(component.editOrPayDialogData).toBeDefined();
+      expect(matDialogMock.open).toHaveBeenCalled();
+      expect(component.editOrPayDialogData.popupTitle).toBe('ubs-client-profile.payment.edit-or-payment');
+      expect(component.editOrPayDialogData.popupConfirm).toBe('ubs-client-profile.payment.btn.pay');
+      expect(component.editOrPayDialogData.popupCancel).toBe('add-payment.edit');
+      expect(component.editOrPayDialogData.style).toBe('light green');
+      expect(component.editOrPayDialogData.isEditOrPayPopup).toBeTrue();
+    });
+
+    it('should call openOrderPaymentPopUp if the dialog returned true', fakeAsync(() => {
+      dialogRefSpy.afterClosed.and.returnValue(of(true));
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const getDataForLocalStorageSpy = spyOn(component as any, 'getDataForLocalStorage');
 
       component.editOrPayPopup(fakeIputOrderData[1] as any);
-      afterClosedSubject.next(true);
-      afterClosedSubject.complete();
+      tick();
 
+      expect(matDialogMock.open).toHaveBeenCalled();
       expect(orderPaymentPopupSpy).toHaveBeenCalled();
       expect(orderPaymentPopupSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
       expect(getDataForLocalStorageSpy).not.toHaveBeenCalled();
-    });
+    }));
 
-    it('should call getDataForLocalStorage if the dialog returned false', () => {
-      const afterClosedSubject = new Subject<boolean>();
+    it('should call getDataForLocalStorage if the dialog returned false', fakeAsync(() => {
+      dialogRefSpy.afterClosed.and.returnValue(of(false));
       const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
-      dialogRefSpy.afterClosed.and.returnValue(of(false));
 
       component.editOrPayPopup(fakeIputOrderData[1] as any);
-      afterClosedSubject.next(false);
-      afterClosedSubject.complete();
+      tick();
 
+      expect(matDialogMock.open).toHaveBeenCalled();
       expect(getDataForLocalStorageSpy).toHaveBeenCalled();
       expect(getDataForLocalStorageSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
       expect(orderPaymentPopupSpy).not.toHaveBeenCalled();
-    });
+    }));
 
-    it('shouldnt call any method if the dialog was closed and returned undefined', () => {
+    it('shouldnt call any method if the dialog was closed and returned undefined', fakeAsync(() => {
+      dialogRefSpy.afterClosed.and.returnValue(of(undefined));
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
-      dialogRefSpy.afterClosed.and.returnValue(of(undefined));
 
       component.editOrPayPopup(fakeIputOrderData[1] as any);
+      tick();
 
+      expect(matDialogMock.open).toHaveBeenCalled();
+      expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
+      expect(dialogRefSpy.afterClosed).toHaveBeenCalledTimes(1);
       expect(orderPaymentPopupSpy).not.toHaveBeenCalled();
       expect(getDataForLocalStorageSpy).not.toHaveBeenCalled();
-    });
+    }));
   });
 
   describe('exportAsPDF', () => {
