@@ -7,7 +7,7 @@ import { of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { setupChatComponentTest } from './setupChatComponentTest';
-
+import { provideMockStore } from '@ngrx/store/testing';
 describe('ChatComponent', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
