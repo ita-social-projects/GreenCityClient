@@ -14,6 +14,10 @@
     font-family: var(--primary-font);
     grid-column: 1 / -1;
   }
+
+  .recipient {
+    grid-column: 1 / -1;
+  }
 }
 
 .table_of_details {
