@@ -1,17 +1,15 @@
 <div [formGroup]="dayForm" class="date-time">
   <span class="day">{{ dayNumber + 1 }} {{ 'create-event.day' | translate }}</span>
 
-  <div [class.date-item]="day.invalid || startDate.invalid">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'create-event.choose-date' | translate }}</mat-label>
-      <input matInput [matDatepicker]="dp" formControlName="day" [min]="minDate" [max]="maxDate" />
-      <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
-      <mat-datepicker #dp></mat-datepicker>
+  <mat-form-field appearance="outline">
+    <mat-label>{{ 'create-event.choose-date' | translate }}</mat-label>
+    <input matInput [matDatepicker]="dp" formControlName="day" [min]="minDate" [max]="maxDate" />
+    <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
 
-      <mat-error *ngIf="day.hasError('dateIncorrect')">{{ 'create-event.date-error-format' | translate }}</mat-error>
-      <mat-error *ngIf="startDate.hasError('dateInPast')">{{ 'create-event.date-error' | translate }}</mat-error>
-    </mat-form-field>
-  </div>
+    <mat-error *ngIf="day.hasError('dateIncorrect')">{{ 'create-event.date-error-format' | translate }}</mat-error>
+    <mat-error *ngIf="day.hasError('dateInPast')">{{ 'create-event.date-error' | translate }}</mat-error>
+  </mat-form-field>
 
   <div class="time">
     <mat-form-field appearance="outline" class="time-item">
