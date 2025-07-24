@@ -286,4 +286,19 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
       });
     });
   });
+
+  it('should add +380 to the value of recipientPhone', () => {
+    component.phoneNumber.setValue('');
+    component.onPhoneFocus();
+
+    expect(component.phoneNumber.value).toBe('+380');
+  });
+
+  it('should clear the value of recipientPhone', () => {
+    component.phoneNumber.setValue('+380');
+    component.onPhoneBlur();
+
+    expect(component.phoneNumber.value).toBe('');
+    expect(component.phoneNumber.untouched).toBe(true);
+  });
 });
