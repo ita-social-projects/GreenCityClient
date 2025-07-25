@@ -136,49 +136,4 @@ describe('UbsAdminCustomersComponent', () => {
     expect(component.filterForm.value.bonusesFrom).toBe('');
     expect(component.filterForm.value.bonusesTo).toBe('');
   });
-
-  it('should return early if userId is null', () => {
-    component.openPopUp(column, 'chatLink', null);
-
-    expect(matDialogMock.open).not.toHaveBeenCalled();
-  });
-
-  it('should open the dialog with correct configuration', () => {
-    component.openPopUp(column, chatLink, userId);
-    expect(matDialogMock.open).toHaveBeenCalledWith(CommentPopUpComponent, (component as any).dialogConfig);
-    expect(dialogRefMock.componentInstance.comment).toBe(chatLink);
-    expect(dialogRefMock.componentInstance.isLink).toBeTrue();
-    expect(['Title', 'Заголовок']).toContain(dialogRefMock.componentInstance.header);
-  });
-
-  it('should do nothing if dialog closes without changes', () => {
-    spyOn(adminCustomersServiceMock, 'addChatLink').and.stub();
-
-    dialogRefMock.afterClosed.and.returnValue(of(null));
-    component.openPopUp(column, chatLink, userId);
-
-    expect(adminCustomersServiceMock.addChatLink).not.toHaveBeenCalled();
-    expect(snackBarSpy.openSnackBar).not.toHaveBeenCalled();
-  });
-
-  it('should call addChatLink and show success message on dialog close with updated data', () => {
-    dialogRefMock.afterClosed.and.returnValue(of(updatedData));
-
-    spyOn(adminCustomersServiceMock, 'addChatLink').and.returnValue(of(void 0));
-    spyOn(component as any, 'updateTableRow').and.callThrough();
-
-    component.openPopUp(column, chatLink, userId);
-    expect(adminCustomersServiceMock.addChatLink).toHaveBeenCalledWith(userId, updatedData);
-    expect(component['updateTableRow']).toHaveBeenCalledWith(column, userId, updatedData);
-    expect(snackBarSpy.openSnackBar).toHaveBeenCalledWith('successUpdateLink');
-  });
-
-  it('should show error message if addChatLink fails', () => {
-    dialogRefMock.afterClosed.and.returnValue(of(updatedData));
-    spyOn(adminCustomersServiceMock, 'addChatLink').and.returnValue(throwError(() => 'error'));
-
-    component.openPopUp(column, chatLink, userId);
-
-    expect(snackBarSpy.openSnackBar).toHaveBeenCalledWith('failUpdateLink');
-  });
 });

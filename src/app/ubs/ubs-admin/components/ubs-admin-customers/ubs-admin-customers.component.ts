@@ -394,44 +394,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     });
   }
 
-  openPopUp(column: ColumnParam, chatLink: string | null, userId: string | null): void {
-    if (!userId) {
-      return;
-    }
-
-    this.dialogConfig.disableClose = true;
-    const modalRef = this.dialog.open(CommentPopUpComponent, this.dialogConfig);
-    if (!modalRef.componentInstance) {
-      return;
-    }
-
-    this.setDialogHeader(modalRef, column);
-    modalRef.componentInstance.comment = chatLink;
-    modalRef.componentInstance.isLink = true;
-
-    modalRef
-      .afterClosed()
-      .pipe(
-        take(1),
-        mergeMap((updatedData: string | null) => {
-          if (updatedData === null || updatedData === chatLink) {
-            return EMPTY;
-          }
-          return this.adminCustomerService
-            .addChatLink(userId, updatedData)
-            .pipe(tap(() => this.updateTableRow(column, userId, updatedData)));
-        })
-      )
-      .subscribe({
-        next: () => {
-          this.snackBar.openSnackBar('successUpdateLink');
-        },
-        error: () => {
-          this.snackBar.openSnackBar('failUpdateLink');
-        }
-      });
-  }
-
   private setDialogHeader(modalRef: MatDialogRef<CommentPopUpComponent>, column: ColumnParam): void {
     modalRef.componentInstance.header = this.localStorageService.getCurrentLanguage() === 'ua' ? column.title.ua : column.title.en;
   }
