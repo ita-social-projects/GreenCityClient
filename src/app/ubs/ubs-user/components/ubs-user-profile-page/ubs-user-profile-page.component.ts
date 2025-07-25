@@ -206,6 +206,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    console.log('SUBMIT FORM VALUE:', this.userForm.value);
     if (this.userForm.valid) {
       this.isFetching = true;
       this.isEditing = false;
@@ -216,7 +217,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         recipientName: this.userForm.value.recipientName,
         recipientPhone: this.userForm.value.recipientPhone,
         recipientSurname: this.userForm.value.recipientSurname,
-        telegramIsNotify: this.userProfile.telegramIsNotify,
+        telegramIsNotify: this.userForm.value.telegramIsNotify,
         hasPassword: this.userProfile.hasPassword
       };
 
@@ -264,6 +265,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
             }
             this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
             this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
+            this.userInit();
           },
           error: (err: Error) => {
             this.isFetching = false;
@@ -426,9 +428,35 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   onSwitchChanged(): void {
-    this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
-    if (this.userProfile.telegramIsNotify) {
-      this.goToTelegramUrl();
+    const control = this.userForm.get('telegramIsNotify');
+    const newValue = !control.value;
+    control.setValue(newValue);
+    control.markAsDirty();
+
+    this.userProfile.telegramIsNotify = newValue;
+
+    if (newValue) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: {
+          title: 'Підписка на Telegram',
+          text: 'Ви будете перенаправлені до Telegram-бота. Не забудьте натиснути "Start" у боті.',
+          confirm: 'Відкрити Telegram',
+          cancel: 'Скасувати'
+        }
+      });
+
+      dialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((confirmed) => {
+          if (confirmed) {
+            this.goToTelegramUrl();
+          } else {
+            control.setValue(false);
+            control.markAsDirty();
+            this.userProfile.telegramIsNotify = false;
+          }
+        });
     }
   }
 
