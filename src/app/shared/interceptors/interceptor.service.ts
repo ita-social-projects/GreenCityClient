@@ -227,7 +227,10 @@ export class InterceptorService implements HttpInterceptor {
       return of<HttpEvent<any>>();
     }
 
-    this.openDialog = false;
+    if (isUBS) {
+      this.openDialog = false;
+    }
+
     this.dialog
       .open(AuthModalComponent, {
         hasBackdrop: true,
