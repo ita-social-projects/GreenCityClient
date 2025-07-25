@@ -18,7 +18,7 @@ import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { OrderService } from '@ubs/ubs/services/order.service';
 
-fdescribe('UbsUserOrdersListComponent', () => {
+describe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
   let fixture: ComponentFixture<UbsUserOrdersListComponent>;
 
