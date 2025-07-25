@@ -127,9 +127,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private initializeLocationData(): void {
-    this.eventService.getRelevantAddresses().subscribe((data: Addresses[]) => {
-      this.relevantLocationFiltersList = this.getUniqueLocations(data);
-    });
+    this.relevantLocationFiltersList = [
+      { type: 'location', nameEn: 'Online', nameUk: 'Онлайн' },
+      { type: 'location', nameEn: 'Offline', nameUk: 'Офлайн' }
+    ];
     this.cityForm = this.fb.group({
       city: ['', Validators.required]
     });
