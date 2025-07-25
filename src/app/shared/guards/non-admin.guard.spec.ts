@@ -1,19 +1,3 @@
-// import { TestBed } from '@angular/core/testing';
-// import { CanActivateFn } from '@angular/router';
-//
-// import { NonAdminGuard } from './non-admin.guard';
-//
-// xdescribe('nonAdminGuard', () => {
-//   const executeGuard: CanActivateFn = (...guardParameters) => TestBed.runInInjectionContext(() => NonAdminGuard(...guardParameters));
-//
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({});
-//   });
-//
-//   it('should be created', () => {
-//     expect(executeGuard).toBeTruthy();
-//   });
-// });
 import { TestBed } from '@angular/core/testing';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { NonAdminGuard } from './non-admin.guard';
@@ -46,7 +30,7 @@ describe('NonAdminGuard', () => {
     const result = executeGuard({} as any, { url } as any);
     const assert = (res: boolean | UrlTree) => {
       if (res instanceof UrlTree) {
-        expect(expected).toBeTrue(); // assume redirect counts as "true"
+        expect(expected).toBeTrue();
       } else {
         expect(res).toBe(expected);
       }
