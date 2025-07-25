@@ -258,7 +258,11 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   applyFilter(filterValue: string): void {
+    console.log(filterValue);
     this.filterValue = filterValue;
+    this.updateTableData();
+    this.currentPage = 0;
+    this.setDisplayedColumns();
   }
 
   private getTable(
@@ -269,6 +273,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.isLoading = true;
     if (this.customerTable) {
       this.setTableData(this.customerTable);
+      // console.log(this.customerTable);
     } else {
       this.adminCustomerService
         .getCustomers(columnName, this.currentPage, this.queryString, filterValue, this.pageSize, sortingType)
@@ -298,7 +303,9 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       .pipe(takeUntil(this.destroy$))
       .subscribe((item: ICustomersTable) => {
         this.store.dispatch(GetCustomerTable({ table: item }));
-        this.tableData = [...this.tableData, ...item.page];
+        const excludeFoundUsers = this.tableData.filter((tableUser) => !item.page.some((user) => user.userId === tableUser.userId));
+        this.tableData = [...item.page, ...excludeFoundUsers];
+        console.log(this.tableData);
         this.dataSource = new MatTableDataSource(this.tableData);
         this.totalPages = item.totalPages;
         this.isUpdate = false;
