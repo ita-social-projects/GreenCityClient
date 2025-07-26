@@ -29,8 +29,6 @@ import { EventAttender, EventDto, EventForm, PlaceOnline } from '../../models/ev
 import { EventStoreService } from '../../services/event-store.service';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
-
-
 @Component({
   selector: 'app-event-details',
   templateUrl: './event-details.component.html',
@@ -63,7 +61,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   isUpdating: boolean;
   currentDate = new Date();
   isPreview = false;
-  max = 5;
+  max = 3;
   rate: number;
   likesType = {
     like: 'assets/img/comments/like.png',

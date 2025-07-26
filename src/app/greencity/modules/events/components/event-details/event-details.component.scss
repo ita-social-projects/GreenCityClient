@@ -246,8 +246,9 @@
           }
 
           .event-participants {
-            display: inline-flex;
-            gap: 13px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
 
             .event-participants-avatars {
               padding: 3px 0;
@@ -273,14 +274,9 @@
               }
             }
 
-            .event-participants-count-container {
+            .event-participants-count {
               font-size: 16px;
-              font-weight: 400;
-              line-height: 26px;
-
-              .event-participants-count {
-                font-weight: 500;
-              }
+              font-weight: 500;
             }
           }
         }
@@ -508,6 +504,27 @@
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
+}
+
+.event-stars {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .star {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    transition: all 0.3s;
+  }
+
+  .fill {
+    background: url('/assets/events-icons/star-filled.svg') no-repeat center;
+  }
+
+  .empty {
+    background: url('/assets/events-icons/star-empthy.svg') no-repeat center;
+  }
 }
 
 .like-wr {
