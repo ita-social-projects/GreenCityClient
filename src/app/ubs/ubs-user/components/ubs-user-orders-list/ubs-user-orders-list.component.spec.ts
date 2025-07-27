@@ -11,12 +11,14 @@ import { UbsUserOrdersListComponent } from './ubs-user-orders-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { OrderService } from '@ubs/ubs/services/order.service';
+import { PopUpsStyles } from '@ubs/ubs-admin/components/ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
+import { UBSOrderFormComponent } from '@ubs/ubs/components/ubs-order-form/ubs-order-form.component';
 
 describe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
@@ -56,13 +58,38 @@ describe('UbsUserOrdersListComponent', () => {
     }
   ];
   const fakePoints = 111;
+  const fakePersonalData = {
+    id: 123,
+    ubsUserId: 123,
+    firstName: 'Anna',
+    lastName: 'Kuznetsova',
+    email: 'anna.kuznetsova@example.com',
+    phoneNumber: '+380123456789',
+    addressComment: 'Leave at the front door',
+    city: 'Lviv',
+    cityEn: 'Lviv',
+    district: 'Shevchenkivskyi',
+    districtEn: 'Shevchenkivskyi',
+    isAnotherClient: false,
+    senderEmail: 'anna.sender@example.com',
+    senderFirstName: 'Anna',
+    senderLastName: 'Sender',
+    senderPhoneNumber: '+380987654321'
+  };
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue.and.returnValue('fakeValue');
   languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
 
-  const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderPdf', 'cleanOrderState']);
+  const orderServiceMock = jasmine.createSpyObj('orderService', [
+    'getOrderPdf',
+    'cleanOrderState',
+    'getExistingOrderDetails',
+    'getPersonalData'
+  ]);
   orderServiceMock.getOrderPdf.and.returnValue(of(new Blob(['pdf content'], { type: 'application/pdf' })));
+  orderServiceMock.getExistingOrderDetails.and.returnValue(of(fakeIputOrderData[1] as any));
+  orderServiceMock.getPersonalData.and.returnValue(of(fakePersonalData));
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
@@ -82,7 +109,7 @@ describe('UbsUserOrdersListComponent', () => {
         BrowserAnimationsModule,
         TranslateModule.forRoot(),
         HttpClientModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([{ path: 'ubs/order', component: UBSOrderFormComponent }]),
         StoreModule.forRoot({})
       ],
       providers: [
@@ -396,44 +423,31 @@ describe('UbsUserOrdersListComponent', () => {
   describe('editOrPayPopup', () => {
     it('should open the dialog and handle afterClosed result', fakeAsync(() => {
       component.editOrPayPopup(fakeIputOrderData[1] as any);
-
-      expect(matDialogMock.open).toHaveBeenCalled();
       tick();
+      expect(matDialogMock.open).toHaveBeenCalled();
       expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
       expect(dialogRefSpy.afterClosed).toHaveBeenCalledTimes(1);
     }));
 
-    it('should open dialog with correct configuration options', () => {
+    it('should open editOrPayPopup with editOrPayDialogData', fakeAsync(() => {
       component.editOrPayPopup(fakeIputOrderData[1] as any);
+      tick();
 
-      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, jasmine.objectContaining({ closeOnNavigation: true }));
-      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, jasmine.objectContaining({ disableClose: true }));
-      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, jasmine.objectContaining({ hasBackdrop: true }));
-      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, {
-        data: component.editOrPayDialogData,
-        closeOnNavigation: true,
-        disableClose: true,
-        hasBackdrop: true,
-        panelClass: ''
-      });
-    });
-
-    it('should open editOrPayPopup with editOrPayDialogData', () => {
-      component.editOrPayPopup(fakeIputOrderData[1] as any);
+      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, { data: component.editOrPayDialogData });
 
       expect(component.editOrPayDialogData).toBeDefined();
       expect(matDialogMock.open).toHaveBeenCalled();
       expect(component.editOrPayDialogData.popupTitle).toBe('ubs-client-profile.payment.edit-or-payment');
       expect(component.editOrPayDialogData.popupConfirm).toBe('ubs-client-profile.payment.btn.pay');
       expect(component.editOrPayDialogData.popupCancel).toBe('add-payment.edit');
-      expect(component.editOrPayDialogData.style).toBe('light green');
+      expect(component.editOrPayDialogData.style).toBe(PopUpsStyles.lightGreen);
       expect(component.editOrPayDialogData.isEditOrPayPopup).toBeTrue();
-    });
+    }));
 
     it('should call openOrderPaymentPopUp if the dialog returned true', fakeAsync(() => {
       dialogRefSpy.afterClosed.and.returnValue(of(true));
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
-      const getDataForLocalStorageSpy = spyOn(component as any, 'getDataForLocalStorage');
+      const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
 
       component.editOrPayPopup(fakeIputOrderData[1] as any);
       tick();
@@ -446,7 +460,7 @@ describe('UbsUserOrdersListComponent', () => {
 
     it('should call getDataForLocalStorage if the dialog returned false', fakeAsync(() => {
       dialogRefSpy.afterClosed.and.returnValue(of(false));
-      const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
+      const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage').and.callThrough();
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
 
       component.editOrPayPopup(fakeIputOrderData[1] as any);
@@ -480,40 +494,44 @@ describe('UbsUserOrdersListComponent', () => {
       spyOn(document, 'createElement').and.returnValue(anchorMock as any);
     });
 
-    it('should call orderService.getOrderPdf with correct parameters', () => {
+    it('should call orderService.getOrderPdf with correct parameters', fakeAsync(() => {
       const orderIdMock = fakeIputOrderData[0].id;
       const langMock = 'en';
       component.currentLanguage = langMock;
 
       component.exportAsPDF(fakeIputOrderData[0] as any);
+      tick();
 
       expect(orderServiceMock.getOrderPdf).toHaveBeenCalledWith(orderIdMock, langMock);
-    });
+    }));
 
-    it('should create blob on exportAsPDF call', () => {
+    it('should create blob on exportAsPDF call', fakeAsync(() => {
       const blobSpy = spyOn(window, 'Blob').and.callThrough();
 
       component.exportAsPDF(fakeIputOrderData[0] as any);
+      tick();
 
       expect(blobSpy).toHaveBeenCalled();
-    });
+    }));
 
-    it('should create a download link with correct filename and blob', () => {
+    it('should create a download link with correct filename and blob', fakeAsync(() => {
       const createObjectURLSpy = spyOn(window.URL, 'createObjectURL').and.returnValue('mock-url');
 
       component.exportAsPDF(fakeIputOrderData[0] as any);
+      tick();
 
       expect(createObjectURLSpy).toHaveBeenCalled();
-    });
+    }));
 
-    it('should create and revoke object URL', () => {
+    it('should create and revoke object URL', fakeAsync(() => {
       const createObjectURLSpy = spyOn(window.URL, 'createObjectURL');
       const revokeObjectURLSpy = spyOn(window.URL, 'revokeObjectURL');
 
       component.exportAsPDF(fakeIputOrderData[0] as any);
+      tick();
 
       expect(createObjectURLSpy).toHaveBeenCalled();
       expect(revokeObjectURLSpy).toHaveBeenCalled();
-    });
+    }));
   });
 });

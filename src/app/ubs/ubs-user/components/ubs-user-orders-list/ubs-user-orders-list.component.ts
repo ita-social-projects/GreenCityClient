@@ -123,21 +123,15 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   editOrPayPopup(order: IUserOrderInfo) {
-    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
-      data: this.editOrPayDialogData,
-      closeOnNavigation: true,
-      disableClose: true,
-      hasBackdrop: true,
-      panelClass: ''
-    });
-
-    matDialogRef
+    this.dialog
+      .open(DialogPopUpComponent, { data: this.editOrPayDialogData })
       .afterClosed()
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
           this.openOrderPaymentPopUp(order);
-        } else if (res === false) {
+        }
+        if (res === false) {
           this.getDataForLocalStorage(order);
         }
       });
@@ -188,7 +182,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       );
 
     forkJoin([orderDataRequest, personalDataRequest]).subscribe(() => {
-      this.bags = orderDataResponse.bags;
+      this.bags = orderDataResponse.bags || [];
       this.bags.forEach((item) => {
         const bagsQuantity = this.getBagsQuantity(item.nameUk, item.capacity, order);
         item.quantity = bagsQuantity;
@@ -208,13 +202,13 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       };
 
       this.personalDetails = personalDataResponse;
-      this.personalDetails.senderEmail = order.sender.senderEmail !== this.personalDetails.email ? order.sender.senderEmail : null;
-      this.personalDetails.senderFirstName = order.sender.senderName !== this.personalDetails.firstName ? order.sender.senderName : null;
+      this.personalDetails.senderEmail = order.sender?.senderEmail !== this.personalDetails.email ? order.sender?.senderEmail : null;
+      this.personalDetails.senderFirstName = order.sender?.senderName !== this.personalDetails.firstName ? order.sender?.senderName : null;
       this.personalDetails.senderLastName =
-        order.sender.senderSurname !== this.personalDetails.lastName ? order.sender.senderSurname : null;
+        order.sender?.senderSurname !== this.personalDetails.lastName ? order.sender?.senderSurname : null;
       this.personalDetails.senderPhoneNumber =
-        order.sender.senderPhone !== this.personalDetails.phoneNumber ? order.sender.senderPhone : null;
-      this.anotherClient = order.sender.senderName !== this.personalDetails.firstName ? 'true' : 'false';
+        order.sender?.senderPhone !== this.personalDetails.phoneNumber ? order.sender?.senderPhone : null;
+      this.anotherClient = order.sender?.senderName !== this.personalDetails.firstName ? 'true' : 'false';
       this.orderId = order.id.toString();
       this.setDataToLocalStorage();
     });
