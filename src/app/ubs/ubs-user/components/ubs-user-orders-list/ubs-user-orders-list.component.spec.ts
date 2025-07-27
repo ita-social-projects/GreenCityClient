@@ -116,7 +116,6 @@ describe('UbsUserOrdersListComponent', () => {
         { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: LanguageService, useValue: languageServiceMock },
-        { provide: Store, useValue: storeMock },
         { provide: OrderService, useValue: orderServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
