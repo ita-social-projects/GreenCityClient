@@ -5,8 +5,6 @@ import {
   DestroyRef,
   ElementRef,
   HostListener,
-  inject,
-  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -17,8 +15,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { EMPTY, Subject } from 'rxjs';
-import { debounceTime, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
@@ -33,7 +31,6 @@ import { Store } from '@ngrx/store';
 import { adminTableOfCustomersSelector } from 'src/app/store/selectors/ubs-admin.selectors';
 import { GetCustomerTable } from 'src/app/store/actions/ubs-admin.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-admin-customers',
@@ -41,6 +38,8 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
   styleUrls: ['./ubs-admin-customers.component.scss']
 })
 export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnDestroy {
+  chatId = 16;
+
   isLoading = false;
   isUpdate = false;
   nonSortableColumns = nonSortableColumns;
@@ -76,7 +75,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
-  private readonly dialogConfig = new MatDialogConfig();
   private readonly pointerColumns: string[] = ['clientName', 'number_of_orders', 'violations'];
 
   @ViewChild(MatTable, { read: ElementRef }) private readonly matTableRef: ElementRef;
@@ -88,7 +86,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     private readonly cdr: ChangeDetectorRef,
     private readonly renderer: Renderer2,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBarService,
     private readonly store: Store,
     private readonly destroyRef: DestroyRef,
     private readonly convertFromDateToStringService: ConvertFromDateToStringService,
@@ -421,7 +418,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   onOpenChat(chatUrl: string) {
-    this.adminCustomerService.openChat(chatUrl);
+    this.router.navigate(['greenCity', 'chat-page'], { state: { selectedChatId: this.chatId } });
   }
 
   private openCustomer(row, username): void {
