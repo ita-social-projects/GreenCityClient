@@ -10,10 +10,20 @@ export const NonAdminGuard: CanActivateFn = (route, state) => {
   const router: Router = inject(Router);
 
   const adminRoleValue: TUserRole = 'ROLE_UBS_EMPLOYEE';
+  const exemptRoutes = ['/greenCity/chat-page'];
   return store.pipe(
     select(userRoleSelector),
     take(1),
-    tap((userRole) => userRole === adminRoleValue && router.navigate(['/ubs/admin/orders'])),
-    map((userRole) => userRole !== adminRoleValue)
+    tap((userRole) => {
+      if (userRole === adminRoleValue && !exemptRoutes.includes(state.url)) {
+        router.navigate(['/ubs/admin/orders']);
+      }
+    }),
+    map((userRole) => {
+      if (userRole === adminRoleValue && !exemptRoutes.includes(state.url)) {
+        return false;
+      }
+      return true;
+    })
   );
 };

@@ -238,7 +238,7 @@ describe('InputGoogleAutocompleteComponent', () => {
         { description: 'Place 1, Russia', place_id: '1' } as google.maps.places.AutocompletePrediction,
         { description: 'Place 2, Россия', place_id: '2' } as google.maps.places.AutocompletePrediction,
         { description: 'Place 3, Росія', place_id: '3' } as google.maps.places.AutocompletePrediction,
-        { description: 'Place', place_id: '4' } as google.maps.places.AutocompletePrediction
+        { description: 'Kyiv oblast', place_id: '4' } as google.maps.places.AutocompletePrediction
       ];
       component.predictionList = customPredictionList;
       callback(customPredictionList, (window as any).google.maps.places.PlacesServiceStatus.OK);
@@ -249,7 +249,7 @@ describe('InputGoogleAutocompleteComponent', () => {
     tick(400);
 
     expect(component.predictionList.length).toBe(1);
-    expect(component.predictionList[0].description).toBe('Place');
+    expect(component.predictionList[0].description).toBe('Kyiv oblast');
     expect(component.predictionList[0].place_id).toBe('4');
     expect(mockAutocompleteServiceInstance.getPlacePredictions).toHaveBeenCalled();
   }));
@@ -259,9 +259,9 @@ describe('InputGoogleAutocompleteComponent', () => {
     mockAutocompleteServiceInstance.getPlacePredictions.calls.reset();
     mockAutocompleteServiceInstance.getPlacePredictions.and.callFake((request, callback) => {
       const customPredictionList = [
-        { description: 'вул. Центральна', place_id: '1' } as google.maps.places.AutocompletePrediction,
-        { description: 'вулиця Центральна', place_id: '2' } as google.maps.places.AutocompletePrediction,
-        { description: 'Проспект Свободи', place_id: '3' } as google.maps.places.AutocompletePrediction
+        { description: 'Полтавська область, місто Солонці, вул. Центральна', place_id: '1' } as google.maps.places.AutocompletePrediction,
+        { description: 'Полтавська область, місто Солонці, вулиця Центральна', place_id: '2' } as google.maps.places.AutocompletePrediction,
+        { description: 'Полтавська область, місто Кременчук, Проспект Свободи', place_id: '3' } as google.maps.places.AutocompletePrediction
       ];
       callback(customPredictionList, (window as any).google.maps.places.PlacesServiceStatus.OK);
       return Promise.resolve({ predictions: customPredictionList, status: (window as any).google.maps.places.PlacesServiceStatus.OK });
@@ -272,8 +272,8 @@ describe('InputGoogleAutocompleteComponent', () => {
     tick(400);
 
     expect(component.predictionList.length).toBe(2);
-    expect(component.predictionList[0].description).toBe('вулиця Центральна');
-    expect(component.predictionList[1].description).toBe('Проспект Свободи');
+    expect(component.predictionList[0].description).toBe('Полтавська область, місто Солонці, вулиця Центральна');
+    expect(component.predictionList[1].description).toBe('Полтавська область, місто Кременчук, Проспект Свободи');
     expect(mockAutocompleteServiceInstance.getPlacePredictions).toHaveBeenCalled();
   }));
 
@@ -457,9 +457,9 @@ describe('InputGoogleAutocompleteComponent', () => {
     mockAutocompleteServiceInstance.getPlacePredictions.calls.reset();
     mockAutocompleteServiceInstance.getPlacePredictions.and.callFake((request, callback) => {
       const customPredictionList = [
-        { description: 'Street Central', place_id: '1' } as google.maps.places.AutocompletePrediction,
-        { description: 'Street Central', place_id: '2' } as google.maps.places.AutocompletePrediction,
-        { description: 'Liberty Avenue', place_id: '3' } as google.maps.places.AutocompletePrediction
+        { description: 'Kyiv oblast', place_id: '1' } as google.maps.places.AutocompletePrediction,
+        { description: 'Lviv oblast', place_id: '2' } as google.maps.places.AutocompletePrediction,
+        { description: 'Poltava oblast', place_id: '3' } as google.maps.places.AutocompletePrediction
       ];
       callback(customPredictionList, (window as any).google.maps.places.PlacesServiceStatus.OK);
       return Promise.resolve({ predictions: customPredictionList, status: (window as any).google.maps.places.PlacesServiceStatus.OK });
@@ -470,9 +470,31 @@ describe('InputGoogleAutocompleteComponent', () => {
     tick(400);
 
     expect(component.predictionList.length).toBe(3);
-    expect(component.predictionList[0].description).toBe('Street Central');
-    expect(component.predictionList[1].description).toBe('Street Central');
-    expect(component.predictionList[2].description).toBe('Liberty Avenue');
+    expect(component.predictionList[0].description).toBe('Kyiv oblast');
+    expect(component.predictionList[1].description).toBe('Lviv oblast');
+    expect(component.predictionList[2].description).toBe('Poltava oblast');
     expect(mockAutocompleteServiceInstance.getPlacePredictions).toHaveBeenCalled();
   }));
+  
+  it('should correctly validate region predictions', () => {
+    const validPredictionsMock = [
+      'Київська область, Україна',
+      'Kyiv Oblast, Ukraine',
+      'місто Київ, Україна',
+      'city Kyiv, Ukraine',
+      'Крим, Україна',
+      'Crimea, Ukraine'
+    ];
+
+    const invalidPredictionsMock = ['Кхарківська, Україна', 'Керсонска, Україна', 'Khersonska, Ukraine'];
+
+    validPredictionsMock.forEach((prediction) => {
+      expect(component.regionValidation(prediction)).toBeTrue();
+    });
+
+    invalidPredictionsMock.forEach((prediction) => {
+      expect(component.regionValidation(prediction)).toBeFalse();
+    });
+  });
+
 });
