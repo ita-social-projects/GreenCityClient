@@ -15,7 +15,7 @@ import { environment } from '@environment/environment';
   templateUrl: './chat-page.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, TranslateModule, DatePipe],
+  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, TranslateModule],
   styleUrls: ['./chat-page.component.scss']
 })
 export class ChatComponent implements OnInit {
