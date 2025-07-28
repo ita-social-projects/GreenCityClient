@@ -15,4 +15,8 @@ export class CurrentChatComponent {
     public chatsService: ChatsService,
     private translate: TranslateService
   ) {}
+
+  getTranslated(key: string): string {
+    return this.translate.instant(key);
+  }
 }

@@ -1441,7 +1441,10 @@
   },
   "chat": {
     "empty-chat": "Chat hasn’t got any message yet",
+    "chat-placeholder": "Enter internal ID (e.g., 12)...",
     "messages": "Messages",
+    "client-info": "Client info",
+    "select-chat": "Select a chat to start messaging",
     "support-chat": "Support-chat",
     "delete-message-question": "Do you want to remove the message?",
     "delete-message-confirm": "Yes",

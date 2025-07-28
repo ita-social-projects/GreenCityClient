@@ -5,27 +5,21 @@ import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { TranslateModule } from '@ngx-translate/core';
+import { setupChatComponentTest } from './setupChatComponentTest';
+import { provideMockStore } from '@ngrx/store/testing';
 describe('ChatComponent', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
   let httpMock: HttpTestingController;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ChatComponent, HttpClientTestingModule]
-    })
-      .overrideComponent(ChatComponent, {
-        set: {
-          imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientTestingModule, NgStyle]
-        }
-      })
-      .compileComponents();
+    const setup = await setupChatComponentTest();
+    component = setup.component;
+    fixture = setup.fixture;
+    httpMock = setup.httpMock;
 
     localStorage.setItem('accessToken', 'mock-token');
-    fixture = TestBed.createComponent(ChatComponent);
-    component = fixture.componentInstance;
-    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -82,14 +76,14 @@ describe('ChatComponent', () => {
 describe('ChatComponent · fetchMessages via stubbed HttpClient', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
+  let httpMock: HttpTestingController;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ChatComponent, NgForOf, FormsModule, NgClass, NgIf, NgStyle]
-    }).compileComponents();
+    const setup = await setupChatComponentTest();
+    component = setup.component;
+    fixture = setup.fixture;
+    httpMock = setup.httpMock;
 
-    fixture = TestBed.createComponent(ChatComponent);
-    component = fixture.componentInstance;
     localStorage.setItem('accessToken', 'mock-token');
   });
 
@@ -184,20 +178,13 @@ describe('ChatComponent · loadAllChats via HttpTestingController', () => {
   let httpMock: HttpTestingController;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ChatComponent, HttpClientTestingModule, NgForOf, FormsModule, NgClass, NgIf, NgStyle]
-    })
-      .overrideComponent(ChatComponent, {
-        set: { imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientTestingModule, NgStyle] }
-      })
-      .compileComponents();
+    const setup = await setupChatComponentTest();
+    component = setup.component;
+    fixture = setup.fixture;
+    httpMock = setup.httpMock;
 
     localStorage.setItem('accessToken', 'mock-token');
-    fixture = TestBed.createComponent(ChatComponent);
-    component = fixture.componentInstance;
-    httpMock = TestBed.inject(HttpTestingController);
   });
-
   afterEach(() => {
     httpMock.verify();
     localStorage.clear();
@@ -263,14 +250,14 @@ describe('ChatComponent · loadAllChats via HttpTestingController', () => {
 describe('ChatComponent · sendMessage via stubbed HttpClient', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
+  let httpMock: HttpTestingController;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ChatComponent, NgForOf, FormsModule, NgClass, NgIf, NgStyle]
-    }).compileComponents();
+    const setup = await setupChatComponentTest();
+    component = setup.component;
+    fixture = setup.fixture;
+    httpMock = setup.httpMock;
 
-    fixture = TestBed.createComponent(ChatComponent);
-    component = fixture.componentInstance;
     localStorage.setItem('accessToken', 'mock-token');
   });
 
@@ -362,14 +349,14 @@ describe('ChatComponent · sendMessage via stubbed HttpClient', () => {
 describe('toggleClientInfo', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
+  let httpMock: HttpTestingController;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ChatComponent, NgForOf, FormsModule, NgClass, NgIf, NgStyle]
-    }).compileComponents();
+    const setup = await setupChatComponentTest();
+    component = setup.component;
+    fixture = setup.fixture;
+    httpMock = setup.httpMock;
 
-    fixture = TestBed.createComponent(ChatComponent);
-    component = fixture.componentInstance;
     localStorage.setItem('accessToken', 'mock-token');
   });
 

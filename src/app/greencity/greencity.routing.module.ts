@@ -18,7 +18,8 @@ const greencityRoutes: Routes = [
       },
       {
         path: 'chat-page',
-        loadComponent: () => import('../chat/component/chat-page/chat-page.component').then((m) => m.ChatComponent)
+        loadComponent: () => import('../chat/component/chat-page/chat-page.component').then((m) => m.ChatComponent),
+        canActivate: [NonAdminGuard]
       },
       {
         path: 'about',
