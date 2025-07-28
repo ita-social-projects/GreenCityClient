@@ -1479,17 +1479,6 @@
     "btn.yes": "Так, відмінити",
     "btn.no": "Продовжити редагування"
   },
-  "chat": {
-    "empty-chat": "В чаті нема повідомлень",
-    "chat-placeholder": "Введіть id чату",
-    "client-info": "Інформація про клієнта",
-    "messages": "Повідомлення",
-    "select-chat": "Оберіть чат в бічній панелі щоб розпочати спілкування",
-    "support-chat": "Чат підтримки",
-    "delete-message-question": "Ви дійсно бажаєте видалити повідомлення?",
-    "delete-message-confirm": "Так",
-    "delete-message-cancel": "Ні"
-  },
   "client-panel": {
     "order-id": "ID",
     "date-form": "Дата створення",

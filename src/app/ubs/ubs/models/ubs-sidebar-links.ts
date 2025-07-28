@@ -35,6 +35,11 @@ export const listElementsAdmin: listElements[] = [
     link: 'assets/img/sidebarIcons/user_icon.svg',
     name: 'ubs-sidebar.user-agreement',
     routerLink: 'user-agreement'
+  },
+  {
+    link: 'assets/img/sidebarIcons/user_icon.svg',
+    name: 'ubs-sidebar.chat',
+    routerLink: 'chat-page'
   }
 ];
 
