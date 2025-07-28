@@ -327,9 +327,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
       this.mapMarkerCoords = latLngLiteral;
       this.map.panTo(latLngLiteral);
       this.map.center = latLngLiteral;
-    } else {
-      this.mapMarkerCoords = { lat: 0, lng: 0 };
-      this.map.center = { lat: 0, lng: 0 };
     }
   }
 

@@ -26,6 +26,7 @@ import { ResetFriends } from 'src/app/store/actions/friends.actions';
 import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { SignOutAction } from 'src/app/store/actions/auth.actions';
 import { CommonService } from 'src/app/chat/service/common/common.service';
+import { GoogleScript } from '@assets/google-script/google-script';
 
 @Component({
   selector: 'app-header',
@@ -64,6 +65,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   selectedIndex: number = null;
   currentLanguage: string;
   imgAlt: string;
+  canChangeLang: boolean;
+
   private localeStorageService: LocalStorageService;
   private jwtService: JwtService;
   private router: Router;
@@ -82,7 +85,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     injector: Injector,
     private store: Store,
     private socketService: SocketService,
-    private commonChatService: CommonService
+    private commonChatService: CommonService,
+    private readonly googleScript: GoogleScript
   ) {
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
@@ -125,8 +129,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.updateArrayLang();
     this.initLanguage();
 
+    this.subToGoogleScript();
+
     this.localeStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
+    });
+  }
+
+  private subToGoogleScript() {
+    this.googleScript.mapReady.pipe(takeUntil(this.destroySub)).subscribe((res: boolean) => {
+      this.canChangeLang = res;
     });
   }
 
@@ -419,6 +431,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onKeydownLangOption(event: KeyboardEvent, index: number) {
+    event.stopPropagation();
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.changeCurrentLanguage(this.arrayLang[index].lang, index);
