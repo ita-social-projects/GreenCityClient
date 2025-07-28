@@ -20,7 +20,7 @@ export class UserMessagesService implements OnDestroy {
   }
 
   getCountUnreadNotification(): Observable<number> {
-    return this.http.get<number>(`${this.url}/notifications/quantityUnreadenNotifications`);
+    return this.http.get<number>(`${this.url}/notifications/quantityUnreadNotifications`);
   }
 
   markNotificationAsRead(id: number): Observable<void> {

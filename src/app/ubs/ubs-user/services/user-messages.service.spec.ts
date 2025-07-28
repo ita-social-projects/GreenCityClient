@@ -51,7 +51,7 @@ describe('UserMessagesService', () => {
     service.getCountUnreadNotification().subscribe((data) => {
       expect(data).toBeGreaterThanOrEqual(0);
     });
-    const req = httpMock.expectOne(`${mainUbsLink}/notifications/quantityUnreadenNotifications`);
+    const req = httpMock.expectOne(`${mainUbsLink}/notifications/quantityUnreadNotifications`);
     expect(req.request.method).toBe('GET');
   });
 
