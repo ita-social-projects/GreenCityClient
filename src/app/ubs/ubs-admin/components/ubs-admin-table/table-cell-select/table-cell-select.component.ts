@@ -12,6 +12,7 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { UbsAdminConfirmStatusChangePopUpComponent } from '../../ubs-admin-confirm-status-change-pop-up/ubs-admin-confirm-status-change-pop-up.component';
 import { Store } from '@ngrx/store';
 import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
+import { AddOrderNotTakenOutReasonComponent } from '@ubs/ubs-admin/components/add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 
 @Component({
   selector: 'app-table-cell-select',
@@ -116,6 +117,7 @@ export class TableCellSelectComponent implements OnInit {
       return;
     }
 
+    const isNotTakenOut = ['Not taken out', 'Не вивезли'].includes(this.newOption);
     const isCancelOption = ['Canceled', 'Скасовано'].includes(this.newOption);
     const isConfirmOption = ['Сформовано', 'Formed', 'Confirmed', 'Підтверджено', 'Привезе сам', 'Brought by himself'].includes(
       this.newOption
@@ -125,6 +127,8 @@ export class TableCellSelectComponent implements OnInit {
       this.openConfirmPopUp();
     } else if (isCancelOption) {
       this.openCancelPopUp();
+    } else if (isNotTakenOut) {
+      this.notTakenOutOpenPop();
     } else if (this.checkStatus && this.showPopUp) {
       this.checkIfStatusConfirmed();
     } else {
@@ -220,6 +224,21 @@ export class TableCellSelectComponent implements OnInit {
     });
   }
 
+  notTakenOutOpenPop(): void {
+    this.dialog
+      .open(AddOrderNotTakenOutReasonComponent, {
+        hasBackdrop: true,
+        data: {
+          id: this.id
+        }
+      })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        res ? this.save() : this.cancel();
+      });
+  }
+
   private filterStatuses(): void {
     if (this.nameOfColumn === 'orderStatus') {
       this.optional = this.orderService.getAvailableOrderStatuses(this.key, this.optional);
@@ -234,6 +253,6 @@ export class TableCellSelectComponent implements OnInit {
   }
 
   private findKeyForNewOption(): number {
-    return this.optional.findIndex((item) => item[this.lang] === this.newOption);
+    return this.optional.findIndex((item) => item[this.lang === 'ua' ? 'uk' : this.lang] === this.newOption);
   }
 }
