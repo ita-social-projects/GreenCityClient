@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { IMaskModule } from 'angular-imask';
 import { of, throwError } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from '../../services/client-profile.service';
 import { UbsUserProfilePageComponent } from './ubs-user-profile-page.component';
@@ -145,6 +146,7 @@ describe('UbsUserProfilePageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     dialogMock = jasmine.createSpyObj('MatDialog', ['open']);
+    storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }).pipe(take(1)));
     TestBed.configureTestingModule({
       declarations: [UbsUserProfilePageComponent, AddressInputComponent, InputGoogleAutocompleteComponent, LangValueDirective],
       providers: [
@@ -158,6 +160,7 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: Router, useValue: routerMock },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
+        { provide: Store, useValue: storeMock },
         provideMockStore({ initialState })
       ],
       imports: [
@@ -171,6 +174,16 @@ describe('UbsUserProfilePageComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
+
+  afterEach(() => {
+    if (fixture) {
+      fixture.destroy();
+    }
+    clientProfileServiceMock.getDataClientProfile.calls.reset();
+    clientProfileServiceMock.postDataClientProfile.calls.reset();
+    dialogMock.open.calls.reset();
+    snackBarMock.openSnackBar.calls.reset();
+  });
 
   beforeEach(() => {
     userProfileDataMock.addressDto = JSON.parse(JSON.stringify(savedUserAddressMock));
@@ -231,6 +244,9 @@ describe('UbsUserProfilePageComponent', () => {
         }
       }
     };
+
+    storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }).pipe(take(1)));
+
     fixture = TestBed.createComponent(UbsUserProfilePageComponent);
     component = fixture.componentInstance;
     component.userProfile = { ...userProfileDataMock };
@@ -254,6 +270,14 @@ describe('UbsUserProfilePageComponent', () => {
     expect(Array.isArray(component.userProfile.addressDto)).toBe(true);
     expect(component.userProfile.botList).toBeDefined();
     expect(Array.isArray(component.userProfile.botList)).toBe(true);
+  });
+
+  it('should properly cleanup subscriptions on destroy', () => {
+    const destroySpy = spyOn(component['destroy'], 'next');
+    const completeSpy = spyOn(component['destroy'], 'complete');
+    component.ngOnDestroy();
+    expect(destroySpy).toHaveBeenCalledWith(true);
+    expect(completeSpy).toHaveBeenCalled();
   });
 
   it('should create', () => {
