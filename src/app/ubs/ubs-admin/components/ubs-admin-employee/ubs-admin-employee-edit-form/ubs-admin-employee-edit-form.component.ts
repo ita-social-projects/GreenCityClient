@@ -16,7 +16,7 @@ import { AddEmployee, UpdateEmployee } from 'src/app/store/actions/employee.acti
 import { skip, takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { Subject } from 'rxjs';
-import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { Masks, Patterns, phonePrefix } from 'src/assets/patterns/patterns';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
@@ -39,6 +39,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   tariffs: TariffForEmployee[] = [];
   employeeDataToSend: EmployeeDataToSend;
   phoneMask = Masks.phoneMask;
+  phonePrefix: string = phonePrefix;
   private maxImageSize = 10485760;
   private destroyed$: Subject<void> = new Subject<void>();
   isWarning = false;
@@ -376,5 +377,18 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         !this.isInitialPositionsChanged &&
         !this.isInitialTariffsChanged)
     );
+  }
+
+  onPhoneFocus(): void {
+    if (!this.phoneNumber.value) {
+      this.phoneNumber.setValue(this.phonePrefix);
+    }
+  }
+
+  onPhoneBlur(): void {
+    if (this.phoneNumber.value === this.phonePrefix) {
+      this.phoneNumber.setValue('');
+      this.phoneNumber.markAsUntouched();
+    }
   }
 }

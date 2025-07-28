@@ -26,7 +26,15 @@
       <div class="private-section">
         <div class="form-group odd">
           <label for="phoneNumber" class="group-title">{{ 'ubs-employee.phone-number' | translate }}</label>
-          <input id="phoneNumber" formControlName="phoneNumber" placeholder="+380" [imask]="{ mask: phoneMask }" [unmask]="true" />
+          <input
+            id="phoneNumber"
+            formControlName="phoneNumber"
+            placeholder="+380"
+            [imask]="phoneMask"
+            [unmask]="true"
+            (focus)="onPhoneFocus()"
+            (blur)="onPhoneBlur()"
+          />
           <div class="validation" *ngIf="phoneNumber.invalid && phoneNumber.touched">
             <app-ubs-input-error
               [formElement]="phoneNumber"
