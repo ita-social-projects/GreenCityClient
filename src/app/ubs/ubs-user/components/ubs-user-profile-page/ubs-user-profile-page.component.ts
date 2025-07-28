@@ -206,7 +206,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    console.log('SUBMIT FORM VALUE:', this.userForm.value);
     if (this.userForm.valid) {
       this.isFetching = true;
       this.isEditing = false;
@@ -438,10 +437,10 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     if (newValue) {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         data: {
-          title: 'Підписка на Telegram',
-          text: 'Ви будете перенаправлені до Telegram-бота. Не забудьте натиснути "Start" у боті.',
-          confirm: 'Відкрити Telegram',
-          cancel: 'Скасувати'
+          title: this.languageService.getLangValue('telegramSubscription.title', 'telegramSubscription.title'),
+          text: this.languageService.getLangValue('telegramSubscription.text', 'telegramSubscription.text'),
+          confirm: this.languageService.getLangValue('telegramSubscription.confirm', 'telegramSubscription.confirm'),
+          cancel: this.languageService.getLangValue('telegramSubscription.cancel', 'telegramSubscription.cancel')
         }
       });
 

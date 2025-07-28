@@ -1307,5 +1307,11 @@
       "other": "Other"
     },
     "specify-reason": "Specify the reason"
+  },
+  "telegramSubscription": {
+    "title": "Telegram Subscription",
+    "text": "You will be redirected to the Telegram bot. Don't forget to press 'Start' in the bot.",
+    "confirm": "Open Telegram",
+    "cancel": "Cancel"
   }
 }

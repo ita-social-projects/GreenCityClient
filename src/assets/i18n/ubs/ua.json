@@ -526,5 +526,11 @@
     "help-the-project": "Як допомогти проєкту",
     "how-to-get-there": "Як доїхати?",
     "ukraine-without-garbage": "Україна без сміття"
+  },
+  "telegramSubscription": {
+    "title": "Підписка на Telegram",
+    "text": "Вас буде перенаправлено до Telegram-бота. Не забудьте натиснути «Старт» у боті.",
+    "confirm": "Відкрити Telegram",
+    "cancel": "Скасувати"
   }
 }

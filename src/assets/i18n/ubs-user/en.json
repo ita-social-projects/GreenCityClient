@@ -34,5 +34,11 @@
       "exist-address": "This address has already been added"
     },
     "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time"
+  },
+  "telegramSubscription": {
+    "title": "Telegram Subscription",
+    "text": "You will be redirected to the Telegram bot. Don't forget to press 'Start' in the bot.",
+    "confirm": "Open Telegram",
+    "cancel": "Cancel"
   }
 }

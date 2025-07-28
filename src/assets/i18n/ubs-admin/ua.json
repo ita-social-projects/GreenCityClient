@@ -1304,5 +1304,11 @@
       "other": "Інше"
     },
     "specify-reason": "Вкажіть причину"
+  },
+  "telegramSubscription": {
+    "title": "Підписка на Telegram",
+    "text": "Вас буде перенаправлено до Telegram-бота. Не забудьте натиснути «Старт» у боті.",
+    "confirm": "Відкрити Telegram",
+    "cancel": "Скасувати"
   }
 }

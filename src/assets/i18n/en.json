@@ -1446,5 +1446,11 @@
     "delete-message-question": "Do you want to remove the message?",
     "delete-message-confirm": "Yes",
     "delete-message-cancel": "No"
+  },
+  "telegramSubscription": {
+    "title": "Telegram Subscription",
+    "text": "You will be redirected to the Telegram bot. Don't forget to press 'Start' in the bot.",
+    "confirm": "Open Telegram",
+    "cancel": "Cancel"
   }
 }

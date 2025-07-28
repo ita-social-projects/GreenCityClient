@@ -68,9 +68,10 @@ describe('UbsUserProfilePageComponent', () => {
         link: 'link to telegram',
         type: 'telegram'
       }
-    ]
+    ],
+    telegramIsNotify: false
   };
-  const savedUserAddressMock = [...userProfileDataMock.addressDto];
+  const savedUserAddressMock = JSON.parse(JSON.stringify(userProfileDataMock.addressDto));
   const userEmptyProfileDataMock: UserProfile = {
     addressDto: [],
     recipientEmail: 'emptyuser@example.com',
@@ -90,9 +91,7 @@ describe('UbsUserProfilePageComponent', () => {
     postDataClientProfile: of({})
   });
   const snackBarMock: jasmine.SpyObj<MatSnackBarService> = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
-  const dialogMock = {
-    open: () => {}
-  };
+  let dialogMock: jasmine.SpyObj<MatDialog>;
 
   const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
@@ -145,6 +144,7 @@ describe('UbsUserProfilePageComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    dialogMock = jasmine.createSpyObj('MatDialog', ['open']);
     TestBed.configureTestingModule({
       declarations: [UbsUserProfilePageComponent, AddressInputComponent, InputGoogleAutocompleteComponent, LangValueDirective],
       providers: [
@@ -173,7 +173,18 @@ describe('UbsUserProfilePageComponent', () => {
   }));
 
   beforeEach(() => {
-    userProfileDataMock.addressDto = [...savedUserAddressMock];
+    userProfileDataMock.addressDto = JSON.parse(JSON.stringify(savedUserAddressMock));
+    userProfileDataMock.botList = userProfileDataMock.botList || [
+      {
+        link: 'test-telegram-link',
+        type: 'telegram'
+      }
+    ];
+    clientProfileServiceMock.getDataClientProfile.and.returnValue(of(userProfileDataMock));
+    dialogMock.open.calls.reset();
+    clientProfileServiceMock.getDataClientProfile.calls.reset();
+    clientProfileServiceMock.postDataClientProfile.calls.reset();
+    snackBarMock.openSnackBar.calls.reset();
 
     const predictionList = [
       { description: 'Place 1', place_id: '1' },
@@ -220,10 +231,29 @@ describe('UbsUserProfilePageComponent', () => {
         }
       }
     };
-
     fixture = TestBed.createComponent(UbsUserProfilePageComponent);
     component = fixture.componentInstance;
+    component.userProfile = { ...userProfileDataMock };
     fixture.detectChanges();
+  });
+
+  it('should have properly initialized mock data', () => {
+    expect(userProfileDataMock.addressDto).toBeDefined();
+    expect(Array.isArray(userProfileDataMock.addressDto)).toBe(true);
+    expect(userProfileDataMock.botList).toBeDefined();
+    expect(Array.isArray(userProfileDataMock.botList)).toBe(true);
+    expect(userEmptyProfileDataMock.addressDto).toBeDefined();
+    expect(Array.isArray(userEmptyProfileDataMock.addressDto)).toBe(true);
+    expect(userEmptyProfileDataMock.botList).toBeDefined();
+    expect(Array.isArray(userEmptyProfileDataMock.botList)).toBe(true);
+  });
+
+  it('should initialize userProfile before calling userInit', () => {
+    expect(component.userProfile).toBeDefined();
+    expect(component.userProfile.addressDto).toBeDefined();
+    expect(Array.isArray(component.userProfile.addressDto)).toBe(true);
+    expect(component.userProfile.botList).toBeDefined();
+    expect(Array.isArray(component.userProfile.botList)).toBe(true);
   });
 
   it('should create', () => {
@@ -254,9 +284,38 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method getUserData should call method userInit', () => {
+    clientProfileServiceMock.getDataClientProfile.and.returnValue(of(userProfileDataMock));
     spyOn(component, 'userInit');
     component.getUserData();
     expect(component.userInit).toHaveBeenCalled();
+  });
+
+  it('userInit should create form with address controls', () => {
+    component.userProfile = { ...userProfileDataMock };
+    component.userInit();
+    expect(component.userForm).toBeDefined();
+    expect(component.userForm.get('address')).toBeDefined();
+    expect(component.userForm.get('address').value.length).toBe(userProfileDataMock.addressDto.length);
+  });
+
+  it('should handle empty profile data correctly', () => {
+    component.userProfile = { ...userEmptyProfileDataMock };
+    expect(() => component.userInit()).not.toThrow();
+    expect(component.userForm.get('address').value.length).toBe(0);
+  });
+
+  it('setUrlToBot should handle empty botList', () => {
+    component.userProfile = {
+      ...userProfileDataMock,
+      botList: []
+    };
+    expect(() => component.setUrlToBot()).not.toThrow();
+    expect(component.telegramBotURL).toBeUndefined();
+  });
+
+  it('should not throw error when userProfile is undefined initially', () => {
+    const testComponent = TestBed.createComponent(UbsUserProfilePageComponent).componentInstance;
+    expect(() => testComponent.ngOnInit()).not.toThrow();
   });
 
   it('method getUserData should fill savedUserAddresses array with addressDTO values', () => {
@@ -355,10 +414,9 @@ describe('UbsUserProfilePageComponent', () => {
     const matDialogRefMock = {
       afterClosed: () => of(null)
     };
-    spyOn(dialogMock, 'open').and.returnValue(matDialogRefMock as any);
+    dialogMock.open.and.returnValue(matDialogRefMock as any);
     spyOn(matDialogRefMock, 'afterClosed').and.callThrough();
     component.openDeleteAddressDialog(component.userForm.controls.address.get('0'));
-
     expect(dialogMock.open).toHaveBeenCalled();
     expect(matDialogRefMock.afterClosed).toHaveBeenCalled();
   });
@@ -390,13 +448,13 @@ describe('UbsUserProfilePageComponent', () => {
       afterClosed: of({ value: mockTempAddedAddressHolder[0] })
     });
     dialogRefSpyObj.componentInstance = { body: '' };
-    const dialogSpy = spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
+    dialogMock.open.and.returnValue(dialogRefSpyObj);
 
     component.openAddAdressDialog();
 
     expect(component.tempAddedAddressHolder.length).toBe(1);
     expect(component.tempAddedAddressHolder).toContain(mockTempAddedAddressHolder[0]);
-    expect(dialogSpy).toHaveBeenCalled();
+    expect(dialogMock.open).toHaveBeenCalled();
   });
 
   it('method openChangePasswordDialog should calls by clicking open button', fakeAsync(() => {
@@ -408,7 +466,9 @@ describe('UbsUserProfilePageComponent', () => {
   }));
 
   it('method openChangePasswordDialog has to open popup', () => {
-    spyOn(dialogMock, 'open').and.callFake(() => {});
+    dialogMock.open.and.returnValue({
+      afterClosed: () => of(null)
+    } as any);
     component.openChangePasswordDialog();
     expect(dialogMock.open).toHaveBeenCalled();
   });
@@ -837,11 +897,51 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   describe('onSwitchChanged method', () => {
-    it('should toggle telegramIsNotify and call goToTelegramUrl when id is telegramNotification', () => {
-      spyOn(component, 'goToTelegramUrl');
+    it('should toggle telegramIsNotify to true and open confirmation dialog when user confirms', fakeAsync(() => {
+      component.userForm = new FormGroup({
+        telegramIsNotify: new FormControl(false)
+      });
+      component.userProfile = { ...userProfileDataMock, telegramIsNotify: false };
+      const dialogRefMock = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+      dialogRefMock.afterClosed.and.returnValue(of(true));
+      dialogMock.open.and.returnValue(dialogRefMock);
+      const goToTelegramSpy = spyOn(component, 'goToTelegramUrl');
       component.onSwitchChanged();
+      tick();
+      expect(component.userForm.get('telegramIsNotify').value).toBe(true);
+      expect(component.userProfile.telegramIsNotify).toBe(true);
+      expect(dialogMock.open).toHaveBeenCalled();
+      expect(goToTelegramSpy).toHaveBeenCalled();
+    }));
 
-      expect(component.goToTelegramUrl).toHaveBeenCalled();
+    it('should toggle telegramIsNotify to true but revert to false when user cancels dialog', fakeAsync(() => {
+      component.userForm = new FormGroup({
+        telegramIsNotify: new FormControl(false)
+      });
+      component.userProfile = { ...userProfileDataMock, telegramIsNotify: false };
+      const dialogRefMock = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+      dialogRefMock.afterClosed.and.returnValue(of(false));
+      dialogMock.open.and.returnValue(dialogRefMock);
+      const goToTelegramSpy = spyOn(component, 'goToTelegramUrl');
+      component.onSwitchChanged();
+      tick();
+      expect(component.userForm.get('telegramIsNotify').value).toBe(false);
+      expect(component.userProfile.telegramIsNotify).toBe(false);
+      expect(dialogMock.open).toHaveBeenCalled();
+      expect(goToTelegramSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should toggle telegramIsNotify to false without opening dialog', () => {
+      component.userForm = new FormGroup({
+        telegramIsNotify: new FormControl(true)
+      });
+      component.userProfile = { ...userProfileDataMock, telegramIsNotify: true };
+      const goToTelegramSpy = spyOn(component, 'goToTelegramUrl');
+      component.onSwitchChanged();
+      expect(component.userForm.get('telegramIsNotify').value).toBe(false);
+      expect(component.userProfile.telegramIsNotify).toBe(false);
+      expect(dialogMock.open).not.toHaveBeenCalled();
+      expect(goToTelegramSpy).not.toHaveBeenCalled();
     });
   });
 
