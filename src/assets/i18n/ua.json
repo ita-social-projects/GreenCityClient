@@ -493,7 +493,8 @@
     "user-notifications": "Сповіщення",
     "sign-out": "Вийти",
     "sign-in": "Увійти",
-    "management": "Менеджмент"
+    "management": "Менеджмент",
+    "user-profile": "Особистий кабінет"
   },
   "admin": {
     "errorMessage": "Заборонено"
@@ -1419,8 +1420,8 @@
     "date-required": "Поле з часом завершення події не може бути порожнім",
     "start-time-required": "Поле з часом початку події не може бути порожнім.",
     "datepicker-not-correct": "Введіть правильну дату",
-    "datepicker-not-correct-date-required": "Введіть правильну дату. Поле з часом завершення події не може бути порожнім.",
-    "datepicker-and-start-time-not-correct": "Введіть правильну дату. Поле з часом початку події не може бути порожнім.",
+    "datepicker-not-correct-date-required": "Час завершення події не може бути порожнім.",
+    "datepicker-and-start-time-not-correct": "Час початку події не може бути порожнім.",
     "start-time-and-end-time-not-correct": "Поля з часом початку та завершення події не можуть бути порожніми.",
     "start-time-end-time-and-datepicker-not-correct": "Введіть правильну дату. Поля з часом початку та завершення події не можуть бути порожніми.",
     "location-required": "Вкажіть пошуковий запит або виберіть локацію вручну за допомогою карти нижче",
@@ -1480,7 +1481,10 @@
   },
   "chat": {
     "empty-chat": "В чаті нема повідомлень",
+    "chat-placeholder": "Введіть id чату",
+    "client-info": "Інформація про клієнта",
     "messages": "Повідомлення",
+    "select-chat": "Оберіть чат в бічній панелі щоб розпочати спілкування",
     "support-chat": "Чат підтримки",
     "delete-message-question": "Ви дійсно бажаєте видалити повідомлення?",
     "delete-message-confirm": "Так",
@@ -1491,5 +1495,25 @@
     "text": "Вас буде перенаправлено до Telegram-бота. Не забудьте натиснути «Старт» у боті.",
     "confirm": "Відкрити Telegram",
     "cancel": "Скасувати"
+  "client-panel": {
+    "order-id": "ID",
+    "date-form": "Дата створення",
+    "date-paid": "Дата оплати",
+    "order-status-uk": "Статус (Укр)",
+    "order-status-en": "Статус (En)",
+    "payment-status-uk": "Оплата (Укр)",
+    "payment-status-en": "Оплата (En)",
+    "amount-before-payment": "Сума до сплати",
+    "paid-amount": "Сума оплачено",
+    "order-full-price": "Загальна сума",
+    "bags-title": "Пакети",
+    "service": "Послуга",
+    "capacity": "Обʼєм",
+    "unit-price": "Ціна за од.",
+    "count": "Кількість",
+    "total-price": "Сума",
+    "loading": "Завантаження інформації...",
+    "error": "Не вдалося завантажити інформацію.",
+    "order-info-title": "Інформація про замовлення"
   }
 }

@@ -17,6 +17,11 @@ const greencityRoutes: Routes = [
         canActivate: [NonAdminGuard]
       },
       {
+        path: 'chat-page',
+        loadComponent: () => import('../chat/component/chat-page/chat-page.component').then((m) => m.ChatComponent),
+        canActivate: [NonAdminGuard]
+      },
+      {
         path: 'about',
         loadChildren: () => import('./modules/about/about.module').then((mod) => mod.AboutModule),
         canActivate: [NonAdminGuard]

@@ -487,7 +487,8 @@
     "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
-    "management": "Management"
+    "management": "Management",
+    "user-profile": "Personal account"
   },
   "admin": {
     "errorMessage": "Forbidden"
@@ -1379,8 +1380,8 @@
     "date-required": "End time field can’t be empty",
     "start-time-required": "Start time field can't be empty.",
     "datepicker-not-correct": "Enter correct date",
-    "datepicker-not-correct-date-required": "Enter correct date. End time field can’t be empty.",
-    "datepicker-and-start-time-not-correct": "Enter correct date. Start time field can't be empty.",
+    "datepicker-not-correct-date-required": "End time field can’t be empty.",
+    "datepicker-and-start-time-not-correct": "Start time field can't be empty.",
     "start-time-and-end-time-not-correct": "Start time and end time fields can't be empty.",
     "start-time-end-time-and-datepicker-not-correct": "Enter correct date. Start time and end time fields can't be empty.",
     "location-required": "Specify the search request or choose the location manually using the map below",
@@ -1441,7 +1442,10 @@
   },
   "chat": {
     "empty-chat": "Chat hasn’t got any message yet",
+    "chat-placeholder": "Enter internal ID (e.g., 12)...",
     "messages": "Messages",
+    "client-info": "Client info",
+    "select-chat": "Select a chat to start messaging",
     "support-chat": "Support-chat",
     "delete-message-question": "Do you want to remove the message?",
     "delete-message-confirm": "Yes",
@@ -1452,5 +1456,25 @@
     "text": "You will be redirected to the Telegram bot. Don't forget to press 'Start' in the bot.",
     "confirm": "Open Telegram",
     "cancel": "Cancel"
+  "client-panel": {
+    "order-id": "ID",
+    "date-form": "Date created",
+    "date-paid": "Date paid",
+    "order-status-uk": "Status (UA)",
+    "order-status-en": "Status (EN)",
+    "payment-status-uk": "Payment (UA)",
+    "payment-status-en": "Payment (EN)",
+    "amount-before-payment": "Amount due",
+    "paid-amount": "Amount paid",
+    "order-full-price": "Total amount",
+    "bags-title": "Bags",
+    "service": "Service",
+    "capacity": "Capacity",
+    "unit-price": "Unit price",
+    "count": "Quantity",
+    "total-price": "Total",
+    "loading": "Loading information...",
+    "error": "Failed to load information.",
+    "order-info-title": "Order Information"
   }
 }

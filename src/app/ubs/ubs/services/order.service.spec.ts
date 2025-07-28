@@ -124,6 +124,10 @@ describe('OrderService', () => {
     service = TestBed.inject(OrderService);
   });
 
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
