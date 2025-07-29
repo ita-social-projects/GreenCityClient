@@ -1456,6 +1456,7 @@
     "text": "You will be redirected to the Telegram bot. Don't forget to press 'Start' in the bot.",
     "confirm": "Open Telegram",
     "cancel": "Cancel"
+  },
   "client-panel": {
     "order-id": "ID",
     "date-form": "Date created",
