@@ -901,6 +901,268 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.tempRemovedAddressHolder.length).toBe(0);
   });
 
+  it('should process address changes correctly in onSubmit forEach loop', fakeAsync(() => {
+    const initialAddresses: Address[] = [
+      {
+        id: 1,
+        cityUk: 'Київ',
+        cityEn: 'Kyiv',
+        districtUk: 'Шевченківський',
+        districtEn: 'Shevchenkivskyi',
+        entranceNumber: '1',
+        houseCorpus: 'A',
+        houseNumber: '10',
+        actual: true,
+        regionUk: 'Київ',
+        regionEn: 'Kyiv',
+        coordinates: { latitude: 50.45, longitude: 30.52 },
+        streetUk: 'Хрещатик',
+        streetEn: 'Khreschatyk',
+        placeId: 'place1',
+        searchAddress: 'Search Address 1',
+        isHouseSelected: true,
+        addressRegionDistrictList: null
+      },
+      {
+        id: 2,
+        cityUk: 'Львів',
+        cityEn: 'Lviv',
+        districtUk: 'Галицький',
+        districtEn: 'Halytskyi',
+        entranceNumber: '2',
+        houseCorpus: 'B',
+        houseNumber: '15',
+        actual: false,
+        regionUk: 'Львівська',
+        regionEn: 'Lviv',
+        coordinates: { latitude: 49.84, longitude: 24.03 },
+        streetUk: 'Площа Ринок',
+        streetEn: 'Market Square',
+        placeId: 'place2',
+        searchAddress: 'Search Address 2',
+        isHouseSelected: true,
+        addressRegionDistrictList: null
+      }
+    ];
+
+    const testUserProfile: UserProfile = {
+      addressDto: [...initialAddresses],
+      recipientEmail: 'test@example.com',
+      alternateEmail: 'alt@example.com',
+      recipientName: 'Test',
+      recipientPhone: '+380501234567',
+      recipientSurname: 'User',
+      hasPassword: true,
+      botList: [
+        {
+          link: 'test-telegram-link',
+          type: 'telegram'
+        }
+      ],
+      telegramIsNotify: false
+    };
+
+    clientProfileServiceMock.getDataClientProfile.and.returnValue(of(testUserProfile));
+
+    component.userProfile = { ...testUserProfile };
+    component.savedUserAddresses = [...testUserProfile.addressDto];
+
+    component.getUserData();
+    fixture.detectChanges();
+    tick();
+
+    const addressFormArray = component.userForm.get('address') as FormArray;
+
+    const firstAddressControl = addressFormArray.at(0) as FormControl;
+    const modifiedFirstAddress = {
+      ...initialAddresses[0],
+      houseNumber: '12',
+      entranceNumber: '3',
+      houseCorpus: ''
+    };
+    firstAddressControl.setValue(modifiedFirstAddress);
+
+    const secondAddressControl = addressFormArray.at(1) as FormControl;
+    secondAddressControl.setValue(initialAddresses[1]);
+
+    component.userForm.markAsDirty();
+
+    const expectedResponse: UserProfile = {
+      ...testUserProfile,
+      addressDto: [
+        {
+          ...modifiedFirstAddress,
+          id: initialAddresses[0].id,
+          actual: initialAddresses[0].actual
+        }
+      ]
+    };
+
+    clientProfileServiceMock.postDataClientProfile.and.returnValue(of(expectedResponse));
+    snackBarMock.openSnackBar.calls.reset();
+
+    component.onSubmit();
+    tick();
+
+    expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledTimes(1);
+
+    const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+
+    expect(submittedData.addressDto).toBeDefined();
+    expect(submittedData.addressDto.length).toBe(1);
+
+    const submittedAddress = submittedData.addressDto[0];
+    expect(submittedAddress.id).toBe(initialAddresses[0].id);
+    expect(submittedAddress.houseNumber).toBe('12');
+    expect(submittedAddress.entranceNumber).toBe('3');
+    expect(submittedAddress.actual).toBe(initialAddresses[0].actual);
+
+    expect(submittedAddress.searchAddress).toBeUndefined();
+    expect(submittedAddress.isHouseSelected).toBeUndefined();
+
+    expect(submittedAddress.houseCorpus).toBeUndefined();
+
+    expect(component.isFetching).toBeFalse();
+    expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('savedChangesToUserProfile');
+  }));
+
+  it('should handle address with empty entranceNumber in onSubmit forEach loop', fakeAsync(() => {
+    const initialAddress: Address = {
+      id: 1,
+      cityUk: 'Київ',
+      cityEn: 'Kyiv',
+      districtUk: 'Шевченківський',
+      districtEn: 'Shevchenkivskyi',
+      entranceNumber: '1',
+      houseCorpus: 'A',
+      houseNumber: '10',
+      actual: true,
+      regionUk: 'Київ',
+      regionEn: 'Kyiv',
+      coordinates: { latitude: 50.45, longitude: 30.52 },
+      streetUk: 'Хрещатик',
+      streetEn: 'Khreschatyk',
+      placeId: 'place1',
+      searchAddress: 'Search Address',
+      isHouseSelected: true,
+      addressRegionDistrictList: null
+    };
+
+    const testUserProfile: UserProfile = {
+      addressDto: [initialAddress],
+      recipientEmail: 'test@example.com',
+      alternateEmail: null,
+      recipientName: 'Test',
+      recipientPhone: '+380501234567',
+      recipientSurname: 'User',
+      hasPassword: true,
+      botList: [
+        {
+          link: 'test-telegram-link',
+          type: 'telegram'
+        }
+      ],
+      telegramIsNotify: false
+    };
+
+    clientProfileServiceMock.getDataClientProfile.and.returnValue(of(testUserProfile));
+
+    component.userProfile = { ...testUserProfile };
+    component.savedUserAddresses = [...testUserProfile.addressDto];
+
+    component.getUserData();
+    fixture.detectChanges();
+    tick();
+
+    const addressFormArray = component.userForm.get('address') as FormArray;
+    const addressControl = addressFormArray.at(0) as FormControl;
+    const modifiedAddress = {
+      ...initialAddress,
+      entranceNumber: '',
+      houseCorpus: ''
+    };
+    addressControl.setValue(modifiedAddress);
+    component.userForm.markAsDirty();
+
+    const expectedResponse: UserProfile = { ...testUserProfile };
+    clientProfileServiceMock.postDataClientProfile.and.returnValue(of(expectedResponse));
+    snackBarMock.openSnackBar.calls.reset();
+
+    component.onSubmit();
+    tick();
+
+    const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+    const submittedAddress = submittedData.addressDto[0];
+
+    expect(submittedAddress.entranceNumber).toBeUndefined();
+    expect(submittedAddress.houseCorpus).toBeUndefined();
+    expect(submittedAddress.searchAddress).toBeUndefined();
+    expect(submittedAddress.isHouseSelected).toBeUndefined();
+  }));
+
+  it('should not include unchanged addresses in submitData.addressDto', fakeAsync(() => {
+    const unchangedAddress: Address = {
+      id: 1,
+      cityUk: 'Київ',
+      cityEn: 'Kyiv',
+      districtUk: 'Шевченківський',
+      districtEn: 'Shevchenkivskyi',
+      entranceNumber: '1',
+      houseCorpus: 'A',
+      houseNumber: '10',
+      actual: true,
+      regionUk: 'Київ',
+      regionEn: 'Kyiv',
+      coordinates: { latitude: 50.45, longitude: 30.52 },
+      streetUk: 'Хрещатик',
+      streetEn: 'Khreschatyk',
+      placeId: 'place1',
+      searchAddress: 'Search Address',
+      isHouseSelected: true,
+      addressRegionDistrictList: null
+    };
+
+    const testUserProfile: UserProfile = {
+      addressDto: [unchangedAddress],
+      recipientEmail: 'test@example.com',
+      alternateEmail: null,
+      recipientName: 'Test',
+      recipientPhone: '+380501234567',
+      recipientSurname: 'User',
+      hasPassword: true,
+      botList: [
+        {
+          link: 'test-telegram-link',
+          type: 'telegram'
+        }
+      ],
+      telegramIsNotify: false
+    };
+
+    clientProfileServiceMock.getDataClientProfile.and.returnValue(of(testUserProfile));
+
+    component.userProfile = { ...testUserProfile };
+    component.savedUserAddresses = [...testUserProfile.addressDto];
+
+    component.getUserData();
+    fixture.detectChanges();
+    tick();
+
+    component.userForm.markAsDirty();
+
+    const expectedResponse: UserProfile = { ...testUserProfile };
+    clientProfileServiceMock.postDataClientProfile.and.returnValue(of(expectedResponse));
+    snackBarMock.openSnackBar.calls.reset();
+
+    component.onSubmit();
+    tick();
+
+    const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+
+    expect(submittedData.addressDto).toBeDefined();
+    expect(submittedData.addressDto.length).toBe(0);
+  }));
+
   describe('Testing controls for the form:', () => {
     const personalInfoControls = ['recipientName', 'recipientSurname', 'recipientEmail', 'recipientPhone'];
     const controls = ['name', 'surename', 'email', 'phone'];
