@@ -17,6 +17,7 @@ import { UnsavedChangesGuard } from './unsaved-changes-guard.guard';
 import { UbsAdminGuard } from '@ubs/ubs-admin/ubs-admin-guard.guard';
 import { UbsAdminEditUserAgreementComponent } from '@ubs/ubs-admin/components/ubs-admin-edit-user-agreement/ubs-admin-edit-user-agreement.component';
 import { UbsAdminNotificationCreateFormComponent } from '@ubs/ubs-admin/components/ubs-admin-notification/ubs-admin-notification-create-form/ubs-admin-notification-create-form.component';
+import { ChatComponent } from '../../chat/component/chat-page/chat-page.component';
 
 const ubsAdminRoutes: Routes = [
   {
@@ -37,6 +38,10 @@ const ubsAdminRoutes: Routes = [
       { path: 'notifications', component: UbsAdminNotificationListComponent },
       { path: 'user-agreement', component: UbsAdminEditUserAgreementComponent },
       { path: 'notification/create', component: UbsAdminNotificationCreateFormComponent },
+      {
+        path: 'chat-page',
+        component: ChatComponent
+      },
       { path: 'notification/:id', component: UbsAdminNotificationComponent }
     ]
   }
