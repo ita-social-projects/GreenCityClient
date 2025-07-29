@@ -1,5 +1,5 @@
-<div class="chat-container">
-  <aside class="chat-sidebar">
+<div class="chat-page-inner">
+  <div class="chat-sidebar">
     <div class="search-bar">
       <label>
         <input type="text" [placeholder]="'chat.chat-placeholder' | translate" [(ngModel)]="searchId" (input)="filterChatsById()" />
@@ -21,8 +21,9 @@
         <div class="timestamp">{{ chat.time }}</div>
       </li>
     </ul>
-  </aside>
-  <section class="chat-view">
+  </div>
+
+  <div class="chat-view">
     <ng-container *ngIf="selectedChat; else placeholder">
       <div class="chat-box">
         <div class="chat-header">
@@ -47,9 +48,9 @@
         </div>
 
         <div class="message-input-container">
-          <input type="text" placeholder="Write a message..." [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" />
+          <input type="text" [placeholder]="'chat.chat-placeholder' | translate" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" />
           <button class="send-message-button" (click)="sendMessage()" aria-label="Send message">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="30" height="30" viewBox="0 0 24 24">
               <path d="M4 12L20 4L16 12L20 20L4 12Z" fill="currentColor" />
             </svg>
           </button>
@@ -62,5 +63,5 @@
         <p class="placeholder-text">{{ 'chat.select-chat' | translate }}</p>
       </div>
     </ng-template>
-  </section>
+  </div>
 </div>
