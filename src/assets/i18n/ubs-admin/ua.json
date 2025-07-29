@@ -633,7 +633,8 @@
     "support-chat": "Чат підтримки",
     "delete-message-question": "Ви дійсно бажаєте видалити повідомлення?",
     "delete-message-confirm": "Так",
-    "delete-message-cancel": "Ні"
+    "delete-message-cancel": "Ні",
+    "active-chat-placeholder": "Введіть ваше повідомлення"
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
