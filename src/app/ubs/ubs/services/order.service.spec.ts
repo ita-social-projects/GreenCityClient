@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '@environment/environment';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { Subject, of } from 'rxjs';
 import { OrderService } from './order.service';
 import { UBSOrderFormService } from './ubs-order-form.service';
@@ -140,12 +140,13 @@ describe('OrderService', () => {
     });
   });
 
-  it('method getPersonalData should return personal data', async () => {
+  it('method getPersonalData should return personal data', fakeAsync(() => {
     service.getPersonalData().subscribe((data) => {
       expect(ubsOrderServiseMock.personalData).not.toBeNull();
       expect(ubsOrderServiseMock.personalData).toEqual(data);
     });
-  });
+    flush();
+  }));
 
   it('method processCertificate should return data of certificate', () => {
     service.processCertificate(100500).subscribe((data) => {
