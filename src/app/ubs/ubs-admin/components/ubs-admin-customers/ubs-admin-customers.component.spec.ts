@@ -142,12 +142,12 @@ describe('UbsAdminCustomersComponent', () => {
     expect(component.filterForm.value.bonusesTo).toBe('');
   });
 
-  fit('on onOpenChat should redirect to chat with a client', () => {
+  it('on onOpenChat should redirect to chat with a client', () => {
     const chatIdMock = 12;
 
     component.onOpenChat(chatIdMock);
 
     expect(routerSpy.navigate).toHaveBeenCalled();
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['greenCity', 'chat-page'], { state: { selectedChatId: chatIdMock } });
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['ubs/admin', 'chat-page'], { state: { selectedChatId: chatIdMock } });
   });
 });

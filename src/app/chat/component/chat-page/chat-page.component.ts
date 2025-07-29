@@ -41,16 +41,6 @@ export class ChatComponent implements OnInit {
     if (history.state.selectedChatId) {
       this.selectedChatId = history.state.selectedChatId;
     }
-    this.store
-      .select(userRoleSelector)
-      .pipe(take(1))
-      .subscribe((role) => {
-        if (!role) {
-          this.router.navigate(['/']);
-        } else if (role === 'ROLE_UBS_EMPLOYEE') {
-          this.router.navigate(['/ubs/admin/orders']);
-        }
-      });
     this.store.select(userRoleSelector).pipe(take(1));
     this.loadAllChats();
   }
