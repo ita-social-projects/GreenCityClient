@@ -146,15 +146,17 @@
               aria-label="language switcher"
               role="menu"
               tabindex="-1"
-              [attr.aria-expanded]="langDropdownVisible ? 'true' : 'false'"
+              [attr.aria-expanded]="langDropdownVisible && canChangeLang ? 'true' : 'false'"
+              [attr.aria-disabled]="!canChangeLang"
               [ngClass]="{
                 'add-shadow': langDropdownVisible,
                 'header_lang-switcher-wrp header_navigation-menu-right-lang': true,
-                'ubs-lang-switcher': isUBS
+                'ubs-lang-switcher': isUBS,
+                'disabled-lang-switcher': !canChangeLang
               }"
-              (click)="langDropdownVisible = !langDropdownVisible"
-              (keydown.enter)="toggleLangDropdown($event)"
-              (keydown.space)="toggleLangDropdown($event)"
+              (click)="canChangeLang && (langDropdownVisible = !langDropdownVisible)"
+              (keydown.enter)="canChangeLang && toggleLangDropdown($event)"
+              (keydown.space)="canChangeLang && toggleLangDropdown($event)"
               (clickOutSide)="autoCloseLangDropDown($event)"
             >
               <li role="option" aria-label="english" class="lang-option" tabindex="0">

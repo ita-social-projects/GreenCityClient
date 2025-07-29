@@ -1,4 +1,6 @@
 <div class="main-container">
+  <img *ngIf="isEditOrPayPopup" [src]="icons.cross" class="cross-img" alt="close-icon" (click)="userReply(undefined)" />
+
   <div class="warning-text">
     <div class="warning-title" *ngIf="popupTitle">{{ popupTitle | translate }}</div>
     <div class="warning-subtitle" *ngIf="popupSubtitle">{{ popupSubtitle | translate }}</div>

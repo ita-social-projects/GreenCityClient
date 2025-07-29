@@ -451,10 +451,9 @@ describe('PlaceOnlineComponent', () => {
     expect(component.map.center).toEqual(latLng);
   });
 
-  it('should update map with default coords if lat/lng are missing', () => {
+  it('should not update map if lat/lng are missing', () => {
     const latLng = { lat: null, lng: 0 };
     component['updateMap'](latLng as any);
-    expect(component.mapMarkerCoords).toEqual({ lat: 0, lng: 0 });
     expect(component.map.panTo).not.toHaveBeenCalled();
     expect(component.map.center).toEqual({ lat: 0, lng: 0 });
   });

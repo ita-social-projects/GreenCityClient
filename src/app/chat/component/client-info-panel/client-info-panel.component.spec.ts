@@ -1,70 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ClientInfoPanelComponent } from './client-info-panel.component';
 import { By } from '@angular/platform-browser';
+import { MockTranslatePipe } from './mock-translate.mock';
+import { DatePipe, NgForOf, NgIf } from '@angular/common';
 
-xdescribe('ClientInfoPanelComponent', () => {
-  let component: ClientInfoPanelComponent;
-  let fixture: ComponentFixture<ClientInfoPanelComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [ClientInfoPanelComponent]
-    });
-    fixture = TestBed.createComponent(ClientInfoPanelComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  describe('Helper Methods', () => {
-    it('isPrimitive should return true for primitives', () => {
-      expect(component.isPrimitive(null)).toBeTrue();
-      expect(component.isPrimitive(undefined)).toBeTrue();
-      expect(component.isPrimitive('test')).toBeTrue();
-      expect(component.isPrimitive(42)).toBeTrue();
-      expect(component.isPrimitive(true)).toBeTrue();
-    });
-
-    it('isPrimitive should return false for objects and arrays', () => {
-      expect(component.isPrimitive({})).toBeFalse();
-      expect(component.isPrimitive([])).toBeFalse();
-    });
-
-    it('isArray should correctly detect arrays', () => {
-      expect(component.isArray([1, 2, 3])).toBeTrue();
-      expect(component.isArray('not-array')).toBeFalse();
-      expect(component.isArray({ length: 2 })).toBeFalse();
-    });
-
-    it('isObject should correctly detect plain objects', () => {
-      expect(component.isObject({ key: 'value' })).toBeTrue();
-    });
-
-    it('isObject should return false for arrays and primitives', () => {
-      expect(component.isObject([1, 2])).toBeFalse();
-      expect(component.isObject(null)).toBeFalse();
-      expect(component.isObject('string')).toBeFalse();
-      expect(component.isObject(42)).toBeFalse();
-    });
-
-    it('objectKeys should return object keys', () => {
-      const obj = { a: 1, b: 2 };
-      expect(component.objectKeys(obj)).toEqual(['a', 'b']);
-    });
-  });
-});
-xdescribe('ClientInfoPanelComponent', () => {
+describe('ClientInfoPanelComponent', () => {
   let component: ClientInfoPanelComponent;
   let fixture: ComponentFixture<ClientInfoPanelComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ClientInfoPanelComponent]
-    }).compileComponents();
+      imports: [ClientInfoPanelComponent, MockTranslatePipe]
+    })
+      .overrideComponent(ClientInfoPanelComponent, {
+        set: {
+          imports: [NgIf, NgForOf, DatePipe, MockTranslatePipe]
+        }
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(ClientInfoPanelComponent);
     component = fixture.componentInstance;
@@ -81,6 +34,57 @@ xdescribe('ClientInfoPanelComponent', () => {
 
     const loadingEl = fixture.debugElement.query(By.css('p'));
     expect(loadingEl).toBeTruthy();
-    expect(loadingEl.nativeElement.textContent).toContain('Завантаження інформації');
+    expect(loadingEl.nativeElement.textContent).toContain('client-panel.loading');
+  });
+});
+
+describe('Helper methods', () => {
+  let component: ClientInfoPanelComponent;
+  let fixture: ComponentFixture<ClientInfoPanelComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ClientInfoPanelComponent, MockTranslatePipe]
+    })
+      .overrideComponent(ClientInfoPanelComponent, {
+        set: {
+          imports: [NgIf, NgForOf, DatePipe, MockTranslatePipe]
+        }
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(ClientInfoPanelComponent);
+    component = fixture.componentInstance;
+  });
+  it('isPrimitive should return true for primitives', () => {
+    expect(component.isPrimitive(null)).toBeTrue();
+    expect(component.isPrimitive(undefined)).toBeTrue();
+    expect(component.isPrimitive('string')).toBeTrue();
+    expect(component.isPrimitive(123)).toBeTrue();
+    expect(component.isPrimitive(true)).toBeTrue();
+  });
+
+  it('isPrimitive should return false for objects and arrays', () => {
+    expect(component.isPrimitive({})).toBeFalse();
+    expect(component.isPrimitive([])).toBeFalse();
+  });
+
+  it('isArray should return true only for arrays', () => {
+    expect(component.isArray([])).toBeTrue();
+    expect(component.isArray([1, 2, 3])).toBeTrue();
+
+    expect(component.isArray('not an array')).toBeFalse();
+    expect(component.isArray({ length: 3 })).toBeFalse();
+  });
+
+  it('isObject should return true only for non-null objects', () => {
+    expect(component.isObject({})).toBeTrue();
+    expect(component.isObject({ key: 'value' })).toBeTrue();
+
+    expect(component.isObject(null)).toBeFalse();
+    expect(component.isObject([1, 2, 3])).toBeFalse();
+    expect(component.isObject('string')).toBeFalse();
+    expect(component.isObject(42)).toBeFalse();
+    expect(component.isObject(undefined)).toBeFalse();
   });
 });

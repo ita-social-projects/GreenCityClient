@@ -2,7 +2,7 @@
   <aside class="chat-sidebar">
     <div class="search-bar">
       <label>
-        <input type="text" placeholder="Enter internal ID (e.g., 12)..." [(ngModel)]="searchId" (input)="filterChatsById()" />
+        <input type="text" [placeholder]="'chat.chat-placeholder' | translate" [(ngModel)]="searchId" (input)="filterChatsById()" />
       </label>
     </div>
 
@@ -27,7 +27,7 @@
       <div class="chat-box">
         <div class="chat-header">
           {{ selectedChat.name }}
-          <button class="client-info-button" (click)="toggleClientInfo()" title="Клієнтська інформація">🧠</button>
+          <button class="client-info-button" (click)="toggleClientInfo()" [title]="'chat.client-info' | translate">🧠</button>
         </div>
 
         <app-client-info-panel *ngIf="clientInfoVisible" [clientData]="clientInfoData" class="client-info-panel"></app-client-info-panel>
@@ -48,14 +48,18 @@
 
         <div class="message-input-container">
           <input type="text" placeholder="Write a message..." [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" />
-          <button (click)="sendMessage()">➤</button>
+          <button class="send-message-button" (click)="sendMessage()" aria-label="Send message">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 12L20 4L16 12L20 20L4 12Z" fill="currentColor" />
+            </svg>
+          </button>
         </div>
       </div>
     </ng-container>
 
     <ng-template #placeholder>
       <div class="empty-chat-wrapper">
-        <p class="placeholder-text">Select a chat to start messaging</p>
+        <p class="placeholder-text">{{ 'chat.select-chat' | translate }}</p>
       </div>
     </ng-template>
   </section>

@@ -40,8 +40,7 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
   private readonly defaultPosition = { coords: { lat: 49.84579567734425, lng: 24.025124653312258 } };
 
   private _regionOptions: google.maps.places.AutocompleteOptions = {
-    types: ['address'],
-    componentRestrictions: { country: 'UA' }
+    types: ['address']
   };
   private _lastLocation: { coordinates: PlaceOnline; place: string } = {
     coordinates: null,
@@ -327,9 +326,6 @@ export class PlaceOnlineComponent implements OnInit, OnDestroy {
       this.mapMarkerCoords = latLngLiteral;
       this.map.panTo(latLngLiteral);
       this.map.center = latLngLiteral;
-    } else {
-      this.mapMarkerCoords = { lat: 0, lng: 0 };
-      this.map.center = { lat: 0, lng: 0 };
     }
   }
 

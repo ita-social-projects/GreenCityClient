@@ -621,3 +621,16 @@ app-footer {
   margin-top: auto;
   flex-shrink: 0;
 }
+
+.mat-mdc-form-field-error-wrapper {
+  position: relative !important;
+}
+
+.mat-mdc-form-field-bottom-align::before {
+  display: block !important;
+  height: fit-content !important;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  margin-bottom: 16px !important;
+}

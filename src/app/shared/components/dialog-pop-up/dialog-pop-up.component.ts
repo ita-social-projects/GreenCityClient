@@ -10,6 +10,10 @@ import { PopUpsStyles } from 'src/app/ubs/ubs-admin/components/ubs-admin-employe
   styleUrls: ['./dialog-pop-up.component.scss']
 })
 export class DialogPopUpComponent implements OnInit, OnDestroy {
+  icons = {
+    cross: '././assets/img/ubs/cross.svg'
+  };
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
   popupTitle: string;
   popupSubtitle: string;
@@ -21,6 +25,7 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
   isItrefund = false;
   іsPermissionConfirm = false;
   isCancelButtonShow = false;
+  isEditOrPayPopup?: boolean;
 
   constructor(
     private matDialogRef: MatDialogRef<DialogPopUpComponent>,
@@ -34,7 +39,7 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((event) => {
         if (event.key === 'Escape') {
-          this.userReply(false);
+          this.userReply(this.isEditOrPayPopup ? undefined : false);
         }
         if (event.key === 'Enter') {
           this.userReply(true);
@@ -44,7 +49,7 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
       .backdropClick()
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.userReply(false);
+        this.userReply(this.isEditOrPayPopup ? undefined : false);
       });
     this.isCancelButtonShow = !this.isItrefund || !this.іsPermissionConfirm;
   }
@@ -54,6 +59,7 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
     this.popupSubtitle = this.data.popupSubtitle;
     this.popupConfirm = this.data.popupConfirm;
     this.popupCancel = this.data.popupCancel;
+    this.isEditOrPayPopup = this.data.isEditOrPayPopup;
     this.setBtnStyleGreen = this.data.style === PopUpsStyles.green;
     this.setBtnStyleRed = this.data.style === PopUpsStyles.red;
     this.setBtnStyleLightGreen = this.data.style === PopUpsStyles.lightGreen;
@@ -61,7 +67,7 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
     this.іsPermissionConfirm = this.data.іsPermissionConfirm;
   }
 
-  userReply(reply: boolean): void {
+  userReply(reply: boolean | undefined): void {
     this.matDialogRef.close(reply);
   }
 
