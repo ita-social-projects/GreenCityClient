@@ -623,7 +623,19 @@
     "bonuses": "Bonuses",
     "tariffs": "Tariffs",
     "notifications": "Notifications",
-    "user-agreement": "User agreement"
+    "user-agreement": "User agreement",
+    "chat": "Chat"
+  },
+  "chat": {
+    "empty-chat": "Chat hasn’t got any message yet",
+    "chat-placeholder": "Enter internal ID (e.g., 12)...",
+    "messages": "Messages",
+    "client-info": "Client info",
+    "select-chat": "Select a chat to start messaging",
+    "support-chat": "Support-chat",
+    "delete-message-question": "Do you want to remove the message?",
+    "delete-message-confirm": "Yes",
+    "delete-message-cancel": "No"
   },
   "ubs-employee": {
     "add-employee": "Add employee",
