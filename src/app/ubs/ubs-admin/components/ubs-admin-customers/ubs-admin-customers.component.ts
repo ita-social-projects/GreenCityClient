@@ -38,8 +38,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrls: ['./ubs-admin-customers.component.scss']
 })
 export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnDestroy {
-  chatId = 16;
-
   isLoading = false;
   isUpdate = false;
   nonSortableColumns = nonSortableColumns;
@@ -417,8 +415,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     }
   }
 
-  onOpenChat(chatUrl: string) {
-    this.router.navigate(['greenCity', 'chat-page'], { state: { selectedChatId: this.chatId } });
+  onOpenChat(chatId: number) {
+    this.router.navigate(['greenCity', 'chat-page'], { state: { selectedChatId: chatId } });
   }
 
   private openCustomer(row, username): void {

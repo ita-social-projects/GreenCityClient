@@ -21,6 +21,7 @@ import { ICustomerOrdersTable } from '@ubs/ubs-admin/models/customer-orders-tabl
 import { ICustomersTable } from '@ubs/ubs-admin/models/customers-table.model';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { Router } from '@angular/router';
 
 describe('UbsAdminCustomersComponent', () => {
   let component: UbsAdminCustomersComponent;
@@ -29,9 +30,10 @@ describe('UbsAdminCustomersComponent', () => {
   let matDialogMock: jasmine.SpyObj<MatDialog>;
   let dialogRefMock: jasmine.SpyObj<any>;
   let snackBarSpy: jasmine.SpyObj<MatSnackBarService>;
+  let routerSpy: jasmine.SpyObj<Router>;
 
   const column: ColumnParam = { title: { ua: 'Заголовок', en: 'Title', key: 'titleKey' }, width: 60 };
-  const chatLink = 'https://example.com';
+  const chatId = 12;
   const userId = 'userId';
   const updatedData = 'newChatLink';
 
@@ -61,6 +63,8 @@ describe('UbsAdminCustomersComponent', () => {
     matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
     dialogRefMock = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
 
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+
     snackBarSpy = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 
     dialogRefMock.componentInstance = {
@@ -74,7 +78,7 @@ describe('UbsAdminCustomersComponent', () => {
 
     (localStorageServiceMock.getCustomer as jasmine.Spy).and.returnValue({
       userId: '123',
-      chatLink: 'https://example.com'
+      chatId: 12
     });
 
     (localStorageServiceMock.getCurrentLanguage as jasmine.Spy).and.returnValue('en');
@@ -96,6 +100,7 @@ describe('UbsAdminCustomersComponent', () => {
         { provide: MatSnackBarService, useValue: snackBarSpy },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: AdminCustomersService, useValue: adminCustomersServiceMock },
+        { provide: Router, useValue: routerSpy },
         provideMockStore({ initialState: {} })
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -135,5 +140,14 @@ describe('UbsAdminCustomersComponent', () => {
     component.onDeleteFilter('bonusesFrom', 'bonusesTo');
     expect(component.filterForm.value.bonusesFrom).toBe('');
     expect(component.filterForm.value.bonusesTo).toBe('');
+  });
+
+  fit('on onOpenChat should redirect to chat with a client', () => {
+    const chatIdMock = 12;
+
+    component.onOpenChat(chatIdMock);
+
+    expect(routerSpy.navigate).toHaveBeenCalled();
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['greenCity', 'chat-page'], { state: { selectedChatId: chatIdMock } });
   });
 });
