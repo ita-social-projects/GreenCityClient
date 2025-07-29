@@ -1464,4 +1464,148 @@ describe('UbsUserProfilePageComponent', () => {
       expect(fakeLocalStorageService.clear).toHaveBeenCalledTimes(1);
     }));
   });
+
+  describe('formatedPhoneNumber method', () => {
+    it('should format valid Ukrainian phone number correctly', () => {
+      const phoneNumber = '+380501234567';
+      const result = component.formatedPhoneNumber(phoneNumber);
+      expect(result).toBe('+380 (50) 123 45 67');
+    });
+
+    it('should format another valid Ukrainian phone number correctly', () => {
+      const phoneNumber = '+380971234567';
+      const result = component.formatedPhoneNumber(phoneNumber);
+      expect(result).toBe('+380 (97) 123 45 67');
+    });
+
+    it('should return undefined for invalid phone number format', () => {
+      const invalidPhone = '+123456789';
+      const result = component.formatedPhoneNumber(invalidPhone);
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined for empty string', () => {
+      const result = component.formatedPhoneNumber('');
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined for phone number without country code', () => {
+      const phoneWithoutCode = '0501234567';
+      const result = component.formatedPhoneNumber(phoneWithoutCode);
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getUserData error handling', () => {
+    it('should handle getUserData error and show error snackbar', fakeAsync(() => {
+      clientProfileServiceMock.getDataClientProfile.and.returnValue(throwError(() => new Error('Server error')));
+      snackBarMock.openSnackBar.calls.reset();
+
+      component.getUserData();
+      tick();
+
+      expect(component.isFetching).toBeFalsy();
+      expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('error');
+    }));
+  });
+
+  describe('goToTelegramUrl method', () => {
+    it('should open telegram URL in new window', () => {
+      const windowOpenSpy = spyOn(window, 'open');
+      component.telegramBotURL = 'https://t.me/testbot';
+
+      component.goToTelegramUrl();
+
+      expect(windowOpenSpy).toHaveBeenCalledWith('https://t.me/testbot', '_blank');
+    });
+
+    it('should handle undefined telegramBotURL', () => {
+      const windowOpenSpy = spyOn(window, 'open');
+      component.telegramBotURL = undefined;
+
+      component.goToTelegramUrl();
+
+      expect(windowOpenSpy).toHaveBeenCalledWith(undefined, '_blank');
+    });
+  });
+
+  describe('openAddAdressDialog method', () => {
+    it('should not add address when dialog returns null', () => {
+      const dialogRefSpyObj = jasmine.createSpyObj({
+        afterClosed: of(null)
+      });
+      dialogMock.open.and.returnValue(dialogRefSpyObj);
+      const initialLength = component.tempAddedAddressHolder.length;
+
+      component.openAddAdressDialog();
+
+      expect(component.tempAddedAddressHolder.length).toBe(initialLength);
+      expect(dialogMock.open).toHaveBeenCalled();
+    });
+
+    it('should not add address when dialog returns undefined', () => {
+      const dialogRefSpyObj = jasmine.createSpyObj({
+        afterClosed: of(undefined)
+      });
+      dialogMock.open.and.returnValue(dialogRefSpyObj);
+      const initialLength = component.tempAddedAddressHolder.length;
+
+      component.openAddAdressDialog();
+
+      expect(component.tempAddedAddressHolder.length).toBe(initialLength);
+    });
+
+    it('should not add address when dialog returns empty object', () => {
+      const dialogRefSpyObj = jasmine.createSpyObj({
+        afterClosed: of({})
+      });
+      dialogMock.open.and.returnValue(dialogRefSpyObj);
+      const initialLength = component.tempAddedAddressHolder.length;
+
+      component.openAddAdressDialog();
+
+      expect(component.tempAddedAddressHolder.length).toBe(initialLength);
+    });
+  });
+
+  describe('Phone focus/blur methods edge cases', () => {
+    it('should not change phone value if it already has content on focus', () => {
+      component.userInit();
+      component.recipientPhone.setValue('+380501234567');
+
+      component.onPhoneFocus();
+
+      expect(component.recipientPhone.value).toBe('+380501234567');
+    });
+
+    it('should not clear phone value on blur if it has more than prefix', () => {
+      component.userInit();
+      component.recipientPhone.setValue('+380501234567');
+
+      component.onPhoneBlur();
+
+      expect(component.recipientPhone.value).toBe('+380501234567');
+    });
+
+    it('should handle null phone value on focus', () => {
+      component.userInit();
+      component.recipientPhone.setValue(null);
+
+      component.onPhoneFocus();
+
+      expect(component.recipientPhone.value).toBe('+380');
+    });
+  });
+
+  describe('ngOnInit store subscription', () => {
+    it('should call getUserData when addresses selector emits', fakeAsync(() => {
+      const getUserDataSpy = spyOn(component, 'getUserData');
+      storeMock.select.and.returnValue(of({ addresses: [] }));
+
+      component.ngOnInit();
+      tick();
+
+      expect(getUserDataSpy).toHaveBeenCalledTimes(2);
+    }));
+  });
 });
