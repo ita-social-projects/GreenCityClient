@@ -22,7 +22,7 @@ import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
-import { ColumnParam, columnsParams } from './columnsParams';
+import { ColumnParam, columnsParams } from './columnsParams.mock';
 import { Filters } from './filters.interface';
 import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-from-date-to-string/convert-from-date-to-string.service';
 import { DateAdapter } from '@angular/material/core';

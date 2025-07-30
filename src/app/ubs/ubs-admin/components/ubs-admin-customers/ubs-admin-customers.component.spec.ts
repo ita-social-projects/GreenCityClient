@@ -15,7 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
 import { AdminCustomersService } from '@ubs/ubs-admin/services/admin-customers.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { ColumnParam } from './columnsParams';
+import { ColumnParam } from './columnsParams.mock';
 import { ICustomerViolationTable } from '@ubs/ubs-admin/models/customer-violations-table.model';
 import { ICustomerOrdersTable } from '@ubs/ubs-admin/models/customer-orders-table.model';
 import { ICustomersTable } from '@ubs/ubs-admin/models/customers-table.model';

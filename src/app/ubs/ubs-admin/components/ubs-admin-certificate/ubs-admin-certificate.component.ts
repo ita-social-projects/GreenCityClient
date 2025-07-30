@@ -8,7 +8,7 @@ import { TableHeightService } from '../../services/table-height.service';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
-import { columnsParamsCertificates } from '../ubs-admin-customers/columnsParams';
+import { columnsParamsCertificates } from '../ubs-admin-customers/columnsParams.mock';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { Store } from '@ngrx/store';
