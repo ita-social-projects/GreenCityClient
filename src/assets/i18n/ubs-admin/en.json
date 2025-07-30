@@ -635,7 +635,8 @@
     "support-chat": "Support-chat",
     "delete-message-question": "Do you want to remove the message?",
     "delete-message-confirm": "Yes",
-    "delete-message-cancel": "No"
+    "delete-message-cancel": "No",
+    "active-chat-placeholder": "Enter your message"
   },
   "ubs-employee": {
     "add-employee": "Add employee",
@@ -1325,5 +1326,26 @@
     "text": "You will be redirected to the Telegram bot. Don't forget to press 'Start' in the bot.",
     "confirm": "Open Telegram",
     "cancel": "Cancel"
+  },
+  "client-panel": {
+    "order-id": "ID",
+    "date-form": "Date created",
+    "date-paid": "Date paid",
+    "order-status-uk": "Status (UA)",
+    "order-status-en": "Status (EN)",
+    "payment-status-uk": "Payment (UA)",
+    "payment-status-en": "Payment (EN)",
+    "amount-before-payment": "Amount due",
+    "paid-amount": "Amount paid",
+    "order-full-price": "Total amount",
+    "bags-title": "Bags",
+    "service": "Service",
+    "capacity": "Capacity",
+    "unit-price": "Unit price",
+    "count": "Quantity",
+    "total-price": "Total",
+    "loading": "Loading information...",
+    "error": "Failed to load information.",
+    "order-info-title": "Order Information"
   }
 }

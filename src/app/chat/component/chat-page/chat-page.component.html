@@ -48,7 +48,12 @@
         </div>
 
         <div class="message-input-container">
-          <input type="text" [placeholder]="'chat.chat-placeholder' | translate" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" />
+          <input
+            type="text"
+            [placeholder]="'chat.active-chat-placeholder' | translate"
+            [(ngModel)]="newMessage"
+            (keyup.enter)="sendMessage()"
+          />
           <button class="send-message-button" (click)="sendMessage()" aria-label="Send message">
             <svg width="30" height="30" viewBox="0 0 24 24">
               <path d="M4 12L20 4L16 12L20 20L4 12Z" fill="currentColor" />
