@@ -164,7 +164,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.senderEmail.setValue('');
     });
 
-    this.personalDataForm.valueChanges.pipe(debounceTime(400), takeUntil(this.$destroy)).subscribe(() => {
+    this.personalDataForm.valueChanges.pipe(takeUntil(this.$destroy)).subscribe(() => {
       if (!this.isAnotherClient.value) {
         this.senderFirstName.setValue(this.firstName.value, { emitEvent: false });
         this.senderLastName.setValue(this.lastName.value, { emitEvent: false });
