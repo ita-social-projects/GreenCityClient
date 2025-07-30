@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
 import { userRoleSelector } from 'src/app/store/selectors/auth.selectors';
 import { environment } from '@environment/environment';
-//mock change for the commit
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat-page.component.html',
