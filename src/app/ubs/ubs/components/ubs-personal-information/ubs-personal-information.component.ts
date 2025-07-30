@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
-import { debounceTime, distinctUntilChanged, filter, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
 import { Subject, combineLatest } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { PersonalData } from '../../models/ubs.interface';
