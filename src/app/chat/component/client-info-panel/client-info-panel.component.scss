@@ -1,18 +1,18 @@
 .client-info-panel {
   padding: 1rem;
-  background-color: #fdfdfd;
-  border: 1px solid #ccc;
+  background-color: var(--primary-white);
+  border: 1px solid var(--quaternary-light-grey);
   border-radius: 8px;
   max-height: 500px;
   overflow-y: auto;
   font-size: 14px;
-  color: #222;
+  color: var(--tertiary-dark-grey);
 
   .panel-title {
     margin: 0 0 1rem;
     font-size: 1.2rem;
     font-weight: 600;
-    color: #333;
+    color: var(--secondary-dark-grey);
   }
 
   .section-title {
@@ -20,7 +20,7 @@
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
     font-weight: 500;
-    color: #444;
+    color: var(--tertiary-dark-grey);
   }
 
   .info-grid {
@@ -35,12 +35,12 @@
     padding: 4px 0;
 
     .label {
-      color: #666;
+      color: var(--quintynary-light-grey);
       font-weight: 500;
     }
 
     .value {
-      color: #000;
+      color: var(--secondary-dark-grey);
     }
   }
 
@@ -51,15 +51,16 @@
   }
 
   .bag-item {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--primary-white);
+    border: 1px solid var(--quaternary-light-grey);
     padding: 8px 12px;
     border-radius: 6px;
+    color: var(--secondary-dark-grey);
   }
 
   .error-message {
-    background-color: #ffe3e3;
-    color: #a94442;
+    background-color: var(--error-light-red);
+    color: var(--error-dark-red);
     padding: 12px;
     border-radius: 4px;
     font-weight: 500;
@@ -67,6 +68,6 @@
 
   .loading-text {
     font-style: italic;
-    color: #888;
+    color: var(--tertiary-grey);
   }
 }

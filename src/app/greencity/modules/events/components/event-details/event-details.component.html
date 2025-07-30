@@ -81,15 +81,16 @@
               ></div>
             </div>
             <div class="event-participants">
+              <div class="event-stars" *ngIf="!event.isRelevant">
+                <app-rating-display [rate]="event.eventRate" [maxRating]="max"></app-rating-display>
+              </div>
+
+              <span class="event-participants-count">({{ attendees.length }})</span>&nbsp;
+
               <div *ngIf="attendeesAvatars.length" class="event-participants-avatars">
                 <div *ngFor="let avatar of attendeesAvatars" class="event-participants-avatar">
-                  <img [src]="avatar" alt="" />
+                  <img [src]="avatar" alt="avatar" />
                 </div>
-              </div>
-              <div class="event-participants-count-container">
-                <span class="event-participants-count">{{ attendees.length }}</span
-                >&nbsp;
-                <span>{{ 'homepage.events.people-joined' | translate }}</span>
               </div>
             </div>
           </div>

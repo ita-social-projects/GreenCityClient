@@ -1,16 +1,21 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs';
+import { userRoleSelector } from 'src/app/store/selectors/auth.selectors';
+import { environment } from '@environment/environment';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat-page.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, TranslateModule, DatePipe],
+  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, TranslateModule],
   styleUrls: ['./chat-page.component.scss']
 })
 export class ChatComponent implements OnInit {
@@ -23,11 +28,16 @@ export class ChatComponent implements OnInit {
   clientInfoData: any = null;
   filteredChats: any[] = [];
   searchId = '';
-  private readonly baseUrl = 'https://greencity-ubs.greencity.cx.ua/ubs/telegram';
+  private readonly baseUrl = `${environment.ubsAdmin.backendUbsAdminLink}/telegram`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private store: Store
+  ) {}
 
   ngOnInit(): void {
+    this.store.select(userRoleSelector).pipe(take(1));
     this.loadAllChats();
   }
 

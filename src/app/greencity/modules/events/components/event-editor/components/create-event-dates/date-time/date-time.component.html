@@ -8,7 +8,7 @@
     <mat-datepicker #dp></mat-datepicker>
 
     <mat-error *ngIf="day.hasError('dateIncorrect')">{{ 'create-event.date-error-format' | translate }}</mat-error>
-    <mat-error *ngIf="startDate.hasError('dateInPast')">{{ 'create-event.date-error' | translate }}</mat-error>
+    <mat-error *ngIf="day.hasError('dateInPast')">{{ 'create-event.date-error' | translate }}</mat-error>
   </mat-form-field>
 
   <div class="time">
@@ -20,6 +20,7 @@
           {{ time }}
         </mat-option>
       </mat-autocomplete>
+      <mat-error *ngIf="startTime.invalid">{{ 'create-event.datepicker-and-start-time-not-correct' | translate }}</mat-error>
     </mat-form-field>
 
     <h5 class="dash">—</h5>
@@ -32,6 +33,7 @@
           {{ time }}
         </mat-option>
       </mat-autocomplete>
+      <mat-error *ngIf="finishTime.invalid">{{ 'create-event.datepicker-not-correct-date-required' | translate }}</mat-error>
     </mat-form-field>
   </div>
 

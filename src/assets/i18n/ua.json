@@ -493,7 +493,8 @@
     "user-notifications": "Сповіщення",
     "sign-out": "Вийти",
     "sign-in": "Увійти",
-    "management": "Менеджмент"
+    "management": "Менеджмент",
+    "user-profile": "Особистий кабінет"
   },
   "admin": {
     "errorMessage": "Заборонено"
@@ -1419,8 +1420,8 @@
     "date-required": "Поле з часом завершення події не може бути порожнім",
     "start-time-required": "Поле з часом початку події не може бути порожнім.",
     "datepicker-not-correct": "Введіть правильну дату",
-    "datepicker-not-correct-date-required": "Введіть правильну дату. Поле з часом завершення події не може бути порожнім.",
-    "datepicker-and-start-time-not-correct": "Введіть правильну дату. Поле з часом початку події не може бути порожнім.",
+    "datepicker-not-correct-date-required": "Час завершення події не може бути порожнім.",
+    "datepicker-and-start-time-not-correct": "Час початку події не може бути порожнім.",
     "start-time-and-end-time-not-correct": "Поля з часом початку та завершення події не можуть бути порожніми.",
     "start-time-end-time-and-datepicker-not-correct": "Введіть правильну дату. Поля з часом початку та завершення події не можуть бути порожніми.",
     "location-required": "Вкажіть пошуковий запит або виберіть локацію вручну за допомогою карти нижче",
@@ -1477,14 +1478,6 @@
     "delete-message": "Всі створений вами зміни будуть втрачені. Ви все ще бажаєте відмінити створення?",
     "btn.yes": "Так, відмінити",
     "btn.no": "Продовжити редагування"
-  },
-  "chat": {
-    "empty-chat": "В чаті нема повідомлень",
-    "messages": "Повідомлення",
-    "support-chat": "Чат підтримки",
-    "delete-message-question": "Ви дійсно бажаєте видалити повідомлення?",
-    "delete-message-confirm": "Так",
-    "delete-message-cancel": "Ні"
   },
   "client-panel": {
     "order-id": "ID",

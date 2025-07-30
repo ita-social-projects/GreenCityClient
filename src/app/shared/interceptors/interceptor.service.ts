@@ -30,6 +30,7 @@ const blackList = ['https://csb'];
 export class InterceptorService implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<NewTokenPair> = new BehaviorSubject<NewTokenPair>(null);
   private isRefreshing = false;
+  private openDialog = true;
 
   constructor(
     private http: HttpClient,
@@ -198,6 +199,7 @@ export class InterceptorService implements HttpInterceptor {
         })
       );
     } else {
+      this.openDialog = true;
       return this.refreshTokenSubject.pipe(
         filter((newTokenPair: NewTokenPair) => newTokenPair !== null),
         take(1),
@@ -219,6 +221,16 @@ export class InterceptorService implements HttpInterceptor {
     this.dialog.closeAll();
     this.userOwnAuthService.isLoginUserSubject.next(false);
     this.localStorageService.setUbsRegistration(isUBS);
+
+    if (!this.openDialog) {
+      this.isRefreshing = false;
+      return of<HttpEvent<any>>();
+    }
+
+    if (isUBS) {
+      this.openDialog = false;
+    }
+
     this.dialog
       .open(AuthModalComponent, {
         hasBackdrop: true,

@@ -19,7 +19,8 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/GreenCityClient'),
       subdir: '.',
       reporters: [{ type: 'html' }, { type: 'lcovonly', file: 'lcov.info' }, { type: 'text-summary' }],
-      fixWebpackSourcePaths: true
+      fixWebpackSourcePaths: true,
+      exclude: ['**/*.mock.ts']
     },
     customLaunchers: {
       ChromeHeadless: {

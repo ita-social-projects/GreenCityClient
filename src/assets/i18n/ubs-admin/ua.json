@@ -63,6 +63,7 @@
         "data": "Строк дії сертифікату - до {{certDate}}"
       },
       "choose-payment": "Ви можете здійснити оплату одним з вибраних способів нижче.",
+      "edit-or-payment": "Бажаєте відредагувати своє замовлення чи перейти до оплати?",
       "question-certificate": "Чи бажаєте ви скористатись сертифікатом?",
       "failed-certificate": "Сертифікат не прийнято, спробуйте ще раз",
       "certificate-duplication": "Ви вже ввели номер цього сертифікату ",
@@ -620,7 +621,20 @@
     "bonuses": "Бонуси",
     "tariffs": "Тарифи",
     "notifications": "Повідомлення",
-    "user-agreement": "Угода користувача"
+    "user-agreement": "Угода користувача",
+    "chat": "Чат"
+  },
+  "chat": {
+    "empty-chat": "В чаті нема повідомлень",
+    "chat-placeholder": "Введіть id чату",
+    "client-info": "Інформація про клієнта",
+    "messages": "Повідомлення",
+    "select-chat": "Оберіть чат в бічній панелі щоб розпочати спілкування",
+    "support-chat": "Чат підтримки",
+    "delete-message-question": "Ви дійсно бажаєте видалити повідомлення?",
+    "delete-message-confirm": "Так",
+    "delete-message-cancel": "Ні",
+    "active-chat-placeholder": "Введіть ваше повідомлення"
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
@@ -1304,5 +1318,26 @@
       "other": "Інше"
     },
     "specify-reason": "Вкажіть причину"
+  },
+  "client-panel": {
+    "order-id": "ID",
+    "date-form": "Дата створення",
+    "date-paid": "Дата оплати",
+    "order-status-uk": "Статус (Укр)",
+    "order-status-en": "Статус (En)",
+    "payment-status-uk": "Оплата (Укр)",
+    "payment-status-en": "Оплата (En)",
+    "amount-before-payment": "Сума до сплати",
+    "paid-amount": "Сума оплачено",
+    "order-full-price": "Загальна сума",
+    "bags-title": "Пакети",
+    "service": "Послуга",
+    "capacity": "Обʼєм",
+    "unit-price": "Ціна за од.",
+    "count": "Кількість",
+    "total-price": "Сума",
+    "loading": "Завантаження інформації...",
+    "error": "Не вдалося завантажити інформацію.",
+    "order-info-title": "Інформація про замовлення"
   }
 }

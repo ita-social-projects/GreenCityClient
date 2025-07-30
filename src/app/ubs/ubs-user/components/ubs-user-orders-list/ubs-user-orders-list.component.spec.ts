@@ -1,5 +1,5 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,19 +14,26 @@ import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { of } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
+import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
+import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
+import { OrderService } from '@ubs/ubs/services/order.service';
+import { PopUpsStyles } from '@ubs/ubs-admin/components/ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
+import { UBSOrderFormComponent } from '@ubs/ubs/components/ubs-order-form/ubs-order-form.component';
 
-xdescribe('UbsUserOrdersListComponent', () => {
+describe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
   let fixture: ComponentFixture<UbsUserOrdersListComponent>;
 
-  const matDialogMock = jasmine.createSpyObj('dialog', ['open']);
+  let matDialogMock: jasmine.SpyObj<MatDialog>;
+  let dialogRefSpy: jasmine.SpyObj<any>;
+
   const fakeIputOrderData = [
-    { id: 3, dateForm: 55, orderStatusEng: 'Done', paymentStatusEng: 'Unpaid', orderFullPrice: 55, amountBeforePayment: 55, extend: true },
+    { id: 3, dateForm: 55, orderStatusEn: 'Done', paymentStatusEn: 'Unpaid', orderFullPrice: 55, amountBeforePayment: 55, extend: true },
     {
       id: 7,
       dateForm: 66,
-      orderStatusEng: 'Formed',
-      paymentStatusEng: 'Half paid',
+      orderStatusEn: 'Formed',
+      paymentStatusEn: 'Half paid',
       orderFullPrice: 0,
       amountBeforePayment: 55,
       extend: false
@@ -34,8 +41,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
     {
       id: 1,
       dateForm: 11,
-      orderStatusEng: 'Canceled',
-      paymentStatusEng: 'Paid',
+      orderStatusEn: 'Canceled',
+      paymentStatusEn: 'Paid',
       orderFullPrice: -55,
       amountBeforePayment: 55,
       extend: false
@@ -43,41 +50,75 @@ xdescribe('UbsUserOrdersListComponent', () => {
     {
       id: 12,
       dateForm: 15,
-      orderStatusEng: 'Adjustment',
-      paymentStatusEng: 'Unpaid',
+      orderStatusEn: 'Adjustment',
+      paymentStatusEn: 'Unpaid',
       orderFullPrice: 55,
       amountBeforePayment: 55,
       extend: false
     }
   ];
   const fakePoints = 111;
+  const fakePersonalData = {
+    id: 123,
+    ubsUserId: 123,
+    firstName: 'Anna',
+    lastName: 'Kuznetsova',
+    email: 'anna.kuznetsova@example.com',
+    phoneNumber: '+380123456789',
+    addressComment: 'Leave at the front door',
+    city: 'Lviv',
+    cityEn: 'Lviv',
+    district: 'Shevchenkivskyi',
+    districtEn: 'Shevchenkivskyi',
+    isAnotherClient: false,
+    senderEmail: 'anna.sender@example.com',
+    senderFirstName: 'Anna',
+    senderLastName: 'Sender',
+    senderPhoneNumber: '+380987654321'
+  };
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue.and.returnValue('fakeValue');
   languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
 
+  const orderServiceMock = jasmine.createSpyObj('orderService', [
+    'getOrderPdf',
+    'cleanOrderState',
+    'getExistingOrderDetails',
+    'getPersonalData'
+  ]);
+  orderServiceMock.getOrderPdf.and.returnValue(of(new Blob(['pdf content'], { type: 'application/pdf' })));
+  orderServiceMock.getExistingOrderDetails.and.returnValue(of(fakeIputOrderData[1] as any));
+  orderServiceMock.getPersonalData.and.returnValue(of(fakePersonalData));
+
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 
   beforeEach(waitForAsync(() => {
+    dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+    dialogRefSpy.afterClosed.and.returnValue(of(true));
+
+    matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
+    matDialogMock.open.and.returnValue(dialogRefSpy);
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersListComponent, LocalizedCurrencyPipe, LangValueDirective],
       imports: [
         MatDialogModule,
+        UbsSharedModule,
         MatExpansionModule,
         BrowserAnimationsModule,
         TranslateModule.forRoot(),
         HttpClientModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([{ path: 'ubs/order', component: UBSOrderFormComponent }]),
         StoreModule.forRoot({})
       ],
       providers: [
         { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: LanguageService, useValue: languageServiceMock },
-        { provide: Store, useValue: storeMock }
+        { provide: OrderService, useValue: orderServiceMock }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -191,6 +232,139 @@ xdescribe('UbsUserOrdersListComponent', () => {
         }
       });
     });
+
+    it('should call editOrPayPopup if order is UNPAID and status is FORMED', () => {
+      const orderMock = {
+        id: 18,
+        dateForm: 12,
+        orderStatusEn: 'Formed',
+        paymentStatusEn: 'Unpaid',
+        orderFullPrice: 55,
+        amountBeforePayment: 55,
+        extend: false
+      };
+      const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
+      const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+      spyOn(component, 'isOrderUnpaid').and.returnValue(true);
+
+      component.openOrderPaymentDialog(orderMock as any);
+
+      expect(openOrderPaymentPopUpSpy).not.toHaveBeenCalled();
+      expect(component.isOrderUnpaid).toHaveBeenCalledWith(orderMock as any);
+      expect(editOrPayPopupSpy).toHaveBeenCalled();
+      expect(editOrPayPopupSpy).toHaveBeenCalledWith(orderMock as any);
+      expect(orderServiceMock.cleanOrderState).toHaveBeenCalled();
+    });
+
+    it('should call openOrderPaymentPopUp if order is HALF-PAID', () => {
+      const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+      const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
+      spyOn(component, 'isOrderUnpaid').and.returnValue(false);
+
+      component.openOrderPaymentDialog(fakeIputOrderData[1] as any);
+
+      expect(component.isOrderUnpaid(fakeIputOrderData[1] as any)).toBeFalse();
+      expect(editOrPayPopupSpy).not.toHaveBeenCalled();
+      expect(openOrderPaymentPopUpSpy).toHaveBeenCalled();
+      expect(openOrderPaymentPopUpSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
+      expect(orderServiceMock.cleanOrderState).toHaveBeenCalled();
+    });
+
+    it('should call openOrderPaymentPopUp if order is UNPAID and NOT FORMED', () => {
+      const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+      const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
+
+      component.openOrderPaymentDialog(fakeIputOrderData[0] as any);
+
+      expect(editOrPayPopupSpy).not.toHaveBeenCalled();
+      expect(openOrderPaymentPopUpSpy).toHaveBeenCalled();
+      expect(openOrderPaymentPopUpSpy).toHaveBeenCalledWith(fakeIputOrderData[0] as any);
+      expect(orderServiceMock.cleanOrderState).toHaveBeenCalled();
+    });
+
+    it('should call openOrderPaymentPopUp if order is PAID and FORMED', () => {
+      const orderMock = {
+        id: 118,
+        dateForm: 112,
+        orderStatusEn: 'Formed',
+        paymentStatusEn: 'Paid',
+        orderFullPrice: 55,
+        amountBeforePayment: 55,
+        extend: false
+      };
+      spyOn(component, 'isOrderUnpaid').and.returnValue(false);
+      const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+      const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
+
+      component.openOrderPaymentDialog(orderMock as any);
+
+      expect(openOrderPaymentPopUpSpy).toHaveBeenCalledWith(orderMock as any);
+      expect(editOrPayPopupSpy).not.toHaveBeenCalled();
+    });
+
+    it('should always call cleanOrderState', () => {
+      component.openOrderPaymentDialog(fakeIputOrderData[0] as any);
+      expect(orderServiceMock.cleanOrderState).toHaveBeenCalled();
+    });
+
+    it('should test the exact ternary condition coverage', () => {
+      const formedUnpaidOrder = {
+        id: 120,
+        orderStatusEn: 'Formed',
+        paymentStatusEn: 'Unpaid',
+        orderFullPrice: 155,
+        amountBeforePayment: 155,
+        extend: false
+      };
+
+      spyOn(component, 'isOrderUnpaid').and.returnValue(true);
+      const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
+      const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+
+      component.openOrderPaymentDialog(formedUnpaidOrder as any);
+
+      expect(editOrPayPopupSpy).toHaveBeenCalledWith(formedUnpaidOrder as any);
+      expect(openOrderPaymentPopUpSpy).not.toHaveBeenCalled();
+    });
+
+    it('should cover both branches of the ternary operator', () => {
+      const formedUnpaidOrder = {
+        id: 43,
+        orderStatusEn: 'Formed',
+        paymentStatusEn: 'Unpaid',
+        orderFullPrice: 255,
+        amountBeforePayment: 255,
+        extend: false
+      };
+
+      spyOn(component, 'isOrderUnpaid').and.returnValue(true);
+      const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
+      const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+
+      component.openOrderPaymentDialog(formedUnpaidOrder as any);
+
+      expect(editOrPayPopupSpy).toHaveBeenCalled();
+      expect(openOrderPaymentPopUpSpy).not.toHaveBeenCalled();
+
+      editOrPayPopupSpy.calls.reset();
+      openOrderPaymentPopUpSpy.calls.reset();
+
+      const otherOrder = {
+        id: 2,
+        orderStatusEn: 'Done',
+        paymentStatusEn: 'Paid',
+        orderFullPrice: 12,
+        amountBeforePayment: 12,
+        extend: false
+      };
+
+      (component.isOrderUnpaid as jasmine.Spy).and.returnValue(false);
+
+      component.openOrderPaymentDialog(otherOrder as any);
+
+      expect(openOrderPaymentPopUpSpy).toHaveBeenCalled();
+      expect(editOrPayPopupSpy).not.toHaveBeenCalled();
+    });
   });
 
   describe('openOrderCancelDialog', () => {
@@ -206,8 +380,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
         {
           id: 7,
           dateForm: 66,
-          orderStatusEng: 'Formed',
-          paymentStatusEng: 'Half paid',
+          orderStatusEn: 'Formed',
+          paymentStatusEn: 'Half paid',
           orderFullPrice: 0,
           amountBeforePayment: 55,
           extend: false
@@ -215,8 +389,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
         {
           id: 3,
           dateForm: 55,
-          orderStatusEng: 'Done',
-          paymentStatusEng: 'Unpaid',
+          orderStatusEn: 'Done',
+          paymentStatusEn: 'Unpaid',
           orderFullPrice: 55,
           amountBeforePayment: 55,
           extend: true
@@ -224,8 +398,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
         {
           id: 12,
           dateForm: 15,
-          orderStatusEng: 'Adjustment',
-          paymentStatusEng: 'Unpaid',
+          orderStatusEn: 'Adjustment',
+          paymentStatusEn: 'Unpaid',
           orderFullPrice: 55,
           amountBeforePayment: 55,
           extend: false
@@ -233,8 +407,8 @@ xdescribe('UbsUserOrdersListComponent', () => {
         {
           id: 1,
           dateForm: 11,
-          orderStatusEng: 'Canceled',
-          paymentStatusEng: 'Paid',
+          orderStatusEn: 'Canceled',
+          paymentStatusEn: 'Paid',
           orderFullPrice: -55,
           amountBeforePayment: 55,
           extend: false
@@ -243,5 +417,120 @@ xdescribe('UbsUserOrdersListComponent', () => {
       component.sortingOrdersByData();
       expect(component.orders).toEqual(resultOrderData as any);
     });
+  });
+
+  describe('editOrPayPopup', () => {
+    it('should open the dialog and handle afterClosed result', fakeAsync(() => {
+      component.editOrPayPopup(fakeIputOrderData[1] as any);
+      tick();
+      expect(matDialogMock.open).toHaveBeenCalled();
+      expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
+      expect(dialogRefSpy.afterClosed).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should open editOrPayPopup with editOrPayDialogData', fakeAsync(() => {
+      component.editOrPayPopup(fakeIputOrderData[1] as any);
+      tick();
+
+      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, { data: component.editOrPayDialogData });
+
+      expect(component.editOrPayDialogData).toBeDefined();
+      expect(matDialogMock.open).toHaveBeenCalled();
+      expect(component.editOrPayDialogData.popupTitle).toBe('ubs-client-profile.payment.edit-or-payment');
+      expect(component.editOrPayDialogData.popupConfirm).toBe('ubs-client-profile.payment.btn.pay');
+      expect(component.editOrPayDialogData.popupCancel).toBe('add-payment.edit');
+      expect(component.editOrPayDialogData.style).toBe(PopUpsStyles.lightGreen);
+      expect(component.editOrPayDialogData.isEditOrPayPopup).toBeTrue();
+    }));
+
+    it('should call openOrderPaymentPopUp if the dialog returned true', fakeAsync(() => {
+      dialogRefSpy.afterClosed.and.returnValue(of(true));
+      const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+      const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
+
+      component.editOrPayPopup(fakeIputOrderData[1] as any);
+      tick();
+
+      expect(matDialogMock.open).toHaveBeenCalled();
+      expect(orderPaymentPopupSpy).toHaveBeenCalled();
+      expect(orderPaymentPopupSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
+      expect(getDataForLocalStorageSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should call getDataForLocalStorage if the dialog returned false', fakeAsync(() => {
+      dialogRefSpy.afterClosed.and.returnValue(of(false));
+      const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage').and.callThrough();
+      const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+
+      component.editOrPayPopup(fakeIputOrderData[1] as any);
+      tick();
+
+      expect(matDialogMock.open).toHaveBeenCalled();
+      expect(getDataForLocalStorageSpy).toHaveBeenCalled();
+      expect(getDataForLocalStorageSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
+      expect(orderPaymentPopupSpy).not.toHaveBeenCalled();
+    }));
+
+    it('shouldnt call any method if the dialog was closed and returned undefined', fakeAsync(() => {
+      dialogRefSpy.afterClosed.and.returnValue(of(undefined));
+      const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
+      const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
+
+      component.editOrPayPopup(fakeIputOrderData[1] as any);
+      tick();
+
+      expect(matDialogMock.open).toHaveBeenCalled();
+      expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
+      expect(dialogRefSpy.afterClosed).toHaveBeenCalledTimes(1);
+      expect(orderPaymentPopupSpy).not.toHaveBeenCalled();
+      expect(getDataForLocalStorageSpy).not.toHaveBeenCalled();
+    }));
+  });
+
+  describe('exportAsPDF', () => {
+    beforeEach(() => {
+      const anchorMock = { click: jasmine.createSpy('click'), href: '', download: '' };
+      spyOn(document, 'createElement').and.returnValue(anchorMock as any);
+    });
+
+    it('should call orderService.getOrderPdf with correct parameters', fakeAsync(() => {
+      const orderIdMock = fakeIputOrderData[0].id;
+      const langMock = 'en';
+      component.currentLanguage = langMock;
+
+      component.exportAsPDF(fakeIputOrderData[0] as any);
+      tick();
+
+      expect(orderServiceMock.getOrderPdf).toHaveBeenCalledWith(orderIdMock, langMock);
+    }));
+
+    it('should create blob on exportAsPDF call', fakeAsync(() => {
+      const blobSpy = spyOn(window, 'Blob').and.callThrough();
+
+      component.exportAsPDF(fakeIputOrderData[0] as any);
+      tick();
+
+      expect(blobSpy).toHaveBeenCalled();
+    }));
+
+    it('should create a download link with correct filename and blob', fakeAsync(() => {
+      const createObjectURLSpy = spyOn(window.URL, 'createObjectURL').and.returnValue('mock-url');
+
+      component.exportAsPDF(fakeIputOrderData[0] as any);
+      tick();
+
+      expect(createObjectURLSpy).toHaveBeenCalled();
+    }));
+
+    it('should create and revoke object URL', fakeAsync(() => {
+      const createObjectURLSpy = spyOn(window.URL, 'createObjectURL');
+      const revokeObjectURLSpy = spyOn(window.URL, 'revokeObjectURL');
+
+      component.exportAsPDF(fakeIputOrderData[0] as any);
+      tick();
+
+      expect(createObjectURLSpy).toHaveBeenCalled();
+      expect(revokeObjectURLSpy).toHaveBeenCalled();
+    }));
   });
 });
