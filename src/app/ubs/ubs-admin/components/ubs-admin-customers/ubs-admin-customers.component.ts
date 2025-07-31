@@ -258,11 +258,9 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   applyFilter(filterValue: string): void {
-    console.log(filterValue);
     this.filterValue = filterValue;
-    this.updateTableData();
     this.currentPage = 0;
-    this.setDisplayedColumns();
+    this.updateTableData();
   }
 
   private getTable(
@@ -273,7 +271,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.isLoading = true;
     if (this.customerTable) {
       this.setTableData(this.customerTable);
-      // console.log(this.customerTable);
     } else {
       this.adminCustomerService
         .getCustomers(columnName, this.currentPage, this.queryString, filterValue, this.pageSize, sortingType)
@@ -286,7 +283,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   private setTableData(customerTable: ICustomersTable) {
-    this.tableData = customerTable.page;
+    this.tableData = [...customerTable.page.slice(0, customerTable.totalElements)];
     this.dataSource = new MatTableDataSource(this.tableData);
     this.isLoading = false;
     this.totalPages = customerTable.totalPages;
@@ -303,15 +300,20 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       .pipe(takeUntil(this.destroy$))
       .subscribe((item: ICustomersTable) => {
         this.store.dispatch(GetCustomerTable({ table: item }));
-        const excludeFoundUsers = this.tableData.filter((tableUser) => !item.page.some((user) => user.userId === tableUser.userId));
-        this.tableData = [...item.page, ...excludeFoundUsers];
-        console.log(this.tableData);
+        if (!this.filterValue && this.currentPage === 0) {
+          this.tableData = [...item.page];
+          this.currentPage++;
+          this.updateTableData();
+        } else {
+          this.tableData = [...this.tableData, ...item.page];
+        }
+        if (item.page.length) {
+          this.totalElements = item.totalElements;
+          this.tableData = [...this.tableData.slice(0, this.totalElements)];
+        }
         this.dataSource = new MatTableDataSource(this.tableData);
         this.totalPages = item.totalPages;
         this.isUpdate = false;
-        if (item.page.length) {
-          this.totalElements = item.totalElements;
-        }
       });
   }
 
