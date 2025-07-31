@@ -3,13 +3,12 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
 import { userRoleSelector } from 'src/app/store/selectors/auth.selectors';
 import { environment } from '@environment/environment';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chat',
@@ -34,8 +33,8 @@ export class ChatComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private store: Store,
-    private translate: TranslateService
+    private readonly store: Store,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -229,9 +228,6 @@ export class ChatComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to load client info:', err);
-
-        const messageKey =
-          err.status === 404 && err.error?.message?.includes('Order not found') ? 'client-panel.no-orders' : 'client-panel.error';
 
         this.clientInfoData = {
           error: this.translate.instant(err.status === 404 ? 'client-panel.no-orders' : 'client-panel.error')
