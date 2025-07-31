@@ -20,8 +20,8 @@ describe('AppComponent', () => {
     'languageBehaviourSubject',
     'getCurrentLanguage'
   ]);
-  localStorageMock.userIdBehaviourSubject = () => of(1);
-  localStorageMock.getAccessToken = () => 1;
+  localStorageMock.userIdBehaviourSubject = of(null);
+  localStorageMock.getAccessToken = () => null;
   localStorageMock.languageBehaviourSubject = new BehaviorSubject('ua');
   const chatsServiceMock = jasmine.createSpyObj('ChatsService', ['isSupportChat$']);
   chatsServiceMock.isSupportChat$ = new BehaviorSubject(true);
