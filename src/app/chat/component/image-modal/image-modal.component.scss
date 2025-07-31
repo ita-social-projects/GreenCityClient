@@ -4,7 +4,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(96, 95, 95, 0.15);
+  background-color: rgb(96 95 95 / 15%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +20,7 @@
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(106, 105, 105, 0.3);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 30%);
 
   img {
     display: block;
