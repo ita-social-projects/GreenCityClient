@@ -16,7 +16,7 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
   styleUrls: ['./contact-admin-pop-up.component.scss']
 })
 export class ContactAdminPopUpComponent implements OnInit, OnDestroy {
-  readonly chatIcon = CHAT_ICONS.chats;
+  readonly chatIcon = CHAT_ICONS.telegram;
   isUbsAdmin: boolean;
   telegramBotURL: string;
   private userId: number;
