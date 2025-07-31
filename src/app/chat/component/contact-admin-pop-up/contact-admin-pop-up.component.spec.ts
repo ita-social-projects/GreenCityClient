@@ -4,10 +4,11 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { ClientProfileService } from '@ubs/ubs-user/services/client-profile.service';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { UserProfile } from '@ubs/ubs-admin/models/ubs-admin.interface';
 import { CHAT_ICONS } from '../../chat-icons';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 describe('ContactAdminPopUpComponent', () => {
   let component: ContactAdminPopUpComponent;
@@ -16,6 +17,7 @@ describe('ContactAdminPopUpComponent', () => {
   let mockLocalStorageService: Partial<LocalStorageService>;
   let mockJwtService: Partial<JwtService>;
   let mockClientProfileService: Partial<ClientProfileService>;
+  let mockMatSnackBarService: Partial<MatSnackBarService>;
 
   const userIdSubject = new BehaviorSubject<number | null>(null);
 
@@ -36,6 +38,10 @@ describe('ContactAdminPopUpComponent', () => {
       )
     };
 
+    mockMatSnackBarService = {
+      openSnackBar: jasmine.createSpy('openSnackBar')
+    };
+
     await TestBed.configureTestingModule({
       declarations: [ContactAdminPopUpComponent],
       imports: [MatDialogModule],
@@ -43,7 +49,8 @@ describe('ContactAdminPopUpComponent', () => {
         { provide: MatDialog, useValue: { open: jasmine.createSpy('open') } },
         { provide: LocalStorageService, useValue: mockLocalStorageService },
         { provide: JwtService, useValue: mockJwtService },
-        { provide: ClientProfileService, useValue: mockClientProfileService }
+        { provide: ClientProfileService, useValue: mockClientProfileService },
+        { provide: MatSnackBarService, useValue: mockMatSnackBarService }
       ]
     }).compileComponents();
   });
@@ -120,6 +127,36 @@ describe('ContactAdminPopUpComponent', () => {
       expect(mockClientProfileService.getDataClientProfile).toHaveBeenCalled();
       expect(component.telegramBotURL).toBe('https://t.me/anotherbot');
     });
+
+    it('should handle missing botList gracefully', () => {
+      const mockUserProfile: UserProfile = {
+        botList: undefined
+      } as UserProfile;
+      (mockClientProfileService.getDataClientProfile as jasmine.Spy).and.returnValue(of(mockUserProfile));
+
+      component['getTelegramUrl']();
+
+      expect(component.telegramBotURL).toBeUndefined();
+    });
+
+    it('should handle empty botList gracefully', () => {
+      const mockUserProfile: UserProfile = {
+        botList: []
+      } as UserProfile;
+      (mockClientProfileService.getDataClientProfile as jasmine.Spy).and.returnValue(of(mockUserProfile));
+
+      component['getTelegramUrl']();
+
+      expect(component.telegramBotURL).toBeUndefined();
+    });
+
+    it('should call snackBar.openSnackBar with "error" on error', () => {
+      (mockClientProfileService.getDataClientProfile as jasmine.Spy).and.returnValue(throwError(() => new Error('Test Error')));
+
+      component['getTelegramUrl']();
+
+      expect(mockMatSnackBarService.openSnackBar).toHaveBeenCalledWith('error');
+    });
   });
 
   describe('openTelegramChat', () => {
@@ -163,8 +200,17 @@ describe('ContactAdminPopUpComponent', () => {
 
     it('should call openTelegramChat if userId is present', () => {
       component['userId'] = 1;
+      component.telegramBotURL = 'https://t.me/testbot';
       component.handleUserClick();
       expect(component['openTelegramChat']).toHaveBeenCalled();
+      expect(component['openAuthModalWindow']).not.toHaveBeenCalled();
+    });
+
+    it('should not call openTelegramChat if userId is present but telegramBotURL is missing', () => {
+      component['userId'] = 1;
+      component.telegramBotURL = undefined;
+      component.handleUserClick();
+      expect(component['openTelegramChat']).not.toHaveBeenCalled();
       expect(component['openAuthModalWindow']).not.toHaveBeenCalled();
     });
 
