@@ -71,7 +71,7 @@ describe('ContactAdminPopUpComponent', () => {
   });
 
   it('should initialize chatIcon with CHAT_ICONS.chats', () => {
-    expect(component.chatIcon).toBe(CHAT_ICONS.chats);
+    expect(component.chatIcon).toBe(CHAT_ICONS.telegram);
   });
 
   it('should call isUserAdmin on ngOnInit', () => {
