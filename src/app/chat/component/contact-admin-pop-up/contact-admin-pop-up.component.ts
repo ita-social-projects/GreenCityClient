@@ -19,12 +19,12 @@ export class ContactAdminPopUpComponent implements OnInit {
   isUbsAdmin: boolean;
   telegramBotURL: string;
   private userId: number;
-  private onDestroy$ = new Subject();
+  private readonly onDestroy$ = new Subject();
 
   constructor(
-    private dialog: MatDialog,
-    private localStorageService: LocalStorageService,
-    private jwt: JwtService,
+    private readonly dialog: MatDialog,
+    private readonly localStorageService: LocalStorageService,
+    private readonly jwt: JwtService,
     private readonly clientProfileService: ClientProfileService
   ) {}
 
