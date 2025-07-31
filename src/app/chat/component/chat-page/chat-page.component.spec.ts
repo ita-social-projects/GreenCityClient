@@ -407,4 +407,40 @@ describe('toggleClientInfo', () => {
     expect(component.clientInfoVisible).toBeTrue();
     expect(component.fetchClientInfo).not.toHaveBeenCalled();
   });
+  it('should filter chats by internal ID containing searchId', () => {
+    component.chats = [
+      { chatInternalId: 123, name: 'A' },
+      { chatInternalId: 456, name: 'B' },
+      { chatInternalId: 789, name: 'C' }
+    ];
+    component.searchId = '45';
+
+    component.filterChatsById();
+
+    expect(component.filteredChats).toEqual([{ chatInternalId: 456, name: 'B' }]);
+  });
+  it('should reset filteredChats when searchId is empty', () => {
+    component.chats = [
+      { chatInternalId: 123, name: 'A' },
+      { chatInternalId: 456, name: 'B' }
+    ];
+    component.searchId = '  ';
+
+    component.filterChatsById();
+
+    expect(component.filteredChats).toEqual(component.chats);
+  });
+  it('should set selectedImageUrl when opening modal', () => {
+    component.openImageModal('https://test/image.jpg');
+    expect(component.selectedImageUrl).toBe('https://test/image.jpg');
+  });
+  it('should clear selectedImageUrl and log to console', () => {
+    component.selectedImageUrl = 'https://test/image.jpg';
+    spyOn(console, 'log');
+
+    component.closeImageModal();
+
+    expect(component.selectedImageUrl).toBeNull();
+    expect(console.log).toHaveBeenCalledWith('close image modal');
+  });
 });

@@ -124,7 +124,7 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 50%;
   box-shadow: 0 0 0 1px var(--quaternary-light-grey);
   transition: box-shadow 0.2s;
@@ -142,6 +142,12 @@
   height: 60vh;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.message-input-wrapper {
+  width: 100%;
+  display: flex;
+  gap: 30px;
 }
 
 .message {
@@ -173,14 +179,20 @@
   }
 }
 
+.message-input-wrapper-label {
+  width: 90%;
+}
+
 .message-input-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   margin-top: 1rem;
 
   input[type='text'] {
     flex: 1;
+    width: 100%;
     padding: 0.6rem 0.9rem;
     border-radius: 20px;
     border: 1px solid var(--quaternary-light-grey);
@@ -217,4 +229,41 @@
   justify-content: center;
   color: var(--tertiary-grey);
   font-size: 16px;
+}
+.message-assets {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  .message-image {
+    max-width: 180px;
+    max-height: 180px;
+    object-fit: contain;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+  }
+}
+.file-attach {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .file-label {
+    cursor: pointer;
+    background-color: #f1f1f1;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    user-select: none;
+  }
+
+  .file-name {
+    font-size: 13px;
+    color: #444;
+  }
 }

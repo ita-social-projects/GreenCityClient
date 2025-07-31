@@ -9,13 +9,14 @@ import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
 import { userRoleSelector } from 'src/app/store/selectors/auth.selectors';
 import { environment } from '@environment/environment';
+import { ImageModalComponent } from '../image-modal/image-modal.component';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat-page.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, TranslateModule],
+  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, TranslateModule, ImageModalComponent],
   styleUrls: ['./chat-page.component.scss']
 })
 export class ChatComponent implements OnInit {
@@ -28,6 +29,8 @@ export class ChatComponent implements OnInit {
   clientInfoData: any = null;
   filteredChats: any[] = [];
   searchId = '';
+  selectedImageUrl: string | null = null;
+
   private readonly baseUrl = `${environment.ubsAdmin.backendUbsAdminLink}/telegram`;
 
   constructor(
@@ -144,7 +147,7 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage(): void {
-    if (!this.newMessage.trim() || !this.selectedChat) {
+    if ((!this.newMessage.trim() && !this.selectedFile) || !this.selectedChat) {
       return;
     }
 
@@ -167,6 +170,10 @@ export class ChatComponent implements OnInit {
     const formData = new FormData();
     formData.append('data', JSON.stringify(messagePayload));
 
+    if (this.selectedFile) {
+      formData.append('files', this.selectedFile);
+    }
+
     this.http
       .post(url, formData, {
         headers,
@@ -187,6 +194,7 @@ export class ChatComponent implements OnInit {
           this.selectedChat.lastMessage = this.newMessage.trim();
           this.selectedChat.time = time;
           this.newMessage = '';
+          this.selectedFile = null;
         },
         error: (err) => {
           console.error('Failed to send message:', err);
@@ -232,5 +240,13 @@ export class ChatComponent implements OnInit {
   filterChatsById(): void {
     const trimmed = this.searchId.trim();
     this.filteredChats = trimmed ? this.chats.filter((chat) => chat.chatInternalId.toString().includes(trimmed)) : [...this.chats];
+  }
+  openImageModal(url: string): void {
+    this.selectedImageUrl = url;
+  }
+
+  closeImageModal(): void {
+    console.log('close image modal');
+    this.selectedImageUrl = null;
   }
 }
