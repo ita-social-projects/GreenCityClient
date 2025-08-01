@@ -5,8 +5,6 @@ import {
   DestroyRef,
   ElementRef,
   HostListener,
-  inject,
-  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -18,7 +16,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { EMPTY, Subject } from 'rxjs';
-import { debounceTime, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
@@ -57,7 +55,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   hasChange = false;
   filters: Filters;
   filterValue = '';
-  modelChanged: Subject<string> = new Subject<string>();
   pageSize = 10;
   adminTableOfCustomersSelector$ = this.store.select(adminTableOfCustomersSelector);
   customerTable: ICustomersTable;
