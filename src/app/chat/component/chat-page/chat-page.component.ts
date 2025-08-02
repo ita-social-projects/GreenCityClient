@@ -98,52 +98,46 @@ export class ChatComponent implements OnInit {
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `${this.baseUrl}/messages/${chatInternalId}`;
+    const pageSize = 20;
+    const allMessages: any[] = [];
 
-    this.http.get<any>(url, { headers }).subscribe({
-      next: (response) => {
-        const messages = response.page || [];
+    const loadPage = (page: number) => {
+      const url = `${this.baseUrl}/messages/${chatInternalId}?page=${page}&size=${pageSize}&sort=sendAt,desc`;
+      this.http.get<any>(url, { headers }).subscribe({
+        next: (response) => {
+          const messages = response.page || [];
+          allMessages.push(...messages);
 
-        this.selectedChat.messages = messages.length
-          ? messages.map((msg: any) => ({
-              from: msg.fromManager ? 'Me' : this.selectedChat.name,
-              text: msg.text,
-              time: new Date(msg.sendAt).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit'
-              }),
-              images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
-            }))
-          : [
-              {
-                from: 'System',
-                text: 'There are no messages in this chat.',
-                time: ''
-              }
-            ];
+          if (page + 1 < response.totalPages) {
+            loadPage(page + 1);
+          } else {
+            this.selectedChat.messages = allMessages
+              .map((msg: any) => ({
+                from: msg.fromManager ? 'Me' : this.selectedChat.name,
+                text: msg.text,
+                time: new Date(msg.sendAt).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                }),
+                images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
+              }))
+              .reverse();
 
-        if (callback) {
-          callback();
-        }
-      },
-      error: (err) => {
-        if (err.status === 404 && err.error?.message?.includes('no messages')) {
-          this.selectedChat.messages = [
-            {
-              from: 'System',
-              text: err.error.message,
-              time: ''
+            if (callback) {
+              callback();
             }
-          ];
-        } else {
+          }
+        },
+        error: (err) => {
           console.error('Failed to fetch messages:', err);
+          if (callback) {
+            callback();
+          }
         }
+      });
+    };
 
-        if (callback) {
-          callback();
-        }
-      }
-    });
+    loadPage(0);
   }
 
   sendMessage(): void {
@@ -168,7 +162,11 @@ export class ChatComponent implements OnInit {
     };
 
     const formData = new FormData();
-    formData.append('data', JSON.stringify(messagePayload));
+
+    const jsonBlob = new Blob([JSON.stringify(messagePayload)], {
+      type: 'application/json'
+    });
+    formData.append('data', jsonBlob);
 
     if (this.selectedFile) {
       formData.append('files', this.selectedFile);
@@ -184,11 +182,13 @@ export class ChatComponent implements OnInit {
           const now = new Date();
           const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+          const imagePreviewUrl = this.selectedFile ? URL.createObjectURL(this.selectedFile) : null;
+
           this.selectedChat.messages.push({
             from: 'Me',
             text: this.newMessage.trim(),
             time,
-            images: []
+            images: imagePreviewUrl ? [imagePreviewUrl] : []
           });
 
           this.selectedChat.lastMessage = this.newMessage.trim();
@@ -204,8 +204,18 @@ export class ChatComponent implements OnInit {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
+    const maxSizeMb = 5;
+
     if (input.files && input.files[0]) {
-      this.selectedFile = input.files[0];
+      const file = input.files[0];
+      const sizeMb = file.size / (1024 * 1024);
+
+      if (sizeMb > maxSizeMb) {
+        alert(`File is too large. Max size is ${maxSizeMb}MB.`);
+        return;
+      }
+
+      this.selectedFile = file;
     }
   }
 
@@ -224,7 +234,7 @@ export class ChatComponent implements OnInit {
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `${this.baseUrl}/last-order?chatId=12`;
+    const url = `${this.baseUrl}/last-order?chatId=${chatId}`;
 
     this.http.get<any>(url, { headers }).subscribe({
       next: (response) => {
