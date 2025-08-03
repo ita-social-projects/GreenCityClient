@@ -52,11 +52,16 @@ describe('TableCellDateComponent', () => {
     });
 
     it('should set current date to min attribute in input date', () => {
+      const fixedDate = new Date('2025-08-04T12:00:00.000Z');
+      jasmine.clock().mockDate(fixedDate);
+      fixture = TestBed.createComponent(TableCellDateComponent);
+      component = fixture.componentInstance;
       component.isEditable = true;
       fixture.detectChanges();
       const inputElem = fixture.debugElement.nativeElement.querySelector('#date-input');
       const actualMinDate = inputElem.min.split('T')[0];
-      expect(actualMinDate).toEqual(new Date().toISOString().split('T')[0]);
+      const expectedDate = fixedDate.toISOString().split('T')[0];
+      expect(actualMinDate).toEqual(expectedDate);
     });
 
     it('Test if edit() calls blockOrders() from AdminTableService with []', () => {

@@ -1229,6 +1229,61 @@ describe('UbsUserProfilePageComponent', () => {
       expect(dialogMock.open).not.toHaveBeenCalled();
       expect(goToTelegramSpy).not.toHaveBeenCalled();
     });
+
+    it('should handle control.markAsDirty() calls correctly in all scenarios', fakeAsync(() => {
+      component.userForm = new FormGroup({
+        telegramIsNotify: new FormControl(false)
+      });
+      component.userProfile = { ...userProfileDataMock, telegramIsNotify: false };
+
+      const control = component.userForm.get('telegramIsNotify');
+      const markAsDirtySpy = spyOn(control, 'markAsDirty').and.callThrough();
+
+      const dialogRefMock = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
+      dialogRefMock.afterClosed.and.returnValue(of(true));
+      dialogMock.open.and.returnValue(dialogRefMock);
+
+      spyOn(component, 'goToTelegramUrl');
+
+      component.onSwitchChanged();
+      tick();
+
+      expect(markAsDirtySpy).toHaveBeenCalledTimes(1);
+      expect(control.value).toBe(true);
+
+      markAsDirtySpy.calls.reset();
+      control.setValue(false);
+      component.userProfile.telegramIsNotify = false;
+
+      dialogRefMock.afterClosed.and.returnValue(of(false));
+
+      component.onSwitchChanged();
+      tick();
+
+      expect(markAsDirtySpy).toHaveBeenCalledTimes(2);
+      expect(control.value).toBe(false);
+      expect(component.userProfile.telegramIsNotify).toBe(false);
+
+      markAsDirtySpy.calls.reset();
+      control.setValue(true);
+      component.userProfile.telegramIsNotify = true;
+
+      component.onSwitchChanged();
+
+      expect(markAsDirtySpy).toHaveBeenCalledTimes(1);
+      expect(control.value).toBe(false);
+    }));
+  });
+
+  it('should properly cleanup subscriptions and complete destroy subject', () => {
+    const destroyNextSpy = spyOn(component['destroy'], 'next');
+    const destroyCompleteSpy = spyOn(component['destroy'], 'complete');
+
+    component.ngOnDestroy();
+
+    expect(destroyNextSpy).toHaveBeenCalledWith(true);
+    expect(destroyNextSpy).toHaveBeenCalledTimes(1);
+    expect(destroyCompleteSpy).toHaveBeenCalledTimes(1);
   });
 
   describe('onSubmit method - Specific Local Mocked Test', () => {
