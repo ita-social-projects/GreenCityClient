@@ -165,7 +165,7 @@ export class TableCellSelectComponent implements OnInit {
       .afterClosed()
       .pipe(take(1))
       .subscribe((res) => {
-        if (res.action === 'cancel') {
+        if (res?.action === 'cancel' || !res) {
           this.cancel();
           return;
         }
