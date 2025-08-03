@@ -62,4 +62,8 @@ describe('AddOrderCancellationReasonComponent', () => {
     component.initForm();
     expect(spy).toHaveBeenCalled();
   });
+
+  it('should set the default reason', () => {
+    expect(component.cancellationReason).toEqual(component.defaultOption);
+  });
 });
