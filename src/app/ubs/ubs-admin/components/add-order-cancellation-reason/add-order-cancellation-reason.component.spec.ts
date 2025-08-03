@@ -64,6 +64,6 @@ describe('AddOrderCancellationReasonComponent', () => {
   });
 
   it('should set the default reason', () => {
-    expect(component.cancellationReason).toEqual(component.defaultOption);
+    expect(component.cancellationReason).toEqual('DELIVERED_HIMSELF');
   });
 });

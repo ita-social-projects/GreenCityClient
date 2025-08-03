@@ -49,7 +49,9 @@ export class AddOrderCancellationReasonComponent implements OnInit {
       this.adminName = firstName;
     });
 
-    this.cancellationReason = this.defaultOption;
+    if (!this.cancellationReason) {
+      this.cancellationReason = this.defaultOption;
+    }
   }
 
   initForm(): void {
