@@ -285,7 +285,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('getUserData method should be called on init', () => {
-    const userSpy = spyOn(component, 'getUserData');
+    const userSpy = spyOn(component, 'getUserData').and.callThrough();
     component.ngOnInit();
     expect(userSpy).toHaveBeenCalled();
   });
@@ -1163,6 +1163,15 @@ describe('UbsUserProfilePageComponent', () => {
     expect(submittedData.addressDto.length).toBe(0);
   }));
 
+  it('should properly cleanup subscriptions and complete destroy subject', () => {
+    const destroyNextSpy = spyOn(component['destroy'], 'next');
+    const destroyCompleteSpy = spyOn(component['destroy'], 'complete');
+    component.ngOnDestroy();
+    expect(destroyNextSpy).toHaveBeenCalledWith(true);
+    expect(destroyNextSpy).toHaveBeenCalledTimes(1);
+    expect(destroyCompleteSpy).toHaveBeenCalledTimes(1);
+  });
+
   describe('Testing controls for the form:', () => {
     const personalInfoControls = ['recipientName', 'recipientSurname', 'recipientEmail', 'recipientPhone'];
     const controls = ['name', 'surename', 'email', 'phone'];
@@ -1273,17 +1282,6 @@ describe('UbsUserProfilePageComponent', () => {
       expect(markAsDirtySpy).toHaveBeenCalledTimes(1);
       expect(control.value).toBe(false);
     }));
-  });
-
-  it('should properly cleanup subscriptions and complete destroy subject', () => {
-    const destroyNextSpy = spyOn(component['destroy'], 'next');
-    const destroyCompleteSpy = spyOn(component['destroy'], 'complete');
-
-    component.ngOnDestroy();
-
-    expect(destroyNextSpy).toHaveBeenCalledWith(true);
-    expect(destroyNextSpy).toHaveBeenCalledTimes(1);
-    expect(destroyCompleteSpy).toHaveBeenCalledTimes(1);
   });
 
   describe('onSubmit method - Specific Local Mocked Test', () => {
@@ -1435,7 +1433,7 @@ describe('UbsUserProfilePageComponent', () => {
       expect(snackBarMock.openSnackBar).toHaveBeenCalledTimes(1);
     }));
 
-    xit('should handle submission error and reset fetching state, showing error snackbar', fakeAsync(() => {
+    it('should handle submission error and reset fetching state, showing error snackbar', fakeAsync(() => {
       const testUserProfileForError: UserProfile = {
         addressDto: [],
         recipientEmail: 'error_test@example.com',
