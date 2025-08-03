@@ -45,13 +45,7 @@
             <div class="message-text" *ngIf="message.text">{{ message.text }}</div>
 
             <div class="message-assets" *ngIf="message.images?.length">
-              <img
-                *ngFor="let imgUrl of message.images"
-                [src]="imgUrl"
-                alt="chat image"
-                class="message-image"
-                (click)="openImageModal(imgUrl)"
-              />
+              <img *ngFor="let imgUrl of message.images" [src]="imgUrl" alt="chat" class="message-image" (click)="openImageModal(imgUrl)" />
 
               <app-image-modal [imageUrl]="selectedImageUrl" (closeModal)="closeImageModal()"></app-image-modal>
             </div>

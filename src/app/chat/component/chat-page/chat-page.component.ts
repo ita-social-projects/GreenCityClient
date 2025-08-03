@@ -101,43 +101,63 @@ export class ChatComponent implements OnInit {
     const pageSize = 20;
     const allMessages: any[] = [];
 
-    const loadPage = (page: number) => {
-      const url = `${this.baseUrl}/messages/${chatInternalId}?page=${page}&size=${pageSize}&sort=sendAt,desc`;
-      this.http.get<any>(url, { headers }).subscribe({
-        next: (response) => {
-          const messages = response.page || [];
-          allMessages.push(...messages);
+    this.loadMessagePage(chatInternalId, 0, headers, pageSize, allMessages, callback);
+  }
 
-          if (page + 1 < response.totalPages) {
-            loadPage(page + 1);
-          } else {
-            this.selectedChat.messages = allMessages
-              .map((msg: any) => ({
-                from: msg.fromManager ? 'Me' : this.selectedChat.name,
-                text: msg.text,
-                time: new Date(msg.sendAt).toLocaleTimeString([], {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                }),
-                images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
-              }))
-              .reverse();
+  private loadMessagePage(
+    chatId: number,
+    page: number,
+    headers: HttpHeaders,
+    pageSize: number,
+    allMessages: any[],
+    callback?: () => void
+  ): void {
+    const url = `${this.baseUrl}/messages/${chatId}?page=${page}&size=${pageSize}&sort=sendAt,desc`;
 
-            if (callback) {
-              callback();
-            }
-          }
-        },
-        error: (err) => {
-          console.error('Failed to fetch messages:', err);
-          if (callback) {
-            callback();
-          }
-        }
-      });
-    };
+    this.http.get<any>(url, { headers }).subscribe({
+      next: (response) => this.handleMessageResponse(chatId, response, page, headers, pageSize, allMessages, callback),
+      error: (err) => this.handleMessageError(err, callback)
+    });
+  }
 
-    loadPage(0);
+  private handleMessageResponse(
+    chatId: number,
+    response: any,
+    page: number,
+    headers: HttpHeaders,
+    pageSize: number,
+    allMessages: any[],
+    callback?: () => void
+  ): void {
+    const messages = response.page || [];
+    allMessages.push(...messages);
+
+    if (page + 1 < response.totalPages) {
+      this.loadMessagePage(chatId, page + 1, headers, pageSize, allMessages, callback);
+    } else {
+      this.selectedChat.messages = allMessages
+        .map((msg: any) => ({
+          from: msg.fromManager ? 'Me' : this.selectedChat.name,
+          text: msg.text,
+          time: new Date(msg.sendAt).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
+          }),
+          images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
+        }))
+        .reverse();
+
+      if (callback) {
+        callback();
+      }
+    }
+  }
+
+  private handleMessageError(error: any, callback?: () => void): void {
+    console.error('Failed to fetch messages:', error);
+    if (callback) {
+      callback();
+    }
   }
 
   sendMessage(): void {
