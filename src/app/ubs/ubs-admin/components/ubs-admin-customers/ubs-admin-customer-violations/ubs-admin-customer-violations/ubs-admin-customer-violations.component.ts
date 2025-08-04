@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { columnsParamsViolations } from '../../columnsParams';
+import { columnsParamsViolations } from '../../columnsParams.mock';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';

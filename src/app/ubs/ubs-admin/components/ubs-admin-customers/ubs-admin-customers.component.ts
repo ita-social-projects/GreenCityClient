@@ -5,6 +5,8 @@ import {
   DestroyRef,
   ElementRef,
   HostListener,
+  inject,
+  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -16,13 +18,13 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { EMPTY, Subject } from 'rxjs';
-import { mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
-import { ColumnParam, columnsParams } from './columnsParams';
+import { ColumnParam, columnsParams } from './columnsParams.mock';
 import { Filters } from './filters.interface';
 import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-from-date-to-string/convert-from-date-to-string.service';
 import { DateAdapter } from '@angular/material/core';
@@ -31,7 +33,6 @@ import { Store } from '@ngrx/store';
 import { adminTableOfCustomersSelector } from 'src/app/store/selectors/ubs-admin.selectors';
 import { GetCustomerTable } from 'src/app/store/actions/ubs-admin.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-admin-customers',
@@ -73,7 +74,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
-  private readonly dialogConfig = new MatDialogConfig();
   private readonly pointerColumns: string[] = ['clientName', 'number_of_orders', 'violations'];
 
   @ViewChild(MatTable, { read: ElementRef }) private readonly matTableRef: ElementRef;
@@ -85,7 +85,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     private readonly cdr: ChangeDetectorRef,
     private readonly renderer: Renderer2,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBarService,
     private readonly store: Store,
     private readonly destroyRef: DestroyRef,
     private readonly convertFromDateToStringService: ConvertFromDateToStringService,
@@ -387,44 +386,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     });
   }
 
-  openPopUp(column: ColumnParam, chatLink: string | null, userId: string | null): void {
-    if (!userId) {
-      return;
-    }
-
-    this.dialogConfig.disableClose = true;
-    const modalRef = this.dialog.open(CommentPopUpComponent, this.dialogConfig);
-    if (!modalRef.componentInstance) {
-      return;
-    }
-
-    this.setDialogHeader(modalRef, column);
-    modalRef.componentInstance.comment = chatLink;
-    modalRef.componentInstance.isLink = true;
-
-    modalRef
-      .afterClosed()
-      .pipe(
-        take(1),
-        mergeMap((updatedData: string | null) => {
-          if (updatedData === null || updatedData === chatLink) {
-            return EMPTY;
-          }
-          return this.adminCustomerService
-            .addChatLink(userId, updatedData)
-            .pipe(tap(() => this.updateTableRow(column, userId, updatedData)));
-        })
-      )
-      .subscribe({
-        next: () => {
-          this.snackBar.openSnackBar('successUpdateLink');
-        },
-        error: () => {
-          this.snackBar.openSnackBar('failUpdateLink');
-        }
-      });
-  }
-
   private setDialogHeader(modalRef: MatDialogRef<CommentPopUpComponent>, column: ColumnParam): void {
     modalRef.componentInstance.header = this.localStorageService.getCurrentLanguage() === 'ua' ? column.title.ua : column.title.en;
   }
@@ -451,8 +412,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     }
   }
 
-  onOpenChat(chatUrl: string) {
-    this.adminCustomerService.openChat(chatUrl);
+  onOpenChat(chatId: number) {
+    this.router.navigate(['ubs/admin', 'chat-page'], { state: { selectedChatId: chatId } });
   }
 
   private openCustomer(row, username): void {

@@ -1,5 +1,5 @@
 import { ChatComponent } from './chat-page.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,6 +12,7 @@ describe('ChatComponent', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
   let httpMock: HttpTestingController;
+  let historyMock: jasmine.Spy;
 
   beforeEach(async () => {
     const setup = await setupChatComponentTest();
@@ -20,6 +21,7 @@ describe('ChatComponent', () => {
     httpMock = setup.httpMock;
 
     localStorage.setItem('accessToken', 'mock-token');
+    historyMock = spyOnProperty(history, 'state', 'get').and.returnValue({ selectedChatId: 123 });
   });
 
   afterEach(() => {
@@ -29,6 +31,49 @@ describe('ChatComponent', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should set selectedChatId if chatId is in history state', () => {
+    historyMock.and.returnValue({ selectedChatId: 123 });
+    component.ngOnInit();
+    expect(component.selectedChatId).toEqual(123);
+  });
+  it('should not set selectedChatId if no chatId is in history state', () => {
+    historyMock.and.returnValue({ selectedChatId: undefined });
+    component.ngOnInit();
+    expect(component.selectedChatId).toEqual(undefined);
+  });
+  it('should call selectChat method if selectedChatId was provided', fakeAsync(() => {
+    const selectChatSpy = spyOn(component, 'selectChat').and.callThrough();
+    component.selectedChatId = 123;
+    spyOn(component['http'], 'get').and.returnValue(
+      of({
+        page: [
+          {
+            id: 123,
+            username: '61',
+            chatId: '123',
+            lastMessage: { text: 'test', sendAt: '2025-07-29T10:00:00Z' }
+          }
+        ]
+      })
+    );
+
+    component.loadAllChats();
+    tick();
+
+    expect(component.selectedChatId).toEqual(123);
+    expect(selectChatSpy).toHaveBeenCalled();
+    expect(selectChatSpy).toHaveBeenCalledWith(jasmine.objectContaining({ chatInternalId: 123 }));
+  }));
+
+  it('should not call selectChat method if selectedChatId was not provided', () => {
+    const selectChatSpy = spyOn(component, 'selectChat');
+
+    component.loadAllChats();
+
+    expect(component.selectedChatId).toEqual(undefined);
+    expect(selectChatSpy).not.toHaveBeenCalled();
   });
 
   it('should not send message if newMessage is blank or no chat', () => {

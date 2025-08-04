@@ -14,7 +14,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
 import { AdminCustomersService } from '@ubs/ubs-admin/services/admin-customers.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { ColumnParam, columnsParams } from './columnsParams';
+import { ColumnParam, columnsParams } from './columnsParams.mock';
 import { ICustomerViolationTable } from '@ubs/ubs-admin/models/customer-violations-table.model';
 import { ICustomerOrdersTable } from '@ubs/ubs-admin/models/customer-orders-table.model';
 import { ICustomersTable } from '@ubs/ubs-admin/models/customers-table.model';
@@ -39,7 +39,7 @@ describe('UbsAdminCustomersComponent', () => {
   let rendererMock: jasmine.SpyObj<Renderer2>;
 
   const column: ColumnParam = { title: { ua: 'Заголовок', en: 'Title', key: 'titleKey' }, width: 60 };
-  const chatLink = 'https://example.com';
+  const chatId = 12;
   const userId = 'userId';
   const updatedData = 'newChatLink';
 
@@ -120,7 +120,7 @@ describe('UbsAdminCustomersComponent', () => {
 
     (localStorageServiceMock.getCustomer as jasmine.Spy).and.returnValue({
       userId: '123',
-      chatLink: 'https://example.com'
+      chatId: 12
     });
 
     (localStorageServiceMock.getCurrentLanguage as jasmine.Spy).and.returnValue('en');
@@ -206,49 +206,13 @@ describe('UbsAdminCustomersComponent', () => {
     expect(component.filterForm.value.bonusesTo).toBe('');
   });
 
-  it('should return early if userId is null', () => {
-    component.openPopUp(column, 'chatLink', null);
+  it('on onOpenChat should redirect to chat with a client', () => {
+    const chatIdMock = 12;
 
-    expect(matDialogMock.open).not.toHaveBeenCalled();
-  });
+    component.onOpenChat(chatIdMock);
 
-  it('should open the dialog with correct configuration', () => {
-    component.openPopUp(column, chatLink, userId);
-    expect(matDialogMock.open).toHaveBeenCalledWith(CommentPopUpComponent, (component as any).dialogConfig);
-    expect(dialogRefMock.componentInstance.comment).toBe(chatLink);
-    expect(dialogRefMock.componentInstance.isLink).toBeTrue();
-    expect(['Title', 'Заголовок']).toContain(dialogRefMock.componentInstance.header);
-  });
-
-  it('should do nothing if dialog closes without changes', () => {
-    adminCustomersServiceMock.addChatLink.and.stub();
-
-    dialogRefMock.afterClosed.and.returnValue(of(null));
-    component.openPopUp(column, chatLink, userId);
-
-    expect(adminCustomersServiceMock.addChatLink).not.toHaveBeenCalled();
-    expect(snackBarSpy.openSnackBar).not.toHaveBeenCalled();
-  });
-
-  it('should call addChatLink and show success message on dialog close with updated data', () => {
-    dialogRefMock.afterClosed.and.returnValue(of(updatedData));
-
-    adminCustomersServiceMock.addChatLink.and.returnValue(of(void 0));
-    spyOn(component as any, 'updateTableRow').and.callThrough();
-
-    component.openPopUp(column, chatLink, userId);
-    expect(adminCustomersServiceMock.addChatLink).toHaveBeenCalledWith(userId, updatedData);
-    expect(component['updateTableRow']).toHaveBeenCalledWith(column, userId, updatedData);
-    expect(snackBarSpy.openSnackBar).toHaveBeenCalledWith('successUpdateLink');
-  });
-
-  it('should show error message if addChatLink fails', () => {
-    dialogRefMock.afterClosed.and.returnValue(of(updatedData));
-    adminCustomersServiceMock.addChatLink.and.returnValue(throwError(() => 'error'));
-
-    component.openPopUp(column, chatLink, userId);
-
-    expect(snackBarSpy.openSnackBar).toHaveBeenCalledWith('failUpdateLink');
+    expect(router.navigate).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['ubs/admin', 'chat-page'], { state: { selectedChatId: chatIdMock } });
   });
 
   it('should call getCustomers and dispatch GetCustomerTable action on ngOnInit', () => {

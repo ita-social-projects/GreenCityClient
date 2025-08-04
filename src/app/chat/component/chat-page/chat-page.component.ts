@@ -22,6 +22,7 @@ import { ImageModalComponent } from '../image-modal/image-modal.component';
 export class ChatComponent implements OnInit {
   chats: any[] = [];
   selectedChat: any = null;
+  selectedChatId?: number;
   newMessage = '';
   selectedFile: File | null = null;
   caption = '';
@@ -41,6 +42,9 @@ export class ChatComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (history.state.selectedChatId) {
+      this.selectedChatId = history.state.selectedChatId;
+    }
     this.store.select(userRoleSelector).pipe(take(1));
     this.loadAllChats();
   }
@@ -80,6 +84,9 @@ export class ChatComponent implements OnInit {
           };
         });
         this.filteredChats = [...this.chats];
+        if (this.selectedChatId) {
+          this.selectChat(this.chats.find((chatElement) => chatElement.chatInternalId === this.selectedChatId));
+        }
       },
       error: (err) => {
         console.error('Failed to load chats:', err);
