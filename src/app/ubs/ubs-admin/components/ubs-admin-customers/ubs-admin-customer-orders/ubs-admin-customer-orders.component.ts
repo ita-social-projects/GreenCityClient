@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ChangeDetectorRef, AfterViewChecked, OnDestroy } from '@angular/core';
-import { columnsParamsOrders } from '../columnsParams';
+import { columnsParamsOrders } from '../columnsParams.mock';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { ICustomerOrdersTable } from 'src/app/ubs/ubs-admin/models/customer-orders-table.model';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';

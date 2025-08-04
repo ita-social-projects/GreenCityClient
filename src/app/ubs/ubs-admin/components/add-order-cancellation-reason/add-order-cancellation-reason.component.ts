@@ -20,6 +20,7 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   commentForm: FormGroup;
   cancellationReason: string;
   cancellationComment: string;
+  defaultOption = CancellationReason.DELIVERED_HIMSELF;
   orderID: number;
   isHistory: boolean;
   adminName;
@@ -47,6 +48,10 @@ export class AddOrderCancellationReasonComponent implements OnInit {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.adminName = firstName;
     });
+
+    if (!this.cancellationReason) {
+      this.cancellationReason = this.defaultOption;
+    }
   }
 
   initForm(): void {

@@ -320,7 +320,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         if (this.customToDoList || this.standardToDoList) {
           this.convertToDoLists();
-          this.toDoListService.updateHabitToDoList(this.setHabitListForUpdate());
+          this.toDoListService.updateHabitToDoList(this.setHabitListForUpdate()).subscribe();
         }
         this.afterHabitWasChanged('habitUpdated');
       });

@@ -634,7 +634,8 @@
     "delete-message-question": "Ви дійсно бажаєте видалити повідомлення?",
     "delete-message-confirm": "Так",
     "delete-message-cancel": "Ні",
-    "active-chat-placeholder": "Введіть ваше повідомлення"
+    "active-chat-placeholder": "Введіть ваше повідомлення",
+    "attach-file": "Прикріпити файл"
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
@@ -1338,6 +1339,7 @@
     "total-price": "Сума",
     "loading": "Завантаження інформації...",
     "error": "Не вдалося завантажити інформацію.",
+    "no-orders": "У цього клієнта немає замовлень",
     "order-info-title": "Інформація про замовлення"
   }
 }

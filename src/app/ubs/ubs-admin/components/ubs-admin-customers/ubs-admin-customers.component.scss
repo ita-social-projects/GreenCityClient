@@ -359,6 +359,7 @@ mat-spinner {
 }
 
 .nothing-found {
+  margin-top: 15px;
   font-size: 14px;
   font-family: var(--primary-font);
 }
@@ -382,4 +383,9 @@ mat-spinner {
 ::ng-deep .mdc-data-table__cell,
 .mdc-data-table__header-cell {
   padding: 10px;
+}
+
+button:disabled {
+  background-color: var(--ubs-primary-light-grey);
+  border-color: var(--ubs-quaternary-light-grey);
 }
