@@ -5,6 +5,8 @@ import {
   DestroyRef,
   ElementRef,
   HostListener,
+  inject,
+  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -15,8 +17,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { EMPTY, Subject } from 'rxjs';
+import { debounceTime, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
@@ -54,7 +56,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   hasChange = false;
   filters: Filters;
   filterValue = '';
-  modelChanged: Subject<string> = new Subject<string>();
   pageSize = 10;
   adminTableOfCustomersSelector$ = this.store.select(adminTableOfCustomersSelector);
   customerTable: ICustomersTable;
@@ -98,14 +99,14 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
       this.adapter.setLocale(locale);
     });
-    this.adminTableOfCustomersSelector$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
+    this.getTable();
+    this.adminTableOfCustomersSelector$.pipe(take(1)).subscribe((tableData) => {
       this.customerTable = tableData;
-      this.getTable();
       this.columns = columnsParams;
       this.setDisplayedColumns();
-      this.onCreateGroupFormValueChange();
     });
     this.initFilterForm();
+    this.onCreateGroupFormValueChange();
   }
 
   ngAfterViewChecked() {
@@ -239,7 +240,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   onScroll(): void {
-    if (!this.isUpdate && this.currentPage < this.totalPages) {
+    if (!this.isUpdate && this.currentPage < this.totalPages - 1) {
       this.currentPage++;
       this.updateTableData();
     }
@@ -262,17 +263,13 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     sortingType = this.sortType || 'ASC'
   ) {
     this.isLoading = true;
-    if (this.customerTable) {
-      this.setTableData(this.customerTable);
-    } else {
-      this.adminCustomerService
-        .getCustomers(columnName, this.currentPage, this.queryString, filterValue, this.pageSize, sortingType)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((customerTable: ICustomersTable) => {
-          this.store.dispatch(GetCustomerTable({ table: customerTable }));
-          this.setTableData(customerTable);
-        });
-    }
+    this.adminCustomerService
+      .getCustomers(columnName, this.currentPage, this.queryString, filterValue, this.pageSize, sortingType)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((customerTable: ICustomersTable) => {
+        this.store.dispatch(GetCustomerTable({ table: customerTable }));
+        this.setTableData(customerTable);
+      });
   }
 
   private setTableData(customerTable: ICustomersTable) {
