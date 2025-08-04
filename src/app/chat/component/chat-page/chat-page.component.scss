@@ -243,8 +243,8 @@
     object-fit: contain;
     cursor: pointer;
     border-radius: 6px;
-    border: 1px solid #ccc;
-    background-color: #fff;
+    border: 1px solid var(--quaternary-light-grey);
+    background-color: var(--primary-white);
   }
 }
 
@@ -256,16 +256,16 @@
 
   .file-label {
     cursor: pointer;
-    background-color: #f1f1f1;
+    background-color: var(--whitesmoke-grey);
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--quaternary-light-grey);
     user-select: none;
   }
 
   .file-name {
     font-size: 13px;
-    color: #444;
+    color: var(--quaternary-dark-grey);
   }
 }
