@@ -23,5 +23,6 @@ export const CHAT_ICONS = {
   cancel: 'assets/img/auth/cross.svg',
   download: 'assets/img/chat/download.svg',
   like: 'assets/img/comments/like.png',
-  liked: 'assets/img/comments/liked.png'
+  liked: 'assets/img/comments/liked.png',
+  telegram: 'assets/img/chat/telegram-logo.svg'
 };

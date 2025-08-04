@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ChatMessageComponent } from './component/chat-message/chat-message.component';
 import { SharedModule } from '../shared/shared.module';
+import { ContactAdminPopUpComponent } from './component/contact-admin-pop-up/contact-admin-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SharedModule } from '../shared/shared.module';
     ReferenceDirective,
     ChatModalComponent,
     CurrentChatComponent,
-    ChatMessageComponent
+    ChatMessageComponent,
+    ContactAdminPopUpComponent
   ],
   imports: [
     FormsModule,
@@ -47,7 +49,7 @@ import { SharedModule } from '../shared/shared.module';
     MatTabsModule,
     SharedModule
   ],
-  exports: [ChatPopupComponent]
+  exports: [ChatPopupComponent, ContactAdminPopUpComponent]
 })
 export class ChatModule {}
 
