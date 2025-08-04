@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CHAT_ICONS } from '../../chat-icons';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { MatDialog } from '@angular/material/dialog';
 import { take, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject } from 'rxjs';
@@ -23,7 +21,6 @@ export class ContactAdminPopUpComponent implements OnInit, OnDestroy {
   private readonly onDestroy$ = new Subject();
 
   constructor(
-    private readonly dialog: MatDialog,
     private readonly localStorageService: LocalStorageService,
     private readonly jwt: JwtService,
     private readonly clientProfileService: ClientProfileService,
@@ -41,6 +38,8 @@ export class ContactAdminPopUpComponent implements OnInit, OnDestroy {
 
       if (this.userId && !this.isUbsAdmin) {
         this.getTelegramUrl();
+      } else {
+        this.telegramBotURL = 'https://telegram.me/TrayingAgainDoSomthBot';
       }
     });
   }
@@ -61,29 +60,8 @@ export class ContactAdminPopUpComponent implements OnInit, OnDestroy {
       });
   }
 
-  private openTelegramChat() {
+  openTelegramChat() {
     (window as any).open(this.telegramBotURL, '_blank');
-  }
-
-  private openAuthModalWindow(): void {
-    this.dialog.open(AuthModalComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: ['custom-dialog-container'],
-      data: {
-        popUpName: 'sign-in'
-      }
-    });
-  }
-
-  handleUserClick(): void {
-    if (this.userId) {
-      if (this.telegramBotURL) {
-        this.openTelegramChat();
-      }
-    } else {
-      this.openAuthModalWindow();
-    }
   }
 
   ngOnDestroy() {

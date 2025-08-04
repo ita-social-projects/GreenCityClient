@@ -5,7 +5,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { ClientProfileService } from '@ubs/ubs-user/services/client-profile.service';
 import { BehaviorSubject, of, throwError } from 'rxjs';
-import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { UserProfile } from '@ubs/ubs-admin/models/ubs-admin.interface';
 import { CHAT_ICONS } from '../../chat-icons';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
@@ -13,12 +12,12 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
 describe('ContactAdminPopUpComponent', () => {
   let component: ContactAdminPopUpComponent;
   let fixture: ComponentFixture<ContactAdminPopUpComponent>;
-  let mockMatDialog: MatDialog;
   let mockLocalStorageService: Partial<LocalStorageService>;
   let mockJwtService: Partial<JwtService>;
   let mockClientProfileService: Partial<ClientProfileService>;
   let mockMatSnackBarService: Partial<MatSnackBarService>;
 
+  const defaultTgUrl = 'https://telegram.me/TrayingAgainDoSomthBot';
   const userIdSubject = new BehaviorSubject<number | null>(null);
 
   beforeEach(async () => {
@@ -58,7 +57,6 @@ describe('ContactAdminPopUpComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ContactAdminPopUpComponent);
     component = fixture.componentInstance;
-    mockMatDialog = TestBed.inject(MatDialog);
     fixture.detectChanges();
   });
 
@@ -136,7 +134,7 @@ describe('ContactAdminPopUpComponent', () => {
 
       component['getTelegramUrl']();
 
-      expect(component.telegramBotURL).toBeUndefined();
+      expect(component.telegramBotURL).toEqual(defaultTgUrl);
     });
 
     it('should handle empty botList gracefully', () => {
@@ -147,7 +145,7 @@ describe('ContactAdminPopUpComponent', () => {
 
       component['getTelegramUrl']();
 
-      expect(component.telegramBotURL).toBeUndefined();
+      expect(component.telegramBotURL).toEqual(defaultTgUrl);
     });
 
     it('should call snackBar.openSnackBar with "error" on error', () => {
@@ -175,50 +173,6 @@ describe('ContactAdminPopUpComponent', () => {
     it('should call window.open with the correct URL and target', () => {
       component['openTelegramChat']();
       expect(window.open).toHaveBeenCalledWith('https://t.me/testboturl', '_blank');
-    });
-  });
-
-  describe('openAuthModalWindow', () => {
-    it('should open AuthModalComponent with correct dialog config', () => {
-      component['openAuthModalWindow']();
-      expect(mockMatDialog.open).toHaveBeenCalledWith(AuthModalComponent, {
-        hasBackdrop: true,
-        closeOnNavigation: true,
-        panelClass: ['custom-dialog-container'],
-        data: {
-          popUpName: 'sign-in'
-        }
-      });
-    });
-  });
-
-  describe('handleUserClick', () => {
-    beforeEach(() => {
-      spyOn<any>(component, 'openTelegramChat');
-      spyOn<any>(component, 'openAuthModalWindow');
-    });
-
-    it('should call openTelegramChat if userId is present', () => {
-      component['userId'] = 1;
-      component.telegramBotURL = 'https://t.me/testbot';
-      component.handleUserClick();
-      expect(component['openTelegramChat']).toHaveBeenCalled();
-      expect(component['openAuthModalWindow']).not.toHaveBeenCalled();
-    });
-
-    it('should not call openTelegramChat if userId is present but telegramBotURL is missing', () => {
-      component['userId'] = 1;
-      component.telegramBotURL = undefined;
-      component.handleUserClick();
-      expect(component['openTelegramChat']).not.toHaveBeenCalled();
-      expect(component['openAuthModalWindow']).not.toHaveBeenCalled();
-    });
-
-    it('should call openAuthModalWindow if userId is not present', () => {
-      component['userId'] = null;
-      component.handleUserClick();
-      expect(component['openAuthModalWindow']).toHaveBeenCalled();
-      expect(component['openTelegramChat']).not.toHaveBeenCalled();
     });
   });
 });
