@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBaseComponent } from 'src/app/shared/components/form-base/form-base.component';
-import { debounceTime, distinctUntilChanged, filter, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
 import { Subject, combineLatest } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { PersonalData } from '../../models/ubs.interface';
@@ -164,7 +164,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.senderEmail.setValue('');
     });
 
-    this.personalDataForm.valueChanges.pipe(debounceTime(400), takeUntil(this.$destroy)).subscribe(() => {
+    this.personalDataForm.valueChanges.pipe(takeUntil(this.$destroy)).subscribe(() => {
       if (!this.isAnotherClient.value) {
         this.senderFirstName.setValue(this.firstName.value, { emitEvent: false });
         this.senderLastName.setValue(this.lastName.value, { emitEvent: false });
