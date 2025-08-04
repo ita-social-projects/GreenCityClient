@@ -3,7 +3,7 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
@@ -16,7 +16,7 @@ import { ImageModalComponent } from '../image-modal/image-modal.component';
   templateUrl: './chat-page.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, TranslateModule, ImageModalComponent],
+  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, ImageModalComponent, TranslateModule],
   styleUrls: ['./chat-page.component.scss']
 })
 export class ChatComponent implements OnInit {
