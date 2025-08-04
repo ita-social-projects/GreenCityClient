@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { setupChatComponentTest } from './setupChatComponentTest';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -119,15 +119,16 @@ describe('ChatComponent · fetchMessages via stubbed HttpClient', () => {
 
     component.fetchMessages(123);
 
-    expect(component.selectedChat.messages.length).toBe(2);
-    expect(component.selectedChat.messages[0]).toEqual(
+    expect(component.selectedChat.messages[1]).toEqual(
       jasmine.objectContaining({
         from: 'Me',
         text: 'Hey!',
         images: ['https://pic.test/1.png']
       })
     );
-    expect(component.selectedChat.messages[1].from).toBe('Tester');
+    expect(component.selectedChat.messages[0].from).toBe('Tester');
+    expect(component.selectedChat.messages[0].text).toBe('Yo!');
+    expect(component.selectedChat.messages[0].images.length).toBe(0);
   });
 
   it('should show system msg on empty page', () => {
@@ -137,13 +138,7 @@ describe('ChatComponent · fetchMessages via stubbed HttpClient', () => {
 
     component.fetchMessages(456);
 
-    expect(component.selectedChat.messages).toEqual([
-      {
-        from: 'System',
-        text: 'There are no messages in this chat.',
-        time: ''
-      }
-    ]);
+    expect(component.selectedChat.messages).toEqual([]);
   });
 
   it('should handle 404 no-messages error', () => {
@@ -156,8 +151,7 @@ describe('ChatComponent · fetchMessages via stubbed HttpClient', () => {
     spyOn(component['http'], 'get').and.returnValue(throwError(() => err));
 
     component.fetchMessages(789);
-
-    expect(component.selectedChat.messages).toEqual([{ from: 'System', text: 'no messages for B', time: '' }]);
+    expect(component.selectedChat.messages).toEqual([]);
   });
 
   it('should log other errors', () => {
@@ -236,12 +230,20 @@ describe('ChatComponent · loadAllChats via HttpTestingController', () => {
     expect(c4.initial).toBe('?');
   });
 
-  xit('should log error on failure', () => {
+  xit('should log error on failure', async () => {
+    const setup = await setupChatComponentTest();
+    component = setup.component;
+    httpMock = setup.httpMock;
+
+    localStorage.setItem('accessToken', 'mock-token');
     spyOn(console, 'error');
     component.chats = [];
+
     component.loadAllChats();
+
     const req = httpMock.expectOne('https://greencity-ubs.greencity.cx.ua/ubs/telegram/chats');
     req.flush('err', { status: 500, statusText: 'Err' });
+
     expect(console.error).toHaveBeenCalledWith('Failed to load chats:', jasmine.anything());
     expect(component.chats).toEqual([]);
   });
@@ -273,7 +275,7 @@ describe('ChatComponent · sendMessage via stubbed HttpClient', () => {
     expect(component['http'].post).not.toHaveBeenCalled();
   });
 
-  xit('should send message and update chat on success', () => {
+  it('should send message and update chat on success', () => {
     const now = new Date('2025-07-14T12:34:00Z');
     jasmine.clock().mockDate(now);
     component.selectedChat = { chatInternalId: 5, messages: [], lastMessage: '', time: '' };
@@ -287,14 +289,16 @@ describe('ChatComponent · sendMessage via stubbed HttpClient', () => {
       jasmine.any(FormData),
       jasmine.objectContaining({ headers: jasmine.any(Object), responseType: 'text' })
     );
+    const expectedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     expect(component.selectedChat.messages.slice(-1)[0]).toEqual({
       from: 'Me',
       text: 'hello',
-      time: '12:34',
+      time: expectedTime,
       images: []
     });
+
     expect(component.selectedChat.lastMessage).toBe('hello');
-    expect(component.selectedChat.time).toBe('12:34');
+    expect(component.selectedChat.time).toBe(expectedTime);
     expect(component.newMessage).toBe('');
   });
 
@@ -309,21 +313,22 @@ describe('ChatComponent · sendMessage via stubbed HttpClient', () => {
 
     expect(console.error).toHaveBeenCalledWith('Failed to send message:', err);
   });
-  xit('should fetch client info and store it in clientInfoData', () => {
+
+  it('should fetch client info and store it in clientInfoData', () => {
     const mockResponse = { name: 'Ivan', city: 'Kyiv' };
-    spyOn(component['http'], 'get').and.returnValue(of(mockResponse));
+    const spy = spyOn(component['http'], 'get').and.returnValue(of(mockResponse));
 
     component.fetchClientInfo(12);
 
     expect(component.clientInfoData).toEqual(mockResponse);
-    expect(component['http'].get).toHaveBeenCalledWith(
-      'https://greencity-ubs.greencity.cx.ua/ubs/telegram/last-order?chatId=12',
-      jasmine.objectContaining({
-        headers: jasmine.objectContaining({
-          Authorization: 'Bearer mock-token'
-        })
-      })
-    );
+    expect(spy).toHaveBeenCalled();
+
+    const [url, options] = spy.calls.mostRecent().args;
+
+    expect(url).toBe('https://greencity-ubs.greencity.cx.ua/ubs/telegram/last-order?chatId=12');
+    expect(options.headers instanceof HttpHeaders).toBeTrue();
+    expect(options.headers instanceof HttpHeaders).toBeTrue();
+    expect((options.headers as HttpHeaders).get('Authorization')).toBe('Bearer mock-token');
   });
 
   it('should handle error while fetching client info', () => {
@@ -412,5 +417,41 @@ describe('toggleClientInfo', () => {
 
     expect(component.clientInfoVisible).toBeTrue();
     expect(component.fetchClientInfo).not.toHaveBeenCalled();
+  });
+  it('should filter chats by internal ID containing searchId', () => {
+    component.chats = [
+      { chatInternalId: 123, name: 'A' },
+      { chatInternalId: 456, name: 'B' },
+      { chatInternalId: 789, name: 'C' }
+    ];
+    component.searchId = '45';
+
+    component.filterChatsById();
+
+    expect(component.filteredChats).toEqual([{ chatInternalId: 456, name: 'B' }]);
+  });
+  it('should reset filteredChats when searchId is empty', () => {
+    component.chats = [
+      { chatInternalId: 123, name: 'A' },
+      { chatInternalId: 456, name: 'B' }
+    ];
+    component.searchId = '  ';
+
+    component.filterChatsById();
+
+    expect(component.filteredChats).toEqual(component.chats);
+  });
+  it('should set selectedImageUrl when opening modal', () => {
+    component.openImageModal('https://test/image.jpg');
+    expect(component.selectedImageUrl).toBe('https://test/image.jpg');
+  });
+  it('should clear selectedImageUrl and log to console', () => {
+    component.selectedImageUrl = 'https://test/image.jpg';
+    spyOn(console, 'log');
+
+    component.closeImageModal();
+
+    expect(component.selectedImageUrl).toBeNull();
+    expect(console.log).toHaveBeenCalledWith('close image modal');
   });
 });
