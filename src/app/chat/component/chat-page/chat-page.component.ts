@@ -3,7 +3,7 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
@@ -33,7 +33,8 @@ export class ChatComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private store: Store
+    private readonly store: Store,
+    private readonly translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -85,6 +86,8 @@ export class ChatComponent implements OnInit {
 
   selectChat(chat: any): void {
     this.selectedChat = chat;
+    this.clientInfoVisible = false;
+    this.clientInfoData = null;
     this.fetchMessages(chat.chatInternalId);
   }
 
@@ -204,19 +207,20 @@ export class ChatComponent implements OnInit {
   toggleClientInfo(): void {
     this.clientInfoVisible = !this.clientInfoVisible;
 
-    if (this.clientInfoVisible && this.selectedChat?.chatId) {
-      this.fetchClientInfo(this.selectedChat.id);
+    if (this.clientInfoVisible && this.selectedChat?.chatInternalId != null) {
+      this.clientInfoData = null;
+      this.fetchClientInfo(this.selectedChat.chatInternalId);
     }
   }
 
-  fetchClientInfo(chatId: number): void {
+  fetchClientInfo(internalId: number): void {
     const token = localStorage.getItem('accessToken');
     if (!token) {
       return;
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `${this.baseUrl}/last-order?chatId=12`;
+    const url = `${this.baseUrl}/last-order?chatId=${internalId}`;
 
     this.http.get<any>(url, { headers }).subscribe({
       next: (response) => {
@@ -224,7 +228,10 @@ export class ChatComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to load client info:', err);
-        this.clientInfoData = { error: 'Не вдалося завантажити інформацію.' };
+
+        this.clientInfoData = {
+          error: this.translate.instant(err.status === 404 ? 'client-panel.no-orders' : 'client-panel.error')
+        };
       }
     });
   }

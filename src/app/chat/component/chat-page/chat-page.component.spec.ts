@@ -328,13 +328,19 @@ describe('ChatComponent · sendMessage via stubbed HttpClient', () => {
 
   it('should handle error while fetching client info', () => {
     const err = new HttpErrorResponse({ status: 500, statusText: 'Oops' });
+
     spyOn(component['http'], 'get').and.returnValue(throwError(() => err));
     spyOn(console, 'error');
+    spyOn(component['translate'], 'instant').and.callFake((key: string) => {
+      return key === 'client-panel.error' ? 'Не вдалося завантажити інформацію.' : key;
+    });
 
     component.fetchClientInfo(12);
 
     expect(console.error).toHaveBeenCalledWith('Failed to load client info:', err);
-    expect(component.clientInfoData).toEqual({ error: 'Не вдалося завантажити інформацію.' });
+    expect(component.clientInfoData).toEqual({
+      error: 'Не вдалося завантажити інформацію.'
+    });
   });
 
   it('should not fetch client info if token is missing', () => {
@@ -364,9 +370,9 @@ describe('toggleClientInfo', () => {
     localStorage.clear();
   });
 
-  it('should toggle clientInfoVisible from false to true and call fetchClientInfo when selectedChat has chatId', () => {
+  it('should toggle clientInfoVisible from false to true and call fetchClientInfo when selectedChat has chatInternalId', () => {
     component.clientInfoVisible = false;
-    component.selectedChat = { id: 123, chatId: 'abc' } as any;
+    component.selectedChat = { chatInternalId: 123 } as any;
     spyOn(component, 'fetchClientInfo');
 
     component.toggleClientInfo();
