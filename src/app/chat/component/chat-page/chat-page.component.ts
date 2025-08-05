@@ -10,6 +10,7 @@ import { take } from 'rxjs';
 import { userRoleSelector } from 'src/app/store/selectors/auth.selectors';
 import { environment } from '@environment/environment';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
+import { TelegramSocketService } from '../../service/chats/telegram-socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -38,7 +39,8 @@ export class ChatComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private readonly store: Store,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService,
+    private telegramSocketService: TelegramSocketService
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +48,23 @@ export class ChatComponent implements OnInit {
       this.selectedChatId = history.state.selectedChatId;
     }
     this.store.select(userRoleSelector).pipe(take(1));
+    this.telegramSocketService.newChats$.subscribe((newChat) => {
+      this.chats.unshift({
+        ...newChat,
+        name: newChat.username || 'Unknown',
+        initial: newChat.username?.charAt(0).toUpperCase() || '?',
+        messages: []
+      });
+    });
     this.loadAllChats();
+    this.telegramSocketService.newChats$.subscribe((newChat) => {
+      this.chats.unshift({
+        ...newChat,
+        name: newChat.username || 'Unknown',
+        initial: newChat.username?.charAt(0).toUpperCase() || '?',
+        messages: []
+      });
+    });
   }
 
   loadAllChats(): void {
@@ -99,6 +117,24 @@ export class ChatComponent implements OnInit {
     this.clientInfoVisible = false;
     this.clientInfoData = null;
     this.fetchMessages(chat.chatInternalId);
+
+    this.telegramSocketService.subscribeToMessages(chat.chatInternalId).subscribe((newMessage) => {
+      this.selectedChat.messages.push({
+        from: newMessage.fromManager ? 'Me' : this.selectedChat.name,
+        text: newMessage.text,
+        time: new Date(newMessage.sendAt).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        images: (newMessage.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
+      });
+
+      this.selectedChat.lastMessage = newMessage.text;
+      this.selectedChat.time = new Date(newMessage.sendAt).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    });
   }
 
   fetchMessages(chatInternalId: number, callback?: () => void): void {
@@ -290,7 +326,6 @@ export class ChatComponent implements OnInit {
   }
 
   closeImageModal(): void {
-    console.log('close image modal');
     this.selectedImageUrl = null;
   }
 }
