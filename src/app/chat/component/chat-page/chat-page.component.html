@@ -33,7 +33,7 @@
 
         <app-client-info-panel *ngIf="clientInfoVisible" [clientData]="clientInfoData" class="client-info-panel"></app-client-info-panel>
 
-        <div class="messages">
+        <div class="messages" #messagesContainer>
           <div
             *ngFor="let message of selectedChat.messages"
             [ngClass]="{

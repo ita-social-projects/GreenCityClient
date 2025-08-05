@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, NgZone } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
@@ -34,13 +34,15 @@ export class ChatComponent implements OnInit {
   selectedImageUrl: string | null = null;
 
   private readonly baseUrl = `${environment.ubsAdmin.backendUbsAdminLink}/telegram`;
+  @ViewChild('messagesContainer') private messagesContainer!: ElementRef<HTMLDivElement>;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private readonly store: Store,
     private readonly translate: TranslateService,
-    private telegramSocketService: TelegramSocketService
+    private telegramSocketService: TelegramSocketService,
+    private zone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +66,16 @@ export class ChatComponent implements OnInit {
         initial: newChat.username?.charAt(0).toUpperCase() || '?',
         messages: []
       });
+    });
+  }
+  private scrollToBottom(): void {
+    this.zone.onStable.pipe(take(1)).subscribe(() => {
+      if (this.messagesContainer) {
+        this.messagesContainer.nativeElement.scrollTo({
+          top: this.messagesContainer.nativeElement.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
     });
   }
 
@@ -134,6 +146,7 @@ export class ChatComponent implements OnInit {
         hour: '2-digit',
         minute: '2-digit'
       });
+      this.scrollToBottom();
     });
   }
 
@@ -192,7 +205,7 @@ export class ChatComponent implements OnInit {
           images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
         }))
         .reverse();
-
+      this.scrollToBottom();
       if (callback) {
         callback();
       }
@@ -261,6 +274,7 @@ export class ChatComponent implements OnInit {
           this.selectedChat.time = time;
           this.newMessage = '';
           this.selectedFile = null;
+          this.scrollToBottom();
         },
         error: (err) => {
           console.error('Failed to send message:', err);

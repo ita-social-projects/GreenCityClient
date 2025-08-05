@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import SockJS from 'sockjs-client';
 import { Client, Stomp } from '@stomp/stompjs';
 import { Subject, Observable } from 'rxjs';
-
+import { environment } from '@environment/environment';
 @Injectable({ providedIn: 'root' })
 export class TelegramSocketService implements OnDestroy {
   private stompClient: Client;
@@ -15,16 +15,14 @@ export class TelegramSocketService implements OnDestroy {
   }
 
   private initSocket(): void {
-    const socketUrl = 'https://greencity-ubs.greencity.cx.ua/socket';
+    const socketUrl = environment.backendUbsLink + '/socket';
     const socket = new SockJS(socketUrl);
 
     this.stompClient = Stomp.over(() => socket);
-    this.stompClient.debug = (msg) => console.log('[STOMP DEBUG]', msg);
     this.stompClient.reconnectDelay = 2000;
 
     this.stompClient.onConnect = () => {
       this.connected = true;
-      console.log('[STOMP CONNECTED]');
       this.subscribeToNewChats();
     };
 
@@ -48,10 +46,8 @@ export class TelegramSocketService implements OnDestroy {
       this.chatSubjects.set(chatId, subject);
 
       const topic = `/topic/messages/${chatId}`;
-      console.log('[SUBSCRIBING TO]', topic);
 
       this.stompClient.subscribe(topic, (msg) => {
-        console.log('[SOCKET MESSAGE]', msg.body);
         subject.next(JSON.parse(msg.body));
       });
     }

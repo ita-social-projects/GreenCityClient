@@ -139,9 +139,10 @@
   overflow-y: auto;
   padding-right: 0.5rem;
   display: flex;
-  height: 60vh;
   flex-direction: column;
   gap: 0.5rem;
+  height: 60vh;
+  padding-bottom: 0.5rem;
 }
 
 .message-input-wrapper {

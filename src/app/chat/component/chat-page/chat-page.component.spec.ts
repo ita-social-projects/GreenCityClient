@@ -8,6 +8,7 @@ import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { setupChatComponentTest } from './setupChatComponentTest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { TelegramSocketService } from '../../service/chats/telegram-socket.service';
 describe('ChatComponent', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
@@ -498,5 +499,36 @@ describe('toggleClientInfo', () => {
 
     expect(component.selectedImageUrl).toBeNull();
     expect(console.log).toHaveBeenCalledWith('close image modal');
+  });
+  it('should set selectedChat and subscribe to messages via socket', () => {
+    const mockChat = {
+      chatInternalId: 42,
+      name: 'Test User',
+      messages: []
+    };
+
+    const mockMessage = {
+      fromManager: true,
+      text: 'Hello from backend',
+      sendAt: new Date().toISOString(),
+      assets: [{ type: 'IMAGE', url: 'https://pic.example/image.jpg' }]
+    };
+
+    const socketService = TestBed.inject(TelegramSocketService);
+    spyOn(socketService, 'subscribeToMessages').and.returnValue(of(mockMessage));
+
+    spyOn(component as any, 'scrollToBottom');
+
+    component.selectChat(mockChat);
+
+    expect(component.selectedChat).toBe(mockChat);
+    expect(component.clientInfoVisible).toBeFalse();
+    expect(component.clientInfoData).toBeNull();
+    expect(socketService.subscribeToMessages).toHaveBeenCalledWith(42);
+    expect(component.selectedChat.messages.length).toBe(1);
+    expect(component.selectedChat.messages[0].from).toBe('Me');
+    expect(component.selectedChat.messages[0].text).toBe('Hello from backend');
+    expect(component.selectedChat.messages[0].images).toEqual(['https://pic.example/image.jpg']);
+    expect((component as any).scrollToBottom).toHaveBeenCalled();
   });
 });
