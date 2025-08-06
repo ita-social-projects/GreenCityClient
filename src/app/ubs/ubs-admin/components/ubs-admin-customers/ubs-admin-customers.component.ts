@@ -5,8 +5,6 @@ import {
   DestroyRef,
   ElementRef,
   HostListener,
-  inject,
-  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -17,8 +15,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { EMPTY, Subject } from 'rxjs';
-import { debounceTime, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
@@ -27,17 +25,34 @@ import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-t
 import { ColumnParam, columnsParams } from './columnsParams.mock';
 import { Filters } from './filters.interface';
 import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-from-date-to-string/convert-from-date-to-string.service';
-import { DateAdapter } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
 import { Store } from '@ngrx/store';
 import { adminTableOfCustomersSelector } from 'src/app/store/selectors/ubs-admin.selectors';
 import { GetCustomerTable } from 'src/app/store/actions/ubs-admin.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MomentDateAdapter } from '@global-service/moment-date-adapter';
+
+export const CUSTOM_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD.MM.YYYY'
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+};
 
 @Component({
   selector: 'app-ubs-admin-customers',
   templateUrl: './ubs-admin-customers.component.html',
-  styleUrls: ['./ubs-admin-customers.component.scss']
+  styleUrls: ['./ubs-admin-customers.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS }
+  ]
 })
 export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnDestroy {
   isLoading = false;
