@@ -7,8 +7,8 @@ import { environment } from '@environment/environment';
 export class TelegramSocketService implements OnDestroy {
   private stompClient: Client;
   private connected = false;
-  private chatSubjects: Map<number, Subject<any>> = new Map();
-  private newChatsSubject = new Subject<any>();
+  private readonly chatSubjects: Map<number, Subject<any>> = new Map();
+  private readonly newChatsSubject = new Subject<any>();
 
   constructor() {
     this.initSocket();

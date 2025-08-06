@@ -34,15 +34,15 @@ export class ChatComponent implements OnInit {
   selectedImageUrl: string | null = null;
 
   private readonly baseUrl = `${environment.ubsAdmin.backendUbsAdminLink}/telegram`;
-  @ViewChild('messagesContainer') private messagesContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('messagesContainer') private readonly messagesContainer!: ElementRef<HTMLDivElement>;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private readonly store: Store,
     private readonly translate: TranslateService,
-    private telegramSocketService: TelegramSocketService,
-    private zone: NgZone
+    private readonly telegramSocketService: TelegramSocketService,
+    private readonly zone: NgZone
   ) {}
 
   ngOnInit(): void {
