@@ -198,6 +198,16 @@ describe('UBSPersonalInformationComponent', () => {
       component.phoneNumber.setValue('380671234567');
       expect(component.phoneNumber.valid).toBeTrue();
     });
+
+    it('should accept email addresses up to 50 characters', () => {
+      const maxLengthEmail = 'a'.repeat(38) + '@example.com';
+      component.email.setValue(maxLengthEmail);
+      expect(component.email.valid).toBeTrue();
+
+      const tooLongEmail = 'a'.repeat(39) + '@example.com';
+      component.email.setValue(tooLongEmail);
+      expect(component.email.invalid).toBeTrue();
+    });
   });
 
   describe('Store Dispatches', () => {
