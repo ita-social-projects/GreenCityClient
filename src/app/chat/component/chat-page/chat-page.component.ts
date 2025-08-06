@@ -59,14 +59,6 @@ export class ChatComponent implements OnInit {
       });
     });
     this.loadAllChats();
-    this.telegramSocketService.newChats$.subscribe((newChat) => {
-      this.chats.unshift({
-        ...newChat,
-        name: newChat.username || 'Unknown',
-        initial: newChat.username?.charAt(0).toUpperCase() || '?',
-        messages: []
-      });
-    });
   }
   private scrollToBottom(): void {
     this.zone.onStable.pipe(take(1)).subscribe(() => {
