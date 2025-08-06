@@ -35,7 +35,7 @@ import { MomentDateAdapter } from '@global-service/moment-date-adapter';
 
 export const CUSTOM_DATE_FORMATS = {
   parse: {
-    dateInput: 'DD.MM.YYYY'
+    dateInput: 'DD/MM/YYYY'
   },
   display: {
     dateInput: 'DD/MM/YYYY',
