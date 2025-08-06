@@ -274,8 +274,8 @@
     "pick-up-service": {
       "caption": "About service",
       "pick-up-city": {
-        "title": "PICK UP city is a digital waste sorting service.",
-        "content": "Suitable for anyone who wants to sort without leaving home and get their own sorting statistics."
+        "title": "PICK UP city is a digital waste sorting service",
+        "content": "Suitable for anyone who wants to sort without leaving home and get their own sorting statistics"
       },
       "how-it-works": {
         "title": "How does it work?",
