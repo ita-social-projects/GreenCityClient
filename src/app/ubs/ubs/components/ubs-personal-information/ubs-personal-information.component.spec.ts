@@ -1,228 +1,310 @@
-import { of, Subject } from 'rxjs';
-import { OrderService } from '../../services/order.service';
-import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterModule } from '@angular/router';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { UBSPersonalInformationComponent } from './ubs-personal-information.component';
-import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
-import { IMaskModule } from 'angular-imask';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { of } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Language } from 'src/app/shared/i18n/Language';
-import { APP_BASE_HREF } from '@angular/common';
-import { UBSInputErrorComponent } from '@ubs/shared/components/ubs-input-error/ubs-input-error.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { GoogleScript } from 'src/assets/google-script/google-script';
-import { KyivNamesEnum } from '../../models/ubs.interface';
-import { Store } from '@ngrx/store';
-import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
+import { OrderService } from '../../services/order.service';
+import { Store, StoreModule } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { PersonalData } from '../../models/ubs.interface';
+import { SetPersonalData, SetSecondFormStatus } from 'src/app/store/actions/order.actions';
+import { addressIdSelector, personalDataSelector } from 'src/app/store/selectors/order.selectors';
+import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+class MockMatDialog {
+  open() {
+    return {
+      afterClosed: () => of(true)
+    };
+  }
+}
+
+class MockMatDialogRef {
+  close() {}
+}
+
+const personalDataMock: PersonalData = {
+  firstName: 'Test',
+  lastName: 'User',
+  email: 'test@example.com',
+  phoneNumber: '380671234567',
+  isAnotherClient: false,
+  addressComment: 'Leave at the doorstep.',
+  city: 'Kyiv',
+  cityEn: 'Kyiv',
+  district: 'Shevchenkivskyi',
+  districtEn: 'Shevchenkivskyi',
+  street: 'Khreshchatyk',
+  streetEn: 'Khreshchatyk',
+  region: 'Kyivska',
+  regionEn: 'Kyivska',
+  senderEmail: 'test@example.com',
+  senderFirstName: 'Test',
+  senderLastName: 'User',
+  senderPhoneNumber: '380671234567'
+};
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
   let fixture: ComponentFixture<UBSPersonalInformationComponent>;
+  let store: MockStore;
+  let dialog: MatDialog;
+  let router: Router;
+  let activatedRoute: ActivatedRoute;
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
-    'getLocationId',
-    'languageBehaviourSubject',
-    'getUserId',
-    'getIsAnotherClient',
-    'removeIsAnotherClient',
-    'setAddressId',
-    'getCurrentLanguage',
-    'setIsAnotherClient',
-    'setAddresses',
-    'getCurrentLocationId',
-    'getAddressId',
-    'getLocations'
-  ]);
-  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
-  fakeLocalStorageService.getLocationId = () => '1';
-
-  const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
-  fakeGoogleScript.load.and.returnValue(of());
-
-  const listMock = {
-    addressList: [
-      {
-        actual: true,
-        id: 2,
-        city: 'fake',
-        cityEn: 'fake',
-        district: 'fake',
-        districtEn: 'fake',
-        street: 'fake',
-        streetEn: 'fake',
-        region: 'fake',
-        regionEn: 'fake',
-        display: true,
-        houseCorpus: 'fake',
-        entranceNumber: 'fake',
-        houseNumber: 'fake',
-        addressComment: 'fake',
-        coordinates: {
-          latitude: 0,
-          longitude: 0
-        }
-      }
-    ]
+  const initialState = {
+    order: {
+      personalData: personalDataMock,
+      existingOrderInfo: null,
+      addressId: 1
+    }
   };
 
-  const mockedPersonalData = {
-    id: 3,
-    firstName: 'fake',
-    lastName: 'fake',
-    email: 'fake',
-    phoneNumber: 'fake',
-    addressComment: 'fake',
-    city: 'fake',
-    district: 'fake',
-    region: 'fake',
-    street: 'fake',
-    houseCorpus: 'fake',
-    entranceNumber: 'fake',
-    houseNumber: 'fake',
-    senderFirstName: 'fake',
-    senderLastName: 'fake',
-    senderEmail: 'fake',
-    senderPhoneNumber: 'fake'
-  };
-
-  const mockLocations = {
-    courierLimit: 'fake',
-    courierStatus: 'fake status',
-    tariffInfoId: 1,
-    regionDto: {
-      nameEn: 'fake name en',
-      nameUk: 'fake name ua',
-      regionId: 2
-    },
-    locationsDtosList: [
-      {
-        locationId: 3,
-        nameEn: 'fake location en',
-        nameUk: 'fake location ua'
-      }
-    ],
-    courierTranslationDtos: [
-      {
-        languageCode: 'ua',
-        name: 'fake name'
-      }
-    ],
-    maxAmountOfBigBags: 99,
-    maxPriceOfOrder: 500000,
-    minAmountOfBigBags: 2,
-    minPriceOfOrder: 500
-  };
-
-  const fakeShareFormService = jasmine.createSpyObj('fakeShareFormService', ['changePersonalData']);
-  const fakeOrderService = jasmine.createSpyObj('OrderService', [
-    'findAllAddresses',
-    'getPersonalData',
-    'deleteAddress',
-    'setOrder',
-    'setCurrentAddress',
-    'setLocationData',
-    'addAdress'
-  ]);
-
-  const storeMock = {
-    dispatch: jasmine.createSpy(),
-    select: jasmine.createSpy().and.returnValue(of({ order: ubsOrderServiseMock })),
-    pipe: () => of({})
-  };
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule.forRoot([], {}),
-        HttpClientTestingModule,
-        MatDialogModule,
-        IMaskModule,
-        BrowserAnimationsModule,
-        TranslateModule.forRoot()
-      ],
-      declarations: [UBSPersonalInformationComponent, UBSInputErrorComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [UBSPersonalInformationComponent],
+      imports: [ReactiveFormsModule, MatDialogModule, NoopAnimationsModule, HttpClientTestingModule, StoreModule.forRoot({})],
       providers: [
-        { provide: Store, useValue: storeMock },
-        { provide: MatDialogRef, useValue: {} },
-        { provide: UBSOrderFormService, useValue: fakeShareFormService },
-        { provide: OrderService, useValue: fakeOrderService },
-        { provide: LocalStorageService, useValue: fakeLocalStorageService },
-        { provide: GoogleScript, useValue: fakeGoogleScript },
-        { provide: APP_BASE_HREF, useValue: '/' }
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        FormBuilder,
+        provideMockStore({ initialState }),
+        { provide: ActivatedRoute, useValue: { queryParams: of({}) } },
+        { provide: Router, useValue: jasmine.createSpyObj('Router', ['navigate']) },
+        { provide: OrderService, useValue: {} },
+        { provide: LocalStorageService, useValue: {} },
+        { provide: MatDialog, useClass: MockMatDialog },
+        { provide: MatDialogRef, useClass: MockMatDialogRef }
+      ]
     }).compileComponents();
-  }));
-
-  beforeEach(() => {
-    fakeOrderService.getPersonalData.and.returnValue(of(mockedPersonalData));
-    fakeOrderService.setOrder.and.callFake(() => {});
-    localStorage.setItem('locations', JSON.stringify(mockLocations));
-    fakeOrderService.locationSub = new Subject<any>();
-    fakeOrderService.locationSubject = new Subject<any>();
-    fakeOrderService.currentAddress = new Subject<any>();
-    fakeOrderService.setCurrentAddress(listMock.addressList[0]);
-    fakeOrderService.setLocationData('Київ');
-
-    fixture = TestBed.createComponent(UBSPersonalInformationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    component.ngOnInit();
-    fixture.detectChanges();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UBSPersonalInformationComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    store = TestBed.inject(Store) as MockStore;
+    dialog = TestBed.inject(MatDialog);
+    router = TestBed.inject(Router);
+    activatedRoute = TestBed.inject(ActivatedRoute);
+
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('method ngOnChanges should call changePersonalData and submit', () => {
-    fakeShareFormService.changePersonalData.and.callFake(() => {});
-    expect(fakeShareFormService.changePersonalData).toHaveBeenCalled();
+  describe('ngOnInit', () => {
+    it('should initialize listeners for a new order if no existingOrderId is present', fakeAsync(() => {
+      const spy = spyOn(component, 'initListenersForNewOrder').and.callThrough();
+      spyOn(component, 'initListenersForExistingOrder').and.callThrough();
+
+      component.ngOnInit();
+      tick();
+
+      expect(spy).toHaveBeenCalled();
+      expect(component.initListenersForExistingOrder).not.toHaveBeenCalled();
+    }));
+
+    it('should initialize listeners for an existing order if existingOrderId is present', fakeAsync(() => {
+      Object.defineProperty(activatedRoute, 'queryParams', { value: of({ existingOrderId: 1 }) });
+      const newOrderSpy = spyOn(component, 'initListenersForNewOrder').and.callThrough();
+      const existingOrderSpy = spyOn(component, 'initListenersForExistingOrder').and.callThrough();
+
+      component.ngOnInit();
+      tick();
+
+      expect(newOrderSpy).not.toHaveBeenCalled();
+      expect(existingOrderSpy).toHaveBeenCalled();
+    }));
   });
 
-  xit('method changeAddressInPersonalData should set data to PersonalData', () => {});
+  describe('initListenersForNewOrder', () => {
+    it('should set personalData and call initForm', fakeAsync(() => {
+      const initFormSpy = spyOn(component, 'initForm');
+      store.overrideSelector(personalDataSelector, personalDataMock);
 
-  xit('method setFormData should set data to PersonalDataForm', () => {});
+      component.initListenersForNewOrder();
+      tick();
 
-  xit('method toggleClient should set client data if anotherClient = false', () => {
-    expect(component.personalDataForm.get('anotherClientPhoneNumber').value).toBe('+380');
+      expect(component.personalData).toEqual(personalDataMock);
+      expect(initFormSpy).toHaveBeenCalled();
+    }));
   });
 
-  xit('method toggleClient should clear client data if anotherClient = true', () => {
-    expect(component.personalDataForm.get('anotherClientPhoneNumber').value).toBe('');
+  describe('initForm', () => {
+    beforeEach(() => {
+      component.personalData = personalDataMock;
+      component.initForm();
+    });
+
+    it('should create the personalDataForm with correct controls and initial values', () => {
+      expect(component.personalDataForm).toBeInstanceOf(FormGroup);
+      expect(component.personalDataForm.controls.firstName.value).toBe(personalDataMock.firstName);
+      expect(component.personalDataForm.controls.lastName.value).toBe(personalDataMock.lastName);
+      expect(component.personalDataForm.controls.email.value).toBe(personalDataMock.email);
+      expect(component.personalDataForm.controls.phoneNumber.value).toBe(personalDataMock.phoneNumber);
+      expect(component.personalDataForm.controls.isAnotherClient.value).toBe(personalDataMock.isAnotherClient);
+    });
+
+    it('should sync sender fields with client fields when isAnotherClient is false', fakeAsync(() => {
+      component.personalDataForm.controls.isAnotherClient.setValue(false);
+      component.firstName.setValue('New');
+      component.lastName.setValue('Client');
+      tick();
+
+      expect(component.senderFirstName.value).toBe('New');
+      expect(component.senderLastName.value).toBe('Client');
+    }));
+
+    it('should clear sender fields when isAnotherClient is toggled to true', fakeAsync(() => {
+      component.personalDataForm.controls.isAnotherClient.setValue(false);
+      tick();
+      component.personalDataForm.controls.isAnotherClient.setValue(true);
+      tick();
+
+      expect(component.senderFirstName.value).toBe('');
+      expect(component.senderLastName.value).toBe('');
+      expect(component.senderPhoneNumber.value).toBe('');
+      expect(component.senderEmail.value).toBe('');
+    }));
   });
 
-  xit('method submit should invoke methods', () => {
-    const mockedOrderDetails = {
-      bags: [],
-      points: 9,
-      additionalOrders: ['']
-    };
-    component.personalData = mockedPersonalData as any;
-    fakeShareFormService.orderDetails = mockedOrderDetails;
-    fixture.detectChanges();
-    fakeOrderService.setOrder.and.callFake(() => {});
-    expect(fakeOrderService.setOrder).toHaveBeenCalledTimes(1);
+  describe('Form Validation', () => {
+    beforeEach(() => {
+      component.personalData = personalDataMock;
+      component.initForm();
+    });
+
+    it('should validate firstName and lastName with namePattern', () => {
+      component.firstName.setValue('123');
+      expect(component.firstName.invalid).toBeTrue();
+      component.firstName.setValue('ValidName');
+      expect(component.firstName.valid).toBeTrue();
+    });
+
+    it('should validate email with emailPattern', () => {
+      component.email.setValue('invalid-email');
+      expect(component.email.invalid).toBeTrue();
+      component.email.setValue('valid@email.com');
+      expect(component.email.valid).toBeTrue();
+    });
+
+    it('should validate phoneNumber with PhoneNumberValidator', () => {
+      component.phoneNumber.setValue('12345');
+      expect(component.phoneNumber.invalid).toBeTrue();
+      component.phoneNumber.setValue('380671234567');
+      expect(component.phoneNumber.valid).toBeTrue();
+    });
   });
 
-  xit('should subscribe to locationSubject and languageBehaviourSubject', () => {
-    const spyLocationSubject = spyOn(component.orderService.locationSubject, 'pipe').and.callThrough();
-    component.ngOnInit();
-    expect(spyLocationSubject).toHaveBeenCalled();
+  describe('Store Dispatches', () => {
+    it('should dispatch SetPersonalData with the updated form values on form valueChanges', fakeAsync(() => {
+      component.personalData = personalDataMock;
+      component.initForm();
+
+      const newFirstName = 'Updated';
+      component.firstName.setValue(newFirstName);
+
+      tick();
+
+      const expectedPersonalData = {
+        ...personalDataMock,
+        firstName: newFirstName,
+        senderFirstName: newFirstName
+      };
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        SetPersonalData({
+          personalData: expectedPersonalData
+        })
+      );
+    }));
+
+    it('should dispatch SetSecondFormStatus with isValid=true when form is valid and addressId exists', fakeAsync(() => {
+      component.personalData = personalDataMock;
+      component.initForm();
+
+      store.overrideSelector(addressIdSelector, 1);
+      component.personalDataForm.patchValue({
+        ...personalDataMock,
+        isAnotherClient: false,
+        senderFirstName: personalDataMock.firstName,
+        senderLastName: personalDataMock.lastName,
+        senderEmail: personalDataMock.email,
+        senderPhoneNumber: personalDataMock.phoneNumber
+      });
+
+      tick();
+      expect(store.dispatch).toHaveBeenCalledWith(SetSecondFormStatus({ isValid: true }));
+    }));
+
+    it('should dispatch SetSecondFormStatus with isValid=false when form is invalid', fakeAsync(() => {
+      component.personalData = personalDataMock;
+      component.initForm();
+
+      component.firstName.setValue('');
+      store.overrideSelector(addressIdSelector, 1);
+      tick();
+
+      expect(store.dispatch).toHaveBeenCalledWith(SetSecondFormStatus({ isValid: false }));
+    }));
+  });
+
+  describe('Method calls', () => {
+    it('should call router.navigate on onCancel when dialog is confirmed', fakeAsync(() => {
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: () => of(true)
+      } as MatDialogRef<WarningPopUpComponent>);
+
+      component.onCancel();
+      tick();
+
+      expect(dialog.open).toHaveBeenCalledWith(WarningPopUpComponent, component.popupConfig);
+      expect(router.navigate).toHaveBeenCalledWith(['ubs']);
+    }));
+
+    it('should not call router.navigate on onCancel when dialog is dismissed', fakeAsync(() => {
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: () => of(false)
+      } as MatDialogRef<WarningPopUpComponent>);
+
+      component.onCancel();
+      tick();
+
+      expect(dialog.open).toHaveBeenCalledWith(WarningPopUpComponent, component.popupConfig);
+      expect(router.navigate).not.toHaveBeenCalled();
+    }));
+
+    it('should dispatch SetPersonalData with the correct values', fakeAsync(() => {
+      component.personalData = personalDataMock;
+      component.initForm();
+
+      const newEmail = 'new@email.com';
+      component.email.setValue(newEmail);
+
+      tick();
+
+      const expectedPersonalData: PersonalData = {
+        ...personalDataMock,
+        email: newEmail,
+        senderEmail: newEmail
+      };
+
+      expect(store.dispatch).toHaveBeenCalledWith(SetPersonalData({ personalData: expectedPersonalData }));
+    }));
+
+    it('should correctly call ngOnDestroy', () => {
+      const destroySubject = (component as any).$destroy;
+      spyOn(destroySubject, 'next');
+      spyOn(destroySubject, 'complete');
+
+      component.ngOnDestroy();
+
+      expect(destroySubject.next).toHaveBeenCalled();
+      expect(destroySubject.complete).toHaveBeenCalled();
+    });
   });
 });
