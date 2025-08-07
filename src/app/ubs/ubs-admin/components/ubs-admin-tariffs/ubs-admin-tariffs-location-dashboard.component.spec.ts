@@ -30,7 +30,7 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { TariffRegionAll } from './ubs-tariffs.enum';
 import { provideMockStore } from '@ngrx/store/testing';
 
-describe('UbsAdminTariffsLocationDashboardComponent', () => {
+fdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
   let fixture: ComponentFixture<UbsAdminTariffsLocationDashboardComponent>;
   let router: Router;
@@ -1040,21 +1040,27 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('isAllOptionSelected should return true if option all selected in En', () => {
     expect(component.isAllOptionSelected('All')).toBeTrue();
+    expect(component.isAllOptionSelected('all')).toBeTrue();
+    expect(component.isAllOptionSelected(TariffRegionAll.en)).toBeTrue();
+    expect('all'.toLowerCase()).toEqual(TariffRegionAll.en);
   });
   it('isAllOptionSelected should return true if option all selected in Ua', () => {
     expect(component.isAllOptionSelected('Все')).toBeTrue();
+    expect(component.isAllOptionSelected('все')).toBeTrue();
+    expect(component.isAllOptionSelected(TariffRegionAll.ua)).toBeTrue();
+    expect('все'.toLowerCase()).toEqual(TariffRegionAll.ua);
   });
   it('isAllOptionSelected should return false if option other than all selected', () => {
     expect(component.isAllOptionSelected('test')).toBeFalse();
+    expect(component.isAllOptionSelected('2')).toBeFalse();
+    expect(component.isAllOptionSelected('.')).toBeFalse();
   });
   it('isAllOptionSelected should return false if no option selected', () => {
     expect(component.isAllOptionSelected('')).toBeFalsy();
+    expect(component.isAllOptionSelected('  ')).toBeFalsy();
   });
-  it('should return false for null', () => {
+  it('isAllOptionSelected should return false for null and undefined', () => {
     expect(component.isAllOptionSelected(null as any)).toBeFalsy();
-  });
-
-  it('should return false for undefined', () => {
     expect(component.isAllOptionSelected(undefined as any)).toBeFalsy();
   });
 

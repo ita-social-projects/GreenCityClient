@@ -328,11 +328,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       }
     });
   }
-
   isAllOptionSelected(value: string) {
     return value && (value.toLowerCase() === TariffRegionAll.ua || value.toLowerCase() === TariffRegionAll.en);
   }
-
   onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     const panel = document.querySelector('.mat-autocomplete-panel');
     this.scrollPosition = panel ? panel.scrollTop : 0;
