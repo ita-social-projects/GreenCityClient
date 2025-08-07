@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,7 +12,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
   templateUrl: './ubs-footer.component.html',
   styleUrls: ['./ubs-footer.component.scss']
 })
-export class UbsFooterComponent {
+export class UbsFooterComponent implements OnDestroy {
   footerPicture = ubsHeaderIcons;
   screenWidth = window.innerWidth;
   currentYear = new Date().getFullYear();
@@ -56,5 +56,10 @@ export class UbsFooterComponent {
   onPressEnter(event: Event): void {
     event.preventDefault();
     this.openAboutServicePopUp(event);
+  }
+
+  ngOnDestroy(): void {
+    this.destroySub.next(true);
+    this.destroySub.complete();
   }
 }
