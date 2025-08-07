@@ -16,7 +16,7 @@
           {{ link.name | translate }}
         </a>
 
-        <a *ngIf="!link.url" [routerLink]="link.route" rel="noopener">
+        <a *ngIf="!link.url" [routerLink]="!isUbsAdmin ? link.route : link?.adminRoute" rel="noopener">
           {{ link.name | translate }}
         </a>
       </li>
