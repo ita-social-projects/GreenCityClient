@@ -410,6 +410,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       this.onSelectStation(event);
       const receivingStationId = this.selectedStation.map((it) => it.id);
       Object.assign(this.filterData, { receivingStation: receivingStationId });
+      this.station.setValue('');
     }
     this.getExistingCard(this.filterData);
     this.setStationPlaceholder();
@@ -495,7 +496,10 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       this.selectedStation.length = 0;
       this.station.setValue('');
     }
-    this.filteredStations = this.filterOptions(this.station, this.stationName);
+    this.filteredStations = this.filterOptions(
+      this.station,
+      this.stations.map((elem) => elem.name)
+    );
   }
 
   onSelectCourier(event): void {
