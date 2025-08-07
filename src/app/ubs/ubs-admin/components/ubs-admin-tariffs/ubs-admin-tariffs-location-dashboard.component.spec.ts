@@ -1,13 +1,13 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { UbsAdminTariffsLocationDashboardComponent } from './ubs-admin-tariffs-location-dashboard.component';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../services/tariffs.service';
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -19,7 +19,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { MockStore } from '@ngrx/store/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
@@ -30,14 +29,11 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { TariffRegionAll } from './ubs-tariffs.enum';
 import { provideMockStore } from '@ngrx/store/testing';
-import { IAppState } from 'src/app/store/state/app.state';
 
-xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
+describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
   let fixture: ComponentFixture<UbsAdminTariffsLocationDashboardComponent>;
-  let httpMock: HttpTestingController;
   let router: Router;
-  let store: MockStore<IAppState>;
   const initialState = {
     employees: null,
     error: null,
@@ -109,17 +105,12 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     cardId: 3
   };
 
-  const fakeCards = [
-    {
-      courier: 'УБС',
-      station: 'Станція',
-      region: 'Регіон',
-      city: 'Місто',
-      tariff: 'ACTIVE',
-      regionId: 3,
-      cardId: 4
-    }
-  ];
+  const createCardObjMock = {
+    courierId: 1,
+    locationIdList: [1, 2, 3],
+    receivingStationsIdList: [1, 2, 3],
+    regionId: 5
+  };
 
   const fakeCouriers = {
     courierId: 1,
@@ -256,8 +247,6 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     router = TestBed.inject(Router);
-    httpMock = TestBed.inject(HttpTestingController);
-    store = TestBed.inject(Store) as MockStore<IAppState>;
     component.locations = [fakeLocations];
   });
 
@@ -668,6 +657,7 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.toggleSelectAllCity();
     expect(spy).toHaveBeenCalled();
     expect(component.selectedCities.length).toBe(0);
+    expect(component.city.value).toEqual('');
   });
 
   it('should select all items of stations', () => {
@@ -690,6 +680,7 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.toggleSelectAllStation();
     expect(spy).toHaveBeenCalled();
     expect(component.selectedStation.length).toBe(0);
+    expect(component.station.value).toEqual('');
   });
 
   it('should empty station value onSelectStation method', () => {
@@ -743,7 +734,7 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('navigate to pricing page', () => {
     const spy = spyOn(router, 'navigate');
     component.page('tariff', 1);
-    expect(spy).toHaveBeenCalledWith([`ubs-admin/tariffs/location/1`]);
+    expect(spy).toHaveBeenCalledWith([`ubs/admin/tariffs/location/1`]);
   });
 
   it('should call methods in OnInit', () => {
@@ -774,19 +765,19 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should create new card on create card method', fakeAsync(() => {
-    const spy1 = spyOn(component, 'createCardRequest');
-    const spy2 = spyOn(component, 'getExistingCard');
-    const spy3 = spyOn(component, 'setCountOfCheckedCity');
-    const spy4 = spyOn(component, 'setStationPlaceholder');
+    const getExistingCardSpy = spyOn(component, 'getExistingCard');
+    const setCountOfCheckedCitySpy = spyOn(component, 'setCountOfCheckedCity');
+    const setStationPlaceholderSpy = spyOn(component, 'setStationPlaceholder');
     matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
+
     component.createTariffCard();
+
     expect(fakeMatDialogRef.afterClosed).toHaveBeenCalled();
     tick();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalledWith({});
-    expect(spy3).toHaveBeenCalled();
-    expect(spy4).toHaveBeenCalled();
+    expect(getExistingCardSpy).toHaveBeenCalled();
+    expect(getExistingCardSpy).toHaveBeenCalledWith({});
+    expect(setCountOfCheckedCitySpy).toHaveBeenCalled();
+    expect(setStationPlaceholderSpy).toHaveBeenCalled();
     expect(component.region.value).toEqual('');
     expect(component.courier.value).toEqual('');
     expect(component.selectedCities).toEqual([]);
@@ -803,17 +794,6 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
       locationIdList: component.selectedCities.map((it) => it.id).sort()
     };
     expect(component.createCardObj).toEqual(fakeNewCard);
-  });
-
-  it('should call createCard', () => {
-    const fakeCard1 = {
-      courierId: 0,
-      receivingStationsIdList: [0],
-      regionId: 0,
-      locationIdList: [0]
-    };
-    component.createCardRequest(fakeCard1);
-    expect(tariffsServiceMock.createCard).toHaveBeenCalled();
   });
 
   it('should change isFieldFilled to true if all fields are filled', () => {
@@ -859,7 +839,9 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.courier.setValue('fake');
     component.selectedStation = [{ name: 'stationItem', id: 1 }];
     component.selectedCities = [{ name: 'fake', id: 159, englishName: 'fake' }];
+    component.createCardObj = createCardObjMock;
     const spy = spyOn(component, 'createCardDto');
+
     component.checkisCardExist();
     expect(spy).toHaveBeenCalled();
     expect(tariffsServiceMock.checkIfCardExist).toHaveBeenCalled();
@@ -871,23 +853,6 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(spy1).toHaveBeenCalled();
   });
 
-  it('should call createCard', () => {
-    const fakeNewCard = {
-      courierId: 0,
-      receivingStationsIdList: 0,
-      regionId: 0,
-      locationIdList: 0
-    };
-    component.createCardRequest(fakeNewCard);
-    expect(tariffsServiceMock.createCard).toHaveBeenCalled();
-  });
-
-  it('should call createCardRequest after matDialogRef closed', () => {
-    const spy = spyOn(component, 'createCardRequest');
-    component.createTariffCard();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should return false if card do not exist', () => {
     component.region.setValue('Fake1');
     component.courier.setValue('Fake1');
@@ -896,7 +861,7 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.cards = [];
     component.checkisCardExist();
     tariffsServiceMock.checkIfCardExist.and.returnValue(of(false));
-    expect(component.isCardExist).toBe(true);
+    expect(component.isCardExist).toBe(false);
   });
 
   it('should call openAddCourierDialog', () => {
@@ -1052,5 +1017,55 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     fixture.whenStable().then(() => {
       expect(spy).toHaveBeenCalled();
     });
+  });
+
+  it('should call isAllOptionSelected on stationSelected', () => {
+    const mockEvent = { option: { value: 'All' } };
+    const isAllOptionSelectedSpy = spyOn(component, 'isAllOptionSelected').and.callThrough();
+
+    component.stationSelected(mockEvent as any);
+
+    expect(isAllOptionSelectedSpy).toHaveBeenCalled();
+    expect(isAllOptionSelectedSpy).toHaveBeenCalledWith(mockEvent.option.value);
+  });
+  it('should call isAllOptionSelected on onSelectCity', () => {
+    const mockEvent = { option: { value: 'All' } };
+    const isAllOptionSelectedSpy = spyOn(component, 'isAllOptionSelected').and.callThrough();
+
+    component.onSelectCity(mockEvent as any);
+
+    expect(isAllOptionSelectedSpy).toHaveBeenCalled();
+    expect(isAllOptionSelectedSpy).toHaveBeenCalledWith(mockEvent.option.value);
+  });
+
+  it('isAllOptionSelected should return true if option all selected in En', () => {
+    expect(component.isAllOptionSelected('All')).toBeTrue();
+  });
+  it('isAllOptionSelected should return true if option all selected in Ua', () => {
+    expect(component.isAllOptionSelected('Все')).toBeTrue();
+  });
+  it('isAllOptionSelected should return false if option other than all selected', () => {
+    expect(component.isAllOptionSelected('test')).toBeFalse();
+  });
+  it('isAllOptionSelected should return false if no option selected', () => {
+    expect(component.isAllOptionSelected('')).toBeFalsy();
+  });
+  it('should return false for null', () => {
+    expect(component.isAllOptionSelected(null as any)).toBeFalsy();
+  });
+
+  it('should return false for undefined', () => {
+    expect(component.isAllOptionSelected(undefined as any)).toBeFalsy();
+  });
+
+  it('toggleSelectAllStation should call filterOptions', () => {
+    const filterOptionsSpy = spyOn(component, 'filterOptions');
+    component.toggleSelectAllStation();
+    expect(filterOptionsSpy).toHaveBeenCalled();
+  });
+  it('toggleSelectAllCity should call filterOptions', () => {
+    const filterOptionsSpy = spyOn(component, 'filterOptions');
+    component.toggleSelectAllCity();
+    expect(filterOptionsSpy).toHaveBeenCalled();
   });
 });
