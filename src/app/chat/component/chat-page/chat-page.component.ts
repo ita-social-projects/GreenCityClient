@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, NgZone } from '@angular/core';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpHeaders, HttpParams } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
@@ -32,6 +32,10 @@ export class ChatComponent implements OnInit {
   filteredChats: any[] = [];
   searchId = '';
   selectedImageUrl: string | null = null;
+  currentPage = 0;
+  totalPages = 1;
+  pageSize = 20;
+  isLoadingChats = false;
 
   private readonly baseUrl = `${environment.ubsAdmin.backendUbsAdminLink}/telegram`;
   @ViewChild('messagesContainer') private readonly messagesContainer!: ElementRef<HTMLDivElement>;
@@ -58,8 +62,9 @@ export class ChatComponent implements OnInit {
         messages: []
       });
     });
-    this.loadAllChats();
+    this.loadAllChats(this.currentPage);
   }
+
   private scrollToBottom(): void {
     this.zone.onStable.pipe(take(1)).subscribe(() => {
       if (this.messagesContainer) {
@@ -71,20 +76,32 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  loadAllChats(): void {
+  loadAllChats(page: number = 0): void {
+    if (this.isLoadingChats || page >= this.totalPages) {
+      return;
+    }
+
     const token = localStorage.getItem('accessToken');
     if (!token) {
       return;
     }
 
+    this.isLoadingChats = true;
+
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const pageableObject = {
+      page,
+      size: this.pageSize,
+      sort: ['sendAt,desc']
+    };
+    const params = new HttpParams().set('pageable', JSON.stringify(pageableObject));
     const url = `${this.baseUrl}/chats`;
 
-    this.http.get<any>(url, { headers }).subscribe({
+    this.http.get<any>(url, { headers, params }).subscribe({
       next: (response) => {
         const chatList = response.page || [];
 
-        this.chats = chatList.map((chat: any) => {
+        const newChats = chatList.map((chat: any) => {
           const fullName = chat.firstName || chat.lastName ? `${chat.firstName || ''} ${chat.lastName || ''}`.trim() : '';
           const raw = chat.username || fullName || chat.chatId;
           const name = raw || 'Unknown';
@@ -105,13 +122,17 @@ export class ChatComponent implements OnInit {
             messages: []
           };
         });
+
+        this.chats = [...this.chats, ...newChats];
         this.filteredChats = [...this.chats];
-        if (this.selectedChatId) {
-          this.selectChat(this.chats.find((chatElement) => chatElement.chatInternalId === this.selectedChatId));
-        }
+
+        this.totalPages = response.totalPages;
+        this.currentPage = page;
+        this.isLoadingChats = false;
       },
       error: (err) => {
         console.error('Failed to load chats:', err);
+        this.isLoadingChats = false;
       }
     });
   }

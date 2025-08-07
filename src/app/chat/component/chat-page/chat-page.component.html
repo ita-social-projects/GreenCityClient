@@ -20,6 +20,11 @@
         </div>
         <div class="timestamp">{{ chat.time }}</div>
       </li>
+      <li class="chat-pagination" *ngIf="currentPage + 1 < totalPages && !isLoadingChats">
+        <button class="load-more-button" (click)="loadAllChats(currentPage + 1)">
+          {{ 'chat.load-more' | translate }}
+        </button>
+      </li>
     </ul>
   </div>
 
