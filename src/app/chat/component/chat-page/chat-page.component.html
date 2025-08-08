@@ -10,7 +10,7 @@
       <li
         class="chat-item"
         *ngFor="let chat of filteredChats"
-        [class.selected]="chat.nickname === selectedChat?.nickname"
+        [class.selected]="chat.chatInternalId === selectedChat?.chatInternalId"
         (click)="selectChat(chat)"
       >
         <div class="avatar">{{ chat.initial }}</div>
