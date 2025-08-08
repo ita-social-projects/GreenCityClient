@@ -27,7 +27,7 @@
     <ng-container *ngIf="selectedChat; else placeholder">
       <div class="chat-box">
         <div class="chat-header">
-          {{ selectedChat.fullName }} ({{ selectedChat.nickname }})
+          {{ selectedChat.fullName }} {{ selectedChat.nickname !== selectedChat.fullName ? '(' + selectedChat.nickname + ')' : '' }}
           <button class="client-info-button" (click)="toggleClientInfo()" [title]="'chat.client-info' | translate">🧠</button>
         </div>
 
