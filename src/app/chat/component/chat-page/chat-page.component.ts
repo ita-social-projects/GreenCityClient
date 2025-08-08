@@ -95,10 +95,12 @@ export class ChatComponent implements OnInit {
   }
 
   selectChat(chat: any): void {
-    this.selectedChat = chat;
-    this.clientInfoVisible = false;
-    this.clientInfoData = null;
-    this.fetchMessages(chat.chatInternalId);
+    if (chat) {
+      this.selectedChat = chat;
+      this.clientInfoVisible = false;
+      this.clientInfoData = null;
+      this.fetchMessages(chat.chatInternalId);
+    }
   }
 
   fetchMessages(chatInternalId: number, callback?: () => void): void {
