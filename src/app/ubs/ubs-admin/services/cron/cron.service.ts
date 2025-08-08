@@ -237,7 +237,7 @@ export class CronService {
     if (locale) {
       this.setLocale(locale);
     }
-    const [min, hour, dayOfMonth, month, dayOfWeek] = cron.replace('?', '').split(' ');
+    const [min, hour, dayOfMonth, month, dayOfWeek] = cron.replace(/\?/g, '').split(' ');
     const timePart = this.getTimePart(min, hour);
     const dayPart = this.getDayPart(dayOfMonth, dayOfWeek);
     const monthPart = this.getMonthPart(month);
