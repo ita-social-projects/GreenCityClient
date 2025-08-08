@@ -1,4 +1,4 @@
-export const columnsParams: ColumnParam[] = [
+export const columnsParamsMock: ColumnParam[] = [
   {
     title: {
       key: 'clientName',
