@@ -383,3 +383,8 @@ mat-spinner {
 .mdc-data-table__header-cell {
   padding: 10px;
 }
+
+button:disabled {
+  background-color: var(--ubs-primary-light-grey);
+  border-color: var(--ubs-quaternary-light-grey);
+}

@@ -1,7 +1,8 @@
 <div *ngIf="clientData; else loading" class="client-info-panel">
   <div *ngIf="clientData.error" class="error-message">
-    {{ 'client-panel.error' | translate }}
+    {{ clientData.error }}
   </div>
+
   <p></p>
   <div *ngIf="!clientData.error">
     <h3 class="panel-title">{{ 'client-panel.order-info-title' | translate }}</h3>

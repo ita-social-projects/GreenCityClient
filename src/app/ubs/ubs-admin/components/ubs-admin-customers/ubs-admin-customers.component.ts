@@ -24,7 +24,7 @@ import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
-import { ColumnParam, columnsParams } from './columnsParams';
+import { ColumnParam, columnsParams } from './columnsParams.mock';
 import { Filters } from './filters.interface';
 import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-from-date-to-string/convert-from-date-to-string.service';
 import { DateAdapter } from '@angular/material/core';
@@ -33,7 +33,6 @@ import { Store } from '@ngrx/store';
 import { adminTableOfCustomersSelector } from 'src/app/store/selectors/ubs-admin.selectors';
 import { GetCustomerTable } from 'src/app/store/actions/ubs-admin.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-ubs-admin-customers',
@@ -57,7 +56,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   hasChange = false;
   filters: Filters;
   filterValue = '';
-  modelChanged: Subject<string> = new Subject<string>();
   pageSize = 10;
   adminTableOfCustomersSelector$ = this.store.select(adminTableOfCustomersSelector);
   customerTable: ICustomersTable;
@@ -76,7 +74,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
-  private readonly dialogConfig = new MatDialogConfig();
   private readonly pointerColumns: string[] = ['clientName', 'number_of_orders', 'violations'];
 
   @ViewChild(MatTable, { read: ElementRef }) private readonly matTableRef: ElementRef;
@@ -88,7 +85,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     private readonly cdr: ChangeDetectorRef,
     private readonly renderer: Renderer2,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBarService,
     private readonly store: Store,
     private readonly destroyRef: DestroyRef,
     private readonly convertFromDateToStringService: ConvertFromDateToStringService,
@@ -103,14 +99,14 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
       this.adapter.setLocale(locale);
     });
-    this.adminTableOfCustomersSelector$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
+    this.getTable();
+    this.adminTableOfCustomersSelector$.pipe(take(1)).subscribe((tableData) => {
       this.customerTable = tableData;
-      this.getTable();
       this.columns = columnsParams;
       this.setDisplayedColumns();
-      this.onCreateGroupFormValueChange();
     });
     this.initFilterForm();
+    this.onCreateGroupFormValueChange();
   }
 
   ngAfterViewChecked() {
@@ -244,7 +240,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   onScroll(): void {
-    if (!this.isUpdate && this.currentPage < this.totalPages) {
+    if (!this.isUpdate && this.currentPage < this.totalPages - 1) {
       this.currentPage++;
       this.updateTableData();
     }
@@ -267,17 +263,13 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     sortingType = this.sortType || 'ASC'
   ) {
     this.isLoading = true;
-    if (this.customerTable) {
-      this.setTableData(this.customerTable);
-    } else {
-      this.adminCustomerService
-        .getCustomers(columnName, this.currentPage, this.queryString, filterValue, this.pageSize, sortingType)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((customerTable: ICustomersTable) => {
-          this.store.dispatch(GetCustomerTable({ table: customerTable }));
-          this.setTableData(customerTable);
-        });
-    }
+    this.adminCustomerService
+      .getCustomers(columnName, this.currentPage, this.queryString, filterValue, this.pageSize, sortingType)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((customerTable: ICustomersTable) => {
+        this.store.dispatch(GetCustomerTable({ table: customerTable }));
+        this.setTableData(customerTable);
+      });
   }
 
   private setTableData(customerTable: ICustomersTable) {
@@ -394,44 +386,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     });
   }
 
-  openPopUp(column: ColumnParam, chatLink: string | null, userId: string | null): void {
-    if (!userId) {
-      return;
-    }
-
-    this.dialogConfig.disableClose = true;
-    const modalRef = this.dialog.open(CommentPopUpComponent, this.dialogConfig);
-    if (!modalRef.componentInstance) {
-      return;
-    }
-
-    this.setDialogHeader(modalRef, column);
-    modalRef.componentInstance.comment = chatLink;
-    modalRef.componentInstance.isLink = true;
-
-    modalRef
-      .afterClosed()
-      .pipe(
-        take(1),
-        mergeMap((updatedData: string | null) => {
-          if (updatedData === null || updatedData === chatLink) {
-            return EMPTY;
-          }
-          return this.adminCustomerService
-            .addChatLink(userId, updatedData)
-            .pipe(tap(() => this.updateTableRow(column, userId, updatedData)));
-        })
-      )
-      .subscribe({
-        next: () => {
-          this.snackBar.openSnackBar('successUpdateLink');
-        },
-        error: () => {
-          this.snackBar.openSnackBar('failUpdateLink');
-        }
-      });
-  }
-
   private setDialogHeader(modalRef: MatDialogRef<CommentPopUpComponent>, column: ColumnParam): void {
     modalRef.componentInstance.header = this.localStorageService.getCurrentLanguage() === 'ua' ? column.title.ua : column.title.en;
   }
@@ -458,8 +412,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     }
   }
 
-  onOpenChat(chatUrl: string) {
-    this.adminCustomerService.openChat(chatUrl);
+  onOpenChat(chatId: number) {
+    this.router.navigate(['ubs/admin', 'chat-page'], { state: { selectedChatId: chatId } });
   }
 
   private openCustomer(row, username): void {

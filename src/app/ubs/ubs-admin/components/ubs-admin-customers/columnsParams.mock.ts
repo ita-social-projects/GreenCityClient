@@ -1,4 +1,4 @@
-export const columnsParamsMock: ColumnParam[] = [
+export const columnsParams: ColumnParam[] = [
   {
     title: {
       key: 'clientName',
@@ -65,7 +65,7 @@ export const columnsParamsMock: ColumnParam[] = [
   },
   {
     title: {
-      key: 'chatLink',
+      key: 'chatId',
       ua: 'Чат з клієнтом',
       en: 'Client chat'
     },

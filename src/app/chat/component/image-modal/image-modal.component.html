@@ -1,0 +1,11 @@
+<div class="modal-backdrop" *ngIf="imageUrl" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-button" (click)="onClose()" aria-label="Close image modal">
+      <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" />
+        <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </button>
+    <img [src]="imageUrl" alt="Preview" />
+  </div>
+</div>
