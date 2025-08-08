@@ -124,7 +124,7 @@ export class CronService {
 
   parsePart(part: string, validateRange: (val: number) => boolean) {
     // Every value
-    if (part === '*' || !part) {
+    if (part === '*' || part === '?') {
       return { type: 'every', value: null };
     }
     // Single value
@@ -237,7 +237,7 @@ export class CronService {
     if (locale) {
       this.setLocale(locale);
     }
-    const [min, hour, dayOfMonth, month, dayOfWeek] = cron.replace(/\?/g, '').split(' ');
+    const [min, hour, dayOfMonth, month, dayOfWeek] = cron.split(' ');
     const timePart = this.getTimePart(min, hour);
     const dayPart = this.getDayPart(dayOfMonth, dayOfWeek);
     const monthPart = this.getMonthPart(month);
