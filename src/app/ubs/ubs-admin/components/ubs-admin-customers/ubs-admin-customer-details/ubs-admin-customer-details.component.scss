@@ -66,6 +66,7 @@
   .button-wrapper {
     display: flex;
     width: 100%;
+
     button:disabled {
       background-color: var(--ubs-primary-light-grey);
       border-color: var(--ubs-quaternary-light-grey);
