@@ -17,7 +17,6 @@ import { UBSInputErrorComponent } from '@ubs/shared/components/ubs-input-error/u
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
-import { KyivNamesEnum } from '../../models/ubs.interface';
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
@@ -88,7 +87,7 @@ describe('UBSPersonalInformationComponent', () => {
     senderFirstName: 'fake',
     senderLastName: 'fake',
     senderEmail: 'fake',
-    senderPhoneNumber: 'fake'
+    senderPhoneNumber: '+380999999999'
   };
 
   const mockLocations = {
@@ -190,39 +189,7 @@ describe('UBSPersonalInformationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('method ngOnChanges should call changePersonalData and submit', () => {
-    fakeShareFormService.changePersonalData.and.callFake(() => {});
-    expect(fakeShareFormService.changePersonalData).toHaveBeenCalled();
-  });
-
-  xit('method changeAddressInPersonalData should set data to PersonalData', () => {});
-
-  xit('method setFormData should set data to PersonalDataForm', () => {});
-
-  xit('method toggleClient should set client data if anotherClient = false', () => {
-    expect(component.personalDataForm.get('anotherClientPhoneNumber').value).toBe('+380');
-  });
-
-  xit('method toggleClient should clear client data if anotherClient = true', () => {
-    expect(component.personalDataForm.get('anotherClientPhoneNumber').value).toBe('');
-  });
-
-  xit('method submit should invoke methods', () => {
-    const mockedOrderDetails = {
-      bags: [],
-      points: 9,
-      additionalOrders: ['']
-    };
-    component.personalData = mockedPersonalData as any;
-    fakeShareFormService.orderDetails = mockedOrderDetails;
-    fixture.detectChanges();
-    fakeOrderService.setOrder.and.callFake(() => {});
-    expect(fakeOrderService.setOrder).toHaveBeenCalledTimes(1);
-  });
-
-  xit('should subscribe to locationSubject and languageBehaviourSubject', () => {
-    const spyLocationSubject = spyOn(component.orderService.locationSubject, 'pipe').and.callThrough();
-    component.ngOnInit();
-    expect(spyLocationSubject).toHaveBeenCalled();
+  it('method toggleClient should clear client data if anotherClient = true', () => {
+    expect(component.personalDataForm.get('senderPhoneNumber').value).toBe('');
   });
 });

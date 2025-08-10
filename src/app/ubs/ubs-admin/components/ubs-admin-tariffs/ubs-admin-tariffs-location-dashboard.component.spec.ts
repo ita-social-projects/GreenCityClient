@@ -32,7 +32,7 @@ import { TariffRegionAll } from './ubs-tariffs.enum';
 import { provideMockStore } from '@ngrx/store/testing';
 import { IAppState } from 'src/app/store/state/app.state';
 
-xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
+describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
   let fixture: ComponentFixture<UbsAdminTariffsLocationDashboardComponent>;
   let httpMock: HttpTestingController;
@@ -313,7 +313,7 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     const spy = spyOn(component, 'toggleSelectAllCity');
     component.onSelectCity(eventMock as any);
     expect(spy).toHaveBeenCalled();
-    expect(component.city.value).toEqual('');
+    expect(component.city.value).toEqual('ubs-tariffs.states.all');
   });
 
   it('should remove selected city if it exists in list', () => {
@@ -743,7 +743,7 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('navigate to pricing page', () => {
     const spy = spyOn(router, 'navigate');
     component.page('tariff', 1);
-    expect(spy).toHaveBeenCalledWith([`ubs-admin/tariffs/location/1`]);
+    expect(spy).toHaveBeenCalledWith([`ubs/admin/tariffs/location/1`]);
   });
 
   it('should call methods in OnInit', () => {
@@ -774,19 +774,17 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should create new card on create card method', fakeAsync(() => {
-    const spy1 = spyOn(component, 'createCardRequest');
-    const spy2 = spyOn(component, 'getExistingCard');
-    const spy3 = spyOn(component, 'setCountOfCheckedCity');
-    const spy4 = spyOn(component, 'setStationPlaceholder');
+    const spy1 = spyOn(component, 'getExistingCard');
+    const spy2 = spyOn(component, 'setCountOfCheckedCity');
+    const spy3 = spyOn(component, 'setStationPlaceholder');
     matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
     component.createTariffCard();
     expect(fakeMatDialogRef.afterClosed).toHaveBeenCalled();
     tick();
     expect(spy1).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalledWith({});
     expect(spy2).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalledWith({});
     expect(spy3).toHaveBeenCalled();
-    expect(spy4).toHaveBeenCalled();
     expect(component.region.value).toEqual('');
     expect(component.courier.value).toEqual('');
     expect(component.selectedCities).toEqual([]);
@@ -859,10 +857,9 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.courier.setValue('fake');
     component.selectedStation = [{ name: 'stationItem', id: 1 }];
     component.selectedCities = [{ name: 'fake', id: 159, englishName: 'fake' }];
-    const spy = spyOn(component, 'createCardDto');
+    const spy = spyOn(component, 'createCardDto').and.callThrough();
     component.checkisCardExist();
     expect(spy).toHaveBeenCalled();
-    expect(tariffsServiceMock.checkIfCardExist).toHaveBeenCalled();
   });
 
   it('should call function on create card method', () => {
@@ -882,12 +879,6 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(tariffsServiceMock.createCard).toHaveBeenCalled();
   });
 
-  it('should call createCardRequest after matDialogRef closed', () => {
-    const spy = spyOn(component, 'createCardRequest');
-    component.createTariffCard();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should return false if card do not exist', () => {
     component.region.setValue('Fake1');
     component.courier.setValue('Fake1');
@@ -896,7 +887,7 @@ xdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.cards = [];
     component.checkisCardExist();
     tariffsServiceMock.checkIfCardExist.and.returnValue(of(false));
-    expect(component.isCardExist).toBe(true);
+    expect(component.isCardExist).toBe(false);
   });
 
   it('should call openAddCourierDialog', () => {

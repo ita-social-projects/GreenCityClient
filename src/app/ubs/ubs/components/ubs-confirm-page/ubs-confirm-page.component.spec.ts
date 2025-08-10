@@ -29,7 +29,8 @@ describe('UbsConfirmPageComponent', () => {
     'removeUbsOrderId',
     'getExistingOrderId',
     'removeUBSExistingOrderId',
-    'getUserId'
+    'getUserId',
+    'getUserPagePayment'
   ]);
   const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
 
@@ -83,7 +84,7 @@ describe('UbsConfirmPageComponent', () => {
     expect(component.localStorageService.removeOrderWithoutPayment).toHaveBeenCalled();
   });
 
-  xit('ngOnInit should call renderView with oderID', () => {
+  it('ngOnInit should call renderView with oderID', () => {
     fakeUBSOrderFormService.getOrderResponseErrorStatus.and.returnValue(false);
     fakeUBSOrderFormService.getOrderStatus.and.returnValue(of({ result: 'success', order_id: '123_456' }));
     const renderViewMock = spyOn(component, 'renderView');

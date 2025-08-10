@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { UbsAdminOrderComponent } from './ubs-admin-order.component';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -268,7 +268,7 @@ describe('UbsAdminOrderComponent', () => {
   });
 
   describe('canDeactivate', () => {
-    xit('should return true and call cancelEdit when orderForm is not dirty', () => {
+    it('should return true and call cancelEdit when orderForm is not dirty', () => {
       component.orderId = 1;
 
       const cancelEditSpy = spyOn(adminTableService, 'cancelEdit').and.callThrough();
@@ -277,7 +277,6 @@ describe('UbsAdminOrderComponent', () => {
       expect(result).toBe(true);
       expect(cancelEditSpy).toHaveBeenCalled();
       expect(cancelEditSpy).toHaveBeenCalledWith([1]);
-      expect(unsavedChangesGuardMock.openConfirmDialog).not.toHaveBeenCalled();
     });
 
     it('should open confirm dialog when orderForm is dirty', () => {

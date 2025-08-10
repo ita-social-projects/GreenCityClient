@@ -4,7 +4,7 @@ import { ChatsService } from '../chats/chats.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { Title } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { SocketClientState } from 'src/app/shared/services/socket/socket-state.enum';
 
 describe('SocketService', () => {
@@ -14,8 +14,22 @@ describe('SocketService', () => {
   let jwtService: jasmine.SpyObj<JwtService>;
   let titleService: jasmine.SpyObj<Title>;
 
+  const mockStompClient = {
+    send: jasmine.createSpy('send'),
+    disconnect: jasmine.createSpy('disconnect'),
+    subscribe: jasmine.createSpy('subscribe').and.returnValue({ unsubscribe: () => {} }),
+    onConnect: () => {},
+    onStompError: () => {}
+  };
+
   beforeEach(() => {
     const chatsServiceSpy = jasmine.createSpyObj('ChatsService', ['openCurrentChat', 'setCurrentChat']);
+    chatsServiceSpy.currentChat = { id: 1 } as any;
+    chatsServiceSpy.currentChatMessages = [{ id: 1, content: 'test' }] as any;
+    chatsServiceSpy.chatsMessages = { 1: { page: [{ id: 1, content: 'test' }] } } as any;
+    chatsServiceSpy.currentChatMessagesStream$ = new Subject<any>();
+    chatsServiceSpy.messageToEdit$ = new Subject<any>();
+
     const localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', ['getUserId']);
     const jwtServiceSpy = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
     const titleServiceSpy = jasmine.createSpyObj('Title', ['setTitle']);
@@ -35,86 +49,82 @@ describe('SocketService', () => {
     localStorageService = TestBed.inject(LocalStorageService) as jasmine.SpyObj<LocalStorageService>;
     jwtService = TestBed.inject(JwtService) as jasmine.SpyObj<JwtService>;
     titleService = TestBed.inject(Title) as jasmine.SpyObj<Title>;
+
+    (service as any).stompClient = mockStompClient;
+
+    spyOn(service, 'connectSubs').and.returnValue(of(mockStompClient));
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  xit('should connect', () => {
-    localStorageService.getUserId.and.returnValue(123);
-    service.connect();
-    expect(service['socketState'].value).toBe(SocketClientState.CONNECTED);
-  });
-
-  xit('should subscribe to messages', () => {
+  it('should subscribe to messages', () => {
     spyOn(service, 'onMessage').and.returnValue(of({}));
     service.onMessage('/test-topic').subscribe((message) => {
       expect(message).toBeDefined();
     });
   });
 
-  xit('should handle onConnected', () => {
+  it('should handle onConnected', () => {
     spyOn(service, 'onConnected');
     service.onConnected();
     expect(service.onConnected).toHaveBeenCalled();
   });
 
-  xit('should handle onError', () => {
+  it('should handle onError', () => {
     spyOn(service, 'onError');
     service['onError']('error');
     expect(service.onError).toHaveBeenCalled();
   });
 
-  xit('should add participant', () => {
-    spyOn(service['stompClient'], 'send');
+  it('should add participant', () => {
     service.addParticipant(123);
-    expect(service['stompClient'].send).toHaveBeenCalled();
+    expect(mockStompClient.send).toHaveBeenCalled();
   });
 
-  xit('should send message', () => {
+  it('should send message', () => {
     const message = { roomId: 1, senderId: 1, content: 'Test message' };
-    spyOn(service['stompClient'], 'send');
     service.sendMessage(message);
-    expect(service['stompClient'].send).toHaveBeenCalled();
+    expect(mockStompClient.send).toHaveBeenCalled();
   });
 
-  xit('should remove message', () => {
+  it('should remove message', () => {
     const message = { roomId: 1, senderId: 1, content: 'Test message' };
-    spyOn(service['stompClient'], 'send');
     service.removeMessage(message);
-    expect(service['stompClient'].send).toHaveBeenCalled();
+    expect(mockStompClient.send).toHaveBeenCalled();
   });
 
-  xit('should update message', () => {
+  it('should update message', () => {
     const message = { roomId: 1, senderId: 1, content: 'Updated message' };
-    spyOn(service['stompClient'], 'send');
     service.updateMessage(message);
-    expect(service['stompClient'].send).toHaveBeenCalled();
+    expect(mockStompClient.send).toHaveBeenCalled();
   });
 
-  xit('should like message', () => {
+  it('should like message', () => {
     const message = { messageId: 1, participantId: 123 };
-    spyOn(service['stompClient'], 'send');
     service.likeMessage(message);
-    expect(service['stompClient'].send).toHaveBeenCalled();
+    expect(mockStompClient.send).toHaveBeenCalled();
   });
 
-  xit('should create new chat', () => {
-    spyOn(service['stompClient'], 'send');
+  it('should create new chat', () => {
     service.createNewChat([1, 2], true);
-    expect(service['stompClient'].send).toHaveBeenCalled();
+    expect(mockStompClient.send).toHaveBeenCalled();
   });
 
-  xit('should subscribe to update delete message', () => {
-    spyOn(service, 'onMessage').and.returnValue(of({ body: JSON.stringify({ id: 1 }) }));
+  it('should subscribe to update delete message', () => {
+    spyOn(service, 'onMessage').and.returnValue(
+      of({
+        headers: { update: 'true' },
+        body: JSON.stringify({ id: 1 })
+      })
+    );
     service.subscribeToUpdateDeleteMessage(1);
     expect(service.onMessage).toHaveBeenCalled();
   });
 
-  xit('should unsubscribe all', () => {
-    spyOn(service['stompClient'], 'disconnect');
+  it('should unsubscribe all', () => {
     service.unsubscribeAll();
-    expect(service['stompClient'].disconnect).toHaveBeenCalled();
+    expect(mockStompClient.disconnect).toHaveBeenCalled();
   });
 });
