@@ -110,22 +110,29 @@ describe('UsersAchievementsComponent', () => {
   });
 
   describe('getAchievementsToShow', () => {
+    let originalInnerWidth: number;
+
+    beforeEach(() => {
+      originalInnerWidth = window.innerWidth;
+    });
+
+    afterEach(() => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: originalInnerWidth
+      });
+    });
+
     it('should return 3 items if window width is more than 768', () => {
       Object.defineProperty(window, 'innerWidth', {
         writable: true,
         configurable: true,
         value: 800
       });
-
       const itemsToShow = component.getAchievementsToShow();
 
       expect(itemsToShow).toBe(3);
-
-      Object.defineProperty(window, 'innerWidth', {
-        writable: true,
-        configurable: true,
-        value: window.innerWidth
-      });
     });
 
     it('should return 5 items if window width is more than 576', () => {
@@ -134,16 +141,9 @@ describe('UsersAchievementsComponent', () => {
         configurable: true,
         value: 600
       });
-
       const itemsToShow = component.getAchievementsToShow();
 
       expect(itemsToShow).toBe(5);
-
-      Object.defineProperty(window, 'innerWidth', {
-        writable: true,
-        configurable: true,
-        value: window.innerWidth
-      });
     });
   });
 
@@ -194,6 +194,20 @@ describe('UsersAchievementsComponent', () => {
   });
 
   describe('shouldShowArrows', () => {
+    let originalInnerWidth: number;
+
+    beforeEach(() => {
+      originalInnerWidth = window.innerWidth;
+    });
+
+    afterEach(() => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: originalInnerWidth
+      });
+    });
+
     it('should return true if there are more achievements than itemsPerPage and window width is less than 768', () => {
       component.achievements = mockAchievements;
       component.itemsPerPage = 2;
@@ -204,12 +218,6 @@ describe('UsersAchievementsComponent', () => {
       });
 
       expect(component.shouldShowArrows()).toBeTrue();
-
-      Object.defineProperty(window, 'innerWidth', {
-        writable: true,
-        configurable: true,
-        value: window.innerWidth
-      });
     });
 
     it('should return false if there are fewer achievements than itemsPerPage', () => {
@@ -229,12 +237,6 @@ describe('UsersAchievementsComponent', () => {
       });
 
       expect(component.shouldShowArrows()).toBeFalse();
-
-      Object.defineProperty(window, 'innerWidth', {
-        writable: true,
-        configurable: true,
-        value: window.innerWidth
-      });
     });
   });
 
