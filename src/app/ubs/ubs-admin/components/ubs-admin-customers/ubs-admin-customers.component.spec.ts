@@ -1,5 +1,5 @@
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatTableModule } from '@angular/material/table';

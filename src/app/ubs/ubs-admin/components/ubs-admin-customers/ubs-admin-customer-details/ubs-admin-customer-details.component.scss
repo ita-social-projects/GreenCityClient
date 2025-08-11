@@ -66,6 +66,13 @@
   .button-wrapper {
     display: flex;
     width: 100%;
+    margin-top: 13px;
+
+    button:disabled {
+      background-color: var(--ubs-primary-light-grey);
+      border-color: var(--ubs-quaternary-light-grey);
+      color: var(--ubs-secondary-grey);
+    }
   }
 
   .action {

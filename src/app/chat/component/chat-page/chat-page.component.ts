@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, NgZone } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders, HttpParams } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
@@ -353,6 +353,7 @@ export class ChatComponent implements OnInit {
   }
 
   closeImageModal(): void {
+    console.log('close image modal');
     this.selectedImageUrl = null;
   }
 }

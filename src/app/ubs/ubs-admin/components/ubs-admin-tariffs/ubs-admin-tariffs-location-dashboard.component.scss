@@ -405,8 +405,9 @@ form {
 }
 
 .checkbox-text {
-  position: absolute;
-  top: -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .arrowRight-img {

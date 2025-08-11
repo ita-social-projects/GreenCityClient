@@ -141,7 +141,7 @@ describe('ChatComponent · fetchMessages via stubbed HttpClient', () => {
   it('should map messages correctly on success', () => {
     component.selectedChat = {
       chatInternalId: 123,
-      name: 'Tester',
+      nickname: 'Tester',
       messages: []
     };
 
@@ -246,7 +246,9 @@ describe('ChatComponent · loadAllChats via HttpTestingController', () => {
         { username: 'u1', id: 11, chatId: 'x1', lastMessage: { text: 'm1', sendAt: '2025-07-14T10:00:00Z' } },
         { firstName: 'F', lastName: 'L', id: 22, chatId: 'x2' },
         { chatId: 'x3', id: 33 },
-        {}
+        {},
+        { firstName: 'A', id: 12, chatId: 'x4', username: 'a', user: { firstName: 'A', lastName: 'K' } },
+        { user: {} }
       ]
     };
 
@@ -259,22 +261,31 @@ describe('ChatComponent · loadAllChats via HttpTestingController', () => {
       jasmine.objectContaining({ headers: jasmine.any(Object) })
     );
 
-    const [c1, c2, c3, c4] = component.chats;
+    const [c1, c2, c3, c4, c5, c6] = component.chats;
 
-    expect(c1.name).toBe('u1');
+    expect(c1.fullName).toBe('');
+    expect(c1.nickname).toBe('u1');
     expect(c1.initial).toBe('U');
     expect(c1.chatInternalId).toBe(11);
     expect(c1.lastMessage).toBe('m1');
     expect(c1.time).toMatch(/\d{1,2}:\d{2}/);
 
-    expect(c2.name).toBe('F L');
+    expect(c2.fullName).toBe('F L');
+    expect(c2.nickname).toBe('F L');
     expect(c2.initial).toBe('F');
 
-    expect(c3.name).toBe('x3');
+    expect(c3.fullName).toBe('');
+    expect(c3.nickname).toBe('x3');
     expect(c3.initial).toBe('X');
 
-    expect(c4.name).toBe('Unknown');
+    expect(c4.fullName).toBe('');
+    expect(c4.nickname).toBe('Unknown');
     expect(c4.initial).toBe('?');
+
+    expect(c5.fullName).toBe('A K');
+    expect(c5.nickname).toBe('a');
+
+    expect(c6.fullName).toBe('');
   });
 
   xit('should log error on failure', async () => {
