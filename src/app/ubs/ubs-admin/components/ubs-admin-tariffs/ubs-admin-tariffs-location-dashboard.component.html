@@ -100,7 +100,7 @@
           </mat-option>
           <mat-option *ngFor="let city of filteredCities | async">
             <mat-checkbox class="mr-1" [checked]="checkSelectedItem(city, selectedCities)"></mat-checkbox>
-            <span class="checkbox-text">{{ city }}</span>
+            <span>{{ city }}</span>
           </mat-option>
         </mat-autocomplete>
         <div class="input-control" *ngIf="city.enabled">
@@ -149,8 +149,10 @@
             {{ 'ubs-tariffs.states.all' | translate }}
           </mat-option>
           <mat-option *ngFor="let option of filteredStations | async" class="option-state" [value]="option">
-            <mat-checkbox class="mr-1" [checked]="checkSelectedItem(option, selectedStation)"></mat-checkbox>
-            <span class="checkbox-text">{{ option }}</span>
+            <div class="checkbox-text">
+              <mat-checkbox class="mr-1" [checked]="checkSelectedItem(option, selectedStation)"></mat-checkbox>
+              <span>{{ option }}</span>
+            </div>
           </mat-option>
         </mat-autocomplete>
         <mat-icon *ngIf="this.selectedStation.length" class="cross-img" (click)="resetStationValue()">close</mat-icon>
