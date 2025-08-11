@@ -635,7 +635,11 @@
     "delete-message-confirm": "Так",
     "delete-message-cancel": "Ні",
     "active-chat-placeholder": "Введіть ваше повідомлення",
-    "attach-file": "Прикріпити файл"
+    "attach-file": "Прикріпити файл",
+    "status": {
+      "READ": "Прочитано",
+      "UNREAD": "Не прочитано"
+    }
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",

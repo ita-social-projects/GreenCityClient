@@ -637,7 +637,11 @@
     "delete-message-confirm": "Yes",
     "delete-message-cancel": "No",
     "active-chat-placeholder": "Enter your message",
-    "attach-file": "Attach e file"
+    "attach-file": "Attach e file",
+    "status": {
+      "READ": "Read",
+      "UNREAD": "Unread"
+    }
   },
   "ubs-employee": {
     "add-employee": "Add employee",

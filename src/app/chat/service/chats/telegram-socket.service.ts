@@ -51,7 +51,6 @@ export class TelegramSocketService implements OnDestroy {
   private initSocket(): void {
     const ws = new WebSocket(this.socketUrl);
     this.stompClient = Stomp.over(() => ws as any);
-    this.stompClient.debug = (m) => console.log('[STOMP]', m);
     this.stompClient.reconnectDelay = 2000;
     const token = localStorage.getItem('accessToken');
     if (token) {
@@ -59,7 +58,6 @@ export class TelegramSocketService implements OnDestroy {
     }
 
     this.stompClient.onConnect = (frame: IFrame) => {
-      console.log('[STOMP onConnect]', frame.headers);
       this.connected = true;
       this.subscribeToNewChatsCore();
       this.chatSubjects.forEach((_s, id) => this.bindChatSubscription(id));
