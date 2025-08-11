@@ -12,6 +12,7 @@ import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
 import { OrderInfoMockedData } from './../../services/orderInfoMock';
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
+import { SimpleChanges } from '@angular/core';
 
 describe('UbsAdminOrderPaymentComponent', () => {
   let component: UbsAdminOrderPaymentComponent;
@@ -182,5 +183,63 @@ describe('UbsAdminOrderPaymentComponent', () => {
     expect(component.paymentsArray[0].amount).toBe(100);
     expect(component.paymentsArray[1].amount).toBe(200);
     expect(component.paymentsArray[2].amount).toBe(300);
+  });
+
+  it('should change overpayment', () => {
+    component.paidAmount = 300;
+    component.orderStatus = OrderStatus.CANCELED;
+    component['setOverpaymentForCancelledStatus']();
+
+    expect(component.overpayment).toEqual(300);
+  });
+
+  it('should not change overpayment', () => {
+    component.overpayment = 0;
+    component.orderStatus = OrderStatus.FORMED;
+    component['setOverpaymentForCancelledStatus']();
+
+    expect(component.overpayment).toEqual(0);
+  });
+
+  it('should update payment info and call setOverpaymentForCancelledStatus when paymentInfo changes', () => {
+    const newPaymentInfo = {
+      paymentTableInfoDto: { overpayment: 50, paidAmount: 150, paymentInfoDtos: [], unPaidAmount: 0 },
+      orderFullPrice: 150
+    };
+    const changes: SimpleChanges = {
+      paymentInfo: {
+        currentValue: newPaymentInfo,
+        previousValue: undefined,
+        firstChange: true,
+        isFirstChange: () => true
+      }
+    };
+    const spy = spyOn<any>(component, 'setOverpaymentForCancelledStatus');
+
+    component.ngOnChanges(changes);
+
+    expect(component.paymentInfo).toEqual(newPaymentInfo);
+    expect(component.paidAmount).toBe(150);
+    expect(component.overpayment).toBe(50);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should update order status to CANCELED and call setOverpaymentForCancelledStatus', () => {
+    component.paidAmount = 100;
+    component.overpayment = 0;
+    const changes: SimpleChanges = {
+      orderStatus: {
+        currentValue: OrderStatus.CANCELED,
+        previousValue: OrderStatus.FORMED,
+        firstChange: false,
+        isFirstChange: () => false
+      }
+    };
+    const spy = spyOn<any>(component, 'setOverpaymentForCancelledStatus');
+
+    component.ngOnChanges(changes);
+
+    expect(component.currentOrderStatus).toBe(OrderStatus.CANCELED);
+    expect(spy).toHaveBeenCalled();
   });
 });
