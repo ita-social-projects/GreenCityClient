@@ -43,7 +43,6 @@ xdescribe('ChatComponent Full Coverage', () => {
   let fixture: ComponentFixture<ChatComponent>;
   let httpMock: HttpTestingController;
   let socket: MockTelegramSocketService;
-  let baseUrl = `${environment.ubsAdmin.backendUbsAdminLink}/telegram`;
   beforeEach(async () => {
     const mockIO = {
       observe: jasmine.createSpy(),
