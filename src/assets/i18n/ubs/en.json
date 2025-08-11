@@ -16,6 +16,7 @@
     "max-length-comment": "Maximum 255 characters are allowed",
     "minlength-short": "The field contains insufficient characters",
     "max-length": "The field should contain 1-30 characters",
+    "max-length-email": "The field should contain 1-50 characters",
     "pattern": "Enter a valid email"
   },
   "snack-bar": {
@@ -274,8 +275,8 @@
     "pick-up-service": {
       "caption": "About service",
       "pick-up-city": {
-        "title": "PICK UP city is a digital waste sorting service.",
-        "content": "Suitable for anyone who wants to sort without leaving home and get their own sorting statistics."
+        "title": "PICK UP city is a digital waste sorting service",
+        "content": "Suitable for anyone who wants to sort without leaving home and get their own sorting statistics"
       },
       "how-it-works": {
         "title": "How does it work?",

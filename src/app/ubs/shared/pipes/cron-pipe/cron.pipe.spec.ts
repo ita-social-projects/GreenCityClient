@@ -31,8 +31,8 @@ describe('CronPipe', () => {
   });
 
   it('returns null on empty input', () => {
-    expect(pipe.transform('')).toBe(null);
-    expect(pipe.transform()).toBe(null);
+    expect(pipe.transform('', 'ua')).toBe(pipe.localesNone.uk.none);
+    expect(pipe.transform()).toBe(pipe.localesNone.en.none);
   });
 
   it('should transform cron string correctly', () => {

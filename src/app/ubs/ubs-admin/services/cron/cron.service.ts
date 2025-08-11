@@ -124,7 +124,7 @@ export class CronService {
 
   parsePart(part: string, validateRange: (val: number) => boolean) {
     // Every value
-    if (part === '*') {
+    if (part === '*' || part === '?') {
       return { type: 'every', value: null };
     }
     // Single value

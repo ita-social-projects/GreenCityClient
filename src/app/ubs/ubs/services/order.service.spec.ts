@@ -132,13 +132,13 @@ describe('OrderService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('method getOrders should return order details', () => {
+  it('method getOrders should return order details', fakeAsync(() => {
     service.getOrderDetails(1, 25).subscribe((data) => {
       service.stateOrderDetails = null;
       expect(ubsOrderServiseMock.orderDetails).not.toBeNull();
       expect(ubsOrderServiseMock.orderDetails).toEqual(data);
     });
-  });
+  }));
 
   it('method getPersonalData should return personal data', fakeAsync(() => {
     service.getPersonalData().subscribe((data) => {

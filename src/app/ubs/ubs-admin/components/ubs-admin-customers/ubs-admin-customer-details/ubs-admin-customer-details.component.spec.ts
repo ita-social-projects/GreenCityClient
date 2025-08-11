@@ -3,14 +3,16 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { UbsAdminCustomerDetailsComponent } from './ubs-admin-customer-details.component';
 import { AdminCustomersService } from '@ubs/ubs-admin/services/admin-customers.service';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { CommentPopUpComponent } from '../../shared/components/comment-pop-up/comment-pop-up.component';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
+
 describe('UbsAdminCustomerDetailsComponent', () => {
   let component: UbsAdminCustomerDetailsComponent;
   let fixture: ComponentFixture<UbsAdminCustomerDetailsComponent>;
@@ -19,6 +21,7 @@ describe('UbsAdminCustomerDetailsComponent', () => {
   let matDialogMock: jasmine.SpyObj<MatDialog>;
   let dialogRefMock: jasmine.SpyObj<any>;
   let snackBarSpy: jasmine.SpyObj<MatSnackBarService>;
+  let router: Router;
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCustomer',
@@ -47,7 +50,7 @@ describe('UbsAdminCustomerDetailsComponent', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
       declarations: [UbsAdminCustomerDetailsComponent],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
@@ -64,6 +67,8 @@ describe('UbsAdminCustomerDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminCustomerDetailsComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate').and.stub();
     locationMock = TestBed.inject(Location);
     fixture.detectChanges();
   });
@@ -78,62 +83,23 @@ describe('UbsAdminCustomerDetailsComponent', () => {
     expect(spyLock).toHaveBeenCalled();
   });
 
-  it('should return early if userId is null', () => {
-    component.openDialog('column', 'chatLink', null);
+  it('on onOpenChat should redirect to chat with a client', () => {
+    const chatIdMock = 12;
 
-    expect(matDialogMock.open).not.toHaveBeenCalled();
+    component.onOpenChat(chatIdMock);
+
+    expect(router.navigate).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['ubs/admin', 'chat-page'], { state: { selectedChatId: chatIdMock } });
   });
+  it('should call onOpenChat when button is clicked', () => {
+    const onOpenChatSpy = spyOn(component, 'onOpenChat');
 
-  it('should open the dialog with correct configuration', () => {
-    component.openDialog('column', 'chatLink', 'userId');
+    component.customer = { chatId: 123 };
+    fixture.detectChanges();
 
-    expect(matDialogMock.open).toHaveBeenCalledWith(CommentPopUpComponent, (component as any).dialogConfig);
-    expect(dialogRefMock.componentInstance.comment).toBe('chatLink');
-    expect(dialogRefMock.componentInstance.isLink).toBeTrue();
-  });
+    const button = fixture.debugElement.query(By.css('.button-wrapper button'));
+    button.triggerEventHandler('click', null);
 
-  it('should do nothing if dialog closes without changes', () => {
-    dialogRefMock.afterClosed.and.returnValue(of(null));
-
-    component.openDialog('column', 'chatLink', 'userId');
-
-    expect(adminCustomerServiceMock.addChatLink).not.toHaveBeenCalled();
-    expect(snackBarSpy.openSnackBar).not.toHaveBeenCalled();
-  });
-
-  it('should call addChatLink and show success message on dialog close with updated data', () => {
-    const updatedData = 'newChatLink';
-
-    dialogRefMock.afterClosed.and.returnValue(of(updatedData));
-    adminCustomerServiceMock.addChatLink.and.returnValue(of(void 0));
-
-    component.openDialog('column', 'chatLink', 'userId');
-
-    expect(adminCustomerServiceMock.addChatLink).toHaveBeenCalledWith('userId', updatedData);
-    expect(snackBarSpy.openSnackBar).toHaveBeenCalledWith('successUpdateLink');
-  });
-
-  it('should show error message if addChatLink fails', () => {
-    const updatedData = 'newChatLink';
-    dialogRefMock.afterClosed.and.returnValue(of(updatedData));
-    adminCustomerServiceMock.addChatLink.and.returnValue(throwError(() => 'error'));
-
-    component.openDialog('column', 'chatLink', 'userId');
-
-    expect(snackBarSpy.openSnackBar).toHaveBeenCalledWith('failUpdateLink');
-  });
-
-  it('should call adminCustomerService.openChat when onOpenChat is called', () => {
-    const chatUrl = 'https://example.com';
-
-    component.onOpenChat(chatUrl);
-
-    expect(adminCustomerServiceMock.openChat).toHaveBeenCalledWith(chatUrl);
-  });
-
-  it('should not call adminCustomerService.openChat when chatUrl is undefined', () => {
-    component.onOpenChat(undefined);
-
-    expect(adminCustomerServiceMock.openChat).not.toHaveBeenCalled();
+    expect(onOpenChatSpy).toHaveBeenCalledWith(123);
   });
 });
