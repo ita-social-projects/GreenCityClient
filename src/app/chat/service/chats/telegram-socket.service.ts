@@ -3,12 +3,14 @@ import SockJS from 'sockjs-client';
 import { Client, Stomp } from '@stomp/stompjs';
 import { Subject, Observable } from 'rxjs';
 import { environment } from '@environment/environment';
+import { SocketNewChat } from '../../model/socket-new-chat.interface';
+import { SocketChatMessage } from '../../model/socket-chat-message.interface';
 @Injectable({ providedIn: 'root' })
 export class TelegramSocketService implements OnDestroy {
   private stompClient: Client;
   private connected = false;
-  private readonly chatSubjects: Map<number, Subject<any>> = new Map();
-  private readonly newChatsSubject = new Subject<any>();
+  private readonly chatSubjects: Map<number, Subject<SocketChatMessage>> = new Map();
+  private readonly newChatsSubject = new Subject<SocketNewChat>();
 
   constructor() {
     this.initSocket();
@@ -40,9 +42,9 @@ export class TelegramSocketService implements OnDestroy {
     });
   }
 
-  subscribeToMessages(chatId: number): Observable<any> {
+  subscribeToMessages(chatId: number): Observable<SocketChatMessage> {
     if (!this.chatSubjects.has(chatId)) {
-      const subject = new Subject<any>();
+      const subject = new Subject<SocketChatMessage>();
       this.chatSubjects.set(chatId, subject);
 
       const topic = `/topic/messages/${chatId}`;
@@ -55,11 +57,11 @@ export class TelegramSocketService implements OnDestroy {
     return this.chatSubjects.get(chatId).asObservable();
   }
 
-  get newChats$(): Observable<any> {
+  get newChats$(): Observable<SocketNewChat> {
     return this.newChatsSubject.asObservable();
   }
 
   ngOnDestroy(): void {
-    this.stompClient?.deactivate();
+    void this.stompClient?.deactivate();
   }
 }
