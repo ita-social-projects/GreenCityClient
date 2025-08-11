@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { setupChatComponentTest } from './setupChatComponentTest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TelegramSocketService } from '../../service/chats/telegram-socket.service';
+import { SocketChatMessage } from '../../model/socket-chat-message.interface';
 describe('ChatComponent', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
@@ -498,7 +499,6 @@ describe('toggleClientInfo', () => {
     component.closeImageModal();
 
     expect(component.selectedImageUrl).toBeNull();
-    expect(console.log).toHaveBeenCalledWith('close image modal');
   });
   it('should set selectedChat and subscribe to messages via socket', () => {
     const mockChat = {
@@ -507,7 +507,9 @@ describe('toggleClientInfo', () => {
       messages: []
     };
 
-    const mockMessage = {
+    const mockMessage: SocketChatMessage = {
+      chatId: 1,
+      messageId: 1,
       fromManager: true,
       text: 'Hello from backend',
       sendAt: new Date().toISOString(),

@@ -1,6 +1,10 @@
 export interface SocketNewChat {
   chatId: number;
-  name: string;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  name?: string;
+
   lastMessage?: string | null;
   time?: string;
 }

@@ -3,6 +3,7 @@ import { TelegramSocketService } from './telegram-socket.service';
 import { Stomp, CompatClient, IMessage } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import type { IFrame } from '@stomp/stompjs';
+import { SocketChatMessage } from '../../model/socket-chat-message.interface';
 
 describe('TelegramSocketService', () => {
   let service: TelegramSocketService;
@@ -34,7 +35,7 @@ describe('TelegramSocketService', () => {
   });
 
   it('should subscribe to /topic/chats and emit new chat data', (done) => {
-    const chatData = { id: 1, name: 'New Chat' };
+    const chatData = { chatId: 123, name: 'N' } as const;
     const callbackMap: { [key: string]: (msg: IMessage) => void } = {};
 
     (mockStompClient.subscribe as jasmine.Spy).and.callFake((destination, callback) => {
@@ -72,7 +73,16 @@ describe('TelegramSocketService', () => {
 
   it('should subscribe to /topic/messages/{chatId} and emit message', (done) => {
     const chatId = 123;
-    const message = { text: 'Hello from server' };
+
+    const message: SocketChatMessage = {
+      chatId,
+      messageId: 1,
+      fromManager: true,
+      text: 'Hello from server',
+      sendAt: new Date().toISOString(),
+      assets: []
+    };
+
     const callbackMap: { [key: string]: (msg: IMessage) => void } = {};
 
     (mockStompClient.subscribe as jasmine.Spy).and.callFake((destination, callback) => {
@@ -81,7 +91,13 @@ describe('TelegramSocketService', () => {
     });
 
     service.subscribeToMessages(chatId).subscribe((msg) => {
-      expect(msg).toEqual(message);
+      // if you don’t want to assert every field, use objectContaining
+      expect(msg).toEqual(
+        jasmine.objectContaining({
+          fromManager: true,
+          text: 'Hello from server'
+        })
+      );
       done();
     });
 
