@@ -302,7 +302,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const spy = spyOn(component, 'toggleSelectAllCity');
     component.onSelectCity(eventMock as any);
     expect(spy).toHaveBeenCalled();
-    expect(component.city.value).toEqual('ubs-tariffs.states.all');
+    expect(component.city.value).toEqual('');
   });
 
   it('should remove selected city if it exists in list', () => {
