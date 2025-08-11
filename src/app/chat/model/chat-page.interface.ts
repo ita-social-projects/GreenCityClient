@@ -1,6 +1,36 @@
-export interface PaginatedResponse<T> {
-  page: T[];
-  totalPages: number;
+export enum AssetType {
+  IMAGE = 'IMAGE',
+  FILE = 'FILE'
+}
+
+export enum DeliveryStatus {
+  SENT = 'SENT',
+  DELIVERED = 'DELIVERED',
+  FAILED = 'FAILED'
+}
+
+export enum MessageViewingStatus {
+  UNREAD = 'UNREAD',
+  VIEWED = 'VIEWED'
+}
+
+export interface AssetDto {
+  id: number;
+  url: string;
+  type: AssetType;
+  fileName: string;
+  size: number;
+  contentType: string;
+}
+
+export interface MessageDto {
+  id: number;
+  sendAt: string;
+  text: string;
+  fromManager: boolean;
+  deliveryStatus: DeliveryStatus;
+  assets: AssetDto[];
+  messageViewingStatus?: MessageViewingStatus;
 }
 
 export interface ChatDto {
@@ -12,17 +42,33 @@ export interface ChatDto {
   lastMessage?: MessageDto | null;
 }
 
-export interface AssetDto {
-  type: 'IMAGE' | 'VIDEO' | 'FILE' | string;
-  url: string;
+export interface PaginatedResponse<T> {
+  page: T[];
+  totalElements: number;
+  currentPage: number;
+  totalPages: number;
 }
 
-export interface MessageDto {
-  id: number;
+export interface ChatMessageView {
+  from: string;
   text: string;
-  sendAt: string;
-  fromManager: boolean;
-  assets?: AssetDto[] | null;
+  time: string;
+  images?: string[];
+}
+
+export interface ChatListItem {
+  name: string;
+  initial: string;
+  chatId: string;
+  chatInternalId: number;
+  lastMessage: string;
+  time: string;
+  messages: ChatMessageView[];
+  viewingStatus?: MessageViewingStatus;
+}
+
+export interface ClientInfoData {
+  error?: string;
 }
 
 export interface NewChatEvent {
@@ -43,22 +89,4 @@ export interface MessageEvent {
   assets?: AssetDto[] | null;
 }
 
-export interface ChatListItem {
-  name: string;
-  initial: string;
-  chatId: string;
-  chatInternalId: number;
-  lastMessage: string;
-  time: string;
-  messages: ChatMessageView[];
-}
-
-export interface ChatMessageView {
-  from: 'Me' | string;
-  text: string;
-  time: string;
-  images: string[];
-}
-
 export type ClientInfoRecord = Record<string, unknown>;
-export type ClientInfoData = ClientInfoRecord | { error: string } | null;

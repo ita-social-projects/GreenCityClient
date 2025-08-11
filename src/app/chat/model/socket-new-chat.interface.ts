@@ -1,10 +1,25 @@
-export interface SocketNewChat {
-  chatId: number;
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  name?: string;
+import { AssetDto, MessageDto, MessageViewingStatus } from './chat-page.interface';
 
-  lastMessage?: string | null;
-  time?: string;
+type WithId = { id: number };
+type WithChatInternalId = { chatInternalId: number };
+type WithInternalId = { internalId: number };
+
+type IdCarrier = WithId | WithChatInternalId | WithInternalId;
+
+export interface SocketChatMessage {
+  sendAt: string;
+  text: string;
+  fromManager: boolean;
+  assets: AssetDto[];
+  messageViewingStatus?: MessageViewingStatus;
 }
+
+export interface SocketNewChatBase {
+  chatId: string | number;
+  username?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  lastMessage?: MessageDto | null;
+}
+
+export type SocketNewChat = SocketNewChatBase & IdCarrier;

@@ -270,3 +270,15 @@
     color: var(--quaternary-dark-grey);
   }
 }
+
+.last-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.status-badge {
+  padding: 0 0.4rem;
+  border-radius: 0.4rem;
+  font-size: 12px;
+  background: var(--quaternary-light-green, #eef8ef);
+}

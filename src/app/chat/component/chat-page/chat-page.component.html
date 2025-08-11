@@ -5,7 +5,6 @@
         <input type="text" [placeholder]="'chat.chat-placeholder' | translate" [(ngModel)]="searchId" (input)="filterChatsById()" />
       </label>
     </div>
-
     <ul class="chat-list">
       <li
         class="chat-item"
@@ -16,7 +15,13 @@
         <div class="avatar">{{ chat.initial }}</div>
         <div class="chat-details">
           <div class="chat-name">{{ chat.name }}</div>
-          <div class="last-message">{{ chat.lastMessage }}</div>
+
+          <div class="last-row">
+            <div class="last-message">{{ chat.lastMessage }}</div>
+            <span class="status-badge" *ngIf="chat.viewingStatus as vs">
+              {{ 'chat.status.' + vs | translate }}
+            </span>
+          </div>
         </div>
         <div class="timestamp">{{ chat.time }}</div>
       </li>

@@ -1,13 +1,9 @@
-export interface SocketAsset {
-  type: 'IMAGE' | 'VIDEO' | string;
-  url: string;
-}
+import { AssetDto, MessageViewingStatus } from './chat-page.interface';
 
 export interface SocketChatMessage {
-  chatId: string | number;
-  messageId?: number | string;
-  fromManager: boolean;
-  text: string | null;
   sendAt: string;
-  assets?: SocketAsset[];
+  text: string;
+  fromManager: boolean;
+  assets: AssetDto[];
+  messageViewingStatus?: MessageViewingStatus;
 }

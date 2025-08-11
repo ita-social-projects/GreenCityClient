@@ -11,19 +11,12 @@ import { userRoleSelector } from 'src/app/store/selectors/auth.selectors';
 import { environment } from '@environment/environment';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
 import { TelegramSocketService } from '../../service/chats/telegram-socket.service';
-import {
-  ChatListItem,
-  PaginatedResponse,
-  ChatDto,
-  MessageDto,
-  AssetDto,
-  NewChatEvent,
-  MessageEvent,
-  ChatMessageView,
-  ClientInfoData
-} from '../../model/chat-page.interface';
+import { ChatListItem, PaginatedResponse, ChatDto, MessageDto, ChatMessageView, ClientInfoData } from '../../model/chat-page.interface';
 import { ClientInfoRecord } from '../../model/chat-page.interface';
 import { SocketNewChat } from '../../model/socket-new-chat.interface';
+import { from } from 'rxjs';
+import { mergeMap, map } from 'rxjs/operators';
+import { SocketChatMessage } from '../../model/socket-chat-message.interface';
 
 @Component({
   selector: 'app-chat',
@@ -71,11 +64,16 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   private extractInternalId(nc: SocketNewChat): number {
-    const candidate = (nc as any).id ?? (nc as any).chatInternalId ?? (nc as any).internalId;
-    if (typeof candidate !== 'number') {
-      throw new Error('SocketNewChat payload missing internal id.');
+    if ('id' in nc) {
+      return nc.id;
     }
-    return candidate;
+    if ('chatInternalId' in nc) {
+      return nc.chatInternalId;
+    }
+    if ('internalId' in nc) {
+      return nc.internalId;
+    }
+    throw new Error('SocketNewChat payload missing internal id.');
   }
 
   ngOnInit(): void {
@@ -84,26 +82,33 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedChatId = state.selectedChatId;
     }
     this.store.select(userRoleSelector).pipe(take(1)).subscribe();
-
     this.telegramSocketService.newChats$.subscribe((newChat: SocketNewChat) => {
       const internalId = this.extractInternalId(newChat);
-
       const chatIdStr = String(newChat.chatId);
-      const { name, initial } = this.buildName(newChat.username, (newChat as any).firstName, (newChat as any).lastName, chatIdStr);
+      const { name, initial } = this.buildName(newChat.username ?? null, newChat.firstName ?? null, newChat.lastName ?? null, chatIdStr);
 
-      this.chats.unshift({
+      const item: ChatListItem = {
         name,
         initial,
         chatId: chatIdStr,
         chatInternalId: internalId,
-        lastMessage: (newChat as any).lastMessage?.text ?? '',
-        time: (newChat as any).lastMessage?.sendAt ? this.toTime((newChat as any).lastMessage.sendAt) : '',
-        messages: []
-      });
+        lastMessage: newChat.lastMessage?.text ?? '',
+        time: newChat.lastMessage?.sendAt ? this.toTime(newChat.lastMessage.sendAt) : '',
+        messages: [],
+        viewingStatus: newChat.lastMessage?.messageViewingStatus
+      };
 
+      this.chats.unshift(item);
       this.filteredChats = [...this.chats];
-    });
 
+      if (!item.viewingStatus) {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+          this.fetchLastStatuses([item], headers);
+        }
+      }
+    });
     this.loadAllChats(this.currentPage);
   }
 
@@ -116,6 +121,25 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       }
     });
+  }
+
+  private fetchLastStatuses(chatsBatch: ChatListItem[], headers: HttpHeaders): void {
+    from(chatsBatch)
+      .pipe(
+        mergeMap(
+          (c) =>
+            this.http
+              .get<
+                PaginatedResponse<MessageDto>
+              >(`${this.baseUrl}/messages/${c.chatInternalId}?page=0&size=1&sort=sendAt,desc`, { headers })
+              .pipe(map((r) => ({ chat: c, status: r.page?.[0]?.messageViewingStatus ?? null }))),
+          5
+        )
+      )
+      .subscribe(({ chat, status }) => {
+        chat.viewingStatus = status || undefined;
+        this.filteredChats = [...this.filteredChats];
+      });
   }
 
   loadAllChats(page: number = 0): void {
@@ -134,11 +158,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const pageableObject = { page, size: this.pageSize, sort: ['sendAt,desc'] as string[] };
     const params = new HttpParams().set('pageable', JSON.stringify(pageableObject));
     const url = `${this.baseUrl}/chats`;
-
     this.http.get<PaginatedResponse<ChatDto>>(url, { headers, params }).subscribe({
       next: (response) => {
         const chatList = response.page ?? [];
-
         const newChats: ChatListItem[] = chatList.map((chat) => {
           const { name, initial } = this.buildName(chat.username, chat.firstName, chat.lastName, chat.chatId);
           return {
@@ -148,7 +170,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             chatInternalId: chat.id,
             lastMessage: chat.lastMessage?.text ?? '',
             time: chat.lastMessage?.sendAt ? this.toTime(chat.lastMessage.sendAt) : '',
-            messages: []
+            messages: [],
+            viewingStatus: chat.lastMessage?.messageViewingStatus
           };
         });
 
@@ -158,9 +181,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.totalPages = response.totalPages;
         this.currentPage = page;
         this.isLoadingChats = false;
+
+        const needFetch = newChats.filter((c) => !c.viewingStatus);
+        if (needFetch.length) {
+          this.fetchLastStatuses(needFetch, headers);
+        }
       },
-      error: (err: unknown) => {
-        console.error('Failed to load chats:', err);
+      error: () => {
         this.isLoadingChats = false;
       }
     });
@@ -171,21 +198,29 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.clientInfoVisible = false;
     this.clientInfoData = null;
     this.fetchMessages(chat.chatInternalId);
-
-    this.telegramSocketService.subscribeToMessages(chat.chatInternalId).subscribe((newMessage: MessageEvent) => {
+    this.telegramSocketService.subscribeToMessages(chat.chatInternalId).subscribe((m: SocketChatMessage) => {
       if (!this.selectedChat) {
         return;
       }
 
       this.selectedChat.messages.push({
-        from: newMessage.fromManager ? 'Me' : this.selectedChat.name,
-        text: newMessage.text,
-        time: this.toTime(newMessage.sendAt),
-        images: (newMessage.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url)
+        from: m.fromManager ? 'Me' : this.selectedChat.name,
+        text: m.text,
+        time: this.toTime(m.sendAt),
+        images: (m.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url)
       });
 
-      this.selectedChat.lastMessage = newMessage.text;
-      this.selectedChat.time = this.toTime(newMessage.sendAt);
+      this.selectedChat.lastMessage = m.text;
+      this.selectedChat.time = this.toTime(m.sendAt);
+
+      if (m.messageViewingStatus) {
+        this.selectedChat.viewingStatus = m.messageViewingStatus;
+        const tile = this.chats.find((c) => c.chatInternalId === this.selectedChat?.chatInternalId);
+        if (tile) {
+          tile.viewingStatus = m.messageViewingStatus;
+        }
+        this.filteredChats = [...this.filteredChats];
+      }
       this.scrollToBottom();
     });
   }
@@ -218,7 +253,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (err: unknown) => this.handleMessageError(err, callback)
     });
   }
-
   private handleMessageResponse(
     chatId: number,
     response: PaginatedResponse<MessageDto>,
@@ -234,6 +268,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     if (page + 1 < response.totalPages) {
       this.loadMessagePage(chatId, page + 1, headers, pageSize, allMessages, callback);
     } else if (this.selectedChat) {
+      const newest = allMessages[0];
+      this.selectedChat.viewingStatus = newest?.messageViewingStatus ?? null;
+
       this.selectedChat.messages = allMessages
         .map<ChatMessageView>((msg) => ({
           from: msg.fromManager ? 'Me' : this.selectedChat?.name,
@@ -242,6 +279,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           images: (msg.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url)
         }))
         .reverse();
+
       this.scrollToBottom();
       callback?.();
     }
