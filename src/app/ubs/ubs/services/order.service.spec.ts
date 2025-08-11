@@ -145,7 +145,6 @@ describe('OrderService', () => {
       expect(ubsOrderServiseMock.personalData).not.toBeNull();
       expect(ubsOrderServiseMock.personalData).toEqual(data);
     });
-    flush();
   }));
 
   it('method processCertificate should return data of certificate', () => {
