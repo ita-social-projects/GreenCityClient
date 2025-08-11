@@ -64,7 +64,7 @@ export interface ChatListItem {
   lastMessage: string;
   time: string;
   messages: ChatMessageView[];
-  viewingStatus?: MessageViewingStatus;
+  viewingStatus?: MessageViewingStatus | 'UNREAD' | 'VIEWED';
 }
 
 export interface ClientInfoData {

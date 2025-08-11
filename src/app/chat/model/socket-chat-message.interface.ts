@@ -5,5 +5,5 @@ export interface SocketChatMessage {
   text: string;
   fromManager: boolean;
   assets: AssetDto[];
-  messageViewingStatus?: MessageViewingStatus;
+  messageViewingStatus?: MessageViewingStatus | 'UNREAD' | 'VIEWED' | null;
 }
