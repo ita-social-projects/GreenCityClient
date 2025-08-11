@@ -94,8 +94,8 @@
           (optionSelected)="onSelectCity($event, autocompleteTriggerCity)"
           autoActiveFirstOption
         >
-          <mat-option value="all">
-            <mat-checkbox [checked]="isCityChecked()" (change)="toggleSelectAllCity()" value="all"></mat-checkbox>
+          <mat-option [value]="'ubs-tariffs.states.all' | translate">
+            <mat-checkbox class="mr-1" [checked]="isCityChecked()" [value]="'ubs-tariffs.states.all' | translate"></mat-checkbox>
             {{ 'ubs-tariffs.states.all' | translate }}
           </mat-option>
           <mat-option *ngFor="let city of filteredCities | async">
@@ -104,7 +104,7 @@
           </mat-option>
         </mat-autocomplete>
         <div class="input-control" *ngIf="city.enabled">
-          <mat-icon *ngIf="this.city.value" class="cross-img" (click)="resetLocationValues('city')">close</mat-icon>
+          <mat-icon *ngIf="isCityChecked()" class="cross-img" (click)="resetLocationValues('city')">close</mat-icon>
           <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
         </div>
       </div>
@@ -138,14 +138,14 @@
       <div class="input-wrapper">
         <input
           class="station"
-          placeholder="{{ 'ubs-tariffs.placeholder-station' | translate }}"
+          [placeholder]="stationPlaceholder"
           #autocompleteTriggerStation="matAutocompleteTrigger"
           formControlName="station"
           [matAutocomplete]="autoStation"
         />
         <mat-autocomplete #autoStation="matAutocomplete" (optionSelected)="stationSelected($event, autocompleteTriggerStation)">
-          <mat-option value="all">
-            <mat-checkbox [checked]="isStationChecked()" (change)="toggleSelectAllStation()" value="all"></mat-checkbox>
+          <mat-option [value]="'ubs-tariffs.states.all' | translate">
+            <mat-checkbox class="mr-1" [checked]="isStationChecked()" [value]="'ubs-tariffs.states.all' | translate"></mat-checkbox>
             {{ 'ubs-tariffs.states.all' | translate }}
           </mat-option>
           <mat-option *ngFor="let option of filteredStations | async" class="option-state" [value]="option">
@@ -155,7 +155,7 @@
             </div>
           </mat-option>
         </mat-autocomplete>
-        <mat-icon *ngIf="this.selectedStation.length" class="cross-img" (click)="resetStationValue()">close</mat-icon>
+        <mat-icon *ngIf="isStationChecked()" class="cross-img" (click)="resetStationValue()">close</mat-icon>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerStation)" />
       </div>
       <div class="city-list">
