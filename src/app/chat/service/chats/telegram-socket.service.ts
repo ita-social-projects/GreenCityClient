@@ -1,67 +1,106 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import SockJS from 'sockjs-client';
-import { Client, Stomp } from '@stomp/stompjs';
-import { Subject, Observable } from 'rxjs';
-import { environment } from '@environment/environment';
+import { Client, IFrame, IMessage, Stomp, StompSubscription } from '@stomp/stompjs';
+import { Observable, Subject } from 'rxjs';
 import { SocketNewChat } from '../../model/socket-new-chat.interface';
 import { SocketChatMessage } from '../../model/socket-chat-message.interface';
+
 @Injectable({ providedIn: 'root' })
 export class TelegramSocketService implements OnDestroy {
-  private stompClient: Client;
+  private stompClient!: Client;
   private connected = false;
-  private readonly chatSubjects: Map<number, Subject<SocketChatMessage>> = new Map();
-  private readonly newChatsSubject = new Subject<SocketNewChat>();
+  private readonly chatSubjects = new Map<number, Subject<SocketChatMessage>>();
+  private readonly chatSubscriptions = new Map<number, StompSubscription | null>();
+  private newChatsSubject = new Subject<SocketNewChat>();
+  private newChatsSubscription: StompSubscription | null = null;
+  private readonly socketUrl = 'wss://greencity-ubs.greencity.cx.ua/socket/websocket';
 
   constructor() {
     this.initSocket();
-  }
-
-  private initSocket(): void {
-    const socketUrl = environment.backendUbsLink + '/socket';
-    const socket = new SockJS(socketUrl);
-
-    this.stompClient = Stomp.over(() => socket);
-    this.stompClient.reconnectDelay = 2000;
-
-    this.stompClient.onConnect = () => {
-      this.connected = true;
-      this.subscribeToNewChats();
-    };
-
-    this.stompClient.onStompError = (frame) => {
-      console.error('[STOMP ERROR]', frame.headers['message']);
-      console.error('[STOMP DETAILS]', frame.body);
-    };
-
-    this.stompClient.activate();
-  }
-
-  private subscribeToNewChats() {
-    this.stompClient.subscribe('/topic/chats', (msg) => {
-      this.newChatsSubject.next(JSON.parse(msg.body));
-    });
-  }
-
-  subscribeToMessages(chatId: number): Observable<SocketChatMessage> {
-    if (!this.chatSubjects.has(chatId)) {
-      const subject = new Subject<SocketChatMessage>();
-      this.chatSubjects.set(chatId, subject);
-
-      const topic = `/topic/messages/${chatId}`;
-
-      this.stompClient.subscribe(topic, (msg) => {
-        subject.next(JSON.parse(msg.body));
-      });
-    }
-
-    return this.chatSubjects.get(chatId).asObservable();
   }
 
   get newChats$(): Observable<SocketNewChat> {
     return this.newChatsSubject.asObservable();
   }
 
+  subscribeToMessages(chatId: number): Observable<SocketChatMessage> {
+    if (this.chatSubjects.has(chatId)) {
+      return this.chatSubjects.get(chatId)?.asObservable();
+    }
+    const subject = new Subject<SocketChatMessage>();
+    this.chatSubjects.set(chatId, subject);
+    if (this.connected) {
+      this.bindChatSubscription(chatId);
+    } else {
+      this.chatSubscriptions.set(chatId, null);
+    }
+    return subject.asObservable();
+  }
+
   ngOnDestroy(): void {
-    void this.stompClient?.deactivate();
+    try {
+      this.newChatsSubscription?.unsubscribe();
+      this.chatSubscriptions.forEach((s) => s?.unsubscribe());
+      this.chatSubscriptions.clear();
+      this.stompClient?.deactivate();
+    } finally {
+      this.connected = false;
+      this.chatSubjects.clear();
+    }
+  }
+
+  private initSocket(): void {
+    const ws = new WebSocket(this.socketUrl);
+    this.stompClient = Stomp.over(() => ws as any);
+    this.stompClient.debug = (m) => console.log('[STOMP]', m);
+    this.stompClient.reconnectDelay = 2000;
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      this.stompClient.connectHeaders = { Authorization: `Bearer ${token}` };
+    }
+
+    this.stompClient.onConnect = (frame: IFrame) => {
+      console.log('[STOMP onConnect]', frame.headers);
+      this.connected = true;
+      this.subscribeToNewChatsCore();
+      this.chatSubjects.forEach((_s, id) => this.bindChatSubscription(id));
+    };
+    this.stompClient.onWebSocketClose = (e) => {
+      this.connected = false;
+    };
+    this.stompClient.onWebSocketError = (e) => console.error('[STOMP onWebSocketError]', e);
+    this.stompClient.onStompError = (f: IFrame) => console.error('[STOMP ERROR]', f.headers?.message, f.body);
+
+    this.stompClient.activate();
+  }
+
+  private subscribeToNewChatsCore(): void {
+    this.newChatsSubscription?.unsubscribe();
+    this.newChatsSubscription = this.stompClient.subscribe('/topic/chats', (msg: IMessage) => {
+      try {
+        this.newChatsSubject.next(JSON.parse(msg.body));
+      } catch (e) {
+        console.error('[PARSE /topic/chats]', e, msg.body);
+      }
+    });
+  }
+
+  private bindChatSubscription(chatId: number): void {
+    const existing = this.chatSubscriptions.get(chatId);
+    if (existing) {
+      return;
+    }
+    const topic = `/topic/messages/${chatId}`;
+    const sub = this.stompClient.subscribe(topic, (msg: IMessage) => {
+      const subject = this.chatSubjects.get(chatId);
+      if (!subject) {
+        return;
+      }
+      try {
+        subject.next(JSON.parse(msg.body));
+      } catch (e) {
+        console.error('[PARSE]', topic, e, msg.body);
+      }
+    });
+    this.chatSubscriptions.set(chatId, sub);
   }
 }

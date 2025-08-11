@@ -1,5 +1,5 @@
 <div class="chat-page-inner">
-  <div class="chat-sidebar">
+  <div class="chat-sidebar" #sidebar>
     <div class="search-bar">
       <label>
         <input type="text" [placeholder]="'chat.chat-placeholder' | translate" [(ngModel)]="searchId" (input)="filterChatsById()" />
@@ -15,16 +15,12 @@
       >
         <div class="avatar">{{ chat.initial }}</div>
         <div class="chat-details">
-          <div class="chat-name">{{ chat.fullName }}</div>
+          <div class="chat-name">{{ chat.name }}</div>
           <div class="last-message">{{ chat.lastMessage }}</div>
         </div>
         <div class="timestamp">{{ chat.time }}</div>
       </li>
-      <li class="chat-pagination" *ngIf="currentPage + 1 < totalPages && !isLoadingChats">
-        <button class="load-more-button" (click)="loadAllChats(currentPage + 1)">
-          {{ 'chat.load-more' | translate }}
-        </button>
-      </li>
+      <li #infiniteScrollAnchor class="infinite-scroll-anchor"></li>
     </ul>
   </div>
 
@@ -32,7 +28,7 @@
     <ng-container *ngIf="selectedChat; else placeholder">
       <div class="chat-box">
         <div class="chat-header">
-          {{ selectedChat.fullName }} {{ selectedChat.nickname !== selectedChat.fullName ? '(' + selectedChat.nickname + ')' : '' }}
+          {{ selectedChat.name }}
           <button class="client-info-button" (click)="toggleClientInfo()" [title]="'chat.client-info' | translate">🧠</button>
         </div>
 

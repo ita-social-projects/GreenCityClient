@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgZone, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, AfterViewInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders, HttpParams } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
@@ -33,7 +33,7 @@ import { SocketNewChat } from '../../model/socket-new-chat.interface';
   imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, ImageModalComponent, TranslateModule],
   styleUrls: ['./chat-page.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   chats: ChatListItem[] = [];
   filteredChats: ChatListItem[] = [];
   selectedChat: ChatListItem | null = null;
@@ -55,8 +55,11 @@ export class ChatComponent implements OnInit {
   isLoadingChats = false;
 
   private readonly baseUrl = `${environment.ubsAdmin.backendUbsAdminLink}/telegram`;
-
   @ViewChild('messagesContainer') private readonly messagesContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('sidebar', { static: true }) private readonly sidebar!: ElementRef<HTMLElement>;
+  @ViewChild('infiniteScrollAnchor') private readonly infiniteScrollAnchor!: ElementRef<HTMLElement>;
+
+  private io?: IntersectionObserver;
 
   constructor(
     private http: HttpClient,
@@ -382,5 +385,29 @@ export class ChatComponent implements OnInit {
   private toTime(isoOrDateString: string): string {
     const d = new Date(isoOrDateString);
     return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  ngAfterViewInit(): void {
+    if (!this.infiniteScrollAnchor || !this.sidebar) {
+      return;
+    }
+
+    this.io = new IntersectionObserver(
+      (entries) => {
+        const isVisible = entries.some((e) => e.isIntersecting);
+        if (isVisible && !this.isLoadingChats && this.currentPage + 1 < this.totalPages) {
+          this.loadAllChats(this.currentPage + 1);
+        }
+      },
+      {
+        root: this.sidebar.nativeElement,
+        rootMargin: '0px 0px 200px 0px',
+        threshold: 0
+      }
+    );
+
+    this.io.observe(this.infiniteScrollAnchor.nativeElement);
+  }
+  ngOnDestroy(): void {
+    this.io?.disconnect();
   }
 }
