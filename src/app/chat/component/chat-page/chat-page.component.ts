@@ -63,13 +63,19 @@ export class ChatComponent implements OnInit {
         const chatList = response.page || [];
 
         this.chats = chatList.map((chat: any) => {
-          const fullName = chat.firstName || chat.lastName ? `${chat.firstName || ''} ${chat.lastName || ''}`.trim() : '';
+          let fullName = chat.user ? `${chat.user.firstName || ''} ${chat.user.lastName || ''}`.trim() : null;
+
+          if (!fullName) {
+            fullName = chat.firstName || chat.lastName ? `${chat.firstName || ''} ${chat.lastName || ''}`.trim() : '';
+          }
+
           const raw = chat.username || fullName || chat.chatId;
-          const name = raw || 'Unknown';
+          const nickname = raw || 'Unknown';
           const initial = raw ? raw.charAt(0).toUpperCase() : '?';
 
           return {
-            name,
+            fullName,
+            nickname,
             initial,
             chatId: chat.chatId,
             chatInternalId: chat.id,
@@ -147,7 +153,7 @@ export class ChatComponent implements OnInit {
     } else {
       this.selectedChat.messages = allMessages
         .map((msg: any) => ({
-          from: msg.fromManager ? 'Me' : this.selectedChat.name,
+          from: msg.fromManager ? 'Me' : this.selectedChat.nickname,
           text: msg.text,
           time: new Date(msg.sendAt).toLocaleTimeString([], {
             hour: '2-digit',
