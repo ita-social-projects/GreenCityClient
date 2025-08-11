@@ -16,6 +16,7 @@
     "max-length-comment": "Maximum 255 characters are allowed",
     "minlength-short": "The field contains insufficient characters",
     "max-length": "The field should contain 1-30 characters",
+    "max-length-email": "The field should contain 1-50 characters",
     "pattern": "Enter a valid email"
   },
   "snack-bar": {
