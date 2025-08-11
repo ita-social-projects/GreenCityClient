@@ -455,6 +455,7 @@ describe('UbsAdminTableComponent', () => {
     expect(adminTableServiceMock.setNewFilters).toHaveBeenCalledWith(checked, currentColumn, option);
   });
 
+  // eslint-disable-next-line max-len
   it('should set noFiltersApplied to false, handle null swapDatesIfNeeded response and not call setDateFormat or setNewDateRange', fakeAsync(() => {
     component.dateForm = new FormGroup({
       orderStatusFrom: new FormControl(null),
