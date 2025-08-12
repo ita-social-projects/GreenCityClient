@@ -26,7 +26,7 @@ export class FriendItemComponent implements OnInit {
     private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
-    private userOnlineStatusService: UserOnlineStatusService
+    private readonly userOnlineStatusService: UserOnlineStatusService
   ) {
     this.userId = +this.route.snapshot.params.userId;
   }
