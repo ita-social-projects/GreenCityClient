@@ -7,10 +7,6 @@ import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { WarningPopUpComponent } from 'src/app/greencity/shared/components';
 import { Subject, take, takeUntil } from 'rxjs';
-import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal.component';
-import { ChatsService } from 'src/app/chat/service/chats/chats.service';
-import { CommonService } from 'src/app/chat/service/common/common.service';
-import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import {
   AcceptRequest,
   AcceptRequestSuccess,
@@ -62,10 +58,7 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
     private readonly snackBar: MatSnackBarService,
     private readonly dialog: MatDialog,
     private readonly localStorageService: LocalStorageService,
-    private readonly actionsSubj: ActionsSubject,
-    private readonly socketService: SocketService,
-    private readonly chatsService: ChatsService,
-    private readonly commonService: CommonService
+    private readonly actionsSubj: ActionsSubject
   ) {}
 
   ngOnInit(): void {
@@ -133,12 +126,6 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
       case 'acceptRequest':
         this.store.dispatch(AcceptRequest({ id: this.userAsFriend.id }));
         break;
-      case 'createChatButton':
-        this.onOpenChat(true);
-        break;
-      case 'openChatButton':
-        this.onOpenChat(false);
-        break;
       default:
         break;
     }
@@ -184,15 +171,6 @@ export class FriendshipButtonsComponent implements OnInit, OnChanges, OnDestroy 
           this.store.dispatch(DeleteFriend({ id: this.userAsFriend.id }));
         }
       });
-  }
-
-  private onOpenChat(isNewChat: boolean): void {
-    this.socketService.connect();
-    isNewChat ? this.socketService.createNewChat(this.userAsFriend.id, true) : this.chatsService.openCurrentChat(this.userAsFriend.chatId);
-    this.chatsService.getAllUserChats(this.currentUserId);
-    this.dialog.closeAll();
-    this.dialog.open(ChatModalComponent, this.chatDialogConfig);
-    this.commonService.newMessageWindowRequireCloseStream$.next(true);
   }
 
   ngOnDestroy(): void {
