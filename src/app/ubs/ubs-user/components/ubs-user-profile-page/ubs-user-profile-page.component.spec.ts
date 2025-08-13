@@ -1173,7 +1173,6 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('onSubmit: includes telegramIsNotify from form', fakeAsync(() => {
-    // форма валідна і містить telegramIsNotify = true
     component.userForm = new FormGroup({
       address: new FormArray([]),
       recipientName: new FormControl('Name', Validators.required),
@@ -1200,13 +1199,11 @@ describe('UbsUserProfilePageComponent', () => {
     component.onSubmit();
     tick();
 
-    // ——— перевіряємо саме передані дані:
     const sent = (component as any).clientProfileService.postDataClientProfile.calls.mostRecent().args[0];
-    expect(sent.telegramIsNotify).toBe(true); // <- покриває рядок із читанням з форми
+    expect(sent.telegramIsNotify).toBe(true);
   }));
 
   it('onSubmit: calls userInit after successful save', fakeAsync(() => {
-    // 1) userProfile без адрес
     component.userProfile = {
       addressDto: [],
       recipientEmail: 'e@e.com',
@@ -1219,7 +1216,6 @@ describe('UbsUserProfilePageComponent', () => {
       telegramIsNotify: false
     };
 
-    // 2) форма з порожнім address FormArray
     component.userForm = new FormGroup({
       address: new FormArray([]),
       recipientName: new FormControl('Name', Validators.required),
@@ -1231,13 +1227,12 @@ describe('UbsUserProfilePageComponent', () => {
 
     const userInitSpy = spyOn(component, 'userInit').and.callThrough();
 
-    // 3) сервіс повертає будь-яку валідну відповідь
     (clientProfileServiceMock.postDataClientProfile as any).and.returnValue(of({ ...component.userProfile }));
 
     component.onSubmit();
     tick();
 
-    expect(userInitSpy).toHaveBeenCalled(); // покриває рядок з this.userInit()
+    expect(userInitSpy).toHaveBeenCalled();
   }));
 
   describe('Testing controls for the form:', () => {
