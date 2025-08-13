@@ -1172,6 +1172,74 @@ describe('UbsUserProfilePageComponent', () => {
     expect(destroyCompleteSpy).toHaveBeenCalledTimes(1);
   });
 
+  it('onSubmit: includes telegramIsNotify from form', fakeAsync(() => {
+    // форма валідна і містить telegramIsNotify = true
+    component.userForm = new FormGroup({
+      address: new FormArray([]),
+      recipientName: new FormControl('Name', Validators.required),
+      recipientSurname: new FormControl('Surname'),
+      recipientEmail: new FormControl('e@e.com', Validators.required),
+      recipientPhone: new FormControl('+380501234567'),
+      telegramIsNotify: new FormControl(true)
+    });
+    component.userProfile = {
+      addressDto: [],
+      recipientEmail: 'e@e.com',
+      recipientName: 'Name',
+      recipientSurname: 'Surname',
+      recipientPhone: '+380501234567',
+      alternateEmail: null,
+      hasPassword: true,
+      botList: [],
+      telegramIsNotify: false
+    };
+
+    const response = { ...component.userProfile, telegramIsNotify: true };
+    (component as any).clientProfileService.postDataClientProfile.and.returnValue(of(response));
+
+    component.onSubmit();
+    tick();
+
+    // ——— перевіряємо саме передані дані:
+    const sent = (component as any).clientProfileService.postDataClientProfile.calls.mostRecent().args[0];
+    expect(sent.telegramIsNotify).toBe(true); // <- покриває рядок із читанням з форми
+  }));
+
+  it('onSubmit: calls userInit after successful save', fakeAsync(() => {
+    // 1) userProfile без адрес
+    component.userProfile = {
+      addressDto: [],
+      recipientEmail: 'e@e.com',
+      recipientName: 'Name',
+      recipientSurname: 'Surname',
+      recipientPhone: '+380501234567',
+      alternateEmail: null,
+      hasPassword: true,
+      botList: [],
+      telegramIsNotify: false
+    };
+
+    // 2) форма з порожнім address FormArray
+    component.userForm = new FormGroup({
+      address: new FormArray([]),
+      recipientName: new FormControl('Name', Validators.required),
+      recipientSurname: new FormControl('Surname'),
+      recipientEmail: new FormControl('e@e.com', [Validators.required]),
+      recipientPhone: new FormControl('+380501234567'),
+      telegramIsNotify: new FormControl(false)
+    });
+
+    const userInitSpy = spyOn(component, 'userInit').and.callThrough();
+
+    // 3) сервіс повертає будь-яку валідну відповідь
+    (clientProfileServiceMock.postDataClientProfile as any).and.returnValue(of({ ...component.userProfile }));
+
+    component.onSubmit();
+    tick();
+
+    expect(userInitSpy).toHaveBeenCalled(); // покриває рядок з this.userInit()
+  }));
+
   describe('Testing controls for the form:', () => {
     const personalInfoControls = ['recipientName', 'recipientSurname', 'recipientEmail', 'recipientPhone'];
     const controls = ['name', 'surename', 'email', 'phone'];
