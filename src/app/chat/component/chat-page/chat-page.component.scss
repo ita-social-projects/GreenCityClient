@@ -61,6 +61,7 @@
   }
 
   .avatar {
+    flex: 0 0 40px;
     width: 40px;
     height: 40px;
     background-color: var(--quaternary-light-grey);
@@ -75,7 +76,7 @@
 
   .chat-details {
     flex: 1;
-
+    min-width: 0;
     .chat-name {
       font-weight: 600;
       font-size: 14px;
@@ -94,6 +95,7 @@
   }
 
   .timestamp {
+    flex: 0 0 auto;
     font-size: 12px;
     color: var(--quintynary-light-grey);
     margin-left: 0.5rem;
