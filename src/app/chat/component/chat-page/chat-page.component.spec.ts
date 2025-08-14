@@ -501,13 +501,12 @@ describe('toggleClientInfo', () => {
     component.openImageModal('https://test/image.jpg');
     expect(component.selectedImageUrl).toBe('https://test/image.jpg');
   });
-  it('should clear selectedImageUrl and log to console', () => {
+  it('should clear selectedImageUrl', () => {
     component.selectedImageUrl = 'https://test/image.jpg';
     spyOn(console, 'log');
 
     component.closeImageModal();
 
     expect(component.selectedImageUrl).toBeNull();
-    expect(console.log).toHaveBeenCalledWith('close image modal');
   });
 });
