@@ -1,5 +1,6 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, NgZone } from '@angular/core';
 import { Client, IFrame, IMessage, Stomp, StompSubscription } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 import { Observable, Subject } from 'rxjs';
 import { SocketNewChat } from '../../model/socket-new-chat.interface';
 import { SocketChatMessage } from '../../model/socket-chat-message.interface';
@@ -8,14 +9,18 @@ import { SocketChatMessage } from '../../model/socket-chat-message.interface';
 export class TelegramSocketService implements OnDestroy {
   private stompClient!: Client;
   private connected = false;
+
+  private readonly socketHttpUrl = 'https://greencity-ubs.greencity.cx.ua/socket';
+
   private readonly chatSubjects = new Map<number, Subject<SocketChatMessage>>();
   private readonly chatSubscriptions = new Map<number, StompSubscription | null>();
+
   private newChatsSubject = new Subject<SocketNewChat>();
   private newChatsSubscription: StompSubscription | null = null;
-  private readonly socketUrl = 'wss://greencity-ubs.greencity.cx.ua/socket/websocket';
 
-  constructor() {
+  constructor(private readonly zone: NgZone) {
     this.initSocket();
+    window.addEventListener('beforeunload', () => this.stompClient?.deactivate());
   }
 
   get newChats$(): Observable<SocketNewChat> {
@@ -23,17 +28,28 @@ export class TelegramSocketService implements OnDestroy {
   }
 
   subscribeToMessages(chatId: number): Observable<SocketChatMessage> {
-    if (this.chatSubjects.has(chatId)) {
-      return this.chatSubjects.get(chatId)?.asObservable();
+    const existing = this.chatSubjects.get(chatId);
+    if (existing) {
+      return existing.asObservable();
     }
+
     const subject = new Subject<SocketChatMessage>();
     this.chatSubjects.set(chatId, subject);
+
     if (this.connected) {
       this.bindChatSubscription(chatId);
     } else {
       this.chatSubscriptions.set(chatId, null);
     }
+
     return subject.asObservable();
+  }
+
+  unsubscribeFromChat(chatId: number): void {
+    this.chatSubscriptions.get(chatId)?.unsubscribe();
+    this.chatSubscriptions.delete(chatId);
+    this.chatSubjects.get(chatId)?.complete();
+    this.chatSubjects.delete(chatId);
   }
 
   ngOnDestroy(): void {
@@ -44,38 +60,57 @@ export class TelegramSocketService implements OnDestroy {
       this.stompClient?.deactivate();
     } finally {
       this.connected = false;
+      this.chatSubjects.forEach((s) => s.complete());
       this.chatSubjects.clear();
     }
   }
 
   private initSocket(): void {
-    const ws = new WebSocket(this.socketUrl);
-    this.stompClient = Stomp.over(() => ws as any);
-    this.stompClient.reconnectDelay = 2000;
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      this.stompClient.connectHeaders = { Authorization: `Bearer ${token}` };
-    }
+    this.stompClient = new Client({
+      webSocketFactory: () => new SockJS(this.socketHttpUrl) as any,
+      reconnectDelay: 2000,
+      heartbeatIncoming: 10000,
+      heartbeatOutgoing: 10000,
+      connectHeaders: this.buildAuthHeaders(),
+      debug: (msg: string) => console.log('[STOMP]', msg)
+    });
 
-    this.stompClient.onConnect = (frame: IFrame) => {
+    this.stompClient.onConnect = (_frame: IFrame) => {
       this.connected = true;
+      console.log('[STOMP] connected');
       this.subscribeToNewChatsCore();
       this.chatSubjects.forEach((_s, id) => this.bindChatSubscription(id));
     };
-    this.stompClient.onWebSocketClose = (e) => {
-      this.connected = false;
-    };
-    this.stompClient.onWebSocketError = (e) => console.error('[STOMP onWebSocketError]', e);
-    this.stompClient.onStompError = (f: IFrame) => console.error('[STOMP ERROR]', f.headers?.message, f.body);
 
+    this.stompClient.onStompError = (f: IFrame) => {
+      console.error('[STOMP ERROR]', f.headers?.message, f.body);
+    };
+
+    this.stompClient.onWebSocketClose = (e) => {
+      console.log('[STOMP] socket closed', e);
+      this.connected = false;
+      this.stompClient.connectHeaders = this.buildAuthHeaders();
+    };
+
+    this.stompClient.onWebSocketError = (e) => {
+      console.error('[STOMP onWebSocketError]', e);
+    };
+
+    console.log('[STOMP] activating over SockJS:', this.socketHttpUrl);
     this.stompClient.activate();
+  }
+
+  private buildAuthHeaders(): Record<string, string> {
+    const token = localStorage.getItem('accessToken');
+    return token ? { Authorization: `Bearer ${token}` } : {};
   }
 
   private subscribeToNewChatsCore(): void {
     this.newChatsSubscription?.unsubscribe();
     this.newChatsSubscription = this.stompClient.subscribe('/topic/chats', (msg: IMessage) => {
       try {
-        this.newChatsSubject.next(JSON.parse(msg.body));
+        const payload = JSON.parse(msg.body) as SocketNewChat;
+        this.zone.run(() => this.newChatsSubject.next(payload));
       } catch (e) {
         console.error('[PARSE /topic/chats]', e, msg.body);
       }
@@ -83,10 +118,10 @@ export class TelegramSocketService implements OnDestroy {
   }
 
   private bindChatSubscription(chatId: number): void {
-    const existing = this.chatSubscriptions.get(chatId);
-    if (existing) {
+    if (this.chatSubscriptions.get(chatId)) {
       return;
     }
+
     const topic = `/topic/messages/${chatId}`;
     const sub = this.stompClient.subscribe(topic, (msg: IMessage) => {
       const subject = this.chatSubjects.get(chatId);
@@ -94,11 +129,13 @@ export class TelegramSocketService implements OnDestroy {
         return;
       }
       try {
-        subject.next(JSON.parse(msg.body));
+        const payload = JSON.parse(msg.body) as SocketChatMessage;
+        this.zone.run(() => subject.next(payload));
       } catch (e) {
         console.error('[PARSE]', topic, e, msg.body);
       }
     });
+
     this.chatSubscriptions.set(chatId, sub);
   }
 }
