@@ -49,6 +49,20 @@ export class ChatComponent implements OnInit {
     this.loadAllChats();
   }
 
+  private isSameDay(a: Date, b: Date): boolean {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  }
+
+  private formatChatTimestamp(d: Date): string {
+    const now = new Date();
+    if (this.isSameDay(d, now)) {
+      return d.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+    }
+    const datePart = d.toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const timePart = d.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+    return `${datePart} ${timePart}`;
+  }
+
   loadAllChats(): void {
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -72,6 +86,7 @@ export class ChatComponent implements OnInit {
           const raw = chat.username || fullName || chat.chatId;
           const nickname = raw || 'Unknown';
           const initial = raw ? raw.charAt(0).toUpperCase() : '?';
+          const sendAt: Date | null = chat.lastMessage?.sendAt ? new Date(chat.lastMessage.sendAt) : null;
 
           return {
             fullName,
@@ -80,12 +95,7 @@ export class ChatComponent implements OnInit {
             chatId: chat.chatId,
             chatInternalId: chat.id,
             lastMessage: chat.lastMessage?.text || '',
-            time: chat.lastMessage?.sendAt
-              ? new Date(chat.lastMessage.sendAt).toLocaleTimeString([], {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })
-              : '',
+            time: sendAt ? this.formatChatTimestamp(sendAt) : '',
             messages: []
           };
         });
@@ -137,7 +147,6 @@ export class ChatComponent implements OnInit {
       error: (err) => this.handleMessageError(err, callback)
     });
   }
-
   private handleMessageResponse(
     chatId: number,
     response: any,
@@ -157,10 +166,7 @@ export class ChatComponent implements OnInit {
         .map((msg: any) => ({
           from: msg.fromManager ? 'Me' : this.selectedChat.nickname,
           text: msg.text,
-          time: new Date(msg.sendAt).toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit'
-          }),
+          time: msg.sendAt ? this.formatChatTimestamp(new Date(msg.sendAt)) : '',
           images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
         }))
         .reverse();
@@ -298,7 +304,6 @@ export class ChatComponent implements OnInit {
   }
 
   closeImageModal(): void {
-    console.log('close image modal');
     this.selectedImageUrl = null;
   }
 }
