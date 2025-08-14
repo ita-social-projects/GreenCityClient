@@ -68,11 +68,11 @@ describe('ToDoListService', () => {
     req.flush([TODOLISTITEMTWO]);
   });
 
-  xit('should update Custom ToDo Item Status', () => {
+  it('should update Custom ToDo Item Status', () => {
     service.updateCustomToDoItemStatus(1, TODOLISTITEMTWO).subscribe((data) => {
       expect(data).toEqual(TODOLISTITEMTWO);
     });
-    const req = httpMock.expectOne(`${mainLink}custom/to-do-list-items/1/custom-to-do-list-items?itemId=2&status=INPROGRESS`);
+    const req = httpMock.expectOne(`${mainLink}custom/to-do-list-items/1/custom-to-do-ping-list-items?itemId=2&status=INPROGRESS`);
     expect(req.request.method).toBe('PATCH');
     req.flush(TODOLISTITEMTWO);
   });

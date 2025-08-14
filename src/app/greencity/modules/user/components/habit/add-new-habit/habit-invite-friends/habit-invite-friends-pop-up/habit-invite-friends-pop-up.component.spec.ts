@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
@@ -62,12 +62,6 @@ describe('HabitInviteFriendsPopUpComponent', () => {
     const spy2 = spyOn(component, 'getFriends');
     component.ngOnInit();
     expect(spy2).toHaveBeenCalled();
-  });
-
-  xit('should update allAdd status', () => {
-    component.friends = [FIRSTFRIEND, SECONDFRIEND];
-    component.updateAllAdd();
-    expect(component.allAdd).toBeTruthy();
   });
 
   it('should check if some friends are added', () => {

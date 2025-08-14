@@ -124,7 +124,7 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     expect(component.showWriteOffStationField()).toBeFalsy();
   });
 
-  xit('should return false when the order is brought by himself but not paid, and no bonuses or certificate are used', () => {
+  it('should return false when the order is brought by himself but not paid, and no bonuses or certificate are used', () => {
     component.isOrderBroughtByHimself = true;
     component.isOrderPaid = false;
     component.orderDetails.bonuses = 0;

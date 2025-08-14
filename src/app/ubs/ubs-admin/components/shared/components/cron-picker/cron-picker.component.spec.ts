@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
@@ -168,54 +168,6 @@ describe('CronPickerComponent', () => {
     });
     await selectButton.click();
     expect(emitted).toBe(`${min} ${hour} 1 1,2,3,4,5,6,7,8,9,10,11,12 *`);
-  });
-
-  xit('should fire an `scheduleSelected` event with correct param when user makes changes and clicks select', async () => {
-    const {
-      hourSelect,
-      minSelect,
-      hourInput,
-      minInput,
-      dayTypeRadioGroup,
-      dayOfWeekToggles,
-      monthTypeRadioGroup,
-      monthsToggles,
-      selectButton
-    } = await getAllElements();
-
-    await hourInput.focus();
-    await minInput.focus();
-
-    await hourSelect.selectOption({ text: '15' });
-    await minSelect.selectOption({ text: '22' });
-
-    await dayTypeRadioGroup.checkRadioButton({ selector: '[value=days-of-week]' });
-    for (const toggle of dayOfWeekToggles) {
-      const text = await toggle.getText();
-      if (['cron-picker.days-of-week.MON', 'cron-picker.days-of-week.THU'].includes(text)) {
-        await toggle.toggle();
-      }
-    }
-
-    await monthTypeRadioGroup.checkRadioButton({ selector: '[value=months]' });
-    for (const toggle of monthsToggles) {
-      const text = await toggle.getText();
-      if (['cron-picker.months.JAN', 'cron-picker.months.SEP', 'cron-picker.months.DEC'].includes(text)) {
-        await toggle.toggle();
-      }
-    }
-
-    let emitted: string;
-    component.scheduleSelected.subscribe((val) => {
-      emitted = val;
-    });
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    await selectButton.click();
-
-    expect(emitted).toBe('22 15 * 2,3,4,5,6,7,8,10,11 2,3,5,6,7');
   });
 
   it('`select` button should be disabled and error displayed if days-of-week type is selected but no days specified', async () => {
