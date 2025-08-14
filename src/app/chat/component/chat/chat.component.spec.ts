@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { ChatComponent } from './chat.component';
 import { ChatsService } from '../../service/chats/chats.service';
 import { SocketService } from '../../service/socket/socket.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { OverlayRef } from '@angular/cdk/overlay';
@@ -35,11 +35,11 @@ describe('ChatComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should toggle showEmojiPicker on toggleEmojiPicker method', () => {
+  it('should toggle showEmojiPicker on toggleEmojiPicker method', () => {
     component.showEmojiPicker = false;
 
     component.toggleEmojiPicker();
@@ -49,7 +49,7 @@ describe('ChatComponent', () => {
     expect(component.showEmojiPicker).toBe(false);
   });
 
-  xit('should add emoji to messageControl on addEmoji method', () => {
+  it('should add emoji to messageControl on addEmoji method', () => {
     const emojiEvent = { emoji: { native: '😊' } };
     const initialMessage = 'Hello';
 

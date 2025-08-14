@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { UserFriendsService } from 'src/app/greencity/modules/user/services/user-friends/user-friends.service';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import { RecommendedFriendsComponent } from './recommended-friends.component';
 import { FIRSTFRIEND, FRIENDS, SECONDFRIEND } from 'src/app/greencity/modules/user/mocks/friends-mock';
 import { UserOnlineStatusService } from 'src/app/greencity/modules/user/services/user-online-status/user-online-status.service';
@@ -22,6 +22,8 @@ describe('RecommendedFriendsComponent', () => {
       'getAllRecommendedFriends',
       'removeFriendSubj$'
     ]);
+    userFriendsServiceSpy.removeFriendSubj$ = new Subject<any>();
+
     const localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
     const matSnackBarSpy = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
     const userOnlineStatusServiceSpy = jasmine.createSpyObj('UserOnlineStatusService', ['addUsersId', 'removeUsersId']);
@@ -73,7 +75,7 @@ describe('RecommendedFriendsComponent', () => {
     expect(component.getNewFriends).not.toHaveBeenCalled();
   });
 
-  xit('should call initUser and getPossibleFriends OnInit', () => {
+  it('should call initUser and getPossibleFriends OnInit', () => {
     const initUserSpy = spyOn(component as any, 'initUser');
     const getFriendsSpy = spyOn(component, 'getNewFriends');
     component.ngOnInit();

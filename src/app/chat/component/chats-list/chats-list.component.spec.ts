@@ -93,7 +93,7 @@ describe('ChatsListComponent', () => {
     expect(emitSpy).not.toHaveBeenCalled();
   });
 
-  xit('should call createNewChat when no existing support chat', () => {
+  it('should call createNewChat when no existing support chat', () => {
     component.isUbsAdmin = false;
 
     const chatTarget = {
@@ -103,8 +103,8 @@ describe('ChatsListComponent', () => {
 
     const socketSpy = spyOn(component['socketService'], 'createNewChat');
     const emitSpy = spyOn(component.createNewMessageWindow, 'emit');
-    spyOnProperty(component.chatService, 'isSupportChat', 'get').and.returnValue(true);
 
+    (Object.getOwnPropertyDescriptor(component.chatService, 'isSupportChat')?.get as jasmine.Spy).and.returnValue(true);
     component.checkChat(chatTarget);
 
     expect(socketSpy).toHaveBeenCalledWith(555, false, true);
