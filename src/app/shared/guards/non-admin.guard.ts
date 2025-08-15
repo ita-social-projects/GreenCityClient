@@ -11,11 +11,14 @@ export const NonAdminGuard: CanActivateFn = (route, state) => {
 
   const adminRoleValue: TUserRole = 'ROLE_UBS_EMPLOYEE';
   const exemptRoutes = ['/chat-page'];
+
+  const pathOnly = state.url.split('?')[0].split('#')[0];
   return store.pipe(
     select(userRoleSelector),
     take(1),
     tap((userRole) => {
-      const isExempt = exemptRoutes.includes(state.url);
+      const isExempt = exemptRoutes.includes(pathOnly);
+
       if (!userRole && isExempt) {
         router.navigate(['/']);
       }
@@ -24,7 +27,8 @@ export const NonAdminGuard: CanActivateFn = (route, state) => {
       }
     }),
     map((userRole) => {
-      if (userRole === adminRoleValue && !exemptRoutes.includes(state.url)) {
+      const isExempt = exemptRoutes.includes(pathOnly);
+      if (userRole === adminRoleValue && !isExempt) {
         return false;
       }
       return true;

@@ -142,6 +142,7 @@
   overflow-y: auto;
   padding-right: 0.5rem;
   display: flex;
+  min-height: 700px;
   height: 60vh;
   flex-direction: column;
   gap: 0.5rem;
@@ -160,7 +161,7 @@
   font-size: 14px;
   line-height: 1.4;
   position: relative;
-
+  margin-bottom: 20px;
   &.sent {
     align-self: flex-end;
     background-color: var(--primary-light-green);

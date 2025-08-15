@@ -9,7 +9,7 @@
     <ul class="chat-list">
       <li
         class="chat-item"
-        *ngFor="let chat of filteredChats"
+        *ngFor="let chat of filteredChats; trackBy: trackChat"
         [class.selected]="chat.chatInternalId === selectedChat?.chatInternalId"
         (click)="selectChat(chat)"
       >
@@ -33,7 +33,7 @@
 
         <app-client-info-panel *ngIf="clientInfoVisible" [clientData]="clientInfoData" class="client-info-panel"></app-client-info-panel>
 
-        <div class="messages">
+        <div class="messages" #messagesRef>
           <div
             *ngFor="let message of selectedChat.messages"
             [ngClass]="{

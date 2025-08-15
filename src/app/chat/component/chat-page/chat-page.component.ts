@@ -1,15 +1,18 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs';
+import { distinctUntilChanged, take, takeUntil } from 'rxjs';
 import { userRoleSelector } from 'src/app/store/selectors/auth.selectors';
 import { environment } from '@environment/environment';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
+import { Location } from '@angular/common';
+import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -19,7 +22,7 @@ import { ImageModalComponent } from '../image-modal/image-modal.component';
   imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, ImageModalComponent, TranslateModule],
   styleUrls: ['./chat-page.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   chats: any[] = [];
   selectedChat: any = null;
   selectedChatId?: number;
@@ -31,24 +34,80 @@ export class ChatComponent implements OnInit {
   filteredChats: any[] = [];
   searchId = '';
   selectedImageUrl: string | null = null;
-
+  private messagesLoadToken = 0;
+  private loadingForChatId?: number;
+  private destroy$ = new Subject<void>();
   private readonly baseUrl = `${environment.ubsAdmin.backendUbsAdminLink}/telegram`;
 
+  @ViewChild('messagesRef') private messagesRef?: ElementRef<HTMLDivElement>;
   constructor(
     private http: HttpClient,
     private router: Router,
     private readonly store: Store,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService,
+    private readonly route: ActivatedRoute,
+    private readonly ngZone: NgZone,
+    private readonly location: Location
   ) {}
 
   ngOnInit(): void {
     if (history.state.selectedChatId) {
       this.selectedChatId = history.state.selectedChatId;
     }
-    this.store.select(userRoleSelector).pipe(take(1));
+    this.route.queryParamMap
+      .pipe(
+        map((qp) => {
+          const v = Number(qp.get('chatId'));
+          return Number.isFinite(v) ? v : undefined;
+        }),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((id) => {
+        if (!id) {
+          return;
+        }
+        if (this.selectedChatId === id) {
+          return;
+        }
+        if (!this.chats.length) {
+          this.selectedChatId = id;
+          return;
+        }
+        const found = this.chats.find((c) => c.chatInternalId === id);
+        if (found) {
+          this.selectChat(found);
+        }
+      });
+    this.store.select(userRoleSelector).pipe(take(1)).subscribe();
     this.loadAllChats();
   }
 
+  private scrollToBottom(): void {
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => {
+        const el = this.messagesRef?.nativeElement;
+        if (!el) {
+          return;
+        }
+        el.scrollTop = el.scrollHeight;
+      });
+    });
+  }
+
+  private scrollToBottomAfterRender(): void {
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => requestAnimationFrame(() => this.scrollToBottom()));
+    });
+  }
+
+  private scrollWindowToTop(): void {
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      });
+    });
+  }
   private isSameDay(a: Date, b: Date): boolean {
     return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
   }
@@ -109,27 +168,60 @@ export class ChatComponent implements OnInit {
       }
     });
   }
-
-  selectChat(chat: any): void {
-    if (chat) {
-      this.selectedChat = chat;
-      this.clientInfoVisible = false;
-      this.clientInfoData = null;
-      this.fetchMessages(chat.chatInternalId);
-    }
+  private setChatIdInUrlSilently(id: number): void {
+    const tree = this.router.createUrlTree([], {
+      relativeTo: this.route,
+      queryParams: { chatId: id },
+      queryParamsHandling: 'merge'
+    });
+    this.location.replaceState(this.router.serializeUrl(tree));
   }
-
-  fetchMessages(chatInternalId: number, callback?: () => void): void {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
+  selectChat(chat: any): void {
+    if (!chat) {
+      return;
+    }
+    if (this.selectedChatId === chat.chatInternalId && this.selectedChat) {
       return;
     }
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.selectedChatId = chat.chatInternalId;
+    this.selectedChat = chat;
+    this.clientInfoVisible = false;
+    this.clientInfoData = null;
+
+    // new load token cancels older responses
+    const myToken = ++this.messagesLoadToken;
+    this.loadingForChatId = chat.chatInternalId;
+
+    this.scrollWindowToTop();
+
+    this.fetchMessages(chat.chatInternalId, myToken, () => {
+      if (this.messagesLoadToken === myToken) {
+        this.scrollToBottomAfterRender();
+        this.scrollWindowToTop();
+      }
+    });
+
+    const currentId = Number(this.route.snapshot.queryParamMap.get('chatId'));
+    if (currentId !== this.selectedChatId) {
+      this.setChatIdInUrlSilently(this.selectedChatId);
+    }
+  }
+
+  fetchMessages(chatInternalId: number, token: number, callback?: () => void): void {
+    const tokenStr = localStorage.getItem('accessToken');
+    if (!tokenStr) {
+      return;
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenStr}`);
     const pageSize = 20;
     const allMessages: any[] = [];
 
-    this.loadMessagePage(chatInternalId, 0, headers, pageSize, allMessages, callback);
+    // clear messages so previous render doesn't cause extra height/requests
+    this.selectedChat.messages = [];
+
+    this.loadMessagePage(chatInternalId, 0, headers, pageSize, allMessages, token, callback);
   }
 
   private loadMessagePage(
@@ -138,15 +230,22 @@ export class ChatComponent implements OnInit {
     headers: HttpHeaders,
     pageSize: number,
     allMessages: any[],
+    token: number,
     callback?: () => void
   ): void {
     const url = `${this.baseUrl}/messages/${chatId}?page=${page}&size=${pageSize}&sort=sendAt,desc`;
 
+    // bail out if another selection started
+    if (this.messagesLoadToken !== token) {
+      return;
+    }
+
     this.http.get<any>(url, { headers }).subscribe({
-      next: (response) => this.handleMessageResponse(chatId, response, page, headers, pageSize, allMessages, callback),
+      next: (response) => this.handleMessageResponse(chatId, response, page, headers, pageSize, allMessages, token, callback),
       error: (err) => this.handleMessageError(err, callback)
     });
   }
+
   private handleMessageResponse(
     chatId: number,
     response: any,
@@ -154,25 +253,32 @@ export class ChatComponent implements OnInit {
     headers: HttpHeaders,
     pageSize: number,
     allMessages: any[],
+    token: number,
     callback?: () => void
   ): void {
+    if (this.messagesLoadToken !== token) {
+      return;
+    } // selection changed; drop results
+
     const messages = response.page || [];
     allMessages.push(...messages);
 
     if (page + 1 < response.totalPages) {
-      this.loadMessagePage(chatId, page + 1, headers, pageSize, allMessages, callback);
+      this.loadMessagePage(chatId, page + 1, headers, pageSize, allMessages, token, callback);
     } else {
-      this.selectedChat.messages = allMessages
-        .map((msg: any) => ({
-          from: msg.fromManager ? 'Me' : this.selectedChat.nickname,
-          text: msg.text,
-          time: msg.sendAt ? this.formatChatTimestamp(new Date(msg.sendAt)) : '',
-          images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
-        }))
-        .reverse();
+      // finalize only if still current
+      if (this.messagesLoadToken === token) {
+        this.selectedChat.messages = allMessages
+          .map((msg: any) => ({
+            id: msg.id, // add id for trackBy
+            from: msg.fromManager ? 'Me' : this.selectedChat.nickname,
+            text: msg.text,
+            time: msg.sendAt ? this.formatChatTimestamp(new Date(msg.sendAt)) : '',
+            images: (msg.assets || []).filter((a: any) => a.type === 'IMAGE').map((a: any) => a.url)
+          }))
+          .reverse();
 
-      if (callback) {
-        callback();
+        callback?.();
       }
     }
   }
@@ -305,5 +411,13 @@ export class ChatComponent implements OnInit {
 
   closeImageModal(): void {
     this.selectedImageUrl = null;
+  }
+  trackChat(index: number, chat: any): number {
+    return chat.chatInternalId;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
