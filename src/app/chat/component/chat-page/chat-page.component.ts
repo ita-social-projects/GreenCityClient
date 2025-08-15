@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf, Location } from '@angular/common';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,7 +10,6 @@ import { Subject, take, takeUntil } from 'rxjs';
 import { userRoleSelector } from 'src/app/store/selectors/auth.selectors';
 import { environment } from '@environment/environment';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
@@ -21,7 +20,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./chat-page.component.scss']
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  private destroy = new Subject<void>();
+  private readonly destroy = new Subject<void>();
   chats: any[] = [];
   selectedChat: any = null;
   selectedChatId?: number;
@@ -39,8 +38,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute,
-    private location: Location,
+    private readonly route: ActivatedRoute,
+    private readonly location: Location,
     private readonly store: Store,
     private readonly translate: TranslateService
   ) {}

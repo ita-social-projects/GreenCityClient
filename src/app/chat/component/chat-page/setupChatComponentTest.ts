@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ChatComponent } from './chat-page.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
-import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
+import { NgClass, NgForOf, NgIf, NgStyle, Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslatePipe, MockTranslateService } from './mock-translate.mock';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -10,7 +10,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { userRoleSelector } from 'src/app/store/selectors/auth.selectors';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { Location } from '@angular/common';
 
 export async function setupChatComponentTest(mockRole: string | null = null) {
   await TestBed.configureTestingModule({
