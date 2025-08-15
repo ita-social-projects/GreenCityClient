@@ -28,6 +28,7 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
   @Input() autoCompRequest?: google.maps.places.AutocompletionRequest;
   @Input() isReturnCoordinates = false;
   @Input() isInitAutoTranslate = false;
+  @Input() blockAutoComplete = false;
 
   @Output() selectedPredictionCoordinates = new EventEmitter<Coordinates>();
   @Output() predictionSelected = new EventEmitter<GooglePrediction | null>();
@@ -40,6 +41,7 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
   predictionList: GooglePrediction[];
   autocompleteService: GoogleAutoService;
   placeId: string;
+  shouldAutocomplete = false;
   inputUpdate = new Subject<string>();
   inputValue: FormControl = new FormControl('');
   private destroy$ = new Subject<void>();
@@ -139,7 +141,7 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
     const sessionToken = new google.maps.places.AutocompleteSessionToken();
 
     this.inputValue.valueChanges.pipe(takeUntil(this.destroy$), debounceTime(400)).subscribe((input: string) => {
-      if (!input) {
+      if (!input || !this.shouldAutocomplete || this.blockAutoComplete) {
         this.predictionList = [];
         return;
       }
@@ -232,5 +234,14 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
     return predictions
       .map((prediction) => ({ ...prediction, description: prediction.description.replace('вул.', 'вулиця') }))
       .filter((prediction, index, self) => self.findIndex((t) => t.description === prediction.description) === index);
+  }
+
+  onInputFocus(): void {
+    this.shouldAutocomplete = true;
+  }
+
+  onInputBlur(): void {
+    this.markAsTouched();
+    this.shouldAutocomplete = false;
   }
 }

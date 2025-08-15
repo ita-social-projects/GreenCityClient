@@ -263,3 +263,8 @@ export enum DistrictEnum {
   UA = ' район',
   EN = ' district'
 }
+
+export interface LanguageResponseOptions {
+  placeUk?: google.maps.GeocoderResult;
+  placeEn?: google.maps.GeocoderResult;
+}

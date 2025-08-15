@@ -97,6 +97,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   enCities;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
   placeService: GooglePlaceService;
+  blockAutocomplete = false;
 
   icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
@@ -146,10 +147,14 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.name = firstName;
     });
     this.region.valueChanges.subscribe((item) => {
+      this.blockAutocomplete = true;
+
       this.updateInputsState(item);
       this.regionExist = !this.regionSelected && item.length > 3;
       const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === item));
       this.selectCities(currentRegion);
+
+      this.delayAutocomplete();
     });
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
       this.currentLang = lang;
@@ -292,6 +297,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   onCitySelected(city: GooglePrediction | null): void {
+    this.blockAutocomplete = true;
+
     if (city?.place_id) {
       this.cityInvalid = false;
       this.setTranslation(city.place_id, this.location, this.langService.getLangValue(Language.UK, Language.EN));
@@ -301,6 +308,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.location.setValue('');
       this.englishLocation.setValue('');
     }
+
+    this.delayAutocomplete();
   }
 
   getLocations(): void {
@@ -405,5 +414,9 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   ngAfterViewChecked(): void {
     this.cdr.detectChanges();
+  }
+
+  private delayAutocomplete() {
+    this.blockAutocomplete = false;
   }
 }
