@@ -2,10 +2,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { UbsAdminCustomersComponent } from './ubs-admin-customers.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
+import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Renderer2 } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -56,7 +56,7 @@ describe('UbsAdminCustomersComponent', () => {
         number_of_orders: 5,
         violations: 0,
         currentBonuses: 100,
-        chatLink: 'https://chat.example.com/user1',
+        chatId: 'https://chat.example.com/user1',
         address: 'Some Address 1'
       },
       {
@@ -69,7 +69,7 @@ describe('UbsAdminCustomersComponent', () => {
         number_of_orders: 2,
         violations: 1,
         currentBonuses: 50,
-        chatLink: null,
+        chatId: null,
         address: 'Some Address 2'
       }
     ],
@@ -123,6 +123,7 @@ describe('UbsAdminCustomersComponent', () => {
       chatId: 12
     });
 
+    (localStorageServiceMock as any).languageBehaviourSubject = new BehaviorSubject('en');
     (localStorageServiceMock.getCurrentLanguage as jasmine.Spy).and.returnValue('en');
 
     TestBed.configureTestingModule({
@@ -183,6 +184,26 @@ describe('UbsAdminCustomersComponent', () => {
 
   it('should create', () => {
     expect(component).toBeDefined();
+  });
+  it('should have spy on getCustomers', () => {
+    expect(jasmine.isSpy(adminCustomersServiceMock.getCustomers)).toBeTrue();
+
+    const serviceInComponent = fixture.debugElement.injector.get(AdminCustomersService);
+    expect(serviceInComponent).toBe(adminCustomersServiceMock);
+    expect(jasmine.isSpy(serviceInComponent.getCustomers)).toBeTrue();
+  });
+
+  it('should set filter value, reset current page and call getTable', () => {
+    const filterValueMock = 'test';
+    component.currentPage = 5;
+    const getTableSpy = spyOn(component as any, 'getTable');
+
+    component.applyFilter(filterValueMock);
+
+    expect(component.filterValue).toBe(filterValueMock);
+    expect(component.currentPage).toBe(0);
+    expect(getTableSpy).toHaveBeenCalled();
+    expect(component.hasChange).toBeTrue();
   });
 
   it('detects changes', () => {
@@ -568,5 +589,40 @@ describe('UbsAdminCustomersComponent', () => {
     expect(component.columns[0].width).toBeCloseTo(48.75);
     expect(component.columns[1].width).toBeCloseTo(146.25);
     expect((component as any)['setColumnWidth']).toHaveBeenCalledTimes(2);
+  });
+
+  it('should call applyFilter after debounce if enterPressed is false', fakeAsync(() => {
+    const testValue = 'test';
+    component.enterPressed = false;
+    const applyFilterSpy = spyOn(component, 'applyFilter');
+
+    component['filterSubject'].next(testValue);
+    tick(1000);
+
+    expect(applyFilterSpy).toHaveBeenCalledWith(testValue);
+  }));
+
+  it('should NOT call applyFilter if enterPressed is true, but reset it', fakeAsync(() => {
+    const testValue = 'test';
+    component.enterPressed = true;
+    const applyFilterSpy = spyOn(component, 'applyFilter');
+
+    component['filterSubject'].next(testValue);
+    tick(1000);
+
+    expect(applyFilterSpy).not.toHaveBeenCalled();
+    expect(component.enterPressed).toBeFalse();
+  }));
+
+  it('getFilteredTable should call applyFilter immediately and set enterPressed as true if enter was pressed', () => {
+    const filterMock = 'test';
+    const enterClicked = true;
+    const applyFilterSpy = spyOn(component, 'applyFilter');
+
+    component.getFilteredTable(filterMock, enterClicked);
+
+    expect(applyFilterSpy).toHaveBeenCalled();
+    expect(applyFilterSpy).toHaveBeenCalledWith(filterMock);
+    expect(component.enterPressed).toBeTrue();
   });
 });
