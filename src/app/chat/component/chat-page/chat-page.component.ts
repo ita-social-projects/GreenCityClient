@@ -189,7 +189,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.clientInfoVisible = false;
     this.clientInfoData = null;
 
-    // new load token cancels older responses
     const myToken = ++this.messagesLoadToken;
     this.loadingForChatId = chat.chatInternalId;
 
@@ -218,7 +217,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     const pageSize = 20;
     const allMessages: any[] = [];
 
-    // clear messages so previous render doesn't cause extra height/requests
     this.selectedChat.messages = [];
 
     this.loadMessagePage(chatInternalId, 0, headers, pageSize, allMessages, token, callback);
@@ -235,7 +233,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   ): void {
     const url = `${this.baseUrl}/messages/${chatId}?page=${page}&size=${pageSize}&sort=sendAt,desc`;
 
-    // bail out if another selection started
     if (this.messagesLoadToken !== token) {
       return;
     }
@@ -258,7 +255,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ): void {
     if (this.messagesLoadToken !== token) {
       return;
-    } // selection changed; drop results
+    }
 
     const messages = response.page || [];
     allMessages.push(...messages);
@@ -266,11 +263,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     if (page + 1 < response.totalPages) {
       this.loadMessagePage(chatId, page + 1, headers, pageSize, allMessages, token, callback);
     } else {
-      // finalize only if still current
       if (this.messagesLoadToken === token) {
         this.selectedChat.messages = allMessages
           .map((msg: any) => ({
-            id: msg.id, // add id for trackBy
+            id: msg.id,
             from: msg.fromManager ? 'Me' : this.selectedChat.nickname,
             text: msg.text,
             time: msg.sendAt ? this.formatChatTimestamp(new Date(msg.sendAt)) : '',
