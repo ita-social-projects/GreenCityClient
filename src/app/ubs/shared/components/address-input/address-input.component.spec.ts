@@ -811,4 +811,13 @@ describe('AddressInputComponent', () => {
     component.markAsTouched();
     expect(component.onTouched).toHaveBeenCalledTimes(1);
   });
+
+  it('should change blockAutocomplete to false', fakeAsync(() => {
+    component.blockAutoComplete = true;
+
+    component['delayAutocomplete']();
+    tick(600);
+
+    expect(component.blockAutoComplete).toBeFalse();
+  }));
 });
