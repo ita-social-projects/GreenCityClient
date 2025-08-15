@@ -1,15 +1,14 @@
 import { ChatComponent } from './chat-page.component';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
+import { NgClass, NgForOf, NgIf, NgStyle, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { of, takeUntil, throwError } from 'rxjs';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { setupChatComponentTest } from './setupChatComponentTest';
 import { provideMockStore } from '@ngrx/store/testing';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('ChatComponent', () => {
   let component: ChatComponent;
@@ -18,6 +17,7 @@ describe('ChatComponent', () => {
   let historyMock: jasmine.Spy;
   let route: ActivatedRoute;
   let location: Location;
+  let router: Router;
 
   beforeEach(async () => {
     const setup = await setupChatComponentTest();
@@ -25,6 +25,7 @@ describe('ChatComponent', () => {
     fixture = setup.fixture;
     httpMock = setup.httpMock;
     location = setup.location;
+    router = setup.router;
     route = TestBed.inject(ActivatedRoute);
 
     localStorage.setItem('accessToken', 'mock-token');
@@ -45,12 +46,12 @@ describe('ChatComponent', () => {
     expect(component.selectedChatId).toBe(123);
   });
 
-  it('should set selectedChatId if chatId is in history state and update URL', () => {
+  it('should set selectedChatId if chatId is in history state', () => {
+    spyOn(router, 'navigate');
     historyMock.and.returnValue({ selectedChatId: 123 });
-    const replaceStateSpy = spyOn(location, 'replaceState');
     component.ngOnInit();
     expect(component.selectedChatId).toEqual(123);
-    expect(replaceStateSpy).toHaveBeenCalledWith('/ubs/admin/chat-page/123');
+    expect(router.navigate).toHaveBeenCalledWith(['/ubs/admin/chat-page/', 123], { relativeTo: jasmine.any(Object) });
   });
   it('should not set selectedChatId if no chatId is in history state', () => {
     (route.params as any) = of({ id: undefined });

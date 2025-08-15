@@ -46,8 +46,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (history.state.selectedChatId) {
-      this.selectedChatId = history.state.selectedChatId;
-      this.location.replaceState(`/ubs/admin/chat-page/${this.selectedChatId}`);
+      this.router.navigate(['/ubs/admin/chat-page/', history.state.selectedChatId], { relativeTo: this.route });
     }
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((params) => {
       this.selectedChatId = Number(params.id);
