@@ -8,12 +8,17 @@ import { MockTranslatePipe, MockTranslateService } from './mock-translate.mock';
 import { provideMockStore } from '@ngrx/store/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { userRoleSelector } from 'src/app/store/selectors/auth.selectors';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { Location } from '@angular/common';
 
 export async function setupChatComponentTest(mockRole: string | null = null) {
   await TestBed.configureTestingModule({
     imports: [ChatComponent, HttpClientTestingModule, FormsModule, NgForOf, NgClass, NgIf, NgStyle, MockTranslatePipe, RouterTestingModule],
     providers: [
       { provide: TranslateService, useClass: MockTranslateService },
+      { provide: ActivatedRoute, useValue: { params: of({ id: '123' }) } },
+      { provide: Location },
       provideMockStore({
         selectors: [
           {
@@ -34,6 +39,7 @@ export async function setupChatComponentTest(mockRole: string | null = null) {
   const fixture = TestBed.createComponent(ChatComponent);
   const component = fixture.componentInstance;
   const httpMock = TestBed.inject(HttpTestingController);
+  const location = TestBed.inject(Location);
 
-  return { fixture, component, httpMock };
+  return { fixture, component, httpMock, location };
 }

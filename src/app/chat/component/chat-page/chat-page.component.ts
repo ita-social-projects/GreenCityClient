@@ -1,15 +1,16 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { userRoleSelector } from 'src/app/store/selectors/auth.selectors';
 import { environment } from '@environment/environment';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
@@ -19,7 +20,8 @@ import { ImageModalComponent } from '../image-modal/image-modal.component';
   imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, ImageModalComponent, TranslateModule],
   styleUrls: ['./chat-page.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
+  private destroy = new Subject<void>();
   chats: any[] = [];
   selectedChat: any = null;
   selectedChatId?: number;
@@ -37,6 +39,8 @@ export class ChatComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
     private readonly store: Store,
     private readonly translate: TranslateService
   ) {}
@@ -44,7 +48,11 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     if (history.state.selectedChatId) {
       this.selectedChatId = history.state.selectedChatId;
+      this.location.replaceState(`/ubs/admin/chat-page/${this.selectedChatId}`);
     }
+    this.route.params.pipe(takeUntil(this.destroy)).subscribe((params) => {
+      this.selectedChatId = Number(params.id);
+    });
     this.store.select(userRoleSelector).pipe(take(1));
     this.loadAllChats();
   }
@@ -103,6 +111,7 @@ export class ChatComponent implements OnInit {
   selectChat(chat: any): void {
     if (chat) {
       this.selectedChat = chat;
+      this.location.replaceState(`/ubs/admin/chat-page/${chat.chatInternalId}`);
       this.clientInfoVisible = false;
       this.clientInfoData = null;
       this.fetchMessages(chat.chatInternalId);
@@ -300,5 +309,10 @@ export class ChatComponent implements OnInit {
   closeImageModal(): void {
     console.log('close image modal');
     this.selectedImageUrl = null;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.complete();
   }
 }

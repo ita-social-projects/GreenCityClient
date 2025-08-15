@@ -3,22 +3,29 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { of, throwError } from 'rxjs';
+import { of, takeUntil, throwError } from 'rxjs';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { setupChatComponentTest } from './setupChatComponentTest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 describe('ChatComponent', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
   let httpMock: HttpTestingController;
   let historyMock: jasmine.Spy;
+  let route: ActivatedRoute;
+  let location: Location;
 
   beforeEach(async () => {
     const setup = await setupChatComponentTest();
     component = setup.component;
     fixture = setup.fixture;
     httpMock = setup.httpMock;
+    location = setup.location;
+    route = TestBed.inject(ActivatedRoute);
 
     localStorage.setItem('accessToken', 'mock-token');
     historyMock = spyOnProperty(history, 'state', 'get').and.returnValue({ selectedChatId: 123 });
@@ -33,17 +40,27 @@ describe('ChatComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set selectedChatId if chatId is in history state', () => {
+  it('should spy on params', () => {
+    component.ngOnInit();
+    expect(component.selectedChatId).toBe(123);
+  });
+
+  it('should set selectedChatId if chatId is in history state and update URL', () => {
     historyMock.and.returnValue({ selectedChatId: 123 });
+    const replaceStateSpy = spyOn(location, 'replaceState');
     component.ngOnInit();
     expect(component.selectedChatId).toEqual(123);
+    expect(replaceStateSpy).toHaveBeenCalledWith('/ubs/admin/chat-page/123');
   });
   it('should not set selectedChatId if no chatId is in history state', () => {
+    (route.params as any) = of({ id: undefined });
+
     historyMock.and.returnValue({ selectedChatId: undefined });
     component.ngOnInit();
-    expect(component.selectedChatId).toEqual(undefined);
+    expect(component.selectedChatId).toBeFalsy();
   });
-  it('should call selectChat method if selectedChatId was provided', fakeAsync(() => {
+  it('should call selectChat method if selectedChatId was provided and change url', fakeAsync(() => {
+    const replaceStateSpy = spyOn(location, 'replaceState');
     const selectChatSpy = spyOn(component, 'selectChat').and.callThrough();
     component.selectedChatId = 123;
     spyOn(component['http'], 'get').and.returnValue(
@@ -65,15 +82,26 @@ describe('ChatComponent', () => {
     expect(component.selectedChatId).toEqual(123);
     expect(selectChatSpy).toHaveBeenCalled();
     expect(selectChatSpy).toHaveBeenCalledWith(jasmine.objectContaining({ chatInternalId: 123 }));
+    expect(replaceStateSpy).toHaveBeenCalledWith('/ubs/admin/chat-page/123');
+    expect(component.clientInfoVisible).toBeFalse();
+    expect(component.clientInfoData).toBeNull();
   }));
 
   it('should not call selectChat method if selectedChatId was not provided', () => {
     const selectChatSpy = spyOn(component, 'selectChat');
+    const replaceStateSpy = spyOn(location, 'replaceState');
 
     component.loadAllChats();
 
     expect(component.selectedChatId).toEqual(undefined);
     expect(selectChatSpy).not.toHaveBeenCalled();
+    expect(replaceStateSpy).not.toHaveBeenCalled();
+  });
+
+  it('should update selectedChatId when route params change', () => {
+    (route.params as any) = of({ id: '456' });
+    component.ngOnInit?.();
+    expect(component.selectedChatId).toBe(456);
   });
 
   it('should not send message if newMessage is blank or no chat', () => {
@@ -509,5 +537,24 @@ describe('toggleClientInfo', () => {
 
     expect(component.selectedImageUrl).toBeNull();
     expect(console.log).toHaveBeenCalledWith('close image modal');
+  });
+
+  it('should emit and complete destroy subject on ngOnDestroy', () => {
+    spyOn(component['destroy'], 'next');
+    spyOn(component['destroy'], 'complete');
+    component.ngOnDestroy();
+    expect(component['destroy'].next).toHaveBeenCalledWith();
+    expect(component['destroy'].complete).toHaveBeenCalled();
+  });
+
+  it('should unsubscribe subscriptions when ngOnDestroy is called', () => {
+    let called = false;
+    const subscription = of(true)
+      .pipe(takeUntil(component['destroy']))
+      .subscribe(() => (called = true));
+
+    component.ngOnDestroy();
+
+    expect(subscription.closed).toBeTrue();
   });
 });
