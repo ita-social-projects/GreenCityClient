@@ -36,10 +36,10 @@ export class ChatComponent implements OnInit, OnDestroy {
   selectedImageUrl: string | null = null;
   private messagesLoadToken = 0;
   private loadingForChatId?: number;
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
   private readonly baseUrl = `${environment.ubsAdmin.backendUbsAdminLink}/telegram`;
 
-  @ViewChild('messagesRef') private messagesRef?: ElementRef<HTMLDivElement>;
+  @ViewChild('messagesRef') private readonly messagesRef?: ElementRef<HTMLDivElement>;
   constructor(
     private http: HttpClient,
     private router: Router,
