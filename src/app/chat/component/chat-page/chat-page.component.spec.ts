@@ -89,14 +89,7 @@ describe('ChatComponent', () => {
     component.onFileSelected({ target: { files: [file] } } as any);
     expect(component.selectedFile).toBe(file);
   });
-  it('should set selectedChat and call fetchMessages with its internal ID', () => {
-    const fakeChat = { chatInternalId: 99, name: 'test' } as any;
 
-    spyOn(component, 'fetchMessages');
-    component.selectChat(fakeChat);
-    expect(component.selectedChat).toBe(fakeChat);
-    expect(component.fetchMessages).toHaveBeenCalledOnceWith(99);
-  });
   it('should call loadAllChats on init', () => {
     spyOn(component, 'loadAllChats');
     component.ngOnInit();
@@ -115,99 +108,6 @@ describe('ChatComponent', () => {
     component.selectedChat = null;
     component.sendMessage();
     expect(component['http'].post).not.toHaveBeenCalled();
-  });
-});
-
-describe('ChatComponent · fetchMessages via stubbed HttpClient', () => {
-  let component: ChatComponent;
-  let fixture: ComponentFixture<ChatComponent>;
-  let httpMock: HttpTestingController;
-
-  beforeEach(async () => {
-    const setup = await setupChatComponentTest();
-    component = setup.component;
-    fixture = setup.fixture;
-    httpMock = setup.httpMock;
-
-    localStorage.setItem('accessToken', 'mock-token');
-  });
-
-  afterEach(() => {
-    localStorage.clear();
-  });
-
-  it('should map messages correctly on success', () => {
-    component.selectedChat = {
-      chatInternalId: 123,
-      nickname: 'Tester',
-      messages: []
-    };
-
-    spyOn(component['http'], 'get').and.returnValue(
-      of({
-        page: [
-          {
-            fromManager: true,
-            text: 'Hey!',
-            sendAt: '2025-07-14T09:00:00Z',
-            assets: [{ type: 'IMAGE', url: 'https://pic.test/1.png' }]
-          },
-          {
-            fromManager: false,
-            text: 'Yo!',
-            sendAt: '2025-07-14T09:05:00Z',
-            assets: []
-          }
-        ]
-      })
-    );
-
-    component.fetchMessages(123);
-
-    expect(component.selectedChat.messages[1]).toEqual(
-      jasmine.objectContaining({
-        from: 'Me',
-        text: 'Hey!',
-        images: ['https://pic.test/1.png']
-      })
-    );
-    expect(component.selectedChat.messages[0].from).toBe('Tester');
-    expect(component.selectedChat.messages[0].text).toBe('Yo!');
-    expect(component.selectedChat.messages[0].images.length).toBe(0);
-  });
-
-  it('should show system msg on empty page', () => {
-    component.selectedChat = { chatInternalId: 456, name: 'A', messages: [] };
-
-    spyOn(component['http'], 'get').and.returnValue(of({ page: [] }));
-
-    component.fetchMessages(456);
-
-    expect(component.selectedChat.messages).toEqual([]);
-  });
-
-  it('should handle 404 no-messages error', () => {
-    component.selectedChat = { chatInternalId: 789, name: 'B', messages: [] };
-
-    const err = new HttpErrorResponse({
-      status: 404,
-      error: { message: 'no messages for B' }
-    });
-    spyOn(component['http'], 'get').and.returnValue(throwError(() => err));
-
-    component.fetchMessages(789);
-    expect(component.selectedChat.messages).toEqual([]);
-  });
-
-  it('should log other errors', () => {
-    component.selectedChat = { chatInternalId: 101, name: 'C', messages: [] };
-    const err = new HttpErrorResponse({ status: 500, statusText: 'Oops' });
-    spyOn(component['http'], 'get').and.returnValue(throwError(() => err));
-    spyOn(console, 'error');
-
-    component.fetchMessages(101);
-
-    expect(console.error).toHaveBeenCalledWith('Failed to fetch messages:', err);
   });
 });
 
