@@ -41,10 +41,10 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
   predictionList: GooglePrediction[];
   autocompleteService: GoogleAutoService;
   placeId: string;
-  shouldAutocomplete = false;
   inputUpdate = new Subject<string>();
   inputValue: FormControl = new FormControl('');
   private destroy$ = new Subject<void>();
+  private shouldAutocomplete = false;
 
   onChange = (quantity) => {};
   onTouched = () => {};
