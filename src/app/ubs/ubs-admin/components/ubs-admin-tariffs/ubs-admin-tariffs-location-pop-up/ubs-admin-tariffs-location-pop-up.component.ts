@@ -417,6 +417,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   private delayAutocomplete() {
-    this.blockAutocomplete = false;
+    setTimeout(() => {
+      this.blockAutocomplete = false;
+    }, 600);
   }
 }
