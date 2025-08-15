@@ -1,0 +1,15 @@
+.chat-pop-up {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  background: none;
+  border-radius: 50%;
+  padding: 1px;
+  border: none;
+  z-index: 7;
+
+  img {
+    width: 55px;
+    height: 55px;
+  }
+}

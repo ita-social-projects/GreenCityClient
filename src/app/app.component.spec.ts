@@ -8,7 +8,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject, of } from 'rxjs';
 import { CommonService } from './chat/service/common/common.service';
-import { MetaService } from './shared/services/meta/meta.service';
+import { MetaService } from '@global-service/meta/meta.service';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -20,8 +27,8 @@ describe('AppComponent', () => {
     'languageBehaviourSubject',
     'getCurrentLanguage'
   ]);
-  localStorageMock.userIdBehaviourSubject = () => of(1);
-  localStorageMock.getAccessToken = () => 1;
+  localStorageMock.userIdBehaviourSubject = of(null);
+  localStorageMock.getAccessToken = () => null;
   localStorageMock.languageBehaviourSubject = new BehaviorSubject('ua');
   const chatsServiceMock = jasmine.createSpyObj('ChatsService', ['isSupportChat$']);
   chatsServiceMock.isSupportChat$ = new BehaviorSubject(true);
@@ -29,7 +36,18 @@ describe('AppComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule, ChatModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        ChatModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+          }
+        })
+      ],
       providers: [
         provideMockStore(),
         { provide: ChatsService, useValue: chatsServiceMock },

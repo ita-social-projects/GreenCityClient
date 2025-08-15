@@ -328,16 +328,16 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       }
     });
   }
-
+  isAllOptionSelected(value: string) {
+    return value && (value.toLowerCase() === TariffRegionAll.ua || value.toLowerCase() === TariffRegionAll.en);
+  }
   onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     const panel = document.querySelector('.mat-autocomplete-panel');
     this.scrollPosition = panel ? panel.scrollTop : 0;
-
-    if (event.option.value === 'all') {
+    if (this.isAllOptionSelected(event.option.value)) {
       this.toggleSelectAllCity();
       const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
       Object.assign(this.filterData, { location: locationsId });
-      this.city.setValue(this.translate.instant('ubs-tariffs.states.all'));
     } else {
       this.selectCity(event);
       const locationId = this.selectedCities.map((it) => it.id);
@@ -400,15 +400,15 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   stationSelected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger) {
-    if (event.option.value === 'all') {
+    if (this.isAllOptionSelected(event.option.value)) {
       this.toggleSelectAllStation();
       const stationsId = this.stations.map((station) => station.id);
       Object.assign(this.filterData, { receivingStation: stationsId });
-      this.station.setValue(this.translate.instant('ubs-tariffs.states.all'));
     } else {
       this.onSelectStation(event);
       const receivingStationId = this.selectedStation.map((it) => it.id);
       Object.assign(this.filterData, { receivingStation: receivingStationId });
+      this.station.setValue('');
     }
     this.getExistingCard(this.filterData);
     this.setStationPlaceholder();
@@ -454,7 +454,13 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       });
     } else {
       this.selectedCities.length = 0;
+      this.city.setValue('');
     }
+
+    this.filteredCities = this.filterOptions(
+      this.city,
+      this.cities.map((elem) => elem.name)
+    );
   }
 
   transformCityToSelectedCity(city: any) {
@@ -486,7 +492,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       });
     } else {
       this.selectedStation.length = 0;
+      this.station.setValue('');
     }
+    this.filteredStations = this.filterOptions(
+      this.station,
+      this.stations.map((elem) => elem.name)
+    );
   }
 
   onSelectCourier(event): void {
@@ -795,10 +806,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.selectedCard.regionUk = res.regionUk;
     this.selectedCard.regionId = res.regionId;
     this.selectedCard.station = res.station;
-  }
-
-  createCardRequest(card): void {
-    this.tariffsService.createCard(card).pipe(takeUntil(this.destroy)).subscribe();
   }
 
   openAddCourierDialog(): void {

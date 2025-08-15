@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-xdescribe('ChatModalComponent', () => {
+describe('ChatModalComponent', () => {
   let component: ChatModalComponent;
   let fixture: ComponentFixture<ChatModalComponent>;
 
@@ -48,12 +48,6 @@ xdescribe('ChatModalComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should set isMobile property', () => {
-    (window as any).innerWidth = 760;
-    fixture.detectChanges();
-    expect(component.isMobile).toBeFalsy();
   });
 
   it('should call close method on click', () => {

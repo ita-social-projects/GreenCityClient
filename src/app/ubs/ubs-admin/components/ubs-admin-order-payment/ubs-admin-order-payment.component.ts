@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ChangingOrderPaymentStatus } from 'src/app/store/actions/bigOrderTable.actions';
-import { IPaymentInfoDto, IOrderInfo, PaymentDetails, orderPaymentInfo, ReturnMoneyOrBonuses } from '../../models/ubs-admin.interface';
+import { IPaymentInfoDto, IOrderInfo, orderPaymentInfo, ReturnMoneyOrBonuses } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -70,15 +70,16 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       this.paidAmount = this.paymentInfo.paymentTableInfoDto.paidAmount;
       this.unPaidAmount = this.paymentInfo.paymentTableInfoDto.unPaidAmount;
       this.actualPrice = this.paymentInfo.orderFullPrice;
+      this.setOverpaymentForCancelledStatus();
     }
 
     if (changes.orderStatus) {
       this.currentOrderStatus = changes.orderStatus.currentValue;
       this.isStatusForReturnMoneyOrPaid =
         this.currentOrderStatus === OrderStatus.CANCELED || this.currentOrderStatus === OrderStatus.DONE || this.isBroughtItHimSelf;
-      if (this.currentOrderStatus === OrderStatus.CANCELED) {
-        this.overpayment = this.paidAmount;
-      }
+
+      this.setOverpaymentForCancelledStatus();
+
       if (this.currentOrderStatus === OrderStatus.BROUGHT_IT_HIMSELF) {
         this.returnMoneyOrBonuses = { ...this.returnMoneyOrBonuses, amount: 0 };
       }
@@ -205,6 +206,12 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
 
   isReturnPaymentLink(paymentLink): boolean {
     return paymentLink === PaymentEnrollment.bonuses || paymentLink === PaymentEnrollment.money;
+  }
+
+  private setOverpaymentForCancelledStatus(): void {
+    if (this.orderStatus === OrderStatus.CANCELED) {
+      this.overpayment = this.paidAmount;
+    }
   }
 
   ngOnDestroy(): void {

@@ -308,7 +308,7 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(spy2).toHaveBeenCalled();
   });
 
-  xit('should get selected tariff card', () => {
+  it('should get selected tariff card', () => {
     component.selectedCardId = 3;
     const result = {
       station: ['Станція'],

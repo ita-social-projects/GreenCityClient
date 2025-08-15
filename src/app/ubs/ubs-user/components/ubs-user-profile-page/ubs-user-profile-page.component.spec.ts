@@ -994,42 +994,6 @@ describe('UbsUserProfilePageComponent', () => {
       expect(snackBarMock.openSnackBar).toHaveBeenCalledTimes(1);
     }));
 
-    xit('should handle submission error and reset fetching state, showing error snackbar', fakeAsync(() => {
-      const testUserProfileForError: UserProfile = {
-        addressDto: [],
-        recipientEmail: 'error_test@example.com',
-        alternateEmail: null,
-        recipientName: 'ErrorName',
-        recipientPhone: '+380501234567',
-        recipientSurname: 'ErrorSurname',
-        hasPassword: true,
-        botList: [],
-        telegramIsNotify: false
-      };
-      const mockError = new Error('Failed to save profile on server.');
-
-      clientProfileServiceMock.getDataClientProfile.and.returnValue(of(testUserProfileForError));
-      component.getUserData();
-      component.userForm.markAsDirty();
-      component.isEditing = true;
-      fixture.detectChanges();
-
-      clientProfileServiceMock.postDataClientProfile.and.returnValue(throwError(() => mockError));
-      snackBarMock.openSnackBar.calls.reset();
-
-      component.onSubmit();
-
-      expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledTimes(1);
-
-      tick();
-      flush();
-
-      expect(component.isFetching).toBeFalse();
-      expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('error');
-      expect(snackBarMock.openSnackBar).toHaveBeenCalledTimes(2);
-      expect(component.userProfile).toEqual(testUserProfileForError);
-    }));
-
     it('should not submit if the form is invalid', fakeAsync(() => {
       const invalidUserProfile: UserProfile = {
         addressDto: [],

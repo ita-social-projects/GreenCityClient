@@ -4,7 +4,7 @@ import { environment } from '@environment/environment';
 import { EcoNewsCommentsService } from './eco-news-comments.service';
 import { CommentFormData } from '../../comments/models/comments-model';
 
-xdescribe('EcoNewsCommentsService', () => {
+describe('EcoNewsCommentsService', () => {
   let service: EcoNewsCommentsService;
   let httpTestingController: HttpTestingController;
   const url = environment.backendLink;

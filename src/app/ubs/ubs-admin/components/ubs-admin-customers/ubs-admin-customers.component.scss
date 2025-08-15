@@ -283,6 +283,11 @@ mat-header-row {
   border-radius: 4px;
 }
 
+.search-input {
+  flex: 1;
+  min-width: 0;
+}
+
 .search-input input {
   display: inline-block;
   padding: 0 0 0 15px;
@@ -291,6 +296,9 @@ mat-header-row {
   background: transparent;
   border: none;
   outline: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .search-icon {
@@ -348,6 +356,8 @@ mat-spinner {
   border: 0;
   width: 100%;
   margin: 20px 0;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .tooltip_style {

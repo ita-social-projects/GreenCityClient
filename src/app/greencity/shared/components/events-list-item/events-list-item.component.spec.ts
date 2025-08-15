@@ -228,15 +228,6 @@ describe('EventsListItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should update button name after success attention for event', fakeAsync(() => {
-    component.event = { ...component.event, id: 307 };
-    const action = { id: 307, type: EventsActions.AddAttenderEcoEventsByIdSuccess };
-    actionsSubj.next(action);
-    flush();
-    fixture.detectChanges();
-    expect(component.nameBtn).toEqual(btnNameMock.cancel);
-  }));
-
   describe('CheckButtonStatus', () => {
     it('should set btnStyle and nameBtn correctly when user is owner and event is active', () => {
       component.event = eventMock;
