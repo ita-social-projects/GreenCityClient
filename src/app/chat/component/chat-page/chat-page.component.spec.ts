@@ -47,12 +47,21 @@ describe('ChatComponent', () => {
   });
 
   it('should set selectedChatId if chatId is in history state', () => {
-    spyOn(router, 'navigate');
     historyMock.and.returnValue({ selectedChatId: 123 });
     component.ngOnInit();
     expect(component.selectedChatId).toEqual(123);
     expect(router.navigate).toHaveBeenCalledWith(['/ubs/admin/chat-page/', 123], { relativeTo: jasmine.any(Object) });
   });
+  it('should preserve history.state selectedChatId when initial route params lack id', fakeAsync(() => {
+    historyMock.and.returnValue({ selectedChatId: 123 });
+    spyOn(component['http'], 'get').and.returnValue(of({ page: [{ id: 123, chatId: 'x', username: 'u' }] }));
+    const selectSpy = spyOn(component, 'selectChat').and.callThrough();
+    component.ngOnInit();
+    tick();
+    expect(component.selectedChatId).toBe(123);
+    expect(selectSpy).toHaveBeenCalled();
+    expect(component.selectedChat?.chatInternalId).toBe(123);
+  }));
   it('should not set selectedChatId if no chatId is in history state', () => {
     (route.params as any) = of({ id: undefined });
 

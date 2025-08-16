@@ -28,7 +28,7 @@ export async function setupChatComponentTest(mockRole: string | null = null) {
       { provide: TranslateService, useClass: MockTranslateService },
       { provide: ActivatedRoute, useValue: { params: of({ id: '123' }) } },
       { provide: Location },
-      { privide: Router, useValue: jasmine.createSpyObj('Router', ['navigate']) },
+      { provide: Router, useValue: jasmine.createSpyObj('Router', ['navigate']) },
       provideMockStore({
         selectors: [
           {
