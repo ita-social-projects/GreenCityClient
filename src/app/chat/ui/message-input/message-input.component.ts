@@ -16,7 +16,9 @@ export class MessageInputComponent {
   file?: File;
 
   send() {
-    if (!this.text.trim() && !this.file) return;
+    if (!this.text.trim() && !this.file) {
+      return;
+    }
     this.sendText.emit({ text: this.text, file: this.file });
     this.text = '';
     this.file = undefined;
@@ -25,7 +27,9 @@ export class MessageInputComponent {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
     const sizeMb = file.size / (1024 * 1024);
     if (sizeMb > 5) {
