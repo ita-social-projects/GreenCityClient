@@ -71,13 +71,11 @@ export class TelegramSocketService implements OnDestroy {
       reconnectDelay: 2000,
       heartbeatIncoming: 10000,
       heartbeatOutgoing: 10000,
-      connectHeaders: this.buildAuthHeaders(),
-      debug: (msg: string) => console.log('[STOMP]', msg)
+      connectHeaders: this.buildAuthHeaders()
     });
 
     this.stompClient.onConnect = (_frame: IFrame) => {
       this.connected = true;
-      console.log('[STOMP] connected');
       this.subscribeToNewChatsCore();
       this.chatSubjects.forEach((_s, id) => this.bindChatSubscription(id));
     };
@@ -87,8 +85,21 @@ export class TelegramSocketService implements OnDestroy {
     };
 
     this.stompClient.onWebSocketClose = (e) => {
-      console.log('[STOMP] socket closed', e);
       this.connected = false;
+      this.chatSubscriptions.forEach((sub, id) => {
+        try {
+          sub?.unsubscribe();
+        } catch {
+          /* empty */
+        }
+        this.chatSubscriptions.set(id, null);
+      });
+      try {
+        this.newChatsSubscription?.unsubscribe();
+      } catch {
+        /* empty */
+      }
+      this.newChatsSubscription = null;
       this.stompClient.connectHeaders = this.buildAuthHeaders();
     };
 
@@ -96,7 +107,6 @@ export class TelegramSocketService implements OnDestroy {
       console.error('[STOMP onWebSocketError]', e);
     };
 
-    console.log('[STOMP] activating over SockJS:', this.socketHttpUrl);
     this.stompClient.activate();
   }
 

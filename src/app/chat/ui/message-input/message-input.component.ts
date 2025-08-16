@@ -14,6 +14,7 @@ export class MessageInputComponent {
 
   text = '';
   file?: File;
+  private readonly MAX_FILE_MB = 5;
 
   send() {
     if (!this.text.trim() && !this.file) {
@@ -27,13 +28,15 @@ export class MessageInputComponent {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
+
     if (!file) {
       return;
     }
 
     const sizeMb = file.size / (1024 * 1024);
-    if (sizeMb > 5) {
-      alert('File is too large. Max size is 5MB.');
+    if (sizeMb > this.MAX_FILE_MB) {
+      this.file = undefined;
+      input.value = '';
       return;
     }
     this.file = file;

@@ -134,8 +134,7 @@ export class ChatFacade {
       return;
     }
 
-    if (this.currentChatId != null) {
-      this.socket.unsubscribeFromChat(this.currentChatId);
+    if (this.currentChatId !== null) {
       this.messagesSub?.unsubscribe();
     }
 

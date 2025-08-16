@@ -7,6 +7,8 @@
         [placeholder]="'chat.active-chat-placeholder' | translate"
         [(ngModel)]="text"
         (keyup.enter)="send()"
+        [attr.aria-label]="'chat.active-chat-placeholder' | translate"
+        autocomplete="off"
       />
     </label>
     <button class="send-message-button" (click)="send()" aria-label="Send message">

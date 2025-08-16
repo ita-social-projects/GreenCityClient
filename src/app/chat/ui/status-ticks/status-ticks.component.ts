@@ -8,17 +8,10 @@ import { NgIf, NgOptimizedImage, NgSwitch, NgSwitchCase } from '@angular/common'
   template: `
     <span class="status-ticks" *ngIf="status as vs" [class.read]="vs === 'VIEWED'">
       <ng-container [ngSwitch]="vs">
-        <img
-          *ngSwitchCase="'UNREAD'"
-          ngSrc="../../../../assets/icons/tick-svgrepo-com.svg"
-          alt="unread"
-          class="tick-icon"
-          height="800"
-          width="800"
-        />
+        <img *ngSwitchCase="'UNREAD'" ngSrc="/assets/icons/tick-svgrepo-com.svg" alt="unread" class="tick-icon" height="800" width="800" />
         <img
           *ngSwitchCase="'VIEWED'"
-          ngSrc="../../../../assets/icons/Blue_double_ticks.svg.png"
+          ngSrc="/assets/icons/Blue_double_ticks.svg.png"
           alt="viewed"
           class="read-tick-icon"
           height="1920"

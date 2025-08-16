@@ -6,14 +6,6 @@ type WithInternalId = { internalId: number };
 
 type IdCarrier = WithId | WithChatInternalId | WithInternalId;
 
-export interface SocketChatMessage {
-  sendAt: string;
-  text: string;
-  fromManager: boolean;
-  assets: AssetDto[];
-  messageViewingStatus?: MessageViewingStatus;
-}
-
 export interface SocketNewChatBase {
   chatId: string | number;
   username?: string | null;
