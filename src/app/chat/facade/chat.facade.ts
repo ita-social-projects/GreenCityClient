@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChatApiService } from '../data/chat-api.service';
 import { ChatListItem, ChatDto, MessageDto, ChatMessageView, ClientInfoData } from '../model/chat-page.interface';
 import { buildName, normalizeViewingStatus, toTime } from '../utils/chat-mappers';
-import { map, mergeMap, of } from 'rxjs';
+import { map, mergeMap, of, Subscription } from 'rxjs';
 import { TelegramSocketService } from '../service/chats/telegram-socket.service';
 
 @Injectable({ providedIn: 'root' })
@@ -30,24 +30,24 @@ export class ChatFacade {
   });
 
   private destroyRef = inject(DestroyRef);
+  private currentChatId?: number;
+  private messagesSub?: Subscription;
 
   constructor(
     private api: ChatApiService,
     private socket: TelegramSocketService
   ) {
     this.socket.newChats$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((nc) => {
-      const internalId = ((): number => {
-        if ('id' in nc) {
-          return nc.id;
-        }
-        if ('chatInternalId' in nc) {
-          return nc.chatInternalId;
-        }
-        if ('internalId' in nc) {
-          return nc.internalId;
-        }
-        throw new Error('SocketNewChat payload missing internal id.');
-      })();
+      const internalId =
+        'id' in nc
+          ? nc.id
+          : 'chatInternalId' in nc
+            ? nc.chatInternalId
+            : 'internalId' in nc
+              ? nc.internalId
+              : (() => {
+                  throw new Error('SocketNewChat payload missing internal id.');
+                })();
 
       const chatIdStr = String(nc.chatId);
       const { name, initial } = buildName(nc.username ?? null, nc.firstName ?? null, nc.lastName ?? null, chatIdStr);
@@ -63,7 +63,15 @@ export class ChatFacade {
         viewingStatus: normalizeViewingStatus(nc.lastMessage?.messageViewingStatus) || undefined
       };
 
-      this.chats.update((arr) => [item, ...arr]);
+      this.chats.update((arr) => {
+        const i = arr.findIndex((c) => c.chatInternalId === internalId);
+        if (i === -1) {
+          return [item, ...arr];
+        }
+        const copy = [...arr];
+        copy[i] = item;
+        return copy;
+      });
     });
   }
 
@@ -111,7 +119,7 @@ export class ChatFacade {
         this.page.set(page);
         this.totalPages.set(resp.totalPages);
         this.isLoading.set(false);
-        if (initialSelectedChatId !== null) {
+        if (page === 0 && initialSelectedChatId != null) {
           const found = this.chats().find((c) => c.chatInternalId === initialSelectedChatId);
           if (found) {
             this.selectChat(found);
@@ -123,47 +131,58 @@ export class ChatFacade {
   }
 
   selectChat(chat: ChatListItem) {
+    if (this.currentChatId === chat.chatInternalId) {
+      return;
+    }
+
+    if (this.currentChatId != null) {
+      this.socket.unsubscribeFromChat(this.currentChatId);
+      this.messagesSub?.unsubscribe();
+    }
+
+    this.currentChatId = chat.chatInternalId;
+
     this.selectedChat.set(chat);
     this.clientInfoVisible.set(false);
     this.clientInfoData.set(null);
-    this.socket
-      .subscribeToMessages(chat.chatInternalId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((m) => {
-        const norm = normalizeViewingStatus(m.messageViewingStatus);
-        const current = this.selectedChat();
-        if (!current) {
-          return;
-        }
 
-        current.messages.push({
-          from: m.fromManager ? 'Me' : current.name,
-          text: m.text,
-          time: toTime(m.sendAt),
-          images: (m.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
-          viewingStatus: norm
-        });
+    this.messagesSub = this.socket.subscribeToMessages(chat.chatInternalId).subscribe((m) => {
+      const norm = normalizeViewingStatus(m.messageViewingStatus);
+      const current = this.selectedChat();
+      if (!current) {
+        return;
+      }
 
-        current.lastMessage = m.text;
-        current.time = toTime(m.sendAt);
-
-        if (norm) {
-          current.viewingStatus = norm;
-          const tile = this.chats().find((c) => c.chatInternalId === current.chatInternalId);
-          if (tile) {
-            tile.viewingStatus = norm;
-          }
-          if (norm === 'VIEWED' && current.messages.length) {
-            const last = current.messages[current.messages.length - 1];
-            if (last.from === 'Me') {
-              last.viewingStatus = 'VIEWED';
-            }
-          }
-          this.chats.set([...this.chats()]);
-        }
-
-        this.selectedChat.set({ ...current });
+      current.messages.push({
+        from: m.fromManager ? 'Me' : current.name,
+        text: m.text,
+        time: toTime(m.sendAt),
+        images: (m.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
+        viewingStatus: norm
       });
+
+      current.lastMessage = m.text;
+      current.time = toTime(m.sendAt);
+
+      if (norm) {
+        current.viewingStatus = norm;
+        const tile = this.chats().find((c) => c.chatInternalId === current.chatInternalId);
+        if (tile) {
+          tile.viewingStatus = norm;
+        }
+        if (norm === 'VIEWED' && current.messages.length) {
+          const last = current.messages[current.messages.length - 1];
+          if (last.from === 'Me') {
+            last.viewingStatus = 'VIEWED';
+          }
+        }
+        this.chats.set([...this.chats()]); // trigger change
+      }
+
+      this.selectedChat.set({ ...current });
+    });
+
+    // load full message history (will overwrite messages once done)
     this.fetchMessages(chat.chatInternalId);
   }
 
