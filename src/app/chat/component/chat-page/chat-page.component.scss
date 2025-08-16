@@ -1,23 +1,28 @@
 .chat-page-inner {
   display: flex;
   height: 100vh;
-  width: 100%;
   overflow: hidden;
-  font-family: Inter, sans-serif;
 }
 
 .chat-sidebar {
   width: 320px;
-  min-width: 380px;
-  max-width: 600px;
+  min-width: 250px;
+  max-width: 400px;
   border-right: 1px solid var(--quaternary-light-grey);
-  background: var(--primary-light-grey);
-  padding: 1rem;
+  height: 100vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
+  background: var(--primary-light-grey);
+  list-style: none;
+}
+
+.infinite-scroll-anchor {
+  height: 1px;
 }
 
 .search-bar {
+  padding: 1rem;
   margin-bottom: 1rem;
 
   input {
