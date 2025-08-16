@@ -30,6 +30,7 @@ export class ChatFacade {
   });
 
   private destroyRef = inject(DestroyRef);
+  private tileSubs = new Map<number, Subscription>();
   private currentChatId?: number;
   private messagesSub?: Subscription;
 
@@ -65,13 +66,9 @@ export class ChatFacade {
 
       this.chats.update((arr) => {
         const i = arr.findIndex((c) => c.chatInternalId === internalId);
-        if (i === -1) {
-          return [item, ...arr];
-        }
-        const copy = [...arr];
-        copy[i] = item;
-        return copy;
+        return i === -1 ? [item, ...arr] : [item, ...arr.filter((c) => c.chatInternalId !== internalId)];
       });
+      this.ensureTileSocket(internalId);
     });
   }
 
@@ -112,6 +109,7 @@ export class ChatFacade {
           }
           for (const c of mapped) {
             byId.set(c.chatInternalId, c);
+            this.ensureTileSocket(c.chatInternalId);
           }
           return Array.from(byId.values());
         });
@@ -119,6 +117,7 @@ export class ChatFacade {
         this.page.set(page);
         this.totalPages.set(resp.totalPages);
         this.isLoading.set(false);
+
         if (page === 0 && initialSelectedChatId != null) {
           const found = this.chats().find((c) => c.chatInternalId === initialSelectedChatId);
           if (found) {
@@ -176,13 +175,12 @@ export class ChatFacade {
             last.viewingStatus = 'VIEWED';
           }
         }
-        this.chats.set([...this.chats()]); // trigger change
+        this.chats.set([...this.chats()]);
       }
 
       this.selectedChat.set({ ...current });
     });
 
-    // load full message history (will overwrite messages once done)
     this.fetchMessages(chat.chatInternalId);
   }
 
@@ -268,6 +266,38 @@ export class ChatFacade {
         }
       });
     }
+  }
+  private ensureTileSocket(chatId: number) {
+    if (this.tileSubs.has(chatId)) {
+      return;
+    }
+
+    const sub = this.socket.subscribeToMessages(chatId).subscribe((m) => {
+      if (this.currentChatId === chatId) {
+        return;
+      }
+
+      const norm = normalizeViewingStatus(m.messageViewingStatus);
+
+      this.chats.update((list) => {
+        const idx = list.findIndex((c) => c.chatInternalId === chatId);
+        if (idx === -1) {
+          return list;
+        }
+
+        const updated = { ...list[idx], lastMessage: m.text, time: toTime(m.sendAt) };
+        if (norm) {
+          updated.viewingStatus = norm;
+        }
+
+        const copy = [...list];
+        copy.splice(idx, 1);
+        copy.unshift(updated);
+        return copy;
+      });
+    });
+
+    this.tileSubs.set(chatId, sub);
   }
 
   setSearchId(v: string) {
