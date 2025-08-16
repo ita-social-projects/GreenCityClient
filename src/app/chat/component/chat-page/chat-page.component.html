@@ -13,17 +13,24 @@
         (click)="selectChat(chat)"
       >
         <div class="avatar">{{ chat.initial }}</div>
+
         <div class="chat-details">
           <div class="chat-name">{{ chat.name }}</div>
 
           <div class="last-row">
             <div class="last-message">{{ chat.lastMessage }}</div>
-            <span class="status-badge" *ngIf="chat.viewingStatus as vs">
-              {{ 'chat.status.' + vs | translate }}
-            </span>
           </div>
         </div>
-        <div class="timestamp">{{ chat.time }}</div>
+
+        <div class="meta">
+          <span class="timestamp">{{ chat.time }}</span>
+          <span class="status-ticks" *ngIf="chat.viewingStatus as vs" [class.read]="vs === 'VIEWED'">
+            <ng-container [ngSwitch]="vs">
+              <span *ngSwitchCase="'UNREAD'">✓</span>
+              <span *ngSwitchCase="'VIEWED'">✓✓</span>
+            </ng-container>
+          </span>
+        </div>
       </li>
       <li #infiniteScrollAnchor class="infinite-scroll-anchor"></li>
     </ul>
@@ -56,7 +63,13 @@
               <app-image-modal [imageUrl]="selectedImageUrl" (closeModal)="closeImageModal()"></app-image-modal>
             </div>
 
-            <div class="message-time">{{ message.time }}</div>
+            <div class="message-footer">
+              <span class="message-time">{{ message.time }}</span>
+              <span class="msg-ticks" *ngIf="message.from === 'Me'" [class.read]="message.viewingStatus === 'VIEWED'">
+                <span *ngIf="message.viewingStatus !== 'VIEWED'">✓</span>
+                <span *ngIf="message.viewingStatus === 'VIEWED'">✓✓</span>
+              </span>
+            </div>
           </div>
         </div>
 

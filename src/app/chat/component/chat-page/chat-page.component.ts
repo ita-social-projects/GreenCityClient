@@ -1,7 +1,7 @@
 import { Component, ElementRef, NgZone, OnInit, AfterViewInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders, HttpParams } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -23,7 +23,18 @@ import { SocketChatMessage } from '../../model/socket-chat-message.interface';
   templateUrl: './chat-page.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgForOf, FormsModule, NgClass, NgIf, HttpClientModule, ClientInfoPanelComponent, ImageModalComponent, TranslateModule],
+  imports: [
+    NgForOf,
+    FormsModule,
+    NgClass,
+    NgIf,
+    HttpClientModule,
+    ClientInfoPanelComponent,
+    ImageModalComponent,
+    TranslateModule,
+    NgSwitch,
+    NgSwitchCase
+  ],
   styleUrls: ['./chat-page.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -111,6 +122,19 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.loadAllChats(this.currentPage);
   }
+  private normalizeViewingStatus(s: unknown): 'UNREAD' | 'VIEWED' | null {
+    if (!s) {
+      return null;
+    }
+    const v = String(s).toUpperCase();
+    if (v === 'VIEWED' || v === 'READ' || v === 'SEEN') {
+      return 'VIEWED';
+    }
+    if (v === 'UNREAD') {
+      return 'UNREAD';
+    }
+    return null;
+  }
 
   private scrollToBottom(): void {
     this.zone.onStable.pipe(take(1)).subscribe(() => {
@@ -124,6 +148,20 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private fetchLastStatuses(chatsBatch: ChatListItem[], headers: HttpHeaders): void {
+    const norm = (s: unknown): 'UNREAD' | 'VIEWED' | null => {
+      if (!s) {
+        return null;
+      }
+      const v = String(s).toUpperCase();
+      if (v === 'VIEWED' || v === 'READ' || v === 'SEEN') {
+        return 'VIEWED';
+      }
+      if (v === 'UNREAD') {
+        return 'UNREAD';
+      }
+      return null;
+    };
+
     from(chatsBatch)
       .pipe(
         mergeMap(
@@ -132,12 +170,16 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
               .get<
                 PaginatedResponse<MessageDto>
               >(`${this.baseUrl}/messages/${c.chatInternalId}?page=0&size=1&sort=sendAt,desc`, { headers })
-              .pipe(map((r) => ({ chat: c, status: r.page?.[0]?.messageViewingStatus ?? null }))),
+              .pipe(map((r) => ({ chat: c, status: norm(r.page?.[0]?.messageViewingStatus) }))),
           5
         )
       )
       .subscribe(({ chat, status }) => {
         chat.viewingStatus = status || undefined;
+        const tile = this.chats.find((t) => t.chatInternalId === chat.chatInternalId);
+        if (tile) {
+          tile.viewingStatus = status || undefined;
+        }
         this.filteredChats = [...this.filteredChats];
       });
   }
@@ -158,6 +200,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const pageableObject = { page, size: this.pageSize, sort: ['sendAt,desc'] as string[] };
     const params = new HttpParams().set('pageable', JSON.stringify(pageableObject));
     const url = `${this.baseUrl}/chats`;
+
     this.http.get<PaginatedResponse<ChatDto>>(url, { headers, params }).subscribe({
       next: (response) => {
         const chatList = response.page ?? [];
@@ -171,7 +214,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             lastMessage: chat.lastMessage?.text ?? '',
             time: chat.lastMessage?.sendAt ? this.toTime(chat.lastMessage.sendAt) : '',
             messages: [],
-            viewingStatus: chat.lastMessage?.messageViewingStatus
+            viewingStatus: this.normalizeViewingStatus(chat.lastMessage?.messageViewingStatus) || undefined
           };
         });
 
@@ -198,29 +241,42 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.clientInfoVisible = false;
     this.clientInfoData = null;
     this.fetchMessages(chat.chatInternalId);
+
     this.telegramSocketService.subscribeToMessages(chat.chatInternalId).subscribe((m: SocketChatMessage) => {
       if (!this.selectedChat) {
         return;
       }
 
+      const norm = this.normalizeViewingStatus(m.messageViewingStatus);
+
       this.selectedChat.messages.push({
         from: m.fromManager ? 'Me' : this.selectedChat.name,
         text: m.text,
         time: this.toTime(m.sendAt),
-        images: (m.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url)
+        images: (m.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
+        viewingStatus: norm
       });
 
       this.selectedChat.lastMessage = m.text;
       this.selectedChat.time = this.toTime(m.sendAt);
 
-      if (m.messageViewingStatus) {
-        this.selectedChat.viewingStatus = m.messageViewingStatus;
+      if (norm) {
+        this.selectedChat.viewingStatus = norm;
         const tile = this.chats.find((c) => c.chatInternalId === this.selectedChat?.chatInternalId);
         if (tile) {
-          tile.viewingStatus = m.messageViewingStatus;
+          tile.viewingStatus = norm;
         }
+
+        if (norm === 'VIEWED' && this.selectedChat.messages.length) {
+          const last = this.selectedChat.messages[this.selectedChat.messages.length - 1];
+          if (last.from === 'Me') {
+            last.viewingStatus = 'VIEWED';
+          }
+        }
+
         this.filteredChats = [...this.filteredChats];
       }
+
       this.scrollToBottom();
     });
   }
@@ -269,14 +325,15 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loadMessagePage(chatId, page + 1, headers, pageSize, allMessages, callback);
     } else if (this.selectedChat) {
       const newest = allMessages[0];
-      this.selectedChat.viewingStatus = newest?.messageViewingStatus ?? null;
+      this.selectedChat.viewingStatus = this.normalizeViewingStatus(newest?.messageViewingStatus);
 
       this.selectedChat.messages = allMessages
         .map<ChatMessageView>((msg) => ({
           from: msg.fromManager ? 'Me' : this.selectedChat?.name,
           text: msg.text,
           time: this.toTime(msg.sendAt),
-          images: (msg.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url)
+          images: (msg.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
+          viewingStatus: this.normalizeViewingStatus(msg.messageViewingStatus)
         }))
         .reverse();
 
@@ -303,15 +360,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     const url = `${this.baseUrl}/messages`;
 
-    const messagePayload = {
-      chatId: this.selectedChat.chatInternalId,
-      text: this.newMessage.trim()
-    };
+    const messagePayload = { chatId: this.selectedChat.chatInternalId, text: this.newMessage.trim() };
 
     const formData = new FormData();
     const jsonBlob = new Blob([JSON.stringify(messagePayload)], { type: 'application/json' });
     formData.append('data', jsonBlob);
-
     if (this.selectedFile) {
       formData.append('files', this.selectedFile);
     }
@@ -329,7 +382,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           from: 'Me',
           text: this.newMessage.trim(),
           time,
-          images: imagePreviewUrl ? [imagePreviewUrl] : []
+          images: imagePreviewUrl ? [imagePreviewUrl] : [],
+          viewingStatus: null
         });
 
         this.selectedChat.lastMessage = this.newMessage.trim();

@@ -54,6 +54,7 @@ export interface ChatMessageView {
   text: string;
   time: string;
   images?: string[];
+  viewingStatus?: 'UNREAD' | 'VIEWED' | null;
 }
 
 export interface ChatListItem {
