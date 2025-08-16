@@ -2,7 +2,7 @@ import { Injectable, DestroyRef, inject, signal, computed } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChatApiService } from '../data/chat-api.service';
 import { ChatListItem, ChatDto, MessageDto, ChatMessageView, ClientInfoData } from '../model/chat-page.interface';
-import { buildName, normalizeViewingStatus, toTime } from '../utils/chat-mappers';
+import { buildName, formatTimeOrDate, normalizeViewingStatus, toTime } from '../utils/chat-mappers';
 import { map, mergeMap, of, Subscription } from 'rxjs';
 import { TelegramSocketService } from '../service/chats/telegram-socket.service';
 
@@ -59,7 +59,7 @@ export class ChatFacade {
         chatId: chatIdStr,
         chatInternalId: internalId,
         lastMessage: nc.lastMessage?.text ?? '',
-        time: nc.lastMessage?.sendAt ? toTime(nc.lastMessage.sendAt) : '',
+        time: nc.lastMessage?.sendAt ? formatTimeOrDate(nc.lastMessage.sendAt) : '',
         messages: [],
         viewingStatus: normalizeViewingStatus(nc.lastMessage?.messageViewingStatus) || undefined
       };
@@ -96,7 +96,7 @@ export class ChatFacade {
             chatId: chat.chatId,
             chatInternalId: chat.id,
             lastMessage: chat.lastMessage?.text ?? '',
-            time: chat.lastMessage?.sendAt ? toTime(chat.lastMessage.sendAt) : '',
+            time: chat.lastMessage?.sendAt ? formatTimeOrDate(chat.lastMessage.sendAt) : '',
             messages: [],
             viewingStatus: normalizeViewingStatus(chat.lastMessage?.messageViewingStatus) || undefined
           };
@@ -155,7 +155,7 @@ export class ChatFacade {
       current.messages.push({
         from: m.fromManager ? 'Me' : current.name,
         text: m.text,
-        time: toTime(m.sendAt),
+        time: formatTimeOrDate(m.sendAt),
         images: (m.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
         viewingStatus: norm
       });
@@ -209,7 +209,7 @@ export class ChatFacade {
               .map<ChatMessageView>((msg) => ({
                 from: msg.fromManager ? 'Me' : sel.name,
                 text: msg.text,
-                time: toTime(msg.sendAt),
+                time: formatTimeOrDate(msg.sendAt),
                 images: (msg.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
                 viewingStatus: normalizeViewingStatus(msg.messageViewingStatus)
               }))
@@ -232,7 +232,7 @@ export class ChatFacade {
 
     this.api.sendMessage(sel.chatInternalId, text.trim(), file).subscribe({
       next: () => {
-        const time = toTime(new Date().toISOString());
+        const time = formatTimeOrDate(new Date().toISOString());
         const imagePreview = file ? URL.createObjectURL(file) : null;
 
         sel.messages.push({

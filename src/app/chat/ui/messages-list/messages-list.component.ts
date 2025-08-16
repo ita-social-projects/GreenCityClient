@@ -6,7 +6,7 @@ import { StatusTicksComponent } from '../status-ticks/status-ticks.component';
 @Component({
   selector: 'app-messages-list',
   standalone: true,
-  imports: [NgForOf, NgIf, NgClass, NgSwitch, NgSwitchCase, StatusTicksComponent],
+  imports: [NgForOf, NgIf, NgClass, StatusTicksComponent],
   templateUrl: './messages-list.component.html'
 })
 export class MessagesListComponent {

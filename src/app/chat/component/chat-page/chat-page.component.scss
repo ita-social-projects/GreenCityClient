@@ -5,9 +5,8 @@
 }
 
 .chat-sidebar {
-  width: 320px;
-  min-width: 250px;
-  max-width: 400px;
+  min-width: 450px;
+  max-width: 700px;
   border-right: 1px solid var(--quaternary-light-grey);
   height: 100vh;
   overflow-y: auto;
@@ -54,6 +53,7 @@
   align-items: center;
   padding: 0.75rem;
   border-radius: 8px;
+  gap: 30px;
   cursor: pointer;
   transition: background 0.2s ease;
 
@@ -68,6 +68,8 @@
   .avatar {
     width: 40px;
     height: 40px;
+    flex: 0 0 40px;
+    flex-shrink: 0;
     background-color: var(--quaternary-light-grey);
     color: var(--tertiary-dark-grey);
     border-radius: 50%;
@@ -75,13 +77,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 0.75rem;
+    margin-right: 0;
   }
 
   .chat-details {
-    flex: 1;
+    flex: 1 1 auto;
 
     .chat-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       font-weight: 600;
       font-size: 14px;
       color: var(--secondary-dark-grey);
