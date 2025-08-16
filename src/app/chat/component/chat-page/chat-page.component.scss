@@ -8,8 +8,8 @@
 
 .chat-sidebar {
   width: 320px;
-  min-width: 250px;
-  max-width: 400px;
+  min-width: 380px;
+  max-width: 600px;
   border-right: 1px solid var(--quaternary-light-grey);
   background: var(--primary-light-grey);
   padding: 1rem;
@@ -297,4 +297,21 @@
 
 .status-ticks.read {
   color: #4da6ff;
+}
+
+.meta {
+  margin-left: 10px;
+}
+.tick-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+.read-tick-icon {
+  width: 20px;
+  height: 10px;
+  vertical-align: middle;
+  margin-left: 4px;
 }

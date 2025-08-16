@@ -21,13 +21,12 @@
             <div class="last-message">{{ chat.lastMessage }}</div>
           </div>
         </div>
-
         <div class="meta">
           <span class="timestamp">{{ chat.time }}</span>
           <span class="status-ticks" *ngIf="chat.viewingStatus as vs" [class.read]="vs === 'VIEWED'">
             <ng-container [ngSwitch]="vs">
-              <span *ngSwitchCase="'UNREAD'">✓</span>
-              <span *ngSwitchCase="'VIEWED'">✓✓</span>
+              <img *ngSwitchCase="'UNREAD'" src="assets/icons/tick-svgrepo-com.svg" alt="unread" class="tick-icon" />
+              <img *ngSwitchCase="'VIEWED'" src="assets/icons/Blue_double_ticks.svg.png" alt="viewed" class="read-tick-icon" />
             </ng-container>
           </span>
         </div>
@@ -65,9 +64,11 @@
 
             <div class="message-footer">
               <span class="message-time">{{ message.time }}</span>
-              <span class="msg-ticks" *ngIf="message.from === 'Me'" [class.read]="message.viewingStatus === 'VIEWED'">
-                <span *ngIf="message.viewingStatus !== 'VIEWED'">✓</span>
-                <span *ngIf="message.viewingStatus === 'VIEWED'">✓✓</span>
+              <span class="status-ticks" *ngIf="message.from === 'Me'">
+                <ng-container [ngSwitch]="message.viewingStatus">
+                  <img *ngSwitchCase="'UNREAD'" src="assets/icons/tick-svgrepo-com.svg" alt="unread" class="tick-icon" />
+                  <img *ngSwitchCase="'VIEWED'" src="assets/icons/Blue_double_ticks.svg.png" alt="viewed" class="read-tick-icon" />
+                </ng-container>
               </span>
             </div>
           </div>
