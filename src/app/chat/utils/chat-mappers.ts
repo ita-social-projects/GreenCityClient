@@ -1,10 +1,20 @@
 export type Viewing = 'UNREAD' | 'VIEWED' | null;
 
 export function normalizeViewingStatus(s: unknown): Viewing {
-  if (!s) {
+  if (s == null) {
     return null;
   }
-  const v = String(s).toUpperCase();
+
+  let v: string;
+  if (typeof s === 'string') {
+    v = s.trim().toUpperCase();
+  } else if (typeof s === 'number') {
+    v = String(s).toUpperCase();
+  } else if (typeof s === 'boolean') {
+    v = String(s).toUpperCase();
+  } else {
+    return null;
+  }
   if (v === 'VIEWED' || v === 'READ' || v === 'SEEN') {
     return 'VIEWED';
   }

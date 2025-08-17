@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { NgIf, NgForOf, NgClass } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChatFacade } from '../../facade/chat.facade';
 import { ClientInfoPanelComponent } from '../client-info-panel/client-info-panel.component';

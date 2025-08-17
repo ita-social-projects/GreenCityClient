@@ -8,7 +8,7 @@ import { PaginatedResponse, ChatDto, MessageDto, ClientInfoRecord } from '../mod
 export class ChatApiService {
   private readonly baseUrl = `${environment.ubsAdmin.backendUbsAdminLink}/telegram`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   private authHeaders(): HttpHeaders | null {
     const token = localStorage.getItem('accessToken');

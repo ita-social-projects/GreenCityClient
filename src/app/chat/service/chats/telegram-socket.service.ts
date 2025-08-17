@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy, NgZone } from '@angular/core';
-import { Client, IFrame, IMessage, Stomp, StompSubscription } from '@stomp/stompjs';
+import { Client, IFrame, IMessage, StompSubscription } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { Observable, Subject } from 'rxjs';
 import { SocketNewChat } from '../../model/socket-new-chat.interface';
@@ -16,7 +16,7 @@ export class TelegramSocketService implements OnDestroy {
   private readonly chatSubjects = new Map<number, Subject<SocketChatMessage>>();
   private readonly chatSubscriptions = new Map<number, StompSubscription | null>();
 
-  private newChatsSubject = new Subject<SocketNewChat>();
+  private readonly newChatsSubject = new Subject<SocketNewChat>();
   private newChatsSubscription: StompSubscription | null = null;
 
   constructor(private readonly zone: NgZone) {

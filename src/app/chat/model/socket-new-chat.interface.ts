@@ -1,4 +1,4 @@
-import { AssetDto, MessageDto, MessageViewingStatus } from './chat-page.interface';
+import { MessageDto } from './chat-page.interface';
 
 type WithId = { id: number };
 type WithChatInternalId = { chatInternalId: number };

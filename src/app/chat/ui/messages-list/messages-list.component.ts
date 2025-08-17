@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgForOf, NgIf, NgClass, NgSwitch, NgSwitchCase } from '@angular/common';
+import { NgForOf, NgIf, NgClass } from '@angular/common';
 import { ChatMessageView } from '../../model/chat-page.interface';
 import { StatusTicksComponent } from '../status-ticks/status-ticks.component';
 

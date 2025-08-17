@@ -18,10 +18,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ChatMessageComponent } from './component/chat-message/chat-message.component';
 import { SharedModule } from '../shared/shared.module';
 import { ContactAdminPopUpComponent } from './component/contact-admin-pop-up/contact-admin-pop-up.component';
-import { ChatSidebarComponent } from './ui/chat-sidebar/chat-sidebar.component';
-import { MessagesListComponent } from './ui/messages-list/messages-list.component';
-import { MessageInputComponent } from './ui/message-input/message-input.component';
-import { StatusTicksComponent } from './ui/status-ticks/status-ticks.component';
 
 @NgModule({
   declarations: [
