@@ -119,7 +119,12 @@ describe('ChatComponent (IO behavior)', () => {
   });
 
   it('creates IntersectionObserver with correct options', () => {
-    const io = FakeIO.last!;
+    const io = FakeIO.last;
+    expect(io).toBeTruthy();
+    if (!io) {
+      throw new Error('FakeIO.last not set');
+    }
+
     expect(io).toBeTruthy();
     expect(io.rootMargin).toBe('0px 0px 200px 0px');
     expect(io.thresholds).toEqual([0]);
@@ -127,13 +132,24 @@ describe('ChatComponent (IO behavior)', () => {
   });
 
   it('calls observe on the paging anchor', () => {
-    const io = FakeIO.last!;
+    const io = FakeIO.last;
+    expect(io).toBeTruthy();
+    if (!io) {
+      throw new Error('FakeIO.last not set');
+    }
     const anchor = fixture.nativeElement.querySelector('#anchor') as Element;
     expect(io.observe).toHaveBeenCalledWith(anchor);
   });
 
   it('does not call loadNextPage when entry is not intersecting', () => {
-    const io = FakeIO.last!;
+    const io = FakeIO.last;
+    expect(io).toBeTruthy();
+    if (!io) {
+      throw new Error('FakeIO.last not set');
+    }
+
+    expect(io.rootMargin).toBe('0px 0px 200px 0px');
+
     const anchor = fixture.nativeElement.querySelector('#anchor') as Element;
 
     io.trigger(false, anchor);
