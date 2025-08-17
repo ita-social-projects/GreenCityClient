@@ -4,13 +4,14 @@ import SockJS from 'sockjs-client';
 import { Observable, Subject } from 'rxjs';
 import { SocketNewChat } from '../../model/socket-new-chat.interface';
 import { SocketChatMessage } from '../../model/socket-chat-message.interface';
+import { environment } from '@environment/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TelegramSocketService implements OnDestroy {
   private stompClient!: Client;
   private connected = false;
 
-  private readonly socketHttpUrl = 'https://greencity-ubs.greencity.cx.ua/socket';
+  private readonly socketHttpUrl = environment.socket;
 
   private readonly chatSubjects = new Map<number, Subject<SocketChatMessage>>();
   private readonly chatSubscriptions = new Map<number, StompSubscription | null>();
