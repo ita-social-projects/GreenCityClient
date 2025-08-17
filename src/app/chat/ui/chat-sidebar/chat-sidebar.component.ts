@@ -8,8 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-chat-sidebar',
   standalone: true,
   imports: [NgForOf, FormsModule, StatusTicksComponent, TranslateModule],
-  templateUrl: './chat-sidebar.component.html',
-  styleUrls: ['./chat-sidebar.component.scss']
+  templateUrl: './chat-sidebar.component.html'
 })
 export class ChatSidebarComponent {
   @Input() chats: ChatListItem[] = [];
