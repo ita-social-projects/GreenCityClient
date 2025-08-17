@@ -75,7 +75,7 @@ describe('ChatFacade', () => {
     const list = facade.chats();
     expect(list.length).toBe(1);
     expect(list[0].chatInternalId).toBe(7);
-    expect(facade.selectedChat()!.chatInternalId).toBe(7);
+    expect(facade.selectedChat()?.chatInternalId).toBe(7);
   });
 
   it('loadNextPage respects isLoading and totalPages', () => {
@@ -128,12 +128,20 @@ describe('ChatFacade', () => {
     facade.selectChat(facade.chats()[0]);
 
     expect(socket.subscribeToMessages).toHaveBeenCalledWith(5);
-    const sel = facade.selectedChat()!;
+    const sel = facade.selectedChat();
+    expect(sel).toBeTruthy();
+    if (!sel) {
+      throw new Error('expected selected chat');
+    }
     expect(sel.messages.length).toBe(3);
     expect(sel.messages.map((m) => m.text)).toEqual(['m3', 'm2', 'm1']);
 
     s$.next(socketMsg({ text: 'live', fromManager: false }));
-    const updated = facade.selectedChat()!;
+    const sel = facade.selectedChat();
+    expect(sel).toBeTruthy();
+    if (!sel) {
+      throw new Error('expected selected chat');
+    }
     expect(updated.lastMessage).toBe('live');
     expect(updated.messages[updated.messages.length - 1].text).toBe('live');
   });
@@ -207,7 +215,11 @@ describe('ChatFacade', () => {
     facade.sendMessage('ping');
 
     expect(api.sendMessage).toHaveBeenCalledWith(1, 'ping', undefined);
-    const sel = facade.selectedChat()!;
+    const sel = facade.selectedChat();
+    expect(sel).toBeTruthy();
+    if (!sel) {
+      throw new Error('expected selected chat');
+    }
     expect(sel.lastMessage).toBe('ping');
     expect(sel.messages[sel.messages.length - 1].from).toBe('Me');
     expect(urlSpy).not.toHaveBeenCalled();
@@ -221,7 +233,11 @@ describe('ChatFacade', () => {
 
     facade.sendMessage('with file', file);
 
-    const sel = facade.selectedChat()!;
+    const sel = facade.selectedChat();
+    expect(sel).toBeTruthy();
+    if (!sel) {
+      throw new Error('expected selected chat');
+    }
     const last = sel.messages[sel.messages.length - 1];
     expect(last.images).toEqual(['blob://preview']);
     expect(urlSpy).toHaveBeenCalled();
