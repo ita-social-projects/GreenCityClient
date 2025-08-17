@@ -105,7 +105,6 @@ describe('ChatFacade', () => {
     expect(filtered.length).toBe(1);
     expect(filtered[0].chatInternalId).toBe(22);
   });
-
   it('selectChat subscribes to socket messages and fetches paginated history', () => {
     const s$ = new Subject<MessageDto>();
     socket.subscribeToMessages.and.returnValue(s$);
@@ -128,22 +127,26 @@ describe('ChatFacade', () => {
     facade.selectChat(facade.chats()[0]);
 
     expect(socket.subscribeToMessages).toHaveBeenCalledWith(5);
-    const sel = facade.selectedChat();
-    expect(sel).toBeTruthy();
-    if (!sel) {
-      throw new Error('expected selected chat');
+
+    let selected = facade.selectedChat();
+    expect(selected).toBeTruthy();
+    if (!selected) {
+      throw new Error('expected selected chat after init');
     }
-    expect(sel.messages.length).toBe(3);
-    expect(sel.messages.map((m) => m.text)).toEqual(['m3', 'm2', 'm1']);
+
+    expect(selected.messages.length).toBe(3);
+    expect(selected.messages.map((m) => m.text)).toEqual(['m3', 'm2', 'm1']);
 
     s$.next(socketMsg({ text: 'live', fromManager: false }));
-    const sel = facade.selectedChat();
-    expect(sel).toBeTruthy();
-    if (!sel) {
-      throw new Error('expected selected chat');
+
+    selected = facade.selectedChat();
+    expect(selected).toBeTruthy();
+    if (!selected) {
+      throw new Error('expected selected chat after socket message');
     }
-    expect(updated.lastMessage).toBe('live');
-    expect(updated.messages[updated.messages.length - 1].text).toBe('live');
+
+    expect(selected.lastMessage).toBe('live');
+    expect(selected.messages[selected.messages.length - 1].text).toBe('live');
   });
 
   it('toggleClientInfo loads last order on open and sets data', () => {
