@@ -40,6 +40,7 @@ export interface ChatDto {
   firstName?: string | null;
   lastName?: string | null;
   lastMessage?: MessageDto | null;
+  user?: UserFromChat | null;
 }
 
 export interface PaginatedResponse<T> {
@@ -58,7 +59,8 @@ export interface ChatMessageView {
 }
 
 export interface ChatListItem {
-  name: string;
+  fullName: string;
+  nickname: string;
   initial: string;
   chatId: string;
   chatInternalId: number;
@@ -91,3 +93,9 @@ export interface MessageEvent {
 }
 
 export type ClientInfoRecord = Record<string, unknown>;
+
+export interface UserFromChat {
+  email: string;
+  firstName: string;
+  lastName: string;
+}

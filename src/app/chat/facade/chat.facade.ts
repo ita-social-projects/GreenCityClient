@@ -42,10 +42,11 @@ export class ChatFacade {
       const internalId = this.resolveInternalId(nc);
 
       const chatIdStr = String(nc.chatId);
-      const { name, initial } = buildName(nc.username ?? null, nc.firstName ?? null, nc.lastName ?? null, chatIdStr);
+      const { fullName, nickname, initial } = buildName(nc.username ?? null, nc.firstName ?? null, nc.lastName ?? null, chatIdStr);
 
       const item: ChatListItem = {
-        name,
+        fullName,
+        nickname,
         initial,
         chatId: chatIdStr,
         chatInternalId: internalId,
@@ -93,9 +94,15 @@ export class ChatFacade {
     this.api.getChats(page, this.pageSize).subscribe({
       next: (resp) => {
         const mapped = (resp.page ?? []).map<ChatListItem>((chat: ChatDto) => {
-          const { name, initial } = buildName(chat.username, chat.firstName, chat.lastName, chat.chatId);
+          const { fullName, nickname, initial } = buildName(
+            chat.username,
+            chat?.user?.firstName || chat.firstName,
+            chat?.user?.lastName || chat.lastName,
+            chat.chatId
+          );
           return {
-            name,
+            fullName,
+            nickname,
             initial,
             chatId: chat.chatId,
             chatInternalId: chat.id,
@@ -156,7 +163,7 @@ export class ChatFacade {
       }
 
       current.messages.push({
-        from: m.fromManager ? 'Me' : current.name,
+        from: m.fromManager ? 'Me' : current.nickname,
         text: m.text,
         time: formatTimeOrDate(m.sendAt),
         images: (m.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
@@ -210,7 +217,7 @@ export class ChatFacade {
 
             sel.messages = collected
               .map<ChatMessageView>((msg) => ({
-                from: msg.fromManager ? 'Me' : sel.name,
+                from: msg.fromManager ? 'Me' : sel.nickname,
                 text: msg.text,
                 time: formatTimeOrDate(msg.sendAt),
                 images: (msg.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
