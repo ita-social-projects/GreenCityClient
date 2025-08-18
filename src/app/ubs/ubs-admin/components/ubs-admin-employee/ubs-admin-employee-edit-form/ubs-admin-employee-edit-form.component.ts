@@ -240,7 +240,8 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.employeeDataToSend = {
       employeeDto: {
         ...this.employeeForm.value,
-        employeePositions: this.employeePositions
+        employeePositions: this.employeePositions,
+        employeeStatus: this.data.employeeStatus
       },
       tariffs: selectedTariffs.map((tariff) => {
         return { tariffId: tariff.id, hasChat: tariff.hasChat };
