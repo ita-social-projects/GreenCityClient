@@ -4,6 +4,7 @@ import { ChatFacade } from './chat.facade';
 import { ChatApiService } from '../data/chat-api.service';
 import { TelegramSocketService } from '../service/chats/telegram-socket.service';
 import { ChatDto, ClientInfoRecord, DeliveryStatus, MessageDto } from '../model/chat-page.interface';
+import { Location } from '@angular/common';
 
 class ApiMock {
   getChats = jasmine.createSpy('getChats');
@@ -21,6 +22,11 @@ describe('ChatFacade', () => {
   let facade: ChatFacade;
   let api: ApiMock;
   let socket: SocketMock;
+
+  const locMock = {
+    path: () => '/ubs/admin/chat-page',
+    replaceState: jasmine.createSpy('replaceState')
+  } as unknown as Location;
 
   const sampleChat = (over: Partial<ChatDto> = {}): ChatDto => ({
     id: 1,
@@ -45,7 +51,12 @@ describe('ChatFacade', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ChatFacade, { provide: ChatApiService, useClass: ApiMock }, { provide: TelegramSocketService, useClass: SocketMock }]
+      providers: [
+        ChatFacade,
+        { provide: ChatApiService, useClass: ApiMock },
+        { provide: TelegramSocketService, useClass: SocketMock },
+        { provide: Location, useValue: locMock }
+      ]
     });
     facade = TestBed.inject(ChatFacade);
     api = TestBed.inject(ChatApiService) as any;
@@ -61,10 +72,7 @@ describe('ChatFacade', () => {
     };
     api.getChats.and.returnValue(of(pageResp));
 
-    const msgsResp = {
-      page: [],
-      totalPages: 1
-    };
+    const msgsResp = { page: [], totalPages: 1 };
     api.getMessages.and.returnValue(of(msgsResp));
 
     facade.init(7);
@@ -105,6 +113,7 @@ describe('ChatFacade', () => {
     expect(filtered.length).toBe(1);
     expect(filtered[0].chatInternalId).toBe(22);
   });
+
   it('selectChat subscribes to socket messages and fetches paginated history', () => {
     const s$ = new Subject<MessageDto>();
     socket.subscribeToMessages.and.returnValue(s$);
@@ -149,7 +158,7 @@ describe('ChatFacade', () => {
     expect(selected.messages[selected.messages.length - 1].text).toBe('live');
   });
 
-  it('toggleClientInfo loads last order on open and sets data', () => {
+  it('toggleClientInfo loads last order on open and sets data (with merged chatId)', () => {
     api.getChats.and.returnValue(of({ page: [sampleChat({ id: 9, chatId: '009' })], totalPages: 1 }));
     api.getMessages.and.returnValue(of({ page: [], totalPages: 1 }));
     api.getLastOrder.and.returnValue(of({ orderId: 123 } as unknown as ClientInfoRecord));
@@ -157,12 +166,14 @@ describe('ChatFacade', () => {
     facade.init();
     facade.selectChat(facade.chats()[0]);
     expect(facade.clientInfoVisible()).toBeFalse();
+
     facade.toggleClientInfo();
+
     expect(facade.clientInfoVisible()).toBeTrue();
-    expect(facade.clientInfoData() as any).toEqual({ orderId: 123 } as any);
+    expect(facade.clientInfoData() as any).toEqual({ orderId: 123, chatId: 9 } as any);
   });
 
-  it('toggleClientInfo sets error key on 404', () => {
+  it('toggleClientInfo sets error key on 404 (with merged chatId)', () => {
     api.getChats.and.returnValue(of({ page: [sampleChat({ id: 8, chatId: '008' })], totalPages: 1 }));
     api.getMessages.and.returnValue(of({ page: [], totalPages: 1 }));
     const err = { status: 404 };
@@ -173,8 +184,9 @@ describe('ChatFacade', () => {
     facade.selectChat(facade.chats()[0]);
     facade.toggleClientInfo();
 
-    expect(facade.clientInfoData()).toEqual({ error: 'client-panel.no-orders' } as any);
+    expect(facade.clientInfoData()).toEqual({ error: 'client-panel.no-orders', chatId: 8 } as any);
   });
+
   it('ensureTileSocket updates list on background message and bumps tile', () => {
     const tile$ = new Subject<MessageDto>();
     socket.subscribeToMessages.and.callFake((id: number) => (id === 100 ? tile$ : new Subject<MessageDto>()));
