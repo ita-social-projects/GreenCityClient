@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -331,7 +331,11 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
 
   it('should not find new region if inputs length is less than 3', () => {
     component.regionSelected = false;
+    spyOn<any>(component, 'delayAutocomplete');
     component.region.setValue('F');
+
+    expect(component.blockAutocomplete).toBeTrue();
+    expect(component['delayAutocomplete']).toHaveBeenCalled();
     expect(component.regionExist).toEqual(false);
   });
 
@@ -365,7 +369,12 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
       ],
       types: ['(cities)']
     };
+    spyOn<any>(component, 'delayAutocomplete');
+
     component.onCitySelected(city);
+
+    expect(component.blockAutocomplete).toBeTrue();
+    expect(component['delayAutocomplete']).toHaveBeenCalled();
     expect(component.cityInvalid).toEqual(false);
   });
 
@@ -426,4 +435,13 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     component.onCancel();
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
   });
+
+  it('should change change blockAutocomplete', fakeAsync(() => {
+    component.blockAutocomplete = true;
+
+    component['delayAutocomplete']();
+    tick(600);
+
+    expect(component.blockAutocomplete).toBeFalse();
+  }));
 });

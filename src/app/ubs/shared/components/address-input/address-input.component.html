@@ -12,6 +12,7 @@
       [autoCompRequest]="autocompleteRegionRequest"
       (predictionSelected)="onRegionSelected($event)"
       [isInvalid]="region.invalid"
+      [blockAutoComplete]="blockAutoComplete"
       ngDefaultControl
     ></app-input-google-autocomplete>
     <div *ngIf="isErrorMessageShown(region)">
@@ -28,6 +29,7 @@
       (predictionSelected)="onCitySelected($event)"
       [isInvalid]="city.invalid && (city.touched || city.dirty)"
       [disabled]="isUneditableStatus"
+      [blockAutoComplete]="blockAutoComplete"
       ngDefaultControl
       (keyupEmitter)="keyup($event)"
     ></app-input-google-autocomplete>
@@ -44,7 +46,8 @@
       [autoCompRequest]="autocompleteStreetRequest"
       (predictionSelected)="onStreetSelected($event)"
       (selectedPredictionCoordinates)="onCoordinatesSelected($event)"
-      [isInvalid]="street.invalid && street.touched"
+      [isInvalid]="street.invalid && (street.touched || street.dirty)"
+      [blockAutoComplete]="blockAutoComplete"
       ngDefaultControl
     ></app-input-google-autocomplete>
     <div *ngIf="isErrorMessageShown(street)">
