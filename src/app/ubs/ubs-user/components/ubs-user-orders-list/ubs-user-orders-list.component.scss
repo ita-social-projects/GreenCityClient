@@ -189,7 +189,7 @@ button {
     height: 25px;
   }
 
-  .custom-panel ::ng-deep .mat-expansion-panel-header {
+  .custom-panel .mat-expansion-panel-header {
     height: 100px;
   }
 
@@ -239,7 +239,7 @@ button {
     }
   }
 
-  .custom-panel ::ng-deep .mat-expansion-panel-header {
+  .custom-panel .mat-expansion-panel-header {
     height: fit-content;
     padding: 20px 24px;
 
