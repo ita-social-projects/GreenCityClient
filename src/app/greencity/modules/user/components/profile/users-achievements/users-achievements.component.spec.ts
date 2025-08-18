@@ -109,18 +109,38 @@ describe('UsersAchievementsComponent', () => {
     });
   });
 
-  xdescribe('getAchievementsToShow', () => {
-    it('should return 3 items if window width is more than 768', () => {
-      spyOnProperty(window, 'innerWidth').and.returnValue(800);
+  describe('getAchievementsToShow', () => {
+    let originalInnerWidth: number;
 
+    beforeEach(() => {
+      originalInnerWidth = window.innerWidth;
+    });
+
+    afterEach(() => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: originalInnerWidth
+      });
+    });
+
+    it('should return 3 items if window width is more than 768', () => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 800
+      });
       const itemsToShow = component.getAchievementsToShow();
 
       expect(itemsToShow).toBe(3);
     });
 
     it('should return 5 items if window width is more than 576', () => {
-      spyOnProperty(window, 'innerWidth').and.returnValue(600);
-
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 600
+      });
       const itemsToShow = component.getAchievementsToShow();
 
       expect(itemsToShow).toBe(5);
@@ -173,11 +193,29 @@ describe('UsersAchievementsComponent', () => {
     });
   });
 
-  xdescribe('shouldShowArrows', () => {
+  describe('shouldShowArrows', () => {
+    let originalInnerWidth: number;
+
+    beforeEach(() => {
+      originalInnerWidth = window.innerWidth;
+    });
+
+    afterEach(() => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: originalInnerWidth
+      });
+    });
+
     it('should return true if there are more achievements than itemsPerPage and window width is less than 768', () => {
       component.achievements = mockAchievements;
       component.itemsPerPage = 2;
-      spyOnProperty(window, 'innerWidth').and.returnValue(500);
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 500
+      });
 
       expect(component.shouldShowArrows()).toBeTrue();
     });
@@ -192,7 +230,11 @@ describe('UsersAchievementsComponent', () => {
     it('should return false if window width is 768 or greater', () => {
       component.achievements = mockAchievements;
       component.itemsPerPage = 2;
-      spyOnProperty(window, 'innerWidth').and.returnValue(800);
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 800
+      });
 
       expect(component.shouldShowArrows()).toBeFalse();
     });

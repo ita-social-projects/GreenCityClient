@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EVENT_FORM_MOCK, EVENT_MOCK, eventStateMock } from '@assets/mocks/events/mock-events';
+import { eventStateMock } from '@assets/mocks/events/mock-events';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -18,7 +18,7 @@ import { CreateEcoEventAction, EditEcoEventAction } from 'src/app/store/actions/
 import { EventStoreService } from '../../services/event-store.service';
 import { EventsService } from '../../services/events.service';
 import { EventDetailsComponent } from './event-details.component';
-import { EventDto as EventDTO  } from '../../models/events.interface';
+import { EventDto as EventDTO } from '../../models/events.interface';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 export function mockPipe(options: Pipe): Pipe {
@@ -34,6 +34,65 @@ export function mockPipe(options: Pipe): Pipe {
     }
   );
 }
+
+const mockEvent: EventDTO = {
+  id: 2,
+  creationDate: '2023-01-01',
+  organizer: {
+    id: 1111,
+    name: 'Test Organizer',
+    organizerRating: 4.5,
+    email: 'organizer@test.com'
+  },
+  title: 'Test Event',
+  titleImage: 'assets/img/event-image.png',
+  additionalImages: [],
+  dates: [
+    {
+      id: 1,
+      event: { id: 2 } as any,
+      startDate: new Date('2023 01 01'),
+      finishDate: new Date('2023 01 02'),
+      onlineLink: 'http://online.link',
+      coordinates: {
+        latitude: 12.34,
+        longitude: 56.78,
+        formattedAddressEn: '123 Test St',
+        formattedAddressUk: '123 Тестова вул.'
+      },
+      place: 'Test Place',
+      appliedLinkForAll: true,
+      appliedPlaceForAll: true,
+      day: null,
+      startTime: '',
+      finishTime: '',
+      allDay: false,
+      minDate: null,
+      maxDate: null
+    }
+  ],
+  eventInformation: {
+    title: 'Test Event Title',
+    duration: 120,
+    description: 'This is a mock description for the event details component test.',
+    open: true,
+    editorText: 'This is some editor text.',
+    tags: [
+      {
+        id: 1,
+        name: 'TestTag',
+        nameUk: 'ТестовийТег',
+        nameEn: 'TestTag'
+      }
+    ]
+  },
+  tags: ['Social', 'Educational'],
+  isSubscribed: false,
+  isRelevant: true,
+  likes: 10,
+  isFavorite: false,
+  currentUserGrade: null
+};
 
 describe('EventDetailsComponent', () => {
   let component: EventDetailsComponent;
@@ -60,11 +119,11 @@ describe('EventDetailsComponent', () => {
     'setBackFromPreview',
     'setSubmitFromPreview',
     'convertEventToFormEvent',
-    'prepareEventForSubmit',
+    'prepareForSumbit',
     'setEvent'
   ]);
 
-  EventsServiceMock.getEventById.and.returnValue(of(EVENT_MOCK));
+  EventsServiceMock.getEventById.and.returnValue(of(mockEvent));
   EventsServiceMock.deleteEvent.and.returnValue(of(true));
   EventsServiceMock.getAllAttendees.and.returnValue(of([]));
   EventsServiceMock.createAddresses.and.returnValue(of(''));
@@ -72,7 +131,7 @@ describe('EventDetailsComponent', () => {
   EventsServiceMock.setSubmitFromPreview.and.returnValue(of());
   EventsServiceMock.getFormattedAddress = () => of('');
   EventsServiceMock.convertEventToFormEvent.and.returnValue({ value: {} });
-  EventsServiceMock.prepareEventForSubmit.and.returnValue(new FormData());
+  EventsServiceMock.prepareForSumbit.and.returnValue(new FormData());
   EventsServiceMock.setEvent.and.returnValue();
   const jwtServiceFake = jasmine.createSpyObj('jwtService', ['getUserRole']);
   jwtServiceFake.getUserRole = () => '123';
@@ -172,9 +231,9 @@ describe('EventDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should initialize event on ngOnInit', waitForAsync(() => {
+  it('should initialize event on ngOnInit', waitForAsync(() => {
     expect(EventsServiceMock.getEventById).toHaveBeenCalledWith(2);
-    expect(component.event).toEqual(EVENT_FORM_MOCK);
+    expect(component.event).toEqual(mockEvent);
   }));
 
   it('should return the correct formatted address', () => {
@@ -219,7 +278,7 @@ describe('EventDetailsComponent', () => {
     expect(navigateSpy).toHaveBeenCalledWith(['/greenCity/events', 'create-update-event']);
   });
 
-  xit('should dispatch correct action based on isUpdating', waitForAsync(() => {
+  it('should dispatch correct action based on isUpdating', waitForAsync(() => {
     const sendData = new FormData();
     sendData.append('some', 'data');
 

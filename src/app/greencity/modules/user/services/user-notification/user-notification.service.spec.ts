@@ -4,7 +4,7 @@ import { UserNotificationService } from './user-notification.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpParams } from '@angular/common/http';
 
-xdescribe('UserNotificationService', () => {
+describe('UserNotificationService', () => {
   let service: UserNotificationService;
   let httpMock: HttpTestingController;
 
@@ -53,7 +53,7 @@ xdescribe('UserNotificationService', () => {
       expect(res.page.length).toBe(1);
     });
     const req = httpMock.expectOne(
-      `${service.url}notification/all?projectName=GREENCITY&notificationType=ECONEWS_COMMENT_REPLY&page=0&size=5`
+      `${service.url}notifications?projectName=GREENCITY&notificationType=ECONEWS_COMMENT_REPLY&page=0&size=5`
     );
     expect(req.request.method).toBe('GET');
     req.flush({ page: notifications });
@@ -73,19 +73,19 @@ xdescribe('UserNotificationService', () => {
 
   it('should readNotification', () => {
     service.readNotification(1, false).subscribe();
-    const req = httpMock.expectOne(`${service.url}notification/view/1`);
-    expect(req.request.method).toBe('PATCH');
+    const req = httpMock.expectOne(`${service.url}notifications/1/viewNotification`);
+    expect(req.request.method).toBe('POST');
   });
 
   it('should readNotification', () => {
     service.unReadNotification(2, false).subscribe();
-    const req = httpMock.expectOne(`${service.url}notification/unread/2`);
-    expect(req.request.method).toBe('PATCH');
+    const req = httpMock.expectOne(`${service.url}notifications/2/unreadNotification`);
+    expect(req.request.method).toBe('POST');
   });
 
   it('should deleteNotification', () => {
     service.deleteNotification(2, false).subscribe();
-    const req = httpMock.expectOne(`${service.url}notification/2`);
+    const req = httpMock.expectOne(`${service.url}notifications/2`);
     expect(req.request.method).toBe('DELETE');
   });
 });

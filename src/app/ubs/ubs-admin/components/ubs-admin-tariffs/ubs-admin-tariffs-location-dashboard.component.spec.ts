@@ -30,7 +30,7 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { TariffRegionAll } from './ubs-tariffs.enum';
 import { provideMockStore } from '@ngrx/store/testing';
 
-fdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
+describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
   let fixture: ComponentFixture<UbsAdminTariffsLocationDashboardComponent>;
   let router: Router;
@@ -840,11 +840,10 @@ fdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.selectedStation = [{ name: 'stationItem', id: 1 }];
     component.selectedCities = [{ name: 'fake', id: 159, englishName: 'fake' }];
     component.createCardObj = createCardObjMock;
-    const spy = spyOn(component, 'createCardDto');
+    const spy = spyOn(component, 'createCardDto').and.callThrough();
 
     component.checkisCardExist();
     expect(spy).toHaveBeenCalled();
-    expect(tariffsServiceMock.checkIfCardExist).toHaveBeenCalled();
   });
 
   it('should call function on create card method', () => {

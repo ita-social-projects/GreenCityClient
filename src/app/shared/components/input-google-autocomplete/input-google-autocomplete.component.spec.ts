@@ -206,6 +206,7 @@ describe('InputGoogleAutocompleteComponent', () => {
 
     component.predictionList = predictionList;
     component.autocompleteService = mockAutocompleteServiceInstance;
+    component['shouldAutocomplete'] = true;
     component.initPredictList();
     fixture.detectChanges();
   }));
@@ -475,7 +476,7 @@ describe('InputGoogleAutocompleteComponent', () => {
     expect(component.predictionList[2].description).toBe('Poltava oblast');
     expect(mockAutocompleteServiceInstance.getPlacePredictions).toHaveBeenCalled();
   }));
-  
+
   it('should correctly validate region predictions', () => {
     const validPredictionsMock = [
       'Київська область, Україна',
@@ -497,4 +498,19 @@ describe('InputGoogleAutocompleteComponent', () => {
     });
   });
 
+  it('should change should autocomplete if focused to true', () => {
+    component['shouldAutocomplete'] = false;
+    component.onInputFocus();
+
+    expect(component['shouldAutocomplete']).toBe(true);
+  });
+
+  it('should change should autocomplete if blured to false', () => {
+    component['shouldAutocomplete'] = true;
+    spyOn(component, 'markAsTouched');
+    component.onInputBlur();
+
+    expect(component['shouldAutocomplete']).toBe(false);
+    expect(component.markAsTouched).toHaveBeenCalled();
+  });
 });

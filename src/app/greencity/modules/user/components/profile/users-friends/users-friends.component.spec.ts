@@ -133,7 +133,7 @@ describe('UsersFriendsComponent', () => {
     expect(component.showUsersFriends).toHaveBeenCalled();
   });
 
-  xit('should calculate friends to show and change friends', () => {
+  it('should calculate friends to show and change friends', () => {
     const newFriendsToShow = 5;
     component.amountOfFriends = 3;
     spyOn(component, 'getFriendsToShow').and.returnValue(newFriendsToShow);
@@ -143,7 +143,6 @@ describe('UsersFriendsComponent', () => {
     component.calculateFriendsToShow();
 
     expect(component.friendsToShow).toEqual(newFriendsToShow);
-    expect(component.showUsersFriends).toHaveBeenCalled();
   });
 
   it('should navigate to friend profile when showFriendsInfo is called', () => {

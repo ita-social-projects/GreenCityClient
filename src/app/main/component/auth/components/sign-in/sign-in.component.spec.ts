@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -21,13 +21,52 @@ import { ErrorComponent } from '../error/error.component';
 import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { SignInComponent } from './sign-in.component';
 
+@Component({
+  selector: 'app-turnstile-captcha',
+  template: '',
+  standalone: true,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MockTurnstileCaptchaComponent),
+      multi: true
+    }
+  ]
+})
+class MockTurnstileCaptchaComponent implements ControlValueAccessor {
+  @Input() siteKey!: string;
+  @Input() theme!: string;
+  @Input() size!: string;
+  @Output() captchaResponse = new EventEmitter<string | null>();
+  @Output() captchaError = new EventEmitter<void>();
+
+  onChange = (value: any) => {};
+  onTouched = () => {};
+
+  writeValue(value: any): void {}
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {}
+
+  clearToken() {
+    this.captchaResponse.emit(null);
+  }
+}
+
 declare global {
   interface Window {
     google: any;
   }
 }
 
-xdescribe('SignIn component', () => {
+describe('SignIn component', () => {
   let component: SignInComponent;
   let fixture: ComponentFixture<SignInComponent>;
   let router: Router;
@@ -80,7 +119,8 @@ xdescribe('SignIn component', () => {
         MatDialogModule,
         TranslateModule.forRoot(),
         ReactiveFormsModule,
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([]),
+        MockTurnstileCaptchaComponent
       ],
       providers: [
         MatDialog,

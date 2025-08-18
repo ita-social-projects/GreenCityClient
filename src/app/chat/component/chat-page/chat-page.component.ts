@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChatFacade } from '../../facade/chat.facade';
@@ -7,6 +7,7 @@ import { ImageModalComponent } from '../image-modal/image-modal.component';
 import { ChatSidebarComponent } from '../../ui/chat-sidebar/chat-sidebar.component';
 import { MessagesListComponent } from '../../ui/messages-list/messages-list.component';
 import { MessageInputComponent } from '../../ui/message-input/message-input.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -24,11 +25,11 @@ import { MessageInputComponent } from '../../ui/message-input/message-input.comp
   ],
   styleUrls: ['./chat-page.component.scss']
 })
-export class ChatComponent implements OnInit, AfterViewInit {
+export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('sidebarRoot', { static: true }) sidebarRoot!: ElementRef<HTMLElement>;
   @ViewChild('pagingAnchor') pagingAnchor!: ElementRef<HTMLElement>;
   private io?: IntersectionObserver;
-
+  private readonly destroy$ = new Subject<void>();
   constructor(public facade: ChatFacade) {}
 
   ngOnInit(): void {
@@ -59,5 +60,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
       { root: this.sidebarRoot.nativeElement, rootMargin: '0px 0px 200px 0px', threshold: 0 }
     );
     this.io.observe(this.pagingAnchor.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    this.io?.disconnect();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

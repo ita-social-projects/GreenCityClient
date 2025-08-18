@@ -15,8 +15,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { EMPTY, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
@@ -72,6 +72,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   filters: Filters;
   filterValue = '';
   pageSize = 10;
+  enterPressed: boolean;
   adminTableOfCustomersSelector$ = this.store.select(adminTableOfCustomersSelector);
   customerTable: ICustomersTable;
   tableData: any[];
@@ -89,6 +90,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly filterSubject = new Subject<string>();
   private readonly pointerColumns: string[] = ['clientName', 'number_of_orders', 'violations'];
 
   @ViewChild(MatTable, { read: ElementRef }) private readonly matTableRef: ElementRef;
@@ -122,6 +124,13 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     });
     this.initFilterForm();
     this.onCreateGroupFormValueChange();
+    this.filterSubject.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((value) => {
+      if (!this.enterPressed) {
+        this.applyFilter(value);
+      } else {
+        this.enterPressed = false;
+      }
+    });
   }
 
   ngAfterViewChecked() {
@@ -270,6 +279,17 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   applyFilter(filterValue: string): void {
     this.filterValue = filterValue;
+    this.currentPage = 0;
+    this.getTable();
+    this.hasChange = true;
+  }
+
+  getFilteredTable(filterValue: string, enterPressed: boolean) {
+    if (enterPressed) {
+      this.enterPressed = enterPressed;
+      this.applyFilter(filterValue);
+    }
+    this.filterSubject.next(filterValue);
   }
 
   private getTable(

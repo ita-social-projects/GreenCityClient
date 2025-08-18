@@ -20,7 +20,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { UserNotificationsPopUpComponent } from 'src/app/greencity/modules/user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
-import { CommonService } from 'src/app/chat/service/common/common.service';
 import { GoogleScript } from '@assets/google-script/google-script';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 
@@ -100,8 +99,6 @@ describe('HeaderComponent', () => {
   socketServiceMock.onMessage = () => of();
   socketServiceMock.initiateConnection = () => {};
 
-  const commonChatServiceMock: CommonService = jasmine.createSpyObj('CommonService', [], { isChatVisible$: new BehaviorSubject(false) });
-
   const googleScriptMock: GoogleScript = jasmine.createSpyObj('GoogleScript', [], { mapReady: of(true) });
 
   const orderServiceMock: OrderService = jasmine.createSpyObj('OrderService', ['cancelUBSwithoutSaving']);
@@ -132,7 +129,6 @@ describe('HeaderComponent', () => {
         { provide: SearchService, useValue: searchServiceMock },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
         { provide: SocketService, useValue: socketServiceMock },
-        { provide: CommonService, useValue: commonChatServiceMock },
         { provide: GoogleScript, useValue: googleScriptMock },
         { provide: OrderService, useValue: orderServiceMock }
       ]
@@ -179,17 +175,6 @@ describe('HeaderComponent', () => {
       component.openAuthModalWindow('sign-in');
       expect(spy).toHaveBeenCalled();
     });
-
-    it('should make chat visible', fakeAsync(() => {
-      const spy1 = spyOn(component, 'openChatPopUp');
-      component.isAllSearchOpen = false;
-      component.isUBS = false;
-      component.isLoggedIn = true;
-      fixture.detectChanges();
-      fixture.debugElement.nativeElement.querySelector('.chat-icon').click();
-      tick();
-      expect(spy1).toHaveBeenCalled();
-    }));
 
     it('should focus element after auth modal closes', fakeAsync(() => {
       spyOn(dialog, 'open').and.returnValue({

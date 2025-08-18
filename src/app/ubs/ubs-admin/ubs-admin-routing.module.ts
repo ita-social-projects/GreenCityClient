@@ -38,10 +38,8 @@ const ubsAdminRoutes: Routes = [
       { path: 'notifications', component: UbsAdminNotificationListComponent },
       { path: 'user-agreement', component: UbsAdminEditUserAgreementComponent },
       { path: 'notification/create', component: UbsAdminNotificationCreateFormComponent },
-      {
-        path: 'chat-page',
-        component: ChatComponent
-      },
+      { path: 'chat-page', component: ChatComponent },
+      { path: 'chat-page/:id', component: ChatComponent },
       { path: 'notification/:id', component: UbsAdminNotificationComponent }
     ]
   }
