@@ -48,7 +48,7 @@
       </cdk-accordion-item>
     </cdk-accordion>
     <div class="button-row">
-      <button class="cancelButton" (click)="managePermissionSettings('cancel')">
+      <button type="button" class="cancelButton" (click)="managePermissionSettings('cancel')">
         {{ 'ubs-employee.cancel' | translate }}
       </button>
       <button type="submit" class="addButton" [disabled]="isUpdating || isDisabled">
