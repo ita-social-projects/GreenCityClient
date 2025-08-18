@@ -1,6 +1,6 @@
 <div *ngIf="clientData; else loading" class="client-info-panel">
-  <div *ngIf="clientData.error" class="error-message">
-    {{ clientData.error }}
+  <div *ngIf="clientData?.error as err" class="error-message">
+    {{ err | translate }}
   </div>
 
   <p></p>

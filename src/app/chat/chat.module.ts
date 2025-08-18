@@ -20,11 +20,7 @@ import { ContactAdminPopUpComponent } from './component/contact-admin-pop-up/con
     InfiniteScrollModule,
     PickerModule,
     TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient]
-      },
+      loader: { provide: TranslateLoader, useFactory: createTranslateLoader, deps: [HttpClient] },
       isolate: true
     }),
     CommonModule,

@@ -1,0 +1,112 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MessageInputComponent } from './message-input.component';
+import { TranslateModule } from '@ngx-translate/core';
+
+describe('MessageInputComponent', () => {
+  let fixture: ComponentFixture<MessageInputComponent>;
+  let component: MessageInputComponent;
+
+  const makeFile = (bytes: number, name = 'file.txt', type = 'text/plain') => new File([new Uint8Array(bytes)], name, { type });
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [MessageInputComponent, TranslateModule.forRoot()]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(MessageInputComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('send(): does nothing when both text empty/whitespace and no file', () => {
+    const spy = jasmine.createSpy('sendText');
+    component.sendText.subscribe(spy);
+
+    component.text = '   ';
+    component.file = undefined;
+
+    component.send();
+
+    expect(spy).not.toHaveBeenCalled();
+
+    expect(component.text).toBe('   ');
+    expect(component.file).toBeUndefined();
+  });
+
+  it('send(): emits payload and resets when text is non-empty', () => {
+    const spy = jasmine.createSpy('sendText');
+    component.sendText.subscribe(spy);
+
+    component.text = 'hello';
+    component.file = undefined;
+
+    component.send();
+
+    expect(spy).toHaveBeenCalledOnceWith({ text: 'hello', file: undefined });
+    expect(component.text).toBe('');
+    expect(component.file).toBeUndefined();
+  });
+
+  it('send(): emits when file exists even if text is whitespace, then resets both', () => {
+    const spy = jasmine.createSpy('sendText');
+    component.sendText.subscribe(spy);
+
+    const f = makeFile(10, 'pic.png', 'image/png');
+    component.text = '   ';
+    component.file = f;
+
+    component.send();
+
+    expect(spy).toHaveBeenCalledOnceWith({ text: '   ', file: f });
+    expect(component.text).toBe('');
+    expect(component.file).toBeUndefined();
+  });
+
+  it('onFileSelected(): sets file when within size limit (<= 5MB)', () => {
+    const okFile = makeFile(1 * 1024 * 1024, 'ok.txt');
+    const event = {
+      target: {
+        files: [okFile],
+        value: 'some-path'
+      }
+    } as any;
+
+    component.onFileSelected(event);
+
+    expect(component.file).toBe(okFile);
+  });
+
+  it('onFileSelected(): ignores when no file present', () => {
+    const eventNoFiles = { target: { files: [], value: 'x' } } as any;
+    component.file = undefined;
+
+    component.onFileSelected(eventNoFiles);
+    expect(component.file).toBeUndefined();
+
+    const eventUndefined = { target: { files: undefined, value: 'y' } } as any;
+    component.onFileSelected(eventUndefined);
+    expect(component.file).toBeUndefined();
+  });
+
+  it('onFileSelected(): rejects file larger than 5MB, clears file and input value', () => {
+    const bigFile = makeFile(5 * 1024 * 1024 + 1, 'too-big.bin');
+
+    const event = {
+      target: {
+        files: [bigFile],
+        value: 'chosen/path.bin'
+      }
+    } as any;
+
+    component.file = makeFile(100, 'prev.txt');
+
+    component.onFileSelected(event);
+
+    expect(component.file).toBeUndefined();
+    expect(event.target.value).toBe('');
+  });
+});
