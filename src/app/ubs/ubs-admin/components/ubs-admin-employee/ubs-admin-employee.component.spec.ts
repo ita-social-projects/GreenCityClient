@@ -23,7 +23,7 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 
-xdescribe('UbsAdminEmployeeComponent', () => {
+describe('UbsAdminEmployeeComponent', () => {
   let component: UbsAdminEmployeeComponent;
   let fixture: ComponentFixture<UbsAdminEmployeeComponent>;
   let dialog: MatDialog;

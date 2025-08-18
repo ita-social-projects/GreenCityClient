@@ -1,5 +1,5 @@
 import { CertificateStatus } from 'src/app/ubs/ubs/certificate-status.enum';
-import { Address, AddressData, ICertificateResponse } from './ubs.interface';
+import { Address, AddressData, ICertificateResponse, LanguageResponseOptions } from './ubs.interface';
 import { Language } from 'src/app/shared/i18n/Language';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { Subject } from 'rxjs';
@@ -132,9 +132,9 @@ export class CAddressData {
     return this.languageService.getCurrentLanguage() === Language.EN ? this.regionEn : this.region;
   }
 
-  async setRegion(place_id: string): Promise<void> {
+  async setRegion(options: LanguageResponseOptions): Promise<void> {
     try {
-      await this.setProperties('region', place_id, 'administrative_area_level_1');
+      await this.setProperties('region', options, 'administrative_area_level_1');
       this.resetPlaceId();
     } catch (error) {
       console.error('Error during setting region:', error);
@@ -157,10 +157,10 @@ export class CAddressData {
     return this.languageService.getCurrentLanguage() === Language.EN ? this.cityEn : this.city;
   }
 
-  async setCity(place_id: string): Promise<void> {
+  async setCity(options: LanguageResponseOptions): Promise<void> {
     try {
-      await this.setProperties('city', place_id, 'locality');
-      this.setRegion(place_id);
+      await this.setProperties('city', options, 'locality');
+      await this.setRegion(options);
       this.resetPlaceId();
     } catch (error) {
       console.error('Error during setting city:', error);
@@ -177,11 +177,11 @@ export class CAddressData {
     return this.languageService.getCurrentLanguage() === Language.EN ? this.streetEn : this.street;
   }
 
-  async setStreet(place_id: string): Promise<void> {
+  async setStreet(options: LanguageResponseOptions): Promise<void> {
     try {
-      this.placeId = place_id;
-      await this.setProperties('street', place_id, 'route');
-      await this.setDistrict(place_id);
+      this.placeId = options?.placeUk?.place_id || options?.placeEn?.place_id;
+      await this.setProperties('street', options, 'route');
+      await this.setDistrict(options);
     } catch (error) {
       console.error('Error during setting street:', error);
     }
@@ -197,10 +197,10 @@ export class CAddressData {
     return this.languageService.getLangValue(this.district, this.districtEn);
   }
 
-  async setDistrict(place_id: string): Promise<void> {
+  async setDistrict(options: LanguageResponseOptions): Promise<void> {
     try {
       this.resetDistrict();
-      await this.setProperties('district', place_id, 'locality', 'sublocality', 'administrative_area_level_2');
+      await this.setProperties('district', options, 'locality', 'sublocality', 'administrative_area_level_2');
     } catch (error) {
       console.error('Error during setting district:', error);
     }
@@ -324,17 +324,19 @@ export class CAddressData {
 
     const geocoder = new google.maps.Geocoder();
     try {
-      const response = await geocoder.geocode({ location: coordinates });
+      const responseUK = await geocoder.geocode({ location: coordinates, language: Language.UK });
+      const responseEN = await geocoder.geocode({ location: coordinates, language: Language.EN });
 
-      const place_id = response.results[0]?.place_id;
-      if (place_id) {
-        await this.setCity(place_id);
-        await this.setRegion(place_id);
-        await this.setStreet(place_id);
+      const placeUk = responseUK.results[0];
+      const placeEn = responseEN.results[0];
 
-        this.setHouseNumber(this.findValue(response.results[0], 'street_number')?.long_name ?? '');
+      if (placeUk && placeEn) {
+        await this.setCity({ placeUk, placeEn });
+        await this.setStreet({ placeUk, placeEn });
 
-        this.placeId = place_id;
+        this.setHouseNumber(this.findValue(placeEn, 'street_number')?.long_name ?? '');
+
+        this.placeId = placeEn?.place_id;
         this.placeIdChange.next(this.placeId);
       }
     } catch (error) {
@@ -343,14 +345,15 @@ export class CAddressData {
   }
 
   //Translates values to achieve consistent view of address in different languages
-  private async setProperties(propertyName: string, place_id: string, ...googleLocalityType: string[]): Promise<void> {
+  private async setProperties(propertyName: string, options: LanguageResponseOptions, ...googleLocalityType: string[]): Promise<void> {
     if (this.isGoogleDefined()) {
       return;
     }
+    const { placeUk, placeEn } = options;
 
     try {
-      await this.translateProperty(propertyName, place_id, Language.UK, ...googleLocalityType);
-      await this.translateProperty(propertyName + 'En', place_id, Language.EN, ...googleLocalityType);
+      placeUk && (await this.translateProperty(propertyName, placeUk, Language.UK, ...googleLocalityType));
+      placeEn && (await this.translateProperty(propertyName + 'En', placeEn, Language.EN, ...googleLocalityType));
       this.addressChange.next(this.getValues());
     } catch (error) {
       console.error('Error during setting properties:', error);
@@ -358,18 +361,12 @@ export class CAddressData {
   }
 
   //Translates address component by placeId to required language
-  private async translateProperty(
-    propertyName: string,
-    placeId: string,
-    language: Language,
-    ...googleLocalityType: string[]
-  ): Promise<void> {
+  private async translateProperty(propertyName: string, place: google.maps.GeocoderResult, ...googleLocalityType: string[]): Promise<void> {
     if (this.isGoogleDefined()) {
       return;
     }
 
-    const response = await new google.maps.Geocoder().geocode({ placeId, language });
-    this[propertyName] = this.findValue(response.results[0], ...googleLocalityType)?.long_name ?? '';
+    this[propertyName] = this.findValue(place, ...googleLocalityType)?.long_name ?? '';
   }
 
   //Find required address component in google response by it's type
@@ -384,5 +381,14 @@ export class CAddressData {
     }
 
     return null;
+  }
+
+  async getPlaceByPlaceId(placeId: string, language: string): Promise<google.maps.GeocoderResult> {
+    if (this.isGoogleDefined()) {
+      return;
+    }
+
+    const res = await new google.maps.Geocoder().geocode({ placeId, language });
+    return res.results[0];
   }
 }

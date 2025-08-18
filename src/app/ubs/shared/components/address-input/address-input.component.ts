@@ -27,6 +27,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { AddressService } from '@global-service/address/address.service';
 import { GoogleScript } from '@assets/google-script/google-script';
 import { GoogleMap } from '@angular/google-maps';
+import { Language } from '../../../../shared/i18n/Language';
 
 @Component({
   selector: 'app-address-input',
@@ -68,6 +69,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   allowDistrictEdit = false;
   errorType: string | undefined;
   isMapLoaded$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  blockAutoComplete = false;
 
   mapOptions: google.maps.MapOptions = {
     center: { lat: 50.4501, lng: 30.5234 },
@@ -255,6 +257,8 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       .getAddressChange()
       .pipe(takeUntil(this.$destroy))
       .subscribe((addressData) => {
+        this.blockAutoComplete = true;
+
         const region = this.currentLanguage === 'ua' ? addressData.regionUk : addressData.regionEn;
         const city = this.currentLanguage === 'ua' ? addressData.cityUk : addressData.cityEn;
         const street = this.currentLanguage === 'ua' ? addressData.streetUk : addressData.streetEn;
@@ -267,6 +271,8 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
         this.onChange(this.addressData.getValues());
         this.cdr.detectChanges();
+
+        this.delayAutocomplete();
       });
 
     combineLatest([
@@ -416,9 +422,9 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
   }
 
-  onRegionSelected(region: GooglePrediction): void {
+  async onRegionSelected(region: GooglePrediction): Promise<void> {
     if (region) {
-      this.addressData.setRegion(region.place_id);
+      this.blockAutoComplete = true;
     }
 
     this.resetCity();
@@ -427,12 +433,17 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.resetHouseInfo();
 
     this.onRegionValueSet(region?.structured_formatting.main_text ?? '');
+    this.delayAutocomplete();
   }
 
-  onCitySelected(city: GooglePrediction): void {
+  async onCitySelected(city: GooglePrediction): Promise<void> {
     if (city) {
+      this.blockAutoComplete = true;
       this.city.patchValue(city?.structured_formatting.main_text ?? '');
-      this.addressData.setCity(city.place_id);
+
+      const response = await this.addressData.getPlaceByPlaceId(city.place_id, this.currentLanguage === 'ua' ? 'uk' : 'en');
+      const langKey = this.currentLanguage === 'ua' ? 'placeUk' : 'placeEn';
+      await this.addressData.setCity({ [langKey]: response });
     }
     this.addressForm.get('region').disable();
     this.updateDistrictEditState();
@@ -441,6 +452,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.resetHouseInfo();
 
     this.onCityValueSet(city?.structured_formatting.main_text ?? '');
+    this.delayAutocomplete();
   }
 
   keyup(keyupText: string): void {
@@ -448,10 +460,17 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.errorType = 'requiredFromDropdown';
   }
 
-  onStreetSelected(street: GooglePrediction): void {
+  async onStreetSelected(street: GooglePrediction): Promise<void> {
     if (street) {
+      this.blockAutoComplete = true;
+
+      const placeEn = await this.addressData.getPlaceByPlaceId(street.place_id, Language.EN);
+      const placeUk = await this.addressData.getPlaceByPlaceId(street.place_id, Language.UK);
+
+      await this.addressData.setCity({ placeUk, placeEn });
+      await this.addressData.setStreet({ placeUk, placeEn });
+
       this.placeId.setValue(street.place_id);
-      this.addressData.setStreet(street.place_id);
       this.allowDistrictEdit && this.district.enable();
     } else {
       this.addressData.resetStreet();
@@ -461,6 +480,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.resetHouseInfo();
 
     this.onStreetValueSet(street?.structured_formatting.main_text ?? '');
+    this.delayAutocomplete();
   }
 
   onCoordinatesSelected(coordinates: Coordinates) {
@@ -646,5 +666,11 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   private handleGeolocationSuccess(position: GeolocationPosition): void {
     this.addressCoords = { lat: position.coords.latitude, lng: position.coords.longitude };
     this.addressData.setCoordinates(this.addressCoords);
+  }
+
+  private delayAutocomplete() {
+    setTimeout(() => {
+      this.blockAutoComplete = false;
+    }, 600);
   }
 }

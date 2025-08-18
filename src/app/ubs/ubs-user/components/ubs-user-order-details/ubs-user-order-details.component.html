@@ -12,9 +12,9 @@
       <tr class="data_table">
         <td [appLangValue]="{ ua: bag.serviceUk, en: bag.serviceEn }"></td>
         <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
-        <td>{{ bag.fullPrice }} {{ 'user-orders.details.currency' | translate }}</td>
+        <td>{{ bag.fullPrice | localizedCurrency: true }}</td>
         <td>{{ bag.count }} {{ 'user-orders.details.pieces' | translate }}</td>
-        <td>{{ bag.totalPrice | localizedCurrency }}</td>
+        <td>{{ bag.totalPrice | localizedCurrency: true }}</td>
       </tr>
     </ng-container>
     <tr>
@@ -22,32 +22,32 @@
     </tr>
     <tr class="sum_of_order">
       <td colspan="4">{{ 'user-orders.details.order-sum' | translate }}</td>
-      <td>{{ order.orderFullPrice | localizedCurrency }}</td>
+      <td>{{ order.orderFullPrice | localizedCurrency: true }}</td>
     </tr>
     <tr *ngIf="order.certificate.length" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.certificate' | translate }}</td>
-      <td>-{{ certificatesAmount | localizedCurrency }}</td>
+      <td>-{{ certificatesAmount | localizedCurrency: true }}</td>
     </tr>
     <tr *ngIf="order.bonuses !== 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.bonuses' | translate }}</td>
-      <td>-{{ order.bonuses | localizedCurrency }}</td>
+      <td>-{{ order.bonuses | localizedCurrency: true }}</td>
     </tr>
     <tr *ngIf="isPaid(order) || order.paidAmount > 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.paid-amount' | translate }}</td>
-      <td>-{{ order.paidAmount | localizedCurrency }}</td>
+      <td>-{{ order.paidAmount | localizedCurrency: true }}</td>
     </tr>
     <tr class="sum_to_pay">
       <td colspan="4">{{ 'user-orders.details.amount-due' | translate }}</td>
-      <td>{{ order.amountBeforePayment | localizedCurrency }}</td>
+      <td>{{ order.amountBeforePayment | localizedCurrency: true }}</td>
     </tr>
     <tr *ngIf="order.refundedMoney > 0" class="optional_row additional_info">
       <td colspan="4">{{ 'user-orders.details.refunded-money' | translate }}</td>
-      <td>{{ order.refundedMoney | localizedCurrency }}</td>
+      <td>{{ order.refundedMoney | localizedCurrency: true }}</td>
     </tr>
   </table>
   <div class="bonuses_container">
     <span *ngIf="order.refundedBonuses > 0" class="text-danger refund-bonuses">
-      {{ 'order-details.bonuses-value' | translate: { bonusesValue: order.refundedBonuses } }}
+      {{ 'order-details.bonuses-value' | translate: { bonusesValue: order.refundedBonuses | localizedCurrency: true } }}
     </span>
   </div>
 

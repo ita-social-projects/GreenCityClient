@@ -1,0 +1,15 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgForOf, NgIf, NgClass } from '@angular/common';
+import { ChatMessageView } from '../../model/chat-page.interface';
+import { StatusTicksComponent } from '../status-ticks/status-ticks.component';
+
+@Component({
+  selector: 'app-messages-list',
+  standalone: true,
+  imports: [NgForOf, NgIf, NgClass, StatusTicksComponent],
+  templateUrl: './messages-list.component.html'
+})
+export class MessagesListComponent {
+  @Input() messages: ChatMessageView[] = [];
+  @Output() openImage = new EventEmitter<string>();
+}

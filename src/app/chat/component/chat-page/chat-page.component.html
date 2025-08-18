@@ -1,86 +1,32 @@
 <div class="chat-page-inner">
-  <div class="chat-sidebar">
-    <div class="search-bar">
-      <label>
-        <input type="text" [placeholder]="'chat.chat-placeholder' | translate" [(ngModel)]="searchId" (input)="filterChatsById()" />
-      </label>
-    </div>
+  <div class="chat-sidebar" #sidebarRoot>
+    <app-chat-sidebar
+      [chats]="facade.filteredChats()"
+      [loading]="facade.isLoading()"
+      (searchChange)="facade.setSearchId($event)"
+      (selectChat)="facade.selectChat($event)"
+    >
+    </app-chat-sidebar>
 
-    <ul class="chat-list">
-      <li
-        class="chat-item"
-        *ngFor="let chat of filteredChats"
-        [class.selected]="chat.chatInternalId === selectedChat?.chatInternalId"
-        (click)="selectChat(chat)"
-      >
-        <div class="avatar">{{ chat.initial }}</div>
-        <div class="chat-details">
-          <div class="chat-name">{{ chat.fullName }}</div>
-          <div class="last-message">{{ chat.lastMessage }}</div>
-        </div>
-        <div class="timestamp">{{ chat.time }}</div>
-      </li>
-    </ul>
+    <div #pagingAnchor class="infinite-scroll-anchor"></div>
   </div>
 
   <div class="chat-view">
-    <ng-container *ngIf="selectedChat; else placeholder">
+    <ng-container *ngIf="facade.selectedChat(); else placeholder">
       <div class="chat-box">
         <div class="chat-header">
-          {{ selectedChat.fullName }} {{ selectedChat.nickname !== selectedChat.fullName ? '(' + selectedChat.nickname + ')' : '' }}
-          <button class="client-info-button" (click)="toggleClientInfo()" [title]="'chat.client-info' | translate">🧠</button>
+          {{ facade.selectedChat()!.fullName }} (&#64;{{ facade.selectedChat()!.nickname }})
+          <button class="client-info-button" (click)="facade.toggleClientInfo()" [title]="'chat.client-info' | translate">🧠</button>
         </div>
 
-        <app-client-info-panel *ngIf="clientInfoVisible" [clientData]="clientInfoData" class="client-info-panel"></app-client-info-panel>
+        <app-client-info-panel *ngIf="facade.clientInfoVisible()" [clientData]="facade.clientInfoData()" class="client-info-panel">
+        </app-client-info-panel>
 
-        <div class="messages">
-          <div
-            *ngFor="let message of selectedChat.messages"
-            [ngClass]="{
-              message: true,
-              sent: message.from === 'Me',
-              received: message.from !== 'Me'
-            }"
-          >
-            <div class="message-text" *ngIf="message.text">{{ message.text }}</div>
+        <app-messages-list [messages]="facade.selectedChat()!.messages" (openImage)="facade.openImageModal($event)"> </app-messages-list>
 
-            <div class="message-assets" *ngIf="message.images?.length">
-              <img *ngFor="let imgUrl of message.images" [src]="imgUrl" alt="chat" class="message-image" (click)="openImageModal(imgUrl)" />
+        <app-image-modal [imageUrl]="facade.selectedImageUrl()" (closeModal)="facade.closeImageModal()"> </app-image-modal>
 
-              <app-image-modal [imageUrl]="selectedImageUrl" (closeModal)="closeImageModal()"></app-image-modal>
-            </div>
-
-            <div class="message-time">{{ message.time }}</div>
-          </div>
-        </div>
-
-        <div class="message-input-container">
-          <div class="message-input-wrapper">
-            <label class="message-input-wrapper-label">
-              <input
-                type="text"
-                id="text-input-message"
-                [placeholder]="'chat.active-chat-placeholder' | translate"
-                [(ngModel)]="newMessage"
-                (keyup.enter)="sendMessage()"
-              />
-            </label>
-            <button class="send-message-button" (click)="sendMessage()" aria-label="Send message">
-              <svg width="30" height="30" viewBox="0 0 24 24">
-                <path d="M4 12L20 4L16 12L20 20L4 12Z" fill="currentColor" />
-              </svg>
-            </button>
-          </div>
-          <div class="file-attach">
-            <label class="file-label">
-              <input type="file" (change)="onFileSelected($event)" hidden />
-              <span>{{ 'chat.attach-file' | translate }}</span>
-            </label>
-            <div class="file-name" *ngIf="selectedFile">
-              {{ selectedFile.name }}
-            </div>
-          </div>
-        </div>
+        <app-message-input (sendText)="facade.sendMessage($event.text, $event.file)"> </app-message-input>
       </div>
     </ng-container>
 

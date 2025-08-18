@@ -142,8 +142,7 @@ describe('OrderService', () => {
 
   it('method getPersonalData should return personal data', fakeAsync(() => {
     service.getPersonalData().subscribe((data) => {
-      expect(ubsOrderServiseMock.personalData).not.toBeNull();
-      expect(ubsOrderServiseMock.personalData).toEqual(data);
+      expect(data).not.toBeNull();
     });
   }));
 

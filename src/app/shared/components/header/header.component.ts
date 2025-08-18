@@ -25,7 +25,6 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
 import { SocketService } from 'src/app/shared/services/socket/socket.service';
 import { SignOutAction } from 'src/app/store/actions/auth.actions';
-import { CommonService } from 'src/app/chat/service/common/common.service';
 import { GoogleScript } from '@assets/google-script/google-script';
 
 @Component({
@@ -87,7 +86,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     injector: Injector,
     private store: Store,
     private socketService: SocketService,
-    private commonChatService: CommonService,
     private readonly googleScript: GoogleScript
   ) {
     this.localeStorageService = injector.get(LocalStorageService);
@@ -403,10 +401,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.router.navigate(['greenCity/profile', this.userId, 'notifications']);
         }
       });
-  }
-
-  openChatPopUp() {
-    this.commonChatService.isChatVisible$.next(true);
   }
 
   signOut(): void {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { AddressInputComponent } from './address-input.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -70,6 +70,24 @@ describe('AddressInputComponent', () => {
       isOrderDetailsLoading: false
     }
   };
+
+  const mockGeocoderResult = {
+    formatted_address: 'Leontovycha St, 11, Kyiv, Ukraine, 01030',
+    address_components: [
+      { long_name: '11', short_name: '11', types: ['street_number'] },
+      { long_name: 'Leontovycha Street', short_name: 'Leontovycha St', types: ['route'] },
+      {
+        long_name: "Shevchenkivs'kyi district",
+        short_name: "Shevchenkivs'kyi district",
+        types: ['political', 'sublocality', 'sublocality_level_1']
+      },
+      { long_name: 'Kyiv', short_name: 'Kyiv', types: ['locality', 'political'] },
+      { long_name: 'Kyiv City', short_name: 'Kyiv City', types: ['administrative_area_level_2', 'political'] },
+      { long_name: 'Kyiv', short_name: 'Kyiv', types: ['administrative_area_level_1', 'political'] },
+      { long_name: 'Ukraine', short_name: 'UA', types: ['country', 'political'] },
+      { long_name: '01030', short_name: '01030', types: ['postal_code'] }
+    ]
+  } as google.maps.GeocoderResult;
 
   beforeEach(() => {
     addressServiceMock = jasmine.createSpyObj('AddressService', ['getKyivDistricts']);
@@ -565,7 +583,7 @@ describe('AddressInputComponent', () => {
     spyOn(component.addressData, 'getValues').and.returnValue({ houseNumber: '1' } as any);
     component['initListeners']();
     fixture.detectChanges();
-    tick(150);
+    tick();
 
     const mockAddressData = {
       regionUk: 'Київська область',
@@ -581,15 +599,17 @@ describe('AddressInputComponent', () => {
     };
 
     component.addressData['addressChange'].next(mockAddressData as any);
-    tick(150);
+    tick();
     fixture.detectChanges();
 
+    expect(component.blockAutoComplete).toBeTrue();
     expect(component.region.value).toBe('Київська область');
     expect(component.city.value).toBe('Київ');
     expect(component.street.value).toBe('вулиця Хрещатик');
     expect(component.district.value).toBe('fakeTag');
     expect(component.houseNumber.value).toBe('1');
     expect(component.onChange).toHaveBeenCalledWith({ houseNumber: '1' } as any);
+    flush();
   }));
 
   it('should handle geolocation error gracefully by setting default coordinates', () => {
@@ -699,7 +719,7 @@ describe('AddressInputComponent', () => {
     expect(component['resetCity']).not.toHaveBeenCalled();
   });
 
-  it('should call updateDistrictEditState and disable region on city selection', () => {
+  it('should call updateDistrictEditState and disable region on city selection', fakeAsync(() => {
     const mockCity: GooglePrediction = {
       structured_formatting: { main_text: 'Kyiv' },
       place_id: 'cityPlaceId'
@@ -708,15 +728,21 @@ describe('AddressInputComponent', () => {
     spyOn(component.addressForm.get('region'), 'disable');
     spyOn(component.addressData, 'setCity');
     spyOn<any>(component, 'resetStreet');
+    spyOn<any>(component, 'delayAutocomplete');
+    spyOn(component.addressData, 'getPlaceByPlaceId').and.returnValue(Promise.resolve(mockGeocoderResult));
+    component.currentLanguage = 'en';
 
     component.onCitySelected(mockCity);
+    expect(component.blockAutoComplete).toBeTrue();
+    tick();
 
     expect(component.city.value).toBe('Kyiv');
-    expect(component.addressData.setCity).toHaveBeenCalledWith('cityPlaceId');
+    expect(component.addressData.setCity).toHaveBeenCalledWith({ placeEn: mockGeocoderResult });
     expect(component.addressForm.get('region').disable).toHaveBeenCalled();
     expect(component.updateDistrictEditState).toHaveBeenCalled();
     expect(component['resetStreet']).toHaveBeenCalled();
-  });
+    expect(component['delayAutocomplete']).toHaveBeenCalled();
+  }));
 
   it('should reset city data when city selection is null', () => {
     spyOn(component.addressData, 'resetCity');
@@ -727,16 +753,31 @@ describe('AddressInputComponent', () => {
     expect(component['resetStreet']).toHaveBeenCalled();
   });
 
-  it('should enable district if allowDistrictEdit is true on street selection', () => {
+  it('should enable district if allowDistrictEdit is true on street selection', fakeAsync(() => {
     component.allowDistrictEdit = true;
     const mockStreet: GooglePrediction = {
-      structured_formatting: { main_text: 'Main Street' },
+      structured_formatting: { main_text: 'Leontovycha Street' },
       place_id: 'streetPlaceId'
     } as GooglePrediction;
     component.district.disable();
+
+    spyOn(component.addressData, 'getPlaceByPlaceId').and.returnValue(Promise.resolve(mockGeocoderResult));
+    spyOn(component.addressData, 'setCity');
+    spyOn(component.addressData, 'setStreet');
+    spyOn<any>(component, 'delayAutocomplete');
+
     component.onStreetSelected(mockStreet);
+
+    expect(component.blockAutoComplete).toBeTrue();
+    tick();
+
+    expect(component.addressData.getPlaceByPlaceId).toHaveBeenCalled();
+    expect(component.addressData.setCity).toHaveBeenCalledWith({ placeEn: mockGeocoderResult, placeUk: mockGeocoderResult });
+    expect(component.addressData.setStreet).toHaveBeenCalledWith({ placeEn: mockGeocoderResult, placeUk: mockGeocoderResult });
     expect(component.district.enabled).toBeTrue();
-  });
+    expect(component['delayAutocomplete']).toHaveBeenCalled();
+    expect(component.placeId.value).toBe(mockStreet.place_id);
+  }));
 
   it('should disable district and reset data if street selection is null', () => {
     component.district.enable();
@@ -770,4 +811,13 @@ describe('AddressInputComponent', () => {
     component.markAsTouched();
     expect(component.onTouched).toHaveBeenCalledTimes(1);
   });
+
+  it('should change blockAutocomplete to false', fakeAsync(() => {
+    component.blockAutoComplete = true;
+
+    component['delayAutocomplete']();
+    tick(600);
+
+    expect(component.blockAutoComplete).toBeFalse();
+  }));
 });

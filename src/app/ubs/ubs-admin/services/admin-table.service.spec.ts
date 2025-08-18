@@ -5,7 +5,7 @@ import { environment } from '@environment/environment';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { OrderStatus } from '../../ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/order-status.enum';
 
 describe('AdminTableService', () => {
   let httpMock: HttpTestingController;
@@ -412,7 +412,7 @@ describe('AdminTableService', () => {
     expect(service.getDateValue).toHaveBeenCalledWith('From', 'dateColumn');
   });
 
-  xit('should convert date format by setDateFormat', () => {
+  it('should convert date format by setDateFormat', () => {
     const date = 'Mon Nov 28 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
     const convertedDate = service.setDateFormat(date);
     expect(convertedDate).toBe('2022-11-28');
