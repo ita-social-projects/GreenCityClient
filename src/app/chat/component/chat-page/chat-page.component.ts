@@ -44,7 +44,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     let ticking = false;
 
     this.io = new IntersectionObserver(
-      (entries) => {
+      async (entries) => {
         if (!entries.some((e) => e.isIntersecting)) {
           return;
         }
@@ -52,13 +52,20 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           return;
         }
         ticking = true;
+
         this.facade.loadNextPage();
-        setTimeout(() => {
-          ticking = false;
-        }, 200);
+
+        await new Promise((resolve) => setTimeout(resolve, 200));
+
+        ticking = false;
       },
-      { root: this.sidebarRoot.nativeElement, rootMargin: '0px 0px 200px 0px', threshold: 0 }
+      {
+        root: this.sidebarRoot.nativeElement,
+        rootMargin: '0px 0px 200px 0px',
+        threshold: 0
+      }
     );
+
     this.io.observe(this.pagingAnchor.nativeElement);
   }
 
