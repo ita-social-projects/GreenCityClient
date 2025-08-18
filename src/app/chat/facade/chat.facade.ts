@@ -142,17 +142,22 @@ export class ChatFacade {
     });
   }
   private updateChatIdInUrl(chatId: number) {
-    const currentPath = this.location.path(true);
-    const [pathOnly, queryAndHash = ''] = currentPath.split('?');
-    const [queryOnly, hash = ''] = queryAndHash.split('#');
+    const full = this.location.path(true);
+    // Separate hash first to ensure correct order: path[?query][#hash]
+    let pathAndQuery = full;
+    let hash = '';
+    const hashIdx = full.indexOf('#');
+    if (hashIdx >= 0) {
+      pathAndQuery = full.slice(0, hashIdx);
+      hash = full.slice(hashIdx); // includes '#'
+    }
 
-    const params = new URLSearchParams(queryOnly || '');
+    const [pathOnly, queryOnly = ''] = pathAndQuery.split('?');
+    const params = new URLSearchParams(queryOnly);
     params.set('chatId', String(chatId));
 
     const newQuery = params.toString();
-    const newHash = hash ? `#${hash}` : '';
-    const newPath = newQuery ? `${pathOnly}?${newQuery}${newHash}` : `${pathOnly}${newHash}`;
-
+    const newPath = newQuery ? `${pathOnly}?${newQuery}${hash}` : `${pathOnly}${hash}`;
     this.location.replaceState(newPath);
   }
 
