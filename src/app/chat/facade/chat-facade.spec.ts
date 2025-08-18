@@ -281,4 +281,24 @@ describe('ChatFacade', () => {
     expect(last.images).toEqual(['blob://preview']);
     expect(urlSpy).toHaveBeenCalled();
   });
+  describe('resolveInternalId (private)', () => {
+    it('returns id when present', () => {
+      const res = (facade as any).resolveInternalId({ id: 123, foo: 'bar' });
+      expect(res).toBe(123);
+    });
+
+    it('returns chatInternalId when id is missing', () => {
+      const res = (facade as any).resolveInternalId({ chatInternalId: 456 });
+      expect(res).toBe(456);
+    });
+
+    it('returns internalId when id and chatInternalId are missing', () => {
+      const res = (facade as any).resolveInternalId({ internalId: 789 });
+      expect(res).toBe(789);
+    });
+
+    it('throws when no recognized key is present', () => {
+      expect(() => (facade as any).resolveInternalId({ nope: true })).toThrowError('SocketNewChat payload missing internal id.');
+    });
+  });
 });
