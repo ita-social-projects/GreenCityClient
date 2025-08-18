@@ -203,14 +203,30 @@ describe('ChatFacade', () => {
     api.sendMessage.calls.reset();
     facade.sendMessage('');
     expect(api.sendMessage).not.toHaveBeenCalled();
-    (facade as any).selectedChat.set({ name: 'N', initial: 'N', chatId: '1', chatInternalId: 1, lastMessage: '', time: '', messages: [] });
+    (facade as any).selectedChat.set({
+      nickname: 'N',
+      initial: 'N',
+      chatId: '1',
+      chatInternalId: 1,
+      lastMessage: '',
+      time: '',
+      messages: []
+    });
     api.sendMessage.calls.reset();
     facade.sendMessage('   ');
     expect(api.sendMessage).not.toHaveBeenCalled();
   });
 
   it('sendMessage appends local message and lastMessage/time on success (text only)', () => {
-    (facade as any).selectedChat.set({ name: 'N', initial: 'N', chatId: '1', chatInternalId: 1, lastMessage: '', time: '', messages: [] });
+    (facade as any).selectedChat.set({
+      nickname: 'N',
+      initial: 'N',
+      chatId: '1',
+      chatInternalId: 1,
+      lastMessage: '',
+      time: '',
+      messages: []
+    });
     api.sendMessage.and.returnValue(of('ok' as any));
 
     const urlSpy = spyOn(URL, 'createObjectURL').and.callFake(() => 'blob://x');
@@ -229,7 +245,15 @@ describe('ChatFacade', () => {
   });
 
   it('sendMessage appends with image preview when file provided', () => {
-    (facade as any).selectedChat.set({ name: 'N', initial: 'N', chatId: '1', chatInternalId: 1, lastMessage: '', time: '', messages: [] });
+    (facade as any).selectedChat.set({
+      nickname: 'N',
+      initial: 'N',
+      chatId: '1',
+      chatInternalId: 1,
+      lastMessage: '',
+      time: '',
+      messages: []
+    });
     api.sendMessage.and.returnValue(of('ok' as any));
     const file = new File([new Blob(['a'])], 'a.png', { type: 'image/png' });
     const urlSpy = spyOn(URL, 'createObjectURL').and.returnValue('blob://preview');

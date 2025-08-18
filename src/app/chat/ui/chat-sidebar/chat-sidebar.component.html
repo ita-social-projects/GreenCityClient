@@ -8,7 +8,7 @@
   <li class="chat-item" *ngFor="let chat of chats; trackBy: trackById" (click)="selectChat.emit(chat)">
     <div class="avatar">{{ chat.initial }}</div>
     <div class="chat-details">
-      <div class="chat-name">{{ chat.name }}</div>
+      <div class="chat-name">{{ chat.fullName }}</div>
       <div class="last-row">
         <div class="last-message">{{ chat.lastMessage }}</div>
       </div>

@@ -8,7 +8,8 @@ describe('ChatSidebarComponent', () => {
   let component: ChatSidebarComponent;
 
   const mkItem = (id: number, chatId = String(id)): ChatListItem => ({
-    name: `User ${id}`,
+    fullName: 'User',
+    nickname: `User ${id}`,
     initial: 'U',
     chatId,
     chatInternalId: id,

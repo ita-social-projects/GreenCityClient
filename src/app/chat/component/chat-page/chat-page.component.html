@@ -15,7 +15,7 @@
     <ng-container *ngIf="facade.selectedChat(); else placeholder">
       <div class="chat-box">
         <div class="chat-header">
-          {{ facade.selectedChat()!.name }}
+          {{ facade.selectedChat()!.fullName }} (&#64;{{ facade.selectedChat()!.nickname }})
           <button class="client-info-button" (click)="facade.toggleClientInfo()" [title]="'chat.client-info' | translate">🧠</button>
         </div>
 
