@@ -143,7 +143,6 @@ export class ChatFacade {
   }
   private updateChatIdInUrl(chatId: number) {
     const full = this.location.path(true);
-    // Separate hash first to ensure correct order: path[?query][#hash]
     let pathAndQuery = full;
     let hash = '';
     const hashIdx = full.indexOf('#');
