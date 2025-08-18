@@ -5,6 +5,7 @@ import { ChatListItem, ChatDto, MessageDto, ChatMessageView, ClientInfoData } fr
 import { buildName, formatTimeOrDate, normalizeViewingStatus, toTime } from '../utils/chat-mappers';
 import { Subscription } from 'rxjs';
 import { TelegramSocketService } from '../service/chats/telegram-socket.service';
+import { Location } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class ChatFacade {
@@ -20,6 +21,7 @@ export class ChatFacade {
   readonly page = signal(0);
   readonly totalPages = signal(1);
   readonly pageSize = 20;
+  private readonly location = inject(Location);
 
   readonly filteredChats = computed(() => {
     const q = this.searchId().trim();
@@ -139,6 +141,20 @@ export class ChatFacade {
       error: () => this.isLoading.set(false)
     });
   }
+  private updateChatIdInUrl(chatId: number) {
+    const currentPath = this.location.path(true);
+    const [pathOnly, queryAndHash = ''] = currentPath.split('?');
+    const [queryOnly, hash = ''] = queryAndHash.split('#');
+
+    const params = new URLSearchParams(queryOnly || '');
+    params.set('chatId', String(chatId));
+
+    const newQuery = params.toString();
+    const newHash = hash ? `#${hash}` : '';
+    const newPath = newQuery ? `${pathOnly}?${newQuery}${newHash}` : `${pathOnly}${newHash}`;
+
+    this.location.replaceState(newPath);
+  }
 
   selectChat(chat: ChatListItem) {
     if (this.currentChatId === chat.chatInternalId) {
@@ -154,6 +170,7 @@ export class ChatFacade {
     this.selectedChat.set(chat);
     this.clientInfoVisible.set(false);
     this.clientInfoData.set(null);
+    this.updateChatIdInUrl(chat.chatInternalId);
 
     this.messagesSub = this.socket.subscribeToMessages(chat.chatInternalId).subscribe((m) => {
       const norm = normalizeViewingStatus(m.messageViewingStatus);
@@ -268,15 +285,16 @@ export class ChatFacade {
     if (visible && sel) {
       this.clientInfoData.set(null);
       this.api.getLastOrder(sel.chatInternalId).subscribe({
-        next: (res) => this.clientInfoData.set(res),
+        next: (res) => this.clientInfoData.set({ ...res, chatId: sel.chatInternalId } as any),
         error: (err: { status?: number }) => {
           const key = err?.status === 404 ? 'client-panel.no-orders' : 'client-panel.error';
-          this.clientInfoData.set({ error: key } as any);
+          this.clientInfoData.set({ error: key, chatId: sel.chatInternalId } as any);
           console.error('Failed to load client info:', err);
         }
       });
     }
   }
+
   private ensureTileSocket(chatId: number) {
     if (this.tileSubs.has(chatId)) {
       return;
