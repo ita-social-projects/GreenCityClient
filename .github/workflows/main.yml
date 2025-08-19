@@ -58,6 +58,9 @@ jobs:
       - name: CSS Linter
         run: npm run stylelint
 
+      - name: Build Environments
+        run: node set-env.js
+
       - name: Unit Tests
         run: npx ng test --watch=false --progress=false --code-coverage=true --browsers=ChromeHeadless
 
