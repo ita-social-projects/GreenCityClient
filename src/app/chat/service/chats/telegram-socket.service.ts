@@ -46,13 +46,6 @@ export class TelegramSocketService implements OnDestroy {
     return subject.asObservable();
   }
 
-  unsubscribeFromChat(chatId: number): void {
-    this.chatSubscriptions.get(chatId)?.unsubscribe();
-    this.chatSubscriptions.delete(chatId);
-    this.chatSubjects.get(chatId)?.complete();
-    this.chatSubjects.delete(chatId);
-  }
-
   ngOnDestroy(): void {
     try {
       this.newChatsSubscription?.unsubscribe();

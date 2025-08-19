@@ -3,6 +3,7 @@ import { NgZone } from '@angular/core';
 import { TelegramSocketService } from './telegram-socket.service';
 import { IMessage } from '@stomp/stompjs';
 import { Subject } from 'rxjs';
+import { Client, IFrame } from '@stomp/stompjs';
 
 class FakeStompClient {
   onConnect?: (frame: any) => void;
@@ -404,5 +405,214 @@ describe('TelegramSocketService - ngOnDestroy Coverage', () => {
       expect((service as any).chatSubscriptions.size).toBe(0);
       expect((service as any).chatSubjects.size).toBe(0);
     });
+  });
+});
+
+class FakeStompClientFull {
+  onConnect?: (frame: any) => void;
+  onStompError?: (f: any) => void;
+  onWebSocketError?: (e: any) => void;
+  onWebSocketClose?: (e: any) => void;
+  connectHeaders: any = {};
+  subscriptions = new Map<string, (msg: IMessage) => void>();
+  activate = jasmine.createSpy('activate');
+  deactivate = jasmine.createSpy('deactivate');
+
+  subscribe(destination: string, callback: (msg: IMessage) => void) {
+    this.subscriptions.set(destination, callback);
+    return { unsubscribe: jasmine.createSpy('unsubscribe') };
+  }
+
+  emit(destination: string, body: any) {
+    const cb = this.subscriptions.get(destination);
+    if (cb) {
+      cb({ body: JSON.stringify(body), headers: {} } as IMessage);
+    }
+  }
+
+  emitRaw(destination: string, rawBody: string) {
+    const cb = this.subscriptions.get(destination);
+    if (cb) {
+      cb({ body: rawBody, headers: {} } as IMessage);
+    }
+  }
+}
+
+describe('TelegramSocketService – isSocketNewChat()', () => {
+  let svc: TelegramSocketService;
+
+  beforeEach(() => {
+    spyOn(TelegramSocketService.prototype as any, 'initSocket').and.callFake(() => {});
+    TestBed.configureTestingModule({
+      providers: [TelegramSocketService, { provide: NgZone, useFactory: () => new NgZone({ enableLongStackTrace: false }) }]
+    });
+    svc = TestBed.inject(TelegramSocketService);
+  });
+
+  it('rejects null/undefined/non-object', () => {
+    expect((svc as any).isSocketNewChat(null)).toBeFalse();
+    expect((svc as any).isSocketNewChat(undefined)).toBeFalse();
+    expect((svc as any).isSocketNewChat(42)).toBeFalse();
+    expect((svc as any).isSocketNewChat('x')).toBeFalse();
+    expect((svc as any).isSocketNewChat([])).toBeFalse();
+  });
+
+  it('rejects object without id/internalId/chatInternalId or without chatId', () => {
+    expect((svc as any).isSocketNewChat({})).toBeFalse();
+    expect((svc as any).isSocketNewChat({ id: '1', chatId: 10 })).toBeFalse();
+    expect((svc as any).isSocketNewChat({ id: 1 })).toBeFalse();
+    expect((svc as any).isSocketNewChat({ internalId: 7 })).toBeFalse();
+  });
+
+  it('accepts with numeric id + string chatId', () => {
+    expect((svc as any).isSocketNewChat({ id: 1, chatId: '77' })).toBeTrue();
+  });
+
+  it('accepts with numeric chatInternalId + numeric chatId', () => {
+    expect((svc as any).isSocketNewChat({ chatInternalId: 99, chatId: 123 })).toBeTrue();
+  });
+
+  it('accepts with numeric internalId + string chatId', () => {
+    expect((svc as any).isSocketNewChat({ internalId: 5, chatId: 'tg-1' })).toBeTrue();
+  });
+});
+
+describe('TelegramSocketService – subscribeToNewChatsCore()', () => {
+  let svc: TelegramSocketService;
+  let zone: NgZone;
+  let client: FakeStompClientFull;
+
+  beforeEach(() => {
+    spyOn(TelegramSocketService.prototype as any, 'initSocket').and.callFake(() => {});
+    TestBed.configureTestingModule({
+      providers: [TelegramSocketService, { provide: NgZone, useFactory: () => new NgZone({ enableLongStackTrace: false }) }]
+    });
+    svc = TestBed.inject(TelegramSocketService);
+    zone = TestBed.inject(NgZone);
+
+    client = new FakeStompClientFull();
+    (svc as any).stompClient = client;
+  });
+
+  it('emits valid payloads via zone.run and unsubscribes previous sub', () => {
+    const runSpy = spyOn(zone, 'run').and.callFake((fn: any) => fn());
+    (svc as any).newChatsSubscription = { unsubscribe: jasmine.createSpy('prevUnsub') };
+
+    const nextSpy = jasmine.createSpy('nextSpy');
+    (svc as any).newChatsSubject.subscribe(nextSpy);
+
+    (svc as any).subscribeToNewChatsCore();
+    expect((svc as any).newChatsSubscription).toBeDefined();
+    expect((svc as any).newChatsSubscription.unsubscribe).not.toBeUndefined();
+    expect(((svc as any).newChatsSubscription as any).unsubscribe).not.toEqual(jasmine.createSpy('prevUnsub'));
+    client.emit('/topic/chats', { id: 1, chatId: '777' });
+
+    expect(runSpy).toHaveBeenCalled();
+    expect(nextSpy).toHaveBeenCalledWith(jasmine.objectContaining({ id: 1, chatId: '777' }));
+  });
+
+  it('logs on invalid payload shape', () => {
+    spyOn(console, 'error');
+    (svc as any).subscribeToNewChatsCore();
+    client.emit('/topic/chats', { id: 'not-a-number', chatId: null });
+    expect(console.error).toHaveBeenCalledWith('[/topic/chats] payload shape invalid', jasmine.any(Object));
+  });
+
+  it('logs on JSON parse error', () => {
+    spyOn(console, 'error');
+    (svc as any).subscribeToNewChatsCore();
+    client.emitRaw('/topic/chats', '{bad json');
+    expect((console.error as jasmine.Spy).calls.mostRecent().args[0]).toBe('[PARSE /topic/chats]');
+  });
+});
+
+describe('TelegramSocketService – initSocket()', () => {
+  let svc: TelegramSocketService;
+  let client: Client;
+
+  beforeEach(() => {
+    spyOn(Client.prototype, 'activate').and.stub();
+
+    spyOn(localStorage, 'getItem').and.returnValue('abc-token');
+
+    TestBed.configureTestingModule({
+      providers: [TelegramSocketService, { provide: NgZone, useFactory: () => new NgZone({ enableLongStackTrace: false }) }]
+    });
+
+    svc = TestBed.inject(TelegramSocketService);
+    client = (svc as any).stompClient as Client;
+  });
+
+  it('constructs Client with expected options and calls activate()', () => {
+    expect(client).toBeTruthy();
+    expect(typeof (client as any).webSocketFactory).toBe('function');
+    expect((client as any).reconnectDelay).toBe(2000);
+    expect((client as any).heartbeatIncoming).toBe(10000);
+    expect((client as any).heartbeatOutgoing).toBe(10000);
+
+    expect((client as any).connectHeaders).toEqual({ Authorization: 'Bearer abc-token' });
+
+    expect(Client.prototype.activate).toHaveBeenCalledTimes(1);
+  });
+
+  it('onConnect: flips connected=true, subscribes to new chats, and re-binds existing chat subscriptions', () => {
+    const subNewSpy = spyOn(svc as any, 'subscribeToNewChatsCore').and.stub();
+    const bindSpy = spyOn(svc as any, 'bindChatSubscription').and.stub();
+
+    (svc as any).chatSubjects.set(101, new Subject());
+    (svc as any).chatSubscriptions.set(101, null);
+
+    (client as any).onConnect?.({} as IFrame);
+
+    expect((svc as any).connected).toBeTrue();
+    expect(subNewSpy).toHaveBeenCalledTimes(1);
+    expect(bindSpy).toHaveBeenCalledWith(101);
+  });
+
+  it('onStompError: logs error with message and body', () => {
+    const logSpy = spyOn(console, 'error');
+    (client as any).onStompError?.({ headers: { message: 'boom' }, body: 'trace' } as unknown as IFrame);
+    expect(logSpy).toHaveBeenCalledWith('[STOMP ERROR]', 'boom', 'trace');
+  });
+
+  it('onWebSocketError: logs the error object', () => {
+    const logSpy = spyOn(console, 'error');
+    const err = new Error('ws down');
+    (client as any).onWebSocketError?.(err);
+    expect(logSpy).toHaveBeenCalledWith('[STOMP onWebSocketError]', err);
+  });
+
+  it('onWebSocketClose: unsubscribes all, nulls newChatsSubscription, refreshes headers, connected=false', () => {
+    const unsub1 = jasmine.createSpy('unsub1');
+    const unsub2 = jasmine.createSpy('unsub2');
+
+    (svc as any).chatSubscriptions.set(1, { unsubscribe: unsub1 });
+    (svc as any).chatSubscriptions.set(2, { unsubscribe: unsub2 });
+    (svc as any).newChatsSubscription = { unsubscribe: jasmine.createSpy('unsubNew') };
+    (svc as any).connected = true;
+
+    (localStorage.getItem as jasmine.Spy).and.returnValue('refreshed-token');
+
+    (client as any).onWebSocketClose?.({});
+
+    expect(unsub1).toHaveBeenCalled();
+    expect(unsub2).toHaveBeenCalled();
+    expect((svc as any).chatSubscriptions.get(1)).toBeNull();
+    expect((svc as any).chatSubscriptions.get(2)).toBeNull();
+
+    expect((svc as any).newChatsSubscription).toBeNull();
+    expect((svc as any).connected).toBeFalse();
+
+    expect((client as any).connectHeaders).toEqual({ Authorization: 'Bearer refreshed-token' });
+  });
+
+  it('onWebSocketClose: tolerates null subscriptions without throwing', () => {
+    (svc as any).chatSubscriptions.set(1, null);
+    (svc as any).newChatsSubscription = null;
+    (svc as any).connected = true;
+
+    expect(() => (client as any).onWebSocketClose?.({})).not.toThrow();
+    expect((svc as any).connected).toBeFalse();
+    expect((svc as any).chatSubscriptions.get(1)).toBeNull();
   });
 });
