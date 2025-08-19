@@ -71,7 +71,11 @@
     <div>
       <p class="field-label">{{ 'ubs-notifications.settings-popup.labels.schedule' | translate }}</p>
       <div class="field-wrapper">
-        <div class="select-schedule-trigger" [matMenuTriggerFor]="selectSchedule" #menuTrigger="matMenuTrigger">
+        <div
+          class="select-schedule-trigger"
+          [matMenuTriggerFor]="!data.scheduleUpdateForbidden && selectSchedule"
+          #menuTrigger="matMenuTrigger"
+        >
           <input
             class="select-schedule"
             type="text"
@@ -79,9 +83,13 @@
             matInput
             [value]="schedule | cron: lang"
             readonly
+            [disabled]="data.scheduleUpdateForbidden"
           />
           <img class="gear-icon" [src]="icons.gear" alt="" />
         </div>
+        <p class="disabled-field-message" *ngIf="data.scheduleUpdateForbidden">
+          {{ 'ubs-notifications.settings-popup.errors.changeForbidden' | translate }}
+        </p>
       </div>
       <mat-menu class="cron-picker-overlay" #selectSchedule="matMenu">
         <app-cron-picker
