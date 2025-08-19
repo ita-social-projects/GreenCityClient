@@ -2,16 +2,17 @@ name: CI/CD GreenCityClient
 
 # Controls when the action will run.
 on:
-  permissions:
-    contents: read
-    checks: write
-    pull-requests: write
   # Triggers the workflow on push or pull request events but only for the dev branch
   push:
     branches: [prod-branch, dev]
   pull_request:
     branches: [prod-branch, dev]
   workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
 
 env:
   repository: client
