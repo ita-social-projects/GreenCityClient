@@ -73,7 +73,8 @@
       <div class="field-wrapper">
         <div
           class="select-schedule-trigger"
-          [matMenuTriggerFor]="!data.scheduleUpdateForbidden && selectSchedule"
+          [matMenuTriggerFor]="data.scheduleUpdateForbidden ? null : selectSchedule"
+          [attr.aria-disabled]="data.scheduleUpdateForbidden"
           #menuTrigger="matMenuTrigger"
         >
           <input

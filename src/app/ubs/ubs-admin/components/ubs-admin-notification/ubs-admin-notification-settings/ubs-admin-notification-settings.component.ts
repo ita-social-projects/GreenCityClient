@@ -27,7 +27,13 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
   constructor(
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA)
-    public data: { title: { en: string; ua: string }; trigger: string; time: string; schedule: string; scheduleUpdateForbidden: boolean },
+    public data: {
+      title: { en: string; ua: string };
+      trigger: string;
+      time: string;
+      schedule: string | null;
+      scheduleUpdateForbidden: boolean;
+    },
     public dialogRef: MatDialogRef<UbsAdminNotificationSettingsComponent>,
     private localStorageService: LocalStorageService
   ) {
