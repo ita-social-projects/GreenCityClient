@@ -1,4 +1,4 @@
-import { NotificationPage, NotificationTemplate, Platform } from '../models/notifications.model';
+import { NotificationTemplate, Platform } from '../models/notifications.model';
 
 export const platformSuccessfulMock: Platform[] = [
   {

@@ -1,23 +1,21 @@
 import { Location } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
 import { UbsAdminNotificationComponent } from './ubs-admin-notification.component';
-import { NotificationMock } from '../../services/notificationsMock';
+import { NotificationMock } from '../../services/notifications.mock';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
-import { UbsAdminNotificationEditFormComponent } from '@ubs/ubs-admin/components/ubs-admin-notification/ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 import { formatUnixCron } from '@ubs/ubs-admin/services/cron/cron.service';
-import { ConfirmationDialogComponent } from '@ubs/ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -34,6 +32,8 @@ describe('UbsAdminNotificationComponent', () => {
   let component: UbsAdminNotificationComponent;
   let fixture: ComponentFixture<UbsAdminNotificationComponent>;
   let notificationsService: NotificationsService;
+  let store: Store;
+
   const initialState = {
     employees: null,
     error: null,
@@ -41,6 +41,7 @@ describe('UbsAdminNotificationComponent', () => {
   };
 
   const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
+
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
 
@@ -96,6 +97,8 @@ describe('UbsAdminNotificationComponent', () => {
     component = fixture.componentInstance;
     component.notification = NotificationMock;
     notificationsService = TestBed.inject(NotificationsService);
+    store = TestBed.inject(Store);
+    // Initial call to ngOnInit is done here. For permission tests, we will call it again after mocking the store.
     component.ngOnInit();
     fixture.detectChanges();
   });
@@ -271,5 +274,36 @@ describe('UbsAdminNotificationComponent', () => {
     expect(dialogMock.open).toHaveBeenCalled();
     expect(notificationsService.changeStatusOfNotificationTemplate).not.toHaveBeenCalled();
     expect(component.notification.notificationTemplateMainInfoDto.notificationStatus).toBe(initialStatus);
+  });
+
+  it('should navigate to notification list when onDeactivateNotification is confirmed', () => {
+    const navigateSpy = spyOn(routerMock, 'navigate');
+    spyOn(dialogMock, 'open').and.returnValue({
+      afterClosed: () => of(true)
+    });
+    component.onDeactivateNotification();
+    expect(navigateSpy).toHaveBeenCalled();
+  });
+
+  it('should not navigate to notification list if onDeactivateNotification is cancelled', () => {
+    const navigateSpy = spyOn(routerMock, 'navigate');
+    spyOn(dialogMock, 'open').and.returnValue({
+      afterClosed: () => of(false)
+    });
+    component.onDeactivateNotification();
+    expect(navigateSpy).not.toHaveBeenCalled();
+  });
+
+  it('should call navigateToNotificationList on loadNotification error', () => {
+    spyOn(notificationsService, 'getNotificationTemplate').and.returnValue(throwError('error'));
+    const navigateSpy = spyOn(component, 'navigateToNotificationList');
+    component.loadNotification(1);
+    expect(navigateSpy).toHaveBeenCalled();
+  });
+
+  it('should correctly map notification data for update', () => {
+    const mappedNotification = component.mapNotification(component.notification);
+    expect(mappedNotification.notificationTemplateUpdateInfo.titleUk).toBe(component.notification.notificationTemplateMainInfoDto.titleUk);
+    expect(mappedNotification.platforms.length).toBe(component.notification.platforms.length);
   });
 });
