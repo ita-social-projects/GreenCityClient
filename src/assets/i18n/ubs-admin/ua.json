@@ -1122,6 +1122,9 @@
       "buttons": {
         "cancel": "Скасувати",
         "change": "Змінити"
+      },
+      "errors": {
+        "changeForbidden": "Поле не може бути змінено"
       }
     },
     "text-editing-popup": {

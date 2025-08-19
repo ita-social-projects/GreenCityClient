@@ -1124,6 +1124,9 @@
       "buttons": {
         "cancel": "Cancel",
         "change": "Change"
+      },
+      "errors": {
+        "changeForbidden": "The field can not be changed"
       }
     },
     "text-editing-popup": {
