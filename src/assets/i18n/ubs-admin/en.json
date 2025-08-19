@@ -326,7 +326,7 @@
     "order-sum": "Order cost",
     "certificate": "Certificate",
     "bonuses": "Used bonuses",
-    "bonuses-value": "{{bonusesValue}} UAH is the amount of overpayment returned to the client as bonuses",
+    "bonuses-value": "{{bonusesValue}} is the amount of overpayment returned to the client as bonuses",
     "paid": "Paid",
     "not-enough-bags": "The number of packages does not meet the minimum order rule. Specify the amount of the charge for non-compliance with the minimum order in the 'UBS Courier' field",
     "sum-to-pay": "Amount to be paid",
@@ -637,7 +637,11 @@
     "delete-message-confirm": "Yes",
     "delete-message-cancel": "No",
     "active-chat-placeholder": "Enter your message",
-    "attach-file": "Attach e file"
+    "attach-file": "Attach a file",
+    "status": {
+      "READ": "Read",
+      "UNREAD": "Unread"
+    }
   },
   "ubs-employee": {
     "add-employee": "Add employee",
@@ -1333,6 +1337,7 @@
     "amount-before-payment": "Amount due",
     "paid-amount": "Amount paid",
     "order-full-price": "Total amount",
+    "chat-id": "Chat ID",
     "bags-title": "Bags",
     "service": "Service",
     "capacity": "Capacity",

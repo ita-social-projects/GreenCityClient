@@ -19,7 +19,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { Subject, fromEvent } from 'rxjs';
 import { debounceTime, filter, takeUntil, tap } from 'rxjs/operators';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { CHAT_ICONS } from 'src/app/chat/chat-icons';
 import { insertEmoji } from '../add-emoji/add-emoji';
 import { Patterns } from '@assets/patterns/patterns';
 
@@ -29,7 +28,6 @@ import { Patterns } from '@assets/patterns/patterns';
   styleUrls: ['./comment-textarea.component.scss']
 })
 export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-  chatIcons = CHAT_ICONS;
   private userId: number;
   private searchQuery = '';
   private lastTagCharIndex: number;

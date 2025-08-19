@@ -325,7 +325,7 @@
     "order-sum": "Сума замовлення",
     "certificate": "Сертифікат",
     "bonuses": "Використані бонуси",
-    "bonuses-value": "Переплата в розмірі {{bonusesValue}} грн повернена на Ваш бонусний рахунок",
+    "bonuses-value": "Переплата в розмірі {{bonusesValue}} повернена на Ваш бонусний рахунок",
     "paid": "Сплачено",
     "not-enough-bags": "Кількість пакетів не відповідає правилу мінімального замовлення. Вкажіть розмір стягнення за недотримання мінімального замовлення у полі 'УБС кур’єр'",
     "sum-to-pay": "Сума до оплати",
@@ -635,7 +635,11 @@
     "delete-message-confirm": "Так",
     "delete-message-cancel": "Ні",
     "active-chat-placeholder": "Введіть ваше повідомлення",
-    "attach-file": "Прикріпити файл"
+    "attach-file": "Прикріпити файл",
+    "status": {
+      "READ": "Прочитано",
+      "UNREAD": "Не прочитано"
+    }
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
@@ -1331,6 +1335,7 @@
     "amount-before-payment": "Сума до сплати",
     "paid-amount": "Сума оплачено",
     "order-full-price": "Загальна сума",
+    "chat-id": "ID чату",
     "bags-title": "Пакети",
     "service": "Послуга",
     "capacity": "Обʼєм",

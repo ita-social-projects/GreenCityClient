@@ -16,6 +16,7 @@
             formControlName="region"
             [autoCompRequest]="regionOptions"
             [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_region' | translate"
+            [blockAutoComplete]="blockAutocomplete"
             (predictionSelected)="onRegionSelected($event)"
           ></app-input-google-autocomplete>
           <div *ngIf="data.edit">
@@ -95,6 +96,7 @@
             [requestPrefix]="region.value + ', ' + langService.getLangValue('місто ', 'city ')"
             (keyup.enter)="data.edit ? addEditedCity() : addCity()"
             (predictionSelected)="onCitySelected($event)"
+            [blockAutoComplete]="blockAutocomplete"
           >
           </app-input-google-autocomplete>
           <img *ngIf="location.value" [src]="icons.cross" class="cross-img" alt="close-icon" (click)="onClearCity()" />

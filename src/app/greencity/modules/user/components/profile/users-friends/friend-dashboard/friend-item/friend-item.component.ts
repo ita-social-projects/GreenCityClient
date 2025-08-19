@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FriendModel, UserDashboardTab, UserDataAsFriend } from 'src/app/greencity/modules/user/models/friend.model';
-import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { UserLocationDto } from 'src/app/greencity/modules/user/models/edit-profile.model';
@@ -27,8 +26,7 @@ export class FriendItemComponent implements OnInit {
     private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
-    private userOnlineStatusService: UserOnlineStatusService,
-    private socketService: SocketService
+    private readonly userOnlineStatusService: UserOnlineStatusService
   ) {
     this.userId = +this.route.snapshot.params.userId;
   }
@@ -36,12 +34,6 @@ export class FriendItemComponent implements OnInit {
   ngOnInit() {
     const { id, friendStatus, requesterId, chatId } = this.friend;
     this.userDataAsFriend = { id, friendStatus, requesterId, chatId };
-    this.socketService.updateFriendsChatsStream$.subscribe((chatInfo) => {
-      if (this.friend.id === chatInfo.friendId) {
-        this.friend.chatId = chatInfo.chatId;
-        this.userDataAsFriend.chatId = chatInfo.chatId;
-      }
-    });
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.currentUserId = id;
     });

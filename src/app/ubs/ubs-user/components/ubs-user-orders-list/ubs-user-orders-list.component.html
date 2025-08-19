@@ -11,7 +11,7 @@
 </div>
 <mat-accordion multi="false">
   <div *ngFor="let order of orders">
-    <mat-expansion-panel>
+    <mat-expansion-panel class="custom-panel">
       <mat-expansion-panel-header [collapsedHeight]="'none'" [expandedHeight]="'none'">
         <div class="mat-content-wrapper" (click)="changeCard(order.id)" [id]="order.id">
           <div class="mobile_list">

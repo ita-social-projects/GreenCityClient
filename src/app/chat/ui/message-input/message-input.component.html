@@ -1,0 +1,28 @@
+<div class="message-input-container">
+  <div class="message-input-wrapper">
+    <label class="message-input-wrapper-label">
+      <input
+        type="text"
+        id="text-input-message"
+        [placeholder]="'chat.active-chat-placeholder' | translate"
+        [(ngModel)]="text"
+        (keyup.enter)="send()"
+        [attr.aria-label]="'chat.active-chat-placeholder' | translate"
+        autocomplete="off"
+      />
+    </label>
+    <button class="send-message-button" (click)="send()" aria-label="Send message">
+      <svg width="30" height="30" viewBox="0 0 24 24">
+        <path d="M4 12L20 4L16 12L20 20L4 12Z" fill="currentColor" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="file-attach">
+    <label class="file-label">
+      <input type="file" (change)="onFileSelected($event)" hidden />
+      <span>{{ 'chat.attach-file' | translate }}</span>
+    </label>
+    <div class="file-name" *ngIf="file">{{ file.name }}</div>
+  </div>
+</div>

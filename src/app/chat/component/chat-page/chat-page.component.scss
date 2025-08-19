@@ -1,23 +1,27 @@
 .chat-page-inner {
   display: flex;
   height: 100vh;
-  width: 100%;
   overflow: hidden;
-  font-family: Inter, sans-serif;
 }
 
 .chat-sidebar {
-  width: 320px;
-  min-width: 250px;
-  max-width: 400px;
+  min-width: 450px;
+  max-width: 700px;
   border-right: 1px solid var(--quaternary-light-grey);
-  background: var(--primary-light-grey);
-  padding: 1rem;
+  height: 100vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
+  background: var(--primary-light-grey);
+  list-style: none;
+}
+
+.infinite-scroll-anchor {
+  height: 1px;
 }
 
 .search-bar {
+  padding: 1rem;
   margin-bottom: 1rem;
 
   input {
@@ -49,6 +53,7 @@
   align-items: center;
   padding: 0.75rem;
   border-radius: 8px;
+  gap: 30px;
   cursor: pointer;
   transition: background 0.2s ease;
 
@@ -63,6 +68,8 @@
   .avatar {
     width: 40px;
     height: 40px;
+    flex: 0 0 40px;
+    flex-shrink: 0;
     background-color: var(--quaternary-light-grey);
     color: var(--tertiary-dark-grey);
     border-radius: 50%;
@@ -70,13 +77,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 0.75rem;
+    margin-right: 0;
   }
 
   .chat-details {
-    flex: 1;
+    flex: 1 1 auto;
 
     .chat-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       font-weight: 600;
       font-size: 14px;
       color: var(--secondary-dark-grey);
@@ -139,9 +149,10 @@
   overflow-y: auto;
   padding-right: 0.5rem;
   display: flex;
-  height: 60vh;
   flex-direction: column;
   gap: 0.5rem;
+  height: 60vh;
+  padding-bottom: 0.5rem;
 }
 
 .message-input-wrapper {
@@ -268,4 +279,50 @@
     font-size: 13px;
     color: var(--quaternary-dark-grey);
   }
+}
+
+.last-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-badge {
+  padding: 0 0.4rem;
+  border-radius: 0.4rem;
+  font-size: 12px;
+  background: var(--quaternary-light-green, #eef8ef);
+}
+
+.timestamp {
+  font-size: 12px;
+  color: var(--quintynary-light-grey);
+}
+
+.status-ticks {
+  font-size: 12px;
+  line-height: 1;
+  display: inline-block;
+}
+
+.status-ticks.read {
+  color: #4da6ff;
+}
+
+.meta {
+  margin-left: 10px;
+}
+
+.tick-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+.read-tick-icon {
+  width: 20px;
+  height: 10px;
+  vertical-align: middle;
+  margin-left: 4px;
 }
