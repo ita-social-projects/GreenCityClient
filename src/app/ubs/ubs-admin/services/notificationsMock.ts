@@ -1,4 +1,4 @@
-import { NotificationTemplate, Platform } from '../models/notifications.model';
+import { NotificationPage, NotificationTemplate, Platform } from '../models/notifications.model';
 
 export const platformSuccessfulMock: Platform[] = [
   {
@@ -66,7 +66,8 @@ export const NotificationMock: NotificationTemplate = {
     schedule: '0 0 18 * * ?',
     titleUk: 'Неоплачене замовлення',
     titleEn: 'Unpaid order',
-    notificationStatus: 'ACTIVE'
+    notificationStatus: 'ACTIVE',
+    scheduleUpdateForbidden: false
   },
   platforms: platformUnpaidMock
 };
@@ -88,7 +89,8 @@ export const NotificationTemplatesMock = [
       schedule: '27 14 4,7,16 * *',
       titleUk: 'Неоплачене замовлення',
       titleEn: 'Unpaid order',
-      notificationStatus: 'ACTIVE'
+      notificationStatus: 'ACTIVE',
+      scheduleUpdateForbidden: false
     },
     platforms: platformUnpaidMock
   },
@@ -105,7 +107,8 @@ export const NotificationTemplatesMock = [
       schedule: null,
       titleUk: 'Оплата пройшла успішно',
       titleEn: 'The payment was successful',
-      notificationStatus: 'ACTIVE'
+      notificationStatus: 'ACTIVE',
+      scheduleUpdateForbidden: false
     },
     platforms: platformSuccessfulMock
   },
@@ -122,7 +125,8 @@ export const NotificationTemplatesMock = [
       schedule: null,
       titleUk: 'Маршрут сформовано',
       titleEn: 'The courier route formed',
-      notificationStatus: 'ACTIVE'
+      notificationStatus: 'ACTIVE',
+      scheduleUpdateForbidden: false
     },
     platforms: platformSuccessfulMock
   },
@@ -139,7 +143,8 @@ export const NotificationTemplatesMock = [
       schedule: null,
       titleUk: 'Оплатіть різницю у замовлені',
       titleEn: 'Pay the change in the order',
-      notificationStatus: 'ACTIVE'
+      notificationStatus: 'ACTIVE',
+      scheduleUpdateForbidden: false
     },
     platforms: platformSuccessfulMock
   },
@@ -156,7 +161,8 @@ export const NotificationTemplatesMock = [
       schedule: null,
       titleUk: 'Нараховано бонуси',
       titleEn: 'Accrued bonuses to the account',
-      notificationStatus: 'ACTIVE'
+      notificationStatus: 'ACTIVE',
+      scheduleUpdateForbidden: false
     },
     platforms: platformSuccessfulMock
   },
@@ -173,7 +179,8 @@ export const NotificationTemplatesMock = [
       schedule: null,
       titleUk: 'Недотримання правил',
       titleEn: 'Violation of the rules',
-      notificationStatus: 'INACTIVE'
+      notificationStatus: 'INACTIVE',
+      scheduleUpdateForbidden: false
     },
     platforms: platformSuccessfulMock
   },
@@ -190,7 +197,8 @@ export const NotificationTemplatesMock = [
       schedule: null,
       titleUk: 'Відміна порушення правил',
       titleEn: 'Cancellation of violation of sorting rules',
-      notificationStatus: 'ACTIVE'
+      notificationStatus: 'ACTIVE',
+      scheduleUpdateForbidden: false
     },
     platforms: platformSuccessfulMock
   },
@@ -207,7 +215,8 @@ export const NotificationTemplatesMock = [
       schedule: null,
       titleUk: 'Зміни в порушеннях правил сортування',
       titleEn: 'Changes in violations of sorting rules',
-      notificationStatus: 'ACTIVE'
+      notificationStatus: 'ACTIVE',
+      scheduleUpdateForbidden: false
     },
     platforms: platformSuccessfulMock
   },
@@ -224,7 +233,8 @@ export const NotificationTemplatesMock = [
       schedule: null,
       titleUk: `Давайте залишатися на зв'язку`,
       titleEn: `Let's stay connected`,
-      notificationStatus: 'INACTIVE'
+      notificationStatus: 'INACTIVE',
+      scheduleUpdateForbidden: false
     },
     platforms: platformSuccessfulMock
   }
