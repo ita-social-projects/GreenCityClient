@@ -3,7 +3,7 @@ export const environment = {
   enableUBS: true,
   enableGreenCity: true,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
-  apiMapKey: 'AIzaSyDaqjlemyxH1pLvF1EWfBDW2IPlgwJYXnU',
+  apiMapKey: 'AIzaSyAUswsGJSIw2Z_SJ18xx7zsguZnaVfEdUo',
   backendLink: 'http://localhost:8085/',
   backendChatLink: 'http://localhost:8085/',
   backendUserLink: 'http://localhost:8065/',
