@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { NotificationsService } from './notifications.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { NotificationTemplatesMock, NotificationMock } from './notificationsMock';
+import { NotificationTemplatesMock, NotificationMock } from './notifications.mock';
 import { ubsAdminNotificationLink } from 'src/app/main/links';
 
 describe('NotificationsService', () => {
