@@ -83,9 +83,11 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   signInWithGoogle(): void {
     this.jwtService.setAuthenticating(true); // Початок автентифікації
+    console.log('Google login initiated');
     const login = googleProvider.useGoogleLogin({
       flow: 'implicit',
       onSuccess: (res) => {
+        console.log('Google login successful', res);
         this.store.dispatch(SignInWithGoogleAction({ token: res.access_token, isUBS: this.isUbs }));
         this.jwtService.setAuthenticating(false); // Успішна автентифікація
       },
