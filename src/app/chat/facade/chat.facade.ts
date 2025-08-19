@@ -1,10 +1,11 @@
 import { Injectable, DestroyRef, inject, signal, computed } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChatApiService } from '../data/chat-api.service';
-import { ChatListItem, ChatDto, MessageDto, ChatMessageView, ClientInfoData } from '../model/chat-page.interface';
+import { ChatListItem, ChatDto, MessageDto, ChatMessageView, ClientInfoData, SocketNewChat } from '../model/chat-page.interface';
 import { buildName, formatTimeOrDate, normalizeViewingStatus, toTime } from '../utils/chat-mappers';
 import { Subscription } from 'rxjs';
 import { TelegramSocketService } from '../service/chats/telegram-socket.service';
+import { Location } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class ChatFacade {
@@ -20,6 +21,7 @@ export class ChatFacade {
   readonly page = signal(0);
   readonly totalPages = signal(1);
   readonly pageSize = 20;
+  private readonly location = inject(Location);
 
   readonly filteredChats = computed(() => {
     const q = this.searchId().trim();
@@ -33,6 +35,18 @@ export class ChatFacade {
   private readonly tileSubs = new Map<number, Subscription>();
   private currentChatId?: number;
   private messagesSub?: Subscription;
+  private resolveInternalId(nc: SocketNewChat): number {
+    if ('id' in nc) {
+      return nc.id;
+    }
+    if ('chatInternalId' in nc) {
+      return nc.chatInternalId;
+    }
+    if ('internalId' in nc) {
+      return nc.internalId;
+    }
+    throw new Error('SocketNewChat payload missing internal id.');
+  }
 
   constructor(
     private readonly api: ChatApiService,
@@ -40,10 +54,8 @@ export class ChatFacade {
   ) {
     this.socket.newChats$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((nc) => {
       const internalId = this.resolveInternalId(nc);
-
       const chatIdStr = String(nc.chatId);
       const { fullName, nickname, initial } = buildName(nc.username ?? null, nc.firstName ?? null, nc.lastName ?? null, chatIdStr);
-
       const item: ChatListItem = {
         fullName,
         nickname,
@@ -55,26 +67,12 @@ export class ChatFacade {
         messages: [],
         viewingStatus: normalizeViewingStatus(nc.lastMessage?.messageViewingStatus) || undefined
       };
-
       this.chats.update((arr) => {
         const i = arr.findIndex((c) => c.chatInternalId === internalId);
         return i === -1 ? [item, ...arr] : [item, ...arr.filter((c) => c.chatInternalId !== internalId)];
       });
       this.ensureTileSocket(internalId);
     });
-  }
-
-  private resolveInternalId(nc: any): number {
-    if ('id' in nc) {
-      return nc.id as number;
-    }
-    if ('chatInternalId' in nc) {
-      return nc.chatInternalId as number;
-    }
-    if ('internalId' in nc) {
-      return nc.internalId as number;
-    }
-    throw new Error('SocketNewChat payload missing internal id.');
   }
 
   init(initialSelectedChatId?: number) {
@@ -139,6 +137,24 @@ export class ChatFacade {
       error: () => this.isLoading.set(false)
     });
   }
+  private updateChatIdInUrl(chatId: number) {
+    const full = this.location.path(true);
+    let pathAndQuery = full;
+    let hash = '';
+    const hashIdx = full.indexOf('#');
+    if (hashIdx >= 0) {
+      pathAndQuery = full.slice(0, hashIdx);
+      hash = full.slice(hashIdx);
+    }
+
+    const [pathOnly, queryOnly = ''] = pathAndQuery.split('?');
+    const params = new URLSearchParams(queryOnly);
+    params.set('chatId', String(chatId));
+
+    const newQuery = params.toString();
+    const newPath = newQuery ? `${pathOnly}?${newQuery}${hash}` : `${pathOnly}${hash}`;
+    this.location.replaceState(newPath);
+  }
 
   selectChat(chat: ChatListItem) {
     if (this.currentChatId === chat.chatInternalId) {
@@ -154,6 +170,7 @@ export class ChatFacade {
     this.selectedChat.set(chat);
     this.clientInfoVisible.set(false);
     this.clientInfoData.set(null);
+    this.updateChatIdInUrl(chat.chatInternalId);
 
     this.messagesSub = this.socket.subscribeToMessages(chat.chatInternalId).subscribe((m) => {
       const norm = normalizeViewingStatus(m.messageViewingStatus);
@@ -268,15 +285,16 @@ export class ChatFacade {
     if (visible && sel) {
       this.clientInfoData.set(null);
       this.api.getLastOrder(sel.chatInternalId).subscribe({
-        next: (res) => this.clientInfoData.set(res),
+        next: (res) => this.clientInfoData.set({ ...res, chatId: sel.chatInternalId } as any),
         error: (err: { status?: number }) => {
           const key = err?.status === 404 ? 'client-panel.no-orders' : 'client-panel.error';
-          this.clientInfoData.set({ error: key } as any);
+          this.clientInfoData.set({ error: key, chatId: sel.chatInternalId } as any);
           console.error('Failed to load client info:', err);
         }
       });
     }
   }
+
   private ensureTileSocket(chatId: number) {
     if (this.tileSubs.has(chatId)) {
       return;

@@ -46,13 +46,6 @@ export class TelegramSocketService implements OnDestroy {
     return subject.asObservable();
   }
 
-  unsubscribeFromChat(chatId: number): void {
-    this.chatSubscriptions.get(chatId)?.unsubscribe();
-    this.chatSubscriptions.delete(chatId);
-    this.chatSubjects.get(chatId)?.complete();
-    this.chatSubjects.delete(chatId);
-  }
-
   ngOnDestroy(): void {
     try {
       this.newChatsSubscription?.unsubscribe();
@@ -64,6 +57,15 @@ export class TelegramSocketService implements OnDestroy {
       this.chatSubjects.forEach((s) => s.complete());
       this.chatSubjects.clear();
     }
+  }
+  private isSocketNewChat(p: unknown): p is SocketNewChat {
+    if (!p || typeof p !== 'object') {
+      return false;
+    }
+    const o = p as Record<string, unknown>;
+    const hasOneId = typeof o.id === 'number' || typeof o.chatInternalId === 'number' || typeof o.internalId === 'number';
+    const chatIdOk = typeof o.chatId === 'string' || typeof o.chatId === 'number';
+    return hasOneId && chatIdOk;
   }
 
   private initSocket(): void {
@@ -120,8 +122,12 @@ export class TelegramSocketService implements OnDestroy {
     this.newChatsSubscription?.unsubscribe();
     this.newChatsSubscription = this.stompClient.subscribe('/topic/chats', (msg: IMessage) => {
       try {
-        const payload = JSON.parse(msg.body) as SocketNewChat;
-        this.zone.run(() => this.newChatsSubject.next(payload));
+        const parsed = JSON.parse(msg.body);
+        if (this.isSocketNewChat(parsed)) {
+          this.zone.run(() => this.newChatsSubject.next(parsed));
+        } else {
+          console.error('[/topic/chats] payload shape invalid', parsed);
+        }
       } catch (e) {
         console.error('[PARSE /topic/chats]', e, msg.body);
       }
