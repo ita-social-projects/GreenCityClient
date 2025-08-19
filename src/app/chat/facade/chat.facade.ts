@@ -148,7 +148,7 @@ export class ChatFacade {
     const hashIdx = full.indexOf('#');
     if (hashIdx >= 0) {
       pathAndQuery = full.slice(0, hashIdx);
-      hash = full.slice(hashIdx); // includes '#'
+      hash = full.slice(hashIdx);
     }
 
     const [pathOnly, queryOnly = ''] = pathAndQuery.split('?');
