@@ -49,3 +49,7 @@ Thumbs.db
 
 # Logs
 *.log
+.env.*
+.env
+environment.*
+environment.*.ts
