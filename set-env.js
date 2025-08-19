@@ -27,11 +27,17 @@ const environmentFileContent = `export const environment = {
 };
 `;
 
-const environmentPath = path.resolve(__dirname, `./src/environments/environment${envName ? `.${envName}` : ''}.ts`);
+const environmentsDir = path.resolve(__dirname, './src/environments');
+const environmentPath = path.resolve(environmentsDir, `environment${envName ? `.${envName}` : ''}.ts`);
+
+if (!fs.existsSync(environmentsDir)) {
+  fs.mkdirSync(environmentsDir, { recursive: true });
+}
 
 fs.writeFile(environmentPath, environmentFileContent, (err) => {
   if (err) {
     console.error(err);
+    process.exit(-1);
   }
   console.log(`Successfully generated ${path.basename(environmentPath)}`);
 });
