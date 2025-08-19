@@ -74,24 +74,6 @@ export interface ClientInfoData {
   error?: string;
 }
 
-export interface NewChatEvent {
-  id: number;
-  chatId: string;
-  username?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
-  lastMessage?: MessageDto | null;
-}
-
-export interface MessageEvent {
-  id: number;
-  chatId: number;
-  text: string;
-  sendAt: string;
-  fromManager: boolean;
-  assets?: AssetDto[] | null;
-}
-
 export type ClientInfoRecord = Record<string, unknown>;
 
 export interface UserFromChat {
@@ -99,3 +81,16 @@ export interface UserFromChat {
   firstName: string;
   lastName: string;
 }
+
+export type SocketNewChatBase = {
+  chatId: string | number;
+  username?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  lastMessage?: MessageDto | null;
+};
+
+export type SocketNewChat =
+  | (SocketNewChatBase & { id: number })
+  | (SocketNewChatBase & { chatInternalId: number })
+  | (SocketNewChatBase & { internalId: number });

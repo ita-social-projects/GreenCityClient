@@ -1,7 +1,7 @@
 import { Injectable, DestroyRef, inject, signal, computed } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChatApiService } from '../data/chat-api.service';
-import { ChatListItem, ChatDto, MessageDto, ChatMessageView, ClientInfoData } from '../model/chat-page.interface';
+import { ChatListItem, ChatDto, MessageDto, ChatMessageView, ClientInfoData, SocketNewChat } from '../model/chat-page.interface';
 import { buildName, formatTimeOrDate, normalizeViewingStatus, toTime } from '../utils/chat-mappers';
 import { Subscription } from 'rxjs';
 import { TelegramSocketService } from '../service/chats/telegram-socket.service';
@@ -35,6 +35,18 @@ export class ChatFacade {
   private readonly tileSubs = new Map<number, Subscription>();
   private currentChatId?: number;
   private messagesSub?: Subscription;
+  private resolveInternalId(nc: SocketNewChat): number {
+    if ('id' in nc) {
+      return nc.id;
+    }
+    if ('chatInternalId' in nc) {
+      return nc.chatInternalId;
+    }
+    if ('internalId' in nc) {
+      return nc.internalId;
+    }
+    throw new Error('SocketNewChat payload missing internal id.');
+  }
 
   constructor(
     private readonly api: ChatApiService,
@@ -42,10 +54,8 @@ export class ChatFacade {
   ) {
     this.socket.newChats$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((nc) => {
       const internalId = this.resolveInternalId(nc);
-
       const chatIdStr = String(nc.chatId);
       const { fullName, nickname, initial } = buildName(nc.username ?? null, nc.firstName ?? null, nc.lastName ?? null, chatIdStr);
-
       const item: ChatListItem = {
         fullName,
         nickname,
@@ -57,26 +67,12 @@ export class ChatFacade {
         messages: [],
         viewingStatus: normalizeViewingStatus(nc.lastMessage?.messageViewingStatus) || undefined
       };
-
       this.chats.update((arr) => {
         const i = arr.findIndex((c) => c.chatInternalId === internalId);
         return i === -1 ? [item, ...arr] : [item, ...arr.filter((c) => c.chatInternalId !== internalId)];
       });
       this.ensureTileSocket(internalId);
     });
-  }
-
-  private resolveInternalId(nc: any): number {
-    if ('id' in nc) {
-      return nc.id as number;
-    }
-    if ('chatInternalId' in nc) {
-      return nc.chatInternalId as number;
-    }
-    if ('internalId' in nc) {
-      return nc.internalId as number;
-    }
-    throw new Error('SocketNewChat payload missing internal id.');
   }
 
   init(initialSelectedChatId?: number) {
