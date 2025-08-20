@@ -195,10 +195,6 @@ export class ChatFacade {
           tile.viewingStatus = norm;
         }
       }
-      const unreadIds = (chat.messages ?? [])
-        .filter((m) => m.viewingStatus === 'UNREAD')
-        .map((m: any) => m.id)
-        .filter(Boolean);
 
       this.chats.update((list) => {
         const idx = list.findIndex((c) => c.chatInternalId === current.chatInternalId);
@@ -237,58 +233,67 @@ export class ChatFacade {
   private fetchMessages(chatInternalId: number) {
     const size = 20;
     const collected: MessageDto[] = [];
+    this.loadMessagesRecursive(chatInternalId, 0, size, collected);
+  }
 
-    const load = (page: number) => {
-      this.api.getMessages(chatInternalId, page, size).subscribe({
-        next: (resp) => {
-          const msgs = resp.page ?? [];
-          collected.push(...msgs);
+  private loadMessagesRecursive(chatInternalId: number, page: number, size: number, collected: MessageDto[]) {
+    this.api.getMessages(chatInternalId, page, size).subscribe({
+      next: (resp) => {
+        const msgs = resp.page ?? [];
+        collected.push(...msgs);
 
-          if (page + 1 < resp.totalPages) {
-            load(page + 1);
-          } else {
-            const sel = this.selectedChat();
-            if (!sel) {
-              return;
-            }
+        if (page + 1 < resp.totalPages) {
+          this.loadMessagesRecursive(chatInternalId, page + 1, size, collected);
+          return;
+        }
 
-            const newest = collected[0];
-            sel.viewingStatus = normalizeViewingStatus(newest?.messageViewingStatus) || undefined;
+        this.handleMessagesLoaded(chatInternalId, collected);
+      },
+      error: (e) => console.error('Failed to fetch messages:', e)
+    });
+  }
 
-            sel.messages = collected
-              .map<ChatMessageView>((msg) => ({
-                id: msg.id,
-                from: msg.fromManager ? 'Me' : sel.nickname,
-                text: msg.text,
-                time: formatTimeOrDate(msg.sendAt),
-                images: (msg.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
-                viewingStatus: normalizeViewingStatus(msg.messageViewingStatus)
-              }))
-              .reverse();
+  private handleMessagesLoaded(chatInternalId: number, collected: MessageDto[]) {
+    const sel = this.selectedChat();
+    if (!sel) {
+      return;
+    }
 
-            const unreadIds = sel.messages
-              .filter((m) => m.viewingStatus === 'UNREAD')
-              .map((m) => m.id)
-              .filter(Boolean);
+    const newest = collected[0];
+    sel.viewingStatus = normalizeViewingStatus(newest?.messageViewingStatus) || undefined;
 
-            if (unreadIds.length > 0) {
-              this.api.markMessagesRead(unreadIds).subscribe({
-                next: () => {
-                  this.chats.update((list) =>
-                    list.map((c) =>
-                      c.chatInternalId === sel.chatInternalId ? { ...c, unreadMessagesCount: 0, viewingStatus: 'VIEWED' } : c
-                    )
-                  );
-                },
-                error: (e) => console.error('Failed to mark messages read', e)
-              });
-            }
-          }
-        },
-        error: (e) => console.error('Failed to fetch messages:', e)
-      });
-    };
-    load(0);
+    sel.messages = collected
+      .map<ChatMessageView>((msg) => ({
+        id: msg.id,
+        from: msg.fromManager ? 'Me' : sel.nickname,
+        text: msg.text,
+        time: formatTimeOrDate(msg.sendAt),
+        images: (msg.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
+        viewingStatus: normalizeViewingStatus(msg.messageViewingStatus)
+      }))
+      .reverse();
+
+    this.markUnreadMessagesAsRead(sel);
+  }
+
+  private markUnreadMessagesAsRead(sel: ChatListItem) {
+    const unreadIds = sel.messages
+      .filter((m) => m.viewingStatus === 'UNREAD')
+      .map((m) => m.id)
+      .filter(Boolean);
+
+    if (unreadIds.length === 0) {
+      return;
+    }
+
+    this.api.markMessagesRead(unreadIds).subscribe({
+      next: () => {
+        this.chats.update((list) =>
+          list.map((c) => (c.chatInternalId === sel.chatInternalId ? { ...c, unreadMessagesCount: 0, viewingStatus: 'VIEWED' } : c))
+        );
+      },
+      error: (e) => console.error('Failed to mark messages read', e)
+    });
   }
 
   sendMessage(text: string, file?: File) {
