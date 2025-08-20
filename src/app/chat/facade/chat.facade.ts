@@ -65,7 +65,8 @@ export class ChatFacade {
         lastMessage: nc.lastMessage?.text ?? '',
         time: nc.lastMessage?.sendAt ? formatTimeOrDate(nc.lastMessage.sendAt) : '',
         messages: [],
-        viewingStatus: normalizeViewingStatus(nc.lastMessage?.messageViewingStatus) || undefined
+        viewingStatus: normalizeViewingStatus(nc.lastMessage?.messageViewingStatus) || undefined,
+        unreadMessagesCount: nc.unreadMessagesCount ?? 0
       };
       this.chats.update((arr) => {
         const i = arr.findIndex((c) => c.chatInternalId === internalId);
@@ -107,7 +108,8 @@ export class ChatFacade {
             lastMessage: chat.lastMessage?.text ?? '',
             time: chat.lastMessage?.sendAt ? formatTimeOrDate(chat.lastMessage.sendAt) : '',
             messages: [],
-            viewingStatus: normalizeViewingStatus(chat.lastMessage?.messageViewingStatus) || undefined
+            viewingStatus: normalizeViewingStatus(chat.lastMessage?.messageViewingStatus) || undefined,
+            unreadMessagesCount: chat.unreadMessagesCount ?? 0
           };
         });
 
@@ -157,10 +159,6 @@ export class ChatFacade {
   }
 
   selectChat(chat: ChatListItem) {
-    if (this.currentChatId === chat.chatInternalId) {
-      return;
-    }
-
     if (this.currentChatId !== null) {
       this.messagesSub?.unsubscribe();
     }
@@ -196,19 +194,44 @@ export class ChatFacade {
         if (tile) {
           tile.viewingStatus = norm;
         }
-        if (norm === 'VIEWED' && current.messages.length) {
-          const last = current.messages[current.messages.length - 1];
-          if (last.from === 'Me') {
-            last.viewingStatus = 'VIEWED';
-          }
-        }
-        this.chats.set([...this.chats()]);
       }
+      const unreadIds = (chat.messages ?? [])
+        .filter((m) => m.viewingStatus === 'UNREAD')
+        .map((m: any) => m.id)
+        .filter(Boolean);
+
+      this.chats.update((list) => {
+        const idx = list.findIndex((c) => c.chatInternalId === current.chatInternalId);
+        if (idx === -1) {
+          return list;
+        }
+        const updated = { ...list[idx], unreadMessagesCount: 0 };
+        const copy = [...list];
+        copy[idx] = updated;
+        return copy;
+      });
 
       this.selectedChat.set({ ...current });
     });
 
     this.fetchMessages(chat.chatInternalId);
+    const unreadIds = (chat.messages ?? [])
+      .filter((m) => m.viewingStatus === 'UNREAD')
+      .map((m: any) => m.id)
+      .filter(Boolean);
+    if (this.currentChatId === chat.chatInternalId) {
+      return;
+    }
+    if (unreadIds.length > 0) {
+      this.api.markMessagesRead(unreadIds).subscribe({
+        next: () => {
+          this.chats.update((list) =>
+            list.map((c) => (c.chatInternalId === chat.chatInternalId ? { ...c, unreadMessagesCount: 0, viewingStatus: 'VIEWED' } : c))
+          );
+        },
+        error: (e) => console.error('Failed to mark messages read', e)
+      });
+    }
   }
 
   private fetchMessages(chatInternalId: number) {
@@ -234,6 +257,7 @@ export class ChatFacade {
 
             sel.messages = collected
               .map<ChatMessageView>((msg) => ({
+                id: msg.id,
                 from: msg.fromManager ? 'Me' : sel.nickname,
                 text: msg.text,
                 time: formatTimeOrDate(msg.sendAt),
@@ -242,7 +266,23 @@ export class ChatFacade {
               }))
               .reverse();
 
-            this.selectedChat.set({ ...sel });
+            const unreadIds = sel.messages
+              .filter((m) => m.viewingStatus === 'UNREAD')
+              .map((m) => m.id)
+              .filter(Boolean);
+
+            if (unreadIds.length > 0) {
+              this.api.markMessagesRead(unreadIds).subscribe({
+                next: () => {
+                  this.chats.update((list) =>
+                    list.map((c) =>
+                      c.chatInternalId === sel.chatInternalId ? { ...c, unreadMessagesCount: 0, viewingStatus: 'VIEWED' } : c
+                    )
+                  );
+                },
+                error: (e) => console.error('Failed to mark messages read', e)
+              });
+            }
           }
         },
         error: (e) => console.error('Failed to fetch messages:', e)
@@ -313,10 +353,13 @@ export class ChatFacade {
           return list;
         }
 
-        const updated = { ...list[idx], lastMessage: m.text, time: toTime(m.sendAt) };
-        if (norm) {
-          updated.viewingStatus = norm;
-        }
+        const updated: ChatListItem = {
+          ...list[idx],
+          lastMessage: m.text ?? '',
+          time: toTime(m.sendAt),
+          viewingStatus: norm || list[idx].viewingStatus,
+          unreadMessagesCount: (list[idx].unreadMessagesCount ?? 0) + 1
+        };
 
         const copy = [...list];
         copy.splice(idx, 1);
