@@ -44,12 +44,12 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     return this.generalOrderInfo.get('adminComment');
   }
 
-  get currentPaymentStatus(): { ua: string; en: string } | null {
+  get currentPaymentStatus(): { uk: string; en: string } | null {
     if (!this.availablePaymentOrderStatuses?.length) {
       return null;
     }
     const choosenStatus = this.availablePaymentOrderStatuses.find((st) => st.key === this.generalInfo.orderPaymentStatus);
-    return choosenStatus ? { ua: choosenStatus.uk, en: choosenStatus.en } : null;
+    return choosenStatus ? { uk: choosenStatus.uk, en: choosenStatus.en } : null;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

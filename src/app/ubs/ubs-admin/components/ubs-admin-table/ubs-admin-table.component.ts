@@ -497,7 +497,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     return locations
       .filter((location) => location.nameEn.toLowerCase().includes(term) || location.nameUk.toLowerCase().includes(term))
       ?.slice(0, 100)
-      .map((location) => ({ key: location.id, en: location.nameEn, ua: location.nameUk }));
+      .map((location) => ({ key: location.id, en: location.nameEn, uk: location.nameUk }));
   }
 
   getCitiesForFiltering(): ICityDetails[] {
@@ -736,7 +736,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     event.stopImmediatePropagation();
     const lengthStrUa = title.uk.split('').length;
     const lengthStrEn = title.en.split('').length;
-    if ((this.currentLang === 'ua' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
+    if ((this.currentLang === 'uk' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
       tooltip.toggle();
     }
 

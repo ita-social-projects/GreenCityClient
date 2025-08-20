@@ -41,13 +41,13 @@
         </div>
       </div>
       <div class="translation">
-        <label for="selected-name" class="label" [appLangValue]="{ ua: courierLabelEn, en: courierLabelUa }"></label>
+        <label for="selected-name" class="label" [appLangValue]="{ uk: courierLabelEn, en: courierLabelUa }"></label>
         <p *ngIf="selectedValue" id="selected-name" class="text"></p>
         <p
           *ngIf="selectedValue"
           id="selected-name"
           class="text"
-          [appLangValue]="{ ua: selectedValue.nameEn, en: selectedValue.nameUk }"
+          [appLangValue]="{ uk: selectedValue.nameEn, en: selectedValue.nameUk }"
         ></p>
       </div>
     </div>
@@ -122,23 +122,23 @@
         </div>
         <div class="list">
           <div *ngFor="let item of selectedRegions; let index = index" class="d-flex selected-element">
-            <div class="itemList" [appLangValue]="{ ua: item.nameUa, en: item.name }"></div>
+            <div class="itemList" [appLangValue]="{ uk: item.nameUk, en: item.name }"></div>
             <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteRegion(index)" />
           </div>
         </div>
       </div>
       <div class="translation">
-        <label for="select-count" class="label" [appLangValue]="{ ua: regionLabelEn, en: regionLabelUa }"></label>
+        <label for="select-count" class="label" [appLangValue]="{ uk: regionLabelEn, en: regionLabelUa }"></label>
         <div
           id="select-count"
           class="select-count"
           *ngIf="selectedRegions.length"
           [prefix]="selectedRegions.length + ' '"
-          [appLangValue]="{ ua: placeholderSelectedEn, en: placeholderSelectedUa }"
+          [appLangValue]="{ uk: placeholderSelectedEn, en: placeholderSelectedUa }"
         ></div>
         <div *ngFor="let item of selectedRegions">
           <p *ngIf="selectedRegions.length" class="text"></p>
-          <p *ngIf="!selectedRegions.length" class="text" [appLangValue]="{ ua: item.name, en: item.nameUa }"></p>
+          <p *ngIf="!selectedRegions.length" class="text" [appLangValue]="{ uk: item.name, en: item.nameUk }"></p>
         </div>
       </div>
     </div>
@@ -168,7 +168,7 @@
         />
         <div class="list">
           <div *ngFor="let item of selectedCities; let index = index" class="d-flex selected-element">
-            <div class="itemList" [appLangValue]="{ ua: item.nameUa, en: item.name }"></div>
+            <div class="itemList" [appLangValue]="{ uk: item.nameUk, en: item.name }"></div>
             <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteCity(index)" />
           </div>
         </div>
@@ -177,18 +177,18 @@
         </div>
       </div>
       <div class="translation">
-        <label for="selected-cities" class="label" [appLangValue]="{ ua: cityLabelEn, en: cityLabelUa }"></label>
+        <label for="selected-cities" class="label" [appLangValue]="{ uk: cityLabelEn, en: cityLabelUa }"></label>
         <div
           id="selected-cities"
           class="select-count"
           *ngIf="selectedCities.length"
           [prefix]="selectedCities.length + ' '"
-          [appLangValue]="{ ua: placeholderSelectedEn, en: placeholderSelectedUa }"
+          [appLangValue]="{ uk: placeholderSelectedEn, en: placeholderSelectedUa }"
           (blur)="onBlur('city')"
         ></div>
         <div *ngFor="let item of selectedCities">
           <p *ngIf="selectedCities.length" class="text"></p>
-          <p *ngIf="!selectedCities.length" class="text" [appLangValue]="{ ua: item.name, en: item.nameUa }"></p>
+          <p *ngIf="!selectedCities.length" class="text" [appLangValue]="{ uk: item.name, en: item.nameUk }"></p>
         </div>
       </div>
     </div>

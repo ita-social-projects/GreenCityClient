@@ -50,10 +50,10 @@ describe('AddEditCustomHabitComponent', () => {
 
   localStorageServiceMock.getUserId = () => 2;
   localStorageServiceMock.languageSubject = new Subject<string>();
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject<number>(2);
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject<string>('ua');
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.language = 'uk';
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
 
   const habitServiceMock = jasmine.createSpyObj('fakeHabitService', ['getAllTags', 'addCustomHabit', 'deleteCustomHabit']);
   habitServiceMock.getAllTags = () => of(tagsMock);

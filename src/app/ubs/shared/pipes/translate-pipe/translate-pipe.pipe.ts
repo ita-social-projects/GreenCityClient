@@ -11,8 +11,8 @@ export class ServerTranslatePipe implements PipeTransform {
     if (typeof value !== 'object' && typeof value !== 'function') {
       return value;
     }
-    if (currentLang === 'ua') {
-      return value.uk || value.ua;
+    if (currentLang === 'uk') {
+      return value.uk;
     } else {
       return value.en;
     }

@@ -30,10 +30,10 @@ describe('UserMessagesService', () => {
   });
 
   it('should send not ubs style and return expected result', () => {
-    restorePasswordService.sendEmailForRestore('mail@mail.com', 'ua', false).subscribe((response) => {
+    restorePasswordService.sendEmailForRestore('mail@mail.com', 'uk', false).subscribe((response) => {
       expect(response).toEqual('successRestorePassword');
     });
-    const req = httpMock.expectOne(`${restorePasswordLink}?email=mail@mail.com&lang=ua`);
+    const req = httpMock.expectOne(`${restorePasswordLink}?email=mail@mail.com&lang=uk`);
     expect(req.request.method).toBe('GET');
     req.flush('successRestorePassword');
   });

@@ -90,7 +90,7 @@
             <div class="box-item numbered-columns" *ngFor="let bag of bags; let i = index">
               <div class="box-number">0{{ i + 1 }}</div>
               <div class="box-text">
-                {{ currentLanguage === 'ua' ? bag.nameUk : bag.nameEn }}: {{ bag.capacity }} {{ 'order-details.litr' | translate }} -
+                {{ currentLanguage === 'uk' ? bag.nameUk : bag.nameEn }}: {{ bag.capacity }} {{ 'order-details.litr' | translate }} -
                 {{ bag.price }} {{ 'order-details.currency' | translate }}
               </div>
             </div>

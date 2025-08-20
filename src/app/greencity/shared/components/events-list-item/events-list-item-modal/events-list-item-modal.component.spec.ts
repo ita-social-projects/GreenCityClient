@@ -43,7 +43,7 @@ describe('EventsListItemModalComponent', () => {
   let fixture: ComponentFixture<EventsListItemModalComponent>;
 
   const storeMock = jasmine.createSpyObj('store', ['dispatch']);
-  const mockLang = 'ua';
+  const mockLang = 'uk';
 
   const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of(lang);

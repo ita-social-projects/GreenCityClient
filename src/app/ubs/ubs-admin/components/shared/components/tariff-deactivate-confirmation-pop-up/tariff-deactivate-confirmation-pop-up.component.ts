@@ -29,11 +29,11 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   isDeactivate: boolean;
   isDeactivatePopup = true;
   courierLabelEn = TariffCourierLabelName.en;
-  courierLabelUa = TariffCourierLabelName.ua;
+  courierLabelUa = TariffCourierLabelName.uk;
   regionLabelEn = TariffRegionLabelName.en;
-  regionLabelUa = TariffRegionLabelName.ua;
+  regionLabelUa = TariffRegionLabelName.uk;
   cityLabelEn = TariffLocationLabelName.en;
-  cityLabelUa = TariffLocationLabelName.ua;
+  cityLabelUa = TariffLocationLabelName.uk;
 
   constructor(
     private readonly tariffsService: TariffsService,

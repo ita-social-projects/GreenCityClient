@@ -29,7 +29,7 @@ describe('UbsMainPageComponent', () => {
     'getLocationId',
     'getTariffId'
   ]);
-  localeStorageServiceMock.getCurrentLanguage = () => of('ua');
+  localeStorageServiceMock.getCurrentLanguage = () => of('uk');
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const checkTokenServiceMock = jasmine.createSpyObj('CheckTokenService', ['onCheckToken']);

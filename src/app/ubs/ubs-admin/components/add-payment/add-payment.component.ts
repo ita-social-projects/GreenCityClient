@@ -93,7 +93,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.localeStorageService = injector.get(LocalStorageService);
     this.orderService = injector.get(OrderService);
 
-    const locale = this.localeStorageService.getCurrentLanguage() !== 'ua' ? 'en-GB' : 'uk-UA';
+    const locale = this.localeStorageService.getCurrentLanguage() !== 'uk' ? 'en-GB' : 'uk-UA';
     this.adapter.setLocale(locale);
   }
 
@@ -118,7 +118,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   initForm() {
     this.addPaymentForm = this.fb.group({
       settlementDate: [
-        this.payment?.settlementDate ? formatDate(this.convertDate(this.payment.settlementDate), 'yyyy-MM-dd', 'ua') : null,
+        this.payment?.settlementDate ? formatDate(this.convertDate(this.payment.settlementDate), 'yyyy-MM-dd', 'uk') : null,
         [Validators.required]
       ],
       amount: [this.payment?.amount ?? '', [Validators.required, Validators.pattern(Patterns.paymentAmountPattern)]],
@@ -193,7 +193,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     result.file = this.file;
 
     if (this.editMode) {
-      result.form.imagePath = this.file ? '' : this.imagePreview.src ?? '';
+      result.form.imagePath = this.file ? '' : (this.imagePreview.src ?? '');
     }
     this.processPayment(this.orderId, result);
   }

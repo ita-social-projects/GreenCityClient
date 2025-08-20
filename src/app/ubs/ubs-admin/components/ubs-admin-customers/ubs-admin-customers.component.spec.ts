@@ -38,7 +38,7 @@ describe('UbsAdminCustomersComponent', () => {
   let tableHeightServiceMock: jasmine.SpyObj<TableHeightService>;
   let rendererMock: jasmine.SpyObj<Renderer2>;
 
-  const column: ColumnParam = { title: { ua: 'Заголовок', en: 'Title', key: 'titleKey' }, width: 60 };
+  const column: ColumnParam = { title: { uk: 'Заголовок', en: 'Title', key: 'titleKey' }, width: 60 };
   const chatId = 12;
   const userId = 'userId';
   const updatedData = 'newChatLink';
@@ -272,8 +272,8 @@ describe('UbsAdminCustomersComponent', () => {
   });
 
   it('should correctly identify pointer columns', () => {
-    const pointerColumn: ColumnParam = { title: { ua: 'Клієнт', en: 'Client Name', key: 'clientName' }, width: 100 };
-    const nonPointerColumn: ColumnParam = { title: { ua: 'Дата', en: 'Date', key: 'registrationDate' }, width: 100 };
+    const pointerColumn: ColumnParam = { title: { uk: 'Клієнт', en: 'Client Name', key: 'clientName' }, width: 100 };
+    const nonPointerColumn: ColumnParam = { title: { uk: 'Дата', en: 'Date', key: 'registrationDate' }, width: 100 };
 
     expect(component.isPointerColumn(pointerColumn)).toBeTrue();
     expect(component.isPointerColumn(nonPointerColumn)).toBeFalse();
@@ -519,8 +519,8 @@ describe('UbsAdminCustomersComponent', () => {
 
   it('should set displayed columns correctly', () => {
     component.columns = [
-      { title: { key: 'col1', ua: 'К1', en: 'C1' }, width: 100 },
-      { title: { key: 'col2', ua: 'К2', en: 'C2' }, width: 100 }
+      { title: { key: 'col1', uk: 'К1', en: 'C1' }, width: 100 },
+      { title: { key: 'col2', uk: 'К2', en: 'C2' }, width: 100 }
     ];
     component.displayedColumns = [];
 
@@ -578,8 +578,8 @@ describe('UbsAdminCustomersComponent', () => {
 
   it('should set table resize dimensions based on total width', () => {
     component.columns = [
-      { title: { key: 'col1', ua: 'кол1', en: 'col1' }, width: 50 },
-      { title: { key: 'col2', ua: 'кол2', en: 'col2' }, width: 150 }
+      { title: { key: 'col1', uk: 'кол1', en: 'col1' }, width: 50 },
+      { title: { key: 'col2', uk: 'кол2', en: 'col2' }, width: 150 }
     ];
     spyOn(component as any, 'setColumnWidth').and.stub();
     const tableWidth = 200;

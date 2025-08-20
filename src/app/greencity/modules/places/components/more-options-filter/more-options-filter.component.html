@@ -10,7 +10,7 @@
           class="checkbox"
           *ngFor="let name of baseFilters"
           [formControlName]="name.nameEn"
-          [appLangValue]="{ ua: name.nameUk, en: name.nameEn }"
+          [appLangValue]="{ uk: name.nameUk, en: name.nameEn }"
         >
         </mat-checkbox>
       </div>
@@ -36,7 +36,7 @@
           class="checkbox"
           *ngFor="let name of servicesFilters"
           [formControlName]="name.nameEn"
-          [appLangValue]="{ ua: name.nameUk, en: name.nameEn }"
+          [appLangValue]="{ uk: name.nameUk, en: name.nameEn }"
         >
         </mat-checkbox>
       </div>

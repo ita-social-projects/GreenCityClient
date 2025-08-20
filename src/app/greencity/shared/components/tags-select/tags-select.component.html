@@ -1,6 +1,6 @@
 <button *ngFor="let tag of tagsList" class="tag-button" type="button" (click)="checkTab(tag)">
   <a class="global-tag" [ngClass]="{ 'global-tag-clicked': tag.isActive }" [tabIndex]="0">
-    <span class="text" [appLangValue]="{ ua: tag.nameUk, en: tag.nameEn }"></span>
+    <span class="text" [appLangValue]="{ uk: tag.nameUk, en: tag.nameEn }"></span>
     <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
   </a>
 </button>

@@ -39,7 +39,7 @@ describe('CalendarWeekComponent', () => {
     };
     component.currentDate = new Date('Sun Jul 02 2023 00:00:00 GMT+0300');
     component.weekDates = [];
-    component.language = Language.UA;
+    component.language = Language.UK;
     component.weekTitle = '';
   });
 

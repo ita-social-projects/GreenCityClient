@@ -49,21 +49,21 @@ describe('ToDoListService', () => {
   });
 
   it('should return all user toDoList by lang on getUserToDoLists', () => {
-    service.getUserToDoLists('ua').subscribe((data) => {
+    service.getUserToDoLists('uk').subscribe((data) => {
       expect(data).toEqual([ALLUSERTODOLISTS]);
     });
 
-    const req = httpMock.expectOne(`${mainLink}habit/assign/allUserAndCustomToDoListsInprogress?lang=ua`);
+    const req = httpMock.expectOne(`${mainLink}habit/assign/allUserAndCustomToDoListsInprogress?lang=uk`);
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toBe('GET');
     req.flush([ALLUSERTODOLISTS]);
   });
 
   it('should update Standard ToDo Item Status', () => {
-    service.updateStandardToDoItemStatus(TODOLISTITEMTWO, 'ua').subscribe((data) => {
+    service.updateStandardToDoItemStatus(TODOLISTITEMTWO, 'uk').subscribe((data) => {
       expect(data).toEqual([TODOLISTITEMTWO]);
     });
-    const req = httpMock.expectOne(`${mainLink}user/to-do-list-items/2/status/INPROGRESS?lang=ua`);
+    const req = httpMock.expectOne(`${mainLink}user/to-do-list-items/2/status/INPROGRESS?lang=uk`);
     expect(req.request.method).toBe('PATCH');
     req.flush([TODOLISTITEMTWO]);
   });
@@ -81,7 +81,7 @@ describe('ToDoListService', () => {
     service.updateHabitToDoList(UPDATEHABITTODOLIST).subscribe((data) => {
       expect(data).toEqual(null);
     });
-    const req = httpMock.expectOne(`${mainLink}habit/assign/2/allUserAndCustomList?lang=ua`);
+    const req = httpMock.expectOne(`${mainLink}habit/assign/2/allUserAndCustomList?lang=uk`);
     expect(req.request.method).toBe('PUT');
     req.flush(null);
   });

@@ -159,15 +159,21 @@ export class TariffsService {
   }
 
   setDate(language): string {
-    return new DatePipe(language).transform(new Date(), 'MMM dd, yyyy');
+    // Map language codes to proper locale codes for DatePipe
+    const localeMap = {
+      uk: 'uk-UA',
+      en: 'en-GB'
+    };
+    const locale = localeMap[language] || language;
+    return new DatePipe(locale).transform(new Date(), 'MMM dd, yyyy');
   }
 
   getPlaceholderValue(selectedItem, translated = false): string {
     let selected;
     if (translated) {
-      selected = this.langService.getLangValue(TariffPlaceholderSelected.en, TariffPlaceholderSelected.ua);
+      selected = this.langService.getLangValue(TariffPlaceholderSelected.en, TariffPlaceholderSelected.uk);
     } else {
-      selected = this.langService.getLangValue(TariffPlaceholderSelected.ua, TariffPlaceholderSelected.en);
+      selected = this.langService.getLangValue(TariffPlaceholderSelected.uk, TariffPlaceholderSelected.en);
     }
     return `${selectedItem} ${selected}`;
   }
