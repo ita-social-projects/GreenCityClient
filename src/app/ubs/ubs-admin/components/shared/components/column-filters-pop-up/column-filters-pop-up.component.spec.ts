@@ -40,7 +40,7 @@ describe('ColumnFiltersPopUpComponent', () => {
     {
       key: 'test',
       en: 'test',
-      ua: 'test',
+      uk: 'test',
       values: ['a', 'b', 'c']
     }
   ];

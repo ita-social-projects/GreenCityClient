@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 
 export const LOCALIZED_CURRENCY = {
   en: 'UAH',
-  ua: 'грн'
+  uk: 'грн'
 };
 
 @Pipe({

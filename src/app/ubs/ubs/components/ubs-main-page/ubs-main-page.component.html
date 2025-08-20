@@ -109,7 +109,7 @@
                 *ngFor="let location of locationsToShowBags"
                 [value]="this.languageService.getLangValue(location?.nameUk, location?.nameEn)"
                 (click)="getBags(location.locationId)"
-                [appLangValue]="{ ua: location.nameUk, en: location.nameEn }"
+                [appLangValue]="{ uk: location.nameUk, en: location.nameEn }"
               >
               </mat-option>
             </mat-autocomplete>
@@ -129,7 +129,7 @@
             <div>{{ getElementDescription(elemPrice.nameUk, elemPrice.nameEn, elemPrice.capacity) }}</div>
           </div>
           <div class="header-price">
-            <div class="price" [appLangValue]="{ ua: elemPrice.price.toString() + ' грн', en: elemPrice.price.toString() + ' UAH' }"></div>
+            <div class="price" [appLangValue]="{ uk: elemPrice.price.toString() + ' грн', en: elemPrice.price.toString() + ' UAH' }"></div>
             <div>{{ perPackageTitle | translate }}</div>
           </div>
         </div>

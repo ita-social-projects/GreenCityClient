@@ -59,7 +59,7 @@ export class ColumnFiltersPopUpComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
-      const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
+      const locale = lang !== 'uk' ? 'en-GB' : 'uk-UA';
       this.adapter.setLocale(locale);
     });
     this.setPopupPosUnderButton();

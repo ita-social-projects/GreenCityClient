@@ -141,7 +141,7 @@ describe('RestorePasswordComponent', () => {
   });
 
   describe('Testing controls for the restorePasswordForm', () => {
-    const validEmails = ['test@mail.com', 'mail@mail.ua', 'hello@post.com', 'write2me@mail.com'];
+    const validEmails = ['test@mail.com', 'mail@mail.uk', 'hello@post.com', 'write2me@mail.com'];
     const invalidEmails = ['notemail', '12345678987654321', 'wooooooow@', '100%mail'];
 
     function controlsValidator(itemValue, controlName, status) {

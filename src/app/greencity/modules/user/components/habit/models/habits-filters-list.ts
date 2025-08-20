@@ -14,9 +14,9 @@ export const HabitsFiltersList: FilterSelect[] = [
     selectAllOption: 'user.habit.all-habits.filters.complexities.select-all',
     isAllSelected: false,
     options: [
-      { name: 'Easy', nameUa: 'Легка', value: '1', isActive: false },
-      { name: 'Medium', nameUa: 'Середня', value: '2', isActive: false },
-      { name: 'Hard', nameUa: 'Важка', value: '3', isActive: false }
+      { name: 'Easy', nameUk: 'Легка', value: '1', isActive: false },
+      { name: 'Medium', nameUk: 'Середня', value: '2', isActive: false },
+      { name: 'Hard', nameUk: 'Важка', value: '3', isActive: false }
     ]
   },
   {
@@ -25,8 +25,8 @@ export const HabitsFiltersList: FilterSelect[] = [
     selectAllOption: 'user.habit.all-habits.filters.is-custom.select-all',
     isAllSelected: false,
     options: [
-      { name: 'Default', nameUa: 'Стандартні', value: 'false', isActive: false },
-      { name: 'Custom', nameUa: 'Створені', value: 'true', isActive: false }
+      { name: 'Default', nameUk: 'Стандартні', value: 'false', isActive: false },
+      { name: 'Custom', nameUk: 'Створені', value: 'true', isActive: false }
     ]
   }
 ];

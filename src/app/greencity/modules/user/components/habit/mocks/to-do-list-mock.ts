@@ -30,7 +30,7 @@ export const UPDATEHABITTODOLIST: HabitUpdateToDoList = {
   habitAssignId: 2,
   standardToDoList: [TODOLISTITEMONE],
   customToDoList: [TODOLISTITEMTWO],
-  lang: 'ua'
+  lang: 'uk'
 };
 
 export const CUSTOMTODOITEM: CustomToDoItem = {

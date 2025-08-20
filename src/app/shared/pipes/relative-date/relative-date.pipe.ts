@@ -13,7 +13,13 @@ export class RelativeDatePipe implements PipeTransform {
   millisecondsInDay = 86400000;
 
   transform(value: any): string | null {
-    const datePipe = new DatePipe(this.translateService.currentLang);
+    // Map language codes to proper locale codes for DatePipe
+    const localeMap = {
+      uk: 'uk-UA',
+      en: 'en-GB'
+    };
+    const locale = localeMap[this.translateService.currentLang] || this.translateService.currentLang;
+    const datePipe = new DatePipe(locale);
     if (!value) {
       return value;
     }
@@ -45,7 +51,7 @@ export class RelativeDatePipe implements PipeTransform {
       return transformedValue || value;
     }
 
-    const format = this.translateService.currentLang === Language.UA ? 'MMM dd, yyyy hh:mm' : 'MMM dd, yyyy hh:mm a';
-    return datePipe.transform(value, format, '', this.translateService.currentLang);
+    const format = this.translateService.currentLang === Language.UK ? 'MMM dd, yyyy hh:mm' : 'MMM dd, yyyy hh:mm a';
+    return datePipe.transform(value, format, '', locale);
   }
 }

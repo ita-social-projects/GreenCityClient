@@ -1129,7 +1129,7 @@
     "text-editing-popup": {
       "title": "Edit notification for",
       "labels": {
-        "ua": "Ukrainian",
+        "uk": "Ukrainian",
         "en": "English",
         "text": "Notification text",
         "select": "Select"

@@ -64,7 +64,7 @@ describe('UbsAdminPricingPageComponent', () => {
         locationStatus: 'фейк1',
         locationTranslationDtoList: [
           {
-            languageCode: 'ua',
+            languageCode: 'uk',
             locationName: 'fake'
           }
         ],
@@ -75,7 +75,7 @@ describe('UbsAdminPricingPageComponent', () => {
     regionTranslationDtos: [
       {
         regionName: 'fake',
-        languageCode: 'ua'
+        languageCode: 'uk'
       }
     ]
   };
@@ -234,7 +234,7 @@ describe('UbsAdminPricingPageComponent', () => {
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
-  languageServiceMock.getCurrentLangObs = () => of('ua');
+  languageServiceMock.getCurrentLangObs = () => of('uk');
 
   const orderServiceMock = jasmine.createSpyObj('orderServiceMock', ['completedLocation']);
 

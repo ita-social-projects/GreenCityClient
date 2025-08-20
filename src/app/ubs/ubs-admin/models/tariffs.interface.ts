@@ -116,7 +116,7 @@ export interface City {
 
 export interface EditLocationName {
   nameEn: string;
-  nameUa: string;
+  nameUk: string;
   locationId?: number;
 }
 
@@ -165,7 +165,7 @@ export interface LocationInfoDtos {
 export interface SelectedItems {
   id: number;
   name: string;
-  nameUa?: string;
+  nameUk?: string;
 }
 
 export interface Card {

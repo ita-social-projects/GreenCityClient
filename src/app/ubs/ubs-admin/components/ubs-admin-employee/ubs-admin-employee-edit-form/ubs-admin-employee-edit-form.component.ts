@@ -64,9 +64,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     tariffs: (tariffData) =>
       tariffData.map((tariff) => ({
         id: tariff.cardId,
-        courier: { en: tariff.courierDto.nameEn, ua: tariff.courierDto.nameUk },
-        region: { en: tariff.regionDto.nameEn, ua: tariff.regionDto.nameUk },
-        locations: tariff.locationInfoDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk })),
+        courier: { en: tariff.courierDto.nameEn, uk: tariff.courierDto.nameUk },
+        region: { en: tariff.regionDto.nameEn, uk: tariff.regionDto.nameUk },
+        locations: tariff.locationInfoDtos.map((loc) => ({ en: loc.nameEn, uk: loc.nameUk })),
         selected: false,
         hasChat: false
       }))
@@ -76,9 +76,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     tariffs: (tariffData) =>
       tariffData.map((tariff) => ({
         id: tariff.id,
-        courier: { en: tariff.courier.nameEn, ua: tariff.courier.nameUk },
-        region: { en: tariff.region.nameEn, ua: tariff.region.nameUk },
-        locations: tariff.locationsDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk })),
+        courier: { en: tariff.courier.nameEn, uk: tariff.courier.nameUk },
+        region: { en: tariff.region.nameEn, uk: tariff.region.nameUk },
+        locations: tariff.locationsDtos.map((loc) => ({ en: loc.nameEn, uk: loc.nameUk })),
         selected: true,
         hasChat: !!tariff.hasChat
       }))
@@ -125,9 +125,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.search.valueChanges.subscribe((term) => {
       this.filteredTariffs = this.tariffs.filter((tariff) => {
         const match = (str, substr) => str.toLowerCase().includes(substr.trim().toLowerCase());
-        const regionMatch = match(tariff.region.en, term) || match(tariff.region.ua, term);
-        const locationsMatch = tariff.locations.some((location) => match(location.en, term) || match(location.ua, term));
-        const courierMatch = match(tariff.courier.en, term) || match(tariff.courier.ua, term);
+        const regionMatch = match(tariff.region.en, term) || match(tariff.region.uk, term);
+        const locationsMatch = tariff.locations.some((location) => match(location.en, term) || match(location.uk, term));
+        const courierMatch = match(tariff.courier.en, term) || match(tariff.courier.uk, term);
         return [regionMatch, locationsMatch, courierMatch].some((cond) => cond);
       });
     });

@@ -38,7 +38,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
   tariffsServiceMock.editStation.and.returnValue(of());
 
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getCurrentLanguage.and.returnValue('uk');
 
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
@@ -122,7 +122,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
 
   it('should set date', () => {
     component.setDate();
-    expect(component.datePipe).toEqual(new DatePipe('ua'));
+    expect(component.datePipe).toEqual(new DatePipe('uk-UA'));
     expect(component.newDate).toEqual(component.datePipe.transform(new Date(), 'MMM dd, yyyy'));
   });
 
@@ -130,7 +130,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
     const result = languageServiceMock.getCurrentLanguage();
     component.setDate();
     expect(languageServiceMock.getCurrentLanguage).toHaveBeenCalled();
-    expect(result).toEqual('ua');
+    expect(result).toEqual('uk');
   });
 
   it('should transform date', () => {

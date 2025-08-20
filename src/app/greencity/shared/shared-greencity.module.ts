@@ -42,8 +42,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SavedSectionComponent } from './components/saved-tabs/saved-section.component';
 import { DragAndDropDirective } from 'src/app/greencity/modules/eco-news/directives/drag-and-drop.directive';
 
-registerLocaleData(usLocale, 'en');
-registerLocaleData(ukLocale, 'ua');
+registerLocaleData(usLocale, 'en-GB');
+registerLocaleData(ukLocale, 'uk-UA');
 
 @NgModule({
   declarations: [

@@ -32,8 +32,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     cross: '././assets/img/ubs/cross.svg'
   };
   name: string;
-  datePipe = new DatePipe(this.languageService.getCurrentLanguage());
-  newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  datePipe;
+  newDate: string;
   unsubscribe: Subject<any> = new Subject();
 
   couriers: Couriers[];
@@ -63,13 +63,13 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   isDeactivatePopUp: boolean;
   isActivatePopUp: boolean;
   placeholderSelectedEn = TariffPlaceholderSelected.en;
-  placeholderSelectedUa = TariffPlaceholderSelected.ua;
+  placeholderSelectedUa = TariffPlaceholderSelected.uk;
   courierLabelEn = TariffCourierLabelName.en;
-  courierLabelUa = TariffCourierLabelName.ua;
+  courierLabelUa = TariffCourierLabelName.uk;
   regionLabelEn = TariffRegionLabelName.en;
-  regionLabelUa = TariffRegionLabelName.ua;
+  regionLabelUa = TariffRegionLabelName.uk;
   cityLabelEn = TariffLocationLabelName.en;
-  cityLabelUa = TariffLocationLabelName.ua;
+  cityLabelUa = TariffLocationLabelName.uk;
 
   constructor(
     private fb: FormBuilder,
@@ -106,6 +106,14 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.isDeactivatePopUp = this.modalData.isDeactivation;
     this.isActivatePopUp = this.modalData.isActivation;
     this.currentLanguage = this.languageService.getCurrentLanguage();
+    // Map language codes to proper locale codes for DatePipe
+    const localeMap = {
+      uk: 'uk-UA',
+      en: 'en-GB'
+    };
+    const locale = localeMap[this.currentLanguage] || this.currentLanguage;
+    this.datePipe = new DatePipe(locale);
+    this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     this.setStationPlaceholder();
     this.setRegionsPlaceholder();
     this.setCityPlaceholder();
@@ -346,16 +354,16 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
     let id;
     let name;
-    let nameUa;
+    let nameUk;
     const selectedItemName = event.option.value;
     const selectedItem = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === selectedItemName));
 
     selectedItem.forEach((item) => {
       id = item.regionId;
       name = this.nameCreationUtil(item.regionTranslationDtos, Language.EN, 'regionName').toString();
-      nameUa = this.nameCreationUtil(item.regionTranslationDtos, Language.UA, 'regionName').toString();
+      nameUk = this.nameCreationUtil(item.regionTranslationDtos, Language.UK, 'regionName').toString();
     });
-    const tempItem = { id, name, nameUa };
+    const tempItem = { id, name, nameUk };
     const itemIncluded = this.selectedRegions.find((it) => it.id === tempItem.id);
     if (itemIncluded) {
       this.selectedRegions = this.selectedRegions.filter((item) => item.id !== tempItem.id);
@@ -425,7 +433,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   checkOption(item, itemType): boolean {
-    const itemsNames = itemType.map((it) => (this.currentLanguage === Language.EN ? it.name : it.nameUa));
+    const itemsNames = itemType.map((it) => (this.currentLanguage === Language.EN ? it.name : it.nameUk));
     return itemsNames.includes(item);
   }
 
@@ -473,7 +481,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     const tempItem = {
       id: selectedItem.locationId,
       name: this.nameCreationUtil(selectedItem.locationTranslationDtoList, Language.EN, 'locationName').join(),
-      nameUa: this.nameCreationUtil(selectedItem.locationTranslationDtoList, Language.UA, 'locationName').join()
+      nameUk: this.nameCreationUtil(selectedItem.locationTranslationDtoList, Language.UK, 'locationName').join()
     };
     const itemIncluded = this.selectedCities.find((it) => it.id === tempItem.id);
     if (itemIncluded) {

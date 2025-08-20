@@ -1,20 +1,20 @@
 export enum TariffPlaceholderSelected {
-  ua = 'обрано',
+  uk = 'обрано',
   en = 'selected'
 }
 
 export enum TariffLocationLabelName {
-  ua = 'Місто',
+  uk = 'Місто',
   en = 'City'
 }
 
 export enum TariffRegionLabelName {
-  ua = 'Область',
+  uk = 'Область',
   en = 'Region'
 }
 
 export enum TariffCourierLabelName {
-  ua = 'Кур`єр',
+  uk = 'Кур`єр',
   en = 'Courier'
 }
 
@@ -24,6 +24,6 @@ export enum limitStatus {
 }
 
 export enum TariffRegionAll {
-  ua = 'все',
+  uk = 'все',
   en = 'all'
 }

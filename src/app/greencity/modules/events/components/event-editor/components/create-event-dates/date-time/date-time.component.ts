@@ -117,8 +117,8 @@ export class DateTimeComponent implements OnInit, AfterViewInit, OnDestroy {
       .getCurrentLangObs()
       .pipe(takeUntil(this.$destroy))
       .subscribe((lang) => {
-        const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
-        this.dateFormat = lang !== 'ua' ? 'MMDDYYYY' : 'DDMMYYYY';
+        const locale = lang !== 'uk' ? 'en-GB' : 'uk-UA';
+        this.dateFormat = lang !== 'uk' ? 'MMDDYYYY' : 'DDMMYYYY';
         this.adapter.setLocale(locale);
       });
     this.startTime.valueChanges.pipe(takeUntil(this.$destroy)).subscribe((value: string) => {

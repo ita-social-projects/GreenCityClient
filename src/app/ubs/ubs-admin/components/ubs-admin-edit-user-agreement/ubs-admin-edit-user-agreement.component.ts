@@ -34,7 +34,7 @@ export class UbsAdminEditUserAgreementComponent implements OnInit {
 
   userAgreementForm: FormGroup = new FormGroup({});
   quillModules = quillConfigAdmin;
-  languages = ['Ua', 'En'];
+  languages = ['Uk', 'En'];
   versions: string[] = [];
   selectedVersion = 'latest';
   currentVersion = 'latest';
@@ -69,7 +69,7 @@ export class UbsAdminEditUserAgreementComponent implements OnInit {
     };
 
     this.languages.forEach((lang) => {
-      userAgreement[`text${lang === 'Ua' ? 'Uk' : lang}`] = this.getUserAgreementControl(lang).value;
+      userAgreement[`text${lang === 'Uk' ? 'Uk' : lang}`] = this.getUserAgreementControl(lang).value;
     });
 
     this.confirmSave(userAgreement);
@@ -100,7 +100,7 @@ export class UbsAdminEditUserAgreementComponent implements OnInit {
 
         this.languages.forEach((lang) => {
           const control = this.getUserAgreementControl(lang);
-          control.setValue(userAgreement[`text${lang === 'Ua' ? 'Uk' : lang}`]);
+          control.setValue(userAgreement[`text${lang === 'Uk' ? 'Uk' : lang}`]);
           control.markAsPristine();
         });
 

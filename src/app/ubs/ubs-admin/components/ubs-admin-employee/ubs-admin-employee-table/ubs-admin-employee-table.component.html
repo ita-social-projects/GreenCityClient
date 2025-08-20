@@ -62,18 +62,18 @@
                 <ng-container *ngFor="let position of employee.employeePositions; let i = index">
                   <ng-container *ngIf="!employee.expanded; else allPositions">
                     <span class="link" *ngIf="employee.employeePositions.length > 2 && i <= 2">
-                      <span *ngIf="i < 2" [appLangValue]="{ ua: position.nameUk, en: position.nameEn }"></span>
-                      <span *ngIf="i >= 2" [appLangValue]="{ ua: position.nameUk, en: position.nameEn }" suffix="..."></span>
+                      <span *ngIf="i < 2" [appLangValue]="{ uk: position.nameUk, en: position.nameEn }"></span>
+                      <span *ngIf="i >= 2" [appLangValue]="{ uk: position.nameUk, en: position.nameEn }" suffix="..."></span>
                     </span>
                     <span
                       class="link"
                       *ngIf="employee.employeePositions.length <= 2"
-                      [appLangValue]="{ ua: position.nameUk, en: position.nameEn }"
+                      [appLangValue]="{ uk: position.nameUk, en: position.nameEn }"
                     >
                     </span>
                   </ng-container>
                   <ng-template #allPositions>
-                    <span class="link" [appLangValue]="{ ua: position.nameUk, en: position.nameEn }"></span>
+                    <span class="link" [appLangValue]="{ uk: position.nameUk, en: position.nameEn }"></span>
                   </ng-template>
                 </ng-container>
               </div>
@@ -92,7 +92,7 @@
 
             <div class="description-item receiving-station">
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
-                <div [appLangValue]="{ ua: tariff.region.nameUk, en: tariff.region.nameEn }"></div>
+                <div [appLangValue]="{ uk: tariff.region.nameUk, en: tariff.region.nameEn }"></div>
                 <div
                   *ngFor="let placeholder of tariff.locations.displayed.length - 1 | repeat"
                   class="region-placeholder"
@@ -105,22 +105,22 @@
                 <div *ngIf="!tariff.locations.additional.length; else moreThanThreeLocations" class="locations-list">
                   <div
                     *ngFor="let location of tariff.locations.displayed"
-                    [appLangValue]="{ ua: location.nameUk, en: location.nameEn }"
+                    [appLangValue]="{ uk: location.nameUk, en: location.nameEn }"
                   ></div>
                 </div>
                 <ng-template #moreThanThreeLocations>
                   <div class="locations-list">
-                    <div [appLangValue]="{ ua: tariff.locations.displayed[0].nameUk, en: tariff.locations.displayed[0].nameEn }"></div>
-                    <div [appLangValue]="{ ua: tariff.locations.displayed[1].nameUk, en: tariff.locations.displayed[1].nameEn }"></div>
+                    <div [appLangValue]="{ uk: tariff.locations.displayed[0].nameUk, en: tariff.locations.displayed[0].nameEn }"></div>
+                    <div [appLangValue]="{ uk: tariff.locations.displayed[1].nameUk, en: tariff.locations.displayed[1].nameEn }"></div>
                     <div style="color: #5639bb; text-decoration: underline" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">
-                      <span [appLangValue]="{ ua: tariff.locations.displayed[2].nameUk, en: tariff.locations.displayed[2].nameEn }"></span>
+                      <span [appLangValue]="{ uk: tariff.locations.displayed[2].nameUk, en: tariff.locations.displayed[2].nameEn }"></span>
                       <span> and {{ tariff.locations.additional.length }} more</span>
                     </div>
                     <mat-menu class="more-locations-overlay" #menu="matMenu">
                       <div class="locations-list">
                         <div
                           *ngFor="let location of tariff.locations.additional"
-                          [appLangValue]="{ ua: location.nameUk, en: location.nameEn }"
+                          [appLangValue]="{ uk: location.nameUk, en: location.nameEn }"
                         ></div>
                       </div>
                     </mat-menu>
@@ -131,7 +131,7 @@
 
             <div class="description-item">
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
-                <div [appLangValue]="{ ua: tariff.courier.nameUk, en: tariff.courier.nameEn }"></div>
+                <div [appLangValue]="{ uk: tariff.courier.nameUk, en: tariff.courier.nameEn }"></div>
                 <div *ngFor="let placeholder of tariff.locations.displayed.length - 1 | repeat" class="region-placeholder"></div>
               </div>
             </div>

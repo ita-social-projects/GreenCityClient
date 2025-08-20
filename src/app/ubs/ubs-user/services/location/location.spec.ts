@@ -60,11 +60,11 @@ describe('LocationService', () => {
     expect(spy).toHaveBeenCalledWith('Name of District');
   });
 
-  it('should get auto district for ua lang', () => {
+  it('should get auto district for uk lang', () => {
     const placeDetails = {
       address_components: [{ long_name: 'Київський район' }]
     };
-    const convertedAddress = locations.getDistrictAuto(placeDetails, Language.UA);
+    const convertedAddress = locations.getDistrictAuto(placeDetails, Language.UK);
     expect(convertedAddress).toBe('Київський район');
     expect(convertedAddress).toContain('район');
   });
@@ -73,7 +73,7 @@ describe('LocationService', () => {
     const placeDetails = {
       address_components: [{ long_name: 'Назва' }]
     };
-    const convertedAddress = locations.getDistrictAuto(placeDetails, Language.UA);
+    const convertedAddress = locations.getDistrictAuto(placeDetails, Language.UK);
     expect(convertedAddress).toBeUndefined();
   });
 
@@ -104,7 +104,7 @@ describe('LocationService', () => {
   });
 
   it('should return city request value on getRequest', () => {
-    const cityRequest = locations.getRequest('вулиця Київська, 2 Київ, Україна', Language.UA, '(cities)');
+    const cityRequest = locations.getRequest('вулиця Київська, 2 Київ, Україна', Language.UK, '(cities)');
     expect(cityRequest).toEqual(ADDRESSESMOCK.GOOGLEREQUEST);
   });
 
@@ -161,7 +161,7 @@ describe('LocationService', () => {
       input: 'Test Street, 1, Kyiv',
       language: Language.EN,
       types: ['address'],
-      componentRestrictions: { country: 'ua' }
+      componentRestrictions: { country: 'uk' }
     });
   });
 

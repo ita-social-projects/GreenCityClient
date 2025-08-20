@@ -27,7 +27,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
       regionTranslationDtos: [
         {
           regionName: 'Фейк область',
-          languageCode: 'ua'
+          languageCode: 'uk'
         },
         {
           regionName: 'Fake region',
@@ -39,7 +39,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
           locationTranslationDtoList: [
             {
               locationName: 'Фейк1',
-              languageCode: 'ua'
+              languageCode: 'uk'
             },
             {
               locationName: 'Fake1',
@@ -51,7 +51,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
           locationTranslationDtoList: [
             {
               locationName: 'Фейк2',
-              languageCode: 'ua'
+              languageCode: 'uk'
             },
             {
               locationName: 'Fake2',
@@ -84,7 +84,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
         locationId: 159,
         locationTranslationDtoList: [
           {
-            languageCode: 'ua',
+            languageCode: 'uk',
             locationName: 'fake'
           }
         ],
@@ -95,7 +95,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     regionTranslationDtos: [
       {
         regionName: 'fake',
-        languageCode: 'ua'
+        languageCode: 'uk'
       }
     ]
   };
@@ -109,9 +109,9 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     'languageBehaviourSubject',
     'getCurrentLanguage'
   ]);
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue = (valUa: string | any[], valEn: string | any[]) => valUa;
@@ -271,7 +271,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should add new city when current language is ua', () => {
+  it('should add new city when current language is uk', () => {
     component.input.nativeElement.value = 'фейк';
     component.location.setValue('фейк');
     component.englishLocation.setValue('fake');
@@ -280,7 +280,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     component.currentLatitude = 0;
     component.currentLongitude = 0;
     component.citySelected = true;
-    component.currentLang = 'ua';
+    component.currentLang = 'uk';
     const uaLocation = languageServiceMock.getLangValue(component.location.value, component.englishLocation.value);
     const enLocation = languageServiceMock.getLangValue(component.englishLocation.value, component.location.value);
     component.addCity();

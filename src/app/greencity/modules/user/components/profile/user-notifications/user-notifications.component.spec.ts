@@ -76,7 +76,7 @@ describe('UserNotificationsComponent', () => {
     'getCurrentLanguage',
     'getUserId'
   ]);
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
   localStorageServiceMock.getUserId = () => 1;
@@ -110,9 +110,9 @@ describe('UserNotificationsComponent', () => {
   userNotificationServiceMock.deleteNotification = () => of();
 
   const filterCriteriaOptions = [
-    { name: FilterCriteria.ALL, isSelected: true, nameUa: 'Усі', nameEn: 'All' },
-    { name: FilterCriteria.TYPE, isSelected: false, nameUa: 'Типом', nameEn: 'Type' },
-    { name: FilterCriteria.ORIGIN, isSelected: false, nameUa: 'Джерелом', nameEn: 'Origin' }
+    { name: FilterCriteria.ALL, isSelected: true, nameUk: 'Усі', nameEn: 'All' },
+    { name: FilterCriteria.TYPE, isSelected: false, nameUk: 'Типом', nameEn: 'Type' },
+    { name: FilterCriteria.ORIGIN, isSelected: false, nameUk: 'Джерелом', nameEn: 'Origin' }
   ];
 
   beforeEach(waitForAsync(() => {

@@ -21,8 +21,8 @@ describe('Locations', () => {
     expect(result).toEqual(locations.citiesEn);
   });
 
-  it('should return list of cities in ua', () => {
-    const result = locations.getCity('ua');
+  it('should return list of cities in uk', () => {
+    const result = locations.getCity('uk');
     expect(result).toEqual(locations.cities);
   });
 
@@ -31,8 +31,8 @@ describe('Locations', () => {
     expect(result).toEqual(locations.regionsEn);
   });
 
-  it('should return list of regions in ua', () => {
-    const result = locations.getRegions('ua');
+  it('should return list of regions in uk', () => {
+    const result = locations.getRegions('uk');
     expect(result).toEqual(locations.regions);
   });
 
@@ -41,8 +41,8 @@ describe('Locations', () => {
     expect(result).toEqual(locations.bigRegionsEn);
   });
 
-  it('should return list of big regions in ua', () => {
-    const result = locations.getBigRegions('ua');
+  it('should return list of big regions in uk', () => {
+    const result = locations.getBigRegions('uk');
     expect(result).toEqual(locations.bigRegions);
   });
 });
