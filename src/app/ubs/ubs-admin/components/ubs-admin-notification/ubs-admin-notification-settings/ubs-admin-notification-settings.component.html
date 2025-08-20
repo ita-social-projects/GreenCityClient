@@ -36,12 +36,8 @@
           [placeholder]="'ubs-notifications.settings-popup.placeholders.trigger' | translate"
           formControlName="trigger"
         >
-          <mat-option
-            class="option-trigger"
-            *ngFor="let trigger of triggers"
-            [value]="trigger.trigger"
-            [appLangValue]="{ ua: trigger.triggerDescription, en: trigger.triggerDescriptionEng }"
-          >
+          <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger.trigger">
+            <span [appLangValue]="{ ua: trigger.triggerDescription, en: trigger.triggerDescriptionEng }"></span>
           </mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
@@ -56,12 +52,8 @@
           [placeholder]="'ubs-notifications.settings-popup.placeholders.time' | translate"
           formControlName="time"
         >
-          <mat-option
-            class="option-trigger"
-            *ngFor="let time of times"
-            [value]="time.time"
-            [appLangValue]="{ ua: time.timeDescription, en: time.timeDescriptionEng }"
-          >
+          <mat-option class="option-trigger" *ngFor="let time of times" [value]="time.time">
+            <span [appLangValue]="{ ua: time.timeDescription, en: time.timeDescriptionEng }"></span>
           </mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
