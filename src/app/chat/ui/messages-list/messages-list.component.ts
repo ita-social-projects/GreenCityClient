@@ -13,13 +13,20 @@ export class MessagesListComponent implements AfterViewChecked {
   @Input() messages: ChatMessageView[] = [];
   @Output() openImage = new EventEmitter<string>();
 
-  @ViewChild('scrollContainer') private scrollContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('scrollContainer') private readonly scrollContainer!: ElementRef<HTMLDivElement>;
 
   private lastMsgCount = 0;
 
   ngAfterViewChecked(): void {
     if (this.messages.length !== this.lastMsgCount) {
-      this.scrollToBottom();
+      const newMessages = this.messages.slice(this.lastMsgCount);
+
+      if (newMessages.some((m) => m.images?.length)) {
+        this.waitForImagesToLoad().then(() => this.scrollToBottom());
+      } else {
+        this.scrollToBottom();
+      }
+
       this.lastMsgCount = this.messages.length;
     }
   }
@@ -29,5 +36,31 @@ export class MessagesListComponent implements AfterViewChecked {
     if (el) {
       el.scrollTop = el.scrollHeight;
     }
+  }
+
+  private waitForImagesToLoad(): Promise<void> {
+    const el = this.scrollContainer?.nativeElement;
+    if (!el) {
+      return Promise.resolve();
+    }
+
+    const imgs = Array.from(el.querySelectorAll<HTMLImageElement>('img'));
+    const unloaded = imgs.filter((img) => !img.complete);
+
+    if (unloaded.length === 0) {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+      let remaining = unloaded.length;
+      unloaded.forEach((img) =>
+        img.addEventListener('load', () => {
+          remaining--;
+          if (remaining === 0) {
+            resolve();
+          }
+        })
+      );
+    });
   }
 }
