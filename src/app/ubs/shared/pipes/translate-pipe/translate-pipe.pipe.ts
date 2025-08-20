@@ -12,7 +12,7 @@ export class ServerTranslatePipe implements PipeTransform {
       return value;
     }
     if (currentLang === 'uk') {
-      return value.uk || value.uk;
+      return value.uk;
     } else {
       return value.en;
     }
