@@ -29,7 +29,7 @@ describe('UbsAdminNotificationEditFormComponent', () => {
 
   const mockedData = {
     platform: 'email',
-    text: { en: 'Notification text for email', ua: 'Текст повідомлення для email' }
+    text: { en: 'Notification text for email', uk: 'Текст повідомлення для email' }
   };
 
   beforeEach(waitForAsync(() => {
@@ -58,7 +58,7 @@ describe('UbsAdminNotificationEditFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display text for en and ua versions', () => {
+  it('should display text for en and uk versions', () => {
     const [uaTextField, enTextField] = fixture.debugElement.queryAll(By.css('textarea')).map((de) => de.nativeElement);
     expect(uaTextField.value).toBe('Текст повідомлення для email');
     expect(enTextField.value).toBe('Notification text for email');
@@ -74,7 +74,7 @@ describe('UbsAdminNotificationEditFormComponent', () => {
 
     changeButton.triggerEventHandler('click', null);
     expect(matDialogRefMock.close).toHaveBeenCalledWith({
-      text: { en: 'New notification text for email', ua: 'Новий текст повідомлення для email' }
+      text: { en: 'New notification text for email', uk: 'Новий текст повідомлення для email' }
     });
   });
 
@@ -101,7 +101,7 @@ describe('UbsAdminNotificationEditFormComponent', () => {
     component.onSubmit();
 
     expect(matDialogRefMock.close).toHaveBeenCalledWith({
-      text: { en: 'New notification text for email', ua: 'Новий текст повідомлення для email' }
+      text: { en: 'New notification text for email', uk: 'Новий текст повідомлення для email' }
     });
   });
 });

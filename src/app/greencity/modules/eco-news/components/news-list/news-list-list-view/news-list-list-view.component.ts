@@ -56,7 +56,13 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.tags = this.langService.getLangValue(this.ecoNewsModel.tagsUk, this.ecoNewsModel.tagsEn);
-      this.datePipe = new DatePipe(this.currentLang);
+      // Map language codes to proper locale codes for DatePipe
+      const localeMap = {
+        uk: 'uk-UA',
+        en: 'en-GB'
+      };
+      const locale = localeMap[this.currentLang] || this.currentLang;
+      this.datePipe = new DatePipe(locale);
       this.newDate = this.datePipe.transform(this.ecoNewsModel.creationDate, 'MMM dd, yyyy');
     });
   }

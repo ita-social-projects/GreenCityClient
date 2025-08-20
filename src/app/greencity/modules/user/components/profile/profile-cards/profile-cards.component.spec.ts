@@ -34,7 +34,7 @@ describe('ProfileCardsComponent', () => {
     id: 1,
     factOfTheDayTranslations: [
       {
-        languageCode: 'ua',
+        languageCode: 'uk',
         content: 'Приклад факту дня'
       },
       {
@@ -61,7 +61,7 @@ describe('ProfileCardsComponent', () => {
       'saveFactToLocalStorage'
     ]);
 
-    languageSubject = new BehaviorSubject<string>('ua');
+    languageSubject = new BehaviorSubject<string>('uk');
     localStorageServiceMock.languageBehaviourSubject = languageSubject;
 
     TestBed.configureTestingModule({
@@ -113,11 +113,11 @@ describe('ProfileCardsComponent', () => {
       id: 19,
       factOfTheDayTranslations: [
         { content: 'Test Fact in English', languageCode: 'en' },
-        { content: 'Факт українською', languageCode: 'ua' }
+        { content: 'Факт українською', languageCode: 'uk' }
       ]
     };
 
-    const currentLang = 'ua';
+    const currentLang = 'uk';
 
     localStorageServiceMock.getFactFromLocalStorage.and.returnValue(mockFact);
     languageServiceMock.getCurrentLanguage.and.returnValue(currentLang);

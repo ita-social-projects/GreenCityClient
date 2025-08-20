@@ -323,10 +323,10 @@ describe('OrderService', () => {
   });
 
   it('should return order history', () => {
-    service.getOrderHistory(1, 'ua').subscribe((data) => {
+    service.getOrderHistory(1, 'uk').subscribe((data) => {
       expect(data).toBe([]);
     });
-    const req = httpMock.expectOne(`${urlMock}/order_history/1?lang=ua`);
+    const req = httpMock.expectOne(`${urlMock}/order_history/1?lang=uk`);
     expect(req.request.method).toBe('GET');
   });
 

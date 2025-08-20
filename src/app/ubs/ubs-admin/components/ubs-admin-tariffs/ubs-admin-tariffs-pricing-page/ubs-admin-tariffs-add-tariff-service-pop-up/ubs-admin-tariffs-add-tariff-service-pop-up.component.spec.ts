@@ -19,7 +19,7 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   let fixture: ComponentFixture<UbsAdminTariffsAddTariffServicePopUpComponent>;
   let fakeTariffService: TariffsService;
   const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage', 'getLangValue']);
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getCurrentLanguage.and.returnValue('uk');
   languageServiceMock.getLangValue.and.callFake((uaValue, enValue) => uaValue);
 
   const fakeBagForm = new FormGroup({
@@ -110,7 +110,7 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   it('should be valid if form value is valid', () => {
     component.addTariffServiceForm.setValue({
       price: 1,
-      description: 'Ua',
+      description: 'Uk',
       descriptionEng: 'Eng',
       name: '',
       nameEng: '',
@@ -171,14 +171,14 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
 
   it('should set date', () => {
     component.setDate();
-    expect(component.newDate).toEqual(fakeTariffService.setDate('ua'));
+    expect(component.newDate).toEqual(fakeTariffService.setDate('uk'));
   });
 
   it('should get current language', () => {
     const result = languageServiceMock.getCurrentLanguage();
     component.setDate();
     expect(languageServiceMock.getCurrentLanguage).toHaveBeenCalled();
-    expect(result).toEqual('ua');
+    expect(result).toEqual('uk');
   });
 
   it('should create addTariffServiceForm with correct values', () => {

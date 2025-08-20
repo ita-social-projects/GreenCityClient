@@ -115,9 +115,9 @@ describe('TariffSelectorComponent', () => {
     // expect(dialogRefSpy).toHaveBeenCalledWith([
     //   {
     //     id: 1,
-    //     courier: { en: 'UBS', ua: 'УБС' },
-    //     region: { en: 'Kyiv region', ua: 'Київська область' },
-    //     locations: [{ en: 'Kyiv', ua: 'Київ' }]
+    //     courier: { en: 'UBS', uk: 'УБС' },
+    //     region: { en: 'Kyiv region', uk: 'Київська область' },
+    //     locations: [{ en: 'Kyiv', uk: 'Київ' }]
     //   }
     // ]);
   });

@@ -20,7 +20,7 @@
   <div class="create-news-text">{{ attributes.title | translate }}</div>
   <div class="tags">
     <div *ngFor="let tag of tags">
-      <div class="tags-item" *ngIf="tag.isActive" [appLangValue]="{ ua: tag.nameUk, en: tag.nameEn }"></div>
+      <div class="tags-item" *ngIf="tag.isActive" [appLangValue]="{ uk: tag.nameUk, en: tag.nameEn }"></div>
     </div>
   </div>
   <div class="news-content">

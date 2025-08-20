@@ -38,7 +38,7 @@ describe('AboutPageComponent', () => {
   let component: AboutPageComponent;
   let fixture: ComponentFixture<AboutPageComponent>;
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
-  const mockLang = 'ua';
+  const mockLang = 'uk';
 
   const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();

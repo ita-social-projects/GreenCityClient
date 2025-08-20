@@ -102,16 +102,16 @@ describe('UbsUserProfilePageComponent', () => {
     'getUserId',
     'clear'
   ]);
-  fakeLocalStorageService.getCurrentLanguage = () => 'ua';
-  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
+  fakeLocalStorageService.getCurrentLanguage = () => 'uk';
+  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('uk');
   fakeLocalStorageService.getLocations = () => [];
   fakeLocalStorageService.getAccessToken = () => 'token';
   fakeLocalStorageService.getUserId = () => 1;
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLanguage', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => valUa;
-  languageServiceMock.getCurrentLanguage = () => 'ua';
-  languageServiceMock.getCurrentLangObs = () => of('ua');
+  languageServiceMock.getCurrentLanguage = () => 'uk';
+  languageServiceMock.getCurrentLangObs = () => of('uk');
 
   const fakeLocationServiceMock = jasmine.createSpyObj('locationService', [
     'getDistrictAuto',

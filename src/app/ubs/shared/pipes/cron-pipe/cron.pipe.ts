@@ -16,7 +16,7 @@ export class CronPipe implements PipeTransform {
   transform(value: string, lang = 'en'): string {
     const locales = {
       en: 'en',
-      ua: 'uk'
+      uk: 'uk'
     };
 
     if (!value) {

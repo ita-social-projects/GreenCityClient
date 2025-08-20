@@ -52,7 +52,7 @@ describe('FriendDashboardComponent', () => {
   ]);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
 
   const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'getRequests']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);

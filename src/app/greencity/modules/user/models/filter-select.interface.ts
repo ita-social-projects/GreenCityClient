@@ -8,7 +8,7 @@ export interface FilterSelect {
 
 export interface FilterOptions {
   name?: string;
-  nameUa?: string;
+  nameUk?: string;
   value?: string;
   isActive?: boolean;
 }

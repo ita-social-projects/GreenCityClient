@@ -23,7 +23,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getCurrentLanguage.and.returnValue('uk');
 
   const button = {
     add: 'add',
@@ -40,7 +40,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
 
   const fakeService: Service = {
     price: 1,
-    descriptionUk: 'Ua',
+    descriptionUk: 'Uk',
     descriptionEn: 'Eng',
     nameUk: 'Name',
     nameEn: 'NameEng',
@@ -100,7 +100,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   it('editForm() should invoke with correct parameters', () => {
     component.receivedData = {
       serviceData: {
-        nameUk: 'MockNameUA',
+        nameUk: 'MocknameUk',
         price: 1,
         nameEn: 'MockNameEng',
         descriptionUk: 'MockDescrUA',
@@ -117,14 +117,14 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
 
   it('should set date', () => {
     component.setDate();
-    expect(component.newDate).toEqual(fakeTariffService.setDate('ua'));
+    expect(component.newDate).toEqual(fakeTariffService.setDate('uk'));
   });
 
   it('should get current language', () => {
     const result = languageServiceMock.getCurrentLanguage();
     component.setDate();
     expect(languageServiceMock.getCurrentLanguage).toHaveBeenCalled();
-    expect(result).toEqual('ua');
+    expect(result).toEqual('uk');
   });
 
   it('should create service', () => {

@@ -165,7 +165,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
     const city: FilterItem = {
       type: 'location',
-      nameUk: lang === 'ua' ? cityName : '',
+      nameUk: lang === 'uk' ? cityName : '',
       nameEn: lang === 'en' ? cityName : ''
     };
 
@@ -176,7 +176,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       new google.maps.Geocoder()
         .geocode({
           placeId: prediction.place_id,
-          language: lang === 'ua' ? 'en' : 'uk'
+          language: lang === 'uk' ? 'en' : 'uk'
         })
         .then((response) => {
           const translatedName =
@@ -184,7 +184,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
           const cityIndex = this.selectedCities.findIndex((c) => c.nameUk === city.nameUk && c.nameEn === city.nameEn);
           if (cityIndex !== -1) {
-            if (lang === 'ua') {
+            if (lang === 'uk') {
               this.selectedCities[cityIndex].nameEn = translatedName;
             } else {
               this.selectedCities[cityIndex].nameUk = translatedName;

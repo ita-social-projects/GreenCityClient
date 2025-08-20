@@ -72,7 +72,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
         this.tagList.forEach((tag: TagInterface) => {
           const item = {
             name: tag.nameEn,
-            nameUa: tag.nameUk,
+            nameUk: tag.nameUk,
             value: tag.nameEn,
             isActive: false
           };

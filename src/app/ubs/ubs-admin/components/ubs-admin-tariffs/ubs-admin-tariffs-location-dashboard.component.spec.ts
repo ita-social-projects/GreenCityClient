@@ -50,7 +50,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
           locationId: 1,
           locationStatus: 'фейк1',
           locationTranslationDtoList: [
-            { languageCode: 'ua', locationName: 'Фейк1' },
+            { languageCode: 'uk', locationName: 'Фейк1' },
             { languageCode: 'en', locationName: 'Fake1' }
           ],
           longitude: 12
@@ -60,7 +60,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
           locationId: 2,
           locationStatus: 'фейк2',
           locationTranslationDtoList: [
-            { languageCode: 'ua', locationName: 'Фейк2' },
+            { languageCode: 'uk', locationName: 'Фейк2' },
             { languageCode: 'en', locationName: 'Fake2' }
           ],
           longitude: 13
@@ -68,7 +68,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       ],
       regionId: 1,
       regionTranslationDtos: [
-        { regionName: 'Фейк область', languageCode: 'ua' },
+        { regionName: 'Фейк область', languageCode: 'uk' },
         { regionName: 'Fake region', languageCode: 'en' }
       ]
     }
@@ -142,7 +142,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         locationId: 159,
         locationStatus: 'active',
         locationTranslationDtoList: [
-          { languageCode: 'ua', locationName: 'фейк' },
+          { languageCode: 'uk', locationName: 'фейк' },
           { languageCode: 'en', locationName: 'fake' }
         ],
         longitude: 0
@@ -152,7 +152,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         locationId: 0,
         locationStatus: 'active',
         locationTranslationDtoList: [
-          { languageCode: 'ua', locationName: 'фейк2' },
+          { languageCode: 'uk', locationName: 'фейк2' },
           { languageCode: 'en', locationName: 'fake' }
         ],
         longitude: 0
@@ -162,7 +162,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     regionTranslationDtos: [
       {
         regionName: 'fake',
-        languageCode: 'ua'
+        languageCode: 'uk'
       }
     ]
   };
@@ -197,12 +197,12 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', ['getCurrentLanguage', 'languageBehaviourSubject']);
-  localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.getCurrentLanguage.and.returnValue(of('uk'));
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
 
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getCurrentLangObs', 'getLangValue']);
-  languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getCurrentLangObs.and.returnValue(of('uk'));
+  languageServiceMock.getCurrentLanguage.and.returnValue('uk');
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
 
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
@@ -398,7 +398,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         id: 1,
         name: 'Фейк1',
         locationTranslationDtoList: [
-          { languageCode: 'ua', locationName: 'Фейк1' },
+          { languageCode: 'uk', locationName: 'Фейк1' },
           { languageCode: 'en', locationName: 'Fake1' }
         ]
       },
@@ -406,7 +406,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         id: 2,
         name: 'Фейк2',
         locationTranslationDtoList: [
-          { languageCode: 'ua', locationName: 'Фейк2' },
+          { languageCode: 'uk', locationName: 'Фейк2' },
           { languageCode: 'en', locationName: 'Fake2' }
         ]
       }
@@ -539,7 +539,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         locationTranslationDtoList: [
           {
             locationName: 'fakeValue',
-            languageCode: 'ua'
+            languageCode: 'uk'
           },
           {
             locationName: 'Fake1',
@@ -553,7 +553,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         locationTranslationDtoList: [
           {
             locationName: 'fakeValue',
-            languageCode: 'ua'
+            languageCode: 'uk'
           },
           {
             locationName: 'Fake2',
@@ -588,7 +588,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       locationTranslationDtoList: [
         {
           locationName: 'fakeValue',
-          languageCode: 'ua'
+          languageCode: 'uk'
         },
         {
           locationName: 'Fake1',
@@ -611,7 +611,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       locationTranslationDtoList: [
         {
           locationName: 'fakeValue',
-          languageCode: 'ua'
+          languageCode: 'uk'
         },
         {
           locationName: 'Fake1',
@@ -619,7 +619,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         }
       ]
     };
-    expect(component.getSelectedCityName(city, 'ua')).toEqual('fakeValue');
+    expect(component.getSelectedCityName(city, 'uk')).toEqual('fakeValue');
     expect(component.getSelectedCityName(city, 'en')).toEqual('Fake1');
   });
 
@@ -638,7 +638,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         locationTranslationDtoList: [
           {
             locationName: 'fakeValue',
-            languageCode: 'ua'
+            languageCode: 'uk'
           },
           {
             locationName: 'Fake1',
@@ -821,7 +821,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.locations = mockRegion;
     component.region.setValue('Фейк область5');
     component.onChangeRegion();
-    expect(component.region.value).toBe(TariffRegionAll.ua);
+    expect(component.region.value).toBe(TariffRegionAll.uk);
     expect(component.canRegionInputValueBeRegion).toBeTruthy();
     component.region.setValue('Фейк обла');
     component.onChangeRegion();
@@ -1043,11 +1043,11 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component.isAllOptionSelected(TariffRegionAll.en)).toBeTrue();
     expect('all'.toLowerCase()).toEqual(TariffRegionAll.en);
   });
-  it('isAllOptionSelected should return true if option all selected in Ua', () => {
+  it('isAllOptionSelected should return true if option all selected in Uk', () => {
     expect(component.isAllOptionSelected('Все')).toBeTrue();
     expect(component.isAllOptionSelected('все')).toBeTrue();
-    expect(component.isAllOptionSelected(TariffRegionAll.ua)).toBeTrue();
-    expect('все'.toLowerCase()).toEqual(TariffRegionAll.ua);
+    expect(component.isAllOptionSelected(TariffRegionAll.uk)).toBeTrue();
+    expect('все'.toLowerCase()).toEqual(TariffRegionAll.uk);
   });
   it('isAllOptionSelected should return false if option other than all selected', () => {
     expect(component.isAllOptionSelected('test')).toBeFalse();

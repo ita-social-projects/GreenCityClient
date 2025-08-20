@@ -25,11 +25,11 @@ describe('UbsUserAgreementComponent', () => {
     mockUserAgreementService.getUserAgreement.and.returnValue(of(mockUserAgreement));
 
     mockLanguageService = jasmine.createSpyObj<LanguageService>('LanguageService', ['getCurrentLangObs', 'getLangValue']);
-    mockLanguageService.getCurrentLangObs.and.returnValue(of(Language.UA));
-    mockLanguageService.getLangValue.and.returnValue('UA');
+    mockLanguageService.getCurrentLangObs.and.returnValue(of(Language.UK));
+    mockLanguageService.getLangValue.and.returnValue('UK');
 
     mockLocalStorageService = jasmine.createSpyObj<LocalStorageService>('LocalStorageService', ['getCurrentLanguage']);
-    mockLocalStorageService.getCurrentLanguage.and.returnValue(Language.UA);
+    mockLocalStorageService.getCurrentLanguage.and.returnValue(Language.UK);
 
     TestBed.configureTestingModule({
       declarations: [UbsUserAgreementComponent, LangValueDirective],

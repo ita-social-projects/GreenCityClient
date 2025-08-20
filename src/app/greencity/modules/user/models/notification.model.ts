@@ -36,7 +36,7 @@ export enum FilterCriteria {
 export interface NotificationFilter {
   name: string;
   nameEn?: string;
-  nameUa?: string;
+  nameUk?: string;
   isSelected: boolean;
   filterArr?: string[];
 }
@@ -58,55 +58,55 @@ export enum NotificationCriteria {
 }
 
 export const filterCriteriaOptions = [
-  { name: FilterCriteria.ALL, isSelected: true, nameUa: 'Усі', nameEn: 'All' },
-  { name: FilterCriteria.TYPE, isSelected: false, nameUa: 'Типом', nameEn: 'Type' },
-  { name: FilterCriteria.ORIGIN, isSelected: false, nameUa: 'Джерелом', nameEn: 'Origin' }
+  { name: FilterCriteria.ALL, isSelected: true, nameUk: 'Усі', nameEn: 'All' },
+  { name: FilterCriteria.TYPE, isSelected: false, nameUk: 'Типом', nameEn: 'Type' },
+  { name: FilterCriteria.ORIGIN, isSelected: false, nameUk: 'Джерелом', nameEn: 'Origin' }
 ];
 
 export const notificationCriteriaOptions: NotificationFilter[] = [
   {
     name: 'All',
     nameEn: 'All',
-    nameUa: 'Усі',
+    nameUk: 'Усі',
     isSelected: true
   },
   {
     name: NotificationCriteria.COMMENT_LIKE,
     nameEn: 'Comment like',
-    nameUa: 'Вподобання коментаря',
+    nameUk: 'Вподобання коментаря',
     filterArr: ['ECONEWS_COMMENT_LIKE', 'EVENT_COMMENT_LIKE'],
     isSelected: true
   },
   {
     name: NotificationCriteria.COMMENT_REPLY,
     nameEn: 'Comment reply',
-    nameUa: 'Відповідь на коментар',
+    nameUk: 'Відповідь на коментар',
     filterArr: ['ECONEWS_COMMENT_REPLY', 'EVENT_COMMENT_REPLY'],
     isSelected: true
   },
-  { name: NotificationCriteria.ECONEWS_LIKE, nameEn: ' News Like', nameUa: 'Вподобання новини', isSelected: true },
-  { name: NotificationCriteria.ECONEWS_CREATED, nameEn: ' News Created', nameUa: 'Створення новини', isSelected: true },
-  { name: NotificationCriteria.ECONEWS_COMMENT, nameEn: ' News Commented', nameUa: 'Коментарі новин', isSelected: true },
-  { name: NotificationCriteria.EVENT_CREATED, nameEn: 'Event created', nameUa: 'Створення події', isSelected: true },
-  { name: NotificationCriteria.EVENT_CANCELED, nameEn: 'Event canceled', nameUa: 'Скасування події', isSelected: true },
-  { name: NotificationCriteria.EVENT_UPDATED, nameEn: 'Event updated', nameUa: 'Зміни у подіях', isSelected: true },
-  { name: NotificationCriteria.EVENT_JOINED, nameEn: 'Event joined', nameUa: 'приєднання до події', isSelected: true },
-  { name: NotificationCriteria.EVENT_COMMENT, nameEn: 'Event commented', nameUa: 'Коментарі подій', isSelected: true },
+  { name: NotificationCriteria.ECONEWS_LIKE, nameEn: ' News Like', nameUk: 'Вподобання новини', isSelected: true },
+  { name: NotificationCriteria.ECONEWS_CREATED, nameEn: ' News Created', nameUk: 'Створення новини', isSelected: true },
+  { name: NotificationCriteria.ECONEWS_COMMENT, nameEn: ' News Commented', nameUk: 'Коментарі новин', isSelected: true },
+  { name: NotificationCriteria.EVENT_CREATED, nameEn: 'Event created', nameUk: 'Створення події', isSelected: true },
+  { name: NotificationCriteria.EVENT_CANCELED, nameEn: 'Event canceled', nameUk: 'Скасування події', isSelected: true },
+  { name: NotificationCriteria.EVENT_UPDATED, nameEn: 'Event updated', nameUk: 'Зміни у подіях', isSelected: true },
+  { name: NotificationCriteria.EVENT_JOINED, nameEn: 'Event joined', nameUk: 'приєднання до події', isSelected: true },
+  { name: NotificationCriteria.EVENT_COMMENT, nameEn: 'Event commented', nameUk: 'Коментарі подій', isSelected: true },
   {
     name: NotificationCriteria.FRIEND_REQUEST_RECEIVED,
     nameEn: 'Friend request received',
-    nameUa: 'Нові запити дружити',
+    nameUk: 'Нові запити дружити',
     isSelected: true
   },
   {
     name: NotificationCriteria.FRIEND_REQUEST_ACCEPTED,
     nameEn: 'Friend request accepted',
-    nameUa: 'Підтверджені запити дружити',
+    nameUk: 'Підтверджені запити дружити',
     isSelected: true
   }
 ];
 export const projects: NotificationFilter[] = [
-  { name: 'All', nameEn: 'All', nameUa: 'Усі', isSelected: true },
+  { name: 'All', nameEn: 'All', nameUk: 'Усі', isSelected: true },
   { name: 'GREENCITY', nameEn: 'GreenCity', isSelected: false },
   { name: 'PICKUP', nameEn: 'Pick up', isSelected: false }
 ];

@@ -7,11 +7,11 @@ export class TariffStatusPipe implements PipeTransform {
   transform(value: string, lang: string) {
     switch (value) {
       case 'NEW':
-        return lang === 'ua' ? 'Незаповнена' : 'Blank';
+        return lang === 'uk' ? 'Незаповнена' : 'Blank';
       case 'ACTIVE':
-        return lang === 'ua' ? 'Активно' : 'Active';
+        return lang === 'uk' ? 'Активно' : 'Active';
       default:
-        return lang === 'ua' ? 'Неактивно' : 'Inactive';
+        return lang === 'uk' ? 'Неактивно' : 'Inactive';
     }
   }
 }

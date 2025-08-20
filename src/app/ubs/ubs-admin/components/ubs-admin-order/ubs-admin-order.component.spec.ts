@@ -60,8 +60,8 @@ describe('UbsAdminOrderComponent', () => {
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
   localStorageServiceMock.languageSubject = new Subject<string>();
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
 
   const ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', [
     'employeePositions$',

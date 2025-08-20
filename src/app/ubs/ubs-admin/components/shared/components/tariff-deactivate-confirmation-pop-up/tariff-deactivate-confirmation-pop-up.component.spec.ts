@@ -19,9 +19,9 @@ describe('TariffDeactivateConfirmationPopUpComponent', () => {
   const fakeMatDialog = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialog.afterClosed.and.returnValue(of(true));
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getLangValue', 'getCurrentLangObs']);
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getCurrentLanguage.and.returnValue('uk');
   languageServiceMock.getLangValue.and.returnValue('val1');
-  languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
+  languageServiceMock.getCurrentLangObs.and.returnValue(of('uk'));
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

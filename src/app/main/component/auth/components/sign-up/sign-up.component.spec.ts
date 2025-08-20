@@ -37,7 +37,7 @@ describe('SignUpComponent', () => {
   let fixture: ComponentFixture<SignUpComponent>;
   let router: Router;
   const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
   localStorageServiceMock.getUserId = () => 1;

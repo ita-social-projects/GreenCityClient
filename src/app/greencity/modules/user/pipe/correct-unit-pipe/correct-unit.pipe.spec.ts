@@ -12,15 +12,15 @@ describe('CorrectUnitPipe', () => {
   });
 
   it('should use correct unit form for 21,31... with Ukrainian language', () => {
-    expect(pipe.transform('profile.elements', 21, 'ua')).toBe('profile.elements.singular');
+    expect(pipe.transform('profile.elements', 21, 'uk')).toBe('profile.elements.singular');
   });
 
   it('should use correct unit form for 2,3,4  with Ukrainian language', () => {
-    expect(pipe.transform('profile.elements', 2, 'ua')).toBe('profile.elements.plural.units-2-3-4');
+    expect(pipe.transform('profile.elements', 2, 'uk')).toBe('profile.elements.plural.units-2-3-4');
   });
 
   it('should use correct unit form for plural values with Ukrainian language', () => {
-    expect(pipe.transform('profile.elements', 25, 'ua')).toBe('profile.elements.plural.units-more-5');
+    expect(pipe.transform('profile.elements', 25, 'uk')).toBe('profile.elements.plural.units-more-5');
   });
 
   it('should use correct unit form for plural values with English language', () => {

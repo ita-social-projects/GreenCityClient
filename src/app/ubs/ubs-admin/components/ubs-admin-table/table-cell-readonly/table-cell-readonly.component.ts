@@ -22,7 +22,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   paid: boolean;
   halfpaid: boolean;
   dataObj: IColumnBelonging = null;
-  data: string | number | { ua: string; en: string } | null;
+  data: string | number | { uk: string; en: string } | null;
   private readonly font = '12px Lato, sans-serif';
   adminTableService = inject(AdminTableService);
 
@@ -44,7 +44,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
 
       const replaceRules = {
         [Language.EN]: { regex: /л|шт/gi, match: { л: 'L', шт: 'p' } },
-        [Language.UA]: { regex: /[lp]/gi, match: { l: 'л', p: 'шт' } }
+        [Language.UK]: { regex: /[lp]/gi, match: { l: 'л', p: 'шт' } }
       };
 
       if (this.key === TableKeys.bagsAmount && replaceRules[this.lang]) {

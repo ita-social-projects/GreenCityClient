@@ -31,7 +31,7 @@ describe('CronPipe', () => {
   });
 
   it('returns null on empty input', () => {
-    expect(pipe.transform('', 'ua')).toBe(pipe.localesNone.uk.none);
+    expect(pipe.transform('', 'uk')).toBe(pipe.localesNone.uk.none);
     expect(pipe.transform()).toBe(pipe.localesNone.en.none);
   });
 
@@ -41,9 +41,9 @@ describe('CronPipe', () => {
     expect(pipe.transform('10 11,22 * * *')).toBe('at minute 10 past hour 11 and 22');
   });
 
-  it('should transform cron string correctly for ua translation', () => {
-    expect(pipe.transform('10 15 5-7 1,9,11 0', 'ua')).toBe('о 15:10 щодня з 5 до 7 дня місяця та у Нд у Січ, Вер та Лист');
-    expect(pipe.transform('10 * * * *', 'ua')).toBe('кожну 10 хвилину');
-    expect(pipe.transform('10 11,22 * * *', 'ua')).toBe('кожну 10 хвилину після 11 та 22 години');
+  it('should transform cron string correctly for uk translation', () => {
+    expect(pipe.transform('10 15 5-7 1,9,11 0', 'uk')).toBe('о 15:10 щодня з 5 до 7 дня місяця та у Нд у Січ, Вер та Лист');
+    expect(pipe.transform('10 * * * *', 'uk')).toBe('кожну 10 хвилину');
+    expect(pipe.transform('10 11,22 * * *', 'uk')).toBe('кожну 10 хвилину після 11 та 22 години');
   });
 });

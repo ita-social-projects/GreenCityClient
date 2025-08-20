@@ -71,9 +71,9 @@ describe('FriendProfilePageComponent', () => {
   it('methd ngOnInit should set default language', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    localStorageServiceMock.getCurrentLanguage.and.returnValue('ua');
+    localStorageServiceMock.getCurrentLanguage.and.returnValue('uk');
     const value = localStorageServiceMock.getCurrentLanguage();
-    expect(value).toBe('ua');
+    expect(value).toBe('uk');
     component.ngOnInit();
     translateServiseMock.setDefaultLang(value);
     expect(translateServiseMock.setDefaultLang).toHaveBeenCalledWith(value);
