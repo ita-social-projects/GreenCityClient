@@ -3,7 +3,7 @@ import { of, Subject, throwError } from 'rxjs';
 import { ChatFacade } from './chat.facade';
 import { ChatApiService } from '../data/chat-api.service';
 import { TelegramSocketService } from '../service/chats/telegram-socket.service';
-import { ChatDto, ClientInfoRecord, DeliveryStatus, MessageDto } from '../model/chat-page.interface';
+import { ChatDto, ClientInfoRecord, DeliveryStatus, MessageDto, MessageViewingStatus } from '../model/chat-page.interface';
 import { Location } from '@angular/common';
 
 class ApiMock {
@@ -11,6 +11,7 @@ class ApiMock {
   getMessages = jasmine.createSpy('getMessages');
   sendMessage = jasmine.createSpy('sendMessage');
   getLastOrder = jasmine.createSpy('getLastOrder');
+  markMessagesRead = jasmine.createSpy('markMessagesRead');
 }
 
 class SocketMock {
@@ -300,5 +301,245 @@ describe('ChatFacade', () => {
     it('throws when no recognized key is present', () => {
       expect(() => (facade as any).resolveInternalId({ nope: true })).toThrowError('SocketNewChat payload missing internal id.');
     });
+  });
+});
+describe('Additional branches', () => {
+  let facade: ChatFacade;
+  let api: ApiMock;
+  let socket: SocketMock;
+
+  const locMock = {
+    path: () => '/ubs/admin/chat-page',
+    replaceState: jasmine.createSpy('replaceState')
+  } as unknown as Location;
+
+  const sampleChat = (over: Partial<ChatDto> = {}): ChatDto => ({
+    id: 1,
+    chatId: '1001',
+    username: 'john',
+    firstName: 'John',
+    lastName: 'Doe',
+    lastMessage: { text: 'hi', sendAt: new Date().toISOString(), messageViewingStatus: 'SENT' } as any,
+    ...over
+  });
+
+  const socketMsg = (over: Partial<MessageDto> = {}): MessageDto => ({
+    id: 10,
+    text: 'hello from socket',
+    sendAt: new Date().toISOString(),
+    fromManager: false,
+    deliveryStatus: 'DELIVERED' as DeliveryStatus,
+    messageViewingStatus: 'VIEWED' as any,
+    assets: [],
+    ...over
+  });
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        ChatFacade,
+        { provide: ChatApiService, useClass: ApiMock },
+        { provide: TelegramSocketService, useClass: SocketMock },
+        { provide: Location, useValue: locMock }
+      ]
+    });
+    facade = TestBed.inject(ChatFacade);
+    api = TestBed.inject(ChatApiService) as any;
+    socket = TestBed.inject(TelegramSocketService) as any;
+
+    socket.subscribeToMessages.and.callFake(() => new Subject<MessageDto>());
+  });
+
+  it('loadPage sets isLoading false on error', () => {
+    api.getChats.and.returnValue(throwError(() => new Error('fail')));
+    facade.init();
+    expect(facade.isLoading()).toBeFalse();
+  });
+
+  it('updateChatIdInUrl replaces state with hash preserved', () => {
+    spyOn(locMock, 'path').and.returnValue('/ubs/admin/chat-page?foo=1#section');
+    (facade as any).updateChatIdInUrl(42);
+    expect(locMock.replaceState).toHaveBeenCalledWith('/ubs/admin/chat-page?foo=1&chatId=42#section');
+  });
+
+  it('selectChat marks UNREAD messages as read', () => {
+    api.getChats.and.returnValue(of({ page: [sampleChat({ id: 33, chatId: '033' })], totalPages: 1 }));
+    api.getMessages.and.returnValue(
+      of({
+        page: [
+          { id: 101, text: 'unread', sendAt: new Date().toISOString(), fromManager: false, messageViewingStatus: 'UNREAD', assets: [] }
+        ],
+        totalPages: 1
+      })
+    );
+    api.markMessagesRead.and.returnValue(of({}));
+
+    facade.init();
+    const chat = facade.chats()[0];
+    facade.selectChat(chat);
+
+    expect(api.markMessagesRead).toHaveBeenCalledWith([101]);
+  });
+
+  it('fetchMessages logs error on API failure', () => {
+    spyOn(console, 'error');
+    api.getChats.and.returnValue(of({ page: [sampleChat({ id: 44 })], totalPages: 1 }));
+    api.getMessages.and.returnValue(throwError(() => new Error('fetch fail')));
+    facade.init();
+    facade.selectChat(facade.chats()[0]);
+    expect(console.error).toHaveBeenCalledWith('Failed to fetch messages:', jasmine.any(Error));
+  });
+
+  it('sendMessage logs error on API failure', () => {
+    spyOn(console, 'error');
+    (facade as any).selectedChat.set({
+      nickname: 'N',
+      initial: 'N',
+      chatId: '1',
+      chatInternalId: 1,
+      lastMessage: '',
+      time: '',
+      messages: []
+    });
+    api.sendMessage.and.returnValue(throwError(() => new Error('send fail')));
+    facade.sendMessage('oops');
+    expect(console.error).toHaveBeenCalledWith('Failed to send message:', jasmine.any(Error));
+  });
+
+  it('toggleClientInfo sets generic error on non-404 failure', () => {
+    api.getChats.and.returnValue(of({ page: [sampleChat({ id: 77, chatId: '077' })], totalPages: 1 }));
+    api.getMessages.and.returnValue(of({ page: [], totalPages: 1 }));
+    api.getLastOrder.and.returnValue(throwError(() => ({ status: 500 })));
+
+    facade.init();
+    facade.selectChat(facade.chats()[0]);
+    facade.toggleClientInfo();
+
+    expect(facade.clientInfoData()).toEqual({ error: 'client-panel.error', chatId: 77 } as any);
+  });
+
+  it('openImageModal and closeImageModal update selectedImageUrl', () => {
+    facade.openImageModal('http://x');
+    expect(facade.selectedImageUrl()).toBe('http://x');
+    facade.closeImageModal();
+    expect(facade.selectedImageUrl()).toBeNull();
+  });
+});
+
+describe('Remaining uncovered branches', () => {
+  let facade: ChatFacade;
+  let api: ApiMock;
+  let socket: SocketMock;
+
+  const locMock = {
+    path: () => '/ubs/admin/chat-page',
+    replaceState: jasmine.createSpy('replaceState')
+  } as unknown as Location;
+
+  const sampleChat = (over: Partial<ChatDto> = {}): ChatDto => ({
+    id: 1,
+    chatId: '1001',
+    username: 'john',
+    firstName: 'John',
+    lastName: 'Doe',
+    lastMessage: { text: 'hi', sendAt: new Date().toISOString(), messageViewingStatus: 'SENT' } as any,
+    ...over
+  });
+
+  const socketMsg = (over: Partial<MessageDto> = {}): MessageDto => ({
+    id: 10,
+    text: 'hello from socket',
+    sendAt: new Date().toISOString(),
+    fromManager: false,
+    deliveryStatus: 'DELIVERED' as DeliveryStatus,
+    messageViewingStatus: 'VIEWED' as any,
+    assets: [],
+    ...over
+  });
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        ChatFacade,
+        { provide: ChatApiService, useClass: ApiMock },
+        { provide: TelegramSocketService, useClass: SocketMock },
+        { provide: Location, useValue: locMock }
+      ]
+    });
+    facade = TestBed.inject(ChatFacade);
+    api = TestBed.inject(ChatApiService) as any;
+    socket = TestBed.inject(TelegramSocketService) as any;
+
+    socket.subscribeToMessages.and.callFake(() => new Subject<MessageDto>());
+  });
+
+  it('selectChat early return when selecting the same chat again', () => {
+    api.getChats.and.returnValue(of({ page: [sampleChat({ id: 123 })], totalPages: 1 }));
+    api.getMessages.and.returnValue(of({ page: [], totalPages: 1 }));
+    api.markMessagesRead.and.returnValue(of({}));
+
+    facade.init();
+    const chat = facade.chats()[0];
+    facade.selectChat(chat);
+    api.markMessagesRead.calls.reset();
+
+    facade.selectChat(chat);
+
+    expect(api.markMessagesRead).not.toHaveBeenCalled();
+  });
+
+  it('socket handler returns early when selectedChat is null', () => {
+    api.getChats.and.returnValue(of({ page: [sampleChat({ id: 321 })], totalPages: 1 }));
+    api.getMessages.and.returnValue(of({ page: [], totalPages: 1 }));
+    facade.init();
+    const chat = facade.chats()[0];
+    facade.selectChat(chat);
+
+    const s$ = new Subject<MessageDto>();
+    socket.subscribeToMessages.and.returnValue(s$);
+
+    (facade as any).selectedChat.set(null);
+
+    s$.next(socketMsg({ text: 'should not throw' }));
+
+    expect(facade.selectedChat()).toBeNull();
+  });
+
+  it('fetchMessages returns early when no selected chat', () => {
+    // eslint-disable-next-line max-len
+    api.getMessages.and.returnValue(
+      of({ page: [{ id: 1, text: 'x', sendAt: new Date().toISOString(), fromManager: true } as any], totalPages: 1 })
+    );
+    (facade as any).selectedChat.set(null);
+
+    (facade as any).fetchMessages(999);
+    expect(facade.selectedChat()).toBeNull();
+  });
+
+  it('ensureTileSocket does not resubscribe when already subscribed', () => {
+    const s$ = new Subject<MessageDto>();
+    socket.subscribeToMessages.and.returnValue(s$);
+
+    api.getChats.and.returnValue(of({ page: [sampleChat({ id: 55 })], totalPages: 1 }));
+    facade.init();
+    (facade as any).ensureTileSocket(55);
+
+    (facade as any).ensureTileSocket(55);
+
+    expect(socket.subscribeToMessages).toHaveBeenCalledTimes(1);
+  });
+
+  it('toggleClientInfo does nothing when no selected chat', () => {
+    (facade as any).selectedChat.set(null);
+
+    facade.toggleClientInfo();
+    expect(api.getLastOrder).not.toHaveBeenCalled();
+  });
+  it('handles newChats$ with internalId present', () => {
+    const nc: any = { internalId: 999, chatId: 'c999' };
+    socket.newChats$.next(nc);
+
+    const list = facade.chats();
+    expect(list[0].chatInternalId).toBe(999);
   });
 });
