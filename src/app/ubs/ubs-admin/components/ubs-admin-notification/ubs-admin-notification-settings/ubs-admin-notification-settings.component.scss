@@ -133,3 +133,7 @@
     margin-top: 4px;
   }
 }
+
+::ng-deep .mat-mdc-select-min-line {
+  padding: 0;
+}
