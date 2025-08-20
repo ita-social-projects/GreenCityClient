@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": ["Bash(mv:*)", "Bash(rm:*)", "Bash(find:*)", "Bash(npx tsc:*)", "Bash(rg:*)", "Bash(npm test:*)"],
+    "deny": [],
+    "ask": []
+  }
+}

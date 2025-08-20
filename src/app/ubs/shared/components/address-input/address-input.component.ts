@@ -88,19 +88,19 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
   autocompleteRegionRequest = {
     input: '',
     types: ['administrative_area_level_1'],
-    componentRestrictions: { country: 'ua' }
+    componentRestrictions: { country: 'uk' }
   };
 
   autocompleteCityRequest = {
     input: '',
     types: ['(cities)'],
-    componentRestrictions: { country: 'ua' }
+    componentRestrictions: { country: 'uk' }
   };
 
   autocompleteStreetRequest = {
     input: '',
     types: ['address'],
-    componentRestrictions: { country: 'ua' }
+    componentRestrictions: { country: 'uk' }
   };
 
   get region(): FormControl {
