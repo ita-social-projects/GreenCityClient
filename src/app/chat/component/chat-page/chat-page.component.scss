@@ -223,6 +223,7 @@
     padding: 0.6rem;
     cursor: pointer;
     transform: rotate(180deg);
+
     svg {
       fill: var(--primary-white);
     }
@@ -341,6 +342,7 @@
   vertical-align: middle;
   margin-left: 4px;
 }
+
 .meta {
   display: flex;
   flex-direction: column;
