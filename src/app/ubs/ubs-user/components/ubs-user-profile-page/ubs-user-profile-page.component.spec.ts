@@ -838,10 +838,27 @@ describe('UbsUserProfilePageComponent', () => {
 
   describe('onSwitchChanged method', () => {
     it('should toggle telegramIsNotify and call goToTelegramUrl when id is telegramNotification', () => {
+      const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+      spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
       spyOn(component, 'goToTelegramUrl');
+      component.userProfile.telegramIsNotify = false;
+      component.onSwitchChanged();
+      expect(component.goToTelegramUrl).toHaveBeenCalled();
+      expect(component.userProfile.telegramIsNotify).toBeTrue();
+      expect(component.userForm.get('telegramIsNotify')?.value).toBeTrue();
+    });
+
+    it('should not call goToTelegramUrl when user cancels', () => {
+      const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(false) });
+      spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+      spyOn(component, 'goToTelegramUrl');
+
+      component.userProfile.telegramIsNotify = false;
       component.onSwitchChanged();
 
-      expect(component.goToTelegramUrl).toHaveBeenCalled();
+      expect(component.goToTelegramUrl).not.toHaveBeenCalled();
+      expect(component.userProfile.telegramIsNotify).toBeFalse();
+      expect(component.userForm.get('telegramIsNotify')?.value).toBeFalse();
     });
   });
 
