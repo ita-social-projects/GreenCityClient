@@ -613,6 +613,9 @@
       "deactivate": "Deactivate",
       "no": "No",
       "yes": "Yes"
+    },
+    "filter": {
+      "no-content": "Nothing was found for your filters"
     }
   },
   "ubs-sidebar": {
