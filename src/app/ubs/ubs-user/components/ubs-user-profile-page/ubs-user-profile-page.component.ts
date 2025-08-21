@@ -463,6 +463,10 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     }
   }
 
+  isTelegramNotifyChecked(): boolean {
+    return !!this.userForm?.get('telegramIsNotify')?.value;
+  }
+
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();

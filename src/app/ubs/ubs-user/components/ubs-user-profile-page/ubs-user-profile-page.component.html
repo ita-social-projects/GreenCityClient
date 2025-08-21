@@ -127,7 +127,7 @@
                 <div class="social-media">Telegram</div>
                 <app-ubs-switcher
                   class="ubs-switcher"
-                  [isChecked]="userForm.get('telegramIsNotify')?.value"
+                  [isChecked]="isTelegramNotifyChecked()"
                   [isEditing]="!isEditing"
                   value="id1"
                   id="telegramNotification"
