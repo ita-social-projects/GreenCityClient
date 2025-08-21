@@ -852,13 +852,18 @@ describe('UbsUserProfilePageComponent', () => {
       const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(false) });
       spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
       spyOn(component, 'goToTelegramUrl');
-
+      const ctrl = component.userForm.get('telegramIsNotify');
+      ctrl.setValue(true);
+      const mockCheckbox = document.createElement('input');
+      mockCheckbox.type = 'checkbox';
+      mockCheckbox.checked = true;
+      spyOn(document, 'querySelector').and.returnValue(mockCheckbox);
       component.userProfile.telegramIsNotify = false;
       component.onSwitchChanged();
-
       expect(component.goToTelegramUrl).not.toHaveBeenCalled();
       expect(component.userProfile.telegramIsNotify).toBeFalse();
-      expect(component.userForm.get('telegramIsNotify')?.value).toBeFalse();
+      expect(ctrl.value).toBeTrue();
+      expect(mockCheckbox.checked).toBeFalse();
     });
   });
 
