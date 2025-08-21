@@ -22,7 +22,7 @@ const environmentFileContent = `export const environment = {
   ubsAdmin: {
     backendUbsAdminLink: '${process.env.BACKEND_UBS_ADMIN_LINK}'
   },
-  googleClientId: '${process.env.GOOGLE_SCLIENT_ID}',
+  googleClientId: '${process.env.GOOGLE_CLIENT_ID}',
   agmCoreModuleApiKey: '${process.env.AGM_CORE_MODULE_API_KEY}'
 };
 `;

@@ -52,14 +52,14 @@ jobs:
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt-get install ./google-chrome-stable_current_amd64.deb -y --allow-downgrades
 
+      - name: Build Test Environment
+        run: npx ts-node ./scripts/setenv.ts
+
       - name: JS Linter
         run: npm run lint
 
       - name: CSS Linter
         run: npm run stylelint
-
-      - name: Build Test Environment
-        run: npx ts-node ./scripts/setenv.ts
 
       - name: Unit Tests
         run: npx ng test --watch=false --progress=false --code-coverage=true --browsers=ChromeHeadless
@@ -103,7 +103,7 @@ jobs:
       - name: Build
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/prod-branch" ]]; then
-            npx ng build --configuration=prod --base-href=/GreenCityClient/
+            npx ng build --configuration production --base-href=/GreenCityClient/
           else
             npx ng build --configuration=stage --base-href=/GreenCityClient/
           fi
