@@ -55,7 +55,7 @@ Thumbs.db
 .env.prod
 .env.copy
 
-src/environments/environment copy.ts
+src/environments/environment.copy.ts
 src/environments/environment.stage.ts
 src/environments/environment.ts
 src/environments/environment.prod.ts
