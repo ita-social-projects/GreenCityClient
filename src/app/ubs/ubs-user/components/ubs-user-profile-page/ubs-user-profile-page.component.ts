@@ -67,6 +67,12 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     confirm: 'ubs-client-profile.btn.delete-profile-save',
     cancel: 'ubs-client-profile.btn.delete-profile-cancel'
   };
+  dataTelegramSubscription = {
+    title: 'ubs-client-profile.telegram-subscription-title',
+    text: 'ubs-client-profile.telegram-subscription-message',
+    confirm: 'ubs-client-profile.telegram-start-bot',
+    cancel: 'ubs-client-profile.btn.cancel'
+  };
 
   @ViewChild('#regionInput', { static: true }) regionInputRef: ElementRef<HTMLInputElement>;
 
@@ -426,9 +432,34 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   onSwitchChanged(): void {
-    this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
-    if (this.userProfile.telegramIsNotify) {
-      this.goToTelegramUrl();
+    const currentValue = this.userProfile.telegramIsNotify;
+    const newValue = !currentValue;
+
+    if (newValue) {
+      const matDialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: this.dataTelegramSubscription,
+        hasBackdrop: true
+      });
+      matDialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((confirmed) => {
+          if (confirmed) {
+            this.userProfile.telegramIsNotify = true;
+            this.userForm.markAsDirty();
+            this.userForm.get('telegramIsNotify')?.setValue(true);
+            this.goToTelegramUrl();
+          } else {
+            const switcherInput = document.querySelector('.checkbox-wrapper input[type="checkbox"]') as HTMLInputElement;
+            if (switcherInput) {
+              switcherInput.checked = false;
+            }
+          }
+        });
+    } else {
+      this.userProfile.telegramIsNotify = false;
+      this.userForm.markAsDirty();
+      this.userForm.get('telegramIsNotify')?.setValue(false);
     }
   }
 
