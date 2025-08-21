@@ -96,22 +96,16 @@ jobs:
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/prod-branch" ]]; then
             npx ts-node ./scripts/setenv.ts prod
-          elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
-            npx ts-node ./scripts/setenv.ts stage
           else
-            echo "No environment-specific build configured for this branch."
-            exit 1
+            npx ts-node ./scripts/setenv.ts stage
           fi
 
       - name: Build
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/prod-branch" ]]; then
             npm run build-prod
-          elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
-            npm run build-stage
           else
-            echo "No environment-specific build configured for this branch."
-            exit 1
+            npm run build-stage
           fi
 
       - name: Set outputs
