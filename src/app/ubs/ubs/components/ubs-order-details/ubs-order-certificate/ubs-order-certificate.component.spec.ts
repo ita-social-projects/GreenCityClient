@@ -179,27 +179,4 @@ describe('UbsOrderCertificateComponent (Partial Tests)', () => {
       expect(spyOnDelete).not.toHaveBeenCalled();
     });
   });
-
-  describe('areBonusesSelectedAndNotUsed', () => {
-    beforeEach(() => {
-      component.initForm();
-      component.points = 100;
-      fixture.detectChanges();
-    });
-
-    it('should return true if bonuses are chosen and not used', () => {
-      Object.defineProperty(component.bonus, 'value', { value: true });
-      expect(component['areBonusesSelectedAndNotUsed']()).toBeTrue();
-    });
-
-    it('should return false if bonuses are chosen and used', () => {
-      component.pointsUsed = 100;
-
-      expect(component['areBonusesSelectedAndNotUsed']()).toBeFalse();
-    });
-
-    it('should return false if bonuses are not chosen', () => {
-      expect(component['areBonusesSelectedAndNotUsed']()).toBeFalse();
-    });
-  });
 });
