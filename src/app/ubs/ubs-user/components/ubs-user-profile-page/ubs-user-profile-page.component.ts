@@ -457,10 +457,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
             this.userForm.get('telegramIsNotify')?.setValue(true);
             this.goToTelegramUrl();
           } else {
-            const switcherInput = document.querySelector('.checkbox-wrapper input[type="checkbox"]') as HTMLInputElement;
-            if (switcherInput) {
-              switcherInput.checked = false;
-            }
+            this.userForm.get('telegramIsNotify')?.setValue(false);
           }
         });
     } else {
