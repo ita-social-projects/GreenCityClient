@@ -3,7 +3,7 @@ const envPath = require('path');
 const envName = process.argv[2] || '';
 const envFile = envName ? `.env.${envName}` : '.env';
 
-require('dotenv').config({ path: envPath.resolve(__dirname, envFile) });
+require('dotenv').config({ path: envPath.resolve(process.cwd(), envFile) });
 
 const environmentFileContent = `export const environment = {
   production: ${process.env.PRODUCTION},
@@ -27,7 +27,7 @@ const environmentFileContent = `export const environment = {
 };
 `;
 
-const environmentsDir = envPath.resolve(__dirname, './src/environments');
+const environmentsDir = envPath.resolve(process.cwd(), './src/environments');
 const environmentPath = envPath.resolve(environmentsDir, `environment${envName ? `.${envName}` : ''}.ts`);
 
 if (!fs.existsSync(environmentsDir)) {
