@@ -140,9 +140,8 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     const invalidInput = this.formArrayCertificates.controls[index].invalid;
     const formInvalid = !this.isFirstFormValid;
     const noAmountLeft = this.getFinalSum() === 0;
-    const bonusesUsed = this.areBonusesSelectedAndNotUsed();
 
-    return alreadyEntered || invalidInput || formInvalid || noAmountLeft || bonusesUsed;
+    return alreadyEntered || invalidInput || formInvalid || noAmountLeft;
   }
 
   isCanAddCertificate(): boolean {
@@ -182,10 +181,6 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.certificateSum = validCertificates.reduce((sum, certificate) => sum + certificate.points, 0);
     this.store.dispatch(SetCertificateUsed({ certificateUsed: Math.min(this.orderSum, this.certificateSum) }));
     this.store.dispatch(SetCertificates({ certificates: validCertificates.map((certificate) => certificate.code) }));
-  }
-
-  private areBonusesSelectedAndNotUsed(): boolean {
-    return this.points - this.pointsUsed !== 0 && this.bonus.value;
   }
 
   ngOnDestroy(): void {
