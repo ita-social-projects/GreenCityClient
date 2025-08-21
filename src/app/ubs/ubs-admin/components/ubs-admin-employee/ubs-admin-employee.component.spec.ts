@@ -611,10 +611,10 @@ describe('UbsAdminEmployeeComponent', () => {
 
   it('should applyFilter()', () => {
     const event = {
-      target: { value: 'Fake Filter ' }
+      target: { value: '#Fake Filter ' }
     } as unknown as Event;
     component.applyFilter(event);
-    expect((event.target as HTMLInputElement).value).toEqual('Fake Filter ');
+    expect((event.target as HTMLInputElement).value).toEqual('#Fake Filter ');
     expect(service.searchValue.next('fake filter')).toBeUndefined();
   });
 });
