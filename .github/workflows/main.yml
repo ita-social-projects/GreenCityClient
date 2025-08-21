@@ -58,8 +58,8 @@ jobs:
       - name: CSS Linter
         run: npm run stylelint
 
-      - name: Build Environments
-        run: node set-env.js
+      - name: Build Test Environment
+        run: npx ts-node ./scripts/setenv.ts
 
       - name: Unit Tests
         run: npx ng test --watch=false --progress=false --code-coverage=true --browsers=ChromeHeadless
@@ -92,11 +92,27 @@ jobs:
       # - name: E2E Tests
       #   run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
 
+      - name: Build Environment
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/prod-branch" ]]; then
+            npx ts-node ./scripts/setenv.ts prod
+          elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
+            npx ts-node ./scripts/setenv.ts stage
+          else
+            echo "No environment-specific build configured for this branch."
+            exit 1
+          fi
+
       - name: Build
         run: |
-          npx ng build --configuration=stage --base-href=/GreenCityClient/
-      #          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
-      #          npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
+          if [[ "${{ github.ref }}" == "refs/heads/prod-branch" ]]; then
+            npm run build-prod
+          elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
+            npm run build-stage
+          else
+            echo "No environment-specific build configured for this branch."
+            exit 1
+          fi
 
       - name: Set outputs
         run: echo "GITHUB_SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
