@@ -103,9 +103,9 @@ jobs:
       - name: Build
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/prod-branch" ]]; then
-            npm run build-prod
+            npx ng build --configuration=prod --base-href=/GreenCityClient/
           else
-            npm run build-stage
+            npx ng build --configuration=stage --base-href=/GreenCityClient/
           fi
 
       - name: Set outputs
