@@ -393,7 +393,8 @@
     "orders-number": "Кількість замовлень",
     "search": "Пошук",
     "link-placeholder": "Надайте посилання на чат із клієнтом",
-    "go-to-chat": "В чат"
+    "go-to-chat": "В чат",
+    "restricted-symbols": "Введено заборонені символи"
   },
   "ubs-customer-filters": {
     "total-customers": "Кількість користувачів:",
