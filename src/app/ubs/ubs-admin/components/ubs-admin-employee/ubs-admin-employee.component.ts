@@ -724,7 +724,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value.replace(/^#/, '');
+    const filterValue = (event.target as HTMLInputElement).value.replace(/#/g, '');
     this.ubsAdminEmployeeService.searchValue.next(filterValue.trim().toLowerCase());
   }
 
