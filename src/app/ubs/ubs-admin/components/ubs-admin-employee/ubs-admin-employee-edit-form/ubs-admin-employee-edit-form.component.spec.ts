@@ -209,6 +209,8 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
   describe('checkIsInitialPositionsChanged', () => {
     it('isInitialPositionsChangedMock should be falsy', () => {
+      component.employeePositionIds = [1];
+      component.initialData.employeePositionsIds = [1];
       const isInitialPositionsChangedMock = component.checkIsInitialPositionsChanged();
       expect(isInitialPositionsChangedMock).toBeFalsy();
     });
