@@ -36,7 +36,7 @@
           [attr.aria-labelledby]="'accordion-header-' + i"
         >
           <mat-checkbox *ngFor="let permission of group.authorities" [formControlName]="permission.name" (click)="updateAllComplete()">
-            {{ this.languageService.getLangValue(permission.descriptionUk, permission.descriptionEn) }}
+            {{ languageService.getLangValue(permission.descriptionUk, permission.descriptionEn) }}
           </mat-checkbox>
         </div>
       </cdk-accordion-item>
