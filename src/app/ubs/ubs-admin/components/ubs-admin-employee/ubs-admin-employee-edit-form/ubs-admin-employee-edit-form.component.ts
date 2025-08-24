@@ -106,9 +106,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.pattern(Patterns.ubsMailPattern), Validators.minLength(3), Validators.maxLength(72)]
       ]
     });
-    this.data?.employeePositions.forEach((employeePosition) => {
-      this.employeePositionIds.push(employeePosition.id);
-    });
+    this.employeePositionIds = this.data?.employeePositions?.map((p) => p.id) ?? [];
     this.imageURL = this.data?.image;
     this.editMode = !!this.data;
     if (this.editMode) {
@@ -119,7 +117,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         phoneNumber: this.data.phoneNumber.replace('+', ''),
         email: this.data?.email,
         imageURL: this.data?.image,
-        employeePositionsIds: this.employeePositionIds
+        employeePositionsIds: [...this.employeePositionIds]
       };
       this.tariffsFromEditForm = this.editMappers.tariffs(this.data?.tariffs) ?? [];
     }
