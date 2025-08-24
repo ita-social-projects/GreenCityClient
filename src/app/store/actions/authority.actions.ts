@@ -1,5 +1,4 @@
 import { createAction, props } from '@ngrx/store';
-import { Employees } from '@ubs/ubs-admin/models/ubs-admin.interface';
 import { Group } from '@ubs/ubs-admin/models/employee-permissions.model';
 
 export enum AuthorityActions {

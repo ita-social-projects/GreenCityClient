@@ -10,7 +10,7 @@ import { Group } from '@ubs/ubs-admin/models/employee-permissions.model';
 export class AuthorityService {
   ownSecurityLink = `${mainUserLink}ownSecurity/`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getAllAuthorities(): Observable<Group[]> {
     return this.http.get<Group[]>(`${this.ownSecurityLink}authorities/categories`);

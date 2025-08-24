@@ -8,8 +8,8 @@ import { GetCategories, GetCategoriesSuccess, GetCategoriesFailure } from '../ac
 @Injectable()
 export class AuthorityEffects {
   constructor(
-    private actions: Actions,
-    private authorityService: AuthorityService
+    private readonly actions: Actions,
+    private readonly authorityService: AuthorityService
   ) {}
 
   GetCategories = createEffect(() =>

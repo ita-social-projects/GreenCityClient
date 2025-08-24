@@ -230,14 +230,17 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   }
 
   checkIsInitialPositionsChanged(): boolean {
-    if (this.initialData.employeePositionsIds.length !== this.employeePositionIds.length) {
+    const initialPositions = this.initialData.employeePositionsIds;
+    const currentPositions = this.employeePositionIds;
+
+    if (initialPositions.length !== currentPositions.length) {
       return true;
     }
 
-    const initialSorted = [...this.initialData.employeePositionsIds].sort();
-    const currentSorted = [...this.employeePositionIds].sort();
+    const initialSorted = [...initialPositions].sort((a, b) => a - b);
+    const currentSorted = [...currentPositions].sort((a, b) => a - b);
 
-    return JSON.stringify(initialSorted) !== JSON.stringify(currentSorted);
+    return initialSorted.every((value, index) => value === currentSorted[index]);
   }
 
   prepareEmployeeDataToSend(dto: string, image?: string | ArrayBuffer): FormData {
