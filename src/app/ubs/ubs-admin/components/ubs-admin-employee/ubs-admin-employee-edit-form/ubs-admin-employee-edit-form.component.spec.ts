@@ -25,26 +25,16 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
   const mockedEmployeePositions = [
     {
-      id: 2,
+      id: 7,
       nameUk: 'fake',
       nameEn: 'fakeEn'
     }
   ];
-  const mockedReceivingStations = [
-    {
-      id: 3,
-      name: 'fake',
-      nameEn: 'fakeEn'
-    },
-    {
-      id: 4,
-      name: 'fake',
-      nameEn: 'fakeEn'
-    }
-  ];
+  const mockedEmployeePositionIds: number[] = [7];
   const mockedData = {
     email: 'fake',
     employeePositions: mockedEmployeePositions,
+    employeePositionIds: mockedEmployeePositionIds,
     firstName: 'fake',
     id: 1,
     image: defaultImagePath,
@@ -93,32 +83,7 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
       }
     ]
   };
-  const mockFormData = {
-    firstName: 'fakeFirstName',
-    lastName: 'fakeLastName',
-    phoneNumber: 'fakePhoneNumber',
-    email: 'fakeEmail'
-  };
-  const mockedInitialData = {
-    firstName: 'fake',
-    lastName: 'fake',
-    phoneNumber: 'fake',
-    email: 'fake',
-    imageURL: defaultImagePath,
-    employeePositionsIds: [2],
-    receivingStationsIds: [3, 4]
-  };
   const mockedDto = 'employeeDto';
-  const transferFile = 'transferFile';
-  const fakeEmployeePositions = ['fake'];
-  const fakeReceivingStations = ['fake'];
-  const fakeEmployeeForm = new FormGroup({
-    firstName: new FormControl('fake'),
-    lastName: new FormControl('fake'),
-    phoneNumber: new FormControl('fake'),
-    email: new FormControl('fake')
-  });
-  const dataFileMock = new File([''], 'test-file.jpeg');
   const datasFileMock: FileHandle[] = [
     {
       file: new File([''], 'test-file.jpeg'),
@@ -146,7 +111,8 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminEmployeeEditFormComponent);
     component = fixture.componentInstance;
-    component.employeePositions = JSON.parse(JSON.stringify(mockedEmployeePositions));
+    component.employeePositionIds = [...mockedEmployeePositionIds];
+    component.initialData.employeePositionsIds = [...mockedEmployeePositionIds];
     fixture.detectChanges();
   });
 
@@ -196,19 +162,19 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
   });
 
   it('Role should be included', () => {
-    const isIncludeRole = component.doesIncludeRole({ id: 2 });
+    const isIncludeRole = component.doesIncludeRole({ id: 7 });
     expect(isIncludeRole).toBe(true);
   });
 
   it('Role should be added', () => {
     const fakeRole = { id: 3, nameUk: 'addedFake', nameEn: 'addedFakeEn' };
     component.onCheckChangeRole(fakeRole);
-    expect(component.employeePositions).toEqual([...mockedEmployeePositions, fakeRole]);
+    expect(component.employeePositionIds).toEqual([7, 3]);
   });
 
   it('Role should be removed', () => {
-    component.onCheckChangeRole({ id: 2 });
-    expect(component.employeePositions).toEqual([]);
+    component.onCheckChangeRole({ id: 7 });
+    expect(component.employeePositionIds).toEqual([]);
   });
 
   it('updateEmployee method should close dialogRef when EmployeeService has sent a response', () => {
@@ -248,18 +214,7 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
     });
 
     it('isInitialPositionsChangedMock should be truthy', () => {
-      component.employeePositions = [
-        {
-          id: 2,
-          nameUk: 'fake',
-          nameEn: 'fakeEn'
-        },
-        {
-          id: 22,
-          nameUk: 'fake22',
-          nameEn: 'fake22En'
-        }
-      ];
+      component.employeePositionIds = [2, 3, 4, 5];
       const isInitialPositionsChangedMock = component.checkIsInitialPositionsChanged();
       expect(isInitialPositionsChangedMock).toBeTruthy();
     });

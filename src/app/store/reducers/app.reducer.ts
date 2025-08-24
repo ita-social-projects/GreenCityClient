@@ -12,6 +12,7 @@ import { habitReducer } from './habit.reducer';
 import { ubsUserReducer } from 'src/app/store/reducers/ubs-user.reducer';
 import { authReducer } from 'src/app/store/reducers/auth.reducer';
 import { ubsAdminReducer } from './ubs-admin.reducer';
+import { authorityReducer } from './authority.reducer';
 
 export const appReducers: ActionReducerMap<IAppState> = {
   auth: authReducer,
@@ -25,5 +26,6 @@ export const appReducers: ActionReducerMap<IAppState> = {
   ecoEventsState: EcoEventsReducer,
   habit: habitReducer,
   ubsUser: ubsUserReducer,
-  ubsAdmin: ubsAdminReducer
+  ubsAdmin: ubsAdminReducer,
+  authority: authorityReducer
 };

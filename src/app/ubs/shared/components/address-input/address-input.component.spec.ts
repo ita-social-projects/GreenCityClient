@@ -49,6 +49,7 @@ describe('AddressInputComponent', () => {
     router: undefined,
     ubsAdmin: undefined,
     ubsUser: undefined,
+    authority: undefined,
     order: {
       addresses: [],
       currentStep: null,

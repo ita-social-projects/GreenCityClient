@@ -35,7 +35,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   };
   roles: EmployeePositions[];
   employeeForm: FormGroup;
-  employeePositions: EmployeePositions[];
+  employeePositionIds: number[] = [];
   tariffs: TariffForEmployee[] = [];
   employeeDataToSend: EmployeeDataToSend;
   phoneMask = Masks.phoneMask;
@@ -106,7 +106,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.pattern(Patterns.ubsMailPattern), Validators.minLength(3), Validators.maxLength(72)]
       ]
     });
-    this.employeePositions = this.data?.employeePositions ?? [];
+    this.data?.employeePositions.forEach((employeePosition) => {
+      this.employeePositionIds.push(employeePosition.id);
+    });
     this.imageURL = this.data?.image;
     this.editMode = !!this.data;
     if (this.editMode) {
@@ -117,7 +119,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         phoneNumber: this.data.phoneNumber.replace('+', ''),
         email: this.data?.email,
         imageURL: this.data?.image,
-        employeePositionsIds: this.employeePositions.map((position) => position.id)
+        employeePositionsIds: this.employeePositionIds
       };
       this.tariffsFromEditForm = this.editMappers.tariffs(this.data?.tariffs) ?? [];
     }
@@ -206,9 +208,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
 
   onCheckChangeRole(role) {
     if (this.doesIncludeRole(role)) {
-      this.employeePositions = this.employeePositions.filter((position) => position.id !== role.id);
+      this.employeePositionIds = this.employeePositionIds.filter((positionId) => positionId !== role.id);
     } else {
-      this.employeePositions = [...this.employeePositions, role];
+      this.employeePositionIds.push(role.id);
     }
     if (this.editMode) {
       this.isInitialPositionsChanged = this.checkIsInitialPositionsChanged();
@@ -224,14 +226,18 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   }
 
   doesIncludeRole(role) {
-    return this.employeePositions.some((existingRole) => existingRole.id === role.id);
+    return this.employeePositionIds.some((existingId) => existingId === role.id);
   }
 
   checkIsInitialPositionsChanged(): boolean {
-    if (this.initialData.employeePositionsIds.length !== this.employeePositions.length) {
+    if (this.initialData.employeePositionsIds.length !== this.employeePositionIds.length) {
       return true;
     }
-    return this.employeePositions.filter((position) => !this.initialData.employeePositionsIds.includes(position.id)).length > 0;
+
+    const initialSorted = [...this.initialData.employeePositionsIds].sort();
+    const currentSorted = [...this.employeePositionIds].sort();
+
+    return JSON.stringify(initialSorted) !== JSON.stringify(currentSorted);
   }
 
   prepareEmployeeDataToSend(dto: string, image?: string | ArrayBuffer): FormData {
@@ -240,8 +246,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.employeeDataToSend = {
       employeeDto: {
         ...this.employeeForm.value,
-        employeePositions: this.employeePositions,
-        employeeStatus: this.data.employeeStatus
+        employeePositionIds: this.employeePositionIds
       },
       tariffs: selectedTariffs.map((tariff) => {
         return { tariffId: tariff.id, hasChat: tariff.hasChat };
@@ -369,7 +374,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   isButtonDisabled(): boolean {
     return (
       this.employeeForm.invalid ||
-      !this.employeePositions.length ||
+      !this.employeePositionIds.length ||
       this.isUploading ||
       !this.isAnyTariffSelected ||
       (this.editMode &&
