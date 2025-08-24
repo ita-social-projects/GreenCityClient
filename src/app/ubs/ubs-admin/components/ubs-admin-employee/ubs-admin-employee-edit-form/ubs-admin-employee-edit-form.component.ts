@@ -240,7 +240,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     const initialSorted = [...initialPositions].sort((a, b) => a - b);
     const currentSorted = [...currentPositions].sort((a, b) => a - b);
 
-    return initialSorted.every((value, index) => value === currentSorted[index]);
+    return initialSorted.some((value, index) => value !== currentSorted[index]);
   }
 
   prepareEmployeeDataToSend(dto: string, image?: string | ArrayBuffer): FormData {

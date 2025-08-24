@@ -97,7 +97,7 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
     component.ngOnInit();
 
     expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
-    expect(mockStore.dispatch).toHaveBeenCalledWith({ type: '[Authority] GetPermissions' });
+    expect(mockStore.dispatch).toHaveBeenCalledWith({ type: '[Authority] GetCategories' });
   });
 
   it('should not dispatch GetCategories action if categories are already in the store', () => {
