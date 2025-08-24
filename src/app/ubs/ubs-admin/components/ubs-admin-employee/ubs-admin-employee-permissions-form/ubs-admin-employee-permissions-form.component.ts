@@ -1,15 +1,20 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { Page } from '../../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 import { DialogPopUpComponent } from 'src/app/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { PopUpsStyles, ActionTypeForPermissions } from '../ubs-admin-employee-table/employee-models.enum';
-import { GROUPS, PERMISSIONRULES, LABELS } from '@ubs/ubs-admin/models/employee-permissions.model';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { IAppState } from '../../../../../store/state/app.state';
+import { select, Store } from '@ngrx/store';
+import { GetCategories } from '../../../../../store/actions/authority.actions';
+import { IUbsAuthorityState } from '../../../../../store/state/authority.state';
+import { selectAuthorityState, selectCategories } from '../../../../../store/selectors/authority.selectors';
+import { LanguageService } from '../../../../../shared/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-employee-permissions-form',
@@ -20,12 +25,10 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
   form: FormGroup;
   employee: Page;
   panelToggler = false;
-  labels = LABELS;
-  groups = GROUPS;
-  permissions = PERMISSIONRULES;
 
   isUpdating = false;
   isDisabled = true;
+  authorities$: Observable<IUbsAuthorityState>;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -35,29 +38,42 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     private readonly employeeService: UbsAdminEmployeeService,
     private readonly dialogRef: MatDialogRef<UbsAdminEmployeePermissionsFormComponent>,
     private readonly snackBar: MatSnackBarService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly store: Store<IAppState>,
+    readonly languageService: LanguageService
   ) {
     this.employee = data;
-    this.form = this.fb.group(
-      Object.fromEntries(
-        this.groups.map((group) => [group.name, this.fb.group(Object.fromEntries(group.permissions.map((field) => [field, false])))])
-      )
-    );
+    this.form = this.fb.group({});
   }
 
   ngOnInit(): void {
-    this.employeeService
-      .getAllEmployeePermissions(this.employee.email)
-      .pipe(take(1))
-      .subscribe((employeePermissions: string[]) => {
-        this.groups.forEach((group) => {
-          group.permissions.forEach((perm) => {
-            if (employeePermissions.includes(perm)) {
-              this.form.get(group.name).get(perm).setValue(true);
-            }
+    this.store.pipe(select(selectCategories), take(1)).subscribe((categories) => {
+      if (!categories || categories.length === 0) {
+        this.store.dispatch(GetCategories());
+      }
+    });
+
+    this.store
+      .pipe(
+        select(selectAuthorityState),
+        filter((authorities) => !!authorities.categories),
+        take(1)
+      )
+      .subscribe((authorities) => {
+        this.employeeService
+          .getAllEmployeePermissions(this.employee.email)
+          .pipe(take(1))
+          .subscribe((employeePermissions: string[]) => {
+            const formGroups = authorities.categories.map((group) => [
+              group.nameEn,
+              this.fb.group(Object.fromEntries(group.authorities.map((perm) => [perm.name, employeePermissions.includes(perm.name)])))
+            ]);
+
+            this.form = this.fb.group(Object.fromEntries(formGroups));
+            this.authorities$ = this.store.pipe(select(selectAuthorityState));
           });
-        });
       });
+
     this.dialogRef
       .backdropClick()
       .pipe(takeUntil(this.destroyed$))
@@ -70,35 +86,6 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
 
   updateAllComplete() {
     this.isDisabled = false;
-  }
-  onCheckboxChange(groupName: string, perm: string): void {
-    const group = this.form.get(groupName);
-    const rule = this.permissions[perm];
-
-    if (!group || !rule) {
-      return;
-    }
-
-    const isChecked = !!group.get(perm)?.value;
-
-    if (isChecked) {
-      this.applyDependencies(group, rule.check, true);
-    } else {
-      this.applyDependencies(group, rule.uncheck, false);
-    }
-  }
-
-  private applyDependencies(group: AbstractControl, dependencies: string[], value: boolean): void {
-    if (!Array.isArray(dependencies) || dependencies.length === 0) {
-      return;
-    }
-
-    dependencies.forEach((dependentPerm) => {
-      const dependentControl = group.get(dependentPerm);
-      if (dependentControl && dependentControl.value !== value) {
-        dependentControl.setValue(value);
-      }
-    });
   }
 
   savePermissions() {

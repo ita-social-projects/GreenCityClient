@@ -95,16 +95,19 @@ export interface EmployeeDataToSend {
 
 export interface EmployeeDataResponse {
   employeeDto: EmployeeDto;
-  tariffs: { tariffId: number; hasChat: boolean }[];
+  tariffs: Tariff[];
 }
 
 export interface EmployeeDto {
   firstName: string;
+  email: string;
   id?: number;
   image: string | ArrayBuffer;
   lastName: string;
   phoneNumber: string;
+  employeeStatus: string;
   employeePositions: EmployeePositions[];
+  employeePositionIds: number[];
 }
 
 export interface IOrderInfo {
