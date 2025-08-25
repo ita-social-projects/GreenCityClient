@@ -20,7 +20,7 @@
 
   <div class="file-attach">
     <label class="file-label">
-      <input type="file" (change)="onFileSelected($event)" hidden />
+      <input type="file" (change)="onFileSelected($event)" hidden #fileInput />
       <span>{{ 'chat.attach-file' | translate }}</span>
     </label>
     <div class="file-name" *ngIf="file">{{ file.name }}</div>

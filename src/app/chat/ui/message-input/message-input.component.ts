@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,6 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class MessageInputComponent {
   @Output() sendText = new EventEmitter<{ text: string; file?: File }>();
+  @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
 
   text = '';
   file?: File;
@@ -23,6 +24,10 @@ export class MessageInputComponent {
     this.sendText.emit({ text: this.text, file: this.file });
     this.text = '';
     this.file = undefined;
+
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
   }
 
   onFileSelected(event: Event): void {
