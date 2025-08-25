@@ -1,3 +1,8 @@
+<div class="search-bar">
+  <label>
+    <input type="text" [placeholder]="'chat.chat-placeholder' | translate" [(ngModel)]="searchId" (input)="onInput()" />
+  </label>
+</div>
 <ul class="chat-list">
   <li class="chat-item" *ngFor="let chat of chats; trackBy: trackById" (click)="selectChat.emit(chat)">
     <div class="avatar">{{ chat.initial }}</div>
