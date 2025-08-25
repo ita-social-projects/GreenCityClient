@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 import { Page } from '../../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
@@ -53,26 +53,24 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
       }
     });
 
-    this.store
-      .pipe(
+    combineLatest([
+      this.store.pipe(
         select(selectAuthorityState),
         filter((authorities) => !!authorities.categories),
         take(1)
-      )
-      .subscribe((authorities) => {
-        this.employeeService
-          .getAllEmployeePermissions(this.employee.email)
-          .pipe(take(1))
-          .subscribe((employeePermissions: string[]) => {
-            const formGroups = authorities.categories.map((group) => [
-              group.nameEn,
-              this.fb.group(Object.fromEntries(group.authorities.map((perm) => [perm.name, employeePermissions.includes(perm.name)])))
-            ]);
+      ),
+      this.employeeService.getAllEmployeePermissions(this.employee.email).pipe(take(1))
+    ]).subscribe(([authorities, employeePermissions]) => {
+      const permissions = employeePermissions as string[];
 
-            this.form = this.fb.group(Object.fromEntries(formGroups));
-            this.authorities$ = this.store.pipe(select(selectAuthorityState));
-          });
-      });
+      const formGroups = authorities.categories.map((group) => [
+        group.nameEn,
+        this.fb.group(Object.fromEntries(group.authorities.map((perm) => [perm.name, permissions.includes(perm.name)])))
+      ]);
+
+      this.form = this.fb.group(Object.fromEntries(formGroups));
+      this.authorities$ = this.store.pipe(select(selectAuthorityState));
+    });
 
     this.dialogRef
       .backdropClick()
