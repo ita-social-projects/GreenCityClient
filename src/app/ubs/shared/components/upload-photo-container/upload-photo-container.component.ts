@@ -41,6 +41,8 @@ export class UploadPhotoContainerComponent implements OnInit {
       reader.onload = () => {
         this.croppedImage = reader.result as string;
       };
+    } else if (event.base64) {
+      this.croppedImage = event.base64;
     }
   }
 
