@@ -149,15 +149,21 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
     });
   });
 
-  it('Returned formData should have employeeDto', () => {
+  it('Returned formData should have employeeDto', async () => {
     component.selectedFile = false;
-    const returnedFormData = component.prepareEmployeeDataToSend(mockedDto);
+    const returnedFormData = await component.prepareEmployeeDataToSend(mockedDto);
     expect(returnedFormData.has('employeeDto')).toBe(true);
   });
 
-  it('Returned formData should have image if has selectedFile', () => {
-    component.selectedFile = true;
-    const returnedFormData = component.prepareEmployeeDataToSend(mockedDto);
+  it('Returned formData should have image if has selectedFile', async () => {
+    component.imageURL = 'data:image/jpeg;base64,fakeData';
+    component.selectedFile = new File([''], 'fake.jpg');
+    spyOn(window, 'fetch').and.returnValue(
+      Promise.resolve({
+        blob: () => Promise.resolve(new Blob(['fake blob'], { type: 'image/jpeg' }))
+      } as Response)
+    );
+    const returnedFormData = await component.prepareEmployeeDataToSend(mockedDto);
     expect(returnedFormData.has('image')).toBe(true);
   });
 
@@ -177,16 +183,16 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
     expect(component.employeePositionIds).toEqual([]);
   });
 
-  it('updateEmployee method should close dialogRef when EmployeeService has sent a response', () => {
+  it('updateEmployee method should dispatch action when async prepareEmployeeDataToSend is done', async () => {
     component.selectedFile = false;
-    spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(new FormData());
-    component.updateEmployee();
+    spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(Promise.resolve(new FormData()));
+    await component.updateEmployee();
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
-  it('createEmployee method should close dialogRef when EmployeeService has sent a response', () => {
-    spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(new FormData());
-    component.createEmployee();
+  it('createEmployee method should dispatch action when async prepareEmployeeDataToSend is done', async () => {
+    spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(Promise.resolve(new FormData()));
+    await component.createEmployee();
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
@@ -257,5 +263,131 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
     expect(component.phoneNumber.value).toBe('');
     expect(component.phoneNumber.untouched).toBe(true);
+  });
+
+  describe('Form Validation', () => {
+    it('should show an error for invalid firstName', () => {
+      component.firstName.setValue('123');
+      expect(component.firstName.valid).toBeFalse();
+    });
+
+    it('should show an error for invalid lastName', () => {
+      component.lastName.setValue('123');
+      expect(component.lastName.valid).toBeFalse();
+    });
+
+    it('should show an error for invalid phoneNumber', () => {
+      component.phoneNumber.setValue('+380991234');
+      expect(component.phoneNumber.valid).toBeFalse();
+    });
+
+    it('should show an error for invalid email', () => {
+      component.email.setValue('invalid-email');
+      expect(component.email.valid).toBeFalse();
+    });
+
+    it('should disable the save button if the form is invalid', () => {
+      component.employeeForm.controls.firstName.setValue('');
+      fixture.detectChanges();
+      expect(component.isButtonDisabled()).toBeTrue();
+    });
+
+    it('should disable the save button if no position is selected', () => {
+      component.employeePositionIds = [];
+      fixture.detectChanges();
+      expect(component.isButtonDisabled()).toBeTrue();
+    });
+  });
+
+  describe('Form Validation', () => {
+    it('should show an error for invalid firstName', () => {
+      component.firstName.setValue('123');
+      expect(component.firstName.valid).toBeFalse();
+    });
+
+    it('should show an error for invalid lastName', () => {
+      component.lastName.setValue('123');
+      expect(component.lastName.valid).toBeFalse();
+    });
+
+    it('should show an error for invalid phoneNumber', () => {
+      component.phoneNumber.setValue('+380991234');
+      expect(component.phoneNumber.valid).toBeFalse();
+    });
+
+    it('should show an error for invalid email', () => {
+      component.email.setValue('invalid-email');
+      expect(component.email.valid).toBeFalse();
+    });
+
+    it('should disable the save button if the form is invalid', () => {
+      component.employeeForm.controls.firstName.setValue('');
+      fixture.detectChanges();
+      expect(component.isButtonDisabled()).toBeTrue();
+    });
+
+    it('should disable the save button if no position is selected', () => {
+      component.employeePositionIds = [];
+      fixture.detectChanges();
+      expect(component.isButtonDisabled()).toBeTrue();
+    });
+  });
+
+  describe('Image Handling', () => {
+    beforeEach(() => {
+      spyOn<any>(component, 'transferFile').and.callThrough();
+      spyOn<any>(component, 'showWarning').and.callThrough();
+    });
+
+    it('should call transferFile when filesDropped is called', () => {
+      component.filesDropped(datasFileMock);
+      expect(component['transferFile']).toHaveBeenCalledWith(datasFileMock[0].file);
+    });
+
+    it('should set selectedFile and imageName when a file is transferred', () => {
+      const mockFile = new File([''], 'test.png', { type: 'image/png' });
+      const mockFileHandle: FileHandle = { file: mockFile, url: '' };
+      component.filesDropped([mockFileHandle]);
+      expect(component.selectedFile).toEqual(mockFile);
+      expect(component.imageName).toEqual('test.png');
+    });
+
+    it('should set isWarning to true for an oversized file', () => {
+      const oversizedFile = new File(new Array(10485761).fill('a'), 'oversized.png', { type: 'image/png' });
+      const mockFileHandle: FileHandle = { file: oversizedFile, url: '' };
+      component.filesDropped([mockFileHandle]);
+      expect(component.isWarning).toBeTrue();
+    });
+
+    it('should set isWarning to true for an invalid file type', () => {
+      const invalidFile = new File([''], 'invalid.txt', { type: 'text/plain' });
+      const mockFileHandle: FileHandle = { file: invalidFile, url: '' };
+      component.filesDropped([mockFileHandle]);
+      expect(component.isWarning).toBeTrue();
+    });
+
+    it('should remove image and reset related properties', () => {
+      component.imageURL = 'some-url.jpg';
+      component.imageName = 'my-image.jpg';
+      component.selectedFile = new File([''], 'my-image.jpg');
+      component.removeImage();
+      expect(component.imageURL).toBeNull();
+      expect(component.imageName).toBeNull();
+      expect(component.selectedFile).toBeNull();
+    });
+  });
+
+  describe('Tariffs and Positions Logic', () => {
+    it('should mark `isInitialPositionsChanged` as false when no change occurs', () => {
+      component.employeePositionIds = [7];
+      component.initialData.employeePositionsIds = [7];
+      expect(component.checkIsInitialPositionsChanged()).toBeFalse();
+    });
+
+    it('should mark `isInitialPositionsChanged` as true when the number of positions changes', () => {
+      component.employeePositionIds = [7, 8];
+      component.initialData.employeePositionsIds = [7];
+      expect(component.checkIsInitialPositionsChanged()).toBeTrue();
+    });
   });
 });
