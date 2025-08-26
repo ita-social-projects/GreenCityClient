@@ -517,14 +517,12 @@ describe('UbsAdminCertificateComponent', () => {
       expect(component.startWidth).toBe(200);
     });
 
-    xit('should setup mouse listeners when resizing column', () => {
+    it('should setup mouse listeners when resizing column', () => {
+      spyOn(component as any, 'mouseMove');
       const event = { pageX: 100, target: { clientWidth: 200 } };
-      mockRenderer.listen.and.returnValue(jasmine.createSpy('removeListener'));
-
       component.onResizeColumn(event, 1);
 
-      // Verify that mouse listeners are set up (mouseMove method called)
-      expect(mockRenderer.listen).toHaveBeenCalledTimes(2);
+      expect(component['mouseMove']).toHaveBeenCalledWith(1);
     });
 
     it('should handle table resize by scaling column widths', () => {
@@ -564,7 +562,23 @@ describe('UbsAdminCertificateComponent', () => {
       expect((component as any).matTableRef).toBeDefined();
     });
 
-    xit('should call setTableResize with correct parameters through ngAfterViewChecked', () => {
+    it('should call setTableResize with correct parameters through ngAfterViewChecked', () => {
+      const mockElementRef = {
+        nativeElement: {
+          clientWidth: 1200,
+          children: [
+            {
+              children: [
+                {
+                  getBoundingClientRect: () => ({ right: 100, width: 200 })
+                }
+              ]
+            }
+          ]
+        }
+      };
+      (component as any).matTableRef = mockElementRef as ElementRef;
+
       // Force the private setTableResize method to be called
       component.isLoading = false;
       component.isTableHeightSet = true;
@@ -599,44 +613,40 @@ describe('UbsAdminCertificateComponent', () => {
       expect(component.columns[1].width).toBeDefined();
     });
 
-    xit('should test mouse event handlers for resize functionality', () => {
-      let mousemoveCallback: (event: any) => void;
-      let mouseupCallback: (event: any) => void;
-
-      // Mock renderer.listen to capture callbacks
-      mockRenderer.listen.and.callFake((target: string, event: string, callback: (event: any) => void) => {
-        if (event === 'mousemove') {
-          mousemoveCallback = callback;
-        } else if (event === 'mouseup') {
-          mouseupCallback = callback;
-        }
-        return jasmine.createSpy('removeListener');
-      });
-
-      // Setup component state
+    it('should test mouse event handlers for resize functionality', () => {
       component.columns = [
         { width: 100, title: { key: 'col1' } },
         { width: 200, title: { key: 'col2' } },
         { width: 150, title: { key: 'col3' } }
       ];
 
-      // Start resize
-      const event = { pageX: 100, target: { clientWidth: 200 } };
-      component.onResizeColumn(event, 1);
+      const startEvent = { pageX: 100, target: { clientWidth: 200 } };
+      component.onResizeColumn(startEvent, 1);
 
-      // Simulate mousemove event
-      component.pressed = true;
-      component.isResizingRight = true;
-      component.currentResizeIndex = 1;
+      expect(component.pressed).toBe(true);
+      expect(component.currentResizeIndex).toBe(1);
+      expect(component.startX).toBe(100);
+      expect(component.startWidth).toBe(200);
 
-      const mouseMoveEvent = { pageX: 150, buttons: 1 };
-      if (mousemoveCallback) {
-        mousemoveCallback(mouseMoveEvent);
-      }
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      let mousemoveListener: Function;
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      let mouseupListener: Function;
 
-      // Simulate mouseup event
-      if (mouseupCallback) {
-        mouseupCallback({});
+      spyOn(component['renderer'], 'listen').and.callFake((target, event, callback) => {
+        if (event === 'mousemove') {
+          mousemoveListener = callback;
+        } else if (event === 'mouseup') {
+          mouseupListener = callback;
+        }
+        return () => {};
+      });
+
+      component.onResizeColumn(startEvent, 1);
+
+      const mouseupEvent = { buttons: 0 };
+      if (mouseupListener) {
+        mouseupListener(mouseupEvent);
       }
 
       expect(component.pressed).toBe(false);
