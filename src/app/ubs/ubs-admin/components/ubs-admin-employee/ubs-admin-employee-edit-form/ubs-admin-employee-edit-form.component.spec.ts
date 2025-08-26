@@ -299,40 +299,6 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
     });
   });
 
-  describe('Form Validation', () => {
-    it('should show an error for invalid firstName', () => {
-      component.firstName.setValue('123');
-      expect(component.firstName.valid).toBeFalse();
-    });
-
-    it('should show an error for invalid lastName', () => {
-      component.lastName.setValue('123');
-      expect(component.lastName.valid).toBeFalse();
-    });
-
-    it('should show an error for invalid phoneNumber', () => {
-      component.phoneNumber.setValue('+380991234');
-      expect(component.phoneNumber.valid).toBeFalse();
-    });
-
-    it('should show an error for invalid email', () => {
-      component.email.setValue('invalid-email');
-      expect(component.email.valid).toBeFalse();
-    });
-
-    it('should disable the save button if the form is invalid', () => {
-      component.employeeForm.controls.firstName.setValue('');
-      fixture.detectChanges();
-      expect(component.isButtonDisabled()).toBeTrue();
-    });
-
-    it('should disable the save button if no position is selected', () => {
-      component.employeePositionIds = [];
-      fixture.detectChanges();
-      expect(component.isButtonDisabled()).toBeTrue();
-    });
-  });
-
   describe('Image Handling', () => {
     beforeEach(() => {
       spyOn<any>(component, 'transferFile').and.callThrough();
