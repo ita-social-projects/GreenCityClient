@@ -23,18 +23,18 @@ describe('chat-mappers', () => {
 
   describe('buildName', () => {
     it('prefers username; falls back to full name; then to fallback; finally to Unknown/?', () => {
-      expect(buildName('johnny', 'John', 'Doe', '123')).toEqual({ name: 'johnny', initial: 'J' });
+      expect(buildName('johnny', 'John', 'Doe', '123')).toEqual({ fullName: 'John Doe', nickname: 'johnny', initial: 'J' });
 
-      expect(buildName(undefined, 'Jane', 'Doe', '123')).toEqual({ name: 'Jane Doe', initial: 'J' });
+      expect(buildName(undefined, 'Jane', 'Doe', '123')).toEqual({ fullName: 'Jane Doe', nickname: 'Jane Doe', initial: 'J' });
 
-      expect(buildName(null, null, null, 456)).toEqual({ name: '456', initial: '4' });
+      expect(buildName(null, null, null, 456)).toEqual({ fullName: '', nickname: '456', initial: '4' });
 
-      expect(buildName(null, null, null, undefined)).toEqual({ name: 'Unknown', initial: '?' });
+      expect(buildName(null, null, null, undefined)).toEqual({ fullName: '', nickname: 'Unknown', initial: '?' });
     });
 
     it('handles partial full names gracefully', () => {
-      expect(buildName(undefined, 'Solo', null, 'x')).toEqual({ name: 'Solo', initial: 'S' });
-      expect(buildName(undefined, null, 'Lastname', 'x')).toEqual({ name: 'Lastname', initial: 'L' });
+      expect(buildName(undefined, 'Solo', null, 'x')).toEqual({ fullName: 'Solo', nickname: 'Solo', initial: 'S' });
+      expect(buildName(undefined, null, 'Lastname', 'x')).toEqual({ fullName: 'Lastname', nickname: 'Lastname', initial: 'L' });
     });
   });
 

@@ -29,13 +29,13 @@ export function buildName(
   firstName?: string | null,
   lastName?: string | null,
   fallback?: string | number
-): { name: string; initial: string } {
+): { fullName: string; nickname: string; initial: string } {
   const fullName = firstName || lastName ? `${firstName ?? ''} ${lastName ?? ''}`.trim() : '';
   const fb = fallback != null ? String(fallback) : '';
   const raw = username || fullName || fb;
-  const name = raw || 'Unknown';
+  const nickname = raw || 'Unknown';
   const initial = raw ? raw.charAt(0).toUpperCase() : '?';
-  return { name, initial };
+  return { fullName, nickname, initial };
 }
 
 export function toTime(iso: string): string {

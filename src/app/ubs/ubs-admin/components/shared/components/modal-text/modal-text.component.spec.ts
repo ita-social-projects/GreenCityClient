@@ -21,7 +21,7 @@ describe('ModalTextComponent', () => {
   };
 
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getCurrentLanguage.and.returnValue('uk');
 
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
 
@@ -74,7 +74,7 @@ describe('ModalTextComponent', () => {
 
   it('should set date', () => {
     component.setDate();
-    expect(component.newDate).toEqual(fakeTariffService.setDate('ua'));
+    expect(component.newDate).toEqual(fakeTariffService.setDate('uk'));
   });
 
   it('should close all matDialogRef', () => {

@@ -1,9 +1,17 @@
-<div class="messages">
+<div #scrollContainer class="messages">
   <div *ngFor="let message of messages" [ngClass]="{ message: true, sent: message.from === 'Me', received: message.from !== 'Me' }">
-    <div class="message-text" *ngIf="message.text">{{ message.text }}</div>
+    <div class="message-text" *ngIf="message.text">
+      {{ message.text }}
+    </div>
 
     <div class="message-assets" *ngIf="message.images?.length">
       <img *ngFor="let imgUrl of message.images" [src]="imgUrl" alt="chat" class="message-image" (click)="openImage.emit(imgUrl)" />
+    </div>
+
+    <div class="message-file" *ngIf="message.fileUrl">
+      <a [href]="message.fileUrl" target="_blank" rel="noopener noreferrer" class="file-link">
+        📎 {{ message.fileName || 'Download file' }}
+      </a>
     </div>
 
     <div class="message-footer">

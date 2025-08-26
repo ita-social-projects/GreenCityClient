@@ -259,9 +259,9 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       .subscribe((addressData) => {
         this.blockAutoComplete = true;
 
-        const region = this.currentLanguage === 'ua' ? addressData.regionUk : addressData.regionEn;
-        const city = this.currentLanguage === 'ua' ? addressData.cityUk : addressData.cityEn;
-        const street = this.currentLanguage === 'ua' ? addressData.streetUk : addressData.streetEn;
+        const region = this.currentLanguage === 'uk' ? addressData.regionUk : addressData.regionEn;
+        const city = this.currentLanguage === 'uk' ? addressData.cityUk : addressData.cityEn;
+        const street = this.currentLanguage === 'uk' ? addressData.streetUk : addressData.streetEn;
 
         this.onRegionValueSet(region);
         this.onCityValueSet(city);
@@ -441,8 +441,8 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
       this.blockAutoComplete = true;
       this.city.patchValue(city?.structured_formatting.main_text ?? '');
 
-      const response = await this.addressData.getPlaceByPlaceId(city.place_id, this.currentLanguage === 'ua' ? 'uk' : 'en');
-      const langKey = this.currentLanguage === 'ua' ? 'placeUk' : 'placeEn';
+      const response = await this.addressData.getPlaceByPlaceId(city.place_id, this.currentLanguage === 'uk' ? 'uk' : 'en');
+      const langKey = this.currentLanguage === 'uk' ? 'placeUk' : 'placeEn';
       await this.addressData.setCity({ [langKey]: response });
     }
     this.addressForm.get('region').disable();

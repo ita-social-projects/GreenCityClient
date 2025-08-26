@@ -30,7 +30,7 @@
           <ng-container matColumnDef="reason">
             <th mat-header-cell *matHeaderCellDef scope="col">{{ 'bonuses.reason' | translate }}</th>
             <td mat-cell *matCellDef="let element">
-              {{ currentLang === 'ua' ? element.reasonUk : element.reasonEn }}
+              {{ currentLang === 'uk' ? element.reasonUk : element.reasonEn }}
               <a [routerLink]="['/ubs/user/orders']" (click)="passOrderIdToRedirect(element.numberOfOrder)">
                 №{{ element.numberOfOrder }}
               </a>

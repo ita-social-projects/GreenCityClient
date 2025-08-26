@@ -20,9 +20,9 @@ export enum filtersPlaceholderOptions {
 }
 
 export const filtersStateEmployeeOptions = [
-  { nameEn: 'All', nameUa: 'Всі' },
-  { nameEn: 'Active', nameUa: 'Активний' },
-  { nameEn: 'Inactive', nameUa: 'Деактивований' }
+  { nameEn: 'All', nameUk: 'Всі' },
+  { nameEn: 'Active', nameUk: 'Активний' },
+  { nameEn: 'Inactive', nameUk: 'Деактивований' }
 ];
 
 export const EmployeeStatus = {

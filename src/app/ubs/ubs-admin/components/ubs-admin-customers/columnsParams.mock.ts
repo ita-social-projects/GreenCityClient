@@ -2,7 +2,7 @@ export const columnsParams: ColumnParam[] = [
   {
     title: {
       key: 'clientName',
-      ua: 'Імя клієнта',
+      uk: 'Імя клієнта',
       en: 'Client name'
     },
     width: 100
@@ -10,7 +10,7 @@ export const columnsParams: ColumnParam[] = [
   {
     title: {
       key: 'recipientPhone',
-      ua: 'Телефон',
+      uk: 'Телефон',
       en: 'Phone'
     },
     width: 80
@@ -18,7 +18,7 @@ export const columnsParams: ColumnParam[] = [
   {
     title: {
       key: 'recipientEmail',
-      ua: 'E-mail',
+      uk: 'E-mail',
       en: 'E-mail'
     },
     width: 100
@@ -26,7 +26,7 @@ export const columnsParams: ColumnParam[] = [
   {
     title: {
       key: 'dateOfRegistration',
-      ua: 'Дата реєстрації в системі',
+      uk: 'Дата реєстрації в системі',
       en: 'Registration Date'
     },
     width: 60
@@ -34,7 +34,7 @@ export const columnsParams: ColumnParam[] = [
   {
     title: {
       key: 'orderDate',
-      ua: 'Останнє замовлення',
+      uk: 'Останнє замовлення',
       en: 'Last order'
     },
     width: 60
@@ -42,7 +42,7 @@ export const columnsParams: ColumnParam[] = [
   {
     title: {
       key: 'number_of_orders',
-      ua: 'К-сть замовлень',
+      uk: 'К-сть замовлень',
       en: 'Orders'
     },
     width: 60
@@ -50,7 +50,7 @@ export const columnsParams: ColumnParam[] = [
   {
     title: {
       key: 'violations',
-      ua: 'Порушення',
+      uk: 'Порушення',
       en: 'Violations'
     },
     width: 60
@@ -58,7 +58,7 @@ export const columnsParams: ColumnParam[] = [
   {
     title: {
       key: 'currentPoints',
-      ua: 'Баланс бонусного рахунку',
+      uk: 'Баланс бонусного рахунку',
       en: 'Bonuses'
     },
     width: 60
@@ -66,7 +66,7 @@ export const columnsParams: ColumnParam[] = [
   {
     title: {
       key: 'chatId',
-      ua: 'Чат з клієнтом',
+      uk: 'Чат з клієнтом',
       en: 'Client chat'
     },
     width: 60
@@ -77,7 +77,7 @@ export const columnsParamsOrders: ColumnParam[] = [
   {
     title: {
       key: 'orderDate',
-      ua: 'Дата замовлення',
+      uk: 'Дата замовлення',
       en: 'Order Date'
     },
     width: 100
@@ -85,7 +85,7 @@ export const columnsParamsOrders: ColumnParam[] = [
   {
     title: {
       key: 'id',
-      ua: '№ замовлення	',
+      uk: '№ замовлення	',
       en: '№ order	'
     },
     width: 60
@@ -93,7 +93,7 @@ export const columnsParamsOrders: ColumnParam[] = [
   {
     title: {
       key: 'orderStatus',
-      ua: 'Статус замовлення',
+      uk: 'Статус замовлення',
       en: 'Order status'
     },
     width: 100
@@ -101,7 +101,7 @@ export const columnsParamsOrders: ColumnParam[] = [
   {
     title: {
       key: 'orderPaymentStatus',
-      ua: 'Статус оплати',
+      uk: 'Статус оплати',
       en: 'Payment status'
     },
     width: 60
@@ -109,7 +109,7 @@ export const columnsParamsOrders: ColumnParam[] = [
   {
     title: {
       key: 'amount',
-      ua: 'Сума замовлення',
+      uk: 'Сума замовлення',
       en: 'Order amount'
     },
     width: 60
@@ -120,7 +120,7 @@ export const columnsParamsViolations: ColumnParam[] = [
   {
     title: {
       key: 'violationDate',
-      ua: 'Дата порушення',
+      uk: 'Дата порушення',
       en: 'Violation date'
     },
     width: 100
@@ -128,7 +128,7 @@ export const columnsParamsViolations: ColumnParam[] = [
   {
     title: {
       key: 'orderId',
-      ua: '№ замовлення',
+      uk: '№ замовлення',
       en: '№ order'
     },
     width: 60
@@ -136,7 +136,7 @@ export const columnsParamsViolations: ColumnParam[] = [
   {
     title: {
       key: 'violationLevel',
-      ua: 'Ступінь порушення',
+      uk: 'Ступінь порушення',
       en: 'Violation level'
     },
     width: 100
@@ -147,7 +147,7 @@ export const columnsParamsCertificates: ColumnParam[] = [
   {
     title: {
       key: 'select',
-      ua: 'Вибір',
+      uk: 'Вибір',
       en: 'Select'
     },
     width: 45
@@ -155,7 +155,7 @@ export const columnsParamsCertificates: ColumnParam[] = [
   {
     title: {
       key: 'code',
-      ua: 'Код',
+      uk: 'Код',
       en: 'Code'
     },
     width: 164
@@ -163,7 +163,7 @@ export const columnsParamsCertificates: ColumnParam[] = [
   {
     title: {
       key: 'certificateStatus',
-      ua: 'Статус сертифіката',
+      uk: 'Статус сертифіката',
       en: 'Sertificate status'
     },
     width: 164
@@ -171,7 +171,7 @@ export const columnsParamsCertificates: ColumnParam[] = [
   {
     title: {
       key: 'orderId',
-      ua: 'Id замовлення',
+      uk: 'Id замовлення',
       en: 'Order Id'
     },
     width: 164
@@ -179,7 +179,7 @@ export const columnsParamsCertificates: ColumnParam[] = [
   {
     title: {
       key: 'initialPointsValue',
-      ua: 'Значення',
+      uk: 'Значення',
       en: 'Points'
     },
     width: 164
@@ -187,7 +187,7 @@ export const columnsParamsCertificates: ColumnParam[] = [
   {
     title: {
       key: 'expirationDate',
-      ua: 'Термін придатності',
+      uk: 'Термін придатності',
       en: 'Expiration date'
     },
     width: 164
@@ -195,7 +195,7 @@ export const columnsParamsCertificates: ColumnParam[] = [
   {
     title: {
       key: 'creationDate',
-      ua: 'Дата створення',
+      uk: 'Дата створення',
       en: 'Creation date'
     },
     width: 164
@@ -203,7 +203,7 @@ export const columnsParamsCertificates: ColumnParam[] = [
   {
     title: {
       key: 'dateOfUse',
-      ua: 'Дата використання',
+      uk: 'Дата використання',
       en: 'Date ot use'
     },
     width: 164
@@ -212,7 +212,7 @@ export const columnsParamsCertificates: ColumnParam[] = [
 
 export interface ColumnTitle {
   key: string;
-  ua: string;
+  uk: string;
   en: string;
 }
 

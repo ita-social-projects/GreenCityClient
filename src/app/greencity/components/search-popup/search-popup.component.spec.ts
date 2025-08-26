@@ -26,7 +26,7 @@ describe('SearchPopupComponent', () => {
   let fixture: ComponentFixture<SearchPopupComponent>;
   const matSnackBarMock: MatSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
 
   const mockEventsData = {
     id: 1,
@@ -98,7 +98,7 @@ describe('SearchPopupComponent', () => {
 
       component.searchInput.setValue('test');
       tick(300);
-      expect(getSearchSpy).toHaveBeenCalledWith('test', SearchCategory.EVENTS, 'ua');
+      expect(getSearchSpy).toHaveBeenCalledWith('test', SearchCategory.EVENTS, 'uk');
     }));
 
     it('closeSearch should open SearchService/closeSearchSignal', () => {

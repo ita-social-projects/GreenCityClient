@@ -40,7 +40,7 @@ describe('EventsComponent', () => {
   });
 
   it('should set default language on initialization', () => {
-    const defaultLang = Language.UA;
+    const defaultLang = Language.UK;
     localStorageService.getCurrentLanguage.and.returnValue(defaultLang);
     component.ngOnInit();
     expect(translateService.setDefaultLang).toHaveBeenCalledWith(defaultLang);

@@ -24,6 +24,11 @@ export class ChatApiService {
     const params = new HttpParams().set('pageable', JSON.stringify(pageable));
     return this.http.get<PaginatedResponse<ChatDto>>(`${this.baseUrl}/chats`, { headers, params });
   }
+  markMessagesRead(ids: number[]) {
+    return this.http.put<void>(`${environment.backendUbsLink}/ubs/telegram/messages`, {
+      messagesIds: ids
+    });
+  }
 
   getMessages(chatInternalId: number, page: number, size: number) {
     const headers = this.authHeaders();

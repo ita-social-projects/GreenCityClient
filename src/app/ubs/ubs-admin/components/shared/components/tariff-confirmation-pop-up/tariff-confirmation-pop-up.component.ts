@@ -14,7 +14,7 @@ import { TariffConfirmationPopUpInterface } from 'src/app/ubs/ubs-admin/models/u
 })
 export class TariffConfirmationPopUpComponent implements OnInit {
   name: string;
-  datePipe = new DatePipe('ua');
+  datePipe = new DatePipe('uk-UA');
   newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   unsubscribe: Subject<any> = new Subject();
   values: TariffConfirmationPopUpInterface;

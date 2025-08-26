@@ -463,7 +463,7 @@ export const eventMock = {
     id: 1111,
     name: 'John'
   },
-  tags: [{ nameEn: 'Environmental', nameUa: 'Екологічний', id: 1 }],
+  tags: [{ nameEn: 'Environmental', nameUk: 'Екологічний', id: 1 }],
   title: 'title',
   titleImage: '',
   isSubscribed: true

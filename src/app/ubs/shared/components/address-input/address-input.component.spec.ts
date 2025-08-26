@@ -25,17 +25,17 @@ describe('AddressInputComponent', () => {
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLanguage', 'getCurrentLangObs']);
   languageServiceMock.getLangValue.and.returnValue('fakeTag');
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
-  languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
+  languageServiceMock.getCurrentLanguage.and.returnValue('uk');
+  languageServiceMock.getCurrentLangObs.and.returnValue(of('uk'));
 
   const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
     'languageBehaviourSubject',
     'getLocations'
   ]);
-  fakeLocalStorageService.getCurrentLanguage.and.returnValue('ua');
+  fakeLocalStorageService.getCurrentLanguage.and.returnValue('uk');
   fakeLocalStorageService.getLocations.and.returnValue([]);
-  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
+  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('uk');
 
   const mockInitialState: IAppState = {
     auth: undefined,
@@ -85,7 +85,7 @@ describe('AddressInputComponent', () => {
       { long_name: 'Kyiv', short_name: 'Kyiv', types: ['locality', 'political'] },
       { long_name: 'Kyiv City', short_name: 'Kyiv City', types: ['administrative_area_level_2', 'political'] },
       { long_name: 'Kyiv', short_name: 'Kyiv', types: ['administrative_area_level_1', 'political'] },
-      { long_name: 'Ukraine', short_name: 'UA', types: ['country', 'political'] },
+      { long_name: 'Ukraine', short_name: 'UK', types: ['country', 'political'] },
       { long_name: '01030', short_name: '01030', types: ['postal_code'] }
     ]
   } as google.maps.GeocoderResult;
@@ -211,7 +211,7 @@ describe('AddressInputComponent', () => {
     component.ngOnInit();
 
     expect(fakeLocalStorageService.getLocations).toHaveBeenCalled();
-    expect(component.currentLanguage).toEqual('ua');
+    expect(component.currentLanguage).toEqual('uk');
     expect(component['initForm']).toHaveBeenCalled();
     expect(component['initListeners']).toHaveBeenCalled();
   });

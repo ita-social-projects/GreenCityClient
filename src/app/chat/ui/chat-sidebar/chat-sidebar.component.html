@@ -3,18 +3,22 @@
     <input type="text" [placeholder]="'chat.chat-placeholder' | translate" [(ngModel)]="searchId" (input)="onInput()" />
   </label>
 </div>
-
 <ul class="chat-list">
   <li class="chat-item" *ngFor="let chat of chats; trackBy: trackById" (click)="selectChat.emit(chat)">
     <div class="avatar">{{ chat.initial }}</div>
+
     <div class="chat-details">
-      <div class="chat-name">{{ chat.name }}</div>
+      <div class="chat-name">{{ chat.fullName }}</div>
       <div class="last-row">
         <div class="last-message">{{ chat.lastMessage }}</div>
       </div>
     </div>
+
     <div class="meta">
       <span class="timestamp">{{ chat.time }}</span>
+      <span class="unread-badge" *ngIf="chat.unreadMessagesCount > 0">
+        {{ chat.unreadMessagesCount }}
+      </span>
       <app-status-ticks [status]="chat.viewingStatus"></app-status-ticks>
     </div>
   </li>

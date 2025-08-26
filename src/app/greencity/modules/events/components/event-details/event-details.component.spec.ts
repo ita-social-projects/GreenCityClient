@@ -153,8 +153,8 @@ describe('EventDetailsComponent', () => {
   ]);
 
   LocalStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
-  LocalStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
-  LocalStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  LocalStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
+  LocalStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
 
   class MatDialogMock {
     open() {
@@ -176,7 +176,7 @@ describe('EventDetailsComponent', () => {
 
   const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
-  languageServiceMock.getCurrentLangObs = () => of('ua');
+  languageServiceMock.getCurrentLangObs = () => of('uk');
   EventsServiceMock.getIsLikedByUser.and.returnValue(of(true));
   const actionSub: ActionsSubject = new ActionsSubject();
 

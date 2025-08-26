@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgForOf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatListItem } from '../../model/chat-page.interface';
 import { StatusTicksComponent } from '../status-ticks/status-ticks.component';
@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-chat-sidebar',
   standalone: true,
-  imports: [NgForOf, FormsModule, StatusTicksComponent, TranslateModule],
+  imports: [NgForOf, FormsModule, StatusTicksComponent, TranslateModule, NgIf],
   templateUrl: './chat-sidebar.component.html'
 })
 export class ChatSidebarComponent {

@@ -64,7 +64,7 @@ describe('LocalStorageService', () => {
     id: 1,
     factOfTheDayTranslations: [
       {
-        languageCode: 'ua',
+        languageCode: 'uk',
         content: 'Приклад факту дня'
       },
       {
@@ -213,7 +213,7 @@ describe('LocalStorageService', () => {
   });
 
   it('should clear local storage and reset subjects', () => {
-    localStorage.setItem('language', 'ua');
+    localStorage.setItem('language', 'uk');
     service.clear();
     expect(service.firstNameBehaviourSubject.value).toBeNull();
     expect(service.userIdBehaviourSubject.value).toBeNull();

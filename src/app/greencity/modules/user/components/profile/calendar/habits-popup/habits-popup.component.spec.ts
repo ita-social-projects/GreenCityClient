@@ -34,7 +34,7 @@ describe('HabitsPopupComponent', () => {
   const dialogRefMock = jasmine.createSpyObj('dialogRef', ['close', 'beforeClosed']);
   dialogRefMock.beforeClosed.and.returnValue(of(true));
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getCurrentLanguage']);
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getCurrentLanguage.and.returnValue('uk');
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -52,7 +52,7 @@ describe('HabitsPopupComponent', () => {
   }));
 
   beforeEach(() => {
-    localStorage.setItem('language', 'ua');
+    localStorage.setItem('language', 'uk');
     fixture = TestBed.createComponent(HabitsPopupComponent);
     component = fixture.componentInstance;
     component.data = mockData;
@@ -68,7 +68,7 @@ describe('HabitsPopupComponent', () => {
   it('makes expected calls in loadPopup', () => {
     spyOn(component, 'formatSelectedDate').and.returnValue('02 20 2022');
     component.loadPopup();
-    expect(component.language).toBe('ua');
+    expect(component.language).toBe('uk');
     expect(component.habitsCalendarSelectedDate).toBe('02 20 2022');
     expect(component.isHabitListEditable).toBeTruthy();
     expect(component.popupHabits).toEqual(mockPopupHabits);
@@ -222,7 +222,7 @@ describe('HabitsPopupComponent', () => {
 
   it('should format selected date with provided date string in Ukrainian', () => {
     const dateStr = '2023-06-26';
-    component.language = 'ua';
+    component.language = 'uk';
     const result = component.formatSelectedDate(dateStr);
     const expected = 'Червень 26, 2023';
     expect(result).toEqual(expected);

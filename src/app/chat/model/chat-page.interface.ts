@@ -40,6 +40,8 @@ export interface ChatDto {
   firstName?: string | null;
   lastName?: string | null;
   lastMessage?: MessageDto | null;
+  user?: UserFromChat | null;
+  unreadMessagesCount?: number;
 }
 
 export interface PaginatedResponse<T> {
@@ -50,15 +52,19 @@ export interface PaginatedResponse<T> {
 }
 
 export interface ChatMessageView {
+  id?: number;
   from: string;
   text: string;
   time: string;
   images?: string[];
+  fileUrl?: string;
+  fileName?: string;
   viewingStatus?: 'UNREAD' | 'VIEWED' | null;
 }
 
 export interface ChatListItem {
-  name: string;
+  fullName: string;
+  nickname: string;
   initial: string;
   chatId: string;
   chatInternalId: number;
@@ -66,28 +72,29 @@ export interface ChatListItem {
   time: string;
   messages: ChatMessageView[];
   viewingStatus?: MessageViewingStatus | 'UNREAD' | 'VIEWED';
+  unreadMessagesCount?: number;
 }
 
 export interface ClientInfoData {
   error?: string;
 }
 
-export interface NewChatEvent {
-  id: number;
-  chatId: string;
+export type ClientInfoRecord = Record<string, unknown>;
+
+export interface UserFromChat {
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface SocketNewChat {
+  chatId: string | number;
   username?: string | null;
   firstName?: string | null;
   lastName?: string | null;
   lastMessage?: MessageDto | null;
+  unreadMessagesCount?: number;
+  id?: number;
+  chatInternalId?: number;
+  internalId?: number;
 }
-
-export interface MessageEvent {
-  id: number;
-  chatId: number;
-  text: string;
-  sendAt: string;
-  fromManager: boolean;
-  assets?: AssetDto[] | null;
-}
-
-export type ClientInfoRecord = Record<string, unknown>;

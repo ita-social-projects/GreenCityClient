@@ -253,6 +253,6 @@ export class TableCellSelectComponent implements OnInit {
   }
 
   private findKeyForNewOption(): number {
-    return this.optional.findIndex((item) => item[this.lang === 'ua' ? 'uk' : this.lang] === this.newOption);
+    return this.optional.findIndex((item) => item[this.lang === 'uk' ? 'uk' : this.lang] === this.newOption);
   }
 }

@@ -91,7 +91,7 @@ describe('HabitDurationComponent', () => {
   it('should initialize with habitDurationInitial value', () => {
     component.habitDurationInitial = 25;
     component.ngOnInit();
-    component.currentLang = 'ua';
+    component.currentLang = 'uk';
     component.updateLabel();
     fixture.detectChanges();
     const sliderValue = fixture.nativeElement.getElementsByClassName('mdc-slider__value-indicator-text')[0];

@@ -113,7 +113,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((lang) => {
       this.currentLang = lang;
-      const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
+      const locale = lang !== 'uk' ? 'en-GB' : 'uk-UA';
       this.adapter.setLocale(locale);
     });
     this.getTable();
@@ -422,7 +422,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   private setDialogHeader(modalRef: MatDialogRef<CommentPopUpComponent>, column: ColumnParam): void {
-    modalRef.componentInstance.header = this.localStorageService.getCurrentLanguage() === 'ua' ? column.title.ua : column.title.en;
+    modalRef.componentInstance.header = this.localStorageService.getCurrentLanguage() === 'uk' ? column.title.uk : column.title.en;
   }
 
   private updateTableRow(column: ColumnParam, userId: string, updatedData: string): void {

@@ -46,10 +46,10 @@ describe('HabitService', () => {
   });
 
   it('should get get Habit By Assign Id', () => {
-    service.getHabitByAssignId(1, 'ua').subscribe((data) => {
+    service.getHabitByAssignId(1, 'uk').subscribe((data) => {
       expect(data).toEqual(DEFAULTFULLINFOHABIT);
     });
-    const req = httpMock.expectOne(`${habitAssignLink}/1?lang=ua`);
+    const req = httpMock.expectOne(`${habitAssignLink}/1?lang=uk`);
     expect(req.request.method).toBe('GET');
     req.flush(DEFAULTFULLINFOHABIT);
   });

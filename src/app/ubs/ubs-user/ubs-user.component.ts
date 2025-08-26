@@ -18,7 +18,7 @@ export class UbsUserComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
-      this.translate.setDefaultLang(lang !== 'en' && lang !== 'ua' ? 'ua' : lang);
+      this.translate.setDefaultLang(lang !== 'en' && lang !== 'uk' ? 'uk' : lang);
     });
   }
 

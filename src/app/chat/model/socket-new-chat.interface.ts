@@ -12,6 +12,7 @@ export interface SocketNewChatBase {
   firstName?: string | null;
   lastName?: string | null;
   lastMessage?: MessageDto | null;
+  unreadMessagesCount?: number;
 }
 
 export type SocketNewChat = SocketNewChatBase & IdCarrier;

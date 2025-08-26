@@ -18,7 +18,7 @@ import { LanguageService } from 'src/app/shared/i18n/language.service';
   selector: '[appLangValue]'
 })
 export class LangValueDirective implements OnInit, OnDestroy, OnChanges {
-  @Input() appLangValue: { ua: string; en: string } | { ua: string[]; en: string[] };
+  @Input() appLangValue: { uk: string; en: string } | { uk: string[]; en: string[] };
   @Input() appLangValueType: 'html' | 'text' = 'text';
   @Input() prefix: string;
   @Input() suffix: string;
@@ -49,7 +49,7 @@ export class LangValueDirective implements OnInit, OnDestroy, OnChanges {
   }
 
   updateLangValue() {
-    const langValue = this.languageService.getLangValue(this.appLangValue.ua, this.appLangValue.en);
+    const langValue = this.languageService.getLangValue(this.appLangValue.uk, this.appLangValue.en);
     const value = `${this.prefix ?? ''}${langValue}${this.suffix ?? ''}`;
 
     if (this.appLangValueType === 'text') {

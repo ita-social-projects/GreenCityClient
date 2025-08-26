@@ -27,7 +27,7 @@ describe('AppComponent', () => {
   ]);
   localStorageMock.userIdBehaviourSubject = of(null);
   localStorageMock.getAccessToken = () => null;
-  localStorageMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageMock.languageBehaviourSubject = new BehaviorSubject('uk');
   const metaServiceMock = jasmine.createSpyObj('MetaService', ['setMetaOnRouteChange']);
 
   beforeEach(waitForAsync(() => {

@@ -60,8 +60,8 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     'getCurrentLanguage',
     'firstNameBehaviourSubject'
   ]);
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
-  localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
+  localStorageServiceMock.getCurrentLanguage.and.returnValue(of('uk'));
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
 
   beforeEach(waitForAsync(() => {
@@ -151,7 +151,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
 
   it('should set date on setDate method', () => {
     component.setDate();
-    expect(component.datePipe).toEqual(new DatePipe('ua'));
+    expect(component.datePipe).toEqual(new DatePipe('uk-UA'));
     expect(component.newDate).toEqual(component.datePipe.transform(new Date(), 'MMM dd, yyyy'));
   });
 
@@ -205,7 +205,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     expect(result).toEqual(true);
   });
 
-  it('should check language and return ua value', () => {
+  it('should check language and return uk value', () => {
     const valUa = 'Назва';
     const valEn = 'Name';
     const result = component.checkLang(valUa, valEn);

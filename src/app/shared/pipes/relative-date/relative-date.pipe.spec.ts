@@ -50,10 +50,10 @@ describe('RelativeDatePipe', () => {
     expect(result).toBe(expectedFormat);
   });
 
-  it('should format other dates in UA', () => {
-    translateService.currentLang = 'ua';
+  it('should format other dates in UK', () => {
+    translateService.currentLang = 'uk';
     const date = new Date('2023-05-20T10:00:00');
-    const expectedFormat = datePipe.transform(date, 'MMM dd, yyyy hh:mm', '', 'ua');
+    const expectedFormat = datePipe.transform(date, 'MMM dd, yyyy hh:mm', '', 'uk-UA');
     const result = pipe.transform(date.toString());
     expect(result).toBe(expectedFormat);
   });

@@ -47,7 +47,7 @@
         <div class="filtrs-list">
           <div *ngFor="let position of selectedPositions" class="filter-item">
             <div class="remove-item-btn" (click)="removeItem(position, 'position')"></div>
-            <span class="filter-content" [appLangValue]="{ ua: position.ukrainianName, en: position.englishName }"></span>
+            <span class="filter-content" [appLangValue]="{ uk: position.ukrainianName, en: position.englishName }"></span>
           </div>
         </div>
       </div>
@@ -149,7 +149,7 @@
         <div class="filtrs-list">
           <div class="filter-item" *ngFor="let courier of selectedCouriers">
             <div class="remove-item-btn" (click)="removeItem(courier, 'courier')"></div>
-            <span class="filter-content" [appLangValue]="{ ua: courier.ukrainianName, en: courier.englishName }"></span>
+            <span class="filter-content" [appLangValue]="{ uk: courier.ukrainianName, en: courier.englishName }"></span>
           </div>
         </div>
       </div>
@@ -170,8 +170,8 @@
             <div class="option-wrapper">
               <mat-option
                 *ngFor="let state of employeeStates"
-                [value]="languageService.getLangValue(state.nameUa, state.nameEn)"
-                [appLangValue]="{ ua: state.nameUa, en: state.nameEn }"
+                [value]="languageService.getLangValue(state.nameUk, state.nameEn)"
+                [appLangValue]="{ uk: state.nameUk, en: state.nameEn }"
               >
               </mat-option>
             </div>
@@ -181,7 +181,7 @@
         <div class="filtrs-list">
           <div class="filter-item" *ngFor="let state of selectedState">
             <div class="remove-item-btn" (click)="removeItem(state, 'state')"></div>
-            <span class="filter-content" [appLangValue]="{ ua: state.nameUa, en: state.nameEn }"></span>
+            <span class="filter-content" [appLangValue]="{ uk: state.nameUk, en: state.nameEn }"></span>
           </div>
         </div>
       </div>
