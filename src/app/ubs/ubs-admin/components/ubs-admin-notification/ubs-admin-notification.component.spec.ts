@@ -189,7 +189,7 @@ describe('UbsAdminNotificationComponent', () => {
   });
 
   it('should open edit text dialog and update notification on close', () => {
-    const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of({ text: { ua: 'Новий текст', en: 'New text' } }) });
+    const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of({ text: { uk: 'Новий текст', en: 'New text' } }) });
     dialogMock.open.and.returnValue(dialogRefSpyObj);
     component.notification = NotificationMock;
 
@@ -221,7 +221,7 @@ describe('UbsAdminNotificationComponent', () => {
 
   it('should open settings dialog and update notification on close', () => {
     const mockUpdates = {
-      title: { en: 'New Title', ua: 'Нова Назва' },
+      title: { en: 'New Title', uk: 'Нова Назва' },
       trigger: 'SCHEDULE',
       time: '20',
       schedule: '0 0 1 * *'
@@ -310,7 +310,7 @@ describe('UbsAdminNotificationComponent', () => {
     const mockUpdates = {
       title: {
         en: component.notification.notificationTemplateMainInfoDto.titleEn,
-        ua: component.notification.notificationTemplateMainInfoDto.titleUk
+        uk: component.notification.notificationTemplateMainInfoDto.titleUk
       },
       trigger: component.notification.notificationTemplateMainInfoDto.trigger,
       time: component.notification.notificationTemplateMainInfoDto.time,
@@ -328,7 +328,7 @@ describe('UbsAdminNotificationComponent', () => {
         data: {
           title: {
             en: component.notification.notificationTemplateMainInfoDto.titleEn,
-            ua: component.notification.notificationTemplateMainInfoDto.titleUk
+            uk: component.notification.notificationTemplateMainInfoDto.titleUk
           },
           trigger: component.notification.notificationTemplateMainInfoDto.trigger,
           time: component.notification.notificationTemplateMainInfoDto.time,
@@ -339,7 +339,7 @@ describe('UbsAdminNotificationComponent', () => {
     );
     expect(component['findNewDescription']).toHaveBeenCalledWith(mockUpdates);
     expect(component.notification.notificationTemplateMainInfoDto.titleEn).toBe(mockUpdates.title.en);
-    expect(component.notification.notificationTemplateMainInfoDto.titleUk).toBe(mockUpdates.title.ua);
+    expect(component.notification.notificationTemplateMainInfoDto.titleUk).toBe(mockUpdates.title.uk);
     expect(component.notification.notificationTemplateMainInfoDto.trigger).toBe(mockUpdates.trigger);
     expect(component.notification.notificationTemplateMainInfoDto.time).toBe(mockUpdates.time);
     expect(component.notification.notificationTemplateMainInfoDto.schedule).toBe(mockUpdates.schedule);
@@ -351,14 +351,14 @@ describe('UbsAdminNotificationComponent', () => {
     const findNewDescriptionSpy = spyOn<any>(component, 'findNewDescription');
     const initialSchedule = component.notification.notificationTemplateMainInfoDto.schedule;
     const initialTitleEn = component.notification.notificationTemplateMainInfoDto.titleEn;
-    const initialTitleUa = component.notification.notificationTemplateMainInfoDto.titleUk;
+    const initialTitleUk = component.notification.notificationTemplateMainInfoDto.titleUk;
 
     component.onEditNotificationSettings();
 
     expect(dialogMock.open).toHaveBeenCalled();
     expect(findNewDescriptionSpy).not.toHaveBeenCalled();
     expect(component.notification.notificationTemplateMainInfoDto.titleEn).toBe(initialTitleEn);
-    expect(component.notification.notificationTemplateMainInfoDto.titleUk).toBe(initialTitleUa);
+    expect(component.notification.notificationTemplateMainInfoDto.titleUk).toBe(initialTitleUk);
     expect(component.notification.notificationTemplateMainInfoDto.schedule).toBe(initialSchedule);
   });
 });
