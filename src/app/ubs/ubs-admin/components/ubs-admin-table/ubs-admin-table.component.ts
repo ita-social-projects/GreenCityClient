@@ -304,9 +304,9 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.isAllColumnsDisplayed = this.displayedColumns.length === this.displayedColumnsView.length;
   }
 
-  applyFilter(filterValue: string): void {
+  applySearchFilter(filterValue: string): void {
     this.filterValue = filterValue;
-    this.localStorageService.setAdminOrdersDateFilter(this.filters);
+    this.applyFilters();
   }
 
   dropListDropped(event: CdkDragDrop<string[]>) {

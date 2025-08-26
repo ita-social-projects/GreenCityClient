@@ -220,6 +220,13 @@ describe('UbsAdminTableComponent', () => {
     expect(storeMock.dispatch).toHaveBeenCalledWith(GetColumns());
   }));
 
+  it('applySearchFilter should change filterValue and call applyFilters', () => {
+    const applyFiltersSpy = spyOn(component, 'applyFilters').and.callThrough();
+    component.applySearchFilter('Test');
+    expect(component.filterValue).toEqual('Test');
+    expect(applyFiltersSpy).toHaveBeenCalled();
+  });
+
   it('isAllColumnsDisplayed sould be true ', () => {
     component.displayedColumnsView.length = 4;
     component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
