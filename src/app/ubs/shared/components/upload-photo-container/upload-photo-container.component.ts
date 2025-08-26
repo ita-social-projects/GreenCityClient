@@ -35,7 +35,13 @@ export class UploadPhotoContainerComponent implements OnInit {
   }
 
   imageCropped(event: ImageCroppedEvent): void {
-    this.croppedImage = event.base64;
+    if (event.blob) {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.blob);
+      reader.onload = () => {
+        this.croppedImage = reader.result as string;
+      };
+    }
   }
 
   onSaveChanges(): void {

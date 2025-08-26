@@ -241,7 +241,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     return initialSorted.some((value, index) => value !== currentSorted[index]);
   }
 
-  prepareEmployeeDataToSend(dto: string, image?: string | ArrayBuffer): FormData {
+  async prepareEmployeeDataToSend(dto: string, image?: string | ArrayBuffer): Promise<FormData> {
     this.isUploading = true;
     const selectedTariffs = this.filteredTariffs.filter((it) => it.selected);
     this.employeeDataToSend = {
@@ -262,8 +262,10 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(this.employeeDataToSend);
     formData.append(dto, stringifiedDataToSend);
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile);
+
+    if (this.imageURL && this.imageURL !== this.defaultPhotoURL) {
+      const blob = await fetch(this.imageURL as string).then((res) => res.blob());
+      formData.append('image', blob, this.imageName);
     }
     return formData;
   }
@@ -281,15 +283,15 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateEmployee(): void {
-    const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
-    const dataToSend = this.prepareEmployeeDataToSend('employee', image);
+  async updateEmployee(): Promise<void> {
+    const image = !this.selectedFile ? this.defaultPhotoURL : this.imageURL;
+    const dataToSend = await this.prepareEmployeeDataToSend('employee', image);
     this.store.dispatch(UpdateEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
-  createEmployee(): void {
-    const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
-    const dataToSend = this.prepareEmployeeDataToSend('employee', image);
+  async createEmployee(): Promise<void> {
+    const image = !this.selectedFile ? this.defaultPhotoURL : this.imageURL;
+    const dataToSend = await this.prepareEmployeeDataToSend('employee', image);
     this.store.dispatch(AddEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
