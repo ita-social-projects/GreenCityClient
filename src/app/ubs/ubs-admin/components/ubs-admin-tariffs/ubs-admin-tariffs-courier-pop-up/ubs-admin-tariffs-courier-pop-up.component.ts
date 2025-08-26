@@ -101,7 +101,8 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   setDate(): void {
-    this.datePipe = new DatePipe(this.currentLang);
+    const locale = this.currentLang === 'uk' ? 'uk-UA' : 'en-GB';
+    this.datePipe = new DatePipe(locale);
     this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   }
 
@@ -161,7 +162,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   checkLang(valUa, valEn): any {
-    return this.currentLang === 'ua' ? valUa : valEn;
+    return this.currentLang === 'uk' ? valUa : valEn;
   }
 
   onNoClick(): void {

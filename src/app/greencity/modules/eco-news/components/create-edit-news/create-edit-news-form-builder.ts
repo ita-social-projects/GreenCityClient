@@ -27,7 +27,7 @@ export class CreateEditNewsFormBuilder {
       title: [data.title, [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
       source: [data.source],
       content: [data.text || data.content || data.content.html, contentValidator],
-      tags: this.fb.array(this.localStorageService.getCurrentLanguage() === 'ua' ? data.tagsUk : data.tagsEn),
+      tags: this.fb.array(this.localStorageService.getCurrentLanguage() === 'uk' ? data.tagsUk : data.tagsEn),
       image: [data.imagePath]
     });
   }

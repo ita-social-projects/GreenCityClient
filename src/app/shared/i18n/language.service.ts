@@ -22,13 +22,12 @@ export class LanguageService {
   private languageSubj = new BehaviorSubject(Language.EN);
   isLoggedIn = false;
   synqLanguageArr: LanguageId[] = [
-    { id: 1, code: 'ua' },
+    { id: 1, code: 'uk' },
     { id: 2, code: 'en' }
   ];
 
   private languageMap: { [key: string]: Language } = {
-    uk: Language.UA,
-    ua: Language.UA,
+    uk: Language.UK,
     en: Language.EN
   };
 
@@ -38,7 +37,7 @@ export class LanguageService {
     private userOwnAuthService: UserOwnAuthService,
     private localStorageService: LocalStorageService
   ) {
-    this.monthMap.set(Language.UA, [
+    this.monthMap.set(Language.UK, [
       'січня',
       'лютого',
       'березня',
@@ -108,7 +107,7 @@ export class LanguageService {
   }
 
   getLangValue<T extends TLangValue>(uaValue: T, enValue: T): TLangValueReturnType<T> {
-    return (this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue) as TLangValueReturnType<T>;
+    return (this.localStorageService.getCurrentLanguage() === 'uk' ? uaValue : enValue) as TLangValueReturnType<T>;
   }
 
   private getLanguageByString(languageString: string) {

@@ -3,7 +3,7 @@
   <div class="ul-eco-buttons" aria-label="filter by items">
     <button *ngFor="let filter of filters" class="tag-button" (click)="toggleFilter(filter.nameEn)">
       <a class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': filter.isActive }">
-        <span class="text" [appLangValue]="{ ua: filter.nameUk, en: filter.nameEn }"></span>
+        <span class="text" [appLangValue]="{ uk: filter.nameUk, en: filter.nameEn }"></span>
         <div [ngClass]="{ 'global-tag-close-icon': filter.isActive }"></div>
       </a>
     </button>

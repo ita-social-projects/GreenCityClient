@@ -4,7 +4,7 @@
     <mat-option [value]="0" (click)="toggleAllSelection()">{{ filter.selectAllOption | translate }}</mat-option>
     <mat-divider></mat-divider>
     <mat-option *ngFor="let option of filter.options" (click)="updateSelectedFilters(option)">
-      <span [appLangValue]="{ ua: option.nameUa, en: option.name }"></span>
+      <span [appLangValue]="{ uk: option.nameUk, en: option.name }"></span>
     </mat-option>
   </mat-select>
 </div>

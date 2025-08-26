@@ -42,7 +42,7 @@ export class LocationService {
       input: searchAddress,
       language: lang,
       types: [types],
-      componentRestrictions: { country: 'ua' }
+      componentRestrictions: { country: 'uk' }
     };
     return request;
   }
@@ -91,7 +91,7 @@ export class LocationService {
 
     return districtList.map((district) => {
       const districtWithLabel = {
-        nameUk: `${district.nameUk}${DistrictEnum.UA}`,
+        nameUk: `${district.nameUk}${DistrictEnum.UK}`,
         nameEn: `${district.nameEn}${DistrictEnum.EN}`
       };
       return districtWithLabel;

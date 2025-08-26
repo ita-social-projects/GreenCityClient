@@ -85,7 +85,7 @@ export interface TariffForEmployee {
 }
 export interface TariffForEmployeeItem {
   en: string;
-  ua: string;
+  uk: string;
 }
 
 export interface EmployeeDataToSend {
@@ -326,7 +326,7 @@ export interface IOrderStatusInfo {
   key: string;
   ableActualChange: boolean;
   translation?: string;
-  ua?: string;
+  uk?: string;
   eng?: string;
 }
 

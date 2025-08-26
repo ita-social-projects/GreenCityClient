@@ -82,7 +82,7 @@ export class HabitDurationComponent implements OnInit, OnChanges, OnDestroy, Aft
   }
 
   updateLabel() {
-    if (this.currentLang === Language.UA) {
+    if (this.currentLang === Language.UK) {
       this.thumbTextEl.textContent = this.newDuration + 'дн';
     } else {
       this.thumbTextEl.textContent = this.newDuration + 'd';

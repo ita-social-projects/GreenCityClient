@@ -30,7 +30,7 @@ export const bigOrderTableReducer = createReducer(
   })),
 
   on(GetTableSuccess, (state, action) => {
-    const prevContent = action.reset ? [] : state.bigOrderTable?.content ?? [];
+    const prevContent = action.reset ? [] : (state.bigOrderTable?.content ?? []);
     return {
       ...state,
       isFiltersApplied: true,
@@ -155,10 +155,10 @@ export const bigOrderTableReducer = createReducer(
     }
     const transformedAddress = transformAddress(action.address.orderAddressExportDetails);
     const updatedAddress = {
-      region: transformedAddress.region.ua,
-      city: transformedAddress.city.ua,
-      district: transformedAddress.district.ua,
-      address: transformedAddress.address.ua,
+      region: transformedAddress.region.uk,
+      city: transformedAddress.city.uk,
+      district: transformedAddress.district.uk,
+      address: transformedAddress.address.uk,
       commentToAddressForClient: transformedAddress.commentToAddressForClient
     };
     return {

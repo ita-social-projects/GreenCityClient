@@ -57,9 +57,9 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLanguage = lang;
-      this.isLangUa = this.currentLanguage === 'ua';
+      this.isLangUa = this.currentLanguage === 'uk';
     });
-    this.isLangUa = this.currentLanguage === 'ua';
+    this.isLangUa = this.currentLanguage === 'uk';
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((params) => {
       this.notificationId = Number(params.id);
       this.loadNotification(this.notificationId);
@@ -111,17 +111,17 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         data: {
           platform,
           text: {
-            ua: platformToUpdate.bodyUk,
+            uk: platformToUpdate.bodyUk,
             en: platformToUpdate.bodyEn
           }
         }
       })
       .afterClosed()
-      .subscribe((updates: { text: { ua: string; en: string } }) => {
+      .subscribe((updates: { text: { uk: string; en: string } }) => {
         if (!updates) {
           return;
         }
-        platformToUpdate.bodyUk = updates.text.ua;
+        platformToUpdate.bodyUk = updates.text.uk;
         platformToUpdate.bodyEn = updates.text.en;
       });
   }
@@ -133,7 +133,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         data: {
           title: {
             en: this.notification.notificationTemplateMainInfoDto.titleEn,
-            ua: this.notification.notificationTemplateMainInfoDto.titleUk
+            uk: this.notification.notificationTemplateMainInfoDto.titleUk
           },
           trigger: this.notification.notificationTemplateMainInfoDto.trigger,
           time: this.notification.notificationTemplateMainInfoDto.time,
@@ -142,12 +142,12 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         }
       })
       .afterClosed()
-      .subscribe((updates: { title: { en: string; ua: string }; trigger: string; time: string; schedule: string }) => {
+      .subscribe((updates: { title: { en: string; uk: string }; trigger: string; time: string; schedule: string }) => {
         if (!updates) {
           return;
         }
         this.findNewDescription(updates);
-        this.notification.notificationTemplateMainInfoDto.titleUk = updates.title.ua;
+        this.notification.notificationTemplateMainInfoDto.titleUk = updates.title.uk;
         this.notification.notificationTemplateMainInfoDto.titleEn = updates.title.en;
         this.notification.notificationTemplateMainInfoDto.trigger = updates.trigger;
         this.notification.notificationTemplateMainInfoDto.time = updates.time;

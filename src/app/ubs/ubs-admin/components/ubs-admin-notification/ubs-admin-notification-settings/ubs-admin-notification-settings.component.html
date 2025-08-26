@@ -37,7 +37,7 @@
           formControlName="trigger"
         >
           <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger.trigger">
-            <span [appLangValue]="{ ua: trigger.triggerDescription, en: trigger.triggerDescriptionEng }"></span>
+            <span [appLangValue]="{ uk: trigger.triggerDescription, en: trigger.triggerDescriptionEng }"></span>
           </mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
@@ -53,7 +53,7 @@
           formControlName="time"
         >
           <mat-option class="option-trigger" *ngFor="let time of times" [value]="time.time">
-            <span [appLangValue]="{ ua: time.timeDescription, en: time.timeDescriptionEng }"></span>
+            <span [appLangValue]="{ uk: time.timeDescription, en: time.timeDescriptionEng }"></span>
           </mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />

@@ -105,7 +105,7 @@ describe('EventsListItemComponent', () => {
   ];
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
-  const mockLang = 'ua';
+  const mockLang = 'uk';
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
   const EventsServiceMock = jasmine.createSpyObj('EventsService', [
     'getEventById ',
@@ -131,11 +131,11 @@ describe('EventsListItemComponent', () => {
   ]);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => valUa;
-  languageServiceMock.getCurrentLangObs = () => of('ua');
+  languageServiceMock.getCurrentLangObs = () => of('uk');
 
   const MockData = {
     eventState: {},
@@ -376,8 +376,8 @@ describe('EventsListItemComponent', () => {
     component.subscribeToLangChange();
     expect(component.langChangeSub).toBeDefined();
     expect(component.langChangeSub.closed).toBeFalsy();
-    languageBehaviourSubject.next('ua');
-    expect(component.currentLang).toEqual('ua');
+    languageBehaviourSubject.next('uk');
+    expect(component.currentLang).toEqual('uk');
     expect(component.datePipe).toBeDefined();
     expect(component.newDate).toBeDefined();
   });

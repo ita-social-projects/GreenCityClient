@@ -69,13 +69,13 @@ describe('AddNewHabitComponent', () => {
   fakeHabitService.getHabitsByFilters = () => of(HABITLIST);
   fakeHabitService.deleteCustomHabit = () => of(MOCK_CUSTOM_HABIT_RESPONSE);
 
-  const fakeLocalStorageService: LocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', { getCurrentLanguage: () => 'ua' });
+  const fakeLocalStorageService: LocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', { getCurrentLanguage: () => 'uk' });
   fakeLocalStorageService.setEditMode = (key: string, permission: boolean) => {
     localStorage.setItem(key, `${permission}`);
   };
   fakeLocalStorageService.getUserId = () => 2;
-  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject<string>('ua');
-  fakeLocalStorageService.languageBehaviourSubject.next('ua');
+  (fakeLocalStorageService as any).language = 'uk';
+  (fakeLocalStorageService as any).languageBehaviourSubject = new BehaviorSubject('uk');
 
   const matSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
 

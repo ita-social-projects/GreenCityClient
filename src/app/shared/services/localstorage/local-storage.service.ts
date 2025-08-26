@@ -119,7 +119,15 @@ export class LocalStorageService {
   }
 
   getCurrentLanguage(): Language {
-    return localStorage.getItem('language') as Language;
+    const storedLanguage = localStorage.getItem('language') as Language;
+
+    // Migrate old 'uk' language code to 'uk'
+    if (storedLanguage === ('uk' as Language)) {
+      localStorage.setItem('language', Language.UK);
+      return Language.UK;
+    }
+
+    return storedLanguage;
   }
 
   clear(): void {

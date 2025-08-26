@@ -11,7 +11,7 @@
             [ngClass]="{ 'global-tag-clicked': approach.isSelected }"
             (click)="changeFilterApproach(approach.name, $event)"
             (keydown)="changeFilterApproach(approach.name, $event)"
-            [appLangValue]="{ ua: approach.nameUa, en: approach.nameEn }"
+            [appLangValue]="{ uk: approach.nameUk, en: approach.nameEn }"
           ></button>
         </div>
       </div>
@@ -26,7 +26,7 @@
         (click)="changeFilter(type, filterCriteria.TYPE, $event)"
         (keydown)="changeFilter(type, filterCriteria.TYPE, $event)"
         [disabled]="isFilterDisabled"
-        [appLangValue]="{ ua: type.nameUa, en: type.nameEn }"
+        [appLangValue]="{ uk: type.nameUk, en: type.nameEn }"
       ></button>
     </div>
 

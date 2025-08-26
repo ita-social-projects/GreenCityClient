@@ -41,7 +41,7 @@ export class AuthService {
     return this.http.post<ISignInResponse>(this.API_ROUTES.signIn(), data).pipe(map((response) => this.decodeUserRole(response)));
   }
 
-  signInWithGoogle(token: string, lang = 'ua'): Observable<ISignInResponse> {
+  signInWithGoogle(token: string, lang = 'uk'): Observable<ISignInResponse> {
     return this.http
       .get<ISignInResponse>(this.API_ROUTES.signInWithGoogle(token, lang))
       .pipe(map((response) => this.decodeUserRole(response)));

@@ -41,6 +41,7 @@ export interface ChatDto {
   lastName?: string | null;
   lastMessage?: MessageDto | null;
   user?: UserFromChat | null;
+  unreadMessagesCount?: number;
 }
 
 export interface PaginatedResponse<T> {
@@ -51,10 +52,13 @@ export interface PaginatedResponse<T> {
 }
 
 export interface ChatMessageView {
+  id?: number;
   from: string;
   text: string;
   time: string;
   images?: string[];
+  fileUrl?: string;
+  fileName?: string;
   viewingStatus?: 'UNREAD' | 'VIEWED' | null;
 }
 
@@ -68,6 +72,7 @@ export interface ChatListItem {
   time: string;
   messages: ChatMessageView[];
   viewingStatus?: MessageViewingStatus | 'UNREAD' | 'VIEWED';
+  unreadMessagesCount?: number;
 }
 
 export interface ClientInfoData {
@@ -82,15 +87,14 @@ export interface UserFromChat {
   lastName: string;
 }
 
-export type SocketNewChatBase = {
+export interface SocketNewChat {
   chatId: string | number;
   username?: string | null;
   firstName?: string | null;
   lastName?: string | null;
   lastMessage?: MessageDto | null;
-};
-
-export type SocketNewChat =
-  | (SocketNewChatBase & { id: number })
-  | (SocketNewChatBase & { chatInternalId: number })
-  | (SocketNewChatBase & { internalId: number });
+  unreadMessagesCount?: number;
+  id?: number;
+  chatInternalId?: number;
+  internalId?: number;
+}

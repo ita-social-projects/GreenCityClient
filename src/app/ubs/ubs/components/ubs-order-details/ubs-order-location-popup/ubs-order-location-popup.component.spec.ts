@@ -26,11 +26,11 @@ describe('UbsOrderLocationPopupComponent', () => {
           {
             locationId: 2,
             nameEn: 'fake location en',
-            nameUk: 'fake location ua'
+            nameUk: 'fake location uk'
           }
         ],
         nameEn: 'fake name en',
-        nameUk: 'fake name ua',
+        nameUk: 'fake name uk',
         regionId: 1
       }
     ],

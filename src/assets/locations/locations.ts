@@ -94,18 +94,18 @@ export class Locations {
   ];
 
   getCity(language: string) {
-    return language === Language.UA ? this.cities : this.citiesEn;
+    return language === Language.UK ? this.cities : this.citiesEn;
   }
 
   getRegionsKyiv(language: string) {
-    return language === Language.UA ? this.regionsKyiv : this.regionsKyivEn;
+    return language === Language.UK ? this.regionsKyiv : this.regionsKyivEn;
   }
 
   getRegions(language: string) {
-    return language === Language.UA ? this.regions : this.regionsEn;
+    return language === Language.UK ? this.regions : this.regionsEn;
   }
 
   getBigRegions(language: string) {
-    return language === Language.UA ? this.bigRegions : this.bigRegionsEn;
+    return language === Language.UK ? this.bigRegions : this.bigRegionsEn;
   }
 }

@@ -37,7 +37,7 @@ export class TranslationServiceStub {
 describe('EcoNewsComponent', () => {
   let component: EcoNewsComponent;
   let fixture: ComponentFixture<EcoNewsComponent>;
-  const mockLang = 'ua';
+  const mockLang = 'uk';
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);

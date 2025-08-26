@@ -28,7 +28,7 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      title: { en: string; ua: string };
+      title: { en: string; uk: string };
       trigger: string;
       time: string;
       schedule: string | null;
@@ -38,7 +38,7 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
     private localStorageService: LocalStorageService
   ) {
     this.form = this.fb.group({
-      titleUa: [data.title.ua],
+      titleUa: [data.title.uk],
       titleEn: [data.title.en],
       trigger: [data.trigger],
       time: [data.time]
@@ -67,7 +67,7 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
     this.dialogRef.close({
       title: {
         en: titleEn,
-        ua: titleUa
+        uk: titleUa
       },
       trigger,
       time,

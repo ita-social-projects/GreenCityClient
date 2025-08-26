@@ -15,7 +15,7 @@ describe('DeletingProfileReasonPopUpComponent', () => {
 
   const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getLangValue']);
   languageServiceMock.getLangValue = () => {};
-  languageServiceMock.getCurrentLangObs = () => of('ua');
+  languageServiceMock.getCurrentLangObs = () => of('uk');
 
   const MatDialogRefMock = {
     close: () => {}

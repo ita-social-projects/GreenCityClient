@@ -15,14 +15,14 @@ export class UbsAdminNotificationEditFormComponent implements AfterViewChecked {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: { platform: string; text: { en: string; ua: string } },
+    @Inject(MAT_DIALOG_DATA) public data: { platform: string; text: { en: string; uk: string } },
     public dialogRef: MatDialogRef<UbsAdminNotificationEditFormComponent>,
     private cdref: ChangeDetectorRef
   ) {
     this.platform = data.platform;
     this.form = this.fb.group({
       textEn: [data.text.en],
-      textUa: [data.text.ua]
+      textUa: [data.text.uk]
     });
   }
 
@@ -71,7 +71,7 @@ export class UbsAdminNotificationEditFormComponent implements AfterViewChecked {
     this.dialogRef.close({
       text: {
         en: textEn,
-        ua: textUa
+        uk: textUa
       }
     });
   }
