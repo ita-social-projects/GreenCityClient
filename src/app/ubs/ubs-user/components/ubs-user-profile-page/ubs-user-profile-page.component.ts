@@ -230,7 +230,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
         const isUpdated = Object.keys(formAddress).some((key) => formAddress[key] !== originalAddress[key]);
 
-        if (isUpdated && formAddress.id) {
+        if (isUpdated && originalAddress.id) {
           const updatedAddress = {
             ...formAddress,
             id: originalAddress.id,
@@ -247,6 +247,12 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
           submitData.addressDto.push(updatedAddress);
           this.store.dispatch(UpdateAddress({ address: updatedAddress }));
+        } else if (isUpdated) {
+          const index = this.tempAddedAddressHolder.findIndex((tempAddress) => tempAddress.placeId === formAddress.placeId);
+
+          if (index !== -1) {
+            this.tempAddedAddressHolder[index] = formAddress;
+          }
         }
       });
 
