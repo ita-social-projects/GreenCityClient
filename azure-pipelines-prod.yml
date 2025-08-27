@@ -32,6 +32,11 @@ stages:
               command: 'install'
               workingDir: '.'
 
+          - script: |
+              echo "$(ENV_PROD)" > .env.prod
+              npx ts-node ./scripts/setenv.ts prod
+            displayName: 'Generate Environment File'
+
           - task: Npm@1
             displayName: Build
             inputs:
