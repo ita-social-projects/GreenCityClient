@@ -33,8 +33,10 @@ stages:
               workingDir: '.'
 
           - script: |
-              echo "$(ENV_STAGE)" > .env.stage
+              set -euo pipefail
+              printf "%s" "$(ENV_STAGE)" > .env.stage
               npx ts-node ./scripts/setenv.ts stage
+              rm -f .env.stage
             displayName: 'Generate Environment File'
 
           - task: Npm@1
