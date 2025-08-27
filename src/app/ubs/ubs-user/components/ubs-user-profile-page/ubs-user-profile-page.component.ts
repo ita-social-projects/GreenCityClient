@@ -230,7 +230,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
         const isUpdated = Object.keys(formAddress).some((key) => formAddress[key] !== originalAddress[key]);
 
-        if (isUpdated) {
+        if (isUpdated && formAddress.id) {
           const updatedAddress = {
             ...formAddress,
             id: originalAddress.id,
