@@ -93,10 +93,15 @@ jobs:
       #   run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
 
       - name: Build Environment
+        env:
+          PROD_SECRET: ${{ secrets.ENV_PROD }}
+          STAGE_SECRET: ${{ secrets.ENV_STAGE }}
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/prod-branch" ]]; then
+            echo "${{ env.PROD_SECRET }}" > .env.prod
             npx ts-node ./scripts/setenv.ts prod
           else
+            echo "${{ env.STAGE_SECRET }}" > .env.stage
             npx ts-node ./scripts/setenv.ts stage
           fi
 
