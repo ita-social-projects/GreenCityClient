@@ -1347,6 +1347,7 @@
     "loading": "Loading information...",
     "error": "Failed to load information.",
     "order-info-title": "Order Information",
-    "no-orders": "This client has no orders"
+    "no-orders": "This client has no orders",
+    "all-orders": "See all orders"
   }
 }

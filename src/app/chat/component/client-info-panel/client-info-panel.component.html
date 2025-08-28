@@ -78,6 +78,9 @@
         </div>
       </div>
     </div>
+    <a class="action" [routerLink]="['/ubs/admin/orders']" [state]="{ clientFIlter: clientData.sender.senderEmail }">{{
+      'client-panel.all-orders' | translate
+    }}</a>
   </div>
 </div>
 

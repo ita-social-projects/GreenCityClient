@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { NgIf, NgForOf, DatePipe } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-client-info-panel',
   standalone: true,
-  imports: [NgIf, NgForOf, DatePipe, TranslateModule],
+  imports: [NgIf, NgForOf, DatePipe, TranslateModule, RouterModule],
   templateUrl: './client-info-panel.component.html',
   styleUrls: ['./client-info-panel.component.scss']
 })

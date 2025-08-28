@@ -145,9 +145,11 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     private destroyRef: DestroyRef
   ) {
     this.dateAdapter.setLocale('en-GB');
+    this.filterValue = history.state?.clientFIlter ?? '';
   }
 
   ngOnInit() {
+    this.getTable();
     this.getCurrentLanguage();
     this.bigOrderTable$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
       if (tableData) {
@@ -434,7 +436,12 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.store.dispatch(GetColumns());
   }
 
-  private getTable(filterValue: string = '', columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC', reset = true) {
+  private getTable(
+    filterValue: string = this.filterValue || '',
+    columnName = this.sortingColumn || 'id',
+    sortingType = this.sortType || 'DESC',
+    reset = true
+  ) {
     this.store.dispatch(GetTable({ columnName, page: this.currentPage, filter: filterValue, size: this.pageSize, sortingType, reset }));
   }
 

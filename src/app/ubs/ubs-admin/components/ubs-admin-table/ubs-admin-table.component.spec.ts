@@ -644,4 +644,10 @@ describe('UbsAdminTableComponent', () => {
     tick(7000);
     expect(component.blockedInfo).toEqual([]);
   }));
+
+  it('should call getTable onInit', () => {
+    const getTableSpy = spyOn(component as any, 'getTable');
+    component.ngOnInit();
+    expect(getTableSpy).toHaveBeenCalled();
+  });
 });
