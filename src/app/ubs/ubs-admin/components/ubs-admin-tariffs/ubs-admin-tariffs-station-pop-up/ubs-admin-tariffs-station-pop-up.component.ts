@@ -18,7 +18,7 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
 })
 export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
   stationForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]]
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.LongNamePattern)]]
   });
 
   get name() {
