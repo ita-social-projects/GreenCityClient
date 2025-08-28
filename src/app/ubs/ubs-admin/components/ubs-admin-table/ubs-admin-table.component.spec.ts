@@ -646,8 +646,118 @@ describe('UbsAdminTableComponent', () => {
   }));
 
   it('should call getTable onInit', () => {
-    const getTableSpy = spyOn(component as any, 'getTable');
+    const getTableSpy = spyOn(component as any, 'getTable').and.callThrough();
     component.ngOnInit();
     expect(getTableSpy).toHaveBeenCalled();
+  });
+
+  it('getSortingData should call getTable with correct parameters', () => {
+    const spyGetTable = spyOn<any>(component, 'getTable').and.callThrough();
+    component['filterValue'] = 'testFilter';
+
+    const columnName = 'name';
+    const sortingType = 'ASC';
+
+    component.getSortingData(columnName, sortingType);
+
+    expect(spyGetTable).toHaveBeenCalledWith('testFilter', columnName, sortingType, true);
+
+    expect(component.sortingColumn).toBe(columnName);
+    expect(component.sortType).toBe(sortingType);
+    expect(component.currentPage).toBe(0);
+    expect(component.arrowDirection).toBe(columnName);
+  });
+
+  it('should use class defaults when no args are passed', () => {
+    component['filterValue'] = 'xyz';
+    component['sortingColumn'] = 'createdAt';
+
+    component['getTable']();
+
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      GetTable({
+        columnName: 'createdAt',
+        page: component.currentPage,
+        filter: 'xyz',
+        size: component.pageSize,
+        sortingType: 'DESC',
+        reset: true
+      })
+    );
+  });
+
+  it('should use provided args instead of class defaults', () => {
+    component['getTable']('abc', 'name');
+
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      GetTable({
+        columnName: 'name',
+        page: component.currentPage,
+        filter: 'abc',
+        size: component.pageSize,
+        sortingType: 'DESC',
+        reset: true
+      })
+    );
+  });
+
+  it('should call dispatch with overridden filterValue', () => {
+    component.filterValue = '';
+    component.sortingColumn = 'id';
+    component.sortType = 'DESC';
+    component.currentPage = 1;
+    component.pageSize = 10;
+
+    (component as any).getTable('newFilter');
+
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      GetTable({
+        columnName: 'id',
+        page: 1,
+        filter: 'newFilter',
+        size: 10,
+        sortingType: 'DESC',
+        reset: true
+      })
+    );
+  });
+
+  it('should call dispatch with overridden columnName', () => {
+    component.filterValue = '';
+    component.sortingColumn = 'id';
+    component.sortType = 'DESC';
+    component.currentPage = 1;
+    component.pageSize = 10;
+
+    (component as any).getTable('someFilter', 'newColumn');
+
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      GetTable({
+        columnName: 'newColumn',
+        page: 1,
+        filter: 'someFilter',
+        size: 10,
+        sortingType: 'DESC',
+        reset: true
+      })
+    );
+  });
+
+  it('should use default values for filterValue and columnName', () => {
+    (component as any).filterValue = undefined;
+    (component as any).sortingColumn = undefined;
+
+    component['getTable']();
+
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      GetTable({
+        columnName: 'id',
+        page: component.currentPage,
+        filter: '',
+        size: component.pageSize,
+        sortingType: component.sortType || 'DESC',
+        reset: true
+      })
+    );
   });
 });
