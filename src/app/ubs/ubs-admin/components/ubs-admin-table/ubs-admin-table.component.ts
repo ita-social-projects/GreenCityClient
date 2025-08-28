@@ -145,7 +145,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     private destroyRef: DestroyRef
   ) {
     this.dateAdapter.setLocale('en-GB');
-    this.filterValue = history.state?.clientFIlter ?? '';
+    this.filterValue = history.state?.clientFilter ?? '';
   }
 
   ngOnInit() {
@@ -437,7 +437,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   private getTable(
-    filterValue: string = this.filterValue || '',
+    filterValue = this.filterValue || '',
     columnName = this.sortingColumn || 'id',
     sortingType = this.sortType || 'DESC',
     reset = true
