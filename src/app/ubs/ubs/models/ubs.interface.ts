@@ -116,6 +116,7 @@ export interface Address {
 }
 
 export interface AddressData {
+  id?: number;
   regionEn: string;
   regionUk: string;
   cityUk: string;

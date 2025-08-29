@@ -166,12 +166,16 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   deleteAddress(address: Address | AddressData) {
-    if (this.tempAddedAddressHolder.find((addr) => addr.placeId === address.placeId)) {
-      this.tempAddedAddressHolder = this.tempAddedAddressHolder.filter((addr) => addr.placeId !== address.placeId);
+    if (this.tempAddedAddressHolder.find((addr) => addr.placeId === address.placeId || addr?.id === address?.id)) {
+      this.tempAddedAddressHolder = this.tempAddedAddressHolder.filter(
+        (addr) => addr.placeId !== address.placeId || addr?.id !== address?.id
+      );
     } else {
       this.tempRemovedAddressHolder.push(address as Address);
     }
-    this.userProfile.addressDto = this.userProfile.addressDto.filter((addr) => addr.placeId !== address.placeId);
+    this.userProfile.addressDto = this.userProfile.addressDto.filter(
+      (addr) => addr.placeId !== address.placeId || addr?.id !== address?.id
+    );
     this.userInit();
     this.userForm.markAsDirty();
   }
