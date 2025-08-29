@@ -25,26 +25,16 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
   const mockedEmployeePositions = [
     {
-      id: 2,
+      id: 7,
       nameUk: 'fake',
       nameEn: 'fakeEn'
     }
   ];
-  const mockedReceivingStations = [
-    {
-      id: 3,
-      name: 'fake',
-      nameEn: 'fakeEn'
-    },
-    {
-      id: 4,
-      name: 'fake',
-      nameEn: 'fakeEn'
-    }
-  ];
+  const mockedEmployeePositionIds: number[] = [7];
   const mockedData = {
     email: 'fake',
     employeePositions: mockedEmployeePositions,
+    employeePositionIds: mockedEmployeePositionIds,
     firstName: 'fake',
     id: 1,
     image: defaultImagePath,
@@ -93,32 +83,7 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
       }
     ]
   };
-  const mockFormData = {
-    firstName: 'fakeFirstName',
-    lastName: 'fakeLastName',
-    phoneNumber: 'fakePhoneNumber',
-    email: 'fakeEmail'
-  };
-  const mockedInitialData = {
-    firstName: 'fake',
-    lastName: 'fake',
-    phoneNumber: 'fake',
-    email: 'fake',
-    imageURL: defaultImagePath,
-    employeePositionsIds: [2],
-    receivingStationsIds: [3, 4]
-  };
   const mockedDto = 'employeeDto';
-  const transferFile = 'transferFile';
-  const fakeEmployeePositions = ['fake'];
-  const fakeReceivingStations = ['fake'];
-  const fakeEmployeeForm = new FormGroup({
-    firstName: new FormControl('fake'),
-    lastName: new FormControl('fake'),
-    phoneNumber: new FormControl('fake'),
-    email: new FormControl('fake')
-  });
-  const dataFileMock = new File([''], 'test-file.jpeg');
   const datasFileMock: FileHandle[] = [
     {
       file: new File([''], 'test-file.jpeg'),
@@ -146,7 +111,8 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminEmployeeEditFormComponent);
     component = fixture.componentInstance;
-    component.employeePositions = JSON.parse(JSON.stringify(mockedEmployeePositions));
+    component.employeePositionIds = [...mockedEmployeePositionIds];
+    component.initialData.employeePositionsIds = [...mockedEmployeePositionIds];
     fixture.detectChanges();
   });
 
@@ -183,44 +149,50 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
     });
   });
 
-  it('Returned formData should have employeeDto', () => {
+  it('Returned formData should have employeeDto', async () => {
     component.selectedFile = false;
-    const returnedFormData = component.prepareEmployeeDataToSend(mockedDto);
+    const returnedFormData = await component.prepareEmployeeDataToSend(mockedDto);
     expect(returnedFormData.has('employeeDto')).toBe(true);
   });
 
-  it('Returned formData should have image if has selectedFile', () => {
-    component.selectedFile = true;
-    const returnedFormData = component.prepareEmployeeDataToSend(mockedDto);
+  it('Returned formData should have image if has selectedFile', async () => {
+    component.imageURL = 'data:image/jpeg;base64,fakeData';
+    component.selectedFile = new File([''], 'fake.jpg');
+    spyOn(window, 'fetch').and.returnValue(
+      Promise.resolve({
+        blob: () => Promise.resolve(new Blob(['fake blob'], { type: 'image/jpeg' }))
+      } as Response)
+    );
+    const returnedFormData = await component.prepareEmployeeDataToSend(mockedDto);
     expect(returnedFormData.has('image')).toBe(true);
   });
 
   it('Role should be included', () => {
-    const isIncludeRole = component.doesIncludeRole({ id: 2 });
+    const isIncludeRole = component.doesIncludeRole({ id: 7 });
     expect(isIncludeRole).toBe(true);
   });
 
   it('Role should be added', () => {
     const fakeRole = { id: 3, nameUk: 'addedFake', nameEn: 'addedFakeEn' };
     component.onCheckChangeRole(fakeRole);
-    expect(component.employeePositions).toEqual([...mockedEmployeePositions, fakeRole]);
+    expect(component.employeePositionIds).toEqual([7, 3]);
   });
 
   it('Role should be removed', () => {
-    component.onCheckChangeRole({ id: 2 });
-    expect(component.employeePositions).toEqual([]);
+    component.onCheckChangeRole({ id: 7 });
+    expect(component.employeePositionIds).toEqual([]);
   });
 
-  it('updateEmployee method should close dialogRef when EmployeeService has sent a response', () => {
+  it('updateEmployee method should dispatch action when async prepareEmployeeDataToSend is done', async () => {
     component.selectedFile = false;
-    spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(new FormData());
-    component.updateEmployee();
+    spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(Promise.resolve(new FormData()));
+    await component.updateEmployee();
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
-  it('createEmployee method should close dialogRef when EmployeeService has sent a response', () => {
-    spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(new FormData());
-    component.createEmployee();
+  it('createEmployee method should dispatch action when async prepareEmployeeDataToSend is done', async () => {
+    spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(Promise.resolve(new FormData()));
+    await component.createEmployee();
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
@@ -243,23 +215,14 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
   describe('checkIsInitialPositionsChanged', () => {
     it('isInitialPositionsChangedMock should be falsy', () => {
+      component.employeePositionIds = [1];
+      component.initialData.employeePositionsIds = [1];
       const isInitialPositionsChangedMock = component.checkIsInitialPositionsChanged();
       expect(isInitialPositionsChangedMock).toBeFalsy();
     });
 
     it('isInitialPositionsChangedMock should be truthy', () => {
-      component.employeePositions = [
-        {
-          id: 2,
-          nameUk: 'fake',
-          nameEn: 'fakeEn'
-        },
-        {
-          id: 22,
-          nameUk: 'fake22',
-          nameEn: 'fake22En'
-        }
-      ];
+      component.employeePositionIds = [2, 3, 4, 5];
       const isInitialPositionsChangedMock = component.checkIsInitialPositionsChanged();
       expect(isInitialPositionsChangedMock).toBeTruthy();
     });
@@ -300,5 +263,97 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
     expect(component.phoneNumber.value).toBe('');
     expect(component.phoneNumber.untouched).toBe(true);
+  });
+
+  describe('Form Validation', () => {
+    it('should show an error for invalid firstName', () => {
+      component.firstName.setValue('123');
+      expect(component.firstName.valid).toBeFalse();
+    });
+
+    it('should show an error for invalid lastName', () => {
+      component.lastName.setValue('123');
+      expect(component.lastName.valid).toBeFalse();
+    });
+
+    it('should show an error for invalid phoneNumber', () => {
+      component.phoneNumber.setValue('+380991234');
+      expect(component.phoneNumber.valid).toBeFalse();
+    });
+
+    it('should show an error for invalid email', () => {
+      component.email.setValue('invalid-email');
+      expect(component.email.valid).toBeFalse();
+    });
+
+    it('should disable the save button if the form is invalid', () => {
+      component.employeeForm.controls.firstName.setValue('');
+      fixture.detectChanges();
+      expect(component.isButtonDisabled()).toBeTrue();
+    });
+
+    it('should disable the save button if no position is selected', () => {
+      component.employeePositionIds = [];
+      fixture.detectChanges();
+      expect(component.isButtonDisabled()).toBeTrue();
+    });
+  });
+
+  describe('Image Handling', () => {
+    beforeEach(() => {
+      spyOn<any>(component, 'transferFile').and.callThrough();
+      spyOn<any>(component, 'showWarning').and.callThrough();
+    });
+
+    it('should call transferFile when filesDropped is called', () => {
+      component.filesDropped(datasFileMock);
+      expect(component['transferFile']).toHaveBeenCalledWith(datasFileMock[0].file);
+    });
+
+    it('should set selectedFile and imageName when a file is transferred', () => {
+      const mockFile = new File([''], 'test.png', { type: 'image/png' });
+      const mockFileHandle: FileHandle = { file: mockFile, url: '' };
+      component.filesDropped([mockFileHandle]);
+      expect(component.selectedFile).toEqual(mockFile);
+      expect(component.imageName).toEqual('test.png');
+    });
+
+    it('should set isWarning to true for an oversized file', () => {
+      const oversizedFile = new File(new Array(10485761).fill('a'), 'oversized.png', { type: 'image/png' });
+      const mockFileHandle: FileHandle = { file: oversizedFile, url: '' };
+      component.filesDropped([mockFileHandle]);
+      expect(component.isWarning).toBeTrue();
+    });
+
+    it('should set isWarning to true for an invalid file type', () => {
+      const invalidFile = new File([''], 'invalid.txt', { type: 'text/plain' });
+      const mockFileHandle: FileHandle = { file: invalidFile, url: '' };
+      component.filesDropped([mockFileHandle]);
+      expect(component.isWarning).toBeTrue();
+    });
+
+    it('should remove image and reset related properties', () => {
+      component.imageURL = 'some-url.jpg';
+      component.imageName = 'my-image.jpg';
+      component.selectedFile = new File([''], 'my-image.jpg');
+      component.removeImage();
+      expect(component.imageURL).toBeNull();
+      expect(component.imageName).toBeNull();
+      expect(component.selectedFile).toBeNull();
+    });
+  });
+
+  describe('Tariffs and Positions Logic', () => {
+    it('should mark `isInitialPositionsChanged` as false when no change occurs', () => {
+      component.employeePositionIds = [7];
+      component.initialData.employeePositionsIds = [7];
+      expect(component.checkIsInitialPositionsChanged()).toBeFalse();
+    });
+
+    it('should mark `isInitialPositionsChanged` as true when the number of positions changes', () => {
+      component.employeePositionIds = [7, 8];
+      component.initialData.employeePositionsIds = [7];
+      expect(component.checkIsInitialPositionsChanged()).toBeTrue();
+    });
   });
 });
