@@ -34,6 +34,8 @@ import { Language } from 'src/app/shared/i18n/Language';
 export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   @Input() locationCard: Locations;
 
+  private readonly restrictedSymbols = /[#&?]/;
+  searchValueIncorrect = false;
   employeePositions: EmployeePositions[];
   locations: Locations[];
   regionEnglishName: string[];
@@ -724,7 +726,14 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(event: Event) {
+    this.searchValueIncorrect = false;
     const filterValue = (event.target as HTMLInputElement).value;
+
+    if (this.restrictedSymbols.test(filterValue)) {
+      this.searchValueIncorrect = true;
+      return;
+    }
+
     this.ubsAdminEmployeeService.searchValue.next(filterValue.trim().toLowerCase());
   }
 

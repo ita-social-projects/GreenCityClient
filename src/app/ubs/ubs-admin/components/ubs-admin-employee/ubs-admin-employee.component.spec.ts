@@ -199,6 +199,7 @@ describe('UbsAdminEmployeeComponent', () => {
     service = TestBed.inject(UbsAdminEmployeeService);
     httpMock = TestBed.inject(HttpTestingController);
     store = TestBed.inject(Store) as MockStore;
+    component.searchValueIncorrect = false;
   });
 
   it('should create', () => {
@@ -611,10 +612,23 @@ describe('UbsAdminEmployeeComponent', () => {
 
   it('should applyFilter()', () => {
     const event = {
-      target: { value: 'Fake Filter ' }
+      target: { value: 'Fake Filter' }
+    } as unknown as Event;
+    const nextSpy = spyOn(service.searchValue, 'next');
+    component.applyFilter(event);
+
+    expect((event.target as HTMLInputElement).value).toEqual('Fake Filter');
+    expect(nextSpy).toHaveBeenCalledWith('fake filter');
+    expect(component.searchValueIncorrect).toBeFalse();
+  });
+
+  it('should not find restricted symbols', () => {
+    const event = {
+      target: { value: '#Wrong &Filter?' }
     } as unknown as Event;
     component.applyFilter(event);
-    expect((event.target as HTMLInputElement).value).toEqual('Fake Filter ');
-    expect(service.searchValue.next('fake filter')).toBeUndefined();
+
+    expect((event.target as HTMLInputElement).value).toEqual('#Wrong &Filter?');
+    expect(component.searchValueIncorrect).toBeTrue();
   });
 });

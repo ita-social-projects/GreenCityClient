@@ -228,4 +228,7 @@
     </div>
   </mat-accordion>
   <app-spinner *ngIf="isLoading || isUpdateTable"></app-spinner>
+  <div *ngIf="!totalElements && !isLoading">
+    <span>{{ 'employees.filter.no-content' | translate }}</span>
+  </div>
 </div>

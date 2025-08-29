@@ -394,7 +394,8 @@
     "orders-number": "Number of orders",
     "search": "Search",
     "link-placeholder": "Provide a link to the chat with client",
-    "go-to-chat": "To chat"
+    "go-to-chat": "To chat",
+    "restricted-symbols": "Restricted characters were entered"
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",
@@ -613,6 +614,9 @@
       "deactivate": "Deactivate",
       "no": "No",
       "yes": "Yes"
+    },
+    "filter": {
+      "no-content": "Nothing was found for your filters"
     }
   },
   "ubs-sidebar": {
