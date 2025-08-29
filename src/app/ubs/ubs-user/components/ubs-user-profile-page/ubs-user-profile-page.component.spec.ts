@@ -26,7 +26,7 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { CreateAddress } from 'src/app/store/actions/order.actions';
+import { CreateAddress, UpdateAddress } from 'src/app/store/actions/order.actions';
 import { Store } from '@ngrx/store';
 
 describe('UbsUserProfilePageComponent', () => {
@@ -1042,4 +1042,32 @@ describe('UbsUserProfilePageComponent', () => {
       expect(fakeLocalStorageService.clear).toHaveBeenCalledTimes(1);
     }));
   });
+
+  it('should dispatch UpdateAddress action for a modified existing address', fakeAsync(() => {
+    const initialUserProfile: UserProfile = { ...userProfileDataMock };
+    component.userProfile = { ...initialUserProfile };
+    component.savedUserAddresses = [...initialUserProfile.addressDto];
+    component.userInit();
+    fixture.detectChanges();
+
+    const addressFormArray = component.userForm.get('address') as FormArray;
+    const addressControl = addressFormArray.at(0) as FormControl;
+
+    const updatedAddress: Address = { ...addressControl.value, streetUk: 'Updated Street' };
+    addressControl.setValue(updatedAddress);
+    addressControl.markAsDirty();
+
+    clientProfileServiceMock.postDataClientProfile.and.returnValue(of({ ...initialUserProfile, addressDto: [updatedAddress] }));
+    const store = TestBed.inject(Store) as MockStore;
+    const dispatchSpy = spyOn(store, 'dispatch');
+
+    component.onSubmit();
+    tick();
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      UpdateAddress({
+        address: jasmine.objectContaining({ streetUk: 'Updated Street', id: 2276 }) as any
+      })
+    );
+  }));
 });
