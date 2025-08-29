@@ -35,8 +35,8 @@
           stroke-linejoin="round"
         />
       </svg>
-      Attach
-      <input type="file" hidden />
+      <span>{{ 'chat.attach-file' | translate }}</span>
+      <input type="file" (change)="onFileSelected($event)" hidden #fileInput />
     </label>
     <span class="file-name">No file chosen</span>
   </div>

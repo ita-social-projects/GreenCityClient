@@ -66,6 +66,46 @@ describe('MessageInputComponent', () => {
     expect(component.file).toBeUndefined();
   });
 
+  it('send(): clears file input value when fileInput ViewChild is available', () => {
+    const spy = jasmine.createSpy('sendText');
+    component.sendText.subscribe(spy);
+
+    const mockFileInput = {
+      nativeElement: {
+        value: 'some-file-path'
+      }
+    };
+    component.fileInput = mockFileInput as any;
+
+    component.text = 'hello';
+    const testFile = makeFile(10, 'test.txt');
+    component.file = testFile;
+
+    component.send();
+
+    expect(spy).toHaveBeenCalledOnceWith({ text: 'hello', file: testFile });
+    expect(mockFileInput.nativeElement.value).toBe('');
+    expect(component.text).toBe('');
+    expect(component.file).toBeUndefined();
+  });
+
+  it('send(): handles case when fileInput ViewChild is not available', () => {
+    const spy = jasmine.createSpy('sendText');
+    component.sendText.subscribe(spy);
+
+    component.fileInput = undefined as any;
+
+    component.text = 'hello';
+    const testFile = makeFile(10, 'test.txt');
+    component.file = testFile;
+
+    expect(() => component.send()).not.toThrow();
+
+    expect(spy).toHaveBeenCalledOnceWith({ text: 'hello', file: testFile });
+    expect(component.text).toBe('');
+    expect(component.file).toBeUndefined();
+  });
+
   it('onFileSelected(): sets file when within size limit (<= 5MB)', () => {
     const okFile = makeFile(1 * 1024 * 1024, 'ok.txt');
     const event = {
