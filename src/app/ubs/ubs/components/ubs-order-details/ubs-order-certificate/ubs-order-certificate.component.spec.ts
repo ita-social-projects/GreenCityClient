@@ -8,6 +8,8 @@ import { OrderService } from '../../../services/order.service';
 import { GetUserBonuses } from 'src/app/store/actions/ubs-user.actions';
 import { TranslateModule } from '@ngx-translate/core';
 import { CCertificate } from '@ubs/ubs/models/ubs.model';
+import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
+import { IMaskModule } from 'angular-imask';
 
 const orderServiceMock = {
   processCertificate: jasmine.createSpy('processCertificate')
@@ -26,7 +28,7 @@ describe('UbsOrderCertificateComponent (Partial Tests)', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [UbsOrderCertificateComponent],
-      imports: [ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [IMaskModule, UbsSharedModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
         FormBuilder,
         { provide: OrderService, useValue: orderServiceMock },
@@ -41,6 +43,7 @@ describe('UbsOrderCertificateComponent (Partial Tests)', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsOrderCertificateComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   describe('ngOnInit()', () => {
