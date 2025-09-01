@@ -436,15 +436,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.store.dispatch(GetColumns());
   }
 
-  private getTable(
-    filterValue = this.filterValue || '',
-    columnName = this.sortingColumn || 'id',
-    sortingType = this.sortType || 'DESC',
-    reset = true
-  ) {
-    this.store.dispatch(GetTable({ columnName, page: this.currentPage, filter: filterValue, size: this.pageSize, sortingType, reset }));
-  }
-
   formatTableData() {
     this.dataSource = new MatTableDataSource(
       this.tableData.map((row) => {
@@ -1019,6 +1010,14 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   saveColumnsWidthPreference(): void {
     this.adminTableService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference).subscribe();
     this.store.dispatch(GetTableColumnWidthSuccess({ columnsWidth: this.columnsWidthPreference }));
+  }
+
+  private getTable(filterValue?: string, columnName?: string, sortingType?: string, reset: boolean = true) {
+    const f = filterValue ?? this.filterValue ?? '';
+    const c = columnName ?? this.sortingColumn ?? 'id';
+    const s = sortingType ?? this.sortType ?? 'DESC';
+    const payload = { columnName: c, page: this.currentPage, filter: f, size: this.pageSize, sortingType: s, reset };
+    this.store.dispatch(GetTable(payload));
   }
 
   @HostListener('window:beforeunload', ['$event'])

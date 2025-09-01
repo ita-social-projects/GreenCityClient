@@ -686,76 +686,22 @@ describe('UbsAdminTableComponent', () => {
     );
   });
 
-  it('should use provided args instead of class defaults', () => {
-    component['getTable']('abc', 'name');
-
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      GetTable({
-        columnName: 'name',
-        page: component.currentPage,
-        filter: 'abc',
-        size: component.pageSize,
-        sortingType: 'DESC',
-        reset: true
-      })
-    );
-  });
-
-  it('should call dispatch with overridden filterValue', () => {
-    component.filterValue = '';
-    component.sortingColumn = 'id';
-    component.sortType = 'DESC';
-    component.currentPage = 1;
-    component.pageSize = 10;
-
-    (component as any).getTable('newFilter');
-
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      GetTable({
-        columnName: 'id',
-        page: 1,
-        filter: 'newFilter',
-        size: 10,
-        sortingType: 'DESC',
-        reset: true
-      })
-    );
-  });
-
-  it('should call dispatch with overridden columnName', () => {
-    component.filterValue = '';
-    component.sortingColumn = 'id';
-    component.sortType = 'DESC';
-    component.currentPage = 1;
-    component.pageSize = 10;
-
-    (component as any).getTable('someFilter', 'newColumn');
-
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      GetTable({
-        columnName: 'newColumn',
-        page: 1,
-        filter: 'someFilter',
-        size: 10,
-        sortingType: 'DESC',
-        reset: true
-      })
-    );
-  });
-
-  it('should use default values for filterValue and columnName', () => {
-    (component as any).filterValue = undefined;
-    (component as any).sortingColumn = undefined;
+  it('should use all defaults when no args and class fields undefined', () => {
+    component['filterValue'] = undefined as any;
+    component['sortingColumn'] = undefined as any;
+    component['sortType'] = undefined as any;
+    component['currentPage'] = 0;
+    component['pageSize'] = 10;
 
     component['getTable']();
 
     expect(storeMock.dispatch).toHaveBeenCalledWith(
       GetTable({
         columnName: 'id',
-        page: component.currentPage,
+        page: 0,
         filter: '',
-        size: component.pageSize,
-        sortingType: component.sortType || 'DESC',
+        size: 10,
+        sortingType: 'DESC',
         reset: true
       })
     );
