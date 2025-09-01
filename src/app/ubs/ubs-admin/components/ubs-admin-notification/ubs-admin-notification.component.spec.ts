@@ -8,13 +8,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
 import { UbsAdminNotificationComponent } from './ubs-admin-notification.component';
-import { NotificationMock } from '../../services/notificationsMock';
+import { NotificationMock } from '../../services/notifications.mock';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
+import { formatUnixCron } from '@ubs/ubs-admin/services/cron/cron.service';
+import { UbsAdminNotificationSettingsComponent } from '@ubs/ubs-admin/components/ubs-admin-notification/ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -31,6 +33,9 @@ describe('UbsAdminNotificationComponent', () => {
   let component: UbsAdminNotificationComponent;
   let fixture: ComponentFixture<UbsAdminNotificationComponent>;
   let notificationsService: NotificationsService;
+  let store: Store;
+  let dialogMock: any;
+
   const initialState = {
     employees: null,
     error: null,
@@ -38,6 +43,7 @@ describe('UbsAdminNotificationComponent', () => {
   };
 
   const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
+
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
 
@@ -45,7 +51,7 @@ describe('UbsAdminNotificationComponent', () => {
   const notificationsServiceMock = {
     getNotificationTemplate: () => of(NotificationMock),
     updateNotificationTemplate: () => {},
-    changeStatusOfNotificationTemplate: jasmine.createSpy('changeStatusOfNotificationTemplate')
+    changeStatusOfNotificationTemplate: jasmine.createSpy('changeStatusOfNotificationTemplate').and.returnValue(of({}))
   };
 
   const MatSnackBarMock: MatSnackBarService = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
@@ -64,13 +70,14 @@ describe('UbsAdminNotificationComponent', () => {
   languageServiceMock.getLangValue.and.returnValue('value');
 
   const routerMock = { navigate: () => {} };
-  const dialogMock = {
-    open: () => ({
-      afterClosed: () => {}
-    })
-  };
 
   beforeEach(waitForAsync(() => {
+    dialogMock = {
+      open: jasmine.createSpy('open').and.returnValue({
+        afterClosed: () => of(null)
+      })
+    };
+
     TestBed.configureTestingModule({
       declarations: [UbsAdminNotificationComponent, CronPipe],
       imports: [HttpClientTestingModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
@@ -93,6 +100,7 @@ describe('UbsAdminNotificationComponent', () => {
     component = fixture.componentInstance;
     component.notification = NotificationMock;
     notificationsService = TestBed.inject(NotificationsService);
+    store = TestBed.inject(Store);
     component.ngOnInit();
     fixture.detectChanges();
   });
@@ -141,14 +149,14 @@ describe('UbsAdminNotificationComponent', () => {
     return cont.query(By.css(buttons[name]));
   };
 
-  it('`cancel` button should navigate user to notification list', async () => {
+  it('`cancel` button should navigate user to notification list', () => {
     const navigateSpy = spyOn(routerMock, 'navigate');
     getButton('cancel').triggerEventHandler('click', null);
     expect(navigateSpy).toHaveBeenCalled();
     expect((navigateSpy as any).calls.mostRecent().args[0]).toEqual(['../../notifications']);
   });
 
-  it('`back` button should navigate user to the previous page', async () => {
+  it('`back` button should navigate user to the previous page', () => {
     const backSpy = spyOn(locationMock, 'back');
     getButton('back').triggerEventHandler('click', null);
     expect(backSpy).toHaveBeenCalled();
@@ -170,5 +178,187 @@ describe('UbsAdminNotificationComponent', () => {
     component.onDeactivatePlatform(platform);
 
     expect(NotificationMock.platforms[2].status).toBe('INACTIVE');
+    expect(NotificationMock.notificationTemplateMainInfoDto.scheduleUpdateForbidden).toBeFalse();
+  });
+
+  it('should load notification on ngOnInit', () => {
+    spyOn(notificationsService, 'getNotificationTemplate').and.returnValue(of(NotificationMock));
+    component.ngOnInit();
+    expect(notificationsService.getNotificationTemplate).toHaveBeenCalledWith(1);
+    expect(component.notification).toEqual(formatUnixCron(NotificationMock));
+  });
+
+  it('should open edit text dialog and update notification on close', () => {
+    const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of({ text: { uk: 'Новий текст', en: 'New text' } }) });
+    dialogMock.open.and.returnValue(dialogRefSpyObj);
+    component.notification = NotificationMock;
+
+    component.onEditNotificationText('mobile');
+
+    expect(dialogMock.open).toHaveBeenCalled();
+    expect(component.notification.platforms[1].bodyUk).toBe('Новий текст');
+    expect(component.notification.platforms[1].bodyEn).toBe('New text');
+  });
+
+  it('should call updateNotificationTemplate and open snackbar on save', () => {
+    const mapNotificationSpy = spyOn(component, 'mapNotification').and.returnValue({} as any);
+    const updateSpy = spyOn(notificationsService, 'updateNotificationTemplate').and.returnValue(of(null));
+    const snackbarSpy = spyOn(MatSnackBarMock, 'openSnackBar');
+    component.onSaveChanges();
+    expect(mapNotificationSpy).toHaveBeenCalledWith(component.notification);
+    expect(updateSpy).toHaveBeenCalledWith(component.notificationId, {} as any);
+    expect(snackbarSpy).toHaveBeenCalledWith('updatedNotification');
+  });
+
+  it('should open confirmation dialog and deactivate notification on confirm', () => {
+    const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+    dialogMock.open.and.returnValue(dialogRefSpyObj);
+    component.onDeactivateNotification();
+
+    expect(dialogMock.open).toHaveBeenCalled();
+    expect(notificationsService.changeStatusOfNotificationTemplate).toHaveBeenCalledWith(component.notificationId, 'INACTIVE');
+  });
+
+  it('should open settings dialog and update notification on close', () => {
+    const mockUpdates = {
+      title: { en: 'New Title', uk: 'Нова Назва' },
+      trigger: 'SCHEDULE',
+      time: '20',
+      schedule: '0 0 1 * *'
+    };
+    const dialogRefSpy = jasmine.createSpyObj({ afterClosed: of(mockUpdates) });
+    dialogMock.open.and.returnValue(dialogRefSpy);
+    spyOn<any>(component, 'findNewDescription').and.callThrough();
+
+    component.onEditNotificationSettings();
+
+    expect(dialogMock.open).toHaveBeenCalled();
+    expect(component['findNewDescription']).toHaveBeenCalledWith(mockUpdates);
+    expect(component.notification.notificationTemplateMainInfoDto.titleEn).toBe(mockUpdates.title.en);
+    expect(component.notification.notificationTemplateMainInfoDto.schedule).toBe(mockUpdates.schedule);
+  });
+
+  it('should not update notification settings if dialog is canceled', () => {
+    const dialogRefSpy = jasmine.createSpyObj({ afterClosed: of(null) });
+    dialogMock.open.and.returnValue(dialogRefSpy);
+    const findNewDescriptionSpy = spyOn<any>(component, 'findNewDescription');
+    const initialSchedule = component.notification.notificationTemplateMainInfoDto.schedule;
+
+    component.onEditNotificationSettings();
+
+    expect(dialogMock.open).toHaveBeenCalled();
+    expect(findNewDescriptionSpy).not.toHaveBeenCalled();
+    expect(component.notification.notificationTemplateMainInfoDto.schedule).toBe(initialSchedule);
+  });
+
+  it('should open confirmation dialog and activate notification on confirm', () => {
+    const dialogRefSpy = jasmine.createSpyObj({ afterClosed: of(true) });
+    dialogMock.open.and.returnValue(dialogRefSpy);
+    component.notification.notificationTemplateMainInfoDto.notificationStatus = 'INACTIVE';
+
+    component.onActivateNotification();
+
+    expect(notificationsService.changeStatusOfNotificationTemplate).toHaveBeenCalledWith(component.notificationId, 'ACTIVE');
+    expect(component.notification.notificationTemplateMainInfoDto.notificationStatus).toBe('ACTIVE');
+  });
+
+  it('should not activate notification if confirmation is canceled', () => {
+    const dialogRefSpy = jasmine.createSpyObj({ afterClosed: of(false) });
+    (notificationsService.changeStatusOfNotificationTemplate as jasmine.Spy).calls.reset();
+    dialogMock.open.and.returnValue(dialogRefSpy);
+    const initialStatus = component.notification.notificationTemplateMainInfoDto.notificationStatus;
+
+    component.onActivateNotification();
+
+    expect(dialogMock.open).toHaveBeenCalled();
+    expect(notificationsService.changeStatusOfNotificationTemplate).not.toHaveBeenCalled();
+    expect(component.notification.notificationTemplateMainInfoDto.notificationStatus).toBe(initialStatus);
+  });
+
+  it('should navigate to notification list when onDeactivateNotification is confirmed', () => {
+    const navigateSpy = spyOn(routerMock, 'navigate');
+    dialogMock.open.and.returnValue({
+      afterClosed: () => of(true)
+    });
+    component.onDeactivateNotification();
+    expect(navigateSpy).toHaveBeenCalled();
+  });
+
+  it('should not navigate to notification list if onDeactivateNotification is cancelled', () => {
+    const navigateSpy = spyOn(routerMock, 'navigate');
+    dialogMock.open.and.returnValue({
+      afterClosed: () => of(false)
+    });
+    component.onDeactivateNotification();
+    expect(navigateSpy).not.toHaveBeenCalled();
+  });
+
+  it('should call navigateToNotificationList on loadNotification error', () => {
+    spyOn(notificationsService, 'getNotificationTemplate').and.returnValue(throwError('error'));
+    const navigateSpy = spyOn(component, 'navigateToNotificationList');
+    component.loadNotification(1);
+    expect(navigateSpy).toHaveBeenCalled();
+  });
+
+  it('should correctly map notification data for update', () => {
+    const mappedNotification = component.mapNotification(component.notification);
+    expect(mappedNotification.notificationTemplateUpdateInfo.titleUk).toBe(component.notification.notificationTemplateMainInfoDto.titleUk);
+    expect(mappedNotification.platforms.length).toBe(component.notification.platforms.length);
+  });
+
+  it('should open settings dialog and update notification on close', () => {
+    const mockUpdates = {
+      title: {
+        en: component.notification.notificationTemplateMainInfoDto.titleEn,
+        uk: component.notification.notificationTemplateMainInfoDto.titleUk
+      },
+      trigger: component.notification.notificationTemplateMainInfoDto.trigger,
+      time: component.notification.notificationTemplateMainInfoDto.time,
+      schedule: component.notification.notificationTemplateMainInfoDto.schedule
+    };
+    const dialogRefSpy = jasmine.createSpyObj({ afterClosed: of(mockUpdates) });
+    dialogMock.open.and.returnValue(dialogRefSpy);
+    spyOn<any>(component, 'findNewDescription').and.callThrough();
+
+    component.onEditNotificationSettings();
+
+    expect(dialogMock.open).toHaveBeenCalledWith(
+      UbsAdminNotificationSettingsComponent,
+      jasmine.objectContaining({
+        data: {
+          title: {
+            en: component.notification.notificationTemplateMainInfoDto.titleEn,
+            uk: component.notification.notificationTemplateMainInfoDto.titleUk
+          },
+          trigger: component.notification.notificationTemplateMainInfoDto.trigger,
+          time: component.notification.notificationTemplateMainInfoDto.time,
+          schedule: component.notification.notificationTemplateMainInfoDto.schedule,
+          scheduleUpdateForbidden: component.notification.notificationTemplateMainInfoDto.scheduleUpdateForbidden
+        }
+      })
+    );
+    expect(component['findNewDescription']).toHaveBeenCalledWith(mockUpdates);
+    expect(component.notification.notificationTemplateMainInfoDto.titleEn).toBe(mockUpdates.title.en);
+    expect(component.notification.notificationTemplateMainInfoDto.titleUk).toBe(mockUpdates.title.uk);
+    expect(component.notification.notificationTemplateMainInfoDto.trigger).toBe(mockUpdates.trigger);
+    expect(component.notification.notificationTemplateMainInfoDto.time).toBe(mockUpdates.time);
+    expect(component.notification.notificationTemplateMainInfoDto.schedule).toBe(mockUpdates.schedule);
+  });
+
+  it('should not update notification settings if dialog is canceled', () => {
+    const dialogRefSpy = jasmine.createSpyObj({ afterClosed: of(null) });
+    dialogMock.open.and.returnValue(dialogRefSpy);
+    const findNewDescriptionSpy = spyOn<any>(component, 'findNewDescription');
+    const initialSchedule = component.notification.notificationTemplateMainInfoDto.schedule;
+    const initialTitleEn = component.notification.notificationTemplateMainInfoDto.titleEn;
+    const initialTitleUk = component.notification.notificationTemplateMainInfoDto.titleUk;
+
+    component.onEditNotificationSettings();
+
+    expect(dialogMock.open).toHaveBeenCalled();
+    expect(findNewDescriptionSpy).not.toHaveBeenCalled();
+    expect(component.notification.notificationTemplateMainInfoDto.titleEn).toBe(initialTitleEn);
+    expect(component.notification.notificationTemplateMainInfoDto.titleUk).toBe(initialTitleUk);
+    expect(component.notification.notificationTemplateMainInfoDto.schedule).toBe(initialSchedule);
   });
 });

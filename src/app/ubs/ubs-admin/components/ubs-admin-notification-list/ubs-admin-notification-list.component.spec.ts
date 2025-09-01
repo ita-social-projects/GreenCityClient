@@ -18,7 +18,7 @@ import { of } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
 import { Language } from 'src/app/shared/i18n/Language';
 import { UbsAdminNotificationListComponent } from './ubs-admin-notification-list.component';
-import { NotificationTemplatesMock } from '../../services/notificationsMock';
+import { NotificationTemplatesMock } from '../../services/notifications.mock';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 

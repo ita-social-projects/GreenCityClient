@@ -126,4 +126,14 @@
       }
     }
   }
+
+  .disabled-field-message {
+    color: var(--ubs-secondary-grey);
+    font-size: 0.75rem;
+    margin-top: 4px;
+  }
+}
+
+::ng-deep .mat-mdc-select-min-line {
+  padding: 0;
 }

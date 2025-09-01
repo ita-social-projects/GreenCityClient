@@ -114,7 +114,7 @@ export class MatSnackBarService {
     const addValue = additionalValue ? { orderId: additionalValue } : {};
     this.translate.get(key, addValue).subscribe((translation) => {
       this.message = translation;
-      this.snackBar.open(this.message, 'close', {
+      this.snackBar.open(this.message, ' ', {
         duration,
         verticalPosition: 'top',
         horizontalPosition: 'center',
