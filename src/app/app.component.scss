@@ -18,26 +18,3 @@
 ::ng-deep .mat-slider-thumb-label {
   background-color: var(--primary-green);
 }
-
-.telegram-widget {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  background-color: #0088cc;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.telegram-widget:hover {
-  background-color: #0077b5;
-}
-.telegram-widget img {
-  width: 35px;
-  height: 35px;
-}
