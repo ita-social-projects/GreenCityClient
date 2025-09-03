@@ -77,7 +77,7 @@ export interface ChatListItem {
 
 export interface ClientInfoData {
   id: number;
-  chatId: number;
+  chatId: string;
   dateForm: string;
   datePaid: string;
   orderStatusUk: string;

@@ -11,7 +11,7 @@ import { ClientInfoData } from '../../model/chat-page.interface';
   styleUrls: ['./client-info-panel.component.scss']
 })
 export class ClientInfoPanelComponent {
-  @Input() clientData: ClientInfoData = null;
+  @Input() clientData: ClientInfoData | null = null;
 
   objectKeys = Object.keys;
 
