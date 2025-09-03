@@ -30,15 +30,15 @@ describe('UbsAdminTableExcelPopupComponent', () => {
     {
       titleForSorting: 'column1',
       checked: [
-        { key: 'item1', en: 'value1', ua: 'valeur1' },
-        { key: 'item2', en: 'value2', ua: 'valeur2' }
+        { key: 'item1', en: 'value1', uk: 'valeur1' },
+        { key: 'item2', en: 'value2', uk: 'valeur2' }
       ]
     },
     {
       titleForSorting: 'column2',
       checked: [
-        { key: 'item3', en: 'value3', ua: 'valeur3' },
-        { key: 'item4', en: 'value4', ua: 'valeur4' }
+        { key: 'item3', en: 'value3', uk: 'valeur3' },
+        { key: 'item4', en: 'value4', uk: 'valeur4' }
       ]
     }
   ];

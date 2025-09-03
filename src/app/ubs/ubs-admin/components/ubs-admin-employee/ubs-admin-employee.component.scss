@@ -54,7 +54,16 @@
       }
 
       .search-input {
+        position: relative;
         width: 100%;
+
+        .input-error {
+          position: absolute;
+          top: calc(100% + 4px);
+          margin: 0;
+          color: var(--quintynary-light-grey);
+          font-size: 12px;
+        }
       }
 
       .search-input input {

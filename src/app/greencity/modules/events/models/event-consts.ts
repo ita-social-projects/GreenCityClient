@@ -64,13 +64,13 @@ export const DateObj = {
 };
 
 export const WeekArray = [
-  { nameEn: '1 day', nameUa: '1 день' },
-  { nameEn: '2 days', nameUa: '2 дні' },
-  { nameEn: '3 days', nameUa: '3 дні' },
-  { nameEn: '4 days', nameUa: '4 дні' },
-  { nameEn: '5 days', nameUa: '5 днів' },
-  { nameEn: '6 days', nameUa: '6 днів' },
-  { nameEn: '7 days', nameUa: '7 днів' }
+  { nameEn: '1 day', nameUk: '1 день' },
+  { nameEn: '2 days', nameUk: '2 дні' },
+  { nameEn: '3 days', nameUk: '3 дні' },
+  { nameEn: '4 days', nameUk: '4 дні' },
+  { nameEn: '5 days', nameUk: '5 днів' },
+  { nameEn: '6 days', nameUk: '6 днів' },
+  { nameEn: '7 days', nameUk: '7 днів' }
 ];
 
 export const EventFilterCriteria = {
@@ -82,46 +82,46 @@ export const EventFilterCriteria = {
 
 export const EVENT_LOCALE = {
   durationDays: [
-    { en: '1 day', ua: '1 день' },
-    { en: '2 days', ua: '2 дні' },
-    { en: '3 days', ua: '3 дні' },
-    { en: '4 days', ua: '4 дні' },
-    { en: '5 days', ua: '5 днів' },
-    { en: '6 days', ua: '6 днів' },
-    { en: '7 days', ua: '7 днів' }
+    { en: '1 day', uk: '1 день' },
+    { en: '2 days', uk: '2 дні' },
+    { en: '3 days', uk: '3 дні' },
+    { en: '4 days', uk: '4 дні' },
+    { en: '5 days', uk: '5 днів' },
+    { en: '6 days', uk: '6 днів' },
+    { en: '7 days', uk: '7 днів' }
   ],
   titleError: {
-    ua: 'Введіть заголовок до 70 символів включно',
+    uk: 'Введіть заголовок до 70 символів включно',
     en: 'Enter a title up to and including 70 characters'
   },
   quillError: {
-    ua: 'Недостатньо символів. Залишилось:',
+    uk: 'Недостатньо символів. Залишилось:',
     en: 'Not enough characters. Left:'
   },
   quillMaxExceeded: {
-    ua: 'Максимальна довжина символів більше ніж',
+    uk: 'Максимальна довжина символів більше ніж',
     en: 'The maximum character length is greater than'
   },
   quillValid: {
-    ua: 'Кількість символів:',
+    uk: 'Кількість символів:',
     en: 'Number of characters:'
   },
   quillDefault: {
-    ua: '',
+    uk: '',
     en: ''
   },
   eventTypeOptions: [
-    { en: 'Closed', ua: 'Закрита' },
-    { en: 'Open', ua: 'Відкрита' }
+    { en: 'Closed', uk: 'Закрита' },
+    { en: 'Open', uk: 'Відкрита' }
   ],
   initiativeTags: [
-    { en: 'Economic', ua: 'Економічний' },
-    { en: 'Social', ua: 'Соціальний' },
-    { en: 'Environmental', ua: 'Екологічний' }
+    { en: 'Economic', uk: 'Економічний' },
+    { en: 'Social', uk: 'Соціальний' },
+    { en: 'Environmental', uk: 'Екологічний' }
   ],
   dateError: {
     en: 'Past date',
-    ua: 'Минула дата'
+    uk: 'Минула дата'
   }
 };
 

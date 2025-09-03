@@ -148,7 +148,7 @@ export class OrderService {
         map((districts) => {
           if (districts.length > 1) {
             return districts.map((item) => ({
-              nameUk: item.nameUk + DistrictEnum.UA,
+              nameUk: item.nameUk + DistrictEnum.UK,
               nameEn: item.nameEn + DistrictEnum.EN
             }));
           } else {

@@ -201,7 +201,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private initLanguage(): void {
     const language = this.languageService.getCurrentLanguage();
-    this.setCurrentLanguage(language || Language.UA);
+    this.setCurrentLanguage(language || Language.UK);
   }
 
   private setCurrentLanguage(language: Language): void {

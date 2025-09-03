@@ -93,9 +93,9 @@ describe('UbsAdminTableComponent', () => {
     'setAdminOrdersDateFilter',
     'removeAdminOrderDateFilters'
   ]);
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
-  localStorageServiceMock.languageSubject = of('ua');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
+  localStorageServiceMock.language = 'uk';
 
   const tableHeightServiceMock = jasmine.createSpyObj('tableHeightService', [
     'setTableHeightToContainerHeight',
@@ -428,7 +428,7 @@ describe('UbsAdminTableComponent', () => {
     const event = jasmine.createSpyObj('event', ['stopImmediatePropagation']);
     const tooltip = jasmine.createSpyObj('tooltip', ['toggle', 'show', 'hide']);
 
-    component.currentLang = 'ua';
+    component.currentLang = 'uk';
     component.showTooltip(event, { uk: 'Заголовок українською', en: 'title in English' }, tooltip);
     expect(tooltip.toggle).toHaveBeenCalledTimes(1);
   });

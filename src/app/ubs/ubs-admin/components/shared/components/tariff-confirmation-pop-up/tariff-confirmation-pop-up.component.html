@@ -7,11 +7,11 @@
     <div class="form-block">
       <div class="ua-part">
         <label for="ua-part" class="label">{{ 'ubs-tariffs.courier' | translate }}</label>
-        <p id="ua-part" class="text" [appLangValue]="{ ua: values.courierNameUa, en: values.courierNameEn }"></p>
+        <p id="ua-part" class="text" [appLangValue]="{ uk: values.couriernameUk, en: values.courierNameEn }"></p>
       </div>
       <div class="en-part">
         <label for="en-part" class="label">{{ 'ubs-tariffs.courier-translate' | translate }}</label>
-        <p id="en-part" class="text" [appLangValue]="{ ua: values.courierNameEn, en: values.courierNameUa }"></p>
+        <p id="en-part" class="text" [appLangValue]="{ uk: values.courierNameEn, en: values.couriernameUk }"></p>
       </div>
     </div>
     <div class="form-block">
@@ -22,25 +22,25 @@
     </div>
     <div class="form-block">
       <div class="ua-part">
-        <label for="regionNameUa" class="label">{{ 'ubs-tariffs.region' | translate }}</label>
-        <p id="regionNameUa" class="text" [appLangValue]="{ ua: values.regionNameUa, en: values.regionNameEn }"></p>
+        <label for="regionnameUk" class="label">{{ 'ubs-tariffs.region' | translate }}</label>
+        <p id="regionnameUk" class="text" [appLangValue]="{ uk: values.regionnameUk, en: values.regionNameEn }"></p>
       </div>
       <div class="en-part">
         <label for="regionName" class="label">{{ 'ubs-tariffs.region-translate' | translate }}</label>
-        <p id="regionName" class="text" [appLangValue]="{ ua: values.regionNameEn, en: values.regionNameUa }"></p>
+        <p id="regionName" class="text" [appLangValue]="{ uk: values.regionNameEn, en: values.regionnameUk }"></p>
       </div>
     </div>
     <div class="form-block">
       <div class="ua-part">
         <label for="locationName" class="label">{{ 'ubs-tariffs.city' | translate }}</label>
         <div id="locationNames" *ngFor="let item of values.locationNames">
-          <div class="itemList" [appLangValue]="{ ua: item.location, en: item.englishLocation }"></div>
+          <div class="itemList" [appLangValue]="{ uk: item.location, en: item.englishLocation }"></div>
         </div>
       </div>
       <div class="en-part">
         <label for="locationNames" class="label">{{ 'ubs-tariffs.city-translate' | translate }}</label>
         <div id="locationNames" *ngFor="let item of values.locationNames">
-          <div class="itemList" [appLangValue]="{ ua: item.englishLocation, en: item.location }"></div>
+          <div class="itemList" [appLangValue]="{ uk: item.englishLocation, en: item.location }"></div>
         </div>
       </div>
     </div>

@@ -37,7 +37,7 @@ describe('MatSnackBarService', () => {
     service.openSnackBar(type);
 
     expect(translateSpy.get).toHaveBeenCalledWith('snack-bar.success.default', {});
-    expect(snackBarSpy.open).toHaveBeenCalledWith(translatedMessage, 'close', {
+    expect(snackBarSpy.open).toHaveBeenCalledWith(translatedMessage, ' ', {
       duration: 3000,
       verticalPosition: 'top',
       horizontalPosition: 'center',
@@ -54,6 +54,6 @@ describe('MatSnackBarService', () => {
     service.openSnackBar(type, additionalValue);
 
     expect(translateSpy.get).toHaveBeenCalledWith('snack-bar.success.confirm-restore-password', { orderId: '12345' });
-    expect(snackBarSpy.open).toHaveBeenCalledWith(translatedMessage, 'close', jasmine.any(Object));
+    expect(snackBarSpy.open).toHaveBeenCalledWith(translatedMessage, ' ', jasmine.any(Object));
   });
 });

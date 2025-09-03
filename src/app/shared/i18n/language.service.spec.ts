@@ -47,19 +47,19 @@ describe('LanguageService', () => {
   });
 
   it('getCurrentLanguage should return the value', () => {
-    getCurrentLanguageMock.and.returnValue('ua');
+    getCurrentLanguageMock.and.returnValue('uk');
     const spy = service.getCurrentLanguage();
-    expect(spy).toBe('ua');
+    expect(spy).toBe('uk');
   });
 
-  it('getLangValue should return ua string', () => {
-    getCurrentLanguageMock.and.returnValue('ua');
+  it('getLangValue should return uk string', () => {
+    getCurrentLanguageMock.and.returnValue('uk');
     const spy = service.getLangValue('valUa', 'valEn');
     expect(spy).toBe('valUa');
   });
 
-  it('getLangValue should return ua value of string array', () => {
-    getCurrentLanguageMock.and.returnValue('ua');
+  it('getLangValue should return uk value of string array', () => {
+    getCurrentLanguageMock.and.returnValue('uk');
     const spy = service.getLangValue(['valUa'], ['valEn']);
     expect(spy).toEqual(['valUa']);
   });
@@ -77,40 +77,40 @@ describe('LanguageService', () => {
   });
 
   it('getLanguageByString should return the language', () => {
-    const spy = service[getLanguageByString]('ua');
-    expect(spy).toBe('ua');
+    const spy = service[getLanguageByString]('uk');
+    expect(spy).toBe('uk');
   });
 
   it('getLanguageByString should return default language', () => {
-    service[defaultLanguage] = Language.UA;
+    service[defaultLanguage] = Language.UK;
     const spy = service[getLanguageByString]('en');
     expect(spy).toBe('en');
   });
 
   it('getLocalizedMonth should return the month', () => {
-    getCurrentLanguageMock.and.returnValue('ua');
+    getCurrentLanguageMock.and.returnValue('uk');
     const spy = service.getLocalizedMonth(2);
     expect(spy).toBe('березня');
   });
 
   it('setCurrentLanguage and setDefaultLang should be called in changeCurrentLanguage', () => {
-    service.changeCurrentLanguage(Language.UA);
-    expect(setDefaultLangMock).toHaveBeenCalledWith('ua');
-    expect(setCurrentLanguageMock).toHaveBeenCalledWith('ua');
-    expect(setUseMock).toHaveBeenCalledWith('ua');
+    service.changeCurrentLanguage(Language.UK);
+    expect(setDefaultLangMock).toHaveBeenCalledWith('uk');
+    expect(setCurrentLanguageMock).toHaveBeenCalledWith('uk');
+    expect(setUseMock).toHaveBeenCalledWith('uk');
   });
 
   it('getLanguageId should return the value', () => {
     service.synqLanguageArr = [
-      { id: 111, code: 'ua' },
+      { id: 111, code: 'uk' },
       { id: 222, code: 'en' }
     ];
-    const spy = service.getLanguageId(Language.UA);
+    const spy = service.getLanguageId(Language.UK);
     expect(spy).toBe(111);
   });
 
   it('should set default language if user is logged in and language value is retrieved', () => {
-    const mockLanguage = Language.UA;
+    const mockLanguage = Language.UK;
     spyOn(service, 'getUserLangValue').and.returnValue(of(mockLanguage));
     service.setDefaultLanguage();
     expect(service.getUserLangValue).toHaveBeenCalled();

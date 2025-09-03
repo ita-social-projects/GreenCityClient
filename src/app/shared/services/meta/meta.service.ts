@@ -25,7 +25,7 @@ export class MetaService implements OnDestroy {
     }
 
     this.languageSubscription = this.languageService.getCurrentLangObs().subscribe((lang) => {
-      this.translate.use(lang === 'en' ? 'en' : 'ua');
+      this.translate.use(lang === 'en' ? 'en' : 'uk');
 
       if (this.currentPageKey) {
         this.setMeta(this.currentPageKey);

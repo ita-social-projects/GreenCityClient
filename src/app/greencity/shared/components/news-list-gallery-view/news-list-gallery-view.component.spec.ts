@@ -16,8 +16,8 @@ describe('NewsListGalleryViewComponent', () => {
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
 
@@ -48,7 +48,7 @@ describe('NewsListGalleryViewComponent', () => {
   it('should set current Language and tags onInit', () => {
     languageServiceMock.getLangValue.and.returnValue(['Події', 'Освіта']);
     component.ngOnInit();
-    expect(component.currentLang).toBe('ua');
+    expect(component.currentLang).toBe('uk');
     expect(component.tags).toEqual(['Події', 'Освіта']);
   });
 

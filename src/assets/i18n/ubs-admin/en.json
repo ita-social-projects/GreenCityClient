@@ -39,6 +39,9 @@
     "get-notification-in": "Get notification in",
     "subtitle": "Please fill in your profile to make the ordering process as quick and convenient as possible",
     "error-change-pass": "Password is wrong",
+    "telegram-subscription-title": "Telegram Notification Subscription",
+    "telegram-subscription-message": "To receive notifications via Telegram, you need to subscribe to our bot. Click 'Start Bot' to open Telegram and subscribe.",
+    "telegram-start-bot": "Start Bot",
     "btn": {
       "edit": "Edit data",
       "cancel": "Discard changes",
@@ -394,7 +397,8 @@
     "orders-number": "Number of orders",
     "search": "Search",
     "link-placeholder": "Provide a link to the chat with client",
-    "go-to-chat": "To chat"
+    "go-to-chat": "To chat",
+    "restricted-symbols": "Restricted characters were entered"
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",
@@ -613,6 +617,9 @@
       "deactivate": "Deactivate",
       "no": "No",
       "yes": "Yes"
+    },
+    "filter": {
+      "no-content": "Nothing was found for your filters"
     }
   },
   "ubs-sidebar": {
@@ -1109,8 +1116,8 @@
     "settings-popup": {
       "title": "Notification settings",
       "labels": {
-        "titleEn": "Notification topic in english",
-        "titleUa": "Notification topic in ukrainian",
+        "titleEn": "Notification topic in English",
+        "titleUa": "Notification topic in Ukrainian",
         "trigger": "Trigger",
         "time": "Trigger time",
         "schedule": "Repeat"
@@ -1124,12 +1131,15 @@
       "buttons": {
         "cancel": "Cancel",
         "change": "Change"
+      },
+      "errors": {
+        "changeForbidden": "The field can not be changed"
       }
     },
     "text-editing-popup": {
       "title": "Edit notification for",
       "labels": {
-        "ua": "Ukrainian",
+        "uk": "Ukrainian",
         "en": "English",
         "text": "Notification text",
         "select": "Select"

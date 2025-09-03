@@ -42,7 +42,7 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLanguage = lang;
-      this.isLangUa = this.currentLanguage === 'ua';
+      this.isLangUa = this.currentLanguage === 'uk';
     });
 
     this.loadPage(1);

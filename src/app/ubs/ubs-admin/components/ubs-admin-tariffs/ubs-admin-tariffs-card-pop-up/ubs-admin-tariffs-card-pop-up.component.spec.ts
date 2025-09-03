@@ -54,7 +54,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
           locationId: 1,
           locationStatus: 'фейк',
           locationTranslationDtoList: [
-            { languageCode: 'ua', locationName: 'Фейк1' },
+            { languageCode: 'uk', locationName: 'Фейк1' },
             { languageCode: 'en', locationName: 'Fake1' }
           ],
           longitude: 13
@@ -62,7 +62,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
       ],
       regionId: 1,
       regionTranslationDtos: [
-        { regionName: 'Фейк область', languageCode: 'ua' },
+        { regionName: 'Фейк область', languageCode: 'uk' },
         { regionName: 'Fake region', languageCode: 'en' }
       ]
     }
@@ -74,7 +74,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
       locationId: 1,
       locationStatus: 'фейк',
       locationTranslationDtoList: [
-        { languageCode: 'ua', locationName: 'Фейк1' },
+        { languageCode: 'uk', locationName: 'Фейк1' },
         { languageCode: 'en', locationName: 'Fake1' }
       ],
       longitude: 13
@@ -146,7 +146,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
         locationId: 1,
         locationStatus: 'ACTIVE',
         locationTranslationDtoList: [
-          { locationName: 'перше', languageCode: 'ua' },
+          { locationName: 'перше', languageCode: 'uk' },
           { locationName: 'first', languageCode: 'en' }
         ],
         longitude: 0
@@ -188,8 +188,8 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
 
   const localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getCurrentLanguage', 'getUserId']);
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
-  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('uk');
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -329,7 +329,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
           locationId: 1,
           locationStatus: 'ACTIVE',
           locationTranslationDtoList: [
-            { locationName: 'перше', languageCode: 'ua' },
+            { locationName: 'перше', languageCode: 'uk' },
             { locationName: 'first', languageCode: 'en' }
           ],
           longitude: 0

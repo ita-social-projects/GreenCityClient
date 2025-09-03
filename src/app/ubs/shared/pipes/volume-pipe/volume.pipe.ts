@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 
 export const LOCALIZED_VOLUME = {
   en: 'l',
-  ua: 'л'
+  uk: 'л'
 };
 
 @Pipe({

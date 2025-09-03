@@ -46,7 +46,8 @@ describe('EcoNewsDetailComponent', () => {
   backLink.getCurrentLanguage = () => 'en' as Language;
   backLink.getPreviousPage = () => '/profile';
   backLink.userIdBehaviourSubject = new BehaviorSubject(4);
-  backLink.languageSubject = of('ua');
+  backLink.languageSubject = new BehaviorSubject('uk');
+  backLink.language = 'uk';
 
   const ecoNewsServ = jasmine.createSpyObj('ecoNewsService', ['getEcoNewsById', 'postToggleLike', 'getIsLikedByUser']);
   ecoNewsServ.getEcoNewsById.and.returnValue(of(FIRSTECONEWS));
@@ -119,7 +120,7 @@ describe('EcoNewsDetailComponent', () => {
     expect(component.getAllTags()).toEqual(['Events', 'Education']);
   });
 
-  it('getAllTags should return array of ua tags', () => {
+  it('getAllTags should return array of uk tags', () => {
     languageServiceMock.getLangValue.and.returnValue(['Події', 'Освіта']);
     component.newsItem.tagsUk = ['Події', 'Освіта'];
     expect(component.getAllTags()).toEqual(['Події', 'Освіта']);

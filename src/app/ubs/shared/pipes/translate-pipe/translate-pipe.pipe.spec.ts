@@ -2,7 +2,7 @@ import { ServerTranslatePipe } from './translate-pipe.pipe';
 
 describe('ServerTranslatePipe', () => {
   const fakeValue = {
-    ua: 'fake ua value',
+    uk: 'fake uk value',
     en: 'fake en value'
   };
 
@@ -14,14 +14,14 @@ describe('ServerTranslatePipe', () => {
   describe('transform', () => {
     it('if value is undefined', () => {
       const pipe = new ServerTranslatePipe();
-      const res = pipe.transform(undefined, 'ua');
+      const res = pipe.transform(undefined, 'uk');
       expect(res).toBeUndefined();
     });
 
-    it('if currentLang is "ua"', () => {
+    it('if currentLang is "uk"', () => {
       const pipe = new ServerTranslatePipe();
-      const res = pipe.transform(fakeValue, 'ua');
-      expect(res).toBe('fake ua value');
+      const res = pipe.transform(fakeValue, 'uk');
+      expect(res).toBe('fake uk value');
     });
 
     it('if currentLang is "en"', () => {

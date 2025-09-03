@@ -170,7 +170,7 @@ describe('OrderService', () => {
   });
 
   it('method getLocations should return user location', () => {
-    const locationsMock = [{ id: 1, name: 'city', languageCode: 'ua' }];
+    const locationsMock = [{ id: 1, name: 'city', languageCode: 'uk' }];
 
     service.getLocations(1).subscribe((data) => {
       expect(data).toEqual(locationsMock as any);

@@ -51,13 +51,13 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   regionOptions = {
     types: ['administrative_area_level_1'],
-    componentRestrictions: { country: 'UA' },
+    componentRestrictions: { country: 'UK' },
     input: ''
   };
 
   cityOptions = {
     types: ['(cities)'],
-    componentRestrictions: { country: 'UA' },
+    componentRestrictions: { country: 'UK' },
     input: ''
   };
 
@@ -158,7 +158,13 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     });
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
       this.currentLang = lang;
-      this.datePipe = new DatePipe(this.currentLang);
+      // Map language codes to proper locale codes for DatePipe
+      const localeMap = {
+        uk: 'uk-UA',
+        en: 'en-GB'
+      };
+      const locale = localeMap[this.currentLang] || this.currentLang;
+      this.datePipe = new DatePipe(locale);
       this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
 
@@ -173,7 +179,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.cities = currentRegion
       .map((element) =>
         element.locationsDto.map((item) =>
-          item.locationTranslationDtoList.filter((it) => it.languageCode === Language.UA).map((it) => it.locationName)
+          item.locationTranslationDtoList.filter((it) => it.languageCode === Language.UK).map((it) => it.locationName)
         )
       )
       .flat(2);
@@ -189,7 +195,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.editedCities = [];
     currentRegion[0].locationsDto.forEach((location) => {
       const enLocation = location.locationTranslationDtoList.find((trans) => trans.languageCode === Language.EN);
-      const ukLocation = location.locationTranslationDtoList.find((trans) => trans.languageCode === Language.UA);
+      const ukLocation = location.locationTranslationDtoList.find((trans) => trans.languageCode === Language.UK);
 
       const cityObject = {
         locationId: location.locationId,
@@ -289,7 +295,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
     );
 
-    const notCurrLang = this.currentLang === Language.UA ? Language.EN : Language.UA;
+    const notCurrLang = this.currentLang === Language.UK ? Language.EN : Language.UK;
     const enValue = selectedValue
       .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === notCurrLang).map((i) => i.regionName))
       .flat();
@@ -343,11 +349,11 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     const valueUa = this.langService.getLangValue(this.region.value, this.englishRegion.value);
     const valueEn = this.langService.getLangValue(this.englishRegion.value, this.region.value);
     const enRegion = { languageCode: Language.EN, regionName: valueEn };
-    const region = { languageCode: Language.UA, regionName: valueUa };
+    const region = { languageCode: Language.UK, regionName: valueUa };
 
     for (const item of this.selectedCities) {
       const enLocation = { languageCode: Language.EN, locationName: item.englishLocation };
-      const Location = { languageCode: Language.UA, locationName: item.location };
+      const Location = { languageCode: Language.UK, locationName: item.location };
 
       const cart: CreateLocation = {
         latitude: item.latitute,

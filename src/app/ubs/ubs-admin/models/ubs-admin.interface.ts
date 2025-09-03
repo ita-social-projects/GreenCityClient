@@ -85,7 +85,7 @@ export interface TariffForEmployee {
 }
 export interface TariffForEmployeeItem {
   en: string;
-  ua: string;
+  uk: string;
 }
 
 export interface EmployeeDataToSend {
@@ -95,16 +95,19 @@ export interface EmployeeDataToSend {
 
 export interface EmployeeDataResponse {
   employeeDto: EmployeeDto;
-  tariffs: { tariffId: number; hasChat: boolean }[];
+  tariffs: Tariff[];
 }
 
 export interface EmployeeDto {
   firstName: string;
+  email: string;
   id?: number;
   image: string | ArrayBuffer;
   lastName: string;
   phoneNumber: string;
+  employeeStatus: string;
   employeePositions: EmployeePositions[];
+  employeePositionIds: number[];
 }
 
 export interface IOrderInfo {
@@ -326,7 +329,7 @@ export interface IOrderStatusInfo {
   key: string;
   ableActualChange: boolean;
   translation?: string;
-  ua?: string;
+  uk?: string;
   eng?: string;
 }
 

@@ -55,7 +55,7 @@ describe('UbsAdminEditUserAgreementComponent', () => {
 
   describe('Confirmation modal on version change', () => {
     it('should open if there are unsaved changes', () => {
-      component.getUserAgreementControl('Ua').markAsDirty();
+      component.getUserAgreementControl('Uk').markAsDirty();
       component.onVersionSelect({ target: { value: '1' } } as any);
 
       expect(mockMatDialog.open).toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe('UbsAdminEditUserAgreementComponent', () => {
       mockMatDialog.open.and.returnValue({ afterClosed: () => of(false) });
 
       component.currentVersion = 'initial';
-      component.getUserAgreementControl('Ua').markAsDirty();
+      component.getUserAgreementControl('Uk').markAsDirty();
       component.onVersionSelect({ target: { value: '1' } } as any);
 
       expect(component.selectedVersion).toBe('initial');
@@ -77,7 +77,7 @@ describe('UbsAdminEditUserAgreementComponent', () => {
 
       component.currentVersion = 'initial';
 
-      component.getUserAgreementControl('Ua').markAsDirty();
+      component.getUserAgreementControl('Uk').markAsDirty();
       component.onVersionSelect({ target: { value: '1' } } as any);
 
       expect(component.selectedVersion).toBe('1');

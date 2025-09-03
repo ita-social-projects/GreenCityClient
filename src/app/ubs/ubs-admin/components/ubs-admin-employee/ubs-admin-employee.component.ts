@@ -34,6 +34,8 @@ import { Language } from 'src/app/shared/i18n/Language';
 export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   @Input() locationCard: Locations;
 
+  private readonly restrictedSymbols = /[#&?]/;
+  searchValueIncorrect = false;
   employeePositions: EmployeePositions[];
   locations: Locations[];
   regionEnglishName: string[];
@@ -425,7 +427,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   }
 
   transformCityToSelectedCity(city: City) {
-    const selectedCityName = this.getSelectedCityName(city, 'ua');
+    const selectedCityName = this.getSelectedCityName(city, 'uk');
     const selectedCityEnglishName = this.getSelectedCityName(city, 'en');
     return {
       name: this.languageService.getLangValue(selectedCityName, selectedCityEnglishName),
@@ -558,7 +560,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     );
     const selectedCityId = selectedCity.locationId;
     const selectedCityName = selectedCity.locationTranslationDtoList
-      .filter((it) => it.languageCode === Language.UA)
+      .filter((it) => it.languageCode === Language.UK)
       .map((it) => it.locationName)
       .join();
     const selectedCityEnglishName = selectedCity.locationTranslationDtoList
@@ -597,7 +599,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   selectedStates(event) {
     this.selectedState = [];
     const statusValue = this.employeeStates.find(
-      (state) => this.languageService.getLangValue(state.nameUa, state.nameEn) === event.option.value.toString()
+      (state) => this.languageService.getLangValue(state.nameUk, state.nameEn) === event.option.value.toString()
     );
     let selectedStatus = '';
     switch (statusValue.nameEn) {
@@ -646,7 +648,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   }
 
   getRegionName(region: Locations): string {
-    const selectedRegionName = this.getSelectedRegionName(region, 'ua');
+    const selectedRegionName = this.getSelectedRegionName(region, 'uk');
     const selectedRegionEnglishName = this.getSelectedRegionName(region, 'en');
     return this.languageService.getLangValue(selectedRegionName, selectedRegionEnglishName) as string;
   }
@@ -724,7 +726,14 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(event: Event) {
+    this.searchValueIncorrect = false;
     const filterValue = (event.target as HTMLInputElement).value;
+
+    if (this.restrictedSymbols.test(filterValue)) {
+      this.searchValueIncorrect = true;
+      return;
+    }
+
     this.ubsAdminEmployeeService.searchValue.next(filterValue.trim().toLowerCase());
   }
 

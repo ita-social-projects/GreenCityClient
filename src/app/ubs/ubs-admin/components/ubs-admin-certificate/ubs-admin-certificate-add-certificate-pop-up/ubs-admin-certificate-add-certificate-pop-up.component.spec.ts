@@ -41,7 +41,7 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
   let component: UbsAdminCertificateAddCertificatePopUpComponent;
   let fixture: ComponentFixture<UbsAdminCertificateAddCertificatePopUpComponent>;
   let httpMock: HttpTestingController;
-  const mockLang = 'ua';
+  const mockLang = 'uk';
 
   const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();

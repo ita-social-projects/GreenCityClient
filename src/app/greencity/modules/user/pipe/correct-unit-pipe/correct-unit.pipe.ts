@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CorrectUnitPipe implements PipeTransform {
   transform(unit: string, value: number, lang: string): string {
     let result = unit;
-    if (lang === 'ua' || lang === 'uk') {
+    if (lang === 'uk') {
       if (value % 10 === 1 && value !== 11) {
         result += '.singular';
       } else if ([2, 3, 4].some((el) => el === value % 10)) {

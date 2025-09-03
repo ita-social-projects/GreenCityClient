@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { CronService, formatNotificationCron, formatSpringCron, formatUnixCron } from './cron.service';
 import { NotificationPage } from '@ubs/ubs-admin/models/notifications.model';
-import { NotificationMock } from '../notificationsMock';
+import { NotificationMock } from '../notifications.mock';
 
 describe('CronService', () => {
   let service: CronService;

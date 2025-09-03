@@ -17,7 +17,7 @@ describe('FooterComponent', () => {
 
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageSubject = new Subject();
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.getCurrentLanguage = () => 'uk' as Language;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

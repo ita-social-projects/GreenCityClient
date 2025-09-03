@@ -140,9 +140,8 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     const invalidInput = this.formArrayCertificates.controls[index].invalid;
     const formInvalid = !this.isFirstFormValid;
     const noAmountLeft = this.getFinalSum() === 0;
-    const bonusesNotSelected = !this.orderBonusesForm.get('bonus')?.value;
 
-    return alreadyEntered || invalidInput || formInvalid || noAmountLeft || bonusesNotSelected;
+    return alreadyEntered || invalidInput || formInvalid || noAmountLeft;
   }
 
   isCanAddCertificate(): boolean {

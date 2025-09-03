@@ -79,7 +79,7 @@ describe('UbsUserOrdersListComponent', () => {
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue.and.returnValue('fakeValue');
-  languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
+  languageServiceMock.getCurrentLangObs.and.returnValue(of('uk'));
 
   const orderServiceMock = jasmine.createSpyObj('orderService', [
     'getOrderPdf',

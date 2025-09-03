@@ -57,7 +57,7 @@ export class DeletingProfileReasonPopUpComponent implements OnInit, OnDestroy {
       reason:
         this.reason.value === 'other'
           ? this.ownReasonText.value
-          : this.languageService.getLangValue(this.reason.value.ua, this.reason.value.en)
+          : this.languageService.getLangValue(this.reason.value.uk, this.reason.value.en)
     });
   }
 
@@ -69,34 +69,34 @@ export class DeletingProfileReasonPopUpComponent implements OnInit, OnDestroy {
 
 interface Reason {
   id: number;
-  ua: string;
+  uk: string;
   en: string;
 }
 
 const deleteProfileReasons: Reason[] = [
   {
     id: 0,
-    ua: 'Не актуально',
+    uk: 'Не актуально',
     en: 'Not relevant'
   },
   {
     id: 1,
-    ua: 'Багато спаму',
+    uk: 'Багато спаму',
     en: 'Too much spam'
   },
   {
     id: 2,
-    ua: 'Використовую інший сервіс',
+    uk: 'Використовую інший сервіс',
     en: 'I use another service'
   },
   {
     id: 3,
-    ua: 'Не влаштовують ціни',
+    uk: 'Не влаштовують ціни',
     en: 'Prices are not suitable'
   },
   {
     id: 4,
-    ua: 'Не хочу вказувати',
+    uk: 'Не хочу вказувати',
     en: `Don't want to specify`
   }
 ];

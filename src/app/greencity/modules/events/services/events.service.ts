@@ -158,7 +158,7 @@ export class EventsService implements OnDestroy {
 
   getFormattedAddress(coordinates: PlaceOnline): string {
     return this.langService.getLangValue(
-      coordinates?.streetUk ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUk,
+      coordinates?.streetUk ? this.createAddresses(coordinates, 'Uk') : coordinates?.formattedAddressUk,
       coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
     );
   }
@@ -166,7 +166,7 @@ export class EventsService implements OnDestroy {
   getFormattedAddressEventsList(coordinates: LocationResponse): string {
     return this.langService.getLangValue(
       coordinates.streetUk
-        ? this.createEventsListAddresses(coordinates, 'Ua')
+        ? this.createEventsListAddresses(coordinates, 'Uk')
         : coordinates.formattedAddressUk?.split(', ').slice(0, 2).reverse().join(', ') || '',
       coordinates.streetEn
         ? this.createEventsListAddresses(coordinates, 'En')
