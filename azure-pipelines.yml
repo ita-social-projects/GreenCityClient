@@ -42,10 +42,14 @@ stages:
 
           - script: |
               set -euo pipefail
-              printf "%s" "$(ENV_STAGE)" > .env.stage
+              trap 'rm -f .env.stage' EXIT
+              umask 177
+              printf "%s" "$ENV_STAGE" > .env.stage
+              test -s .env.stage
               npx ts-node ./scripts/setenv.ts stage
-              rm -f .env.stage
             displayName: Generate Environment File
+            env:
+              ENV_STAGE: $(ENV-STAGE)
 
           - task: Npm@1
             displayName: Build
