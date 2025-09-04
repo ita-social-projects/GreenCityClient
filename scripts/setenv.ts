@@ -52,8 +52,3 @@ fs.writeFile(environmentObligatoryPath, environmentFileContent, (err) => {
   }
   console.log(`Successfully generated ${envPath.basename(environmentObligatoryPath)}`);
 });
-
-console.log(`--- Content of ${envPath.basename(environmentPath)} ---`);
-console.log(fs.readFileSync(environmentPath, 'utf8'));
-console.log(`--- Content of ${envPath.basename(environmentObligatoryPath)} ---`);
-console.log(fs.readFileSync(environmentObligatoryPath, 'utf8'));
