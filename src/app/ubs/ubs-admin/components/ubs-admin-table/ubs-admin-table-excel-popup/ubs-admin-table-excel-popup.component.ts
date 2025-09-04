@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { AdminCertificateService } from 'src/app/ubs/ubs-admin/services/admin-certificate.service';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
@@ -37,7 +38,8 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     private adminTableService: AdminTableService,
     private adminCertificateService: AdminCertificateService,
     private adminCustomerService: AdminCustomersService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private matDialogRef: MatDialogRef<UbsAdminTableExcelPopupComponent>
   ) {}
 
   ngOnInit() {
@@ -215,6 +217,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
 
       XLSX.utils.book_append_sheet(wb, wst, 'Sheet1');
       XLSX.writeFile(wb, this.name);
+      this.matDialogRef.close();
     } else {
       alert('Error. Please try again');
     }
