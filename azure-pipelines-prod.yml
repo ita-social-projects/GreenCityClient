@@ -23,8 +23,11 @@ stages:
           vmImage: $(agentOS)
         steps:
           - script: |
-              chmod +w src/environments
-            displayName: Grant write permissions
+              mkdir -p src/environments
+              set -euo pipefail
+              test -d src/environments
+              chmod -R u+w -- src/environments
+            displayName: Ensure environment directory exists and has permissions
 
           - task: AzureKeyVault@2
             displayName: Retrieve secrets from Azure Key Vault
