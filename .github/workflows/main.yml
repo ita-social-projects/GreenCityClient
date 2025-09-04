@@ -52,6 +52,9 @@ jobs:
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt-get install ./google-chrome-stable_current_amd64.deb -y --allow-downgrades
 
+      - name: Build Test Environment
+        run: npx ts-node ./scripts/setenv.ts
+
       - name: JS Linter
         run: npm run lint
 
@@ -89,11 +92,26 @@ jobs:
       # - name: E2E Tests
       #   run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
 
+      - name: Build Environment
+        env:
+          PROD_SECRET: ${{ secrets.ENV_PROD }}
+          STAGE_SECRET: ${{ secrets.ENV_STAGE }}
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/prod-branch" ]]; then
+            echo "${{ env.PROD_SECRET }}" > .env.prod
+            npx ts-node ./scripts/setenv.ts prod
+          else
+            echo "${{ env.STAGE_SECRET }}" > .env.stage
+            npx ts-node ./scripts/setenv.ts stage
+          fi
+
       - name: Build
         run: |
-          npx ng build --configuration=stage --base-href=/GreenCityClient/
-      #          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
-      #          npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
+          if [[ "${{ github.ref }}" == "refs/heads/prod-branch" ]]; then
+            npx ng build --configuration production --base-href=/GreenCityClient/
+          else
+            npx ng build --configuration=stage --base-href=/GreenCityClient/
+          fi
 
       - name: Set outputs
         run: echo "GITHUB_SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV

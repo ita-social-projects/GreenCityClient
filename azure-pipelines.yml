@@ -10,6 +10,7 @@ trigger:
 pr: none
 
 variables:
+  azureSub: GreenCity2022
   agentOS: ubuntu-latest
   docker_repo: skyere/greencity-front
   artifactName: drop
@@ -21,6 +22,13 @@ stages:
         pool:
           vmImage: $(agentOS)
         steps:
+          - task: AzureKeyVault@1
+            displayName: Retrieve secrets from Azure Key Vault
+            inputs:
+              azureSubscription: '$(azureSub)'
+              KeyVaultName: 'greencity-app'
+              SecretsFilter: 'ENV-STAGE'
+
           - task: NodeTool@0
             displayName: Set up Node js
             inputs:
@@ -31,6 +39,17 @@ stages:
             inputs:
               command: 'install'
               workingDir: '.'
+
+          - script: |
+              set -euo pipefail
+              trap 'rm -f .env.stage' EXIT
+              umask 177
+              printf "%s" "$ENV_STAGE" > .env.stage
+              test -s .env.stage
+              npx ts-node ./scripts/setenv.ts stage
+            displayName: Generate Environment File
+            env:
+              ENV_STAGE: $(ENV-STAGE)
 
           - task: Npm@1
             displayName: Build
