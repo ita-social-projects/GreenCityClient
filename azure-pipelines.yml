@@ -22,7 +22,11 @@ stages:
         pool:
           vmImage: $(agentOS)
         steps:
-          - task: AzureKeyVault@1
+          - script: |
+              chmod +w src/environments
+            displayName: Grant write permissions
+
+          - task: AzureKeyVault@2
             displayName: Retrieve secrets from Azure Key Vault
             inputs:
               azureSubscription: '$(azureSub)'
