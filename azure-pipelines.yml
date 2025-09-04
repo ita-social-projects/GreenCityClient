@@ -51,8 +51,15 @@ stages:
               set -euo pipefail
               trap 'rm -f .env.stage' EXIT
               umask 177
-              printf "%s" "$ENV_STAGE" > .env.stage
-              test -s .env.stage
+
+              cat > .env.stage <<-EOF
+              $ENV_STAGE
+              EOF
+
+              echo "--- Contents of .env.stage file ---"
+              cat .env.stage
+              echo "-----------------------------------"
+
               npx ts-node ./scripts/setenv.ts stage
             displayName: Generate Environment File
             env:
