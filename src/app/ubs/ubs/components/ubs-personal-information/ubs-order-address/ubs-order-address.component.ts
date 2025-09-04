@@ -190,7 +190,7 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
 
   deleteAddress(address: Address): void {
     this.store.dispatch(DeleteAddress({ address }));
-    this.addresses = this.addresses.filter((address) => address.id !== address.id);
+    this.addresses = this.addresses.filter((singleAddress) => singleAddress.id !== address.id);
     this.findAvailableAddress();
   }
 
