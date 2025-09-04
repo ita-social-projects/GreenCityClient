@@ -21,14 +21,21 @@ describe('UBSSubmitOrderComponent', () => {
   let fixture: ComponentFixture<UBSSubmitOrderComponent>;
   let store: jasmine.SpyObj<Store>;
   let orderService: jasmine.SpyObj<OrderService>;
+  let ubsOrderFormServiceSpy: jasmine.SpyObj<UBSOrderFormService>;
   let dialog: jasmine.SpyObj<MatDialog>;
   let router: jasmine.SpyObj<Router>;
+  let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
 
   beforeEach(async () => {
     const storeSpy = jasmine.createSpyObj('Store', ['pipe']);
     const orderServiceSpy = jasmine.createSpyObj('OrderService', ['processExistingOrder', 'processNewOrder']);
+    ubsOrderFormServiceSpy = jasmine.createSpyObj('UBSOrderFormService', [
+      'transferOrderId',
+      'setOrderResponseErrorStatus',
+      'setOrderStatus'
+    ]);
     const dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
-    const localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', ['setUbsPaymentOrderId']);
+    localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', ['setUbsPaymentOrderId', 'setUserPagePayment']);
     const langServiceSpy = jasmine.createSpyObj('LanguageService', ['getLangValue']);
     const spyRouter = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -63,6 +70,7 @@ describe('UBSSubmitOrderComponent', () => {
         { provide: LanguageService, useValue: langServiceSpy },
         { provide: MatDialog, useValue: dialogSpy },
         { provide: Router, useValue: spyRouter },
+        { provide: UBSOrderFormService, useValue: ubsOrderFormServiceSpy },
         PhoneNumberTreatPipe
       ]
     }).compileComponents();
@@ -134,5 +142,71 @@ describe('UBSSubmitOrderComponent', () => {
 
     expect(component.isLoadingAnim).toBeFalse();
     expect(router.navigate).toHaveBeenCalledWith(['ubs', 'confirm']);
+  });
+
+  it('processPointsPayment should call ubsOrderFormService methods', () => {
+    const orderIdMock = 1;
+
+    (component as any).processPointsPayment(orderIdMock);
+
+    expect(ubsOrderFormServiceSpy.transferOrderId).toHaveBeenCalled();
+    expect(ubsOrderFormServiceSpy.transferOrderId).toHaveBeenCalledWith(orderIdMock);
+    expect(ubsOrderFormServiceSpy.setOrderResponseErrorStatus).toHaveBeenCalled();
+    expect(ubsOrderFormServiceSpy.setOrderResponseErrorStatus).toHaveBeenCalledWith(false);
+    expect(ubsOrderFormServiceSpy.setOrderStatus).toHaveBeenCalled();
+    expect(ubsOrderFormServiceSpy.setOrderStatus).toHaveBeenCalledWith(true);
+  });
+
+  it('processPointsPayment should call localStorageService methods', () => {
+    const orderIdMock = 1;
+
+    (component as any).processPointsPayment(orderIdMock);
+
+    expect(localStorageServiceSpy.setUserPagePayment).toHaveBeenCalled();
+    expect(localStorageServiceSpy.setUserPagePayment).toHaveBeenCalledWith(true);
+    expect(localStorageServiceSpy.setUbsPaymentOrderId).toHaveBeenCalled();
+    expect(localStorageServiceSpy.setUbsPaymentOrderId).toHaveBeenCalledWith(orderIdMock);
+  });
+
+  it('processPayment should call processPointsPayment if points cover the sum', () => {
+    const processPointsPaymentSpy = spyOn(component as any, 'processPointsPayment');
+    component.finalSum = 0;
+    component.pointsUsed = 540;
+    const orderResponseMock = {
+      orderId: 1,
+      link: null
+    };
+    (component as any).processPayment(orderResponseMock);
+
+    expect(processPointsPaymentSpy).toHaveBeenCalled();
+    expect(processPointsPaymentSpy).toHaveBeenCalledWith(orderResponseMock.orderId);
+  });
+
+  it('processPayment should not call processPointsPayment if no points are used', () => {
+    const processPointsPaymentSpy = spyOn(component as any, 'processPointsPayment');
+    component.finalSum = 540;
+    component.pointsUsed = 0;
+    component.isShouldBePaid = true;
+    const orderResponseMock = {
+      orderId: 1,
+      link: null
+    };
+    (component as any).processPayment(orderResponseMock);
+
+    expect(processPointsPaymentSpy).not.toHaveBeenCalled();
+  });
+
+  it('processPayment should not call processPointsPayment if points dont cover the sum', () => {
+    const processPointsPaymentSpy = spyOn(component as any, 'processPointsPayment');
+    component.finalSum = 540;
+    component.pointsUsed = 150;
+    component.isShouldBePaid = true;
+    const orderResponseMock = {
+      orderId: 1,
+      link: null
+    };
+    (component as any).processPayment(orderResponseMock);
+
+    expect(processPointsPaymentSpy).not.toHaveBeenCalled();
   });
 });

@@ -164,9 +164,21 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   private processPayment(response: IProcessOrderResponse): void {
     this.localStorageService.setUbsPaymentOrderId(response.orderId);
+    if (!this.finalSum && this.pointsUsed) {
+      this.processPointsPayment(response.orderId);
+    }
     if (response.link && this.isShouldBePaid) {
       this.redirectToExternalUrl(response.link);
     }
+  }
+
+  private processPointsPayment(orderId: number) {
+    this.localStorageService.setUserPagePayment(true);
+    this.localStorageService.setUbsPaymentOrderId(orderId);
+
+    this.ubsOrderFormService.transferOrderId(orderId);
+    this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+    this.ubsOrderFormService.setOrderStatus(true);
   }
 
   private getOrder(shouldBePaid: boolean): Order {
