@@ -44,7 +44,7 @@ if (!fs.existsSync(environmentsDir)) {
 }
 
 fs.writeFileSync(environmentTsPath, environmentFileContent);
-console.log(`Successfully generated ${path.basename(environmentTsPath)}`);
+console.log(`Successfully generated ${envPath.basename(environmentTsPath)}`);
 
 fs.writeFileSync(environmentStageTsPath, environmentFileContent);
-console.log(`Successfully generated ${path.basename(environmentStageTsPath)}`);
+console.log(`Successfully generated ${envPath.basename(environmentStageTsPath)}`);
