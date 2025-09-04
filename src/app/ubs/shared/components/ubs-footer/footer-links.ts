@@ -1,7 +1,7 @@
 export const ubsNavLinks = [
-  { name: 'user.lower-nav-bar.sorting-rules', route: 'https://nowaste.com.uk/sort-station/', adminRoute: '', url: true },
+  { name: 'user.lower-nav-bar.sorting-rules', route: 'https://nowaste.com.ua/sort-station/', adminRoute: '', url: true },
   { name: 'footer.user-agreement', route: '/ubs/user-agreement', adminRoute: '/ubs/admin/user-agreement', url: false },
-  { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.uk/', adminRoute: '', url: true }
+  { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.ua/', adminRoute: '', url: true }
 ];
 
 export const socialLinks = [
