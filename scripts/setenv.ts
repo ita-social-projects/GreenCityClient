@@ -28,11 +28,20 @@ const environmentFileContent = `export const environment = {
 `;
 
 const environmentsDir = envPath.resolve(process.cwd(), './src/environments');
+const environmentObligatoryPath = envPath.resolve(environmentsDir, `environment.ts`);
 const environmentPath = envPath.resolve(environmentsDir, `environment${envName ? `.${envName}` : ''}.ts`);
 
 if (!fs.existsSync(environmentsDir)) {
   fs.mkdirSync(environmentsDir, { recursive: true });
 }
+
+fs.writeFile(environmentObligatoryPath, environmentFileContent, (err) => {
+  if (err) {
+    console.error(err);
+    process.exit(-1);
+  }
+  console.log(`Successfully generated ${envPath.basename(environmentObligatoryPath)}`);
+});
 
 fs.writeFile(environmentPath, environmentFileContent, (err) => {
   if (err) {
