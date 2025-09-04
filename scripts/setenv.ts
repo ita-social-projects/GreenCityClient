@@ -1,7 +1,16 @@
 const fs = require('fs');
 const envPath = require('path');
+const dotenv = require('dotenv');
 
 const envName = process.argv[2] || '';
+const envFile = envName ? `.env.${envName}` : '.env';
+
+const envFilePath = envPath.resolve(process.cwd(), envFile);
+const envConfig = dotenv.parse(fs.readFileSync(envFilePath));
+
+for (const k in envConfig) {
+  process.env[k] = envConfig[k];
+}
 
 const environment = {
   production: process.env.PRODUCTION === 'true',
