@@ -4,7 +4,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Build Environments
 
-Before building project run `npm run config` to build environment.ts file. Create environment.<key>.ts using `npm run config <key>`. For example: `npm run config stage`.
+Before building the project, run `npm run config` to generate `src/environments/environment.ts`.
+To generate a specific file, run `npm run config <key>` (for example: `npm run config stage`) to produce `environment.<key>.ts`.
+Prerequisite: ensure the corresponding `.env.<key>` is available locally or provided by CI (see `scripts/setenv.ts`).
 
 ## Development server
 
