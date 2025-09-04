@@ -1,8 +1,6 @@
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { GoogleSignInService } from 'src/app/shared/services/auth/google-sign-in.service';
-import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
 import { Observable, Subject } from 'rxjs';
