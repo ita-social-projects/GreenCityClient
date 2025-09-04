@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { forkJoin, Observable, Subject } from 'rxjs';
-import { take, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '../../../ubs/models/ubs.interface';
 import { OrderService } from '../../../ubs/services/order.service';
 import { UBSOrderFormService } from '../../../ubs/services/ubs-order-form.service';
@@ -112,7 +112,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
         orderId: order.id,
         price: order.amountBeforePayment,
         bonuses: this.bonuses
-      }
+      },
+      autoFocus: true
     });
   }
 
@@ -124,9 +125,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   editOrPayPopup(order: IUserOrderInfo) {
     this.dialog
-      .open(DialogPopUpComponent, { data: this.editOrPayDialogData })
+      .open(DialogPopUpComponent, { data: this.editOrPayDialogData, autoFocus: true })
       .afterClosed()
-      .pipe(take(1))
       .subscribe((res) => {
         if (res) {
           this.openOrderPaymentPopUp(order);
@@ -234,7 +234,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       data: {
         orderId: order.id,
         orders: this.orders
-      }
+      },
+      autoFocus: true
     });
   }
 
