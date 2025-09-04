@@ -255,7 +255,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       exportDetailsDto: this.fb.group({
         dateExport: [
           this.exportInfo.dateExport
-            ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage === 'uk' ? 'uk-UA' : 'en-GB')
+            ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.getLocale())
             : ''
         ],
         timeDeliveryFrom: [this.parseTimeToStr(this.exportInfo.timeDeliveryFrom)],
@@ -397,7 +397,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   parseTimeToStr(dateStr: string) {
-    return dateStr ? formatDate(dateStr, 'HH:mm', this.currentLanguage === 'uk' ? 'uk-UA' : 'en-GB') : '';
+    return dateStr ? formatDate(dateStr, 'HH:mm', this.getLocale()) : '';
   }
 
   resetForm() {
@@ -664,6 +664,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       responsiblePersons.get('responsibleCaller')?.setValidators([Validators.required]);
     }
     this.statusCanceledOrDone();
+  }
+
+  getLocale(): string {
+    const lang = this.currentLanguage || '';
+    return lang.startsWith('uk') ? 'uk-UA' : 'en-GB';
   }
 
   ngOnDestroy(): void {
