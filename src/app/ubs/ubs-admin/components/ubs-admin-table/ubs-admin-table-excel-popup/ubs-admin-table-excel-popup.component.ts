@@ -35,11 +35,11 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   columnToDisplay: string[] = [];
 
   constructor(
-    private adminTableService: AdminTableService,
-    private adminCertificateService: AdminCertificateService,
-    private adminCustomerService: AdminCustomersService,
-    private languageService: LanguageService,
-    private matDialogRef: MatDialogRef<UbsAdminTableExcelPopupComponent>
+    private readonly adminTableService: AdminTableService,
+    private readonly adminCertificateService: AdminCertificateService,
+    private readonly adminCustomerService: AdminCustomersService,
+    private readonly languageService: LanguageService,
+    private readonly matDialogRef: MatDialogRef<UbsAdminTableExcelPopupComponent>
   ) {}
 
   ngOnInit() {
