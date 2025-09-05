@@ -53,9 +53,7 @@ jobs:
           sudo apt-get install ./google-chrome-stable_current_amd64.deb -y --allow-downgrades
 
       - name: Build Test Environment
-        run: |
-          touch .env
-          npx ts-node ./scripts/setenv.ts
+        run: npx ts-node ./scripts/setenv.ts
 
       - name: JS Linter
         run: npm run lint
