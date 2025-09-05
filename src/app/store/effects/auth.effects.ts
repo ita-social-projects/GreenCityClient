@@ -24,7 +24,6 @@ export class AuthEffects {
   private readonly BACKEND_ERRORS = {
     Unauthorized: 'user.auth.sign-in.account-has-been-deleted',
     'You should verify the email first, check your email box!': 'user.auth.sign-in.not-verified-email',
-    'Wrong captcha': 'user.auth.sign-in.wrong-captcha',
     'Bad password': 'user.auth.sign-in.bad-password',
     'User account is blocked due to too many failed login attempts. Try again in 15 minutes': 'user.auth.sign-in.account-blocked',
     'User is not activated': 'user.auth.sign-in.user-not-activated'
