@@ -185,7 +185,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
 
       const setAmountOfBagsExported = this.currentOrderStatus === OrderStatus.DONE ? bag.confirmed : 0;
-      bag.actual = this.isOrderStatusChanged ? 0 : this.orderInfo.amountOfBagsExported[bag.id] ?? setAmountOfBagsExported;
+      bag.actual = this.isOrderStatusChanged ? 0 : (this.orderInfo.amountOfBagsExported[bag.id] ?? setAmountOfBagsExported);
 
       return bag;
     });
@@ -253,7 +253,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       }),
       addressExportDetailsDto: [''],
       exportDetailsDto: this.fb.group({
-        dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],
+        dateExport: [
+          this.exportInfo.dateExport
+            ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.getLocale())
+            : ''
+        ],
         timeDeliveryFrom: [this.parseTimeToStr(this.exportInfo.timeDeliveryFrom)],
         timeDeliveryTo: [this.parseTimeToStr(this.exportInfo.timeDeliveryTo)],
         receivingStationId: [this.getReceivingStationById(this.exportInfo.receivingStationId)]
@@ -393,7 +397,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   parseTimeToStr(dateStr: string) {
-    return dateStr ? formatDate(dateStr, 'HH:mm', this.currentLanguage) : '';
+    return dateStr ? formatDate(dateStr, 'HH:mm', this.getLocale()) : '';
   }
 
   resetForm() {
@@ -660,6 +664,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       responsiblePersons.get('responsibleCaller')?.setValidators([Validators.required]);
     }
     this.statusCanceledOrDone();
+  }
+
+  getLocale(): string {
+    const lang = this.currentLanguage || '';
+    return lang.startsWith('uk') ? 'uk-UA' : 'en-GB';
   }
 
   ngOnDestroy(): void {

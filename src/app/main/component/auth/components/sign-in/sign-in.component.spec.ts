@@ -1,12 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement, Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { GoogleSignInService } from 'src/app/shared/services/auth/google-sign-in.service';
 import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign-in.service';
 import { UserOwnSignIn } from 'src/app/shared/models/singIn-singUp/user-own-sign-in';
 import { UserSuccessSignIn } from 'src/app/shared/models/singIn-singUp/user-success-sign-in';
@@ -21,45 +20,6 @@ import { ErrorComponent } from '../error/error.component';
 import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { SignInComponent } from './sign-in.component';
 
-@Component({
-  selector: 'app-turnstile-captcha',
-  template: '',
-  standalone: true,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MockTurnstileCaptchaComponent),
-      multi: true
-    }
-  ]
-})
-class MockTurnstileCaptchaComponent implements ControlValueAccessor {
-  @Input() siteKey!: string;
-  @Input() theme!: string;
-  @Input() size!: string;
-  @Output() captchaResponse = new EventEmitter<string | null>();
-  @Output() captchaError = new EventEmitter<void>();
-
-  onChange = (value: any) => {};
-  onTouched = () => {};
-
-  writeValue(value: any): void {}
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {}
-
-  clearToken() {
-    this.captchaResponse.emit(null);
-  }
-}
-
 declare global {
   interface Window {
     google: any;
@@ -70,7 +30,6 @@ describe('SignIn component', () => {
   let component: SignInComponent;
   let fixture: ComponentFixture<SignInComponent>;
   let router: Router;
-  let dialog: MatDialog;
 
   const initialState = {
     employees: null,
@@ -90,9 +49,6 @@ describe('SignIn component', () => {
   userSuccessSignIn.name = '1';
   userSuccessSignIn.accessToken = '1';
   userSuccessSignIn.refreshToken = '1';
-
-  const googleServiceMock: GoogleSignInService = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
-  googleServiceMock.signIn = () => of(userSuccessSignIn);
 
   const googleAccountMock = {
     id: {
@@ -119,14 +75,12 @@ describe('SignIn component', () => {
         MatDialogModule,
         TranslateModule.forRoot(),
         ReactiveFormsModule,
-        RouterTestingModule.withRoutes([]),
-        MockTurnstileCaptchaComponent
+        RouterTestingModule.withRoutes([])
       ],
       providers: [
         MatDialog,
         provideMockStore({ initialState }),
         { provide: Store, useValue: storeMock },
-        { provide: GoogleSignInService, useValue: googleServiceMock },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: Actions, useValue: actionsMock },
@@ -141,7 +95,6 @@ describe('SignIn component', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     router = fixture.debugElement.injector.get(Router);
-    dialog = TestBed.inject(MatDialog);
     spyOn<any>(component, 'initGooglePopup');
     spyOn(router.url, 'includes').and.returnValue(false);
     spyOn(router, 'navigate');

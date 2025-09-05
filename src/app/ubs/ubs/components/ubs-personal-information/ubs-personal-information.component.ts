@@ -152,7 +152,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       phoneNumber: [this.personalData.phoneNumber ?? '', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
       senderFirstName: [this.personalData.firstName ?? '', this.nameValidators],
       senderLastName: [this.personalData.lastName ?? '', this.nameValidators],
-      senderEmail: [this.personalData.email ?? '', [Validators.maxLength(50), Validators.pattern(this.emailPattern)]],
+      senderEmail: [this.personalData.email ?? null, [Validators.maxLength(50), Validators.pattern(this.emailPattern)]],
       senderPhoneNumber: [this.personalData.phoneNumber ?? '', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
       isAnotherClient: [this.personalData.isAnotherClient ?? false]
     });
@@ -161,7 +161,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.senderFirstName.setValue('');
       this.senderLastName.setValue('');
       this.senderPhoneNumber.setValue('');
-      this.senderEmail.setValue('');
+      this.senderEmail.setValue(null);
     });
 
     this.personalDataForm.valueChanges.pipe(takeUntil(this.$destroy)).subscribe(() => {

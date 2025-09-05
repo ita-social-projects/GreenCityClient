@@ -168,7 +168,7 @@ describe('UBSPersonalInformationComponent', () => {
       expect(component.senderFirstName.value).toBe('');
       expect(component.senderLastName.value).toBe('');
       expect(component.senderPhoneNumber.value).toBe('');
-      expect(component.senderEmail.value).toBe('');
+      expect(component.senderEmail.value).toBe(null);
     }));
   });
 

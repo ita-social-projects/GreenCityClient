@@ -10,6 +10,7 @@ trigger:
 pr: none
 
 variables:
+  azureSub: GreenCity2022
   agentOS: ubuntu-latest
   docker_repo: skyere/greencity-front
   artifactName: drop
@@ -21,6 +22,20 @@ stages:
         pool:
           vmImage: $(agentOS)
         steps:
+          - script: |
+              mkdir -p src/environments
+              set -euo pipefail
+              test -d src/environments
+              chmod -R u+w -- src/environments
+            displayName: Ensure environment directory exists and has permissions
+
+          - task: AzureKeyVault@2
+            displayName: Retrieve secrets from Azure Key Vault
+            inputs:
+              azureSubscription: '$(azureSub)'
+              KeyVaultName: 'greencity-app'
+              SecretsFilter: 'ENV-PROD'
+
           - task: NodeTool@0
             displayName: Set up Node js
             inputs:
@@ -31,6 +46,20 @@ stages:
             inputs:
               command: 'install'
               workingDir: '.'
+
+          - script: |
+              set -euo pipefail
+              trap 'rm -f .env.prod' EXIT
+              umask 177
+
+              cat > .env.prod <<-EOF
+              $ENV_PROD
+              EOF
+
+              npx ts-node ./scripts/setenv.ts prod
+            displayName: Generate Environment File
+            env:
+              ENV_PROD: $(ENV-PROD)
 
           - task: Npm@1
             displayName: Build

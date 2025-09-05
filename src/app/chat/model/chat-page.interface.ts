@@ -76,6 +76,27 @@ export interface ChatListItem {
 }
 
 export interface ClientInfoData {
+  id: number;
+  chatId: string;
+  dateForm: string;
+  datePaid: string;
+  orderStatusUk: string;
+  orderStatusEn: string;
+  paymentStatusUk: string;
+  paymentStatusEn: string;
+  paidAmount: number;
+  orderFullPrice: number;
+  amountBeforePayment: number;
+  refundedBonuses: number;
+  refundedMoney: number;
+  bags: BagsTelegramChat[];
+  orderComment: string;
+  bonuses: number;
+  certificate: [];
+  additionalOrders: [];
+  sender: Sender;
+  address: AddressTelegramChat;
+  completedOrdersCount: number;
   error?: string;
 }
 
@@ -97,4 +118,35 @@ export interface SocketNewChat {
   id?: number;
   chatInternalId?: number;
   internalId?: number;
+}
+
+export interface Sender {
+  senderName: string;
+  senderSurname: string;
+  senderEmail: string;
+  senderPhone: string;
+}
+
+export interface AddressTelegramChat {
+  addressCityUk: string;
+  addressCityEn: string;
+  addressRegionUk: string;
+  addressRegionEn: string;
+  addressStreetUk: string;
+  addressStreetEn: string;
+  addressDistinctUk: string;
+  addressDistinctEn: string;
+  addressComment: string;
+  houseNumber: string;
+  houseCorpus: string;
+  entranceNumber: string;
+}
+
+export interface BagsTelegramChat {
+  serviceUk: string;
+  serviceEn: string;
+  capacity: number;
+  fullPrice: number;
+  count: number;
+  totalPrice: number;
 }

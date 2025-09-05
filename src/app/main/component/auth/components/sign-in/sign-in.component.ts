@@ -1,22 +1,17 @@
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { GoogleSignInService } from 'src/app/shared/services/auth/google-sign-in.service';
-import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
 import { Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { SignInIcons } from 'src/app/shared/image-paths/sign-in-icons';
-
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { SignInAction, SignInSuccessAction, SignInWithGoogleAction } from 'src/app/store/actions/auth.actions';
 import { errorSelector, isLoadingSelector } from 'src/app/store/selectors/auth.selectors';
 import { googleProvider } from './GoogleOAuthProvider/GoogleOAuthProvider';
-import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign-in.service';
-import { TurnstileCaptchaComponent } from '@global-auth/turnstile-captcha/turnstile-captcha.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
 declare let google: any;
@@ -28,18 +23,13 @@ declare let google: any;
 export class SignInComponent implements OnInit, OnDestroy {
   @Output() private readonly pageName = new EventEmitter();
   @Input() isUbs: boolean;
-  @ViewChild(TurnstileCaptchaComponent) captchaComponent!: TurnstileCaptchaComponent;
 
   private readonly store: Store = inject(Store);
   private readonly actions: Actions = inject(Actions);
-  private readonly userOwnSignInService = inject(UserOwnSignInService);
   private readonly destroy$: Subject<void> = new Subject();
 
   isLoading$: Observable<boolean> = this.store.select(isLoadingSelector);
   error$: Observable<string> = this.store.select(errorSelector);
-  closeBtn = SignInIcons;
-  mainSignInImage = SignInIcons;
-  googleImage = SignInIcons;
   hideShowPasswordImage = SignInIcons;
   signInForm: FormGroup;
 
@@ -53,29 +43,18 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly matDialogRef: MatDialogRef<SignInComponent>,
-    private readonly googleService: GoogleSignInService,
-    private readonly userOwnAuthService: UserOwnAuthService,
     public jwtService: JwtService
   ) {}
 
   ngOnInit(): void {
     this.signInForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
-      captchaToken: new FormControl<null | string>(null, [Validators.required])
+      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
     });
 
     this.initGooglePopup();
 
     this.actions.pipe(ofType(SignInSuccessAction), take(1)).subscribe(() => this.matDialogRef.close());
-  }
-
-  onCaptchaError(): void {
-    console.error('Captcha validation failed.');
-  }
-
-  clearCaptchaToken() {
-    this.captchaComponent.clearToken();
   }
 
   signIn(): void {
@@ -87,8 +66,6 @@ export class SignInComponent implements OnInit, OnDestroy {
         this.jwtService.setAuthenticating(false);
         this.matDialogRef.close();
       });
-
-      this.clearCaptchaToken();
     } else {
       console.error('Form is invalid, unable to submit.');
     }
