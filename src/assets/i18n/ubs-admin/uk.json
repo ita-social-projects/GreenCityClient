@@ -643,6 +643,7 @@
     "delete-message-cancel": "Ні",
     "active-chat-placeholder": "Введіть ваше повідомлення",
     "attach-file": "Прикріпити файл",
+    "no-file-chosen": "Файл не обрано",
     "status": {
       "READ": "Прочитано",
       "UNREAD": "Не прочитано"
