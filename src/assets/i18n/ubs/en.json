@@ -121,18 +121,14 @@
     "comment-error": "You can't enter more than 255 characters.",
     "order-error": "The number was entered incorrectly.  Please try again.",
     "address-comment": "Comment to the address:",
-    "order-comment": "Comment to the order:",
-    "choose-payment": "You can make a payment in one of the selected methods below",
-    "choose-payment-type": "Choose payment method",
-    "payment-card": "By card through"
+    "order-comment": "Comment to the order:"
   },
   "order-form": {
     "ubs-title": "Order garbage collection",
     "ubs-courier": "UBS Courier",
     "order-details": "Order details",
     "personal-data": "Personal data",
-    "confirm": "Confirmation",
-    "payment": "Payment"
+    "confirm": "Confirmation"
   },
   "extra-packages-pop-up": {
     "title": "Extrapositions",
@@ -218,9 +214,6 @@
     "str": "str.",
     "payment": "Payment",
     "after-payment": "After placing an order, you can make the payment in the chosen way",
-    "choose-payment": "Choose a payment method",
-    "fondy-card": "By card via Fondy",
-    "liqpay-card": "By card via LiqPay",
     "back": "Back",
     "to-order": "Order",
     "to-pay": "Pay",
