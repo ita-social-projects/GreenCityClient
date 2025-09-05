@@ -51,8 +51,11 @@ stages:
               set -euo pipefail
               trap 'rm -f .env.prod' EXIT
               umask 177
-              printf "%s" "$ENV_PROD" > .env.prod
-              test -s .env.prod
+
+              cat > .env.prod <<-EOF
+              $ENV_PROD
+              EOF
+
               npx ts-node ./scripts/setenv.ts prod
             displayName: Generate Environment File
             env:
