@@ -158,7 +158,7 @@ describe('UBSSubmitOrderComponent', () => {
   });
 
   it('processPointsPayment should call localStorageService methods', () => {
-    const orderIdMock = 1;
+    const orderIdMock = 2;
 
     (component as any).processPointsPayment(orderIdMock);
 
