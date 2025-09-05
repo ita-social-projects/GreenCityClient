@@ -221,7 +221,7 @@ describe('UbsUserOrdersListComponent', () => {
 
   describe('openOrderPaymentDialog', () => {
     it('makes expected calls', () => {
-      component.openOrderPaymentDialog(fakeInputOrderData[1] as any);
+      component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[1] as any);
       expect(matDialogMock.open).toHaveBeenCalledWith(UbsUserOrderPaymentPopUpComponent, {
         maxWidth: '500px',
         panelClass: 'ubs-user-order-payment-pop-up-vertical-scroll',
@@ -248,7 +248,7 @@ describe('UbsUserOrdersListComponent', () => {
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       spyOn(component, 'isOrderUnpaid').and.returnValue(true);
 
-      component.openOrderPaymentDialog(orderMock as any);
+      component.openOrderPaymentDialog(new Event('click'), orderMock as any);
 
       expect(openOrderPaymentPopUpSpy).not.toHaveBeenCalled();
       expect(component.isOrderUnpaid).toHaveBeenCalledWith(orderMock as any);
@@ -262,7 +262,7 @@ describe('UbsUserOrdersListComponent', () => {
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
       spyOn(component, 'isOrderUnpaid').and.returnValue(false);
 
-      component.openOrderPaymentDialog(fakeInputOrderData[1] as any);
+      component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[1] as any);
 
       expect(component.isOrderUnpaid(fakeInputOrderData[1] as any)).toBeFalse();
       expect(editOrPayPopupSpy).not.toHaveBeenCalled();
@@ -275,7 +275,7 @@ describe('UbsUserOrdersListComponent', () => {
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
 
-      component.openOrderPaymentDialog(fakeInputOrderData[0] as any);
+      component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[0] as any);
 
       expect(editOrPayPopupSpy).not.toHaveBeenCalled();
       expect(openOrderPaymentPopUpSpy).toHaveBeenCalled();
@@ -297,14 +297,14 @@ describe('UbsUserOrdersListComponent', () => {
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
 
-      component.openOrderPaymentDialog(orderMock as any);
+      component.openOrderPaymentDialog(new Event('click'), orderMock as any);
 
       expect(openOrderPaymentPopUpSpy).toHaveBeenCalledWith(orderMock as any);
       expect(editOrPayPopupSpy).not.toHaveBeenCalled();
     });
 
     it('should always call cleanOrderState', () => {
-      component.openOrderPaymentDialog(fakeInputOrderData[0] as any);
+      component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[0] as any);
       expect(orderServiceMock.cleanOrderState).toHaveBeenCalled();
     });
 
@@ -322,7 +322,7 @@ describe('UbsUserOrdersListComponent', () => {
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
 
-      component.openOrderPaymentDialog(formedUnpaidOrder as any);
+      component.openOrderPaymentDialog(new Event('click'), formedUnpaidOrder as any);
 
       expect(editOrPayPopupSpy).toHaveBeenCalledWith(formedUnpaidOrder as any);
       expect(openOrderPaymentPopUpSpy).not.toHaveBeenCalled();
@@ -342,7 +342,7 @@ describe('UbsUserOrdersListComponent', () => {
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
 
-      component.openOrderPaymentDialog(formedUnpaidOrder as any);
+      component.openOrderPaymentDialog(new Event('click'), formedUnpaidOrder as any);
 
       expect(editOrPayPopupSpy).toHaveBeenCalled();
       expect(openOrderPaymentPopUpSpy).not.toHaveBeenCalled();
@@ -361,7 +361,7 @@ describe('UbsUserOrdersListComponent', () => {
 
       (component.isOrderUnpaid as jasmine.Spy).and.returnValue(false);
 
-      component.openOrderPaymentDialog(otherOrder as any);
+      component.openOrderPaymentDialog(new Event('click'), otherOrder as any);
 
       expect(openOrderPaymentPopUpSpy).toHaveBeenCalled();
       expect(editOrPayPopupSpy).not.toHaveBeenCalled();
@@ -370,7 +370,7 @@ describe('UbsUserOrdersListComponent', () => {
 
   describe('openOrderCancelDialog', () => {
     it('makes expected calls', () => {
-      component.openOrderCancelDialog(fakeInputOrderData[0] as any);
+      component.openOrderCancelDialog(new Event('click'), fakeInputOrderData[0] as any);
       expect(matDialogMock.open).toHaveBeenCalled();
     });
   });
@@ -499,7 +499,7 @@ describe('UbsUserOrdersListComponent', () => {
       const langMock = 'en';
       component.currentLanguage = langMock;
 
-      component.exportAsPDF(fakeInputOrderData[0] as any);
+      component.exportAsPDF(new Event('click'), fakeInputOrderData[0] as any);
       tick();
 
       expect(orderServiceMock.getOrderPdf).toHaveBeenCalledWith(orderIdMock, langMock);
@@ -508,7 +508,7 @@ describe('UbsUserOrdersListComponent', () => {
     it('should create blob on exportAsPDF call', fakeAsync(() => {
       const blobSpy = spyOn(window, 'Blob').and.callThrough();
 
-      component.exportAsPDF(fakeInputOrderData[0] as any);
+      component.exportAsPDF(new Event('click'), fakeInputOrderData[0] as any);
       tick();
 
       expect(blobSpy).toHaveBeenCalled();
@@ -517,7 +517,7 @@ describe('UbsUserOrdersListComponent', () => {
     it('should create a download link with correct filename and blob', fakeAsync(() => {
       const createObjectURLSpy = spyOn(window.URL, 'createObjectURL').and.returnValue('mock-url');
 
-      component.exportAsPDF(fakeInputOrderData[0] as any);
+      component.exportAsPDF(new Event('click'), fakeInputOrderData[0] as any);
       tick();
 
       expect(createObjectURLSpy).toHaveBeenCalled();
@@ -527,7 +527,7 @@ describe('UbsUserOrdersListComponent', () => {
       const createObjectURLSpy = spyOn(window.URL, 'createObjectURL');
       const revokeObjectURLSpy = spyOn(window.URL, 'revokeObjectURL');
 
-      component.exportAsPDF(fakeInputOrderData[0] as any);
+      component.exportAsPDF(new Event('click'), fakeInputOrderData[0] as any);
       tick();
 
       expect(createObjectURLSpy).toHaveBeenCalled();
