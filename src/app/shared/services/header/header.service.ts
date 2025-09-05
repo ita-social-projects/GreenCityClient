@@ -7,8 +7,8 @@ export class HeaderService {
   selectedIndex = null;
 
   ubsNavLinks = [
-    { name: 'user.lower-nav-bar.sorting-rules', route: 'https://nowaste.com.uk/sort-station/', url: true },
-    { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.uk/', url: true },
+    { name: 'user.lower-nav-bar.sorting-rules', route: 'https://nowaste.com.ua/sort-station/', url: true },
+    { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.ua/', url: true },
     ...(environment.enableGreenCity ? [{ name: 'Green City', route: '/greenCity', url: false }] : [])
   ];
 
