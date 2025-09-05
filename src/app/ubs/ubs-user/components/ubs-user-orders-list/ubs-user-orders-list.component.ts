@@ -117,7 +117,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     });
   }
 
-  openOrderPaymentDialog(order: IUserOrderInfo): void {
+  openOrderPaymentDialog(event: Event, order: IUserOrderInfo): void {
+    event.stopPropagation();
     const isOrderFormed = order.orderStatusEn === OrderStatusEn.FORMED;
     this.isOrderUnpaid(order) && isOrderFormed ? this.editOrPayPopup(order) : this.openOrderPaymentPopUp(order);
     this.orderService.cleanOrderState();
@@ -137,7 +138,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       });
   }
 
-  exportAsPDF(order: IUserOrderInfo): void {
+  exportAsPDF(event: Event, order: IUserOrderInfo): void {
+    event.stopPropagation();
     const orderId = order.id;
     const lang = this.currentLanguage;
 
@@ -229,7 +231,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     this.router.navigate(['ubs/order'], { queryParams: { existingOrderId: this.orderId } });
   }
 
-  openOrderCancelDialog(order: IUserOrderInfo): void {
+  openOrderCancelDialog(event: Event, order: IUserOrderInfo): void {
+    event.stopPropagation();
     this.dialog.open(UbsUserOrderCancelPopUpComponent, {
       data: {
         orderId: order.id,
