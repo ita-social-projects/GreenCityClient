@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgIf, NgForOf, DatePipe } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { ClientInfoData } from '../../model/chat-page.interface';
 
 @Component({
   selector: 'app-client-info-panel',
@@ -10,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrls: ['./client-info-panel.component.scss']
 })
 export class ClientInfoPanelComponent {
-  @Input() clientData: any = null;
+  @Input() clientData: ClientInfoData | null = null;
 
   objectKeys = Object.keys;
 
