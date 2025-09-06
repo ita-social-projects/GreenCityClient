@@ -1,15 +1,14 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup.component';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { AdminCertificateService } from 'src/app/ubs/ubs-admin/services/admin-certificate.service';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { of } from 'rxjs';
 import * as XLSX from 'xlsx';
 
 describe('UbsAdminTableExcelPopupComponent', () => {
@@ -25,6 +24,8 @@ describe('UbsAdminTableExcelPopupComponent', () => {
   const AdminCertificateServiceFake = jasmine.createSpyObj('adminCertificateService', ['getTable']);
 
   const AdminCustomerServiceFake = jasmine.createSpyObj('adminCustomerService', ['getCustomers']);
+
+  const matDialogRefMock = jasmine.createSpyObj('MatDialogRef', ['close']);
 
   const dataForTranslation = [
     {
@@ -52,7 +53,8 @@ describe('UbsAdminTableExcelPopupComponent', () => {
         { provide: AdminTableService, useValue: AdminTableServiceFake },
         { provide: AdminCertificateService, useValue: AdminCertificateServiceFake },
         { provide: AdminCustomersService, useValue: AdminCustomerServiceFake },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: MatDialogRef, useValue: matDialogRefMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

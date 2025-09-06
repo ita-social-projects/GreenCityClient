@@ -1358,6 +1358,7 @@
     "error": "Failed to load information.",
     "order-info-title": "Order Information",
     "no-orders": "This client has no orders",
+    "all-orders": "See all orders",
     "completed-orders": "Completed orders"
   }
 }

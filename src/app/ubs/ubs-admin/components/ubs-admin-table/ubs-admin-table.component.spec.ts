@@ -220,6 +220,13 @@ describe('UbsAdminTableComponent', () => {
     expect(storeMock.dispatch).toHaveBeenCalledWith(GetColumns());
   }));
 
+  it('applySearchFilter should change filterValue and call applyFilters', () => {
+    const applyFiltersSpy = spyOn(component, 'applyFilters').and.callThrough();
+    component.applySearchFilter('Test');
+    expect(component.filterValue).toEqual('Test');
+    expect(applyFiltersSpy).toHaveBeenCalled();
+  });
+
   it('isAllColumnsDisplayed sould be true ', () => {
     component.displayedColumnsView.length = 4;
     component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
@@ -637,4 +644,66 @@ describe('UbsAdminTableComponent', () => {
     tick(7000);
     expect(component.blockedInfo).toEqual([]);
   }));
+
+  it('should call getTable onInit', () => {
+    const getTableSpy = spyOn(component as any, 'getTable').and.callThrough();
+    component.ngOnInit();
+    expect(getTableSpy).toHaveBeenCalled();
+  });
+
+  it('getSortingData should call getTable with correct parameters', () => {
+    const spyGetTable = spyOn<any>(component, 'getTable').and.callThrough();
+    component['filterValue'] = 'testFilter';
+
+    const columnName = 'name';
+    const sortingType = 'ASC';
+
+    component.getSortingData(columnName, sortingType);
+
+    expect(spyGetTable).toHaveBeenCalledWith('testFilter', columnName, sortingType, true);
+
+    expect(component.sortingColumn).toBe(columnName);
+    expect(component.sortType).toBe(sortingType);
+    expect(component.currentPage).toBe(0);
+    expect(component.arrowDirection).toBe(columnName);
+  });
+
+  it('should use class defaults when no args are passed', () => {
+    component['filterValue'] = 'xyz';
+    component['sortingColumn'] = 'createdAt';
+
+    component['getTable']();
+
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      GetTable({
+        columnName: 'createdAt',
+        page: component.currentPage,
+        filter: 'xyz',
+        size: component.pageSize,
+        sortingType: 'DESC',
+        reset: true
+      })
+    );
+  });
+
+  it('should use all defaults when no args and class fields undefined', () => {
+    component['filterValue'] = undefined as any;
+    component['sortingColumn'] = undefined as any;
+    component['sortType'] = undefined as any;
+    component['currentPage'] = 0;
+    component['pageSize'] = 10;
+
+    component['getTable']();
+
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      GetTable({
+        columnName: 'id',
+        page: 0,
+        filter: '',
+        size: 10,
+        sortingType: 'DESC',
+        reset: true
+      })
+    );
+  });
 });

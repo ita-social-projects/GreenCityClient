@@ -145,9 +145,11 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     private destroyRef: DestroyRef
   ) {
     this.dateAdapter.setLocale('en-GB');
+    this.filterValue = history.state?.clientFilter ?? '';
   }
 
   ngOnInit() {
+    this.getTable();
     this.getCurrentLanguage();
     this.bigOrderTable$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((tableData) => {
       if (tableData) {
@@ -304,9 +306,9 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.isAllColumnsDisplayed = this.displayedColumns.length === this.displayedColumnsView.length;
   }
 
-  applyFilter(filterValue: string): void {
+  applySearchFilter(filterValue: string): void {
     this.filterValue = filterValue;
-    this.localStorageService.setAdminOrdersDateFilter(this.filters);
+    this.applyFilters();
   }
 
   dropListDropped(event: CdkDragDrop<string[]>) {
@@ -432,10 +434,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   private getColumns() {
     this.store.dispatch(GetColumns());
-  }
-
-  private getTable(filterValue: string = '', columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC', reset = true) {
-    this.store.dispatch(GetTable({ columnName, page: this.currentPage, filter: filterValue, size: this.pageSize, sortingType, reset }));
   }
 
   formatTableData() {
@@ -1012,6 +1010,14 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   saveColumnsWidthPreference(): void {
     this.adminTableService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference).subscribe();
     this.store.dispatch(GetTableColumnWidthSuccess({ columnsWidth: this.columnsWidthPreference }));
+  }
+
+  private getTable(filterValue?: string, columnName?: string, sortingType?: string, reset: boolean = true) {
+    const f = filterValue ?? this.filterValue ?? '';
+    const c = columnName ?? this.sortingColumn ?? 'id';
+    const s = sortingType ?? this.sortType ?? 'DESC';
+    const payload = { columnName: c, page: this.currentPage, filter: f, size: this.pageSize, sortingType: s, reset };
+    this.store.dispatch(GetTable(payload));
   }
 
   @HostListener('window:beforeunload', ['$event'])

@@ -27,7 +27,7 @@ describe('UbsUserOrdersListComponent', () => {
   let matDialogMock: jasmine.SpyObj<MatDialog>;
   let dialogRefSpy: jasmine.SpyObj<any>;
 
-  const fakeIputOrderData = [
+  const fakeInputOrderData = [
     { id: 3, dateForm: 55, orderStatusEn: 'Done', paymentStatusEn: 'Unpaid', orderFullPrice: 55, amountBeforePayment: 55, extend: true },
     {
       id: 7,
@@ -88,7 +88,7 @@ describe('UbsUserOrdersListComponent', () => {
     'getPersonalData'
   ]);
   orderServiceMock.getOrderPdf.and.returnValue(of(new Blob(['pdf content'], { type: 'application/pdf' })));
-  orderServiceMock.getExistingOrderDetails.and.returnValue(of(fakeIputOrderData[1] as any));
+  orderServiceMock.getExistingOrderDetails.and.returnValue(of(fakeInputOrderData[1] as any));
   orderServiceMock.getPersonalData.and.returnValue(of(fakePersonalData));
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
@@ -126,7 +126,7 @@ describe('UbsUserOrdersListComponent', () => {
     fixture = TestBed.createComponent(UbsUserOrdersListComponent);
     component = fixture.componentInstance;
     component.bonuses = fakePoints;
-    component.orders = JSON.parse(JSON.stringify(fakeIputOrderData)) as any;
+    component.orders = JSON.parse(JSON.stringify(fakeInputOrderData)) as any;
     fixture.detectChanges();
   });
 
@@ -142,36 +142,36 @@ describe('UbsUserOrdersListComponent', () => {
 
   describe('isOrderUnpaid', () => {
     it('order is unpaid', () => {
-      const isOrderPaidRes = component.isOrderUnpaid(fakeIputOrderData[0] as any);
+      const isOrderPaidRes = component.isOrderUnpaid(fakeInputOrderData[0] as any);
       expect(isOrderPaidRes).toBeTruthy();
     });
 
     it('order is not unpaid', () => {
-      const isOrderPaidRes = component.isOrderUnpaid(fakeIputOrderData[1] as any);
+      const isOrderPaidRes = component.isOrderUnpaid(fakeInputOrderData[1] as any);
       expect(isOrderPaidRes).toBeFalsy();
     });
   });
 
   describe('isOrderHalfPaid', () => {
     it('order is half paid', () => {
-      const isOrderHalfPaidRes = component.isOrderHalfPaid(fakeIputOrderData[1] as any);
+      const isOrderHalfPaidRes = component.isOrderHalfPaid(fakeInputOrderData[1] as any);
       expect(isOrderHalfPaidRes).toBeTruthy();
     });
 
     it('order is not half paid', () => {
-      const isOrderHalfPaidRes = component.isOrderHalfPaid(fakeIputOrderData[2] as any);
+      const isOrderHalfPaidRes = component.isOrderHalfPaid(fakeInputOrderData[2] as any);
       expect(isOrderHalfPaidRes).toBeFalsy();
     });
   });
 
   describe('isOrderPriceGreaterThenZero', () => {
     it('price is greater then zero', () => {
-      const isOrderPriceGreaterThenZeroRes = component.isOrderPriceGreaterThenZero(fakeIputOrderData[0] as any);
+      const isOrderPriceGreaterThenZeroRes = component.isOrderPriceGreaterThenZero(fakeInputOrderData[0] as any);
       expect(isOrderPriceGreaterThenZeroRes).toBeTruthy();
     });
 
     it('price is less then zero', () => {
-      const isOrderPriceGreaterThenZeroRes = component.isOrderPriceGreaterThenZero(fakeIputOrderData[2] as any);
+      const isOrderPriceGreaterThenZeroRes = component.isOrderPriceGreaterThenZero(fakeInputOrderData[2] as any);
       expect(isOrderPriceGreaterThenZeroRes).toBeFalsy();
     });
   });
@@ -180,32 +180,32 @@ describe('UbsUserOrdersListComponent', () => {
     it('isOrderPriceGreaterThenZero and isOrderPaid are true', () => {
       spyOn(component, 'isOrderPriceGreaterThenZero').and.returnValue(true);
       spyOn(component, 'isOrderUnpaid').and.returnValue(true);
-      const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeIputOrderData[0] as any);
+      const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeInputOrderData[0] as any);
       expect(isOrderPaymentAccessRes).toBeTruthy();
     });
 
     it('isOrderPriceGreaterThenZero and isOrderHalfPaid are true', () => {
       spyOn(component, 'isOrderPriceGreaterThenZero').and.returnValue(true);
       spyOn(component, 'isOrderHalfPaid').and.returnValue(true);
-      const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeIputOrderData[1] as any);
+      const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeInputOrderData[1] as any);
       expect(isOrderPaymentAccessRes).toBeTruthy();
     });
 
     it('isOrderPriceGreaterThenZero is false', () => {
       spyOn(component, 'isOrderPriceGreaterThenZero').and.returnValue(false);
-      const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeIputOrderData[2] as any);
+      const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeInputOrderData[2] as any);
       expect(isOrderPaymentAccessRes).toBeFalsy();
     });
 
     it('canOrderBeCancel return false', () => {
       spyOn(component, 'canOrderBeCancel').and.returnValue(false);
-      const canOrderBeCancel = component.canOrderBeCancel(fakeIputOrderData[3] as any);
+      const canOrderBeCancel = component.canOrderBeCancel(fakeInputOrderData[3] as any);
       expect(canOrderBeCancel).toBeFalsy();
     });
 
     it('canOrderBeCancel return true', () => {
       spyOn(component, 'canOrderBeCancel').and.returnValue(true);
-      const canOrderBeCancel = component.canOrderBeCancel(fakeIputOrderData[1] as any);
+      const canOrderBeCancel = component.canOrderBeCancel(fakeInputOrderData[1] as any);
       expect(canOrderBeCancel).toBeTruthy();
     });
   });
@@ -221,7 +221,7 @@ describe('UbsUserOrdersListComponent', () => {
 
   describe('openOrderPaymentDialog', () => {
     it('makes expected calls', () => {
-      component.openOrderPaymentDialog(fakeIputOrderData[1] as any);
+      component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[1] as any);
       expect(matDialogMock.open).toHaveBeenCalledWith(UbsUserOrderPaymentPopUpComponent, {
         maxWidth: '500px',
         panelClass: 'ubs-user-order-payment-pop-up-vertical-scroll',
@@ -229,7 +229,8 @@ describe('UbsUserOrdersListComponent', () => {
           orderId: 7,
           price: 55,
           bonuses: 111
-        }
+        },
+        autoFocus: true
       });
     });
 
@@ -247,7 +248,7 @@ describe('UbsUserOrdersListComponent', () => {
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       spyOn(component, 'isOrderUnpaid').and.returnValue(true);
 
-      component.openOrderPaymentDialog(orderMock as any);
+      component.openOrderPaymentDialog(new Event('click'), orderMock as any);
 
       expect(openOrderPaymentPopUpSpy).not.toHaveBeenCalled();
       expect(component.isOrderUnpaid).toHaveBeenCalledWith(orderMock as any);
@@ -261,12 +262,12 @@ describe('UbsUserOrdersListComponent', () => {
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
       spyOn(component, 'isOrderUnpaid').and.returnValue(false);
 
-      component.openOrderPaymentDialog(fakeIputOrderData[1] as any);
+      component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[1] as any);
 
-      expect(component.isOrderUnpaid(fakeIputOrderData[1] as any)).toBeFalse();
+      expect(component.isOrderUnpaid(fakeInputOrderData[1] as any)).toBeFalse();
       expect(editOrPayPopupSpy).not.toHaveBeenCalled();
       expect(openOrderPaymentPopUpSpy).toHaveBeenCalled();
-      expect(openOrderPaymentPopUpSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
+      expect(openOrderPaymentPopUpSpy).toHaveBeenCalledWith(fakeInputOrderData[1] as any);
       expect(orderServiceMock.cleanOrderState).toHaveBeenCalled();
     });
 
@@ -274,11 +275,11 @@ describe('UbsUserOrdersListComponent', () => {
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
 
-      component.openOrderPaymentDialog(fakeIputOrderData[0] as any);
+      component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[0] as any);
 
       expect(editOrPayPopupSpy).not.toHaveBeenCalled();
       expect(openOrderPaymentPopUpSpy).toHaveBeenCalled();
-      expect(openOrderPaymentPopUpSpy).toHaveBeenCalledWith(fakeIputOrderData[0] as any);
+      expect(openOrderPaymentPopUpSpy).toHaveBeenCalledWith(fakeInputOrderData[0] as any);
       expect(orderServiceMock.cleanOrderState).toHaveBeenCalled();
     });
 
@@ -296,14 +297,14 @@ describe('UbsUserOrdersListComponent', () => {
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
 
-      component.openOrderPaymentDialog(orderMock as any);
+      component.openOrderPaymentDialog(new Event('click'), orderMock as any);
 
       expect(openOrderPaymentPopUpSpy).toHaveBeenCalledWith(orderMock as any);
       expect(editOrPayPopupSpy).not.toHaveBeenCalled();
     });
 
     it('should always call cleanOrderState', () => {
-      component.openOrderPaymentDialog(fakeIputOrderData[0] as any);
+      component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[0] as any);
       expect(orderServiceMock.cleanOrderState).toHaveBeenCalled();
     });
 
@@ -321,7 +322,7 @@ describe('UbsUserOrdersListComponent', () => {
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
 
-      component.openOrderPaymentDialog(formedUnpaidOrder as any);
+      component.openOrderPaymentDialog(new Event('click'), formedUnpaidOrder as any);
 
       expect(editOrPayPopupSpy).toHaveBeenCalledWith(formedUnpaidOrder as any);
       expect(openOrderPaymentPopUpSpy).not.toHaveBeenCalled();
@@ -341,7 +342,7 @@ describe('UbsUserOrdersListComponent', () => {
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
 
-      component.openOrderPaymentDialog(formedUnpaidOrder as any);
+      component.openOrderPaymentDialog(new Event('click'), formedUnpaidOrder as any);
 
       expect(editOrPayPopupSpy).toHaveBeenCalled();
       expect(openOrderPaymentPopUpSpy).not.toHaveBeenCalled();
@@ -360,7 +361,7 @@ describe('UbsUserOrdersListComponent', () => {
 
       (component.isOrderUnpaid as jasmine.Spy).and.returnValue(false);
 
-      component.openOrderPaymentDialog(otherOrder as any);
+      component.openOrderPaymentDialog(new Event('click'), otherOrder as any);
 
       expect(openOrderPaymentPopUpSpy).toHaveBeenCalled();
       expect(editOrPayPopupSpy).not.toHaveBeenCalled();
@@ -369,7 +370,7 @@ describe('UbsUserOrdersListComponent', () => {
 
   describe('openOrderCancelDialog', () => {
     it('makes expected calls', () => {
-      component.openOrderCancelDialog(fakeIputOrderData[0] as any);
+      component.openOrderCancelDialog(new Event('click'), fakeInputOrderData[0] as any);
       expect(matDialogMock.open).toHaveBeenCalled();
     });
   });
@@ -421,7 +422,7 @@ describe('UbsUserOrdersListComponent', () => {
 
   describe('editOrPayPopup', () => {
     it('should open the dialog and handle afterClosed result', fakeAsync(() => {
-      component.editOrPayPopup(fakeIputOrderData[1] as any);
+      component.editOrPayPopup(fakeInputOrderData[1] as any);
       tick();
       expect(matDialogMock.open).toHaveBeenCalled();
       expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
@@ -429,10 +430,10 @@ describe('UbsUserOrdersListComponent', () => {
     }));
 
     it('should open editOrPayPopup with editOrPayDialogData', fakeAsync(() => {
-      component.editOrPayPopup(fakeIputOrderData[1] as any);
+      component.editOrPayPopup(fakeInputOrderData[1] as any);
       tick();
 
-      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, { data: component.editOrPayDialogData });
+      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, { data: component.editOrPayDialogData, autoFocus: true });
 
       expect(component.editOrPayDialogData).toBeDefined();
       expect(matDialogMock.open).toHaveBeenCalled();
@@ -448,12 +449,12 @@ describe('UbsUserOrdersListComponent', () => {
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
 
-      component.editOrPayPopup(fakeIputOrderData[1] as any);
+      component.editOrPayPopup(fakeInputOrderData[1] as any);
       tick();
 
       expect(matDialogMock.open).toHaveBeenCalled();
       expect(orderPaymentPopupSpy).toHaveBeenCalled();
-      expect(orderPaymentPopupSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
+      expect(orderPaymentPopupSpy).toHaveBeenCalledWith(fakeInputOrderData[1] as any);
       expect(getDataForLocalStorageSpy).not.toHaveBeenCalled();
     }));
 
@@ -462,12 +463,12 @@ describe('UbsUserOrdersListComponent', () => {
       const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage').and.callThrough();
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
 
-      component.editOrPayPopup(fakeIputOrderData[1] as any);
+      component.editOrPayPopup(fakeInputOrderData[1] as any);
       tick();
 
       expect(matDialogMock.open).toHaveBeenCalled();
       expect(getDataForLocalStorageSpy).toHaveBeenCalled();
-      expect(getDataForLocalStorageSpy).toHaveBeenCalledWith(fakeIputOrderData[1] as any);
+      expect(getDataForLocalStorageSpy).toHaveBeenCalledWith(fakeInputOrderData[1] as any);
       expect(orderPaymentPopupSpy).not.toHaveBeenCalled();
     }));
 
@@ -476,7 +477,7 @@ describe('UbsUserOrdersListComponent', () => {
       const orderPaymentPopupSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const getDataForLocalStorageSpy = spyOn(component, 'getDataForLocalStorage');
 
-      component.editOrPayPopup(fakeIputOrderData[1] as any);
+      component.editOrPayPopup(fakeInputOrderData[1] as any);
       tick();
 
       expect(matDialogMock.open).toHaveBeenCalled();
@@ -494,11 +495,11 @@ describe('UbsUserOrdersListComponent', () => {
     });
 
     it('should call orderService.getOrderPdf with correct parameters', fakeAsync(() => {
-      const orderIdMock = fakeIputOrderData[0].id;
+      const orderIdMock = fakeInputOrderData[0].id;
       const langMock = 'en';
       component.currentLanguage = langMock;
 
-      component.exportAsPDF(fakeIputOrderData[0] as any);
+      component.exportAsPDF(new Event('click'), fakeInputOrderData[0] as any);
       tick();
 
       expect(orderServiceMock.getOrderPdf).toHaveBeenCalledWith(orderIdMock, langMock);
@@ -507,7 +508,7 @@ describe('UbsUserOrdersListComponent', () => {
     it('should create blob on exportAsPDF call', fakeAsync(() => {
       const blobSpy = spyOn(window, 'Blob').and.callThrough();
 
-      component.exportAsPDF(fakeIputOrderData[0] as any);
+      component.exportAsPDF(new Event('click'), fakeInputOrderData[0] as any);
       tick();
 
       expect(blobSpy).toHaveBeenCalled();
@@ -516,7 +517,7 @@ describe('UbsUserOrdersListComponent', () => {
     it('should create a download link with correct filename and blob', fakeAsync(() => {
       const createObjectURLSpy = spyOn(window.URL, 'createObjectURL').and.returnValue('mock-url');
 
-      component.exportAsPDF(fakeIputOrderData[0] as any);
+      component.exportAsPDF(new Event('click'), fakeInputOrderData[0] as any);
       tick();
 
       expect(createObjectURLSpy).toHaveBeenCalled();
@@ -526,7 +527,7 @@ describe('UbsUserOrdersListComponent', () => {
       const createObjectURLSpy = spyOn(window.URL, 'createObjectURL');
       const revokeObjectURLSpy = spyOn(window.URL, 'revokeObjectURL');
 
-      component.exportAsPDF(fakeIputOrderData[0] as any);
+      component.exportAsPDF(new Event('click'), fakeInputOrderData[0] as any);
       tick();
 
       expect(createObjectURLSpy).toHaveBeenCalled();
