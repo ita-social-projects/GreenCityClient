@@ -174,7 +174,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
-      panelClass: 'delete-dialog-container'
+      panelClass: 'delete-dialog-container',
+      autoFocus: true
     });
 
     matDialogRef

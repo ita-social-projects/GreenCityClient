@@ -324,6 +324,11 @@
       }
 
       .toggle-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: none;
         height: 46px;
       }
 
