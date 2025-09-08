@@ -34,11 +34,15 @@
           <mat-autocomplete #autoposition="matAutocomplete" (optionSelected)="onSelectPosition($event, autocompleteTriggerPosition)">
             <div class="option-wrapper">
               <mat-option value="all">
-                <mat-checkbox [checked]="isPositionChecked()" value="all"></mat-checkbox>
+                <mat-checkbox [checked]="isPositionChecked()" value="all" [value]="selectOptions.all"></mat-checkbox>
                 {{ 'ubs-tariffs.states.all' | translate }}</mat-option
               >
-              <mat-option *ngFor="let position of positionName">
-                <mat-checkbox class="mr-1" [checked]="checkSelectedItem(position, selectedPositions)"></mat-checkbox>
+              <mat-option *ngFor="let position of positionName" [value]="position">
+                <mat-checkbox
+                  class="mr-1"
+                  (click)="$event.stopPropagation()"
+                  [checked]="checkSelectedItem(position, selectedPositions)"
+                ></mat-checkbox>
                 <span class="checkbox-text">{{ position }}</span>
               </mat-option>
             </div>

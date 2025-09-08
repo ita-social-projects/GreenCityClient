@@ -53,6 +53,11 @@
 
     .value {
       color: var(--secondary-dark-grey);
+
+      &-id {
+        color: black;
+        text-decoration: underline;
+      }
     }
   }
 

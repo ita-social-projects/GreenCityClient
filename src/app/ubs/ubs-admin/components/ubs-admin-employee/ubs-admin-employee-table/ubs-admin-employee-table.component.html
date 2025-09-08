@@ -144,10 +144,14 @@
               </div>
             </div>
             <span
+              tabindex="0"
               class="toggle-icon"
               *ngIf="!employee.expanded && userHasRights; else deleteIcon"
+              #menuTrigger="matMenuTrigger"
               [matMenuTriggerFor]="crumbs"
               (click)="$event.stopPropagation()"
+              (keydown.enter)="menuTrigger.openMenu(); $event.preventDefault(); $event.stopPropagation()"
+              (keydown.space)="menuTrigger.openMenu(); $event.preventDefault(); $event.stopPropagation()"
             >
               <img [src]="icons.crumbs" alt="options" />
             </span>
@@ -195,8 +199,11 @@
             </mat-menu>
             <ng-template #deleteIcon>
               <span
+                tabindex="0"
                 *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusActive"
                 (click)="openDeleteDialog(employee, $event)"
+                (keydown.enter)="openDeleteDialog(employee, $event)"
+                (keydown.space)="$event.preventDefault(); openDeleteDialog(employee, $event)"
               >
                 <img [src]="icons.delete" alt="deactivate" />
               </span>

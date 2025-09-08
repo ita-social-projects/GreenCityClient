@@ -9,7 +9,7 @@
     <div class="info-grid">
       <div class="info-row">
         <span class="label">{{ 'client-panel.order-id' | translate }}</span>
-        <span class="value">{{ clientData.id }}</span>
+        <a class="value-id" [routerLink]="['/ubs/admin/order', clientData.id]">{{ clientData.id }}</a>
       </div>
       <div class="info-row">
         <span class="label">{{ 'client-panel.date-form' | translate }}</span>
