@@ -35,6 +35,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   @Input() locationCard: Locations;
 
   private readonly restrictedSymbols = /[#&?]/;
+  readonly selectOptions = selectOptions;
   searchValueIncorrect = false;
   employeePositions: EmployeePositions[];
   locations: Locations[];
@@ -131,7 +132,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     this.languageService
       .getCurrentLangObs()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((i) => {
+      .subscribe(() => {
         this.getLocations();
         this.getCouriers();
         this.getPositions();
@@ -230,10 +231,9 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     this.locations$.pipe(skip(1)).subscribe((item: Locations[]) => {
       if (item) {
         this.locations = item;
-        const regions = this.locations
+        this.filteredRegions = this.locations
           .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLang).map((it) => it.regionName))
           .flat(2);
-        this.filteredRegions = regions;
         this.cities = this.mapCities(this.locations);
         this.filteredCities = this.filterOptions(
           this.city,
@@ -746,6 +746,4 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
       panelClass: 'admin-cabinet-dialog-container'
     });
   }
-
-  protected readonly selectOptions = selectOptions;
 }
