@@ -269,6 +269,8 @@ export class ChatFacade {
         text: msg.text,
         time: formatTimeOrDate(msg.sendAt),
         images: (msg.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
+        fileName: (msg.assets ?? []).find((a) => a.type === 'FILE')?.fileName,
+        fileUrl: (msg.assets ?? []).find((a) => a.type === 'FILE')?.url,
         viewingStatus: normalizeViewingStatus(msg.messageViewingStatus)
       }))
       .reverse();
