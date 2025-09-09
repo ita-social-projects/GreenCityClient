@@ -448,7 +448,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   onOpenChat(chatId: number) {
-    this.router.navigate(['ubs/admin', 'chat-page'], { state: { selectedChatId: chatId } });
+    this.router.navigate(['ubs/admin', 'chat-page'], { queryParams: { chatId: chatId } });
   }
 
   private openCustomer(row, username): void {
