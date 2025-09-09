@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 @Injectable()
 class MockChatFacade {
   init = jasmine.createSpy('init');
+  selectChatById = jasmine.createSpy('selectChatById');
   loadNextPage = jasmine.createSpy('loadNextPage');
 }
 @Injectable()
