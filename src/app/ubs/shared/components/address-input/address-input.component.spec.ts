@@ -620,17 +620,39 @@ describe('AddressInputComponent', () => {
     expect(component['handleGeolocationSuccess']).toHaveBeenCalled();
   });
 
-  it('should disable region on keyup if text exists', () => {
+  it('should disable region on keyupCity if text exists', () => {
     spyOn(component.addressForm.get('region'), 'disable');
-    component.keyup('test');
+    component.keyupCity('test');
     expect(component.addressForm.get('region').disable).toHaveBeenCalled();
     expect(component.errorType).toBe('requiredFromDropdown');
   });
 
-  it('should enable region on keyup if text is empty', () => {
+  it('should enable region on keyupCity if text is empty', () => {
     spyOn(component.addressForm.get('region'), 'enable');
-    component.keyup('');
+    component.keyupCity('');
     expect(component.addressForm.get('region').enable).toHaveBeenCalled();
+    expect(component.errorType).toBe('requiredFromDropdown');
+  });
+
+  it('should not clear and disable fields on keyupStreet if text exists', () => {
+    const onStreetValueSetSpy = spyOn(component as any, 'onStreetValueSet');
+    const resetHouseInfoSpy = spyOn(component as any, 'resetHouseInfo');
+    const resetDistrictsSpy = spyOn(component as any, 'resetDistricts');
+    component.keyupStreet('test');
+    expect(onStreetValueSetSpy).not.toHaveBeenCalled();
+    expect(resetHouseInfoSpy).not.toHaveBeenCalled();
+    expect(resetDistrictsSpy).not.toHaveBeenCalled();
+    expect(component.errorType).toBe('requiredFromDropdown');
+  });
+
+  it('should clear and disable fields on keyupStreet if text exists', () => {
+    const onStreetValueSetSpy = spyOn(component as any, 'onStreetValueSet');
+    const resetHouseInfoSpy = spyOn(component as any, 'resetHouseInfo');
+    const resetDistrictsSpy = spyOn(component as any, 'resetDistricts');
+    component.keyupStreet('');
+    expect(onStreetValueSetSpy).toHaveBeenCalled();
+    expect(resetHouseInfoSpy).toHaveBeenCalled();
+    expect(resetDistrictsSpy).toHaveBeenCalled();
     expect(component.errorType).toBe('requiredFromDropdown');
   });
 

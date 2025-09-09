@@ -455,8 +455,25 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.delayAutocomplete();
   }
 
-  keyup(keyupText: string): void {
-    keyupText ? this.addressForm.get('region').disable() : this.addressForm.get('region').enable();
+  keyupCity(keyupText: string): void {
+    if (keyupText) {
+      this.addressForm.get('region').disable();
+    } else {
+      this.onCityValueSet(keyupText);
+      this.resetStreet();
+      this.resetDistricts();
+      this.resetHouseInfo();
+      this.addressForm.get('region').enable();
+    }
+    this.errorType = 'requiredFromDropdown';
+  }
+
+  keyupStreet(keyupText: string): void {
+    if (!keyupText) {
+      this.onStreetValueSet(keyupText);
+      this.resetHouseInfo();
+      this.resetDistricts();
+    }
     this.errorType = 'requiredFromDropdown';
   }
 
@@ -623,8 +640,11 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   private resetHouseInfo(): void {
     this.houseNumber.reset();
+    this.houseNumber.disable();
     this.houseCorpus.reset();
+    this.houseCorpus.disable();
     this.entranceNumber.reset();
+    this.entranceNumber.disable();
     this.addressData.resetHouseInfo();
   }
 
