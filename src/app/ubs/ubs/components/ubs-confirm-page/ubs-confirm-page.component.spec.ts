@@ -19,7 +19,7 @@ describe('UbsConfirmPageComponent', () => {
   let router: Router;
   let activatedRoute: ActivatedRoute;
   const fakeSnackBar = jasmine.createSpyObj('fakeSnackBar', ['openSnackBar']);
-  const fakeUBSOrderFormService = jasmine.createSpyObj('fakeUBSService', [
+  const fakeUBSOrderFormService = jasmine.createSpyObj('UBSOrderFormService', [
     'getOrderResponseErrorStatus',
     'getOrderStatus',
     'setOrderStatus',
@@ -145,40 +145,75 @@ describe('UbsConfirmPageComponent', () => {
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
     expect(navigateSpy).toHaveBeenCalledWith(['ubs/user', 'orders']);
   });
-  it('should handle paid status correctly', () => {
-    (activatedRoute as any).queryParams = of({ status: 'paid', orderId: '1' });
 
-    component.ngOnInit();
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      fakeLocalStorageService.setUserPagePayment.calls.reset();
+      fakeLocalStorageService.setUbsPaymentOrderId.calls.reset();
+      fakeUBSOrderFormService.setOrderStatus.calls.reset();
+      fakeUBSOrderFormService.setOrderResponseErrorStatus.calls.reset();
+    });
 
-    expect(fakeLocalStorageService.setUserPagePayment).toHaveBeenCalledWith(true);
-    expect(fakeUBSOrderFormService.setOrderStatus).toHaveBeenCalledWith(true);
-    expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).toHaveBeenCalledWith(false);
-    expect(fakeLocalStorageService.setUbsPaymentOrderId).toHaveBeenCalledWith('1');
-  });
+    it('should handle paid status correctly', () => {
+      (activatedRoute as any).queryParams = of({ status: 'paid', orderId: '1' });
 
-  it('should handle unpaid/other status correctly', () => {
-    (activatedRoute as any).queryParams = of({ status: 'unpaid', orderId: '1' });
+      component.ngOnInit();
 
-    component.ngOnInit();
+      expect(fakeLocalStorageService.setUserPagePayment).toHaveBeenCalledWith(true);
+      expect(fakeLocalStorageService.setUbsPaymentOrderId).toHaveBeenCalledWith('1');
 
-    expect(fakeLocalStorageService.setUserPagePayment).toHaveBeenCalledWith(false);
-    expect(fakeUBSOrderFormService.setOrderStatus).toHaveBeenCalledWith(false);
-    expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).toHaveBeenCalledWith(true);
-    expect(fakeLocalStorageService.setUbsPaymentOrderId).toHaveBeenCalledWith('1');
-  });
+      expect(fakeUBSOrderFormService.setOrderStatus).toHaveBeenCalled();
+      expect(fakeUBSOrderFormService.setOrderStatus).toHaveBeenCalledWith(true);
+      expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).toHaveBeenCalled();
+      expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).toHaveBeenCalledWith(false);
+    });
 
-  it('should not call anything if status is missing', () => {
-    fakeLocalStorageService.setUserPagePayment.calls.reset();
-    fakeLocalStorageService.setUbsPaymentOrderId.calls.reset();
-    fakeUBSOrderFormService.setOrderStatus.calls.reset();
-    fakeUBSOrderFormService.setOrderResponseErrorStatus.calls.reset();
-    (activatedRoute as any).queryParams = of({ status: undefined, orderId: undefined });
+    it('should handle unpaid/other status correctly', () => {
+      (activatedRoute as any).queryParams = of({ status: 'unpaid', orderId: '1' });
 
-    component.ngOnInit();
+      component.ngOnInit();
 
-    expect(fakeLocalStorageService.setUserPagePayment).not.toHaveBeenCalled();
-    expect(fakeUBSOrderFormService.setOrderStatus).not.toHaveBeenCalled();
-    expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).not.toHaveBeenCalled();
-    expect(fakeLocalStorageService.setUbsPaymentOrderId).not.toHaveBeenCalled();
+      expect(fakeLocalStorageService.setUserPagePayment).toHaveBeenCalledWith(false);
+      expect(fakeLocalStorageService.setUbsPaymentOrderId).toHaveBeenCalledWith('1');
+
+      expect(fakeUBSOrderFormService.setOrderStatus).toHaveBeenCalled();
+      expect(fakeUBSOrderFormService.setOrderStatus).toHaveBeenCalledWith(false);
+      expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).toHaveBeenCalledWith(true);
+      expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).toHaveBeenCalled();
+    });
+
+    it('should not call anything if status is missing', () => {
+      (activatedRoute as any).queryParams = of({ status: undefined, orderId: undefined });
+
+      component.ngOnInit();
+
+      expect(fakeLocalStorageService.setUserPagePayment).not.toHaveBeenCalled();
+      expect(fakeLocalStorageService.setUbsPaymentOrderId).not.toHaveBeenCalled();
+
+      expect(fakeUBSOrderFormService.setOrderStatus).not.toHaveBeenCalled();
+      expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).not.toHaveBeenCalled();
+    });
+    it('should not call anything if status is empty string', () => {
+      (activatedRoute as any).queryParams = of({ status: '', orderId: 1 });
+
+      component.ngOnInit();
+
+      expect(fakeLocalStorageService.setUserPagePayment).not.toHaveBeenCalled();
+      expect(fakeLocalStorageService.setUbsPaymentOrderId).not.toHaveBeenCalled();
+
+      expect(fakeUBSOrderFormService.setOrderStatus).not.toHaveBeenCalled();
+      expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).not.toHaveBeenCalled();
+    });
+    it('should not call anything if status is null', () => {
+      (activatedRoute as any).queryParams = of({ status: null, orderId: 1 });
+
+      component.ngOnInit();
+
+      expect(fakeLocalStorageService.setUserPagePayment).not.toHaveBeenCalled();
+      expect(fakeLocalStorageService.setUbsPaymentOrderId).not.toHaveBeenCalled();
+
+      expect(fakeUBSOrderFormService.setOrderStatus).not.toHaveBeenCalled();
+      expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).not.toHaveBeenCalled();
+    });
   });
 });
