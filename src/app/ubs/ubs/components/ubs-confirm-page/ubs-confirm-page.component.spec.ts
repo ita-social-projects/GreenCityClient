@@ -215,5 +215,37 @@ describe('UbsConfirmPageComponent', () => {
       expect(fakeUBSOrderFormService.setOrderStatus).not.toHaveBeenCalled();
       expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).not.toHaveBeenCalled();
     });
+    it('should handle mixed-case status correctly', () => {
+      (activatedRoute as any).queryParams = of({ status: 'PaId', orderId: '2' });
+
+      component.ngOnInit();
+
+      expect(fakeLocalStorageService.setUserPagePayment).toHaveBeenCalledWith(true);
+      expect(fakeLocalStorageService.setUbsPaymentOrderId).toHaveBeenCalledWith('2');
+      expect(fakeUBSOrderFormService.setOrderStatus).toHaveBeenCalledWith(true);
+      expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).toHaveBeenCalledWith(false);
+    });
+
+    it('should set payment status but not orderId if orderId is missing', () => {
+      (activatedRoute as any).queryParams = of({ status: 'paid' });
+
+      component.ngOnInit();
+
+      expect(fakeLocalStorageService.setUserPagePayment).toHaveBeenCalledWith(true);
+      expect(fakeLocalStorageService.setUbsPaymentOrderId).not.toHaveBeenCalled();
+      expect(fakeUBSOrderFormService.setOrderStatus).toHaveBeenCalledWith(true);
+      expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).toHaveBeenCalledWith(false);
+    });
+
+    it('should not call anything if status is missing', () => {
+      (activatedRoute as any).queryParams = of({ status: undefined, orderId: undefined });
+
+      component.ngOnInit();
+
+      expect(fakeLocalStorageService.setUserPagePayment).not.toHaveBeenCalled();
+      expect(fakeLocalStorageService.setUbsPaymentOrderId).not.toHaveBeenCalled();
+      expect(fakeUBSOrderFormService.setOrderStatus).not.toHaveBeenCalled();
+      expect(fakeUBSOrderFormService.setOrderResponseErrorStatus).not.toHaveBeenCalled();
+    });
   });
 });

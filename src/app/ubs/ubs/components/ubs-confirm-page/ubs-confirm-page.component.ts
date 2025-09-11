@@ -4,7 +4,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
@@ -44,9 +44,11 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe((qp) => {
-      if (qp['status']) {
-        if (qp['status'] === 'paid') {
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe((qp) => {
+      const status = (qp['status'] || '').toLowerCase();
+      if (status) {
+        const isPaid = status === 'paid';
+        if (isPaid) {
           this.localStorageService.setUserPagePayment(true);
           this.ubsOrderFormService.setOrderStatus(true);
           this.ubsOrderFormService.setOrderResponseErrorStatus(false);
@@ -55,7 +57,9 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
           this.ubsOrderFormService.setOrderStatus(false);
           this.ubsOrderFormService.setOrderResponseErrorStatus(true);
         }
-        this.localStorageService.setUbsPaymentOrderId(qp['orderId']);
+        if (qp['orderId']) {
+          this.localStorageService.setUbsPaymentOrderId(qp['orderId']);
+        }
       }
     });
 
