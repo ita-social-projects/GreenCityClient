@@ -5,7 +5,6 @@
 }
 
 .chat-sidebar {
-  min-width: 450px;
   max-width: 700px;
   border-right: 1px solid var(--quaternary-light-grey);
   height: 100vh;
@@ -81,7 +80,8 @@
   }
 
   .chat-details {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+    min-width: 60px;
 
     .chat-name {
       white-space: nowrap;
@@ -112,7 +112,8 @@
 }
 
 .chat-view {
-  flex: 1;
+  min-width: 500px;
+  flex: 1 1 500px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -345,6 +346,9 @@
   align-items: flex-end;
   gap: 4px;
   margin-left: 10px;
+  opacity: 1;
+  width: auto;
+  transition: all 0.3s ease;
 
   .timestamp {
     font-size: 12px;
@@ -362,5 +366,14 @@
     min-width: 20px;
     text-align: center;
     line-height: 1.2;
+  }
+}
+
+@media screen and (max-width: 905px) {
+  .meta {
+    opacity: 0;
+    width: 0;
+    margin-left: 0;
+    pointer-events: none;
   }
 }
