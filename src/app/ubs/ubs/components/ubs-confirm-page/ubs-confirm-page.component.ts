@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -30,7 +30,8 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     private readonly shareFormService: UBSOrderFormService,
     public readonly localStorageService: LocalStorageService,
     private readonly orderService: OrderService,
-    public readonly router: Router
+    public readonly router: Router,
+    public readonly activatedRoute: ActivatedRoute
   ) {}
 
   toPersonalAccount(): void {
@@ -43,6 +44,21 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe((qp) => {
+      if (qp['status']) {
+        if (qp['status'] === 'paid') {
+          this.localStorageService.setUserPagePayment(true);
+          this.ubsOrderFormService.setOrderStatus(true);
+          this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+        } else {
+          this.localStorageService.setUserPagePayment(false);
+          this.ubsOrderFormService.setOrderStatus(false);
+          this.ubsOrderFormService.setOrderResponseErrorStatus(true);
+        }
+        this.localStorageService.setUbsPaymentOrderId(qp['orderId']);
+      }
+    });
+
     const orderIdWithoutPayment = this.localStorageService.getUbsPaymentOrderId();
     this.ubsOrderFormService.orderId.pipe(takeUntil(this.destroy$)).subscribe((oderID) => {
       if (!oderID && this.localStorageService.getUbsBonusesOrderId()) {
