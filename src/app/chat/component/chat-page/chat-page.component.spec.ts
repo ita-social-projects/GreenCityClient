@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ChatComponent } from './chat-page.component';
 import { ChatFacade } from '../../facade/chat.facade';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 @Injectable()
 class MockChatFacade {
@@ -84,6 +84,16 @@ describe('ChatComponent (baseline)', () => {
     component.ngOnInit();
 
     expect(facade.init).toHaveBeenCalledOnceWith(NaN);
+  });
+
+  it('should change chatId on queryParams change', () => {
+    const facade = TestBed.inject(ChatFacade) as unknown as MockChatFacade;
+    component.route.queryParams = new BehaviorSubject({ chatId: 123 });
+    component.ngOnInit();
+
+    (component.route.queryParams as BehaviorSubject<any>).next({ chatId: 456 });
+
+    expect(facade.selectChatById).toHaveBeenCalledWith(456);
   });
 
   it('ngOnInit calls facade.init with chatId from history.state', () => {
@@ -189,8 +199,7 @@ describe('ChatComponent (ctor + ngOnInit via detectChanges)', () => {
         { provide: ChatFacade, useClass: MockChatFacade },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { queryParams: { chatId: state.chatId } },
-          queryParams: of({ chatId: state.chatId }) }
+          useValue: { snapshot: { queryParams: { chatId: state.chatId } }, queryParams: of({ chatId: state.chatId }) }
         }
       ]
     })
