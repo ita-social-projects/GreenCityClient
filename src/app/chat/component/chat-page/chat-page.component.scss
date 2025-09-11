@@ -30,8 +30,7 @@
 .chat-sidebar {
   border-right: 1px solid var(--quaternary-light-grey);
   height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden auto;
   background: var(--primary-light-grey);
   list-style: none;
   display: flex;
@@ -77,8 +76,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden auto;
   flex: 1;
 }
 
