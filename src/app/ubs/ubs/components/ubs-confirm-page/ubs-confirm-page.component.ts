@@ -47,6 +47,10 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams.pipe(take(1)).subscribe((qp) => {
       const status = (qp['status'] || '').toLowerCase();
       if (status) {
+        const orderId = qp['orderId']?.trim() ?? '';
+        if (orderId.length > 0) {
+          this.localStorageService.setUbsPaymentOrderId(orderId);
+        }
         const isPaid = status === 'paid';
         if (isPaid) {
           this.localStorageService.setUserPagePayment(true);
@@ -56,9 +60,6 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
           this.localStorageService.setUserPagePayment(false);
           this.ubsOrderFormService.setOrderStatus(false);
           this.ubsOrderFormService.setOrderResponseErrorStatus(true);
-        }
-        if (qp['orderId']) {
-          this.localStorageService.setUbsPaymentOrderId(qp['orderId']);
         }
       }
     });
