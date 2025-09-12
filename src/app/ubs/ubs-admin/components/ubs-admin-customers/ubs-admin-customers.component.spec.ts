@@ -233,7 +233,7 @@ describe('UbsAdminCustomersComponent', () => {
     component.onOpenChat(chatIdMock);
 
     expect(router.navigate).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['ubs/admin', 'chat-page'], { state: { selectedChatId: chatIdMock } });
+    expect(router.navigate).toHaveBeenCalledWith(['ubs/admin', 'chat-page'], { queryParams: { chatId: chatIdMock } });
   });
 
   it('should call getCustomers and dispatch GetCustomerTable action on ngOnInit', () => {

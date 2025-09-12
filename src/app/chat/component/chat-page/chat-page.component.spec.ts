@@ -2,11 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Injectable } from '@angular/core';
 import { ChatComponent } from './chat-page.component';
 import { ChatFacade } from '../../facade/chat.facade';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, of } from 'rxjs';
 
 @Injectable()
 class MockChatFacade {
   init = jasmine.createSpy('init');
+  selectChatById = jasmine.createSpy('selectChatById');
   loadNextPage = jasmine.createSpy('loadNextPage');
+}
+@Injectable()
+class RouteMock {
+  snapshot = { queryParams: { chatId: 123 } };
+  queryParams = of({ chatId: 123 });
 }
 
 class FakeIO implements IntersectionObserver {
@@ -52,7 +60,10 @@ describe('ChatComponent (baseline)', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ChatComponent],
-      providers: [{ provide: ChatFacade, useClass: MockChatFacade }]
+      providers: [
+        { provide: ChatFacade, useClass: MockChatFacade },
+        { provide: ActivatedRoute, useClass: RouteMock }
+      ]
     })
       .overrideComponent(ChatComponent, { set: { template: `<div>no refs</div>` } })
       .compileComponents();
@@ -65,18 +76,30 @@ describe('ChatComponent (baseline)', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('ngOnInit calls facade.init with undefined when no selectedChatId', () => {
+  it('ngOnInit calls facade.init with NaN when no chatId', () => {
     const facade = TestBed.inject(ChatFacade) as unknown as MockChatFacade;
+    component.route.snapshot.queryParams['chatId'] = undefined;
+
     facade.init.calls.reset();
-    history.replaceState({}, '');
     component.ngOnInit();
-    expect(facade.init).toHaveBeenCalledOnceWith(undefined);
+
+    expect(facade.init).toHaveBeenCalledOnceWith(NaN);
   });
 
-  it('ngOnInit calls facade.init with selectedChatId from history.state', () => {
+  it('should change chatId on queryParams change', () => {
+    const facade = TestBed.inject(ChatFacade) as unknown as MockChatFacade;
+    component.route.queryParams = new BehaviorSubject({ chatId: 123 });
+    component.ngOnInit();
+
+    (component.route.queryParams as BehaviorSubject<any>).next({ chatId: 456 });
+
+    expect(facade.selectChatById).toHaveBeenCalledWith(456);
+  });
+
+  it('ngOnInit calls facade.init with chatId from history.state', () => {
     const facade = TestBed.inject(ChatFacade) as unknown as MockChatFacade;
     facade.init.calls.reset();
-    history.replaceState({ selectedChatId: 321 }, '');
+    component.route.snapshot.queryParams = { chatId: 321 };
     component.ngOnInit();
     expect(facade.init).toHaveBeenCalledOnceWith(321);
   });
@@ -94,7 +117,10 @@ describe('ChatComponent (IO behavior)', () => {
 
     await TestBed.configureTestingModule({
       imports: [ChatComponent],
-      providers: [{ provide: ChatFacade, useClass: MockChatFacade }]
+      providers: [
+        { provide: ChatFacade, useClass: MockChatFacade },
+        { provide: ActivatedRoute, useClass: RouteMock }
+      ]
     })
       .overrideComponent(ChatComponent, {
         set: {
@@ -161,15 +187,21 @@ describe('ChatComponent (IO behavior)', () => {
 });
 describe('ChatComponent (ctor + ngOnInit via detectChanges)', () => {
   it('ctor runs', () => {
-    const c = new ChatComponent(new MockChatFacade() as any);
+    const c = new ChatComponent(new MockChatFacade() as any, route);
     expect(c).toBeTruthy();
   });
 
+  let route: ActivatedRoute;
   const setup = async (state: any) => {
-    history.replaceState(state, '');
     await TestBed.configureTestingModule({
       imports: [ChatComponent],
-      providers: [{ provide: ChatFacade, useClass: MockChatFacade }]
+      providers: [
+        { provide: ChatFacade, useClass: MockChatFacade },
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { queryParams: { chatId: state.chatId } }, queryParams: of({ chatId: state.chatId }) }
+        }
+      ]
     })
       .overrideComponent(ChatComponent, { set: { template: `<div>no refs</div>` } })
       .compileComponents();
@@ -178,26 +210,30 @@ describe('ChatComponent (ctor + ngOnInit via detectChanges)', () => {
     const component = fixture.componentInstance;
     const facade = TestBed.inject(ChatFacade) as unknown as MockChatFacade;
     facade.init.calls.reset();
+    route = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
     return { fixture, component, facade };
   };
 
-  it('ngOnInit calls facade.init with undefined when no selectedChatId (via detectChanges)', async () => {
+  it('ngOnInit calls facade.init with NaN when no chatId (via detectChanges)', async () => {
     const { facade } = await setup({});
-    expect(facade.init).toHaveBeenCalledOnceWith(undefined);
+
+    expect(facade.init).toHaveBeenCalledOnceWith(NaN);
   });
 
-  it('ngOnInit calls facade.init with selectedChatId (via detectChanges)', async () => {
-    const { facade } = await setup({ selectedChatId: 999 });
+  it('ngOnInit calls facade.init with chatId (via detectChanges)', async () => {
+    const { facade } = await setup({ chatId: 999 });
     expect(facade.init).toHaveBeenCalledOnceWith(999);
   });
 });
 describe('ChatComponent (ngOnInit coverage)', () => {
-  it('covers selectedChatId read via detectChanges', async () => {
-    history.replaceState({ selectedChatId: 555 }, '');
+  it('covers chatId read via detectChanges', async () => {
     await TestBed.configureTestingModule({
       imports: [ChatComponent],
-      providers: [{ provide: ChatFacade, useClass: MockChatFacade }]
+      providers: [
+        { provide: ChatFacade, useClass: MockChatFacade },
+        { provide: ActivatedRoute, useClass: RouteMock }
+      ]
     })
       .overrideComponent(ChatComponent, { set: { template: `<div>no refs</div>` } })
       .compileComponents();
@@ -207,6 +243,6 @@ describe('ChatComponent (ngOnInit coverage)', () => {
     facade.init.calls.reset();
 
     fixture.detectChanges();
-    expect(facade.init).toHaveBeenCalledOnceWith(555);
+    expect(facade.init).toHaveBeenCalledOnceWith(123);
   });
 });

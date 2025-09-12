@@ -129,7 +129,7 @@ export class ChatFacade {
         this.totalPages.set(resp.totalPages);
         this.isLoading.set(false);
 
-        if (page === 0 && initialSelectedChatId != null) {
+        if (page === 0 && !Number.isNaN(initialSelectedChatId)) {
           const found = this.chats().find((c) => c.chatInternalId === initialSelectedChatId);
           if (found) {
             this.selectChat(found);
@@ -156,6 +156,13 @@ export class ChatFacade {
     const newQuery = params.toString();
     const newPath = newQuery ? `${pathOnly}?${newQuery}${hash}` : `${pathOnly}${hash}`;
     this.location.replaceState(newPath);
+  }
+
+  selectChatById(chatInternalId: number) { 
+    const chat = this.chats().find((c) => c.chatInternalId === chatInternalId);
+    if (chat) {
+      this.selectChat(chat);
+    }
   }
 
   selectChat(chat: ChatListItem) {

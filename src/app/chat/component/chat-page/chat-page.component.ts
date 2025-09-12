@@ -7,7 +7,8 @@ import { ImageModalComponent } from '../image-modal/image-modal.component';
 import { ChatSidebarComponent } from '../../ui/chat-sidebar/chat-sidebar.component';
 import { MessagesListComponent } from '../../ui/messages-list/messages-list.component';
 import { MessageInputComponent } from '../../ui/message-input/message-input.component';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -30,12 +31,15 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('pagingAnchor') pagingAnchor!: ElementRef<HTMLElement>;
   private io?: IntersectionObserver;
   private readonly destroy$ = new Subject<void>();
-  constructor(public facade: ChatFacade) {}
+  constructor(public facade: ChatFacade, public route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const selectedChatId = (history.state as { selectedChatId?: number })?.selectedChatId;
-    this.facade.init(selectedChatId);
+    this.facade.init(Number(this.route.snapshot.queryParams['chatId']));
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+      this.facade.selectChatById(Number(params['chatId']));
+    });
   }
+
   ngAfterViewInit(): void {
     if (!this.sidebarRoot || !this.pagingAnchor) {
       return;
