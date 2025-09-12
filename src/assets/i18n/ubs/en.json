@@ -302,7 +302,7 @@
         "li_3": "1 bag of 20 liters with textile waste - UAH 110"
       },
       "extraoffer": {
-        "title": "In addition to packages, the courier can pick up an unlimited number of extra items (except styrofoam) for FREE, these are:",
+        "title": "In addition to paid packages, the courier can pick up some additional items for processing for FREE:",
         "condition": "☝️ provided that they are clean, dry and collected in SEPARATE bags or bags",
         "items": {
           "li_1": "aluminum cans ",
@@ -349,7 +349,7 @@
       "bonuses": {
         "caption": "Bonus",
         "content": {
-          "li_1": "Along with paid packages, the courier can pick up an unlimited number of some extrapositions of raw materials for processing for free.",
+          "li_1": "Along with paid packages, the courier can pick up some extra items of raw materials for processing for free  ",
           "li_2": "Mandatory condition: they must be clean, dry and packed in a frame bag",
           "li_3": "See the list ",
           "li_3.1": "here"
