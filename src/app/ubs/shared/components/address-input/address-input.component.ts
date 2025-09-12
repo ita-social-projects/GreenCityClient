@@ -266,7 +266,9 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.onRegionValueSet(region);
         this.onCityValueSet(city);
         this.onStreetValueSet(street);
-        this.district.setValue(this.langService.getLangValue(addressData.districtUk, addressData.districtEn));
+        if (addressData.districtEn != 'Kyiv') {
+          this.district.setValue(this.langService.getLangValue(addressData.districtUk, addressData.districtEn));
+        }
         this.houseNumber.setValue(addressData.houseNumber);
 
         this.onChange(this.addressData.getValues());
@@ -489,6 +491,7 @@ export class AddressInputComponent implements OnInit, AfterViewInit, OnDestroy, 
 
       this.placeId.setValue(street.place_id);
       this.allowDistrictEdit && this.district.enable();
+      this.district.markAsTouched();
     } else {
       this.addressData.resetStreet();
       this.district.reset();
