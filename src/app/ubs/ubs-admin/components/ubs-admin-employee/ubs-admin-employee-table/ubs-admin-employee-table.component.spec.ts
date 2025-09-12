@@ -238,7 +238,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
-      panelClass: 'delete-dialog-container'
+      panelClass: 'delete-dialog-container',
+      autoFocus: true
     });
   });
 });

@@ -143,14 +143,17 @@
                 </div>
               </div>
             </div>
-            <span
+            <button
               class="toggle-icon"
               *ngIf="!employee.expanded && userHasRights; else deleteIcon"
+              #menuTrigger="matMenuTrigger"
               [matMenuTriggerFor]="crumbs"
               (click)="$event.stopPropagation()"
+              (keydown.enter)="menuTrigger.openMenu(); $event.preventDefault(); $event.stopPropagation()"
+              (keydown.space)="menuTrigger.openMenu(); $event.preventDefault(); $event.stopPropagation()"
             >
               <img [src]="icons.crumbs" alt="options" />
-            </span>
+            </button>
             <div [ngClass]="employee.expanded ? 'toggle-icon-down' : 'toggle-icon-up'"></div>
             <mat-menu class="menu" #crumbs="matMenu">
               <button *ngIf="isThisUserCanEditEmployee" class="menu-item" (click)="openEditDialog(employee, $event)" mat-menu-item>
@@ -194,12 +197,15 @@
               </button>
             </mat-menu>
             <ng-template #deleteIcon>
-              <span
+              <button
+                class="toggle-icon"
                 *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusActive"
                 (click)="openDeleteDialog(employee, $event)"
+                (keydown.enter)="openDeleteDialog(employee, $event)"
+                (keydown.space)="$event.preventDefault(); openDeleteDialog(employee, $event)"
               >
                 <img [src]="icons.delete" alt="deactivate" />
-              </span>
+              </button>
               <span
                 *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusInactive"
                 (click)="openActivateDialog(employee, $event)"

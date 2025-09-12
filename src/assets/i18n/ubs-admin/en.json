@@ -645,6 +645,7 @@
     "delete-message-cancel": "No",
     "active-chat-placeholder": "Enter your message",
     "attach-file": "Attach a file",
+    "no-file-chosen": "No file chosen",
     "status": {
       "READ": "Read",
       "UNREAD": "Unread"

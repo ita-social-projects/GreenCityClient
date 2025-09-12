@@ -35,6 +35,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   @Input() locationCard: Locations;
 
   private readonly restrictedSymbols = /[#&?]/;
+  readonly selectOptions = selectOptions;
   searchValueIncorrect = false;
   employeePositions: EmployeePositions[];
   locations: Locations[];
@@ -131,7 +132,7 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     this.languageService
       .getCurrentLangObs()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((i) => {
+      .subscribe(() => {
         this.getLocations();
         this.getCouriers();
         this.getPositions();
@@ -230,10 +231,9 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     this.locations$.pipe(skip(1)).subscribe((item: Locations[]) => {
       if (item) {
         this.locations = item;
-        const regions = this.locations
+        this.filteredRegions = this.locations
           .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLang).map((it) => it.regionName))
           .flat(2);
-        this.filteredRegions = regions;
         this.cities = this.mapCities(this.locations);
         this.filteredCities = this.filterOptions(
           this.city,
@@ -333,7 +333,8 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   }
 
   onSelectPosition(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
-    if (event.option.value === selectOptions.all) {
+    const value = event.option.value;
+    if (value === selectOptions.all) {
       this.toggleSelectAllPositions();
       const positionsId = this.employeePositions.map((position) => position.id);
       Object.assign(this.filterData, { positions: positionsId });
@@ -419,10 +420,10 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
 
   transformPositionToSelectedPosition(position: any) {
     return {
-      name: this.languageService.getLangValue(position.name, position.nameEn),
+      name: this.languageService.getLangValue(position.nameUk, position.nameEn),
       id: position.id,
       englishName: position.nameEn,
-      ukrainianName: position.name
+      ukrainianName: position.nameUk
     };
   }
 
