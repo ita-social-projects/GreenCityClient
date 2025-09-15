@@ -14,6 +14,7 @@ import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.ser
 
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up.component';
 import { ICertificatePayment } from '../models/ICertificate.interface';
+import { LocalizedCurrencyPipe } from '@ubs/shared/pipes/localized-currency-pipe/localized-currency.pipe';
 
 describe('UbsUserOrderPaymentPopUpComponent', () => {
   let component: UbsUserOrderPaymentPopUpComponent;
@@ -69,7 +70,15 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrderPaymentPopUpComponent],
-      imports: [FormsModule, ReactiveFormsModule, MatRadioModule, IMaskModule, MatDialogModule, TranslateModule.forRoot()],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatRadioModule,
+        IMaskModule,
+        MatDialogModule,
+        TranslateModule.forRoot(),
+        LocalizedCurrencyPipe
+      ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
