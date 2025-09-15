@@ -163,12 +163,14 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   private processPayment(response: IProcessOrderResponse): void {
-    this.localStorageService.setUbsPaymentOrderId(response.orderId);
-    if (!this.finalSum && this.pointsUsed) {
-      this.processPointsPayment(response.orderId);
-    }
-    if (response.link && this.isShouldBePaid) {
-      this.redirectToExternalUrl(response.link);
+    if (response.orderId) {
+      this.localStorageService.setUbsPaymentOrderId(response.orderId);
+      if (!this.finalSum && this.pointsUsed) {
+        this.processPointsPayment(response.orderId);
+      }
+      if (response.link && this.isShouldBePaid) {
+        this.redirectToExternalUrl(response.link);
+      }
     }
   }
 
