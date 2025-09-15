@@ -72,13 +72,13 @@
               <p class="total-content" *ngIf="certificateUsed">
                 <span>{{ 'order-details.certificate' | translate }} </span>
                 <span>
-                  <strong class="money-saved">-{{ certificateUsed | localizedCurrency }}</strong>
+                  <strong class="money-saved">-{{ certificateUsed | localizedCurrency: true }}</strong>
                 </span>
               </p>
               <p class="total-content" *ngIf="pointsUsed">
                 <span>{{ 'order-details.bonuses' | translate }}</span>
                 <span>
-                  <strong class="money-saved">-{{ pointsUsed | localizedCurrency }}</strong>
+                  <strong class="money-saved">-{{ pointsUsed | localizedCurrency: true }}</strong>
                 </span>
               </p>
               <p class="total-content">
