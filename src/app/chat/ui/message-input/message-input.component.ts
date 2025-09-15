@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, ElementRef, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,17 +9,20 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [FormsModule, TranslateModule],
   templateUrl: './message-input.component.html'
 })
-export class MessageInputComponent implements OnInit {
+export class MessageInputComponent implements OnChanges {
   @Output() sendText = new EventEmitter<{ text: string; file?: File }>();
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
-  @Input() editText: string;
+  @ViewChild('textInput') textInput!: ElementRef<HTMLInputElement>;
+  @Input() editText?: string;
   text = '';
   file?: File;
   private readonly MAX_FILE_MB = 5;
 
-  ngOnInit() {
-    if (this.editText) {
-      this.text = this.editText;
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('message input', this.editText);
+    if (changes['editText']?.currentValue) {
+      this.text = this.editText ?? '';
+      this.textInput.nativeElement.focus();
     }
   }
 

@@ -63,9 +63,7 @@ export class ChatApiService {
     }
     const url = `${this.baseUrl}/message/edit`;
     const data = new Blob([JSON.stringify({ chatId: chatInternalId, messageId: messageId, newText })], { type: 'application/json' });
-    const form = new FormData();
-    form.append('data', data);
-    return this.http.put<string>(url, form, { headers, responseType: 'text' as 'json' });
+    return this.http.put<string>(url, data, { headers, responseType: 'text' as 'json' });
   }
 
   getLastOrder(chatInternalId: number) {

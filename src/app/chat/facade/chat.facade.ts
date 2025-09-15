@@ -160,11 +160,8 @@ export class ChatFacade {
     this.location.replaceState(newPath);
   }
 
-  selectMessage(message: ChatMessageView) {
-    if (message) {
-      console.log(message);
-      this.selectedMessage.set(message);
-    }
+  selectMessage(message?: ChatMessageView) {
+    this.selectedMessage.set(message);
   }
 
   selectChatById(chatInternalId: number) {
@@ -344,7 +341,6 @@ export class ChatFacade {
   editMessage(newText: string) {
     const sel = this.selectedChat();
     const mes = this.selectedMessage();
-    console.log(mes);
     if (!sel || !newText.trim() || !mes) {
       return;
     }
@@ -355,7 +351,7 @@ export class ChatFacade {
           sel.messages[messageIndex].text = newText;
         }
         this.selectedChat.set({ ...sel });
-        console.log(mes);
+        this.selectMessage(null);
       },
       error: (e) => console.error('Failed to edit the message:', e)
     });

@@ -1,7 +1,7 @@
 <div #scrollContainer class="messages">
   <div *ngFor="let message of messages" [ngClass]="{ message: true, sent: message.from === 'Me', received: message.from !== 'Me' }">
     <div class="message-text" *ngIf="message.text">
-      <div class="message-icons">
+      <div *ngIf="message.from === 'Me'" class="message-icons">
         <img class="icon" [src]="chatICons.edit" alt="edit" (click)="onMessageEdit(message)" />
       </div>
       {{ message.text }}
