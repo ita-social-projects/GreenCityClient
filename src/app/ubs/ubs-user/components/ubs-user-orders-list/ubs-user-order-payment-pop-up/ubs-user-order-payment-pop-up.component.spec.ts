@@ -59,7 +59,8 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
     'setUbsPaymentOrderId',
     'clearPaymentInfo',
-    'setUserPagePayment'
+    'setUserPagePayment',
+    'getCurrentLanguage'
   ]);
   const ubsOrderFormServiceMock = jasmine.createSpyObj('ubsOrderFormService', [
     'transferOrderId',
@@ -69,16 +70,8 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsUserOrderPaymentPopUpComponent],
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatRadioModule,
-        IMaskModule,
-        MatDialogModule,
-        TranslateModule.forRoot(),
-        LocalizedCurrencyPipe
-      ],
+      declarations: [UbsUserOrderPaymentPopUpComponent, LocalizedCurrencyPipe],
+      imports: [FormsModule, ReactiveFormsModule, MatRadioModule, IMaskModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
