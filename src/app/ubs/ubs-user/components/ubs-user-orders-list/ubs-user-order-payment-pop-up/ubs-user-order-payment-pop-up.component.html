@@ -2,7 +2,7 @@
   <div class="dialog-container-title">
     <h2>{{ 'ubs-client-profile.payment.title' | translate }}</h2>
     <h6 class="text-order-sum">
-      {{ 'ubs-client-profile.payment.sum' | translate }} {{ userOrder.sum }}
+      {{ 'ubs-client-profile.payment.sum' | translate }} {{ userOrder.sum | number: '1.2-2' }}
       {{ 'ubs-client-profile.payment.curency' | translate }}
     </h6>
   </div>
@@ -54,7 +54,8 @@
         <div *ngIf="!overpayment" class="text-message">
           {{
             'ubs-client-profile.payment.certificate-activated.sum'
-              | translate: { certificateSum: formArrayCertificates.value[formArrayCertificates.value.length - 1].certificateSum }
+              | translate
+                : { certificateSum: formArrayCertificates.value[formArrayCertificates.value.length - 1].certificateSum | number: '1.0-2' }
           }}
         </div>
         <div *ngIf="!overpayment" class="text-message">
