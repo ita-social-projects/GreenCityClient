@@ -56,6 +56,18 @@ export class ChatApiService {
     return this.http.post<string>(url, form, { headers, responseType: 'text' as 'json' });
   }
 
+  editMessage(chatInternalId: number, messageId: number, newText: string) {
+    const headers = this.authHeaders();
+    if (!headers) {
+      return new Observable<string>((o) => o.complete());
+    }
+    const url = `${this.baseUrl}/message/edit`;
+    const data = new Blob([JSON.stringify({ chatId: chatInternalId, messageId: messageId, newText })], { type: 'application/json' });
+    const form = new FormData();
+    form.append('data', data);
+    return this.http.put<string>(url, form, { headers, responseType: 'text' as 'json' });
+  }
+
   getLastOrder(chatInternalId: number) {
     const headers = this.authHeaders();
     if (!headers) {

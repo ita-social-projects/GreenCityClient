@@ -14,6 +14,8 @@ export class ChatFacade {
   readonly selectedChat = signal<ChatListItem | null>(null);
   readonly selectedImageUrl = signal<string | null>(null);
 
+  readonly selectedMessage = signal<ChatMessageView | null>(null);
+
   readonly clientInfoVisible = signal(false);
   readonly clientInfoData = signal<ClientInfoData>(null);
 
@@ -158,7 +160,14 @@ export class ChatFacade {
     this.location.replaceState(newPath);
   }
 
-  selectChatById(chatInternalId: number) { 
+  selectMessage(message: ChatMessageView) {
+    if (message) {
+      console.log(message);
+      this.selectedMessage.set(message);
+    }
+  }
+
+  selectChatById(chatInternalId: number) {
     const chat = this.chats().find((c) => c.chatInternalId === chatInternalId);
     if (chat) {
       this.selectChat(chat);
@@ -329,6 +338,26 @@ export class ChatFacade {
         this.selectedChat.set({ ...sel });
       },
       error: (e) => console.error('Failed to send message:', e)
+    });
+  }
+
+  editMessage(newText: string) {
+    const sel = this.selectedChat();
+    const mes = this.selectedMessage();
+    console.log(mes);
+    if (!sel || !newText.trim() || !mes) {
+      return;
+    }
+    this.api.editMessage(sel.chatInternalId, mes.id, newText.trim()).subscribe({
+      next: () => {
+        const messageIndex = sel.messages.findIndex((m) => m.id === mes.id);
+        if (messageIndex > -1) {
+          sel.messages[messageIndex].text = newText;
+        }
+        this.selectedChat.set({ ...sel });
+        console.log(mes);
+      },
+      error: (e) => console.error('Failed to edit the message:', e)
     });
   }
 

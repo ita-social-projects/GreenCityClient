@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output, ElementRef, ViewChild, AfterVie
 import { NgForOf, NgIf, NgClass } from '@angular/common';
 import { ChatMessageView } from '../../model/chat-page.interface';
 import { StatusTicksComponent } from '../status-ticks/status-ticks.component';
+import { CHAT_ICONS } from '../../chat-icons';
+import { ChatFacade } from '../../facade/chat.facade';
 
 @Component({
   selector: 'app-messages-list',
@@ -15,6 +17,9 @@ export class MessagesListComponent implements AfterViewChecked {
 
   @ViewChild('scrollContainer') private readonly scrollContainer!: ElementRef<HTMLDivElement>;
 
+  constructor(readonly facade: ChatFacade) {}
+
+  readonly chatICons = CHAT_ICONS;
   private lastMsgCount = 0;
 
   ngAfterViewChecked(): void {
@@ -29,6 +34,10 @@ export class MessagesListComponent implements AfterViewChecked {
 
       this.lastMsgCount = this.messages.length;
     }
+  }
+
+  onMessageEdit(message: ChatMessageView) {
+    this.facade.selectMessage(message);
   }
 
   private scrollToBottom(): void {

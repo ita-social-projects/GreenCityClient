@@ -31,7 +31,8 @@
 
         <app-image-modal [imageUrl]="facade.selectedImageUrl()" (closeModal)="facade.closeImageModal()"> </app-image-modal>
 
-        <app-message-input (sendText)="facade.sendMessage($event.text, $event.file)"> </app-message-input>
+        <app-message-input (sendText)="messageController($event.text, $event.file)" (editText)="facade.selectedMessage()">
+        </app-message-input>
       </div>
     </ng-container>
 

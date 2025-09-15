@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, ElementRef, Input, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -6,16 +6,22 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-message-input',
   standalone: true,
-  imports: [NgIf, FormsModule, TranslateModule],
+  imports: [FormsModule, TranslateModule],
   templateUrl: './message-input.component.html'
 })
-export class MessageInputComponent {
+export class MessageInputComponent implements OnInit {
   @Output() sendText = new EventEmitter<{ text: string; file?: File }>();
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
-
+  @Input() editText: string;
   text = '';
   file?: File;
   private readonly MAX_FILE_MB = 5;
+
+  ngOnInit() {
+    if (this.editText) {
+      this.text = this.editText;
+    }
+  }
 
   send() {
     if (!this.text.trim() && !this.file) {

@@ -31,7 +31,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('pagingAnchor') pagingAnchor!: ElementRef<HTMLElement>;
   private io?: IntersectionObserver;
   private readonly destroy$ = new Subject<void>();
-  constructor(public facade: ChatFacade, public route: ActivatedRoute) {}
+  constructor(
+    public facade: ChatFacade,
+    public route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.facade.init(Number(this.route.snapshot.queryParams['chatId']));
@@ -71,6 +74,14 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.io.observe(this.pagingAnchor.nativeElement);
+  }
+
+  messageController(text: string, file?: File) {
+    if (!this.facade.selectedMessage) {
+      this.facade.sendMessage(text, file);
+    } else {
+      this.facade.editMessage(text);
+    }
   }
 
   ngOnDestroy(): void {
