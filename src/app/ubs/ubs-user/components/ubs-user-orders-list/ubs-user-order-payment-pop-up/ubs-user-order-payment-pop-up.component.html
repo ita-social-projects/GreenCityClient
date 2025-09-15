@@ -42,7 +42,7 @@
           >
             {{ 'ubs-client-profile.payment.btn.active' | translate }}
           </button>
-          <button *ngIf="!certificateStatus[i]" class="btn btn-cancel-activation" (click)="deleteCertificate(i, certificate)">
+          <button *ngIf="!certificateStatus[i]" type="button" class="btn btn-cancel-activation" (click)="deleteCertificate(i, certificate)">
             {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
           </button>
         </div>
@@ -151,6 +151,7 @@
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
       <button
+        type="submit"
         class="btn btn-pay"
         [disabled]="0 > userOrder.sum || dataLoadingLiqPay || userCertificate.certificateError"
         (click)="processOrder()"
