@@ -1,10 +1,7 @@
 <div class="dialog-container">
   <div class="dialog-container-title">
     <h2>{{ 'ubs-client-profile.payment.title' | translate }}</h2>
-    <h6 class="text-order-sum">
-      {{ 'ubs-client-profile.payment.sum' | translate }} {{ userOrder.sum | number: '1.2-2' }}
-      {{ 'ubs-client-profile.payment.curency' | translate }}
-    </h6>
+    <h6 class="text-order-sum">{{ 'ubs-client-profile.payment.sum' | translate }} {{ userOrder.sum | localizedCurrency: true }}</h6>
   </div>
 
   <form [formGroup]="orderDetailsForm" class="form-container">

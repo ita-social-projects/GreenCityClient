@@ -181,7 +181,6 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   deleteCertificate(index: number, certificate: FormControl | AbstractControl): void {
-    console.error('deleted');
     const certSum = this.formArrayCertificates.value.reduce(
       (certificatesSum: number, certificateItem: ICertificatePayment) => certificatesSum + certificateItem.certificateSum,
       0
