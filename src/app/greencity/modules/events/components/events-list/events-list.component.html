@@ -29,10 +29,15 @@
     <div class="filter-container">
       <p class="filter-by">{{ 'homepage.events.filter-title' | translate }}</p>
       <div class="filter-list">
-        <div class="dropdown" (click)="timeFilter.open()">
+        <div class="dropdown" (click)="timeFilter.open()" (keydown.enter)="timeFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.time' | translate }}</mat-label>
           <mat-select #timeFilter [formControl]="eventTimeStatusFilterControl" [multiple]="true">
-            <mat-option [value]="'homepage.events.time-any-time' | translate" (click)="toggleAllOptions('eventTimeStatus', timeFilter)">
+            <mat-select-trigger></mat-select-trigger>
+            <mat-option
+              [value]="'homepage.events.time-any-time' | translate"
+              (click)="toggleAllOptions('eventTimeStatus', timeFilter)"
+              (keydown.enter)="toggleAllOptions('eventTimeStatus', timeFilter)"
+            >
               {{ 'homepage.events.time-any-time' | translate }}
             </mat-option>
             <mat-divider></mat-divider>
@@ -40,17 +45,20 @@
               [value]="eventTimeStatusFilter.nameEn"
               *ngFor="let eventTimeStatusFilter of eventTimeStatusFiltersList"
               (click)="updateListOfFilters(eventTimeStatusFilter)"
+              (keydown.enter)="updateListOfFilters(eventTimeStatusFilter)"
               ><span [appLangValue]="{ uk: eventTimeStatusFilter.nameUk, en: eventTimeStatusFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
         </div>
 
-        <div class="dropdown" (click)="locationFilter.open()">
+        <div class="dropdown" (click)="locationFilter.open()" (keydown.enter)="locationFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
           <mat-select #locationFilter [formControl]="locationFilterControl" [multiple]="true">
+            <mat-select-trigger></mat-select-trigger>
             <mat-option
               [value]="'homepage.events.filter-location-аny-location' | translate"
               (click)="toggleAllOptions('location', locationFilter)"
+              (keydown.enter)="toggleAllOptions('location', locationFilter)"
             >
               {{ 'homepage.events.filter-location-аny-location' | translate }}
             </mat-option>
@@ -59,11 +67,12 @@
               [value]="locationFilter.nameEn"
               *ngFor="let locationFilter of relevantLocationFiltersList"
               (click)="updateListOfFilters(locationFilter)"
+              (keydown.enter)="updateListOfFilters(locationFilter)"
             >
               <span [appLangValue]="{ uk: locationFilter.nameUk, en: locationFilter.nameEn }"></span>
             </mat-option>
             <mat-divider></mat-divider>
-            <div (click)="openCityModal()" class="add-location-option" *ngIf="!showAddCityInput">
+            <div *ngIf="!showAddCityInput" (click)="openCityModal()" (keydown.enter)="openCityModal()" class="add-location-option">
               <div class="add-location-content">
                 <span>{{ 'add-cities-modal.dropdown' | translate }}</span>
               </div>
@@ -105,10 +114,15 @@
           </div>
         </ng-template>
 
-        <div class="dropdown" (click)="statusFilter.open()">
+        <div class="dropdown" (click)="statusFilter.open()" (keydown.enter)="statusFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
           <mat-select #statusFilter [formControl]="statusFilterControl" [multiple]="true">
-            <mat-option [value]="'homepage.events.filter-status-аny-status' | translate" (click)="toggleAllOptions('status', statusFilter)">
+            <mat-select-trigger></mat-select-trigger>
+            <mat-option
+              [value]="'homepage.events.filter-status-аny-status' | translate"
+              (click)="toggleAllOptions('status', statusFilter)"
+              (keydown.enter)="toggleAllOptions('status', statusFilter)"
+            >
               {{ 'homepage.events.filter-status-аny-status' | translate }}
             </mat-option>
             <mat-divider></mat-divider>
@@ -116,23 +130,57 @@
               [value]="statusFilter.nameEn"
               *ngFor="let statusFilter of statusFiltersList"
               (click)="updateListOfFilters(statusFilter)"
-              ><span [appLangValue]="{ uk: statusFilter.nameUk, en: statusFilter.nameEn }"></span>
+              (keydown.enter)="updateListOfFilters(statusFilter)"
+            >
+              <span [appLangValue]="{ uk: statusFilter.nameUk, en: statusFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
         </div>
 
-        <div class="dropdown" (click)="typeFilter.open()">
+        <div class="dropdown" (click)="typeFilter.open()" (keydown.enter)="typeFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-type' | translate }}</mat-label>
           <mat-select #typeFilter [formControl]="typeFilterControl" [multiple]="true">
-            <mat-option [value]="'homepage.events.filter-аny-type' | translate" (click)="toggleAllOptions('type', typeFilter)">
+            <mat-select-trigger></mat-select-trigger>
+            <mat-option
+              [value]="'homepage.events.filter-аny-type' | translate"
+              (click)="toggleAllOptions('type', typeFilter)"
+              (keydown.enter)="toggleAllOptions('type', typeFilter)"
+            >
               {{ 'homepage.events.filter-аny-type' | translate }}
             </mat-option>
             <mat-divider></mat-divider>
-            <mat-option [value]="typeFilter.nameEn" *ngFor="let typeFilter of typeFiltersList" (click)="updateListOfFilters(typeFilter)">
+            <mat-option
+              [value]="typeFilter.nameEn"
+              *ngFor="let typeFilter of typeFiltersList"
+              (click)="updateListOfFilters(typeFilter)"
+              (keydown.enter)="updateListOfFilters(typeFilter)"
+            >
               <span [appLangValue]="{ uk: typeFilter.nameUk, en: typeFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
         </div>
+
+        <div class="dropdown" (click)="dateRangePicker.open()" (keydown.enter)="dateRangePicker.open()">
+          <mat-label class="filter">{{ 'homepage.events.date' | translate }}</mat-label>
+          <mat-date-range-input
+            class="date-range-input"
+            (closedStream)="updateListOfFilters(dateRangeFilter)"
+            [formGroup]="dateRangeFilterForm"
+            [rangePicker]="dateRangePicker"
+          >
+            <input matStartDate formControlName="from" placeholder="{{ 'homepage.events.date-start' | translate }}" />
+            <input matEndDate formControlName="to" placeholder="{{ 'homepage.events.date-end' | translate }}" />
+          </mat-date-range-input>
+          <div class="mat-mdc-select-arrow-wrapper">
+            <div class="mat-mdc-select-arrow">
+              <svg viewBox="0 0 24 24" width="24px" height="24px" focusable="false" aria-hidden="true">
+                <path d="M7 10l5 5 5-5z"></path>
+              </svg>
+            </div>
+          </div>
+          <mat-date-range-picker class="custom-calendar" #dateRangePicker></mat-date-range-picker>
+        </div>
+
         <div>
           <button class="reset" [disabled]="selectedFilters.length === 0" (click)="resetAllFilters()">
             {{ 'homepage.events.filter-reset-all' | translate }}

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Addresses, EventListResponse, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
-import { Observable, ReplaySubject, Subscription, take } from 'rxjs';
+import { Observable, ReplaySubject, Subscription, take, takeUntil } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -14,7 +14,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSelect } from '@angular/material/select';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
-import { MatOption } from '@angular/material/core';
+import { DateAdapter, MatOption } from '@angular/material/core';
 import { HttpParams } from '@angular/common/http';
 import { EventStoreService } from '../../services/event-store.service';
 import { initializeSavedState } from 'src/app/greencity/shared/components/saved-tabs/saved-section-const';
@@ -37,6 +37,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
   statusFilterControl = new FormControl();
   typeFilterControl = new FormControl();
   searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
+  dateRangeFilterForm = this.fb.group({
+    from: [null],
+    to: [null]
+  });
 
   relevantLocationFiltersList: FilterItem[] = [];
   showAddCityInput = false;
@@ -64,6 +68,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   isGalleryView = true;
   isSavedVisible = false;
   currentTab = 'events';
+  dateRangeFilter: FilterItem = { type: 'dateRange', nameEn: '', nameUk: '' };
 
   private readonly destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private readonly ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
@@ -84,6 +89,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private readonly eventStoreService: EventStoreService,
     private readonly dialog: MatDialog,
     private readonly route: ActivatedRoute,
+    private readonly dateAdapter: DateAdapter<Date>,
     private readonly languageService: LanguageService,
     private fb: FormBuilder
   ) {}
@@ -116,13 +122,23 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
     this.initializeLocationData();
 
-    this.searchEventControl.valueChanges.subscribe((value) => {
+    this.dateRangeFilterForm.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      if (this.dateRangeFilterForm.get('from')?.value && this.dateRangeFilterForm.get('to')?.value) {
+        this.updateListOfFilters(this.dateRangeFilter);
+      }
+    });
+
+    this.searchEventControl.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe((value) => {
       if (this.searchResultSubscription) {
         this.searchResultSubscription.unsubscribe();
       }
       this.cleanEventList();
       this.searchQuery = value.trim();
       value.trim() !== '' ? this.searchEventsByTitle() : this.getEvents();
+    });
+
+    this.languageService.getCurrentLangObs().pipe(takeUntil(this.destroyed$)).subscribe((lang) => {
+      this.dateAdapter.setLocale(lang === 'uk' ? 'uk-UA' : 'en-US');
     });
   }
 
@@ -374,12 +390,34 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.selectedFilters.push(filter);
         }
         break;
+      case 'dateRange': {
+        const fromDate = this.dateRangeFilterForm.get('from')?.value;
+        const toDate = this.dateRangeFilterForm.get('to')?.value;
+        if (fromDate && toDate) {
+          filter.nameEn = fromDate.toLocaleDateString('en-US') + ' - ' + toDate.toLocaleDateString('en-US');
+          filter.nameUk = fromDate.toLocaleDateString('uk-UA') + ' - ' + toDate.toLocaleDateString('uk-UA');
+          const existingDateRangeFilter = this.selectedFilters.find((item) => item.type === 'dateRange');
+          if (existingDateRangeFilter) {
+            existingDateRangeFilter.nameEn = filter.nameEn;
+            existingDateRangeFilter.nameUk = filter.nameUk;
+          } else {
+            this.selectedFilters.push(filter);
+            this.dateRangeFilter = filter;
+          }
+        } else {
+          this.dateRangeFilter = { type: 'dateRange', nameEn: '', nameUk: '' };
+        }
+        break;
+      }
     }
     this.cleanEventList();
     this.getEvents();
   }
 
   removeItemFromSelectedFiltersList(filter: FilterItem, index?: number): void {
+    if (filter.type === 'dateRange') {
+      this.dateRangeFilterForm.reset();
+    }
     this.updateSelectedFiltersList(filter.nameEn, index);
     this.updateListOfFilters(filter);
   }
@@ -441,16 +479,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
     switch (filterType) {
       case 'eventTimeStatus':
-        this.toggleAll(this.eventTimeStatusOptionList, this.selectedEventTimeStatusFiltersList);
+        this.toggleAll(this.eventTimeStatusOptionList, this.selectedEventTimeStatusFiltersList, filterType);
         break;
       case 'location':
-        this.toggleAll(this.locationOptionList, this.selectedLocationFiltersList);
+        this.toggleAll(this.locationOptionList, this.selectedLocationFiltersList, filterType);
         break;
       case 'status':
-        this.toggleAll(this.statusOptionList, this.selectedStatusFiltersList);
+        this.toggleAll(this.statusOptionList, this.selectedStatusFiltersList, filterType);
         break;
       case 'type':
-        this.toggleAll(this.typeOptionList, this.selectedTypeFiltersList);
+        this.toggleAll(this.typeOptionList, this.selectedTypeFiltersList, filterType);
         break;
     }
 
@@ -458,16 +496,23 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.getEvents();
   }
 
-  private toggleAll(select: MatSelect, selectedList: string[]): void {
+  private toggleAll(select: MatSelect, selectedList: string[], filterType: string): void {
     const control = select.ngControl?.control;
     const options = select.options.toArray();
     const currentValue = control.value || [];
+
     if (options.every((option) => currentValue.includes(option.value))) {
       control.setValue([]);
       selectedList.length = 0;
+      this.selectedFilters = this.selectedFilters.filter((filter) => filter.type !== filterType);
     } else {
       control.setValue(options.map((option) => option.value));
       selectedList.splice(0, selectedList.length, ...options.map((option) => option.value));
+      this.getFilterByType(filterType).forEach((item) => {
+        if (!this.selectedFilters.includes(item)) {
+          this.selectedFilters.push(item);
+        }
+      });
     }
   }
 
@@ -477,6 +522,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.selectedLocationFiltersList = [];
     this.selectedStatusFiltersList = [];
     this.selectedTypeFiltersList = [];
+    this.dateRangeFilterForm.reset();
     [this.eventTimeStatusOptionList, this.statusOptionList, this.locationOptionList, this.typeOptionList].forEach((optionList) => {
       this.unselectCheckbox(optionList);
     });
@@ -536,13 +582,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private updateSelectedFiltersList(filterName: string, index?: number): void {
-    if (index) {
+    if (index !== undefined) {
       this.selectedFilters.splice(index, 1);
-    } else {
-      if (this.selectedFilters.find((item) => item.nameEn === filterName)) {
-        const indexOfItem = this.selectedFilters.findIndex((item) => item.nameEn === filterName);
-        this.selectedFilters.splice(indexOfItem, 1);
-      }
+    } else if (this.selectedFilters.find((item) => item.nameEn === filterName)) {
+      const indexOfItem = this.selectedFilters.findIndex((item) => item.nameEn === filterName);
+      this.selectedFilters.splice(indexOfItem, 1);
     }
   }
 
@@ -597,9 +641,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.appendIfNotEmpty(
         'tags',
         this.selectedTypeFiltersList.filter((type) => type !== 'All types' && type !== 'Всі типи')
+      ),
+      this.appendIfNotEmpty(
+        'from',
+        this.dateRangeFilterForm.get('from')?.value ? new Date(this.dateRangeFilterForm.get('from')?.value).toISOString() : ''
+      ),
+      this.appendIfNotEmpty(
+        'to',
+        this.dateRangeFilterForm.get('to')?.value ? new Date(this.dateRangeFilterForm.get('to')?.value).toISOString() : ''
       )
     ];
-
     paramsToAdd.filter((param) => param !== null).forEach((param) => (params = params.append(param.key, param.value)));
     return params;
   }
@@ -614,6 +665,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
       return 'ONLINE';
     } else {
       return '';
+    }
+  }
+
+  private getFilterByType(type: string): FilterItem[] {
+    switch (type) {
+      case 'eventTimeStatus': return this.eventTimeStatusFiltersList;
+      case 'location': return this.locationFiltersList;
+      case 'status': return this.statusFiltersList;
+      case 'type': return this.typeFiltersList;
+      default: return [];
     }
   }
 
