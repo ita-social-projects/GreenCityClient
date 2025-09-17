@@ -4,7 +4,7 @@ import { EventsListComponent } from './events-list.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { from, of } from 'rxjs';
+import { of } from 'rxjs';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
@@ -16,7 +16,6 @@ import { addressesMock, eventStateMock } from '@assets/mocks/events/mock-events'
 import { EventStoreService } from '../../services/event-store.service';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Language } from 'src/app/shared/i18n/Language';
-import { emit } from 'process';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -98,7 +97,7 @@ describe('EventsListComponent', () => {
   it('should add dateRangeFilter when date range is selected', () => {
     const startDate = new Date('2023-10-10');
     const endDate = new Date('2023-10-20');
-    spyOn((component as any).eventService, 'getEvents');
+    spyOn((component as any).eventService, 'getEvents').and.returnValue(of({ page: [], totalElements: 0, hasNext: false }));
 
     component.dateRangeFilterForm.setValue({ from: startDate, to: endDate });
 

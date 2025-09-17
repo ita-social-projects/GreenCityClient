@@ -35,8 +35,7 @@
             <mat-select-trigger></mat-select-trigger>
             <mat-option
               [value]="'homepage.events.time-any-time' | translate"
-              (click)="toggleAllOptions('eventTimeStatus', timeFilter)"
-              (keydown.enter)="toggleAllOptions('eventTimeStatus', timeFilter)"
+              (onSelectionChange)="toggleAllOptions('eventTimeStatus', timeFilter, $event)"
             >
               {{ 'homepage.events.time-any-time' | translate }}
             </mat-option>
@@ -44,8 +43,7 @@
             <mat-option
               [value]="eventTimeStatusFilter.nameEn"
               *ngFor="let eventTimeStatusFilter of eventTimeStatusFiltersList"
-              (click)="updateListOfFilters(eventTimeStatusFilter)"
-              (keydown.enter)="updateListOfFilters(eventTimeStatusFilter)"
+              (onSelectionChange)="updateListOfFilters(eventTimeStatusFilter, $event)"
               ><span [appLangValue]="{ uk: eventTimeStatusFilter.nameUk, en: eventTimeStatusFilter.nameEn }"></span>
             </mat-option>
           </mat-select>
@@ -57,8 +55,7 @@
             <mat-select-trigger></mat-select-trigger>
             <mat-option
               [value]="'homepage.events.filter-location-аny-location' | translate"
-              (click)="toggleAllOptions('location', locationFilter)"
-              (keydown.enter)="toggleAllOptions('location', locationFilter)"
+              (onSelectionChange)="toggleAllOptions('location', locationFilter, $event)"
             >
               {{ 'homepage.events.filter-location-аny-location' | translate }}
             </mat-option>
@@ -66,8 +63,7 @@
             <mat-option
               [value]="locationFilter.nameEn"
               *ngFor="let locationFilter of relevantLocationFiltersList"
-              (click)="updateListOfFilters(locationFilter)"
-              (keydown.enter)="updateListOfFilters(locationFilter)"
+              (onSelectionChange)="updateListOfFilters(locationFilter, $event)"
             >
               <span [appLangValue]="{ uk: locationFilter.nameUk, en: locationFilter.nameEn }"></span>
             </mat-option>
@@ -120,8 +116,7 @@
             <mat-select-trigger></mat-select-trigger>
             <mat-option
               [value]="'homepage.events.filter-status-аny-status' | translate"
-              (click)="toggleAllOptions('status', statusFilter)"
-              (keydown.enter)="toggleAllOptions('status', statusFilter)"
+              (onSelectionChange)="toggleAllOptions('status', statusFilter, $event)"
             >
               {{ 'homepage.events.filter-status-аny-status' | translate }}
             </mat-option>
@@ -129,8 +124,7 @@
             <mat-option
               [value]="statusFilter.nameEn"
               *ngFor="let statusFilter of statusFiltersList"
-              (click)="updateListOfFilters(statusFilter)"
-              (keydown.enter)="updateListOfFilters(statusFilter)"
+              (onSelectionChange)="updateListOfFilters(statusFilter, $event)"
             >
               <span [appLangValue]="{ uk: statusFilter.nameUk, en: statusFilter.nameEn }"></span>
             </mat-option>
@@ -143,8 +137,7 @@
             <mat-select-trigger></mat-select-trigger>
             <mat-option
               [value]="'homepage.events.filter-аny-type' | translate"
-              (click)="toggleAllOptions('type', typeFilter)"
-              (keydown.enter)="toggleAllOptions('type', typeFilter)"
+              (onSelectionChange)="toggleAllOptions('type', typeFilter, $event)"
             >
               {{ 'homepage.events.filter-аny-type' | translate }}
             </mat-option>
@@ -152,8 +145,7 @@
             <mat-option
               [value]="typeFilter.nameEn"
               *ngFor="let typeFilter of typeFiltersList"
-              (click)="updateListOfFilters(typeFilter)"
-              (keydown.enter)="updateListOfFilters(typeFilter)"
+              (onSelectionChange)="updateListOfFilters(typeFilter, $event)"
             >
               <span [appLangValue]="{ uk: typeFilter.nameUk, en: typeFilter.nameEn }"></span>
             </mat-option>
