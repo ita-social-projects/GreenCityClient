@@ -13,3 +13,7 @@
 ::ng-deep .mat-progress-spinner circle {
   stroke: var(--ubs-button-light-green);
 }
+
+::ng-deep .cdk-overlay-pane {
+  width: unset !important;
+}
