@@ -4,7 +4,7 @@ import { EventsListComponent } from './events-list.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
+import { from, of } from 'rxjs';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
@@ -14,7 +14,9 @@ import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-va
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { addressesMock, eventStateMock } from '@assets/mocks/events/mock-events';
 import { EventStoreService } from '../../services/event-store.service';
-import { DateAdapter } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
+import { Language } from 'src/app/shared/i18n/Language';
+import { emit } from 'process';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -38,13 +40,19 @@ describe('EventsListComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListComponent, LangValueDirective],
-      imports: [TranslateModule.forRoot(), NgxPaginationModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule],
+      imports: [
+        TranslateModule.forRoot(),
+        NgxPaginationModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        MatDialogModule,
+        MatNativeDateModule
+      ],
       providers: [
         { provide: UserOwnAuthService, useValue: UserOwnAuthServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogService },
-        { provide: EventStoreService, useValue: eventStoreServiceMock },
-        { provide: DateAdapter, useValue: DateAdapter }
+        { provide: EventStoreService, useValue: eventStoreServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -87,6 +95,36 @@ describe('EventsListComponent', () => {
     expect(component.bookmarkSelected).toEqual(true);
   });
 
+  it('should add dateRangeFilter when date range is selected', () => {
+    const startDate = new Date('2023-10-10');
+    const endDate = new Date('2023-10-20');
+    spyOn((component as any).eventService, 'getEvents');
+
+    component.dateRangeFilterForm.setValue({ from: startDate, to: endDate });
+
+    expect((component as any).eventService.getEvents).toHaveBeenCalledWith(
+      jasmine.stringMatching(/from=2023-10-10T00:00:00.000Z&to=2023-10-20T00:00:00.000Z/)
+    );
+  });
+
+  it('should change dateAdapter locale on language change', () => {
+    const dateAdapter = (component as any).dateAdapter;
+    spyOn(dateAdapter, 'setLocale');
+
+    (component as any).languageService.changeCurrentLanguage(Language.UK);
+
+    expect(dateAdapter.setLocale).toHaveBeenCalledWith('uk-UA');
+  });
+
+  it('should set en-US dateAdapter locale if language is undefined', () => {
+    const dateAdapter = (component as any).dateAdapter;
+    spyOn(dateAdapter, 'setLocale');
+
+    (component as any).languageService.changeCurrentLanguage(undefined);
+
+    expect(dateAdapter.setLocale).toHaveBeenCalledWith('en-US');
+  });
+
   it('should return unique locations', () => {
     const expectedLocations: FilterItem[] = [
       { type: 'location', nameEn: 'Online', nameUk: 'Онлайн' },
@@ -95,6 +133,26 @@ describe('EventsListComponent', () => {
       { type: 'location', nameEn: 'Ternopil', nameUk: 'Тернопіль' }
     ];
     expect(component.getUniqueLocations(addressesMock)).toEqual(expectedLocations);
+  });
+
+  it('should add selected filter in dateRange case if it is not exist in selectedFilters list', () => {
+    component.selectedFilters = [];
+
+    component.dateRangeFilterForm.setValue({ from: new Date('2023.10.10'), to: new Date('2023.11.10') });
+
+    expect(component.selectedFilters).toEqual([
+      { type: 'dateRange', nameEn: '10/10/2023 - 11/10/2023', nameUk: '10.10.2023 - 10.11.2023' }
+    ]);
+  });
+
+  it('should update selected filter in dateRange case if it exist in selectedFilters list', () => {
+    component.selectedFilters = [{ type: 'dateRange', nameEn: '10/10/2023 - 11/10/2023', nameUk: '10.10.2023 - 10.11.2023' }];
+
+    component.dateRangeFilterForm.setValue({ from: new Date('2023.10.10'), to: new Date('2023.12.10') });
+
+    expect(component.selectedFilters).toEqual([
+      { type: 'dateRange', nameEn: '10/10/2023 - 12/10/2023', nameUk: '10.10.2023 - 10.12.2023' }
+    ]);
   });
 
   it('should update selected filters list', () => {

@@ -137,9 +137,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
       value.trim() !== '' ? this.searchEventsByTitle() : this.getEvents();
     });
 
-    this.languageService.getCurrentLangObs().pipe(takeUntil(this.destroyed$)).subscribe((lang) => {
-      this.dateAdapter.setLocale(lang === 'uk' ? 'uk-UA' : 'en-US');
-    });
+    this.languageService
+      .getCurrentLangObs()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((lang) => {
+        this.dateAdapter.setLocale(lang === 'uk' ? 'uk-UA' : 'en-US');
+      });
   }
 
   private initializeLocationData(): void {
@@ -393,6 +396,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       case 'dateRange': {
         const fromDate = this.dateRangeFilterForm.get('from')?.value;
         const toDate = this.dateRangeFilterForm.get('to')?.value;
+
         if (fromDate && toDate) {
           filter.nameEn = fromDate.toLocaleDateString('en-US') + ' - ' + toDate.toLocaleDateString('en-US');
           filter.nameUk = fromDate.toLocaleDateString('uk-UA') + ' - ' + toDate.toLocaleDateString('uk-UA');
@@ -404,8 +408,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
             this.selectedFilters.push(filter);
             this.dateRangeFilter = filter;
           }
-        } else {
-          this.dateRangeFilter = { type: 'dateRange', nameEn: '', nameUk: '' };
         }
         break;
       }
@@ -624,7 +626,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.appendIfNotEmpty('type', this.getTypeFilter()),
       this.appendIfNotEmpty(
         'cities',
-        this.selectedLocationFiltersList.filter((city) => city !== 'Online' && city !== 'Select All' && city !== 'Обрати всі')
+        this.selectedLocationFiltersList.filter(
+          (city) => city !== 'Online' && city !== 'Offline' && city !== 'Select All' && city !== 'Обрати всі'
+        )
       ),
       this.appendIfNotEmpty(
         'time',
@@ -670,11 +674,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   private getFilterByType(type: string): FilterItem[] {
     switch (type) {
-      case 'eventTimeStatus': return this.eventTimeStatusFiltersList;
-      case 'location': return this.locationFiltersList;
-      case 'status': return this.statusFiltersList;
-      case 'type': return this.typeFiltersList;
-      default: return [];
+      case 'eventTimeStatus':
+        return this.eventTimeStatusFiltersList;
+      case 'location':
+        return this.relevantLocationFiltersList;
+      case 'status':
+        return this.statusFiltersList;
+      case 'type':
+        return this.typeFiltersList;
+      default:
+        return [];
     }
   }
 
