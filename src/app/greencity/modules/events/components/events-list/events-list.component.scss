@@ -219,7 +219,7 @@
   justify-content: space-between;
   width: min-content;
   -ms-overflow-style: none;
-  
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -232,6 +232,7 @@
     .mat-mdc-select-arrow svg {
       top: 100%;
     }
+
     .mat-date-range-input {
       visibility: hidden;
     }

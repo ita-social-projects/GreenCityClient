@@ -11,10 +11,10 @@ import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FilterItem } from '../../models/events.interface';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
-import { MatSelect } from '@angular/material/select';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { addressesMock, eventStateMock, testCases } from '@assets/mocks/events/mock-events';
+import { addressesMock, eventStateMock } from '@assets/mocks/events/mock-events';
 import { EventStoreService } from '../../services/event-store.service';
+import { DateAdapter } from '@angular/material/core';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -43,7 +43,8 @@ describe('EventsListComponent', () => {
         { provide: UserOwnAuthService, useValue: UserOwnAuthServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogService },
-        { provide: EventStoreService, useValue: eventStoreServiceMock }
+        { provide: EventStoreService, useValue: eventStoreServiceMock },
+        { provide: DateAdapter, useValue: DateAdapter }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
