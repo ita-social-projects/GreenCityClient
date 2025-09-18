@@ -1,9 +1,19 @@
 <div #scrollContainer class="messages">
-  <div *ngFor="let message of messages" [ngClass]="{ message: true, sent: message.from === 'Me', received: message.from !== 'Me' }">
+  <div
+    *ngFor="let message of messages"
+    [ngClass]="{ message: true, sent: message.from === 'Me', received: message.from !== 'Me' }"
+    (contextmenu)="onRightClick($event, menuTrigger, message)"
+    (touchstart)="onTouchStart($event, menuTrigger, message)"
+    (touchend)="onTouchEnd($event)"
+    (touchmove)="onTouchMove($event)"
+  >
+    <div
+      style="visibility: hidden; position: fixed"
+      [style.left]="matMenuPosition.x"
+      [style.top]="matMenuPosition.y"
+      [matMenuTriggerFor]="menu"
+    ></div>
     <div class="message-text" *ngIf="message.text">
-      <div *ngIf="message.from === 'Me'" class="message-icons">
-        <img class="icon" [src]="chatICons.edit" alt="edit" (click)="onMessageEdit(message)" />
-      </div>
       {{ message.text }}
     </div>
 
@@ -21,5 +31,21 @@
       <span class="message-time">{{ message.time }}</span>
       <app-status-ticks *ngIf="message.from === 'Me'" [status]="message.viewingStatus || undefined"></app-status-ticks>
     </div>
+  </div>
+
+  <div class="mat-menu">
+    <mat-menu #menu="matMenu" yPosition="above" (closed)="onMenuClosed()">
+      <ng-template matMenuContent>
+        <div>
+          <span class="edit-status"
+            ><img class="edited-icon" [src]="chatICons.edit" alt="edited" />
+            {{ 'chat.status.EDITED' | translate: { editDate: '11.09.2025', editTime: '16:33' } }}</span
+          >
+          <button mat-menu-item (click)="onMessageEdit()" class="edit-button">
+            <span class="menu-item">{{ 'chat.edit-option' | translate }}</span>
+          </button>
+        </div>
+      </ng-template>
+    </mat-menu>
   </div>
 </div>

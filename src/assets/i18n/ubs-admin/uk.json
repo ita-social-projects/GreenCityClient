@@ -646,8 +646,11 @@
     "no-file-chosen": "Файл не обрано",
     "status": {
       "READ": "Прочитано",
-      "UNREAD": "Не прочитано"
-    }
+      "UNREAD": "Не прочитано",
+      "EDITED": "Змінено {{editDate}} о {{editTime}}"
+    },
+    "edit-message": "Редагувати повідомлення",
+    "edit-option": "Редагувати"
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",

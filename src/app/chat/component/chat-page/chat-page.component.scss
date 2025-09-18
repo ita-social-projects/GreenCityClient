@@ -145,6 +145,7 @@
 }
 
 .messages {
+  position: relative;
   flex: 1;
   overflow-y: auto;
   padding-right: 0.5rem;
@@ -195,6 +196,7 @@
 }
 
 .message-input-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -268,6 +270,51 @@
   .icon {
     max-width: 11px;
   }
+}
+
+.edit-text-container {
+  position: absolute;
+  bottom: 6rem;
+  width: 88%;
+  padding: 7px 10px;
+  border-radius: 7px;
+  margin-left: 5px;
+  display: flex;
+  align-self: flex-start;
+  background-color: var(--primary-white);
+  color: var(--secondary-dark-grey);
+  border: 1px solid var(--after-primary-light-grey);
+  box-shadow: -2px -1px 5px #0000001a;
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    &:first-of-type {
+      color: var(--tertiary-light-green);
+    }
+  }
+
+  .icon {
+    width: 16px;
+    margin: 0 15px 0 15px;
+  }
+  .close {
+    margin-left: auto;
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.edit-status {
+  margin: 0 15px 0 15px;
+  font-size: 10px;
+  .edited-icon {
+    width: 13px;
+  }
+}
+
+.menu-item {
+  font-size: 14px;
 }
 
 .file-attach {
