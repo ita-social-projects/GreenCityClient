@@ -2,6 +2,7 @@ import { MessagesListComponent } from './messages-list.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChatMessageView } from '../../model/chat-page.interface';
 import { fakeAsync, tick } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MessagesListComponent', () => {
   let fixture: ComponentFixture<MessagesListComponent>;
@@ -18,7 +19,7 @@ describe('MessagesListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MessagesListComponent]
+      imports: [MessagesListComponent, HttpClientTestingModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MessagesListComponent);
