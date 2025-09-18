@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Addresses, EventListResponse, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
-import { first, Observable, ReplaySubject, Subscription, take, takeUntil } from 'rxjs';
+import { Observable, ReplaySubject, Subscription, take, takeUntil } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { MatSelect } from '@angular/material/select';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
 import { DateAdapter, MatOption, MatOptionSelectionChange } from '@angular/material/core';
