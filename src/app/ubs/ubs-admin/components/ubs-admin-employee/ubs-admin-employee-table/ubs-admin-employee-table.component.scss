@@ -38,6 +38,7 @@
 
 .scrolling {
   height: calc(100vh - 350px);
+  min-height: 350px;
   overflow: auto;
   padding-bottom: 20px;
 }

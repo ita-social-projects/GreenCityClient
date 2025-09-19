@@ -103,6 +103,29 @@ describe('ChatComponent (baseline)', () => {
     component.ngOnInit();
     expect(facade.init).toHaveBeenCalledOnceWith(321);
   });
+
+  it('should respond to window resize event', () => {
+    spyOn(component, 'onResize').and.callThrough();
+
+    window.dispatchEvent(new Event('resize'));
+
+    expect(component.onResize).toHaveBeenCalled();
+  });
+
+  it('should listen to viewport width and switch views correctly', () => {
+    Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 600 });
+
+    component.onResize();
+
+    expect(component.isMobileView).toBeTrue();
+    expect(component.showChats).toBeTrue();
+
+    (window.innerWidth as any) = 800;
+    component.onResize();
+
+    expect(component.isMobileView).toBeFalse();
+    expect(component.showChats).toBeTrue();
+  });
 });
 
 describe('ChatComponent (IO behavior)', () => {

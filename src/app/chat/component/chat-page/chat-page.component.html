@@ -1,17 +1,17 @@
 <div class="chat-page-inner">
-  <div class="chat-sidebar" #sidebarRoot>
+  <div *ngIf="showChats" class="chat-sidebar" #sidebarRoot>
     <app-chat-sidebar
       [chats]="facade.filteredChats()"
       [loading]="facade.isLoading()"
       (searchChange)="facade.setSearchId($event)"
-      (selectChat)="facade.selectChat($event)"
+      (selectChat)="facade.selectChat($event); closeChat()"
     >
     </app-chat-sidebar>
 
     <div #pagingAnchor class="infinite-scroll-anchor"></div>
   </div>
 
-  <div class="chat-view">
+  <div *ngIf="!isMobileView || !showChats" class="chat-view">
     <ng-container *ngIf="facade.selectedChat(); else placeholder">
       <div class="chat-box">
         <div class="chat-header">
