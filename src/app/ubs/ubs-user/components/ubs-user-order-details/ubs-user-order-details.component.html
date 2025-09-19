@@ -32,7 +32,7 @@
       <td colspan="4">{{ 'user-orders.details.bonuses' | translate }}</td>
       <td>-{{ order.bonuses | localizedCurrency: true }}</td>
     </tr>
-    <tr *ngIf="isPaid(order) || order.paidAmount > 0" class="optional_row">
+    <tr *ngIf="order.paidAmount > 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.paid-amount' | translate }}</td>
       <td>-{{ order.paidAmount | localizedCurrency: true }}</td>
     </tr>
