@@ -219,20 +219,44 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     if (this.userForm.valid) {
       this.isFetching = true;
       this.isEditing = false;
+
+      // Отримуємо актуальне значення telegramIsNotify з форми
+      const telegramNotifyValue = this.userForm.get('telegramIsNotify')?.value || false;
+
+      // Обробляємо телефон - якщо порожній або тільки префікс, то null
+      let phoneValue = this.userForm.value.recipientPhone?.trim();
+      if (!phoneValue || phoneValue === this.phonePrefix || phoneValue === '') {
+        phoneValue = null;
+      }
+
       const submitData: UserProfile = {
         addressDto: [],
-        recipientEmail: this.userForm.value.recipientEmail,
-        alternateEmail: this.userForm.value.alternateEmail,
-        recipientName: this.userForm.value.recipientName,
-        recipientPhone: this.userForm.value.recipientPhone,
-        recipientSurname: this.userForm.value.recipientSurname,
-        telegramIsNotify: this.userProfile.telegramIsNotify,
+        recipientEmail: this.userForm.value.recipientEmail?.trim(),
+        alternateEmail: this.userForm.value.alternateEmail?.trim() || null,
+        recipientName: this.userForm.value.recipientName?.trim(),
+        recipientPhone: phoneValue,
+        recipientSurname: this.userForm.value.recipientSurname?.trim() || null,
+        telegramIsNotify: telegramNotifyValue,
         hasPassword: this.userProfile.hasPassword
       };
 
-      if (!submitData.alternateEmail?.length) {
+      // Видаляємо порожні поля
+      if (!submitData.alternateEmail) {
         delete submitData.alternateEmail;
       }
+      if (!submitData.recipientPhone) {
+        delete submitData.recipientPhone;
+      }
+      if (!submitData.recipientSurname) {
+        delete submitData.recipientSurname;
+      }
+
+      // Детальне логування для дебагу
+      console.log('Form values:', this.userForm.value);
+      console.log('User profile before:', this.userProfile);
+      console.log('Submit data:', submitData);
+      console.log('Form valid:', this.userForm.valid);
+      console.log('Form errors:', this.userForm.errors);
 
       this.userProfile.addressDto.forEach((address, i) => {
         const formAddress = this.userForm.value.address[i];
@@ -281,9 +305,27 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
             }
             this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
             this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
+
+            // Скидаємо стан форми на pristine після успішного збереження
+            this.userForm.markAsPristine();
+            this.userForm.markAsUntouched();
+
+            this.snackBar.openSnackBar('savedChangesToUserProfile');
           },
-          error: (err: Error) => {
+          error: (err: any) => {
             this.isFetching = false;
+            console.error('Submit error details:', err);
+            console.error('Error response body:', JSON.stringify(err.error, null, 2));
+            console.error('Error status:', err.status);
+            console.error('Error message:', err.message);
+
+            // Якщо є масив помилок, виведемо кожну окремо
+            if (Array.isArray(err.error)) {
+              err.error.forEach((error: any, index: number) => {
+                console.error(`Error ${index + 1}:`, JSON.stringify(error, null, 2));
+              });
+            }
+
             this.snackBar.openSnackBar('error');
           }
         });
@@ -291,7 +333,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     } else {
       this.isEditing = true;
     }
-    this.snackBar.openSnackBar('savedChangesToUserProfile');
   }
 
   saveAddedAddresses() {
@@ -442,15 +483,15 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
   }
 
-  onSwitchChanged(): void {
+  onSwitchChanged(newValue: boolean): void {
     const currentValue = this.userProfile.telegramIsNotify;
-    const newValue = !currentValue;
 
     if (newValue) {
       const matDialogRef = this.dialog.open(ConfirmationDialogComponent, {
         data: this.dataTelegramSubscription,
         hasBackdrop: true
       });
+
       matDialogRef
         .afterClosed()
         .pipe(take(1))
@@ -460,8 +501,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
             this.userForm.markAsDirty();
             this.userForm.get('telegramIsNotify')?.setValue(true);
             this.goToTelegramUrl();
-          } else {
-            this.userForm.get('telegramIsNotify')?.setValue(false);
           }
         });
     } else {

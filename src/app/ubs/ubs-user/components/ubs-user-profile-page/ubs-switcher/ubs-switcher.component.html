@@ -1,4 +1,9 @@
 <label class="switch" for="user-notification-switcher">
-  <input id="user-notification-switcher" type="checkbox" [checked]="isChecked" (change)="onChange($event.target['checked'])" />
+  <input
+    id="user-notification-switcher"
+    type="checkbox"
+    [checked]="displayChecked"
+    (change)="onChange($event)"
+  />
   <span class="slider round"></span>
 </label>
