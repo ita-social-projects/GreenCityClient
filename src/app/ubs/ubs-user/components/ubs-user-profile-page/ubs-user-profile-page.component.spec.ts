@@ -842,7 +842,9 @@ describe('UbsUserProfilePageComponent', () => {
       spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
       spyOn(component, 'goToTelegramUrl');
       component.userProfile.telegramIsNotify = false;
-      component.onSwitchChanged();
+
+      component.onSwitchChanged(true);
+
       expect(component.goToTelegramUrl).toHaveBeenCalled();
       expect(component.userProfile.telegramIsNotify).toBeTrue();
       expect(component.userForm.get('telegramIsNotify')?.value).toBeTrue();
@@ -855,7 +857,9 @@ describe('UbsUserProfilePageComponent', () => {
       component.userProfile.telegramIsNotify = false;
       const ctrl = component.userForm.get('telegramIsNotify') as FormControl;
       ctrl.setValue(false);
-      component.onSwitchChanged();
+
+      component.onSwitchChanged(true);
+
       expect(component.goToTelegramUrl).not.toHaveBeenCalled();
       expect(component.userProfile.telegramIsNotify).toBeFalse();
       expect(component.userForm.get('telegramIsNotify')?.value).toBeFalse();
