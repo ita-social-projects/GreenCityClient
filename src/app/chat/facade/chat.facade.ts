@@ -314,8 +314,8 @@ export class ChatFacade {
     this.api.sendMessage(sel.chatInternalId, text.trim(), file).subscribe({
       next: () => {
         const time = formatTimeOrDate(new Date().toISOString());
-        const imagePreview = file && file.type.startsWith('image/') ? URL.createObjectURL(file) : null;
-        const filePreview = file && !file.type.startsWith('image/') ? URL.createObjectURL(file) : null;
+        const imagePreview = file && file.type?.startsWith('image/') ? URL.createObjectURL(file) : null;
+        const filePreview = file && !file.type?.startsWith('image/') ? URL.createObjectURL(file) : null;
 
         sel.messages.push({
           from: 'Me',
@@ -323,7 +323,7 @@ export class ChatFacade {
           time,
           images: imagePreview ? [imagePreview] : [],
           fileUrl: filePreview,
-          fileName: file ? file.name : null,
+          fileName: filePreview ? file.name : null,
           viewingStatus: null
         });
         sel.lastMessage = text.trim();
