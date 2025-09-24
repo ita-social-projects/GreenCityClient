@@ -38,6 +38,6 @@
       <span>{{ 'chat.attach-file' | translate }}</span>
       <input type="file" (change)="onFileSelected($event)" hidden #fileInput />
     </label>
-    <span class="file-name"> {{ 'chat.no-file-chosen' | translate }}</span>
+    <span class="file-name"> {{ file ? file.name : ('chat.no-file-chosen' | translate) }}</span>
   </div>
 </div>

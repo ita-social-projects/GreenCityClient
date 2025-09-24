@@ -158,7 +158,7 @@ export class ChatFacade {
     this.location.replaceState(newPath);
   }
 
-  selectChatById(chatInternalId: number) { 
+  selectChatById(chatInternalId: number) {
     const chat = this.chats().find((c) => c.chatInternalId === chatInternalId);
     if (chat) {
       this.selectChat(chat);
@@ -314,13 +314,16 @@ export class ChatFacade {
     this.api.sendMessage(sel.chatInternalId, text.trim(), file).subscribe({
       next: () => {
         const time = formatTimeOrDate(new Date().toISOString());
-        const imagePreview = file ? URL.createObjectURL(file) : null;
+        const imagePreview = file && file.type.startsWith('image/') ? URL.createObjectURL(file) : null;
+        const filePreview = file && !file.type.startsWith('image/') ? URL.createObjectURL(file) : null;
 
         sel.messages.push({
           from: 'Me',
           text: text.trim(),
           time,
           images: imagePreview ? [imagePreview] : [],
+          fileUrl: filePreview,
+          fileName: file ? file.name : null,
           viewingStatus: null
         });
         sel.lastMessage = text.trim();
