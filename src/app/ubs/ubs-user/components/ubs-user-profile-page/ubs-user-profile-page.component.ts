@@ -220,10 +220,8 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       this.isFetching = true;
       this.isEditing = false;
 
-      // Отримуємо актуальне значення telegramIsNotify з форми
       const telegramNotifyValue = this.userForm.get('telegramIsNotify')?.value || false;
 
-      // Обробляємо телефон - якщо порожній або тільки префікс, то null
       let phoneValue = this.userForm.value.recipientPhone?.trim();
       if (!phoneValue || phoneValue === this.phonePrefix || phoneValue === '') {
         phoneValue = null;
@@ -240,7 +238,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         hasPassword: this.userProfile.hasPassword
       };
 
-      // Видаляємо порожні поля
       if (!submitData.alternateEmail) {
         delete submitData.alternateEmail;
       }
@@ -250,13 +247,6 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       if (!submitData.recipientSurname) {
         delete submitData.recipientSurname;
       }
-
-      // Детальне логування для дебагу
-      console.log('Form values:', this.userForm.value);
-      console.log('User profile before:', this.userProfile);
-      console.log('Submit data:', submitData);
-      console.log('Form valid:', this.userForm.valid);
-      console.log('Form errors:', this.userForm.errors);
 
       this.userProfile.addressDto.forEach((address, i) => {
         const formAddress = this.userForm.value.address[i];
@@ -306,26 +296,13 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
             this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
             this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
 
-            // Скидаємо стан форми на pristine після успішного збереження
             this.userForm.markAsPristine();
             this.userForm.markAsUntouched();
 
             this.snackBar.openSnackBar('savedChangesToUserProfile');
           },
-          error: (err: any) => {
+          error: () => {
             this.isFetching = false;
-            console.error('Submit error details:', err);
-            console.error('Error response body:', JSON.stringify(err.error, null, 2));
-            console.error('Error status:', err.status);
-            console.error('Error message:', err.message);
-
-            // Якщо є масив помилок, виведемо кожну окремо
-            if (Array.isArray(err.error)) {
-              err.error.forEach((error: any, index: number) => {
-                console.error(`Error ${index + 1}:`, JSON.stringify(error, null, 2));
-              });
-            }
-
             this.snackBar.openSnackBar('error');
           }
         });
