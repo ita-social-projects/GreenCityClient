@@ -54,8 +54,7 @@ input[type='date'] {
 
 ::ng-deep .dropdown-menu {
   .mat-mdc-dialog-surface {
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding-bottom: 0px;
+    overflow: hidden auto;
+    padding-bottom: 0;
   }
 }
