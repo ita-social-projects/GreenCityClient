@@ -4,17 +4,17 @@ import { EventsListComponent } from './events-list.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { FilterItem } from '../../models/events.interface';
+import { EventListResponse, FilterItem } from '../../models/events.interface';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { addressesMock, eventStateMock } from '@assets/mocks/events/mock-events';
 import { EventStoreService } from '../../services/event-store.service';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionSelectionChange } from '@angular/material/core';
 import { Language } from 'src/app/shared/i18n/Language';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 
@@ -96,9 +96,7 @@ describe('EventsListComponent', () => {
     const startDate = new Date('2023-10-10');
     const endDate = new Date('2023-10-20');
     spyOn(component, 'updateListOfFilters').and.callThrough();
-    spyOn((component as any).eventService, 'getEvents')
-      .and.returnValue(of({ page: [], totalElements: 0, hasNext: false }))
-      .and.callThrough();
+    spyOn((component as any).eventService, 'getEvents').and.returnValue(of({ page: [], totalElements: 0, hasNext: false }));
 
     component.dateRangeFilterForm.setValue({ from: startDate, to: endDate });
 
@@ -241,6 +239,43 @@ describe('EventsListComponent', () => {
   it('should clear selected filters for type', () => {
     component.unselectAllFiltersInType('type');
     expect(component.selectedTypeFiltersList).toEqual([]);
+  });
+
+  it('should call updateEventReaction on successful dislike', () => {
+    const event = { id: 123 } as EventListResponse;
+    const eventService = (component as any).eventService;
+    spyOn(eventService, 'dislikeEvent').and.returnValue(of({}));
+    spyOn(component as any, 'updateEventReaction');
+
+    component.dislikeEvent(event);
+
+    expect(eventService.dislikeEvent).toHaveBeenCalledWith(123);
+    expect((component as any).updateEventReaction).toHaveBeenCalledWith(event, 'dislike');
+  });
+
+  it('should return immediately if event.isUserInput is false', () => {
+    const filter = { type: 'status', nameEn: 'active' } as FilterItem;
+    const event = { isUserInput: false } as MatOptionSelectionChange;
+    spyOn(component as any, 'unselectCheckbox');
+    spyOn(component as any, 'updateSelectedFiltersList');
+
+    component.updateListOfFilters(filter, event);
+
+    expect((component as any).unselectCheckbox).not.toHaveBeenCalled();
+    expect((component as any).updateSelectedFiltersList).not.toHaveBeenCalled();
+  });
+
+  it('should reset dateRangeFilterForm when type is dateRange', () => {
+    const filter = { type: 'dateRange', nameEn: 'someDate' } as FilterItem;
+    spyOn(component.dateRangeFilterForm, 'reset');
+    spyOn(component as any, 'updateSelectedFiltersList');
+    spyOn(component, 'updateListOfFilters');
+
+    component.removeItemFromSelectedFiltersList(filter);
+
+    expect(component.dateRangeFilterForm.reset).toHaveBeenCalled();
+    expect((component as any).updateSelectedFiltersList).toHaveBeenCalled();
+    expect(component.updateListOfFilters).toHaveBeenCalled();
   });
 
   it('should reset all filter lists and unselect all checkboxes', () => {
