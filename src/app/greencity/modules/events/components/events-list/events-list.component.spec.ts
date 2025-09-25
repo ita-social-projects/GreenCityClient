@@ -16,6 +16,7 @@ import { addressesMock, eventStateMock } from '@assets/mocks/events/mock-events'
 import { EventStoreService } from '../../services/event-store.service';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Language } from 'src/app/shared/i18n/Language';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -27,10 +28,6 @@ describe('EventsListComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(eventStateMock);
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return of(valEn);
-  };
   const matDialogService: jasmine.SpyObj<MatDialog> = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
   const eventStoreServiceMock: jasmine.SpyObj<EventStoreService> = jasmine.createSpyObj<EventStoreService>('EventStoreService', [
     'setEditorValues'
@@ -51,7 +48,8 @@ describe('EventsListComponent', () => {
         { provide: UserOwnAuthService, useValue: UserOwnAuthServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogService },
-        { provide: EventStoreService, useValue: eventStoreServiceMock }
+        { provide: EventStoreService, useValue: eventStoreServiceMock },
+        { provide: LanguageService, LanguageService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -98,7 +96,9 @@ describe('EventsListComponent', () => {
     const startDate = new Date('2023-10-10');
     const endDate = new Date('2023-10-20');
     spyOn(component, 'updateListOfFilters').and.callThrough();
-    spyOn((component as any).eventService, 'getEvents').and.returnValue(of({ page: [], totalElements: 0, hasNext: false }));
+    spyOn((component as any).eventService, 'getEvents')
+      .and.returnValue(of({ page: [], totalElements: 0, hasNext: false }))
+      .and.callThrough();
 
     component.dateRangeFilterForm.setValue({ from: startDate, to: endDate });
 
@@ -110,9 +110,7 @@ describe('EventsListComponent', () => {
 
   it('should change dateAdapter locale on language change', () => {
     const dateAdapter = (component as any).dateAdapter;
-    const langSubject = new BehaviorSubject<string>('en');
-    (component as any).languageService.getCurrentLangObs = () => langSubject.asObservable();
-    spyOn(dateAdapter, 'setLocale');
+    spyOn(dateAdapter, 'setLocale').and.callThrough();
 
     (component as any).languageService.changeCurrentLanguage(Language.UK);
 
@@ -121,9 +119,7 @@ describe('EventsListComponent', () => {
 
   it('should set en-US dateAdapter locale if language is undefined', () => {
     const dateAdapter = (component as any).dateAdapter;
-    const langSubject = new BehaviorSubject<string>('en');
-    (component as any).languageService.getCurrentLangObs = () => langSubject.asObservable();
-    spyOn(dateAdapter, 'setLocale');
+    spyOn(dateAdapter, 'setLocale').and.callThrough();
 
     (component as any).languageService.changeCurrentLanguage(undefined);
 
