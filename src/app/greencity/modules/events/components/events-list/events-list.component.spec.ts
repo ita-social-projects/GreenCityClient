@@ -1,10 +1,10 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventsListComponent } from './events-list.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
@@ -29,7 +29,7 @@ describe('EventsListComponent', () => {
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    of(valEn);
+    return of(valEn);
   };
   const matDialogService: jasmine.SpyObj<MatDialog> = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
   const eventStoreServiceMock: jasmine.SpyObj<EventStoreService> = jasmine.createSpyObj<EventStoreService>('EventStoreService', [
@@ -94,48 +94,41 @@ describe('EventsListComponent', () => {
     expect(component.bookmarkSelected).toEqual(true);
   });
 
-  it('should add dateRangeFilter when date range is selected', fakeAsync(() => {
+  it('should add dateRangeFilter when date range is selected', () => {
     const startDate = new Date('2023-10-10');
     const endDate = new Date('2023-10-20');
-
+    spyOn(component, 'updateListOfFilters').and.callThrough();
     spyOn((component as any).eventService, 'getEvents').and.returnValue(of({ page: [], totalElements: 0, hasNext: false }));
 
-    component.ngOnInit();
-    tick();
-
     component.dateRangeFilterForm.setValue({ from: startDate, to: endDate });
-    tick();
 
+    expect(component.updateListOfFilters).toHaveBeenCalled();
     expect((component as any).eventService.getEvents).toHaveBeenCalledWith(
       jasmine.stringMatching(/from=2023-10-10T00:00:00.000Z&to=2023-10-20T00:00:00.000Z/)
     );
-  }));
+  });
 
-  it('should change dateAdapter locale on language change', fakeAsync(() => {
+  it('should change dateAdapter locale on language change', () => {
     const dateAdapter = (component as any).dateAdapter;
+    const langSubject = new BehaviorSubject<string>('en');
+    (component as any).languageService.getCurrentLangObs = () => langSubject.asObservable();
     spyOn(dateAdapter, 'setLocale');
-
-    component.ngOnInit();
-    tick();
 
     (component as any).languageService.changeCurrentLanguage(Language.UK);
-    tick();
 
     expect(dateAdapter.setLocale).toHaveBeenCalledWith('uk-UA');
-  }));
+  });
 
-  it('should set en-US dateAdapter locale if language is undefined', fakeAsync(() => {
+  it('should set en-US dateAdapter locale if language is undefined', () => {
     const dateAdapter = (component as any).dateAdapter;
+    const langSubject = new BehaviorSubject<string>('en');
+    (component as any).languageService.getCurrentLangObs = () => langSubject.asObservable();
     spyOn(dateAdapter, 'setLocale');
 
-    component.ngOnInit();
-    tick();
-
     (component as any).languageService.changeCurrentLanguage(undefined);
-    tick();
 
     expect(dateAdapter.setLocale).toHaveBeenCalledWith('en-US');
-  }));
+  });
 
   it('should return unique locations', () => {
     const expectedLocations: FilterItem[] = [
