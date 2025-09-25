@@ -2,6 +2,7 @@
   width: 140px;
   border: 1px solid var(--ubs-quaternary-dark-grey);
   border-radius: 4px !important;
+  background-color: var(--ubs-primary-white);
 }
 
 .search-input {
@@ -10,6 +11,10 @@
 
 .btn-group {
   gap: 7px;
+  position: sticky;
+  bottom: 0;
+  padding-bottom: 10px;
+  background-color: var(--ubs-primary-white);
 }
 
 .bg-lime {
@@ -45,4 +50,12 @@ input[type='date'] {
   border: none;
   cursor: pointer;
   margin-left: 18px;
+}
+
+::ng-deep .dropdown-menu {
+  .mat-mdc-dialog-surface {
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: 0px;
+  }
 }
