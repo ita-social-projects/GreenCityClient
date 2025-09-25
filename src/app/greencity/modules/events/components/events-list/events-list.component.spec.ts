@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventsListComponent } from './events-list.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -94,35 +94,48 @@ describe('EventsListComponent', () => {
     expect(component.bookmarkSelected).toEqual(true);
   });
 
-  it('should add dateRangeFilter when date range is selected', () => {
+  it('should add dateRangeFilter when date range is selected', fakeAsync(() => {
     const startDate = new Date('2023-10-10');
     const endDate = new Date('2023-10-20');
+
     spyOn((component as any).eventService, 'getEvents').and.returnValue(of({ page: [], totalElements: 0, hasNext: false }));
 
+    component.ngOnInit();
+    tick();
+
     component.dateRangeFilterForm.setValue({ from: startDate, to: endDate });
+    tick();
 
     expect((component as any).eventService.getEvents).toHaveBeenCalledWith(
       jasmine.stringMatching(/from=2023-10-10T00:00:00.000Z&to=2023-10-20T00:00:00.000Z/)
     );
-  });
+  }));
 
-  it('should change dateAdapter locale on language change', () => {
+  it('should change dateAdapter locale on language change', fakeAsync(() => {
     const dateAdapter = (component as any).dateAdapter;
     spyOn(dateAdapter, 'setLocale');
+
+    component.ngOnInit();
+    tick();
 
     (component as any).languageService.changeCurrentLanguage(Language.UK);
+    tick();
 
     expect(dateAdapter.setLocale).toHaveBeenCalledWith('uk-UA');
-  });
+  }));
 
-  it('should set en-US dateAdapter locale if language is undefined', () => {
+  it('should set en-US dateAdapter locale if language is undefined', fakeAsync(() => {
     const dateAdapter = (component as any).dateAdapter;
     spyOn(dateAdapter, 'setLocale');
 
+    component.ngOnInit();
+    tick();
+
     (component as any).languageService.changeCurrentLanguage(undefined);
+    tick();
 
     expect(dateAdapter.setLocale).toHaveBeenCalledWith('en-US');
-  });
+  }));
 
   it('should return unique locations', () => {
     const expectedLocations: FilterItem[] = [
