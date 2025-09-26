@@ -228,7 +228,8 @@ describe('UbsUserOrdersListComponent', () => {
         data: {
           orderId: 7,
           price: 55,
-          bonuses: 111
+          bonuses: 111,
+          hasLink: false
         },
         autoFocus: true
       });
@@ -261,6 +262,7 @@ describe('UbsUserOrdersListComponent', () => {
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
       spyOn(component, 'isOrderUnpaid').and.returnValue(false);
+      spyOn(component, 'isOrderHalfPaid').and.returnValue(false);
 
       component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[1] as any);
 
