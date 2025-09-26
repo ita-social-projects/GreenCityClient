@@ -215,13 +215,27 @@
 
 .filter-list {
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: space-between;
   width: min-content;
   -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  ::ng-deep {
+    .mat-mdc-select-placeholder {
+      display: none !important;
+    }
+
+    .mat-mdc-select-arrow svg {
+      top: 100%;
+    }
+
+    .mat-date-range-input {
+      visibility: hidden;
+    }
   }
 
   @include responsivePCFirst(sm) {
@@ -234,12 +248,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-right: 10px;
 }
 
 .dropdown {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
   margin-right: 15px;
   white-space: nowrap;
   cursor: pointer;
@@ -283,7 +298,7 @@ p {
 .active-filter-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: end;
   margin: 10px 0 32px;
 
   p {
@@ -512,4 +527,18 @@ p {
 
 ::ng-deep .mat-option:first-child .mat-pseudo-checkbox {
   display: none;
+}
+
+.date-range-input {
+  display: hidden;
+  position: absolute;
+  pointer-events: none;
+}
+
+.custom-select-arrow {
+  color: var(--mat-select-enabled-arrow-color);
+}
+
+::ng-deep .mat-mdc-focus-indicator {
+    display: none !important;
 }
