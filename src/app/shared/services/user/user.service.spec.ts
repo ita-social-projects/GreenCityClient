@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserService } from './user.service';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { habitStatisticLink, userLink } from '../../../main/links';
+import { greenCityUserLink, habitStatisticLink, userLink } from '../../../main/links';
 import {
   LISTOFUSERS,
   USERCHANGESTATUS,
@@ -10,7 +10,7 @@ import {
   GETUSERPAGEBLE,
   GETUPDATEUSER,
   HABITITEMS
-} from '../../../greencity/modules/user/mocks/user-service-mock';
+} from '@global-user/mocks/user-service-mock';
 
 describe('UserService', () => {
   let service: UserService;
@@ -124,7 +124,7 @@ describe('UserService', () => {
     service.countActivatedUsers().subscribe((data) => {
       expect(data).toBe(5);
     });
-    const req = httpMock.expectOne(`${userLink}/activatedUsersAmount`);
+    const req = httpMock.expectOne(`${greenCityUserLink}/activatedUsersAmount`);
     expect(req.request.method).toBe('GET');
     req.flush(5);
   });

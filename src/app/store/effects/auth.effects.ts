@@ -63,8 +63,8 @@ export class AuthEffects {
   $signInWithGoogle = createEffect(() => {
     return this.actions.pipe(
       ofType(SignInWithGoogleAction),
-      mergeMap((action: { token: string }) => {
-        return this.authService.signInWithGoogle(action.token).pipe(
+      mergeMap((action: { token: string; isUBS: boolean }) => {
+        return this.authService.signInWithGoogle(action.token, action.isUBS).pipe(
           map((response: ISignInResponse) => SignInSuccessAction({ data: response })),
           catchError((error) => of(SignInFailureAction({ error: this.BACKEND_ERRORS[error.message] || this.DEFAULT_ERROR })))
         );

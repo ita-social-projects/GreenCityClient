@@ -315,7 +315,7 @@ describe('InterceptorService', () => {
 
     service.intercept(originalReq, mockNextHandler).subscribe();
 
-    const tokenRefreshReq = httpMock.expectOne(`${updateAccessTokenLink}?refreshToken=mockRefreshToken`);
+    const tokenRefreshReq = httpMock.expectOne(`${updateAccessTokenLink}?refreshToken=mockRefreshToken&projectName=GREENCITY`);
     expect(tokenRefreshReq.request.method).toBe('GET');
 
     tokenRefreshReq.flush({ accessToken: newAccessToken, refreshToken: newRefreshToken });
@@ -342,7 +342,7 @@ describe('InterceptorService', () => {
 
     service.intercept(originalReq, mockNextHandler).subscribe();
 
-    const tokenRefreshReq = httpMock.expectOne(`${updateAccessTokenLink}?refreshToken=invalidRefreshToken`);
+    const tokenRefreshReq = httpMock.expectOne(`${updateAccessTokenLink}?refreshToken=invalidRefreshToken&projectName=PICKUP`);
     expect(tokenRefreshReq.request.method).toBe('GET');
 
     tokenRefreshReq.flush({}, { status: BAD_REQUEST, statusText: 'Bad Request' });
@@ -389,7 +389,7 @@ describe('InterceptorService', () => {
       secondRequestCompleted = true;
     });
 
-    const tokenRefreshReq = httpMock.expectOne(`${updateAccessTokenLink}?refreshToken=mockRefreshToken`);
+    const tokenRefreshReq = httpMock.expectOne(`${updateAccessTokenLink}?refreshToken=mockRefreshToken&projectName=GREENCITY`);
     expect(tokenRefreshReq.request.method).toBe('GET');
 
     tick();

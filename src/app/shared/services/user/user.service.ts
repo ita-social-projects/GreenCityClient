@@ -2,13 +2,13 @@ import { LocalStorageService } from '../localstorage/local-storage.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserRoleModel } from '../../../greencity/modules/user/models/user/user-role.model';
-import { UserStatusModel } from '../../../greencity/modules/user/models/user/user-status.model';
-import { UserPageableDtoModel } from '../../../greencity/modules/user/models/user/user-pageable-dto.model';
-import { habitStatisticLink, userLink } from '../../../main/links';
-import { RolesModel } from '../../../greencity/modules/user/models/roles.model';
-import { UserFilterDtoModel } from '../../../greencity/modules/user/models/user/userFilterDto.model';
-import { UserUpdateModel } from '../../../greencity/modules/user/models/user/user-update.model';
+import { UserRoleModel } from '@user-models/user/user-role.model';
+import { UserStatusModel } from '@user-models/user/user-status.model';
+import { UserPageableDtoModel } from '@user-models/user/user-pageable-dto.model';
+import { greenCityUserLink, habitStatisticLink, userLink } from '../../../main/links';
+import { RolesModel } from '@user-models/roles.model';
+import { UserFilterDtoModel } from '@user-models/user/userFilterDto.model';
+import { UserUpdateModel } from '@user-models/user/user-update.model';
 import moment from 'moment';
 import { HabitItemsAmountStatisticDto } from '@global-user/models/goal/HabitItemsAmountStatisticDto';
 
@@ -81,13 +81,13 @@ export class UserService {
   convertDate = (date) => moment(date).format('yyyy-MM-DDTHH:mm:ss.SSSSSS');
 
   /**
-   * Returns amount of users with activated status.
+   * Returns amount of users with activated status from GreenCity.
    * Can be used for representing total amount of users in the system.
    *
    * @returns Observable<number> that can be used for subscription to obtain amount of users.
    */
   countActivatedUsers(): Observable<number> {
-    return this.http.get(`${userLink}/activatedUsersAmount`) as Observable<number>;
+    return this.http.get(`${greenCityUserLink}/activatedUsersAmount`) as Observable<number>;
   }
 
   /**
