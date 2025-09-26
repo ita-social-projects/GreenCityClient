@@ -15,6 +15,8 @@ import { MatRadioChange } from '@angular/material/radio';
 import { IBonusInfo } from '../models/IBonusInfo.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { IProcessOrderResponse } from 'src/app/ubs/ubs/models/ubs.interface';
+import { first, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -265,19 +267,29 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.localStorageService.setUserPagePayment(true);
 
     if (this.formPaymentSystem.value === 'Liqpay') {
-      this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe({
-        next: (response: ResponceOrderFondyModel) => {
-          if (response.link) {
-            this.processWayForPay(response);
-          } else {
-            this.redirectionToConfirmPage();
-            this.dialogRef.close();
+      of(this.data.hasLink)
+        .pipe(
+          switchMap((hasLink) => {
+            if (hasLink) {
+              return this.orderService.cancelExistingPayment(this.data.orderId).pipe(first());
+            }
+            return of(null);
+          }),
+          switchMap(() => this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto))
+        )
+        .subscribe({
+          next: (response: ResponceOrderFondyModel) => {
+            if (response.link) {
+              this.processWayForPay(response);
+            } else {
+              this.redirectionToConfirmPage();
+              this.dialogRef.close();
+            }
+          },
+          error: () => {
+            this.dataLoadingLiqPay = false;
           }
-        },
-        error: () => {
-          this.dataLoadingLiqPay = false;
-        }
-      });
+        });
     }
   }
 
