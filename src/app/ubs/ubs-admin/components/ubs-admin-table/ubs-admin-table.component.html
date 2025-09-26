@@ -28,7 +28,7 @@
           <div class="dropdown-menu-container">
             <div class="sticky-top dropdown-top-panel">
               <p class="font-weight-bold">{{ 'ubs-tables.filter' | translate }}</p>
-              <button type="button" class="reset-settings" (click)="toggleFilters()">
+              <button type="button" class="reset-settings close-btn" (click)="toggleFilters()">
                 <i class="fa fa-close" aria-hidden="true"></i>
               </button>
             </div>
@@ -190,7 +190,7 @@
                   {{ 'ubs-tables.all-elements' | translate }}
                 </mat-checkbox>
               </div>
-              <button type="button" class="reset-settings" (click)="toggleTableView()">
+              <button type="button" class="reset-settings close-btn" (click)="toggleTableView()">
                 <i class="fa fa-close" aria-hidden="true"></i>
               </button>
             </div>
