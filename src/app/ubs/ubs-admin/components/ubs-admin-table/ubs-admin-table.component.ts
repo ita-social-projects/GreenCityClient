@@ -105,7 +105,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   stickyColumnsAmount = 4;
   nestedSortProperty = 'title.key';
   noFiltersApplied = true;
-  isFiltersOpened = false;
   isTimePickerOpened = false;
   showPopUp: boolean;
   cancellationReason: string;
