@@ -5,6 +5,7 @@ import { OrderService } from '@ubs/ubs-admin/services/order.service';
 import { first } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { ViolationLevel } from '@ubs/ubs/violation-level.enum';
+import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({
   selector: 'app-view-violation-modal',
@@ -20,7 +21,8 @@ export class ViewViolationModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: string,
     public dialogRef: MatDialogRef<ViewViolationModalComponent>,
     private orderService: OrderService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBarService: MatSnackBarService
   ) {
     this.orderId = data;
   }
@@ -29,8 +31,13 @@ export class ViewViolationModalComponent implements OnInit {
     this.orderService
       .getViolationOfCurrentOrder(this.orderId)
       .pipe(first())
-      .subscribe((violation) => {
-        this.violationDetails = violation;
+      .subscribe({
+        next: (details) => (this.violationDetails = details),
+        error: () => {
+          console.error('Error getting violation of order: ', this.orderId);
+          this.snackBarService.openSnackBar('error');
+          this.dialogRef.close();
+        }
       });
   }
 

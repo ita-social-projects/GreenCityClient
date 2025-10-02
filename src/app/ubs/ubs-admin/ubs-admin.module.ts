@@ -105,6 +105,7 @@ import { CommentPopUpComponent } from './components/shared/components/comment-po
 import { UbsSharedModule } from '../shared/ubs-shared.module';
 import { UbsAdminNotificationCreateFormComponent } from './components/ubs-admin-notification/ubs-admin-notification-create-form/ubs-admin-notification-create-form.component';
 import { ViewViolationModalComponent } from './components/view-violation-modal/view-violation-modal.component';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 
 @NgModule({
   declarations: [
@@ -220,7 +221,8 @@ import { ViewViolationModalComponent } from './components/view-violation-modal/v
     MatInputModule,
     MatFormFieldModule,
     QuillModule.forRoot(),
-    UbsSharedModule
+    UbsSharedModule,
+    SharedGreenCityModule
   ],
   providers: [
     AdminCertificateService,
