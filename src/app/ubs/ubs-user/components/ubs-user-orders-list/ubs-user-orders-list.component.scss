@@ -31,6 +31,7 @@
 }
 
 .mat-expansion-panel-header {
+  height: unset;
   min-height: 80px;
   display: flex;
   flex-direction: row-reverse;
@@ -81,6 +82,7 @@
 
 ::ng-deep .mat-content {
   align-items: center;
+  justify-content: space-between;
 }
 
 .mat-content-wrapper {
@@ -105,8 +107,13 @@ button {
   flex-flow: row wrap;
   align-items: center;
   margin-left: 25px;
+  padding: 10px;
   gap: 16px;
   justify-content: flex-end;
+}
+
+.s-btn {
+  margin-right: 10px;
 }
 
 .mobile_list .mobile {
@@ -188,10 +195,6 @@ button {
 
   .mobile_list {
     height: 25px;
-  }
-
-  .custom-panel .mat-expansion-panel-header {
-    height: 100px;
   }
 
   .btns-group {
