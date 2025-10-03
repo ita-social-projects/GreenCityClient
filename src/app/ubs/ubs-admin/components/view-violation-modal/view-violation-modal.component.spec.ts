@@ -6,6 +6,8 @@ import { OrderService } from '@ubs/ubs-admin/services/order.service';
 import { IViolation } from '@ubs/ubs-admin/models/violation.model';
 import { ViolationLevel } from '@ubs/ubs/violation-level.enum';
 import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ViewViolationModalComponent', () => {
   let component: ViewViolationModalComponent;
@@ -19,6 +21,7 @@ describe('ViewViolationModalComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ViewViolationModalComponent],
+      imports: [MatSnackBarModule, TranslateModule.forRoot()],
       providers: [
         { provide: OrderService, useValue: orderServiceSpy },
         { provide: MatDialog, useValue: dialogSpy },
