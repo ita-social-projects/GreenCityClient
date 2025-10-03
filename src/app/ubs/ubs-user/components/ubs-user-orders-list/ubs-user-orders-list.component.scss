@@ -31,7 +31,7 @@
 }
 
 .mat-expansion-panel-header {
-  height: 80px;
+  min-height: 80px;
   display: flex;
   flex-direction: row-reverse;
   padding: 0 17px;
@@ -102,10 +102,11 @@ button {
 
 .btns-group {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   align-items: center;
   margin-left: 25px;
   gap: 16px;
+  justify-content: flex-end;
 }
 
 .mobile_list .mobile {

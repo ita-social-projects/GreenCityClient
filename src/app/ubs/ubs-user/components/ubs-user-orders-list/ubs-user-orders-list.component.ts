@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { Bag, OrderDetails, PersonalData } from '../../../ubs/models/ubs.interface';
-import { OrderService } from '../../../ubs/services/order.service';
-import { UBSOrderFormService } from '../../../ubs/services/ubs-order-form.service';
+import { Bag, OrderDetails, PersonalData } from '@ubs/ubs/models/ubs.interface';
+import { OrderService } from '@ubs/ubs/services/order.service';
+import { UBSOrderFormService } from '@ubs/ubs/services/ubs-order-form.service';
 import { IUserOrderInfo, OrderStatusEn, PaymentStatusEn } from './models/UserOrder.interface';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
@@ -111,7 +111,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       data: {
         orderId: order.id,
         price: order.amountBeforePayment,
-        bonuses: this.bonuses
+        bonuses: this.bonuses,
+        hasLink: !!order.paymentLink
       },
       autoFocus: true
     });
@@ -120,7 +121,9 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   openOrderPaymentDialog(event: Event, order: IUserOrderInfo): void {
     event.stopPropagation();
     const isOrderFormed = order.orderStatusEn === OrderStatusEn.FORMED;
-    this.isOrderUnpaid(order) && isOrderFormed ? this.editOrPayPopup(order) : this.openOrderPaymentPopUp(order);
+    (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order)) && isOrderFormed
+      ? this.editOrPayPopup(order)
+      : this.openOrderPaymentPopUp(order);
     this.orderService.cleanOrderState();
   }
 
@@ -130,10 +133,18 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe((res) => {
         if (res) {
-          this.openOrderPaymentPopUp(order);
+          if (order.paymentLink) {
+            window.location.href = order.paymentLink;
+          } else {
+            this.openOrderPaymentPopUp(order);
+          }
         }
         if (res === false) {
-          this.getDataForLocalStorage(order);
+          if (this.isOrderHalfPaid(order) && order.paymentLink) {
+            this.openOrderPaymentPopUp(order);
+          } else {
+            this.getDataForLocalStorage(order);
+          }
         }
       });
   }
@@ -186,8 +197,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     forkJoin([orderDataRequest, personalDataRequest]).subscribe(() => {
       this.bags = orderDataResponse.bags || [];
       this.bags.forEach((item) => {
-        const bagsQuantity = this.getBagsQuantity(item.nameUk, item.capacity, order);
-        item.quantity = bagsQuantity;
+        item.quantity = this.getBagsQuantity(item.nameUk, item.capacity, order);
       });
 
       this.orderDetails = {
@@ -200,7 +210,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
         points: this.bonuses,
         pointsSum: 0,
         pointsToUse: 0,
-        total: order.orderFullPrice
+        total: order.orderFullPrice,
+        hasPaymentLink: !!order.paymentLink
       };
 
       this.personalDetails = personalDataResponse;

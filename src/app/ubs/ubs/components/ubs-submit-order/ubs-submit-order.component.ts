@@ -113,10 +113,11 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   processOrder(shouldBePaid: boolean = true): void {
+    const hasLink = JSON.parse(localStorage.getItem('UBSorderData'))?.hasPaymentLink || false;
     this.isLoadingAnim = true;
     iif(
       () => this.existingOrderId >= 0,
-      this.orderService.processExistingOrder(this.getOrder(shouldBePaid), this.existingOrderId),
+      this.orderService.processExistingOrder(this.getOrder(shouldBePaid), this.existingOrderId, hasLink),
       this.orderService.processNewOrder(this.getOrder(shouldBePaid))
     )
       .pipe(
