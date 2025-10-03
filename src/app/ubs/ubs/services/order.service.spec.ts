@@ -6,7 +6,7 @@ import { OrderService } from './order.service';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from '../../ubs-user/components/ubs-user-orders-list/models/OrderClientDto';
 import { ResponceOrderFondyModel } from '../../ubs-user/components/ubs-user-orders-list/models/ResponceOrderFondyModel';
-import { DistrictsDtos, IProcessOrderResponse, KyivNamesEnum, Order } from '../models/ubs.interface';
+import { DistrictsDtos, KyivNamesEnum, Order } from '../models/ubs.interface';
 import { ADDRESSESMOCK } from '../../mocks/address-mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -286,7 +286,7 @@ describe('OrderService', () => {
     });
   });
 
-  it('should not call cancelExistingPayment if it dont have paymentLink ', (done) => {
+  it('should not call cancelExistingPayment if it doesnt have paymentLink ', (done) => {
     spyOn(service, 'cancelExistingPayment').and.returnValue(of(null));
     spyOn(service['http'], 'post').and.returnValue(of({}));
 
@@ -298,18 +298,18 @@ describe('OrderService', () => {
     });
   });
 
-  it('should post cancelPaymentAttempt', () => {
+  it('should post cancelPaymentAttempt', (done) => {
     const orderId = 123;
     const mockResponse = { success: true } as any;
 
-    let resp: IProcessOrderResponse | undefined;
-    service.cancelExistingPayment(orderId).subscribe((r) => (resp = r));
+    service.cancelExistingPayment(orderId).subscribe((resp) => {
+      expect(resp).toEqual(mockResponse);
+      done();
+    });
 
     const req = httpMock.expectOne(`${service['url']}/cancelPaymentAttempt/${orderId}`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual({});
-
     req.flush(mockResponse);
-    expect(resp).toEqual(mockResponse);
   });
 });
