@@ -6,7 +6,7 @@ import { OrderService } from './order.service';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from '../../ubs-user/components/ubs-user-orders-list/models/OrderClientDto';
 import { ResponceOrderFondyModel } from '../../ubs-user/components/ubs-user-orders-list/models/ResponceOrderFondyModel';
-import { DistrictsDtos, KyivNamesEnum } from '../models/ubs.interface';
+import { DistrictsDtos, KyivNamesEnum, Order } from '../models/ubs.interface';
 import { ADDRESSESMOCK } from '../../mocks/address-mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -272,5 +272,19 @@ describe('OrderService', () => {
     const region = { nameUk: 'Україна', nameEn: 'Ukraine' };
     const result = service.getLocationName(location, region);
     expect(['Lviv, Ukraine', 'Львів, Україна']).toContain(result);
+  });
+
+  it('should delete existing order if it has paymentLink', () => {
+    spyOn(service, 'cancelExistingPayment').and.returnValue(of({} as any));
+    service.processExistingOrder(bagMock as unknown as Order, 123, true).subscribe();
+    expect(service.cancelExistingPayment).toHaveBeenCalledWith(123);
+  });
+
+  it('should not call cancelExistingPayment if it dont have paymentLink ', () => {
+    spyOn(service, 'cancelExistingPayment').and.returnValue(of({} as any));
+    service.processExistingOrder(bagMock as unknown as Order, 123).subscribe();
+    expect(service.cancelExistingPayment).not.toHaveBeenCalled();
+    const req = httpMock.expectOne(`${baseLink}/processOrder/123`);
+    expect(req.request.method).toBe('POST');
   });
 });
