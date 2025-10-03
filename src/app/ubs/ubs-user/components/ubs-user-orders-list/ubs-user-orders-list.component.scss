@@ -102,11 +102,10 @@ button {
 
 .btns-group {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   align-items: center;
   margin-left: 25px;
   gap: 16px;
-  flex-wrap: wrap;
   justify-content: flex-end;
 }
 
