@@ -103,14 +103,14 @@ describe('InterceptorService', () => {
     service.intercept(new HttpRequest('GET', '/test'), mockNextHandler).subscribe({
       next: () => fail('Should not emit next for no internet'),
       error: () => {
-        expect(snackBarServiceMock.openSnackBar).toHaveBeenCalledWith('snack-bar.error.no-internet');
+        expect(snackBarServiceMock.openSnackBar).toHaveBeenCalledWith('noInternet');
         Object.defineProperty(window.navigator, 'onLine', { value: originalOnline, writable: true });
         done();
       },
       complete: () => {}
     });
 
-    expect(snackBarServiceMock.openSnackBar).toHaveBeenCalledWith('snack-bar.error.no-internet');
+    expect(snackBarServiceMock.openSnackBar).toHaveBeenCalledWith('noInternet');
     Object.defineProperty(window.navigator, 'onLine', { value: originalOnline, writable: true });
     done();
   });
