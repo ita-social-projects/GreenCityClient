@@ -50,6 +50,10 @@
   border: 1px solid var(--ubs-primary-green);
   box-sizing: border-box;
   border-radius: 4px;
+
+  &-view-violation {
+    width: fit-content;
+  }
 }
 
 .violation__item {

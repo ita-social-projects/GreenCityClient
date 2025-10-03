@@ -1,0 +1,34 @@
+<div class="container">
+  <ng-container *ngIf="violationDetails; else loading">
+    <span class="title">{{ 'view-violation-modal.about-violation' | translate }}</span>
+    <span class="subtitle">{{ 'view-violation-modal.violation-level' | translate }}</span>
+    <span
+      class="violation-lvl-chip"
+      [ngClass]="{
+        'violation-lvl-chip-low': violationDetails.violationLevel === ViolationLevel.LOW,
+        'violation-lvl-chip-high': violationDetails.violationLevel === ViolationLevel.HIGH
+      }"
+    >
+      <ng-container *ngIf="violationDetails.violationLevel === ViolationLevel.LOW; else High">
+        {{ 'add-violation-modal.easy-violation' | translate }}
+      </ng-container>
+      <ng-template #High>
+        {{ 'add-violation-modal.serious-violation' | translate }}
+      </ng-template>
+    </span>
+    <span class="subtitle">{{ 'view-violation-modal.violation-description' | translate }}</span>
+    <p class="scrollable">{{ violationDetails.description }}</p>
+    <span class="subtitle">{{ 'add-violation-modal.label-for-photo-container' | translate }}</span>
+    <div class="row image-row">
+      <div class="image-row-container" *ngFor="let img of violationDetails.images; let i = index">
+        <img class="image-row-preview" [src]="img" alt="image-of-violation" (click)="openImg(i)" />
+      </div>
+    </div>
+    <div class="btn-wrapper">
+      <button (click)="dialogRef.close()">{{ 'view-violation-modal.close' | translate }}</button>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <app-spinner></app-spinner>
+  </ng-template>
+</div>

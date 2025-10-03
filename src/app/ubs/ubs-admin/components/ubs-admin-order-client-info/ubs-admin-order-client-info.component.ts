@@ -1,12 +1,12 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, AbstractControl, FormControl } from '@angular/forms';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo } from '../../models/ubs-admin.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { ViewViolationModalComponent } from '@ubs/ubs-admin/components/view-violation-modal/view-violation-modal.component';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
@@ -27,7 +27,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
   pageOpen: boolean;
   userViolationForCurrentOrder: number;
   totalUserViolations: number;
-  isOrderDone: boolean;
+  isOrderDoneOrCanceled: boolean;
   isOrderNotTakenOut: boolean;
   isUneditableStatus: boolean;
 
@@ -41,13 +41,19 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
     return this.userInfoDto.get('senderPhoneNumber') as FormControl;
   }
 
+  get canAddViolation(): boolean {
+    return this.userViolationForCurrentOrder === 0 && (this.isOrderNotTakenOut || this.isOrderDoneOrCanceled);
+  }
+
+  get canViewViolation(): boolean {
+    return !this.canAddViolation && this.userViolationForCurrentOrder > 0;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.orderStatus?.currentValue) {
-      this.isOrderDone = changes.orderStatus.currentValue === OrderStatus.DONE;
-      this.isUneditableStatus =
-        this.isOrderDone ||
-        changes.orderStatus.currentValue === OrderStatus.CANCELED ||
-        changes.orderStatus.currentValue === OrderStatus.BROUGHT_IT_HIMSELF;
+      this.isOrderDoneOrCanceled =
+        changes.orderStatus.currentValue === OrderStatus.DONE || changes.orderStatus.currentValue === OrderStatus.CANCELED;
+      this.isUneditableStatus = this.isOrderDoneOrCanceled || changes.orderStatus.currentValue === OrderStatus.BROUGHT_IT_HIMSELF;
       this.isOrderNotTakenOut = changes.orderStatus.currentValue === OrderStatus.NOT_TAKEN_OUT;
     }
   }
@@ -55,10 +61,6 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
   ngOnInit(): void {
     this.pageOpen = true;
     this.setViolationData();
-  }
-
-  isViolationBtnShowed(): boolean {
-    return this.isOrderNotTakenOut || this.isOrderDone;
   }
 
   openDetails(): void {
@@ -70,7 +72,22 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
     this.userViolationForCurrentOrder = this.userInfo.userViolationForCurrentOrder;
   }
 
-  openModal(viewMode: boolean): void {
+  openViewModal(): void {
+    this.dialog.open(ViewViolationModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'admin-cabinet-dialog-container',
+      data: this.orderId
+    });
+  }
+
+  openModal(viewMode: boolean = false): void {
+    if (!this.canAddViolation) {
+      this.openViewModal();
+      return;
+    }
+
     const matDialogRef = this.dialog.open(AddViolationsComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -82,15 +99,12 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
       }
     });
 
-    matDialogRef
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((res) => {
-        if (typeof res === 'number') {
-          this.userViolationForCurrentOrder += res;
-          this.totalUserViolations += res;
-        }
-      });
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (typeof res === 'number') {
+        this.userViolationForCurrentOrder += res;
+        this.totalUserViolations += res;
+      }
+    });
   }
 
   getErrorMessage(abstractControl: AbstractControl, name?: string): string {
