@@ -629,7 +629,8 @@
     "tariffs": "Тарифи",
     "notifications": "Повідомлення",
     "user-agreement": "Угода користувача",
-    "chat": "Чат"
+    "chat": "Чат",
+    "settings": "Налаштування"
   },
   "chat": {
     "empty-chat": "В чаті нема повідомлень",

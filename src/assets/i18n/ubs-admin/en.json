@@ -631,7 +631,8 @@
     "tariffs": "Tariffs",
     "notifications": "Notifications",
     "user-agreement": "User agreement",
-    "chat": "Chat"
+    "chat": "Chat",
+    "settings": "Settings"
   },
   "chat": {
     "empty-chat": "Chat hasn’t got any message yet",
@@ -1325,6 +1326,9 @@
       "confirm": "Confirm",
       "save": "Save"
     }
+  },
+  "settings": {
+    "edit": "Edit Settings"
   },
   "deleting-profile-reason-pop-up": {
     "title": "Why are you leaving?",
