@@ -1325,6 +1325,59 @@
       "save": "Зберегти"
     }
   },
+  "settings": {
+    "edit": "Налаштування домашньої сторінки",
+    "lang": {
+      "uk": "Українською",
+      "en": "Англійською"
+    },
+    "section": {
+      "bonuses": {
+        "title": "Бонус",
+        "caption": "Заголовок",
+        "content": "Зміст"
+      },
+      "header": {
+        "title": "Хедер",
+        "caption": "Заголовок",
+        "content": "Зміст"
+      },
+      "how_works": {
+        "title": "Принцип роботи",
+        "content": "Зміст",
+        "route": "Шлях",
+        "route_caption": "Шлях Заголовок",
+        "working_hours": "Робочі години",
+        "working_hours_caption": "Робочі години Заголовок"
+      },
+      "preparing": {
+        "title": "Підготовка",
+        "caption": "Заголовок",
+        "step_01": "Крок 1",
+        "step_02": "Крок 2",
+        "step_03": "Крок 3",
+        "step_04": "Крок 4",
+        "step_05": "Крок 5"
+      },
+      "price": {
+        "title": "Інструкція замовлення",
+        "caption_steps": "Заголовок",
+        "steps_title_01": "Крок 1 Заголовок",
+        "steps_content_01": "Крок 1 Зміст",
+        "steps_title_02": "Крок 2 Заголовок",
+        "steps_content_02": "Крок 2 Зміст",
+        "steps_title_03": "Крок 3 Заголовок",
+        "steps_content_03": "Крок 3 Зміст",
+        "steps_title_04": "Крок 4 Заголовок",
+        "steps_content_04": "Крок 4 Зміст"
+      },
+      "rules": {
+        "title": "Правила",
+        "caption": "Заголовок",
+        "content": "Зміст"
+      }
+    }
+  },
   "deleting-profile-reason-pop-up": {
     "title": "Чому ви йдете?",
     "buttons": {

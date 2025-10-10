@@ -1,5 +1,5 @@
 import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
-import { Component, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -23,11 +23,15 @@ import { Store } from '@ngrx/store';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
+import { UbsAdminEditHomepageComponent } from '@ubs/ubs-admin/components/ubs-admin-edit-homepage/ubs-admin-edit-homepage.component';
+import { AdminUserAgreementService } from '@ubs/ubs-admin/services/admin-homepage-settings/admin-homepage-settings.service';
+import { THomepageContent } from '@ubs/ubs-admin/models/homepage-settings.interface';
 
 @Component({
   selector: 'app-ubs-main-page',
   templateUrl: './ubs-main-page.component.html',
-  styleUrls: ['./ubs-main-page.component.scss']
+  styleUrls: ['./ubs-main-page.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private readonly subs = new Subscription();
@@ -50,6 +54,8 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   locationsToShowBags: LocationsDtosList[];
   locationToShow: LocationsDtosList;
   isTarriffLoading = true;
+  content: THomepageContent;
+  currentLanguage: string;
 
   perPackageTitle = 'ubs-homepage.ubs-courier.price.price-title';
 
@@ -119,10 +125,14 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     private readonly orderService: OrderService,
     private readonly jwtService: JwtService,
     private readonly cdref: ChangeDetectorRef,
+    private readonly adminUserAgreementService: AdminUserAgreementService,
     public languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
+    this.adminUserAgreementService.getHomepageContent().subscribe((res) => {
+      this.content = res;
+    });
     this.userId = this.localStorageService.getUserId();
     this.isAdmin = this.checkIsAdmin();
     this.getActiveCouriers()
@@ -136,6 +146,12 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.screenWidth = document.documentElement.clientWidth;
     this.onCheckToken();
     this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
+    this.languageService
+      .getCurrentLangObs()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((lang) => {
+        this.currentLanguage = lang.toLowerCase();
+      });
   }
 
   ngAfterViewChecked(): void {

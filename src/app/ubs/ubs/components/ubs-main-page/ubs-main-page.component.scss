@@ -121,6 +121,11 @@
 
     .location-to-show-bags-wrapper {
       margin-top: 10px;
+
+      & > * {
+        max-width: 532px;
+        width: 100%;
+      }
     }
 
     ::ng-deep {
@@ -208,6 +213,12 @@
           max-width: 350px;
           margin: auto 0;
 
+          p {
+            padding: 0;
+            margin: 0;
+          }
+
+          a,
           .link-to-site {
             color: var(--ubs-secondary-light-green);
             text-decoration: underline;
@@ -259,15 +270,22 @@
           width: 100%;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
+          justify-content: space-around;
 
           .rule {
             line-height: 27px;
+            display: flex;
+            gap: 1em;
+            flex-direction: column;
 
-            .lifehack {
+            * {
               margin: 0;
+            }
+
+            blockquote,
+            .lifehack {
               color: var(--ubs-main-page-primary-light-grey);
-              font-size: 20px;
+              //font-size: 20px;
             }
           }
 
@@ -887,7 +905,7 @@ section .main-container {
               }
             }
 
-            .rules {
+            ::ng-deep .rules {
               justify-content: space-around;
 
               .rule {
@@ -895,6 +913,7 @@ section .main-container {
                 font-size: 16px;
                 line-height: 20px;
 
+                blockquote,
                 .lifehack {
                   margin-top: 5px;
                   font-size: 16px;
@@ -1192,7 +1211,7 @@ section .main-container {
                 }
               }
 
-              .rules {
+              ::ng-deep .rules {
                 justify-content: space-around;
 
                 .rule {
@@ -1200,6 +1219,7 @@ section .main-container {
                   font-size: 16px;
                   line-height: 20px;
 
+                  blockquote,
                   .lifehack {
                     margin-top: 5px;
                     font-size: 16px;
@@ -1532,7 +1552,7 @@ section .main-container {
                 }
               }
 
-              .rules {
+              ::ng-deep .rules {
                 justify-content: space-around;
 
                 .rule {
@@ -1540,6 +1560,7 @@ section .main-container {
                   font-size: 12px;
                   line-height: 15px;
 
+                  blockquote,
                   .lifehack {
                     margin-top: 5px;
                     font-size: 12px;
@@ -1779,7 +1800,7 @@ section .main-container {
               }
             }
 
-            .conditions .rules {
+            .conditions ::ng-deep .rules {
               margin: 24px 24px 7px 0;
 
               .rule {
@@ -1789,7 +1810,7 @@ section .main-container {
               }
             }
 
-            .bonuses .rules {
+            .bonuses ::ng-deep .rules {
               margin: 24px 24px 7px 0;
 
               .rule {
@@ -1801,7 +1822,8 @@ section .main-container {
           }
         }
 
-        .how-to-prepare .rules .rule .lifehack {
+        .how-to-prepare ::ng-deep .rules .rule blockquote,
+        .lifehack {
           font-size: 12px !important;
         }
       }
@@ -2075,13 +2097,14 @@ section .main-container {
           }
         }
 
-        .rules {
+        ::ng-deep .rules {
           justify-content: space-around;
         }
 
-        .rules .rule {
+        ::ng-deep .rules .rule {
           line-height: 15px;
 
+          blockquote,
           .lifehack {
             font-size: 11px !important;
           }
@@ -2183,7 +2206,7 @@ section .main-container {
               height: 144px;
             }
 
-            .rules {
+            ::ng-deep .rules {
               .rule {
                 font-size: 11px;
                 line-height: 13px;

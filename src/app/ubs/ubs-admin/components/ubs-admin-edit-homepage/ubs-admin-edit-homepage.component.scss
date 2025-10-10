@@ -1,0 +1,41 @@
+.settings {
+  &__form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+
+    &-lang {
+      flex: 1 1 0;
+      min-width: 300px;
+
+      &-title {
+        background-color: var(--ubs-primary-grey);
+        color: var(--ubs-primary-white);
+        padding: 0.5em 0;
+      }
+    }
+
+    &-section {
+      margin: 1em 0;
+      border-bottom: 1px solid var(--ubs-primary-grey);
+      padding-bottom: 2em;
+
+      &-title {
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+    }
+
+    &-fieldset {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      &-name {
+        font-size: 1.2em;
+        font-weight: bold;
+      }
+    }
+  }
+}

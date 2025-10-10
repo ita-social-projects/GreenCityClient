@@ -24,4 +24,11 @@ type THomepageMeta = {
   authorEmail: string;
 };
 
+export type THomepageContentChange = {
+  section: string;
+  field: string;
+  valueUk: string;
+  valueEn: string;
+};
+
 export type THomepageSettings = THomepageContent & THomepageMeta;

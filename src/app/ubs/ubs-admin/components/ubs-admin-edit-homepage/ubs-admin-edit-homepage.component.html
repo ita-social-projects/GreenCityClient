@@ -1,1 +1,21 @@
-<p>{{ homepageContent.en.how_works.working_hours }}</p>
+<div *ngIf="!isLoading; else spinner">
+  <h5 class="settings__title">{{ 'settings.edit' | translate }}</h5>
+  <form class="settings__form" [formGroup]="homepageContentForm">
+    <div class="settings__form-lang" *ngFor="let lang of languages">
+      <h3 class="settings__form-lang-title">{{ 'settings.lang.' + lang.toLowerCase() | translate }}</h3>
+      <div class="settings__form-section" *ngFor="let section of homepageContent[lang.toLowerCase()] | keyvalue">
+        <h4 class="settings__form-section-title">{{ 'settings.section.' + section.key + '.title' | translate }}</h4>
+        <fieldset class="settings__form-fieldset" *ngFor="let field of section.value | keyvalue">
+          <span class="settings__form-fieldset-name">{{ 'settings.section.' + section.key + '.' + field.key | translate }}</span>
+          <quill-editor class="settings__form-fieldset-input" type="text" [formControlName]="lang + section.key + field.key" />
+        </fieldset>
+      </div>
+    </div>
+  </form>
+  <button class="btn page-btn" (click)="onSave()" [disabled]="homepageContentForm.pristine || homepageContentForm.invalid">
+    {{ 'ubs-user-agreement.btn.save' | translate }}
+  </button>
+</div>
+<ng-template class="spinner" #spinner>
+  <app-spinner></app-spinner>
+</ng-template>

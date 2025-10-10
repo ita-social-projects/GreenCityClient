@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { mainUbsLink } from 'src/app/main/links';
-import { THomepageContent, THomepageSettings } from '@ubs/ubs-admin/models/homepage-settings.interface';
+import { THomepageContentChange, THomepageSettings } from '@ubs/ubs-admin/models/homepage-settings.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { THomepageContent, THomepageSettings } from '@ubs/ubs-admin/models/homep
 export class AdminUserAgreementService {
   private readonly API_ROUTES = {
     getHomepageText: () => `${mainUbsLink}/ubs/superAdmin/settingsText`,
-    updateHomepageText: () => `${mainUbsLink}/ubs/user-agreement`
+    updateHomepageText: () => `${mainUbsLink}/ubs/superAdmin/settingsText/section`
   };
 
   private http: HttpClient = inject(HttpClient);
@@ -19,7 +19,7 @@ export class AdminUserAgreementService {
     return this.http.get<THomepageSettings>(this.API_ROUTES.getHomepageText());
   }
 
-  updateHomepageContent(data: THomepageContent): Observable<void> {
-    return this.http.post<void>(this.API_ROUTES.updateHomepageText(), data);
+  updateHomepageContent(section: string, changes: THomepageContentChange[]): Observable<void> {
+    return this.http.put<void>(this.API_ROUTES.updateHomepageText(), changes, { params: { section: section } });
   }
 }

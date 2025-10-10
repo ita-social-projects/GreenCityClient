@@ -1328,7 +1328,57 @@
     }
   },
   "settings": {
-    "edit": "Edit Settings"
+    "edit": "Edit homepage settings",
+    "lang": {
+      "uk": "Ukrainian",
+      "en": "English"
+    },
+    "section": {
+      "bonuses": {
+        "title": "Bonus",
+        "caption": "Caption",
+        "content": "Content"
+      },
+      "header": {
+        "title": "Header",
+        "caption": "Caption",
+        "content": "Content"
+      },
+      "how_works": {
+        "title": "How it works",
+        "content": "Content",
+        "route": "Route",
+        "route_caption": "Route Caption",
+        "working_hours": "Working Hours",
+        "working_hours_caption": "Working Hours Caption"
+      },
+      "preparing": {
+        "title": "Preparation",
+        "caption": "Caption",
+        "step_01": "Step 1",
+        "step_02": "Step 2",
+        "step_03": "Step 3",
+        "step_04": "Step 4",
+        "step_05": "Step 5"
+      },
+      "price": {
+        "title": "Order steps",
+        "caption_steps": "Caption",
+        "steps_title_01": "Step 1 title",
+        "steps_content_01": "Step 1 content",
+        "steps_title_02": "Step 2 title",
+        "steps_content_02": "Step 2 content",
+        "steps_title_03": "Step 3 title",
+        "steps_content_03": "Step 3 content",
+        "steps_title_04": "Step 4 title",
+        "steps_content_04": "Step 4 content"
+      },
+      "rules": {
+        "title": "Rules",
+        "caption": "Caption",
+        "content": "Content"
+      }
+    }
   },
   "deleting-profile-reason-pop-up": {
     "title": "Why are you leaving?",
