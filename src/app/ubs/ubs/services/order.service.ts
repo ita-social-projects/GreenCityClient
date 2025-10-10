@@ -17,7 +17,7 @@ import {
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject, throwError } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from '@ubs/ubs-user/components/ubs-user-orders-list/models/OrderClientDto';
@@ -129,16 +129,8 @@ export class OrderService {
     return this.http.post<IProcessOrderResponse>(`${this.url}/cancelPaymentAttempt/${id}`, {});
   }
 
-  processExistingOrder(order: Order, orderId: number, hasLink: boolean = false): Observable<IProcessOrderResponse> {
-    return of(hasLink).pipe(
-      switchMap((hasLink) => {
-        if (hasLink) {
-          return this.cancelExistingPayment(orderId).pipe(first());
-        }
-        return of(null);
-      }),
-      switchMap(() => this.http.post<IProcessOrderResponse>(`${this.url}/processOrder/${orderId}`, order))
-    );
+  processExistingOrder(order: Order, orderId: number): Observable<IProcessOrderResponse> {
+    return this.http.post<IProcessOrderResponse>(`${this.url}/processOrder/${orderId}`, order);
   }
 
   processCertificate(certificate): Observable<ICertificateResponse> {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, forkJoin } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { UserOrdersService } from '../../services/user-orders.service';
@@ -20,7 +20,7 @@ import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.
   templateUrl: './ubs-user-orders.component.html',
   styleUrls: ['./ubs-user-orders.component.scss']
 })
-export class UbsUserOrdersComponent implements OnInit, OnDestroy {
+export class UbsUserOrdersComponent implements OnInit, AfterViewInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
   currentOrders: IUserOrderInfo[] = [];
   closedOrders: IUserOrderInfo[] = [];
@@ -159,7 +159,9 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
         },
         error: (err) => this.displayError(err)
       });
+  }
 
+  ngAfterViewInit() {
     this.orderIdToScroll = this.localStorage.getOrderIdToRedirect();
     if (this.orderIdToScroll) {
       this.openExtendedOrder();
@@ -213,16 +215,23 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       }
     }
     isPresent.extend = true;
-    setTimeout(() => this.scroll(this.orderIdToScroll), 0);
+    requestAnimationFrame(() => this.scroll(this.orderIdToScroll));
   }
 
   scroll(orderId: number): void {
     const ord: string = orderId.toString();
-    document.getElementById(ord).scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-      inline: 'nearest'
-    });
+    const element = document.getElementById(ord);
+    if (element) {
+      const panel = element.closest('mat-expansion-panel');
+      (panel.querySelector('mat-expansion-panel-header') as HTMLElement).click();
+      setTimeout(() => {
+        panel.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'nearest'
+        });
+      }, 100);
+    }
   }
 
   displayError(error) {
