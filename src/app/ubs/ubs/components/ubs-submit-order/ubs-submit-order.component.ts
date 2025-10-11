@@ -113,10 +113,11 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   processOrder(shouldBePaid: boolean = true): void {
+    const hasLink = JSON.parse(localStorage.getItem('UBSorderData'))?.hasPaymentLink || false;
     this.isLoadingAnim = true;
     iif(
       () => this.existingOrderId >= 0,
-      this.orderService.processExistingOrder(this.getOrder(shouldBePaid), this.existingOrderId),
+      this.orderService.processExistingOrder(this.getOrder(shouldBePaid), this.existingOrderId, hasLink),
       this.orderService.processNewOrder(this.getOrder(shouldBePaid))
     )
       .pipe(
@@ -151,10 +152,24 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   private processPayment(response: IProcessOrderResponse): void {
-    this.localStorageService.setUbsPaymentOrderId(response.orderId);
-    if (response.link && this.isShouldBePaid) {
-      this.redirectToExternalUrl(response.link);
+    if (response.orderId) {
+      this.localStorageService.setUbsPaymentOrderId(response.orderId);
+      if (!this.finalSum && this.pointsUsed) {
+        this.processPointsPayment(response.orderId);
+      }
+      if (response.link && this.isShouldBePaid) {
+        this.redirectToExternalUrl(response.link);
+      }
     }
+  }
+
+  private processPointsPayment(orderId: number) {
+    this.localStorageService.setUserPagePayment(true);
+    this.localStorageService.setUbsPaymentOrderId(orderId);
+
+    this.ubsOrderFormService.transferOrderId(orderId);
+    this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+    this.ubsOrderFormService.setOrderStatus(true);
   }
 
   private getOrder(shouldBePaid: boolean): Order {

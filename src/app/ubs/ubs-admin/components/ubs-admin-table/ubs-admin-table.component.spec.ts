@@ -2,7 +2,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkTableModule } from '@angular/cdk/table';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsAdminTableComponent } from './ubs-admin-table.component';
@@ -12,11 +12,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
-import { CUSTOM_ELEMENTS_SCHEMA, Renderer2, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { BehaviorSubject, of } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -27,11 +27,10 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { OrderStatus } from '@ubs/ubs/order-status.enum';
 import { TableHeightService } from '../../services/table-height.service';
 import { Router } from '@angular/router';
-import { IColumnDTO, IFilteredColumn } from '../../models/ubs-admin.interface';
+import { IBigOrderTable, IColumnDTO, IFilteredColumn } from '../../models/ubs-admin.interface';
 import { IAlertInfo } from '../../models/edit-cell.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { GetColumns, GetLocationsDetails, GetTable, GetTableColumnWidth } from 'src/app/store/actions/bigOrderTable.actions';
-import { IBigOrderTable } from '../../models/ubs-admin.interface';
 
 describe('UbsAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
@@ -41,8 +40,18 @@ describe('UbsAdminTableComponent', () => {
   let adminTableService: AdminTableService;
 
   const columnsForFiltering: IFilteredColumn[] = [
-    { key: 'column1', en: 'column1En', uk: 'column1Ua', values: [{ key: 'value1', en: 'value1En', uk: 'value1Ua', filtered: true }] },
-    { key: 'column2', en: 'column2En', uk: 'column2Ua', values: [{ key: 'value2', en: 'value2En', uk: 'value2Ua', filtered: true }] }
+    {
+      key: 'column1',
+      en: 'column1En',
+      uk: 'column1Ua',
+      values: [{ key: 'value1', en: 'value1En', uk: 'value1Ua', filtered: true }]
+    },
+    {
+      key: 'column2',
+      en: 'column2En',
+      uk: 'column2Ua',
+      values: [{ key: 'value2', en: 'value2En', uk: 'value2Ua', filtered: true }]
+    }
   ];
   const mockColumns = [{ title: { key: 'key' } }, { title: { key: 'gg' } }, { title: { key: 'dd' } }] as IColumnDTO[];
   const mockColumnDTO: IColumnDTO[] = [
@@ -124,9 +133,19 @@ describe('UbsAdminTableComponent', () => {
   adminTableServiceMock.columnsForFiltering = columnsForFiltering;
   (adminTableServiceMock as any).ordersViewParameters$ = of({ titles: ['title'] });
   // Initialize bigOrderTableParams$ with a BehaviorSubject for better control
-  const bigOrderTableParamsSubject = new BehaviorSubject({ columnDTOList: [], columnBelongingList: [], page: {}, orderSearchCriteria: {} });
+  const bigOrderTableParamsSubject = new BehaviorSubject({
+    columnDTOList: [],
+    columnBelongingList: [],
+    page: {},
+    orderSearchCriteria: {}
+  });
   (adminTableServiceMock as any).bigOrderTableParams$ = bigOrderTableParamsSubject.asObservable();
-  (adminTableServiceMock as any).bigOrderTable$ = of({ number: 0, totalElements: 0, content: [], totalPages: 1 } as IBigOrderTable);
+  (adminTableServiceMock as any).bigOrderTable$ = of({
+    number: 0,
+    totalElements: 0,
+    content: [],
+    totalPages: 1
+  } as IBigOrderTable);
 
   const FakeMatDialogRef = {
     afterClosed: () => of(true)
@@ -343,13 +362,6 @@ describe('UbsAdminTableComponent', () => {
     expect(component.displayedColumns).toEqual(['title1', 'title2', 'title3', 'title4']);
   });
 
-  it('toggleFilters expect set filtersOpened to !filtersOpened', () => {
-    component.isFiltersOpened = false;
-    component.toggleFilters();
-
-    expect(component.isFiltersOpened).toEqual(true);
-  });
-
   it('toggleTableView expect store.dispatch have been called', () => {
     storeMock.dispatch.calls.reset();
     component.displayedColumns = ['1', '2'];
@@ -419,7 +431,10 @@ describe('UbsAdminTableComponent', () => {
   it('addOrderCancellationData expect cancellationReason and cancellationComment should be changed', () => {
     component.cancellationReason = '';
     component.cancellationComment = '';
-    component.addOrderCancellationData({ cancellationReason: 'cancellation reason', cancellationComment: 'cancellation comment' });
+    component.addOrderCancellationData({
+      cancellationReason: 'cancellation reason',
+      cancellationComment: 'cancellation comment'
+    });
     expect(component.cancellationReason).toBe('cancellation reason');
     expect(component.cancellationComment).toBe('cancellation comment');
   });

@@ -28,7 +28,15 @@ describe('UbsUserOrdersListComponent', () => {
   let dialogRefSpy: jasmine.SpyObj<any>;
 
   const fakeInputOrderData = [
-    { id: 3, dateForm: 55, orderStatusEn: 'Done', paymentStatusEn: 'Unpaid', orderFullPrice: 55, amountBeforePayment: 55, extend: true },
+    {
+      id: 3,
+      dateForm: 55,
+      orderStatusEn: 'Done',
+      paymentStatusEn: 'Unpaid',
+      orderFullPrice: 55,
+      amountBeforePayment: 55,
+      extend: true
+    },
     {
       id: 7,
       dateForm: 66,
@@ -228,7 +236,8 @@ describe('UbsUserOrdersListComponent', () => {
         data: {
           orderId: 7,
           price: 55,
-          bonuses: 111
+          bonuses: 111,
+          hasLink: false
         },
         autoFocus: true
       });
@@ -261,6 +270,7 @@ describe('UbsUserOrdersListComponent', () => {
       const openOrderPaymentPopUpSpy = spyOn(component as any, 'openOrderPaymentPopUp');
       const editOrPayPopupSpy = spyOn(component, 'editOrPayPopup');
       spyOn(component, 'isOrderUnpaid').and.returnValue(false);
+      spyOn(component, 'isOrderHalfPaid').and.returnValue(false);
 
       component.openOrderPaymentDialog(new Event('click'), fakeInputOrderData[1] as any);
 
@@ -433,7 +443,10 @@ describe('UbsUserOrdersListComponent', () => {
       component.editOrPayPopup(fakeInputOrderData[1] as any);
       tick();
 
-      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, { data: component.editOrPayDialogData, autoFocus: true });
+      expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, {
+        data: component.editOrPayDialogData,
+        autoFocus: true
+      });
 
       expect(component.editOrPayDialogData).toBeDefined();
       expect(matDialogMock.open).toHaveBeenCalled();

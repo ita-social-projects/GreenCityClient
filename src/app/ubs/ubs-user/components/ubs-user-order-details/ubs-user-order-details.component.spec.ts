@@ -41,18 +41,4 @@ describe('UbsUserOrderDetailsComponent', () => {
     component.ngOnInit();
     expect(component.certificatesAmount).toBe(510);
   });
-
-  describe('isOrderPaid', () => {
-    it('order  is paid', () => {
-      fakeInputOrderData.paymentStatusEn = 'Paid';
-      const isOrderPaidRes = component.isPaid(fakeInputOrderData as IUserOrderInfo);
-      expect(isOrderPaidRes).toBeTruthy();
-    });
-
-    it('order is not unpaid', () => {
-      fakeInputOrderData.paymentStatusEn = 'Unpaid';
-      const isOrderPaidRes = component.isPaid(fakeInputOrderData as IUserOrderInfo);
-      expect(isOrderPaidRes).toBeFalsy();
-    });
-  });
 });

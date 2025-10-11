@@ -1,23 +1,23 @@
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import {
+  ActiveCourierDto,
   Address,
   AddressData,
+  AllActiveLocationsDtosResponse,
   AllLocationsDtos,
   CourierLocations,
-  ActiveCourierDto,
   DistrictEnum,
-  ICertificateResponse,
-  OrderDetails,
   DistrictsDtos,
+  ICertificateResponse,
   IProcessOrderResponse,
+  KyivNamesEnum,
   Order,
-  AllActiveLocationsDtosResponse,
-  KyivNamesEnum
+  OrderDetails
 } from '../models/ubs.interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, of, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, Subject, throwError } from 'rxjs';
+import { first, map, switchMap } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from '@ubs/ubs-user/components/ubs-user-orders-list/models/OrderClientDto';
@@ -77,7 +77,15 @@ export class OrderService {
       : this.getLocations(courierId, false).pipe(map((allLocations) => allLocations[0].locations[0].locationId));
   }
 
-  getLocationName(location: { nameUk: string; nameEn: string } | string, region: { nameUk: string; nameEn: string } | string): string {
+  getLocationName(
+    location: { nameUk: string; nameEn: string } | string,
+    region:
+      | {
+          nameUk: string;
+          nameEn: string;
+        }
+      | string
+  ): string {
     const locationName = this.getName(location);
     const regionName = this.getName(region);
 
@@ -117,8 +125,20 @@ export class OrderService {
     return this.http.post<IProcessOrderResponse>(`${this.url}/processOrder`, order);
   }
 
-  processExistingOrder(order: Order, orderId: number): Observable<IProcessOrderResponse> {
-    return this.http.post<IProcessOrderResponse>(`${this.url}/processOrder/${orderId}`, order);
+  cancelExistingPayment(id: number): Observable<IProcessOrderResponse> {
+    return this.http.post<IProcessOrderResponse>(`${this.url}/cancelPaymentAttempt/${id}`, {});
+  }
+
+  processExistingOrder(order: Order, orderId: number, hasLink: boolean = false): Observable<IProcessOrderResponse> {
+    return of(hasLink).pipe(
+      switchMap((hasLink) => {
+        if (hasLink) {
+          return this.cancelExistingPayment(orderId).pipe(first());
+        }
+        return of(null);
+      }),
+      switchMap(() => this.http.post<IProcessOrderResponse>(`${this.url}/processOrder/${orderId}`, order))
+    );
   }
 
   processCertificate(certificate): Observable<ICertificateResponse> {

@@ -17,6 +17,6 @@ export class DateLocalisationPipe implements PipeTransform {
 
   transform(date: string | Date): string {
     date = !date ? Date.now().toString() : date;
-    return formatDate(date, 'mediumDate', this.locale);
+    return formatDate(date, 'mediumDate', this.locale === 'uk' ? 'uk-UA' : 'en-US');
   }
 }

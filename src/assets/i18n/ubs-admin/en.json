@@ -61,9 +61,9 @@
       "yes": "Yes",
       "no": "No",
       "certificate-activated": {
-        "activated-oversum": "A certificate for {{certificateSum}}.00 UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}}.00 UAH does not return. The certificate is valid until {{ certDate}} ",
-        "sum": "Certificate for {{certificateSum}}.00 UAH activated.",
-        "data": "Period is up to - до {{certDate}}"
+        "activated-oversum": "A certificate for {{certificateSum}} UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}}.00 UAH does not return. The certificate is valid until {{ certDate}} ",
+        "sum": "Certificate for {{certificateSum}} UAH activated.",
+        "data": "Valid until {{certDate}}"
       },
       "choose-payment": "You can make a payment in one of the selected methods below.",
       "edit-or-payment": "Would you like to edit your order or proceed to payment?",
@@ -122,6 +122,12 @@
     "save": "Save",
     "date": "Date:",
     "info-about-date": "Added:"
+  },
+  "view-violation-modal": {
+    "about-violation": "About violation",
+    "violation-level": "Level of violation",
+    "violation-description": "Violation description",
+    "close": "Close"
   },
   "return-payment": {
     "message": "Do you really want a refund?",
@@ -297,7 +303,8 @@
       "title": "Customer violations",
       "amount": "Total",
       "current-order": "Current violation",
-      "button": "Add violation"
+      "button": "Add violation",
+      "button-view-violation": "View violation"
     }
   },
   "customer-details": {

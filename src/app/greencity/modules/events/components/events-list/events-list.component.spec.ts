@@ -9,12 +9,14 @@ import { UserOwnAuthService } from 'src/app/shared/services/auth/user-own-auth.s
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { FilterItem } from '../../models/events.interface';
+import { EventListResponse, FilterItem } from '../../models/events.interface';
 import { LangValueDirective } from 'src/app/shared/directives/lang-value/lang-value.directive';
-import { MatSelect } from '@angular/material/select';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { addressesMock, eventStateMock, testCases } from '@assets/mocks/events/mock-events';
+import { addressesMock, eventStateMock } from '@assets/mocks/events/mock-events';
 import { EventStoreService } from '../../services/event-store.service';
+import { MatNativeDateModule, MatOptionSelectionChange } from '@angular/material/core';
+import { Language } from 'src/app/shared/i18n/Language';
+import { LanguageService } from 'src/app/shared/i18n/language.service';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -26,10 +28,6 @@ describe('EventsListComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(eventStateMock);
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    of(valEn);
-  };
   const matDialogService: jasmine.SpyObj<MatDialog> = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
   const eventStoreServiceMock: jasmine.SpyObj<EventStoreService> = jasmine.createSpyObj<EventStoreService>('EventStoreService', [
     'setEditorValues'
@@ -38,12 +36,20 @@ describe('EventsListComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListComponent, LangValueDirective],
-      imports: [TranslateModule.forRoot(), NgxPaginationModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule],
+      imports: [
+        TranslateModule.forRoot(),
+        NgxPaginationModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        MatDialogModule,
+        MatNativeDateModule
+      ],
       providers: [
         { provide: UserOwnAuthService, useValue: UserOwnAuthServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogService },
-        { provide: EventStoreService, useValue: eventStoreServiceMock }
+        { provide: EventStoreService, useValue: eventStoreServiceMock },
+        { provide: LanguageService, LanguageService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -86,6 +92,38 @@ describe('EventsListComponent', () => {
     expect(component.bookmarkSelected).toEqual(true);
   });
 
+  it('should add dateRangeFilter when date range is selected', () => {
+    const startDate = new Date('2023-10-10');
+    const endDate = new Date('2023-10-20');
+    spyOn(component, 'updateListOfFilters').and.callThrough();
+    spyOn((component as any).eventService, 'getEvents').and.returnValue(of({ page: [], totalElements: 0, hasNext: false }));
+
+    component.dateRangeFilterForm.setValue({ from: startDate, to: endDate });
+
+    expect(component.updateListOfFilters).toHaveBeenCalled();
+    expect((component as any).eventService.getEvents).toHaveBeenCalledWith(
+      jasmine.stringMatching(/from=2023-10-10T00:00:00.000Z&to=2023-10-20T00:00:00.000Z/)
+    );
+  });
+
+  it('should change dateAdapter locale on language change', () => {
+    const dateAdapter = (component as any).dateAdapter;
+    spyOn(dateAdapter, 'setLocale').and.callThrough();
+
+    (component as any).languageService.changeCurrentLanguage(Language.UK);
+
+    expect(dateAdapter.setLocale).toHaveBeenCalledWith('uk-UA');
+  });
+
+  it('should set en-US dateAdapter locale if language is undefined', () => {
+    const dateAdapter = (component as any).dateAdapter;
+    spyOn(dateAdapter, 'setLocale').and.callThrough();
+
+    (component as any).languageService.changeCurrentLanguage(undefined);
+
+    expect(dateAdapter.setLocale).toHaveBeenCalledWith('en-US');
+  });
+
   it('should return unique locations', () => {
     const expectedLocations: FilterItem[] = [
       { type: 'location', nameEn: 'Online', nameUk: 'Онлайн' },
@@ -94,6 +132,26 @@ describe('EventsListComponent', () => {
       { type: 'location', nameEn: 'Ternopil', nameUk: 'Тернопіль' }
     ];
     expect(component.getUniqueLocations(addressesMock)).toEqual(expectedLocations);
+  });
+
+  it('should add selected filter in dateRange case if it is not exist in selectedFilters list', () => {
+    component.selectedFilters = [];
+
+    component.dateRangeFilterForm.setValue({ from: new Date('2023.10.10'), to: new Date('2023.11.10') });
+
+    expect(component.selectedFilters).toEqual([
+      { type: 'dateRange', nameEn: '10/10/2023 - 11/10/2023', nameUk: '10.10.2023 - 10.11.2023' }
+    ]);
+  });
+
+  it('should update selected filter in dateRange case if it exist in selectedFilters list', () => {
+    component.selectedFilters = [{ type: 'dateRange', nameEn: '10/10/2023 - 11/10/2023', nameUk: '10.10.2023 - 10.11.2023' }];
+
+    component.dateRangeFilterForm.setValue({ from: new Date('2023.10.10'), to: new Date('2023.12.10') });
+
+    expect(component.selectedFilters).toEqual([
+      { type: 'dateRange', nameEn: '10/10/2023 - 12/10/2023', nameUk: '10.10.2023 - 10.12.2023' }
+    ]);
   });
 
   it('should update selected filters list', () => {
@@ -181,6 +239,43 @@ describe('EventsListComponent', () => {
   it('should clear selected filters for type', () => {
     component.unselectAllFiltersInType('type');
     expect(component.selectedTypeFiltersList).toEqual([]);
+  });
+
+  it('should call updateEventReaction on successful dislike', () => {
+    const event = { id: 123 } as EventListResponse;
+    const eventService = (component as any).eventService;
+    spyOn(eventService, 'dislikeEvent').and.returnValue(of({}));
+    spyOn(component as any, 'updateEventReaction');
+
+    component.dislikeEvent(event);
+
+    expect(eventService.dislikeEvent).toHaveBeenCalledWith(123);
+    expect((component as any).updateEventReaction).toHaveBeenCalledWith(event, 'dislike');
+  });
+
+  it('should return immediately if event.isUserInput is false', () => {
+    const filter = { type: 'status', nameEn: 'active' } as FilterItem;
+    const event = { isUserInput: false } as MatOptionSelectionChange;
+    spyOn(component as any, 'unselectCheckbox');
+    spyOn(component as any, 'updateSelectedFiltersList');
+
+    component.updateListOfFilters(filter, event);
+
+    expect((component as any).unselectCheckbox).not.toHaveBeenCalled();
+    expect((component as any).updateSelectedFiltersList).not.toHaveBeenCalled();
+  });
+
+  it('should reset dateRangeFilterForm when type is dateRange', () => {
+    const filter = { type: 'dateRange', nameEn: 'someDate' } as FilterItem;
+    spyOn(component.dateRangeFilterForm, 'reset');
+    spyOn(component as any, 'updateSelectedFiltersList');
+    spyOn(component, 'updateListOfFilters');
+
+    component.removeItemFromSelectedFiltersList(filter);
+
+    expect(component.dateRangeFilterForm.reset).toHaveBeenCalled();
+    expect((component as any).updateSelectedFiltersList).toHaveBeenCalled();
+    expect(component.updateListOfFilters).toHaveBeenCalled();
   });
 
   it('should reset all filter lists and unselect all checkboxes', () => {

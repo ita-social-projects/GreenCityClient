@@ -14,8 +14,4 @@ export class UbsUserOrderDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.certificatesAmount = this.order.certificate.reduce((acc, item) => acc + item.points, 0);
   }
-
-  isPaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatusEn === PaymentStatusEn.PAID;
-  }
 }

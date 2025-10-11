@@ -11,6 +11,7 @@
     (click)="onSelectClick()"
     (closed)="onSelectClosed()"
     [disabled]="isDisabled"
+    [panelWidth]="'fit-content'"
   >
     <mat-option *ngFor="let option of optional" [value]="option | serverTranslate: lang">
       {{ option | serverTranslate: lang }}

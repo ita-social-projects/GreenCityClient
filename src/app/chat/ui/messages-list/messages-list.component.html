@@ -22,7 +22,7 @@
     </div>
 
     <div class="message-file" *ngIf="message.fileUrl">
-      <a [href]="message.fileUrl" target="_blank" rel="noopener noreferrer" class="file-link">
+      <a [href]="message.fileUrl" target="_blank" rel="noopener noreferrer" class="file-link" download>
         📎 {{ message.fileName || 'Download file' }}
       </a>
     </div>

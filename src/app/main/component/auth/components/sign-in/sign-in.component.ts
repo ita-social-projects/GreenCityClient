@@ -49,7 +49,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.signInForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
+      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
+      projectName: new FormControl(this.isUbs ? 'PICKUP' : 'GREENCITY')
     });
 
     this.initGooglePopup();

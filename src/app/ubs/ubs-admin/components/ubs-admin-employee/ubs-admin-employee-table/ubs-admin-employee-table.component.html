@@ -59,6 +59,7 @@
             <div class="text">
               <span class="name">{{ employee.firstName }} {{ employee.lastName }}</span>
               <div class="positions">
+                <span class="mobile-label">{{ 'employees.position' | translate }}</span>
                 <ng-container *ngFor="let position of employee.employeePositions; let i = index">
                   <ng-container *ngIf="!employee.expanded; else allPositions">
                     <span class="link" *ngIf="employee.employeePositions.length > 2 && i <= 2">
@@ -80,6 +81,7 @@
             </div>
 
             <div class="description-item contacts" [class.expanded]="employee.expanded">
+              <span class="mobile-label">{{ 'employees.contacts' | translate }}</span>
               <div class="description-sub-item phone">
                 <img [src]="icons.phone" alt="phone" />&nbsp;
                 <span class="description-item-text">{{ employee.phoneNumber }}</span>
@@ -91,6 +93,7 @@
             </div>
 
             <div class="description-item receiving-station">
+              <span class="mobile-label">{{ 'employees.region' | translate }}</span>
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
                 <div [appLangValue]="{ uk: tariff.region.nameUk, en: tariff.region.nameEn }"></div>
                 <div
@@ -101,6 +104,7 @@
               </div>
             </div>
             <div class="description-item">
+              <span class="mobile-label">{{ 'employees.city' | translate }}</span>
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
                 <div *ngIf="!tariff.locations.additional.length; else moreThanThreeLocations" class="locations-list">
                   <div
@@ -130,6 +134,7 @@
             </div>
 
             <div class="description-item">
+              <span class="mobile-label">{{ 'employees.courier' | translate }}</span>
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
                 <div [appLangValue]="{ uk: tariff.courier.nameUk, en: tariff.courier.nameEn }"></div>
                 <div *ngFor="let placeholder of tariff.locations.displayed.length - 1 | repeat" class="region-placeholder"></div>
@@ -137,6 +142,7 @@
             </div>
 
             <div class="description-item">
+              <span class="mobile-label">{{ 'employees.state' | translate }}</span>
               <div class="description-sub-item description-item-text">
                 <div>
                   {{ (employee.employeeStatus === 'ACTIVE' ? 'employees.status.active' : 'employees.status.inactive') | translate }}

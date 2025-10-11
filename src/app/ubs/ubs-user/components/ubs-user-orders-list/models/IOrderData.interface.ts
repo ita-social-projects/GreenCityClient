@@ -5,4 +5,5 @@ export interface IOrderData {
   price: number;
   orders?: IOrderInfo[];
   bonuses: number;
+  hasLink?: boolean;
 }

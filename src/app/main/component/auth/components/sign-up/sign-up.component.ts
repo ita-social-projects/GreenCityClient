@@ -1,8 +1,8 @@
 import { Patterns } from 'src/assets/patterns/patterns';
-import { UserSuccessSignIn, SuccessSignUpDto } from 'src/app/shared/models/singIn-singUp/user-success-sign-in';
+import { SuccessSignUpDto, UserSuccessSignIn } from 'src/app/shared/models/singIn-singUp/user-success-sign-in';
 import { UserOwnSignUp } from 'src/app/shared/models/singIn-singUp/user-own-sign-up';
 import { authImages } from 'src/app/shared/image-paths/auth-images';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -14,12 +14,11 @@ import { GoogleSignInService } from 'src/app/shared/services/auth/google-sign-in
 import { UserOwnSignInService } from 'src/app/shared/services/auth/user-own-sign-in.service';
 import { UserOwnSignUpService } from 'src/app/shared/services/auth/user-own-sign-up.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { environment } from '@environment/environment';
-import { accounts } from 'google-one-tap';
 import { googleProvider } from '@global-auth/sign-in/GoogleOAuthProvider/GoogleOAuthProvider';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 declare let google: any;
+
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -134,7 +133,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   handleGoogleAuth(resp): void {
     try {
       this.googleService
-        .signIn(resp, this.currentLanguage)
+        .signIn(resp, this.isUbs, this.currentLanguage)
         .pipe(takeUntil(this.destroy))
         .subscribe((successData) => this.signUpWithGoogleSuccess(successData));
     } catch (errorData) {
