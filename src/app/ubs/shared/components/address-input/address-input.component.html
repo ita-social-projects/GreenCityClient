@@ -131,7 +131,7 @@
       [readonly]="isUneditableStatus"
       formControlName="addressComment"
       placeholder="{{ 'personal-info.pop-up-comment-placeholder' | translate }}"
-      (change)="onCommentChange()"
+      (input)="onCommentChange()"
       ngDefaultControl
     ></textarea>
     <div *ngIf="isErrorMessageShown(addressComment)">
