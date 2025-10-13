@@ -53,6 +53,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   tempAddedAddressHolder: AddressData[] = [];
   tempRemovedAddressHolder: Address[] = [];
   savedUserAddresses: Address[];
+  savedTelegramIsNotify: boolean;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -104,12 +105,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userEmail = this.jwtService.getEmailFromAccessToken();
     this.getUserData();
-
     this.store.dispatch(GetAddresses());
-
-    this.store.pipe(select(addressesSelector)).subscribe((addresses) => {
-      this.getUserData();
-    });
   }
 
   getUserData(): void {
@@ -121,6 +117,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
         next: (res: UserProfile) => {
           this.userProfile = res;
           this.savedUserAddresses = [...res.addressDto];
+          this.savedTelegramIsNotify = res.telegramIsNotify;
           this.userInit();
           this.setUrlToBot();
           this.isFetching = false;
@@ -184,7 +181,18 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     this.userForm.get('alternateEmail').setValue(null);
   }
 
-  isSubmitBtnDisabled() {
+  isSubmitBtnDisabled(): boolean {
+    if (!this.userForm) {
+      return true;
+    }
+
+    const formSwitch = !!this.userForm.get('telegramIsNotify')?.value;
+    const serverSwitch = !!this.savedTelegramIsNotify;
+
+    if (formSwitch !== serverSwitch) {
+      return false;
+    }
+
     return this.userForm.invalid || this.userForm.pristine;
   }
 
@@ -209,29 +217,58 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
 
   onCancel(): void {
     this.userProfile.addressDto = [...this.savedUserAddresses];
+    this.userProfile.telegramIsNotify = this.savedTelegramIsNotify;
     this.tempAddedAddressHolder.length = 0;
     this.tempRemovedAddressHolder.length = 0;
-    this.userInit();
-    this.isEditing = false;
+    this.clientProfileService
+      .getDataClientProfile()
+      .pipe(take(1))
+      .subscribe({
+        next: (res: UserProfile) => {
+          this.userProfile.telegramIsNotify = res.telegramIsNotify;
+          this.userInit();
+          this.isEditing = false;
+        },
+        error: () => {
+          this.userInit();
+          this.isEditing = false;
+        }
+      });
   }
 
   onSubmit(): void {
-    if (this.userForm.valid) {
+    const currentSwitch = !!this.userForm.get('telegramIsNotify')?.value;
+    const savedSwitch = !!this.savedTelegramIsNotify;
+    const switchChanged = currentSwitch !== savedSwitch;
+
+    if (switchChanged || (this.userForm.valid && this.userForm.dirty)) {
       this.isFetching = true;
       this.isEditing = false;
+
+      let phoneValue = this.userForm.value.recipientPhone?.trim();
+      if (!phoneValue || phoneValue === this.phonePrefix) {
+        phoneValue = null;
+      }
+
       const submitData: UserProfile = {
         addressDto: [],
-        recipientEmail: this.userForm.value.recipientEmail,
-        alternateEmail: this.userForm.value.alternateEmail,
-        recipientName: this.userForm.value.recipientName,
-        recipientPhone: this.userForm.value.recipientPhone,
-        recipientSurname: this.userForm.value.recipientSurname,
-        telegramIsNotify: this.userProfile.telegramIsNotify,
+        recipientEmail: this.userForm.value.recipientEmail?.trim(),
+        alternateEmail: this.userForm.value.alternateEmail?.trim() || null,
+        recipientName: this.userForm.value.recipientName?.trim(),
+        recipientPhone: phoneValue,
+        recipientSurname: this.userForm.value.recipientSurname?.trim() || null,
+        telegramIsNotify: currentSwitch,
         hasPassword: this.userProfile.hasPassword
       };
 
-      if (!submitData.alternateEmail?.length) {
+      if (!submitData.alternateEmail) {
         delete submitData.alternateEmail;
+      }
+      if (!submitData.recipientPhone) {
+        delete submitData.recipientPhone;
+      }
+      if (!submitData.recipientSurname) {
+        delete submitData.recipientSurname;
       }
 
       this.userProfile.addressDto.forEach((address, i) => {
@@ -279,19 +316,37 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
             if (res.addressDto) {
               this.savedUserAddresses = [...res.addressDto];
             }
-            this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
-            this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
+
+            this.savedTelegramIsNotify = res.telegramIsNotify;
+
+            this.userForm.patchValue({
+              recipientEmail: res.recipientEmail,
+              alternateEmail: res.alternateEmail ?? null,
+              recipientName: res.recipientName,
+              recipientSurname: res.recipientSurname ?? null,
+              recipientPhone: res.recipientPhone ?? '',
+              telegramIsNotify: !!res.telegramIsNotify
+            });
+
+            this.userForm.markAsPristine();
+            this.userForm.markAsUntouched();
+            this.snackBar.openSnackBar('savedChangesToUserProfile');
           },
-          error: (err: Error) => {
+          error: () => {
             this.isFetching = false;
+            this.isEditing = true;
             this.snackBar.openSnackBar('error');
           }
         });
       this.alternativeEmailDisplay = false;
     } else {
-      this.isEditing = true;
+      Object.keys(this.userForm.controls).forEach((key) => {
+        const control = this.userForm.get(key);
+        if (control?.invalid) {
+          control.markAsTouched();
+        }
+      });
     }
-    this.snackBar.openSnackBar('savedChangesToUserProfile');
   }
 
   saveAddedAddresses() {
@@ -442,32 +497,72 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
   }
 
-  onSwitchChanged(): void {
-    const currentValue = this.userProfile.telegramIsNotify;
-    const newValue = !currentValue;
+  onSwitchChanged(newValue: boolean): void {
+    const saveToServer = (status: boolean) => {
+      const wasFetching = this.isFetching;
+      this.isFetching = true;
+
+      const submitData: UserProfile = {
+        ...this.userProfile,
+        telegramIsNotify: status
+      };
+
+      this.clientProfileService
+        .postDataClientProfile(submitData)
+        .pipe(take(1))
+        .subscribe({
+          next: (res: UserProfile) => {
+            this.userProfile.telegramIsNotify = res.telegramIsNotify;
+            this.savedTelegramIsNotify = res.telegramIsNotify;
+            this.isFetching = wasFetching;
+          },
+          error: () => {
+            this.userForm.get('telegramIsNotify')?.setValue(!status, { emitEvent: false });
+            this.userProfile.telegramIsNotify = !status;
+            this.isFetching = wasFetching;
+            this.snackBar.openSnackBar('error');
+          }
+        });
+    };
 
     if (newValue) {
       const matDialogRef = this.dialog.open(ConfirmationDialogComponent, {
         data: this.dataTelegramSubscription,
         hasBackdrop: true
       });
+
       matDialogRef
         .afterClosed()
         .pipe(take(1))
         .subscribe((confirmed) => {
           if (confirmed) {
             this.userProfile.telegramIsNotify = true;
-            this.userForm.markAsDirty();
-            this.userForm.get('telegramIsNotify')?.setValue(true);
+            this.userForm.get('telegramIsNotify')?.setValue(true, { emitEvent: false });
+
+            if (this.isEditing) {
+              if (this.savedTelegramIsNotify !== true) {
+                this.userForm.markAsDirty();
+              }
+            } else {
+              saveToServer(true);
+            }
+
             this.goToTelegramUrl();
           } else {
-            this.userForm.get('telegramIsNotify')?.setValue(false);
+            this.userForm.get('telegramIsNotify')?.setValue(this.userProfile.telegramIsNotify, { emitEvent: false });
           }
         });
     } else {
       this.userProfile.telegramIsNotify = false;
-      this.userForm.markAsDirty();
-      this.userForm.get('telegramIsNotify')?.setValue(false);
+      this.userForm.get('telegramIsNotify')?.setValue(false, { emitEvent: false });
+
+      if (this.isEditing) {
+        if (this.savedTelegramIsNotify !== false) {
+          this.userForm.markAsDirty();
+        }
+      } else {
+        saveToServer(false);
+      }
     }
   }
 

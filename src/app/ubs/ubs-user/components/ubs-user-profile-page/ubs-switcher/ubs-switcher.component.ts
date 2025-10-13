@@ -11,7 +11,16 @@ export class UbsSwitcherComponent {
 
   @Output() switchChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  onChange(checked: boolean) {
-    this.switchChanged.emit(checked);
+  get displayChecked(): boolean {
+    return this.isChecked;
+  }
+
+  onChange(event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    const newValue = checkbox.checked;
+
+    checkbox.checked = this.isChecked;
+
+    this.switchChanged.emit(newValue);
   }
 }

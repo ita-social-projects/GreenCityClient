@@ -128,10 +128,10 @@
                 <app-ubs-switcher
                   class="ubs-switcher"
                   [isChecked]="isTelegramNotifyChecked()"
-                  [isEditing]="!isEditing"
+                  [isEditing]="isEditing"
                   value="id1"
                   id="telegramNotification"
-                  (switchChanged)="onSwitchChanged()"
+                  (switchChanged)="onSwitchChanged($event)"
                 ></app-ubs-switcher>
               </div>
               <div class="alert-mess">{{ 'ubs-client-profile.social-media-mess' | translate }}</div>
@@ -240,10 +240,10 @@
             </div>
           </div>
           <div class="submit-btns" *ngIf="isEditing">
-            <button class="ubs-primary-global-button s-btn" type="submit" (click)="onSubmit()" [disabled]="isSubmitBtnDisabled()">
+            <button class="ubs-primary-global-button s-btn" type="button" (click)="onSubmit()" [disabled]="isSubmitBtnDisabled()">
               {{ 'ubs-client-profile.btn.save' | translate }}
             </button>
-            <button class="ubs-secondary-global-button s-btn" type="submit" (click)="onCancel()">
+            <button class="ubs-secondary-global-button s-btn" type="button" (click)="onCancel()">
               {{ 'ubs-client-profile.btn.cancel' | translate }}
             </button>
           </div>
