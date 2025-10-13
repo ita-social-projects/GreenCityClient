@@ -69,7 +69,7 @@
         <span class="form__label">{{ 'order-edit.not-taken.reason' | translate }}</span>
         <span> {{ orderNotTakenOutReason.description }}</span>
       </div>
-      <div class="flex-column">
+      <div class="flex-column" *ngIf="orderNotTakenOutReason">
         <span class="form__label">{{ 'order-edit.not-taken.images' | translate }}</span>
         <div class="image-row row">
           <ng-container *ngIf="orderNotTakenOutReason.images?.length; else noImages">
