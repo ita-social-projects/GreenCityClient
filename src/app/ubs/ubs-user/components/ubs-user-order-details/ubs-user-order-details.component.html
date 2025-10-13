@@ -80,15 +80,21 @@
       <li>
         <span [appLangValue]="{ uk: order.address.addressStreetUk, en: order.address.addressStreetEn }" suffix=", "></span>
         <span>{{ order.address.houseNumber }},</span><br />
-        <span>{{ 'user-orders.details.block-number' | translate }} {{ order.address.houseCorpus || '-' }}</span
-        ><br />
-        <span>{{ 'user-orders.details.entrance' | translate }} {{ order.address.entranceNumber || '-' }}</span
-        ><br />
-        <span
-          [appLangValue]="{ uk: order.address.addressDistinctUk || '-', en: order.address.addressDistinctEn || '-' }"
-          [prefix]="('user-orders.details.district' | translate) + ' '"
-        >
-        </span>
+        <ng-container *ngIf="order.address.houseCorpus">
+          <span>{{ 'user-orders.details.block-number' | translate }} {{ order.address.houseCorpus }}</span
+          ><br />
+        </ng-container>
+        <ng-container *ngIf="order.address.entranceNumber">
+          <span>{{ 'user-orders.details.entrance' | translate }} {{ order.address.entranceNumber }}</span
+          ><br />
+        </ng-container>
+        <ng-container *ngIf="order.address.addressDistinctEn || order.address.addressDistinctUk">
+          <span
+            [appLangValue]="{ uk: order.address.addressDistinctUk || '-', en: order.address.addressDistinctEn || '-' }"
+            [prefix]="('user-orders.details.district' | translate) + ' '"
+          >
+          </span>
+        </ng-container>
       </li>
     </ol>
     <ol class="recipient" *ngIf="order.address.addressComment !== ''">
