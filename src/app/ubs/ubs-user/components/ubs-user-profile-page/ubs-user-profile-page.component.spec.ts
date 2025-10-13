@@ -483,7 +483,8 @@ describe('UbsUserProfilePageComponent', () => {
       recipientEmail: new FormControl('some@gmail.com', [Validators.required]),
       alternateEmail: new FormControl(''),
       recipientPhone: new FormControl('1234567890'),
-      address: new FormArray([])
+      address: new FormArray([]),
+      telegramIsNotify: new FormControl(false)
     });
 
     component.userProfile = {
@@ -493,11 +494,17 @@ describe('UbsUserProfilePageComponent', () => {
       recipientPhone: '+380923473666',
       alternateEmail: '',
       addressDto: [],
-      telegramIsNotify: true,
+      telegramIsNotify: false,
       hasPassword: true
     };
 
+    component.savedTelegramIsNotify = false;
+
+    component.userForm.markAsDirty();
+
     expect(component.userForm.valid).toBeTrue();
+
+    clientProfileServiceMock.postDataClientProfile.and.returnValue(of(component.userProfile));
 
     component.onSubmit();
 
@@ -512,14 +519,29 @@ describe('UbsUserProfilePageComponent', () => {
       recipientEmail: new FormControl(null, [Validators.required]),
       alternateEmail: new FormControl(''),
       recipientPhone: new FormControl(''),
-      address: new FormArray([])
+      address: new FormArray([]),
+      telegramIsNotify: new FormControl(false)
     });
+
+    component.userProfile = {
+      recipientName: '',
+      recipientSurname: '',
+      recipientEmail: '',
+      recipientPhone: '',
+      alternateEmail: '',
+      addressDto: [],
+      telegramIsNotify: false,
+      hasPassword: true
+    };
+
+    component.savedTelegramIsNotify = false;
+    component.isEditing = false;
 
     expect(component.userForm.valid).toBeFalse();
 
     component.onSubmit();
 
-    expect(component.isEditing).toBeTruthy();
+    expect(component.userForm.get('recipientEmail').touched).toBeTrue();
   });
 
   it('on saveAddedAddresses method CreateAddress shouldnt be called if tempAddedAddressHolder is empty', () => {
@@ -837,12 +859,29 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   describe('onSwitchChanged method', () => {
-    it('should toggle telegramIsNotify and call goToTelegramUrl when id is telegramNotification', () => {
+    it('should toggle telegramIsNotify and call goToTelegramUrl when newValue is true', () => {
       const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
       spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
       spyOn(component, 'goToTelegramUrl');
-      component.userProfile.telegramIsNotify = false;
-      component.onSwitchChanged();
+
+      component.userProfile = {
+        recipientName: 'Test',
+        recipientSurname: 'User',
+        recipientEmail: 'test@example.com',
+        recipientPhone: '+380991234567',
+        alternateEmail: '',
+        addressDto: [],
+        telegramIsNotify: false,
+        hasPassword: true,
+        botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+      };
+
+      component.userInit();
+      component.savedTelegramIsNotify = false;
+      component.isEditing = true;
+
+      component.onSwitchChanged(true);
+
       expect(component.goToTelegramUrl).toHaveBeenCalled();
       expect(component.userProfile.telegramIsNotify).toBeTrue();
       expect(component.userForm.get('telegramIsNotify')?.value).toBeTrue();
@@ -852,11 +891,53 @@ describe('UbsUserProfilePageComponent', () => {
       const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(false) });
       spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
       spyOn(component, 'goToTelegramUrl');
-      component.userProfile.telegramIsNotify = false;
-      const ctrl = component.userForm.get('telegramIsNotify') as FormControl;
-      ctrl.setValue(false);
-      component.onSwitchChanged();
+
+      component.userProfile = {
+        recipientName: 'Test',
+        recipientSurname: 'User',
+        recipientEmail: 'test@example.com',
+        recipientPhone: '+380991234567',
+        alternateEmail: '',
+        addressDto: [],
+        telegramIsNotify: false,
+        hasPassword: true,
+        botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+      };
+
+      component.userInit();
+      component.savedTelegramIsNotify = false;
+      component.isEditing = true;
+
+      const initialValue = component.userProfile.telegramIsNotify;
+
+      component.onSwitchChanged(true);
+
       expect(component.goToTelegramUrl).not.toHaveBeenCalled();
+      expect(component.userProfile.telegramIsNotify).toBe(initialValue);
+      expect(component.userForm.get('telegramIsNotify')?.value).toBe(initialValue);
+    });
+
+    it('should disable telegram notifications when newValue is false', () => {
+      component.userProfile = {
+        recipientName: 'Test',
+        recipientSurname: 'User',
+        recipientEmail: 'test@example.com',
+        recipientPhone: '+380991234567',
+        alternateEmail: '',
+        addressDto: [],
+        telegramIsNotify: true,
+        hasPassword: true,
+        botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+      };
+
+      component.userInit();
+      component.savedTelegramIsNotify = true;
+      component.isEditing = false;
+
+      clientProfileServiceMock.postDataClientProfile.and.returnValue(of({ ...component.userProfile, telegramIsNotify: false }));
+
+      component.onSwitchChanged(false);
+
       expect(component.userProfile.telegramIsNotify).toBeFalse();
       expect(component.userForm.get('telegramIsNotify')?.value).toBeFalse();
     });
