@@ -183,6 +183,13 @@
       "not-taken-out": "Not taken out",
       "canceled": "Canceled"
     },
+    "not-taken": {
+      "title": "Order was not taken out",
+      "reason": "Reason:",
+      "images": "Images",
+      "img-alt": "Image {{index}}",
+      "no-images": "No images provided"
+    },
     "payment-status": {
       "paid": "Paid",
       "not-paid": "Not paid",
@@ -244,7 +251,7 @@
     "label-reason": "Describe what happened",
     "placeholder": "Describe the details you would like to provide about this order",
     "reason-error-message": "The number of characters must be up to 255",
-    "title-photo": "Photos of the violation",
+    "title-photo": "Photos",
     "label-for-photo-container": "Photos are mandatory if the reason for the not taken out order is a violation of the sorting rules",
     "requirement": "You can upload images in PNG or JPG format up to 10MB",
     "drag-photo": "Drag photo here",

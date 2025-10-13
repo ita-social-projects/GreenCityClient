@@ -321,8 +321,8 @@ export interface IOrderHistory {
 }
 
 export interface INotTakenOutReason {
-  description: 'string';
-  images: ['string'];
+  description: string;
+  images: string[];
 }
 
 export interface IOrderStatusInfo {

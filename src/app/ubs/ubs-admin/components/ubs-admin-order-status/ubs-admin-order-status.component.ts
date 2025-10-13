@@ -2,13 +2,14 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges, S
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { IGeneralOrderInfo, IPaymentStatus, NotTakenOutReasonImages } from '../../models/ubs-admin.interface';
+import { IGeneralOrderInfo, INotTakenOutReason, IPaymentStatus, NotTakenOutReasonImages } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 import { OrderStatus, PaymnetStatus, CancellationReason } from 'src/app/ubs/ubs/order-status.enum';
 import { OrderStatusEn, PaymentStatusEn } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
+import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-order-status',
@@ -39,6 +40,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   isOrderStatusSelected = true;
   isHistory = false;
   uneditableStatus: boolean;
+  orderNotTakenOutReason: INotTakenOutReason;
 
   get adminComment() {
     return this.generalOrderInfo.get('adminComment');
@@ -81,6 +83,9 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       this.generalInfo.orderStatusesDtos
     );
     this.availablePaymentOrderStatuses = this.generalInfo.orderPaymentStatusesDto;
+    this.orderService.getNotTakenOutReason(this.generalInfo.id).subscribe((reason) => {
+      this.orderNotTakenOutReason = reason;
+    });
   }
 
   private renderOrderStatus() {
@@ -203,6 +208,18 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
       // TODO: ADD PAYMENT_REFUNDED CASE THEN IT WILL BE IMPLEMENTED
     }
+  }
+
+  openImg(imgIndex: number): void {
+    const images = this.orderNotTakenOutReason.images;
+    this.dialog.open(ShowImgsPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        imgIndex,
+        images: images.map((imgSrc) => ({ src: imgSrc }))
+      }
+    });
   }
 
   ngOnDestroy(): void {
