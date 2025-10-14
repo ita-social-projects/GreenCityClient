@@ -1,22 +1,32 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { formatDate } from '@angular/common';
-import { LocalStorageService } from '../../../../shared/services/localstorage/local-storage.service';
-import { take } from 'rxjs/operators';
+import { OnDestroy, Pipe, PipeTransform } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
   name: 'dateLocalisation',
   pure: false
 })
-export class DateLocalisationPipe implements PipeTransform {
-  private locale: string = this.localStorageService.getCurrentLanguage();
+export class DateLocalisationPipe implements PipeTransform, OnDestroy {
+  private locale: string;
+  private destroy$: Subject<void> = new Subject();
 
-  constructor(private localStorageService: LocalStorageService) {
-    this.locale = this.localStorageService.getCurrentLanguage();
-    this.localStorageService.languageSubject.pipe(take(1)).subscribe((lang) => (this.locale = lang));
+  constructor(
+    private translate: TranslateService,
+    private datePipe: DatePipe
+  ) {
+    this.locale = this.translate.getDefaultLang() || 'en-US';
+    this.translate.onDefaultLangChange.pipe(takeUntil(this.destroy$)).subscribe((langObj) => (this.locale = langObj.lang));
   }
 
-  transform(date: string | Date): string {
-    date = !date ? Date.now().toString() : date;
-    return formatDate(date, 'mediumDate', this.locale === 'uk' ? 'uk-UA' : 'en-US');
+  transform(value: any, format = 'mediumDate'): string {
+    const locale = this.locale === 'en' ? 'en-US' : 'uk-UA';
+    return this.datePipe.transform(value, format, undefined, locale);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
