@@ -21,9 +21,7 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
-import { UbsAdminEditHomepageComponent } from '@ubs/ubs-admin/components/ubs-admin-edit-homepage/ubs-admin-edit-homepage.component';
 import { AdminUserAgreementService } from '@ubs/ubs-admin/services/admin-homepage-settings/admin-homepage-settings.service';
 import { THomepageContent } from '@ubs/ubs-admin/models/homepage-settings.interface';
 
@@ -56,8 +54,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   isTarriffLoading = true;
   content: THomepageContent;
   currentLanguage: string;
-
-  perPackageTitle = 'ubs-homepage.ubs-courier.price.price-title';
 
   stepsOrderTitle = 'ubs-homepage.ubs-courier.price.caption-steps';
   stepsOrder = [
@@ -327,19 +323,5 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
           console.error(e);
         }
       });
-  }
-
-  getElementDescription(nameUk: string, nameEn: string, capacity: number): string {
-    let nameUk1 = nameUk.toLowerCase();
-    nameUk1 = nameUk1.charAt(0).toUpperCase() + nameUk1.slice(1);
-
-    const ukrDescription = `${nameUk1} об'ємом ${capacity} л`;
-    const engDescription = `With ${nameEn.toLowerCase()} with a volume of ${capacity} l`;
-    return this.languageService.getLangValue(ukrDescription, engDescription);
-  }
-
-  openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
-    event.stopPropagation();
-    trigger.openPanel();
   }
 }

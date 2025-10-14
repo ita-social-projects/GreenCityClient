@@ -47,10 +47,6 @@
             {{ preparingContent[2] | translate }}
           </div>
         </div>
-        <div class="box-item" *ngFor="let box of preparingContent | slice: 3; let i = index">
-          <div class="box-number">0{{ i + 2 }}</div>
-          <div class="box-text" [innerHTML]="content[currentLanguage].preparing['step_0' + (i + 2)]"></div>
-        </div>
       </div>
       <div class="main-content-right">
         <div class="conditions">
@@ -75,58 +71,13 @@
     </div>
   </section>
 
-  <section>
-    <div class="price-section">
-      <h2>
-        {{ 'ubs-homepage.ubs-courier.price.caption' | translate }}
-
-        <div class="location-to-show-bags-wrapper">
-          <mat-form-field>
-            <input
-              matInput
-              type="text"
-              [ngModel]="this.languageService.getLangValue(locationToShow?.nameUk, locationToShow?.nameEn)"
-              class="location-to-show"
-              [matAutocomplete]="auto"
-              #autocompleteTrigger="matAutocompleteTrigger"
-              (click)="openAuto($event, autocompleteTrigger)"
-              readonly
-            />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option
-                *ngFor="let location of locationsToShowBags"
-                [value]="this.languageService.getLangValue(location?.nameUk, location?.nameEn)"
-                (click)="getBags(location.locationId)"
-                [appLangValue]="{ uk: location.nameUk, en: location.nameEn }"
-              >
-              </mat-option>
-            </mat-autocomplete>
-            <img
-              alt="arrowDown"
-              class="arrowDownImg"
-              src="./assets/img/ubs-tariff/arrow-down.svg"
-              (click)="openAuto($event, autocompleteTrigger)"
-            />
-            <mat-label> {{ 'ubs-homepage.ubs-courier.price.choose-location' | translate }}</mat-label>
-          </mat-form-field>
-        </div>
-      </h2>
-      <div *ngIf="!isTarriffLoading; else spinner" class="box-card">
-        <div id="price-frame" *ngFor="let elemPrice of bags">
-          <div class="content-price">
-            <div>{{ getElementDescription(elemPrice.nameUk, elemPrice.nameEn, elemPrice.capacity) }}</div>
-          </div>
-          <div class="header-price">
-            <div class="price" [appLangValue]="{ uk: elemPrice.price.toString() + ' грн', en: elemPrice.price.toString() + ' UAH' }"></div>
-            <div>{{ perPackageTitle | translate }}</div>
-          </div>
-        </div>
-      </div>
-      <ng-template #spinner>
-        <app-spinner></app-spinner>
-      </ng-template>
-    </div>
-  </section>
+  <app-ubs-main-page-price-section
+    [locationToShow]="locationToShow"
+    [locationsToShowBags]="locationsToShowBags"
+    [isTarriffLoading]="isTarriffLoading"
+    [bags]="bags"
+    (locationSelected)="getBags($event)"
+  ></app-ubs-main-page-price-section>
 
   <section class="pick-up-service">
     <div class="main-container">

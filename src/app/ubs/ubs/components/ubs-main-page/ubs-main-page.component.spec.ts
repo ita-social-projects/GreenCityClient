@@ -13,7 +13,7 @@ import { JwtService } from 'src/app/shared/services/jwt/jwt.service';
 import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
-import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UbsMainPageComponent', () => {
@@ -200,15 +200,5 @@ describe('UbsMainPageComponent', () => {
       component.getLocations(courierName);
       expect(spy).toHaveBeenCalledWith(res);
     });
-  });
-
-  it('should open dropdown with openAuto', () => {
-    const event = new Event('click', { bubbles: true });
-    const trigger = { openPanel: () => {} } as MatAutocompleteTrigger;
-    const spy = spyOn(event, 'stopPropagation');
-    const triggerSpy = spyOn(trigger, 'openPanel');
-    component.openAuto(event, trigger);
-    expect(spy).toHaveBeenCalled();
-    expect(triggerSpy).toHaveBeenCalled();
   });
 });
