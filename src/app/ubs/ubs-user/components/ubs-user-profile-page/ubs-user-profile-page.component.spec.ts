@@ -839,6 +839,28 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.tempRemovedAddressHolder.length).toBe(0);
   });
 
+  it('should call "goToTelegramUrl" correctly', () => {
+    const windowOpenSpy = spyOn(window, 'open');
+    component.telegramBotURL = 'https://t.me/testbot';
+    component.goToTelegramUrl();
+    expect(windowOpenSpy).toHaveBeenCalledWith('https://t.me/testbot', '_blank');
+  });
+
+  it('should set telegram bot URL in setUrlToBot', () => {
+    component.userProfile = {
+      ...userProfileDataMock,
+      botList: [{ link: 'https://t.me/bot123', type: 'telegram' }]
+    };
+    component.setUrlToBot();
+    expect(component.telegramBotURL).toBe('https://t.me/bot123');
+  });
+
+  it('should handle empty botList in setUrlToBot', () => {
+    component.userProfile = { ...userProfileDataMock, botList: [] };
+    component.setUrlToBot();
+    expect(component.telegramBotURL).toBeUndefined();
+  });
+
   describe('Testing controls for the form:', () => {
     const personalInfoControls = ['recipientName', 'recipientSurname', 'recipientEmail', 'recipientPhone'];
     const controls = ['name', 'surename', 'email', 'phone'];
