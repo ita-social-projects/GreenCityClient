@@ -187,7 +187,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     }
 
     const formSwitch = !!this.userForm.get('telegramIsNotify')?.value;
-    const serverSwitch = !!this.savedTelegramIsNotify;
+    const serverSwitch = this.savedTelegramIsNotify;
 
     if (formSwitch !== serverSwitch) {
       return false;
@@ -537,7 +537,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
             this.userForm.get('telegramIsNotify')?.setValue(true, { emitEvent: false });
 
             if (this.isEditing) {
-              if (this.savedTelegramIsNotify !== true) {
+              if (!this.savedTelegramIsNotify) {
                 this.userForm.markAsDirty();
               }
             } else {
