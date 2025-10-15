@@ -986,6 +986,36 @@ describe('UbsUserProfilePageComponent', () => {
 
       expect(result).toBeFalse();
     });
+
+    it('should handle truthy telegramIsNotify value correctly with !! operator', () => {
+      component.userInit();
+      component.savedTelegramIsNotify = false;
+      component.userForm.get('telegramIsNotify').setValue(1);
+
+      const result = component.isSubmitBtnDisabled();
+
+      expect(result).toBeFalse();
+    });
+
+    it('should handle falsy telegramIsNotify value correctly with !! operator', () => {
+      component.userInit();
+      component.savedTelegramIsNotify = true;
+      component.userForm.get('telegramIsNotify').setValue(0);
+
+      const result = component.isSubmitBtnDisabled();
+
+      expect(result).toBeFalse();
+    });
+
+    it('should handle empty string as falsy with !! operator', () => {
+      component.userInit();
+      component.savedTelegramIsNotify = true;
+      component.userForm.get('telegramIsNotify').setValue('');
+
+      const result = component.isSubmitBtnDisabled();
+
+      expect(result).toBeFalse();
+    });
   });
 
   describe('onSubmit method - phone value handling', () => {
@@ -1407,6 +1437,294 @@ describe('UbsUserProfilePageComponent', () => {
 
       expect(() => component.onSubmit()).not.toThrow();
     });
+
+    describe('onSubmit method - additional coverage', () => {
+      beforeEach(() => {
+        clientProfileServiceMock.postDataClientProfile.calls.reset();
+        snackBarMock.openSnackBar.calls.reset();
+      });
+
+      it('should correctly evaluate currentSwitch with !! operator when telegramIsNotify is true', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(true);
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        const mockResponse = { ...userProfileDataMock, telegramIsNotify: true };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSubmit();
+        tick();
+
+        const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+        expect(submittedData.telegramIsNotify).toBe(true);
+      }));
+
+      it('should correctly evaluate currentSwitch with !! operator when telegramIsNotify is false', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = true;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        const mockResponse = { ...userProfileDataMock, telegramIsNotify: false };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSubmit();
+        tick();
+
+        const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+        expect(submittedData.telegramIsNotify).toBe(false);
+      }));
+
+      it('should trim phoneValue with leading and trailing spaces', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.recipientPhone.setValue('  +380991234567  ');
+        component.userForm.markAsDirty();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+        expect(submittedData.recipientPhone).toBe('+380991234567');
+      }));
+
+      it('should set phoneValue to null when it is empty after trim', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.recipientPhone.setValue('   ');
+        component.recipientPhone.clearValidators();
+        component.recipientPhone.updateValueAndValidity();
+        component.userForm.markAsDirty();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+        expect(submittedData.recipientPhone).toBeUndefined();
+      }));
+
+      it('should set phoneValue to null when it equals phonePrefix after trim', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.recipientPhone.setValue('+380');
+        component.recipientPhone.clearValidators();
+        component.recipientPhone.updateValueAndValidity();
+        component.userForm.markAsDirty();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+        expect(submittedData.recipientPhone).toBeUndefined();
+      }));
+
+      it('should patch recipientEmail from response', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        const mockResponse = {
+          ...userProfileDataMock,
+          recipientEmail: 'newemail@example.com'
+        };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSubmit();
+        tick();
+
+        expect(component.userForm.get('recipientEmail').value).toBe('newemail@example.com');
+      }));
+
+      it('should patch recipientPhone to empty string when response has null', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        const mockResponse = {
+          ...userProfileDataMock,
+          recipientPhone: null
+        };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSubmit();
+        tick();
+
+        expect(component.userForm.get('recipientPhone').value).toBe('');
+      }));
+
+      it('should patch recipientPhone with actual value when response has phone', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        const mockResponse = {
+          ...userProfileDataMock,
+          recipientPhone: '+380501234567'
+        };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSubmit();
+        tick();
+
+        expect(component.userForm.get('recipientPhone').value).toBe('+380501234567');
+      }));
+
+      it('should show savedChangesToUserProfile snackbar on successful submit', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+        snackBarMock.openSnackBar.calls.reset();
+
+        component.onSubmit();
+        tick();
+
+        expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('savedChangesToUserProfile');
+        expect(snackBarMock.openSnackBar).toHaveBeenCalledTimes(1);
+      }));
+
+      it('should iterate through all form controls and get each control when form is invalid', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        component.recipientName.setValue('');
+        component.userForm.get('recipientEmail').setValue('invalid');
+
+        const getCalls: string[] = [];
+        const originalGet = component.userForm.get.bind(component.userForm);
+        spyOn(component.userForm, 'get').and.callFake((key: string) => {
+          getCalls.push(key);
+          return originalGet(key);
+        });
+
+        component.onSubmit();
+
+        const allKeys = Object.keys(component.userForm.controls);
+        allKeys.forEach((key) => {
+          expect(getCalls).toContain(key);
+        });
+      });
+
+      it('should mark invalid controls as touched in forEach loop', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        component.recipientName.setValue('');
+        component.userForm.get('recipientEmail').setValue('invalid-email');
+
+        component.recipientName.markAsUntouched();
+        component.userForm.get('recipientEmail').markAsUntouched();
+
+        component.onSubmit();
+
+        expect(component.recipientName.touched).toBeTrue();
+        expect(component.userForm.get('recipientEmail').touched).toBeTrue();
+      });
+
+      it('should not mark valid controls as touched in forEach loop', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        component.recipientName.setValue('');
+        component.recipientSurname.setValue('ValidSurname');
+        component.recipientPhone.setValue('+380991234567');
+
+        component.recipientName.markAsUntouched();
+        component.recipientSurname.markAsUntouched();
+        component.recipientPhone.markAsUntouched();
+
+        component.onSubmit();
+
+        expect(component.recipientName.touched).toBeTrue();
+        expect(component.recipientSurname.touched).toBeFalse();
+        expect(component.recipientPhone.touched).toBeFalse();
+      });
+
+      it('should handle control?.invalid check with null control', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        component.recipientName.setValue('');
+
+        let callCount = 0;
+        const originalGet = component.userForm.get.bind(component.userForm);
+        spyOn(component.userForm, 'get').and.callFake((key: string) => {
+          callCount++;
+          if (callCount === 2) {
+            return null;
+          }
+          return originalGet(key);
+        });
+
+        expect(() => component.onSubmit()).not.toThrow();
+      });
+
+      it('should use ?? operator to default recipientPhone to empty string', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        const mockResponse = {
+          ...userProfileDataMock,
+          recipientPhone: undefined as any
+        };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSubmit();
+        tick();
+
+        expect(component.userForm.get('recipientPhone').value).toBe('');
+      }));
+
+      it('should trim recipientPhone before checking if it equals phonePrefix', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.recipientPhone.setValue('  +380  ');
+        component.recipientPhone.clearValidators();
+        component.recipientPhone.updateValueAndValidity();
+        component.userForm.markAsDirty();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+        expect(submittedData.recipientPhone).toBeUndefined();
+      }));
+    });
   });
 
   describe('Testing controls for the form:', () => {
@@ -1510,6 +1828,381 @@ describe('UbsUserProfilePageComponent', () => {
 
       expect(component.userProfile.telegramIsNotify).toBeFalse();
       expect(component.userForm.get('telegramIsNotify')?.value).toBeFalse();
+    });
+
+    describe('onSwitchChanged method - saveToServer function coverage', () => {
+      beforeEach(() => {
+        clientProfileServiceMock.postDataClientProfile.calls.reset();
+        snackBarMock.openSnackBar.calls.reset();
+      });
+
+      it('should call postDataClientProfile when turning on notifications in non-editing mode', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: false,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = false;
+        component.isFetching = false;
+
+        const mockResponse = { ...component.userProfile, telegramIsNotify: true };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSwitchChanged(true);
+        tick();
+
+        expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalled();
+        expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledWith(jasmine.objectContaining({ telegramIsNotify: true }));
+      }));
+
+      it('should use pipe(take(1)) when calling postDataClientProfile', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: false,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = false;
+
+        const mockResponse = { ...component.userProfile, telegramIsNotify: true };
+        const observable = of(mockResponse);
+        const pipeSpy = spyOn(observable, 'pipe').and.callThrough();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(observable);
+
+        component.onSwitchChanged(true);
+        tick();
+
+        expect(pipeSpy).toHaveBeenCalled();
+      }));
+
+      it('should update userProfile.telegramIsNotify in next callback', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: false,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = false;
+
+        const mockResponse = { ...component.userProfile, telegramIsNotify: true };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSwitchChanged(true);
+        tick();
+
+        expect(component.userProfile.telegramIsNotify).toBe(true);
+      }));
+
+      it('should update savedTelegramIsNotify in next callback', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: false,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = false;
+
+        const mockResponse = { ...component.userProfile, telegramIsNotify: true };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSwitchChanged(true);
+        tick();
+
+        expect(component.savedTelegramIsNotify).toBe(true);
+      }));
+
+      it('should restore isFetching state after successful save', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: false,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = false;
+        component.isFetching = false;
+
+        const mockResponse = { ...component.userProfile, telegramIsNotify: true };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSwitchChanged(true);
+        tick();
+
+        expect(component.isFetching).toBe(false);
+      }));
+
+      it('should handle error in postDataClientProfile and revert switch value', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: false,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = false;
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(throwError(() => new Error('Server error')));
+
+        component.onSwitchChanged(true);
+        tick();
+
+        expect(component.userForm.get('telegramIsNotify')?.value).toBe(false);
+      }));
+
+      it('should revert userProfile.telegramIsNotify on error', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: false,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = false;
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(throwError(() => new Error('Server error')));
+
+        component.onSwitchChanged(true);
+        tick();
+
+        expect(component.userProfile.telegramIsNotify).toBe(false);
+      }));
+
+      it('should restore isFetching state on error', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: false,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = false;
+        component.isFetching = false;
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(throwError(() => new Error('Server error')));
+
+        component.onSwitchChanged(true);
+        tick();
+
+        expect(component.isFetching).toBe(false);
+      }));
+
+      it('should show error snackbar on postDataClientProfile error', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: false,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = false;
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(throwError(() => new Error('Server error')));
+        snackBarMock.openSnackBar.calls.reset();
+
+        component.onSwitchChanged(true);
+        tick();
+
+        expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('error');
+      }));
+
+      it('should call saveToServer with false when turning off notifications in non-editing mode', fakeAsync(() => {
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: true,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = true;
+        component.isEditing = false;
+
+        const mockResponse = { ...component.userProfile, telegramIsNotify: false };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSwitchChanged(false);
+        tick();
+
+        expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledWith(jasmine.objectContaining({ telegramIsNotify: false }));
+        expect(component.userProfile.telegramIsNotify).toBe(false);
+        expect(component.savedTelegramIsNotify).toBe(false);
+      }));
+
+      it('should set emitEvent to false when reverting switch on error', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: false,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = false;
+
+        const control = component.userForm.get('telegramIsNotify');
+        const setValueSpy = spyOn(control, 'setValue').and.callThrough();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(throwError(() => new Error('Server error')));
+
+        component.onSwitchChanged(true);
+        tick();
+
+        expect(setValueSpy).toHaveBeenCalledWith(false, { emitEvent: false });
+      }));
+
+      it('should preserve isFetching state through saveToServer execution', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          recipientName: 'Test',
+          recipientSurname: 'User',
+          recipientEmail: 'test@example.com',
+          recipientPhone: '+380991234567',
+          alternateEmail: '',
+          addressDto: [],
+          telegramIsNotify: false,
+          hasPassword: true,
+          botList: [{ link: 'https://t.me/testbot', type: 'telegram' }]
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = false;
+        component.isFetching = true;
+
+        const mockResponse = { ...component.userProfile, telegramIsNotify: true };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSwitchChanged(true);
+
+        expect(component.isFetching).toBe(true);
+
+        tick();
+
+        expect(component.isFetching).toBe(true);
+      }));
     });
   });
 
