@@ -220,20 +220,17 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
     this.userProfile.telegramIsNotify = this.savedTelegramIsNotify;
     this.tempAddedAddressHolder.length = 0;
     this.tempRemovedAddressHolder.length = 0;
-    this.clientProfileService
-      .getDataClientProfile()
-      .pipe(take(1))
-      .subscribe({
-        next: (res: UserProfile) => {
-          this.userProfile.telegramIsNotify = res.telegramIsNotify;
-          this.userInit();
-          this.isEditing = false;
-        },
-        error: () => {
-          this.userInit();
-          this.isEditing = false;
-        }
-      });
+    this.clientProfileService.getDataClientProfile().subscribe({
+      next: (res: UserProfile) => {
+        this.userProfile.telegramIsNotify = res.telegramIsNotify;
+        this.userInit();
+        this.isEditing = false;
+      },
+      error: () => {
+        this.userInit();
+        this.isEditing = false;
+      }
+    });
   }
 
   onSubmit(): void {

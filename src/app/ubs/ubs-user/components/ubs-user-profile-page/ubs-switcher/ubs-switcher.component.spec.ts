@@ -116,4 +116,42 @@ describe('UbsSwitcherComponent', () => {
       expect(component.switchChanged instanceof EventEmitter).toBe(true);
     });
   });
+
+  it('should handle null event.target gracefully', () => {
+    component.isChecked = false;
+    spyOn(component.switchChanged, 'emit');
+
+    const mockEvent = { target: null } as unknown as Event;
+
+    expect(() => component.onChange(mockEvent)).toThrow();
+  });
+
+  it('should handle undefined event.target gracefully', () => {
+    component.isChecked = false;
+    spyOn(component.switchChanged, 'emit');
+
+    const mockEvent = {} as Event;
+
+    expect(() => component.onChange(mockEvent)).toThrow();
+  });
+
+  it('should work when isChecked is undefined', () => {
+    component.isChecked = undefined;
+    spyOn(component.switchChanged, 'emit');
+
+    const mockCheckbox = { checked: true } as HTMLInputElement;
+    const mockEvent = { target: mockCheckbox } as unknown as Event;
+
+    component.onChange(mockEvent);
+
+    expect(mockCheckbox.checked).toBe(undefined);
+    expect(component.switchChanged.emit).toHaveBeenCalledWith(true);
+  });
+
+  it('should handle event with null target and undefined isChecked', () => {
+    component.isChecked = undefined;
+    const mockEvent = { target: null } as unknown as Event;
+
+    expect(() => component.onChange(mockEvent)).toThrow();
+  });
 });
