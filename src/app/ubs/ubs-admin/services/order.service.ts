@@ -2,17 +2,17 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-  UserViolations,
-  IOrderHistory,
-  PaymentDetails,
-  IPaymentInfoDto,
   FormFieldsName,
-  ResponsibleEmployee,
-  INotTakenOutReason,
-  NotTakenOutReasonImages,
-  IOrderInfo,
   IBigOrderTableOrderInfo,
-  IShortAddress
+  INotTakenOutReason,
+  IOrderHistory,
+  IOrderInfo,
+  IPaymentInfoDto,
+  IShortAddress,
+  NotTakenOutReasonImages,
+  PaymentDetails,
+  ResponsibleEmployee,
+  UserViolations
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
@@ -143,7 +143,7 @@ export class OrderService {
 
     if (images?.length) {
       images.forEach((img) => {
-        formData.append('images', img.src);
+        formData.append('images', img.file, img.name);
       });
     }
 
@@ -159,6 +159,7 @@ export class OrderService {
   getIsOrderCancelledAfterFormed(orderId: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.backendUbs}/management/check-status-transition/formed-to-canceled/${orderId}`);
   }
+
   isStatusInArray(status: string, statusArray: Array<string>): boolean {
     return statusArray.some((s) => s === status);
   }
@@ -280,6 +281,7 @@ export class OrderService {
     }
     return message;
   }
+
   matchProps(prop: string): number {
     switch (prop) {
       case FormFieldsName.CallManager:

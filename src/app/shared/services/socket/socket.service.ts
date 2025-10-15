@@ -12,6 +12,7 @@ import { filter, first, switchMap } from 'rxjs/operators';
 export class SocketService implements OnDestroy {
   connection = {
     greenCity: { url: environment.socket, socket: null, state: null },
+    greenCityUbs: { url: environment.ubsSocket, socket: null, state: null },
     greenCityUser: { url: environment.userSocket, socket: null, state: null }
   };
 

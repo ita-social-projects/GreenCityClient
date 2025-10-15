@@ -64,24 +64,23 @@
       </div>
     </div>
     <div class="not-taken-block col" *ngIf="orderNotTakenOutReason">
-      <h1 class="mb-0">{{ 'order-edit.not-taken.title' | translate }}</h1>
       <div class="flex-row">
         <span class="form__label">{{ 'order-edit.not-taken.reason' | translate }}</span>
         <span> {{ orderNotTakenOutReason.description }}</span>
       </div>
-      <div class="flex-column" *ngIf="orderNotTakenOutReason">
-        <span class="form__label">{{ 'order-edit.not-taken.images' | translate }}</span>
-        <div class="image-row row">
-          <ng-container *ngIf="orderNotTakenOutReason.images?.length; else noImages">
+      <ng-container *ngIf="orderNotTakenOutReason.images?.length; else noImages">
+        <div class="flex-column">
+          <span class="form__label">{{ 'order-edit.not-taken.images' | translate }}</span>
+          <div class="image-row row">
             <div class="image-wrapper" *ngFor="let image of orderNotTakenOutReason.images; let i = index" (click)="openImg(i)">
               <img [src]="image" [alt]="'order-edit.not-taken.img-alt' | translate: { index: i + 1 }" />
             </div>
-          </ng-container>
-          <ng-template #noImages>
-            <span class="form__label">{{ 'order-edit.not-taken.no-images' | translate }}</span>
-          </ng-template>
+          </div>
         </div>
-      </div>
+      </ng-container>
+      <ng-template #noImages>
+        <span class="form__label">{{ 'order-edit.not-taken.no-images' | translate }}</span>
+      </ng-template>
     </div>
   </div>
   <hr />

@@ -85,6 +85,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     this.availablePaymentOrderStatuses = this.generalInfo.orderPaymentStatusesDto;
     this.orderService.getNotTakenOutReason(this.generalInfo.id).subscribe((reason) => {
       this.orderNotTakenOutReason = reason;
+      this.orderNotTakenOutReason.images = null;
     });
   }
 
@@ -211,7 +212,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   }
 
   openImg(imgIndex: number): void {
-    const images = this.orderNotTakenOutReason.images;
+    const images = this.orderNotTakenOutReason?.images;
     this.dialog.open(ShowImgsPopUpComponent, {
       hasBackdrop: true,
       panelClass: 'custom-img-pop-up',
