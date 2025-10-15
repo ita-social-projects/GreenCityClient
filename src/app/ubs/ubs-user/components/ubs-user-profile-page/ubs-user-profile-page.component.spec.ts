@@ -839,7 +839,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.tempRemovedAddressHolder.length).toBe(0);
   });
 
-  it('should call "goToTelegramUrl" correctly', () => {
+  it('should open telegram bot URL in new window', () => {
     const windowOpenSpy = spyOn(window, 'open');
     component.telegramBotURL = 'https://t.me/testbot';
     component.goToTelegramUrl();
