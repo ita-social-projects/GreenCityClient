@@ -20,7 +20,7 @@ const environmentFileContent = `export const environment = {
   frontendLink: '${process.env.FRONTEND_LINK}',
   socket: '${process.env.SOCKET}',
   userSocket: '${process.env.USER_SOCKET}',
-  chatSocket: '${process.env.CHAT_SOCKET}',
+  ubsSocket: '${process.env.UBS_SOCKET}',
   ubsAdmin: {
     backendUbsAdminLink: '${process.env.BACKEND_UBS_ADMIN_LINK}'
   },
