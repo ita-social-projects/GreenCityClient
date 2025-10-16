@@ -91,10 +91,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   messageController(text: string, file?: File) {
-    if (!this.facade.selectedMessage) {
-      this.facade.sendMessage(text, file);
-    } else {
+    if (this.facade.selectedMessage) {
       this.facade.editMessage(text);
+    } else {
+      this.facade.sendMessage(text, file);
     }
   }
 

@@ -6,7 +6,6 @@ import { buildName, formatTimeOrDate, normalizeViewingStatus, toTime } from '../
 import { Subscription } from 'rxjs';
 import { TelegramSocketService } from '../service/chats/telegram-socket.service';
 import { Location } from '@angular/common';
-import { isUBSSelector } from 'src/app/store/selectors/auth.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class ChatFacade {
