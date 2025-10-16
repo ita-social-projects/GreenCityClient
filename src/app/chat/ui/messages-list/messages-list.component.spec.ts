@@ -8,6 +8,9 @@ describe('MessagesListComponent', () => {
   let fixture: ComponentFixture<MessagesListComponent>;
   let component: MessagesListComponent;
 
+  const mockTrigger = jasmine.createSpyObj('MatMenuTrigger', ['openMenu']);
+  const event = new MouseEvent('contextmenu');
+
   const msg = (over: Partial<ChatMessageView> = {}): ChatMessageView => ({
     from: 'User',
     text: 'hello',
@@ -29,6 +32,31 @@ describe('MessagesListComponent', () => {
   it('should create', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('onMenuClosed should set selectedMessage to null', () => {
+    component.selectedMessage = msg({ from: 'Me' });
+    component.onMenuClosed();
+    expect(component.selectedMessage).toBeNull();
+  });
+
+  it('should return early if message is not from "Me"', () => {
+    const message = msg({ from: 'Other' });
+    component.onRightClick(event, mockTrigger, message);
+    expect(mockTrigger.openMenu).not.toHaveBeenCalled();
+    expect(component.selectedMessage).toBeUndefined();
+  });
+
+  it('should return early if message has images', () => {
+    const message = msg({ from: 'Me', images: ['a.png'] });
+    component.onRightClick(event, mockTrigger, message);
+    expect(mockTrigger.openMenu).not.toHaveBeenCalled();
+  });
+
+  it('should return early if message has fileUrl', () => {
+    const message = msg({ from: 'Me', fileUrl: 'file.pdf' as any });
+    component.onRightClick(event, mockTrigger, message);
+    expect(mockTrigger.openMenu).not.toHaveBeenCalled();
   });
 
   it('should not scroll if message count is unchanged', () => {

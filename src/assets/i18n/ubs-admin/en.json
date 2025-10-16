@@ -656,7 +656,7 @@
     "status": {
       "READ": "Read",
       "UNREAD": "Unread",
-      "EDITED": "Edited {{editDate}} at {{editTime}}"
+      "EDITED": "Edited {{editDateTime}}"
     },
     "edit-message": "Edit message",
     "edit-option": "Edit"

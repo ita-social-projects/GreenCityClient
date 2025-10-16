@@ -6,6 +6,7 @@ import { buildName, formatTimeOrDate, normalizeViewingStatus, toTime } from '../
 import { Subscription } from 'rxjs';
 import { TelegramSocketService } from '../service/chats/telegram-socket.service';
 import { Location } from '@angular/common';
+import { isUBSSelector } from 'src/app/store/selectors/auth.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class ChatFacade {
@@ -252,6 +253,7 @@ export class ChatFacade {
   private loadMessagesRecursive(chatInternalId: number, page: number, size: number, collected: MessageDto[]) {
     this.api.getMessages(chatInternalId, page, size).subscribe({
       next: (resp) => {
+        console.log(resp);
         const msgs = resp.page ?? [];
         collected.push(...msgs);
 
@@ -280,7 +282,8 @@ export class ChatFacade {
         id: msg.id,
         from: msg.fromManager ? 'Me' : sel.nickname,
         text: msg.text,
-        time: formatTimeOrDate(msg.sendAt),
+        time: formatTimeOrDate(msg.sendAt, msg.isUpdated),
+        isUpdated: msg.isUpdated,
         images: (msg.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
         fileName: (msg.assets ?? []).find((a) => a.type === 'FILE')?.fileName,
         fileUrl: (msg.assets ?? []).find((a) => a.type === 'FILE')?.url,
@@ -319,7 +322,7 @@ export class ChatFacade {
 
     this.api.sendMessage(sel.chatInternalId, text.trim(), file).subscribe({
       next: () => {
-        const time = formatTimeOrDate(new Date().toISOString());
+        const time = formatTimeOrDate(new Date().toISOString(), false);
         const imagePreview = file?.type?.startsWith('image/') ? URL.createObjectURL(file) : null;
         const filePreview = file && !imagePreview ? URL.createObjectURL(file) : null;
 
@@ -327,6 +330,7 @@ export class ChatFacade {
           from: 'Me',
           text: text.trim(),
           time,
+          isUpdated: false,
           images: imagePreview ? [imagePreview] : [],
           fileUrl: filePreview,
           fileName: filePreview ? file.name : null,
@@ -349,10 +353,14 @@ export class ChatFacade {
     }
     this.api.editMessage(sel.chatInternalId, mes.id, newText.trim()).subscribe({
       next: () => {
+        const time = formatTimeOrDate(new Date().toISOString(), true);
         const messageIndex = sel.messages.findIndex((m) => m.id === mes.id);
         if (messageIndex > -1) {
           sel.messages[messageIndex].text = newText;
+          sel.messages[messageIndex].time = time;
+          sel.messages[messageIndex].isUpdated = true;
         }
+        sel.time = time;
         this.selectedChat.set({ ...sel });
         this.selectMessage(null);
       },

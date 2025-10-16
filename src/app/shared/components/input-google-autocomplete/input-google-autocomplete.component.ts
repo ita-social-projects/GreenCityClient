@@ -154,6 +154,8 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
       };
 
       this.autocompleteService.getPlacePredictions(request, (predictions: google.maps.places.AutocompletePrediction[]) => {
+        console.log(this.autoCompRequest);
+        console.log(predictions);
         this.handlePredictions(predictions, this.requestPrefix);
       });
     });
@@ -237,10 +239,12 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
   }
 
   onInputFocus(): void {
+    console.log('focus');
     this.shouldAutocomplete = true;
   }
 
   onInputBlur(): void {
+    console.log('unfocus');
     this.markAsTouched();
     this.shouldAutocomplete = false;
   }

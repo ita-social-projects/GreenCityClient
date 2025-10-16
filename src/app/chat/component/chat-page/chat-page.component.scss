@@ -332,7 +332,14 @@
     margin-left: auto;
     width: 10px;
     height: 10px;
+    cursor: pointer;
   }
+}
+
+.edited-pencil {
+  height: 8px;
+  width: 8px;
+  margin-right: 3px;
 }
 
 .edit-status {

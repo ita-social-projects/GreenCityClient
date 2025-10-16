@@ -655,7 +655,7 @@
     "status": {
       "READ": "Прочитано",
       "UNREAD": "Не прочитано",
-      "EDITED": "Змінено {{editDate}} о {{editTime}}"
+      "EDITED": "Змінено {{editDateTime}}"
     },
     "edit-message": "Редагувати повідомлення",
     "edit-option": "Редагувати"

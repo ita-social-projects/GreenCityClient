@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MessageInputComponent } from './message-input.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { ElementRef } from '@angular/core';
 
 describe('MessageInputComponent', () => {
   let fixture: ComponentFixture<MessageInputComponent>;
@@ -148,5 +149,50 @@ describe('MessageInputComponent', () => {
 
     expect(component.file).toBeUndefined();
     expect(event.target.value).toBe('');
+  });
+
+  it('should initialize text as empty string', () => {
+    expect(component.text).toBe('');
+  });
+
+  it('should have undefined editText initially', () => {
+    expect(component.editText).toBeUndefined();
+  });
+
+  it('should set text and focus input when editText changes', () => {
+    component.textInput = new ElementRef(document.createElement('input'));
+    spyOn(component.textInput.nativeElement, 'focus');
+
+    const changes = {
+      editText: {
+        currentValue: 'Hello world',
+        previousValue: '',
+        firstChange: true,
+        isFirstChange: () => true
+      }
+    };
+
+    component.editText = 'Hello world';
+    component.ngOnChanges(changes);
+
+    expect(component.text).toBe('Hello world');
+    expect(component.textInput.nativeElement.focus).toHaveBeenCalled();
+  });
+
+  it('should not focus when editText has no currentValue', () => {
+    component.textInput = new ElementRef(document.createElement('input'));
+    spyOn(component.textInput.nativeElement, 'focus');
+
+    const changes = {
+      editText: {
+        currentValue: undefined,
+        previousValue: 'Old',
+        firstChange: false,
+        isFirstChange: () => false
+      }
+    };
+
+    component.ngOnChanges(changes);
+    expect(component.textInput.nativeElement.focus).not.toHaveBeenCalled();
   });
 });
