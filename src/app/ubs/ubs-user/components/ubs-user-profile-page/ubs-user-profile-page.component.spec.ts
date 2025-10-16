@@ -1016,6 +1016,145 @@ describe('UbsUserProfilePageComponent', () => {
 
       expect(result).toBeFalse();
     });
+
+    describe('isSubmitBtnDisabled method - formSwitch coverage', () => {
+      it('should evaluate formSwitch as true when telegramIsNotify has truthy value', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(true);
+
+        const result = component.isSubmitBtnDisabled();
+
+        const formSwitch = !!component.userForm.get('telegramIsNotify')?.value;
+        expect(formSwitch).toBeTrue();
+        expect(result).toBeFalse(); // because switches are different
+      });
+
+      it('should evaluate formSwitch as false when telegramIsNotify has falsy value', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = true;
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        const result = component.isSubmitBtnDisabled();
+
+        const formSwitch = !!component.userForm.get('telegramIsNotify')?.value;
+        expect(formSwitch).toBeFalse();
+        expect(result).toBeFalse(); // because switches are different
+      });
+
+      it('should evaluate formSwitch as false when telegramIsNotify value is null', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = true; // Different from null/false to ensure button is enabled
+        component.userForm.get('telegramIsNotify').setValue(null);
+
+        const result = component.isSubmitBtnDisabled();
+
+        const formSwitch = !!component.userForm.get('telegramIsNotify')?.value;
+        expect(formSwitch).toBeFalse();
+        expect(result).toBeFalse(); // because null becomes false, different from true savedSwitch
+      });
+
+      it('should evaluate formSwitch as false when telegramIsNotify value is undefined', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = true;
+        component.userForm.get('telegramIsNotify').setValue(undefined);
+
+        const result = component.isSubmitBtnDisabled();
+
+        const formSwitch = !!component.userForm.get('telegramIsNotify')?.value;
+        expect(formSwitch).toBeFalse();
+        expect(result).toBeFalse(); // because switches are different
+      });
+
+      it('should evaluate formSwitch as false when telegramIsNotify value is 0', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = true;
+        component.userForm.get('telegramIsNotify').setValue(0);
+
+        const result = component.isSubmitBtnDisabled();
+
+        const formSwitch = !!component.userForm.get('telegramIsNotify')?.value;
+        expect(formSwitch).toBeFalse();
+        expect(result).toBeFalse(); // because switches are different
+      });
+
+      it('should evaluate formSwitch as true when telegramIsNotify value is 1', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(1);
+
+        const result = component.isSubmitBtnDisabled();
+
+        const formSwitch = !!component.userForm.get('telegramIsNotify')?.value;
+        expect(formSwitch).toBeTrue();
+        expect(result).toBeFalse(); // because switches are different
+      });
+
+      it('should evaluate formSwitch as false when telegramIsNotify value is empty string', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = true;
+        component.userForm.get('telegramIsNotify').setValue('');
+
+        const result = component.isSubmitBtnDisabled();
+
+        const formSwitch = !!component.userForm.get('telegramIsNotify')?.value;
+        expect(formSwitch).toBeFalse();
+        expect(result).toBeFalse(); // because switches are different
+      });
+
+      it('should evaluate formSwitch as true when telegramIsNotify value is non-empty string', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue('true');
+
+        const result = component.isSubmitBtnDisabled();
+
+        const formSwitch = !!component.userForm.get('telegramIsNotify')?.value;
+        expect(formSwitch).toBeTrue();
+        expect(result).toBeFalse(); // because switches are different
+      });
+
+      it('should handle optional chaining when telegramIsNotify control does not exist', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = true; // Set to true to make switches different
+        component.userForm.removeControl('telegramIsNotify');
+
+        const result = component.isSubmitBtnDisabled();
+
+        const formSwitch = !!component.userForm.get('telegramIsNotify')?.value;
+        expect(formSwitch).toBeFalse(); // undefined?.value becomes false with !!
+        expect(result).toBeFalse(); // because false !== true
+      });
+
+      it('should correctly compare formSwitch with savedTelegramIsNotify when both are true', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = true;
+        component.userForm.get('telegramIsNotify').setValue(true);
+
+        const formSwitch = !!component.userForm.get('telegramIsNotify')?.value;
+        expect(formSwitch).toBeTrue();
+        expect(formSwitch).toBe(component.savedTelegramIsNotify);
+
+        const result = component.isSubmitBtnDisabled();
+        // Should return true because switches match and form is pristine
+        expect(result).toBeTrue();
+      });
+
+      it('should correctly compare formSwitch with savedTelegramIsNotify when both are false', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.userForm.markAsPristine();
+
+        const formSwitch = !!component.userForm.get('telegramIsNotify')?.value;
+        expect(formSwitch).toBeFalse();
+        expect(formSwitch).toBe(component.savedTelegramIsNotify);
+
+        const result = component.isSubmitBtnDisabled();
+        // Should return true because switches match and form is pristine
+        expect(result).toBeTrue();
+      });
+    });
   });
 
   describe('onSubmit method - phone value handling', () => {
@@ -1386,9 +1525,13 @@ describe('UbsUserProfilePageComponent', () => {
     it('should mark all invalid controls as touched when form is invalid', () => {
       component.userInit();
       component.savedTelegramIsNotify = false;
+      component.userForm.get('telegramIsNotify').setValue(false);
 
       component.recipientName.setValue('');
       component.userForm.get('recipientEmail').setValue('invalid-email');
+
+      component.recipientName.markAsUntouched();
+      component.userForm.get('recipientEmail').markAsUntouched();
 
       component.onSubmit();
 
@@ -1399,10 +1542,15 @@ describe('UbsUserProfilePageComponent', () => {
     it('should iterate through all form controls when form is invalid', () => {
       component.userInit();
       component.savedTelegramIsNotify = false;
+      component.userForm.get('telegramIsNotify').setValue(false);
 
       component.recipientName.setValue('');
       component.recipientSurname.setValue('Invalid$$$');
       component.userForm.get('recipientEmail').setValue('invalid');
+
+      component.recipientName.markAsUntouched();
+      component.recipientSurname.markAsUntouched();
+      component.userForm.get('recipientEmail').markAsUntouched();
 
       component.onSubmit();
 
@@ -1417,14 +1565,25 @@ describe('UbsUserProfilePageComponent', () => {
     it('should not mark valid controls as touched when form is invalid', () => {
       component.userInit();
       component.savedTelegramIsNotify = false;
+      component.userForm.get('telegramIsNotify').setValue(false);
 
       component.recipientName.setValue('');
       component.recipientPhone.setValue('+380991234567');
+      component.userForm.get('recipientEmail').setValue('valid@example.com');
+      component.recipientSurname.setValue('ValidSurname');
+
+      component.recipientName.markAsUntouched();
+      component.recipientPhone.markAsUntouched();
+      component.userForm.get('recipientEmail').markAsUntouched();
+      component.recipientSurname.markAsUntouched();
 
       component.onSubmit();
 
       expect(component.recipientName.touched).toBeTrue();
+
       expect(component.recipientPhone.touched).toBeFalse();
+      expect(component.userForm.get('recipientEmail').touched).toBeFalse();
+      expect(component.recipientSurname.touched).toBeFalse();
     });
 
     it('should handle control being null or undefined in forEach loop', () => {
@@ -1533,6 +1692,25 @@ describe('UbsUserProfilePageComponent', () => {
         expect(submittedData.recipientPhone).toBeUndefined();
       }));
 
+      it('should trim recipientPhone before checking if it equals phonePrefix', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.recipientPhone.setValue('  +380  ');
+        component.recipientPhone.clearValidators();
+        component.recipientPhone.updateValueAndValidity();
+        component.userForm.markAsDirty();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+        expect(submittedData.recipientPhone).toBeUndefined();
+      }));
+
       it('should patch recipientEmail from response', fakeAsync(() => {
         component.userInit();
         component.savedTelegramIsNotify = false;
@@ -1590,6 +1768,170 @@ describe('UbsUserProfilePageComponent', () => {
         expect(component.userForm.get('recipientPhone').value).toBe('+380501234567');
       }));
 
+      it('should use ?? operator to default recipientPhone to empty string', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        const mockResponse = {
+          ...userProfileDataMock,
+          recipientPhone: undefined as any
+        };
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSubmit();
+        tick();
+
+        expect(component.userForm.get('recipientPhone').value).toBe('');
+      }));
+
+      it('should execute all lines in successful submit path', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        component.recipientName.setValue('ValidName');
+        component.recipientSurname.setValue('ValidSurname');
+        component.userForm.get('recipientEmail').setValue('valid@example.com');
+        component.recipientPhone.setValue('+380991234567');
+        component.alternateEmail.setValue('alt@example.com');
+        component.userForm.markAsDirty();
+        component.alternativeEmailDisplay = true;
+
+        const mockResponse: UserProfile = {
+          ...userProfileDataMock,
+          recipientEmail: 'valid@example.com',
+          alternateEmail: 'alt@example.com',
+          recipientName: 'ValidName',
+          recipientSurname: 'ValidSurname',
+          recipientPhone: '+380991234567',
+          telegramIsNotify: false
+        };
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+        snackBarMock.openSnackBar.calls.reset();
+
+        const patchValueSpy = spyOn(component.userForm, 'patchValue').and.callThrough();
+        const markAsPristineSpy = spyOn(component.userForm, 'markAsPristine').and.callThrough();
+        const markAsUntouchedSpy = spyOn(component.userForm, 'markAsUntouched').and.callThrough();
+
+        component.onSubmit();
+        tick();
+
+        expect(patchValueSpy).toHaveBeenCalledWith({
+          recipientEmail: 'valid@example.com',
+          alternateEmail: 'alt@example.com',
+          recipientName: 'ValidName',
+          recipientSurname: 'ValidSurname',
+          recipientPhone: '+380991234567',
+          telegramIsNotify: false
+        });
+
+        expect(markAsPristineSpy).toHaveBeenCalled();
+        expect(markAsUntouchedSpy).toHaveBeenCalled();
+        expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('savedChangesToUserProfile');
+        expect(component.alternativeEmailDisplay).toBeFalse();
+      }));
+
+      it('should cover patchValue with null values for alternateEmail and recipientSurname', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        component.recipientName.setValue('ValidName');
+        component.userForm.markAsDirty();
+
+        const mockResponse: UserProfile = {
+          ...userProfileDataMock,
+          recipientEmail: 'test@example.com',
+          alternateEmail: null,
+          recipientName: 'ValidName',
+          recipientSurname: null,
+          recipientPhone: null,
+          telegramIsNotify: false
+        };
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        const patchValueSpy = spyOn(component.userForm, 'patchValue').and.callThrough();
+
+        component.onSubmit();
+        tick();
+
+        expect(patchValueSpy).toHaveBeenCalledWith({
+          recipientEmail: 'test@example.com',
+          alternateEmail: null,
+          recipientName: 'ValidName',
+          recipientSurname: null,
+          recipientPhone: '',
+          telegramIsNotify: false
+        });
+      }));
+
+      it('should cover patchValue with undefined values using ?? operator', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        component.recipientName.setValue('ValidName');
+        component.userForm.markAsDirty();
+
+        const mockResponse: UserProfile = {
+          ...userProfileDataMock,
+          recipientEmail: 'test@example.com',
+          alternateEmail: undefined,
+          recipientName: 'ValidName',
+          recipientSurname: undefined,
+          recipientPhone: undefined,
+          telegramIsNotify: false
+        } as any;
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        const patchValueSpy = spyOn(component.userForm, 'patchValue').and.callThrough();
+
+        component.onSubmit();
+        tick();
+
+        expect(patchValueSpy).toHaveBeenCalledWith({
+          recipientEmail: 'test@example.com',
+          alternateEmail: null,
+          recipientName: 'ValidName',
+          recipientSurname: null,
+          recipientPhone: '',
+          telegramIsNotify: false
+        });
+      }));
+
+      it('should cover !! operator for telegramIsNotify in patchValue', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        component.recipientName.setValue('ValidName');
+        component.userForm.markAsDirty();
+
+        const mockResponse: UserProfile = {
+          ...userProfileDataMock,
+          telegramIsNotify: 1 as any
+        };
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        const patchValueSpy = spyOn(component.userForm, 'patchValue').and.callThrough();
+
+        component.onSubmit();
+        tick();
+
+        expect(patchValueSpy).toHaveBeenCalledWith(
+          jasmine.objectContaining({
+            telegramIsNotify: true
+          })
+        );
+      }));
+
       it('should show savedChangesToUserProfile snackbar on successful submit', fakeAsync(() => {
         component.userInit();
         component.savedTelegramIsNotify = false;
@@ -1605,6 +1947,27 @@ describe('UbsUserProfilePageComponent', () => {
 
         expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('savedChangesToUserProfile');
         expect(snackBarMock.openSnackBar).toHaveBeenCalledTimes(1);
+      }));
+
+      it('should execute error block lines: set isFetching false, isEditing true, and show error snackBar', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        component.recipientName.setValue('ValidName');
+        component.userForm.markAsDirty();
+        component.isFetching = false;
+        component.isEditing = false;
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(throwError(() => new Error('Server error')));
+        snackBarMock.openSnackBar.calls.reset();
+
+        component.onSubmit();
+        tick();
+
+        expect(component.isFetching).toBeFalse();
+        expect(component.isEditing).toBeTrue();
+        expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('error');
       }));
 
       it('should iterate through all form controls and get each control when form is invalid', () => {
@@ -1687,43 +2050,73 @@ describe('UbsUserProfilePageComponent', () => {
         expect(() => component.onSubmit()).not.toThrow();
       });
 
-      it('should use ?? operator to default recipientPhone to empty string', fakeAsync(() => {
+      it('should execute else block with forEach when form is invalid', () => {
         component.userInit();
         component.savedTelegramIsNotify = false;
         component.userForm.get('telegramIsNotify').setValue(false);
-        component.recipientName.setValue('Test');
-        component.userForm.markAsDirty();
 
-        const mockResponse = {
-          ...userProfileDataMock,
-          recipientPhone: undefined as any
-        };
-        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+        component.recipientName.setValue('');
+        component.userForm.get('recipientEmail').setValue('invalid-email');
+        component.recipientSurname.setValue('');
+
+        Object.keys(component.userForm.controls).forEach((key) => {
+          component.userForm.get(key)?.markAsUntouched();
+        });
+
+        const getControlSpy = spyOn(component.userForm, 'get').and.callThrough();
 
         component.onSubmit();
-        tick();
 
-        expect(component.userForm.get('recipientPhone').value).toBe('');
-      }));
+        expect(getControlSpy).toHaveBeenCalled();
 
-      it('should trim recipientPhone before checking if it equals phonePrefix', fakeAsync(() => {
+        const allKeys = Object.keys(component.userForm.controls);
+        expect(getControlSpy.calls.count()).toBeGreaterThanOrEqual(allKeys.length);
+      });
+
+      it('should execute control.markAsTouched() inside forEach for each invalid control', () => {
         component.userInit();
         component.savedTelegramIsNotify = false;
         component.userForm.get('telegramIsNotify').setValue(false);
-        component.recipientName.setValue('Test');
-        component.recipientPhone.setValue('  +380  ');
-        component.recipientPhone.clearValidators();
-        component.recipientPhone.updateValueAndValidity();
-        component.userForm.markAsDirty();
 
-        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+        component.recipientName.setValue('');
+        component.userForm.get('recipientEmail').setValue('invalid');
+
+        component.recipientName.markAsUntouched();
+        component.userForm.get('recipientEmail').markAsUntouched();
+
+        const recipientNameSpy = spyOn(component.recipientName, 'markAsTouched').and.callThrough();
+        const recipientEmailControl = component.userForm.get('recipientEmail');
+        const recipientEmailSpy = spyOn(recipientEmailControl, 'markAsTouched').and.callThrough();
 
         component.onSubmit();
-        tick();
 
-        const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
-        expect(submittedData.recipientPhone).toBeUndefined();
-      }));
+        expect(recipientNameSpy).toHaveBeenCalled();
+        expect(recipientEmailSpy).toHaveBeenCalled();
+      });
+
+      it('should handle control?.invalid check in forEach with existing controls', () => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        component.recipientName.setValue('');
+        component.recipientName.markAsUntouched();
+
+        let controlInvalidCheckExecuted = false;
+        const originalGet = component.userForm.get.bind(component.userForm);
+
+        spyOn(component.userForm, 'get').and.callFake((key: string) => {
+          const control = originalGet(key);
+          if (control) {
+            controlInvalidCheckExecuted = true;
+          }
+          return control;
+        });
+
+        component.onSubmit();
+
+        expect(controlInvalidCheckExecuted).toBeTrue();
+      });
     });
   });
 
