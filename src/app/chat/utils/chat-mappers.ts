@@ -43,7 +43,7 @@ export function toTime(iso: string): string {
   return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-export function formatTimeOrDate(iso?: string | null): string {
+export function formatTimeOrDate(iso?: string | null, isEdit?: boolean): string {
   if (!iso) {
     return '';
   }
@@ -55,7 +55,7 @@ export function formatTimeOrDate(iso?: string | null): string {
   const now = new Date();
   const sameDay = d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && d.getDate() === now.getDate();
 
-  if (sameDay) {
+  if (sameDay && !isEdit) {
     return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 

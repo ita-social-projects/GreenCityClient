@@ -103,6 +103,13 @@ describe('ChatFacade', () => {
     expect(api.getChats).not.toHaveBeenCalled();
   });
 
+  it('selectMessage should set select message', () => {
+    facade.selectedMessage.set(null);
+    const msg = { id: 1, from: 'ME', text: 'Test', time: 'Time' };
+    facade.selectMessage(msg);
+    expect(facade.selectedMessage()).toEqual(msg);
+  });
+
   it('filteredChats filters by searchId', () => {
     api.getChats.and.returnValue(
       of({ page: [sampleChat({ id: 11, chatId: '111' }), sampleChat({ id: 22, chatId: '222' })], totalPages: 1 })

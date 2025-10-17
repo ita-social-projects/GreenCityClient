@@ -655,8 +655,11 @@
     "no-file-chosen": "No file chosen",
     "status": {
       "READ": "Read",
-      "UNREAD": "Unread"
-    }
+      "UNREAD": "Unread",
+      "EDITED": "Edited {{editDateTime}}"
+    },
+    "edit-message": "Edit message",
+    "edit-option": "Edit"
   },
   "ubs-employee": {
     "add-employee": "Add employee",

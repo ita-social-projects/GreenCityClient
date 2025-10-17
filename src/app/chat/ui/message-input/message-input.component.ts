@@ -1,21 +1,32 @@
-import { Component, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { CHAT_ICONS } from '../../chat-icons';
 
 @Component({
   selector: 'app-message-input',
   standalone: true,
-  imports: [NgIf, FormsModule, TranslateModule],
+  imports: [FormsModule, TranslateModule, NgIf],
   templateUrl: './message-input.component.html'
 })
-export class MessageInputComponent {
+export class MessageInputComponent implements OnChanges {
   @Output() sendText = new EventEmitter<{ text: string; file?: File }>();
+  @Output() closeEdit = new EventEmitter();
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
-
+  @ViewChild('textInput') textInput!: ElementRef<HTMLInputElement>;
+  @Input() editText?: string;
   text = '';
   file?: File;
   private readonly MAX_FILE_MB = 5;
+  readonly chatICons = CHAT_ICONS;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['editText']?.currentValue) {
+      this.text = this.editText;
+      this.textInput.nativeElement.focus();
+    }
+  }
 
   send() {
     if (!this.text.trim() && !this.file) {
@@ -23,6 +34,7 @@ export class MessageInputComponent {
     }
     this.sendText.emit({ text: this.text, file: this.file });
     this.text = '';
+    this.editText = '';
     this.file = undefined;
 
     if (this.fileInput) {
@@ -45,5 +57,11 @@ export class MessageInputComponent {
       return;
     }
     this.file = file;
+  }
+
+  onClose() {
+    this.closeEdit.emit();
+    this.editText = '';
+    this.text = '';
   }
 }
