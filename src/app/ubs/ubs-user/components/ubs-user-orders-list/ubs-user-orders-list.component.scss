@@ -80,7 +80,7 @@
   }
 }
 
-::ng-deep .mat-content {
+:host ::ng-deep .mat-content {
   align-items: center;
   justify-content: space-between;
 }
@@ -158,6 +158,10 @@ button {
 }
 
 @media (max-width: 1420px) {
+  .mat-expansion-panel-header.mat-expanded {
+    height: auto;
+  }
+
   .mat-expansion-panel-header-description {
     flex: unset;
     margin-right: 0;
@@ -171,7 +175,7 @@ button {
     grid-template-columns: repeat(7, 90px);
   }
 
-  ::ng-deep {
+  :host ::ng-deep {
     .mat-content {
       justify-content: space-between;
     }
@@ -243,7 +247,7 @@ button {
     }
   }
 
-  .custom-panel .mat-expansion-panel-header {
+  :host .custom-panel .mat-expansion-panel-header {
     height: fit-content;
     padding: 20px 24px;
 
