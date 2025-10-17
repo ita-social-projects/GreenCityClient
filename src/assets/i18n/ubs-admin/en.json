@@ -184,7 +184,6 @@
       "canceled": "Canceled"
     },
     "not-taken": {
-      "title": "Order was not taken out",
       "reason": "Reason:",
       "images": "Images",
       "img-alt": "Image {{index}}",

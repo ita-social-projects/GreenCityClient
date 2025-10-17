@@ -16,7 +16,7 @@ export class DateLocalisationPipe implements PipeTransform, OnDestroy {
     private translate: TranslateService,
     private datePipe: DatePipe
   ) {
-    this.locale = this.translate.getDefaultLang() || 'en-US';
+    this.locale = this.translate.getDefaultLang() || 'en';
     this.translate.onDefaultLangChange.pipe(takeUntil(this.destroy$)).subscribe((langObj) => (this.locale = langObj.lang));
   }
 
