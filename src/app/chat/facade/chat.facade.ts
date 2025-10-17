@@ -252,7 +252,6 @@ export class ChatFacade {
   private loadMessagesRecursive(chatInternalId: number, page: number, size: number, collected: MessageDto[]) {
     this.api.getMessages(chatInternalId, page, size).subscribe({
       next: (resp) => {
-        console.log(resp);
         const msgs = resp.page ?? [];
         collected.push(...msgs);
 

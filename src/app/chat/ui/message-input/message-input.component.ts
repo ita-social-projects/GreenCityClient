@@ -23,7 +23,7 @@ export class MessageInputComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['editText']?.currentValue) {
-      this.text = this.editText ?? '';
+      this.text = this.editText;
       this.textInput.nativeElement.focus();
     }
   }
