@@ -65,7 +65,6 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(GetUserBonuses());
-    console.log(this.orderDetails);
     this.initForm();
     this.initListeners();
   }

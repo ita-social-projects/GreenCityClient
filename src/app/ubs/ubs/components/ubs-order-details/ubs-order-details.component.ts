@@ -203,7 +203,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .subscribe(([locations, orderDetails]: [CourierLocations, OrderDetails]) => {
         if (!this.bags || this.bags[0]?.id !== orderDetails.bags[0].id) {
           this.locations = locations;
-          console.error(orderDetails);
           this.bags = orderDetails.bags;
           this.initFormBags();
           this.dispatchAdditionalOrders();
