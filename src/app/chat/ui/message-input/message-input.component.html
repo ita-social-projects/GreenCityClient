@@ -1,7 +1,16 @@
 <div class="message-input-container">
+  <div *ngIf="editText" class="edit-text-container">
+    <img class="icon" [src]="chatICons.edit" alt="edit" />
+    <div class="edited-message">
+      <p>{{ 'chat.edit-message' | translate }}</p>
+      <p>{{ editText }}</p>
+    </div>
+    <img class="close" [src]="chatICons.close" alt="close" (click)="onClose()" />
+  </div>
   <div class="message-input-wrapper">
     <label class="message-input-wrapper-label">
       <input
+        #textInput
         type="text"
         id="text-input-message"
         [placeholder]="'chat.active-chat-placeholder' | translate"
@@ -38,6 +47,6 @@
       <span>{{ 'chat.attach-file' | translate }}</span>
       <input type="file" (change)="onFileSelected($event)" hidden #fileInput />
     </label>
-    <span class="file-name"> {{ 'chat.no-file-chosen' | translate }}</span>
+    <span class="file-name"> {{ file ? file.name : ('chat.no-file-chosen' | translate) }}</span>
   </div>
 </div>

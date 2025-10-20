@@ -103,6 +103,13 @@ describe('ChatFacade', () => {
     expect(api.getChats).not.toHaveBeenCalled();
   });
 
+  it('selectMessage should set select message', () => {
+    facade.selectedMessage.set(null);
+    const msg = { id: 1, from: 'ME', text: 'Test', time: 'Time' };
+    facade.selectMessage(msg);
+    expect(facade.selectedMessage()).toEqual(msg);
+  });
+
   it('filteredChats filters by searchId', () => {
     api.getChats.and.returnValue(
       of({ page: [sampleChat({ id: 11, chatId: '111' }), sampleChat({ id: 22, chatId: '222' })], totalPages: 1 })
@@ -257,7 +264,7 @@ describe('ChatFacade', () => {
     expect(urlSpy).not.toHaveBeenCalled();
   });
 
-  it('sendMessage appends with image preview when file provided', () => {
+  it('sendMessage appends with image preview when image provided', () => {
     (facade as any).selectedChat.set({
       nickname: 'N',
       initial: 'N',
@@ -282,6 +289,60 @@ describe('ChatFacade', () => {
     expect(last.images).toEqual(['blob://preview']);
     expect(urlSpy).toHaveBeenCalled();
   });
+
+  it('sendMessage appends with file preview when file provided', () => {
+    (facade as any).selectedChat.set({
+      nickname: 'N',
+      initial: 'N',
+      chatId: '1',
+      chatInternalId: 1,
+      lastMessage: '',
+      time: '',
+      messages: []
+    });
+    api.sendMessage.and.returnValue(of('ok' as any));
+    const file = new File([new Blob(['a'])], 'a.pdf', { type: 'application/pdf' });
+    const urlSpy = spyOn(URL, 'createObjectURL').and.returnValue('blob://preview');
+
+    facade.sendMessage('with file', file);
+
+    const sel = facade.selectedChat();
+    expect(sel).toBeTruthy();
+    if (!sel) {
+      throw new Error('expected selected chat');
+    }
+    const last = sel.messages[sel.messages.length - 1];
+    expect(last.fileUrl).toEqual('blob://preview');
+    expect(last.fileName).toEqual('a.pdf');
+    expect(urlSpy).toHaveBeenCalled();
+  });
+
+  it('sendMessage does not append with preview when no image or file provided', () => {
+    (facade as any).selectedChat.set({
+      nickname: 'N',
+      initial: 'N',
+      chatId: '1',
+      chatInternalId: 1,
+      lastMessage: '',
+      time: '',
+      messages: []
+    });
+    api.sendMessage.and.returnValue(of('ok' as any));
+    const urlSpy = spyOn(URL, 'createObjectURL');
+
+    facade.sendMessage('no file');
+
+    const sel = facade.selectedChat();
+    expect(sel).toBeTruthy();
+    if (!sel) {
+      throw new Error('expected selected chat');
+    }
+    const last = sel.messages[sel.messages.length - 1];
+    expect(last.fileUrl).toBeFalsy();
+    expect(last.fileName).toBeFalsy();
+    expect(urlSpy).not.toHaveBeenCalled();
+  });
+
   describe('resolveInternalId (private)', () => {
     it('returns id when present', () => {
       const res = (facade as any).resolveInternalId({ id: 123, foo: 'bar' });

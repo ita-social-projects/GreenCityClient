@@ -36,7 +36,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   private io?: IntersectionObserver;
   private readonly destroy$ = new Subject<void>();
 
-  constructor(public facade: ChatFacade, public route: ActivatedRoute) {}
+  constructor(
+    public facade: ChatFacade,
+    public route: ActivatedRoute
+  ) {}
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -85,6 +88,14 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.io.observe(this.pagingAnchor.nativeElement);
+  }
+
+  messageController(text: string, file?: File) {
+    if (this.facade.selectedMessage) {
+      this.facade.editMessage(text);
+    } else {
+      this.facade.sendMessage(text, file);
+    }
   }
 
   ngOnDestroy(): void {

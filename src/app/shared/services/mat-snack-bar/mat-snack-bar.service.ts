@@ -17,7 +17,10 @@ export class MatSnackBarService {
       classname: SnackbarClassName.attention,
       key: 'snack-bar.attention.exit-confirm-restore-password'
     },
-
+    noInternet: {
+      classname: SnackbarClassName.error,
+      key: 'snack-bar.error.no-internet'
+    },
     successRestorePassword: { classname: SnackbarClassName.success, key: 'snack-bar.success.restore-password' },
     successRestorePasswordUbs: { classname: SnackbarClassName.successUbs, key: 'snack-bar.success.restore-password' },
     exitConfirmUnblockAccount: {

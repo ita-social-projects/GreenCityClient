@@ -293,7 +293,8 @@
       },
       "modal-rating-title-can-evaluate": "Evaluate the event and the organizer",
       "modal-rating-title-can`t-evaluate": "You cannot add this event. First register on the site",
-      "pop-up-cancelling-event": "Are you sure that you don't want to join this event?"
+      "pop-up-cancelling-event": "Are you sure that you don't want to join this event?",
+      "date": "Date range"
     },
     "subscription": {
       "caption": "Receive interesting news",

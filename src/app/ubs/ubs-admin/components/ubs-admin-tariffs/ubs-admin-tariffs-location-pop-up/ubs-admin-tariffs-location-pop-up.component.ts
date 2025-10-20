@@ -51,13 +51,13 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   regionOptions = {
     types: ['administrative_area_level_1'],
-    componentRestrictions: { country: 'UK' },
+    componentRestrictions: { country: 'ua' },
     input: ''
   };
 
   cityOptions = {
     types: ['(cities)'],
-    componentRestrictions: { country: 'UK' },
+    componentRestrictions: { country: 'ua' },
     input: ''
   };
 

@@ -104,6 +104,8 @@ import { TableCellInputComponent } from './components/ubs-admin-table/table-cell
 import { CommentPopUpComponent } from './components/shared/components/comment-pop-up/comment-pop-up.component';
 import { UbsSharedModule } from '../shared/ubs-shared.module';
 import { UbsAdminNotificationCreateFormComponent } from './components/ubs-admin-notification/ubs-admin-notification-create-form/ubs-admin-notification-create-form.component';
+import { ViewViolationModalComponent } from './components/view-violation-modal/view-violation-modal.component';
+import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { UbsAdminSettingsComponent } from '@ubs/ubs-admin/components/ubs-admin-settings/ubs-admin-settings.component';
 import { UbsAdminEditHomepageComponent } from '@ubs/ubs-admin/components/ubs-admin-edit-homepage/ubs-admin-edit-homepage.component';
 
@@ -125,6 +127,7 @@ import { UbsAdminEditHomepageComponent } from '@ubs/ubs-admin/components/ubs-adm
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
     AddViolationsComponent,
+    ViewViolationModalComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
     TableCellReadonlyComponent,
@@ -179,6 +182,7 @@ import { UbsAdminEditHomepageComponent } from '@ubs/ubs-admin/components/ubs-adm
     TableCellInputComponent,
     CommentPopUpComponent,
     UbsAdminNotificationCreateFormComponent,
+    ViewViolationModalComponent,
     UbsAdminSettingsComponent,
     UbsAdminEditHomepageComponent
   ],
@@ -221,7 +225,8 @@ import { UbsAdminEditHomepageComponent } from '@ubs/ubs-admin/components/ubs-adm
     MatInputModule,
     MatFormFieldModule,
     QuillModule.forRoot(),
-    UbsSharedModule
+    UbsSharedModule,
+    SharedGreenCityModule
   ],
   providers: [
     AdminCertificateService,

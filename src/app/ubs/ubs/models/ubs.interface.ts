@@ -45,6 +45,7 @@ export interface OrderDetails {
   total?: number;
   finalSum?: number;
   minAmountOfBigBags?: number;
+  hasPaymentLink?: boolean;
 }
 
 export interface IProcessOrderResponse {

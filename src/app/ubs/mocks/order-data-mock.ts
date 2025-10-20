@@ -1,6 +1,5 @@
 import { IUserOrderInfo } from '@ubs/ubs-user/components/ubs-user-orders-list/models/UserOrder.interface';
 import { CourierLocations, OrderDetails, PersonalData } from '@ubs/ubs/models/ubs.interface';
-import { OrderStatus } from '@ubs/ubs/order-status.enum';
 
 export const ubsOrderServiseMock = {
   orderDetails: null,
@@ -150,6 +149,7 @@ export const fakeInputOrderData: IUserOrderInfo = {
   paidAmount: 1100,
   paymentStatusUk: 'Оплачено',
   paymentStatusEn: 'Paid',
+  paymentLink: null,
   sender: {
     senderEmail: 'm.kovalushun@gmail.com',
     senderName: 'Mykola',

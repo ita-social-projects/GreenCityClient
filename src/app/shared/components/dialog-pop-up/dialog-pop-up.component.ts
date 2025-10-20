@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PopUpsStyles } from 'src/app/ubs/ubs-admin/components/ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
@@ -23,7 +23,7 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
   setBtnStyleGreen: boolean;
   setBtnStyleLightGreen: boolean;
   isItrefund = false;
-  іsPermissionConfirm = false;
+  isPermissionConfirm = false;
   isCancelButtonShow = false;
   isEditOrPayPopup?: boolean;
 
@@ -51,7 +51,7 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.userReply(this.isEditOrPayPopup ? undefined : false);
       });
-    this.isCancelButtonShow = !this.isItrefund || !this.іsPermissionConfirm;
+    this.isCancelButtonShow = !this.isItrefund || !this.isPermissionConfirm;
   }
 
   private setTitles(): void {
@@ -64,7 +64,7 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
     this.setBtnStyleRed = this.data.style === PopUpsStyles.red;
     this.setBtnStyleLightGreen = this.data.style === PopUpsStyles.lightGreen;
     this.isItrefund = this.data.isItrefund;
-    this.іsPermissionConfirm = this.data.іsPermissionConfirm;
+    this.isPermissionConfirm = this.data.isPermissionConfirm;
   }
 
   userReply(reply: boolean | undefined): void {

@@ -124,6 +124,12 @@
     "date": "Дата:",
     "info-about-date": "Додано:"
   },
+  "view-violation-modal": {
+    "about-violation": "Інформація про порушення",
+    "violation-level": "Ступінь порушення",
+    "violation-description": "Опис порушення",
+    "close": "Закрити"
+  },
   "return-payment": {
     "message": "Чи ви дійсно бажаєте повернути кошти?",
     "accept-refund-application": "Ваша заявка прийнята. Наш менеджер зв'яжеться з вами пізніше.",
@@ -296,7 +302,8 @@
       "title": "Порушення клієнта",
       "amount": "Всього",
       "current-order": "Поточне замовлення",
-      "button": "Додати порушення"
+      "button": "Додати порушення",
+      "button-view-violation": "Переглянути порушення"
     }
   },
   "customer-details": {
@@ -381,7 +388,8 @@
     "add-certificate": "Додати сертифікат",
     "all-elements": "Відображати всі колонки",
     "apply-filters": "Застосувати",
-    "clear-filters": "Скасувати",
+    "clear-filters": "Очистити всі фільтри",
+    "cancel": "Скасувати",
     "date-range": "Відрізок часу",
     "date-from": "Від",
     "date-to": "До",
@@ -647,8 +655,11 @@
     "no-file-chosen": "Файл не обрано",
     "status": {
       "READ": "Прочитано",
-      "UNREAD": "Не прочитано"
-    }
+      "UNREAD": "Не прочитано",
+      "EDITED": "Змінено {{editDateTime}}"
+    },
+    "edit-message": "Редагувати повідомлення",
+    "edit-option": "Редагувати"
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",

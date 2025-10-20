@@ -147,7 +147,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
 
   handleGoogleAuth(resp): void {
     try {
-      this.googleService.signIn(resp.credential).subscribe((signInData: UserSuccessSignIn) => {
+      this.googleService.signIn(resp.credential, this.isUbs).subscribe((signInData: UserSuccessSignIn) => {
         this.onSignInWithGoogleSuccess(signInData);
       });
     } catch (errors) {

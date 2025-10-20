@@ -28,6 +28,7 @@ export interface MessageDto {
   sendAt: string;
   text: string;
   fromManager: boolean;
+  isUpdated?: boolean;
   deliveryStatus: DeliveryStatus;
   assets: AssetDto[];
   messageViewingStatus?: MessageViewingStatus;
@@ -56,6 +57,7 @@ export interface ChatMessageView {
   from: string;
   text: string;
   time: string;
+  isUpdated?: boolean;
   images?: string[];
   fileUrl?: string;
   fileName?: string;

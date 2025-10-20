@@ -5,13 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { filtersSelector } from 'src/app/store/selectors/big-order-table.selectors';
-import {
-  IBigOrderTable,
-  IBigOrderTableParams,
-  ILocationDetails,
-  IOrdersViewParameters,
-  IShortAddress
-} from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { IBigOrderTable, IBigOrderTableParams, ILocationDetails, IShortAddress } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import {

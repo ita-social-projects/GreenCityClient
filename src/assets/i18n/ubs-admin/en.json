@@ -123,6 +123,12 @@
     "date": "Date:",
     "info-about-date": "Added:"
   },
+  "view-violation-modal": {
+    "about-violation": "About violation",
+    "violation-level": "Level of violation",
+    "violation-description": "Violation description",
+    "close": "Close"
+  },
   "return-payment": {
     "message": "Do you really want a refund?",
     "accept-refund-application": "Your application has been accepted. Our manager will contact you later.",
@@ -297,7 +303,8 @@
       "title": "Customer violations",
       "amount": "Total",
       "current-order": "Current violation",
-      "button": "Add violation"
+      "button": "Add violation",
+      "button-view-violation": "View violation"
     }
   },
   "customer-details": {
@@ -649,8 +656,11 @@
     "no-file-chosen": "No file chosen",
     "status": {
       "READ": "Read",
-      "UNREAD": "Unread"
-    }
+      "UNREAD": "Unread",
+      "EDITED": "Edited {{editDateTime}}"
+    },
+    "edit-message": "Edit message",
+    "edit-option": "Edit"
   },
   "ubs-employee": {
     "add-employee": "Add employee",

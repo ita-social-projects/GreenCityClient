@@ -14,6 +14,8 @@ export class ChatFacade {
   readonly selectedChat = signal<ChatListItem | null>(null);
   readonly selectedImageUrl = signal<string | null>(null);
 
+  readonly selectedMessage = signal<ChatMessageView | null>(null);
+
   readonly clientInfoVisible = signal(false);
   readonly clientInfoData = signal<ClientInfoData>(null);
 
@@ -158,7 +160,11 @@ export class ChatFacade {
     this.location.replaceState(newPath);
   }
 
-  selectChatById(chatInternalId: number) { 
+  selectMessage(message?: ChatMessageView) {
+    this.selectedMessage.set(message);
+  }
+
+  selectChatById(chatInternalId: number) {
     const chat = this.chats().find((c) => c.chatInternalId === chatInternalId);
     if (chat) {
       this.selectChat(chat);
@@ -274,7 +280,8 @@ export class ChatFacade {
         id: msg.id,
         from: msg.fromManager ? 'Me' : sel.nickname,
         text: msg.text,
-        time: formatTimeOrDate(msg.sendAt),
+        time: formatTimeOrDate(msg.sendAt, msg.isUpdated),
+        isUpdated: msg.isUpdated,
         images: (msg.assets ?? []).filter((a) => a.type === 'IMAGE').map((a) => a.url),
         fileName: (msg.assets ?? []).find((a) => a.type === 'FILE')?.fileName,
         fileUrl: (msg.assets ?? []).find((a) => a.type === 'FILE')?.url,
@@ -313,14 +320,18 @@ export class ChatFacade {
 
     this.api.sendMessage(sel.chatInternalId, text.trim(), file).subscribe({
       next: () => {
-        const time = formatTimeOrDate(new Date().toISOString());
-        const imagePreview = file ? URL.createObjectURL(file) : null;
+        const time = formatTimeOrDate(new Date().toISOString(), false);
+        const imagePreview = file?.type?.startsWith('image/') ? URL.createObjectURL(file) : null;
+        const filePreview = file && !imagePreview ? URL.createObjectURL(file) : null;
 
         sel.messages.push({
           from: 'Me',
           text: text.trim(),
           time,
+          isUpdated: false,
           images: imagePreview ? [imagePreview] : [],
+          fileUrl: filePreview,
+          fileName: filePreview ? file.name : null,
           viewingStatus: null
         });
         sel.lastMessage = text.trim();
@@ -329,6 +340,29 @@ export class ChatFacade {
         this.selectedChat.set({ ...sel });
       },
       error: (e) => console.error('Failed to send message:', e)
+    });
+  }
+
+  editMessage(newText: string) {
+    const sel = this.selectedChat();
+    const mes = this.selectedMessage();
+    if (!sel || !newText.trim() || !mes) {
+      return;
+    }
+    this.api.editMessage(sel.chatInternalId, mes.id, newText.trim()).subscribe({
+      next: () => {
+        const time = formatTimeOrDate(new Date().toISOString(), true);
+        const messageIndex = sel.messages.findIndex((m) => m.id === mes.id);
+        if (messageIndex > -1) {
+          sel.messages[messageIndex].text = newText;
+          sel.messages[messageIndex].time = time;
+          sel.messages[messageIndex].isUpdated = true;
+        }
+        sel.time = time;
+        this.selectedChat.set({ ...sel });
+        this.selectMessage(null);
+      },
+      error: (e) => console.error('Failed to edit the message:', e)
     });
   }
 

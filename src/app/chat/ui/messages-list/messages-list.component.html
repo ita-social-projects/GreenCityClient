@@ -1,5 +1,18 @@
 <div #scrollContainer class="messages">
-  <div *ngFor="let message of messages" [ngClass]="{ message: true, sent: message.from === 'Me', received: message.from !== 'Me' }">
+  <div
+    *ngFor="let message of messages"
+    [ngClass]="{ message: true, sent: message.from === 'Me', received: message.from !== 'Me' }"
+    (contextmenu)="onRightClick($event, menuTrigger, message)"
+    (touchstart)="onTouchStart($event, menuTrigger, message)"
+    (touchend)="onTouchEnd($event)"
+    (touchmove)="onTouchMove($event)"
+  >
+    <div
+      style="visibility: hidden; position: fixed"
+      [style.left]="matMenuPosition.x"
+      [style.top]="matMenuPosition.y"
+      [matMenuTriggerFor]="menu"
+    ></div>
     <div class="message-text" *ngIf="message.text">
       {{ message.text }}
     </div>
@@ -9,14 +22,31 @@
     </div>
 
     <div class="message-file" *ngIf="message.fileUrl">
-      <a [href]="message.fileUrl" target="_blank" rel="noopener noreferrer" class="file-link">
+      <a [href]="message.fileUrl" target="_blank" rel="noopener noreferrer" class="file-link" download>
         📎 {{ message.fileName || 'Download file' }}
       </a>
     </div>
 
     <div class="message-footer">
+      <img *ngIf="message?.isUpdated" src="assets/img/comments/edit.png" alt="edited" class="edited-pencil" />
       <span class="message-time">{{ message.time }}</span>
       <app-status-ticks *ngIf="message.from === 'Me'" [status]="message.viewingStatus || undefined"></app-status-ticks>
     </div>
+  </div>
+
+  <div class="mat-menu">
+    <mat-menu #menu="matMenu" yPosition="above" (closed)="onMenuClosed()">
+      <ng-template matMenuContent>
+        <div>
+          <span *ngIf="selectedMessage?.isUpdated" class="edit-status"
+            ><img class="edited-icon" [src]="chatICons.edit" alt="edited" />
+            {{ 'chat.status.EDITED' | translate: { editDateTime: selectedMessage?.time } }}</span
+          >
+          <button mat-menu-item (click)="onMessageEdit()" class="edit-button">
+            <span class="menu-item">{{ 'chat.edit-option' | translate }}</span>
+          </button>
+        </div>
+      </ng-template>
+    </mat-menu>
   </div>
 </div>
