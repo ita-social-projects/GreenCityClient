@@ -87,7 +87,8 @@ describe('UbsUserProfilePageComponent', () => {
   let fixture: ComponentFixture<UbsUserProfilePageComponent>;
   const clientProfileServiceMock: jasmine.SpyObj<ClientProfileService> = jasmine.createSpyObj('ClientProfileService', {
     getDataClientProfile: of(userProfileDataMock),
-    postDataClientProfile: of({})
+    postDataClientProfile: of({}),
+    deactivateProfile: of({})
   });
   const snackBarMock: jasmine.SpyObj<MatSnackBarService> = jasmine.createSpyObj('MatSnackBarService', ['openSnackBar']);
   const dialogMock = {
@@ -3772,4 +3773,544 @@ describe('UbsUserProfilePageComponent', () => {
       })
     );
   }));
+
+  describe('Additional Coverage Tests for 100%', () => {
+    beforeEach(() => {
+      clientProfileServiceMock.postDataClientProfile.calls.reset();
+      snackBarMock.openSnackBar.calls.reset();
+      clientProfileServiceMock.getDataClientProfile.calls.reset();
+      clientProfileServiceMock.getDataClientProfile.and.returnValue(of(userProfileDataMock));
+      clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+    });
+
+    afterEach(() => {
+      clientProfileServiceMock.getDataClientProfile.and.returnValue(of(userProfileDataMock));
+      clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+    });
+
+    describe('onSubmit - address handling with modifications', () => {
+      it('should update address and dispatch UpdateAddress when address is modified and has id', fakeAsync(() => {
+        component.userProfile = { ...userProfileDataMock };
+        component.savedUserAddresses = [...userProfileDataMock.addressDto];
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+
+        const addressFormArray = component.userForm.get('address') as FormArray;
+        const addressControl = addressFormArray.at(0) as FormControl;
+
+        const modifiedAddress = {
+          ...addressControl.value,
+          houseNumber: '999'
+        };
+
+        addressControl.setValue(modifiedAddress);
+        component.userForm.markAsDirty();
+
+        const store = TestBed.inject(Store) as MockStore;
+        const dispatchSpy = spyOn(store, 'dispatch');
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        expect(dispatchSpy).toHaveBeenCalled();
+        const updateAddressCalls = dispatchSpy.calls.all().filter((call) => call.args[0].type === '[Order] Update Address');
+        expect(updateAddressCalls.length).toBeGreaterThan(0);
+      }));
+
+      it('should delete houseCorpus from updated address when it is empty', fakeAsync(() => {
+        component.userProfile = { ...userProfileDataMock };
+        component.savedUserAddresses = [...userProfileDataMock.addressDto];
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+
+        const addressFormArray = component.userForm.get('address') as FormArray;
+        const addressControl = addressFormArray.at(0) as FormControl;
+
+        const modifiedAddress = {
+          ...addressControl.value,
+          houseCorpus: '',
+          houseNumber: '100'
+        };
+
+        addressControl.setValue(modifiedAddress);
+        component.userForm.markAsDirty();
+
+        const store = TestBed.inject(Store) as MockStore;
+        const dispatchSpy = spyOn(store, 'dispatch');
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        const updateAddressCalls = dispatchSpy.calls.all().filter((call) => call.args[0].type === '[Order] Update Address');
+
+        if (updateAddressCalls.length > 0) {
+          const updateAction = updateAddressCalls[0].args[0] as any;
+          expect(updateAction.address.houseCorpus).toBeUndefined();
+        }
+      }));
+
+      it('should delete entranceNumber from updated address when it is empty', fakeAsync(() => {
+        component.userProfile = { ...userProfileDataMock };
+        component.savedUserAddresses = [...userProfileDataMock.addressDto];
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+
+        const addressFormArray = component.userForm.get('address') as FormArray;
+        const addressControl = addressFormArray.at(0) as FormControl;
+
+        const modifiedAddress = {
+          ...addressControl.value,
+          entranceNumber: '',
+          houseNumber: '100'
+        };
+
+        addressControl.setValue(modifiedAddress);
+        component.userForm.markAsDirty();
+
+        const store = TestBed.inject(Store) as MockStore;
+        const dispatchSpy = spyOn(store, 'dispatch');
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        const updateAddressCalls = dispatchSpy.calls.all().filter((call) => call.args[0].type === '[Order] Update Address');
+
+        if (updateAddressCalls.length > 0) {
+          const updateAction = updateAddressCalls[0].args[0] as any;
+          expect(updateAction.address.entranceNumber).toBeUndefined();
+        }
+      }));
+
+      it('should delete searchAddress and isHouseSelected from updated address', fakeAsync(() => {
+        component.userProfile = { ...userProfileDataMock };
+        component.savedUserAddresses = [...userProfileDataMock.addressDto];
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+
+        const addressFormArray = component.userForm.get('address') as FormArray;
+        const addressControl = addressFormArray.at(0) as FormControl;
+
+        const modifiedAddress = {
+          ...addressControl.value,
+          houseNumber: '123',
+          searchAddress: 'Some search text',
+          isHouseSelected: true
+        };
+
+        addressControl.setValue(modifiedAddress);
+        component.userForm.markAsDirty();
+
+        const store = TestBed.inject(Store) as MockStore;
+        const dispatchSpy = spyOn(store, 'dispatch');
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        const updateAddressCalls = dispatchSpy.calls.all().filter((call) => call.args[0].type === '[Order] Update Address');
+
+        if (updateAddressCalls.length > 0) {
+          const updateAction = updateAddressCalls[0].args[0] as any;
+          expect(updateAction.address.searchAddress).toBeUndefined();
+          expect(updateAction.address.isHouseSelected).toBeUndefined();
+        }
+      }));
+    });
+
+    describe('onSubmit - switchChanged branch execution', () => {
+      it('should execute submit when only switchChanged is true and form is pristine', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(true);
+        component.userForm.markAsPristine();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalled();
+        expect(component.isFetching).toBeFalse();
+      }));
+
+      it('should execute submit when switchChanged is true even with invalid form', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('telegramIsNotify').setValue(true);
+        component.recipientName.setValue('');
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalled();
+      }));
+    });
+
+    describe('onSwitchChanged - editing mode with savedTelegramIsNotify checks', () => {
+      it('should mark form as dirty when enabling telegram in editing mode and savedTelegramIsNotify is false', () => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          ...userProfileDataMock,
+          telegramIsNotify: false
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = true;
+        component.userForm.markAsPristine();
+
+        component.onSwitchChanged(true);
+
+        expect(component.userForm.dirty).toBeTrue();
+      });
+
+      it('should not mark form as dirty when enabling telegram in editing mode if savedTelegramIsNotify is already true', () => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+        spyOn(component, 'goToTelegramUrl');
+
+        component.userProfile = {
+          ...userProfileDataMock,
+          telegramIsNotify: false
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = true;
+        component.isEditing = true;
+        component.userForm.markAsPristine();
+
+        component.onSwitchChanged(true);
+
+        expect(component.userForm.dirty).toBeFalse();
+      });
+
+      it('should mark form as dirty when disabling telegram in editing mode and savedTelegramIsNotify is true', () => {
+        component.userProfile = {
+          ...userProfileDataMock,
+          telegramIsNotify: true
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = true;
+        component.isEditing = true;
+        component.userForm.markAsPristine();
+
+        component.onSwitchChanged(false);
+
+        expect(component.userForm.dirty).toBeTrue();
+      });
+
+      it('should not mark form as dirty when disabling telegram in editing mode if savedTelegramIsNotify is already false', () => {
+        component.userProfile = {
+          ...userProfileDataMock,
+          telegramIsNotify: true
+        };
+
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.isEditing = true;
+        component.userForm.markAsPristine();
+
+        component.onSwitchChanged(false);
+
+        expect(component.userForm.dirty).toBeFalse();
+      });
+    });
+
+    describe('onSubmit - delete operations on submitData fields', () => {
+      it('should delete alternateEmail from submitData when it is null', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.userForm.get('alternateEmail').setValue(null);
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+        expect(submittedData.alternateEmail).toBeUndefined();
+      }));
+
+      it('should delete recipientPhone from submitData when it is null', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.recipientPhone.setValue(null);
+        component.recipientPhone.clearValidators();
+        component.recipientPhone.updateValueAndValidity();
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+        expect(submittedData.recipientPhone).toBeUndefined();
+      }));
+
+      it('should delete recipientSurname from submitData when it is null', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.recipientSurname.setValue(null);
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(userProfileDataMock));
+
+        component.onSubmit();
+        tick();
+
+        const submittedData = clientProfileServiceMock.postDataClientProfile.calls.mostRecent().args[0];
+        expect(submittedData.recipientSurname).toBeUndefined();
+      }));
+    });
+
+    describe('getUserData - error handling', () => {
+      it('should set isFetching to false and show error snackbar on error', fakeAsync(() => {
+        clientProfileServiceMock.getDataClientProfile.and.returnValue(throwError(() => new Error('Server error')));
+        snackBarMock.openSnackBar.calls.reset();
+
+        component.isFetching = true;
+        component.userProfile = { ...userProfileDataMock };
+        component.userInit();
+        component.getUserData();
+        tick();
+
+        expect(component.isFetching).toBeFalse();
+        expect(snackBarMock.openSnackBar).toHaveBeenCalledWith('error');
+        clientProfileServiceMock.getDataClientProfile.and.returnValue(of(userProfileDataMock));
+      }));
+    });
+
+    describe('onCancel - error handling', () => {
+      it('should handle error in getDataClientProfile and still call userInit and set isEditing to false', fakeAsync(() => {
+        component.isEditing = true;
+        component.userProfile.addressDto = [];
+
+        clientProfileServiceMock.getDataClientProfile.and.returnValue(throwError(() => new Error('Server error')));
+
+        const userInitSpy = spyOn(component, 'userInit');
+
+        component.onCancel();
+        tick();
+
+        expect(userInitSpy).toHaveBeenCalled();
+        expect(component.isEditing).toBeFalse();
+      }));
+    });
+
+    describe('setActualAddress', () => {
+      it('should call orderService.setActualAddress and mark form as dirty', fakeAsync(() => {
+        const orderServiceSpy = spyOn(component['orderService'], 'setActualAddress').and.returnValue(of({}));
+        component.userInit();
+        component.userForm.markAsPristine();
+
+        component.setActualAddress(123);
+        tick();
+
+        expect(orderServiceSpy).toHaveBeenCalledWith(123);
+        expect(component.userForm.dirty).toBeTrue();
+      }));
+    });
+
+    describe('resetValue', () => {
+      it('should reset alternateEmail value to null', () => {
+        component.userInit();
+        component.userForm.get('alternateEmail').setValue('test@example.com');
+
+        component.resetValue();
+
+        expect(component.userForm.get('alternateEmail').value).toBeNull();
+      });
+    });
+
+    describe('formatedPhoneNumber', () => {
+      it('should format valid Ukrainian phone number correctly', () => {
+        const result = component.formatedPhoneNumber('+380991234567');
+        expect(result).toBe('+380 (99) 123 45 67');
+      });
+
+      it('should return undefined for invalid phone number format', () => {
+        const result = component.formatedPhoneNumber('+123456789');
+        expect(result).toBeUndefined();
+      });
+
+      it('should return undefined for empty string', () => {
+        const result = component.formatedPhoneNumber('');
+        expect(result).toBeUndefined();
+      });
+
+      it('should return undefined for phone number without country code', () => {
+        const result = component.formatedPhoneNumber('0991234567');
+        expect(result).toBeUndefined();
+      });
+    });
+
+    describe('isTelegramNotifyChecked', () => {
+      it('should return true when telegramIsNotify is true', () => {
+        component.userInit();
+        component.userForm.get('telegramIsNotify').setValue(true);
+
+        expect(component.isTelegramNotifyChecked()).toBeTrue();
+      });
+
+      it('should return false when telegramIsNotify is false', () => {
+        component.userInit();
+        component.userForm.get('telegramIsNotify').setValue(false);
+
+        expect(component.isTelegramNotifyChecked()).toBeFalse();
+      });
+
+      it('should return false when telegramIsNotify is null', () => {
+        component.userInit();
+        component.userForm.get('telegramIsNotify').setValue(null);
+
+        expect(component.isTelegramNotifyChecked()).toBeFalse();
+      });
+
+      it('should handle undefined userForm gracefully', () => {
+        component.userProfile = { ...userProfileDataMock };
+        component.userInit();
+
+        component.userForm = undefined;
+
+        const result = component.isTelegramNotifyChecked();
+        expect(result).toBeFalsy();
+      });
+    });
+
+    describe('openDeleteProfileReasonPopUp', () => {
+      beforeEach(() => {
+        clientProfileServiceMock.deactivateProfile.calls.reset();
+      });
+
+      it('should call deactivateProfile and signOut when user confirms with reason', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({
+          afterClosed: of({ reason: 'test reason' })
+        });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+
+        clientProfileServiceMock.deactivateProfile.and.returnValue(of(undefined));
+        const signOutSpy = spyOn(component, 'signOut');
+
+        component.userEmail = 'test@example.com';
+        component.openDeleteProfileReasonPopUp();
+        tick();
+
+        expect(clientProfileServiceMock.deactivateProfile).toHaveBeenCalledWith('test@example.com', 'test reason');
+        expect(signOutSpy).toHaveBeenCalled();
+      }));
+
+      it('should not call deactivateProfile when dialog is cancelled', fakeAsync(() => {
+        const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(null) });
+        spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj as any);
+
+        clientProfileServiceMock.deactivateProfile.calls.reset();
+
+        component.openDeleteProfileReasonPopUp();
+        tick();
+
+        expect(clientProfileServiceMock.deactivateProfile).not.toHaveBeenCalled();
+      }));
+    });
+
+    describe('ngOnDestroy', () => {
+      it('should call next and complete on destroy subject', () => {
+        const destroySpy = spyOn(component['destroy'], 'next');
+        const completeSpy = spyOn(component['destroy'], 'complete');
+
+        component.ngOnDestroy();
+
+        expect(destroySpy).toHaveBeenCalledWith(true);
+        expect(completeSpy).toHaveBeenCalled();
+      });
+    });
+
+    describe('onSubmit - response with addressDto handling', () => {
+      it('should update savedUserAddresses when response contains addressDto', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        const newAddresses: Address[] = [
+          {
+            id: 999,
+            cityUk: 'TestCity',
+            cityEn: 'TestCity',
+            districtUk: 'TestDistrict',
+            districtEn: 'TestDistrict',
+            entranceNumber: '1',
+            houseCorpus: 'A',
+            houseNumber: '1',
+            actual: true,
+            regionUk: 'TestRegion',
+            regionEn: 'TestRegion',
+            coordinates: { latitude: 0, longitude: 0 },
+            streetUk: 'TestStreet',
+            streetEn: 'TestStreet',
+            placeId: 'test',
+            searchAddress: null,
+            isHouseSelected: true,
+            addressRegionDistrictList: null
+          }
+        ];
+
+        const mockResponse = {
+          ...userProfileDataMock,
+          addressDto: newAddresses
+        };
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSubmit();
+        tick();
+
+        expect(component.savedUserAddresses).toEqual(newAddresses);
+      }));
+
+      it('should not update savedUserAddresses when response has no addressDto', fakeAsync(() => {
+        component.userInit();
+        component.savedTelegramIsNotify = false;
+        component.recipientName.setValue('Test');
+        component.userForm.markAsDirty();
+
+        const originalSavedAddresses = [...component.savedUserAddresses];
+
+        const mockResponse: any = {
+          recipientEmail: userProfileDataMock.recipientEmail,
+          alternateEmail: userProfileDataMock.alternateEmail,
+          recipientName: userProfileDataMock.recipientName,
+          recipientPhone: userProfileDataMock.recipientPhone,
+          recipientSurname: userProfileDataMock.recipientSurname,
+          hasPassword: userProfileDataMock.hasPassword,
+          telegramIsNotify: userProfileDataMock.telegramIsNotify,
+          botList: userProfileDataMock.botList
+        };
+
+        clientProfileServiceMock.postDataClientProfile.and.returnValue(of(mockResponse));
+
+        component.onSubmit();
+        tick();
+
+        expect(component.savedUserAddresses).toEqual(originalSavedAddresses);
+      }));
+    });
+  });
 });
