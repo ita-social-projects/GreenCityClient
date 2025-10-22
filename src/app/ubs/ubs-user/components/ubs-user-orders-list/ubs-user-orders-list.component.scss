@@ -35,7 +35,8 @@
   min-height: 80px;
   display: flex;
   flex-direction: row-reverse;
-  padding: 0 17px;
+  padding: 0 17px 0 15px;
+  column-gap: 0.1vw;
 }
 
 .table-data {
@@ -45,7 +46,7 @@
 .header_list {
   display: grid;
   grid-template-columns: repeat(7, 109px);
-  column-gap: 1.4vw;
+  column-gap: 1.5vw;
   align-items: center;
   font-size: 14px;
   font-weight: 500;
