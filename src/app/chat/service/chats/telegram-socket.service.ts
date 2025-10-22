@@ -11,7 +11,7 @@ export class TelegramSocketService implements OnDestroy {
   private stompClient!: Client;
   private connected = false;
 
-  private readonly socketHttpUrl = environment.socket;
+  private readonly socketHttpUrl = environment.ubsSocket;
 
   private readonly chatSubjects = new Map<number, Subject<SocketChatMessage>>();
   private readonly chatSubscriptions = new Map<number, StompSubscription | null>();

@@ -43,6 +43,7 @@ import { SavedSectionComponent } from './components/saved-tabs/saved-section.com
 import { DragAndDropDirective } from 'src/app/greencity/modules/eco-news/directives/drag-and-drop.directive';
 
 registerLocaleData(usLocale, 'en-GB');
+registerLocaleData(ukLocale, 'uk');
 registerLocaleData(ukLocale, 'uk-UA');
 
 @NgModule({

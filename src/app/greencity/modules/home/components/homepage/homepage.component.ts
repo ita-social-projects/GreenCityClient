@@ -33,7 +33,9 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subs.add(this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId)));
-    this.subs.add(this.userService.countActivatedUsers().subscribe((num) => (this.usersAmount = num)));
+    if (this.userId) {
+      this.subs.add(this.userService.countActivatedUsers().subscribe((num) => (this.usersAmount = num)));
+    }
     this.onCheckToken();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
