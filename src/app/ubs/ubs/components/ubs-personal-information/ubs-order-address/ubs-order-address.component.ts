@@ -177,15 +177,19 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   }
 
   changeAddressComment(): void {
+    const comment = this.addressComment.value.trim();
+
+    if (!comment || comment === this.selectedAddress.addressComment) {
+      return;
+    }
+
     const updatedAddress = {
       ...this.selectedAddress,
       addressComment: this.addressComment.value
     };
 
-    if (this.addressComment.value !== this.selectedAddress.addressComment) {
-      this.store.dispatch(UpdateAddress({ address: updatedAddress }));
-      this.selectedAddress = updatedAddress;
-    }
+    this.store.dispatch(UpdateAddress({ address: updatedAddress }));
+    this.selectedAddress = updatedAddress;
   }
 
   deleteAddress(address: Address): void {

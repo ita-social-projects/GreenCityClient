@@ -1,9 +1,4 @@
-@mixin text_style($font, $color, $size, $weight) {
-  font-family: $font;
-  font-size: $size;
-  font-weight: $weight;
-  color: $color;
-}
+@use 'text_style' as *;
 
 form {
   box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
@@ -15,27 +10,22 @@ hr {
 }
 
 input,
-textarea,
 select {
+  @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 14px, 400, 100%);
   border: 1px solid var(--ubs-quintynary-light-grey);
-  padding: 0 0 0 7px;
-  color: var(--ubs-primary-grey);
-  font-size: 14px;
-}
-
-input,
-select {
+  padding-left: 7px;
   height: 36px;
 }
 
-input::placeholder {
-  color: var(--ubs-primary-light-grey);
-}
+input {
+  &input.ng-touched.ng-invalid {
+    border: 1px solid var(--ubs-error-ligh-red);
+    font-size: 14px;
+  }
 
-textarea.ng-touched.ng-invalid,
-input.ng-touched.ng-invalid {
-  border: 1px solid var(--ubs-error-ligh-red);
-  font-size: 14px;
+  &::placeholder {
+    color: var(--ubs-primary-light-grey);
+  }
 }
 
 .validate-address {
@@ -44,32 +34,12 @@ input.ng-touched.ng-invalid {
   margin: 12px 0 0 28px;
 }
 
-textarea {
-  display: block;
-  width: 100%;
-  height: 100px;
-  padding: 12px 24px;
-  resize: none;
-
-  &::placeholder {
-    @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-light-grey), 14px, 400);
-
-    margin-bottom: 2rem;
-  }
-
-  &:focus {
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-  }
-}
-
 label,
 .adress-title,
 .adress-notice,
 .comment-title,
 .city-notice {
-  font-family: var(--ubs-tertiary-font);
+  font-family: var(--ubs-quaternary-font);
   font-size: 16px;
   line-height: 18px;
   font-weight: 400;
@@ -91,7 +61,7 @@ label,
 .comment-title,
 .address-title {
   margin: 0 0 20px 15px;
-  font-family: var(--ubs-tertiary-font);
+  font-family: var(--ubs-quaternary-font);
   font-style: normal;
   font-weight: bold;
   font-size: 24px;
@@ -271,7 +241,6 @@ label,
 
   p,
   a,
-  textarea,
   small,
   input {
     font-size: 0.8rem;
