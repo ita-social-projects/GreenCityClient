@@ -38,22 +38,22 @@ textarea {
   display: block;
   width: 100%;
   height: 100px;
-  padding: 12px 24px;
+  padding: 12px;
   resize: none;
+  @include text_style(var(--ubs-quaternary-font), var(--ubs-quaternary-dark-grey), 14px, 400, 20px);
 
   &::placeholder {
-    @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-light-grey), 14px, 400, 100%);
-
-    margin-bottom: 2rem;
+    color: var(--ubs-primary-light-grey);
   }
 }
 
 label,
 .address-title,
 .address-notice,
+.address-subtitle,
 .comment-title,
 .city-notice {
-  font-family: var(--ubs-tertiary-font);
+  font-family: var(--ubs-quaternary-font), sans-serif;
   font-size: 16px;
   line-height: 18px;
   font-weight: 400;
@@ -69,7 +69,7 @@ input:disabled {
 .comment-title,
 .address-title {
   margin: 0 0 20px 15px;
-  font-family: var(--ubs-tertiary-font);
+  font-family: var(--ubs-quaternary-font);
   font-style: normal;
   font-weight: bold;
   font-size: 24px;

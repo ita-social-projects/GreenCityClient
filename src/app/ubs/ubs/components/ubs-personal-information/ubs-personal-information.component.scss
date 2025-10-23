@@ -11,7 +11,7 @@ hr {
 
 input,
 select {
-  @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 14px, 400, 100%);
+  @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 14px, 400, 20px);
   border: 1px solid var(--ubs-quintynary-light-grey);
   padding-left: 7px;
   height: 36px;

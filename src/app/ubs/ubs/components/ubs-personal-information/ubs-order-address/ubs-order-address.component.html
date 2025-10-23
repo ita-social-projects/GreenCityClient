@@ -1,7 +1,7 @@
 <div class="row address-section">
   <div class="w-100">
     <h2 class="address-title">{{ 'personal-info.info-address' | translate }}</h2>
-    <p class="ml-3">{{ 'personal-info.first-order' | translate }}</p>
+    <p class="address-subtitle ml-3">{{ 'personal-info.first-order' | translate }}</p>
   </div>
 
   <div *ngIf="$isAddressLoading | async; else addressesList" class="spinner-wrapper">
