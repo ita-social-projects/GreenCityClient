@@ -1,3 +1,9 @@
+@use 'text_style' as *;
+
+.cert-input {
+  @include text_style(var(--ubs-quaternary-font), var(--ubs-quaternary-dark-grey), 14px, 400, 20px);
+}
+
 button {
   width: 8rem;
   height: 2.25rem;

@@ -7,6 +7,11 @@
   color: $color;
 }
 
+.eco-store-input,
+.textarea {
+  @include text_style(var(--ubs-quaternary-font), var(--ubs-quaternary-dark-grey), 14px, 400);
+}
+
 .container {
   box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   padding: 10px 24px 40px;
