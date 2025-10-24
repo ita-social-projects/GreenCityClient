@@ -28,13 +28,13 @@ describe('DateLocalisationPipe', () => {
 
   it('should use en-GB, if lang is en', () => {
     pipe.transform('2025-10-24', 'mediumDate');
-    expect(datePipeMock.transform).toHaveBeenCalledWith('2025-10-24', 'mediumDate', undefined, 'en-GB');
+    expect(datePipeMock.transform).toHaveBeenCalledWith('2025-10-24', 'mediumDate', undefined, 'en');
   });
 
   it('should use uk-UA, if lang is uk', () => {
     (pipe as any).locale = 'uk';
     pipe.transform('2025-10-24');
-    expect(datePipeMock.transform).toHaveBeenCalledWith('2025-10-24', 'mediumDate', undefined, 'uk-UA');
+    expect(datePipeMock.transform).toHaveBeenCalledWith('2025-10-24', 'mediumDate', undefined, 'uk');
   });
 
   it('should update locale on lang change', () => {

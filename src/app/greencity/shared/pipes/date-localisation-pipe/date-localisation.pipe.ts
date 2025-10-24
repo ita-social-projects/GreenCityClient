@@ -21,8 +21,7 @@ export class DateLocalisationPipe implements PipeTransform, OnDestroy {
   }
 
   transform(value: any, format = 'mediumDate'): string {
-    const locale = this.locale === 'en' ? 'en-GB' : 'uk-UA';
-    return this.datePipe.transform(value, format, undefined, locale);
+    return this.datePipe.transform(value, format, undefined, this.locale);
   }
 
   ngOnDestroy() {

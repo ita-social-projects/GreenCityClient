@@ -10,8 +10,9 @@
       aria-labelledby="sidebar-list"
     >
       <ul id="sidebar-list" class="sidebar-list">
-        <li class="toggle-arrow">
+        <li class="toggle-arrow d-flex justify-content-center align-items-center">
           <button
+            class="d-flex"
             mat-icon-button
             [attr.aria-label]="isExpanded ? 'Collapse sidebar menu' : 'Expand sidebar menu'"
             (click)="toggleMenu()"
