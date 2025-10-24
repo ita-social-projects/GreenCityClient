@@ -10,18 +10,18 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class DateLocalisationPipe implements PipeTransform, OnDestroy {
   private locale: string;
-  private destroy$: Subject<void> = new Subject();
+  private readonly destroy$: Subject<void> = new Subject();
 
   constructor(
-    private translate: TranslateService,
-    private datePipe: DatePipe
+    private readonly translate: TranslateService,
+    private readonly datePipe: DatePipe
   ) {
     this.locale = this.translate.getDefaultLang() || 'en';
     this.translate.onDefaultLangChange.pipe(takeUntil(this.destroy$)).subscribe((langObj) => (this.locale = langObj.lang));
   }
 
   transform(value: any, format = 'mediumDate'): string {
-    const locale = this.locale === 'en' ? 'en-US' : 'uk-UA';
+    const locale = this.locale === 'en' ? 'en-GB' : 'uk-UA';
     return this.datePipe.transform(value, format, undefined, locale);
   }
 
