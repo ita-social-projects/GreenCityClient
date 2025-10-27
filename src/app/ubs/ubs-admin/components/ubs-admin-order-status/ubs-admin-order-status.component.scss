@@ -67,3 +67,27 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.not-taken-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .image {
+    &-row {
+      flex-wrap: wrap;
+      gap: 5px;
+      padding-left: 15px;
+    }
+
+    &-wrapper {
+      height: 105px;
+      width: 150px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
