@@ -22,7 +22,7 @@ export class UbsAdminEditHomepageComponent implements OnInit {
     },
     hasBackdrop: true
   };
-
+  isCollapsed = true;
   homepageContent: THomepageContent;
   isLoading = false;
   homepageContentForm: FormGroup = new FormGroup({});
@@ -142,5 +142,8 @@ export class UbsAdminEditHomepageComponent implements OnInit {
       });
     }
     return changes;
+  }
+  collapseView() {
+    this.isCollapsed = !this.isCollapsed;
   }
 }

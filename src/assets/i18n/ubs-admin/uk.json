@@ -1321,6 +1321,7 @@
     "duration-field-format": "Поле може містити лише числа в від 1 до 12",
     "discount-field-format": "Поле може містити лише числа в форматі від 1 до 999"
   },
+  "settings-page": "Сторінка налаштувань",
   "ubs-user-agreement": {
     "edit": "Редагувати угоду користувача",
     "author": "Автор",
@@ -1424,5 +1425,34 @@
     "order-info-title": "Інформація про замовлення",
     "all-orders": "Переглянути всі замовлення",
     "completed-orders": "Виконані замовлення"
+  },
+  "telegram-bot-responses": {
+    "edit": "Редагувати відповіді Telegram-бота",
+    "lang": {
+      "en": "Англійська",
+      "uk": "Українська"
+    },
+    "section": {
+      "ADMISSION_RULES_TEXT": "Правила прийому",
+      "BAD_FEEDBACK_MESSAGE": "Відповідь на поганий відгук",
+      "CLIENT_END_SUPPORT_NOTIFICATION": "Сповіщення про завершення підтримки клієнтом",
+      "CLIENT_STOP_SUPPORT_MODE": "Клієнт припинив режим підтримки",
+      "CLIENT_SUPPORT_MESSAGE_CALLBACK_QUERY": "Запит до служби підтримки менеджера",
+      "CLIENT_SUPPORT_MESSAGE_CHANGE_LANGUAGE": "Зміна мови клієнта",
+      "CLIENT_WANT_TO_SPEAK": "Клієнт хоче поговорити з менеджером",
+      "EMPLOYEE_NOT_MANAGER": "Співробітник не є менеджером",
+      "ENTERING_EMAIL_MESSAGE": "Введення запиту на електронну пошту",
+      "FEEDBACK_MESSAGE": "Запит на відгук",
+      "FEEDBACK_THANK_YOU_MESSAGE": "Повідомлення з подякою у відгуку",
+      "FORBIDDEN_COMMANDS_MANAGER": "Заборонена команда для менеджера",
+      "GREAT_FEEDBACK_MESSAGE": "Відповідь на хороший відгук",
+      "GREEN_OFFICE_SUBJECT": "Тема Green Office",
+      "GREEN_OFFICE_TEXT": "Партнерство Green Office",
+      "GREEN_OFFICE_THANK_YOU_MESSAGE": "Повідомлення з подякою електронною поштою Green Office",
+      "GREETING_MANAGER_MESSAGE": "Привітання менеджера",
+      "GREETING_MESSAGE": "Привітання користувача",
+      "INCORRECT_LOGIN_FORMAT": "Неправильний формат для входу",
+      "INVALID_EMAIL_MESSAGE": "Недійсна електронна пошта"
+    }
   }
 }

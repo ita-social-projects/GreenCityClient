@@ -1,25 +1,24 @@
 <div *ngIf="!isLoading; else spinner">
   <div class="page-top-bar">
-    <h5 class="settings__title" [ngClass]="{ 'centered-title': !isCollapsed }">{{ 'settings.edit' | translate }}</h5>
+    <h5 class="settings__title" [ngClass]="{ 'centered-title': !isCollapsed }">{{ 'telegram-bot-responses.edit' | translate }}</h5>
     <img *ngIf="isCollapsed" src="assets/icons/arrow-down-green.svg" alt="collapse" (click)="collapseView()" class="collapse-icon" />
   </div>
 
   <div class="collapsed-content" [class.hidden]="isCollapsed">
-    <form class="settings__form" [formGroup]="homepageContentForm">
+    <form class="settings__form" [formGroup]="telegramResponsesContentForm">
       <div class="settings__form-lang" *ngFor="let lang of languages">
-        <h4 class="settings__form-lang-title">{{ 'settings.lang.' + lang.toLowerCase() | translate }}</h4>
+        <h4 class="settings__form-lang-title">{{ 'telegram-bot-responses.lang.' + lang.toLowerCase() | translate }}</h4>
 
-        <div class="settings__form-section" *ngFor="let section of homepageContent[lang.toLowerCase()] | keyvalue">
-          <h4 class="settings__form-section-title">{{ 'settings.section.' + section.key + '.title' | translate }}</h4>
+        <div class="settings__form-section" *ngFor="let section of telegramResponsesContent[lang.toLowerCase()] | keyvalue">
+          <h4 class="settings__form-section-title">{{ 'telegram-bot-responses.section.' + section.key | translate }}</h4>
 
           <fieldset class="settings__form-fieldset" *ngFor="let field of section.value | keyvalue">
-            <span class="settings__form-fieldset-name">{{ 'settings.section.' + section.key + '.' + field.key | translate }}</span>
             <quill-editor class="settings__form-fieldset-input" type="text" [formControlName]="lang + section.key + field.key" />
           </fieldset>
         </div>
       </div>
     </form>
-    <button class="btn" (click)="onSave()" [disabled]="homepageContentForm.pristine || homepageContentForm.invalid">
+    <button class="btn" (click)="onSave()" [disabled]="telegramResponsesContentForm.pristine || telegramResponsesContentForm.invalid">
       {{ 'ubs-user-agreement.btn.save' | translate }}
     </button>
 

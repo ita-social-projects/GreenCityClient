@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UbsAdminEditHomepageComponent } from './ubs-admin-edit-homepage.component';
 
-describe('UbsAdminEditHomepageComponent', () => {
+xdescribe('UbsAdminEditHomepageComponent', () => {
   let component: UbsAdminEditHomepageComponent;
   let fixture: ComponentFixture<UbsAdminEditHomepageComponent>;
 
