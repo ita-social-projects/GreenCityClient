@@ -85,7 +85,7 @@
   display: flex;
   transform: rotate(180deg);
   justify-self: center;
-  margin: 18px 0 18px 0;
+  margin: 18px 0;
 }
 
 .collapsed-content {
@@ -95,6 +95,7 @@
   transition:
     max-height 0.3s ease,
     opacity 0.1s ease;
+
   &.hidden {
     max-height: 0;
     opacity: 0;

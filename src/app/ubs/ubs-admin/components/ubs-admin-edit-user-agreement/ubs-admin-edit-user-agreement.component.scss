@@ -74,6 +74,7 @@
   transition:
     max-height 0.3s ease,
     opacity 0.3s ease;
+
   &.hidden {
     max-height: 0;
     opacity: 0;
