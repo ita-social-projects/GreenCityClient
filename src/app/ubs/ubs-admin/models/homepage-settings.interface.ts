@@ -6,6 +6,25 @@ export type THomepageContent = {
       working_hours: string;
       route: string;
     };
+    header: {
+      caption: string;
+      content: string;
+    };
+    preparing: {
+      caption: string;
+      step_01: string;
+    };
+    rules: {
+      caption: string;
+      content: string;
+    };
+    bonuses: {
+      caption: string;
+      content: string;
+    };
+    price: {
+      caption_steps: string;
+    };
   };
   en: {
     how_works: {
@@ -13,6 +32,25 @@ export type THomepageContent = {
       route_caption: string;
       working_hours: string;
       route: string;
+    };
+    header: {
+      caption: string;
+      content: string;
+    };
+    preparing: {
+      caption: string;
+      step_01: string;
+    };
+    rules: {
+      caption: string;
+      content: string;
+    };
+    bonuses: {
+      caption: string;
+      content: string;
+    };
+    price: {
+      caption_steps: string;
     };
   };
   section: ['HOW_WORKS'];

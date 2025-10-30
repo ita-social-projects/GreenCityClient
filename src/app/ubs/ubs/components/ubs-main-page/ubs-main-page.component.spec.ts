@@ -15,6 +15,8 @@ import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { AdminUserAgreementService } from '@ubs/ubs-admin/services/admin-user-agreement/admin-user-agreement.service';
+import { THomepageContent } from '@ubs/ubs-admin/models/homepage-settings.interface';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -33,6 +35,7 @@ describe('UbsMainPageComponent', () => {
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const checkTokenServiceMock = jasmine.createSpyObj('CheckTokenService', ['onCheckToken']);
+
   const dialogRefStub = {
     afterClosed() {
       return of({ data: true });
@@ -44,6 +47,7 @@ describe('UbsMainPageComponent', () => {
     'cleanPrevOrderState',
     'getOrders'
   ]);
+
   const orderData = [
     {
       id: 2,
@@ -91,16 +95,67 @@ describe('UbsMainPageComponent', () => {
       quantity: null
     }
   ];
-  const couriers = [];
   orderServiceMock.getOrders.and.returnValue(of(orderData));
 
   const activecouriersMock = activeCouriersMock;
   orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));
 
-  const initialState = {
-    employees: null,
-    error: null,
-    employeesPermissions: []
+  const mockHomepageContent: THomepageContent = {
+    uk: {
+      how_works: {
+        working_hours_caption: 'x',
+        route_caption: 'x',
+        working_hours: 'x',
+        route: 'x'
+      },
+      header: {
+        caption: 'x',
+        content: 'x'
+      },
+      preparing: {
+        caption: 'x',
+        step_01: 'x'
+      },
+      rules: {
+        caption: 'x',
+        content: 'x'
+      },
+      bonuses: {
+        caption: 'x',
+        content: 'x'
+      },
+      price: {
+        caption_steps: 'x'
+      }
+    },
+    en: {
+      how_works: {
+        working_hours_caption: 'x',
+        route_caption: 'x',
+        working_hours: 'x',
+        route: 'x'
+      },
+      header: {
+        caption: 'x',
+        content: 'x'
+      },
+      preparing: {
+        caption: 'x',
+        step_01: 'x'
+      },
+      rules: {
+        caption: 'x',
+        content: 'x'
+      },
+      bonuses: {
+        caption: 'x',
+        content: 'x'
+      },
+      price: {
+        caption_steps: 'x'
+      }
+    },
+    section: ['HOW_WORKS']
   };
 
   const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
@@ -118,7 +173,13 @@ describe('UbsMainPageComponent', () => {
         { provide: LocalStorageService, useValue: localeStorageServiceMock },
         { provide: CheckTokenService, useValue: checkTokenServiceMock },
         { provide: OrderService, useValue: orderServiceMock },
-        { provide: JwtService, useValue: jwtServiceMock }
+        { provide: JwtService, useValue: jwtServiceMock },
+        {
+          provide: AdminUserAgreementService,
+          useValue: {
+            getHomepageContent: () => of(mockHomepageContent)
+          }
+        }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -128,10 +189,12 @@ describe('UbsMainPageComponent', () => {
     fixture = TestBed.createComponent(UbsMainPageComponent);
     component = fixture.componentInstance;
     component.activeCouriers = activecouriersMock;
+    component.content = mockHomepageContent;
     fixture.detectChanges();
   });
 
   it('should create', () => {
+    expect(component.content).toBeTruthy();
     expect(component).toBeTruthy();
   });
 
