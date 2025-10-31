@@ -1,10 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { AdminUserAgreementService } from '@ubs/ubs-admin/services/admin-homepage-settings/admin-homepage-settings.service';
-import { THomepageContent, THomepageContentChange } from '@ubs/ubs-admin/models/homepage-settings.interface';
+import { Component, OnInit } from '@angular/core';
+import { AdminHomepageSettingsService } from '@ubs/ubs-admin/services/admin-homepage-settings/admin-homepage-settings.service';
+import { THomepageContent } from '@ubs/ubs-admin/models/homepage-settings.interface';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@ubs/ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { filter, Observable, take } from 'rxjs';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-admin-edit-homepage',
@@ -12,7 +12,6 @@ import { filter, Observable, take } from 'rxjs';
   styleUrls: ['./ubs-admin-edit-homepage.component.scss']
 })
 export class UbsAdminEditHomepageComponent implements OnInit {
-  private adminHomepageSettingsService: AdminUserAgreementService = inject(AdminUserAgreementService);
   private confirmSaveData = {
     data: {
       title: 'ubs-user-agreement.confirm-save',
@@ -28,7 +27,10 @@ export class UbsAdminEditHomepageComponent implements OnInit {
   homepageContentForm: FormGroup = new FormGroup({});
   languages = ['Uk', 'En'];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private adminHomepageSettingsService: AdminHomepageSettingsService
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -143,6 +145,7 @@ export class UbsAdminEditHomepageComponent implements OnInit {
     }
     return changes;
   }
+
   collapseView() {
     this.isCollapsed = !this.isCollapsed;
   }

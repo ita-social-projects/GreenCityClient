@@ -22,8 +22,8 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { Observable } from 'rxjs';
-import { AdminUserAgreementService } from '@ubs/ubs-admin/services/admin-homepage-settings/admin-homepage-settings.service';
 import { THomepageContent } from '@ubs/ubs-admin/models/homepage-settings.interface';
+import { AdminHomepageSettingsService } from '@ubs/ubs-admin/services/admin-homepage-settings/admin-homepage-settings.service';
 
 @Component({
   selector: 'app-ubs-main-page',
@@ -121,12 +121,12 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     private readonly orderService: OrderService,
     private readonly jwtService: JwtService,
     private readonly cdref: ChangeDetectorRef,
-    private readonly adminUserAgreementService: AdminUserAgreementService,
+    private readonly adminHomepageSettingsService: AdminHomepageSettingsService,
     public languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
-    this.adminUserAgreementService.getHomepageContent().subscribe((res) => {
+    this.adminHomepageSettingsService.getHomepageContent().subscribe((res) => {
       this.content = res;
     });
     this.userId = this.localStorageService.getUserId();

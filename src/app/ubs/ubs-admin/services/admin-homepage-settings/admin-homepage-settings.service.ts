@@ -7,13 +7,13 @@ import { THomepageContentChange, THomepageSettings } from '@ubs/ubs-admin/models
 @Injectable({
   providedIn: 'root'
 })
-export class AdminUserAgreementService {
+export class AdminHomepageSettingsService {
   private readonly API_ROUTES = {
     getHomepageText: () => `${mainUbsLink}/ubs/superAdmin/settingsText`,
     updateHomepageText: () => `${mainUbsLink}/ubs/superAdmin/settingsText/section`
   };
 
-  private http: HttpClient = inject(HttpClient);
+  constructor(private http: HttpClient) {}
 
   getHomepageContent(): Observable<THomepageSettings> {
     return this.http.get<THomepageSettings>(this.API_ROUTES.getHomepageText());
