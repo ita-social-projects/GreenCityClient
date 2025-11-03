@@ -179,6 +179,7 @@
 <table class="table-location">
   <thead *ngIf="cards.length || !this.showAllTariff">
     <tr>
+      <th *ngIf="showAllTariff" id="tariff-name">{{ 'ubs-tariffs.tariff-name' | translate }}</th>
       <th id="region">{{ 'ubs-tariffs.region' | translate }}</th>
       <th id="city">{{ 'ubs-tariffs.city' | translate }}</th>
       <th id="courier">{{ 'ubs-tariffs.courier' | translate }}</th>
@@ -189,6 +190,9 @@
   </thead>
   <tbody *ngIf="showAllTariff">
     <tr *ngFor="let card of cards" class="cursor-pointer" (click)="page($event.target['className'], card.cardId)">
+      <td>
+        {{ card.tariffName }}
+      </td>
       <td>
         {{ card.region }}
       </td>

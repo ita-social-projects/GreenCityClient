@@ -148,6 +148,7 @@ export interface LocationTranslation {
 export interface LocationsName {
   locationId: number;
   locationName: string;
+  tariffId?: number;
 }
 
 export interface LocationsDtosList {
@@ -268,4 +269,12 @@ export enum DistrictEnum {
 export interface LanguageResponseOptions {
   placeUk?: google.maps.GeocoderResult;
   placeEn?: google.maps.GeocoderResult;
+}
+
+export interface ActiveTariffInfo {
+  id: number;
+  tariffNameUk: string;
+  tariffNameEn: string;
+  descriptionMessageUk: string | null;
+  descriptionMessageEn: string | null;
 }
