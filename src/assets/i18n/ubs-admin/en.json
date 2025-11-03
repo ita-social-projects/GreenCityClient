@@ -659,6 +659,7 @@
     "active-chat-placeholder": "Enter your message",
     "attach-file": "Attach a file",
     "no-file-chosen": "No file chosen",
+    "no-dialogs-found": "No dialogs found",
     "status": {
       "READ": "Read",
       "UNREAD": "Unread",
