@@ -665,6 +665,7 @@
     "active-chat-placeholder": "Введіть ваше повідомлення",
     "attach-file": "Прикріпити файл",
     "no-file-chosen": "Файл не обрано",
+    "no-dialogs-found": "Діалогів не знайдено",
     "status": {
       "READ": "Прочитано",
       "UNREAD": "Не прочитано",
