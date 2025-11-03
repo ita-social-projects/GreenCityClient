@@ -328,7 +328,8 @@ mat-spinner {
 
 .scrolling {
   height: 70vh !important;
-  overflow: scroll;
+  overflow: auto scroll;
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
 }
 
 .btn-group {
