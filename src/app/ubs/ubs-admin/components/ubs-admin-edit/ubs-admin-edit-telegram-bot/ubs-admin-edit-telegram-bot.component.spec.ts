@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { ConfirmationDialogComponent } from '@ubs/ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { TTelegramBotMessage, TTransformedBotData } from '@ubs/ubs-admin/models/telegram-bot-responses.interface';
 import { AdminTelegramBotResponseService } from '@ubs/ubs-admin/services/admin-edit-telegram-bot/admin-edit-telegram-bot.service';
-import { SpinnerComponent } from 'src/app/shared/components/spinner/spinner.component';
+import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { UbsAdminEditTelegramBotComponent } from './ubs-admin-edit-telegram-bot.component';
 import { TranslateModule } from '@ngx-translate/core';
 

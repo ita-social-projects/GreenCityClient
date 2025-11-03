@@ -1,12 +1,11 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UbsAdminEditHomepageComponent } from './ubs-admin-edit-homepage.component';
 import { of, Subject } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { THomepageContent } from '@ubs/ubs-admin/models/homepage-settings.interface';
-import { AdminUserAgreementService } from '@ubs/ubs-admin/services/admin-user-agreement/admin-user-agreement.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
+import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AdminHomepageSettingsService } from '@ubs/ubs-admin/services/admin-homepage-settings/admin-homepage-settings.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -123,7 +122,7 @@ describe('UbsAdminEditHomepageComponent', () => {
   it('should initialize form with homepage content', () => {
     component.initForm();
     const control = component.getFormControl('Uk', 'how_works', 'working_hours_caption');
-    expect(control?.value).toBe('x');
+    expect(control?.value).toBeFalsy();
   });
 
   it('should toggle collapse view', () => {

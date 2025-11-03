@@ -107,8 +107,8 @@ import { UbsAdminNotificationCreateFormComponent } from './components/ubs-admin-
 import { ViewViolationModalComponent } from './components/view-violation-modal/view-violation-modal.component';
 import { SharedGreenCityModule } from '@shared/shared-greencity.module';
 import { UbsAdminSettingsComponent } from '@ubs/ubs-admin/components/ubs-admin-settings/ubs-admin-settings.component';
-import { UbsAdminEditHomepageComponent } from '@ubs/ubs-admin/components/ubs-admin-edit-homepage/ubs-admin-edit-homepage.component';
-import { UbsAdminEditTelegramBotComponent } from './components/ubs-admin-edit-telegram-bot/ubs-admin-edit-telegram-bot.component';
+import { UbsAdminEditHomepageComponent } from '@ubs/ubs-admin/components/ubs-admin-edit/ubs-admin-edit-homepage/ubs-admin-edit-homepage.component';
+import { UbsAdminEditTelegramBotComponent } from '@ubs/ubs-admin/components/ubs-admin-edit/ubs-admin-edit-telegram-bot/ubs-admin-edit-telegram-bot.component';
 
 @NgModule({
   declarations: [

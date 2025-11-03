@@ -1,7 +1,13 @@
 <div *ngIf="!isLoading; else spinner">
   <div class="page-top-bar">
     <h5 class="settings__title" [ngClass]="{ 'centered-title': !isCollapsed }">{{ 'settings.edit' | translate }}</h5>
-    <img *ngIf="isCollapsed" src="assets/icons/arrow-down-green.svg" alt="collapse" (click)="collapseView()" class="collapse-icon" />
+    <img
+      *ngIf="isCollapsed"
+      src="../../../../../../assets/icons/arrow-down-green.svg"
+      alt="collapse"
+      (click)="collapseView()"
+      class="collapse-icon"
+    />
   </div>
 
   <div class="collapsed-content" [class.hidden]="isCollapsed">
@@ -25,7 +31,7 @@
 
     <img
       *ngIf="!isCollapsed"
-      src="assets/icons/arrow-down-green.svg"
+      src="../../../../../../assets/icons/arrow-down-green.svg"
       alt="collapse"
       (click)="collapseView()"
       class="collapse-icon transform"

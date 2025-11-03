@@ -5,8 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminEditUserAgreementComponent } from '@ubs/ubs-admin/components/ubs-admin-edit-user-agreement/ubs-admin-edit-user-agreement.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { UbsAdminEditHomepageComponent } from '@ubs/ubs-admin/components/ubs-admin-edit-homepage/ubs-admin-edit-homepage.component';
-import { UbsAdminEditTelegramBotComponent } from '@ubs/ubs-admin/components/ubs-admin-edit-telegram-bot/ubs-admin-edit-telegram-bot.component';
+import { UbsAdminEditHomepageComponent } from '@ubs/ubs-admin/components/ubs-admin-edit/ubs-admin-edit-homepage/ubs-admin-edit-homepage.component';
+import { UbsAdminEditTelegramBotComponent } from '@ubs/ubs-admin/components/ubs-admin-edit/ubs-admin-edit-telegram-bot/ubs-admin-edit-telegram-bot.component';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
