@@ -119,7 +119,12 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private onSentEmailBadMessage(error: HttpErrorResponse): void {
-    this.emailErrorMessageBackEnd = error.error.name === 'email' ? 'already-sent' : 'email-not-exist';
+    console.log(error);
+    if (error.error.name === 'email') {
+      this.emailErrorMessageBackEnd = 'already-sent';
+    } else {
+      this.emailErrorMessageBackEnd = error.error.name === 'user_status' ? 'email-not-verified' : 'email-not-exist';
+    }
   }
 
   private onSignInFailure(errors: HttpErrorResponse): Observable<any> {
