@@ -1,13 +1,11 @@
 import { userAssignedCardsIcons } from '../../../image-paths/profile-icons';
-import { Component, Input, ChangeDetectionStrategy, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { DatePipe } from '@angular/common';
-import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
 
 @Component({
   selector: 'app-news-list-gallery-view',
@@ -36,6 +34,7 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
     private localStorageService: LocalStorageService,
     private langService: LanguageService
   ) {}
+
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;

@@ -1,4 +1,4 @@
-import { UserSharedModule } from '../modules/user/components/shared/user-shared.module';
+import { UserSharedModule } from '@global-user/components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
