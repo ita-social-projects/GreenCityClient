@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { DatePipe } from '@angular/common';
+import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
 
 @Component({
   selector: 'app-news-list-gallery-view',
@@ -38,14 +39,6 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
-      // Map language codes to proper locale codes for DatePipe
-      const localeMap = {
-        uk: 'uk-UA',
-        en: 'en-GB'
-      };
-      const locale = localeMap[this.currentLang] || this.currentLang;
-      this.datePipe = new DatePipe(locale);
-      this.newDate = this.datePipe.transform(this.ecoNewsModel.creationDate, 'MMM dd, yyyy');
       this.tags = this.langService.getLangValue(this.ecoNewsModel.tagsUk, this.ecoNewsModel.tagsEn);
     });
   }
