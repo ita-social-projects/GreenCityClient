@@ -24,7 +24,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Language } from 'src/app/shared/i18n/Language';
 import { DateAdapter } from '@angular/material/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { OrderStatus } from '@ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { TableHeightService } from '../../services/table-height.service';
 import { Router } from '@angular/router';
 import { IBigOrderTable, IColumnDTO, IFilteredColumn } from '../../models/ubs-admin.interface';

@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { ViewViolationModalComponent } from './view-violation-modal.component';
 import { OrderService } from '@ubs/ubs-admin/services/order.service';
 import { IViolation } from '@ubs/ubs-admin/models/violation.model';
-import { ViolationLevel } from '@ubs/ubs/violation-level.enum';
+import { ViolationLevel } from '@ubs/ubs/enums/violation-level.enum';
 import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslateModule } from '@ngx-translate/core';

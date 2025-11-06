@@ -12,11 +12,11 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { EMPTY, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, take, takeUntil } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
@@ -32,6 +32,8 @@ import { adminTableOfCustomersSelector } from 'src/app/store/selectors/ubs-admin
 import { GetCustomerTable } from 'src/app/store/actions/ubs-admin.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MomentDateAdapter } from '@global-service/moment-date-adapter';
+import { ClientStatusEnum } from '@ubs/ubs/enums/client-status.enum';
+import { MatSelectChange } from '@angular/material/select';
 
 export const CUSTOM_DATE_FORMATS = {
   parse: {
@@ -76,6 +78,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   adminTableOfCustomersSelector$ = this.store.select(adminTableOfCustomersSelector);
   customerTable: ICustomersTable;
   tableData: any[];
+  readonly customerStatus = Object.values(ClientStatusEnum);
   private sortType: string;
   private sortingColumn: string;
   private pressed = false;
@@ -146,6 +149,13 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       this.setTableResize(this.matTableRef.nativeElement.clientWidth);
     }
     this.cdr.detectChanges();
+  }
+
+  onChangeStatus(event: MatSelectChange, userId: number) {
+    return this.adminCustomerService.changeCustomerStatus(userId, event.value).subscribe({
+      next: () => {},
+      error: () => {}
+    });
   }
 
   getSortingData(columnName: string, sortingType: string) {
@@ -352,12 +362,10 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.mouseMove(index);
   }
 
-  private setTableResize(tableWidth: number) {
-    let totWidth = 0;
-    this.columns.forEach((column) => {
-      totWidth += column.width;
-    });
-    const scale = (tableWidth - 5) / totWidth;
+  private setTableResize(tableWidth: number): void {
+    const totalW = this.columns.reduce((acc, item) => acc + item.width, 0);
+    const scale = (tableWidth - 5) / totalW;
+
     this.columns.forEach((column) => {
       column.width *= scale;
       this.setColumnWidth(column);

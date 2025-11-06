@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderStatus } from '@ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { BehaviorSubject } from 'rxjs';
 import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 

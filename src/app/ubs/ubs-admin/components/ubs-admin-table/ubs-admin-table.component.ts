@@ -34,7 +34,7 @@ import {
   locationsDetailsSelector
 } from 'src/app/store/selectors/big-order-table.selectors';
 import { IAppState } from 'src/app/store/state/app.state';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { IAlertInfo, IEditCell } from '../../models/edit-cell.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import {

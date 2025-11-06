@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@
 import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IEmployee, IResponsiblePersons, IResponsiblePersonsData } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { OrderService } from '../../services/order.service';
 @Component({
   selector: 'app-ubs-admin-responsible-persons',

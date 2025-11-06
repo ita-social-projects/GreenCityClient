@@ -1,4 +1,4 @@
-import { CancellationReason } from '../../ubs/order-status.enum';
+import { CancellationReason } from '@ubs/ubs/enums/order-status.enum';
 
 export const CancellationReasonList: any[] = [
   {
