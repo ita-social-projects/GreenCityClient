@@ -57,7 +57,7 @@ export class InterceptorService implements HttpInterceptor {
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
           this.openErrorWindow('noInternet');
-          return EMPTY;
+          return throwError(() => error);
         })
       );
     } else {

@@ -22,7 +22,6 @@ import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
-import { ColumnParam, columnsParams } from './columnsParams.mock';
 import { Filters } from './filters.interface';
 import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-from-date-to-string/convert-from-date-to-string.service';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -34,6 +33,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MomentDateAdapter } from '@global-service/moment-date-adapter';
 import { ClientStatusEnum } from '@ubs/ubs/enums/client-status.enum';
 import { MatSelectChange } from '@angular/material/select';
+import { IAppState } from '../../../../store/state/app.state';
+import { ColumnParam, columnsParams } from '@ubs/ubs-admin/components/ubs-admin-customers/columnsParams.mock';
 
 export const CUSTOM_DATE_FORMATS = {
   parse: {
@@ -60,7 +61,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   isLoading = false;
   isUpdate = false;
   nonSortableColumns = nonSortableColumns;
-  columns: ColumnParam[] = [];
+  columns = columnsParams;
   arrowDirection: string;
   currentLang: string;
   displayedColumns: string[] = [];
@@ -76,7 +77,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   pageSize = 10;
   enterPressed: boolean;
   adminTableOfCustomersSelector$ = this.store.select(adminTableOfCustomersSelector);
-  customerTable: ICustomersTable;
   tableData: any[];
   readonly customerStatus = Object.values(ClientStatusEnum);
   private sortType: string;
@@ -92,6 +92,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private queryString = '';
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
+  private permissions = this.store.select((appState: IAppState) => appState.employees.employeesPermissions);
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private readonly filterSubject = new Subject<string>();
   private readonly pointerColumns: string[] = ['clientName', 'number_of_orders', 'violations'];
@@ -121,18 +122,19 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     });
     this.getTable();
     this.adminTableOfCustomersSelector$.pipe(take(1)).subscribe((tableData) => {
-      this.customerTable = tableData;
-      this.columns = columnsParams;
       this.setDisplayedColumns();
     });
     this.initFilterForm();
     this.onCreateGroupFormValueChange();
-    this.filterSubject.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((value) => {
+    this.filterSubject.pipe(debounceTime(1000), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((value) => {
       if (!this.enterPressed) {
         this.applyFilter(value);
       } else {
         this.enterPressed = false;
       }
+    });
+    this.permissions.subscribe((permission) => {
+      console.log(permission);
     });
   }
 
@@ -151,10 +153,19 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.cdr.detectChanges();
   }
 
-  onChangeStatus(event: MatSelectChange, userId: number) {
-    return this.adminCustomerService.changeCustomerStatus(userId, event.value).subscribe({
-      next: () => {},
-      error: () => {}
+  onChangeStatus(event: MatSelectChange, user: any) {
+    return this.adminCustomerService.changeCustomerStatus(user.userId, event.value).subscribe({
+      error: () => {
+        this.dataSource.data = this.dataSource.data.map((u) =>
+          u.userId === user.userId
+            ? {
+                ...u,
+                status: user.status
+              }
+            : u
+        );
+        console.error(`Could not change status ${event.value} for user ${user.userId}`);
+      }
     });
   }
 
