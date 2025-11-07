@@ -1,18 +1,18 @@
 import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
-import { Component, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil, finalize, tap, concatMap, switchMap } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { concatMap, finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { ubsMainPageImages } from '@ubs/shared/image-paths/ubs-main-page-images';
 import {
-  Bag,
-  OrderDetails,
-  LocationsDtosList,
   ActiveCourierDto,
+  ActiveRegionDto,
   AllActiveLocationsDtosResponse,
-  ActiveRegionDto
+  Bag,
+  LocationsDtosList,
+  OrderDetails
 } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
@@ -21,7 +21,6 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { Observable } from 'rxjs';
 import { THomepageContent } from '@ubs/ubs-admin/models/homepage-settings.interface';
 import { AdminHomepageSettingsService } from '@ubs/ubs-admin/services/admin-homepage-settings/admin-homepage-settings.service';
 
@@ -55,72 +54,15 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   content: THomepageContent;
   currentLanguage: string;
 
-  stepsOrderTitle = 'ubs-homepage.ubs-courier.price.caption-steps';
-  stepsOrder = [
-    {
-      header: 'ubs-homepage.ubs-courier.price.steps-title.li_1',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_1'
-    },
-    {
-      header: 'ubs-homepage.ubs-courier.price.steps-title.li_2',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_2'
-    },
-    {
-      header: 'ubs-homepage.ubs-courier.price.steps-title.li_3',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_3'
-    },
-    {
-      header: 'ubs-homepage.ubs-courier.price.steps-title.li_4',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_4'
-    }
-  ];
-
-  preparingContent = [
-    'ubs-homepage.ubs-courier.preparing.content.li_1',
-    'ubs-homepage.ubs-courier.preparing.content.li_1.1',
-    'ubs-homepage.ubs-courier.preparing.content.li_1.2',
-    'ubs-homepage.ubs-courier.preparing.content.li_2',
-    'ubs-homepage.ubs-courier.preparing.content.li_3',
-    'ubs-homepage.ubs-courier.preparing.content.li_4',
-    'ubs-homepage.ubs-courier.preparing.content.li_5'
-  ];
-
-  rules = [
-    'ubs-homepage.ubs-courier.rules.content.li_1',
-    'ubs-homepage.ubs-courier.rules.content.li_2',
-    'ubs-homepage.ubs-courier.rules.content.li_2.1',
-    'ubs-homepage.ubs-courier.rules.content.li_3'
-  ];
-
-  bonuses = [
-    'ubs-homepage.ubs-courier.bonuses.content.li_1',
-    'ubs-homepage.ubs-courier.bonuses.content.li_2',
-    'ubs-homepage.ubs-courier.bonuses.content.li_3',
-    'ubs-homepage.ubs-courier.bonuses.content.li_3.1'
-  ];
-
-  howWorksPickUp = [
-    {
-      header: 'ubs-homepage.ubs-courier.how-works.header.pre_1',
-      content: 'ubs-homepage.ubs-courier.how-works.time.pre_1',
-      content_2: null
-    },
-    {
-      header: 'ubs-homepage.ubs-courier.how-works.header.pre_2',
-      content: 'ubs-homepage.ubs-courier.how-works.time.pre_2',
-      content_2: 'ubs-homepage.ubs-courier.how-works.time.pre_3'
-    }
-  ];
-
   constructor(
     private readonly store: Store,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly checkTokenservice: CheckTokenService,
+    private readonly checkTokenService: CheckTokenService,
     private readonly localStorageService: LocalStorageService,
     private readonly orderService: OrderService,
     private readonly jwtService: JwtService,
-    private readonly cdref: ChangeDetectorRef,
+    private readonly cdr: ChangeDetectorRef,
     private readonly adminHomepageSettingsService: AdminHomepageSettingsService,
     public languageService: LanguageService
   ) {}
@@ -154,7 +96,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.screenWidth = document.documentElement.clientWidth;
     this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
     this.calcLineSize();
-    this.cdref.detectChanges();
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {
@@ -199,8 +141,9 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       this.lineSize = Array.from(boxes, (box) => box.getBoundingClientRect().height / 2 - halfCircleHeight - circleIndent + boxesIndent);
     }
   }
+
   onCheckToken(): void {
-    this.subs.add(this.checkTokenservice.onCheckToken());
+    this.subs.add(this.checkTokenService.onCheckToken());
   }
 
   redirectToOrder(): void {
@@ -323,5 +266,19 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
           console.error(e);
         }
       });
+  }
+
+  sliceContent(content: any) {
+    if (!content) {
+      return;
+    }
+
+    return Object.keys(content)
+      .slice(1)
+      .sort((a, b) => a.localeCompare(b));
+  }
+
+  getSteps(content: any) {
+    return Array.from({ length: this.sliceContent(content).length / 2 });
   }
 }
