@@ -1,9 +1,13 @@
+.expand-btn {
+  height: 40px;
+  gap: 10px;
+}
+
 .settings {
   &__title {
     font-family: var(--primary-font);
     font-size: 24px;
     line-height: 32px;
-    margin: 0 20px 5px;
   }
 
   &__form {

@@ -1,16 +1,19 @@
 <div *ngIf="!isLoading; else spinner">
-  <div class="page-top-bar">
-    <h5 class="settings__title" [ngClass]="{ 'centered-title': !isCollapsed }">{{ 'settings.edit' | translate }}</h5>
-    <img
-      *ngIf="isCollapsed"
-      src="../../../../../../assets/icons/arrow-down-green.svg"
-      alt="collapse"
-      (click)="collapseView()"
-      class="collapse-icon"
-    />
+  <div class="page-top-bar d-flex justify-content-center expand-btn">
+    <button class="d-flex align-items-center border-0 bg-transparent expand-btn" (click)="collapseView()">
+      <span class="settings__title">
+        {{ 'settings.edit' | translate }}
+      </span>
+      <img
+        [ngClass]="isCollapsed ? { transform: 'rotate(180deg)' } : {}"
+        src="../../../../../../assets/icons/arrow-down-green.svg"
+        alt="collapse"
+        class="collapse-icon"
+      />
+    </button>
   </div>
 
-  <div class="collapsed-content" [class.hidden]="isCollapsed">
+  <div class="collapsed-content" [class.hidden]="!isCollapsed">
     <form class="settings__form" [formGroup]="homepageContentForm">
       <div class="settings__form-lang" *ngFor="let lang of languages">
         <h4 class="settings__form-lang-title">{{ 'settings.lang.' + lang.toLowerCase() | translate }}</h4>
@@ -28,14 +31,6 @@
     <button class="btn" (click)="onSave()" [disabled]="homepageContentForm.pristine || homepageContentForm.invalid">
       {{ 'ubs-user-agreement.btn.save' | translate }}
     </button>
-
-    <img
-      *ngIf="!isCollapsed"
-      src="../../../../../../assets/icons/arrow-down-green.svg"
-      alt="collapse"
-      (click)="collapseView()"
-      class="collapse-icon transform"
-    />
   </div>
 </div>
 <ng-template class="spinner" #spinner>
