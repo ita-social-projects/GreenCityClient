@@ -34,8 +34,9 @@ export class UbsMainPagePriceSectionComponent {
     const normalizedNameEn = (nameEn ?? '').toLowerCase();
 
     const ukrName = normalizedNameUk ? normalizedNameUk.charAt(0).toUpperCase() + normalizedNameUk.slice(1) : '';
+    const engName = normalizedNameEn ? normalizedNameEn.charAt(0).toUpperCase() + normalizedNameEn.slice(1) : '';
     const ukrDescription = `${ukrName} об'ємом ${capacity} л`;
-    const engDescription = `With ${normalizedNameEn} with a volume of ${capacity} l`;
+    const engDescription = `${engName} with a volume of ${capacity} l`;
 
     return this.languageService.getLangValue(ukrDescription, engDescription);
   }

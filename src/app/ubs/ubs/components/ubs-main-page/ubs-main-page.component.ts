@@ -1,5 +1,5 @@
 import { CheckTokenService } from 'src/app/shared/services/auth/check-token/check-token.service';
-import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -30,7 +30,7 @@ import { AdminHomepageSettingsService } from '@ubs/ubs-admin/services/admin-home
   styleUrls: ['./ubs-main-page.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly subs = new Subscription();
   private readonly destroy: Subject<boolean> = new Subject<boolean>();
   ubsMainPageImages = ubsMainPageImages;
@@ -62,9 +62,8 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     private readonly localStorageService: LocalStorageService,
     private readonly orderService: OrderService,
     private readonly jwtService: JwtService,
-    private readonly cdr: ChangeDetectorRef,
     private readonly adminHomepageSettingsService: AdminHomepageSettingsService,
-    public languageService: LanguageService
+    private readonly languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -74,16 +73,13 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.userId = this.localStorageService.getUserId();
     this.isAdmin = this.checkIsAdmin();
     this.getActiveCouriers()
-      .pipe(
-        concatMap(() => this.getActiveLocationsToShow()),
-        takeUntil(this.destroy)
-      )
+      .pipe(concatMap(() => this.getActiveLocationsToShow()))
       .subscribe(() => {
         this.getBags();
       });
     this.screenWidth = document.documentElement.clientWidth;
     this.onCheckToken();
-    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
+    this.boxWidth = document.querySelector('.main-container')?.getBoundingClientRect().width;
     this.languageService
       .getCurrentLangObs()
       .pipe(takeUntil(this.destroy))
@@ -92,11 +88,20 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       });
   }
 
-  ngAfterViewChecked(): void {
+  ngAfterViewInit(): void {
+    this.updateSizes();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.updateSizes();
+  }
+
+  private updateSizes(): void {
     this.screenWidth = document.documentElement.clientWidth;
-    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
-    this.calcLineSize();
-    this.cdr.detectChanges();
+    const container = document.querySelector('.main-container');
+    this.boxWidth = container ? container.getBoundingClientRect().width : 0;
+    requestAnimationFrame(() => this.calcLineSize());
   }
 
   ngOnDestroy() {
@@ -137,7 +142,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       const halfCircleHeight = 11;
       const circleIndent = 6;
       const boxesIndent = 16;
-
       this.lineSize = Array.from(boxes, (box) => box.getBoundingClientRect().height / 2 - halfCircleHeight - circleIndent + boxesIndent);
     }
   }
@@ -183,10 +187,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   getActiveCouriers(): Observable<ActiveCourierDto[]> {
-    return this.orderService.getAllActiveCouriers().pipe(
-      takeUntil(this.destroy),
-      tap((res) => (this.activeCouriers = res))
-    );
+    return this.orderService.getAllActiveCouriers().pipe(tap((res) => (this.activeCouriers = res)));
   }
 
   getLocations(courierName: string): void {
@@ -218,7 +219,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   private getActiveLocationsToShow(): Observable<AllActiveLocationsDtosResponse> {
     const courier = this.findCourierByName(this.ubsCourierName);
     return this.orderService.getLocations(courier.courierId, true).pipe(
-      takeUntil(this.destroy),
       tap((res) => {
         this.locationsToShowBags = res.allActiveLocationsDtos.reduce(
           (acc, region) => [
@@ -279,6 +279,10 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   getSteps(content: any) {
+    if (!content) {
+      return;
+    }
+
     return Array.from({ length: this.sliceContent(content).length / 2 });
   }
 }

@@ -81,7 +81,7 @@
         <div
           class="step-order"
           id="step-order-{{ i }}"
-          *ngFor="let _ of getSteps(content?.[currentLanguage].price); let odd = odd; let i = index"
+          *ngFor="let _ of getSteps(content?.[currentLanguage]?.price); let odd = odd; let i = index"
           [ngStyle]="{ 'flex-direction': !(i % 2) ? 'column' : 'column-reverse' }"
         >
           <div class="content-box" [ngStyle]="{ 'flex-direction': odd ? 'column' : 'column-reverse' }">
@@ -105,7 +105,7 @@
       </div>
 
       <div *ngIf="screenWidth < 576" class="box-mobile">
-        <div class="step-order" id="step-order-{{ i }}" *ngFor="let _ of getSteps(content?.[currentLanguage].price); let i = index">
+        <div class="step-order" id="step-order-{{ i }}" *ngFor="let _ of getSteps(content?.[currentLanguage]?.price); let i = index">
           <div class="base-line">
             <hr [ngStyle]="{ height: lineSize[i] + 'px' }" />
             <div class="circle">
@@ -139,7 +139,7 @@
           {{ 'ubs-homepage.header.btn-order-courier' | translate }}
         </button>
         <div class="link-to-shop">
-          <span [innerHTML]="content?.[currentLanguage]['how_works'].content + ' '"></span>
+          <span [innerHTML]="content?.[currentLanguage]?.['how_works'].content + ' '"></span>
           <a target="_blank" href="https://shop.nowaste.com.ua/" rel="noopener">{{
             'ubs-homepage.ubs-courier.how-works.content.link' | translate
           }}</a>

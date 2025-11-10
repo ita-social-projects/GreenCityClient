@@ -4,7 +4,7 @@ import { THomepageContent } from '@ubs/ubs-admin/models/homepage-settings.interf
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@ubs/ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { filter, take } from 'rxjs';
+import { filter, forkJoin, take } from 'rxjs';
 import { UbsAdminEditComponent } from '@ubs/ubs-admin/components/ubs-admin-edit/ubs-admin-edit';
 
 @Component({
@@ -25,12 +25,7 @@ export class UbsAdminEditHomepageComponent extends UbsAdminEditComponent impleme
 
   ngOnInit() {
     this.isLoading = true;
-    this.adminHomepageSettingsService.getHomepageContent().subscribe((homepageContent) => {
-      this.homepageContent = homepageContent;
-      this.initForm();
-      this.setFormValueWithCurrentContent();
-      this.isLoading = false;
-    });
+    this.getHomepageContent(true);
   }
 
   initForm(): void {
@@ -43,12 +38,21 @@ export class UbsAdminEditHomepageComponent extends UbsAdminEditComponent impleme
     });
   }
 
-  getHomepageContent() {
+  getHomepageContent(initForm: boolean = false) {
     this.isLoading = true;
-    this.adminHomepageSettingsService.getHomepageContent().subscribe((homepageContent) => {
-      this.homepageContent = homepageContent;
-      this.setFormValueWithCurrentContent();
-      this.isLoading = false;
+    this.adminHomepageSettingsService.getHomepageContent().subscribe({
+      next: (homepageContent) => {
+        this.homepageContent = homepageContent;
+        if (initForm) {
+          this.initForm();
+        }
+        this.setFormValueWithCurrentContent();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading homepage content:', error);
+        this.isLoading = false;
+      }
     });
   }
 
@@ -64,16 +68,15 @@ export class UbsAdminEditHomepageComponent extends UbsAdminEditComponent impleme
   }
 
   onSave() {
+    if (this.homepageContentForm.invalid) {
+      this.homepageContentForm.markAllAsTouched();
+      return;
+    }
+
     const result = structuredClone(this.homepageContent);
 
     this.iterateContent(this.homepageContent, (lang, section, field, value) => {
       const control = this.getFormControl(lang, section, field);
-      if (!result[lang.toLowerCase()]) {
-        result[lang.toLowerCase()] = {};
-      }
-      if (!result[lang.toLowerCase()][section]) {
-        result[lang.toLowerCase()][section] = {};
-      }
       result[lang.toLowerCase()][section][field] = control?.value;
     });
 
@@ -87,13 +90,30 @@ export class UbsAdminEditHomepageComponent extends UbsAdminEditComponent impleme
   }
 
   publishChanges(newSettings: THomepageContent) {
+    this.isLoading = true;
     const changes = this.getContentChanges(newSettings);
 
-    Object.keys(changes).forEach((section) => {
-      this.adminHomepageSettingsService.updateHomepageContent(section.toUpperCase(), changes[section]).subscribe(() => {
-        this.getHomepageContent();
+    const updateCalls = Object.keys(changes).map((section) =>
+      this.adminHomepageSettingsService.updateHomepageContent(section.toUpperCase(), changes[section])
+    );
+
+    if (updateCalls.length === 0) {
+      this.isLoading = false;
+      return;
+    }
+
+    forkJoin(updateCalls)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.getHomepageContent();
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Error during updates:', err);
+          this.isLoading = false;
+        }
       });
-    });
   }
 
   getContentChanges(newContent: THomepageContent) {
