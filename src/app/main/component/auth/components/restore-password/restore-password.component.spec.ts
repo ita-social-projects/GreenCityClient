@@ -6,7 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -171,6 +171,36 @@ describe('RestorePasswordComponent', () => {
       expect(component.backEndError).toBeNull();
       expect(component.passwordErrorMessageBackEnd).toBeNull();
       expect(component.emailErrorMessageBackEnd).toBeNull();
+    });
+
+    it('should set emailErrorMessageBackEnd to "already-sent" if error name is email', () => {
+      const error = {
+        error: { name: 'email' }
+      } as HttpErrorResponse;
+
+      (component as any).onSentEmailBadMessage(error);
+
+      expect(component.emailErrorMessageBackEnd).toBe('already-sent');
+    });
+
+    it('should set emailErrorMessageBackEnd to "email-not-verified" if error name is user_status', () => {
+      const error = {
+        error: { name: 'user_status' }
+      } as HttpErrorResponse;
+
+      (component as any).onSentEmailBadMessage(error);
+
+      expect(component.emailErrorMessageBackEnd).toBe('email-not-verified');
+    });
+
+    it('should set emailErrorMessageBackEnd to "email-not-exist" for any other error name', () => {
+      const error = {
+        error: { name: 'other_error' }
+      } as HttpErrorResponse;
+
+      (component as any).onSentEmailBadMessage(error);
+
+      expect(component.emailErrorMessageBackEnd).toBe('email-not-exist');
     });
   });
 });
