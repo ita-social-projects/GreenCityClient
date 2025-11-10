@@ -5,6 +5,7 @@ describe('DateLocalisationPipe', () => {
   let pipe: DateLocalisationPipe;
   let translateServiceMock: any;
   let datePipeMock: any;
+  let cdrMock: any;
   let langChange$: Subject<any>;
 
   beforeEach(() => {
@@ -19,7 +20,11 @@ describe('DateLocalisationPipe', () => {
       transform: jasmine.createSpy('transform').and.returnValue('formatted-date')
     };
 
-    pipe = new DateLocalisationPipe(translateServiceMock, datePipeMock);
+    cdrMock = {
+      markForCheck: jasmine.createSpy('markForCheck')
+    };
+
+    pipe = new DateLocalisationPipe(translateServiceMock, datePipeMock, cdrMock);
   });
 
   it('should create', () => {
