@@ -80,7 +80,7 @@
       <div *ngIf="screenWidth >= 576" class="box">
         <div
           class="step-order"
-          id="step-order-{{ i }}"
+          id="f-step-order-{{ i }}"
           *ngFor="let _ of getSteps(content?.[currentLanguage]?.price); let odd = odd; let i = index"
           [ngStyle]="{ 'flex-direction': !(i % 2) ? 'column' : 'column-reverse' }"
         >

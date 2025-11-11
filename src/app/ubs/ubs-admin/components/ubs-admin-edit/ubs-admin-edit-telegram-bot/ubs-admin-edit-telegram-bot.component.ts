@@ -151,9 +151,11 @@ export class UbsAdminEditTelegramBotComponent extends UbsAdminEditComponent impl
       .subscribe({
         next: () => {
           this.getTelegramContent();
+          this.isLoading = false;
         },
         error: (err) => {
           console.error('Error during updates:', err);
+          this.isLoading = false;
         }
       });
   }

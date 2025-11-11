@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { ConfirmationDialogComponent } from '@ubs/ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { TTelegramBotMessage, TTransformedBotData } from '@ubs/ubs-admin/models/telegram-bot-responses.interface';
@@ -10,8 +10,9 @@ import { AdminTelegramBotResponseService } from '@ubs/ubs-admin/services/admin-e
 import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { UbsAdminEditTelegramBotComponent } from './ubs-admin-edit-telegram-bot.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { QuillModule } from 'ngx-quill';
 
-xdescribe('UbsAdminEditTelegramBotComponent', () => {
+describe('UbsAdminEditTelegramBotComponent', () => {
   const mockApiMessages: TTelegramBotMessage[] = [
     { id: 1, lang: 'en', messageType: 'ADMISSION_RULES_TEXT', text: 'English Welcome' },
     { id: 2, lang: 'en', messageType: 'FAREWELL', text: 'English Farewell' },
@@ -57,7 +58,7 @@ xdescribe('UbsAdminEditTelegramBotComponent', () => {
     mockMatDialog.open.and.returnValue({ afterClosed: () => of(true) } as any);
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, TranslateModule.forRoot()],
+      imports: [ReactiveFormsModule, TranslateModule.forRoot(), QuillModule.forRoot()],
       declarations: [UbsAdminEditTelegramBotComponent, SpinnerComponent, ConfirmationDialogComponent, MatProgressSpinner],
       providers: [
         { provide: AdminTelegramBotResponseService, useValue: mockTelegramBotService },
@@ -79,9 +80,9 @@ xdescribe('UbsAdminEditTelegramBotComponent', () => {
   it('should load, transform, and set up the form on init', () => {
     expect(component.isLoading).toBe(false);
     expect(component.telegramResponsesContent).toEqual(mockTransformedData);
-    expect(component.telegramResponsesContentForm.get('ENWELCOMEmessage')).toBeTruthy();
-    expect(component.getFormControl('EN', 'WELCOME', 'message').value).toBe('English Welcome');
-    expect(component.getFormControl('UK', 'FAREWELL', 'message').value).toBe('Ukrainian Farewell');
+    expect(component.telegramResponsesContentForm.get('enFAREWELLmessage')).toBeTruthy();
+    expect(component.getFormControl('en', 'ADMISSION_RULES_TEXT', 'message').value).toBe('English Welcome');
+    expect(component.getFormControl('uk', 'FAREWELL', 'message').value).toBe('Ukrainian Farewell');
   });
 
   describe('getTelegramContent', () => {
@@ -93,12 +94,19 @@ xdescribe('UbsAdminEditTelegramBotComponent', () => {
 
       expect(mockTelegramBotService.getTelegramBotResponses).toHaveBeenCalled();
       expect(component.isLoading).toBe(false);
-      expect(component.getFormControl('EN', 'WELCOME', 'message').value).toBe('English Welcome');
+      expect(component.getFormControl('en', 'ADMISSION_RULES_TEXT', 'message').value).toBe('English Welcome');
     });
 
     it('should handle empty API response', () => {
       component.isLoading = true;
-      mockTelegramBotService.getTelegramBotResponses.and.returnValue(of({ currentPage: 0, totalElements: 0, totalPages: 0, page: [] }));
+      mockTelegramBotService.getTelegramBotResponses.and.returnValue(
+        of({
+          currentPage: 0,
+          totalElements: 0,
+          totalPages: 0,
+          page: []
+        })
+      );
 
       component.getTelegramContent();
 
@@ -151,7 +159,7 @@ xdescribe('UbsAdminEditTelegramBotComponent', () => {
 
   describe('onSave', () => {
     it('should mark form as touched and return if invalid', () => {
-      component.getFormControl('EN', 'WELCOME', 'message').setValue(''); // Makes form invalid
+      component.getFormControl('en', 'FAREWELL', 'message').setValue('');
       const markAllAsTouchedSpy = spyOn(component.telegramResponsesContentForm, 'markAllAsTouched');
 
       component.onSave();
@@ -177,27 +185,27 @@ xdescribe('UbsAdminEditTelegramBotComponent', () => {
     });
 
     it('should call publishChanges with updated data if dialog is confirmed', () => {
+      component.telegramResponsesContent = structuredClone(mockTransformedData);
       mockMatDialog.open.and.returnValue({ afterClosed: () => of(true) } as any);
       const publishSpy = spyOn(component, 'publishChanges').and.callThrough();
 
       const newText = 'New English Welcome';
-      component.getFormControl('EN', 'WELCOME', 'message').setValue(newText);
-
+      component.getFormControl('en', 'FAREWELL', 'message').setValue(newText);
       component.onSave();
 
       expect(mockMatDialog.open).toHaveBeenCalled();
       expect(publishSpy).toHaveBeenCalled();
-
       const expectedData = structuredClone(mockTransformedData);
-      expectedData.en.WELCOME.message.text = newText;
+      expectedData.en.FAREWELL.message.text = newText;
       expect(publishSpy).toHaveBeenCalledWith(expectedData);
     });
   });
 
   describe('publishChanges', () => {
     it('should only call update for changed fields and refetch on success', () => {
+      mockTelegramBotService.updateTelegramBotResponses.and.returnValue(of(undefined));
       const newContent = structuredClone(mockTransformedData);
-      newContent.en.WELCOME.message.text = 'A new value';
+      newContent.en.ADMISSION_RULES_TEXT.message.text = 'A new value';
       newContent.uk.FAREWELL.message.text = 'A different new value';
 
       component.publishChanges(newContent);
@@ -223,8 +231,8 @@ xdescribe('UbsAdminEditTelegramBotComponent', () => {
 
     it('should handle errors during update', () => {
       const newContent = structuredClone(mockTransformedData);
-      newContent.en.WELCOME.message.text = 'A new value';
-      mockTelegramBotService.updateTelegramBotResponses.and.returnValue(of(new Error('Update failed') as any));
+      newContent.en.FAREWELL.message.text = 'A new value';
+      mockTelegramBotService.updateTelegramBotResponses.and.returnValue(throwError(() => new Error('Update failed')));
       spyOn(console, 'error');
 
       component.publishChanges(newContent);
