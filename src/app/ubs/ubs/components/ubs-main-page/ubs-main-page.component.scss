@@ -1166,6 +1166,8 @@ section .main-container {
               min-width: 464px;
               max-width: 552px;
               min-height: 169px;
+              max-height: 338px;
+              overflow-y: auto;
 
               h2 {
                 margin: 0 0 20px;
