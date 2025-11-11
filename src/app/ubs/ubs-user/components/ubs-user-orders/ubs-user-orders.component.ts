@@ -8,9 +8,9 @@ import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interfa
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { FormControl } from '@angular/forms';
-import { OrderService } from '../../../ubs/services/order.service';
-import { UbsOrderLocationPopupComponent } from '../../../ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
-import { AllActiveLocationsDtosResponse } from '../../../ubs/models/ubs.interface';
+import { OrderService } from '@ubs/ubs/services/order.service';
+import { UbsOrderLocationPopupComponent } from '@ubs/ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
+import { AllActiveLocationsDtosResponse } from '@ubs/ubs/models/ubs.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
@@ -218,20 +218,26 @@ export class UbsUserOrdersComponent implements OnInit, AfterViewInit, OnDestroy 
     requestAnimationFrame(() => this.scroll(this.orderIdToScroll));
   }
 
-  scroll(orderId: number): void {
-    const ord: string = orderId.toString();
+  async scroll(orderId: number): Promise<void> {
+    const ord = orderId.toString();
     const element = document.getElementById(ord);
-    if (element) {
-      const panel = element.closest('mat-expansion-panel');
-      (panel.querySelector('mat-expansion-panel-header') as HTMLElement).click();
-      setTimeout(() => {
-        panel.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'nearest'
-        });
-      }, 100);
+    if (!element) {
+      return;
     }
+
+    const panel = element.closest('mat-expansion-panel') as HTMLElement;
+    const header = panel.querySelector('mat-expansion-panel-header') as HTMLElement;
+    if (header) {
+      header.click();
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    panel.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'nearest'
+    });
   }
 
   displayError(error) {
