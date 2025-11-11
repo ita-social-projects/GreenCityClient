@@ -79,7 +79,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     this.screenWidth = document.documentElement.clientWidth;
     this.onCheckToken();
-    this.boxWidth = document.querySelector('.main-container')?.getBoundingClientRect().width;
     this.languageService
       .getCurrentLangObs()
       .pipe(takeUntil(this.destroy))

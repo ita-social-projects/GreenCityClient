@@ -39,7 +39,7 @@
       <div class="main-content-left">
         <div class="box-item" *ngFor="let key of sliceContent(content?.[currentLanguage].preparing); let i = index">
           <div class="box-number">{{ '0' + (i + 1) }}</div>
-          <div class="box-text" [innerHTML]="content?.[currentLanguage].preparing[key]"></div>
+          <div class="box-text" [innerHTML]="content?.[currentLanguage]?.preparing[key]"></div>
         </div>
       </div>
       <div class="main-content-right">
@@ -126,12 +126,12 @@
     <div class="box-how-works">
       <div id="main-content">
         <div class="time-frame">
-          <h2 class="header-how-works" [innerHTML]="content?.[currentLanguage]['how_works']['working_hours_caption']"></h2>
-          <p class="content-time" [innerHTML]="content?.[currentLanguage]['how_works']['working_hours']"></p>
+          <h2 class="header-how-works" [innerHTML]="content?.[currentLanguage]?.['how_works']['working_hours_caption']"></h2>
+          <p class="content-time" [innerHTML]="content?.[currentLanguage]?.['how_works']['working_hours']"></p>
         </div>
         <div class="time-frame">
-          <h2 class="header-how-works" [innerHTML]="content?.[currentLanguage]['how_works']['route_caption']"></h2>
-          <p class="content-time" [innerHTML]="content?.[currentLanguage]['how_works']['route']"></p>
+          <h2 class="header-how-works" [innerHTML]="content?.[currentLanguage]?.['how_works']['route_caption']"></h2>
+          <p class="content-time" [innerHTML]="content?.[currentLanguage]?.['how_works']['route']"></p>
         </div>
       </div>
       <div id="how-works-content">

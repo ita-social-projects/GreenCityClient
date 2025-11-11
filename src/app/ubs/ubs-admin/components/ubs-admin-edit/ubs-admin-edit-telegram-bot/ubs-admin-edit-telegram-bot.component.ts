@@ -74,15 +74,20 @@ export class UbsAdminEditTelegramBotComponent extends UbsAdminEditComponent impl
 
   getTelegramContent() {
     this.isLoading = true;
-    this.adminTelegramBotResponseService.getTelegramBotResponses().subscribe((res) => {
-      if (!res || !res.page) {
-        this.telegramResponsesContent = { en: {}, uk: {} };
-      } else {
-        this.telegramResponsesContent = this.responseToForm(res.page);
+    this.adminTelegramBotResponseService.getTelegramBotResponses().subscribe({
+      next: (res) => {
+        if (!res || !res.page) {
+          this.telegramResponsesContent = { en: {}, uk: {} };
+        } else {
+          this.telegramResponsesContent = this.responseToForm(res.page);
+        }
+        this.initForm();
+        this.setFormValueWithCurrentContent();
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading bot content: ', err);
       }
-      this.initForm();
-      this.setFormValueWithCurrentContent();
-      this.isLoading = false;
     });
   }
 
