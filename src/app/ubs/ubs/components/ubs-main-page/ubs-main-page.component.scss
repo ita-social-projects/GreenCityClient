@@ -1,7 +1,7 @@
 @import 'src/typography/_resp.scss';
 
 @mixin height-and-width($height, $width) {
-  height: $height;
+  min-height: $height;
   width: $width;
 }
 
@@ -865,7 +865,7 @@ section .main-container {
             justify-content: space-between;
             padding: 32px 38px;
             width: 552px;
-            height: 169px;
+            min-height: 169px;
 
             h2 {
               margin: 0 0 20px;
@@ -1165,7 +1165,7 @@ section .main-container {
               padding: 32px 38px;
               min-width: 464px;
               max-width: 552px;
-              height: 169px;
+              min-height: 169px;
 
               h2 {
                 margin: 0 0 20px;
