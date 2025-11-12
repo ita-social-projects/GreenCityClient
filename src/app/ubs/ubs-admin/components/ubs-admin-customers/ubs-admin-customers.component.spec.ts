@@ -25,8 +25,6 @@ import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { TableHeightService } from '../../services/table-height.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { IAppState } from '../../../../store/state/app.state';
-import { IEmployeesState } from '../../../../store/state/employee.state';
 
 describe('UbsAdminCustomersComponent', () => {
   let component: UbsAdminCustomersComponent;
@@ -39,17 +37,6 @@ describe('UbsAdminCustomersComponent', () => {
   let router: Router;
   let tableHeightServiceMock: jasmine.SpyObj<TableHeightService>;
   let rendererMock: jasmine.SpyObj<Renderer2>;
-
-  const column: ColumnParam = { title: { uk: 'Заголовок', en: 'Title', key: 'titleKey' }, width: 60 };
-  const chatId = 12;
-  const userId = 'userId';
-  const updatedData = 'newChatLink';
-
-  const initialState: IAppState = {
-    employees: {
-      employeesPermissions: ['EDIT_CLIENT']
-    } as IEmployeesState
-  } as IAppState;
 
   const MOCK_CUSTOMER_DATA: ICustomersTable = {
     currentPage: 0,
