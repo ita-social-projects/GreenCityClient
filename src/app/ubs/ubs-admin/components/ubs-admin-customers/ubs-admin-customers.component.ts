@@ -93,7 +93,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private queryString = '';
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
-  private permissions$ = this.store.select((appState: IAppState) => appState.employees.employeesPermissions);
+  private permissions$ = this.store.select((appState: IAppState) => appState?.employees?.employeesPermissions);
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private readonly filterSubject = new Subject<string>();
   private readonly pointerColumns: string[] = ['clientName', 'number_of_orders', 'violations'];

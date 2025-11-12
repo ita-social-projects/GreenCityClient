@@ -106,13 +106,8 @@ describe('InterceptorService', () => {
         expect(snackBarServiceMock.openSnackBar).toHaveBeenCalledWith('noInternet');
         Object.defineProperty(window.navigator, 'onLine', { value: originalOnline, writable: true });
         done();
-      },
-      complete: () => {}
+      }
     });
-
-    expect(snackBarServiceMock.openSnackBar).toHaveBeenCalledWith('noInternet');
-    Object.defineProperty(window.navigator, 'onLine', { value: originalOnline, writable: true });
-    done();
   });
 
   it('should not intercept blacklisted URLs', (done) => {

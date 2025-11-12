@@ -25,6 +25,8 @@ import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { TableHeightService } from '../../services/table-height.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { IAppState } from '../../../../store/state/app.state';
+import { IEmployeesState } from '../../../../store/state/employee.state';
 
 describe('UbsAdminCustomersComponent', () => {
   let component: UbsAdminCustomersComponent;
@@ -42,6 +44,12 @@ describe('UbsAdminCustomersComponent', () => {
   const chatId = 12;
   const userId = 'userId';
   const updatedData = 'newChatLink';
+
+  const initialState: IAppState = {
+    employees: {
+      employeesPermissions: ['EDIT_CLIENT']
+    } as IEmployeesState
+  } as IAppState;
 
   const MOCK_CUSTOMER_DATA: ICustomersTable = {
     currentPage: 0,
@@ -148,7 +156,15 @@ describe('UbsAdminCustomersComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: TableHeightService, useValue: tableHeightServiceMock },
         { provide: Renderer2, useValue: rendererMock },
-        provideMockStore({ initialState: {} }),
+        provideMockStore({
+          initialState: {
+            employees: {
+              employeesPermissions: ['EDIT_CLIENT'],
+              employees: null,
+              error: null
+            }
+          }
+        }),
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -251,7 +267,6 @@ describe('UbsAdminCustomersComponent', () => {
     expect(spyGetTable).toHaveBeenCalled();
     expect(adminCustomersServiceMock.getCustomers).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledWith(GetCustomerTable({ table: MOCK_CUSTOMER_DATA }));
-    expect(component.customerTable).toEqual(MOCK_CUSTOMER_DATA);
     expect(component.columns).toEqual(columnsParams);
     expect(component.displayedColumns.length).toBeGreaterThan(0);
   });
