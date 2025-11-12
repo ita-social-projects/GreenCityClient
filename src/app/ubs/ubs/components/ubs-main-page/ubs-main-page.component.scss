@@ -166,10 +166,8 @@
               margin: 0;
             }
 
-            blockquote,
-            .lifehack {
+            blockquote {
               color: var(--ubs-main-page-primary-light-grey);
-              //font-size: 20px;
             }
           }
 
@@ -797,8 +795,7 @@ section .main-container {
                 font-size: 16px;
                 line-height: 20px;
 
-                blockquote,
-                .lifehack {
+                blockquote {
                   margin-top: 5px;
                   font-size: 16px;
                   line-height: 20px;
@@ -1103,8 +1100,7 @@ section .main-container {
                   font-size: 16px;
                   line-height: 20px;
 
-                  blockquote,
-                  .lifehack {
+                  blockquote {
                     margin-top: 5px;
                     font-size: 16px;
                     line-height: 20px;
@@ -1708,8 +1704,7 @@ section .main-container {
           }
         }
 
-        .how-to-prepare ::ng-deep .rules .rule blockquote,
-        .lifehack {
+        .how-to-prepare ::ng-deep .rules .rule blockquote {
           font-size: 12px !important;
         }
       }
@@ -1990,8 +1985,7 @@ section .main-container {
         ::ng-deep .rules .rule {
           line-height: 15px;
 
-          blockquote,
-          .lifehack {
+          blockquote {
             font-size: 11px !important;
           }
         }
