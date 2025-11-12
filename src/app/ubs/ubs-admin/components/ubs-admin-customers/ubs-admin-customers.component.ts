@@ -15,8 +15,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, take, takeUntil } from 'rxjs/operators';
+import { map, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
@@ -72,6 +72,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   display = 'none';
   filterForm: FormGroup;
   hasChange = false;
+  canEditClient = false;
   filters: Filters;
   filterValue = '';
   pageSize = 10;
@@ -92,7 +93,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private queryString = '';
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
-  private permissions = this.store.select((appState: IAppState) => appState.employees.employeesPermissions);
+  private permissions$ = this.store.select((appState: IAppState) => appState.employees.employeesPermissions);
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private readonly filterSubject = new Subject<string>();
   private readonly pointerColumns: string[] = ['clientName', 'number_of_orders', 'violations'];
@@ -133,9 +134,15 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
         this.enterPressed = false;
       }
     });
-    this.permissions.subscribe((permission) => {
-      console.log(permission);
-    });
+    this.permissions$
+      .pipe(
+        filter(Boolean),
+        take(1),
+        map((permissions) => permissions.some((p) => p === 'EDIT_CLIENT'))
+      )
+      .subscribe((permission) => {
+        this.canEditClient = permission;
+      });
   }
 
   ngAfterViewChecked() {
@@ -385,11 +392,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   private checkResizing(event: any, index: any) {
     const cellData = this.getCellData(index);
-    if (index === 0 || (Math.abs(event.pageX - cellData.right) < cellData.width / 2 && index !== this.columns.length - 1)) {
-      this.isResizingRight = true;
-    } else {
-      this.isResizingRight = false;
-    }
+    this.isResizingRight =
+      index === 0 || (Math.abs(event.pageX - cellData.right) < cellData.width / 2 && index !== this.columns.length - 1);
   }
 
   private getCellData(index: number) {

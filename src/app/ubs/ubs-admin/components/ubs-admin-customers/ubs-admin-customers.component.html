@@ -309,7 +309,13 @@
       </mat-header-cell>
       <mat-cell *matCellDef="let row" [ngStyle]="column.title.key === 'chatId' ? { padding: 0, 'justify-content': 'center' } : {}">
         <ng-container [ngSwitch]="column.title.key">
-          <mat-select *ngSwitchCase="'status'" [value]="row[column.title.key]" (selectionChange)="onChangeStatus($event, row)">
+          <mat-select
+            *ngSwitchCase="'status'"
+            [disabled]="!canEditClient"
+            [class.select-disabled]="!canEditClient"
+            [value]="row[column.title.key]"
+            (selectionChange)="onChangeStatus($event, row)"
+          >
             <mat-option *ngFor="let status of customerStatus" [value]="status | uppercase">
               {{ 'ubs-tables.customer-status.' + status | translate }}
             </mat-option>

@@ -1,5 +1,9 @@
 @import '../../../../../typography/colorsUbs';
 
+:host ::ng-deep .select-disabled .mat-mdc-select-arrow-wrapper {
+  display: none;
+}
+
 mat-cell,
 mat-header-cell,
 mat-footer-cell {
