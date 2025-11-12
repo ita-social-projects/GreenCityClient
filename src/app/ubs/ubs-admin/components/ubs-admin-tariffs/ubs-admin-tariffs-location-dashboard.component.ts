@@ -611,6 +611,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
             region: el.regionDto.nameUk,
             city: el.locationInfoDtos.map((it) => it.nameUk),
             tariff: el.tariffStatus,
+            tariffName: el.tariffNameUk || '',
             regionId: el.regionDto.regionId,
             cardId: el.cardId
           };
@@ -620,6 +621,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
             region: el.regionDto.nameEn,
             city: el.locationInfoDtos.map((it) => it.nameEn),
             tariff: el.tariffStatus,
+            tariffName: el.tariffNameEn || '',
             regionId: el.regionDto.regionId,
             cardId: el.cardId
           };
@@ -784,6 +786,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         regionEnglishName: this.selectedCard ? card.regionEn : enCard.region,
         cityNameUk: this.selectedCard ? card.citiesUk : ukCard.city,
         cityNameEn: this.selectedCard ? card.citiesEn : enCard.city,
+        tariffNameUk: this.selectedCard ? card.tariffNameUk : ukCard.tariffName,
+        tariffNameEn: this.selectedCard ? card.tariffNameEn : enCard.tariffName,
         action: 'ubs-tariffs-add-location-pop-up.edit_button',
         edit: true,
         button: 'edit'
@@ -806,6 +810,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.selectedCard.regionUk = res.regionUk;
     this.selectedCard.regionId = res.regionId;
     this.selectedCard.station = res.station;
+    this.selectedCard.tariffNameUk = res.tariffNameUk;
+    this.selectedCard.tariffNameEn = res.tariffNameEn;
   }
 
   openAddCourierDialog(): void {
@@ -960,6 +966,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         cityNameUk: this.selectedCard ? card.citiesUk : ukCard.city,
         cityNameEn: this.selectedCard ? card.citiesEn : enCard.city,
         stationNames: card.station,
+        tariffNameUk: this.selectedCard ? card.tariffNameUk : ukCard.tariffName,
+        tariffNameEn: this.selectedCard ? card.tariffNameEn : enCard.tariffName,
         isDeactivate: isItDeactivate,
         isRestore: isItRestore
       }

@@ -1,6 +1,7 @@
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import {
   ActiveCourierDto,
+  ActiveTariffInfo,
   Address,
   AddressData,
   AllActiveLocationsDtosResponse,
@@ -240,5 +241,17 @@ export class OrderService {
     this.cleanOrderState();
     localStorage.removeItem('UBSExistingOrderId');
     this.localStorageService.removeUbsPaymentOrderId();
+  }
+
+  getActiveTariffsInfo(): Observable<ActiveTariffInfo[]> {
+    return this.http.get<ActiveTariffInfo[]>(`${this.url}/activeTariffsInfo`);
+  }
+
+  getTariffName(tariff: ActiveTariffInfo): string {
+    return this.langService.getLangValue(tariff.tariffNameUk, tariff.tariffNameEn);
+  }
+
+  getTariffDescription(tariff: ActiveTariffInfo): string | null {
+    return this.langService.getLangValue(tariff.descriptionMessageUk, tariff.descriptionMessageEn);
   }
 }
