@@ -6,7 +6,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
 import { UbsAdminSidebarComponent } from './components/ubs-admin-sidebar/ubs-admin-sidebar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from '../../material.module';
@@ -228,7 +228,10 @@ import { UbsAdminEditTelegramBotComponent } from '@ubs/ubs-admin/components/ubs-
     MatFormFieldModule,
     QuillModule.forRoot(),
     UbsSharedModule,
-    SharedGreenCityModule
+    SharedGreenCityModule,
+    CdkTableModule,
+    CdkFixedSizeVirtualScroll,
+    CdkVirtualScrollViewport
   ],
   providers: [
     AdminCertificateService,

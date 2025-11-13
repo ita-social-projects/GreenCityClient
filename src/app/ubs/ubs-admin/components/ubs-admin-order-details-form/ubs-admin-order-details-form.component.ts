@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
-import { OrderStatus, PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
+import { OrderStatus, PaymentStatus } from '@ubs/ubs/enums/order-status.enum';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { IOrderDetails, IOrderInfo, orderPaymentInfo } from '../../models/ubs-admin.interface';
 import { limitStatus } from '../ubs-admin-tariffs/ubs-tariffs.enum';
@@ -98,7 +98,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.isVisible = this.orderStatusInfo.ableActualChange;
     this.isOrderPaid = this.totalPaid !== 0;
-    if (this.orderInfo.generalOrderInfo.orderPaymentStatus !== PaymnetStatus.UNPAID) {
+    if (this.orderInfo.generalOrderInfo.orderPaymentStatus !== PaymentStatus.UNPAID) {
       this.orderDetailsForm.get('certificates').disable();
     }
   }
@@ -286,7 +286,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
     if (isChanged) {
       this.paymentInfoChanged.emit({
-        paymentTableInfoDto: { ...this.paymentInfo.paymentTableInfoDto, overpayment: overpayment, unPaidAmount: unPaid },
+        paymentTableInfoDto: {
+          ...this.paymentInfo.paymentTableInfoDto,
+          overpayment: overpayment,
+          unPaidAmount: unPaid
+        },
         orderFullPrice: newSum
       });
     }
@@ -297,6 +301,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     });
     this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
   }
+
   private setFinalFullPrice() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
     this.orderDetailsForm.controls.orderFullPrice.setValue(this.bagsInfo.finalSum[bagType]);

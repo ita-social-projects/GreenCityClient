@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { UserMessagesService } from '@ubs/ubs-user/services/user-messages.service';
 import { UbsBaseSidebarComponent } from '@ubs/shared/components/ubs-base-sidebar/ubs-base-sidebar.component';
@@ -13,7 +13,7 @@ import { Subject } from 'rxjs';
   templateUrl: './ubs-admin-sidebar.component.html',
   styleUrls: ['./ubs-admin-sidebar.component.scss']
 })
-export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements AfterViewInit, OnInit {
+export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements OnInit {
   @Input() hasAuthorities: boolean;
   @Input() authorities: string[];
   listElementsAdmin = listElementsAdmin;

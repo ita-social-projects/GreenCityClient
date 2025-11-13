@@ -1,6 +1,16 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, DestroyRef, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { DateAdapter } from '@angular/material/core';
@@ -12,7 +22,6 @@ import { select, Store } from '@ngrx/store';
 import { columnsToFilterByName } from '@ubs/ubs-admin/models/columns-to-filter-by-name';
 import { timer } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { MouseEvents } from 'src/app/shared/models/mouse-events';
 
 import {
   AddFilterMultiAction,
@@ -52,18 +61,19 @@ import {
   IOrdersViewParameters
 } from '../../models/ubs-admin.interface';
 import { AdminTableService } from '../../services/admin-table.service';
-import { TableHeightService } from '../../services/table-height.service';
 import { TableColorKeys, TableKeys } from '../../services/table-keys.enum';
 import { ColumnFiltersPopUpComponent } from '../shared/components/column-filters-pop-up/column-filters-pop-up.component';
 import { defaultColumnsWidthPreference } from './ubs-admin-table-default-width';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { isCursorWaiteSelector } from 'src/app/store/selectors/ubs-admin.selectors';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-ubs-admin-table',
   templateUrl: './ubs-admin-table.component.html',
-  styleUrls: ['./ubs-admin-table.component.scss']
+  styleUrls: ['./ubs-admin-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UbsAdminTableComponent implements OnInit, OnDestroy {
   currentLang: string;
@@ -72,7 +82,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   sortType: string;
   columns: IColumnDTO[] = [];
   displayedColumns: string[] = [];
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
   selection = new SelectionModel<any>(true, []);
   isLoading = true;
   editCellProgressBar: boolean;
@@ -130,19 +140,20 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   isOrderAddressLoadingSelector$ = this.store.select(isOrderAddressLoadingSelector);
   columnWidthSelector$ = this.store.select(columnWidthSelector);
   amountNewOrders: number;
+  areFiltersApplied: boolean;
   isCursorWaite$ = this.store.select(isCursorWaiteSelector);
+  private isLastPage = false;
 
   constructor(
     private store: Store<IAppState>,
     private router: Router,
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
-    private tableHeightService: TableHeightService,
-    public dialog: MatDialog,
-    private renderer: Renderer2,
+    private dialog: MatDialog,
     private fb: FormBuilder,
     private dateAdapter: DateAdapter<Date>,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private cdr: ChangeDetectorRef
   ) {
     this.dateAdapter.setLocale('en-GB');
     this.filterValue = history.state?.clientFilter ?? '';
@@ -162,6 +173,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.store.dispatch(GetTableColumnWidth());
       }
       this.initDateForm();
+      this.cdr.detectChanges();
     });
     this.locationsDetailsSelector$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((locations) => {
       if (locations.length) {
@@ -175,6 +187,9 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       if (columnsWidthMap) {
         this.columnsWidthPreference = columnsWidthMap instanceof Map ? new Map(columnsWidthMap) : new Map(Object.entries(columnsWidthMap));
       }
+    });
+    this.isFiltersApplied$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((isFiltersApplied) => {
+      this.areFiltersApplied = isFiltersApplied;
     });
   }
 
@@ -191,6 +206,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     }
     this.editCellProgressBar = false;
     this.allChecked = false;
+    this.isLastPage = tableData.last;
     this.currentPage = tableData.number;
     this.totalElements = tableData[`totalElements`];
     this.totalPages = tableData[`totalPages`];
@@ -271,7 +287,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   get isIndeterminate(): boolean {
-    return !!this.idsToChange.length && !this.isAllSelected;
+    return this.idsToChange.length > 0 && !this.isAllSelected;
   }
 
   initDateForm(): void {
@@ -347,6 +363,8 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.idsToChange.push(row.id);
       }
     });
+
+    this.cdr.markForCheck();
   }
 
   checkboxLabel(row?: any): string {
@@ -433,20 +451,18 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   formatTableData() {
-    this.dataSource = new MatTableDataSource(
-      this.tableData.map((row) => {
-        const newRow = structuredClone(row);
-        const priceKeys = [TableKeys.amountDue, TableKeys.totalOrderSum, TableKeys.generalDiscount, TableKeys.totalPayment];
-        for (const key of priceKeys) {
-          newRow[key] = parseFloat(newRow[key]).toFixed(2);
-        }
-        const arr = newRow.orderCertificateCode?.split(', ');
-        if (arr && arr.length > 0) {
-          newRow.orderCertificatePoints = arr.reduce((res, elem) => res + parseInt(elem, 10), 0).toString();
-        }
-        return newRow;
-      })
-    );
+    this.dataSource.data = this.tableData.map((row) => {
+      const newRow = structuredClone(row);
+      const priceKeys = [TableKeys.amountDue, TableKeys.totalOrderSum, TableKeys.generalDiscount, TableKeys.totalPayment];
+      for (const key of priceKeys) {
+        newRow[key] = parseFloat(newRow[key]).toFixed(2);
+      }
+      const arr = newRow.orderCertificateCode?.split(', ');
+      if (arr && arr.length > 0) {
+        newRow.orderCertificatePoints = arr.reduce((res, elem) => res + parseInt(elem, 10), 0).toString();
+      }
+      return newRow;
+    });
     this.isLoading = false;
   }
 
@@ -550,14 +566,15 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.name = 'Orders-Table.xlsx';
   }
 
-  onScroll() {
-    const table = document.getElementById('table');
-    const tableContainer = document.getElementById('table-container');
-    this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
-    if (!this.isUpdate && this.currentPage + 1 < this.totalPages) {
+  onScrollIndexChange(index: number) {
+    if (this.dataSource.data.length && !this.isLastPage && !this.isUpdate && index + 15 >= this.dataSource.data.length) {
       this.currentPage++;
       this.updateTableData();
     }
+  }
+
+  trackById(index: number, item: any) {
+    return item.id;
   }
 
   editDetails(): void {
@@ -652,7 +669,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     const newRow = { ...this.tableData[id], [e.nameOfColumn]: e.newValue };
     const newTableData = [...this.tableData.slice(0, id), newRow, ...this.tableData.slice(id + 1)];
     this.tableData = newTableData;
-    this.dataSource = new MatTableDataSource(newTableData);
+    this.dataSource.data = newTableData;
     this.openPopUpRequires(id);
     this.postData([e.id], e.nameOfColumn, e.newValue);
   }
@@ -675,7 +692,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     }
 
     this.tableData = newTableDataCombine;
-    this.dataSource = new MatTableDataSource(newTableDataCombine);
+    this.dataSource.data = newTableDataCombine;
     this.postData(this.idsToChange, e.nameOfColumn, e.newValue);
   }
 
@@ -691,7 +708,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       [e.nameOfColumn]: e.newValue
     }));
     this.tableData = newTableData;
-    this.dataSource = new MatTableDataSource(newTableData);
+    this.dataSource.data = newTableData;
     this.allChecked = false;
     this.idsToChange = [];
     this.editCellProgressBar = false;
@@ -729,15 +746,9 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       });
   }
 
-  showTooltip(event, title, tooltip) {
-    event.stopImmediatePropagation();
-    const lengthStrUa = title.uk.split('').length;
-    const lengthStrEn = title.en.split('').length;
-    if ((this.currentLang === 'uk' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
-      tooltip.toggle();
-    }
-
-    event.type === MouseEvents.MouseEnter ? this.calculateTextWidth(event, tooltip) : tooltip.hide();
+  showTooltip(event: MouseEvent, tooltip: MatTooltip) {
+    const target = event.target as HTMLElement;
+    tooltip.disabled = target.scrollWidth <= target.clientWidth;
   }
 
   calculateTextWidth(event, tooltip): void {
@@ -983,6 +994,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.showAllColumns(false);
     this.columnsWidthPreference = new Map(this.defaultColumnsWidth);
     for (let i = 1; i < this.columns.length - 1; i++) {
+      console.log('quryall');
       const cols = document.querySelectorAll('.column_cell.ng-star-inserted');
       const col = cols[i - 1] as HTMLElement;
       const width = this.defaultColumnsWidth.get(this.columns[i].title.key);

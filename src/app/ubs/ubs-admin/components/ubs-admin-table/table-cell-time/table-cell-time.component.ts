@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
@@ -9,7 +9,8 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-table-cell-time',
   templateUrl: './table-cell-time.component.html',
-  styleUrls: ['./table-cell-time.component.scss']
+  styleUrls: ['./table-cell-time.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableCellTimeComponent implements OnInit {
   @Input() nameOfColumn: string;

@@ -9,7 +9,7 @@ export enum OrderStatus {
   ADJUSTMENT = 'ADJUSTMENT'
 }
 
-export enum PaymnetStatus {
+export enum PaymentStatus {
   PAID = 'PAID',
   HALF_PAID = 'HALF_PAID',
   UNPAID = 'UNPAID',

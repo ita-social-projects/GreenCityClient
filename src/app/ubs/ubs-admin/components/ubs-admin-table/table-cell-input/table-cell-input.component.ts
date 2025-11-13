@@ -1,8 +1,8 @@
-import { Component, DestroyRef, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, EventEmitter, Input, NgZone, Output } from '@angular/core';
 import { IAlertInfo, IEditCell } from '@ubs/ubs-admin/models/edit-cell.model';
 import { IColumnBelonging } from '@ubs/ubs-admin/models/ubs-admin.interface';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
-import { catchError, map, of, switchMap, take } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
 import { CommentPopUpComponent } from '@ubs/ubs-admin/components/shared/components/comment-pop-up/comment-pop-up.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -11,10 +11,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrderService } from '@ubs/ubs-admin/services/order.service';
 import { Store } from '@ngrx/store';
 import { SetCursorWaite } from 'src/app/store/actions/ubs-admin.actions';
+
 @Component({
   selector: 'app-table-cell-input',
   templateUrl: './table-cell-input.component.html',
-  styleUrls: ['./table-cell-input.component.scss']
+  styleUrls: ['./table-cell-input.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableCellInputComponent {
   @Input() column: IColumnBelonging;
@@ -30,7 +32,6 @@ export class TableCellInputComponent {
 
   isEditable: boolean;
   private typeOfChange: number[];
-  private readonly font = '12px Lato, sans-serif';
   private dialogConfig = new MatDialogConfig();
 
   constructor(
@@ -39,17 +40,17 @@ export class TableCellInputComponent {
     public dialog: MatDialog,
     private orderService: OrderService,
     private destroyRef: DestroyRef,
-    private store: Store
+    private store: Store,
+    private cdr: ChangeDetectorRef,
+    private zone: NgZone
   ) {}
 
   edit(): void {
     this.store.dispatch(SetCursorWaite({ isWaiting: true }));
-    this.isEditable = false;
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
     this.adminTableService
       .blockOrders(this.typeOfChange)
       .pipe(
-        take(1),
         catchError(() => {
           this.isEditable = true;
           return of([]);
@@ -59,13 +60,16 @@ export class TableCellInputComponent {
         if (res && res[0]) {
           this.showBlockedInfo.emit(res);
         } else {
-          this.isEditable = true;
-          this.openPopUp();
+          setTimeout(() => {
+            this.isEditable = true;
+            this.openPopUp();
+          });
         }
       });
   }
 
   private openPopUp(): void {
+    this.store.dispatch(SetCursorWaite({ isWaiting: false }));
     this.dialogConfig.disableClose = true;
     const modalRef = this.dialog.open(CommentPopUpComponent, this.dialogConfig);
     modalRef.componentInstance.header = this.localStorageService.getCurrentLanguage() === 'uk' ? this.column.uk : this.column.en;
@@ -80,12 +84,14 @@ export class TableCellInputComponent {
         this.editCommentCell.emit(newCommentValue);
       }
       this.cancelEdit.emit(this.typeOfChange);
+      console.log(false);
       this.isEditable = false;
     });
   }
 
   onMouseEnter(event: MouseEvent, tooltip: any): void {
-    this.adminTableService.showTooltip(event, tooltip, this.font);
+    const target = event.target as HTMLElement;
+    tooltip.disabled = target.scrollWidth <= target.clientWidth;
   }
 
   isAddressKey(): boolean {

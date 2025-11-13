@@ -5,7 +5,7 @@ import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-
 import { TableCellReadonlyComponent } from './table-cell-readonly.component';
 import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '@ubs/ubs-admin/services/table-keys.enum';
-import { PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
+import { PaymentStatus } from '@ubs/ubs/order-status.enum';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -126,13 +126,13 @@ describe('TableCellReadonlyComponent', () => {
   });
 
   it('should call isStatus and update payment status', () => {
-    component.data = PaymnetStatus.PAID;
+    component.data = PaymentStatus.PAID;
     component.isStatus();
     expect(component.paid).toBeTruthy();
-    component.data = PaymnetStatus.HALF_PAID;
+    component.data = PaymentStatus.HALF_PAID;
     component.isStatus();
     expect(component.halfpaid).toBeTruthy();
-    component.data = PaymnetStatus.UNPAID;
+    component.data = PaymentStatus.UNPAID;
     component.isStatus();
     expect(component.unpaid).toBeTruthy();
   });
