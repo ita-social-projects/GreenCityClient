@@ -26,7 +26,6 @@ export class DateLocalisationPipe implements PipeTransform, OnDestroy {
   }
 
   transform(value: any, format = 'mediumDate'): string {
-    console.log(this.datePipe.transform(value, format, undefined, this.locale));
     return this.datePipe.transform(value, format, undefined, this.locale);
   }
 
