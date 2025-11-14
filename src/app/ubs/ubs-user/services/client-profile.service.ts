@@ -17,9 +17,7 @@ export class ClientProfileService {
     return this.http.put(`${mainUbsLink}/ubs/userProfile/user/update`, user);
   }
 
-  deactivateProfile(email: string, reason: string): Observable<void> {
-    return this.http
-      .get(`${mainUserLink}user/findUuidByEmail`, { params: { email }, responseType: 'text' })
-      .pipe(switchMap((uuid: string) => this.http.put<void>(`${mainUserLink}user/deactivate`, { reason }, { params: { uuid } })));
+  deactivateProfile(reason: string): Observable<void> {
+    return this.http.delete<void>(`${mainUserLink}ubs/userProfile/user/delete`, { body: reason });
   }
 }

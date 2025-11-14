@@ -6,23 +6,23 @@ import { LocalStorageService } from 'src/app/shared/services/localstorage/local-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Subject } from 'rxjs';
-import { map, skip, startWith, takeUntil } from 'rxjs/operators';
+import { filter, map, skip, startWith, take, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { Couriers, Locations, City, FilterData } from '../../models/tariffs.interface';
+import { City, Couriers, FilterData, Locations } from '../../models/tariffs.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { TariffsService } from '../../services/tariffs.service';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
 import {
-  selectOptions,
+  authoritiesChangeEmployee,
+  EmployeeStatus,
   filterOptions,
   filtersPlaceholderOptions,
-  authoritiesChangeEmployee,
   filtersStateEmployeeOptions,
-  EmployeeStatus
+  selectOptions
 } from './ubs-admin-employee-table/employee-models.enum';
 import { Language } from 'src/app/shared/i18n/Language';
 
@@ -148,12 +148,13 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.complete();
   }
+
   addNewFilters(data: FilterData) {
     this.ubsAdminEmployeeService.updateFilterData(data);
   }
 
   definitionUserAuthorities(): void {
-    this.permissions$.subscribe((employeeRight) => {
+    this.permissions$.pipe(filter(Boolean), take(1)).subscribe((employeeRight) => {
       if (employeeRight.length) {
         this.definedIsEmployeeHasRights(employeeRight);
       }
@@ -179,24 +180,22 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getEmployeePositionbyEmail(userEmail: string) {
-    this.ubsAdminEmployeeService.getEmployeeLoginPositions(userEmail).subscribe((roles) => {
-      this.userRoles = roles;
-    });
-  }
-
   get position() {
     return this.searchForm.get('position');
   }
+
   get state() {
     return this.searchForm.get('state');
   }
+
   get region() {
     return this.searchForm.get('region');
   }
+
   get city() {
     return this.searchForm.get('city');
   }
+
   get courier() {
     return this.searchForm.get('courier');
   }
@@ -689,7 +688,13 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
 
     this.selectedState.length = 0;
-    Object.assign(this.filterData, { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' });
+    Object.assign(this.filterData, {
+      positions: [],
+      regions: [],
+      locations: [],
+      couriers: [],
+      employeeStatus: 'ACTIVE'
+    });
     this.addNewFilters(this.filterData);
   }
 

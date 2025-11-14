@@ -4,7 +4,7 @@ import { IColumnBelonging } from '../../../models/ubs-admin.interface';
 import { Language } from 'src/app/shared/i18n/Language';
 import { TableKeys } from '../../../services/table-keys.enum';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
 import { AdminTableService } from '@ubs/ubs-admin/services/admin-table.service';
 
 @Component({

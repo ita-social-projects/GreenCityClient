@@ -411,7 +411,13 @@
     "search": "Пошук",
     "link-placeholder": "Надайте посилання на чат із клієнтом",
     "go-to-chat": "В чат",
-    "restricted-symbols": "Введено заборонені символи"
+    "restricted-symbols": "Введено заборонені символи",
+    "customer-status": {
+      "activated": "Активовано",
+      "deactivated": "Деактивовано",
+      "blocked": "Заблоковано",
+      "deleted": "Видалено"
+    }
   },
   "ubs-customer-filters": {
     "total-customers": "Кількість користувачів:",

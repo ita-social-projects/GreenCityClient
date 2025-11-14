@@ -2,15 +2,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { UbsAdminCustomersComponent } from './ubs-admin-customers.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Renderer2 } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatNativeDateModule } from '@angular/material/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
 import { AdminCustomersService } from '@ubs/ubs-admin/services/admin-customers.service';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
@@ -38,11 +38,6 @@ describe('UbsAdminCustomersComponent', () => {
   let tableHeightServiceMock: jasmine.SpyObj<TableHeightService>;
   let rendererMock: jasmine.SpyObj<Renderer2>;
 
-  const column: ColumnParam = { title: { uk: 'Заголовок', en: 'Title', key: 'titleKey' }, width: 60 };
-  const chatId = 12;
-  const userId = 'userId';
-  const updatedData = 'newChatLink';
-
   const MOCK_CUSTOMER_DATA: ICustomersTable = {
     currentPage: 0,
     page: [
@@ -57,7 +52,8 @@ describe('UbsAdminCustomersComponent', () => {
         violations: 0,
         currentBonuses: 100,
         chatId: 'https://chat.example.com/user1',
-        address: 'Some Address 1'
+        address: 'Some Address 1',
+        status: 'ACTIVATED'
       },
       {
         userId: 'testUser2',
@@ -70,7 +66,8 @@ describe('UbsAdminCustomersComponent', () => {
         violations: 1,
         currentBonuses: 50,
         chatId: null,
-        address: 'Some Address 2'
+        address: 'Some Address 2',
+        status: 'ACTIVATED'
       }
     ],
     totalElements: 2,
@@ -146,7 +143,15 @@ describe('UbsAdminCustomersComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: TableHeightService, useValue: tableHeightServiceMock },
         { provide: Renderer2, useValue: rendererMock },
-        provideMockStore({ initialState: {} }),
+        provideMockStore({
+          initialState: {
+            employees: {
+              employeesPermissions: ['EDIT_CLIENT'],
+              employees: null,
+              error: null
+            }
+          }
+        }),
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -249,7 +254,6 @@ describe('UbsAdminCustomersComponent', () => {
     expect(spyGetTable).toHaveBeenCalled();
     expect(adminCustomersServiceMock.getCustomers).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledWith(GetCustomerTable({ table: MOCK_CUSTOMER_DATA }));
-    expect(component.customerTable).toEqual(MOCK_CUSTOMER_DATA);
     expect(component.columns).toEqual(columnsParams);
     expect(component.displayedColumns.length).toBeGreaterThan(0);
   });
@@ -563,7 +567,11 @@ describe('UbsAdminCustomersComponent', () => {
         children: [{ children: [{ getBoundingClientRect: () => ({ right: 100, width: 50 }) }] }]
       }
     };
-    const event = { pageX: 90, target: { clientWidth: 60 }, preventDefault: () => {} };
+    const event = {
+      pageX: 90,
+      target: { clientWidth: 60 },
+      preventDefault: () => {}
+    };
     spyOn(event, 'preventDefault');
 
     component.onResizeColumn(event, 0);

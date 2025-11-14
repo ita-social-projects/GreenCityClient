@@ -30,7 +30,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { UpdateOrderInfo, UpdateOrderInfoSuccess } from 'src/app/store/actions/bigOrderTable.actions';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { AdminTableService } from '../../services/admin-table.service';
 import { UnsavedChangesGuard } from '@ubs/ubs-admin/unsaved-changes-guard.guard';
@@ -253,11 +253,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       }),
       addressExportDetailsDto: [''],
       exportDetailsDto: this.fb.group({
-        dateExport: [
-          this.exportInfo.dateExport
-            ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.getLocale())
-            : ''
-        ],
+        dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.getLocale()) : ''],
         timeDeliveryFrom: [this.parseTimeToStr(this.exportInfo.timeDeliveryFrom)],
         timeDeliveryTo: [this.parseTimeToStr(this.exportInfo.timeDeliveryTo)],
         receivingStationId: [this.getReceivingStationById(this.exportInfo.receivingStationId)]

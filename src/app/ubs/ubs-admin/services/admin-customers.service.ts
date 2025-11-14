@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ICustomersTable } from '../models/customers-table.model';
 import { ICustomerOrdersTable } from '../models/customer-orders-table.model';
 import { environment } from '@environment/environment';
+import { mainUbsLink } from '../../../main/links';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,9 @@ export class AdminCustomersService {
 
   openChat(chatUrl: string) {
     chatUrl && window.open(chatUrl, '_blank');
+  }
+
+  changeCustomerStatus(userId: number, status: string): Observable<void> {
+    return this.http.put<void>(`${mainUbsLink}/ubs/userProfile/status/${userId}?status=${status}`, {});
   }
 }

@@ -20,7 +20,7 @@ import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.int
 import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { Masks, Patterns, phonePrefix } from 'src/assets/patterns/patterns';
-import { ConfirmationDialogComponent } from '../../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '@ubs/ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { PhoneNumberValidator } from '@ubs/shared/validators/phone-validator/phone.validator';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
@@ -345,7 +345,7 @@ export class UbsUserProfilePageComponent implements OnInit, OnDestroy {
       .pipe(take(1), filter(Boolean))
       .subscribe((res) => {
         this.clientProfileService
-          .deactivateProfile(this.userEmail, res.reason)
+          .deactivateProfile(res.reason)
           .pipe(take(1))
           .subscribe(() => {
             this.signOut();

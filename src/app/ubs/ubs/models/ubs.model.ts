@@ -1,4 +1,4 @@
-import { CertificateStatus } from 'src/app/ubs/ubs/certificate-status.enum';
+import { CertificateStatus } from '@ubs/ubs/enums/certificate-status.enum';
 import { Address, AddressData, ICertificateResponse, LanguageResponseOptions } from './ubs.interface';
 import { Language } from 'src/app/shared/i18n/Language';
 import { LanguageService } from 'src/app/shared/i18n/language.service';

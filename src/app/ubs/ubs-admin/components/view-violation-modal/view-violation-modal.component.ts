@@ -4,7 +4,7 @@ import { IViolation } from '@ubs/ubs-admin/models/violation.model';
 import { OrderService } from '@ubs/ubs-admin/services/order.service';
 import { first } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '@ubs/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
-import { ViolationLevel } from '@ubs/ubs/violation-level.enum';
+import { ViolationLevel } from '@ubs/ubs/enums/violation-level.enum';
 import { MatSnackBarService } from '@global-service/mat-snack-bar/mat-snack-bar.service';
 
 @Component({

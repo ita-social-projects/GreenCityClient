@@ -1,5 +1,9 @@
 @import '../../../../../typography/colorsUbs';
 
+:host ::ng-deep .select-disabled .mat-mdc-select-arrow-wrapper {
+  display: none;
+}
+
 mat-cell,
 mat-header-cell,
 mat-footer-cell {
@@ -386,7 +390,6 @@ mat-spinner {
   border-radius: 5px;
   border: 1px solid var(--ubs-button-light-green);
   color: var(--ubs-tertiary-dark-grey);
-  margin-right: 5px;
   min-width: 25px;
 }
 

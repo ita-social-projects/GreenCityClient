@@ -5,7 +5,7 @@ import { environment } from '@environment/environment';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { OrderStatus } from '@ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 
 describe('AdminTableService', () => {
   let httpMock: HttpTestingController;

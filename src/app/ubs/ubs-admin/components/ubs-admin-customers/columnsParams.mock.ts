@@ -5,7 +5,7 @@ export const columnsParams: ColumnParam[] = [
       uk: 'Імя клієнта',
       en: 'Client name'
     },
-    width: 100
+    width: 200
   },
   {
     title: {
@@ -13,7 +13,7 @@ export const columnsParams: ColumnParam[] = [
       uk: 'Телефон',
       en: 'Phone'
     },
-    width: 80
+    width: 200
   },
   {
     title: {
@@ -21,7 +21,7 @@ export const columnsParams: ColumnParam[] = [
       uk: 'E-mail',
       en: 'E-mail'
     },
-    width: 100
+    width: 200
   },
   {
     title: {
@@ -29,7 +29,7 @@ export const columnsParams: ColumnParam[] = [
       uk: 'Дата реєстрації в системі',
       en: 'Registration Date'
     },
-    width: 60
+    width: 150
   },
   {
     title: {
@@ -37,7 +37,7 @@ export const columnsParams: ColumnParam[] = [
       uk: 'Останнє замовлення',
       en: 'Last order'
     },
-    width: 60
+    width: 150
   },
   {
     title: {
@@ -45,7 +45,7 @@ export const columnsParams: ColumnParam[] = [
       uk: 'К-сть замовлень',
       en: 'Orders'
     },
-    width: 60
+    width: 100
   },
   {
     title: {
@@ -53,7 +53,7 @@ export const columnsParams: ColumnParam[] = [
       uk: 'Порушення',
       en: 'Violations'
     },
-    width: 60
+    width: 100
   },
   {
     title: {
@@ -61,7 +61,7 @@ export const columnsParams: ColumnParam[] = [
       uk: 'Баланс бонусного рахунку',
       en: 'Bonuses'
     },
-    width: 60
+    width: 100
   },
   {
     title: {
@@ -69,7 +69,15 @@ export const columnsParams: ColumnParam[] = [
       uk: 'Чат з клієнтом',
       en: 'Client chat'
     },
-    width: 60
+    width: 90
+  },
+  {
+    title: {
+      key: 'status',
+      uk: 'Статус',
+      en: 'Status'
+    },
+    width: 200
   }
 ];
 

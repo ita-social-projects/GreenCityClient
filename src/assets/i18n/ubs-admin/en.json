@@ -411,7 +411,13 @@
     "search": "Search",
     "link-placeholder": "Provide a link to the chat with client",
     "go-to-chat": "To chat",
-    "restricted-symbols": "Restricted characters were entered"
+    "restricted-symbols": "Restricted characters were entered",
+    "customer-status": {
+      "activated": "Activated",
+      "deactivated": "Deactivated",
+      "blocked": "Blocked",
+      "deleted": "Deleted"
+    }
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",

@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { OrderService } from '../../services/order.service';
 import { CancellationReasonList } from '../../services/cancellation-reason-list-mock';
-import { CancellationReason } from 'src/app/ubs/ubs/order-status.enum';
+import { CancellationReason } from '@ubs/ubs/enums/order-status.enum';
 
 @Component({
   selector: 'app-add-order-cancellation-reason',

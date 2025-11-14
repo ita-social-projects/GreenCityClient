@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { UbsAdminExportDetailsComponent } from './ubs-admin-export-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from '@ubs/ubs/enums/order-status.enum';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 describe('UbsAdminExportDetailsComponent', () => {

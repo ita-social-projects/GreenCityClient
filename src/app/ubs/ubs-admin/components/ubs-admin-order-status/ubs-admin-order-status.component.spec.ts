@@ -8,7 +8,7 @@ import { GeneralInfoMock } from '../../services/orderInfoMock';
 import { OrderService } from '../../services/order.service';
 import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
 import { LanguageService } from 'src/app/shared/i18n/language.service';
-import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus, PaymnetStatus } from '@ubs/ubs/enums/order-status.enum';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsSharedModule } from '@ubs/shared/ubs-shared.module';
 
