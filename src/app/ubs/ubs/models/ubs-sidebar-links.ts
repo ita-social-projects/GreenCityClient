@@ -32,9 +32,9 @@ export const listElementsAdmin: listElements[] = [
     routerLink: 'notifications'
   },
   {
-    link: 'assets/img/sidebarIcons/user_icon.svg',
-    name: 'ubs-sidebar.user-agreement',
-    routerLink: 'user-agreement'
+    link: 'assets/img/sidebarIcons/settings_icon.svg',
+    name: 'ubs-sidebar.settings',
+    routerLink: 'settings'
   },
   {
     link: 'assets/img/chat/chats.svg',

@@ -650,7 +650,8 @@
     "tariffs": "Tariffs",
     "notifications": "Notifications",
     "user-agreement": "User agreement",
-    "chat": "Chat"
+    "chat": "Chat",
+    "settings": "Settings"
   },
   "chat": {
     "empty-chat": "Chat hasn’t got any message yet",
@@ -1334,6 +1335,7 @@
     "duration-field-format": "The field can contain only numbers from 1 to 12",
     "discount-field-format": "The field can contain only numbers in format from 1 to 999"
   },
+  "settings-page": "Settings page",
   "ubs-user-agreement": {
     "edit": "Edit user agreement",
     "author": "Author",
@@ -1347,6 +1349,59 @@
       "back": "Back",
       "confirm": "Confirm",
       "save": "Save"
+    }
+  },
+  "settings": {
+    "edit": "Edit homepage settings",
+    "lang": {
+      "uk": "Ukrainian",
+      "en": "English"
+    },
+    "section": {
+      "bonuses": {
+        "title": "Bonus",
+        "caption": "Caption",
+        "content": "Content"
+      },
+      "header": {
+        "title": "Header",
+        "caption": "Caption",
+        "content": "Content"
+      },
+      "how_works": {
+        "title": "How it works",
+        "content": "Content",
+        "route": "Route",
+        "route_caption": "Route Caption",
+        "working_hours": "Working Hours",
+        "working_hours_caption": "Working Hours Caption"
+      },
+      "preparing": {
+        "title": "Preparation",
+        "caption": "Caption",
+        "step_01": "Step 1",
+        "step_02": "Step 2",
+        "step_03": "Step 3",
+        "step_04": "Step 4",
+        "step_05": "Step 5"
+      },
+      "price": {
+        "title": "Order steps",
+        "caption_steps": "Caption",
+        "steps_title_01": "Step 1 title",
+        "steps_content_01": "Step 1 content",
+        "steps_title_02": "Step 2 title",
+        "steps_content_02": "Step 2 content",
+        "steps_title_03": "Step 3 title",
+        "steps_content_03": "Step 3 content",
+        "steps_title_04": "Step 4 title",
+        "steps_content_04": "Step 4 content"
+      },
+      "rules": {
+        "title": "Rules",
+        "caption": "Caption",
+        "content": "Content"
+      }
     }
   },
   "deleting-profile-reason-pop-up": {
@@ -1384,5 +1439,34 @@
     "no-orders": "This client has no orders",
     "all-orders": "See all orders",
     "completed-orders": "Completed orders"
+  },
+  "telegram-bot-responses": {
+    "edit": "Edit telegram bot responses",
+    "lang": {
+      "en": "English",
+      "uk": "Ukrainian"
+    },
+    "section": {
+      "ADMISSION_RULES_TEXT": "Admission rules",
+      "BAD_FEEDBACK_MESSAGE": "Bad feedback response",
+      "CLIENT_END_SUPPORT_NOTIFICATION": "Client ended support notification",
+      "CLIENT_STOP_SUPPORT_MODE": "Client stoped support mode",
+      "CLIENT_SUPPORT_MESSAGE_CALLBACK_QUERY": "Client manager support query",
+      "CLIENT_SUPPORT_MESSAGE_CHANGE_LANGUAGE": "Client language change",
+      "CLIENT_WANT_TO_SPEAK": "Client wants to speak to a manager",
+      "EMPLOYEE_NOT_MANAGER": "Employee is not a manager",
+      "ENTERING_EMAIL_MESSAGE": "Entering email prompt",
+      "FEEDBACK_MESSAGE": "Feedback prompt",
+      "FEEDBACK_THANK_YOU_MESSAGE": "Feedback thank tou message",
+      "FORBIDDEN_COMMANDS_MANAGER": "Forbidden command for a manager",
+      "GREAT_FEEDBACK_MESSAGE": "Response on a great feedback",
+      "GREEN_OFFICE_SUBJECT": "Green Office subject",
+      "GREEN_OFFICE_TEXT": "Green Office partnership",
+      "GREEN_OFFICE_THANK_YOU_MESSAGE": "Green Office email thank you message",
+      "GREETING_MANAGER_MESSAGE": "Manager greeting",
+      "GREETING_MESSAGE": "User greeting",
+      "INCORRECT_LOGIN_FORMAT": "Incorrect login format message",
+      "INVALID_EMAIL_MESSAGE": "Invalid email message"
+    }
   }
 }

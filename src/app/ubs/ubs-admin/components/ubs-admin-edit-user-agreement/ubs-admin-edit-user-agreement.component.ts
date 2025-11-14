@@ -32,6 +32,8 @@ export class UbsAdminEditUserAgreementComponent implements OnInit {
 
   private adminUserAgreementService: AdminUserAgreementService = inject(AdminUserAgreementService);
 
+  isCollapsed = false;
+
   userAgreementForm: FormGroup = new FormGroup({});
   quillModules = quillConfigAdmin;
   languages = ['Uk', 'En'];
@@ -158,5 +160,9 @@ export class UbsAdminEditUserAgreementComponent implements OnInit {
       .subscribe(() => {
         this.loadVersions();
       });
+  }
+
+  collapseView() {
+    this.isCollapsed = !this.isCollapsed;
   }
 }
