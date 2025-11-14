@@ -1,7 +1,16 @@
 <div class="page" *ngIf="!isLoading; else spinner">
-  <div class="page-top-bar">
-    <h5 class="page-title" [ngClass]="{ 'centered-title': !isCollapsed }">{{ 'ubs-user-agreement.edit' | translate }}</h5>
-    <img *ngIf="isCollapsed" src="assets/icons/arrow-down-green.svg" alt="collapse" (click)="collapseView()" class="collapse-icon" />
+  <div class="page-top-bar d-flex justify-content-center expand-btn">
+    <button class="d-flex align-items-center border-0 bg-transparent expand-btn" (click)="collapseView()">
+      <span class="page-title">
+        {{ 'ubs-user-agreement.edit' | translate }}
+      </span>
+      <img
+        [ngClass]="!isCollapsed ? { transform: 'rotate(180deg)' } : {}"
+        src="../../../../../../assets/icons/arrow-down-green.svg"
+        alt="collapse"
+        class="collapse-icon"
+      />
+    </button>
   </div>
 
   <div class="collapsed-content" [class.hidden]="isCollapsed">

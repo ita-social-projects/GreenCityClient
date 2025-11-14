@@ -1,5 +1,10 @@
 @import 'src/typography/_resp.scss';
 
+.expand-btn {
+  height: 40px;
+  gap: 10px;
+}
+
 .page {
   &-title {
     font-family: var(--primary-font);
@@ -63,7 +68,6 @@
   display: flex;
   transform: rotate(180deg);
   justify-self: center;
-  margin-top: 18px;
 }
 
 .collapsed-content {
