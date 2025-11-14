@@ -8,6 +8,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
+import { DatePipe } from '@angular/common';
 
 describe('EcoNewsWidgetComponent', () => {
   let component: EcoNewsWidgetComponent;
@@ -38,8 +40,8 @@ describe('EcoNewsWidgetComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EcoNewsWidgetComponent, NewsListGalleryViewComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
-      providers: [{ provide: EcoNewsService, useValue: ecoNewsServiceMock }],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule, DateLocalisationPipe],
+      providers: [{ provide: EcoNewsService, useValue: ecoNewsServiceMock }, DatePipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

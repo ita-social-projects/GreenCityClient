@@ -8,6 +8,8 @@ import { Language } from 'src/app/shared/i18n/Language';
 import { LocalStorageService } from 'src/app/shared/services/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { FIRSTECONEWS } from 'src/app/greencity/modules/eco-news/mocks/eco-news-mock';
+import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
+import { DatePipe } from '@angular/common';
 
 describe('NewsListGalleryViewComponent', () => {
   let component: NewsListGalleryViewComponent;
@@ -23,12 +25,13 @@ describe('NewsListGalleryViewComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), DateLocalisationPipe],
       declarations: [NewsListGalleryViewComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: LanguageService, useValue: languageServiceMock },
+        DatePipe
       ]
     }).compileComponents();
   }));

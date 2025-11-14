@@ -40,8 +40,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     data: {
       popupTitle: 'confirmation.title',
       popupSubtitle: 'confirmation.subTitle',
-      popupConfirm: 'confirmation.cancel',
-      popupCancel: 'confirmation.dismiss',
+      popupCancel: 'confirmation.cancel',
+      popupConfirm: 'confirmation.dismiss',
       isUBS: true
     }
   };
@@ -206,7 +206,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
     matDialogRef
       .afterClosed()
-      .pipe(take(1), filter(Boolean))
+      .pipe(
+        take(1),
+        filter((val) => !val)
+      )
       .subscribe(() => {
         this.router.navigate(['ubs']);
       });

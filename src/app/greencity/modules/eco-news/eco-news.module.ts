@@ -29,6 +29,7 @@ import { SafeHtmlPipe } from 'src/app/greencity/modules/eco-news/pipe/safe-html-
 import { UrlHostnamePipe } from 'src/app/greencity/modules/eco-news/pipe/url-hostname-pipe/url-hostname.pipe';
 import { CommentsService } from '../comments/services/comments.service';
 import { EcoNewsCommentsService } from '@eco-news-service/eco-news-comments.service';
+import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { EcoNewsCommentsService } from '@eco-news-service/eco-news-comments.serv
       },
       isolate: true
     }),
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    DateLocalisationPipe
   ],
   exports: [TranslateModule],
   providers: [

@@ -393,8 +393,8 @@ describe('UBSOrderDetailsComponent', () => {
         data: {
           popupTitle: 'confirmation.title',
           popupSubtitle: 'confirmation.subTitle',
-          popupConfirm: 'confirmation.cancel',
-          popupCancel: 'confirmation.dismiss',
+          popupConfirm: 'confirmation.dismiss',
+          popupCancel: 'confirmation.cancel',
           isUBS: true
         }
       });

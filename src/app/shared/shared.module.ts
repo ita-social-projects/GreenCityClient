@@ -4,7 +4,7 @@ import { MaterialModule } from '../material.module';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { DragDirective } from './directives/drag-and-drop/dragDrop.directive';
 import { CloseDropdownDirective } from './directives/close-dropdown.directive';
-import { ServerTranslatePipe } from '../ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
+import { ServerTranslatePipe } from '@ubs/shared/pipes/translate-pipe/translate-pipe.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -16,7 +16,7 @@ import { FilterLocationListByLangPipe } from './pipes/filter-location-list-by-la
 import { MaxTextLengthPipe } from './pipes/max-text-length-pipe/max-text-length.pipe';
 import { DialogPopUpComponent } from './components/dialog-pop-up/dialog-pop-up.component';
 import { SpacePreventDirective } from './directives/space-prevent.directive';
-import { NewsListGalleryViewComponent } from '../greencity/shared/components/news-list-gallery-view/news-list-gallery-view.component';
+import { NewsListGalleryViewComponent } from '@shared/components/news-list-gallery-view/news-list-gallery-view.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { SafeHtmlTransformPipe } from './pipes/events-description-transforn/safe-html-transform.pipe';
 import { LinkifyDirective } from 'src/app/shared/directives/linkify.directive';
@@ -27,6 +27,7 @@ import { LangValueDirective } from './directives/lang-value/lang-value.directive
 import { GoogleMapsModule } from '@angular/google-maps';
 import { InputGoogleAutocompleteComponent } from './components/input-google-autocomplete/input-google-autocomplete.component';
 import { InputErrorComponent } from './components/input-error/input-error.component';
+import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { InputErrorComponent } from './components/input-error/input-error.compon
     FormsModule,
     MatTooltipModule,
     GoogleMapsModule,
-    ImageCropperModule
+    ImageCropperModule,
+    DateLocalisationPipe
   ],
   exports: [
     SpinnerComponent,

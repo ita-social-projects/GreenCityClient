@@ -83,8 +83,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     data: {
       popupTitle: 'confirmation.title',
       popupSubtitle: 'confirmation.subTitle',
-      popupConfirm: 'confirmation.cancel',
-      popupCancel: 'confirmation.dismiss',
+      popupConfirm: 'confirmation.dismiss',
+      popupCancel: 'confirmation.cancel',
       isUBS: true
     }
   };
@@ -457,7 +457,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
     matDialogRef
       .afterClosed()
-      .pipe(take(1), filter(Boolean))
+      .pipe(
+        take(1),
+        filter((val) => !val)
+      )
       .subscribe(() => {
         this.router.navigate(['ubs']);
       });

@@ -114,7 +114,7 @@
     "next": "Next",
     "your-order": "Your order",
     "recipient": "Customer details",
-    "export-address": "The address of export of the ordered services",
+    "export-address": "Waste pickup address",
     "store-delivery": "Delivery from the Eco store",
     "order-number": "Your order number:",
     "order-numbers": "Your order numbers:",
@@ -473,6 +473,7 @@
       "forgot-password": {
         "already-sent": "Password restore link already sent, please check your email",
         "email-not-exist": "The user with this email does not exist",
+        "email-not-verified": "User {{email}} is not verified yet",
         "title": "Trouble singing in?",
         "fill-form": "Enter your email address and we'll send you a link to regain access to your account.",
         "email": "Email",

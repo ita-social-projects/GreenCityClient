@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommentTextareaComponent } from './components/comment-textarea/comment-textarea.component';
 import { PlaceholderForDivDirective } from './directives/placeholder-for-div.directive';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { DateLocalisationPipe } from '@shared/pipes/date-localisation-pipe/date-localisation.pipe';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,15 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
     CommentTextareaComponent,
     PlaceholderForDivDirective
   ],
-  imports: [SharedGreenCityModule, SharedModule, CommonModule, NgxPaginationModule, MatProgressSpinnerModule, PickerComponent],
+  imports: [
+    SharedGreenCityModule,
+    SharedModule,
+    CommonModule,
+    NgxPaginationModule,
+    MatProgressSpinnerModule,
+    PickerComponent,
+    DateLocalisationPipe
+  ],
   exports: [
     AddCommentComponent,
     ViewRepliesComponent,

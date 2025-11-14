@@ -1,4 +1,4 @@
-import { UserSharedModule } from '../modules/user/components/shared/user-shared.module';
+import { UserSharedModule } from '@global-user/components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -51,7 +51,6 @@ registerLocaleData(ukLocale, 'uk-UA');
     DragAndDropDirective,
     DragAndDropComponent,
     EditPhotoPopUpComponent,
-    DateLocalisationPipe,
     NoDataComponent,
     TagFilterComponent,
     CalendarBaseComponent,
@@ -93,7 +92,8 @@ registerLocaleData(ukLocale, 'uk-UA');
     MatDividerModule,
     MatInputModule,
     MatSelectModule,
-    NgbModule
+    NgbModule,
+    DateLocalisationPipe
   ],
   exports: [
     TranslateModule,
@@ -107,7 +107,6 @@ registerLocaleData(ukLocale, 'uk-UA');
     MatSnackBarModule,
     DragAndDropDirective,
     DragAndDropComponent,
-    DateLocalisationPipe,
     NoDataComponent,
     TagFilterComponent,
     UserSharedModule,

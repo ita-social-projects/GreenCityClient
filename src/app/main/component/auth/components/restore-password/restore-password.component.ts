@@ -118,8 +118,14 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
       });
   }
 
-  private onSentEmailBadMessage(error: HttpErrorResponse): void {
-    this.emailErrorMessageBackEnd = error.error.name === 'email' ? 'already-sent' : 'email-not-exist';
+  onSentEmailBadMessage(error: HttpErrorResponse): void {
+    if (error.error.name === 'email') {
+      this.emailErrorMessageBackEnd = 'already-sent';
+    } else if (error.error.name === 'user_status') {
+      this.emailErrorMessageBackEnd = 'email-not-verified';
+    } else {
+      this.emailErrorMessageBackEnd = 'email-not-exist';
+    }
   }
 
   private onSignInFailure(errors: HttpErrorResponse): Observable<any> {
