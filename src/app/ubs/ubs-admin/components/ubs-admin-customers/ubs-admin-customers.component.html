@@ -314,6 +314,7 @@
             [disabled]="!canEditClient"
             [class.select-disabled]="!canEditClient"
             [value]="row[column.title.key]"
+            [panelWidth]="'fit-content'"
             (selectionChange)="onChangeStatus($event, row)"
           >
             <mat-option *ngFor="let status of customerStatus" [value]="status | uppercase">

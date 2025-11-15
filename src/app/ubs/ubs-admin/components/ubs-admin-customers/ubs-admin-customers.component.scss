@@ -25,6 +25,10 @@ mat-header-cell {
   flex: none;
 }
 
+mat-cell {
+  min-width: 48px;
+}
+
 mat-row {
   min-height: 39px;
   max-height: 39px;

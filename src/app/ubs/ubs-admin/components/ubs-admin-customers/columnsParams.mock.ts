@@ -77,7 +77,7 @@ export const columnsParams: ColumnParam[] = [
       uk: 'ID чату',
       en: 'Chat ID'
     },
-    width: 35
+    width: 60
   },
   {
     title: {
@@ -85,7 +85,7 @@ export const columnsParams: ColumnParam[] = [
       uk: 'Статус',
       en: 'Status'
     },
-    width: 200
+    width: 150
   }
 ];
 

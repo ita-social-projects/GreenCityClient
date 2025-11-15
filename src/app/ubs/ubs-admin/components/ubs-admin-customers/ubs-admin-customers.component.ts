@@ -10,7 +10,7 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -25,7 +25,6 @@ import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-t
 import { Filters } from './filters.interface';
 import { ConvertFromDateToStringService } from 'src/app/shared/pipes/convert-from-date-to-string/convert-from-date-to-string.service';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { CommentPopUpComponent } from '../shared/components/comment-pop-up/comment-pop-up.component';
 import { Store } from '@ngrx/store';
 import { adminTableOfCustomersSelector } from 'src/app/store/selectors/ubs-admin.selectors';
 import { GetCustomerTable } from 'src/app/store/actions/ubs-admin.actions';
@@ -382,7 +381,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   private setTableResize(tableWidth: number): void {
     const totalW = this.columns.reduce((acc, item) => acc + item.width, 0);
-    const scale = (tableWidth - 5) / totalW;
+    const scale = tableWidth / totalW;
 
     this.columns.forEach((column) => {
       column.width *= scale;
@@ -442,17 +441,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     columnEls.forEach((el: any) => {
       el.style.width = column.width + 'px';
     });
-  }
-
-  private setDialogHeader(modalRef: MatDialogRef<CommentPopUpComponent>, column: ColumnParam): void {
-    modalRef.componentInstance.header = this.localStorageService.getCurrentLanguage() === 'uk' ? column.title.uk : column.title.en;
-  }
-
-  private updateTableRow(column: ColumnParam, userId: string, updatedData: string): void {
-    const row = this.tableData.find((r) => r.userId === userId);
-    if (row) {
-      row[column.title.key] = updatedData;
-    }
   }
 
   @HostListener('window:resize', ['$event'])
