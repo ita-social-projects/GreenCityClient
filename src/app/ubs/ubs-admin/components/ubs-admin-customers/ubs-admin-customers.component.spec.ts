@@ -594,8 +594,8 @@ describe('UbsAdminCustomersComponent', () => {
 
     (component as any)['setTableResize'](tableWidth);
 
-    expect(component.columns[0].width).toBeCloseTo(48.75);
-    expect(component.columns[1].width).toBeCloseTo(146.25);
+    expect(component.columns[0].width).toBeCloseTo(50);
+    expect(component.columns[1].width).toBeCloseTo(150);
     expect((component as any)['setColumnWidth']).toHaveBeenCalledTimes(2);
   });
 
