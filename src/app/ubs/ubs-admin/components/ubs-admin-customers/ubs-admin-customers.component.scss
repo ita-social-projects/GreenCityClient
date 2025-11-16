@@ -25,10 +25,6 @@ mat-header-cell {
   flex: none;
 }
 
-mat-cell {
-  min-width: 48px;
-}
-
 mat-row {
   min-height: 39px;
   max-height: 39px;
@@ -42,6 +38,7 @@ mat-cell {
   color: var(--ubs-primary-grey);
   font-size: 14px;
   font-family: var(--primary-font);
+  min-width: 48px;
 }
 
 mat-header-row {
