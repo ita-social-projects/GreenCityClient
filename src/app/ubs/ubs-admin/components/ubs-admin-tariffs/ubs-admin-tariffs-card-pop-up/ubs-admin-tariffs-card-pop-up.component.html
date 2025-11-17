@@ -14,7 +14,7 @@
           id="courierName"
           #courierSelect
           formControlName="courierName"
-          class="form-control"
+          class="form-control tariffs-select"
           placeholder="{{ 'ubs-tariffs.placeholder-choose-courier' | translate }}"
           (selectionChange)="onSelectCourier($event)"
         >
@@ -35,7 +35,8 @@
         <input
           id="station"
           formControlName="station"
-          [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
+          class="form-control"
+          [class.onBlurSelectionPanel]="blurOnOption"
           [placeholder]="stationPlaceholder"
           [matAutocomplete]="autoStation"
           #autocompleteTriggerStation="matAutocompleteTrigger"
@@ -64,7 +65,7 @@
           id="region-name"
           #regionSelect
           formControlName="regionName"
-          class="form-control"
+          class="form-control tariffs-select"
           placeholder="{{ 'ubs-tariffs.placeholder-choose-region' | translate }}"
           (selectionChange)="onRegionSelected($event)"
         >
@@ -88,7 +89,8 @@
           formControlName="city"
           [placeholder]="cityPlaceholder"
           [matAutocomplete]="autoCity"
-          [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
+          class="form-control"
+          [class.onBlurSelectionPanel]="blurOnOption"
           (blur)="onBlur($event)"
         />
         <mat-autocomplete #autoCity="matAutocomplete" (optionSelected)="selected($event, autocompleteTriggerCity)">
